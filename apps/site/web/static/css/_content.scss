@@ -145,12 +145,12 @@
   margin-bottom: $base-spacing;
 }
 
-.multi-column-wrapper {
+.row.lined {
+  @include media-breakpoint-up(sm) {
+    @include column-lines(sm);
+  }
   @include media-breakpoint-up(md) {
-    .column-content {
-      border-left: solid 1px $gray-bordered-background;
-      padding-left: $base-spacing;
-    }
+    @include column-lines(md);
   }
 }
 .iframe-container {

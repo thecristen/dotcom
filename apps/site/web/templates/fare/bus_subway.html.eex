@@ -14,7 +14,7 @@
         fare_type: @fare_type
 %>
 <h2>Where to Get a CharlieCard or CharlieTicket</h2>
-<div class="row">
+<div class="row lined">
   <div class="col-sm-6 col-xs-12">
     <h3>Fare Vending Machine</h3>
     <p>
@@ -30,7 +30,7 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row lined">
   <div class="col-sm-6 col-xs-12">
     <h3>Retail Sales Locations</h3>
     <p>

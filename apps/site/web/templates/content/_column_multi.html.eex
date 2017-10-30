@@ -1,10 +1,8 @@
-<div class="multi-column-wrapper">
-  <div class="row">
-    <% grid = div(12, Enum.count(@paragraph.columns)) %>
-    <%= for column <- @paragraph.columns do %>
-      <div class="col-md-<%= grid %>">
-        <%= render "_column.html", columns: column %>
-      </div>
-    <% end %>
-  </div>
+<div class="row lined">
+  <% grid = div(12, Enum.count(@paragraph.columns)) %>
+  <%= for column <- @paragraph.columns do %>
+    <div class="col-md-<%= grid %>">
+      <%= ContentRewriter.rewrite(column.body) %>
+    </div>
+  <% end %>
 </div>

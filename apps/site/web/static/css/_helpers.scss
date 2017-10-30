@@ -86,3 +86,25 @@
   background: $gray-stripe-pattern repeat;
   min-height: 25px;
 }
+
+@mixin column-lines($breakpoint) {
+
+  $gap: $grid-gutter-width/2;
+  margin: $gap #{-$gap};
+
+  & > [class*="col-#{$breakpoint}-"] {
+    left: $gap;
+    padding: 0 $gap*2 0 $gap;
+    border-left: 1px solid $gray-lightest;
+
+    & > *:first-child {
+      padding-top: 0;
+      margin-top: 0;
+    }
+
+    & > *:last-child {
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+  }
+}
