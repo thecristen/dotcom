@@ -2,9 +2,6 @@ defmodule Site.OldSiteRedirectController do
   use Site.Web, :controller
   import Site.Router.Helpers
   import Site.ViewHelpers, only: [cms_static_page_path: 2]
-  alias Site.ControllerHelpers
-
-  @s3_files ["feed_info.txt", "MBTA_GTFS.zip"]
 
   def schedules_and_maps(conn, %{"route" => route}) do
     case old_route_to_route_id(route) do
@@ -46,31 +43,6 @@ defmodule Site.OldSiteRedirectController do
   end
   def schedules_and_maps(conn, _params) do
     check_cms_or_404(conn)
-  end
-
-  def archived_files(conn, _params) do
-    ControllerHelpers.forward_static_file(conn, s3_file_url("archive/archived_feeds.txt"))
-  end
-
-  def uploaded_files(conn, %{"path" => [file_name]}) when file_name in @s3_files do
-    ControllerHelpers.forward_static_file(conn, s3_file_url(file_name))
-  end
-  def uploaded_files(conn, _params) do
-    ControllerHelpers.forward_static_file(conn, old_site_file_url(conn.request_path))
-  end
-
-  defp old_site_file_url(request_path) do
-    host = :site |> Application.get_env(:former_mbta_site) |> Keyword.get(:host)
-    "#{host}#{request_path}"
-  end
-
-  defp s3_file_url(file_name) do
-    bucket_name = bucket_name(Application.get_env(:site, OldSiteRedirectController)[:gtfs_s3_bucket])
-    "https://s3.amazonaws.com/#{bucket_name}/#{URI.encode(file_name)}"
-  end
-
-  defp bucket_name({:system, env_var, default}) do
-    if value = System.get_env(env_var), do: value, else: default
   end
 
   defp old_route_to_route_id("RED"), do: "Red"

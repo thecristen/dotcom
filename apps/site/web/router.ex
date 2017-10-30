@@ -141,13 +141,13 @@ defmodule Site.Router do
   #old site static files
   scope "/", Site do
     pipe_through [:secure]
-    get "/uploadedfiles/*path", OldSiteRedirectController, :uploaded_files
-    get "/uploadedFiles/*path", OldSiteRedirectController, :uploaded_files
-    get "/uploadedimages/*path", OldSiteRedirectController, :uploaded_files
-    get "/uploadedImages/*path", OldSiteRedirectController, :uploaded_files
-    get "/images/*path", OldSiteRedirectController, :uploaded_files
-    get "/lib/*path", OldSiteRedirectController, :uploaded_files
-    get "/gtfs_archive/archived_feeds.txt", OldSiteRedirectController, :archived_files
+    get "/uploadedfiles/*path", OldSiteFileController, :uploaded_files
+    get "/uploadedFiles/*path", OldSiteFileController, :uploaded_files
+    get "/uploadedimages/*path", OldSiteFileController, :uploaded_files
+    get "/uploadedImages/*path", OldSiteFileController, :uploaded_files
+    get "/images/*path", OldSiteFileController, :uploaded_files
+    get "/lib/*path", OldSiteFileController, :uploaded_files
+    get "/gtfs_archive/archived_feeds.txt", OldSiteFileController, :archived_files
   end
 
   scope "/_flags" do

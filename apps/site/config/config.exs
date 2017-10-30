@@ -52,7 +52,8 @@ config :sentry,
 config :site, :former_mbta_site,
   host: "http://old.mbta.com"
 
-config :site, OldSiteRedirectController,
+config :site, OldSiteFileController,
+  response_fn: {Site.OldSiteFileController, :send_file},
   gtfs_s3_bucket: {:system, "GTFS_S3_BUCKET", "mbta-gtfs-s3"}
 
 # Import environment specific config. This must remain at the bottom
