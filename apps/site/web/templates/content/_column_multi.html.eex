@@ -1,4 +1,4 @@
-<div class="row lined">
+<div class="row row-lined">
   <% grid = div(12, Enum.count(@paragraph.columns)) %>
   <%= for column <- @paragraph.columns do %>
     <div class="col-md-<%= grid %>">
