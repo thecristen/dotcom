@@ -7,6 +7,11 @@ defmodule Content.CustomHTML5ScrubberTest do
     assert html5(html) == html
   end
 
+  test "allows the tel URI scheme" do
+    html = "Call me: <a href=\"tel:555-555-5555\">555-555-5555</a>"
+    assert html5(html) == html
+  end
+
   test "allows the image attributes: alt width height" do
     html = ~s(<img alt="Heroes_4.jpg" height="226" src="Heroes_4.jpg" width="576" />)
     assert html5(html) == html
