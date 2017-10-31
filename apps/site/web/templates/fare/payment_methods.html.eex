@@ -130,7 +130,7 @@
         train at a station with a fare vending machine.
         Round Trip Passes purchased on-board Commuter Rail will be valid until the end of service that same day.
       </p>
-      <p class="fare-callout-box">
+      <p class="callout">
         <strong>Note:</strong>
         At most Subway stops, you will buy your fare and load it onto a CharlieCard or CharlieTicket at the station’s fare vending machines. If you board the Subway at a stop that does not have fare vending machines, you may pay on-board with cash.
       </p>

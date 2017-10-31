@@ -37,21 +37,17 @@
   text-decoration: line-through;
 }
 
-%callout {
+.callout {
   background-color: $gray-bordered-background;
   border: $border;
   border-radius: $border-radius;
   margin-bottom: $base-spacing;
   padding: $space-12;
+  margin: $space-12 0;
 
   &:empty {
     display: none;
   }
-}
-
-.callout {
-  @extend %callout;
-  margin: $space-12 0;
 }
 
 .callout-small {

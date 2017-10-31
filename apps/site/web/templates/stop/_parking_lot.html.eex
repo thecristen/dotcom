@@ -40,7 +40,7 @@
   <% end %>
 </div>
 <%= if @lot.note do %>
-  <div class="station-callout-box">
+  <div class="callout">
     <strong>Note:</strong>
     <%= @lot.note |> HtmlSanitizeEx.strip_tags %>
   </div>

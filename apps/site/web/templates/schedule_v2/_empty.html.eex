@@ -1,4 +1,4 @@
-<div class="schedule-empty">
+<div class="callout schedule-empty">
   <%= no_trips_message(@error, @origin, @destination, @direction, @date) %>
   <%= if @date && @date != Util.service_date() do %>
     <div>

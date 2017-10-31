@@ -1,23 +1,5 @@
 @import 'variables';
 
-.schedule-callout {
-  @extend %callout;
-
-  @include media-breakpoint-down(xs) {
-    font-size: $font-size-sm;
-    margin: $space-8 auto;
-
-    button {
-      font-size: $font-size-sm;
-    }
-  }
-
-  button {
-    line-height: 1;
-    padding: 0;
-  }
-}
-
 .schedule-block {
   margin-top: $base-spacing;
 }
