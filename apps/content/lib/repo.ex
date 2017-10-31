@@ -1,4 +1,5 @@
 defmodule Content.Repo do
+  require Logger
   @moduledoc """
 
   Interface for the content CMS. Returns a variety of content
@@ -172,6 +173,21 @@ defmodule Content.Repo do
     params = [q: query, page: offset] ++ Enum.map(content_types, & {:"type[]", &1})
     with {:ok, api_data} <- @cms_api.view("/api/search", params) do
       {:ok, Content.Search.from_api(api_data)}
+    end
+  end
+
+  @spec get_route_pdfs(Routes.Route.id_t) :: [Content.RoutePdf.t]
+  def get_route_pdfs(route_id) do
+    case @cms_api.view("/api/route-pdfs/#{route_id}", []) do
+      {:ok, []} ->
+        []
+      {:ok, [api_data | _]} ->
+        api_data
+        |> Map.get("field_pdfs")
+        |> Enum.map(&Content.RoutePdf.from_api/1)
+      error ->
+        Logger.warn fn -> "Error getting pdfs for route #{route_id}. Using default []. Error: #{inspect error}" end
+        []
     end
   end
 end

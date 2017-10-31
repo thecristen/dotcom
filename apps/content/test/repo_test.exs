@@ -198,4 +198,18 @@ defmodule Content.RepoTest do
       assert result.count == 0
     end
   end
+
+  describe "get_route_pdfs/1" do
+    test "returns list of RoutePdfs" do
+      assert [%Content.RoutePdf{}, _, _] = Content.Repo.get_route_pdfs("87")
+    end
+
+    test "returns empty list if there's an error" do
+      assert [] = Content.Repo.get_route_pdfs("error")
+    end
+
+    test "returns empty list if there's no pdfs for the route id" do
+      assert [] = Content.Repo.get_route_pdfs("doesntexist")
+    end
+  end
 end

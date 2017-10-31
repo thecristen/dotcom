@@ -3,6 +3,7 @@ defmodule Site.ScheduleV2Controller.TimetableController do
 
   plug Site.Plugs.Route
   plug :tab_name
+  plug Site.ScheduleV2Controller.RoutePdfs
   plug Site.ScheduleV2Controller.Core
   plug :assign_trip_schedules
   plug Site.ScheduleV2Controller.Offset

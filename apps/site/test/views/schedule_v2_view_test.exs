@@ -452,37 +452,60 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "route_pdf_link/2" do
-    test "returns a link to PDF redirector if we have a PDF for the route" do
-      route = %Routes.Route{id: "CR-Worcester", name: "Fairmount Line", type: 2}
-      rendered = safe_to_string(route_pdf_link(route, ~D[2017-01-01]))
-      assert rendered =~ "View PDF of Fairmount line paper schedule"
-      assert rendered =~ "View PDF of upcoming schedule — effective May 22"
+  describe "route_pdf_link/3" do
+    test "returns an empty list if no PDF for that route" do
+      rendered = safe_to_string(route_pdf_link([], %Routes.Route{}, ~D[2018-01-01]))
+      assert rendered =~ "<div></div>"
+    end
+
+    test "shows all PDFs for the route" do
+      route_pdfs = [
+        %Content.RoutePdf{path: "/basic-current-url", date_start: ~D[2017-12-01]},
+        %Content.RoutePdf{path: "/basic-future-url", date_start: ~D[2018-02-01]},
+        %Content.RoutePdf{path: "/custom-url", date_start: ~D[2017-12-01], link_text_override: "custom text"},
+      ]
+      route = %Routes.Route{name: "1", type: 3}
+      rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
+      assert rendered =~ "View PDF of Route 1 paper schedule"
+      assert rendered =~ "basic-current-url"
+      assert rendered =~ "View PDF of custom text"
+      assert rendered =~ "View PDF of upcoming schedule — effective Feb 1"
       assert rendered =~ "http://" # full URL
     end
 
-    test "has the correct text for a bus route" do
+    test "considers PDFs that start today as current" do
+      route_pdfs = [%Content.RoutePdf{path: "/url", date_start: ~D[2018-01-01]}]
+      route = %Routes.Route{name: "1", type: 3}
+      rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
+      assert rendered =~ "View PDF of Route 1 paper schedule"
+    end
+  end
+
+  describe "pretty_route_name/1" do
+    test "has correct text for bus routes" do
       route = %Routes.Route{id: "741", name: "SL1", type: 3}
-      rendered = safe_to_string(route_pdf_link(route, ~D[2017-01-01]))
-      assert rendered =~ "View PDF of Route SL1 paper schedule"
+      assert pretty_route_name(route) == "Route SL1"
     end
 
-    test "returns an empty list if no PDF for that route" do
-      route = %Routes.Route{id: "nonexistent"}
-      rendered = safe_to_string(route_pdf_link(route, ~D[2017-01-01]))
-      refute rendered =~ "a"
+    test "has correct name for subway" do
+      route = %Routes.Route{id: "Red", name: "Red Line", type: 1}
+      assert pretty_route_name(route) == "Red line"
     end
 
-    test "does not add back bay pdf if the route does not go to back bay" do
-      route = %Routes.Route{id: "CR-Fitchburg"}
-      rendered = safe_to_string(route_pdf_link(route, ~D[2017-01-01]))
-      refute rendered =~ "/sites/default/files/route_pdfs/southstation_backbay.pdf"
+    test "has correct name for ferries" do
+      route = %Routes.Route{id: "Boat-F4", name: "Charlestown Ferry", type: 1}
+      assert pretty_route_name(route) == "Charlestown ferry"
     end
 
-    test "returns the pdf for back bay to south station schedules if the route does go via back bay" do
-      route = %Routes.Route{id: "CR-Providence"}
-      rendered = safe_to_string(route_pdf_link(route, ~D[2017-01-01]))
-      assert rendered =~ "/sites/default/files/route_pdfs/southstation_backbay.pdf"
+    test "has correct name for mattapan" do
+      route = %Routes.Route{id: "Mattapan", name: "Mattapan Trolley", type: 1}
+      assert pretty_route_name(route) == "Mattapan trolley"
+    end
+
+    test "allows line break after slash" do
+      route = %Routes.Route{id: "CR-Worcester", name: "Framingham/Worcester Line", type: 1}
+      # expected result has a zero-width space bewtween / and W
+      assert pretty_route_name(route) == "Framingham/​Worcester line"
     end
   end
 

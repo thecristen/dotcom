@@ -62,6 +62,10 @@ defmodule Content.CMS.Static do
     parse_json("test/path%3Fid%3D5.json")
   end
 
+  def route_pdfs_response do
+    parse_json("api/route-pdfs.json")
+  end
+
   @impl true
   def view(path, params)
   def view("/recent-news", [current_id: id]) do
@@ -166,6 +170,15 @@ defmodule Content.CMS.Static do
   end
   def view("/node/2679", _) do
     {:ok, List.first(projects_response())}
+  end
+  def view("/api/route-pdfs/87", _) do
+    {:ok, route_pdfs_response()}
+  end
+  def view("/api/route-pdfs/error", _) do
+    {:error, "Not able to retrieve response"}
+  end
+  def view("/api/route-pdfs/" <> _route_id, _) do
+    {:ok, []}
   end
   def view(_, _) do
     {:error, "Not able to retrieve response"}

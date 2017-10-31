@@ -3,6 +3,7 @@ defmodule Site.ScheduleV2Controller.LineController do
 
   plug Site.Plugs.Route
   plug :tab_name
+  plug Site.ScheduleV2Controller.RoutePdfs
   plug Site.ScheduleV2Controller.Defaults
   plug :all_alerts
   plug Site.Plugs.UpcomingAlerts
