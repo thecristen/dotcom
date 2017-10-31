@@ -146,10 +146,6 @@
 }
 
 .row-lined {
-  @include media-breakpoint-up(sm) {
-    @include column-lines(sm);
-  }
-
   @include media-breakpoint-up(md) {
     @include column-lines(md);
   }
