@@ -31,5 +31,11 @@ defmodule Site.BodyTagTest do
 
       assert safe_to_string(render(conn)) =~ "no-js mticket"
     end
+
+    test "returns mticket if the site is called as mticket.mbtace.com" do
+      conn = %{build_conn() | host: "mticket.mbtace.com"}
+
+      assert safe_to_string(render(conn)) =~ "no-js mticket"
+    end
   end
 end
