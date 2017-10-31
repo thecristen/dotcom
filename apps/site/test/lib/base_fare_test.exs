@@ -12,14 +12,14 @@ defmodule BaseFareTest do
   describe "subway" do
     @route %Route{type: 0}
 
-    @subway_fares [%Fares.Fare{additional_valid_modes: [:bus], cents: 225, duration: :single_trip,
+    @subway_fares [%Fares.Fare{additional_valid_modes: [:bus], cents: 225,
                       media: [:charlie_card], mode: :subway, name: :subway, reduced: nil},
-                    %Fares.Fare{additional_valid_modes: [:bus], cents: 275, duration: :single_trip,
+                    %Fares.Fare{additional_valid_modes: [:bus], cents: 275,
                       media: [:charlie_ticket, :cash], mode: :subway, name: :subway, reduced: nil}
                   ]
 
     test "returns the lowest one way trip fare that is not discounted" do
-      fare_fn = fn [mode: :subway, duration: :single_trip, reduced: nil] ->
+      fare_fn = fn [reduced: nil, mode: :subway] ->
         @subway_fares
       end
 
@@ -28,25 +28,25 @@ defmodule BaseFareTest do
   end
 
   describe "local bus" do
-    @bus_fares [%Fares.Fare{additional_valid_modes: [], cents: 170, duration: :single_trip,
+    @bus_fares [%Fares.Fare{additional_valid_modes: [], cents: 170,
                   media: [:charlie_card], mode: :bus, name: :local_bus, reduced: nil},
-                %Fares.Fare{additional_valid_modes: [], cents: 200, duration: :single_trip,
+                %Fares.Fare{additional_valid_modes: [], cents: 200,
                   media: [:charlie_ticket, :cash], mode: :bus, name: :local_bus, reduced: nil},
-                %Fares.Fare{additional_valid_modes: [], cents: 400, duration: :single_trip,
+                %Fares.Fare{additional_valid_modes: [], cents: 400,
                   media: [:charlie_card], mode: :bus, name: :inner_express_bus, reduced: nil},
-                %Fares.Fare{additional_valid_modes: [], cents: 500, duration: :single_trip,
+                %Fares.Fare{additional_valid_modes: [], cents: 500,
                   media: [:charlie_ticket, :cash], mode: :bus, name: :inner_express_bus,
                   reduced: nil},
-                %Fares.Fare{additional_valid_modes: [], cents: 525, duration: :single_trip,
+                %Fares.Fare{additional_valid_modes: [], cents: 525,
                   media: [:charlie_card], mode: :bus, name: :outer_express_bus, reduced: nil},
-                %Fares.Fare{additional_valid_modes: [], cents: 700, duration: :single_trip,
+                %Fares.Fare{additional_valid_modes: [], cents: 700,
                   media: [:charlie_ticket, :cash], mode: :bus, name: :outer_express_bus,
                   reduced: nil}]
 
     test "returns the lowest one way trip fare that is not discounted for the local bus" do
       local_route = %Route{type: 3, id: "1"}
 
-      fare_fn = fn [name: :local_bus, duration: :single_trip, reduced: nil] ->
+      fare_fn = fn [reduced: nil, name: :local_bus] ->
         Enum.filter(@bus_fares, &(&1.name == :local_bus))
       end
 
@@ -56,7 +56,7 @@ defmodule BaseFareTest do
     test "returns the lowest one way trip fare that is not discounted for the inner express bus" do
       inner_express_route = %Route{type: 3, id: "170"}
 
-      fare_fn = fn [name: :inner_express_bus, duration: :single_trip, reduced: nil] ->
+      fare_fn = fn [reduced: nil, name: :inner_express_bus] ->
         Enum.filter(@bus_fares, &(&1.name == :inner_express_bus))
       end
 
@@ -66,7 +66,7 @@ defmodule BaseFareTest do
     test "returns the lowerst one way trip fare that is not discounted for the outer express bus" do
       outer_express_route = %Route{type: 3, id: "352"}
 
-      fare_fn = fn [name: :outer_express_bus, duration: :single_trip, reduced: nil] ->
+      fare_fn = fn [reduced: nil, name: :outer_express_bus] ->
         Enum.filter(@bus_fares, &(&1.name == :outer_express_bus))
       end
 
@@ -80,8 +80,8 @@ defmodule BaseFareTest do
       origin_id = "place-north"
       destination_id = "Haverhill"
 
-      fare_fn = fn [name: {:zone, "7"}, duration: :single_trip, reduced: nil] ->
-        [%Fares.Fare{additional_valid_modes: [], cents: 1050, duration: :single_trip,
+      fare_fn = fn [reduced: nil, name: {:zone, "7"}] ->
+        [%Fares.Fare{additional_valid_modes: [], cents: 1050,
           media: [:commuter_ticket, :cash], mode: :commuter_rail, name: {:zone, "7"},
           reduced: nil}]
       end
@@ -94,8 +94,8 @@ defmodule BaseFareTest do
       origin_id = "Ballardvale"
       destination_id = "place-north"
 
-      fare_fn = fn [name: {:zone, "4"}, duration: :single_trip, reduced: nil] ->
-        [%Fares.Fare{additional_valid_modes: [], cents: 825, duration: :single_trip,
+      fare_fn = fn [reduced: nil, name: {:zone, "4"}] ->
+        [%Fares.Fare{additional_valid_modes: [], cents: 825,
           media: [:commuter_ticket, :cash], mode: :commuter_rail, name: {:zone, "4"},
           reduced: nil}]
       end
@@ -108,8 +108,8 @@ defmodule BaseFareTest do
       origin_id = "Ballardvale"
       destination_id = "Haverhill"
 
-      fare_fn = fn [name: {:interzone, "4"}, duration: :single_trip, reduced: nil] ->
-        [%Fares.Fare{additional_valid_modes: [], cents: 401, duration: :single_trip,
+      fare_fn = fn [reduced: nil, name: {:interzone, "4"}] ->
+        [%Fares.Fare{additional_valid_modes: [], cents: 401,
           media: [:commuter_ticket, :cash], mode: :commuter_rail,
           name: {:interzone, "4"}, reduced: nil}]
       end
@@ -134,8 +134,8 @@ defmodule BaseFareTest do
       origin_id = "Boat-Charlestown"
       destination_id = "Boat-Long"
 
-      fare_fn = fn [name: :ferry_inner_harbor, duration: :single_trip, reduced: nil] ->
-        [%Fares.Fare{additional_valid_modes: [], cents: 350, duration: :single_trip,
+      fare_fn = fn [reduced: nil, name: :ferry_inner_harbor] ->
+        [%Fares.Fare{additional_valid_modes: [], cents: 350,
           media: [:charlie_ticket], mode: :ferry, name: :ferry_inner_harbor,
           reduced: nil}]
       end

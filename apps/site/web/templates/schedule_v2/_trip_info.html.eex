@@ -35,9 +35,17 @@
     <strong>Trip duration:</strong>
     <%= [Integer.to_string(@trip_info.stop_count), " stops; ", Integer.to_string(@trip_info.duration), " minutes"] %>
   </div>
-  <div class="trip-fare">
-    <strong>One way fare:</strong>
-    <%= Fares.Format.price(@trip_info.base_fare) %>
-    (<%= link("View fares", to: fare_path(@conn, :show, fare_group(@route.type), fare_params(@origin, @destination))) %>)
-  </div>
+  <%= if base_fare = @trip_info.base_fare do %>
+    <div class="trip-fare">
+      <%= content_tag :strong do
+            case base_fare.duration do
+              :one_way -> "One way fare:"
+              :round_trip -> "Round trip fare:"
+              _ -> "Fare:"
+            end
+          end%>
+      <%= Fares.Format.price(base_fare) %>
+      (<%= link("View fares", to: fare_path(@conn, :show, fare_group(@route.type), fare_params(@origin, @destination))) %>)
+    </div>
+  <% end %>
 </div>

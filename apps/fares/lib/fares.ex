@@ -3,6 +3,11 @@ defmodule Fares do
 
   @spec fare_for_stops(:commuter_rail | :ferry, Stops.Stop.id_t, Stops.Stop.id_t) :: {:ok, Fares.Fare.fare_name} |
   :error
+  def fare_for_stops(route_type_atom, origin_id, destination_id)
+  def fare_for_stops(:commuter_rail, origin, destination)
+  when origin == "Foxboro" or destination == "Foxboro" do
+    {:ok, :foxboro}
+  end
   def fare_for_stops(:commuter_rail, origin, destination) do
     with origin_zone when not is_nil(origin_zone) <- Zones.Repo.get(origin),
          dest_zone when not is_nil(dest_zone) <- Zones.Repo.get(destination) do
