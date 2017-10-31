@@ -6,11 +6,20 @@ defmodule Site.OldSiteFileController do
   import Site.Router.Helpers
 
   @config Application.get_env(:site, OldSiteFileController)
+  @response_fn @config[:response_fn]
   @s3_files ["feed_info.txt", "MBTA_GTFS.zip"]
 
   def archived_files(conn, _params) do
     new_url = s3_file_url("archive/archived_feeds.txt")
     respond(conn, new_url)
+  end
+
+  def images(conn, _params) do
+    # always send images. Normally, we'd handle them by a direct send_file/3
+    # from Plug.Static (we have our own images), but for ones that fall
+    # through, we should be redirecting them.
+    new_url = old_site_file_url(conn.request_path)
+    send_file(conn, new_url)
   end
 
   def uploaded_files(conn, %{"path" => [file_name]}) when file_name in @s3_files do
@@ -35,7 +44,7 @@ defmodule Site.OldSiteFileController do
   end
 
   defp respond(conn, new_url) do
-    {m, f} = @config[:response_fn]
+    {m, f} = @response_fn
     apply(m, f, [conn, new_url])
   end
 
