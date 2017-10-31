@@ -6,14 +6,15 @@ defmodule DetailedStopGroupTest do
   describe "from_mode/1" do
     test "all routes are returned for given mode" do
       featured_stop_groups = from_mode(:commuter_rail)
-      expected_route_names = MapSet.new(
+      expected_route_names = Enum.sort(
         ["Fairmount Line", "Fitchburg Line", "Framingham/Worcester Line",
          "Franklin Line", "Greenbush Line", "Haverhill Line", "Kingston/Plymouth Line",
          "Lowell Line", "Middleborough/Lakeville Line", "Needham Line",
-        "Newburyport/Rockport Line", "Providence/Stoughton Line"]
+         "Newburyport/Rockport Line", "Providence/Stoughton Line"]
       )
-      route_names = featured_stop_groups |> Enum.map(fn {route, _} -> route.name end) |> MapSet.new()
-      assert MapSet.equal?(expected_route_names, route_names)
+      route_names = featured_stop_groups |> Enum.map(fn {route, _} -> route.name end) |> Enum.sort()
+      route_names = route_names -- ["Foxboro (Special Events)"]
+      assert expected_route_names == route_names
     end
 
     test "green stops are grouped" do
