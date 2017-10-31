@@ -119,3 +119,6 @@ config :sentry, dsn: "${SENTRY_DSN}"
 
 config :site, OldSiteFileController,
   response_fn: {Site.OldSiteFileController, :redirect_through_cdn}
+
+config :site, StaticFileController,
+  response_fn: {Site.StaticFileController, :redirect_through_cdn}
