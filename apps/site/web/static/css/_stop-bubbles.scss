@@ -173,6 +173,10 @@ $location-line-width: $space-6;
 
   + .route-branch-stop-bubble-line {
     border-radius: $location-line-width * 2 $location-line-width * 2 0 0;
+
+    &.expanded {
+      border-radius: 0;
+    }
   }
 }
 
@@ -190,6 +194,7 @@ $location-line-width: $space-6;
     min-height: 0;
   }
 }
+
 
 .route-branch-stop-info {
   // scss-lint:disable DuplicateProperty
