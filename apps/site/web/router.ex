@@ -145,7 +145,7 @@ defmodule Site.Router do
     get "/uploadedFiles/*path", OldSiteFileController, :uploaded_files
     get "/uploadedimages/*path", OldSiteFileController, :uploaded_files
     get "/uploadedImages/*path", OldSiteFileController, :uploaded_files
-    get "/images/*path", OldSiteFileController, :uploaded_files
+    get "/images/*path", OldSiteFileController, :images
     get "/lib/*path", OldSiteFileController, :uploaded_files
     get "/gtfs_archive/archived_feeds.txt", OldSiteFileController, :archived_files
   end
