@@ -215,7 +215,7 @@
 .itinerary-accessible {
   background-color: $gray-lightest;
   border-radius: $border-radius $border-radius 0 0;
-  display: inline-block;
+  display: table;
   padding-bottom: $space-4;
   padding-left: $space-8;
   padding-right: $space-8;
