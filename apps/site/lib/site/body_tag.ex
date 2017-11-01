@@ -50,6 +50,8 @@ defmodule Site.BodyTag do
     ""
   end
 
+  @spec mticket_class(Plug.Conn.t) :: String.t
+  defp mticket_class(%{host: "mticket.mbtace.com"}), do: "mticket"
   defp mticket_class(conn) do
     case conn |> Plug.Conn.get_req_header(Application.get_env(:site, __MODULE__)[:mticket_header]) do
       [] -> ""
