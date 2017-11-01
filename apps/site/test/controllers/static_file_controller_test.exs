@@ -18,12 +18,12 @@ defmodule Site.StaticFileControllerTest do
     end
   end
 
-  describe "forward_through_cdn/1" do
+  describe "redirect_through_cdn/1" do
     test "redirects to the CDN rather than going to Drupal" do
       path = "/path"
       conn = %{build_conn() | request_path: path}
       expected_url = static_url(Site.Endpoint, path)
-      response = Site.StaticFileController.forward_through_cdn(conn)
+      response = Site.StaticFileController.redirect_through_cdn(conn)
       assert redirected_to(response, 302) =~ expected_url
     end
   end
