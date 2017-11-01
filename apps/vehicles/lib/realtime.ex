@@ -34,6 +34,11 @@ defmodule Vehicles.Realtime do
     Registry.register(Vehicles.Registry, {:route, route_id, direction_id}, %{})
   end
 
+  @spec unregister(Routes.Route.id_t, integer) :: :ok
+  def unregister(route_id, direction_id) do
+    Registry.unregister(Vehicles.Registry, {:route, route_id, direction_id})
+  end
+
   @impl true
   def init(%{routes_repo_fn: _, vehicles_repo_fn: _, interval: _} = opts) do
     send self(), :update
