@@ -3,8 +3,8 @@ defmodule Site.EventControllerTest do
 
   describe "GET index" do
     test "renders a list of upcoming events", %{conn: conn} do
-      conn = get conn, event_path(conn, :index, date: "2017-10-01")
-      assert html_response(conn, 200) =~ "October"
+      conn = get conn, event_path(conn, :index)
+      assert html_response(conn, 200) =~ Timex.format!(Util.today, "{Mfull}")
     end
 
     test "scopes events based on provided dates", %{conn: conn} do
