@@ -70,6 +70,7 @@ defmodule Stops.StationInfo.Csv do
         %Stop.ParkingLot{
           spots: parking_spots(row),
           rate: ensure_value(row["ParkingRate"]),
+          pay_by_phone_id: ensure_value(row["PayByPhoneId"]),
           note: ensure_value(row["Comments"]),
           manager: manager}
       ]

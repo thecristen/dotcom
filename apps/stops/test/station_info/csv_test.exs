@@ -18,6 +18,8 @@ defmodule Stops.StationInfo.CsvTest do
           refute lot.manager.name == "N/A"
           refute lot.rate == ""
           refute lot.rate == "N/A"
+          refute lot.pay_by_phone_id == ""
+          refute lot.pay_by_phone_id == "N/A"
           for spot <- lot.spots do
             assert spot.type in ["basic", "accessible", "bike"]
             refute spot.spots == 0

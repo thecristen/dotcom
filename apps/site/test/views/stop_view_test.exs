@@ -218,7 +218,7 @@ defmodule Site.StopViewTest do
   end
 
   describe "_parking_lot.html" do
-    @lot %{spots: [%{type: "basic", spots: 2}], rate: "$5/hr", note: "Parking notice", manager: nil}
+    @lot %{spots: [%{type: "basic", spots: 2}], rate: "$5/hr", note: "Parking notice", manager: nil, pay_by_phone_id: nil}
 
     test "Parking note is only shown when one exists" do
       note_output = Site.StopView.render("_parking_lot.html", lot: @lot)
@@ -236,5 +236,17 @@ defmodule Site.StopViewTest do
       output = Site.StopView.render("_parking_lot.html", lot: lot)
       refute safe_to_string(output) =~ "Phone"
     end
+
+    test "Pay by Phone ID is not shown if it doesn't exist" do
+      output = Site.StopView.render("_parking_lot.html", lot: @lot)
+      refute safe_to_string(output) =~ "Pay By Phone"
+    end
+
+    test "Pay by Phone ID is shown if it does exist" do
+      lot = %{@lot | pay_by_phone_id: "1234"}
+      output = Site.StopView.render("_parking_lot.html", lot: lot)
+      assert safe_to_string(output) =~ "Pay By Phone"
+    end
+
   end
 end

@@ -17,6 +17,13 @@
         <% else %>
         <em>No payment information available</em>
       <% end %>
+      <div>
+        <%= if @lot.pay_by_phone_id do %>
+          <strong>Pay By Phone:</strong> <%= "##{@lot.pay_by_phone_id}" |> HtmlSanitizeEx.strip_tags %>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-sm-4 payment-info">
     </div>
     <div class="col-sm-4">
       <%= if @lot.manager do %>
