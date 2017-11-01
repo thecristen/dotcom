@@ -67,18 +67,19 @@ defmodule Site.ScheduleV2View.TripList do
   The last departure will be shown if it is the Late Night time block
   Otherwise, nothing is shown
   """
-  @spec display_frequency_departure(TimeGroup.time_block, DateTime.t | nil, DateTime.t | nil) :: Phoenix.HTML.Safe.t
-  def display_frequency_departure(:am_rush, first_departure, _last_departure) when not is_nil(first_departure) do
+  @spec display_frequency_departure(TimeGroup.time_block, Schedules.Departures.t | :no_service) :: Phoenix.HTML.Safe.t
+  def display_frequency_departure(time_block, departure)
+  def display_frequency_departure(:am_rush, %Schedules.Departures{} = departure) do
     content_tag :div, class: "schedule-v2-frequency-time" do
-      "First Departure at #{ViewHelpers.format_schedule_time(first_departure)}"
+      "First Departure at #{ViewHelpers.format_schedule_time(departure.first_departure)}"
     end
   end
-  def display_frequency_departure(:late_night, _first_departure, last_departure) when not is_nil(last_departure) do
+  def display_frequency_departure(:late_night, %Schedules.Departures{} = departure) do
     content_tag :div, class: "schedule-v2-frequency-time" do
-      "Last Departure at #{ViewHelpers.format_schedule_time(last_departure)}"
+      "Last Departure at #{ViewHelpers.format_schedule_time(departure.last_departure)}"
     end
   end
-  def display_frequency_departure(_time_block, _first, _last), do: nil
+  def display_frequency_departure(_time_block, _departure), do: nil
 
   @spec stop_name_link_with_alerts(String.t, String.t, [Alerts.Alert.t]) :: Phoenix.HTML.Safe.t
   def stop_name_link_with_alerts(name, url, []) do

@@ -17,6 +17,17 @@ defmodule Vehicles.RealtimeTest do
     end
   end
 
+  def clear_registration do
+    Vehicles.Realtime.unregister("Magenta", 0)
+    Vehicles.Realtime.unregister("Magenta", 1)
+  end
+
+  setup do
+    clear_registration()
+    on_exit &clear_registration/0
+    :ok
+  end
+
   describe "register/2" do
     test "registers a process for a route and direction" do
       assert {:ok, pid} = Vehicles.Realtime.register("Magenta", 0)
@@ -48,7 +59,7 @@ defmodule Vehicles.RealtimeTest do
     assert vehicles == [%Vehicles.Vehicle{id: "vehicle1", route_id: "Magenta", direction_id: 1, status: :in_transit, stop_id: "stop1"}]
   end
 
-  test "does not call Vehicles repo if no pids are subscribed for route & direction" do
+  test "does not call Vehicles.Repo if no pids are subscribed for route & direction" do
     opts = %{
       vehicles_repo_fn: vehicles_fn(),
       routes_repo_fn: routes_fn(),

@@ -14,7 +14,7 @@ defmodule Site.StaticFileController do
     forward_static_file(conn, full_url)
   end
 
-  def forward_through_cdn(conn) do
+  def redirect_through_cdn(conn) do
     url = static_url(Site.Endpoint, conn.request_path)
     redirect(conn, external: url)
   end
