@@ -406,8 +406,8 @@ defmodule Site.StopListViewTest do
   end
 
   describe "display_departure_range/1" do
-    test "with no times, returns No Service" do
-      result = display_departure_range(%Departures{first_departure: nil, last_departure: nil})
+    test "with :no_service, returns No Service" do
+      result = display_departure_range(:no_service)
       assert result == "No Service"
     end
 

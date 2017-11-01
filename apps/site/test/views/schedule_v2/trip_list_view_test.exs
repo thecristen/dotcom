@@ -102,22 +102,22 @@ defmodule Site.ScheduleV2.TripListViewTest do
   end
 
   describe "display_frequency_departure/2" do
+    @departure %Schedules.Departures{first_departure: Util.now(), last_departure: Util.now()}
     test "AM Rush displays first departure" do
-      assert safe_to_string(display_frequency_departure(:am_rush, Util.now(), Util.now())) =~ "First Departure"
+      assert safe_to_string(display_frequency_departure(:am_rush, @departure)) =~ "First Departure"
     end
 
     test "Late Night displays last departure" do
-      assert safe_to_string(display_frequency_departure(:late_night, Util.now(), Util.now())) =~ "Last Departure"
+      assert safe_to_string(display_frequency_departure(:late_night, @departure)) =~ "Last Departure"
     end
 
     test "Other time blocks do no give departure" do
-      refute display_frequency_departure(:evening, Util.now(), Util.now())
-      refute display_frequency_departure(:midday, Util.now(), Util.now())
+      refute display_frequency_departure(:evening, @departure)
+      refute display_frequency_departure(:midday, @departure)
     end
 
     test "Ultimate departure text not shown if not given time" do
-      refute display_frequency_departure(:am_rush, nil, Util.now())
-      refute display_frequency_departure(:late_night, Util.now(), nil)
+      refute display_frequency_departure(:am_rush, :no_service)
     end
   end
 

@@ -1,20 +1,18 @@
 defmodule Schedules.Departures do
-  defstruct [
-    first_departure: nil,
-    last_departure: nil
-  ]
+  @enforce_keys [:first_departure, :last_departure]
+  defstruct [:first_departure, :last_departure]
 
   @type t :: %__MODULE__{
-    first_departure: DateTime.t | nil,
-    last_departure: DateTime.t | nil
+    first_departure: DateTime.t,
+    last_departure: DateTime.t
   }
 
   @doc """
-  Given a list of schedules, returns the first and last times.
+  Given a non-empty list of schedules, returns the first and last times.
   """
-  @spec first_and_last_departures([Schedules.Schedule.t]) :: __MODULE__.t
-  def first_and_last_departures(schedules) do
-    {first, last} = Enum.min_max_by(schedules, & &1.time, fn -> {%{time: nil}, %{time: nil}} end)
+  @spec first_and_last_departures(nonempty_list(Schedules.Schedule.t)) :: t
+  def first_and_last_departures([_ | _] = schedules) do
+    {first, last} = Enum.min_max_by(schedules, & &1.time)
 
     %__MODULE__{
       first_departure: first.time,

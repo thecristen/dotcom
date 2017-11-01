@@ -1,15 +1,19 @@
 defmodule Schedules.FrequencyList do
   defstruct [
     frequencies: [],
-    departures: %Schedules.Departures{}
+    departures: :no_service
   ]
 
   @type t :: %Schedules.FrequencyList {
     frequencies: [Schedules.Frequency.t],
-    departures: Schedules.Departures.t
+    departures: Schedules.Departures.t | :no_service
   }
 
   @spec build_frequency_list([Schedules.Schedule.t]) :: Schedules.FrequencyList.t
+  def build_frequency_list(schedules)
+  def build_frequency_list([]) do
+    %Schedules.FrequencyList{}
+  end
   def build_frequency_list(schedules) do
     %Schedules.FrequencyList{frequencies: TimeGroup.frequency_by_time_block(schedules),
                              departures: %Schedules.Departures{

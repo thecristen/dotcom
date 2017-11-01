@@ -165,10 +165,12 @@ defmodule Schedules.HoursOfOperationTest do
 
   describe "Enumerable" do
     test "returns items in week/saturday/sunday order, ignoring no-service dates" do
+      now = DateTime.utc_now()
+      departure = %Departures{first_departure: now, last_departure: now}
       hours = %HoursOfOperation{
-        week: {:no_service, %Departures{}},
+        week: {:no_service, departure},
         saturday: {:no_service, :no_service},
-        sunday: {%Departures{}, :no_service},
+        sunday: {departure, :no_service},
       }
       assert Enum.count(hours) == 2
       assert Enum.into(hours, []) == [week: hours.week, sunday: hours.sunday]

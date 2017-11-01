@@ -154,6 +154,9 @@ defmodule Site.ScheduleV2View.StopList do
   Formats a Schedules.Departures.t to a human-readable time range.
   """
   @spec display_departure_range(Schedules.Departures.t) :: iodata
+  def display_departure_range(:no_service) do
+    "No Service"
+  end
   def display_departure_range(%Schedules.Departures{first_departure: nil, last_departure: nil}) do
     "No Service"
   end

@@ -8,6 +8,12 @@ defmodule Schedules.FrequencyListTest do
   @schedules [%Schedule{time: @time}, %Schedule{time: Timex.shift(@time, hours: 1)}, %Schedule{time: Timex.shift(@time, hours: 2)}]
 
   describe "build_frequency_list/1" do
+    test "no_service is returned without schedules" do
+      frequency_list = FrequencyList.build_frequency_list([])
+      assert frequency_list.frequencies == []
+      assert frequency_list.departures == :no_service
+    end
+
     test "first and last departures are returned with a FrequencyList" do
       frequency_list = FrequencyList.build_frequency_list(@schedules)
       assert frequency_list.departures.first_departure == List.first(@schedules).time
