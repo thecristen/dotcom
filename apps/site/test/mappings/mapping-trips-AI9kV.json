@@ -1,0 +1,21 @@
+{
+  "uuid" : "0c94588b-0cc1-3468-a14d-8711d85cf1ca",
+  "request" : {
+    "url" : "/trips/?route=CR-Fairmount&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-AI9kV.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Oct 2017 20:29:18 GMT",
+      "etag" : "513C572CC070C57777E7DAF714A2F2BAB3A6BFC255FD332EF9B951086EC5322D",
+      "last-modified" : "Fri, 27 Oct 2017 18:30:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "b6ftko8p3tkfkqqknctk7oc9t60k9ge1",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -2,7 +2,7 @@ defmodule Schedules.Repo do
   import Kernel, except: [to_string: 1]
   use RepoCache, ttl: :timer.hours(6)
 
-  alias Schedules.Schedule
+  alias Schedules.{Schedule, HoursOfOperation}
   alias Stops.Stop
   alias Routes.Route
 
@@ -92,6 +92,13 @@ defmodule Schedules.Repo do
         _ -> nil
       end
     end
+  end
+
+  @spec hours_of_operation(Routes.Route.id_t | [Routes.Route.id_t], Date.t) :: HoursOfOperation.t
+  def hours_of_operation(route_id_or_ids, date \\ Util.service_date()) do
+    route_id_or_ids
+    |> cache(&HoursOfOperation.hours_of_operation(&1, date))
+    |> Util.error_default(%HoursOfOperation{})
   end
 
   defp all_from_params(params) do

@@ -1,0 +1,21 @@
+{
+  "uuid" : "1a29311a-84ad-383c-abd4-d2e07b4fe1fd",
+  "request" : {
+    "url" : "/shapes/?route=7&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-vVli8.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Oct 2017 20:33:19 GMT",
+      "etag" : "335CAE274D18536AC0EC5B70DC7C913B486FB8137BFBDBF0479BE59005FC53BB",
+      "last-modified" : "Fri, 27 Oct 2017 18:33:21 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "0plufjufc4ab1qkak69nu7dbohjgi0a0",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "uuid" : "921196aa-255a-3db9-a928-f1486e5f9c00",
+  "request" : {
+    "url" : "/shapes/?route=Green-B&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-M7nC4.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Oct 2017 20:29:14 GMT",
+      "etag" : "335CAE274D18536AC0EC5B70DC7C913B486FB8137BFBDBF0479BE59005FC53BB",
+      "last-modified" : "Fri, 27 Oct 2017 18:33:21 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "8ted2cc62k3q2jlrfldhqffqau049dmo",
+      "Connection" : "keep-alive"
+    }
+  }
+}

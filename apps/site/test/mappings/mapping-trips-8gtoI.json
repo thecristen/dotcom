@@ -1,0 +1,21 @@
+{
+  "uuid" : "80778740-68b6-3cec-ab00-75129311ca79",
+  "request" : {
+    "url" : "/trips/?route=Orange&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-8gtoI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Oct 2017 20:29:14 GMT",
+      "etag" : "513C572CC070C57777E7DAF714A2F2BAB3A6BFC255FD332EF9B951086EC5322D",
+      "last-modified" : "Fri, 27 Oct 2017 18:30:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "vaknfcl68puam7qtldvfc6td0ie29ugb",
+      "Connection" : "keep-alive"
+    }
+  }
+}
