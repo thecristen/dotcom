@@ -46,14 +46,16 @@ defmodule Site.TripPlanController do
   @spec validate_date(map) :: {:ok, NaiveDateTime.t} | {:error, %{required(:date_time) => String.t}}
   defp validate_date(%{"year" => year, "month" => month, "day" => day, "hour" => hour, "minute" => minute, "am_pm" => am_pm}) do
     case convert_to_date("#{year}-#{month}-#{day} #{hour}:#{minute} #{am_pm}") do
-      nil -> {:error, %{date_time: "Date is not valid."}}
-      date -> {:ok, date}
+      %NaiveDateTime{} = date ->
+        {:ok, date}
+      _ ->
+        {:error, %{date_time: "Date is not valid."}}
     end
   end
   defp validate_date(%{"year" => year, "month" => month, "day" => day, "hour" => hour, "minute" => minute}) do
     case convert_to_date("#{year}-#{month}-#{day} #{hour}:#{minute}") do
-      nil -> {:error, %{date_time: "Date is not valid."}}
-      date -> {:ok, date}
+      %NaiveDateTime{} = date -> {:ok, date}
+      _ -> {:error, %{date_time: "Date is not valid."}}
     end
   end
   defp validate_date(_) do
@@ -69,9 +71,34 @@ defmodule Site.TripPlanController do
     end
   end
 
+  @doc """
+  Converts a NaiveDateTime to another zone, and takes the later of the two times.
+
+  ## Examples
+
+      iex> import Site.TripPlanController
+      iex> in_edt = Timex.to_datetime(~N[2017-11-02T13:00:00], "America/New_York")
+      iex> future_date_or_now(~N[2017-11-02T12:00:00], in_edt)
+      #DateTime<2017-11-02 13:00:00-04:00 EDT America/New_York>
+      iex> future_date_or_now(~N[2017-11-05T01:30:00], in_edt)
+      #DateTime<2017-11-05 01:30:00-04:00 EDT America/New_York>
+      iex> future_date_or_now(~N[2017-11-05T02:00:00], in_edt)
+      #DateTime<2017-11-05 02:00:00-05:00 EST America/New_York>
+      iex> future_date_or_now(~N[2017-12-01T12:00:00], in_edt)
+      #DateTime<2017-12-01 12:00:00-05:00 EST America/New_York>
+  """
   @spec future_date_or_now(NaiveDateTime.t, DateTime.t) :: DateTime.t
-  defp future_date_or_now(naive_date, system_date_time) do
-    local_date_time = Timex.to_datetime(naive_date, system_date_time.time_zone)
+  def future_date_or_now(naive_date, system_date_time) do
+    local_date_time = case Timex.to_datetime(naive_date, system_date_time.time_zone) do
+                        %DateTime{} = dt ->
+                          dt
+                        %Timex.AmbiguousDateTime{before: before} ->
+                        # if you select a date/time during the DST transition, the service
+                        # will still be running under the previous timezone. Therefore, we
+                        # pick the "before" time which is n the original zone.
+                          before
+                      end
+
     if Timex.after?(local_date_time, system_date_time) do
       local_date_time
     else
