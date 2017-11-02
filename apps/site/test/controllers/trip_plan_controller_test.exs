@@ -2,6 +2,7 @@ defmodule Site.TripPlanControllerTest do
   use Site.ConnCase, async: true
   alias Site.TripPlan.Query
   import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
+  doctest Site.TripPlanController
 
   @system_time "2017-01-01T12:20:00-05:00"
   @morning %{"year" => "2017", "month" => "1", "day" => "2", "hour" => "9", "minute" => "30", "am_pm" => "AM"}
