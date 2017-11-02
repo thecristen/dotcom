@@ -13,7 +13,7 @@ defmodule Site.StopView do
 
   @spec pretty_accessibility(String.t) :: String.t
   def pretty_accessibility("tty_phone"), do: "TTY Phone"
-  def pretty_accessibility("escalator_both"), do: "Escalator (Both)"
+  def pretty_accessibility("escalator_both"), do: "Escalator (Up and Down)"
   def pretty_accessibility(accessibility) do
     accessibility
     |> String.split("_")

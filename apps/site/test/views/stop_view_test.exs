@@ -46,7 +46,7 @@ defmodule Site.StopViewTest do
   describe "pretty_accessibility/1" do
     test "formats phone and escalator fields" do
       assert pretty_accessibility("tty_phone") == "TTY Phone"
-      assert pretty_accessibility("escalator_both") == "Escalator (Both)"
+      assert pretty_accessibility("escalator_both") == "Escalator (Up and Down)"
     end
 
     test "For all other fields, separates underscore and capitalizes all words" do
