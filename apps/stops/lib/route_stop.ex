@@ -95,6 +95,9 @@ defmodule Stops.RouteStop do
       build_route_stop(stop, route, first?: first?, last?: last?, branch: shape_name)
     end)
   end
+  defp do_list_from_shapes(_name, _stop_ids, _stops, _route) do
+    []
+  end
 
   @doc """
   Builds a RouteStop from information about a stop.
