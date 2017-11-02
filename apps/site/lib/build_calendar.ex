@@ -71,8 +71,9 @@ defmodule BuildCalendar do
       content_tag :td, "", class: class(day)
     end
     def td(%Day{date: date, url: url} = day) do
+      formatted_date = Timex.format!(date, "{WDfull}, {Mfull} {D}")
       content_tag :td, class: class(day) do
-        link "#{date.day}", to: url
+        link "#{date.day}", to: url, title: formatted_date, "aria-label": formatted_date
       end
     end
 

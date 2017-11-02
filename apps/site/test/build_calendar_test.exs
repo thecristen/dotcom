@@ -184,10 +184,11 @@ defmodule BuildCalendarTest do
     test "includes the day of the month, along with a link" do
       actual = Day.td(
         %Day{
-          date: ~D[2017-02-01],
+          date: ~D[2017-02-23],
           url: "url"
         })
-      assert safe_to_string(actual) == ~s(<td><a href="url">1</a></td>)
+      assert safe_to_string(actual) =~ "23"
+      assert safe_to_string(actual) =~ ~s(href="url")
     end
 
     test "if the day is selected, adds a class" do
