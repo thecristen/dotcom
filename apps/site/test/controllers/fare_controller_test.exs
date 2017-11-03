@@ -142,7 +142,7 @@ defmodule Site.FareControllerTest do
             %Fare{name: {:zone, "5"}, reduced: nil},
             %Fare{name: {:zone, "6"}, reduced: :student}]
 
-    test "filters out non-adult fares" do
+    test "filters out non-standard fares" do
       expected_fares = [%Fare{name: {:zone, "6"}, reduced: nil},
                         %Fare{name: {:zone, "5"}, reduced: nil}]
       assert filter_reduced(@fares, nil) == expected_fares

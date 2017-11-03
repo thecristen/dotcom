@@ -17,8 +17,8 @@ defmodule Fares.FormatTest do
       assert customers(%Fare{reduced: :student}) == "Student"
     end
 
-    test "gets 'Adult' when the fare does not have a reduced field" do
-      assert customers(%Fare{}) == "Adult"
+    test "gets 'Standard Fare' when the fare does not have a reduced field" do
+      assert customers(%Fare{}) == "Standard Fare"
     end
   end
 
