@@ -158,5 +158,16 @@ defmodule Stops.RouteStopsTest do
       assert branch =~ "Charlestown"
       assert Enum.all?(stops, & &1.__struct__ == Stops.RouteStop)
     end
+
+    test "doesn't crash if we didn't have stops and/or shapes" do
+      direction_id = 0
+      good_stops = Stops.Repo.by_route("Red", direction_id)
+      good_shapes = Routes.Repo.get_shapes("Red", direction_id)
+      for stops <- [[], good_stops], shapes <- [[], good_shapes],
+        stops == [] or shapes == [] do
+          actual = RouteStops.by_direction(stops, shapes, @red, direction_id)
+          assert is_list(actual)
+      end
+    end
   end
 end
