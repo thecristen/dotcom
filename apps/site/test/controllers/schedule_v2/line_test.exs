@@ -5,16 +5,35 @@ defmodule Site.ScheduleV2Controller.LineTest do
 
   doctest Site.ScheduleV2Controller.Line
 
+  @deps %Site.ScheduleV2Controller.Line.Dependencies{}
+
+  def get_error_stop_list(_, _, _), do: {:error, "error"}
+
   describe "get_branches" do
     test "returns RouteStops for all green line branches in reverse order when direction is 0" do
       shapes = get_route_shapes("Green", 0)
-      result = get_branches(shapes, nil, %Routes.Route{id: "Green"}, 0)
+      route_stops = get_route_stops("Green", 0, @deps.stops_by_route_fn)
+      result = get_branches(shapes, nil, route_stops, %Routes.Route{id: "Green"}, 0)
       assert Enum.map(result, & &1.branch) == ["Green-E", "Green-D", "Green-C", "Green-B"]
     end
 
     test "Does not return branches when route has no trips in given direction", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "195", direction_id: 0))
       assert conn.assigns.branches == []
+    end
+
+    test "handle error for all green line branches" do
+      shapes = get_route_shapes("Green", 0)
+      route_stops = get_route_stops("Green", 0, &get_error_stop_list/3)
+      result = get_branches(shapes, nil, route_stops, %Routes.Route{id: "Green"}, 0)
+      assert result == []
+    end
+
+    test "handle error for all red line branches" do
+      shapes = get_route_shapes("Red", 0)
+      route_stops = get_route_stops("Red", 0, &get_error_stop_list/3)
+      result = get_branches(shapes, nil, route_stops, %Routes.Route{id: "Red"}, 0)
+      assert result == []
     end
   end
 
@@ -23,10 +42,11 @@ defmodule Site.ScheduleV2Controller.LineTest do
     defp branches({branches, _stop_id}), do: branches
 
     test "direction 0 returns a list of all stops in order from east to west" do
+      route_stops = get_route_stops("Green", 0, @deps.stops_by_route_fn)
       stops =
         "Green"
         |> get_route_shapes(0)
-        |> get_branches([], %Routes.Route{id: "Green"}, 0)
+        |> get_branches([], route_stops, %Routes.Route{id: "Green"}, 0)
         |> build_stop_list(0)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
@@ -38,10 +58,11 @@ defmodule Site.ScheduleV2Controller.LineTest do
     end
 
     test "direction 0 returns the correct number of bubbles for each stop" do
+      route_stops = get_route_stops("Green", 0, @deps.stops_by_route_fn)
       stops =
         "Green"
         |> get_route_shapes(0)
-        |> get_branches([], %Routes.Route{id: "Green"}, 0)
+        |> get_branches([], route_stops, %Routes.Route{id: "Green"}, 0)
         |> build_stop_list(0)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
@@ -64,10 +85,11 @@ defmodule Site.ScheduleV2Controller.LineTest do
     end
 
     test "direction 1 returns a list of all stops in order from west to east" do
+      route_stops = get_route_stops("Green", 0, @deps.stops_by_route_fn)
       stops =
         "Green"
         |> get_route_shapes(1)
-        |> get_branches([], %Routes.Route{id: "Green"}, 1)
+        |> get_branches([], route_stops, %Routes.Route{id: "Green"}, 1)
         |> build_stop_list(1)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
@@ -79,10 +101,11 @@ defmodule Site.ScheduleV2Controller.LineTest do
     end
 
     test "direction 1 returns the correct number of bubbles for each stop" do
+      route_stops = get_route_stops("Green", 0, @deps.stops_by_route_fn)
       stops =
         "Green"
         |> get_route_shapes(1)
-        |> get_branches([], %Routes.Route{id: "Green"}, 1)
+        |> get_branches([], route_stops, %Routes.Route{id: "Green"}, 1)
         |> build_stop_list(1)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
@@ -100,10 +123,11 @@ defmodule Site.ScheduleV2Controller.LineTest do
 
   describe "build_stop_list/2 for branched non-Green routes" do
     test "Red outbound" do
+      route_stops = get_route_stops("Red", 0, @deps.stops_by_route_fn)
       stops =
         "Red"
         |> get_route_shapes(0)
-        |> get_branches([], %Routes.Route{id: "Red"}, 0)
+        |> get_branches([], route_stops, %Routes.Route{id: "Red"}, 0)
         |> build_stop_list(0)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
@@ -113,10 +137,11 @@ defmodule Site.ScheduleV2Controller.LineTest do
     end
 
     test "outbound returns the correct number of bubbles for each stop" do
+      route_stops = get_route_stops("Red", 0, @deps.stops_by_route_fn)
       stops =
         "Red"
         |> get_route_shapes(0)
-        |> get_branches([], %Routes.Route{id: "Red"}, 0)
+        |> get_branches([], route_stops, %Routes.Route{id: "Red"}, 0)
         |> build_stop_list(0)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
@@ -135,10 +160,11 @@ defmodule Site.ScheduleV2Controller.LineTest do
     end
 
     test "Red inbound" do
+      route_stops = get_route_stops("Red", 0, @deps.stops_by_route_fn)
       stops =
         "Red"
         |> get_route_shapes(1)
-        |> get_branches([], %Routes.Route{id: "Red"}, 1)
+        |> get_branches([], route_stops, %Routes.Route{id: "Red"}, 1)
         |> build_stop_list(1)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
@@ -148,10 +174,11 @@ defmodule Site.ScheduleV2Controller.LineTest do
     end
 
     test "inbound returns the correct number of bubbles for each stop" do
+      route_stops = get_route_stops("Red", 0, @deps.stops_by_route_fn)
       stops =
         "Red"
         |> get_route_shapes(1)
-        |> get_branches([], %Routes.Route{id: "Red"}, 1)
+        |> get_branches([], route_stops, %Routes.Route{id: "Red"}, 1)
         |> build_stop_list(1)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
@@ -170,10 +197,11 @@ defmodule Site.ScheduleV2Controller.LineTest do
     end
 
     test "CR-Providence outbound" do
+      route_stops = get_route_stops("CR-Providence", 0, @deps.stops_by_route_fn)
       stops =
         "CR-Providence"
         |> get_route_shapes(0)
-        |> get_branches([], %Routes.Route{id: "CR-Providence"}, 0)
+        |> get_branches([], route_stops, %Routes.Route{id: "CR-Providence"}, 0)
         |> build_stop_list(0)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
@@ -183,10 +211,11 @@ defmodule Site.ScheduleV2Controller.LineTest do
     end
 
     test "CR-Providence outbound has correct number of bubbles" do
+      route_stops = get_route_stops("CR-Providence", 0, @deps.stops_by_route_fn)
       stops =
         "CR-Providence"
         |> get_route_shapes(0)
-        |> get_branches([], %Routes.Route{id: "CR-Providence"}, 0)
+        |> get_branches([], route_stops, %Routes.Route{id: "CR-Providence"}, 0)
         |> build_stop_list(0)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
@@ -205,10 +234,11 @@ defmodule Site.ScheduleV2Controller.LineTest do
     end
 
     test "CR-Providence inbound" do
+      route_stops = get_route_stops("CR-Providence", 1, @deps.stops_by_route_fn)
       stops =
         "CR-Providence"
         |> get_route_shapes(1)
-        |> get_branches([], %Routes.Route{id: "CR-Providence"}, 1)
+        |> get_branches([], route_stops, %Routes.Route{id: "CR-Providence"}, 1)
         |> build_stop_list(1)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
@@ -218,10 +248,11 @@ defmodule Site.ScheduleV2Controller.LineTest do
     end
 
     test "CR-Providence inboung has correct number of bubbles" do
+      route_stops = get_route_stops("CR-Providence", 1, @deps.stops_by_route_fn)
       stops =
         "CR-Providence"
         |> get_route_shapes(1)
-        |> get_branches([], %Routes.Route{id: "CR-Providence"}, 1)
+        |> get_branches([], route_stops, %Routes.Route{id: "CR-Providence"}, 1)
         |> build_stop_list(1)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
