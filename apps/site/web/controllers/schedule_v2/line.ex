@@ -133,14 +133,10 @@ defmodule Site.ScheduleV2Controller.Line do
   end
   def get_branches(_, [active_shape], route_stops, %Routes.Route{type: 3} = route, direction_id) do
     # For bus routes, we only want to show the stops for the active route variant.
-    do_get_branches([active_shape], route_stops[route.id], route, direction_id)
+    RouteStops.by_direction(route_stops[route.id], [active_shape], route, direction_id)
   end
   def get_branches(route_shapes, _, route_stops, route, direction_id) do
-    do_get_branches(route_shapes, route_stops[route.id], route, direction_id)
-  end
-
-  defp do_get_branches(shapes, stops, route, direction_id) do
-    RouteStops.by_direction(stops, shapes, route, direction_id)
+    RouteStops.by_direction(route_stops[route.id], route_shapes, route, direction_id)
   end
 
   @spec get_green_branch(GreenLine.branch_name, [Stops.Stop.t], [Routes.Shape.t], direction_id) :: Task.t  # returns Stops.RouteStops.t
