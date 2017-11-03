@@ -133,29 +133,25 @@ defmodule Site.ScheduleV2Controller.Line do
   def get_branches(shapes, stops, %Routes.Route{id: "Green"}, direction_id) do
     GreenLine.branch_ids()
     |> Enum.map(&get_green_branch(&1, stops[&1], shapes, direction_id))
-    |> Enum.map(&Task.await/1)
     |> Enum.reverse()
   end
   def get_branches(shapes, stops, route, direction_id) do
     RouteStops.by_direction(stops[route.id], shapes, route, direction_id)
   end
 
-  # returns Stops.RouteStops.t
-  @spec get_green_branch(GreenLine.branch_name, [Stops.Stop.t], [Routes.Shape.t], direction_id) :: Task.t
+  @spec get_green_branch(GreenLine.branch_name, [Stops.Stop.t], [Routes.Shape.t], direction_id) :: Stops.RouteStops.t
   defp get_green_branch(branch_id, stops, shapes, direction_id) do
-    Task.async(fn ->
-      headsign = branch_id
-      |> Routes.Repo.headsigns()
-      |> Map.get(direction_id)
-      |> List.first()
+    headsign = branch_id
+    |> Routes.Repo.headsigns()
+    |> Map.get(direction_id)
+    |> List.first()
 
-      branch = shapes
-      |> Enum.filter(& &1.name == headsign)
-      |> get_branches(%{branch_id => stops}, %Routes.Route{id: branch_id, type: 0}, direction_id)
-      |> List.first()
+    branch = shapes
+    |> Enum.filter(& &1.name == headsign)
+    |> get_branches(%{branch_id => stops}, %Routes.Route{id: branch_id, type: 0}, direction_id)
+    |> List.first()
 
-      %{branch | branch: branch_id, stops: Enum.map(branch.stops, &update_green_branch_stop(&1, branch_id))}
-    end)
+    %{branch | branch: branch_id, stops: Enum.map(branch.stops, &update_green_branch_stop(&1, branch_id))}
   end
 
   @spec update_green_branch_stop(RouteStop.t, GreenLine.branch_name) :: RouteStop.t
