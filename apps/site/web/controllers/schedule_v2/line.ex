@@ -4,28 +4,42 @@ defmodule Site.ScheduleV2Controller.Line do
   alias Stops.{RouteStops, RouteStop}
   alias Routes.{Route, Shape}
   alias Site.ScheduleV2Controller.Line.Maps
+  alias Site.ScheduleV2Controller.Line.Dependencies, as: Dependencies
+
+  defmodule Dependencies do
+    defstruct [
+      stops_by_route_fn: &Stops.Repo.by_route/3
+    ]
+    @type t :: %__MODULE__{
+      stops_by_route_fn: Stops.Repo.stop_by_route
+    }
+  end
 
   @type query_param :: String.t | nil
   @type direction_id :: 0 | 1
   @typep stop_with_bubble_info :: {[Site.StopBubble.stop_bubble], RouteStop.t}
+  @typep stops_by_route :: %{String.t => [Stops.Stop.t]}
 
   @impl true
   def init([]), do: []
 
   @impl true
-  def call(%Plug.Conn{assigns: %{route: %Route{} = route, direction_id: direction_id}} = conn, _args) do
+  def call(%Plug.Conn{assigns: %{route: %Route{} = route, direction_id: direction_id}} = conn, args) do
     variant = conn.query_params["variant"]
-    update_conn(conn, route, direction_id, variant)
+    deps = Keyword.get(args, :deps, %Dependencies{})
+    update_conn(conn, route, direction_id, variant, deps)
   end
 
-  @spec update_conn(Plug.Conn.t, Route.t, direction_id, query_param) :: Plug.Conn.t
-  defp update_conn(conn, route, direction_id, variant) do
+  @spec update_conn(Plug.Conn.t, Route.t, direction_id, query_param, Dependencies.t) :: Plug.Conn.t
+  defp update_conn(conn, route, direction_id, variant, deps) do
     route_shapes = get_route_shapes(route.id, direction_id)
+    route_stops = get_route_stops(route.id, direction_id, deps.stops_by_route_fn)
     vehicles = conn.assigns[:vehicle_locations]
-    vehicle_tooltips = conn.assigns.vehicle_tooltips
+    vehicle_tooltips = conn.assigns[:vehicle_tooltips]
     vehicle_polylines = VehicleHelpers.get_vehicle_polylines(vehicles, route_shapes)
     active_shapes = get_active_shapes(route_shapes, route, variant)
-    branches = get_branches(route_shapes, active_shapes, route, direction_id)
+    shapes = filter_route_shapes(route_shapes, active_shapes, route)
+    branches = get_branches(shapes, route_stops, route, direction_id)
     map_stops = Maps.map_stops(branches, {route_shapes, active_shapes}, route.id)
     {map_img_src, dynamic_map_data} = Maps.map_data(route, map_stops, vehicle_polylines, vehicle_tooltips)
 
@@ -39,17 +53,14 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:dynamic_map_data, dynamic_map_data)
   end
 
-  # I can't figure out why Dialyzer thinks this can only be called with
-  # route_type == 4, Ferry. Since I've already spent more time than I should
-  # have, I'm ignoring this small function and moving on for now. -ps
-  @dialyzer [nowarn_function: [active_shape: 2]]
   @spec active_shape(shapes :: [Shape.t], route_type :: 0..4) :: Shape.t | nil
-  defp active_shape([active | _], 3) do
-    active
-  end
-  defp active_shape(_shapes, _route_type) do
-    nil
-  end
+  defp active_shape([active | _], 3), do: active
+  defp active_shape(_shapes, _route_type), do: nil
+
+  # For bus routes, we only want to show the stops for the active route variant.
+  @spec filter_route_shapes([Routes.Shape.t], [Routes.Shape.t], Routes.Route.t) :: [Routes.Shape.t]
+  def filter_route_shapes(_, [active_shape], %Routes.Route{type: 3}), do: [active_shape]
+  def filter_route_shapes(all_shapes, _active_shapes, _Route), do: all_shapes
 
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
   @spec get_route_shapes(Routes.Route.id_t, direction_id) :: [Routes.Shape.t]
@@ -60,6 +71,24 @@ defmodule Site.ScheduleV2Controller.Line do
   end
   def get_route_shapes(route_id, direction_id) do
     Routes.Repo.get_shapes(route_id, direction_id)
+  end
+
+  @spec get_route_stops(Routes.Route.id_t, direction_id, Stops.Repo.stop_by_route) :: stops_by_route
+  def get_route_stops("Green", direction_id, stops_by_route_fn) do
+    GreenLine.branch_ids()
+    |> Task.async_stream(& do_get_route_stops(&1, direction_id, stops_by_route_fn))
+    |> Enum.reduce(%{}, fn ({:ok, value}, acc) -> Map.merge(acc, value) end)
+  end
+  def get_route_stops(route_id, direction_id, stops_by_route_fn) do
+    do_get_route_stops(route_id, direction_id, stops_by_route_fn)
+  end
+
+  @spec do_get_route_stops(Routes.Route.id_t, direction_id, Stops.Repo.stop_by_route) :: stops_by_route
+  defp do_get_route_stops(route_id, direction_id, stops_by_route_fn) do
+    case stops_by_route_fn.(route_id, direction_id, []) do
+      {:error, _} -> %{}
+      stops -> %{route_id => stops}
+    end
   end
 
   @spec get_active_shapes([Routes.Shape.t], Routes.Route.t, Route.branch_name) :: [Routes.Shape.t]
@@ -91,40 +120,30 @@ defmodule Site.ScheduleV2Controller.Line do
   Gets a list of RouteStops representing all of the branches on the route. Routes without branches will always be a
   list with a single RouteStops struct.
   """
-  @spec get_branches([Routes.Shape.t], [Routes.Shape.t], Routes.Route.t, direction_id) :: [RouteStops.t]
-  def get_branches(route_shapes, _, %Routes.Route{id: "Green"}, direction_id) do
+  @spec get_branches([Routes.Shape.t], stops_by_route, Routes.Route.t, direction_id) :: [RouteStops.t]
+  def get_branches(_, stops, _, _) when stops == %{}, do: []
+  def get_branches(shapes, stops, %Routes.Route{id: "Green"}, direction_id) do
     GreenLine.branch_ids()
-    |> Enum.map(&get_green_branch(&1, route_shapes, direction_id))
-    |> Enum.map(&Task.await/1)
+    |> Enum.map(&get_green_branch(&1, stops[&1], shapes, direction_id))
     |> Enum.reverse()
   end
-  def get_branches(_, [active_shape], %Routes.Route{type: 3} = route, direction_id) do
-    # For bus routes, we only want to show the stops for the active route variant.
-    do_get_branches([active_shape], route, direction_id)
-  end
-  def get_branches(route_shapes, _, route, direction_id), do: do_get_branches(route_shapes, route, direction_id)
-
-  defp do_get_branches(shapes, route, direction_id) do
-    route.id
-    |> Stops.Repo.by_route(direction_id)
-    |> RouteStops.by_direction(shapes, route, direction_id)
+  def get_branches(shapes, stops, route, direction_id) do
+    RouteStops.by_direction(stops[route.id], shapes, route, direction_id)
   end
 
-  @spec get_green_branch(GreenLine.branch_name, [Routes.Shape.t], direction_id) :: Task.t  # returns Stops.RouteStops.t
-  defp get_green_branch(branch_id, shapes, direction_id) do
-    Task.async(fn ->
-      headsign = branch_id
-      |> Routes.Repo.headsigns()
-      |> Map.get(direction_id)
-      |> List.first()
+  @spec get_green_branch(GreenLine.branch_name, [Stops.Stop.t], [Routes.Shape.t], direction_id) :: Stops.RouteStops.t
+  defp get_green_branch(branch_id, stops, shapes, direction_id) do
+    headsign = branch_id
+    |> Routes.Repo.headsigns()
+    |> Map.get(direction_id)
+    |> List.first()
 
-      branch = shapes
-      |> Enum.filter(& &1.name == headsign)
-      |> get_branches([], %Routes.Route{id: branch_id, type: 0}, direction_id)
-      |> List.first()
+    branch = shapes
+    |> Enum.filter(& &1.name == headsign)
+    |> get_branches(%{branch_id => stops}, %Routes.Route{id: branch_id, type: 0}, direction_id)
+    |> List.first()
 
-      %{branch | branch: branch_id, stops: Enum.map(branch.stops, &update_green_branch_stop(&1, branch_id))}
-    end)
+    %{branch | branch: branch_id, stops: Enum.map(branch.stops, &update_green_branch_stop(&1, branch_id))}
   end
 
   @spec update_green_branch_stop(RouteStop.t, GreenLine.branch_name) :: RouteStop.t
