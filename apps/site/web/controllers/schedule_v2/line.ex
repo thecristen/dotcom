@@ -141,7 +141,8 @@ defmodule Site.ScheduleV2Controller.Line do
     RouteStops.by_direction(stops[route.id], shapes, route, direction_id)
   end
 
-  @spec get_green_branch(GreenLine.branch_name, [Stops.Stop.t], [Routes.Shape.t], direction_id) :: Task.t  # returns Stops.RouteStops.t
+  # returns Stops.RouteStops.t
+  @spec get_green_branch(GreenLine.branch_name, [Stops.Stop.t], [Routes.Shape.t], direction_id) :: Task.t
   defp get_green_branch(branch_id, stops, shapes, direction_id) do
     Task.async(fn ->
       headsign = branch_id
