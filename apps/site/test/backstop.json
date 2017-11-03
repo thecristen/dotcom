@@ -38,7 +38,8 @@
       "hideSelectors": [],
       "removeSelectors": [
         ".index-news-group",
-        ".whats-happening-item",
+        ".whats-happening-section",
+        ".news-section",
         ".title-card",
         "#google_translate_element"
       ],
@@ -51,7 +52,7 @@
       ],
       "readyEvent": null,
       "delay": 500,
-      "misMatchThreshold" : 0.1
+      "misMatchThreshold": 0.1
     },
     {
       "label": "Subway Hub",
@@ -59,12 +60,12 @@
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
-          "main",
-          ".breadcrumb-container"
+        "main",
+        ".breadcrumb-container"
       ],
       "readyEvent": null,
       "delay": 100,
-      "misMatchThreshold" : 0.1
+      "misMatchThreshold": 0.1
     },
     {
       "label": "All Schedules",
@@ -72,12 +73,12 @@
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
-          "#schedules",
-          ".breadcrumb-container"
+        "#schedules",
+        ".breadcrumb-container"
       ],
       "readyEvent": null,
       "delay": 100,
-      "misMatchThreshold" : 0.1
+      "misMatchThreshold": 0.1
     },
     {
       "label": "404 Page",
@@ -104,14 +105,14 @@
       "url": "http://localhost:8082/fares/charlie-card",
       "selectors": ["main"],
       "delay": 100,
-      "misMatchThreshold" : 0.1
+      "misMatchThreshold": 0.1
     },
     {
       "label": "Getting Around",
       "url": "http://localhost:8082/getting-around",
       "selectors": ["main"],
       "delay": 100,
-      "misMatchThreshold" : 0.1
+      "misMatchThreshold": 0.1
     },
     {
       "label": "Transit Near Me",
@@ -127,7 +128,7 @@
       "selectors": ["#gettingAround"],
       "readyEvent": null,
       "delay": 100,
-      "misMatchThreshold" : 0.1,
+      "misMatchThreshold": 0.1,
       "onReadyScript": "header.js"
     },
     {
@@ -136,7 +137,7 @@
       "selectors": ["#fares"],
       "readyEvent": null,
       "delay": 100,
-      "misMatchThreshold" : 0.1,
+      "misMatchThreshold": 0.1,
       "onReadyScript": "header.js"
     },
     {
@@ -145,7 +146,7 @@
       "selectors": ["#contactUs"],
       "readyEvent": null,
       "delay": 100,
-      "misMatchThreshold" : 0.1,
+      "misMatchThreshold": 0.1,
       "onReadyScript": "header.js"
     },
     {
@@ -154,7 +155,7 @@
       "selectors": ["#more"],
       "readyEvent": null,
       "delay": 100,
-      "misMatchThreshold" : 0.1,
+      "misMatchThreshold": 0.1,
       "onReadyScript": "header.js"
     },
     {
@@ -162,7 +163,7 @@
       "url": "http://localhost:8082/fares/payment-methods",
       "selectors": ["main"],
       "delay": 100,
-      "misMatchThreshold" : 0.1
+      "misMatchThreshold": 0.1
     },
     {
       "label": "Station Info Tab South Station",
@@ -178,7 +179,7 @@
       "selectors": ["main"],
       "hideSelectors": ["iframe.commuter-rail-photo-video"],
       "delay": 100,
-      "misMatchThreshold" : 0.1
+      "misMatchThreshold": 0.1
     },
     {
       "label": "Bus Schedule",
@@ -201,7 +202,10 @@
     {
       "label": "Station Info Framingham",
       "url": "http://localhost:8082/stops/Framingham?tab=departures&date=2017-12-15&date_time=2017-12-15T18%3A01%3A52.397960-05%3A00",
-      "hideSelectors": [".map", ".animate"],
+      "hideSelectors": [
+        ".map",
+        ".animate"
+      ],
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold": 0.1
@@ -209,7 +213,10 @@
     {
       "label": "Station Info South Station",
       "url": "http://localhost:8082/stops/place-sstat?tab=departures&date=2017-12-15&date_time=2017-12-15T18%3A01%3A52.397960-05%3A00",
-      "hideSelectors": [".station-info-map", ".animate"],
+      "hideSelectors": [
+        ".station-info-map",
+        ".animate"
+      ],
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold": 0.1

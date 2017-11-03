@@ -104,7 +104,7 @@ To run the tests, use the following command:
 mix backstop.tests
 ```
 
-For more information about the initial setup, running the tests, and adding new ones please see this wiki [article](https://github.com/mbta/dotcom/wiki/BackstopJS-Tests).
+For more information about the initial setup, running the tests, and adding new ones please see this wiki [article](https://github.com/mbta/wiki/blob/master/website/testing/backstop.md).
 
 ## Environment Variables
 
@@ -128,7 +128,7 @@ The url for the CMS. You'll need to set this to view any of the static content o
 * `http://test-mbta.pantheonsite.io` The staging server for the content. This will include changes to the content as they happen.
 * `http://dev-mbta.pantheonsite.io` The sandbox CMS server. Code changes for the CMS are sometimes deployed here to test them without disturbing the content writers' workflow.
 * `http://mbta.kbox.site` Your local CMS server, if you are running it. Instructions for setting it up are in the [Content README](/apps/content/README.md).
-* None, if you don't want any connection to a CMS. This is necessary for backstop screenshot tests, as connecting to a CMS may change the layout of some pages.
+* None, if you don't want any connection to a CMS.
 
 Since different tasks require different servers, there's a script to quickly switch between different them in [the wiki](https://github.com/mbta/wiki/blob/master/website/development/tips-and-tricks.md#quickly-switching-between-cms-servers)
 
