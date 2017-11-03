@@ -8,8 +8,8 @@ defmodule Stops.Repo do
 
   @type stop_feature :: Route.route_type | Route.subway_lines_type
                         | :access | :parking_lot | :"Green-B" |:"Green-C" |:"Green-D" |:"Green-E"
-  @type stops_response_t :: [Stop.t] | {:error, any}
-  @type stop_by_route_t :: (Route.id_t, 0 | 1, Keyword.t -> stops_response_t)
+  @type stops_response :: [Stop.t] | {:error, any}
+  @type stop_by_route :: ((Route.id_t, 0 | 1, Keyword.t) -> stops_response)
 
   for {old_id, gtfs_id} <- "priv/stop_id_to_gtfs.csv"
   |> File.stream!()
@@ -55,7 +55,7 @@ defmodule Stops.Repo do
     Stops.Nearby.nearby(position)
   end
 
-  @spec by_route(Route.id_t, 0 | 1, Keyword.t) :: stops_response_t
+  @spec by_route(Route.id_t, 0 | 1, Keyword.t) :: stops_response
   def by_route(route_id, direction_id, opts \\ []) do
     cache({route_id, direction_id, opts}, fn args ->
       with stops when is_list(stops) <- Stops.Api.by_route(args) do
@@ -69,7 +69,7 @@ defmodule Stops.Repo do
     end)
   end
 
-  @spec by_routes([Route.id_t], 0 | 1, Keyword.t) :: stops_response_t
+  @spec by_routes([Route.id_t], 0 | 1, Keyword.t) :: stops_response
   def by_routes(route_ids, direction_id, opts \\ []) when is_list(route_ids) do
     # once the V3 API supports multiple route_ids in this field, we can do it
     # as a single lookup -ps
@@ -82,7 +82,7 @@ defmodule Stops.Repo do
     |> Enum.uniq
   end
 
-  @spec by_route_type(Route.t, Keyword.t):: stops_response_t
+  @spec by_route_type(Route.t, Keyword.t):: stops_response
   def by_route_type(route_type, opts \\ []) do
     cache {route_type, opts}, &Stops.Api.by_route_type/1
   end
