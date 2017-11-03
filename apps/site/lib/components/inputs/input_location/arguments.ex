@@ -16,7 +16,8 @@ defmodule Site.Components.Inputs.InputLocation do
     button_class: "",
     submit_coordinates: false,
     latitude: "",
-    longitude: ""
+    longitude: "",
+    aria_label: ""
   ]
 
   @type t :: %__MODULE__{
@@ -32,6 +33,7 @@ defmodule Site.Components.Inputs.InputLocation do
     button_class: String.t,
     submit_coordinates: boolean,
     latitude: String.t,
-    longitude: String.t
+    longitude: String.t,
+    aria_label: String.t
   }
 end
