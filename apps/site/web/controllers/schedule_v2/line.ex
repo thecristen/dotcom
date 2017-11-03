@@ -53,17 +53,9 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:dynamic_map_data, dynamic_map_data)
   end
 
-  # I can't figure out why Dialyzer thinks this can only be called with
-  # route_type == 4, Ferry. Since I've already spent more time than I should
-  # have, I'm ignoring this small function and moving on for now. -ps
-  @dialyzer [nowarn_function: [active_shape: 2]]
   @spec active_shape(shapes :: [Shape.t], route_type :: 0..4) :: Shape.t | nil
-  defp active_shape([active | _], 3) do
-    active
-  end
-  defp active_shape(_shapes, _route_type) do
-    nil
-  end
+  defp active_shape([active | _], 3), do: active
+  defp active_shape(_shapes, _route_type), do: nil
 
   # For bus routes, we only want to show the stops for the active route variant.
   @spec filter_route_shapes([Routes.Shape.t], [Routes.Shape.t], Routes.Route.t) :: [Routes.Shape.t]
