@@ -11,14 +11,18 @@ defmodule Site.StopView do
   def location(%Stops.Stop{latitude: nil, address: address}), do: URI.encode(address, &URI.char_unreserved?/1)
   def location(%Stops.Stop{latitude: lat, longitude: lng}), do: "#{lat},#{lng}"
 
-  @spec pretty_accessibility(String.t) :: String.t
-  def pretty_accessibility("tty_phone"), do: "TTY Phone"
-  def pretty_accessibility("escalator_both"), do: "Escalator (Up and Down)"
+  @spec pretty_accessibility(String.t) :: [String.t]
+  def pretty_accessibility("tty_phone"), do: ["TTY Phone"]
+  def pretty_accessibility("escalator_both"), do: ["Escalator (Up and Down)"]
+  def pretty_accessibility("unknown"), do: []
+  def pretty_accessibility("accessible"), do: []
   def pretty_accessibility(accessibility) do
-    accessibility
-    |> String.split("_")
-    |> Enum.map(&String.capitalize/1)
-    |> Enum.join(" ")
+    [
+      accessibility
+      |> String.split("_")
+      |> Enum.map(&String.capitalize/1)
+      |> Enum.join(" ")
+    ]
   end
 
   @spec sort_parking_spots([Stops.Stop.Parking.t]) :: [Stops.Stop.Parking.t]
@@ -54,52 +58,63 @@ defmodule Site.StopView do
     Enum.uniq_by(routes, &Phoenix.Param.to_param/1)
   end
 
-  @spec accessibility_info(Stop.t, Plug.Conn.t) :: [Phoenix.HTML.Safe.t]
+  @spec accessibility_info(Stop.t) :: Phoenix.HTML.Safe.t
   @doc "Accessibility content for given stop"
-  def accessibility_info(stop, conn) do
-    [(content_tag :p, format_accessibility_text(stop.name, stop.accessibility)),
-    format_accessibility_options(stop),
-    accessibility_contact_link(stop, conn)]
+  def accessibility_info(stop) do
+    [
+      content_tag(:p, [
+            format_accessibility_text(stop),
+            format_accessibility_prefix(stop)]),
+      format_accessibility_options(stop),
+      accessibility_contact_link(stop)
+    ]
   end
 
-  @spec format_accessibility_options(Stop.t) :: Phoenix.HTML.safe | String.t
+  def format_accessibility_prefix(stop) do
+    case Enum.flat_map(stop.accessibility, &pretty_accessibility/1) do
+      [] -> []
+      _ -> " It has the following features:"
+    end
+  end
+
+  @spec format_accessibility_options(Stop.t) :: Phoenix.HTML.Safe.t
+  defp format_accessibility_options(stop)
   defp format_accessibility_options(stop) do
-    if stop_accessible?(stop) do
-      content_tag :p do
-        stop.accessibility
-        |> Enum.filter(&(&1 != "accessible"))
-        |> Enum.map(&pretty_accessibility/1)
-        |> Enum.join(", ")
-      end
-    else
-      ""
+    case Enum.flat_map(stop.accessibility, &pretty_accessibility/1) do
+      [] -> []
+      features ->
+        content_tag :p, Enum.intersperse(features, ", ")
     end
   end
 
-  @spec format_accessibility_text(String.t, [String.t]) :: Phoenix.HTML.Safe.t
-  defp format_accessibility_text(name, []), do: content_tag(:span, [name, " is not an accessible station."])
-  defp format_accessibility_text(name, ["accessible"]) do
-    content_tag(:span, "#{name} is an accessible station.")
-  end
-  defp format_accessibility_text(name, _features), do: content_tag(:span, "#{name} has the following accessibility features:")
-
-  @spec accessibility_contact_link(Stop.t, Plug.Conn.t) :: Phoenix.HTML.Safe.t | String.t
-  defp accessibility_contact_link(stop, conn) do
-    if stop_accessible?(stop), do: do_accessibility_contact_link(conn), else: ""
-  end
-
-  @spec do_accessibility_contact_link(Plug.Conn.t) :: Phoenix.HTML.Safe.t
-  defp do_accessibility_contact_link(conn) do
-    link to: customer_support_path(conn, :index) do
-      content_tag :p do
-        ["Problem with an elevator, escalator or other accessibility issue? Send us a message ",
-         content_tag(:span, [class: "no-wrap"], do: fa "arrow-right")]
-      end
+  @spec format_accessibility_text(Stop.t) :: iodata
+  defp format_accessibility_text(stop) do
+    name = stop.name
+    cond do
+      Stop.accessible?(stop) ->
+        [name, " is an accessible station."]
+      Stop.accessibility_known?(stop) ->
+        [name, " is not an accessible station."]
+      :unknown ->
+        ["No accessibility information is available for ", name, "."]
     end
   end
 
-  @spec stop_accessible?(Stop.t) :: boolean
-  def stop_accessible?(stop), do: stop.accessibility && !Enum.empty?(stop.accessibility)
+  @spec accessibility_contact_link(Stop.t) :: Phoenix.HTML.Safe.t
+  defp accessibility_contact_link(stop) do
+    case stop.accessibility do
+      [] -> []
+      ["accessible"] -> []
+      ["unknown"] -> []
+      _ ->
+        link to: customer_support_path(Site.Endpoint, :index) do
+          content_tag :p do
+            ["Problem with an elevator, escalator or other accessibility issue? Send us a message ",
+             fa("arrow-right")]
+          end
+        end
+    end
+  end
 
   @spec origin_station?(Stop.t) :: boolean
   def origin_station?(stop) do

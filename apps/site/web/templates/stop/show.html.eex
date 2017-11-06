@@ -17,7 +17,7 @@
             <span class="station-info-zone">Zone <%= @zone_number %></span>
           <% end %>
         <% end %>
-        <%= if "accessible" in @stop.accessibility do %>
+        <%= if Stop.accessible?(@stop) do %>
           <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access}) %>
           <span class="station-mode-description">Accessible</span>
         <% end %>
