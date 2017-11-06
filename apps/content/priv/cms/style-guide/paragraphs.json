@@ -11,7 +11,7 @@
   ],
   "vid": [
     {
-      "value": 3298
+      "value": 4988
     }
   ],
   "langcode": [
@@ -51,7 +51,7 @@
   ],
   "changed": [
     {
-      "value": 1501699482
+      "value": 1508792302
     }
   ],
   "promote": [
@@ -66,15 +66,15 @@
   ],
   "revision_timestamp": [
     {
-      "value": 1501699482
+      "value": 1508792302
     }
   ],
   "revision_uid": [
     {
-      "target_id": 15,
+      "target_id": 29,
       "target_type": "user",
-      "target_uuid": "93968e0d-046e-4ee3-98d5-c179eb42a7e4",
-      "url": "/user/15"
+      "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+      "url": "/user/29"
     }
   ],
   "revision_log": [],
@@ -148,7 +148,7 @@
   "field_paragraphs": [
     {
       "target_id": 35,
-      "target_revision_id": 371,
+      "target_revision_id": 4445,
       "id": [
         {
           "value": 35
@@ -161,7 +161,7 @@
       ],
       "revision_id": [
         {
-          "value": 371
+          "value": 4445
         }
       ],
       "type": [
@@ -229,14 +229,14 @@
       ],
       "field_custom_html_body": [
         {
-          "value": "<p>This page demonstrates all the \"paragraphs\" available to content editors, with tips on how to use them. <strong>Please check with the developers before modifying this page</strong>, as it's the basis for automated tests which work to ensure the paragraphs tool is working as expected.</p>\r\n\r\n<ul>\r\n\t<li><a href=\"#custom-html\">Custom HTML</a></li>\r\n\t<li><a href=\"#title-card-set\">Title Card Set</a></li>\r\n\t<li><a href=\"#people-grid\">People Grid</a></li>\r\n\t<li><a href=\"#upcoming-board-meetings\">Upcoming Board Meeting</a></li>\r\n\t<li><a href=\"#files-grid\">Files Grid</a></li>\r\n</ul>\r\n",
+          "value": "<p>This page demonstrates all the \"paragraphs\" available to content editors, with tips on how to use them. <strong>Please check with the developers before modifying this page</strong>, as it's the basis for automated tests which work to ensure the paragraphs tool is working as expected.</p>\r\n\r\n<ul>\r\n\t<li><a href=\"#custom-html\">Custom HTML</a></li>\r\n\t<li><a href=\"#multi-column\">Multi-Column</a></li>\r\n\t<li><a href=\"#title-card-set\">Title Card Set</a></li>\r\n\t<li><a href=\"#people-grid\">People Grid</a></li>\r\n\t<li><a href=\"#upcoming-board-meetings\">Upcoming Board Meeting</a></li>\r\n\t<li><a href=\"#files-grid\">Files Grid</a></li>\r\n\t<li><a href=\"#call-to-action\">Call to Action</a></li>\r\n</ul>\r\n",
           "format": "basic_html"
         }
       ]
     },
     {
       "target_id": 36,
-      "target_revision_id": 372,
+      "target_revision_id": 4446,
       "id": [
         {
           "value": 36
@@ -249,7 +249,7 @@
       ],
       "revision_id": [
         {
-          "value": 372
+          "value": 4446
         }
       ],
       "type": [
@@ -323,8 +323,444 @@
       ]
     },
     {
+      "target_id": 352,
+      "target_revision_id": 4447,
+      "id": [
+        {
+          "value": 352
+        }
+      ],
+      "uuid": [
+        {
+          "value": "e2229a9f-0d2d-438e-aeac-922d1fb97852"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 4447
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1508789443
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<hr />\r\n<h3 id=\"multi-column\">Multi-Column</h3>\r\n\r\n<p>The Multi-Column paragraph allows you to add 2-4 columns side-by-side, with custom HTML within each. Do not use this for \"newspaper\" style columns, as they will not flow from one column to the next. This is more of a way to break up similar chunks of data, so please think of it as more of a single-row table. Column headlines (H4) are recommended.</p>\r\n",
+          "format": "full_html"
+        }
+      ]
+    },
+    {
+      "target_id": 348,
+      "target_revision_id": 4451,
+      "id": [
+        {
+          "value": 348
+        }
+      ],
+      "uuid": [
+        {
+          "value": "0722a015-667c-4731-8b4d-7b8ea27204ee"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 4451
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1508716373
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_column": [
+        {
+          "target_id": 346,
+          "target_revision_id": 4448,
+          "id": [
+            {
+              "value": 346
+            }
+          ],
+          "uuid": [
+            {
+              "value": "b5d3332e-661f-4c3a-a63a-69ea9fec1a56"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 4448
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1508716386
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "348"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "field_column_body": [
+            {
+              "value": "<h4>Column A Headline</h4>\r\n\r\n<p>Body for <strong>column</strong> 1</p>\r\n\r\n<p>Has two paragraphs :)</p>\r\n",
+              "format": "basic_html"
+            }
+          ]
+        },
+        {
+          "target_id": 347,
+          "target_revision_id": 4449,
+          "id": [
+            {
+              "value": 347
+            }
+          ],
+          "uuid": [
+            {
+              "value": "0dbbe689-b11c-47b4-8856-469131d6a8d5"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 4449
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1508716399
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "348"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "field_column_body": [
+            {
+              "value": "<h4>Column B Headline</h4>\r\n\r\n<p>Body for column 2 has an image:</p>\r\n\r\n<p><img alt=\"PollackBio.jpg\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"285\" src=\"/sites/default/files/PollackBio.jpg\" width=\"190\" /></p>\r\n",
+              "format": "basic_html"
+            }
+          ]
+        },
+        {
+          "target_id": 350,
+          "target_revision_id": 4450,
+          "id": [
+            {
+              "value": 350
+            }
+          ],
+          "uuid": [
+            {
+              "value": "de8ea0da-d028-46e0-907b-958f44c2fc53"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 4450
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1508782952
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "348"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "field_column_body": [
+            {
+              "value": "<p>Headlines are optional, but recommended. This paragraph will always line up with the top of adjacent columns, regardless of the presence of a headline (h4) element.</p>\r\n",
+              "format": "basic_html"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "target_id": 37,
-      "target_revision_id": 373,
+      "target_revision_id": 4452,
       "id": [
         {
           "value": 37
@@ -337,7 +773,7 @@
       ],
       "revision_id": [
         {
-          "value": 373
+          "value": 4452
         }
       ],
       "type": [
@@ -412,7 +848,7 @@
     },
     {
       "target_id": 40,
-      "target_revision_id": 376,
+      "target_revision_id": 4455,
       "id": [
         {
           "value": 40
@@ -425,7 +861,7 @@
       ],
       "revision_id": [
         {
-          "value": 376
+          "value": 4455
         }
       ],
       "type": [
@@ -494,7 +930,7 @@
       "field_title_cards": [
         {
           "target_id": 38,
-          "target_revision_id": 374,
+          "target_revision_id": 4453,
           "id": [
             {
               "value": 38
@@ -507,7 +943,7 @@
           ],
           "revision_id": [
             {
-              "value": 374
+              "value": 4453
             }
           ],
           "type": [
@@ -581,7 +1017,7 @@
           ],
           "field_title_card_link": [
             {
-              "uri": "internal:/cms/style-guide/paragraphs",
+              "uri": "/cms/style-guide/paragraphs",
               "title": "",
               "options": []
             }
@@ -594,7 +1030,7 @@
         },
         {
           "target_id": 39,
-          "target_revision_id": 375,
+          "target_revision_id": 4454,
           "id": [
             {
               "value": 39
@@ -607,7 +1043,7 @@
           ],
           "revision_id": [
             {
-              "value": 375
+              "value": 4454
             }
           ],
           "type": [
@@ -696,7 +1132,7 @@
     },
     {
       "target_id": 41,
-      "target_revision_id": 377,
+      "target_revision_id": 4456,
       "id": [
         {
           "value": 41
@@ -709,7 +1145,7 @@
       ],
       "revision_id": [
         {
-          "value": 377
+          "value": 4456
         }
       ],
       "type": [
@@ -784,7 +1220,7 @@
     },
     {
       "target_id": 42,
-      "target_revision_id": 378,
+      "target_revision_id": 4457,
       "id": [
         {
           "value": 42
@@ -797,7 +1233,7 @@
       ],
       "revision_id": [
         {
-          "value": 378
+          "value": 4457
         }
       ],
       "type": [
@@ -877,7 +1313,7 @@
           ],
           "vid": [
             {
-              "value": 3253
+              "value": 4177
             }
           ],
           "langcode": [
@@ -917,7 +1353,7 @@
           ],
           "changed": [
             {
-              "value": 1500557469
+              "value": 1505221038
             }
           ],
           "promote": [
@@ -932,7 +1368,7 @@
           ],
           "revision_timestamp": [
             {
-              "value": 1500557469
+              "value": 1505221038
             }
           ],
           "revision_uid": [
@@ -964,14 +1400,14 @@
           "menu_link": [],
           "field_bio": [
             {
-              "value": "<p dir=\"ltr\">Steve Poftak is Interim General Manager of the MBTA while on leave from his position as the Executive Director of the Rappaport Institute for Greater Boston at the Harvard Kennedy School. He has served as the Vice-Chair of the MBTA's Fiscal Management and Control Board, as well as serving on the MassDOT Board of Directors. Previously, Poftak was Research Director and Director of the Center for Better Government at the Pioneer Institute for Public Policy Research. He has led research projects and authored a number of papers on transportation policy, government efficiency, municipal finance, and job creation. Prior to that, he worked at the Commonwealth's Executive Office for Administration and Finance, where he managed the $1.3 billion capital budget, prepared the state's quarterly cash flow reporting, and monitored non-tax revenue receipts. Poftak holds an M.B.A. from the Olin School at Babson College and a B.A. in Political Science from Middlebury College. He is a Boston resident and has children who attend the Boston Public Schools.</p>\r\n",
+              "value": "<p dir=\"ltr\">Steve Poftak previously served as the Vice-Chair of the MBTA's Fiscal Management and Control Board since its inception, as well as serving on the MassDOT Board of Directors before serving as Interim General Manager of the MBTA from July 1, 2017, through September 11, 2017. Prior to joining the MBTA, Poftak was Research Director and Director of the Center for Better Government at the Pioneer Institute for Public Policy Research. He has led research projects and authored a number of papers on transportation policy, government efficiency, municipal finance, and job creation. &nbsp;Prior to that, he worked at the Commonwealth's Executive Office for Administration and Finance, where he managed the $1.3 billion capital budget, prepared the state's quarterly cash flow reporting, and monitored non-tax revenue receipts. &nbsp;Poftak holds an MBA from the Olin School at Babson College and a BA in Political Science from Middlebury College. He is a Boston resident and has children who attend the Boston Public Schools.</p>\r\n",
               "format": "basic_html",
               "summary": ""
             }
           ],
           "field_position": [
             {
-              "value": "Interim General Manager",
+              "value": "Member",
               "format": "basic_html"
             }
           ],
@@ -1127,7 +1563,7 @@
           ],
           "vid": [
             {
-              "value": 3252
+              "value": 4452
             }
           ],
           "langcode": [
@@ -1167,7 +1603,7 @@
           ],
           "changed": [
             {
-              "value": 1500557344
+              "value": 1506547763
             }
           ],
           "promote": [
@@ -1182,23 +1618,23 @@
           ],
           "revision_timestamp": [
             {
-              "value": 1500557344
+              "value": 1506547763
             }
           ],
           "revision_uid": [
             {
-              "target_id": 17,
+              "target_id": 24,
               "target_type": "user",
-              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
-              "url": "/user/17"
+              "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+              "url": "/user/24"
             }
           ],
-          "revision_log": [],
-          "revision_translation_affected": [
+          "revision_log": [
             {
-              "value": true
+              "value": "updated bio on 9/27/2017 based on web content request submitted by Mark Fuller (https://app.asana.com/0/393059912548120/440088191788926)"
             }
           ],
+          "revision_translation_affected": [],
           "default_langcode": [
             {
               "value": true
@@ -1214,7 +1650,7 @@
           "menu_link": [],
           "field_bio": [
             {
-              "value": "<p dir=\"ltr\">Brian Shortsleeve is the MBTA's first-ever Chief Administrator. He joined the MBTA at the time of the creation of Fiscal and Management Control Board in July 2015 with a focus on developing and implementing a strategy to put the T on a path to fiscal sustainability. Brian is a Massachusetts native and Harvard Business School graduate who has more than 20 years of leadership experience in the public and private sectors helping complex organizations through periods of both rapid growth and turnaround. He is also a former Marine officer who served in Bosnia-Herzegovina and the Persian Gulf. He spent the early part of his career at Bain &amp; Company and most recently was a Managing Director at General Catalyst Partners. Brian brings extensive experience developing and executing strategies to improve performance and drive organizational change.</p>\r\n",
+              "value": "<p dir=\"ltr\">Brian Shortsleeve served as the MBTA's first-ever Chief Administrator from 2015 until 2017. He joined the MBTA at the time of the creation of Fiscal and Management Control Board to focus on developing and implementing a strategy to put the T on a path to fiscal sustainability. Brian is a Massachusetts native and Harvard Business School graduate who has more than 20 years of leadership experience in the public and private sectors helping complex organizations through periods of both rapid growth and turnaround. He is also a former Marine officer who served in Bosnia-Herzegovina and the Persian Gulf. He spent the early part of his career at Bain &amp; Company and most recently was a Managing Director at General Catalyst Partners. Brian brings extensive experience developing and executing strategies to improve performance and drive organizational change and was appointed to the FMCB by Governor Baker in 2017.</p>\r\n",
               "format": "basic_html",
               "summary": ""
             }
@@ -1243,7 +1679,7 @@
     },
     {
       "target_id": 43,
-      "target_revision_id": 379,
+      "target_revision_id": 4458,
       "id": [
         {
           "value": 43
@@ -1256,7 +1692,7 @@
       ],
       "revision_id": [
         {
-          "value": 379
+          "value": 4458
         }
       ],
       "type": [
@@ -1331,7 +1767,7 @@
     },
     {
       "target_id": 44,
-      "target_revision_id": 380,
+      "target_revision_id": 4459,
       "id": [
         {
           "value": 44
@@ -1344,7 +1780,7 @@
       ],
       "revision_id": [
         {
-          "value": 380
+          "value": 4459
         }
       ],
       "type": [
@@ -1414,7 +1850,7 @@
     },
     {
       "target_id": 45,
-      "target_revision_id": 381,
+      "target_revision_id": 4460,
       "id": [
         {
           "value": 45
@@ -1427,7 +1863,7 @@
       ],
       "revision_id": [
         {
-          "value": 381
+          "value": 4460
         }
       ],
       "type": [
@@ -1502,7 +1938,7 @@
     },
     {
       "target_id": 46,
-      "target_revision_id": 382,
+      "target_revision_id": 4461,
       "id": [
         {
           "value": 46
@@ -1515,7 +1951,7 @@
       ],
       "revision_id": [
         {
-          "value": 382
+          "value": 4461
         }
       ],
       "type": [
@@ -1622,8 +2058,96 @@
       "field_files_grid_title": []
     },
     {
+      "target_id": 67,
+      "target_revision_id": 4462,
+      "id": [
+        {
+          "value": 67
+        }
+      ],
+      "uuid": [
+        {
+          "value": "7dfd5449-8d6c-447b-96d0-0fb50e5c944b"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 4462
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "/user/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1502375969
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "/user/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<hr />\r\n<h3 id=\"call-to-action\">Call to Action</h3>\r\n\r\n<p>A \"call to action\" is something that you want a user to click on. In this case, it will appear as a link with a right arrow at the end of it. These are commonly used at the end of a section of content to \"read more about...\".</p>\r\n",
+          "format": "full_html"
+        }
+      ]
+    },
+    {
       "target_id": 47,
-      "target_revision_id": 383,
+      "target_revision_id": 4463,
       "id": [
         {
           "value": 47
@@ -1636,7 +2160,7 @@
       ],
       "revision_id": [
         {
-          "value": 383
+          "value": 4463
         }
       ],
       "type": [
@@ -1704,8 +2228,8 @@
       ],
       "field_call_to_action_link": [
         {
-          "uri": "https://t.mbta.com/schedules",
-          "title": "MBTA Schedules",
+          "uri": "http://www.google.com",
+          "title": "Continue reading...",
           "options": []
         }
       ]

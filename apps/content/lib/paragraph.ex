@@ -25,7 +25,7 @@ defmodule Content.Paragraph do
   @type t :: Paragraph.CallToAction.t | Paragraph.CustomHTML.t |
              Paragraph.FilesGrid.t | Paragraph.PeopleGrid.t |
              Paragraph.TitleCardSet.t | Paragraph.Unknown.t |
-             Paragraph.UpcomingBoardMeetings.t
+             Paragraph.UpcomingBoardMeetings.t | Paragraph.ColumnMulti.t
 
   @spec from_api(map) :: t
   def from_api(%{"type" => [%{"target_id" => "custom_html"}]} = para) do
@@ -45,6 +45,9 @@ defmodule Content.Paragraph do
   end
   def from_api(%{"type" => [%{"target_id" => "call_to_action"}]} = para) do
     Paragraph.CallToAction.from_api(para)
+  end
+  def from_api(%{"type" => [%{"target_id" => "multi_column"}]} = para) do
+    Paragraph.ColumnMulti.from_api(para)
   end
   def from_api(unknown_paragraph_type) do
     Paragraph.Unknown.from_api(unknown_paragraph_type)

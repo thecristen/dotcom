@@ -30,6 +30,22 @@ defmodule Content.ParagraphTest do
       assert safe_to_string(title_card1.body) =~ "<p>The body of the title card"
     end
 
+    test "parses multi column paragraph" do
+      api_data = api_paragraph("multi_column")
+
+      assert %Content.Paragraph.ColumnMulti{
+        columns: [
+          %Content.Paragraph.Column{} = column1,
+          %Content.Paragraph.Column{} = column2,
+          %Content.Paragraph.Column{} = column3
+        ]
+      } = from_api(api_data)
+
+      assert safe_to_string(column1.body) =~ "<h4>Column A Headline</h4><p>Body"
+      assert safe_to_string(column2.body) =~ "<h4>Column B Headline</h4><p>Body"
+      assert safe_to_string(column3.body) =~ "<p>Headlines are optional"
+    end
+
     test "parses upcoming board meetings" do
       api_data = parse_json_file("priv/upcoming_board_meetings_paragraph.json")
 
@@ -67,8 +83,8 @@ defmodule Content.ParagraphTest do
 
       assert %Content.Paragraph.CallToAction{
         link: %Content.Field.Link{
-          url: "https://t.mbta.com/schedules",
-          title: "MBTA Schedules"
+          url: "http://www.google.com",
+          title: "Continue reading..."
         }
       } = from_api(api_data)
     end

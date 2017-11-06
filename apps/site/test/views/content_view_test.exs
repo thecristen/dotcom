@@ -201,6 +201,57 @@ defmodule Site.ContentViewTest do
       assert rendered =~ paragraph.link.title
     end
 
+    test "renders a Content.Paragraph.ColumnMulti" do
+      cols = [
+        %Paragraph.Column{
+          body: Phoenix.HTML.raw("<strong>Column 1</strong>"),
+        },
+        %Paragraph.Column{
+          body: Phoenix.HTML.raw("<strong>Column 2</strong>"),
+        },
+        %Paragraph.Column{
+          body: Phoenix.HTML.raw("<strong>Column 3</strong>"),
+        },
+        %Paragraph.Column{
+          body: Phoenix.HTML.raw("<strong>Column 4</strong>"),
+        }
+      ]
+
+      rendered_quarters =
+        %Paragraph.ColumnMulti{columns: cols}
+        |> render_paragraph
+        |> Phoenix.HTML.safe_to_string
+
+      rendered_thirds =
+        %Paragraph.ColumnMulti{columns: Enum.take(cols, 3)}
+        |> render_paragraph
+        |> Phoenix.HTML.safe_to_string
+
+      rendered_halves =
+        %Paragraph.ColumnMulti{columns: Enum.take(cols, 2)}
+        |> render_paragraph
+        |> Phoenix.HTML.safe_to_string
+
+      rendered_single =
+        %Paragraph.ColumnMulti{columns: Enum.take(cols, 1)}
+        |> render_paragraph
+        |> Phoenix.HTML.safe_to_string
+
+      assert rendered_quarters =~ "<div class=\"col-md-3\">\n<strong>Column 1</strong>"
+      assert rendered_quarters =~ "<div class=\"col-md-3\">\n<strong>Column 2</strong>"
+      assert rendered_quarters =~ "<div class=\"col-md-3\">\n<strong>Column 3</strong>"
+      assert rendered_quarters =~ "<div class=\"col-md-3\">\n<strong>Column 4</strong>"
+
+      assert rendered_thirds =~ "<div class=\"col-md-4\">\n<strong>Column 1</strong>"
+      assert rendered_thirds =~ "<div class=\"col-md-4\">\n<strong>Column 2</strong>"
+      assert rendered_thirds =~ "<div class=\"col-md-4\">\n<strong>Column 3</strong>"
+
+      assert rendered_halves =~ "<div class=\"col-md-6\">\n<strong>Column 1</strong>"
+      assert rendered_halves =~ "<div class=\"col-md-6\">\n<strong>Column 2</strong>"
+
+      assert rendered_single =~ "<div class=\"row row-lined\">\n  \n    <div class=\"col-md-12\">\n<strong>Column 1</strong>"
+    end
+
     test "renders a Paragraph.Unknown" do
       paragraph = %Paragraph.Unknown{
         type: "unsupported_paragraph_type"
