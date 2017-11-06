@@ -4,7 +4,6 @@ defmodule Site.PageController do
   plug Site.Plugs.TransitNearMe
 
   def index(conn, _params) do
-    grouped_routes = filtered_grouped_routes([:subway, :bus])
     conn
     |> async_assign(:news, &news/0)
     |> async_assign(:important_notice, &Content.Repo.important_notice/0)
@@ -12,7 +11,7 @@ defmodule Site.PageController do
     |> async_assign(:all_alerts, fn -> Alerts.Repo.all(conn.assigns.date_time) end)
     |> assign(:pre_container_template, "_pre_container.html")
     |> assign(:post_container_template, "_post_container.html")
-    |> assign(:grouped_routes, grouped_routes)
+    |> assign(:grouped_routes, filtered_grouped_routes([:bus]))
     |> await_assign_all()
     |> render("index.html")
   end
