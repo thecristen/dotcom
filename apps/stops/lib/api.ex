@@ -86,9 +86,9 @@ defmodule Stops.Api do
     item
   end
 
-  defp merge_v3(station_info_stop, v3_stop_response)
-  defp merge_v3(stop, nil), do: stop
-  defp merge_v3(nil, stop) do
+  def merge_v3(station_info_stop, v3_stop_response)
+  def merge_v3(stop, nil), do: stop
+  def merge_v3(nil, stop) do
     %Stop{
       id: v3_id(stop),
       name: v3_name(stop),
@@ -99,7 +99,7 @@ defmodule Stops.Api do
       longitude: stop.attributes["longitude"]
     }
   end
-  defp merge_v3(stop, %JsonApi.Item{attributes: attributes} = item) do
+  def merge_v3(stop, %JsonApi.Item{attributes: attributes} = item) do
     %{stop |
       latitude: attributes["latitude"],
       longitude: attributes["longitude"],
@@ -109,9 +109,14 @@ defmodule Stops.Api do
   end
 
   defp merge_accessibility(accessibility, stop_attributes)
+  defp merge_accessibility(accessibility, %{"wheelchair_boarding" => 0}) do
+    # if GTFS says we don't know what the accessibility situation is, then
+    # add "unknown" as the first attribute
+    ["unknown" | accessibility]
+  end
   defp merge_accessibility(accessibility, %{"wheelchair_boarding" => 1}) do
     # make sure "accessibile" is the first list option
-    Enum.uniq(["accessible" | accessibility])
+    ["accessible" | accessibility]
   end
   defp merge_accessibility(accessibility, _) do
     accessibility
