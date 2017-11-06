@@ -32,15 +32,31 @@ defmodule Site.ContentRewriter do
 
   @spec dispatch_rewrites(Floki.html_tree | binary) :: Floki.html_tree | binary | nil
   defp dispatch_rewrites({"table", _, _} = element) do
-    {name, attrs, children} = ResponsiveTables.rewrite_table(element)
-    {name, attrs, Site.FlokiHelpers.traverse(children, &dispatch_rewrites/1)}
+    element
+    |> ResponsiveTables.rewrite_table()
+    |> rewrite_children()
   end
   defp dispatch_rewrites({"a", _, _} = element) do
-    {name, attrs, children} = Links.add_target_to_redirect(element)
-    {name, attrs, Site.FlokiHelpers.traverse(children, &dispatch_rewrites/1)}
+    element
+    |> Links.add_target_to_redirect()
+    |> rewrite_children()
   end
-  defp dispatch_rewrites({"img", attrs, content}) do
-    {"img", img_attrs(attrs), content}
+  defp dispatch_rewrites({"p", _, [{"iframe", _, _} | _]} = element) do
+    element
+    |> add_class("iframe-container")
+    |> rewrite_children()
+  end
+  defp dispatch_rewrites({"img", _, _} = element) do
+    element
+    |> remove_style_attrs()
+    |> add_class("img-fluid")
+    |> rewrite_children()
+  end
+  defp dispatch_rewrites({"iframe", _, _} = element) do
+    element
+    |> remove_style_attrs()
+    |> set_iframe_class()
+    |> rewrite_children()
   end
   defp dispatch_rewrites(content) when is_binary(content) do
     Regex.replace(~r/\{\{(.*)\}\}/U, content, fn(_, obj) ->
@@ -53,20 +69,39 @@ defmodule Site.ContentRewriter do
     nil
   end
 
-  defp img_attrs(attrs) do
-    attrs
-    |> Enum.filter(&keep_img_attr?/1)
-    |> ensure_img_fluid()
+  defp rewrite_children({name, attrs, children}) do
+    {name, attrs, Site.FlokiHelpers.traverse(children, &dispatch_rewrites/1)}
   end
 
-  defp keep_img_attr?({"height", _}), do: false
-  defp keep_img_attr?({"width", _}), do: false
-  defp keep_img_attr?(_), do: true
-
-  defp ensure_img_fluid(attrs) do
-    case Enum.split_with(attrs, fn {key, _val} -> key == "class" end) do
-      {[], attrs} -> [{"class", "img-fluid"} | attrs]
-      {[{"class", class}], other_attrs} -> [{"class", class <> " img-fluid"} | other_attrs]
+  @spec set_iframe_class(Floki.html_tree) :: Floki.html_tree
+  defp set_iframe_class({_, attrs, _} = element) do
+    new_class = case Enum.find(attrs, fn {key, _} -> key == "src" end) do
+      {"src", "https://www.google.com/maps" <> _} -> [" ", "iframe-full-width"]
+      {"src", "https://livestream.com" <> _} -> [" ", "iframe-full-width"]
+      _ -> []
     end
+    add_class(element, ["iframe", new_class])
+  end
+
+  @spec remove_style_attrs(Floki.html_tree) :: Floki.html_tree
+  defp remove_style_attrs({name, attrs, children}) do
+    {name, Enum.reject(attrs, &remove_attr?(&1, name)), children}
+  end
+
+  @spec remove_attr?({String.t, String.t}, String.t) :: boolean
+  defp remove_attr?({"height", _}, _), do: true
+  defp remove_attr?({"width", _}, _), do: true
+  defp remove_attr?({"style", _}, "iframe"), do: true
+  defp remove_attr?(_, _), do: false
+
+  @spec add_class(Floki.html_tree, iodata) :: Floki.html_tree
+  defp add_class({name, attrs, children}, new_class) do
+    attrs = case Enum.split_with(attrs, &match?({"class", _}, &1)) do
+      {[], others} ->
+        [{"class", new_class} | others]
+      {[{"class", existing_class}], others} ->
+        [{"class", [existing_class, " ", new_class]} | others]
+    end
+    {name, attrs, children}
   end
 end

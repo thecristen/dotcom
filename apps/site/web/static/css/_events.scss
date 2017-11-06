@@ -49,9 +49,13 @@
 }
 
 .event-description-with-sidebar {
-  @include make-col-span(9);
+  @include media-breakpoint-up(md) {
+    @include make-col-span(9);
+  }
 }
 
 .event-sidebar {
-  @include make-col-span(3);
+  @include media-breakpoint-up(md) {
+    @include make-col-span(3);
+  }
 }

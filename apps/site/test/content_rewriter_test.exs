@@ -110,6 +110,23 @@ defmodule Site.ContentRewriterTest do
              |> rewrite() == {:safe, ~s(<img class="existing-class img-fluid" src="/image.png" alt="an image"/>)}
     end
 
+    test "adds iframe classes to iframes and their container elements" do
+      assert ~s(<p><iframe src="https://www.anything.com"></iframe></p>)
+             |> raw()
+             |> rewrite() == {:safe, ~s(<p class="iframe-container"><iframe class="iframe" src="https://www.anything.com"></iframe></p>)}
+    end
+    test "adds iframe-full-width class to google maps and livestream iframes" do
+      assert {:safe, ~s(<p class="iframe-container"><iframe class="iframe iframe-full-width") <> _} =
+        ~s(<p><iframe src="https://livestream.com/anything"></iframe></p>)
+        |> raw()
+        |> rewrite()
+
+      assert {:safe, ~s(<p class="iframe-container"><iframe class="iframe iframe-full-width") <> _} =
+        ~s(<p><iframe src="https://www.google.com/maps/anything"></iframe></p>)
+        |> raw()
+        |> rewrite()
+    end
+
   end
 
   defp remove_whitespace(str), do: String.replace(str, ~r/[ \n]/, "")

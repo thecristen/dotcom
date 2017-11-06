@@ -24,7 +24,7 @@
       <div class="event-hr-row">
         <h2>Event Description</h2>
 
-        <%= @event.body %>
+        <%= Site.ContentRewriter.rewrite(@event.body) %>
       </div>
 
       <%= if agenda = content(@event.agenda) do %>
