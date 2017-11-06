@@ -109,7 +109,11 @@ export function getFriendlyTime(datetime) {
 function updateDate($, newDate) {
   const date = new Date(newDate);
   const month = date.getMonth() + 1;
-  document.getElementById(DATE_TIME_IDS.dateEl.link).textContent = getFriendlyDate(date);
+  const friendlyDate = getFriendlyDate(date);
+  const el = document.getElementById(DATE_TIME_IDS.dateEl.link);
+  const ariaMessage = el.getAttribute("aria-label").split(", ")[3];
+  el.textContent = friendlyDate;
+  el.setAttribute("aria-label", friendlyDate + ", " + ariaMessage);
   updateDateSelect($, "#" + DATE_TIME_IDS.year, date.getFullYear().toString());
   updateDateSelect($, "#" + DATE_TIME_IDS.month, month.toString());
   updateDateSelect($, "#" + DATE_TIME_IDS.day, date.getDate().toString());
@@ -156,9 +160,13 @@ function updateTime() {
   const hour12 = parseInt(document.getElementById(DATE_TIME_IDS.hour).value) % 12
   const amPm = document.getElementById(DATE_TIME_IDS.amPm).value
   const hour = amPm == "PM" ? hour12 + 12 : hour12;
+  const el = document.getElementById(DATE_TIME_IDS.timeEl.link);
+  const ariaMessage = el.getAttribute("aria-label").split(", ")[1];
   time.setHours(hour);
   time.setMinutes(document.getElementById(DATE_TIME_IDS.minute).value);
-  document.getElementById(DATE_TIME_IDS.timeEl.link).textContent = getFriendlyTime(time);
+  const friendlyTime = getFriendlyTime(time);
+  el.textContent = friendlyTime;
+  el.setAttribute("aria-label", friendlyTime + ", " + ariaMessage);
 }
 
 function handleClickOutsideTime(ev) {
