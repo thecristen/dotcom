@@ -1,35 +1,32 @@
 defmodule Site.ScheduleV2Controller.PdfTest do
   use Site.ConnCase, async: true
 
-  test "redirects to PDF for route when present", %{conn: conn} do
-    route_id = "CR-Fitchburg"
-    conn = get(conn, route_pdf_path(conn, :pdf, route_id))
-    [{_date, expected_url} | _] = Routes.Pdf.dated_urls(route_id, conn.assigns.date)
-    assert redirected_to(conn, 302) == static_url(conn, expected_url)
-  end
+  import Site.Router.Helpers, only: [static_url: 2, route_pdf_path: 3]
+  alias Plug.Conn
 
-  test "renders 404 if route doesn't exist", %{conn: conn} do
-    conn = get(conn, route_pdf_path(conn, :pdf, "Nonexistent"))
-    assert html_response(conn, 404)
-  end
+  @date ~D[2018-01-01]
 
-  test "renders 404 if route exists but does not have PDF", %{conn: conn} do
-    # 195 is a secret route - https://en.wikipedia.org/wiki/List_of_MBTA_bus_routes#195
-    route_id = "195"
-    conn = get(conn, route_pdf_path(conn, :pdf, route_id))
-    assert html_response(conn, 404)
-    conn = get(conn, route_pdf_path(conn, :pdf, route_id, date: "2017-01-01"))
-    assert html_response(conn, 404)
-  end
+  describe "pdf/2" do
+    test "redirects to PDF for route when present", %{conn: conn} do
+      expected_path = "/sites/default/files/route_pdfs/route087.pdf"
+      conn = conn
+      |> Conn.assign(:date, @date)
+      |> get(route_pdf_path(conn, :pdf, "87"))
+      assert redirected_to(conn, 302) == static_url(Site.Endpoint, expected_path)
+    end
 
-  test "redirects to a newer URL given a date", %{conn: conn} do
-    route_id = "CR-Lowell"
-    [{first_date, first_url}, {second_date, second_url} | _] = Routes.Pdf.dated_urls(route_id, ~D[2017-01-01])
+    test "renders 404 if we have no pdfs for the route", %{conn: conn} do
+      conn = conn
+      |> Conn.assign(:date, @date)
+      |> get(route_pdf_path(conn, :pdf, "nonexistent"))
+      assert html_response(conn, 404)
+    end
 
-    conn = get(conn, route_pdf_path(conn, :pdf, route_id, date: Date.to_iso8601(first_date)))
-    assert redirected_to(conn, 302) == static_url(conn, first_url)
-
-    conn = get(conn, route_pdf_path(conn, :pdf, route_id, date: Date.to_iso8601(second_date)))
-    assert redirected_to(conn, 302) == static_url(conn, second_url)
+    test "cleanly handles errors from the api", %{conn: conn} do
+      conn = conn
+      |> Conn.assign(:date, @date)
+      |> get(route_pdf_path(conn, :pdf, "error"))
+      assert html_response(conn, 404)
+    end
   end
 end

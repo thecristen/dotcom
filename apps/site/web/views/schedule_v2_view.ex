@@ -98,19 +98,41 @@ defmodule Site.ScheduleV2View do
     |> List.first
   end
 
-  @spec route_pdf_link(Route.t, Date.t) :: Phoenix.HTML.Safe.t
-  def route_pdf_link(%Route{} = route, %Date{} = date) do
+  @spec route_pdf_link([Content.RoutePdf] | nil, Route.t, Date.t) :: Phoenix.HTML.Safe.t
+  def route_pdf_link(route_pdfs, route, today) do
     content_tag :div do
-      for {text, path} <- Routes.Pdf.all_pdfs_for_route(route, date) do
-        text = Enum.map(text, &break_text_at_slash/1)
-        url = static_url(Site.Endpoint, path)
+      for pdf <- route_pdfs || [] do
+        url = static_url(Site.Endpoint, pdf.path)
         content_tag :div, class: "schedules-v2-pdf-link" do
           link(to: url, target: "_blank") do
-            [fa("file-pdf-o"), " View PDF of ", text]
+            [fa("file-pdf-o"), " ", text_for_route_pdf(pdf, route, today)]
           end
         end
       end
     end
+  end
+
+  @spec text_for_route_pdf(Content.RoutePdf.t, Route.t, Date.t) :: iodata
+  defp text_for_route_pdf(pdf, route, today) do
+    cond do
+      Content.RoutePdf.custom?(pdf) ->
+        ["View PDF of ", pdf.link_text_override]
+      Content.RoutePdf.started?(pdf, today) ->
+        ["View PDF of ", pretty_route_name(route), " paper schedule"]
+      true ->
+        ["View PDF of upcoming schedule — effective ", pretty_date(pdf.date_start)]
+    end
+  end
+
+  @spec pretty_route_name(Route.t) :: String.t
+  def pretty_route_name(route) do
+    route_prefix = if route.type == 3, do: "Route ", else: ""
+    route_name = route.name
+    |> String.replace_trailing(" Line", " line")
+    |> String.replace_trailing(" Ferry", " ferry")
+    |> String.replace_trailing(" Trolley", " trolley")
+    |> break_text_at_slash
+    route_prefix <> route_name
   end
 
   @spec direction_select_column_width(nil | boolean, integer) :: String.t

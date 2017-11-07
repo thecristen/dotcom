@@ -184,6 +184,7 @@
     {
       "label": "Bus Schedule",
       "url": "http://localhost:8082/schedules/1/schedule?date=2017-12-15&direction_id=0&trip=&origin=102",
+      "hideSelectors": [".animate"],
       "selectors": ["main"],
       "delay": 100
     },

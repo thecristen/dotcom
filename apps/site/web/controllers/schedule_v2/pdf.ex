@@ -1,12 +1,19 @@
 defmodule Site.ScheduleV2Controller.Pdf do
+  @moduledoc """
+  For getting all the pdfs associated with a route from the CMS.
+  The pdf action redirects to the most up-to-date pdf.
+  """
+
   use Site.Web, :controller
 
-  def pdf(%Plug.Conn{assigns: %{date: date}} = conn, %{"route" => route_id}) do
-    case Routes.Pdf.dated_urls(route_id, date) do
+  plug Site.ScheduleV2Controller.RoutePdfs
+
+  def pdf(%Plug.Conn{assigns: %{route_pdfs: pdfs}} = conn, _params) do
+    case pdfs do
       [] ->
         render_404(conn)
-      [{_date, pdf_url} | _] ->
-        redirect(conn, external: static_url(conn, pdf_url))
-    end
+      [%Content.RoutePdf{path: path} | _] ->
+        redirect(conn, external: static_url(Site.Endpoint, path))
+     end
   end
 end

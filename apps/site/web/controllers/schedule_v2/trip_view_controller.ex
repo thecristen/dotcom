@@ -7,6 +7,7 @@ defmodule Site.ScheduleV2Controller.TripViewController do
 
   plug Site.Plugs.Route
   plug :tab_name
+  plug Site.ScheduleV2Controller.RoutePdfs
   plug Site.ScheduleV2Controller.Core
   plug Site.ScheduleV2Controller.Schedules
   plug Site.ScheduleV2Controller.Journeys
