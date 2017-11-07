@@ -87,7 +87,7 @@ defmodule Site.Mixfile do
      {:util, in_umbrella: true},
      {:polyline, github: "ryan-mahoney/polyline_ex"},
      {:trip_plan, in_umbrella: true},
-     {:sentry, github: "ryan-mahoney/sentry-elixir", tag: "6.0.0"},
+     {:sentry, github: "mbta/sentry-elixir", tag: "6.0.0"},
      {:recon, "~> 2.3.2", only: :prod},
      {:diskusage_logger, github: "mbta/diskusage_logger"}]
       # NOTE: mochiweb override added to resolve dependency conflict
