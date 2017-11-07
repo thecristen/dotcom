@@ -24,7 +24,7 @@ defmodule Site.Mixfile do
     apps = [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :gettext, :stops, :routes, :alerts, :schedules,
             :predictions, :timex, :inflex, :html_sanitize_ex, :logger_logentries_backend, :logster, :sizeable,
             :feedback, :zones, :fares, :content, :holiday, :parallel_stream, :vehicles, :tzdata, :google_maps, :logger,
-            :floki, :polyline, :util, :trip_plan, :sentry]
+            :floki, :polyline, :util, :trip_plan, :sentry, :diskusage_logger]
 
     apps = if Mix.env == :prod do
       [:ehmon, :recon, :sasl | apps]
@@ -88,7 +88,8 @@ defmodule Site.Mixfile do
      {:polyline, github: "ryan-mahoney/polyline_ex"},
      {:trip_plan, in_umbrella: true},
      {:sentry, github: "ryan-mahoney/sentry-elixir", tag: "6.0.0"},
-     {:recon, "~> 2.3.2", only: :prod}]
+     {:recon, "~> 2.3.2", only: :prod},
+     {:diskusage_logger, github: "ryan-mahoney/diskusage_logger"}]
       # NOTE: mochiweb override added to resolve dependency conflict
       # between html_sanitize_ex (2.12.2) and floki (2.15.0). Overriding does not
       # affect the functions we currently use html_sanitize_ex for. This should be
