@@ -11,6 +11,7 @@
     |> Map.merge(%{stop_name: stop_name,
                    stop_id: stop_id,
                    departure_display: stop_departure_display(@itinerary_row),
-                   mode_class: mode_class})
+                   mode_class: mode_class,
+                   expanded: @expanded})
   %>
 </div>

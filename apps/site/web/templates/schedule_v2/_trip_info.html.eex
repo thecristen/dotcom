@@ -20,15 +20,18 @@
         Util.EnumHelpers.pop_off_front_and_back(@trip_info.times, 1)
         # to collapse, we must have more than 2 items in the middle
         collapsed_stops? = match?([_, _ | _], middle)
+        expanded = assigns.expanded == @trip_info.route.name
     %>
     <%= render_trip_info_stops(first, assigns, first?: true) %>
     <%= if collapsed_stops? do %>
       <% bubble_map = %{bubbles: [{@trip_info.route.name, :line}], vehicle_tooltip: nil, intermediate_stop_count: Enum.count(middle)} %>
       <%= view_branch_link(@trip_info.route.name, Map.merge(assigns, bubble_map), "trip-info-stops", @trip_info.route.name) %>
     <% end %>
-    <div class="<%= unless match?([_], middle), do: "collapse" %> stop-list" id="trip-info-stops">
+
+    <div class="<%= unless match?([_], middle), do: "collapse #{if expanded, do: "in", else: ""}" %> stop-list" id="trip-info-stops">
       <%= render_trip_info_stops(middle, assigns) %>
     </div>
+
     <%= render_trip_info_stops(last, assigns, last?: true) %>
   </div>
   <div class="trip-duration">

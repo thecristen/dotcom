@@ -17,7 +17,8 @@ defmodule Site.ScheduleV2View.StopList do
                                Map.merge(assigns,
                                          %{branch_name: branch_name,
                                            branch_display: branch_display,
-                                           target_id: target_id
+                                           target_id: target_id,
+                                           expanded: assigns.expanded == branch_name
                                          }))
   end
 
@@ -26,10 +27,14 @@ defmodule Site.ScheduleV2View.StopList do
   def display_expand_link?([_, _ | _]), do: true
   def display_expand_link?(_), do: false
 
-  @spec step_bubble_attributes([{String.t, StopBubble.Params.t}], String.t) :: Keyword.t
+  @spec step_bubble_attributes([{String.t, StopBubble.Params.t}], String.t, boolean) :: Keyword.t
   @doc "Returns the html attributes to be used when rendering the intermediate steps"
-  def step_bubble_attributes(step_bubble_params, target_id) do
-    if display_expand_link?(step_bubble_params), do: [id: target_id, class: "collapse stop-list"], else: []
+  def step_bubble_attributes(step_bubble_params, target_id, expanded) do
+    case {display_expand_link?(step_bubble_params), expanded} do
+      {true, true} -> [id: target_id, class: "collapse stop-list in"]
+      {true, _} -> [id: target_id, class: "collapse stop-list"]
+      _ -> []
+    end
   end
 
   @doc """
@@ -70,11 +75,12 @@ defmodule Site.ScheduleV2View.StopList do
       direction_id: assigns.direction_id,
       conn: assigns.conn,
       show_checkmark?: false,
-      row_content_template: "_line_page_stop_info.html"
+      row_content_template: "_line_page_stop_info.html",
+      expanded: assigns.expanded
     }
   end
 
-  def merge_rows({{_, %{branch: branch}} = expand_row, expand_idx, collapsible_rows}, assigns) do
+  def merge_rows({{_, %{branch: branch}} = expand_row, expand_idx, collapsible_rows}, %{expanded: expanded} = assigns) do
     collapse_target_id =
       "branch-#{branch}"
       |> String.downcase()
@@ -82,11 +88,12 @@ defmodule Site.ScheduleV2View.StopList do
 
     rendered_expand = render_row(expand_row, assigns)
     rendered_collapse = Enum.map(collapsible_rows, &render_row(&1, assigns))
+    stop_list_class = if expanded == branch, do: "in", else: ""
 
     if match?([_, _ | _], collapsible_rows) && !is_nil(branch) do
       branch_map = expand_row |> row_assigns(assigns) |> Map.put(:intermediate_stop_count, Enum.count(collapsible_rows))
 
-      [content_tag(:div, [id: collapse_target_id, class: "collapse stop-list"], do: rendered_collapse)]
+      [content_tag(:div, [id: collapse_target_id, class: "collapse stop-list #{stop_list_class}"], do: rendered_collapse)]
       |> List.insert_at(expand_idx, rendered_expand)
       |> List.insert_at(assigns.direction_id,
                         view_branch_link(branch, branch_map, collapse_target_id, branch <> " branch"))

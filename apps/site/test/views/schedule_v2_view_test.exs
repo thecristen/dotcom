@@ -163,7 +163,8 @@ defmodule Site.ScheduleV2ViewTest do
         destination: nil,
         direction_id: 0,
         conn: conn,
-        route: route
+        route: route,
+        expanded: nil
       )
       expected = TripInfo.full_status(trip_info) |> IO.iodata_to_binary
       assert safe_to_string(actual) =~ expected
@@ -182,7 +183,8 @@ defmodule Site.ScheduleV2ViewTest do
         destination: destination,
         direction_id: 0,
         route: route,
-        conn: conn
+        conn: conn,
+        expanded: nil
       )
       assert safe_to_string(actual) =~ "/fares/commuter_rail?destination=Fitchburg&amp;origin=place-north"
     end
@@ -200,7 +202,8 @@ defmodule Site.ScheduleV2ViewTest do
         destination: destination,
         direction_id: 0,
         route: route,
-        conn: conn
+        conn: conn,
+        expanded: nil
       )
       assert safe_to_string(actual) =~ "Round trip fare:"
     end
@@ -218,10 +221,33 @@ defmodule Site.ScheduleV2ViewTest do
         destination: destination,
         direction_id: 0,
         route: route,
-        conn: conn
+        conn: conn,
+        expanded: nil
       )
       rendered = safe_to_string(actual)
       refute rendered =~ "fare"
+    end
+
+    test "a branch is expanded if the expanded param is the branch name", %{conn: conn} do
+      origin = %Stop{id: "place-south"}
+      destination = %Stop{id: "Foxboro"}
+      route = %Routes.Route{type: 2, name: "Franklin Line"}
+      trip_info = %TripInfo{route: route, base_fare: nil}
+
+      actual = Site.ScheduleV2View.render(
+        "_trip_info.html",
+        trip_info: trip_info,
+        origin: origin,
+        destination: destination,
+        direction_id: 0,
+        route: route,
+        conn: conn,
+        expanded: "Franklin Line"
+      )
+      rendered = safe_to_string(actual)
+      trip_info = Floki.find(rendered, "#trip-info-stops")
+
+      assert Floki.attribute(trip_info, "class") == ["collapse in stop-list"]
     end
   end
 

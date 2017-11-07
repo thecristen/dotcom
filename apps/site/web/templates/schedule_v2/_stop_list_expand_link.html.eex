@@ -1,4 +1,4 @@
-<div class="route-branch-stop">
+<div class="route-branch-stop<%= if @expanded, do: " expanded", else: "" %>">
   <% intermediate_stop_count = Map.get(assigns, :intermediate_stop_count, 0)%>
   <%=
     stop_branch = assigns[:stop] && @stop.branch
@@ -8,20 +8,21 @@
     |> Site.PartialView.StopBubbles.render_stop_bubbles(true, stop_branch)
   %>
   <div class="route-branch-stop-info expand">
-    <div class="expand-branch-link">
-      <button class="toggle-stop-list btn-link"
-              data-toggle="collapse"
-              data-target="#<%= @target_id %>"
-              data-target-branch="<%= @branch_name %>">
-              <span class="expand-link-stop-text">
-                <span class="expand-branch-stop-count">
-                  <%= intermediate_stop_count %>
-                  <%= Inflex.inflect("stop", intermediate_stop_count) %></span>
-                on the
-                <%= @branch_display %>
-              </span>
-          <span class="expand-branch-link-icon"><%= fa("plus-circle") %></span>
-      </button>
-    </div>
+    <%= link to: update_url(assigns.conn, expanded: (if @expanded, do: nil, else: @branch_name)),
+             class: "toggle-stop-list btn btn-link",
+             data: [toggle: "collapse", target: "##{@target_id}", target_branch: @branch_name] do %>
+
+      <span class="expand-link-stop-text">
+        <span class="expand-branch-stop-count">
+          <%= intermediate_stop_count %>
+          <%= Inflex.inflect("stop", intermediate_stop_count) %></span>
+        on the
+        <%= @branch_display %>
+      </span>
+
+      <span class="expand-branch-link-icon">
+        <%= if @expanded, do: fa("plus-circle", class: "fa-minus-circle"), else: fa("plus-circle") %>
+      </span>
+    <% end %>
   </div>
 </div>

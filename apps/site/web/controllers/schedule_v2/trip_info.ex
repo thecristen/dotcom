@@ -31,7 +31,11 @@ defmodule Site.ScheduleV2Controller.TripInfo do
       nil ->
         assign(conn, :trip_info, nil)
       selected_trip_id ->
-        handle_trip(conn, selected_trip_id, opts)
+        expanded = conn.query_params["expanded"]
+
+        conn
+        |> assign(:expanded, expanded)
+        |> handle_trip(selected_trip_id, opts)
     end
   end
 

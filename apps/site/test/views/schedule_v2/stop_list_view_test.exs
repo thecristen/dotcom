@@ -200,7 +200,8 @@ defmodule Site.StopListViewTest do
         conn: "conn",
         branch_names: ["Green-E"],
         vehicle_tooltip: %VehicleTooltip{vehicle: %Vehicles.Vehicle{route_id: "Green"}},
-        row_content_template: "_line_page_stop_info.html"
+        row_content_template: "_line_page_stop_info.html",
+        expanded: nil
       }
 
       assert [expand_link] = stop_bubble_row_params(assigns)
@@ -216,6 +217,8 @@ defmodule Site.StopListViewTest do
         branch_display: "Green-E branch",
         route: %Route{id: "Green-E"},
         vehicle_tooltip: nil,
+        expanded: nil,
+        conn: %{query_params: %{}, request_path: ""}
       }
 
       rendered = "_stop_list_expand_link.html" |> Site.ScheduleV2View.render(assigns) |> safe_to_string()
@@ -231,10 +234,30 @@ defmodule Site.StopListViewTest do
         branch_display: "Braintree branch",
         route: %Route{id: "Red"},
         vehicle_tooltip: nil,
+        expanded: nil,
+        conn: %{query_params: %{}, request_path: ""}
       }
 
       rendered = "_stop_list_expand_link.html" |> Site.ScheduleV2View.render(assigns) |> safe_to_string()
       assert rendered =~ "Braintree branch"
+    end
+
+    test "Expand link starts as expanded when the expanded is true" do
+      assigns = %{
+        bubbles: [{"Braintree", :line}],
+        target_id: "target-id",
+        intermediate_stop_count: 9,
+        branch_name: "Braintree",
+        branch_display: "Braintree branch",
+        route: %Route{id: "Red"},
+        vehicle_tooltip: nil,
+        expanded: true,
+        conn: %{query_params: %{}, request_path: ""}
+      }
+      rendered = "_stop_list_expand_link.html" |> Site.ScheduleV2View.render(assigns) |> safe_to_string()
+      branch_stop = Floki.find(rendered, ".route-branch-stop")
+
+      assert Floki.attribute(branch_stop, "class") == ["route-branch-stop expanded"]
     end
   end
 
@@ -278,7 +301,8 @@ defmodule Site.StopListViewTest do
       all_stops: @trunk ++ @braintree ++ @ashmont,
       route: %Route{id: "Red", name: "Red Line", type: 1},
       direction_id: 0,
-      vehicle_tooltips: %{}
+      vehicle_tooltips: %{},
+      expanded: nil
     }
 
     test "splits the stops up into groups based on the branch" do
@@ -363,6 +387,7 @@ defmodule Site.StopListViewTest do
         separate_collapsible_rows(braintree, 0)
 
       assigns = %{@assigns | all_stops: all_stops}
+      conn = %{conn | query_params: %{}}
 
       html =
         separated_rows
@@ -467,14 +492,18 @@ defmodule Site.StopListViewTest do
     end
   end
 
-  describe "step_bubble_attributes/2" do
+  describe "step_bubble_attributes/3" do
     test "returns id and class when there is more than one intermediate step" do
-      assert step_bubble_attributes(["Step 1", "Step 2"], "target") == [id: "target", class: "collapse stop-list"]
+      assert step_bubble_attributes(["Step 1", "Step 2"], "target", false) == [id: "target", class: "collapse stop-list"]
     end
 
     test "returns empty when there is one or less intermediate steps" do
-      assert step_bubble_attributes([], "target") == []
-      assert step_bubble_attributes(["Step 1"], "target") == []
+      assert step_bubble_attributes([], "target", false) == []
+      assert step_bubble_attributes(["Step 1"], "target", false) == []
+    end
+
+    test "returns an expanded list when expanded is true" do
+      assert step_bubble_attributes(["Step 1", "Step 2"], "target", true) == [id: "target", class: "collapse stop-list in"]
     end
   end
 end

@@ -50,7 +50,7 @@
     <div>
       <div>
         <%= for {row, idx} <- Enum.with_index(@itinerary_row_list) do
-          render "_itinerary_row.html", itinerary_row: row, alerts: Alerts.Stop.match(@alerts, elem(row.stop, 1)), conn: @conn, row_idx: idx, itinerary_idx: @index
+          render "_itinerary_row.html", itinerary_row: row, alerts: Alerts.Stop.match(@alerts, elem(row.stop, 1)), conn: @conn, row_idx: idx, itinerary_idx: @index, expanded: @expanded
         end %>
         <div class="route-branch-stop-list route-branch-stop personal-itinerary">
           <%= Site.PartialView.StopBubbles.render_stop_bubbles([%Site.StopBubble.Params{render_type: :terminus, class: "terminus", show_line?: false, show_checkmark?: true}]) %>

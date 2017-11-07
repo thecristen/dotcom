@@ -5,6 +5,7 @@
 
 <div class="itinerary-row-container <%= @mode_class %>">
   <%=
+    route_name = ItineraryRow.route_name(@itinerary_row)
     render "_itinerary_transfer_stop.html",
       Map.merge(assigns, %{mode: @mode_class,
       bubble_params: transfer_bubbles})
@@ -14,7 +15,6 @@
       route: @itinerary_row.route,
       vehicle_tooltip: nil,
       intermediate_stop_count: Enum.count(step_bubble_params)}
-    route_name = ItineraryRow.route_name(@itinerary_row)
     Site.ScheduleV2View.StopList.view_branch_link(
         route_name,
         Map.merge(assigns, bubble_map),
@@ -22,7 +22,7 @@
         route_name)
   end %>
   <%=
-    content_tag :div, Site.ScheduleV2View.StopList.step_bubble_attributes(step_bubble_params, collapse_target_id) do
+    content_tag :div, Site.ScheduleV2View.StopList.step_bubble_attributes(step_bubble_params, collapse_target_id, route_name == @expanded) do
       render_steps(step_bubble_params, @mode_class)
     end
   %>

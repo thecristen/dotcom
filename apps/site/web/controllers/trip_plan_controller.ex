@@ -16,6 +16,7 @@ defmodule Site.TripPlanController do
       {:ok, date} ->
         conn
         |> assign(:errors, [])
+        |> assign(:expanded, conn.query_params["expanded"])
         |> render_plan(%{plan | "date_time" => future_date_or_now(date, conn.assigns.date_time)})
       {_, errors} ->
         conn

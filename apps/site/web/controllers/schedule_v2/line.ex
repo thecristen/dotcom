@@ -25,13 +25,14 @@ defmodule Site.ScheduleV2Controller.Line do
 
   @impl true
   def call(%Plug.Conn{assigns: %{route: %Route{} = route, direction_id: direction_id}} = conn, args) do
-    variant = conn.query_params["variant"]
     deps = Keyword.get(args, :deps, %Dependencies{})
-    update_conn(conn, route, direction_id, variant, deps)
+    update_conn(conn, route, direction_id, deps)
   end
 
-  @spec update_conn(Plug.Conn.t, Route.t, direction_id, query_param, Dependencies.t) :: Plug.Conn.t
-  defp update_conn(conn, route, direction_id, variant, deps) do
+  @spec update_conn(Plug.Conn.t, Route.t, direction_id, Dependencies.t) :: Plug.Conn.t
+  defp update_conn(conn, route, direction_id, deps) do
+    variant = conn.query_params["variant"]
+    expanded = conn.query_params["expanded"]
     route_shapes = get_route_shapes(route.id, direction_id)
     route_stops = get_route_stops(route.id, direction_id, deps.stops_by_route_fn)
     vehicles = conn.assigns[:vehicle_locations]
@@ -51,6 +52,7 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:active_shape, active_shape(active_shapes, route.type))
     |> assign(:map_img_src, map_img_src)
     |> assign(:dynamic_map_data, dynamic_map_data)
+    |> assign(:expanded, expanded)
   end
 
   @spec active_shape(shapes :: [Shape.t], route_type :: 0..4) :: Shape.t | nil

@@ -111,6 +111,7 @@
             alerts: alerts,
             links: links,
             itinerary_row_list: itinerary_row_list,
+            expanded: @expanded,
             conn: @conn
           end %>
       <% %{itineraries: {:error, e}} when e != :prereq -> %>
