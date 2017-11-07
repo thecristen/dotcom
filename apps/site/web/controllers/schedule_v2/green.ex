@@ -25,6 +25,7 @@ defmodule Site.ScheduleV2Controller.Green do
   plug Site.ScheduleV2Controller.TripInfo
   plug Site.ScheduleV2Controller.RouteBreadcrumbs
   plug :require_map
+  plug :route_pdfs
 
   @task_timeout 10_000
 
@@ -212,4 +213,9 @@ defmodule Site.ScheduleV2Controller.Green do
   defp validate_direction(conn, _), do: conn
 
   defp require_map(conn, _), do: assign(conn, :requires_google_maps?, true)
+
+  defp route_pdfs(%{assigns: %{date: date}} = conn, _) do
+    pdfs = Site.RoutePdfs.fetch_and_choose_pdfs("Green", date)
+    assign(conn, :route_pdfs, pdfs)
+  end
 end
