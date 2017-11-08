@@ -9,15 +9,7 @@
   <% end %>
   <div class="row">
     <div class="col-xs-12">
-      <div aria-hidden="true" class="realtime realtime-key">
-        <%=
-          content_tag(:span, [
-            svg("icon-live-clock.svg"),
-            content_tag(:span, "live", class: "icon-realtime-text")
-          ], class: "icon-realtime animate")
-        %>
-        <span>indicates real-time information</span>
-      </div>
+      <%= Site.Components.Icons.Realtime.realtime_icon_key %>
     </div>
   </div>
 <% end %>

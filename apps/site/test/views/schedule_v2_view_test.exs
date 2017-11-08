@@ -455,7 +455,7 @@ defmodule Site.ScheduleV2ViewTest do
   describe "route_pdf_link/3" do
     test "returns an empty list if no PDF for that route" do
       rendered = safe_to_string(route_pdf_link([], %Routes.Route{}, ~D[2018-01-01]))
-      assert rendered =~ "<div></div>"
+      assert {"div", _, []} = Floki.parse(rendered)
     end
 
     test "shows all PDFs for the route" do

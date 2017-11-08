@@ -1,6 +1,6 @@
 defmodule PredictedSchedule.Display do
   import Phoenix.HTML.Tag, only: [tag: 1, content_tag: 2, content_tag: 3]
-  import Site.ViewHelpers, only: [svg: 1, format_schedule_time: 1]
+  import Site.ViewHelpers, only: [format_schedule_time: 1]
   alias Schedules.Schedule
   alias Predictions.Prediction
 
@@ -129,12 +129,9 @@ defmodule PredictedSchedule.Display do
 
   defp do_realtime(content) do
     content_tag(:div, [
-      content_tag(:div, content, class: "realtime-content"),
-      content_tag(:div, [
-        svg("icon-live-clock.svg"),
-        content_tag(:div, "live", class: "icon-realtime-text")
-      ], class: "icon-realtime animate")
-    ], class: "realtime")
+      content_tag(:div, content, class: "trip-list-v2-realtime-content"),
+      Site.Components.Icons.Realtime.realtime_icon
+    ], class: "trip-list-v2-realtime")
   end
 
   defp do_route_headsign(%Routes.Route{id: "Green-B"}, 0) do

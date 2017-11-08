@@ -37,7 +37,6 @@
       "url": "http://localhost:8082/?date=2017-12-15",
       "hideSelectors": [],
       "removeSelectors": [
-        ".index-news-group",
         ".whats-happening-section",
         ".news-section",
         ".title-card",
@@ -84,14 +83,14 @@
       "label": "404 Page",
       "url": "http://localhost:8082/not-found",
       "selectors": ["main"],
-      "hideSelectors": [".error-card img"],
+      "hideSelectors": [".error-card-image"],
       "delay": 100
     },
     {
       "label": "Redirect Page",
       "url": "http://localhost:8082/redirect",
       "selectors": ["main"],
-      "hideSelectors": [".error-card img"],
+      "hideSelectors": [".error-card-image"],
       "delay": 100
     },
     {
@@ -185,18 +184,21 @@
       "label": "Bus Schedule",
       "url": "http://localhost:8082/schedules/1/schedule?date=2017-12-15&direction_id=0&trip=&origin=102",
       "hideSelectors": [".animate"],
+      "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
       "delay": 100
     },
     {
       "label": "Subway Schedule",
       "url": "http://localhost:8082/schedules/Red/schedule?date=2017-12-15&direction_id=1&origin=place-sstat&trip=",
+      "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
       "delay": 100
     },
     {
       "label": "Commuter Rail Schedule",
       "url": "http://localhost:8082/schedules/CR-Providence/timetable?date=2017-12-15&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
+      "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
       "delay": 100
     },
@@ -241,6 +243,7 @@
       "url": "http://localhost:8082/schedules/CR-Worcester/line?direction_id=0&date=2017-12-15&date_time=2017-12-15T13:00:00-05:00",
       "selectors": ["main"],
       "hideSelectors": [".map"],
+      "removeSelectors": [".pdf-links"],
       "delay": 100,
       "misMatchThreshold": 0.1
     },

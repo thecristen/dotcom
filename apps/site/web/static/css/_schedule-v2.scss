@@ -134,7 +134,7 @@
 
 }
 
-.realtime-key {
+.trip-list-v2-realtime-key {
   border-bottom-width: 0;
   border-left-width: 0;
   border-right-width: 0;
@@ -164,7 +164,7 @@ a {
     @include button-selected-color;
 
     .icon,
-    .realtime {
+    .trip-list-v2-realtime {
       @include icon-inverse;
     }
 
@@ -189,7 +189,7 @@ a {
     border-color: $brand-primary;
 
     .icon,
-    .realtime {
+    .trip-list-v2-realtime {
       @include icon-inverse;
     }
 
@@ -261,8 +261,13 @@ a {
 }
 
 .trip-list-v2-realtime {
-  border: 0;
-  border-top: $border;
+  @include media-breakpoint-up(md) {
+    @include no-wrap();
+  }
+}
+
+.trip-list-v2-realtime-content {
+  line-height: $base-spacing;
 }
 
 .commuter-status {
@@ -286,7 +291,7 @@ a {
 }
 
 // we use the del tag to indicate a cancels trip time, but sometimes it has children that also need the same style
-del .realtime {
+del .trip-list-v2-realtime {
   text-decoration: line-through;
 }
 

@@ -100,7 +100,7 @@ defmodule Site.ScheduleV2View do
 
   @spec route_pdf_link([Content.RoutePdf] | nil, Route.t, Date.t) :: Phoenix.HTML.Safe.t
   def route_pdf_link(route_pdfs, route, today) do
-    content_tag :div do
+    content_tag :div, class: "pdf-links" do
       for pdf <- route_pdfs || [] do
         url = static_url(Site.Endpoint, pdf.path)
         content_tag :div, class: "schedules-v2-pdf-link" do
