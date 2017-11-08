@@ -89,7 +89,7 @@ defmodule Site.Mixfile do
      {:trip_plan, in_umbrella: true},
      {:sentry, github: "mbta/sentry-elixir", tag: "6.0.0"},
      {:recon, "~> 2.3.2", only: :prod},
-     {:diskusage_logger, github: "mbta/diskusage_logger", tag: "1.0.0"}]
+     {:diskusage_logger, "~> 0.2.0"}]
       # NOTE: mochiweb override added to resolve dependency conflict
       # between html_sanitize_ex (2.12.2) and floki (2.15.0). Overriding does not
       # affect the functions we currently use html_sanitize_ex for. This should be
