@@ -7,18 +7,14 @@
 
 <div class="pagination">
   <%= if previous_page_available?(@page) do %>
-    <div class="button">
-      <%= link to: news_entry_path(@conn, :index, page: @page - 1), data: [turbolinks: false] do %>
-        <i class="fa fa-caret-left"></i><span class="label">Previous</span>
-      <% end %>
-    </div>
+    <%= link to: news_entry_path(@conn, :index, page: @page - 1), class: "button", data: [turbolinks: false] do %>
+      <i class="fa fa-caret-left"></i><span class="label">Previous</span>
+    <% end %>
   <% end %>
 
   <%= if next_page_available?(@upcoming_news_entries) do %>
-    <div class="button">
-      <%= link to: news_entry_path(@conn, :index, page: @page + 1), data: [turbolinks: false] do %>
-        <span class="label">Next</span><i class="fa fa-caret-right"></i>
-      <% end %>
-    </div>
+    <%= link to: news_entry_path(@conn, :index, page: @page + 1), class: "button", data: [turbolinks: false] do %>
+      <span class="label">Next</span><i class="fa fa-caret-right"></i>
+    <% end %>
   <% end %>
 </div>

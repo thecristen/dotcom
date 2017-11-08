@@ -13,6 +13,15 @@
   }
 }
 
+.pagination-list {
+  border-collapse: separate;
+  border-spacing: $space-6 0;
+  display: inline;
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+
 .pagination-box {
   background-color: $gray-bordered-background;
   overflow: hidden;
@@ -20,28 +29,10 @@
   position: relative;
   text-align: center;
 
-  li {
-    display: table-cell;
-    line-height: $pagination-line-height;
-    vertical-align: bottom;
-  }
-
-  ul {
-    border-collapse: separate;
-    border-spacing: $space-6 0;
-    display: inline;
-    list-style: none;
-    margin: 0;
-    padding-left: 0;
-  }
-
   .active {
     background-color: $brand-primary;
     border-color: $brand-primary;
-
-    a {
-      color: $white;
-    }
+    color: $white;
   }
 }
 
@@ -51,6 +42,9 @@
   margin: 0 $space-4;
   min-width: 2rem;
   padding: $space-6;
+  display: table-cell;
+  line-height: $pagination-line-height;
+  vertical-align: bottom;
 
   &:last-child {
     margin-right: 0;
@@ -76,4 +70,7 @@
 .pagination-collapsed {
   margin: 0;
   padding: 0;
+  display: table-cell;
+  line-height: $pagination-line-height;
+  vertical-align: bottom;
 }
