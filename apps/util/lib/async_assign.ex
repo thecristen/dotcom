@@ -68,4 +68,3 @@ defmodule Util.AsyncAssign do
     end
   end
 end
-
