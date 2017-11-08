@@ -29,9 +29,11 @@ function initMap($) {
   window.removeEventListener("resize", reevaluateMapBounds);
   $(document).off("show.bs.collapse", createToggledMap);
 
-    // Clean up and leave if there is no map data available
+  // Clean up
+  resetGlobals();
+
+  // Leave if there is no map data available
   if (!mapDataElements || mapDataElements.length == 0) {
-    resetGlobals();
     return;
   }
 
