@@ -265,16 +265,6 @@ a {
   @include icon-inverse;
 }
 
-.realtime {
-  @include media-breakpoint-up(md) {
-    @include no-wrap();
-  }
-}
-
-.realtime-content {
-  line-height: $base-spacing;
-}
-
 .icon-realtime {
   @include no-wrap(inline);
 
