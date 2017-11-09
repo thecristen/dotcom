@@ -36,6 +36,22 @@ defmodule Stops.Stop do
     def latitude(stop), do: stop.latitude
     def longitude(stop), do: stop.longitude
   end
+
+  @doc """
+  Returns a boolean indicating whether we know the accessibility status of the stop.
+  """
+  @spec accessibility_known?(t) :: boolean
+  def accessibility_known?(%__MODULE__{accessibility: ["unknown" | _]}), do: false
+  def accessibility_known?(%__MODULE__{}), do: true
+
+  @doc """
+  Returns a boolean indicating whether we consider the stop accessible.
+
+  A stop can have accessibility features but not be considered accessible.
+  """
+  @spec accessible?(t) :: boolean
+  def accessible?(%__MODULE__{accessibility: ["accessible" | _]}), do: true
+  def accessible?(%__MODULE__{}), do: false
 end
 
 defmodule Stops.Stop.ParkingLot do

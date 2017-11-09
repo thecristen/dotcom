@@ -26,32 +26,57 @@ defmodule Site.StopViewTest do
 
   describe "accessibility_info" do
     @no_accessible_feature %Stop{id: "north", name: "test", accessibility: []}
+    @no_accessible_with_feature %Stop{name: "name", accessibility: ["mini_high"]}
     @only_accessible_feature %Stop{name: "test", accessibility: ["accessible"]}
     @many_feature %Stop{name: "test", accessibility: ["accessible", "ramp", "elevator"]}
+    @unknown_accessibly  %Stop{id: "44", name: "44", accessibility: ["unknown"]}
 
-    test "Accessibility description reflects features", %{conn: conn} do
-      tag_has_text = fn(tag, text) -> Phoenix.HTML.safe_to_string(Enum.at(tag, 0)) =~ text end
-      assert tag_has_text.(accessibility_info(@no_accessible_feature, conn), "is not an accessible station")
-      assert tag_has_text.(accessibility_info(@only_accessible_feature, conn), "is an accessible station")
-      assert tag_has_text.(accessibility_info(@many_feature, conn), "has the following")
+    test "Accessibility description reflects features" do
+      has_text? accessibility_info(@unknown_accessibly), "No accessibility information is available for "
+      has_text? accessibility_info(@no_accessible_feature), "is not an accessible station"
+      has_text? accessibility_info(@no_accessible_with_feature), "is not an accessible station"
+      has_text? accessibility_info(@only_accessible_feature), "is an accessible station"
+      has_text? accessibility_info(@many_feature), "has the following"
     end
 
-    test "Contact link only appears for stops with accessibility", %{conn: conn} do
-      link_tag_has_text = fn(tag, text) -> Phoenix.HTML.safe_to_string(Enum.at(tag, 2)) =~ text end
-      assert link_tag_has_text.(accessibility_info(@many_feature, conn), "Problem with an elevator")
-      assert Enum.at(accessibility_info(@no_accessible_feature, conn), 2) == ""
+    test "Contact link only appears for stops with accessibility features" do
+      text = "Problem with an elevator"
+      has_text? accessibility_info(@many_feature), text
+      has_text? accessibility_info(@no_accessible_with_feature), text
+      no_text? accessibility_info(@only_accessible_feature), text
+      no_text? accessibility_info(@no_accessible_feature), text
+      no_text? accessibility_info(@unknown_accessibly), text
+    end
+
+    defp has_text?(unsafe, text) do
+      safe = unsafe
+      |> Phoenix.HTML.html_escape
+      |> Phoenix.HTML.safe_to_string
+      assert safe =~ text
+    end
+
+    defp no_text?(unsafe, text) do
+      safe = unsafe
+      |> Phoenix.HTML.html_escape
+      |> Phoenix.HTML.safe_to_string
+      refute safe =~ text
     end
   end
 
   describe "pretty_accessibility/1" do
     test "formats phone and escalator fields" do
-      assert pretty_accessibility("tty_phone") == "TTY Phone"
-      assert pretty_accessibility("escalator_both") == "Escalator (Up and Down)"
+      assert pretty_accessibility("tty_phone") == ["TTY Phone"]
+      assert pretty_accessibility("escalator_both") == ["Escalator (Up and Down)"]
     end
 
     test "For all other fields, separates underscore and capitalizes all words" do
-      assert pretty_accessibility("elevator_issues") == "Elevator Issues"
-      assert pretty_accessibility("down_escalator_repair_work") == "Down Escalator Repair Work"
+      assert pretty_accessibility("elevator_issues") == ["Elevator Issues"]
+      assert pretty_accessibility("down_escalator_repair_work") == ["Down Escalator Repair Work"]
+    end
+
+    test "ignores unknown and accessible features" do
+      assert pretty_accessibility("unknown") == []
+      assert pretty_accessibility("accessible") == []
     end
   end
 

@@ -34,7 +34,7 @@ defmodule Stops.StationInfo.CsvTest do
           accessibility
       end
       assert Enum.sort(Enum.uniq(accessibilities)) == [
-        "accessible", "elevator",
+        "elevator",
         "escalator_both", "escalator_down", "escalator_up",
         "mini_high", "mobile_lift", "ramp", "tty_phone"
       ]

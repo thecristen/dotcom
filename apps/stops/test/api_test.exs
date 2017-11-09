@@ -1,16 +1,15 @@
 defmodule Stops.ApiTest do
   use ExUnit.Case
-
+  import Stops.Api
   alias Stops.Stop
 
   test "all returns more than 25 items" do
-    all = Stops.Api.all
-    assert length(all) > 25
-    assert all == Enum.uniq(all)
+    assert length(all()) > 25
+    assert all() == Enum.uniq(all())
   end
 
   test "by_gtfs_id uses the gtfs parameter" do
-    stop = Stops.Api.by_gtfs_id("Anderson/ Woburn")
+    stop = by_gtfs_id("Anderson/ Woburn")
 
     assert stop.id == "Anderson/ Woburn"
     assert stop.name == "Anderson/Woburn"
@@ -26,16 +25,16 @@ defmodule Stops.ApiTest do
   end
 
   test "by_gtfs_id can use the GTFS accessibility data" do
-    stop = Stops.Api.by_gtfs_id("Yawkey")
+    stop = by_gtfs_id("Yawkey")
     assert ["accessible" | _] = stop.accessibility
   end
 
   test "by_gtfs_id returns nil if stop is not found" do
-    assert Stops.Api.by_gtfs_id("-1") == nil
+    assert by_gtfs_id("-1") == nil
   end
 
   test "by_gtfs_id returns a stop even if the stop is not a station" do
-    stop = Stops.Api.by_gtfs_id("411")
+    stop = by_gtfs_id("411")
 
     assert stop.id == "411"
     assert stop.name == "Warren St @ Brunswick St"
@@ -57,6 +56,26 @@ defmodule Stops.ApiTest do
       Plug.Conn.resp(conn, 200, "")
     end
 
-    assert {:error, _} = Stops.Api.by_route({"1", 0, []})
+    assert {:error, _} = by_route({"1", 0, []})
+  end
+
+  describe "merge_v3/2" do
+    test "wheelchair_boarding == 0: not known, not accessible" do
+      merged = merge_v3(%Stop{}, %JsonApi.Item{attributes: %{"wheelchair_boarding" => 0}})
+      refute Stop.accessibility_known?(merged)
+      refute Stop.accessible?(merged)
+    end
+
+    test "wheelchair_boarding == 1: known and accessible" do
+      merged = merge_v3(%Stop{}, %JsonApi.Item{attributes: %{"wheelchair_boarding" => 1}})
+      assert Stop.accessibility_known?(merged)
+      assert Stop.accessible?(merged)
+    end
+
+    test "wheelchair_boarding == 2: known but not accessible" do
+      merged = merge_v3(%Stop{}, %JsonApi.Item{attributes: %{"wheelchair_boarding" => 2}})
+      assert Stop.accessibility_known?(merged)
+      refute Stop.accessible?(merged)
+    end
   end
 end
