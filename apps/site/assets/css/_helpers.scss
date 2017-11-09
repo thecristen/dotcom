@@ -55,6 +55,10 @@
   padding-top: $base-spacing-sm;
 }
 
+.callout-full-height {
+  margin: 0;
+}
+
 .has-element-overlay:hover .element-overlay {
   display: block;
 }

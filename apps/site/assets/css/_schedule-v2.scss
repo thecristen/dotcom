@@ -50,6 +50,7 @@
     .alert-modal-container,
     .date-filter,
     .direction-filter,
+    .schedule-v2-route-note,
     .line-map-container,
     .route-hours,
     .route-map-heading,
@@ -437,7 +438,8 @@ del .trip-list-v2-realtime {
 
 .date-filter,
 .direction-filter,
-.shape-filter {
+.shape-filter,
+.schedule-v2-route-note {
   // fixes issue on iOS9, see: http://stackoverflow.com/questions/7892863/jquery-click-not-working-with-ipad
   cursor: pointer;
   display: flex;
@@ -455,6 +457,11 @@ del .trip-list-v2-realtime {
   .select-cover {
     display: none;
   }
+}
+
+.schedule-v2-route-note > * {
+  // flex the element inside the note
+  flex: 1;
 }
 
 .filter-button {
