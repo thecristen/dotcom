@@ -12,7 +12,7 @@
             <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charliecard-with-model.jpg") %>" alt="Charlie Card" />
           </figure>
           <p>
-            <%= link to: fare_path(@conn, :show, :charlie_card) do %>
+            <%= link to: fare_path(@conn, :show, "charliecard") do %>
               Pick up your CharlieCard today, free of charge <%= fa "arrow-right" %>
             <% end %>
           </p>

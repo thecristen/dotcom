@@ -10,7 +10,6 @@ defmodule Site.FareController do
   }
 
   @static_page_titles %{
-    "charlie-card" => "The CharlieCard",
     "payment-methods" => "Payment Methods"
   }
   @static_pages Map.keys(@static_page_titles)

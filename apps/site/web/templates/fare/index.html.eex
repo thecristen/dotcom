@@ -111,7 +111,7 @@
           <%= link "Order Monthly Passes", to: "https://commerce.mbta.com/", class: "btn btn-block mode-group-btn", target: "_blank" %>
         </div>
       </div>
-      <p><%= link to: fare_path(@conn, :show, "charlie-card") do %>
+      <p><%= link to: fare_path(@conn, :show, "charliecard") do %>
         Learn more about CharlieCards <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %></p>
     </div>
