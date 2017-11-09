@@ -128,7 +128,7 @@ defmodule Schedules.ParserTest do
       }
     end
 
-    test "interprets a trip with no attributes as nil" do
+    test "interprets a trip with relationships with no attributes as nil" do
       api_item = %JsonApi.Item{
         attributes: %{
           "arrival_time" => nil,
@@ -166,6 +166,43 @@ defmodule Schedules.ParserTest do
               type: "trip"
             }
           ]
+        },
+        type: "prediction"
+      }
+      assert Schedules.Parser.trip(api_item) == nil
+    end
+
+    test "interprets a trip with relationships of an empty list as nil" do
+      api_item = %JsonApi.Item{
+        attributes: %{
+          "arrival_time" => nil,
+          "departure_time" => nil,
+          "direction_id" => 0,
+          "schedule_relationship" => "UNSCHEDULED",
+          "status" => "1 stop away",
+          "stop_sequence" => nil,
+          "track" => nil
+        },
+        id: "prediction-3690-3864-place-pktrm-",
+        relationships: %{
+          "route" => [
+            %JsonApi.Item{
+              attributes: nil,
+              id: "Green-B",
+              relationships: nil,
+              type: "route"
+            }
+          ],
+          "schedule" => [],
+          "stop" => [
+            %JsonApi.Item{
+              attributes: nil,
+              id: "place-pktrm",
+              relationships: nil,
+              type: "stop"
+            }
+          ],
+          "trip" => []
         },
         type: "prediction"
       }
