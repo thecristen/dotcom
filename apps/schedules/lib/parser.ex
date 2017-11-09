@@ -42,7 +42,7 @@ defmodule Schedules.Parser do
   end
   def trip(%JsonApi.Item{
         relationships: %{
-          "trip" => []}}) do
+          "trip" => [%JsonApi.Item{attributes: nil}]}}) do
     nil
   end
   def trip(%JsonApi{
