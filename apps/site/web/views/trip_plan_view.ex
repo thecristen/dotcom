@@ -287,4 +287,20 @@ defmodule Site.TripPlanView do
       select(:date_time, :am_pm, ["AM": "AM", "PM": "PM"], selected: Timex.format!(datetime, "{AM}"), name: "plan[date_time][am_pm]", id: "plan_date_time_am_pm")
     ], class: "plan-time-select hidden-js", id: "plan-time-select")
   end
+
+  @spec filter_alerts_for_stop_and_route([Alerts.Alert.t], ItineraryRow.t) :: [Alerts.Alert.t]
+  def filter_alerts_for_stop_and_route(alerts, row) do
+    if row.transit? do
+      informed_entity = %Alerts.InformedEntity{
+        route: row.route && row.route.id,
+        route_type: row.route && row.route.type,
+        stop: elem(row.stop, 1),
+        trip: row.trip && row.trip.id,
+        direction_id: row.trip && row.trip.direction_id,
+      }
+      Alerts.Match.match(alerts, informed_entity, row.departure)
+    else
+      []
+    end
+  end
 end

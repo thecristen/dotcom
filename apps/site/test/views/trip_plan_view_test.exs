@@ -318,4 +318,86 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert [{"input", _, _}] = Floki.find(html, ~s(input#plan-date-input[type="text"]))
     end
   end
+
+  describe "filter_alerts_for_stop_and_route/2" do
+    @itinerary_row %Site.TripPlan.ItineraryRow{
+      stop: {"stop name", "stopid"},
+      route: %Routes.Route{id: "routeid", type: 0},
+      trip: %Schedules.Trip{id: "tripid"},
+      departure: DateTime.from_unix!(2),
+      transit?: true,
+      steps: [],
+      additional_routes: []
+    }
+
+    test "shows alert associated with stop" do
+      alert = Alerts.Alert.new([
+        informed_entity: [%Alerts.InformedEntity{
+          route: "routeid",
+          route_type: 0,
+          stop: "stopid",
+          trip: nil,
+          direction_id: nil
+        }],
+        active_period: [{DateTime.from_unix!(1), nil}]
+      ])
+      assert filter_alerts_for_stop_and_route([alert], @itinerary_row) == [alert]
+    end
+
+    test "shows alert for the whole route" do
+      alert = Alerts.Alert.new([
+        informed_entity: [%Alerts.InformedEntity{
+          route: "routeid",
+          route_type: 0,
+          stop: nil,
+          trip: nil,
+          direction_id: nil
+        }],
+        active_period: [{DateTime.from_unix!(1), nil}]
+      ])
+      assert filter_alerts_for_stop_and_route([alert], @itinerary_row) == [alert]
+    end
+
+    test "doesn't show alert for another stop on the route" do
+      alert = Alerts.Alert.new([
+        informed_entity: [%Alerts.InformedEntity{
+          route: "routeid",
+          route_type: 0,
+          stop: "differentstopid",
+          trip: nil,
+          direction_id: nil
+        }],
+        active_period: [{DateTime.from_unix!(1), nil}]
+      ])
+      assert filter_alerts_for_stop_and_route([alert], @itinerary_row) == []
+    end
+
+    test "shows alert associated with trip" do
+      alert = Alerts.Alert.new([
+        informed_entity: [%Alerts.InformedEntity{
+          route: "routeid",
+          route_type: 0,
+          stop: nil,
+          trip: "tripid",
+          direction_id: 0
+        }],
+        active_period: [{DateTime.from_unix!(1), nil}]
+      ])
+      assert filter_alerts_for_stop_and_route([alert], @itinerary_row) == [alert]
+    end
+
+    test "doesn't show alert for different trip" do
+      alert = Alerts.Alert.new([
+        informed_entity: [%Alerts.InformedEntity{
+          route: "routeid",
+          route_type: 0,
+          stop: nil,
+          trip: "different-tripid",
+          direction_id: 0
+        }],
+        active_period: [{DateTime.from_unix!(1), nil}]
+      ])
+      assert filter_alerts_for_stop_and_route([alert], @itinerary_row) == []
+    end
+  end
 end
