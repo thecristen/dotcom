@@ -178,16 +178,25 @@ defmodule Content.Repo do
 
   @spec get_route_pdfs(Routes.Route.id_t) :: [Content.RoutePdf.t]
   def get_route_pdfs(route_id) do
-    case @cms_api.view("/api/route-pdfs/#{route_id}", []) do
-      {:ok, []} ->
-        []
-      {:ok, [api_data | _]} ->
-        api_data
-        |> Map.get("field_pdfs")
-        |> Enum.map(&Content.RoutePdf.from_api/1)
+    case cache(route_id, &do_get_route_pdfs/1, timeout: :timer.hours(6)) do
+      {:ok, pdfs} -> pdfs
       error ->
         Logger.warn fn -> "Error getting pdfs for route #{route_id}. Using default []. Error: #{inspect error}" end
         []
+    end
+  end
+
+  defp do_get_route_pdfs(route_id) do
+    case @cms_api.view("/api/route-pdfs/#{route_id}", []) do
+      {:ok, []} ->
+        {:ok, []}
+      {:ok, [api_data | _]} ->
+        pdfs = api_data
+        |> Map.get("field_pdfs")
+        |> Enum.map(&Content.RoutePdf.from_api/1)
+        {:ok, pdfs}
+      error ->
+        error
     end
   end
 end
