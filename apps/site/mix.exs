@@ -24,10 +24,10 @@ defmodule Site.Mixfile do
     apps = [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :gettext, :stops, :routes, :alerts, :schedules,
             :predictions, :timex, :inflex, :html_sanitize_ex, :logger_logentries_backend, :logster, :sizeable,
             :feedback, :zones, :fares, :content, :holiday, :parallel_stream, :vehicles, :tzdata, :google_maps, :logger,
-            :floki, :polyline, :util, :trip_plan, :sentry, :diskusage_logger]
+            :floki, :polyline, :util, :trip_plan]
 
     apps = if Mix.env == :prod do
-      [:ehmon, :recon, :sasl | apps]
+      [:ehmon, :recon, :sasl, :sentry, :diskusage_logger | apps]
     else
       apps
     end
