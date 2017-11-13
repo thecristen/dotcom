@@ -77,14 +77,14 @@ defmodule Site.ScheduleV2View do
   def no_trips_message(_, _, _, direction, nil) when not is_nil(direction) do
     [
       "There are no scheduled ",
-      String.downcase(direction),
+      downcase_direction(direction),
       " trips."
     ]
   end
   def no_trips_message(_, _, _, direction, date) when not is_nil(direction) do
     [
       "There are no scheduled ",
-      String.downcase(direction),
+      downcase_direction(direction),
       " trips on ",
       format_full_date(date),
       "."
@@ -96,6 +96,16 @@ defmodule Site.ScheduleV2View do
     version
     |> String.split(" ", parts: 2)
     |> List.first
+  end
+
+  for direction <- ["Outbound", "Inbound",
+                    "Westbound", "Eastbound",
+                    "Northbound", "Southbound"] do
+      defp downcase_direction(unquote(direction)), do: unquote(String.downcase(direction))
+  end
+  defp downcase_direction(direction) do
+    # keep it the same if it's not one of our expected ones
+    direction
   end
 
   @spec route_pdf_link([Content.RoutePdf] | nil, Route.t, Date.t) :: Phoenix.HTML.Safe.t
@@ -135,10 +145,10 @@ defmodule Site.ScheduleV2View do
     route_prefix <> route_name
   end
 
-  @spec direction_select_column_width(nil | boolean, integer) :: String.t
-  def direction_select_column_width(true, _headsign_length), do: "6"
-  def direction_select_column_width(_, headsign_length) when headsign_length > 20, do: "8"
-  def direction_select_column_width(_, _headsign_length), do: "4"
+  @spec direction_select_column_width(nil | boolean, integer) :: 0..12
+  def direction_select_column_width(true, _headsign_length), do: 6
+  def direction_select_column_width(_, headsign_length) when headsign_length > 20, do: 8
+  def direction_select_column_width(_, _headsign_length), do: 4
 
   @spec fare_params(Stop.t, Stop.t) :: %{optional(:origin) => Stop.id_t, optional(:destination) => Stop.id_t}
   def fare_params(origin, destination) do

@@ -476,6 +476,14 @@ defmodule Site.ScheduleV2ViewTest do
       result = no_trips_message(nil, nil, nil, nil, nil)
       assert IO.iodata_to_binary(result) == "There are no scheduled trips."
     end
+
+    test "does not downcase non-traditional directions" do
+      error = origin = destination = nil
+      direction = "TF Green Airport" # CR-Foxboro
+      date = ~D[2017-11-01]
+      result = no_trips_message(error, origin, destination, direction, date)
+      assert IO.iodata_to_binary(result) == "There are no scheduled TF Green Airport trips on November 1, 2017."
+    end
   end
 
   describe "route_pdf_link/3" do
@@ -578,15 +586,15 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "get expected column width in each use case" do
     test "forced 6 column" do
-      assert direction_select_column_width(true, 40) == "6"
+      assert direction_select_column_width(true, 40) == 6
     end
 
     test "long headsign column" do
-      assert direction_select_column_width(nil, 40) == "8"
+      assert direction_select_column_width(nil, 40) == 8
     end
 
     test "short headsign column" do
-      assert direction_select_column_width(false, 10) == "4"
+      assert direction_select_column_width(false, 10) == 4
     end
   end
 
