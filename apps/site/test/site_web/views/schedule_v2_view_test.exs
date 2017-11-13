@@ -367,6 +367,7 @@ defmodule SiteWeb.ScheduleV2ViewTest do
               route: %Routes.Route{type: 3},
               date: ~D[2017-01-01],
               direction_id: 1,
+              reverse_direction_all_stops: [],
               show_date_select?: false,
               headsigns: %{0 => [], 1 => []},
               vehicle_tooltips: %{},
@@ -399,6 +400,7 @@ defmodule SiteWeb.ScheduleV2ViewTest do
               destination: nil,
               origin: nil,
               direction_id: 1,
+              reverse_direction_all_stops: [],
               show_date_select?: false,
               headsigns: %{0 => [], 1 => []},
               vehicle_tooltips: %{},
@@ -424,6 +426,7 @@ defmodule SiteWeb.ScheduleV2ViewTest do
               destination: nil,
               origin: nil,
               direction_id: 1,
+              reverse_direction_all_stops: [],
               show_date_select?: false,
               headsigns: %{0 => [], 1 => []},
               vehicle_tooltips: %{},
@@ -448,11 +451,44 @@ defmodule SiteWeb.ScheduleV2ViewTest do
               destination: nil,
               origin: nil,
               direction_id: 1,
+              reverse_direction_all_stops: [],
               show_date_select?: false,
               headsigns: %{0 => [], 1 => []},
               vehicle_tooltips: %{},
               dynamic_map_data: %{})
       assert safe_to_string(output) =~ "There are no scheduled"
+    end
+
+    test "Doesn't link to last stop if it's excluded", %{conn: conn} do
+      route = %Routes.Route{id: "route", type: 3}
+      route_stop = %RouteStop{id: "last", name: "last", zone: "1",
+                              route: route,
+                              stop_features: [], is_terminus?: true, is_beginning?: false}
+      output = SiteWeb.ScheduleV2View.render(
+              "_line.html",
+              conn: Plug.Conn.fetch_query_params(conn),
+              stop_list_template: "_stop_list.html",
+              all_stops: [{[{nil, :terminus}], route_stop}],
+              route_shapes: [@shape],
+              expanded: nil,
+              active_shape: nil,
+              map_img_src: nil,
+              hours_of_operation: @hours_of_operation,
+              holidays: [],
+              branches: [%Stops.RouteStops{
+                          branch: nil,
+                          stops: [route_stop]}],
+              route: route,
+              date: ~D[2017-01-01],
+              destination: nil,
+              origin: nil,
+              direction_id: 1,
+              reverse_direction_all_stops: [%Stops.Stop{id: "last"}],
+              show_date_select?: false,
+              headsigns: %{0 => [], 1 => []},
+              vehicle_tooltips: %{},
+              dynamic_map_data: %{})
+      refute safe_to_string(output) =~ trip_view_path(SiteWeb.Endpoint, :show, "route", origin: "last", direction_id: 0)
     end
   end
 

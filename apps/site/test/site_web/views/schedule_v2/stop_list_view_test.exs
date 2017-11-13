@@ -3,7 +3,7 @@ defmodule SiteWeb.StopListViewTest do
 
   import Phoenix.HTML, only: [safe_to_string: 1]
   import SiteWeb.ScheduleV2View.StopList
-  alias Stops.RouteStop
+  alias Stops.{Stop, RouteStop}
   alias Routes.Route
   alias Schedules.Departures
   alias Site.StopBubble
@@ -30,11 +30,13 @@ defmodule SiteWeb.StopListViewTest do
     stop: %RouteStop{branch: nil, id: "stop", zone: "1", stop_features: []},
     route: %Route{id: "route_id", type: 1},
     direction_id: 1,
-    conn: "conn",
+    conn: SiteWeb.Endpoint,
     add_expand_link?: false,
     branch_names: ["branch"],
     vehicle_tooltip: %VehicleTooltip{vehicle: %Vehicles.Vehicle{route_id: "route_id"}},
-    row_content_template: "_line_page_stop_info.html"
+    row_content_template: "_line_page_stop_info.html",
+    reverse_direction_all_stops: [%Stop{id: "other stop"}],
+    expanded: nil
   }
 
   describe "stop_bubble_row_params/2" do
@@ -192,7 +194,7 @@ defmodule SiteWeb.StopListViewTest do
     end
 
     test "schedule view expand link is solid" do
-      assigns = %{
+      assigns = %{@assigns |
         bubbles: [{"Green-E", :line}],
         stop: nil,
         route: %Route{id: "Green", type: 1},
@@ -200,7 +202,6 @@ defmodule SiteWeb.StopListViewTest do
         conn: "conn",
         branch_names: ["Green-E"],
         vehicle_tooltip: %VehicleTooltip{vehicle: %Vehicles.Vehicle{route_id: "Green"}},
-        row_content_template: "_line_page_stop_info.html",
         expanded: nil
       }
 
@@ -299,10 +300,12 @@ defmodule SiteWeb.StopListViewTest do
     ]
     @assigns %{
       all_stops: @trunk ++ @braintree ++ @ashmont,
+      conn: %Plug.Conn{query_params: %{}},
       route: %Route{id: "Red", name: "Red Line", type: 1},
       direction_id: 0,
       vehicle_tooltips: %{},
-      expanded: nil
+      expanded: nil,
+      reverse_direction_all_stops: []
     }
 
     test "splits the stops up into groups based on the branch" do
@@ -329,24 +332,24 @@ defmodule SiteWeb.StopListViewTest do
       assert separate_collapsible_rows(@braintree, 1) == expected
     end
 
-    test "renders a stop row", %{conn: conn} do
+    test "renders a stop row" do
       [row | _] = @trunk
 
       html =
         row
-        |> render_row(Map.put(@assigns, :conn, conn))
+        |> render_row(@assigns)
         |> safe_to_string
 
       assert html =~ "route-branch-stop-bubble"
     end
 
-    test "recombines expand and collapsible rows when branch is nil", %{conn: conn} do
+    test "recombines expand and collapsible rows when branch is nil" do
       separated_rows =
         separate_collapsible_rows(@trunk, 0)
 
       html =
         separated_rows
-        |> merge_rows(Map.put(@assigns, :conn, conn))
+        |> merge_rows(@assigns)
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary
 
@@ -362,7 +365,7 @@ defmodule SiteWeb.StopListViewTest do
       assert names == ["Broadway", "Andrew", "JFK/​Umass"]
     end
 
-    test "collapses branch when it is not nil and there is more than one intermediate stop", %{conn: conn} do
+    test "collapses branch when it is not nil and there is more than one intermediate stop" do
       braintree = [
         {[{"Ashmont", :line},
           {"Braintree", :stop}],
@@ -387,11 +390,10 @@ defmodule SiteWeb.StopListViewTest do
         separate_collapsible_rows(braintree, 0)
 
       assigns = %{@assigns | all_stops: all_stops}
-      conn = %{conn | query_params: %{}}
 
       html =
         separated_rows
-        |> merge_rows(Map.put(assigns, :conn, conn))
+        |> merge_rows(assigns)
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary
 
@@ -407,13 +409,13 @@ defmodule SiteWeb.StopListViewTest do
       assert names == ["Quincy Center", "North Quincy", "Wollaston"]
     end
 
-    test "does not collapse the branch when there fewer than two intermediate stops", %{conn: conn} do
+    test "does not collapse the branch when there fewer than two intermediate stops" do
       separated_rows =
         separate_collapsible_rows(@braintree, 0)
 
       html =
         separated_rows
-        |> merge_rows(Map.put(@assigns, :conn, conn))
+        |> merge_rows(@assigns)
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary
 

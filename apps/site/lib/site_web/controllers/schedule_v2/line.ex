@@ -53,6 +53,7 @@ defmodule SiteWeb.ScheduleV2Controller.Line do
     |> assign(:map_img_src, map_img_src)
     |> assign(:dynamic_map_data, dynamic_map_data)
     |> assign(:expanded, expanded)
+    |> assign(:reverse_direction_all_stops, reverse_direction_all_stops(route.id, direction_id))
   end
 
   @spec active_shape(shapes :: [Shape.t], route_type :: 0..4) :: Shape.t | nil
@@ -400,4 +401,23 @@ defmodule SiteWeb.ScheduleV2Controller.Line do
   def sort_stop_list({all_stops, _branches}, direction_id), do: sort_stop_list(all_stops, direction_id)
   def sort_stop_list(all_stops, 1) when is_list(all_stops), do: Enum.reverse(all_stops)
   def sort_stop_list(all_stops, 0) when is_list(all_stops), do: all_stops
+
+  @doc """
+  Calculates the list of stops for the reverse direction.
+
+  Used by "Schedules from here" to determine whether we should link to the
+  stop going in the opposite direction.
+
+  """
+  @spec reverse_direction_all_stops(Routes.Route.id_t, 0 | 1) :: [Stops.Stop.t]
+  def reverse_direction_all_stops(route_id, direction_id) do
+    reverse_direction_id = case direction_id do
+                             1 -> 0
+                             0 -> 1
+                           end
+    case Stops.Repo.by_route(route_id, reverse_direction_id) do
+      {:error, _} -> []
+      stops -> stops
+    end
+  end
 end
