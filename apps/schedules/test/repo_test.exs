@@ -36,23 +36,6 @@ defmodule Schedules.RepoTest do
       assert %{id: "place-alfcl", name: "Alewife"} = List.first(response).stop
     end
 
-    test "inbound Lowell with stop_sequence: first includes Anderson/ Woburn trip" do
-      next_weekday = "America/New_York"
-      |> Timex.now()
-      |> Timex.end_of_week(:mon)
-      |> Timex.shift(days: 3)
-      |> Timex.format!("{ISOdate}")
-
-      response = by_route_ids(
-        ["CR-Lowell"],
-        date: next_weekday,
-        direction_id: 1,
-        stop_sequences: "first")
-
-      assert Enum.any?(response, &match?(%Schedule{stop: %{id: "Lowell"}}, &1))
-      assert Enum.any?(response, &match?(%Schedule{stop: %{id: "Anderson/ Woburn"}}, &1))
-    end
-
     test "if we get an error from the API, returns an error tuple" do
       response = by_route_ids(
         ["CR-Lowell"],
