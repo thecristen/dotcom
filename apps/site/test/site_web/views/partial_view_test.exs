@@ -29,6 +29,8 @@ defmodule SiteWeb.PartialViewTest do
       assert conn |> stop_selector_suffix("place-pktrm") |> IO.iodata_to_binary == "B,C,D,E"
       assert conn |> stop_selector_suffix("place-lech") |> IO.iodata_to_binary == "E"
       assert conn |> stop_selector_suffix("place-kencl") |> IO.iodata_to_binary == "B,C,D"
+      # not on the green line
+      assert conn |> stop_selector_suffix("place-alfcl") |> IO.iodata_to_binary == ""
     end
 
     test "for other lines, returns the empty string", %{conn: conn} do
