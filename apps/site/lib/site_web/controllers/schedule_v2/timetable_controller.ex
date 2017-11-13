@@ -44,8 +44,16 @@ defmodule SiteWeb.ScheduleV2Controller.TimetableController do
   @spec trip_messages(Routes.Route.t, 0 | 1) :: %{{String.t, String.t} => String.t}
   defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 0) do
     %{
-      {"221", "Melrose Highlands"} => "Via",
-      {"221", "Greenwood"} => "Lowell"
+      {"221", "Melrose Cedar Park"} => "Via",
+      {"221", "Melrose Highlands"} => "Lowell",
+      {"221", "Greenwood"} => "Line"
+    }
+  end
+  defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 1) do
+    %{
+      {"208", "Greenwood"} => "Via",
+      {"208", "Melrose Highlands"} => "Lowell",
+      {"208", "Melrose Cedar Park"} => "Line"
     }
   end
   defp trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) do
