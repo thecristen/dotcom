@@ -22,6 +22,27 @@ defmodule Site.HowToPayControllerTest do
       assert breadcrumbs_include?(body, ["Fares and Passes", "How to Pay"])
     end
 
+    test "renders commuter rail page", %{conn: conn} do
+      conn = get conn, how_to_pay_path(conn, :show, "commuter-rail")
+
+      body = html_response(conn, 200)
+      assert body =~ "Paying Your Commuter Rail Fare"
+    end
+
+    test "includes breadcrumbs on the ride tab", %{conn: conn} do
+      conn = get conn, how_to_pay_path(conn, :show, "the-ride")
+
+      body = html_response(conn, 200)
+      assert breadcrumbs_include?(body, ["Fares and Passes", "How to Pay"])
+    end
+
+    test "renders the ride page", %{conn: conn} do
+      conn = get conn, how_to_pay_path(conn, :show, "the-ride")
+
+      body = html_response(conn, 200)
+      assert body =~ "Paying for The RIDE"
+    end
+
     test "redirects unknown modes to the index page", %{conn: conn} do
       conn = get conn, how_to_pay_path(conn, :show, "non-existent-986419624")
       assert redirected_to(conn) == how_to_pay_path(conn, :index)
