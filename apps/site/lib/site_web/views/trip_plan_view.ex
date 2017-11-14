@@ -98,11 +98,7 @@ defmodule SiteWeb.TripPlanView do
     end
   end
 
-  def mode_class(%ItineraryRow{route: %Route{} = route}) do
-    route
-    |> Site.Components.Icons.SvgIcon.get_icon_atom
-    |> hyphenated_mode_string
-  end
+  def mode_class(%ItineraryRow{route: %Route{} = route}), do: route_to_class(route)
   def mode_class(_), do: "personal-itinerary"
 
   @spec stop_departure_display(ItineraryRow.t) :: {:render, String.t} | :blank

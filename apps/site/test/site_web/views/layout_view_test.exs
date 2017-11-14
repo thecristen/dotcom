@@ -52,7 +52,7 @@ defmodule SiteWeb.LayoutViewTest do
 
         assert [{"div", _, drawer_content}] = Floki.find(drawers, id)
         assert [{"a", link_attrs, link_content}] = Floki.find(drawers, ".desktop-nav-link[href=\"#{href}\"]")
-        assert Floki.raw_html(link_content) =~ icon |> Atom.to_string() |> String.replace("_", "-")
+        assert Floki.raw_html(link_content) =~ CSSHelpers.atom_to_class(icon)
         assert [controls, expanded, _class, parent, target, toggle, _href, role] = link_attrs
 
         assert controls == {"aria-controls", camelized}

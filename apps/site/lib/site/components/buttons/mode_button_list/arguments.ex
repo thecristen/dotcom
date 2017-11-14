@@ -41,8 +41,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
   @spec list_class(__MODULE__.t) :: String.t
   def list_class(args) do
     args.route_type
-    |> Atom.to_string
-    |> String.replace("_", "-")
+    |> CSSHelpers.atom_to_class
     |> Kernel.<>(" mode-button-group")
     |> add_truncate_class(args.truncated_list?)
   end

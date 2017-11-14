@@ -4,11 +4,11 @@ defmodule SiteWeb.StyleGuideControllerTest do
 
   test "all known pages render", %{conn: conn} do
     for {section_atom, subpages} <- SiteWeb.StyleGuideController.known_pages() do
-      section_string = section_atom |> Atom.to_string() |> String.replace("_", "-")
+      section_string = CSSHelpers.atom_to_class(section_atom)
       conn = get conn, "style-guide/#{section_string}"
       assert Enum.member?([200, 302], conn.status)
       for subpage_atom <- subpages do
-        subpage_string = subpage_atom |> Atom.to_string() |> String.replace("_", "-")
+        subpage_string = CSSHelpers.atom_to_class(subpage_atom)
         conn = get conn, "style-guide/#{section_string}/#{subpage_string}"
         assert html_response(conn, 200)
       end
