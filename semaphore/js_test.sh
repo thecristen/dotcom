@@ -2,4 +2,4 @@
 set -e
 
 # run javascript  tests
-cd apps/site && npm test && cd -
+cd apps/site/assets && npm test && cd -

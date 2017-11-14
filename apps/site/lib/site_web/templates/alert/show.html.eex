@@ -1,0 +1,49 @@
+<div class="page-section">
+  <div class="page-header">
+    <h1>Service Alerts and Notices</h1>
+    <%= mode_tab_list %ModeTabList{
+      class: "tab-select-btn-group-table-layout-auto",
+      links: for mode <- [:subway, :bus, "commuter-rail", :ferry, :access] do
+        {mode, alert_path(@conn, :show, mode)}
+      end,
+      selected_mode: @id
+    } %>
+    <div class="clearfix"></div>
+  </div>
+  <div class="page-block">
+    <%= for {route, alerts} <- @route_alerts do %>
+      <div class="alert-show-row">
+        <div class="alert-show-title-container">
+          <span class="alert-show-title alert-show-title-<%= @id %>">
+            <%= if show_mode_icon?(route), do: svg_icon_with_circle(%SvgIconWithCircle{icon: route, aria_hidden?: true}) %><%= route.name %>
+          </span>
+        </div>
+        <div class="alert-show-body">
+          <%= if alerts == [] do %>
+            <div class="alert-show-empty">
+              <span><strong>Regular Service:</strong> There are no current or upcoming service alerts.</span>
+            </div>
+          <% else %>
+            <%= SiteWeb.AlertView.modal alerts: alerts, route: route, hide_t_alerts: true, time: @date %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <%= if @route_alerts == [] do %>
+      <div class="alert-no-alerts">
+        There are no current service alerts for <%= mode_name(@id) %>.
+      </div>
+    <% end %>
+    <div class="alert-show-row">
+      <div class="t-alert-container-big">
+        <h2 class="h3">Sign Up For T-Alerts</h2>
+        <p>T-Alerts lets you sign up to receive notifications of delays and disruptions, as well as advanced notice of planned service changes, by e-mail or text message (SMS). </p>
+        <p>
+          <%= link to: redirect_path(@conn, "rider_tools/t_alerts/"), target: "_blank", class: "btn" do %>
+            Sign Up Now
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

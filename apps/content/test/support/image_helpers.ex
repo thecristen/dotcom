@@ -14,6 +14,6 @@ defmodule Content.ImageHelpers do
   end
 
   defp site_app_config do
-    Application.get_env(:site, Site.Endpoint)
+    Application.get_env(:site, SiteWeb.Endpoint)
   end
 end

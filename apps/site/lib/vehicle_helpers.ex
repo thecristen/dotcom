@@ -6,12 +6,12 @@ defmodule VehicleHelpers do
   alias Predictions.Prediction
   alias Routes.{Route, Shape}
   alias Schedules.Trip
-  alias Site.ScheduleV2Controller.VehicleLocations
+  alias SiteWeb.ScheduleV2Controller.VehicleLocations
 
   import Routes.Route, only: [vehicle_name: 1]
   import Phoenix.HTML.Tag, only: [content_tag: 2, content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
-  import Site.ViewHelpers, only: [format_schedule_time: 1]
+  import SiteWeb.ViewHelpers, only: [format_schedule_time: 1]
 
   @doc """
   There are multiple places where vehicle tooltips are used. This function is called from the controller to

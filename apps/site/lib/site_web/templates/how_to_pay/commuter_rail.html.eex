@@ -1,0 +1,145 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>Paying Your Commuter Rail Fare</h2>
+      <div>
+        <h3>Step 1: Purchase a Ticket or Pass</h3>
+        <p>
+          You can purchase your Commuter Rail fare with the following payment methods:
+          mTicket app ticket, CharlieTicket, and cash on-board. Fare costs, transfers,
+          and the type of passes available for purchase may vary based on your payment method.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <figure class="col-sm-6 col-xs-12 fare-photo-figure">
+      <figcaption><strong>Monthly Pass CharlieTicket</strong></figcaption>
+      <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/cr-monthly-pass-with-model.jpg") %>" alt="Commuter Rail monthly pass" />
+    </figure>
+    <figure class="col-sm-6 col-xs-12 fare-photo-figure">
+      <figcaption><strong>mTicket App</strong></figcaption>
+      <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/activated-mticket.jpg") %>" alt="mTicket app with an activated ticket" />
+    </figure>
+    <p class="col-xs-12">
+      You can buy your Commuter Rail fare using the mTicket app, at a fare vending machine, on-board, or at select retail sales locations.
+    </p>
+    <div class="col-md-6 col-xs-12">
+      <h3>mTicket App</h3>
+      <div class="commuter-fare-content">
+        <p>
+          You can purchase a One Way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app.
+          Monthly Passes on mTicket are $10.00 cheaper than they are on a CharlieTicket. However, unlike passes loaded onto a CharlieTicket, mTicket passes are not valid for use on the Bus and Subway. Available on the iPhone App Store and Google Play.
+        </p>
+        <p>
+          <a href="https://itunes.apple.com/us/app/mbta-mticket/id560487958?mt=8">
+            <span class="sr-only">Download on the app store</span>
+            <%= svg "download_on_the_app_store.svg" %>
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.mbta.mobileapp">
+            <img class="fares-google-play" src="<%= static_url(@conn, "/images/get_it_on_google_play.png") %>" alt="Get it on Google Play" height="41" />
+          </a>
+        </p>
+      </div>
+      <div class="commuter-rail-photo-video-container">
+        <iframe class="commuter-rail-photo-video" src="https://www.youtube.com/embed/6gBcPlPsm9k?rel=0" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <h3>Fare Vending Machine</h3>
+      <div class="commuter-fare-content">
+        <p>
+          You can load a One Way, Round Trip, or Monthly (up to Zone 8; valid for Bus and
+          Subway travel as well) Pass onto a CharlieTicket at a fare vending machine, found in all
+          Subway stations and the following Commuter Rail stations:
+        </p>
+        <p><%= SiteWeb.FareView.vending_machine_stations() %></p>
+      </div>
+      <figure class="commuter-rail-photo-video-container">
+        <%= img_tag static_url(@conn, "/images/retail-sales-locations.jpg"), class: "commuter-rail-photo-video img-fluid", alt: "A fare vending machine in an MBTA station" %>
+      </figure>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-xs-12">
+      <h3>On-Board</h3>
+      <p>One way or round trip tickets can be purchased on-board by cash. If tickets are purchased
+        on-board at a station that has a fare vending machine, there may be a surcharge of $3.00.
+        Round-trip tickets purchased on board will be valid until the end of service that same day.</p>
+      <p><span class="font-weight-bold">Please note</span>: During <a href="/fares/fare-fair">Fare Is Fair events</a>, you cannot purchase your Commuter Rail fare on board.</p>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <h3>Retail Sales Location</h3>
+        <p>MBTA riders can get One Way, Round Trip, and Monthly Passes at stores located throughout
+          the Greater Boston and Providence area.</p>
+          <p>
+            <%= link to: fare_path(@conn, :show, :retail_sales_locations) do %>
+              Find a store near you <%= fa "arrow-right" %>
+            <% end %>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>Step 2: Present Your Ticket or Pass to the Conductor</h2>
+          <p>Commuter Rail fares are collected after you board the train. A conductor will come to
+            check your mTicket app or CharlieTicket, or collect payment if you have not already purchased
+            your fare. Fare prices depend on what zones you are traveling to and from, so make sure
+            you purchase the <%= link "correct fare", to: fare_path(@conn, :show, "commuter-rail") %>
+            for your trip before you board the train. If you are paying with cash on-board, make sure to
+            tell the train conductor what your destination stop is.</p>
+          </div>
+          <div class="col-xs-12">
+            <h3>Paying with the mTicket App</h3>
+            <p>
+              <ol class="how-to-pay-steps">
+                <li><div>Activate your ticket.</div></li>
+                <li><div>Show your phone with the activated ticket to the conductor.</div></li>
+                <li><div>The conductor will mark your seat with a slip of paper that indicates your destination.</div></li>
+              </ol>
+            </p>
+          </div>
+          <div class="col-xs-12">
+            <h3>Paying with a CharlieTicket</h3>
+            <p>
+              <ol class="how-to-pay-steps">
+                <li><div>Show your ticket or pass to the conductor.</div></li>
+                <li><div>The conductor will mark your seat with a slip of paper that indicates your destination.</div></li>
+              </ol>
+            </p>
+          </div>
+          <div class="col-xs-12">
+            <h3>Paying with Cash On-Board</h3>
+            <p>
+              <ol class="how-to-pay-steps">
+                <li>
+                  <div>Tell the conductor which station you are traveling to and if you are
+                    purchasing a one way or round trip ticket.
+                  </div>
+                </li>
+                <li>
+                  <div>The conductor will tell you the cost of the fare and collect your payment.</div>
+                </li>
+                <li>
+                  <div>You will be given a ticket marking your origin and destination stops
+                    and the fare zone you are traveling in.</div>
+                    <div class="how-to-pay-note">
+                      <strong>Note:</strong> If you are traveling round-trip, remember to save this
+                      ticket and present it to the conductor on your next trip.
+                    </div>
+                  </li>
+                  <li><div>The conductor will mark your seat with a slip of paper that indicates your destination.</div></li>
+                </ol>
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-xs-12">
+              <p>
+                <a href=<%= fare_path(@conn, :show, "commuter-rail") %>>
+                  Learn more about Commuter Rail Fares <%= fa "arrow-right" %>
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>

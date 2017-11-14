@@ -6,10 +6,10 @@
 use Mix.Config
 
 # Configures the endpoint
-config :site, Site.Endpoint,
+config :site, SiteWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "4DTl03knjPRXF9QYrTqcVRZUy8hN5gS6x6rN1mIImpo1rcN79d77ZAfShyVqDzx/",
-  render_errors: [accepts: ~w(html json), layout: {Site.LayoutView, "app.html"}],
+  render_errors: [accepts: ~w(html json), layout: {SiteWeb.LayoutView, "app.html"}],
   pubsub: [name: Site.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
@@ -22,7 +22,7 @@ config :logger, :console,
 # Include referrer in Logster request log
 config :logster, :allowed_headers, ["referer"]
 
-config :site, Site.ViewHelpers,
+config :site, SiteWeb.ViewHelpers,
   google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID"),
   feedback_form_url: "https://docs.google.com/a/mbtace.com/forms/d/e/1FAIpQLScjM7vVFw-5qNZsKC3CNy7xzOAg0i5atkn_tWhkzZkw_oQUyg/viewform"
 
@@ -38,7 +38,7 @@ config :site, Site.BodyTag,
 
 config :content,
   mfa: [
-    static: {Site.Router.Helpers, :static_url, [Site.Endpoint]}
+    static: {SiteWeb.Router.Helpers, :static_url, [SiteWeb.Endpoint]}
   ]
 
 # Centralize Error reporting
@@ -53,11 +53,11 @@ config :site, :former_mbta_site,
   host: "http://old.mbta.com"
 
 config :site, OldSiteFileController,
-  response_fn: {Site.OldSiteFileController, :send_file},
+  response_fn: {SiteWeb.OldSiteFileController, :send_file},
   gtfs_s3_bucket: {:system, "GTFS_S3_BUCKET", "mbta-gtfs-s3"}
 
 config :site, StaticFileController,
-  response_fn: {Site.StaticFileController, :send_file}
+  response_fn: {SiteWeb.StaticFileController, :send_file}
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

@@ -223,7 +223,7 @@ defmodule Backstop.Servers.Phoenix do
 
   @impl true
   def started_match do
-    "Running Site.Endpoint"
+    "Running SiteWeb.Endpoint"
   end
 
   @impl true

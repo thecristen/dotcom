@@ -5,7 +5,7 @@ defmodule Site.ViewCase do
     quote do
       use Phoenix.ConnTest
       import Phoenix.View
-      import Site.Router.Helpers
+      import SiteWeb.Router.Helpers
       import Content.Factory
     end
   end

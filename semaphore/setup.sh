@@ -42,7 +42,7 @@ done
 
 nvm use 8.7.0
 # drop phantomjs/backstop/casper from the deps to install
-sed -r -e 's/.*"(phantomjs-prebuilt|backstopjs|casperjs)".*//' -i'' apps/site/package.json
+sed -r -e 's/.*"(phantomjs-prebuilt|backstopjs|casperjs)".*//' -i'' apps/site/assets/package.json
 
 # set cache dir for node
 npm config set cache $SEMAPHORE_CACHE_DIR/npm

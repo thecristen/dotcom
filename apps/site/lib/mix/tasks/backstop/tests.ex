@@ -217,7 +217,7 @@ defmodule Mix.Tasks.Backstop.Tests do
   @spec try_proc({String.t, map, [String.t]}, cmd_fn) :: exit_code
   def try_proc({config_path, config, arg_list}, cmd_fn) do
     _ = Logger.info "starting Backstop with args: #{inspect arg_list}"
-    cmd_args = ["apps/site/node_modules/backstopjs/cli/index.js", "test" | arg_list]
+    cmd_args = ["apps/site/assets/node_modules/backstopjs/cli/index.js", "test" | arg_list]
     {_stream, exit_code} = cmd_fn.({config_path, config}, "node", cmd_args, [into: IO.stream(:stdio, :line)])
     exit_code
   end

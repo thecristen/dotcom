@@ -1,6 +1,6 @@
 defmodule PredictedSchedule.Display do
   import Phoenix.HTML.Tag, only: [tag: 1, content_tag: 2, content_tag: 3]
-  import Site.ViewHelpers, only: [format_schedule_time: 1]
+  import SiteWeb.ViewHelpers, only: [format_schedule_time: 1]
   alias Schedules.Schedule
   alias Predictions.Prediction
 
