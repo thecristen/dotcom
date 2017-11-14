@@ -5,6 +5,7 @@
 <%=
   render "_itinerary_transfer_stop.html",
     Map.merge(assigns, %{mode: "personal",
+                         alerts: Alerts.Stop.match(@alerts, elem(@itinerary_row.stop, 1)),
                          bubble_params: transfer_bubbles}) %>
 
 <%= render_steps(steps, "personal") %>

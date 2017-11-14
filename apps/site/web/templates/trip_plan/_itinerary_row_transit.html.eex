@@ -7,8 +7,11 @@
   <%=
     route_name = ItineraryRow.route_name(@itinerary_row)
     render "_itinerary_transfer_stop.html",
-      Map.merge(assigns, %{mode: @mode_class,
-      bubble_params: transfer_bubbles})
+      Map.merge(assigns, %{
+        mode: @mode_class,
+        alerts: filter_alerts_for_stop_and_route(@alerts, @itinerary_row),
+        bubble_params: transfer_bubbles
+      })
   %>
   <%= if Site.ScheduleV2View.StopList.display_expand_link?(step_bubble_params) do
     bubble_map = %{bubbles: [{ItineraryRow.route_name(@itinerary_row), :line}],
