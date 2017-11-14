@@ -28,11 +28,15 @@ ENV MIX_ENV=prod
 
 ADD . .
 
-WORKDIR /root/apps/site
-RUN mix do deps.get, deps.compile && \
-    npm install --only=production --no-optional && \
-    brunch build --production && \
-    mix phx.digest
+WORKDIR /root/apps/site/
+RUN mix do deps.get, deps.compile
+
+WORKDIR /root/apps/site/assets/
+RUN npm install --only=production --no-optional && \
+    brunch build --production
+
+WORKDIR /root/apps/site/
+RUN mix phx.digest
 
 WORKDIR /root
 RUN mix release --verbose

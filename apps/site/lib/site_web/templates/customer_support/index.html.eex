@@ -1,0 +1,100 @@
+<div class="page-section">
+  <h1>Contact Us</h1>
+  <div class="row">
+    <div class="col-xs-12 support-thank-you <%= if @show_form, do: "hidden-xs-up" %>" tabindex="-1">
+      <div class="support-success" id="<%= if !show_error_message(@conn), do: "support-result" %>">
+        <%= fa "check-circle" %>
+        Thank you for your feedback.
+      </div>
+      <p>Your comments have been sent to our Customer Support team.</p>
+    </div>
+    <div class="col-xs-12 support-form-error <%= if !show_error_message(@conn), do: "hidden-xs-up" %>" tabindex="-1">
+      <div class="support-error" id="<%= if show_error_message(@conn), do: "support-result" %>">
+        <%= fa "exclamation-circle" %>
+        We had an issue submitting your feedback -- please call us at the Main Hotline below, or try again in a few minutes.
+      </div>
+    </div>
+  </div>
+  <%= if @show_form do %>
+    <%= render "_form.html", forward_assigns(@conn) %>
+  <% end %>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 support-section">
+          <h2 id="customer_support" class="support-header"><strong>Call Us</strong></h2>
+          <ul>
+            <li><strong>Monday &mdash; Friday</strong> 6:30A until 8:00P</li>
+            <li><strong>Saturday &mdash; Sunday</strong> 8:00A until 4:00P</li>
+            <li>
+              <span class="support-tel-number"><strong>Main Hotline</strong> <%= tel_link "(617)-222-3200" %></span>
+              <span class="support-tel-number"><strong>TTY</strong> <%= tel_link "(617)-222-5146" %></span>
+            </li>
+            <li><strong>Toll Free</strong> <%= tel_link "1-800-392-6100" %></li>
+            <li>For elevator, escalator, and lift updates:</li>
+            <li><strong>Accessibility Hotline</strong> <%= tel_link "(617)-222-2828" %></li>
+          </ul>
+        </div>
+        <div class="col-xs-12 col-sm-6 support-section">
+          <h2 class="support-header"><strong>Transit Police</strong></h2>
+          <ul>
+            <li>
+              <span class="support-tel-number"><strong>Emergency</strong> <%= tel_link "(617)-222-1212" %></span>
+              <span class="support-tel-number"><strong>TTY</strong> <%= tel_link "(617)-222-1200" %></span>
+            </li>
+            <li>
+              <%= link to: cms_static_page_path(@conn, "/transit-police") do %>
+                Contact Transit Police <%= fa "arrow-right" %>
+              <% end %>
+            </li>
+            <li>
+              <%= link to: cms_static_page_path(@conn, "/transit-police/see-something-say-something") do %>
+                See Something, Say Something <%= fa "arrow-right" %>
+              <% end %>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 support-section">
+          <h2 class="support-header"><strong>Get Service Updates</strong></h2>
+          <p>Receive notifications of MBTA service alerts by email or text.</p>
+          <p>
+            <%= link to: redirect_path(SiteWeb.Endpoint, "rider_tools/t_alerts/"), target: "_blank" do %>
+              Sign up for T-Alerts <%= fa "arrow-right" %>
+            <% end %>
+          </p>
+          <p><a href="https://twitter.com/MBTA" target="_blank"><span class="support-twitter"><%= fa "twitter" %></span> Follow @MBTA on Twitter</a></p>
+        </div>
+        <div class="col-xs-12 col-sm-6 support-section">
+          <h2 class="support-header"><strong>Write to Us</strong></h2>
+          <p>
+            MBTA <br />
+            10 Park Plaza, Suite 3910 <br />
+            Boston, MA 02116
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 support-section">
+          <h2 class="support-header"><strong>Request Public Records</strong></h2>
+          <p>
+            Members of the public have the right to request copies of MBTA documents, with certain exceptions. Fees apply and may vary depending on the request.
+          </p>
+          <p>
+            <%= link to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3", target: "_blank" do %>
+              Submit a public records request to the MBTA <%= fa "arrow-right" %>
+            <% end %>
+          </p>
+        </div>
+        <div class="col-xs-12 col-sm-6 support-section">
+          <h2 class="support-header"><strong>Join Us</strong></h2>
+          <p>
+            If you would like to help us make MBTA.com better, plus work on a range of exciting products for the T, we're hiring.
+            Please visit our <a href="https://jobs.lever.co/mbta">jobs page</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

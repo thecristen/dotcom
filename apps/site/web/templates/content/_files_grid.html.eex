@@ -1,4 +1,0 @@
-<%= if @paragraph.title do %>
-  <h3><%= @paragraph.title %></h3>
-<% end %>
-<%= Site.PartialView.render("_file_columns.html", files: @paragraph.files) %>

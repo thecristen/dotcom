@@ -1,6 +1,0 @@
-<div class="route-branch-stop">
-  <%= Site.PartialView.StopBubbles.render_stop_bubbles(stop_bubble_row_params(assigns, @stop.is_beginning?)) %>
-  <div class="route-branch-stop-info">
-    <%= render @row_content_template, assigns %>
-  </div>
-</div>

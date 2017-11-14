@@ -2,7 +2,7 @@ defmodule PageControllerBench do
   use Benchfella
   use Phoenix.ConnTest
 
-  @endpoint Site.Endpoint
+  @endpoint SiteWeb.Endpoint
 
   setup_all do
     Application.ensure_all_started(:site)

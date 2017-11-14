@@ -1,6 +1,6 @@
 defmodule Site.IcalendarGenerator do
-  import Site.Router.Helpers
-  import Site.ContentHelpers, only: [content: 1]
+  import SiteWeb.Router.Helpers
+  import SiteWeb.ContentHelpers, only: [content: 1]
 
   @spec to_ical(Content.Event.t) :: iodata
   def to_ical(%Content.Event{} = event) do
@@ -66,7 +66,7 @@ defmodule Site.IcalendarGenerator do
   end
 
   defp full_url(event) do
-    event_url(Site.Endpoint, :show, event.id)
+    event_url(SiteWeb.Endpoint, :show, event.id)
   end
 
   defp start_time(%Content.Event{start_time: nil}), do: ""

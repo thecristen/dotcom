@@ -1,5 +1,5 @@
 defmodule UrlHelpersTest do
-  use Site.ConnCase, async: true
+  use SiteWeb.ConnCase, async: true
   import UrlHelpers
 
   @path "/path"

@@ -5,7 +5,7 @@
 /deps
 erl_crash.dump
 *.ez
-/apps/site/.sass-cache/
+/apps/site/assets/.sass-cache/
 .DS_Store
 .ruby-version
 

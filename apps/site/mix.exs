@@ -32,15 +32,15 @@ defmodule Site.Mixfile do
       apps
     end
 
-    [mod: {Site, []},
+    [mod: {Site.Application, []},
      included_applications: [:laboratory],
      applications: apps
     ]
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
-  defp elixirc_paths(_),     do: ["lib", "web"]
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_),     do: ["lib"]
 
   # Specifies your project dependencies.
   #

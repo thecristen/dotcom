@@ -1,0 +1,8 @@
+<div class="pre-container-wrapper">
+  <div class="container">
+    <div class="pre-container-header">
+    </div>
+    <%= render SiteWeb.TransitNearMeView, "_input.html", tnm_address: @tnm_address, conn: @conn, button_class: "location-link-invert" %>
+    <%= render SiteWeb.TransitNearMeView, "_results.html", class: "location-grid-white", stops_with_routes: @stops_with_routes, conn: @conn %>
+  </div>
+</div>

@@ -41,7 +41,7 @@ defmodule Site.BodyTag do
 
   defp error_class(%{private: %{phoenix_view: view_module}}) do
     case view_module do
-      Site.ErrorView -> "not-found"
+      SiteWeb.ErrorView -> "not-found"
       Site.CrashView -> "not-found"
       _ -> ""
     end
