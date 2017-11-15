@@ -165,4 +165,35 @@ defmodule Schedules.RepoTest do
       assert %Schedules.HoursOfOperation{} = hours_of_operation("unknown route ID")
     end
   end
+
+  describe "insert_trips_into_cache/1" do
+    test "caches trips that were already fetched" do
+      trip_id = "trip_with_data"
+      data = [
+        %JsonApi.Item{
+          relationships: %{
+            "trip" => [%JsonApi.Item{
+            id: trip_id,
+            attributes: %{
+              "headsign" => "North Station",
+              "name" => "300",
+              "direction_id" => 1,
+            }}]}}]
+      insert_trips_into_cache(data)
+      assert {:ok, %Schedules.Trip{id: ^trip_id}} = ConCache.get(Schedules.Repo, {:trip, trip_id})
+    end
+
+    test "caches trips that don't have the right data as nil" do
+      # this can happen with Green Line trips. By caching them, we avoid an
+      # extra trip to the server only to get a 404.
+      trip_id = "trip_without_right_data"
+      data = [
+        %JsonApi.Item{
+          relationships: %{
+            "trip" => [%JsonApi.Item{id: trip_id}]}}
+      ]
+      insert_trips_into_cache(data)
+      assert ConCache.get(Schedules.Repo, {:trip, trip_id}) == {:ok, nil}
+    end
+  end
 end
