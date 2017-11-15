@@ -74,11 +74,13 @@ defmodule Schedules.Repo do
     nil
   end
   def trip(trip_id) do
-    cache trip_id, fn trip_id ->
-      case V3Api.Trips.by_id(trip_id) do
-        {:error, _} -> nil
-        response -> Schedules.Parser.trip(response)
+    case cache trip_id, fn trip_id ->
+      with %JsonApi{} = response <- V3Api.Trips.by_id(trip_id) do
+        {:ok, Schedules.Parser.trip(response)}
       end
+    end do
+      {:ok, value} -> value
+      {:error, _} -> nil
     end
   end
 
@@ -165,16 +167,23 @@ defmodule Schedules.Repo do
     |> Enum.map(fn {:ok, schedule} -> schedule end)
   end
 
+  @spec insert_trips_into_cache([JsonApi.Item.t]) :: :ok
   def insert_trips_into_cache(data) do
     # Since we fetched all the trips along with the schedules, we can insert
     # them into the cache directly. That way, they'll be available when we
     # ask for them via trip/1.
     data
-    |> Stream.map(&Schedules.Parser.trip/1)
-    |> Stream.reject(&is_nil/1)
-    |> Stream.uniq_by(& &1.id)
-    |> Enum.each(fn trip ->
-      ConCache.dirty_put(__MODULE__, {:trip, trip.id}, trip)
+    |> Stream.map(&id_and_trip/1)
+    |> Stream.uniq_by(&elem(&1, 0))
+    |> Enum.each(fn {id, trip} ->
+      ConCache.dirty_put(__MODULE__, {:trip, id}, {:ok, trip})
     end)
+  end
+
+  @spec id_and_trip(JsonApi.Item.t) :: {Schedules.Trip.id_t, Schedules.Trip.t | nil}
+  defp id_and_trip(%JsonApi.Item{} = item) do
+    [%JsonApi.Item{id: trip_id} | _] = item.relationships["trip"]
+    trip = Schedules.Parser.trip(item)
+    {trip_id, trip}
   end
 end
