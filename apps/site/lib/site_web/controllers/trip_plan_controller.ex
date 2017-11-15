@@ -1,6 +1,6 @@
 defmodule SiteWeb.TripPlanController do
   use SiteWeb, :controller
-  alias Site.TripPlan.{Query, RelatedLink, ItineraryRowList}
+  alias Site.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap
   alias Site.TripPlan.Alerts, as: TripPlanAlerts
   alias TripPlan.Itinerary
@@ -113,8 +113,8 @@ defmodule SiteWeb.TripPlanController do
 
   @spec itinerary_row_lists([Itinerary.t], route_mapper, map) :: [ItineraryRowList.t]
   defp itinerary_row_lists(itineraries, route_mapper, plan) do
-    opts = Keyword.merge([route_mapper: route_mapper], to_and_from(plan))
-    Enum.map(itineraries, &ItineraryRowList.from_itinerary(&1, opts))
+    deps = %ItineraryRow.Dependencies{route_mapper: route_mapper}
+    Enum.map(itineraries, &ItineraryRowList.from_itinerary(&1, deps, to_and_from(plan)))
   end
 
   def assign_initial_map(conn, _opts) do

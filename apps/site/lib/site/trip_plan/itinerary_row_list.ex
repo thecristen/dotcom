@@ -24,25 +24,31 @@ defmodule Site.TripPlan.ItineraryRowList do
     destination: destination
   }
 
+  @type opts :: [to: String.t | nil, from: String.t | nil]
+
   @doc  """
   Builds a ItineraryRowList from the given itinerary
   """
-  @spec from_itinerary(Itinerary.t, Keyword.t) :: t
-  def from_itinerary(%Itinerary{legs: legs, accessible?: accessible?} = itinerary, opts) do
-    %__MODULE__{rows: get_rows(itinerary, opts), destination: get_destination(legs, opts), accessible?: accessible?}
+  @spec from_itinerary(Itinerary.t, ItineraryRow.Dependencies.t, opts) :: t
+  def from_itinerary(%Itinerary{legs: legs, accessible?: accessible?} = itinerary, deps, opts \\ []) do
+    %__MODULE__{
+      rows: get_rows(itinerary, deps, opts),
+      destination: get_destination(legs, opts),
+      accessible?: accessible?
+    }
   end
 
-  @spec get_rows(Itinerary.t, Keyword.t) :: [ItineraryRow.t]
-  defp get_rows(itinerary, opts) do
+  @spec get_rows(Itinerary.t, ItineraryRow.Dependencies.t, opts) :: [ItineraryRow.t]
+  defp get_rows(itinerary, deps, opts) do
     itinerary
-    |> Enum.map(fn leg -> ItineraryRow.from_leg(leg, opts) end)
+    |> Enum.map(fn leg -> ItineraryRow.from_leg(leg, deps) end)
     |> update_from_name(opts[:from])
   end
 
   @spec get_destination([TripPlan.Leg.t], Keyword.t) :: destination
   defp get_destination(legs, opts) do
     last_leg = List.last(legs)
-    {name, stop_id} = last_leg |> Map.get(:to) |> ItineraryRow.name_from_position()
+    {name, stop_id} = last_leg |> Map.get(:to) |> ItineraryRow.name_from_position(&Stops.Repo.get/1)
     {destination_name(name, opts[:to]), stop_id, last_leg.stop}
   end
 

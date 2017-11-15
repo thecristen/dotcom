@@ -1,5 +1,6 @@
 defmodule Site.TripPlan.ItineraryRowListTest do
   use ExUnit.Case, async: true
+  alias Site.TripPlan.ItineraryRow
   import Site.TripPlan.ItineraryRowList
 
   @from TripPlan.Api.MockPlanner.random_stop(stop_id: "place-sstat")
@@ -9,8 +10,12 @@ defmodule Site.TripPlan.ItineraryRowListTest do
   describe "from_itinerary" do
     setup do
       {:ok, [itinerary]} = TripPlan.plan(@from, @to, depart_at: @date_time)
-      opts = [route_mapper: &route_mapper/1, stop_mapper: &stop_mapper/1, trip_mapper: &trip_mapper/1]
-      {:ok, %{itinerary: itinerary, itinerary_row_list: from_itinerary(itinerary, opts), opts: opts}}
+      deps = %ItineraryRow.Dependencies{
+        route_mapper: &route_mapper/1,
+        stop_mapper: &stop_mapper/1,
+        trip_mapper: &trip_mapper/1,
+      }
+      {:ok, %{itinerary: itinerary, itinerary_row_list: from_itinerary(itinerary, deps), deps: deps}}
     end
 
     test "ItineraryRow contains stop name and ID if stop_id present", %{itinerary_row_list: itinerary_row_list} do
@@ -21,12 +26,12 @@ defmodule Site.TripPlan.ItineraryRowListTest do
       end
     end
 
-    test "ItineraryRow contains given stop name when no stop_id present", %{opts: opts} do
+    test "ItineraryRow contains given stop name when no stop_id present", %{deps: deps} do
       from = TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
       to = TripPlan.Api.MockPlanner.random_stop(stop_id: "place-sstat")
       date_time =  ~N[2017-06-27T11:43:00]
       {:ok, [itinerary]} = TripPlan.plan(from, to, depart_at: date_time)
-      itinerary_row_list = from_itinerary(itinerary, opts)
+      itinerary_row_list = from_itinerary(itinerary, deps)
 
       itinerary_destination = itinerary.legs |> Enum.reject(& &1.from.stop_id) |> List.first |> Map.get(:from)
       row_destination = Enum.find(itinerary_row_list.rows, fn %{stop: {_stop_name, stop_id}} -> is_nil(stop_id) end)
@@ -65,10 +70,10 @@ defmodule Site.TripPlan.ItineraryRowListTest do
       assert Enum.empty?(intersection)
     end
 
-    test "Distance is given with personal steps", %{itinerary: itinerary, opts: opts} do
+    test "Distance is given with personal steps", %{itinerary: itinerary, deps: deps} do
       leg = TripPlan.Api.MockPlanner.personal_leg(@from, @to, @date_time, Timex.shift(@date_time, minutes: 15))
       personal_itinerary = %{itinerary | legs: [leg]}
-      row_list = from_itinerary(personal_itinerary, opts)
+      row_list = from_itinerary(personal_itinerary, deps)
       for {_step, distance} <- Enum.flat_map(row_list, & &1.steps) do
         assert distance
       end
@@ -82,38 +87,34 @@ defmodule Site.TripPlan.ItineraryRowListTest do
       end
     end
 
-    test "Uses to name when one is provided", %{itinerary: itinerary, opts: opts} do
-      user_opts = Keyword.merge(opts, [to: "Final Destination"])
-      {destination, stop_id, _datetime} = from_itinerary(itinerary, user_opts).destination
+    test "Uses to name when one is provided", %{itinerary: itinerary, deps: deps} do
+      {destination, stop_id, _datetime} = from_itinerary(itinerary, deps, [to: "Final Destination"]).destination
       assert destination == "Final Destination"
       refute stop_id
     end
 
-    test "Does not replace to stop_id", %{opts: opts} do
+    test "Does not replace to stop_id", %{deps: deps} do
       to = TripPlan.Api.MockPlanner.random_stop(stop_id: "place-north")
       {:ok, [itinerary]} = TripPlan.plan(@from, to, depart_at: @date_time)
-      user_opts = Keyword.merge(opts, [to: "Final Destination"])
-      {name, id, _datetime} = itinerary |> from_itinerary(user_opts) |> Map.get(:destination)
+      {name, id, _datetime} = itinerary |> from_itinerary(deps, [to: "Final Destination"]) |> Map.get(:destination)
       assert name == "Final Destination"
       assert id == "place-north"
     end
 
-    test "Uses given from name when one is provided", %{opts: opts} do
+    test "Uses given from name when one is provided", %{deps: deps} do
       from = TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
       {:ok, [itinerary]} = TripPlan.plan(from, @to, depart_at: @date_time)
-      user_opts = Keyword.merge(opts, [from: "Starting Point"])
-      {name, nil} = itinerary |> from_itinerary(user_opts) |> Enum.at(0) |> Map.get(:stop)
+      {name, nil} = itinerary |> from_itinerary(deps, [from: "Starting Point"]) |> Enum.at(0) |> Map.get(:stop)
       assert name == "Starting Point"
     end
 
-    test "Does not replace from stop_id", %{itinerary: itinerary, opts: opts} do
-      user_opts = Keyword.merge(opts, [from: "Starting Point"])
-      {name, id} = itinerary |> from_itinerary(user_opts) |> Enum.at(0) |> Map.get(:stop)
+    test "Does not replace from stop_id", %{itinerary: itinerary, deps: deps} do
+      {name, id} = itinerary |> from_itinerary(deps, [from: "Starting Point"]) |> Enum.at(0) |> Map.get(:stop)
       assert name == "Starting Point"
       assert id == "place-sstat"
     end
 
-    test "Returns additional routes for Green Line legs", %{itinerary: itinerary, opts: opts} do
+    test "Returns additional routes for Green Line legs", %{itinerary: itinerary, deps: deps} do
       green_leg = %TripPlan.Leg{
         start: @date_time,
         stop: @date_time,
@@ -126,14 +127,14 @@ defmodule Site.TripPlan.ItineraryRowListTest do
         }
       }
       personal_itinerary = %{itinerary | legs: [green_leg]}
-      itinerary_rows = from_itinerary(personal_itinerary, opts)
+      itinerary_rows = from_itinerary(personal_itinerary, deps)
       additional_routes = itinerary_rows.rows |> List.first() |> Map.get(:additional_routes) |> Enum.map(& &1.id)
       assert additional_routes == ["Green-B", "Green-D"]
     end
 
-    test "Uses accessible? flag from itinerary", %{itinerary: itinerary, opts: opts} do
-      accessible_itinerary_rows = from_itinerary(%{itinerary | accessible?: true}, opts)
-      inaccessible_itinerary_rows = from_itinerary(%{itinerary | accessible?: false}, opts)
+    test "Uses accessible? flag from itinerary", %{itinerary: itinerary, deps: deps} do
+      accessible_itinerary_rows = from_itinerary(%{itinerary | accessible?: true}, deps)
+      inaccessible_itinerary_rows = from_itinerary(%{itinerary | accessible?: false}, deps)
 
       assert accessible_itinerary_rows.accessible?
       refute inaccessible_itinerary_rows.accessible?

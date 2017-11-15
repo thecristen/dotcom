@@ -6,11 +6,23 @@ defmodule Site.TripPlan.ItineraryRow do
   @typep name_and_id :: {String.t, String.t | nil}
   @typep step :: String.t
 
-  @default_opts [
-    stop_mapper: &Stops.Repo.get/1,
-    route_mapper: &Routes.Repo.get/1,
-    trip_mapper: &Schedules.Repo.trip/1
-  ]
+  defmodule Dependencies do
+    @type stop_mapper :: (Stops.Stop.id_t -> Stops.Stop.t | nil)
+    @type route_mapper :: (Routes.Route.id_t -> Routes.Route.t | nil)
+    @type trip_mapper :: (Schedules.Trip.id_t -> Schedules.Trip.t | nil)
+
+    defstruct [
+      stop_mapper: &Stops.Repo.get/1,
+      route_mapper: &Routes.Repo.get/1,
+      trip_mapper: &Schedules.Repo.trip/1
+    ]
+
+    @type t :: %__MODULE__{
+      stop_mapper: stop_mapper,
+      route_mapper: route_mapper,
+      trip_mapper: trip_mapper,
+    }
+  end
 
   defstruct [
     stop: {nil, nil},
@@ -32,9 +44,6 @@ defmodule Site.TripPlan.ItineraryRow do
     additional_routes: [Route.t]
   }
 
-  @type route_mapper :: (Routes.Route.id_t -> Routes.Route.t | nil)
-  @type stop_mapper :: (Stops.Stop.id_t -> Stops.Stop.t | nil)
-  @type trip_mapper :: (Schedules.Trip.id_t -> Schedules.Trip.t | nil)
 
   def route_id(%__MODULE__{route: %Route{id: id}}), do: id
   def route_id(_row), do: nil
@@ -47,30 +56,25 @@ defmodule Site.TripPlan.ItineraryRow do
 
   @doc """
   Builds an ItineraryRow struct from the given leg and options
-  Possible Options are:
-    * route_mapper
-    * stop_mapper
-    * trip_mapper
   """
-  @spec from_leg(Leg.t, Keyword.t) :: t
-  def from_leg(leg, user_opts \\ []) do
-    opts = Keyword.merge(@default_opts, user_opts)
-    trip = leg |> Leg.trip_id |> parse_trip_id(opts[:trip_mapper])
-    route = leg |> Leg.route_id |> parse_route_id(opts[:route_mapper])
-    stop = name_from_position(leg.from, opts[:stop_mapper])
+  @spec from_leg(Leg.t, Dependencies.t) :: t
+  def from_leg(leg, deps) do
+    trip = leg |> Leg.trip_id |> parse_trip_id(deps.trip_mapper)
+    route = leg |> Leg.route_id |> parse_route_id(deps.route_mapper)
+    stop = name_from_position(leg.from, deps.stop_mapper)
     %__MODULE__{
       stop: stop,
       transit?: Leg.transit?(leg),
       route: route,
       trip: trip,
       departure: leg.start,
-      steps: get_steps(leg.mode, opts[:stop_mapper]),
-      additional_routes: get_additional_routes(route, trip, leg, stop, opts)
+      steps: get_steps(leg.mode, deps.stop_mapper),
+      additional_routes: get_additional_routes(route, trip, leg, stop, deps)
     }
   end
 
-  @spec name_from_position(NamedPosition.t, stop_mapper) :: {String.t, String.t}
-  def name_from_position(named_position, stop_mapper \\ &Stops.Repo.get/1)
+  @spec name_from_position(NamedPosition.t, Dependencies.stop_mapper) :: {String.t, String.t}
+  def name_from_position(named_position, stop_mapper)
   def name_from_position(%NamedPosition{stop_id: stop_id, name: name}, stop_mapper) when not is_nil(stop_id) do
     case stop_mapper.(stop_id) do
       nil -> {name, stop_id}
@@ -81,7 +85,7 @@ defmodule Site.TripPlan.ItineraryRow do
     {name, nil}
   end
 
-  @spec get_steps(TripPlan.Leg.mode, stop_mapper) :: [iodata]
+  @spec get_steps(TripPlan.Leg.mode, Dependencies.stop_mapper) :: [iodata]
   defp get_steps(%PersonalDetail{steps: steps}, _stop_mapper) do
     Enum.map(steps, &format_personal_step/1)
   end
@@ -91,11 +95,11 @@ defmodule Site.TripPlan.ItineraryRow do
     end
   end
 
-  @spec parse_route_id(:error | {:ok, String.t}, route_mapper) :: Routes.Route.t | nil
+  @spec parse_route_id(:error | {:ok, String.t}, Dependencies.route_mapper) :: Routes.Route.t | nil
   defp parse_route_id(:error, _route_mapper), do: nil
   defp parse_route_id({:ok, route_id}, route_mapper), do: route_mapper.(route_id)
 
-  @spec parse_trip_id(:error | {:ok, String.t}, trip_mapper) :: Schedules.Trip.t | nil
+  @spec parse_trip_id(:error | {:ok, String.t}, Dependencies.trip_mapper) :: Schedules.Trip.t | nil
   defp parse_trip_id(:error, _trip_mapper), do: nil
   defp parse_trip_id({:ok, trip_id}, trip_mapper), do: trip_mapper.(trip_id)
 
@@ -107,14 +111,12 @@ defmodule Site.TripPlan.ItineraryRow do
     ]
   end
 
-  @spec get_additional_routes(Route.t, Schedules.Trip.t, Leg.t, name_and_id, Keyword.t) :: [Route.t]
-  defp get_additional_routes(%Route{id: "Green" <> _line = route_id}, trip, leg, {_name, from_stop_id}, opts)
+  @spec get_additional_routes(Route.t, Schedules.Trip.t, Leg.t, name_and_id, Dependencies.t) :: [Route.t]
+  defp get_additional_routes(%Route{id: "Green" <> _line = route_id}, trip, leg, {_name, from_stop_id}, deps)
   when not is_nil(trip) do
-    stop_mapper = opts[:stop_mapper]
-    route_mapper = opts[:route_mapper]
     stop_pairs = GreenLine.stops_on_routes(trip.direction_id)
-    {_to_stop_name, to_stop_id} = name_from_position(leg.to, stop_mapper)
-    available_routes(route_id, from_stop_id, to_stop_id, stop_pairs, route_mapper)
+    {_to_stop_name, to_stop_id} = name_from_position(leg.to, deps.stop_mapper)
+    available_routes(route_id, from_stop_id, to_stop_id, stop_pairs, deps.route_mapper)
   end
   defp get_additional_routes(_route, _trip, _leg, _from, _stop_mapper), do: []
 
