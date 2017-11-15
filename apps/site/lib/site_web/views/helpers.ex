@@ -105,12 +105,12 @@ defmodule SiteWeb.ViewHelpers do
     |> String.to_existing_atom
   end
 
-  @spec hyphenated_mode_string(atom) :: String.t
-  @doc "Returns hyphenated mode string"
-  def hyphenated_mode_string(mode) do
-    mode
-    |> Atom.to_string
-    |> String.replace("_", "-")
+  @doc "Returns a css class: a string with hyphens."
+  @spec route_to_class(Routes.Route.t) :: String.t
+  def route_to_class(route) do
+    route
+    |> Routes.Route.icon_atom
+    |> CSSHelpers.atom_to_class
   end
 
   @spec subway_name(String.t) :: String.t

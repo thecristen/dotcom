@@ -1,4 +1,4 @@
-<div class="route-branch-stop-list stop-group <%= @route |> SvgIcon.get_icon_atom() |> hyphenated_mode_string %>">
+<div class="route-branch-stop-list stop-group <%= route_to_class(@route) %>">
   <%=
     for branch_stops <- chunk_branches(@all_stops) do
        branch_stops

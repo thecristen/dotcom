@@ -114,13 +114,13 @@ defmodule SiteWeb.ViewHelpersTest do
     end
   end
 
-  describe "mode_string/1" do
-    test "converts the atom to a dash delimted string" do
-      assert hyphenated_mode_string(:the_ride) == "the-ride"
-      assert hyphenated_mode_string(:bus) == "bus"
-      assert hyphenated_mode_string(:subway) == "subway"
-      assert hyphenated_mode_string(:commuter_rail) == "commuter-rail"
-      assert hyphenated_mode_string(:ferry) == "ferry"
+  describe "route_to_class/1" do
+    test "converts routes to css classes based on type" do
+      assert route_to_class(%Routes.Route{type: 0}) == "subway"
+      assert route_to_class(%Routes.Route{type: 1}) == "subway"
+      assert route_to_class(%Routes.Route{type: 2}) == "commuter-rail"
+      assert route_to_class(%Routes.Route{type: 3}) == "bus"
+      assert route_to_class(%Routes.Route{type: 4}) == "ferry"
     end
   end
 

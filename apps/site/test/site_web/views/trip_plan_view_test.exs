@@ -3,7 +3,6 @@ defmodule SiteWeb.TripPlanViewTest do
   import SiteWeb.TripPlanView
   import Phoenix.HTML, only: [safe_to_string: 1]
   import UrlHelpers, only: [update_url: 2]
-  import SiteWeb.ViewHelpers, only: [hyphenated_mode_string: 1]
   alias Site.TripPlan.{Query, ItineraryRow}
   alias TripPlan.Api.MockPlanner
   alias Routes.Route
@@ -261,28 +260,28 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
   describe "icon_for_route/1" do
     test "non-subway transit legs" do
-      for gtfs_type <- 2..4 do
+      for {gtfs_type, expected_icon_class} <- [{2, "commuter-rail"}, {3, "bus"}, {4, "ferry"}] do
         route = %Routes.Route{
           id: "id",
           type: gtfs_type,
         }
-        expected_icon_class = route
-        |> Site.Components.Icons.SvgIcon.get_icon_atom
-        |> hyphenated_mode_string
         icon = icon_for_route(route)
         assert safe_to_string(icon) =~ expected_icon_class
       end
     end
 
     test "subway transit legs" do
-      for {id, type} <- [{"Red", 1}, {"Mattapan", 0}, {"Orange", 1}, {"Blue", 1}, {"Green", 0}] do
+      for {id, type, expected_icon_class} <- [
+        {"Red", 1, "red-line"},
+        {"Mattapan", 0, "mattapan-trolley"},
+        {"Orange", 1, "orange-line"},
+        {"Blue", 1, "blue-line"},
+        {"Green", 0, "green-line"}
+      ] do
         route = %Routes.Route{
           id: id,
           type: type,
         }
-        expected_icon_class = route
-        |> Site.Components.Icons.SvgIcon.get_icon_atom
-        |> hyphenated_mode_string
         icon = icon_for_route(route)
         assert safe_to_string(icon) =~ expected_icon_class
       end
