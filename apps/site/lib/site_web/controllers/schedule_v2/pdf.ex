@@ -1,7 +1,9 @@
 defmodule SiteWeb.ScheduleV2Controller.Pdf do
   @moduledoc """
   For getting all the pdfs associated with a route from the CMS.
-  The pdf action redirects to the most up-to-date pdf.
+
+  The pdf action redirects to the first up-to-date pdf if one exists,
+  or the first upcoming pdf if necessary.
   """
 
   use SiteWeb, :controller

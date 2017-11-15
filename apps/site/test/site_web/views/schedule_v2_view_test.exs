@@ -488,31 +488,45 @@ defmodule SiteWeb.ScheduleV2ViewTest do
 
   describe "route_pdf_link/3" do
     test "returns an empty list if no PDF for that route" do
-      rendered = safe_to_string(route_pdf_link([], %Routes.Route{}, ~D[2018-01-01]))
-      assert {"div", _, []} = Floki.parse(rendered)
+      route = %Routes.Route{}
+      today = ~D[2018-01-01]
+      assert {"div", _, []} = [] |> route_pdf_link(route, today) |> safe_to_string |> Floki.parse
+      assert {"div", _, []} = nil |> route_pdf_link(route, today) |> safe_to_string |> Floki.parse
     end
 
     test "shows all PDFs for the route" do
       route_pdfs = [
         %Content.RoutePdf{path: "/basic-current-url", date_start: ~D[2017-12-01]},
         %Content.RoutePdf{path: "/basic-future-url", date_start: ~D[2018-02-01]},
-        %Content.RoutePdf{path: "/custom-url", date_start: ~D[2017-12-01], link_text_override: "custom text"},
+        %Content.RoutePdf{path: "/custom-url", date_start: ~D[2017-12-01], link_text_override: "custom schedule"},
       ]
       route = %Routes.Route{name: "1", type: 3}
       rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
-      assert rendered =~ "View PDF of Route 1 paper schedule"
+      assert rendered =~ "View PDF of current Route 1 schedule"
       assert rendered =~ "basic-current-url"
-      assert rendered =~ "View PDF of custom text"
-      assert rendered =~ "View PDF of upcoming schedule — effective Feb 1"
       assert rendered =~ "http://" # full URL
+      assert rendered =~ "View PDF of current custom schedule"
+      assert rendered =~ "View PDF of upcoming Route 1 schedule — effective Feb 1"
+    end
+
+    test "does not specify 'current' when all schedules are current" do
+      route_pdfs = [
+        %Content.RoutePdf{path: "/basic-current-url", date_start: ~D[2017-12-01]},
+        %Content.RoutePdf{path: "/custom-url", date_start: ~D[2017-12-01], link_text_override: "custom schedule"},
+      ]
+      route = %Routes.Route{name: "1", type: 3}
+      rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
+      assert rendered =~ "View PDF of Route 1 schedule"
+      assert rendered =~ "View PDF of custom schedule"
     end
 
     test "considers PDFs that start today as current" do
       route_pdfs = [%Content.RoutePdf{path: "/url", date_start: ~D[2018-01-01]}]
       route = %Routes.Route{name: "1", type: 3}
       rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
-      assert rendered =~ "View PDF of Route 1 paper schedule"
+      assert rendered =~ "View PDF of Route 1 schedule"
     end
+
   end
 
   describe "pretty_route_name/1" do

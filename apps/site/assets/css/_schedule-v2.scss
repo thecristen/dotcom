@@ -58,9 +58,6 @@
     .stop-filters,
     .trip-filters,
     .trip-list-v2,
-    .trip-schedules-pdf > a {
-      margin-bottom: $space-12;
-    }
 
     .route-stop-heading {
       margin-bottom: $space-4;
@@ -80,10 +77,6 @@
 
     .trip-list-v2-row {
       padding: $space-6 $space-12;
-    }
-
-    .trip-schedules-pdf {
-      margin-top: 0;
     }
   }
 }
@@ -272,18 +265,6 @@ a {
 
 .commuter-status {
   @include first-column;
-}
-
-.trip-schedules-pdf-multiple {
-  > a {
-    clear: left;
-    float: left;
-    margin-bottom: $base-spacing;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
 }
 
 .schedules-v2-pdf-link {

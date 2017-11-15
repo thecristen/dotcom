@@ -110,28 +110,41 @@ defmodule SiteWeb.ScheduleV2View do
 
   @spec route_pdf_link([Content.RoutePdf] | nil, Route.t, Date.t) :: Phoenix.HTML.Safe.t
   def route_pdf_link(route_pdfs, route, today) do
+    route_pdfs = route_pdfs || []
+    all_current? = Enum.all?(route_pdfs, &Content.RoutePdf.started?(&1, today))
     content_tag :div, class: "pdf-links" do
-      for pdf <- route_pdfs || [] do
+      for pdf <- route_pdfs do
         url = static_url(SiteWeb.Endpoint, pdf.path)
         content_tag :div, class: "schedules-v2-pdf-link" do
           link(to: url, target: "_blank") do
-            [fa("file-pdf-o"), " ", text_for_route_pdf(pdf, route, today)]
+            text_for_route_pdf(pdf, route, today, all_current?)
           end
         end
       end
     end
   end
 
-  @spec text_for_route_pdf(Content.RoutePdf.t, Route.t, Date.t) :: iodata
-  defp text_for_route_pdf(pdf, route, today) do
-    cond do
-      Content.RoutePdf.custom?(pdf) ->
-        ["View PDF of ", pdf.link_text_override]
-      Content.RoutePdf.started?(pdf, today) ->
-        ["View PDF of ", pretty_route_name(route), " paper schedule"]
-      true ->
-        ["View PDF of upcoming schedule — effective ", pretty_date(pdf.date_start)]
+  @spec text_for_route_pdf(Content.RoutePdf.t, Route.t, Date.t, boolean) :: iodata
+  defp text_for_route_pdf(pdf, route, today, all_current?) do
+    current_or_upcoming_text = cond do
+      all_current? -> ""
+      Content.RoutePdf.started?(pdf, today) -> "current "
+      true -> "upcoming "
     end
+
+    pdf_name = if Content.RoutePdf.custom?(pdf) do
+      pdf.link_text_override
+    else
+      [pretty_route_name(route), " schedule"]
+    end
+
+    effective_date_text = if Content.RoutePdf.started?(pdf, today) do
+      ""
+    else
+      [" — effective ", pretty_date(pdf.date_start)]
+    end
+
+    [fa("file-pdf-o"), " View PDF of ", current_or_upcoming_text, pdf_name, effective_date_text]
   end
 
   @spec pretty_route_name(Route.t) :: String.t
