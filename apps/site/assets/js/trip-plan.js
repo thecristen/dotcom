@@ -11,6 +11,22 @@ export default function tripPlan($ = window.jQuery) {
   $("[data-planner-body]").on("show.bs.collapse", toggleIcon);
   $("[data-planner-body]").on("shown.bs.collapse", redrawMap);
   $(".itinerary-alert-toggle").on("click", toggleAlertDropdownText);
+  if (navigator.userAgent.search("Firefox") > 0) {
+    // We only want to load map images if they're actually being // used, to avoid spending money unnecessarily.
+    // Normally, that's accomplished by using background-image: url(); however, Firefox hides background images by
+    // default in printouts. This is a hack to load the static map image on Firefox only when javascript is enabled
+    // and the user has requested to print the page. The image is only visible under the @media print query, so
+    // it does not need to be removed after printing.
+    window.addEventListener("beforeprint", firefoxPrintStaticMap);
+  } else {
+    // All other browsers load background images as expected when printing, so we set the background image url
+    // and remove the unnecessary image tag. Background images are only loaded when their element becomes visible,
+    // so the image will not be loaded unless the user activates the Print media query.
+    for (const div of document.getElementsByClassName("map-static")) {
+      div.setAttribute("style", "background-image: url(" + div.getAttribute("data-static-url") + ")");
+      div.setAttribute("data-static-url", null);
+    }
+  }
   $(document).on("turbolinks:load", function() {
     $(".itinerary-alert-toggle").show();
     $(".itinerary-alert-toggle").trigger('click');
@@ -38,6 +54,16 @@ export const DATE_TIME_IDS = {
     container: "plan-time",
     select: "plan-time-select",
     link: "plan-time-link"
+  }
+}
+function firefoxPrintStaticMap() {
+  const expanded = Array.from(document.getElementsByClassName("trip-plan-itinerary-body")).find(el => el.classList.contains("in"));
+  if (expanded) {
+    const container = document.getElementById(expanded.id + "-map-static")
+    const img = document.createElement("img");
+    img.src = container.getAttribute("data-static-url");
+    img.classList.add("map-print");
+    container.appendChild(img);
   }
 }
 
