@@ -22,16 +22,17 @@ defmodule SiteWeb.PartialView do
   @doc """
   Returns the suffix to be shown in the stop selector.
   """
-  @spec stop_selector_suffix(Conn.t, Stops.Stop.id_t) :: iodata
-  def stop_selector_suffix(%Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, stop_id) do
+  @spec stop_selector_suffix(Conn.t, Stops.Stop.id_t, String.t | nil) :: iodata
+  def stop_selector_suffix(conn, stop_id, text \\ "")
+  def stop_selector_suffix(%Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, stop_id, text) do
     if zone = conn.assigns.zone_map[stop_id] do
       ["Zone ", zone]
     else
-      ""
+      text || ""
     end
   end
-  def stop_selector_suffix(%Conn{assigns: %{route: %Routes.Route{id: "Green"}}} = conn, stop_id) do
-    GreenLine.branch_ids()
+  def stop_selector_suffix(%Conn{assigns: %{route: %Routes.Route{id: "Green"}}} = conn, stop_id, text) do
+    case GreenLine.branch_ids()
     |> Enum.flat_map(fn route_id ->
       if GreenLine.stop_on_route?(stop_id, route_id, conn.assigns.stops_on_routes) do
         [display_branch_name(route_id)]
@@ -39,10 +40,13 @@ defmodule SiteWeb.PartialView do
         []
       end
     end)
-    |> Enum.join(",")
+    |> Enum.intersperse(",") do
+      [] -> text || ""
+      iodata -> iodata
+    end
   end
-  def stop_selector_suffix(_conn, _stop_id) do
-    ""
+  def stop_selector_suffix(_conn, _stop_id, text) do
+    text || ""
   end
 
   @doc """

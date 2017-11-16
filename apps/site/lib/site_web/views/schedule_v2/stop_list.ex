@@ -41,11 +41,22 @@ defmodule SiteWeb.ScheduleV2View.StopList do
   Sets the direction_id for the "Schedules from here" link. Chooses the opposite of the current direction only for the last stop
   on the line or branch (since there are no trips in that direction from those stops).
   """
-  @spec schedule_link_direction_id(RouteStop.t, [StopBubble.stop_bubble], 0 | 1) :: 0 | 1
-  def schedule_link_direction_id(%RouteStop{is_terminus?: true, is_beginning?: false}, _, direction_id) do
-    case direction_id do
-      0 -> 1
-      1 -> 0
+  @spec schedule_link_direction_id(RouteStop.t, [Stops.Stop.t], 0 | 1) :: 0 | 1 | nil
+  def schedule_link_direction_id(%RouteStop{is_terminus?: true, is_beginning?: false}, [], _) do
+    # if the reverse direction doesn't have any stops, we don't want to link to it
+    nil
+  end
+  def schedule_link_direction_id(%RouteStop{is_terminus?: true, is_beginning?: false} = rs, all_stops, direction_id) do
+    reversed_direction_id = case direction_id do
+                              0 -> 1
+                              1 -> 0
+                            end
+    # if the stop is also excluded from the reverse direction, we don't want
+    # to link to it. This matches the logic we use for redirecting when the
+    # origin is selected in the OriginDestination plug.
+    excluded = ExcludedStops.excluded_origin_stops(reversed_direction_id, rs.route.id, all_stops)
+    unless rs.id in excluded do
+      reversed_direction_id
     end
   end
   def schedule_link_direction_id(_, _, direction_id), do: direction_id
@@ -76,6 +87,7 @@ defmodule SiteWeb.ScheduleV2View.StopList do
       conn: assigns.conn,
       show_checkmark?: false,
       row_content_template: "_line_page_stop_info.html",
+      reverse_direction_all_stops: assigns.reverse_direction_all_stops,
       expanded: assigns.expanded
     }
   end

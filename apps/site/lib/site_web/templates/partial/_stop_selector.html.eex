@@ -17,11 +17,11 @@
       <% end %>
       <%= for stop <- @all_stops do %>
         <% stop_id = stop.id %>
-        <% disabled = Enum.find(@disabled_values, &match?({^stop_id, _}, &1)) %>
+        <% disabled = Enum.find_value(@disabled_values, fn {id, text} -> if stop_id == id, do: text end) %>
         <% selected = stop_id == @selected %>
         <option value="<%= stop_id %>"<%= if selected do %> selected<% end %>
                 <%= if disabled do %> disabled<% end %>
-                data-suffix="<%= stop_selector_suffix(@conn, stop_id) %>">
+                data-suffix="<%= stop_selector_suffix(@conn, stop_id, disabled) %>">
           <%= stop.name %>
         </option>
       <% end %>
