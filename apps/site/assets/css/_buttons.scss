@@ -112,17 +112,17 @@
 .commuter-rail {
   .button-container {
     @include media-breakpoint-down(sm) {
-      flex: 1 1 50%;
+      flex: 0 1 50%;
       min-width: 50%;
     }
 
     @include media-breakpoint-only(md) {
-      flex: 1 1 33%;
+      flex: 0 1 33%;
       min-width: 33%;
     }
 
     @include media-breakpoint-up(lg) {
-      flex: 1 1 25%;
+      flex: 0 1 25%;
       min-width: 25%;
     }
   }

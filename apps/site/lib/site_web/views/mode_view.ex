@@ -2,7 +2,10 @@ defmodule SiteWeb.ModeView do
   use SiteWeb, :view
 
   def get_route_group(:commuter_rail = route_type, route_groups) do
-    route_groups[route_type] |> Enum.sort_by(&(&1.name))
+    # Note that we do not sort the commuter rail routes by name as we
+    # want to preserve the order supplied by the API, keeping Foxboro
+    # last.
+    route_groups[route_type]
   end
   def get_route_group(:the_ride, _) do
     [{"MBTA Paratransit Program", cms_static_page_path(SiteWeb.Endpoint, "/accessibility/the-ride")}]
