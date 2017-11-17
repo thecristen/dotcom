@@ -8,39 +8,41 @@ defmodule Stops.ApiTest do
     assert all() == Enum.uniq(all())
   end
 
-  test "by_gtfs_id uses the gtfs parameter" do
-    stop = by_gtfs_id("Anderson/ Woburn")
+  describe "by_gtfs_id/1" do
+    test "uses the gtfs ID to find a stop" do
+      stop = by_gtfs_id("Anderson/ Woburn")
 
-    assert stop.id == "Anderson/ Woburn"
-    assert stop.name == "Anderson/Woburn"
-    assert stop.station?
-    assert stop.accessibility != []
-    assert stop.parking_lots != []
-    for parking_lot <- stop.parking_lots do
-      assert %Stop.ParkingLot{} = parking_lot
-      assert parking_lot.spots != nil
-      manager = parking_lot.manager
-      assert manager.name == "Massport"
+      assert stop.id == "Anderson/ Woburn"
+      assert stop.name == "Anderson/Woburn"
+      assert stop.station?
+      assert stop.accessibility != []
+      assert stop.parking_lots != []
+      for parking_lot <- stop.parking_lots do
+        assert %Stop.ParkingLot{} = parking_lot
+        assert parking_lot.spots != nil
+        manager = parking_lot.manager
+        assert manager.name == "Massport"
+      end
     end
-  end
 
-  test "by_gtfs_id can use the GTFS accessibility data" do
-    stop = by_gtfs_id("Yawkey")
-    assert ["accessible" | _] = stop.accessibility
-  end
+    test "can use the GTFS accessibility data" do
+      stop = by_gtfs_id("Yawkey")
+      assert ["accessible" | _] = stop.accessibility
+    end
 
-  test "by_gtfs_id returns nil if stop is not found" do
-    assert by_gtfs_id("-1") == nil
-  end
+    test "returns nil if stop is not found" do
+      assert by_gtfs_id("-1") == nil
+    end
 
-  test "by_gtfs_id returns a stop even if the stop is not a station" do
-    stop = by_gtfs_id("411")
+    test "returns a stop even if the stop is not a station" do
+      stop = by_gtfs_id("411")
 
-    assert stop.id == "411"
-    assert stop.name == "Warren St @ Brunswick St"
-    assert stop.latitude != nil
-    assert stop.longitude != nil
-    refute stop.station?
+      assert stop.id == "411"
+      assert stop.name == "Warren St @ Brunswick St"
+      assert stop.latitude != nil
+      assert stop.longitude != nil
+      refute stop.station?
+    end
   end
 
   test "by_route returns an error tuple if the V3 API returns an error" do
