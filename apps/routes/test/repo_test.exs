@@ -123,7 +123,6 @@ defmodule Routes.RepoTest do
       headsigns = Routes.Repo.headsigns("CR-Lowell")
 
       assert "Lowell" in headsigns[0]
-      assert "Anderson/Woburn" in headsigns[0]
       assert "Haverhill" in headsigns[0]
       assert "North Station" in headsigns[1]
     end
