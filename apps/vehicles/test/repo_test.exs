@@ -17,7 +17,7 @@ defmodule Vehicles.RepoTest do
     test "optionally takes a direction_id parameter" do
       vehicles = Repo.route("CR-Lowell", direction_id: 1)
       for vehicle <- vehicles do
-        assert match?(%Vehicle{route_id: "CR-Lowell", direction_id: 1}, vehicle)
+        assert match?(%Vehicle{direction_id: 1}, vehicle)
       end
     end
 
