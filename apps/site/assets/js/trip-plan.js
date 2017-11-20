@@ -18,10 +18,12 @@ export default function tripPlan($ = window.jQuery) {
     // and the user has requested to print the page. The image is only visible under the @media print query, so
     // it does not need to be removed after printing.
     window.addEventListener("beforeprint", firefoxPrintStaticMap);
-  } else {
+  } else if (navigator.userAgent.search("CasperJS") == 0) {
     // All other browsers load background images as expected when printing, so we set the background image url
     // and remove the unnecessary image tag. Background images are only loaded when their element becomes visible,
     // so the image will not be loaded unless the user activates the Print media query.
+    //
+    // Note that we also skip this when running in backstop as this was breaking backstop rendering with CasperJS
     for (const div of document.getElementsByClassName("map-static")) {
       div.setAttribute("style", "background-image: url(" + div.getAttribute("data-static-url") + ")");
       div.setAttribute("data-static-url", null);
