@@ -222,14 +222,14 @@
       "url": "http://localhost:8082/stops/subway",
       "selectors": ["main"],
       "delay": 100,
-      "misMatchThreshold": 0.1
+      "misMatchThreshold": 0.05
     },
     {
       "label": "Stops List Commuter Rail",
       "url": "http://localhost:8082/stops/commuter-rail",
       "selectors": ["main"],
       "delay": 100,
-      "misMatchThreshold": 0.1
+      "misMatchThreshold": 0.05
     },
     {
       "label": "Commuter Rail Maps and Info Worcester",
