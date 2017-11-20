@@ -55,4 +55,9 @@ defmodule Content.Event do
       minutes_file: parse_files(data, "field_minutes_file") |> List.first
     }
   end
+
+  @spec past?(t, Date.t) :: boolean
+  def past?(event, now) do
+    Date.compare(event.start_time, now) == :lt
+  end
 end

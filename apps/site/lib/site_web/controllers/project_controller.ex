@@ -15,7 +15,7 @@ defmodule SiteWeb.ProjectController do
   end
 
   def show(conn, %{"id" => id}) do
-    [project, updates, events] = [get_project(id), get_updates(id), get_upcoming_events(id)]
+    [project, updates, events] = [get_project(id), get_updates(id), get_events(id)]
     |> Enum.map(&Task.async/1)
     |> Enum.map(&Task.await/1)
 
@@ -29,11 +29,14 @@ defmodule SiteWeb.ProjectController do
       Breadcrumb.build(@breadcrumb_base, project_path(conn, :index)),
       Breadcrumb.build(project.title)]
 
+    {past_events, upcoming_events} = Enum.split_with(events, &Content.Event.past?(&1, conn.assigns.date_time))
+
     render conn, "show.html", %{
       breadcrumbs: breadcrumbs,
       project: project,
       updates: updates,
-      events: events,
+      past_events: past_events,
+      upcoming_events: upcoming_events,
       narrow_template: true
     }
   end
@@ -61,9 +64,9 @@ defmodule SiteWeb.ProjectController do
   @spec get_project(String.t) :: (() -> Content.Project.t | no_return)
   defp get_project(id), do: fn -> Content.Repo.project(id) end
 
-  @spec get_upcoming_events(String.t) :: (() -> [Content.Event.t])
-  defp get_upcoming_events(id) do
-    fn -> Content.Repo.events(project_id: id, start_time_gt: Timex.format!(Util.today, "{ISOdate}")) end
+  @spec get_events(String.t) :: (() -> [Content.Event.t])
+  defp get_events(id) do
+    fn -> Content.Repo.events(project_id: id) end
   end
 
   @spec get_updates(String.t) :: (() -> [Content.Project.t])
