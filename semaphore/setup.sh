@@ -30,12 +30,10 @@ if ! kiex use $ELIXIR_VERSION; then
     kiex use $ELIXIR_VERSION
 fi
 
-mix local.hex --force
-mix local.rebar --force
 # retry setup if it fails
 n=0
 until [ $n -ge 3 ]; do
-    MIX_ENV=test mix deps.get && break
+    MIX_ENV=test mix do local.hex --force, local.rebar --force, deps.get && break
     n=$[$n+1]
     sleep 3
 done
