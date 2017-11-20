@@ -18,7 +18,7 @@ defmodule Site.RoutePdfsTest do
       assert choose_pdfs([], @date) == []
     end
 
-    test "shows single basic pdf" do
+    test "shows single current pdf" do
       assert choose_pdfs([
         %RoutePdf{path: "/url", date_start: ~D[2017-12-01]},
       ], @date) == [
@@ -26,93 +26,27 @@ defmodule Site.RoutePdfsTest do
       ]
     end
 
-    test "chooses most recent pdf if multiple are up-to-date" do
+    test "shows multiple current pdf" do
       assert choose_pdfs([
-        %RoutePdf{path: "/url2", date_start: ~D[2017-12-01]},
-        %RoutePdf{path: "/url1", date_start: ~D[2017-11-01]},
+        %RoutePdf{path: "/url", date_start: ~D[2017-12-01]},
+        %RoutePdf{path: "/custom", date_start: ~D[2017-12-01], link_text_override: "custom"},
       ], @date) == [
-        %RoutePdf{path: "/url2", date_start: ~D[2017-12-01]},
+        %RoutePdf{path: "/url", date_start: ~D[2017-12-01]},
+        %RoutePdf{path: "/custom", date_start: ~D[2017-12-01], link_text_override: "custom"},
       ]
     end
 
-    test "shows upcoming basic pdf" do
-      assert choose_pdfs([
-        %RoutePdf{path: "/url", date_start: ~D[2018-02-01]},
-      ], @date) == [
-        %RoutePdf{path: "/url", date_start: ~D[2018-02-01]},
-      ]
-    end
-
-    test "shows upcoming basic pdf after current one" do
+    test "shows upcoming pdf after current one" do
       assert choose_pdfs([
         %RoutePdf{path: "/url2", date_start: ~D[2018-02-01]},
+        %RoutePdf{path: "/custom2", date_start: ~D[2018-02-01], link_text_override: "custom2"},
         %RoutePdf{path: "/url1", date_start: ~D[2017-11-01]},
+        %RoutePdf{path: "/custom1", date_start: ~D[2017-11-01], link_text_override: "custom1"},
       ], @date) == [
         %RoutePdf{path: "/url1", date_start: ~D[2017-11-01]},
+        %RoutePdf{path: "/custom1", date_start: ~D[2017-11-01], link_text_override: "custom1"},
         %RoutePdf{path: "/url2", date_start: ~D[2018-02-01]},
-      ]
-    end
-
-    test "shows most imminent upcoming pdf if there are multiple" do
-      assert choose_pdfs([
-        %RoutePdf{path: "/url2", date_start: ~D[2018-03-01]},
-        %RoutePdf{path: "/url1", date_start: ~D[2018-02-01]},
-      ], @date) == [
-        %RoutePdf{path: "/url1", date_start: ~D[2018-02-01]},
-      ]
-    end
-
-    test "considers pdfs that become effective today as current" do
-      assert choose_pdfs([
-        %RoutePdf{path: "/url", date_start: ~D[2018-01-01]},
-      ], @date) == [
-        %RoutePdf{path: "/url", date_start: ~D[2018-01-01]},
-      ]
-    end
-
-    test "show single pdf with custom text" do
-      assert choose_pdfs([
-        %RoutePdf{path: "/url", date_start: ~D[2017-12-01], link_text_override: "Special Message"},
-      ], @date) == [
-        %RoutePdf{path: "/url", date_start: ~D[2017-12-01], link_text_override: "Special Message"},
-      ]
-    end
-
-    test "shows multiple custom pdfs ordered by their input" do
-      assert choose_pdfs([
-        %RoutePdf{path: "/url1", date_start: ~D[2017-12-01], link_text_override: "Special Message 1"},
-        %RoutePdf{path: "/url2", date_start: ~D[2017-11-01], link_text_override: "Special Message 2"},
-      ], @date) == [
-        %RoutePdf{path: "/url1", date_start: ~D[2017-12-01], link_text_override: "Special Message 1"},
-        %RoutePdf{path: "/url2", date_start: ~D[2017-11-01], link_text_override: "Special Message 2"},
-      ]
-    end
-
-    test "does not show upcoming pdf with custom text" do
-      assert choose_pdfs([
-        %RoutePdf{path: "/url", date_start: ~D[2018-02-01], link_text_override: "Special Message"},
-      ], @date) == []
-    end
-
-    test "considers pdfs with custom text that become effective today as current" do
-      assert choose_pdfs([
-        %RoutePdf{path: "/url", date_start: ~D[2018-01-01], link_text_override: "Special Message"},
-      ], @date) == [
-        %RoutePdf{path: "/url", date_start: ~D[2018-01-01], link_text_override: "Special Message"},
-      ]
-    end
-
-    test "orders results basic-current, basic-upcoming, custom-text" do
-      assert choose_pdfs([
-        %RoutePdf{path: "/upcoming", date_start: ~D[2018-02-01]},
-        %RoutePdf{path: "/custom1", date_start: ~D[2017-12-01], link_text_override: "Special Message 1"},
-        %RoutePdf{path: "/basic", date_start: ~D[2017-11-01]},
-        %RoutePdf{path: "/custom2", date_start: ~D[2017-10-01], link_text_override: "Special Message 2"},
-      ], @date) == [
-        %RoutePdf{path: "/basic", date_start: ~D[2017-11-01]},
-        %RoutePdf{path: "/upcoming", date_start: ~D[2018-02-01]},
-        %RoutePdf{path: "/custom1", date_start: ~D[2017-12-01], link_text_override: "Special Message 1"},
-        %RoutePdf{path: "/custom2", date_start: ~D[2017-10-01], link_text_override: "Special Message 2"},
+        %RoutePdf{path: "/custom2", date_start: ~D[2018-02-01], link_text_override: "custom2"},
       ]
     end
 
@@ -136,39 +70,37 @@ defmodule Site.RoutePdfsTest do
       ]
     end
 
-    test "considers expiring today as still being current" do
+    test "sorts by order in the input, not date, within each section" do
       assert choose_pdfs([
-        %RoutePdf{path: "/basic", date_start: ~D[2017-11-01], date_end: ~D[2018-01-01]},
-        %RoutePdf{path: "/custom", date_start: ~D[2017-12-01], date_end: ~D[2018-01-01], link_text_override: "x"},
+        %RoutePdf{path: "/upcoming3", date_start: ~D[2018-04-01]},
+        %RoutePdf{path: "/upcoming2-expires", date_start: ~D[2018-03-01], date_end: ~D[2018-03-02]},
+        %RoutePdf{path: "/upcoming1", date_start: ~D[2018-02-01]},
+        %RoutePdf{path: "/current3", date_start: ~D[2017-11-01]},
+        %RoutePdf{path: "/current2-expires", date_start: ~D[2017-10-01], date_end: ~D[2018-01-02]},
+        %RoutePdf{path: "/current1", date_start: ~D[2017-09-01]},
       ], @date) == [
-        %RoutePdf{path: "/basic", date_start: ~D[2017-11-01], date_end: ~D[2018-01-01]},
-        %RoutePdf{path: "/custom", date_start: ~D[2017-12-01], date_end: ~D[2018-01-01], link_text_override: "x"},
+        %RoutePdf{path: "/current3", date_start: ~D[2017-11-01]},
+        %RoutePdf{path: "/current2-expires", date_start: ~D[2017-10-01], date_end: ~D[2018-01-02]},
+        %RoutePdf{path: "/current1", date_start: ~D[2017-09-01]},
+        %RoutePdf{path: "/upcoming3", date_start: ~D[2018-04-01]},
+        %RoutePdf{path: "/upcoming2-expires", date_start: ~D[2018-03-01], date_end: ~D[2018-03-02]},
+        %RoutePdf{path: "/upcoming1", date_start: ~D[2018-02-01]},
       ]
     end
 
     test "comprehensive test" do
       assert choose_pdfs([
-        %RoutePdf{path: "/custom-expired", date_start: ~D[2017-07-01], date_end: ~D[2017-08-01], link_text_override: "x"},
-        %RoutePdf{path: "/custom-current", date_start: ~D[2017-08-01], link_text_override: "x"},
-        %RoutePdf{path: "/custom-current-expires", date_start: ~D[2017-09-01], date_end: ~D[2018-05-01], link_text_override: "x"},
-        %RoutePdf{path: "/custom-starts-today", date_start: ~D[2018-01-01], link_text_override: "x"},
-        %RoutePdf{path: "/custom-ends-today", date_start: ~D[2017-09-01], date_end: ~D[2018-01-01], link_text_override: "x"},
-        %RoutePdf{path: "/custom-one-day-only", date_start: ~D[2018-01-01], date_end: ~D[2018-01-01], link_text_override: "x"},
-        %RoutePdf{path: "/custom-future-expires", date_start: ~D[2018-04-01], date_end: ~D[2018-05-01], link_text_override: "x"},
-        %RoutePdf{path: "/custom-future", date_start: ~D[2018-03-01], link_text_override: "x"},
-        %RoutePdf{path: "/basic-expired", date_start: ~D[2017-10-01], date_end: ~D[2017-11-02]},
-        %RoutePdf{path: "/basic-current-old", date_start: ~D[2017-11-01]},
-        %RoutePdf{path: "/basic-current-new-expires", date_start: ~D[2017-12-01], date_end: ~D[2018-02-01]},
-        %RoutePdf{path: "/basic-upcoming", date_start: ~D[2018-03-01]},
-        %RoutePdf{path: "/basic-upcoming-expires", date_start: ~D[2017-04-01], date_end: ~D[2018-05-01]},
+        %RoutePdf{path: "/upcoming/custom", date_start: ~D[2018-02-01], link_text_override: "x"},
+        %RoutePdf{path: "/current/custom/expires", date_start: ~D[2017-11-01], date_end: ~D[2018-01-02], link_text_override: "x"},
+        %RoutePdf{path: "/upcoming/basic/expires", date_start: ~D[2018-03-01], date_end: ~D[2018-03-02]},
+        %RoutePdf{path: "/current/basic", date_start: ~D[2017-10-01]},
+        %RoutePdf{path: "/outdated/custom", date_start: ~D[2017-12-01], date_end: ~D[2017-12-02], link_text_override: "x"},
+        %RoutePdf{path: "/outdated/basic", date_start: ~D[2017-09-01], date_end: ~D[2017-09-02]},
       ], @date) == [
-        %RoutePdf{path: "/basic-current-new-expires", date_start: ~D[2017-12-01], date_end: ~D[2018-02-01]},
-        %RoutePdf{path: "/basic-upcoming", date_start: ~D[2018-03-01]},
-        %RoutePdf{path: "/custom-current", date_start: ~D[2017-08-01], link_text_override: "x"},
-        %RoutePdf{path: "/custom-current-expires", date_start: ~D[2017-09-01], date_end: ~D[2018-05-01], link_text_override: "x"},
-        %RoutePdf{path: "/custom-starts-today", date_start: ~D[2018-01-01], link_text_override: "x"},
-        %RoutePdf{path: "/custom-ends-today", date_start: ~D[2017-09-01], date_end: ~D[2018-01-01], link_text_override: "x"},
-        %RoutePdf{path: "/custom-one-day-only", date_start: ~D[2018-01-01], date_end: ~D[2018-01-01], link_text_override: "x"},
+        %RoutePdf{path: "/current/custom/expires", date_start: ~D[2017-11-01], date_end: ~D[2018-01-02], link_text_override: "x"},
+        %RoutePdf{path: "/current/basic", date_start: ~D[2017-10-01]},
+        %RoutePdf{path: "/upcoming/custom", date_start: ~D[2018-02-01], link_text_override: "x"},
+        %RoutePdf{path: "/upcoming/basic/expires", date_start: ~D[2018-03-01], date_end: ~D[2018-03-02]},
       ]
     end
   end
