@@ -40,7 +40,7 @@ defmodule Stops.RepoTest do
 
     test "caches per-stop as well" do
       ConCache.delete(Stops.Repo, {:by_route, {"Red", 1, []}})
-      ConCache.put(Stops.Repo, {:stop, "place-brntn"}, "to-be-overwritten")
+      ConCache.put(Stops.Repo, {:stop, "place-brntn"}, {:ok, "to-be-overwritten"})
       assert get("place-brntn") == "to-be-overwritten"
 
       by_route("Red", 1, [])
