@@ -4,18 +4,14 @@ defmodule SiteWeb.ProjectController do
   alias Plug.Conn
 
   def index(conn, _) do
-    if Laboratory.enabled?(conn, :project_index) do
-      projects = Content.Repo.projects()
-      featured_projects = Enum.filter(projects, & &1.featured)
+    projects = Content.Repo.projects()
+    featured_projects = Enum.filter(projects, & &1.featured)
 
-      render(conn, "index.html", %{
-        breadcrumbs: [Breadcrumb.build(@breadcrumb_base)],
-        projects: projects,
-        featured_projects: featured_projects,
-      })
-    else
-      check_cms_or_404(conn)
-    end
+    render(conn, "index.html", %{
+      breadcrumbs: [Breadcrumb.build(@breadcrumb_base)],
+      projects: projects,
+      featured_projects: featured_projects,
+    })
   end
 
   def show(conn, %{"id" => id}) do
