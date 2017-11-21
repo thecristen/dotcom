@@ -13,7 +13,6 @@ defmodule Site.Application do
     children = [
       # Start the endpoint when the application starts
       supervisor(SiteWeb.Endpoint, []),
-      worker(Logger.Backend.Logentries.Output.SslKeepOpen.Server, []),
       supervisor(Site.GreenLine.Supervisor, []),
     ]
 
