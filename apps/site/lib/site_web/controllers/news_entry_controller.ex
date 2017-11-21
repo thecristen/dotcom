@@ -22,15 +22,19 @@ defmodule SiteWeb.NewsEntryController do
   def show(conn, %{"id" => id}) do
     case Content.Repo.news_entry(id) do
       :not_found -> check_cms_or_404(conn)
-      news_entry ->
-        recent_news = Content.Repo.recent_news(current_id: news_entry.id)
-        conn
-        |> assign(:narrow_template, true)
-        |> assign(:breadcrumbs, show_breadcrumbs(conn, news_entry))
-        |> assign(:news_entry, news_entry)
-        |> assign(:recent_news, recent_news)
-        |> render(:show)
+      news_entry -> show_news_entry(conn, news_entry)
     end
+  end
+
+  @spec show_news_entry(Plug.Conn.t, Content.NewsEntry.t) :: Plug.Conn.t
+  def show_news_entry(conn, news_entry) do
+    recent_news = Content.Repo.recent_news(current_id: news_entry.id)
+    conn
+    |> assign(:narrow_template, true)
+    |> assign(:breadcrumbs, show_breadcrumbs(conn, news_entry))
+    |> assign(:news_entry, news_entry)
+    |> assign(:recent_news, recent_news)
+    |> render("show.html")
   end
 
   defp current_page(params) do

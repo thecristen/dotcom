@@ -19,12 +19,16 @@ defmodule SiteWeb.EventController do
   def show(conn, %{"id" => id}) do
     case Content.Repo.event(id) do
       :not_found -> check_cms_or_404(conn)
-      event ->
-        conn
-        |> assign(:narrow_template, true)
-        |> assign_breadcrumbs(event)
-        |> render("show.html", event: event)
+      event -> show_event(conn, event)
     end
+  end
+
+  @spec show_event(Conn.t, Content.Event.t) :: Conn.t
+  def show_event(conn, event) do
+    conn
+    |> assign(:narrow_template, true)
+    |> assign_breadcrumbs(event)
+    |> render("show.html", event: event)
   end
 
   @spec assign_breadcrumbs(Conn.t, Content.Event.t) :: Conn.t

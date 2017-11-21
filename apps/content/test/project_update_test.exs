@@ -21,7 +21,7 @@ defmodule Content.ProjectUpdateTest do
       assert id == 123
       assert Phoenix.HTML.safe_to_string(body) == "<p>body</p>"
       assert posted_on == ~D[2017-08-24]
-      assert project_id == 2669
+      assert project_id == 2679
       assert teaser == "teaser"
       assert title == "Project Update Title"
     end

@@ -15,16 +15,17 @@ defmodule SiteWeb.ProjectController do
   end
 
   def show(conn, %{"id" => id}) do
-    [project, updates, events] = [get_project(id), get_updates(id), get_events(id)]
-    |> Enum.map(&Task.async/1)
-    |> Enum.map(&Task.await/1)
-
-    do_show(project, updates, events, conn)
+    [project, updates, events] = Util.async_with_timeout(
+      [get_project(id), get_updates(id), get_events(id)],
+      nil)
+    case project do
+      :not_found -> check_cms_or_404(conn)
+      project -> show_project(conn, project, updates, events)
+    end
   end
 
-  @spec do_show(Content.Project.t | :not_found, [Content.ProjectUpdate.t], [Content.Event.t], Conn.t) :: Conn.t
-  defp do_show(:not_found, _, _, conn), do: check_cms_or_404(conn)
-  defp do_show(project, updates, events, conn) do
+  @spec show_project(Conn.t, Content.Project.t, [Content.ProjectUpdate.t], [Content.Event.t]) :: Conn.t
+  def show_project(conn, project, updates, events) do
     breadcrumbs = [
       Breadcrumb.build(@breadcrumb_base, project_path(conn, :index)),
       Breadcrumb.build(project.title)]
@@ -42,17 +43,19 @@ defmodule SiteWeb.ProjectController do
   end
 
   def project_update(conn, %{"project_id" => project_id, "id" => id}) do
-    [project, update] = [get_project(project_id), get_update(id)]
-    |> Enum.map(&Task.async/1)
-    |> Enum.map(&Task.await/1)
+    [project, update] = Util.async_with_timeout(
+      [get_project(project_id), get_update(id)],
+      nil)
 
-    do_show_project_update(project, update, conn)
+    case {project, update} do
+      {:not_found, _} -> check_cms_or_404(conn)
+      {_, :not_found} -> check_cms_or_404(conn)
+      {project, update} -> show_project_update(conn, project, update)
+    end
   end
 
-  @spec do_show_project_update(Content.Project.t | :not_found, Content.ProjectUpdate.t | :not_found, Conn.t) :: Conn.t
-  defp do_show_project_update(:not_found, _, conn), do: check_cms_or_404(conn)
-  defp do_show_project_update(_, :not_found, conn), do: check_cms_or_404(conn)
-  defp do_show_project_update(project, update, conn) do
+  @spec show_project_update(Conn.t, Content.Project.t, Content.ProjectUpdate.t) :: Conn.t
+  def show_project_update(conn, project, update) do
     breadcrumbs = [
       Breadcrumb.build(@breadcrumb_base, project_path(conn, :index)),
       Breadcrumb.build(project.title, project_path(conn, :show, project.id)),
@@ -62,15 +65,15 @@ defmodule SiteWeb.ProjectController do
   end
 
   @spec get_project(String.t) :: (() -> Content.Project.t | no_return)
-  defp get_project(id), do: fn -> Content.Repo.project(id) end
+  def get_project(id), do: fn -> Content.Repo.project(id) end
 
   @spec get_events(String.t) :: (() -> [Content.Event.t])
-  defp get_events(id) do
+  def get_events(id) do
     fn -> Content.Repo.events(project_id: id) end
   end
 
   @spec get_updates(String.t) :: (() -> [Content.Project.t])
-  defp get_updates(id), do: fn -> Content.Repo.project_updates(project_id: id) end
+  def get_updates(id), do: fn -> Content.Repo.project_updates(project_id: id) end
 
   @spec get_update(String.t) :: (() -> Content.ProjectUpdate.t | no_return)
   defp get_update(id), do: fn -> Content.Repo.project_update(id) end
