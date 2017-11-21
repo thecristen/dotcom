@@ -13,7 +13,7 @@ defmodule Content.Repo do
 
   @spec news(Keyword.t) :: [Content.NewsEntry.t] | []
   def news(opts \\ []) do
-    case @cms_api.view("/news", opts) do
+    case @cms_api.view_or_preview("/news", opts) do
       {:ok, api_data} -> Enum.map(api_data, &Content.NewsEntry.from_api/1)
       _ -> []
     end
@@ -37,7 +37,7 @@ defmodule Content.Repo do
 
   @spec recent_news(Keyword.t) :: [Content.NewsEntry.t]
   def recent_news(opts \\ []) do
-    case @cms_api.view("/recent-news", opts) do
+    case @cms_api.view_or_preview("/recent-news", opts) do
       {:ok, api_data} -> Enum.map(api_data, &Content.NewsEntry.from_api/1)
       _ -> []
     end
@@ -48,7 +48,7 @@ defmodule Content.Repo do
     query_params = Map.delete(query_params, "from") # remove tracking
     query_keywords = Enum.map(query_params, fn {key, value} -> {String.to_atom(key), value} end)
 
-    case @cms_api.view(path, query_keywords) do
+    case @cms_api.view_or_preview(path, query_keywords) do
       {:ok, api_data} -> Content.Page.from_api(api_data)
       _ -> nil
     end
@@ -56,7 +56,7 @@ defmodule Content.Repo do
 
   @spec events(Keyword.t) :: [Content.Event.t]
   def events(opts \\ []) do
-    case @cms_api.view("/events", opts) do
+    case @cms_api.view_or_preview("/events", opts) do
       {:ok, api_data} -> Enum.map(api_data, &Content.Event.from_api/1)
       _ -> []
     end
@@ -80,7 +80,7 @@ defmodule Content.Repo do
 
   @spec projects(Keyword.t) :: [Content.Project.t]
   def projects(opts \\ []) do
-    case @cms_api.view("/api/projects", opts) do
+    case @cms_api.view_or_preview("/api/projects", opts) do
       {:ok, api_data} -> Enum.map(api_data, &Content.Project.from_api/1)
       _ -> []
     end
@@ -96,7 +96,7 @@ defmodule Content.Repo do
 
   @spec project_updates(Keyword.t) :: [Content.ProjectUpdate.t]
   def project_updates(opts \\ []) do
-    case @cms_api.view("/api/project-updates", opts) do
+    case @cms_api.view_or_preview("/api/project-updates", opts) do
       {:ok, api_data} -> Enum.map(api_data, &Content.ProjectUpdate.from_api/1)
       _ -> []
     end
@@ -113,7 +113,7 @@ defmodule Content.Repo do
   @spec whats_happening() :: [Content.WhatsHappeningItem.t]
   def whats_happening do
     cache [], fn _ ->
-      case @cms_api.view("/whats-happening", []) do
+      case @cms_api.view_or_preview("/whats-happening", []) do
         {:ok, api_data} -> Enum.map(api_data, &Content.WhatsHappeningItem.from_api/1)
         _ -> []
       end
@@ -123,7 +123,7 @@ defmodule Content.Repo do
   @spec important_notice() :: Content.ImportantNotice.t | nil
   def important_notice do
     cached_value = cache [], fn _ ->
-      case @cms_api.view("/important-notices", []) do
+      case @cms_api.view_or_preview("/important-notices", []) do
         {:ok, [api_data]} -> Content.ImportantNotice.from_api(api_data)
         {:ok, _} -> :empty
         {:error, _} -> :error
@@ -163,7 +163,7 @@ defmodule Content.Repo do
   @spec search(String.t, integer, [String.t]) :: any
   def search(query, offset, content_types) do
     params = [q: query, page: offset] ++ Enum.map(content_types, & {:"type[]", &1})
-    with {:ok, api_data} <- @cms_api.view("/api/search", params) do
+    with {:ok, api_data} <- @cms_api.view_or_preview("/api/search", params) do
       {:ok, Content.Search.from_api(api_data)}
     end
   end
@@ -179,7 +179,7 @@ defmodule Content.Repo do
   end
 
   defp do_get_route_pdfs(route_id) do
-    case @cms_api.view("/api/route-pdfs/#{route_id}", []) do
+    case @cms_api.view_or_preview("/api/route-pdfs/#{route_id}", []) do
       {:ok, []} ->
         {:ok, []}
       {:ok, [api_data | _]} ->
