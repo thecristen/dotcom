@@ -1,41 +1,14 @@
 <div class="events-paragraph">
+  <%= SiteWeb.EventView.render "_event_list.html",
+    events: @paragraph.events,
+    title: "Upcoming Board Meetings",
+    empty_placeholder_text: "Sorry, there are no upcoming board meetings" %>
   <div class="row">
     <div class="col-xs-12">
-      <div class="card">
-        <p class="event-paragraph-title card-header card-header-primary-darkest text-xs-center">
-          Upcoming Board Meetings
-        </p>
-
-        <div class="event-list">
-          <%= if Enum.empty?(@paragraph.events) do %>
-            <p class="event-list-empty">
-              Sorry, there are no upcoming board meetings
-            </p>
-          <% else %>
-            <ul class="list-group">
-              <%= for event <- @paragraph.events do %>
-                <li class="list-group-item">
-                  <div>
-                    <%= render_duration(event.start_time, event.end_time) %>
-                  </div>
-                  <div>
-                    <%= link(
-                      event.title,
-                      to: event_path(SiteWeb.Endpoint, :show, event.id)
-                    ) %>
-                  </div>
-                </li>
-              <% end %>
-            </ul>
-          <% end %>
-        </div>
-      </div>
-      <div>
-        <%= link to: event_path(SiteWeb.Endpoint, :index) do %>
-          View all upcoming meetings
-          <%= fa "arrow-right" %>
-        <% end %>
-      </div>
+      <%= link to: event_path(SiteWeb.Endpoint, :index) do %>
+        View all upcoming meetings
+        <%= fa "arrow-right" %>
+      <% end %>
     </div>
   </div>
 </div>

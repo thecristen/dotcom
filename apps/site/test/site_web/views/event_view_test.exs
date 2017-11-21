@@ -121,4 +121,23 @@ defmodule SiteWeb.EventViewTest do
       assert city_and_state(event) == nil
     end
   end
+
+  describe "month_navigation_header/2" do
+    test "links to next and previous months", %{conn: conn} do
+      [prev_link, _title, next_link] = conn
+      |> month_navigation_header("2018-06-01")
+      |> Phoenix.HTML.safe_to_string
+      |> Floki.parse
+      assert Floki.attribute(prev_link, "a", "href") == ["/events?month=2018-05-01"]
+      assert Floki.attribute(next_link, "a", "href") == ["/events?month=2018-07-01"]
+    end
+
+    test "displays current month", %{conn: conn} do
+      [_prev_link, title, _next_link] = conn
+      |> month_navigation_header("2018-06-01")
+      |> Phoenix.HTML.safe_to_string
+      |> Floki.parse
+      assert title == "June"
+    end
+  end
 end
