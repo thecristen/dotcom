@@ -3,6 +3,7 @@ defmodule Content.CMS.HTTPClient do
 
   import Content.ExternalRequest, only: [process: 3, process: 4]
 
+  @spec view_or_preview(Keyword.t, List) :: (() -> no_return)
   def view_or_preview(path, params) do
     with [preview: _, vid: revision_id] <- params,
          ["", "node", node_id] <- String.split(path, "/"),
@@ -15,6 +16,7 @@ defmodule Content.CMS.HTTPClient do
     end
   end
 
+  @spec preview(List, String.t, String.t) :: JsonApi.Item.t
   def preview(params, node_id, revision_id) do
     # IO.inspect "PREVIEW"
     path = ~s(/api/node/#{node_id}/revision/#{revision_id})
