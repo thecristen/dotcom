@@ -32,17 +32,23 @@ defmodule Stops.Repo do
     end
   end
 
+  @spec get(Stop.id_t) :: Stop.t | nil
   def get(id) when is_binary(id) do
-    stop(id)
-  end
-
-  def get!(id) do
-    case get(id) do
-      nil -> raise Stops.NotFoundError, message: "Could not find stop #{id}"
-      stop -> stop
+    case stop(id) do
+      {:ok, s} -> s
+      _ -> nil
     end
   end
 
+  @spec get!(Stop.id_t) :: Stop.t
+  def get!(id) do
+    case stop(id) do
+      {:ok, %Stop{} = s} -> s
+      _ -> raise Stops.NotFoundError, message: "Could not find stop #{id}"
+    end
+  end
+
+  @spec stop(Stop.id_t) :: {:ok, Stop.t | nil} | {:error, any}
   defp stop(id) do
     # the `cache` macro uses the function name as part of the key, and :stop
     # makes more sense for this than :get, since other functions in this
@@ -62,7 +68,7 @@ defmodule Stops.Repo do
         for stop <- stops do
           # Put the stop in the cache under {:stop, id} key as well so it will
           # also be cached for Stops.Repo.get/1 calls
-          ConCache.put(__MODULE__, {:stop, stop.id}, stop)
+          ConCache.put(__MODULE__, {:stop, stop.id}, {:ok, stop})
           stop
         end
       end

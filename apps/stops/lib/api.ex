@@ -10,7 +10,14 @@ defmodule Stops.Api do
     StationInfoApi.all
   end
 
-  @spec by_gtfs_id(String.t) :: Stop.t | nil
+  @doc """
+  Returns a Stop by its GTFS ID.
+
+  If a stop is found, we return `{:ok, %Stop{}}`. If no stop exists with that
+  ID, we return `{:ok, nil}`. If there's an error fetching data, we return
+  that as an `{:error, any}` tuple.
+  """
+  @spec by_gtfs_id(String.t) :: {:ok, Stop.t | nil} | {:error, any}
   def by_gtfs_id(gtfs_id) do
     station_info_task = Task.async fn ->
       StationInfoApi.by_gtfs_id(gtfs_id)
@@ -23,6 +30,7 @@ defmodule Stops.Api do
     merge_v3(Task.await(station_info_task), Task.await(v3_task))
   end
 
+  @spec by_route({Routes.Route.id_t, 0 | 1, Keyword.t}) :: [Stop.t]
   def by_route({route_id, direction_id, opts}) do
     params = [
       route: route_id,
@@ -36,6 +44,7 @@ defmodule Stops.Api do
     |> merge_station_info_api
   end
 
+  @spec by_route_type({0..4, Keyword.t}) :: [Stop.t]
   def by_route_type({route_type, opts}) do
     [
       route_type: route_type,
@@ -46,7 +55,7 @@ defmodule Stops.Api do
     |> merge_station_info_api
   end
 
-
+  @spec merge_station_info_api(JsonApi.t | {:error, any}) :: [Stop.t]
   defp merge_station_info_api({:error, _} = error) do
     error
   end
@@ -57,13 +66,16 @@ defmodule Stops.Api do
     |> Enum.map(fn {:ok, stop} -> stop end)
   end
 
+  @spec get_station_info(JsonApi.Item.t) :: Stop.t | nil
   def get_station_info(%JsonApi.Item{} = stop) do
-    stop
+    {:ok, merged} = stop
     |> v3_id
     |> StationInfoApi.by_gtfs_id
-    |> merge_v3(stop)
+    |> merge_v3({:ok, stop})
+    merged
   end
 
+  @spec v3_id(JsonApi.Item.t) :: Stop.id_t
   defp v3_id(%JsonApi.Item{relationships: %{"parent_station" => [%JsonApi.Item{id: parent_id}]}}) do
     parent_id
   end
@@ -71,6 +83,7 @@ defmodule Stops.Api do
     item.id
   end
 
+  @spec v3_name(JsonApi.Item.t) :: String.t
   defp v3_name(%JsonApi.Item{relationships: %{"parent_station" => [%JsonApi.Item{attributes: %{"name" => parent_name}}]}}) do
     parent_name
   end
@@ -78,34 +91,45 @@ defmodule Stops.Api do
     item.attributes["name"]
   end
 
-  defp extract_v3_response({:error, _}) do
-    # In the case of a failed V3 response, just return nil
-    nil
-  end
+  @spec extract_v3_response(JsonApi.t) :: {:ok, JsonApi.Item.t} | {:error, any}
   defp extract_v3_response(%JsonApi{data: [item | _]}) do
-    item
+    {:ok, item}
+  end
+  defp extract_v3_response({:error, _} = error) do
+    error
   end
 
+  @spec merge_v3(Stop.t | nil, {:ok, JsonApi.Item.t} | {:error, any}) :: {:ok, Stop.t | nil} | {:error, any}
   def merge_v3(station_info_stop, v3_stop_response)
-  def merge_v3(stop, nil), do: stop
-  def merge_v3(nil, stop) do
-    %Stop{
-      id: v3_id(stop),
-      name: v3_name(stop),
+  def merge_v3(nil, {:ok, item}) do
+    stop = %Stop{
+      id: v3_id(item),
+      name: v3_name(item),
       accessibility: merge_accessibility([],
-        stop.attributes),
+        item.attributes),
       parking_lots: [],
-      latitude: stop.attributes["latitude"],
-      longitude: stop.attributes["longitude"]
+      latitude: item.attributes["latitude"],
+      longitude: item.attributes["longitude"]
     }
+    {:ok, stop}
   end
-  def merge_v3(stop, %JsonApi.Item{attributes: attributes} = item) do
-    %{stop |
-      latitude: attributes["latitude"],
-      longitude: attributes["longitude"],
-      accessibility: merge_accessibility(stop.accessibility,
-        attributes),
-      name: v3_name(item)}
+  def merge_v3(stop, {:ok, item}) do
+    stop = %{stop |
+             latitude: item.attributes["latitude"],
+             longitude: item.attributes["longitude"],
+             accessibility: merge_accessibility(stop.accessibility,
+               item.attributes),
+             name: v3_name(item)}
+    {:ok, stop}
+  end
+  def merge_v3(%Stop{} = stop, _) do
+    {:ok, stop}
+  end
+  def merge_v3(_stop, {:error, [%JsonApi.Error{code: "not_found"} | _]}) do
+    {:ok, nil}
+  end
+  def merge_v3(_stop, error) do
+    error
   end
 
   defp merge_accessibility(accessibility, stop_attributes)

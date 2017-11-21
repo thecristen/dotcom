@@ -4,6 +4,28 @@ defmodule Stops.RepoTest do
   import Stops.Repo
   alias Stops.Stop
 
+  describe "get/1" do
+    test "returns nil if the stop doesn't exist" do
+      assert get("get test: stop doesn't exist") == nil
+    end
+
+    test "returns a stop" do
+      assert %Stop{} = get("place-pktrm")
+    end
+  end
+
+  describe "get!/1" do
+    test "raises a Stops.NotFoundError if the stop isn't found" do
+      assert_raise Stops.NotFoundError, fn ->
+        get!("get! test: stop doesn't exist")
+      end
+    end
+
+    test "returns a stop" do
+      assert %Stop{} = get!("place-pktrm")
+    end
+  end
+
   describe "by_route/3" do
     test "returns a list of stops in order of their stop_sequence" do
       response = by_route("CR-Lowell", 1)
@@ -40,7 +62,7 @@ defmodule Stops.RepoTest do
 
     test "caches per-stop as well" do
       ConCache.delete(Stops.Repo, {:by_route, {"Red", 1, []}})
-      ConCache.put(Stops.Repo, {:stop, "place-brntn"}, "to-be-overwritten")
+      ConCache.put(Stops.Repo, {:stop, "place-brntn"}, {:ok, "to-be-overwritten"})
       assert get("place-brntn") == "to-be-overwritten"
 
       by_route("Red", 1, [])
