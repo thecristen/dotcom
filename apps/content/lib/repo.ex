@@ -43,24 +43,16 @@ defmodule Content.Repo do
     end
   end
 
-  @spec get_page(String.t, String.t | nil) :: Content.Page.t | nil
-  def get_page(path, query_string \\ "") do
-    query_string = remove_tracking(query_string)
-    cms_path = if query_string != "" do
-      path <> URI.encode_www_form("?#{query_string}")
-    else
-      path
-    end
+  @spec get_page(String.t, map) :: Content.Page.t | nil
+  def get_page(path, query_params \\ "") do
+    query_params = Map.delete(query_params, "from") # remove tracking
+    query_keywords = Enum.map(query_params, fn {key, value} -> {String.to_atom(key), value} end)
 
-    case @cms_api.view(cms_path, []) do
+    case @cms_api.view(path, query_keywords) do
       {:ok, api_data} -> Content.Page.from_api(api_data)
       _ -> nil
     end
   end
-
-  @spec remove_tracking(String.t) :: String.t
-  defp remove_tracking(""), do: ""
-  defp remove_tracking(query_string), do: Regex.replace(~r/[&]?from=.*/, query_string, "")
 
   @spec events(Keyword.t) :: [Content.Event.t]
   def events(opts \\ []) do
