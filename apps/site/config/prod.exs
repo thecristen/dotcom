@@ -40,19 +40,10 @@ config :site, SiteWeb.Endpoint,
 config :logger,
   level: :info,
   handle_sasl_reports: true,
-  backends: [{Logger.Backend.Logentries, :logentries}, :console]
+  backends: [:console]
 
 config :logger, :console,
   level: :info,
-  format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
-  metadata: [:request_id, :ip]
-
-config :logger, :logentries,
-  connector: Logger.Backend.Logentries.Output.SslKeepOpen,
-  host: 'data.logentries.com',
-  level: :info,
-  port: 443,
-  token: "${LOGENTRIES_TOKEN}",
   format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
   metadata: [:request_id, :ip]
 
