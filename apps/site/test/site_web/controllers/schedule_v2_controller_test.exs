@@ -183,10 +183,14 @@ defmodule SiteWeb.ScheduleV2ControllerTest do
     end
 
     test "shows a checkmark next to the last stop", %{conn: conn} do
-      response = conn
-                 |> get(trip_view_path(conn, :show, "Red", origin: "place-pktrm"))
-                 |> html_response(200)
-      assert [_checkmark] = Floki.find(response, ".terminus-circle .fa-check")
+      conn = get conn, trip_view_path(conn, :show, "Red", origin: "place-pktrm")
+      response = html_response(conn, 200)
+      actual = Floki.find(response, ".terminus-circle .fa-check")
+      if conn.assigns.trip_info do
+        assert [_checkmark] = actual
+      else
+        assert actual == []
+      end
     end
   end
 
