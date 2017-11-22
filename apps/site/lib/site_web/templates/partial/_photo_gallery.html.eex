@@ -6,7 +6,7 @@
           <%= img_tag(photo.url, alt: photo.alt, class: "img-thumbnail") %>
         <% end %>
       </div>
-      <div class="photo-name"><%= photo.alt %></div>
+      <div><%= photo.alt %></div>
     </div>
   <% end %>
 </div>

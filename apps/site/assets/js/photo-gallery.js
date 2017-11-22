@@ -143,7 +143,6 @@ function renderNavigation (id, pagination) {
         title="previous photos"
         role="navigation"
         id="${id + "prev"}"
-        class="photo-gallery-previous"
         data-gallery="${id}"
         data-image="navigation"
         data-increment="-1"><i class="fa fa-caret-left" aria-hidden="true"></i> Previous</a>
@@ -151,7 +150,6 @@ function renderNavigation (id, pagination) {
         title="next photos"
         role="navigation"
         id="${id + "next"}"
-        class="photo-gallery-next"
         data-gallery="${id}"
         data-image="navigation"
         data-increment="1">Next <i class="fa fa-caret-right" aria-hidden="true"></i></a>
