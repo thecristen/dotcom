@@ -11,6 +11,17 @@ defmodule Content.Repo do
 
   @cms_api Application.get_env(:content, :cms_api)
 
+  @spec get_page(String.t, map) :: Content.Page.t | nil
+  def get_page(path, query_params \\ "") do
+    query_params = Map.delete(query_params, "from") # remove tracking
+    query_keywords = Enum.map(query_params, fn {key, value} -> {String.to_atom(key), value} end)
+
+    case view_or_preview(path, query_keywords) do
+      {:ok, api_data} -> Content.Page.from_api(api_data)
+      _ -> nil
+    end
+  end
+
   @spec news(Keyword.t) :: [Content.NewsEntry.t] | []
   def news(opts \\ []) do
     case @cms_api.view("/news", opts) do
@@ -40,17 +51,6 @@ defmodule Content.Repo do
     case @cms_api.view("/recent-news", opts) do
       {:ok, api_data} -> Enum.map(api_data, &Content.NewsEntry.from_api/1)
       _ -> []
-    end
-  end
-
-  @spec get_page(String.t, map) :: Content.Page.t | nil
-  def get_page(path, query_params \\ "") do
-    query_params = Map.delete(query_params, "from") # remove tracking
-    query_keywords = Enum.map(query_params, fn {key, value} -> {String.to_atom(key), value} end)
-
-    case @cms_api.view_or_preview(path, query_keywords) do
-      {:ok, api_data} -> Content.Page.from_api(api_data)
-      _ -> nil
     end
   end
 
@@ -189,6 +189,24 @@ defmodule Content.Repo do
         {:ok, pdfs}
       error ->
         error
+    end
+  end
+
+  @spec view_or_preview(String.t, Keyword.t) :: {:ok, map()} | {:error, String.t}
+  defp view_or_preview(path, params) do
+    raw_result = with [preview: _, vid: revision_id] <- params,
+         ["", "node", node_id] <- String.split(path, "/"),
+         {_, ""} <- Integer.parse(node_id),
+         {_, ""} <- Integer.parse(revision_id)
+    do
+      @cms_api.preview(params, node_id, revision_id)
+    else
+      _ -> @cms_api.view(path, params)
+    end
+    case raw_result do
+      {:ok, []} -> {:error, "No results"}
+      {:ok, [first | _]} -> {:ok, first}
+      e -> e
     end
   end
 end
