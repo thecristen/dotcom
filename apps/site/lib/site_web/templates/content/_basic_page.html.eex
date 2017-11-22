@@ -1,12 +1,10 @@
 <div class="page-section">
-  <div class="page-block content-page-block">
-    <h1><%= @page.title %></h1>
-    <%= Site.ContentRewriter.rewrite(@page.body) %>
+  <h1><%= @page.title %></h1>
+  <%= Site.ContentRewriter.rewrite(@page.body) %>
 
-    <%= for paragraph <- @page.paragraphs do %>
-      <div>
-        <%= render_paragraph(paragraph) %>
-      </div>
-    <% end %>
-  </div>
+  <%= for paragraph <- @page.paragraphs do %>
+    <div>
+      <%= render_paragraph(paragraph) %>
+    </div>
+  <% end %>
 </div>

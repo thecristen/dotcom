@@ -1,24 +1,22 @@
 <div class="page-section <%= assigns[:card_class] %>" id="schedules">
-  <div class="page-block">
-    <h1>Schedules and Maps</h1>
-    <% route_types = Enum.map @grouped_routes, fn {mode, _routes} -> {mode, mode_path(@conn, mode)} end %>
-    <% the_ride = if @include_ride, do: [the_ride: cms_static_page_path(@conn, "/accessibility/the-ride")], else: [] %>
-    <%= for {route_type, mode_page} <- route_types ++ the_ride do %>
-      <div class="mode-group <%= CSSHelpers.atom_to_class(route_type) %>" id="<%= route_type %>">
-        <%= link to: mode_page, class: "mode-group-header" do %>
-          <%= svg_icon_with_circle %SvgIconWithCircle{icon: route_type, aria_hidden?: true} %>
-          <span><%= Routes.Route.type_name route_type %></span>
-        <% end %>
-        <%= mode_button_list %ModeButtonList{
-          conn: @conn,
-          routes: get_route_group(route_type, @grouped_routes),
-          route_type: route_type,
-          alerts: @all_alerts,
-          date: @date,
-          truncated_list?: route_type == :bus
-          }
-        %>
-      </div>
-    <% end %>
-  </div>
+  <h1>Schedules and Maps</h1>
+  <% route_types = Enum.map @grouped_routes, fn {mode, _routes} -> {mode, mode_path(@conn, mode)} end %>
+  <% the_ride = if @include_ride, do: [the_ride: cms_static_page_path(@conn, "/accessibility/the-ride")], else: [] %>
+  <%= for {route_type, mode_page} <- route_types ++ the_ride do %>
+    <div class="mode-group <%= CSSHelpers.atom_to_class(route_type) %>" id="<%= route_type %>">
+      <%= link to: mode_page, class: "mode-group-header" do %>
+        <%= svg_icon_with_circle %SvgIconWithCircle{icon: route_type, aria_hidden?: true} %>
+        <span><%= Routes.Route.type_name route_type %></span>
+      <% end %>
+      <%= mode_button_list %ModeButtonList{
+        conn: @conn,
+        routes: get_route_group(route_type, @grouped_routes),
+        route_type: route_type,
+        alerts: @all_alerts,
+        date: @date,
+        truncated_list?: route_type == :bus
+        }
+      %>
+    </div>
+  <% end %>
 </div>

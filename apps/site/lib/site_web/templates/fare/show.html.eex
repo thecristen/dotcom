@@ -1,5 +1,3 @@
 <div class="page-section">
-  <div class="page-block">
-    <%= render @fare_template, forward_assigns(@conn) %>
-  </div>
+  <%= render @fare_template, forward_assigns(@conn) %>
 </div>
