@@ -1,4 +1,4 @@
-<div class="photo-gallery clearfix" data-component="photo-gallery">
+<div class="c-photo-gallery clearfix" data-component="photo-gallery">
   <%= for photo <- @photos do %>
     <div class="col-xs-12 col-sm-6 col-md-4 photo-item">
       <div>
@@ -6,7 +6,7 @@
           <%= img_tag(photo.url, alt: photo.alt, class: "img-thumbnail") %>
         <% end %>
       </div>
-      <div class="photo-name"><%= photo.alt %></div>
+      <div><%= photo.alt %></div>
     </div>
   <% end %>
 </div>

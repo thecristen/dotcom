@@ -1,1 +1,6 @@
 scss_files: 'apps/site/assets/css/**/*.scss'
+
+linters:
+  SelectorFormat:
+    enabled: true
+    convention: hyphenated_BEM

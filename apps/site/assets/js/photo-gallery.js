@@ -116,19 +116,17 @@ function render (id, focusId) {
 
   // render group of images
   const markUp = `
-    <div class="photo-gallery-container">
-      <div class="photo-gallery-selected">
-        <img class="photo-gallery-selected-image"
-          id="${id + "primary"}"
-          alt="${mainImage.getAttribute("alt")}"
-          src="${mainImage.getAttribute("src")}">
-        <div id="${id + "name"}" class="photo-gallery-selected-title">${mainImage.getAttribute("alt")}</div>
-      </div>
-      <div id="${id + "images"}" class="photo-gallery-images">
-        ${renderImages(images, firstImage, id)}
-      </div>
-      ${renderNavigation(id, pagination)}
+    <div class="c-photo-gallery__main-container">
+      <img class="c-photo-gallery__main-image"
+           id="${id + "primary"}"
+           alt="${mainImage.getAttribute("alt")}"
+           src="${mainImage.getAttribute("src")}">
+      <div id="${id + "name"}" class="c-photo-gallery__main-title">${mainImage.getAttribute("alt")}</div>
     </div>
+    <div id="${id + "images"}" class="c-photo-gallery__thumbnails">
+      ${renderImages(images, firstImage, id)}
+    </div>
+    ${renderNavigation(id, pagination)}
   `;
 
   // replace HTML in the page
@@ -140,12 +138,11 @@ function render (id, focusId) {
 
 function renderNavigation (id, pagination) {
   const hideOnDesktop = pagination ? "" : " hidden-md-up";
-  return `<div class="photo-gallery-navigation${hideOnDesktop}">
+  return `<div class="c-photo-gallery__nav-btns${hideOnDesktop}">
       <a href="#gallery-previous"
         title="previous photos"
         role="navigation"
         id="${id + "prev"}"
-        class="photo-gallery-previous"
         data-gallery="${id}"
         data-image="navigation"
         data-increment="-1"><i class="fa fa-caret-left" aria-hidden="true"></i> Previous</a>
@@ -153,7 +150,6 @@ function renderNavigation (id, pagination) {
         title="next photos"
         role="navigation"
         id="${id + "next"}"
-        class="photo-gallery-next"
         data-gallery="${id}"
         data-image="navigation"
         data-increment="1">Next <i class="fa fa-caret-right" aria-hidden="true"></i></a>
@@ -170,7 +166,7 @@ function renderImages (images, firstImage, id) {
         title="change photo to ${image.getAttribute("alt")}"
         data-offset="${firstImage + offset}">
           <img
-            class="photo-gallery-image"
+            class="c-photo-gallery__thumbnail"
             alt="${image.getAttribute("alt")}"
             src="${image.getAttribute("src")}"></a>`).join("");
 }
