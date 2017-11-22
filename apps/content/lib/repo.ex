@@ -200,7 +200,12 @@ defmodule Content.Repo do
     do
       @cms_api.preview(node_id, revision_id)
     else
-      _ -> @cms_api.view(path, [])
+      _ ->
+        path = case params do
+          %{"id" => old_site_page_id} -> path <> URI.encode_www_form("?id=#{old_site_page_id}")
+          _ -> path
+        end
+        @cms_api.view(path, [])
     end
     case raw_result do
       {:ok, []} -> {:error, "No results"}
