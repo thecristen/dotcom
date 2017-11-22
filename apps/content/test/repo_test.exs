@@ -52,7 +52,7 @@ defmodule Content.RepoTest do
     end
 
     test "given the path for a Basic page with tracking params" do
-      result = Content.Repo.get_page("/accessibility", "from=search")
+      result = Content.Repo.get_page("/accessibility", %{"from" => "search"})
       assert %Content.BasicPage{} = result
     end
 
@@ -73,7 +73,7 @@ defmodule Content.RepoTest do
     test "URL encodes the query string before fetching" do
       assert %Content.Redirect{
         link: %Content.Field.Link{url: "http://google.com"}
-      } = Content.Repo.get_page("/test/path", "id=5")
+      } = Content.Repo.get_page("/test/path", %{"id" => "5"})
     end
   end
 
