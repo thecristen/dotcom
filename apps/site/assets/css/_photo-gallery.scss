@@ -1,23 +1,23 @@
-.photo-gallery-container {
+.c-photo-gallery__main-container {
   margin: auto;
   max-width: 716px;
   width: 100%;
 }
 
-.photo-gallery-selected-image {
+.c-photo-gallery__main-image {
   font-family: 'object-fit: contain;';  // IE polyfill
   height: 395px;
   object-fit: contain;
   width: 100%;
 }
 
-.photo-gallery-selected-title {
+.c-photo-gallery__main-title {
   border-bottom: $border;
   margin-bottom: $base-spacing;
   padding: $base-spacing-sm 0;
 }
 
-.photo-gallery-images {
+.c-photo-gallery__thumbnails {
   text-align: center;
 
   @include media-breakpoint-down(sm) {
@@ -34,7 +34,7 @@
   }
 }
 
-.photo-gallery-image {
+.c-photo-gallery__thumbnail {
   font-family: 'object-fit: cover;';  // IE polyfill
   height: 99px;
   object-fit: cover;
@@ -52,7 +52,7 @@
   }
 }
 
-.photo-gallery-navigation {
+.c-photo-gallery__nav-btns {
   height: $base-spacing-xl;
   margin-top: $base-spacing-sm;
   position: relative;
