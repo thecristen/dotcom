@@ -13,15 +13,6 @@
   }
 }
 
-// used for two blocks side by side
-.page-block-2 {
-  @include media-breakpoint-down(sm) {
-    + .page-block-2 {
-      margin-top: $base-spacing;
-    }
-  }
-}
-
 .pre-container-tnm {
   color: $white;
 }

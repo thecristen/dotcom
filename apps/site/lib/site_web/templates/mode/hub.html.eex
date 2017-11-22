@@ -1,5 +1,5 @@
 <div class="page-section">
-  <div class="page-block mode-hub">
+  <div class="mode-hub">
     <h1>
       <%= svg_icon_with_circle %SvgIconWithCircle{icon: @mode_name, aria_hidden?: true} %>
       <%= @mode_name %>
