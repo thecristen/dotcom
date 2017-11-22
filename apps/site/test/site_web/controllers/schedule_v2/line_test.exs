@@ -84,6 +84,7 @@ defmodule SiteWeb.ScheduleV2Controller.LineTest do
       assert stop_id(List.last(one)) == "place-lake"
     end
 
+    @tag :skip
     test "direction 1 returns a list of all stops in order from west to east" do
       route_stops = get_route_stops("Green", 0, @deps.stops_by_route_fn)
       stops =
@@ -100,6 +101,7 @@ defmodule SiteWeb.ScheduleV2Controller.LineTest do
       end
     end
 
+    @tag :skip
     test "direction 1 returns the correct number of bubbles for each stop" do
       route_stops = get_route_stops("Green", 0, @deps.stops_by_route_fn)
       stops =
@@ -122,6 +124,7 @@ defmodule SiteWeb.ScheduleV2Controller.LineTest do
   end
 
   describe "build_stop_list/2 for branched non-Green routes" do
+    @tag :skip
     test "Red outbound" do
       route_stops = get_route_stops("Red", 0, @deps.stops_by_route_fn)
       stops =
@@ -136,6 +139,7 @@ defmodule SiteWeb.ScheduleV2Controller.LineTest do
       end
     end
 
+    @tag :skip
     test "outbound returns the correct number of bubbles for each stop" do
       route_stops = get_route_stops("Red", 0, @deps.stops_by_route_fn)
       stops =
@@ -159,6 +163,7 @@ defmodule SiteWeb.ScheduleV2Controller.LineTest do
       assert stop_id(List.last(another_one)) == "place-asmnl"
     end
 
+    @tag :skip
     test "Red inbound" do
       route_stops = get_route_stops("Red", 0, @deps.stops_by_route_fn)
       stops =
@@ -173,6 +178,7 @@ defmodule SiteWeb.ScheduleV2Controller.LineTest do
       end
     end
 
+    @tag :skip
     test "inbound returns the correct number of bubbles for each stop" do
       route_stops = get_route_stops("Red", 0, @deps.stops_by_route_fn)
       stops =

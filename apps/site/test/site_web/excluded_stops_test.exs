@@ -49,6 +49,7 @@ defmodule ExcludedStopsTest do
       assert "place-qamnl" in excluded_destination_stops("Red", "place-asmnl")
     end
 
+    @tag :skip
     test "excludes stops on different branches of the consolidated Green Line" do
       assert "place-prmnl" in excluded_destination_stops("Green", "place-lake")
       assert "place-bland" in excluded_destination_stops("Green", "place-clmnl")
