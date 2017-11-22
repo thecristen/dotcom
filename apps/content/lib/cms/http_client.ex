@@ -3,9 +3,9 @@ defmodule Content.CMS.HTTPClient do
 
   import Content.ExternalRequest, only: [process: 3, process: 4]
 
-  @spec view_or_preview(Keyword.t, List) :: (() -> no_return)
+  @spec view_or_preview(String.t, Keyword.t) :: {:ok, map()} | {:error, String.t}
   def view_or_preview(path, params) do
-    with [preview: _, vid: revision_id] <- params,
+    raw_result = with [preview: _, vid: revision_id] <- params,
          ["", "node", node_id] <- String.split(path, "/"),
          {_, ""} <- Integer.parse(node_id),
          {_, ""} <- Integer.parse(revision_id)
@@ -14,20 +14,21 @@ defmodule Content.CMS.HTTPClient do
     else
       _ -> view(path, params)
     end
+    case raw_result do
+      {:ok, []} -> {:error, "No results"}
+      {:ok, [first | _]} -> {:ok, first}
+      e -> e
+    end
   end
 
-  @spec preview(List, String.t, String.t) :: JsonApi.Item.t
+  @spec preview(Keyword.t, String.t, String.t) :: {:ok, list(map())} | {:ok, map()} | {:error, String.t}
   def preview(params, node_id, revision_id) do
-    # IO.inspect "PREVIEW"
     path = ~s(/api/node/#{node_id}/revision/#{revision_id})
-    with {:ok, [result]} <- process(:get, path, "", params) do
-      {:ok, result}
-    end
+    process(:get, path, "", params)
   end
 
   @impl true
   def view(path, params) do
-    # IO.inspect "VIEW ONLY"
     params = Keyword.merge(params, [_format: "json"])
     process(:get, path, "", params)
   end
