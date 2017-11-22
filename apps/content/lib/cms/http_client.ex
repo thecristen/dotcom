@@ -1,12 +1,12 @@
 defmodule Content.CMS.HTTPClient do
   @behaviour Content.CMS
 
-  import Content.ExternalRequest, only: [process: 3, process: 4]
+  import Content.ExternalRequest, only: [process: 2, process: 3, process: 4]
 
   @impl true
-  def preview(params, node_id, revision_id) do
+  def preview(node_id, revision_id) do
     path = ~s(/api/node/#{node_id}/revision/#{revision_id})
-    process(:get, path, "", params)
+    process(:get, path)
   end
 
   @impl true

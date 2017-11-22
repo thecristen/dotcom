@@ -14,9 +14,8 @@ defmodule Content.Repo do
   @spec get_page(String.t, map) :: Content.Page.t | nil
   def get_page(path, query_params \\ "") do
     query_params = Map.delete(query_params, "from") # remove tracking
-    query_keywords = Enum.map(query_params, fn {key, value} -> {String.to_atom(key), value} end)
 
-    case view_or_preview(path, query_keywords) do
+    case view_or_preview(path, query_params) do
       {:ok, api_data} -> Content.Page.from_api(api_data)
       _ -> nil
     end
@@ -192,16 +191,16 @@ defmodule Content.Repo do
     end
   end
 
-  @spec view_or_preview(String.t, Keyword.t) :: {:ok, map()} | {:error, String.t}
+  @spec view_or_preview(String.t, map) :: {:ok, map()} | {:error, String.t}
   defp view_or_preview(path, params) do
-    raw_result = with [preview: _, vid: revision_id] <- params,
+    raw_result = with %{"preview" => _, "vid" => revision_id} <- params,
          ["", "node", node_id] <- String.split(path, "/"),
          {_, ""} <- Integer.parse(node_id),
          {_, ""} <- Integer.parse(revision_id)
     do
-      @cms_api.preview(params, node_id, revision_id)
+      @cms_api.preview(node_id, revision_id)
     else
-      _ -> @cms_api.view(path, params)
+      _ -> @cms_api.view(path, [])
     end
     case raw_result do
       {:ok, []} -> {:error, "No results"}

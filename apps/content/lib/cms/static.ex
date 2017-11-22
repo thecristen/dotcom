@@ -185,6 +185,11 @@ defmodule Content.CMS.Static do
   end
 
   @impl true
+  def preview(node_id, _revision_id) do
+    view("/node/#{node_id}", [])
+  end
+
+  @impl true
   def post("entity/node", body) do
     if String.contains?(body, "fails-to-create") do
       {:error, %{status_code: 422}}
