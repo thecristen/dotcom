@@ -1,4 +1,4 @@
-ExUnit.start
+ExUnit.start(exclude: [:skip])
 Application.ensure_all_started(:bypass)
 # Ensure tzdata is up to date
 {:ok, _} = Application.ensure_all_started(:tzdata)
