@@ -8,6 +8,7 @@
       <%= render "_link.html", text: "FMCB", href: cms_static_page_path(@conn, "/leadership/fmcb"), class: "col-xs-12 col-sm-4", target: "_self" %>
       <%= render "_link.html", text: "News & Updates", href: news_entry_path(@conn, :index), class: "col-xs-12 col-sm-4", target: "_self" %>
       <%= render "_link.html", text: "Events", href: event_path(@conn, :index), class: "col-xs-12 col-sm-4", target: "_self" %>
+      <%= render "_link.html", text: "Civil Rights", href: cms_static_page_path(@conn, "/policies/title-vi"), class: "col-xs-12 col-sm-4", target: "_self" %>
       <%= render "_link.html", text: "Performance", href: "http://www.mbtabackontrack.com/performance/index.html#/home/", class: "col-xs-12 col-sm-4", target: "_blank" %>
       <%= render "_link.html", text: "Sustainability", href: redirect_path(@conn, "about_the_mbta/environment/"), class: "col-xs-12 col-sm-4", target: "_blank" %>
       <%= render "_link.html", text: "History", href: redirect_path(@conn, "about_the_mbta/history/"), class: "col-xs-12 col-sm-4", target: "_blank" %>
@@ -23,10 +24,11 @@
     </div>
     <h2>Improvements & Projects</h2>
     <div class="button-group">
-      <%= render "_link.html", text: "Green Line Extension", href: redirect_path(@conn, "about_the_mbta/t_projects/default.asp?id=23864"), class: "col-xs-12 col-sm-4", target: "_blank" %>
-      <%= render "_link.html", text: "Silver Line Gateway", href: redirect_path(@conn, "about_the_mbta/news_events/?id=6442452990"), class: "col-xs-12 col-sm-4", target: "_blank" %>
-      <%= render "_link.html", text: "Red and Orange Line Cars", href: redirect_path(@conn, "business_center/bidding_solicitations/default.asp?id=6442453199"), class: "col-xs-12 col-sm-4", target: "_blank" %>
+      <%= render "_link.html", text: "Commuter Rail Positive Train Control", href: cms_static_page_path(@conn, "/projects/3064"), class: "col-xs-12 col-sm-4", target: "_self" %>
+      <%= render "_link.html", text: "Automated Fare Collection 2.0", href: cms_static_page_path(@conn, "/afc2"), class: "col-xs-12 col-sm-4", target: "_self" %>
+      <%= render "_link.html", text: "Green Line Extension", href: "http://greenlineextension.eot.state.ma.us/", class: "col-xs-12 col-sm-4", target: "_blank" %>
       <%= render "_link.html", text: "Wollaston Station", href: cms_static_page_path(@conn, "/wollaston"), class: "col-xs-12 col-sm-4", target: "_self" %>
+      <%= render "_link.html", text: "See All Projects", href: cms_static_page_path(@conn, "/projects"), class: "col-xs-12 col-sm-4", target: "_self" %>
     </div>
   </div>
 </div>

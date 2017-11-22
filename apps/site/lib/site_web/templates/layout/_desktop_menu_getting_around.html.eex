@@ -73,13 +73,13 @@
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "riding_the_t/bikes/"), target: "_blank" do %>
-          <%= fa "caret-right" %> Bikes on the T
+        <%= link to: cms_static_page_path(@conn, "/rider-etiquette") do %>
+          <%= fa "caret-right" %> Rider Etiquette
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "riding_the_t/pets/"), target: "_blank" do %>
-          <%= fa "caret-right" %> Pets on the T
+        <%= link to: cms_static_page_path(@conn, "/language-services") do %>
+          <%= fa "caret-right" %> Language Services
         <% end %>
       </li>
       <li>

@@ -33,8 +33,8 @@
         <ul class="footer-link-sublist">
           <li class="footer-link-sublist-item"><%= link "Accessibility", to: cms_static_page_path(@conn, "/accessibility") %></li>
           <li class="footer-link-sublist-item"><%= link "Parking", to: cms_static_page_path(@conn, "/parking") %></li>
-          <li class="footer-link-sublist-item"><%= link "Bikes on the T", to: redirect_path(@conn, "riding_the_t/bikes/"), target: "_blank" %></li>
-          <li class="footer-link-sublist-item"><%= link "Pets on the T", to: redirect_path(@conn, "riding_the_t/pets/"), target: "_blank" %></li>
+          <li class="footer-link-sublist-item"><%= link "Rider Etiquette", to: cms_static_page_path(@conn, "/rider-etiquette") %></li>
+          <li class="footer-link-sublist-item"><%= link "Language Services", to: cms_static_page_path(@conn, "/language-services") %></li>
           <li class="footer-link-sublist-item"><%= link "Safety", to: cms_static_page_path(@conn, "/safety") %></li>
         </ul>
       </li>
@@ -76,6 +76,7 @@
           <li class="footer-link-sublist-item"><%= link "Contact Us", to: customer_support_path(@conn, :index), data: [scroll: true]  %></li>
           <li class="footer-link-sublist-item"><%= link "Website Feedback", to: feedback_form_url(), target: "_blank" %></li>
           <li class="footer-link-sublist-item"><%= link "Privacy Policy", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true]  %></li>
+          <li class="footer-link-sublist-item"><%= link "Civil Rights", to: cms_static_page_path(@conn, "/policies/title-vi"), data: [scroll: true]  %></li>
           <li class="footer-link-sublist-item"><%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3", target: "_blank" %></li>
         </ul>
       </li>

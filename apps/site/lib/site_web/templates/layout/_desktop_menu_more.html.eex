@@ -23,6 +23,11 @@
             <%= fa "caret-right" %> Events
           <% end %>
         </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/policies/title-vi") do %>
+            <%= fa "caret-right" %> Civil Rights
+          <% end %>
+        </li>
       </ul>
     </div>
     <div class="col-xs-6">
@@ -84,18 +89,17 @@
     <p class="nav-title">Improvements and Projects</p>
     <ul>
       <li>
-        <%= link to: redirect_path(@conn, "about_the_mbta/t_projects/default.asp?id=23864"), target: "_blank" do %>
+        <%= link to: cms_static_page_path(@conn, "/projects/3064") do %>
+          <%= fa "caret-right" %> Commuter Rail Positive Train Control
+        <% end %>
+      </li>
+        <%= link to: cms_static_page_path(@conn, "/afc2") do %>
+          <%= fa "caret-right" %> Automated Fare Collection 2.0
+        <% end %>
+      </li>
+      <li>
+        <%= link to: "http://greenlineextension.eot.state.ma.us/", target: "_blank" do %>
           <%= fa "caret-right" %> Green Line Extension
-        <% end %>
-      </li>
-      <li>
-        <%= link to: redirect_path(@conn, "about_the_mbta/news_events/?id=6442452990"), target: "_blank" do %>
-          <%= fa "caret-right" %> Silver Line Gateway
-        <% end %>
-      </li>
-      <li>
-        <%= link to: redirect_path(@conn, "business_center/bidding_solicitations/default.asp?id=6442453199"), target: "_blank" do %>
-          <%= fa "caret-right" %> Red and Orange Line Cars
         <% end %>
       </li>
       <li>
@@ -103,6 +107,10 @@
           <%= fa "caret-right" %> Wollaston Station
         <% end %>
       </li>
+      <li>
+        <%= link to: cms_static_page_path(@conn, "/projects") do %>
+          <%= fa "caret-right" %> See All Projects
+        <% end %>
     </ul>
   </div>
 </div>
