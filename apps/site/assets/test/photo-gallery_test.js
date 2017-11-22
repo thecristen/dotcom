@@ -93,21 +93,24 @@ describe("photo-gallery", () => {
   });
 
   it("shows the first image by default", () => {
-    const actual = $(".photo-gallery-selected-image").attr("alt");
+    const galleryId = $("[data-component=\"photo-gallery\"]").attr("data-gallery-id");
+    const actual = $("#" + galleryId + "primary").attr("alt");
     const expected = "Red";
     assert.equal(expected, actual);
   });
 
   it("shows the second image as the main image when the second image is clicked", () => {
     $("[data-offset=\"1\"]").click();
-    const actual = $(".photo-gallery-selected-image").attr("alt");
+    const galleryId = $("[data-component=\"photo-gallery\"]").attr("data-gallery-id");
+    const actual = $("#" + galleryId + "primary").attr("alt");
     const expected = "Blue";
     assert.equal(expected, actual);
   });
 
   it("shows the next image when the next navigation item is clicked", () => {
     $("[data-increment=\"1\"]").click();
-    const actual = $(".photo-gallery-selected-image").attr("alt");
+    const galleryId = $("[data-component=\"photo-gallery\"]").attr("data-gallery-id");
+    const actual = $("#" + galleryId + "primary").attr("alt");
     const expected = "Blue";
     assert.equal(expected, actual);
   });
