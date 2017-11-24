@@ -2,7 +2,7 @@
   <%= SiteWeb.EventView.render "_event_list.html",
     events: @paragraph.events,
     title: "Upcoming Board Meetings",
-    empty_placeholder_text: "Sorry, there are no upcoming board meetings" %>
+    empty_placeholder_text: "There are no upcoming board meetings" %>
   <div class="row">
     <div class="col-xs-12">
       <%= link to: event_path(SiteWeb.Endpoint, :index) do %>

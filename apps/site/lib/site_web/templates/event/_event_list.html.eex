@@ -1,32 +1,30 @@
-<%= if !Enum.empty?(@events) or assigns[:empty_placeholder_text] != nil do %>
-  <div class="project-events">
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="card">
-          <div class="card-block card-header card-header-primary-darkest text-xs-center">
-            <h2 class="event-list-header"><%= @title %></h2>
-          </div>
-          <ul class="list-group list-group-flush">
-            <%= for event <- @events do %>
-              <li class="list-group-item">
-                <div>
-                  <%= render_duration(event.start_time, event.end_time) %>
-                </div>
-                <div>
-                  <%= link to: event_path(SiteWeb.Endpoint, :show, event.id) do %>
-                    <%= event.title %>
-                  <% end %>
-                </div>
-              </li>
-            <% end %>
-          </ul>
-          <%= if Enum.empty?(@events) and assigns[:empty_placeholder_text] != nil do %>
-            <div class="card-block">
-              <%= @empty_placeholder_text %>
-            </div>
-          <% end %>
+<div class="project-events">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="card">
+        <div class="card-block card-header card-header-primary-darkest text-xs-center">
+          <h2 class="event-list-header"><%= @title %></h2>
         </div>
+        <ul class="list-group list-group-flush">
+          <%= for event <- @events do %>
+            <li class="list-group-item">
+              <div>
+                <%= render_duration(event.start_time, event.end_time) %>
+              </div>
+              <div>
+                <%= link to: event_path(SiteWeb.Endpoint, :show, event.id) do %>
+                  <%= event.title %>
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+        <%= if Enum.empty?(@events) do %>
+          <div class="card-block">
+            <%= assigns[:empty_placeholder_text] || "No events" %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
-<% end %>
+</div>

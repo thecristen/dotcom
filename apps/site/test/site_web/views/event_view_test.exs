@@ -79,7 +79,7 @@ defmodule SiteWeb.EventViewTest do
 
   describe "no_results_message/1" do
     test "includes the name of the month" do
-      expected_message = "Sorry, there are no events in January."
+      expected_message = "There are no events in January."
 
       assert no_results_message("2017-01-01") == expected_message
     end

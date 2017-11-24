@@ -18,10 +18,11 @@ defmodule SiteWeb.EventView do
 
   @spec no_results_message(String.t) :: String.t
   def no_results_message(month) do
-    "Sorry, there are no events in #{name_of_month(month)}."
+    "There are no events in #{name_of_month(month)}."
   end
 
-  defp name_of_month(iso_string) do
+  @spec name_of_month(String.t) :: String.t
+  def name_of_month(iso_string) do
     iso_string
     |> Timex.parse!("{ISOdate}")
     |> Timex.format!("{Mfull}")
