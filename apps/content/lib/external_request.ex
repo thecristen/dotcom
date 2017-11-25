@@ -7,12 +7,12 @@ defmodule Content.ExternalRequest do
   """
 
   @spec process(atom, String.t, String.t, Keyword.t) :: {:ok, Poison.Parser.t} | {:error, map} | {:error, String.t}
-  def process(method, path, body \\ "", params \\ []) do
+  def process(method, path, body \\ "", opts \\ []) do
     request_path = full_url(path)
     request_headers = build_headers(method)
 
     method
-    |> time_request(request_path, body, request_headers, params)
+    |> time_request(request_path, body, request_headers, opts)
     |> handle_response()
   end
 

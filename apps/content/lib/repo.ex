@@ -193,12 +193,12 @@ defmodule Content.Repo do
 
   @spec view_or_preview(String.t, map) :: {:ok, map()} | {:error, String.t}
   defp view_or_preview(path, params) do
-    raw_result = with %{"preview" => _, "vid" => revision_id} <- params,
+    with %{"preview" => _, "vid" => revision_id} <- params,
          ["", "node", node_id] <- String.split(path, "/"),
          {_, ""} <- Integer.parse(node_id),
          {_, ""} <- Integer.parse(revision_id)
     do
-      @cms_api.preview(node_id, revision_id)
+      node_id |> @cms_api.preview() |> get_revision(String.to_integer(revision_id))
     else
       _ ->
         path = case params do
@@ -207,10 +207,13 @@ defmodule Content.Repo do
         end
         @cms_api.view(path, [])
     end
-    case raw_result do
-      {:ok, []} -> {:error, "No results"}
-      {:ok, [first | _]} -> {:ok, first}
-      e -> e
-    end
   end
+
+  @spec get_revision({:error, any} | {:ok, [map]}, integer()) :: {:error, String.t} | {:ok, map}
+  def get_revision({:ok, []}, _), do: {:error, "No results"}
+  def get_revision({:ok, revisions}, vid) when is_list(revisions) do
+    revision = Enum.find(revisions, & &1 |> Map.get("vid") |> List.first() |> Map.get("value") == vid)
+    {:ok, revision}
+  end
+
 end

@@ -1,18 +1,25 @@
 defmodule Content.CMS.HTTPClient do
   @behaviour Content.CMS
 
-  import Content.ExternalRequest, only: [process: 2, process: 3, process: 4]
+  import Content.ExternalRequest, only: [process: 3, process: 4]
 
   @impl true
-  def preview(node_id, revision_id) do
-    path = ~s(/api/node/#{node_id}/revision/#{revision_id})
-    process(:get, path)
+  def preview(node_id) do
+    path = ~s(/api/revisions/#{node_id})
+    process(:get, path, "", [
+      # More time needed (receives 1 - 50 JSON node entities)
+      params: [],
+      timeout: 30_000,
+      recv_timeout: 30_000
+    ])
   end
 
   @impl true
   def view(path, params) do
     params = Keyword.merge(params, [_format: "json"])
-    process(:get, path, "", params)
+    process(:get, path, "", [
+      params: params
+    ])
   end
 
   @impl true
