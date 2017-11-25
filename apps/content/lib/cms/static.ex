@@ -185,8 +185,8 @@ defmodule Content.CMS.Static do
   end
 
   @impl true
-  def preview(node_id, _revision_id) do
-    view("/node/#{node_id}", [])
+  def preview(node_id) do
+    view("/node/#{node_id}")
   end
 
   @impl true
