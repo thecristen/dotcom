@@ -27,6 +27,7 @@ defmodule Alerts.Alert do
   :schedule_change |
   :service_change |
   :snow_route |
+  :stop_shoveling |
   :station_issue |
   :dock_issue |
   :access_issue |
@@ -52,6 +53,7 @@ defmodule Alerts.Alert do
     :shuttle,
     :stop_closure,
     :snow_route,
+    :stop_shoveling,
     :cancellation,
     :detour,
     :no_service,
@@ -133,6 +135,7 @@ defmodule Alerts.Alert do
   defp do_human_effect(:schedule_change), do: "Schedule Change"
   defp do_human_effect(:service_change), do: "Service Change"
   defp do_human_effect(:snow_route), do: "Snow Route"
+  defp do_human_effect(:stop_shoveling), do: "Snow Shoveling"
   defp do_human_effect(:station_issue), do: "Station Issue"
   defp do_human_effect(:dock_issue), do: "Dock Issue"
   defp do_human_effect(:access_issue), do: "Access Issue"
