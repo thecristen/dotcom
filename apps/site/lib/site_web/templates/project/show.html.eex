@@ -25,5 +25,8 @@
 <%= if !Enum.empty?(@project.photo_gallery), do: render "_photos.html", photos: @project.photo_gallery %>
 <%= if !Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates, project_id: @project.id %>
 <%= render "_contact.html", project: @project %>
-<%= if !Enum.empty?(@events), do: render "_events.html", events: @events%>
+<%= if !Enum.empty?(@upcoming_events), do: SiteWeb.EventView.render "_event_list.html",
+  events: @upcoming_events, title: "Upcoming Meetings" %>
+<%= if !Enum.empty?(@past_events), do: SiteWeb.EventView.render "_event_list.html",
+  events: @past_events, title: "Past Meetings" %>
 <%= if !Enum.empty?(@project.files), do: render "_downloads.html", files: @project.files %>

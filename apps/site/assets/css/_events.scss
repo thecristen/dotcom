@@ -13,13 +13,8 @@
   text-decoration: none;
 }
 
-.event-list-empty {
+.event-list-header {
   margin-bottom: 0;
-  padding: $base-spacing;
-}
-
-.event-list li:first-child {
-  border-top: 0;
 }
 
 .event-info-label {
@@ -32,10 +27,6 @@
 
 .events-paragraph {
   margin: $base-spacing-lg 0;
-}
-
-.event-paragraph-title {
-  font-weight: bold;
 }
 
 .event-description,
