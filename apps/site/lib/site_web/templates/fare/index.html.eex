@@ -71,7 +71,7 @@
   <div>
     <h2>The RIDE</h2>
     <p>Fares for The RIDE are determined by when the trip is booked and the location of the destination. The two fare options are listed below.</p>
-    <div class="title-card-container-table-multi-col">
+    <div class="fare-summary-container-table-multi-col">
       <div class="fare-summary-row">
         <%= for fare <- @the_ride do %>
           <div class="fare-summary-entry">

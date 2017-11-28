@@ -1,16 +1,57 @@
 .fare-summary-container {
-  @extend %title-card-container;
-  @extend %title-card-container-table;
+  @include clearfix();
+
+  border-collapse: collapse;
+  padding-top: $base-spacing;
 }
 
 .fare-summary-entry {
-  @extend %title-card;
+  @extend %button-focus-color;
+  background-color: $white;
+  border: 1px solid $gray-lightest;
+  color: $gray-dark;
+  display: block;
+  margin-bottom: $base-spacing;
+  margin-top: -$space-1 - $base-spacing;
+  padding: $base-spacing-sm $base-spacing;
+  width: 100%;
+}
+
+.fare-summary-container-table-multi-col {
+  @include media-breakpoint-up(sm) {
+    // add back the bottom margin removed by the display: table
+    margin-bottom: $base-spacing;
+    padding-top: 0;
+
+    > * {
+      @include clearfix();
+      display: table;
+      width: 100%;
+    }
+
+    > * + * {
+      // collapse subsequent rows
+      margin-top: -$space-1;
+    }
+
+    .fare-summary-entry {
+      display: table-cell;
+      width: 50%;
+    }
+  }
 }
 
 .fare-summary-name {
-  @extend %title-card-title;
   display: inline-block;
+  color: $link-color;
+  font-size: $font-size-h4;
+  font-weight: bold;
+  margin-bottom: $base-spacing-sm;
   padding-right: $base-spacing-sm;
+
+  @include media-breakpoint-up(xxl) {
+    font-size: $font-size-h4-xxl;
+  }
 }
 
 .fare-summary-mode-icons {

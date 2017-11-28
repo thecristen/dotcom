@@ -21,30 +21,36 @@
 }
 
 .location-card {
-  @extend %title-card;
+  @extend %button-focus-color;
+  background-color: $white;
+  border: 1px solid $gray-lightest;
+  border-radius: $space-1 * 3;
+  color: $gray-dark;
   display: inline-block;
   margin: .5rem;
-  padding: 1rem 0;
+  padding: 1rem;
   width: 100%;
 
   @include media-breakpoint-only(xs) {
     flex: 1 1 100%;
     margin: .25rem;
-    padding: .5rem 0;
+    padding: .5rem 1rem;
   }
 
   @include media-breakpoint-only(sm) {
     flex: 1 1 33%;
     margin: .25rem;
-    padding: .5rem 0;
+    padding: .5rem 1rem;
   }
 
   @include media-breakpoint-only(md) {
     flex: 1 1 33%;
+    padding: .5rem 1rem;
   }
 
   @include media-breakpoint-up(xl) {
     flex: 1 1 20%;
+    padding: .5rem 1rem;
   }
 }
 
@@ -69,9 +75,16 @@
 }
 
 .location-card-name {
-  @extend %title-card-title;
   float: left;
+  font-size: $font-size-h4;
+  font-weight: bold;
+  color: $link-color;
+  margin-bottom: $base-spacing-sm;
   width: 66%;
+
+  @include media-breakpoint-up(xxl) {
+    font-size: $font-size-h4-xxl;
+  }
 }
 
 .location-card-distance {
