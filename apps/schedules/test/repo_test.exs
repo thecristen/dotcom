@@ -71,11 +71,6 @@ defmodule Schedules.RepoTest do
   end
 
   describe "trip/1" do
-    test "returns nil for an invalid trip ID" do
-      assert trip("invalid ID") == nil
-      assert trip("") == nil
-    end
-
     test "returns a %Schedule.Trip{} for a given ID" do
       date = Timex.shift(Util.service_date, days: 1)
       schedules = by_route_ids(["1"], date: date, stop_sequences: :first, direction_id: 0)
@@ -83,6 +78,27 @@ defmodule Schedules.RepoTest do
       trip = trip(scheduled_trip.id)
       assert scheduled_trip == trip
       refute trip.shape_id == nil
+    end
+
+    test "caches an invalid trip ID and returns nil" do
+      assert trip("") == nil
+      assert trip("invalid ID") == nil
+      mock_response = %JsonApi{
+        data: [
+          %JsonApi.Item{
+            id: "invalid ID",
+            attributes: %{
+              "name" => "name",
+              "headsign" => "headsign",
+              "direction_id" => 1
+            }}
+        ]}
+      assert trip("invalid ID", fn _ -> mock_response end) == nil
+    end
+
+    test "returns nil if there's an error" do
+      mock_response = {:error, "could not connect to the API"}
+      assert trip("trip ID with an error", fn _ -> mock_response end) == nil
     end
   end
 
