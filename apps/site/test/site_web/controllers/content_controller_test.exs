@@ -1,5 +1,5 @@
 defmodule SiteWeb.ContentControllerTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase, async: false
 
   describe "GET - page" do
     test "renders a basic page when the CMS returns a Content.BasicPage", %{conn: conn} do
@@ -24,9 +24,10 @@ defmodule SiteWeb.ContentControllerTest do
       refute rendered =~ ~s(class="page-narrow")
     end
 
-    test "redirects when content type is an event", %{conn: conn} do
+    test "renders an event", %{conn: conn} do
       conn = get conn, "/node/17"
-      assert html_response(conn, 302) =~ event_path(conn, :show, 17)
+      rendered = html_response(conn, 200)
+      assert rendered =~ "Audit Committee Meeting"
     end
 
     test "renders a landing page with all its paragraphs", %{conn: conn} do
@@ -37,9 +38,10 @@ defmodule SiteWeb.ContentControllerTest do
       assert rendered =~ ~s(<div class="title-card-title">\nExample Card 1</div>)
     end
 
-    test "redirects when contenet type is news entry", %{conn: conn} do
+    test "renders a news entry", %{conn: conn} do
       conn = get conn, "/node/1"
-      assert html_response(conn, 302) =~ news_entry_path(conn, :show, 1)
+      rendered = html_response(conn, 200)
+      assert rendered =~ "Example News Entry"
     end
 
     test "renders a person page", %{conn: conn} do
@@ -47,14 +49,16 @@ defmodule SiteWeb.ContentControllerTest do
       assert html_response(conn, 200) =~ "<h1>Joseph Aiello</h1>"
     end
 
-    test "redirects when content type is project", %{conn: conn} do
+    test "renders a project", %{conn: conn} do
       conn = get conn, "/node/2679"
-      assert html_response(conn, 302) =~ project_path(conn, :show, 2679)
+      rendered = html_response(conn, 200)
+      assert rendered =~ "Ruggles Station Platform Project"
     end
 
-    test "redirects when content type is project update", %{conn: conn} do
+    test "renders project update", %{conn: conn} do
       conn = get conn, "/node/123"
-      assert html_response(conn, 302) =~ project_path(conn, :project_update, 2669, 123)
+      rendered = html_response(conn, 200)
+      assert rendered =~ "Project Update Title"
     end
 
     test "redirects when content type is a redirect", %{conn: conn} do

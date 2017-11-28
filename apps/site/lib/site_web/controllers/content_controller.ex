@@ -2,6 +2,13 @@ defmodule SiteWeb.ContentController do
   use SiteWeb, :controller
   require Logger
 
+  alias SiteWeb.EventController
+  alias SiteWeb.EventView
+  alias SiteWeb.NewsEntryController
+  alias SiteWeb.NewsEntryView
+  alias SiteWeb.ProjectController
+  alias SiteWeb.ProjectView
+
   @old_site_paths [
     "about_the_mbta",
     "business_center",
@@ -27,8 +34,10 @@ defmodule SiteWeb.ContentController do
     |> assign(:narrow_template, no_sidebar?(page))
     |> render(SiteWeb.ContentView, "page.html", [])
   end
-  defp render_page(conn, %Content.Event{id: id}) do
-    redirect conn, to: event_path(conn, :show, id)
+  defp render_page(conn, %Content.Event{} = event) do
+    conn
+    |> put_view(EventView)
+    |> EventController.show_event(event)
   end
   defp render_page(conn, %Content.LandingPage{} = page) do
     conn
@@ -37,19 +46,30 @@ defmodule SiteWeb.ContentController do
     |> assign(:pre_container_template, "landing_page.html")
     |> render(SiteWeb.ContentView, "empty.html", [])
   end
-  defp render_page(conn, %Content.NewsEntry{id: id}) do
-    redirect conn, to: news_entry_path(conn, :show, id)
+  defp render_page(conn, %Content.NewsEntry{} = news_entry) do
+    conn
+    |> put_view(NewsEntryView)
+    |> NewsEntryController.show_news_entry(news_entry)
   end
   defp render_page(conn, %Content.Person{} = person) do
     conn
     |> assign(:breadcrumbs, [Breadcrumb.build("People"), Breadcrumb.build(person.name)])
     |> render("person.html", person: person)
   end
-  defp render_page(conn, %Content.Project{id: id}) do
-    redirect conn, to: project_path(conn, :show, id)
+  defp render_page(conn, %Content.Project{id: id} = project) do
+    id = Integer.to_string(id)
+    [updates, events] = Util.async_with_timeout(
+      [ProjectController.get_updates(id), ProjectController.get_events(id)], nil)
+    conn
+    |> put_view(ProjectView)
+    |> ProjectController.show_project(project, updates, events)
   end
-  defp render_page(conn, %Content.ProjectUpdate{id: id, project_id: project_id}) do
-    redirect conn, to: project_path(conn, :project_update, project_id, id)
+  defp render_page(conn, %Content.ProjectUpdate{project_id: project_id} = project_update) do
+    project_id = Integer.to_string(project_id)
+    project = ProjectController.get_project(project_id).()
+    conn
+    |> put_view(ProjectView)
+    |> ProjectController.show_project_update(project, project_update)
   end
   defp render_page(conn, %Content.Redirect{link: link}) do
     redirect conn, external: link.url
@@ -60,6 +80,7 @@ defmodule SiteWeb.ContentController do
   defp render_page(conn, _) do
     render_404(conn)
   end
+
   defp no_sidebar?(%Content.BasicPage{sidebar_menu: nil}), do: true
   defp no_sidebar?(_), do: false
 end
