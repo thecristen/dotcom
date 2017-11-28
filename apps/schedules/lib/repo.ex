@@ -67,16 +67,22 @@ defmodule Schedules.Repo do
     |> load_from_other_repos
   end
 
-  @spec trip(String.t) :: Schedules.Trip.t | nil
-  def trip(trip_id)
-  def trip("") do
+  @spec trip(String.t, trip_by_id_fn) :: Schedules.Trip.t | nil
+  when trip_by_id_fn: ((String.t) -> JsonApi.t | {:error, any})
+  def trip(trip_id, trip_by_id_fn \\ &V3Api.Trips.by_id/1)
+  def trip("", _trip_fn) do
     # short circuit an known invalid trip ID
     nil
   end
-  def trip(trip_id) do
+  def trip(trip_id, trip_by_id_fn) do
     case cache trip_id, fn trip_id ->
-      with %JsonApi{} = response <- V3Api.Trips.by_id(trip_id) do
+      with %JsonApi{} = response <- trip_by_id_fn.(trip_id) do
         {:ok, Schedules.Parser.trip(response)}
+      else
+        {:error, [%JsonApi.Error{code: "not_found"} | _]} ->
+          {:ok, nil}
+        error ->
+          error
       end
     end do
       {:ok, value} -> value
