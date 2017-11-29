@@ -14,7 +14,7 @@ defmodule Site.TripPlan.ItineraryRow do
     defstruct [
       stop_mapper: &Stops.Repo.get/1,
       route_mapper: &Routes.Repo.get/1,
-      trip_mapper: &Schedules.Repo.trip/1
+      trip_mapper: &Schedules.Repo.trip/1,
     ]
 
     @type t :: %__MODULE__{
@@ -71,8 +71,34 @@ defmodule Site.TripPlan.ItineraryRow do
       trip: trip,
       departure: leg.start,
       steps: get_steps(leg.mode, deps.stop_mapper),
-      additional_routes: get_additional_routes(route, trip, leg, stop, deps)
+      additional_routes: get_additional_routes(route, trip, leg, stop, deps),
     }
+  end
+
+  @spec fetch_alerts(t, [Alerts.Alert.t]) :: t
+  def fetch_alerts(row, alerts)
+  def fetch_alerts(%__MODULE__{} = row, []) do
+    row
+  end
+  def fetch_alerts(%__MODULE__{transit?: false} = row, alerts) do
+    alerts = case row.stop do
+      {_name, stop_id} when not is_nil(stop_id) ->
+        Alerts.Stop.match(alerts, stop_id)
+      _ ->
+        row.alerts
+    end
+    %{row | alerts: alerts}
+  end
+  def fetch_alerts(%__MODULE__{transit?: true} = row, alerts) do
+    entity = %Alerts.InformedEntity{
+      route: row.route.id,
+      route_type: row.route.type,
+      stop: elem(row.stop, 1),
+      trip: row.trip.id,
+      direction_id: row.trip.direction_id
+    }
+    alerts = Alerts.Match.match(alerts, entity, row.departure)
+    %{row | alerts: alerts}
   end
 
   @spec name_from_position(NamedPosition.t, Dependencies.stop_mapper) :: {String.t, String.t}

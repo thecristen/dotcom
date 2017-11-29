@@ -31,18 +31,31 @@ defmodule Site.TripPlan.ItineraryRowList do
   """
   @spec from_itinerary(Itinerary.t, ItineraryRow.Dependencies.t, opts) :: t
   def from_itinerary(%Itinerary{legs: legs, accessible?: accessible?} = itinerary, deps, opts \\ []) do
+    rows = get_rows(itinerary, deps, opts)
     %__MODULE__{
-      rows: get_rows(itinerary, deps, opts),
+      rows: rows,
       destination: get_destination(legs, opts),
-      accessible?: accessible?
+      accessible?: accessible?,
+      alerts?: Enum.any?(rows, fn row -> !Enum.empty?(row.alerts) end)
     }
   end
 
   @spec get_rows(Itinerary.t, ItineraryRow.Dependencies.t, opts) :: [ItineraryRow.t]
   defp get_rows(itinerary, deps, opts) do
-    itinerary
-    |> Enum.map(fn leg -> ItineraryRow.from_leg(leg, deps) end)
-    |> update_from_name(opts[:from])
+    alerts = itinerary.start
+    |> Alerts.Repo.all()
+    |> Site.TripPlan.Alerts.filter_for_itinerary(
+      itinerary,
+      route_by_id: deps.route_mapper,
+      trip_by_id: deps.trip_mapper)
+
+    rows = for leg <- itinerary do
+      leg
+      |> ItineraryRow.from_leg(deps)
+      |> ItineraryRow.fetch_alerts(alerts)
+    end
+
+    update_from_name(rows, opts[:from])
   end
 
   @spec get_destination([TripPlan.Leg.t], Keyword.t) :: destination
