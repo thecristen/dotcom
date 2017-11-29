@@ -35,6 +35,7 @@ defmodule Alerts.Sort do
     :schedule_change,
     :service_change,
     :snow_route,
+    :stop_shoveling,
     :station_issue,
     :dock_issue,
     :access_issue,

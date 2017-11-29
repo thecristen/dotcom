@@ -77,6 +77,7 @@ defmodule Alerts.Parser do
       end
     end
 
+    @spec do_effect(String.t) :: Alerts.Alert.effect
     defp do_effect("AMBER_ALERT"), do: :amber_alert
     defp do_effect("CANCELLATION"), do: :cancellation
     defp do_effect("DELAY"), do: :delay
@@ -97,6 +98,7 @@ defmodule Alerts.Parser do
     defp do_effect("DOCK_ISSUE"), do: :dock_issue
     defp do_effect("ACCESS_ISSUE"), do: :access_issue
     defp do_effect("POLICY_CHANGE"), do: :policy_change
+    defp do_effect("STOP_SHOVELING"), do: :stop_shoveling
     defp do_effect(_), do: :unknown
 
     @spec severity(String.t | integer) :: Alerts.Alert.severity
