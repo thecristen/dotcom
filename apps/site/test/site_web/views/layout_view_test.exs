@@ -26,16 +26,6 @@ defmodule SiteWeb.LayoutViewTest do
     assert body =~ "<title>#{expected_title}</title>"
   end
 
-  test "beta announcement links the feedback form", %{conn: conn} do
-    conn = get conn, "/"
-    body = conn
-           |> html_response(200)
-           |> Floki.find(".beta-announcement-link")
-           |> Floki.attribute("href")
-
-    assert body == [SiteWeb.ViewHelpers.feedback_form_url()]
-  end
-
   describe "_header.html" do
     test "renders desktop nav with all content drawers", %{conn: conn} do
       assert {:safe, html} = render("_header.html", %{conn: conn})

@@ -101,7 +101,6 @@ body {
 .alert-announcement-container,
 .header,
 .breadcrumb-container,
-.footer-announcement-container,
 .footer {
   flex: 0 0 auto;
   max-width: 100%;
@@ -114,8 +113,7 @@ body {
   align-self: flex-start;
 }
 
-.footer,
-.footer-announcement-container {
+.footer {
   align-self: flex-end;
 }
 
@@ -135,6 +133,7 @@ body {
 
 .post-container-wrapper {
   padding-top: $base-spacing;
+  padding-bottom: $base-spacing;
 }
 
 .page-container {
@@ -205,24 +204,6 @@ body {
     padding-bottom: $base-spacing-sm;
     padding-top: $base-spacing-sm;
   }
-}
-
-.footer-announcement-container {
-  min-width: 20rem;
-
-  @media print {
-    display: none;
-  }
-}
-
-.beta-announcement {
-  float: left;
-  font-size: $font-size-base;
-  text-align: center;
-}
-
-.beta-announcement-link {
-  font-weight: bold;
 }
 
 .alert-announcement-container {

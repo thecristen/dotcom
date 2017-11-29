@@ -1,10 +1,3 @@
-<div class="announcement-container footer-announcement-container">
-  <div class="container">
-    <div class="beta-announcement">
-      Thank you for using the new MBTA.com. <%= link "Submit your thoughts", to: feedback_form_url(), target: "_blank", class: "beta-announcement-link" %> to help us keep improving the site.
-    </div>
-  </div>
-</div>
 <footer class="footer">
   <div class="container">
     <ul class="footer-link-list footer-link-list-large">
