@@ -5,7 +5,6 @@ defmodule Stops.RouteStopsTest do
   @red %Routes.Route{id: "Red", type: 1}
 
   describe "by_direction/2 returns a list of stops in one direction in the correct order" do
-    @tag :skip
     test "for Red Line, direction: 0" do
       stops = Stops.Repo.by_route("Red", 0)
       shapes = Routes.Repo.get_shapes("Red", 0)
@@ -55,7 +54,6 @@ defmodule Stops.RouteStopsTest do
       assert braintree.is_terminus? == true
     end
 
-    @tag :skip
     test "for Red Line, direction: 1" do
       stops = Stops.Repo.by_route("Red", 1)
       shapes = Routes.Repo.get_shapes("Red", 1)

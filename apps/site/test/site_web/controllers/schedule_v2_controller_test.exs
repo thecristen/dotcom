@@ -249,7 +249,6 @@ defmodule SiteWeb.ScheduleV2ControllerTest do
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
     end
 
-    @tag :skip
     test "Red Line data", %{conn: conn} do
       conn = get conn, line_path(conn, :show, "Red", direction_id: 0)
       assert %Plug.Conn{assigns: %{branches: branches}} = conn
