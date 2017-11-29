@@ -31,7 +31,8 @@ defmodule Site.TripPlan.ItineraryRow do
     departure: DateTime.from_unix!(-1),
     transit?: false,
     steps: [],
-    additional_routes: []
+    additional_routes: [],
+    alerts: [],
   ]
 
   @type t :: %__MODULE__{
@@ -41,7 +42,8 @@ defmodule Site.TripPlan.ItineraryRow do
     trip: Schedules.Trip.t | nil,
     departure: DateTime.t,
     steps: [step],
-    additional_routes: [Route.t]
+    additional_routes: [Route.t],
+    alerts: [Alerts.Alert.t],
   }
 
 

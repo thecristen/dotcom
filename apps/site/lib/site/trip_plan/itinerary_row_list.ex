@@ -1,10 +1,8 @@
 defmodule Site.TripPlan.ItineraryRowList do
-
   @moduledoc """
-  A data structure describing a list of ItineraryRows and
-  the final destination of an itinerary.
+  Information about an Itinerary that's used for rendering.
 
-  An optional to and from name can be passed in as options
+  An optional to and from name can be passed in.
   """
   alias Site.TripPlan.ItineraryRow
   alias TripPlan.Itinerary
@@ -14,14 +12,16 @@ defmodule Site.TripPlan.ItineraryRowList do
 
   defstruct [
     rows: [],
+    destination: nil,
     accessible?: false,
-    destination: nil
+    alerts?: false,
   ]
 
   @type t :: %__MODULE__{
     rows: [ItineraryRow.t],
+    destination: destination,
     accessible?: boolean,
-    destination: destination
+    alerts?: boolean,
   }
 
   @type opts :: [to: String.t | nil, from: String.t | nil]
