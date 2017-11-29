@@ -97,14 +97,8 @@
 }
 
 .landing-page-content h2 {
-  border-bottom-color: $brand-purple;
-  border-bottom-style: solid;
-  border-bottom-width: $base-spacing / 4;
-  font-size: $font-size-h1;
-
-  @include media-breakpoint-up(xxl) {
-    font-size: $font-size-h1-xxl;
-  }
+  // scss-lint:disable PlaceholderInExtend
+  @extend .h1;
 }
 
 .landing-page-content h3 {
