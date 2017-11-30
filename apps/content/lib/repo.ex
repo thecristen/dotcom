@@ -196,9 +196,9 @@ defmodule Content.Repo do
     with %{"preview" => _, "vid" => revision_id} <- params,
          ["", "node", node_id] <- String.split(path, "/"),
          {_, ""} <- Integer.parse(node_id),
-         {_, ""} <- Integer.parse(revision_id)
+         {vid, ""} <- Integer.parse(revision_id)
     do
-      node_id |> @cms_api.preview() |> get_revision(String.to_integer(revision_id))
+      node_id |> @cms_api.preview() |> get_revision(vid)
     else
       _ ->
         path = case params do
@@ -210,10 +210,13 @@ defmodule Content.Repo do
   end
 
   @spec get_revision({:error, any} | {:ok, [map]}, integer()) :: {:error, String.t} | {:ok, map}
+  def get_revision({:error, err}, _), do: {:error, err}
   def get_revision({:ok, []}, _), do: {:error, "No results"}
   def get_revision({:ok, revisions}, vid) when is_list(revisions) do
-    revision = Enum.find(revisions, & &1 |> Map.get("vid") |> List.first() |> Map.get("value") == vid)
-    {:ok, revision}
+    case Enum.find(revisions, fn %{"vid" => [%{"value" => id}]} -> id == vid end) do
+      nil -> {:error, "Revision not found"}
+      revision -> {:ok, revision}
+    end
   end
 
 end
