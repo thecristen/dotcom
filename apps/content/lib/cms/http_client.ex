@@ -7,8 +7,8 @@ defmodule Content.CMS.HTTPClient do
   def preview(node_id) do
     path = ~s(/api/revisions/#{node_id})
     process(:get, path, "", [
+      params: [_format: "json"],
       # More time needed (receives 1 - 50 JSON node entities)
-      params: [],
       timeout: 30_000,
       recv_timeout: 30_000
     ])

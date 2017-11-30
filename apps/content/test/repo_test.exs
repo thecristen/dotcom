@@ -75,6 +75,12 @@ defmodule Content.RepoTest do
         link: %Content.Field.Link{url: "http://google.com"}
       } = Content.Repo.get_page("/test/path", %{"id" => "5"})
     end
+
+    test "given special preview query params, return certain revision of node" do
+      result = Content.Repo.get_page("/node/6", %{"preview" => "", "vid" => "112"})
+      assert %Content.BasicPage{} = result
+      assert result.title == "Accessibility at the T 112"
+    end
   end
 
   describe "events/1" do

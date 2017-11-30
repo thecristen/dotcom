@@ -185,8 +185,21 @@ defmodule Content.CMS.Static do
   end
 
   @impl true
-  def preview(node_id) do
-    view("/node/#{node_id}", [])
+  def preview(node_id)
+  def preview("1") do
+    {:ok, do_preview(List.first(news_response()))}
+  end
+  def preview("17") do
+    {:ok, do_preview(List.first(events_response()))}
+  end
+  def preview("123") do
+    {:ok, do_preview(List.first(project_updates_response()))}
+  end
+  def preview("2679") do
+    {:ok, do_preview(List.first(projects_response()))}
+  end
+  def preview("6") do
+    {:ok, do_preview(basic_page_response())}
   end
 
   @impl true
@@ -235,5 +248,11 @@ defmodule Content.CMS.Static do
     |> Path.join()
     |> File.read!()
     |> Poison.Parser.parse!()
+  end
+
+  defp do_preview(%{"title" => [%{"value" => title}]} = response) do
+    for vid <- [111, 112, 113] do
+      %{response | "vid" => [%{"value" => vid}], "title" => [%{"value" => "#{title} #{vid}"}]}
+    end
   end
 end
