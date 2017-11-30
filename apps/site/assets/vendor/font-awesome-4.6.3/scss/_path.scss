@@ -2,6 +2,7 @@
  * -------------------------- */
 
 @font-face {
+  font-display: swap;
   font-family: 'FontAwesome';
   src: url('#{$fa-font-path}/fontawesome-webfont.eot');
   src: url('#{$fa-font-path}/fontawesome-webfont.eot?#iefix') format('embedded-opentype'),
