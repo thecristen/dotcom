@@ -23,7 +23,7 @@
           <%= svg "walk.svg" %>
           <%= @itinerary |> TripPlan.Itinerary.walking_distance |> display_meters_as_miles %> mi total
         </span>
-        <%= if @alerts != [] do %>
+        <%= if @itinerary_row_list.alerts? do %>
           <span class="itinerary-has-alerts-icon">
             <%= fa "exclamation-triangle" %>
           </span>
@@ -57,7 +57,7 @@
         <img class="map-static" style="background-image: url(<%= map_url %>)" />
       </noscript>
     </div>
-    <%= if @alerts != [] do %>
+    <%= if @itinerary_row_list.alerts? do %>
       <div class="itinerary-has-alerts-text">
         <strong>Note:</strong> This trip may be affected by disruptions in service. Check steps with <%= fa "exclamation-triangle" %> for details.
       </div>
@@ -67,7 +67,6 @@
         <%= for {row, idx} <- Enum.with_index(@itinerary_row_list) do
           render "_itinerary_row.html",
             itinerary_row: row,
-            alerts: @alerts,
             conn: @conn,
             row_idx: idx,
             itinerary_idx: @index,

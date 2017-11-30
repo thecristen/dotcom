@@ -92,14 +92,12 @@
       <%= for {i,
                routes,
                map,
-               alerts,
                links,
                itinerary_row_list,
                index} <- Enum.zip([
           itineraries,
           @routes,
           @itinerary_maps,
-          @alerts,
           @related_links,
           @itinerary_row_lists,
           Stream.iterate(1, & &1 + 1)]) do
@@ -108,7 +106,6 @@
             index: index,
             routes: routes,
             itinerary_map: map,
-            alerts: alerts,
             links: links,
             itinerary_row_list: itinerary_row_list,
             expanded: @expanded,

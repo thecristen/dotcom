@@ -1,10 +1,8 @@
 defmodule Site.TripPlan.ItineraryRowList do
-
   @moduledoc """
-  A data structure describing a list of ItineraryRows and
-  the final destination of an itinerary.
+  Information about an Itinerary that's used for rendering.
 
-  An optional to and from name can be passed in as options
+  An optional to and from name can be passed in.
   """
   alias Site.TripPlan.ItineraryRow
   alias TripPlan.Itinerary
@@ -14,35 +12,56 @@ defmodule Site.TripPlan.ItineraryRowList do
 
   defstruct [
     rows: [],
+    destination: nil,
     accessible?: false,
-    destination: nil
+    alerts?: false,
   ]
 
   @type t :: %__MODULE__{
     rows: [ItineraryRow.t],
+    destination: destination,
     accessible?: boolean,
-    destination: destination
+    alerts?: boolean,
   }
+
+  @type opts :: [to: String.t | nil, from: String.t | nil]
 
   @doc  """
   Builds a ItineraryRowList from the given itinerary
   """
-  @spec from_itinerary(Itinerary.t, Keyword.t) :: t
-  def from_itinerary(%Itinerary{legs: legs, accessible?: accessible?} = itinerary, opts) do
-    %__MODULE__{rows: get_rows(itinerary, opts), destination: get_destination(legs, opts), accessible?: accessible?}
+  @spec from_itinerary(Itinerary.t, ItineraryRow.Dependencies.t, opts) :: t
+  def from_itinerary(%Itinerary{legs: legs, accessible?: accessible?} = itinerary, deps, opts \\ []) do
+    rows = get_rows(itinerary, deps, opts)
+    %__MODULE__{
+      rows: rows,
+      destination: get_destination(legs, opts),
+      accessible?: accessible?,
+      alerts?: Enum.any?(rows, fn row -> !Enum.empty?(row.alerts) end)
+    }
   end
 
-  @spec get_rows(Itinerary.t, Keyword.t) :: [ItineraryRow.t]
-  defp get_rows(itinerary, opts) do
-    itinerary
-    |> Enum.map(fn leg -> ItineraryRow.from_leg(leg, opts) end)
-    |> update_from_name(opts[:from])
+  @spec get_rows(Itinerary.t, ItineraryRow.Dependencies.t, opts) :: [ItineraryRow.t]
+  defp get_rows(itinerary, deps, opts) do
+    alerts = itinerary.start
+    |> Alerts.Repo.all()
+    |> Site.TripPlan.Alerts.filter_for_itinerary(
+      itinerary,
+      route_by_id: deps.route_mapper,
+      trip_by_id: deps.trip_mapper)
+
+    rows = for leg <- itinerary do
+      leg
+      |> ItineraryRow.from_leg(deps)
+      |> ItineraryRow.fetch_alerts(alerts)
+    end
+
+    update_from_name(rows, opts[:from])
   end
 
   @spec get_destination([TripPlan.Leg.t], Keyword.t) :: destination
   defp get_destination(legs, opts) do
     last_leg = List.last(legs)
-    {name, stop_id} = last_leg |> Map.get(:to) |> ItineraryRow.name_from_position()
+    {name, stop_id} = last_leg |> Map.get(:to) |> ItineraryRow.name_from_position(&Stops.Repo.get/1)
     {destination_name(name, opts[:to]), stop_id, last_leg.stop}
   end
 

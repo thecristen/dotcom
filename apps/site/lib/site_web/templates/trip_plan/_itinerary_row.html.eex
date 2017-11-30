@@ -7,7 +7,7 @@
     template = if @itinerary_row.transit?, do: "transit", else: "personal"
     render "_itinerary_row_#{template}.html",
     assigns
-    |> Map.take([:conn, :itinerary_row, :row_idx, :itinerary_idx, :alerts])
+    |> Map.take([:conn, :itinerary_row, :row_idx, :itinerary_idx])
     |> Map.merge(%{stop_name: stop_name,
                    stop_id: stop_id,
                    departure_display: stop_departure_display(@itinerary_row),

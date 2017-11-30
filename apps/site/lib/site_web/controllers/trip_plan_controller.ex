@@ -1,8 +1,7 @@
 defmodule SiteWeb.TripPlanController do
   use SiteWeb, :controller
-  alias Site.TripPlan.{Query, RelatedLink, ItineraryRowList}
+  alias Site.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap
-  alias Site.TripPlan.Alerts, as: TripPlanAlerts
   alias TripPlan.Itinerary
 
   plug :require_google_maps
@@ -35,13 +34,13 @@ defmodule SiteWeb.TripPlanController do
     itineraries = Query.get_itineraries(query)
     route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
+    itinerary_row_lists = itinerary_row_lists(itineraries, route_mapper, plan)
     render conn,
       query: query,
       routes: Enum.map(itineraries, &routes_for_itinerary(&1, route_mapper)),
       itinerary_maps: Enum.map(itineraries, &TripPlanMap.itinerary_map(&1, route_mapper: route_mapper)),
       related_links: Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1, route_by_id: route_mapper)),
-      alerts: alerts(itineraries, route_mapper),
-      itinerary_row_lists: itinerary_row_lists(itineraries, route_mapper, plan)
+      itinerary_row_lists: itinerary_row_lists
   end
 
   @spec validate_date(map) :: {:ok, NaiveDateTime.t} | {:error, %{required(:date_time) => String.t}}
@@ -113,8 +112,8 @@ defmodule SiteWeb.TripPlanController do
 
   @spec itinerary_row_lists([Itinerary.t], route_mapper, map) :: [ItineraryRowList.t]
   defp itinerary_row_lists(itineraries, route_mapper, plan) do
-    opts = Keyword.merge([route_mapper: route_mapper], to_and_from(plan))
-    Enum.map(itineraries, &ItineraryRowList.from_itinerary(&1, opts))
+    deps = %ItineraryRow.Dependencies{route_mapper: route_mapper}
+    Enum.map(itineraries, &ItineraryRowList.from_itinerary(&1, deps, to_and_from(plan)))
   end
 
   def assign_initial_map(conn, _opts) do
@@ -137,20 +136,6 @@ defmodule SiteWeb.TripPlanController do
     itinerary
     |> Itinerary.route_ids
     |> Enum.map(route_mapper)
-  end
-
-  @spec alerts([Itinerary.t], route_mapper) :: [alert_list] when alert_list: [Alerts.Alert.t]
-  defp alerts([], _) do
-    []
-  end
-  defp alerts([first | _] = itineraries, route_mapper) do
-    # time here is only used for sorting, so it's okay that the time might
-    # not exactly match the alerts
-    all_alerts = Alerts.Repo.all(first.start)
-    opts = [route_by_id: route_mapper]
-    for itinerary <- itineraries do
-      TripPlanAlerts.filter_for_itinerary(all_alerts, itinerary, opts)
-    end
   end
 
   @spec to_and_from(map) :: [to: String.t | nil, from: String.t | nil]

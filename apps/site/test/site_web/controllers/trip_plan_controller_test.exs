@@ -48,7 +48,6 @@ defmodule SiteWeb.TripPlanControllerTest do
       assert conn.assigns.routes
       assert conn.assigns.itinerary_maps
       assert conn.assigns.related_links
-      assert conn.assigns.alerts
     end
 
     test "uses current location to render a query plan", %{conn: conn} do
@@ -129,12 +128,6 @@ defmodule SiteWeb.TripPlanControllerTest do
     test "assigns an ItineraryRowList for each itinerary", %{conn: conn} do
       conn = get conn, trip_plan_path(conn, :index, @good_params)
       assert conn.assigns.itinerary_row_lists
-    end
-
-    test "assigns a list of alerts for each itinerary", %{conn: conn} do
-      conn = get conn, trip_plan_path(conn, :index, @good_params)
-      {:ok, itineraries} = conn.assigns.query.itineraries
-      assert length(itineraries) == length(conn.assigns.alerts)
     end
 
     test "bad date input: fictional day", %{conn: conn} do

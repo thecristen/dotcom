@@ -9,7 +9,7 @@
     render "_itinerary_transfer_stop.html",
       Map.merge(assigns, %{
         mode: @mode_class,
-        alerts: filter_alerts_for_stop_and_route(@alerts, @itinerary_row),
+        alerts: @itinerary_row.alerts,
         bubble_params: transfer_bubbles
       })
   %>
