@@ -186,18 +186,6 @@ defmodule Content.CMS.Static do
 
   @impl true
   def preview(node_id)
-  def preview("1") do
-    {:ok, do_preview(List.first(news_response()))}
-  end
-  def preview("17") do
-    {:ok, do_preview(List.first(events_response()))}
-  end
-  def preview("123") do
-    {:ok, do_preview(List.first(project_updates_response()))}
-  end
-  def preview("2679") do
-    {:ok, do_preview(List.first(projects_response()))}
-  end
   def preview("6") do
     {:ok, do_preview(basic_page_response())}
   end
