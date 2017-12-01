@@ -13,13 +13,9 @@
         each payment option is accepted on. How you choose to pay may affect how much your fare costs, which passes you can purchase,
       and your eligibility to make discounted transfers.
     </p>
-    <div class="row title-card-container title-card-container-separate">
-      <div class="col-xs-12 col-sm-6">
-        <%= render "_related_page_card.html", title: "How to Pay Your Fare", body: ["Accepted payment methods", "Where to purchase your fare", "Paying your fare"], href: how_to_pay_path(@conn, :index), target: "_self" %>
-      </div>
-      <div class="col-xs-12 col-sm-6">
-        <%= render "_related_page_card.html", title: "Payment Methods", body: ["Ways to pay your fare", "Where each payment method can be used", "Types of fares you can load onto each payment method"], href: fare_path(@conn, :show, "payment-methods"), target: "_self" %>
-      </div>
+    <div class="title-card-container title-card-container-separate">
+      <%= render "_related_page_card.html", title: "How to Pay Your Fare", body: ["Accepted payment methods", "Where to purchase your fare", "Paying your fare"], href: how_to_pay_path(@conn, :index), target: "_self" %>
+      <%= render "_related_page_card.html", title: "Payment Methods", body: ["Ways to pay your fare", "Where each payment method can be used", "Types of fares you can load onto each payment method"], href: fare_path(@conn, :show, "payment-methods"), target: "_self" %>
     </div>
   </div>
   <div>

@@ -1,19 +1,13 @@
 <div class="title-card-container title-card-container-separate">
-  <%= for title_card_pair <- Enum.chunk(@paragraph.title_cards, 2, 2, []) do %>
-    <div class="row title-card-container-inner">
-      <%= for title_card <- title_card_pair do %>
-        <div class="col-md-6 col-sm-12 single-title-card-wrapper">
-          <%= if title_card.link do %>
-            <%= link to: title_card.link.url, class: "title-card" do %>
-              <%= render "_title_card_body.html", title_card: title_card %>
-            <% end %>
-          <% else %>
-            <div class="title-card title-card-link-type">
-              <%= render "_title_card_body.html", title_card: title_card %>
-            </div>
-          <% end %>
-        </div>
+  <%= for title_card <- @paragraph.title_cards do %>
+    <%= if title_card.link do %>
+      <%= link to: title_card.link.url, class: "title-card" do %>
+        <%= render "_title_card_body.html", title_card: title_card %>
       <% end %>
-    </div>
+    <% else %>
+      <div class="title-card title-card-link-type">
+        <%= render "_title_card_body.html", title_card: title_card %>
+      </div>
+    <% end %>
   <% end %>
 </div>

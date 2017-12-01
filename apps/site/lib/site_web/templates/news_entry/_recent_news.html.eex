@@ -2,7 +2,6 @@
   <h2>Recent News on the T</h2>
   <div class="title-card-container title-card-container-separate">
     <%= for news_entry <- @recent_news do %>
-      <div class="recent-news-title">
         <%= link to: news_entry_path(@conn, :show, news_entry.id), class: "title-card" do %>
           <p class="news-metadata">
             <%= format_date(news_entry.posted_on) %>
@@ -11,7 +10,6 @@
             <%= news_entry.title %>
           </div>
         <% end %>
-      </div>
     <% end %>
   </div>
 </div>

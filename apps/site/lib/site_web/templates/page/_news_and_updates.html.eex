@@ -2,17 +2,11 @@
   <div class="container page-section news-section">
     <h2>News &amp; Updates</h2>
     <div class="title-card-container title-card-container-separate">
-      <%= for news_entry_pair <- Enum.chunk(@news, 2) do %>
-        <div class="row">
-          <%= for news_entry <- news_entry_pair do %>
-            <div class="col-md-6 col-sm-12">
-              <%= link to: news_entry_path(@conn, :show, news_entry.id), class: "title-card" do %>
-                <div class="title-card-title"><%= news_entry.title %></div>
-                <p><%= news_entry.teaser |> safe_to_string |> Content.Blurb.blurb(90) |> raw %></p>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
+      <%= for news_entry <- @news do %>
+        <%= link to: news_entry_path(@conn, :show, news_entry.id), class: "title-card" do %>
+          <div class="title-card-title"><%= news_entry.title %></div>
+          <p><%= news_entry.teaser |> safe_to_string |> Content.Blurb.blurb(90) |> raw %></p>
+        <% end %>
       <% end %>
     </div>
     <%= link to: news_entry_path(@conn, :index) do %>
