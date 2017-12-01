@@ -191,6 +191,7 @@ defmodule Backstop.Servers.Phoenix do
   use Backstop.Servers
   @default_args [
     {'V3_URL', 'http://localhost:8080'},
+    {'V3_API_KEY', ''},
     {'GOOGLE_API_KEY', ''}
   ]
 
