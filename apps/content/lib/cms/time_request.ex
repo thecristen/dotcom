@@ -11,21 +11,22 @@ defmodule Content.CMS.TimeRequest do
   @spec time_request(atom, String.t, String.t, Keyword.t, Keyword.t) ::
     {:ok, HTTPoison.Response.t} |
     {:error, HTTPoison.Error.t}
-  def time_request(method, url, body \\ "", headers \\ [], params \\ []) do
-    {time, response} = :timer.tc(HTTPoison, :request, [method, url, body, headers, [params: params]])
-    log_response(time, url, params, response)
+  def time_request(method, url, body \\ "", headers \\ [], opts \\ []) do
+    {time, response} = :timer.tc(HTTPoison, :request, [
+      method, url, body, headers, opts
+    ])
+    log_response(time, url, opts, response)
     response
   end
 
-  defp log_response(time, url, params, response) do
+  defp log_response(time, url, opts, response) do
     _ = Logger.info(fn ->
-      params = Keyword.delete(params, :_format)
       text = case response do
                {:ok, %{status_code: code}} -> "status=#{code}"
                {:error, e} -> "status=error error=#{inspect e}"
              end
       time = time / :timer.seconds(1)
-      "#{__MODULE__} response url=#{url} params=#{inspect params} #{text} duration=#{time}"
+      "#{__MODULE__} response url=#{url} options=#{inspect opts} #{text} duration=#{time}"
     end)
     :ok
   end

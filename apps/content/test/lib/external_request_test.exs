@@ -13,7 +13,7 @@ defmodule Content.ExternaRequestTest do
         Plug.Conn.resp(conn, 200, "[]")
       end
 
-      assert {:ok, []} = process(:get, "/get", "", [cake: "is the best"])
+      assert {:ok, []} = process(:get, "/get", "", [params: [cake: "is the best"]])
     end
 
     test "handles a request with a body" do

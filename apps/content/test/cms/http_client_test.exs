@@ -4,18 +4,30 @@ defmodule Content.CMS.HTTPClientTest do
   import Content.CMS.HTTPClient
   alias Content.ExternalRequest
 
+  describe "preview/1" do
+    test "uses alternate path with timeout options" do
+      with_mock ExternalRequest, [process: fn(_method, _path, _body, _params) -> {:ok, []} end] do
+        preview("6")
+        assert called ExternalRequest.process(
+          :get, "/api/revisions/6", "",
+          [params: [_format: "json"], timeout: 30_000, recv_timeout: 30_000]
+        )
+      end
+    end
+  end
+
   describe "view/2" do
     test "makes a get request with format: json params" do
       with_mock ExternalRequest, [process: fn(_method, _path, _body, _params) -> {:ok, []} end] do
         view("/path", [])
-        assert called ExternalRequest.process(:get, "/path", "", [_format: "json"])
+        assert called ExternalRequest.process(:get, "/path", "", [params: [_format: "json"]])
       end
     end
 
     test "accepts additional params" do
       with_mock ExternalRequest, [process: fn(_method, _path, _body, _params) -> {:ok, []} end] do
         view("/path", [foo: "bar"])
-        assert called ExternalRequest.process(:get, "/path", "", [foo: "bar", _format: "json"])
+        assert called ExternalRequest.process(:get, "/path", "", [params: [foo: "bar", _format: "json"]])
       end
     end
   end

@@ -11,6 +11,16 @@ defmodule Content.Repo do
 
   @cms_api Application.get_env(:content, :cms_api)
 
+  @spec get_page(String.t, map) :: Content.Page.t | nil
+  def get_page(path, query_params \\ %{}) do
+    query_params = Map.delete(query_params, "from") # remove tracking
+
+    case view_or_preview(path, query_params) do
+      {:ok, api_data} -> Content.Page.from_api(api_data)
+      _ -> nil
+    end
+  end
+
   @spec news(Keyword.t) :: [Content.NewsEntry.t] | []
   def news(opts \\ []) do
     case @cms_api.view("/news", opts) do
@@ -42,25 +52,6 @@ defmodule Content.Repo do
       _ -> []
     end
   end
-
-  @spec get_page(String.t, String.t | nil) :: Content.Page.t | nil
-  def get_page(path, query_string \\ "") do
-    query_string = remove_tracking(query_string)
-    cms_path = if query_string != "" do
-      path <> URI.encode_www_form("?#{query_string}")
-    else
-      path
-    end
-
-    case @cms_api.view(cms_path, []) do
-      {:ok, api_data} -> Content.Page.from_api(api_data)
-      _ -> nil
-    end
-  end
-
-  @spec remove_tracking(String.t) :: String.t
-  defp remove_tracking(""), do: ""
-  defp remove_tracking(query_string), do: Regex.replace(~r/[&]?from=.*/, query_string, "")
 
   @spec events(Keyword.t) :: [Content.Event.t]
   def events(opts \\ []) do
@@ -199,4 +190,33 @@ defmodule Content.Repo do
         error
     end
   end
+
+  @spec view_or_preview(String.t, map) :: {:ok, map()} | {:error, String.t}
+  defp view_or_preview(path, params) do
+    with %{"preview" => _, "vid" => revision_id} <- params,
+         ["", "node", node_id] <- String.split(path, "/"),
+         {_, ""} <- Integer.parse(node_id),
+         {vid, ""} <- Integer.parse(revision_id)
+    do
+      node_id |> @cms_api.preview() |> get_revision(vid)
+    else
+      _ ->
+        path = case params do
+          %{"id" => old_site_page_id} -> path <> URI.encode_www_form("?id=#{old_site_page_id}")
+          _ -> path
+        end
+        @cms_api.view(path, [])
+    end
+  end
+
+  @spec get_revision({:error, any} | {:ok, [map]}, integer()) :: {:error, String.t} | {:ok, map}
+  def get_revision({:error, err}, _), do: {:error, err}
+  def get_revision({:ok, []}, _), do: {:error, "No results"}
+  def get_revision({:ok, revisions}, vid) when is_list(revisions) do
+    case Enum.find(revisions, fn %{"vid" => [%{"value" => id}]} -> id == vid end) do
+      nil -> {:error, "Revision not found"}
+      revision -> {:ok, revision}
+    end
+  end
+
 end

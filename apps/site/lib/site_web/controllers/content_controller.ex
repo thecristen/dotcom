@@ -21,7 +21,7 @@ defmodule SiteWeb.ContentController do
   ]
 
   def page(conn, _params) do
-    maybe_page = Content.Repo.get_page(conn.request_path, conn.query_string)
+    maybe_page = Content.Repo.get_page(conn.request_path, conn.query_params)
     conn
     |> put_layout({SiteWeb.LayoutView, :app})
     |> render_page(maybe_page)
