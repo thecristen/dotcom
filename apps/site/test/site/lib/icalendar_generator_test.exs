@@ -21,7 +21,7 @@ defmodule IcalendarGeneratorTest do
     test "includes the event details" do
       event =
         event_factory()
-        |> Map.put(:title, raw("Event Title"))
+        |> Map.put(:title, "Event Title")
         |> Map.put(:body, raw("<p>Here is a <strong>description</strong></p>."))
         |> Map.put(:location, "MassDot")
         |> Map.put(:street_address, "10 Park Plaza")
@@ -79,10 +79,10 @@ defmodule IcalendarGeneratorTest do
       assert result =~ "DTEND;TZID=\"America/New_York\":\n"
     end
 
-    test "the title and imported_address fields decode the ampersand html entity" do
+    test "the imported_address field decode the ampersand html entity" do
       event =
         event_factory()
-        |> Map.put(:title, raw("Bidding Process &amp; Procedures"))
+        |> Map.put(:title, "Bidding Process & Procedures")
         |> Map.put(:location, nil)
         |> Map.put(:imported_address, raw("Conference Rooms 2 &amp; 3"))
 

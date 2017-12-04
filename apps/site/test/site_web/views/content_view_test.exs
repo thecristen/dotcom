@@ -123,7 +123,12 @@ defmodule SiteWeb.ContentViewTest do
         |> render_paragraph()
         |> Phoenix.HTML.safe_to_string
 
-      assert rendered =~ Phoenix.HTML.safe_to_string(event.title)
+      rendered_title =
+        event.title
+        |> Phoenix.HTML.html_escape
+        |> Phoenix.HTML.safe_to_string
+
+      assert rendered =~ rendered_title
       assert rendered =~ "View all upcoming meetings"
     end
 

@@ -43,8 +43,8 @@ defmodule Site.IcalendarGenerator do
     decode_ampersand_entity(address)
   end
 
-  defp event_summary(%Content.Event{title: {:safe, title}}) do
-    decode_ampersand_entity(title)
+  defp event_summary(%Content.Event{title: title}) do
+    title
   end
 
   defp description(%Content.Event{body: {:safe, body}}) do

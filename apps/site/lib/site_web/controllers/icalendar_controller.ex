@@ -15,7 +15,6 @@ defmodule SiteWeb.IcalendarController do
 
   defp filename(title) do
     title
-    |> Phoenix.HTML.safe_to_string()
     |> String.downcase
     |> String.replace(" ", "_")
     |> decode_ampersand_html_entity
