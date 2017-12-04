@@ -104,13 +104,12 @@ defmodule SiteWeb.ScheduleV2ControllerTest do
       assert zone_map["North Billerica"] == "5"
     end
 
-    test "renders a rating error if we get no_service back from the API", %{conn: conn} do
+    test "redirects if we get no_service back from the API", %{conn: conn} do
       conn = conn
       |> assign(:all_stops, {:error, [%JsonApi.Error{code: "no_service", meta: %{"version" => "Spring"}}]})
       |> get(timetable_path(conn, :show, "CR-Lowell", date: "2016-01-01"))
 
-      response = html_response(conn, 200)
-      assert response =~ "January 1, 2016 is not part of the Spring schedule."
+      assert redirected_to(conn, 302) == timetable_path(conn, :show, "CR-Lowell")
     end
   end
 
@@ -352,23 +351,21 @@ defmodule SiteWeb.ScheduleV2ControllerTest do
       assert Floki.find(stops, ".fa-check") == []
     end
 
-    test "renders a rating error if we get no_service back from the API", %{conn: conn} do
+    test "redirects if we get no_service back from the API", %{conn: conn} do
       conn = conn
       |> assign(:all_stops, {:error, [%JsonApi.Error{code: "no_service", meta: %{"version" => "Spring"}}]})
       |> get(line_path(conn, :show, "171", date: "2016-01-01", direction_id: 1))
 
-      response = html_response(conn, 200)
-      assert response =~ "January 1, 2016 is not part of the Spring schedule."
+      assert redirected_to(conn, 302) == line_path(conn, :show, "171", direction_id: 1)
     end
   end
 
-  test "renders a rating error if we get no_service back from the API", %{conn: conn} do
+  test "redirects if we get no_service back from the API", %{conn: conn} do
     conn = conn
     |> assign(:all_stops, {:error, [%JsonApi.Error{code: "no_service", meta: %{"version" => "Spring"}}]})
     |> get(trip_view_path(conn, :show, "1", date: "2016-01-01"))
 
-    response = html_response(conn, 200)
-    assert response =~ "January 1, 2016 is not part of the Spring schedule."
+    assert redirected_to(conn, 302) == trip_view_path(conn, :show, "1")
   end
 
   describe "tab redirects" do
