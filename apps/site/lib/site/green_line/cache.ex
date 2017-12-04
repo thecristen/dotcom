@@ -17,7 +17,7 @@ defmodule Site.GreenLine.Cache do
   # Client
 
   def start_link(opts \\ []) do
-    start_date_fn = Keyword.get(opts, :start_date_fn, &Util.service_date/0)
+    start_date_fn = Keyword.get(opts, :start_date_fn, fn -> elem(Schedules.Repo.rating_dates(), 0) end)
     end_date_fn = Keyword.get(opts, :end_date_fn, &Schedules.Repo.end_of_rating/0)
     reset_fn = Keyword.get(opts, :reset_fn, &reset_cache/1)
     name = Keyword.get(opts, :name, :green_line_cache)
