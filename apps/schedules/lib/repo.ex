@@ -92,12 +92,21 @@ defmodule Schedules.Repo do
 
   @spec end_of_rating() :: Date.t | nil
   def end_of_rating(all_fn \\ &V3Api.Schedules.all/1) do
+    case rating_dates(all_fn) do
+      {_start_date, end_date} -> end_date
+      :error -> nil
+    end
+  end
+
+  @spec rating_dates() :: {Date.t, Date.t} | :error
+  def rating_dates(all_fn \\ &V3Api.Schedules.all/1) do
     cache all_fn, fn all_fn ->
       with {:error, [%{code: "no_service"} = error]} <- all_fn.(route: "Red", date: "1970-01-01"),
-           {:ok, date} <- Timex.parse(error.meta["end_date"], "{ISOdate}") do
-        NaiveDateTime.to_date(date)
+           {:ok, start_date} <- Date.from_iso8601(error.meta["start_date"]),
+           {:ok, end_date} <- Date.from_iso8601(error.meta["end_date"]) do
+        {start_date, end_date}
       else
-        _ -> nil
+        _ -> :error
       end
     end
   end

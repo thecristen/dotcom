@@ -154,6 +154,7 @@ defmodule Schedules.RepoTest do
       error = %JsonApi.Error{
         code: "no_service",
         meta: %{
+          "start_date" => "2016-12-01",
           "end_date" => "2017-01-01"
         }
       }
@@ -167,6 +168,28 @@ defmodule Schedules.RepoTest do
     @tag :external
     test "returns a date (actual endpoint)" do
       assert %Date{} = end_of_rating()
+    end
+  end
+
+  describe "rating_dates/1" do
+    test "returns the start/end dates if it comes back from the API" do
+      error = %JsonApi.Error{
+        code: "no_service",
+        meta: %{
+          "start_date" => "2016-12-01",
+          "end_date" => "2017-01-01"
+        }
+      }
+      assert {~D[2016-12-01], ~D[2017-01-01]} = rating_dates(fn _ -> {:error, [error]} end)
+    end
+
+    test "returns :error if there are problems" do
+      assert rating_dates(fn _ -> %JsonApi{} end) == :error
+    end
+
+    @tag :external
+    test "returns a date (actual endpoint)" do
+      assert {%Date{}, %Date{}} = rating_dates()
     end
   end
 
