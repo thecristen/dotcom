@@ -6,6 +6,7 @@ defmodule SiteWeb.ScheduleV2Controller.TripViewController do
   alias Routes.Route
 
   plug SiteWeb.Plugs.Route
+  plug SiteWeb.Plugs.DateInRating
   plug :tab_name
   plug SiteWeb.ScheduleV2Controller.RoutePdfs
   plug SiteWeb.ScheduleV2Controller.Core

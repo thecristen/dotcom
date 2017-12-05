@@ -2,6 +2,7 @@ defmodule SiteWeb.ScheduleV2Controller.TimetableController do
   use SiteWeb, :controller
 
   plug SiteWeb.Plugs.Route
+  plug SiteWeb.Plugs.DateInRating
   plug :tab_name
   plug SiteWeb.ScheduleV2Controller.RoutePdfs
   plug SiteWeb.ScheduleV2Controller.Core
