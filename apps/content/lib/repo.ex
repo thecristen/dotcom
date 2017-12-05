@@ -194,11 +194,12 @@ defmodule Content.Repo do
   @spec view_or_preview(String.t, map) :: {:ok, map()} | {:error, String.t}
   defp view_or_preview(path, params) do
     with %{"preview" => _, "vid" => revision_id} <- params,
-         ["", "node", node_id] <- String.split(path, "/"),
-         {_, ""} <- Integer.parse(node_id),
          {vid, ""} <- Integer.parse(revision_id)
     do
-      node_id |> @cms_api.preview() |> get_revision(vid)
+      @cms_api.view(path, [])
+      |> get_node_id()
+      |> @cms_api.preview()
+      |> get_revision(vid)
     else
       _ ->
         path = case params do
@@ -219,4 +220,8 @@ defmodule Content.Repo do
     end
   end
 
+  @spec get_node_id({:ok, map}) :: integer
+  def get_node_id({:ok, node}) do
+    hd(node["nid"]) |> Map.get("value")
+  end
 end
