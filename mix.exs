@@ -9,6 +9,7 @@ defmodule DotCom.Mixfile do
      test_coverage: [tool: ExCoveralls],
      dialyzer: [
        plt_add_apps: [:mix, :phoenix_live_reload, :laboratory],
+       flags: [:race_conditions, :unmatched_returns],
        ignore_warnings: ".dialyzer.ignore-warnings"],
      deps: deps(),
 
