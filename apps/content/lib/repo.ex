@@ -198,6 +198,7 @@ defmodule Content.Repo do
       |> get_node_id()
       |> @cms_api.preview()
       |> get_revision(vid)
+      |> preview_links()
     else
       _ ->
         path = case params do
@@ -230,4 +231,12 @@ defmodule Content.Repo do
   def get_node_id({:ok, node}) do
     List.first(node["nid"]) |> Map.get("value")
   end
+  
+  @spec preview_links({:error, String.t} | {:ok, map}) :: {:error, String.t} | {:ok, map}
+  def preview_links({:error, err}), do: {:error, err}
+  def preview_links({:ok, node}) do
+    IO.inspect "processing preview links"
+    {:ok, node}
+  end
+
 end
