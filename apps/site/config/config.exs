@@ -23,8 +23,7 @@ config :logger, :console,
 config :logster, :allowed_headers, ["referer"]
 
 config :site, SiteWeb.ViewHelpers,
-  google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID"),
-  feedback_form_url: "https://docs.google.com/a/mbtace.com/forms/d/e/1FAIpQLScjM7vVFw-5qNZsKC3CNy7xzOAg0i5atkn_tWhkzZkw_oQUyg/viewform"
+  google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
 
 config :laboratory,
   features: [],

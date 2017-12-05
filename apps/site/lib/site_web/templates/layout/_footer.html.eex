@@ -58,8 +58,8 @@
         <ul class="footer-link-sublist">
           <li class="footer-link-sublist-item"><%= link "Business Opportunities", to: redirect_path(@conn, "business_center/"), target: "_blank" %></li>
           <li class="footer-link-sublist-item"><%= link "Careers", to: cms_static_page_path(@conn, "/careers"), data: [scroll: true]  %></li>
-          <li class="footer-link-sublist-item"><%= link "Developers", to: redirect_path(@conn, "rider_tools/developers/"), target: "_blank" %></li>
-          <li class="footer-link-sublist-item"><%= link "Financials", to: cms_static_page_path(@conn, "/financials"), data: [scroll: true]  %></li>
+          <li class="footer-link-sublist-item"><%= link "Developers", to: cms_static_page_path(@conn, "/developers"), data: [scroll: true] %></li>
+          <li class="footer-link-sublist-item"><%= link "Financials", to: cms_static_page_path(@conn, "/financials"), data: [scroll: true] %></li>
           <li class="footer-link-sublist-item"><%= link "Innovation", to: redirect_path(@conn, "business_center/innovation_proposals/"), target: "_blank" %></li>
         </ul>
       </li>
@@ -67,8 +67,7 @@
         Customer Support
         <ul class="footer-link-sublist">
           <li class="footer-link-sublist-item"><%= link "Contact Us", to: customer_support_path(@conn, :index), data: [scroll: true]  %></li>
-          <li class="footer-link-sublist-item"><%= link "Website Feedback", to: feedback_form_url(), target: "_blank" %></li>
-          <li class="footer-link-sublist-item"><%= link "Privacy Policy", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true]  %></li>
+          <li class="footer-link-sublist-item"><%= link "Policies", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true]  %></li>
           <li class="footer-link-sublist-item"><%= link "Civil Rights", to: cms_static_page_path(@conn, "/policies/title-vi"), data: [scroll: true]  %></li>
           <li class="footer-link-sublist-item"><%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3", target: "_blank" %></li>
         </ul>
@@ -100,8 +99,7 @@
     </ul>
     <ul class="footer-link-list footer-link-list-small">
       <li class="footer-link-item-small"><%= link "Contact Us", to: customer_support_path(@conn, :index), data: [scroll: true] %></li>
-      <li class="footer-link-item-small"><%= link "Privacy Policy", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true] %></li>
-      <li class="footer-link-item-small"><%= link "Terms of Use", to: customer_support_path(@conn, :index), data: [scroll: true] %></li>
+      <li class="footer-link-item-small"><%= link "Policies", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true] %></li>
     </ul>
     <p class="footer-copyright">&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
   </div>

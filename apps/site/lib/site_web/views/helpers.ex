@@ -48,10 +48,6 @@ defmodule SiteWeb.ViewHelpers do
     env(:font_awesome_id)
   end
 
-  def feedback_form_url do
-    env(:feedback_form_url)
-  end
-
   defp env(key) do
     Application.get_env(:site, __MODULE__)[key]
   end
