@@ -193,9 +193,7 @@ defmodule Content.Repo do
 
   @spec view_or_preview(String.t, map) :: {:ok, map()} | {:error, String.t}
   defp view_or_preview(path, params) do
-    with %{"preview" => _, "vid" => revision_id} <- params,
-         {vid, ""} <- Integer.parse(revision_id)
-    do
+    with %{"preview" => _, "vid" => vid} <- params do
       @cms_api.view(path, [])
       |> get_node_id()
       |> @cms_api.preview()
@@ -210,18 +208,26 @@ defmodule Content.Repo do
     end
   end
 
-  @spec get_revision({:error, any} | {:ok, [map]}, integer()) :: {:error, String.t} | {:ok, map}
+  @spec get_revision({:error, any} | {:ok, [map]}, String.t) :: {:error, String.t} | {:ok, map}
   def get_revision({:error, err}, _), do: {:error, err}
   def get_revision({:ok, []}, _), do: {:error, "No results"}
-  def get_revision({:ok, revisions}, vid) when is_list(revisions) do
-    case Enum.find(revisions, fn %{"vid" => [%{"value" => id}]} -> id == vid end) do
-      nil -> {:error, "Revision not found"}
-      revision -> {:ok, revision}
+  def get_revision({:ok, revisions}, revision_id) when is_list(revisions) do
+    case revision_id do
+      "latest" -> {:ok, List.first(revisions)}
+      _ ->
+        with {vid, ""} <- Integer.parse(revision_id) do
+          case Enum.find(revisions, fn %{"vid" => [%{"value" => id}]} -> id == vid end) do
+            nil -> {:error, "Revision not found"}
+            revision -> {:ok, revision}
+          end
+        else
+          _ -> {:error, "Invalid revision request"}
+      end
     end
   end
 
   @spec get_node_id({:ok, map}) :: integer
   def get_node_id({:ok, node}) do
-    hd(node["nid"]) |> Map.get("value")
+    List.first(node["nid"]) |> Map.get("value")
   end
 end
