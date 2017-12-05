@@ -66,19 +66,19 @@ defmodule GoogleMaps.Geocode do
     zero_results(input_address)
   end
   defp results(input_address, results) do
-    Logger.info fn -> "#{__MODULE__} address=#{inspect input_address} result=#{inspect results}" end
+    _ = Logger.info fn -> "#{__MODULE__} address=#{inspect input_address} result=#{inspect results}" end
     {:ok, results}
   end
 
   @spec zero_results(String.t) :: t
   defp zero_results(input_address) do
-    Logger.info fn -> "#{__MODULE__} address=#{inspect input_address} result=ZERO_RESULTS" end
+    _ = Logger.info fn -> "#{__MODULE__} address=#{inspect input_address} result=ZERO_RESULTS" end
     {:error, :zero_results}
   end
 
   @spec internal_error(String.t, String.t, (() -> String.t)) :: t
   defp internal_error(input_address, message, error_fn) do
-    Logger.warn fn -> "#{__MODULE__} address=#{inspect input_address} message=#{inspect message} #{error_fn.()}" end
+    _ = Logger.warn fn -> "#{__MODULE__} address=#{inspect input_address} message=#{inspect message} #{error_fn.()}" end
     {:error, :internal_error}
   end
 end

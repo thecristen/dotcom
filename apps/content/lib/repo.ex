@@ -172,7 +172,7 @@ defmodule Content.Repo do
     case cache(route_id, &do_get_route_pdfs/1, timeout: :timer.hours(6)) do
       {:ok, pdfs} -> pdfs
       error ->
-        Logger.warn fn -> "Error getting pdfs for route #{route_id}. Using default []. Error: #{inspect error}" end
+        _ = Logger.warn fn -> "Error getting pdfs for route #{route_id}. Using default []. Error: #{inspect error}" end
         []
     end
   end

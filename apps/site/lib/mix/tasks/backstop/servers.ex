@@ -38,7 +38,7 @@ defmodule Backstop.Servers do
 
   @impl true
   def terminate(reason, %{port: port, module: module}) do
-    Logger.info("shutting down #{module}...")
+    _ = Logger.info("shutting down #{module}...")
     :ok = kill_port(port)
     reason
   end
@@ -89,7 +89,7 @@ defmodule Backstop.Servers do
     |> String.split("  ")
     |> List.first()
 
-    Logger.warn([error, "\n", proc_info, "\n", "Killing ghost ", module_name, " server at pid ", os_pid, " and restarting"])
+    _ = Logger.warn([error, "\n", proc_info, "\n", "Killing ghost ", module_name, " server at pid ", os_pid, " and restarting"])
 
     case System.cmd("kill", ["-9", os_pid]) do
       {_stream, 0} -> :ok
@@ -146,12 +146,13 @@ defmodule Backstop.Servers do
     |> String.replace("_build/#{Mix.env}/lib", "apps")
   end
 
-  @spec log(iodata, atom) :: :ok | {:error, any}
+  @spec log(iodata, atom) :: :ok
   def log(iodata, module) do
-    [module.log_color(), iodata, :reset]
+    _ = [module.log_color(), iodata, :reset]
     |> IO.ANSI.format_fragment(true)
     |> IO.iodata_to_binary()
     |> Logger.info
+    :ok
   end
 
   defmacro __using__([]) do

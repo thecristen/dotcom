@@ -82,14 +82,14 @@ defmodule RepoCache.Log do
   def reset_table(values) do
     for {key, hit, miss} <- values do
       # remove the previous hit/miss count from each
-      :ets.update_counter(@table, key, [{2, -hit}, {3, -miss}])
+      _ = :ets.update_counter(@table, key, [{2, -hit}, {3, -miss}])
     end
     values
   end
 
   def output_cache_hit_rates(values) do
     for value <- values do
-      Logger.info fn ->
+      _ = Logger.info fn ->
         {{mod, name}, hit, miss} = value
         total = hit + miss
         hit_rate = case total do
@@ -105,13 +105,11 @@ defmodule RepoCache.Log do
   def output_sizes(values) do
     modules = values |> Enum.map(&elem(elem(&1, 0), 0)) |> Enum.uniq
     for mod <- modules do
-      case ets_table(mod) do
-        {:ok, table} ->
-          Logger.info fn ->
-            size = :ets.info(table, :size)
-            memory = :ets.info(table, :memory)
-            "repocache_report table=#{mod} size=#{size} memory=#{memory}"
-          end
+      {:ok, table} = ets_table(mod)
+      _ = Logger.info fn ->
+        size = :ets.info(table, :size)
+        memory = :ets.info(table, :memory)
+        "repocache_report table=#{mod} size=#{size} memory=#{memory}"
       end
     end
     values
