@@ -73,17 +73,25 @@ defmodule Util do
   Calls all the functions asynchronously, and returns a list of results.
   If a function times out, its result will be the provided default.
   """
-  @spec async_with_timeout([(() -> any)], any, integer) :: [any]
+  @spec async_with_timeout([(() -> any)], any, non_neg_integer) :: [any]
   def async_with_timeout(functions, default, timeout \\ 5000) do
     tasks = Enum.map(functions, &Task.async/1)
     for task <- tasks do
-      case Task.yield(task, timeout) do
-        {:ok, result} -> result
-        nil ->
-          _ = Logger.warn(fn -> "async task timed out. Returning: #{inspect(default)}" end)
-          Task.shutdown(task, :brutal_kill)
-          default
-      end
+      yield_or_default(task, timeout, default)
+    end
+  end
+
+  @doc """
+  Yields the value from a task, or returns a default value.
+  """
+  @spec yield_or_default(Task.t, non_neg_integer, any) :: any
+  def yield_or_default(task, timeout, default) do
+    case Task.yield(task, timeout) || Task.shutdown(task, :brutal_kill) do
+     {:ok, result} ->
+        result
+      _ ->
+        _ = Logger.warn(fn -> "async task timed out. Returning: #{inspect(default)}" end)
+        default
     end
   end
 end

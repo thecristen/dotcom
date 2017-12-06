@@ -31,9 +31,9 @@ defmodule Mix.Tasks.Backstop.Tests do
   @runner_fn &__MODULE__.run_backstop/3
   @cmd_fn &__MODULE__.do_try_proc/4
 
-  @spec run([String.t], [atom], runner_fn, cmd_fn) :: no_return
+  @spec run([String.t], [atom], runner_fn, cmd_fn) :: :ok | no_return
   def run(args, modules \\ [Wiremock, Phoenix], runner_fn \\ @runner_fn, cmd_fn \\ @cmd_fn, timeout \\ 600_000) do
-    Application.ensure_all_started(:httpoison)
+    {:ok, _} = Application.ensure_all_started(:httpoison)
     {parsed_args, []} = OptionParser.parse!(args, aliases: [v: :verbose, f: :filter, d: :dev])
     arg_map = Enum.into(parsed_args, %{})
 
@@ -97,19 +97,19 @@ defmodule Mix.Tasks.Backstop.Tests do
     if Process.alive?(pid) do
       pid
       |> GenServer.call(:pids, timeout * 1000)
-      |> Enum.map(&shutdown_server/1)
+      |> Enum.each(&shutdown_server/1)
     end
     Logger.flush()
     case result do
       {:ok, _} ->
         :ok
       {:error, error} ->
-        error
+        _ = error
         |> inspect()
         |> Logger.error()
         :error
       :timeout ->
-        Logger.error "Backstop timed out; shutting down servers..."
+        _ = Logger.error "Backstop timed out; shutting down servers..."
         :error
     end
   end
@@ -117,9 +117,10 @@ defmodule Mix.Tasks.Backstop.Tests do
   @spec shutdown_server({atom, {pid, atom}}) :: {atom, pid}
   defp shutdown_server({module, {pid, _status}}) when not is_nil(pid) do
     if Process.alive?(pid) do
-      GenServer.stop(pid)
+      :ok = GenServer.stop(pid)
     else
-      Logger.info("#{module} (#{inspect(pid)}) already down; skipping")
+      _ = Logger.info("#{module} (#{inspect(pid)}) already down; skipping")
+      :ok
     end
     {module, pid}
   end

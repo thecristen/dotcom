@@ -48,23 +48,8 @@ defmodule Util.AsyncAssign do
   @spec await_assign_default(Conn.t, atom, timeout) :: Conn.t
   defp await_assign_default(%Conn{} = conn, key, timeout) when is_atom(key) do
     {task, default} = Map.fetch!(conn.assigns, key)
-
-    value = case await_default(task, timeout) do
-      {:ok, result} -> result
-      _ -> default
-    end
+    value = Util.yield_or_default(task, timeout, default)
 
     Conn.assign(conn, key, value)
-  end
-
-  @spec await_default(Task.t, timeout) :: {:ok, term} | :error
-  defp await_default(task, timeout) do
-    case Task.yield(task, timeout) do
-      {:ok, _} = pair -> pair
-      nil ->
-        Logger.warn("async task timed out in await_default.")
-        Task.shutdown(task, :brutal_kill)
-        :error
-    end
   end
 end
