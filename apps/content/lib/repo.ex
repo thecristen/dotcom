@@ -194,11 +194,12 @@ defmodule Content.Repo do
   @spec view_or_preview(String.t, map) :: {:ok, map()} | {:error, String.t}
   defp view_or_preview(path, params) do
     with %{"preview" => _, "vid" => vid} <- params do
-      @cms_api.view(path, [])
+      output = @cms_api.view(path, [])
       |> get_node_id()
       |> @cms_api.preview()
       |> get_revision(vid)
       |> preview_links()
+      output
     else
       _ ->
         path = case params do
@@ -228,15 +229,13 @@ defmodule Content.Repo do
   end
 
   @spec get_node_id({:ok, map}) :: integer
-  def get_node_id({:ok, node}) do
-    List.first(node["nid"]) |> Map.get("value")
+  def get_node_id({:ok, content}) do
+    List.first(content["nid"]) |> Map.get("value")
   end
   
   @spec preview_links({:error, String.t} | {:ok, map}) :: {:error, String.t} | {:ok, map}
   def preview_links({:error, err}), do: {:error, err}
-  def preview_links({:ok, node}) do
-    IO.inspect "processing preview links"
-    {:ok, node}
+  def preview_links({:ok, content}) do
+    {:ok, content}
   end
-
 end
