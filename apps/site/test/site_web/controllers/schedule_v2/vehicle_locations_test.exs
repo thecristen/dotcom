@@ -112,4 +112,18 @@ defmodule SiteWeb.ScheduleV2Controller.VehicleLocationsTest do
       }
     end
   end
+
+  describe "active_stop/2" do
+    test "Returns empty string when trip_id is not found" do
+      vehicle_locations = %{{"trip1", "place-lake"} => %{}, {"trip2", "place-lech"} => %{}}
+
+      assert active_stop(vehicle_locations, "trip3") == ""
+    end
+
+    test "Returns associated stop name when valid stop_id is provided" do
+      vehicle_locations = %{{"trip1", "place-lake"} => %{}, {"trip2", "place-lech"} => %{}}
+
+      assert active_stop(vehicle_locations, "trip2") == "Lechmere"
+    end
+  end
 end

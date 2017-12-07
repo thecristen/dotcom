@@ -26,6 +26,28 @@ defmodule SiteWeb.ScheduleV2Controller.VehicleLocations do
     assign(conn, :vehicle_locations, locations)
   end
 
+  @spec active_stop(t, String.t) :: String.t
+  def active_stop(vehicle_locations, trip_id) do
+    vehicle_locations
+    |> Map.keys()
+    |> Enum.find(fn(stop_tuple) -> elem(stop_tuple, 0) == trip_id end)
+    |> stop_name_from_tuple()
+  end
+
+  @spec stop_name_from_tuple({String.t, String.t} | nil) :: String.t
+  defp stop_name_from_tuple(nil), do: ""
+  defp stop_name_from_tuple({_trip_id, stop_id}), do: stop_name(stop_id)
+
+  @spec stop_name(String.t) :: String.t
+  defp stop_name(stop_id) do
+    stop = Stops.Repo.get(stop_id)
+    if stop do
+      stop.name
+    else
+      ""
+    end
+  end
+
   # don't fetch vehicles for non-commuter rail without an origin.  otherwise
   # make sure the date is today.
   defp should_fetch_vehicles?(%{assigns: %{route: %{type: not_commuter_rail}, origin: nil}})

@@ -118,6 +118,7 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
       query_params: query_params,
       params: params}
     |> assign_journeys_from_schedules(schedules)
+    |> assign(:vehicle_locations, %{})
     |> call(init)
   end
 
@@ -197,6 +198,7 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
       query_params: %{"trip" =>  "long_trip"}}
     |> assign(:schedules, [])
     |> assign(:date, future_date)
+    |> assign(:vehicle_locations, %{})
     |> call(init)
 
     for %PredictedSchedule{schedule: _schedule, prediction: prediction} <- conn.assigns.trip_info.times do
@@ -276,6 +278,7 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
     }
     |> assign_journeys_from_schedules(schedules)
     |> assign(:route, %Routes.Route{type: 1})
+    |> assign(:vehicle_locations, %{})
     |> call(init)
 
     for time <- conn.assigns.trip_info.times do
@@ -314,6 +317,7 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
     |> assign(:route, %Routes.Route{type: 1})
     |> assign(:date, ~D[2017-02-10])
     |> assign(:datetime, @time)
+    |> assign(:vehicle_locations, %{})
     |> call(init)
 
     assert TripInfo.is_current_trip?(conn.assigns.trip_info, "32893585")
@@ -362,6 +366,7 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
     |> assign(:route, %Routes.Route{type: 1})
     |> assign(:date, ~D[2017-02-10])
     |> assign(:datetime, @time)
+    |> assign(:vehicle_locations, %{})
     |> call(init)
 
     assert TripInfo.is_current_trip?(conn.assigns.trip_info, "long_trip")
@@ -396,6 +401,7 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
     }
     |> assign_journeys_from_schedules(schedules)
     |> assign(:route, %Routes.Route{type: 1})
+    |> assign(:vehicle_locations, %{})
     |> call(init)
 
     assert conn.assigns.trip_info != nil
@@ -433,6 +439,7 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
     |> assign_journeys_from_schedules(schedules)
     |> assign(:date, day)
     |> assign(:route, %Routes.Route{type: 3})
+    |> assign(:vehicle_locations, %{})
     |> call(init)
 
     assert conn.assigns.trip_info != nil
@@ -482,6 +489,7 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
     |> assign(:schedules, [])
     |> assign(:date, @date)
     |> assign(:route, %Routes.Route{type: 1})
+    |> assign(:vehicle_locations, %{})
     |> call(init)
 
     assert redirected_to(conn) == schedule_path(conn, :show, "Red")

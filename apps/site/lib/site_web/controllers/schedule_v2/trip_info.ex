@@ -13,6 +13,7 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfo do
 
   require Routes.Route
   alias Routes.Route
+  alias SiteWeb.ScheduleV2Controller.VehicleLocations
 
   @default_opts [
     trip_fn: &Schedules.Repo.schedule_for_trip/2,
@@ -87,11 +88,15 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfo do
   end
 
   defp build_info(trip_id, conn, opts) do
+    # Compute the active stop that matches the one computed by the tooltips
+    active_stop = VehicleLocations.active_stop(conn.assigns.vehicle_locations, trip_id)
+
     with trips when is_list(trips) <- opts[:trip_fn].(trip_id, date: conn.assigns.date) do
       trips
       |> build_trip_times(conn.assigns, trip_id, opts[:prediction_fn])
       |> TripInfo.from_list(
         vehicle: opts[:vehicle_fn].(trip_id),
+        vehicle_stop_name: active_stop,
         origin_id: conn.query_params["origin"],
         destination_id: conn.query_params["destination"])
     end

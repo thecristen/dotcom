@@ -122,12 +122,12 @@ defmodule TripInfoTest do
     end
 
     test "vehicle stop name is set" do
-      actual = from_list(@time_list, vehicle: %Vehicle{stop_id: "place-censq"})
+      actual = from_list(@time_list, vehicle_stop_name: "Central Square")
       assert actual.vehicle_stop_name == "Central Square"
     end
 
     test "vehicle stop name is not set, vehicle does not match any times" do
-      actual = from_list(@time_list, vehicle: %Vehicle{stop_id: "CR-Fairmount"})
+      actual = from_list(@time_list)
       assert actual.vehicle_stop_name == nil
     end
   end

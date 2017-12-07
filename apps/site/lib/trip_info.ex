@@ -55,27 +55,16 @@ defmodule TripInfo do
   def from_list(times, opts \\ []) do
     origin_id = time_stop_id(opts[:origin_id], times, :first)
     destination_id = time_stop_id(opts[:destination_id], times, :last)
+    vehicle_stop_name = opts[:vehicle_stop_name]
     starting_stop_ids = if opts[:vehicle] do
       [origin_id, opts[:vehicle].stop_id]
     else
       [origin_id]
     end
-    vehicle_stop_name = vehicle_stop_name(opts[:vehicle], times)
+
     times
     |> clamp_times_to_origin_destination(origin_id, destination_id)
     |> do_from_list(starting_stop_ids, destination_id, vehicle_stop_name, opts)
-  end
-
-  @spec vehicle_stop_name(Vehicles.Vehicle.t | nil, time_list) :: String.t | nil
-  defp vehicle_stop_name(vehicle, times)
-  defp vehicle_stop_name(nil, _times) do
-    nil
-  end
-  defp vehicle_stop_name(vehicle, times) do
-    case Enum.find(times, &PredictedSchedule.stop(&1).id == vehicle.stop_id) do
-      nil -> nil
-      schedule -> PredictedSchedule.stop(schedule).name
-    end
   end
 
   @doc """
