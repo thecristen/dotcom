@@ -5,10 +5,4 @@
   <p class="error-card-content">
     <%= img_tag static_url(SiteWeb.Endpoint, "/images/error-bus.gif"), id: "error-bus", class: "img-fluid error-card-image", alt: "", aria: [hidden: true] %>
   </p>
-  <p class="error-card-content">
-    We're sorry to disappoint.
-    If you would like to help us make MBTA.com better, plus work on a range of exciting products for the T, we're hiring.
-    Please visit our
-    <a href="https://jobs.lever.co/mbta">jobs page</a>.
-   </p>
 </div>
