@@ -72,16 +72,8 @@
   }
 }
 
-.project-email,
-.project-phone {
-  @include make-col();
-
-  @include media-breakpoint-up(sm) {
-    @include make-col-span(4);
-  }
-}
-
-.project-phone {
+.contact-element-phone,
+.contact-element-email {
   a {
     white-space: nowrap;
   }

@@ -71,4 +71,9 @@ defmodule Content.Project do
       updated_on: parse_date(data, "field_updated_on")
     }
   end
+
+  @spec contact?(t) :: boolean
+  def contact?(project) do
+    (project.contact_information != "") || (project.media_email != "") || (project.media_phone != "")
+  end
 end

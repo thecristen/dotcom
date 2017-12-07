@@ -1,16 +1,21 @@
 <div class="project-contact callout">
   <h2>Contact Information</h2>
-  <div>For all queries and comments related to <%= @project.title %>, please contact <%= @project.contact_information %></div>
+  <div>For all queries and comments related to <%= @project.title %>, please contact:</div>
   <div class="page-section">
-    <div class="row">
-      <div class="project-phone">
-        <strong>Phone:</strong>
-        <%= tel_link(@project.media_phone || "") %>
+    <%= if @project.contact_information != "" do %>
+      <div class="contact-element-contact">
+        <%= @project.contact_information %>
       </div>
-      <div class="project-email">
-        <strong>Email:</strong>
+    <% end %>
+    <%= if @project.media_email != ""  do %>
+      <div class="contact-element-email">
         <%= link @project.media_email, to: "mailto:#{@project.media_email}" %>
       </div>
-    </div>
+    <% end %>
+    <%= if @project.media_phone != "" do %>
+      <div class="contact-element-phone">
+        <%= tel_link(@project.media_phone) %>
+      </div>
+    <% end %>
   </div>
 </div>
