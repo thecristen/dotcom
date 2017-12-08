@@ -11,7 +11,7 @@
             <%= if @conn.request_path == link.url do %>
               <span class="sidebar-menu-current sidebar-menu-item"><%= link.title %></span>
             <% else %>
-              <%= link link.title, to: link.url, class: "sidebar-menu-item" %>
+              <%= link link.title, to: cms_static_page_path(@conn, link.url), class: "sidebar-menu-item" %>
             <% end %>
           </li>
         <% end %>
