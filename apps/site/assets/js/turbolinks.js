@@ -14,6 +14,7 @@ export default function($, w = window, doc = document) {
       w.clearTimeout(redirectTimeout);
       redirectTimeout = null;
     }
+    currentUrl = url;
   }, {passive: true});
 
   doc.addEventListener("turbolinks:before-visit", (ev) => {
