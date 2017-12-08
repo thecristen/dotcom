@@ -17,13 +17,13 @@ defmodule Content.Project do
   defstruct [
     :id,
     body: Phoenix.HTML.raw(""),
-    contact_information: "",
-    end_year: "",
+    contact_information: nil,
+    end_year: nil,
     featured: false,
     featured_image: %Content.Field.Image{},
     files: [],
-    media_email: "",
-    media_phone: "",
+    media_email: nil,
+    media_phone: nil,
     photo_gallery: [],
     posted_on: "",
     start_year: "",
@@ -36,13 +36,13 @@ defmodule Content.Project do
   @type t :: %__MODULE__{
     id: integer,
     body: Phoenix.HTML.safe,
-    contact_information: String.t,
+    contact_information: String.t | nil,
     end_year: String.t | nil,
     featured: boolean,
     featured_image: Content.Field.Image.t | nil,
     files: [Content.Field.File.t] | [],
-    media_email: String.t,
-    media_phone: String.t,
+    media_email: String.t | nil,
+    media_phone: String.t | nil,
     photo_gallery: [Content.Field.Image.t] | [],
     start_year: String.t,
     status: String.t,
@@ -74,6 +74,6 @@ defmodule Content.Project do
 
   @spec contact?(t) :: boolean
   def contact?(project) do
-    (project.contact_information != "") || (project.media_email != "") || (project.media_phone != "")
+    project.contact_information || project.media_email || project.media_phone
   end
 end

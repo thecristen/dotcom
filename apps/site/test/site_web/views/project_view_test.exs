@@ -9,7 +9,7 @@ defmodule SiteWeb.ProjectViewTest do
 
   describe "_contact.html" do
     test ".project-contact is not rendered if no data is available" do
-      project = @project
+    project = @project
 
       output = "show.html"
         |> SiteWeb.ProjectView.render(project: project, updates: @updates,
@@ -52,7 +52,7 @@ defmodule SiteWeb.ProjectViewTest do
       assert output =~ "project-contact"
     end
 
-    test ".contact-element-contact is not rendered if contact_information is available" do
+    test ".contact-element-contact is not rendered if contact_information is not available" do
       project = %{@project | media_email: "present", media_phone: "present"}
 
       output = "show.html"
@@ -63,7 +63,7 @@ defmodule SiteWeb.ProjectViewTest do
       refute output =~ "contact-element-contact"
     end
 
-    test ".contact-element-email is not rendered if media_email is available" do
+    test ".contact-element-email is not rendered if media_email is not available" do
       project = %{@project | contact_information: "present", media_phone: "present"}
 
       output = "show.html"
@@ -74,7 +74,7 @@ defmodule SiteWeb.ProjectViewTest do
       refute output =~ "contact-element-email"
     end
 
-    test ".contact-element-phone is not rendered if media_phone is available" do
+    test ".contact-element-phone is not rendered if media_phone is not available" do
       project = %{@project | contact_information: "present", media_email: "present"}
 
       output = "show.html"

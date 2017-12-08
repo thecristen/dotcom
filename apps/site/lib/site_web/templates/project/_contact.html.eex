@@ -2,17 +2,17 @@
   <h2>Contact Information</h2>
   <div>For all queries and comments related to <%= @project.title %>, please contact:</div>
   <div class="page-section">
-    <%= if @project.contact_information != "" do %>
+    <%= if @project.contact_information do %>
       <div class="contact-element-contact">
         <%= @project.contact_information %>
       </div>
     <% end %>
-    <%= if @project.media_email != ""  do %>
+    <%= if @project.media_email do %>
       <div class="contact-element-email">
         <%= link @project.media_email, to: "mailto:#{@project.media_email}" %>
       </div>
     <% end %>
-    <%= if @project.media_phone != "" do %>
+    <%= if @project.media_phone do %>
       <div class="contact-element-phone">
         <%= tel_link(@project.media_phone) %>
       </div>

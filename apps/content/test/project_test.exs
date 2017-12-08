@@ -79,22 +79,22 @@ defmodule Content.ProjectTest do
   describe "contact?/1" do
     test "when no contact info provided, returns false" do
       project = %Content.Project{id: 1}
-      assert Content.Project.contact?(project) == false
+      refute Content.Project.contact?(project)
     end
 
     test "when contact_information is provided, returns true" do
       project = %Content.Project{id: 1, contact_information: "provided"}
-      assert Content.Project.contact?(project) == true
+      assert Content.Project.contact?(project)
     end
 
     test "when media_email is provided, returns true" do
       project = %Content.Project{id: 1, media_email: "provided"}
-      assert Content.Project.contact?(project) == true
+      assert Content.Project.contact?(project)
     end
 
     test "when media_phone is provided, returns true" do
       project = %Content.Project{id: 1, media_phone: "provided"}
-      assert Content.Project.contact?(project) == true
+      assert Content.Project.contact?(project)
     end
   end
 
