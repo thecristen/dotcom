@@ -34,7 +34,7 @@
 <div class="landing-page-content">
   <%= for paragraph <- @page.paragraphs do %>
     <div class="container">
-      <%= render_paragraph(paragraph) %>
+      <%= render_paragraph(paragraph, @conn) %>
     </div>
   <% end %>
 </div>

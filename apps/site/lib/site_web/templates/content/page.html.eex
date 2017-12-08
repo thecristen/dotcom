@@ -18,9 +18,9 @@
       </ul>
     </div>
     <div class="col-md-8 col-lg-9">
-      <%= render "_basic_page.html", page: @page %>
+      <%= render "_basic_page.html", page: @page, conn: @conn %>
     </div>
   </div>
 <% else %>
-  <%= render "_basic_page.html", page: @page %>
+  <%= render "_basic_page.html", page: @page, conn: @conn %>
 <% end %>

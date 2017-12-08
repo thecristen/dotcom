@@ -35,7 +35,13 @@ defmodule SiteWeb.ViewHelpers do
   frontend<->CMS linking strategy in the future.
   """
   @spec cms_static_page_path(module | Plug.Conn.t, String.t) :: String.t
-  def cms_static_page_path(_conn, path), do: path
+  def cms_static_page_path(conn, path) do
+    case conn.query_params do
+      %{"preview" => nil, "vid" => _} ->
+        path <> "?preview&vid=latest"
+      _ -> path
+    end
+  end
 
   def google_tag_manager_id do
     case env(:google_tag_manager_id) do

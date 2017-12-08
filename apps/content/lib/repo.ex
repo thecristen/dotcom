@@ -237,6 +237,7 @@ defmodule Content.Repo do
   @spec preview_links({:error, String.t} | {:ok, map}) :: {:error, String.t} | {:ok, map}
   def preview_links({:error, err}), do: {:error, err}
   def preview_links({:ok, content}) do
+    # Opportunity to RegEx-rewrite all links in api response (node)
     {:ok, content}
   end
 end
