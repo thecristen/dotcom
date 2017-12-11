@@ -1,5 +1,5 @@
 defmodule Site.ContentRewriterTest do
-  use ExUnit.Case
+  use SiteWeb.ConnCase, async: true
 
   import Site.ContentRewriter
   import Mock
@@ -115,6 +115,7 @@ defmodule Site.ContentRewriterTest do
              |> raw()
              |> rewrite(conn) == {:safe, ~s(<p class="iframe-container"><iframe class="iframe" src="https://www.anything.com"></iframe></p>)}
     end
+
     test "adds iframe-full-width class to google maps and livestream iframes", %{conn: conn} do
       assert {:safe, ~s(<p class="iframe-container"><iframe class="iframe iframe-full-width") <> _} =
         ~s(<p><iframe src="https://livestream.com/anything"></iframe></p>)

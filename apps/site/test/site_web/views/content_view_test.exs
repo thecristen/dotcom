@@ -1,5 +1,5 @@
 defmodule SiteWeb.ContentViewTest do
-  use ExUnit.Case, async: true
+  use Site.ViewCase, async: true
 
   import Content.Factory, only: [event_factory: 0, person_factory: 0]
   import SiteWeb.ContentView
@@ -13,7 +13,7 @@ defmodule SiteWeb.ContentViewTest do
     end
 
     test "renders a sidebar menu", %{basic_page: basic_page} do
-      fake_conn = %{request_path: basic_page.sidebar_menu.links |> List.first |> Map.get(:url)}
+      fake_conn = %{query_params: %{}, request_path: basic_page.sidebar_menu.links |> List.first |> Map.get(:url)}
 
       rendered =
         "page.html"

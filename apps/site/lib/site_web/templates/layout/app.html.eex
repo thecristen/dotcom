@@ -45,7 +45,7 @@
       <div class="page-container <%= get_page_classes(@view_module, @view_template) %>">
         <div class="container page-inner-container">
           <%= if assigns[:important_notice] do %>
-            <%= render SiteWeb.PageView, "_important_notice.html", important_notice: assigns[:important_notice] %>
+            <%= render SiteWeb.PageView, "_important_notice.html", conn: @conn, important_notice: assigns[:important_notice] %>
           <% end %>
           <%=
             content_tag :main, render(@view_module, @view_template, assigns), id: "main", tabindex: -1, class: (if assigns[:narrow_template] do "page-narrow" else nil end)
