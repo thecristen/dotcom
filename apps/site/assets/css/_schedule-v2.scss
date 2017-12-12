@@ -517,27 +517,23 @@ del .trip-list-v2-realtime {
   }
 }
 
-.icon-calendar {
-  height: $base-spacing * 2;
-  stroke: $brand-primary;
-  width: $base-spacing * 2;
-
-  .icon-calendar-image {
-    fill: $brand-primary;
-    stroke: none;
-
-  }
-}
-
+.icon-calendar,
 .icon-direction {
   height: $base-spacing * 2;
   stroke: $brand-primary;
   width: $base-spacing * 2;
 
-  .icon-direction-image {
-    fill: $brand-primary;
-    stroke: none;
-  }
+}
+
+.icon-calendar-circle,
+.icon-direction-circle {
+  stroke: $brand-primary;
+}
+
+.icon-calendar-image,
+.icon-direction-image {
+  fill: $brand-primary;
+  stroke: none;
 }
 
 .icon-variation {
