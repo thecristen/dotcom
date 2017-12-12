@@ -13,9 +13,9 @@ defmodule Content.NewsEntry do
     id: nil,
     title: Phoenix.HTML.raw(""),
     body: Phoenix.HTML.raw(""),
-    media_contact: "",
-    media_email: "",
-    media_phone: "",
+    media_contact: nil,
+    media_email: nil,
+    media_phone: nil,
     more_information: Phoenix.HTML.raw(""),
     posted_on: nil,
     teaser: Phoenix.HTML.raw(""),
@@ -49,6 +49,10 @@ defmodule Content.NewsEntry do
       teaser: handle_html(field_value(data, "field_teaser")),
       migration_id: field_value(data, "field_migration_id")
     }
+  end
+
+  def contact?(news_entry) do
+    news_entry.media_contact || news_entry.media_email || news_entry.media_phone
   end
 
   defp parse_more_information(data) do

@@ -19,22 +19,21 @@
   </div>
 </div>
 
-<%= if @news_entry.media_contact || @news_entry.media_email || @news_entry.media_phone do %>
+<%= if Content.NewsEntry.contact?(@news_entry) do %>
   <div class="callout">
     <h3>Media Contact Information</h3>
+    <p>For all queries and comments, please contact:</p>
 
     <%= if (contact = @news_entry.media_contact) do %>
-      <p>
-        For all queries and comments, please contact <%= contact %>.
-      </p>
-    <% end %>
-
-    <%= if (phone = @news_entry.media_phone) do %>
-      <div><strong>Phone:</strong> <%= tel_link phone %></div>
+      <div class="contact-element-contact"><%= contact %></div>
     <% end %>
 
     <%= if (email = @news_entry.media_email) do %>
-      <div><strong>Email:</strong> <%= link email, to: "mailto:#{email}" %></div>
+      <div class="contact-element-email"><%= link email, to: "mailto:#{email}" %></div>
+    <% end %>
+
+    <%= if (phone = @news_entry.media_phone) do %>
+      <div class="contact-element-phone"><%= tel_link phone %></div>
     <% end %>
   </div>
 <% end %>

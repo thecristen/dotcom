@@ -78,21 +78,21 @@ defmodule SiteWeb.NewsEntryViewTest do
           assert rendered =~ "Media Contact Information"
 
           if is_nil(media_contact) do
-            refute rendered =~ "contact #{media_contact}."
+            refute rendered =~ "contact-element-contact"
           else
-            assert rendered =~ "contact #{media_contact}."
+            assert rendered =~ "contact-element-contact"
           end
 
           if is_nil(media_email) do
-            refute rendered =~ "Email:"
+            refute rendered =~ "contact-element-email"
           else
-            assert rendered =~ "Email:"
+            assert rendered =~ "contact-element-email"
           end
 
           if is_nil(media_phone) do
-            refute rendered =~ "Phone:"
+            refute rendered =~ "contact-element-phone"
           else
-            assert rendered =~ "Phone:"
+            assert rendered =~ "contact-element-phone"
           end
         end
       end
