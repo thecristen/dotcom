@@ -195,9 +195,9 @@ defmodule SiteWeb.ScheduleV2ControllerTest do
 
   describe "line tabs" do
     test "Commuter Rail data", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "CR-Lowell", direction_id: 1)
-      assert html_response(conn, 200) =~ "Lowell Line"
-      assert %Plug.Conn{assigns: %{branches: [%Stops.RouteStops{stops: stops}]}} = conn
+      conn = get conn, line_path(conn, :show, "CR-Needham", direction_id: 1)
+      assert html_response(conn, 200) =~ "Needham Line"
+      assert [%Stops.RouteStops{stops: stops}] = conn.assigns.branches
 
       # make sure each stop has a zone
       for stop <- stops do
@@ -205,13 +205,12 @@ defmodule SiteWeb.ScheduleV2ControllerTest do
       end
 
       # stops are in inbound order
-      assert List.first(stops).id == "Lowell"
-      assert List.last(stops).id == "place-north"
+      assert List.first(stops).id == "Needham Heights"
+      assert List.last(stops).id == "place-sstat"
 
       # includes the stop features
       assert List.last(stops).stop_features == [
-        :orange_line,
-        :green_line,
+        :red_line,
         :bus,
         :access,
         :parking_lot
@@ -318,7 +317,8 @@ defmodule SiteWeb.ScheduleV2ControllerTest do
       # during the summer, the 9 only has 2 shapes. It has three when school
       # is in session.
       assert Enum.count(conn.assigns.route_shapes) >= 2
-      assert "880" in Enum.at(conn.assigns.route_shapes, 1).stop_ids
+      assert %Routes.Shape{stop_ids: [_ | _] = stop_ids} = Enum.find(conn.assigns.route_shapes, & &1.id == variant)
+      assert "880" in stop_ids
       assert variant == conn.assigns.active_shape.id
     end
 
