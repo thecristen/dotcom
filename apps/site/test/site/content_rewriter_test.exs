@@ -32,7 +32,7 @@ defmodule Site.ContentRewriterTest do
 
     test "the different rewriters work well together", %{conn: conn} do
       rewritten =
-        """
+        ~s(
         <div>
           Test 1 {{ fa "test" }}, Test 2 {{ fa "test-two" }}
           <table>
@@ -55,12 +55,12 @@ defmodule Site.ContentRewriterTest do
             </tbody>
           </table>
         </div>
-        """
+        )
         |> raw()
         |> rewrite(conn)
 
       expected =
-        """
+        ~s(
         <div>
           Test 1 <i aria-hidden="true" class="fa fa-test "></i>, Test 2 <i aria-hidden="true" class="fa fa-test-two "></i>
           <table class="responsive-table">
@@ -87,7 +87,7 @@ defmodule Site.ContentRewriterTest do
             </tbody>
           </table>
         </div>
-        """
+        )
 
       assert remove_whitespace(safe_to_string(rewritten)) == remove_whitespace(expected)
     end
