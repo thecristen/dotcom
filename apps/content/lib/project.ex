@@ -10,7 +10,8 @@ defmodule Content.Project do
     parse_date: 2,
     parse_files: 2,
     parse_image: 2,
-    parse_images: 2
+    parse_images: 2,
+    path_alias: 1
   ]
 
   @enforce_keys [:id]
@@ -30,7 +31,8 @@ defmodule Content.Project do
     status: "",
     teaser: "",
     title: "",
-    updated_on: nil
+    updated_on: nil,
+    path_alias: ""
   ]
 
   @type t :: %__MODULE__{
@@ -48,7 +50,8 @@ defmodule Content.Project do
     status: String.t,
     teaser: String.t,
     title: String.t,
-    updated_on: Date.t | nil
+    updated_on: Date.t | nil,
+    path_alias: String.t
   }
 
   @spec from_api(map) :: t
@@ -68,7 +71,8 @@ defmodule Content.Project do
       status: field_value(data, "field_project_status"),
       teaser: field_value(data, "field_teaser"),
       title: field_value(data, "title"),
-      updated_on: parse_date(data, "field_updated_on")
+      updated_on: parse_date(data, "field_updated_on"),
+      path_alias: path_alias(data) || data |> field_value("nid") |> to_string()
     }
   end
 

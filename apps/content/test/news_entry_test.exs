@@ -2,11 +2,12 @@ defmodule Content.NewsEntryTest do
   use ExUnit.Case
 
   setup do
-    %{api_page: Content.CMS.Static.news_response() |> List.first}
+    %{api_page_no_path_alias: Content.CMS.Static.news_response() |> Enum.at(0),
+      api_page_path_alias: Content.CMS.Static.news_response() |> Enum.at(1)}
   end
 
   describe "from_api/1" do
-    test "parses api response", %{api_page: api_page} do
+    test "parses api response without path alias", %{api_page_no_path_alias: api_page} do
       assert %Content.NewsEntry{
         id: id,
         title: title,
@@ -17,7 +18,8 @@ defmodule Content.NewsEntryTest do
         more_information: more_information,
         posted_on: posted_on,
         teaser: teaser,
-        migration_id: migration_id
+        migration_id: migration_id,
+        path_alias: path_alias
       } = Content.NewsEntry.from_api(api_page)
 
       assert id == 1
@@ -30,6 +32,15 @@ defmodule Content.NewsEntryTest do
       assert posted_on == ~D[2017-01-01]
       assert Phoenix.HTML.safe_to_string(teaser) == "Example teaser"
       assert migration_id == "1234"
+      assert path_alias == "1"
+    end
+
+    test "parses api response with path alias", %{api_page_path_alias: api_page} do
+      assert %Content.NewsEntry{
+        path_alias: path_alias
+      } = Content.NewsEntry.from_api(api_page)
+
+      assert path_alias == "path_to/alias_path"
     end
   end
 end

@@ -225,7 +225,7 @@
         "value": "1"
       }
     ],
-    "path": [],
+    "path": [{"alias": "/news/path_to/alias_path"}],
     "body": [
       {
         "value": "<p>The MBTA today launched its Winter Weather public information campaign, urging customers to stay connected during storms and inclement weather. Commuter Rail, bus and subway riders can go to MBTA.com\/winter, download a transit app and follow the T on Twitter @mbta, and sign up for T-alerts.",

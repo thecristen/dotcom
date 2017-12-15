@@ -30,13 +30,20 @@ defmodule Content.Helpers do
     |> Enum.map(&Content.Field.File.from_api/1)
   end
 
+  @spec path_alias(map) :: String.t | nil
+  def path_alias(data) do
+    data
+      |> parse_path_alias()
+      |> url_path_leaf()
+  end
+
   @spec parse_path_alias(map) :: String.t | nil
-  def parse_path_alias(%{"path" => [%{"alias" => path_alias}]}) do
-    path_alias
-  end
-  def parse_path_alias(_) do
-    nil
-  end
+  def parse_path_alias(%{"path" => [%{"alias" => path_alias}]}), do: path_alias
+  def parse_path_alias(_), do: nil
+
+  @spec url_path_leaf(String.t | nil) :: String.t | nil
+  defp url_path_leaf(nil), do: nil
+  defp url_path_leaf(path), do: String.replace(path, ~r{^\/[^\/]*\/}, "")
 
   @spec parse_image(map, String.t) :: Content.Field.Image.t | nil
   def parse_image(%{} = data, field) do

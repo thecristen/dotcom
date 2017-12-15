@@ -4,13 +4,35 @@ defmodule Content.Event do
   """
 
   import Phoenix.HTML, only: [raw: 1]
-  import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1, parse_body: 1, parse_iso_datetime: 1,
-    handle_html: 1, parse_files: 2]
+  import Content.Helpers, only: [
+    field_value: 2,
+    int_or_string_to_int: 1,
+    parse_body: 1,
+    parse_iso_datetime: 1,
+    handle_html: 1,
+    parse_files: 2,
+    path_alias: 1
+  ]
 
   defstruct [
-    id: nil, start_time: nil, end_time: nil, title: "", location: nil, street_address: nil,
-    city: nil, state: nil, who: nil, body: raw(""), notes: raw(""), agenda: raw(""),
-    meeting_id: nil, imported_address: nil, files: [], agenda_file: nil, minutes_file: nil
+    id: nil,
+    start_time: nil,
+    end_time: nil,
+    title: "",
+    location: nil,
+    street_address: nil,
+    city: nil,
+    state: nil,
+    who: nil,
+    body: raw(""),
+    notes: raw(""),
+    agenda: raw(""),
+    meeting_id: nil,
+    imported_address: nil,
+    files: [],
+    agenda_file: nil,
+    minutes_file: nil,
+    path_alias: ""
   ]
 
   @type t :: %__MODULE__{
@@ -30,7 +52,8 @@ defmodule Content.Event do
     imported_address: Phoenix.HTML.safe,
     files: [Content.Field.File.t],
     agenda_file: Content.Field.File.t | nil,
-    minutes_file: Content.Field.File.t | nil
+    minutes_file: Content.Field.File.t | nil,
+    path_alias: String.t
   }
 
   @spec from_api(map) :: t
@@ -52,7 +75,8 @@ defmodule Content.Event do
       meeting_id: field_value(data, "field_meeting_id"),
       files: parse_files(data, "field_other_files"),
       agenda_file: parse_files(data, "field_agenda_file") |> List.first,
-      minutes_file: parse_files(data, "field_minutes_file") |> List.first
+      minutes_file: parse_files(data, "field_minutes_file") |> List.first,
+      path_alias: path_alias(data) || data |> field_value("nid") |> to_string()
     }
   end
 

@@ -6,11 +6,12 @@ defmodule Content.EventTest do
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   setup do
-    %{api_event: Content.CMS.Static.events_response() |> List.first}
+    %{api_event_without_path_alias: Content.CMS.Static.events_response() |> Enum.at(0),
+      api_event_with_path_alias: Content.CMS.Static.events_response() |> Enum.at(1)}
   end
 
   describe "from_api/1" do
-    test "it parses the response", %{api_event: api_event} do
+    test "it parses the response without path alias", %{api_event_without_path_alias: api_event} do
       assert %Event{
         id: id,
         start_time: start_time,
@@ -23,7 +24,8 @@ defmodule Content.EventTest do
         who: who,
         body: body,
         notes: notes,
-        agenda: agenda
+        agenda: agenda,
+        path_alias: path_alias
       } = from_api(api_event)
 
       assert id == 17
@@ -38,6 +40,15 @@ defmodule Content.EventTest do
       assert safe_to_string(body) =~ "<p><strong>Massachusetts"
       assert safe_to_string(notes) =~ "<p><strong>THIS AGENDA"
       assert safe_to_string(agenda) =~ "<p><strong>Call to Order Chair"
+      assert path_alias == "17"
+    end
+
+    test "it parses the response with path alias", %{api_event_with_path_alias: api_event} do
+      assert %Event{
+        path_alias: path_alias
+      } = from_api(api_event)
+
+      assert path_alias == "path_to/path_alias"
     end
   end
 

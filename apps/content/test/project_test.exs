@@ -6,11 +6,12 @@ defmodule Content.ProjectTest do
   ]
 
   setup do
-    %{api_data: Content.CMS.Static.projects_response() |> List.first}
+    %{api_data_without_path_alias: Content.CMS.Static.projects_response() |> Enum.at(0),
+      api_data_with_path_alias: Content.CMS.Static.projects_response() |> Enum.at(1)}
   end
 
   describe "from_api/1" do
-    test "maps project api data to a struct", %{api_data: api_data} do
+    test "maps project api data without path alias to a struct", %{api_data_without_path_alias: api_data} do
       assert %Content.Project{
         id: id,
         body: body,
@@ -26,7 +27,8 @@ defmodule Content.ProjectTest do
         status: status,
         teaser: teaser,
         title: title,
-        updated_on: updated_on
+        updated_on: updated_on,
+        path_alias: path_alias
       } = Content.Project.from_api(api_data)
 
       assert id == 2679
@@ -41,9 +43,18 @@ defmodule Content.ProjectTest do
       assert teaser == "Ruggles Station Platform Project tease"
       assert title == "Ruggles Station Platform Project"
       assert updated_on == ~D[2017-07-11]
+      assert path_alias == "2679"
     end
 
-    test "when files are provided", %{api_data: api_data} do
+    test "maps project api data with path alias to a struct", %{api_data_with_path_alias: api_data} do
+      assert %Content.Project{
+        path_alias: path_alias
+      } = Content.Project.from_api(api_data)
+
+      assert path_alias == "path_to/path_alias"
+    end
+
+    test "when files are provided", %{api_data_without_path_alias: api_data} do
       project_data =
         api_data
         |> update_api_response_whole_field("field_files", file_api_data())
@@ -53,7 +64,7 @@ defmodule Content.ProjectTest do
       assert [%Content.Field.File{}] = project.files
     end
 
-    test "when a project is featured", %{api_data: api_data} do
+    test "when a project is featured", %{api_data_without_path_alias: api_data} do
       project_data =
         api_data
         |> update_api_response_whole_field("field_featured_image", image_api_data())
@@ -65,7 +76,7 @@ defmodule Content.ProjectTest do
       assert project.featured == true
     end
 
-    test "when photo gallery images are provided", %{api_data: api_data} do
+    test "when photo gallery images are provided", %{api_data_without_path_alias: api_data} do
       project_data =
         api_data
         |> update_api_response_whole_field("field_photo_gallery", image_api_data())
