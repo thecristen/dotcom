@@ -180,6 +180,13 @@ defmodule SiteWeb.ViewHelpersTest do
     test "returns the given path as-is", %{conn: conn} do
       assert cms_static_page_path(conn, "/cms/path") == "/cms/path"
     end
+
+    test "returns the given internal path with preview params matching conn", %{conn: conn} do
+      path = conn
+      |> Map.put(:query_params, %{"preview" => nil, "vid" => "1234"})
+      |> cms_static_page_path("/cms/path")
+      assert path == "/cms/path?preview&vid=latest"
+    end
   end
 
   describe "fare_group/1" do
