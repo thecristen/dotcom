@@ -60,7 +60,7 @@
           <h2 class="support-header"><strong>Get Service Updates</strong></h2>
           <p>Receive notifications of MBTA service alerts by email or text.</p>
           <p>
-            <%= link to: redirect_path(SiteWeb.Endpoint, "rider_tools/t_alerts/"), target: "_blank" do %>
+            <%= link to: cms_static_page_path(SiteWeb.Endpoint, "/about-t-alerts") do %>
               Sign up for T-Alerts <%= fa "arrow-right" %>
             <% end %>
           </p>
@@ -82,7 +82,7 @@
             Members of the public have the right to request copies of MBTA documents, with certain exceptions. Fees apply and may vary depending on the request.
           </p>
           <p>
-            <%= link to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3", target: "_blank" do %>
+            <%= link to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank" do %>
               Submit a public records request to the MBTA <%= fa "arrow-right" %>
             <% end %>
           </p>

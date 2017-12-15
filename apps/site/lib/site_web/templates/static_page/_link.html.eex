@@ -1,5 +1,5 @@
 <div class="button-container">
-  <%= link to: @href, class: "btn button", target: @target do %>
+  <%= link to: @href, class: "btn button", target: assigns[:target] do %>
     <%= @text %>
   <% end %>
 </div>

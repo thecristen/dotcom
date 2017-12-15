@@ -60,7 +60,7 @@
           <li class="footer-link-sublist-item"><%= link "Careers", to: cms_static_page_path(@conn, "/careers"), data: [scroll: true]  %></li>
           <li class="footer-link-sublist-item"><%= link "Developers", to: cms_static_page_path(@conn, "/developers"), data: [scroll: true] %></li>
           <li class="footer-link-sublist-item"><%= link "Financials", to: cms_static_page_path(@conn, "/financials"), data: [scroll: true] %></li>
-          <li class="footer-link-sublist-item"><%= link "Innovation", to: redirect_path(@conn, "business_center/innovation_proposals/"), target: "_blank" %></li>
+          <li class="footer-link-sublist-item"><%= link "Innovation", to: cms_static_page_path(@conn, "/innovation") %></li>
         </ul>
       </li>
       <li class="footer-link-list-item">
@@ -69,7 +69,7 @@
           <li class="footer-link-sublist-item"><%= link "Contact Us", to: customer_support_path(@conn, :index), data: [scroll: true]  %></li>
           <li class="footer-link-sublist-item"><%= link "Policies", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true]  %></li>
           <li class="footer-link-sublist-item"><%= link "Civil Rights", to: cms_static_page_path(@conn, "/policies/title-vi"), data: [scroll: true]  %></li>
-          <li class="footer-link-sublist-item"><%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3", target: "_blank" %></li>
+          <li class="footer-link-sublist-item"><%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank" %></li>
         </ul>
       </li>
       <li class="footer-link-list-item">

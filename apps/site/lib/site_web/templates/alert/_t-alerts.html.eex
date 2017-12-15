@@ -1,5 +1,5 @@
 <div class="t-alerts-container">
-  <%= link to: redirect_path(SiteWeb.Endpoint, "rider_tools/t_alerts/"), target: "_blank" do %>
+  <%= link to: cms_static_page_path(SiteWeb.Endpoint, "/about-t-alerts") do %>
     Sign up for T-Alerts <%= fa "mobile" %> <%= fa "envelope" %>
   <% end %>
 </div>

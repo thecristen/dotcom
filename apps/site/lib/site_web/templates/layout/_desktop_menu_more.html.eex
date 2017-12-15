@@ -38,12 +38,12 @@
           <% end %>
         </li>
         <li>
-          <%= link to: redirect_path(@conn, "about_the_mbta/environment/"), target: "_blank" do %>
+          <%= link to: cms_static_page_path(@conn, "/sustainability") do %>
             <span class="no-wrap"><%= fa "caret-right" %> Sustainability</span>
           <% end %>
         </li>
         <li>
-          <%= link to: redirect_path(@conn, "about_the_mbta/history/"), target: "_blank" do %>
+          <%= link to: cms_static_page_path(@conn, "/history") do %>
             <%= fa "caret-right" %> History
           <% end %>
         </li>
@@ -69,17 +69,17 @@
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "rider_tools/developers/"), target: "_blank" do %>
+        <%= link to: cms_static_page_path(@conn, "/developers") do %>
           <%= fa "caret-right" %> Developers
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "about_the_mbta/financials/"), target: "_blank" do %>
+        <%= link to: cms_static_page_path(@conn, "/financials") do %>
           <%= fa "caret-right" %> Financials
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "business_center/innovation_proposals/"), target: "_blank" do %>
+        <%= link to: cms_static_page_path(@conn, "/innovation") do %>
           <%= fa "caret-right" %> Innovation
         <% end %>
       </li>
