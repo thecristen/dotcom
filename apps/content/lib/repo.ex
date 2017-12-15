@@ -199,7 +199,6 @@ defmodule Content.Repo do
       |> get_node_id()
       |> @cms_api.preview()
       |> get_revision(vid)
-      |> preview_links()
     else
       _ ->
         path = case params do
@@ -232,12 +231,5 @@ defmodule Content.Repo do
   def get_node_id({:error, err}), do: {:error, err}
   def get_node_id({:ok, content}) do
     get_in content, ["nid", Access.at(0), "value"]
-  end
-
-  @spec preview_links({:error, String.t} | {:ok, map}) :: {:error, String.t} | {:ok, map}
-  def preview_links({:error, err}), do: {:error, err}
-  def preview_links({:ok, content}) do
-    # Opportunity to RegEx-rewrite all links in api response (node)
-    {:ok, content}
   end
 end
