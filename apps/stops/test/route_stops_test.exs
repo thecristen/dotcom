@@ -105,17 +105,20 @@ defmodule Stops.RouteStopsTest do
       assert %Stops.RouteStop{id: "place-lake", is_terminus?: true} = List.last(b_stops)
     end
 
-
     test "works for Kingston line (outbound)" do
       route = %Routes.Route{id: "CR-Kingston", type: 2}
       shapes = Routes.Repo.get_shapes("CR-Kingston", 0)
       stops = Stops.Repo.by_route("CR-Kingston", 0)
       route_stops = RouteStops.by_direction(stops, shapes, route, 0)
 
-      [core, plymouth, kingston] = route_stops
-      assert %Stops.RouteStops{branch: nil, stops: [%Stops.RouteStop{id: "place-sstat"} | _unbranched_stops]} = core
-      assert %Stops.RouteStops{branch: "Plymouth", stops: [%Stops.RouteStop{id: "Plymouth"}]} = plymouth
-      assert %Stops.RouteStops{branch: "Kingston", stops: [%Stops.RouteStop{id: "Kingston"}]} = kingston
+      case route_stops do
+        [core, plymouth, kingston] ->
+          assert %Stops.RouteStops{branch: nil, stops: [%Stops.RouteStop{id: "place-sstat"} | _unbranched_stops]} = core
+          assert %Stops.RouteStops{branch: "Plymouth", stops: [%Stops.RouteStop{id: "Plymouth"}]} = plymouth
+          assert %Stops.RouteStops{branch: "Kingston", stops: [%Stops.RouteStop{id: "Kingston"}]} = kingston
+        [shape] ->
+          assert %Stops.RouteStops{stops: [%Stops.RouteStop{id: "place-sstat"} | _]} = shape
+      end
     end
 
     test "works for Providence line (inbound)" do
