@@ -1,12 +1,12 @@
 <div class="recent-news">
   <h2>Recent News on the T</h2>
-  <div class="title-card-container title-card-container-separate">
+  <div class="l-title-cards">
     <%= for news_entry <- @recent_news do %>
-        <%= link to: news_entry_path(@conn, :show, news_entry.path_alias), class: "title-card" do %>
+        <%= link to: news_entry_path(@conn, :show, news_entry.path_alias), class: "c-title-card c-title-card--link" do %>
           <p class="news-metadata">
             <%= format_date(news_entry.posted_on) %>
           </p>
-          <div class="title-card-title">
+          <div class="c-title-card__title c-title-card--link__title">
             <%= news_entry.title %>
           </div>
         <% end %>

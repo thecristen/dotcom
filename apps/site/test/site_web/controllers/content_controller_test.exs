@@ -35,7 +35,7 @@ defmodule SiteWeb.ContentControllerTest do
       rendered = html_response(conn, 200)
 
       assert rendered =~ ~s(<h1 class="landing-page-title">Paragraphs Guide</h1>)
-      assert rendered =~ ~s(<div class="title-card-title">\nExample Card 1</div>)
+      assert rendered =~ ~s(<div class="c-title-card__title c-title-card--link__title">Example Card 1</div>)
     end
 
     test "renders a news entry", %{conn: conn} do

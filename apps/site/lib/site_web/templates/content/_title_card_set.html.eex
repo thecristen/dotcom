@@ -1,12 +1,14 @@
-<div class="title-card-container title-card-container-separate">
+<div class="l-title-cards">
   <%= for title_card <- @paragraph.title_cards do %>
     <%= if title_card.link do %>
-      <%= link to: title_card.link.url, class: "title-card" do %>
-        <%= render "_title_card_body.html", title_card: title_card %>
+      <%= link to: title_card.link.url, class: "c-title-card c-title-card--link" do %>
+        <div class="c-title-card__title c-title-card--link__title"><%= ContentRewriter.rewrite(title_card.title) %></div>
+        <p><%= ContentRewriter.rewrite(title_card.body) %></p>
       <% end %>
     <% else %>
-      <div class="title-card title-card-link-type">
-        <%= render "_title_card_body.html", title_card: title_card %>
+      <div class="c-title-card">
+        <div class="c-title-card__title"><%= ContentRewriter.rewrite(title_card.title) %></div>
+        <p><%= ContentRewriter.rewrite(title_card.body) %></p>
       </div>
     <% end %>
   <% end %>

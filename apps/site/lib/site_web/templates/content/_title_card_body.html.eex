@@ -1,6 +1,0 @@
-<div class="title-card-title">
-  <%= ContentRewriter.rewrite(@title_card.title) %>
-</div>
-<p>
-  <%= ContentRewriter.rewrite(@title_card.body) %>
-</p>

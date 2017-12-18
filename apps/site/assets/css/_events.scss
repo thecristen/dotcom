@@ -50,3 +50,15 @@
     @include make-col-span(3);
   }
 }
+
+.event-header-primary-darkest {
+  background-color: $brand-primary-darkest;
+  color: $white;
+  margin-bottom: 0;
+
+  a {
+    color: $white;
+    font-size: 1.5rem;
+    padding: 0 $space-12;
+  }
+}

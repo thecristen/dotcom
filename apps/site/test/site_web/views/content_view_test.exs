@@ -83,11 +83,11 @@ defmodule SiteWeb.ContentViewTest do
         |> render_paragraph
         |> Phoenix.HTML.safe_to_string
 
-      assert rendered =~ ~s(<div class="title-card-title">\nCard 1</div>)
+      assert rendered =~ ~s(<div class="c-title-card__title c-title-card--link__title">Card 1</div>)
       assert rendered =~ "<strong>Body 1</strong>"
       assert rendered =~ ~s( href="/relative/link")
 
-      assert rendered =~ ~s(<div class="title-card-title">\nCard 2</div>)
+      assert rendered =~ ~s(<div class="c-title-card__title c-title-card--link__title">Card 2</div>)
       assert rendered =~ "<strong>Body 2</strong>"
       assert rendered =~ ~s( href="https://www.example.com/another/link")
     end
