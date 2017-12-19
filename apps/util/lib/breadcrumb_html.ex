@@ -72,7 +72,7 @@ defmodule Util.BreadcrumbHTML do
   defp breadcrumb_link(breadcrumb) do
     if breadcrumb.url != "" do
       breadcrumb.text
-      |> Phoenix.HTML.Link.link(to: breadcrumb.url)
+      |> Phoenix.HTML.Link.link(to: breadcrumb.url) 
       |> Phoenix.HTML.safe_to_string()
     else
       breadcrumb.text
