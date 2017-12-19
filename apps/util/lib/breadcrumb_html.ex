@@ -3,29 +3,30 @@ defmodule Util.BreadcrumbHTML do
 
   @spec breadcrumb_trail(%Plug.Conn{}) :: Phoenix.HTML.safe
   def breadcrumb_trail(%Plug.Conn{assigns: %{breadcrumbs: []}}), do: raw("")
-  def breadcrumb_trail(%Plug.Conn{assigns: %{breadcrumbs: breadcrumbs}}) do
+  def breadcrumb_trail(%Plug.Conn{assigns: %{breadcrumbs: breadcrumbs}} = conn) do
     breadcrumbs
     |> maybe_add_home_breadcrumb()
-    |> build_html()
+    |> build_html(conn)
     |> Enum.join("")
     |> raw()
   end
   def breadcrumb_trail(%Plug.Conn{}), do: raw("")
 
-  @spec build_html([%Util.Breadcrumb{}]) :: [String.t]
-  def build_html(breadcrumbs) do
+  @spec build_html([%Util.Breadcrumb{}], %Plug.Conn{}) :: [String.t]
+  def build_html(breadcrumbs, conn) do
     crumbs = indexed_crumbs_ordered_by_current_to_home(breadcrumbs)
 
     html = Enum.map(crumbs, fn({crumb, index}) ->
       cond do
         current_breadcrumb?(index) ->
-          breadcrumb_link(crumb)
+          breadcrumb_link(crumb, conn)
         crumb_proceeding_current_breadcrumb(index) ->
-          generate_html(crumb, %{icon: fa_icon()})
+          generate_html(crumb, %{icon: fa_icon()}, conn)
         true ->
           generate_html(
             crumb,
-            %{class: hide_on_mobile_class(), icon: fa_icon()}
+            %{class: hide_on_mobile_class(), icon: fa_icon()},
+            conn
           )
       end
     end)
@@ -62,22 +63,25 @@ defmodule Util.BreadcrumbHTML do
     "MBTA - Massachusetts Bay Transportation Authority"
   end
 
-  defp generate_html(breadcrumb, options) do
+  defp generate_html(breadcrumb, options, conn) do
     open_span_tag(options[:class]) <>
-    breadcrumb_link(breadcrumb) <>
+    breadcrumb_link(breadcrumb, conn) <>
     icon_html(options[:icon]) <>
     ~s(</span>)
   end
 
-  defp breadcrumb_link(breadcrumb) do
+  defp breadcrumb_link(breadcrumb, conn) do
     if breadcrumb.url != "" do
       breadcrumb.text
-      |> Phoenix.HTML.Link.link(to: breadcrumb.url) 
+      |> Phoenix.HTML.Link.link(to: check_preview(conn, breadcrumb.url)) 
       |> Phoenix.HTML.safe_to_string()
     else
       breadcrumb.text
     end
   end
+
+  def check_preview(%{query_params: %{"preview" => nil, "vid" => _}}, path), do: path <> "?preview&vid=latest"
+  def check_preview(_conn, path), do: path
 
   defp fa_icon, do: ~s(fa fa-angle-right)
 
