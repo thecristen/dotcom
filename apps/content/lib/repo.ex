@@ -192,11 +192,12 @@ defmodule Content.Repo do
   @spec view_or_preview(String.t, map) :: {:ok, map()} | {:error, String.t}
   defp view_or_preview(path, params) do
     with %{"preview" => _, "vid" => vid} <- params do
-      path
-      |> @cms_api.view([])
+      normal = @cms_api.view(path, [])
+      normal
       |> get_node_id()
       |> @cms_api.preview()
       |> get_revision(vid)
+      |> add_breadcrumbs(elem(normal, 1))
     else
       _ ->
         path = case params do
@@ -225,9 +226,20 @@ defmodule Content.Repo do
     end
   end
 
+  # Scrape normalized view/2 response for node ID
   @spec get_node_id({:error, String.t} | {:ok, map}) :: {:error, String.t} | integer
   def get_node_id({:error, err}), do: {:error, err}
   def get_node_id({:ok, content}) do
     get_in content, ["nid", Access.at(0), "value"]
+  end
+
+  # Full path breadcrumbs are available from result of view/2, but need manual transfer to revision
+  @spec add_breadcrumbs({:error, String.t} | {:ok, map}, map) :: {:error, String.t} | {:ok, map}
+  def add_breadcrumbs({:error, err}, _), do: {:error, err}
+  def add_breadcrumbs({:ok, revision}, normal) do
+    case normal do
+      %{"breadcrumbs" => crumbs} -> {:ok, Map.put(revision, "breadcrumbs", crumbs)}
+      _ -> {:ok, revision}
+    end
   end
 end
