@@ -24,9 +24,8 @@ defmodule Site.ContentRewriters.Links do
   @spec add_preview_params(Floki.html_tree, Plug.Conn.t) :: Floki.html_tree
   def add_preview_params({"a", attrs, children} = element, conn) do
     case Floki.attribute(element, "href") do
-      ["http://" <> _] -> element
-      ["https://" <> _] -> element
-      [path] ->
+      ["/" <> internal_path] ->
+        path = "/" <> internal_path
         href = cms_static_page_path(conn, path)
         {"a", [{"href", href} | attrs], children}
       _ -> element
