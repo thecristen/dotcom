@@ -181,6 +181,13 @@ defmodule SiteWeb.ViewHelpersTest do
       assert cms_static_page_path(conn, "/cms/path") == "/cms/path"
     end
 
+    test "external links should not be processed", %{conn: conn} do
+      path = conn
+      |> Map.put(:query_params, %{"preview" => nil, "vid" => "latest"})
+      |> cms_static_page_path("https://www.google.com")
+      assert path == "https://www.google.com"
+    end
+
     test "returns the given internal path with preview params matching conn", %{conn: conn} do
       path = conn
       |> Map.put(:query_params, %{"preview" => nil, "vid" => "1234"})
