@@ -225,7 +225,7 @@ defmodule SiteWeb.ViewHelpers do
   @doc """
   Puts the conn into the assigns dictionary so that downstream templates can use it
   """
-  def forward_assigns(%{assigns: assigns} = conn) do
+  def forward_assigns(conn = %{assigns: assigns}) do
     assigns
     |> Map.put(:conn, conn)
   end

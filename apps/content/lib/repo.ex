@@ -13,8 +13,6 @@ defmodule Content.Repo do
 
   @spec get_page(String.t, map) :: Content.Page.t | nil
   def get_page(path, query_params \\ %{}) do
-    query_params = Map.delete(query_params, "from") # remove tracking
-
     case view_or_preview(path, query_params) do
       {:ok, api_data} -> Content.Page.from_api(api_data)
       _ -> nil
