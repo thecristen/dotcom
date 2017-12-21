@@ -1,5 +1,5 @@
 defmodule SiteWeb.ContentViewTest do
-  use ExUnit.Case, async: true
+  use Site.ViewCase, async: true
 
   import Content.Factory, only: [event_factory: 0, person_factory: 0]
   import SiteWeb.ContentView
@@ -13,7 +13,7 @@ defmodule SiteWeb.ContentViewTest do
     end
 
     test "renders a sidebar menu", %{basic_page: basic_page} do
-      fake_conn = %{request_path: basic_page.sidebar_menu.links |> List.first |> Map.get(:url)}
+      fake_conn = %{query_params: %{}, request_path: basic_page.sidebar_menu.links |> List.first |> Map.get(:url)}
 
       rendered =
         "page.html"
@@ -38,31 +38,31 @@ defmodule SiteWeb.ContentViewTest do
     end
   end
 
-  describe "render_paragraph/1" do
-    test "renders a Content.Paragraph.CustomHTML" do
+  describe "render_paragraph/2" do
+    test "renders a Content.Paragraph.CustomHTML", %{conn: conn} do
       paragraph = %Paragraph.CustomHTML{body: Phoenix.HTML.raw("<p>Hello</p>")}
 
       rendered =
         paragraph
-        |> render_paragraph
+        |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string
 
       assert rendered == "<p>Hello</p>"
     end
 
-    test "renders a Content.Paragraph.CustomHTML with rewritten body" do
+    test "renders a Content.Paragraph.CustomHTML with rewritten body", %{conn: conn} do
       html = "<div><span>Foo</span><table>Foo</table></div>"
       paragraph = %Paragraph.CustomHTML{body: Phoenix.HTML.raw(html)}
 
       rendered =
         paragraph
-        |> render_paragraph
+        |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string
 
       assert rendered =~ "responsive-table"
     end
 
-    test "renders a Content.Paragraph.TitleCardSet" do
+    test "renders a Content.Paragraph.TitleCardSet", %{conn: conn} do
       paragraph = %Paragraph.TitleCardSet{
         title_cards: [
           %Paragraph.TitleCard{
@@ -80,7 +80,7 @@ defmodule SiteWeb.ContentViewTest do
 
       rendered =
         paragraph
-        |> render_paragraph
+        |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string
 
       assert rendered =~ ~s(<div class="c-title-card__title c-title-card--link__title">Card 1</div>)
@@ -92,7 +92,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ ~s( href="https://www.example.com/another/link")
     end
 
-    test "renders a Content.Paragraph.TitleCardSet with content rewritten" do
+    test "renders a Content.Paragraph.TitleCardSet with content rewritten", %{conn: conn} do
       paragraph = %Paragraph.TitleCardSet{
         title_cards: [
           %Paragraph.TitleCard{
@@ -105,14 +105,14 @@ defmodule SiteWeb.ContentViewTest do
 
       rendered =
         paragraph
-        |> render_paragraph
+        |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string
 
       assert rendered =~ "responsive-table"
       refute rendered =~ "mbta-circle-icon"
     end
 
-    test "renders a Content.Paragraph.UpcomingBoardMeetings" do
+    test "renders a Content.Paragraph.UpcomingBoardMeetings", %{conn: conn} do
       event = event_factory()
       paragraph = %Paragraph.UpcomingBoardMeetings{
         events: [event]
@@ -120,7 +120,7 @@ defmodule SiteWeb.ContentViewTest do
 
       rendered =
         paragraph
-        |> render_paragraph()
+        |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string
 
       rendered_title =
@@ -132,7 +132,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "View all upcoming meetings"
     end
 
-    test "renders a TitleCardSet when it doesn't have a link" do
+    test "renders a TitleCardSet when it doesn't have a link", %{conn: conn} do
       paragraph = %Paragraph.TitleCardSet{
         title_cards: [
           %Paragraph.TitleCard{
@@ -145,13 +145,13 @@ defmodule SiteWeb.ContentViewTest do
 
       rendered =
         paragraph
-        |> render_paragraph()
+        |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string
 
       assert rendered =~ "This is a title card"
     end
 
-    test "renders a Paragraph.PeopleGrid" do
+    test "renders a Paragraph.PeopleGrid", %{conn: conn} do
       person = person_factory()
 
       paragraph = %Paragraph.PeopleGrid{
@@ -160,36 +160,36 @@ defmodule SiteWeb.ContentViewTest do
 
       rendered =
         paragraph
-        |> render_paragraph
+        |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string
 
       assert rendered =~ person.name
       assert rendered =~ person.position
     end
 
-    test "renders a Paragraph.FilesGrid without a title" do
+    test "renders a Paragraph.FilesGrid without a title", %{conn: conn} do
       paragraph = %Paragraph.FilesGrid{title: nil, files: [%Content.Field.File{url: "/link", description: "link description"}]}
 
       rendered =
         paragraph
-        |> render_paragraph
+        |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string
 
       assert rendered =~ "link description"
     end
 
-    test "renders a Paragraph.FilesGrid with a title" do
+    test "renders a Paragraph.FilesGrid with a title", %{conn: conn} do
       paragraph = %Paragraph.FilesGrid{files: [%Content.Field.File{}], title: "Some files"}
 
       rendered =
         paragraph
-        |> render_paragraph
+        |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string
 
       assert rendered =~ paragraph.title
     end
 
-    test "renders a Paragraph.CallToAction" do
+    test "renders a Paragraph.CallToAction", %{conn: conn} do
       paragraph = %Paragraph.CallToAction{
         link: %Content.Field.Link{
           url: "www.example.com",
@@ -199,14 +199,14 @@ defmodule SiteWeb.ContentViewTest do
 
       rendered =
         paragraph
-        |> render_paragraph()
+        |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string()
 
       assert rendered =~ paragraph.link.url
       assert rendered =~ paragraph.link.title
     end
 
-    test "renders a Content.Paragraph.ColumnMulti" do
+    test "renders a Content.Paragraph.ColumnMulti", %{conn: conn} do
       cols = [
         %Paragraph.Column{
           body: Phoenix.HTML.raw("<strong>Column 1</strong>"),
@@ -224,22 +224,22 @@ defmodule SiteWeb.ContentViewTest do
 
       rendered_quarters =
         %Paragraph.ColumnMulti{columns: cols}
-        |> render_paragraph
+        |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string
 
       rendered_thirds =
         %Paragraph.ColumnMulti{columns: Enum.take(cols, 3)}
-        |> render_paragraph
+        |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string
 
       rendered_halves =
         %Paragraph.ColumnMulti{columns: Enum.take(cols, 2)}
-        |> render_paragraph
+        |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string
 
       rendered_single =
         %Paragraph.ColumnMulti{columns: Enum.take(cols, 1)}
-        |> render_paragraph
+        |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string
 
       assert rendered_quarters =~ "<div class=\"col-md-3\">\n<strong>Column 1</strong>"
@@ -257,14 +257,14 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered_single =~ "<div class=\"row row-lined\">\n  \n    <div class=\"col-md-12\">\n<strong>Column 1</strong>"
     end
 
-    test "renders a Paragraph.Unknown" do
+    test "renders a Paragraph.Unknown", %{conn: conn} do
       paragraph = %Paragraph.Unknown{
         type: "unsupported_paragraph_type"
       }
 
       rendered =
         paragraph
-        |> render_paragraph()
+        |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string()
 
       assert rendered =~ paragraph.type

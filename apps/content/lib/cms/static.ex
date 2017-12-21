@@ -186,7 +186,7 @@ defmodule Content.CMS.Static do
 
   @impl true
   def preview(node_id)
-  def preview("6") do
+  def preview(6) do
     {:ok, do_preview(basic_page_response())}
   end
 

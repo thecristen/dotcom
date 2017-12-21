@@ -2,7 +2,7 @@
   <% grid = div(12, Enum.count(@paragraph.columns)) %>
   <%= for column <- @paragraph.columns do %>
     <div class="col-md-<%= grid %>">
-      <%= ContentRewriter.rewrite(column.body) %>
+      <%= ContentRewriter.rewrite(column.body, @conn) %>
     </div>
   <% end %>
 </div>

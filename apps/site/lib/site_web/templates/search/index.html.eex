@@ -33,7 +33,7 @@
             <%= link to: track_search_click(result.url, "search") do %>
               <%= icon(result) %><%= result.title %>
             <% end %>
-            <div><%= fragment(result) %></div>
+            <div><%= fragment(result, @conn) %></div>
           </li>
         <% end %>
       </ul>

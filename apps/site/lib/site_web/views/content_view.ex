@@ -5,29 +5,29 @@ defmodule SiteWeb.ContentView do
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 
-  @spec render_paragraph(Content.Paragraph.t) :: Phoenix.HTML.safe
-  def render_paragraph(%Content.Paragraph.CustomHTML{} = para) do
-    ContentRewriter.rewrite(para.body)
+  @spec render_paragraph(Content.Paragraph.t, Plug.Conn.t) :: Phoenix.HTML.safe
+  def render_paragraph(%Content.Paragraph.CustomHTML{} = para, conn) do
+    ContentRewriter.rewrite(para.body, conn)
   end
-  def render_paragraph(%Content.Paragraph.TitleCardSet{} = para) do
-    render "_title_card_set.html", paragraph: para
+  def render_paragraph(%Content.Paragraph.TitleCardSet{} = para, conn) do
+    render "_title_card_set.html", paragraph: para, conn: conn
   end
-  def render_paragraph(%Content.Paragraph.UpcomingBoardMeetings{} = para) do
+  def render_paragraph(%Content.Paragraph.UpcomingBoardMeetings{} = para, _) do
     render "_upcoming_board_meetings.html", paragraph: para
   end
-  def render_paragraph(%Content.Paragraph.PeopleGrid{} = para) do
-    render "_people_grid.html", paragraph: para
+  def render_paragraph(%Content.Paragraph.PeopleGrid{} = para, conn) do
+    render "_people_grid.html", paragraph: para, conn: conn
   end
-  def render_paragraph(%Content.Paragraph.FilesGrid{} = para) do
+  def render_paragraph(%Content.Paragraph.FilesGrid{} = para, _) do
     render "_files_grid.html", paragraph: para
   end
-  def render_paragraph(%Content.Paragraph.CallToAction{} = para) do
-    render "_call_to_action.html", paragraph: para
+  def render_paragraph(%Content.Paragraph.CallToAction{} = para, conn) do
+    render "_call_to_action.html", paragraph: para, conn: conn
   end
-  def render_paragraph(%Content.Paragraph.ColumnMulti{} = para) do
-    render "_column_multi.html", paragraph: para
+  def render_paragraph(%Content.Paragraph.ColumnMulti{} = para, conn) do
+    render "_column_multi.html", paragraph: para, conn: conn
   end
-  def render_paragraph(%Content.Paragraph.Unknown{} = para) do
+  def render_paragraph(%Content.Paragraph.Unknown{} = para, _) do
     render "_unknown.html", paragraph: para
   end
 

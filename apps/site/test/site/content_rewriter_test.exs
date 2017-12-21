@@ -1,5 +1,5 @@
 defmodule Site.ContentRewriterTest do
-  use ExUnit.Case
+  use SiteWeb.ConnCase, async: true
 
   import Site.ContentRewriter
   import Mock
@@ -10,29 +10,29 @@ defmodule Site.ContentRewriterTest do
   alias Site.ContentRewriters.ResponsiveTables
 
   describe "rewrite" do
-    test "it returns non-table content unchanged" do
+    test "it returns non-table content unchanged", %{conn: conn} do
       original = raw("<div><span>Nothing to see here.</span></div>")
-      assert rewrite(original) == original
+      assert rewrite(original, conn) == original
     end
 
-    test "it dispatches to the table rewriter if a table is present" do
+    test "it dispatches to the table rewriter if a table is present", %{conn: conn} do
       with_mock ResponsiveTables, [rewrite_table: fn(_) -> {"table", [], []} end] do
         "<div><span>Foo</span><table>Foo</table></div>"
         |> raw()
-        |> rewrite()
+        |> rewrite(conn)
 
         assert called ResponsiveTables.rewrite_table({"table", [], ["Foo"]})
       end
     end
 
-    test "it handles a plain string" do
+    test "it handles a plain string", %{conn: conn} do
       original = raw("I'm a string")
-      assert rewrite(original) == original
+      assert rewrite(original, conn) == original
     end
 
-    test "the different rewriters work well together" do
+    test "the different rewriters work well together", %{conn: conn} do
       rewritten =
-        """
+        ~s(
         <div>
           Test 1 {{ fa "test" }}, Test 2 {{ fa "test-two" }}
           <table>
@@ -55,12 +55,12 @@ defmodule Site.ContentRewriterTest do
             </tbody>
           </table>
         </div>
-        """
+        )
         |> raw()
-        |> rewrite()
+        |> rewrite(conn)
 
       expected =
-        """
+        ~s(
         <div>
           Test 1 <i aria-hidden="true" class="fa fa-test "></i>, Test 2 <i aria-hidden="true" class="fa fa-test-two "></i>
           <table class="responsive-table">
@@ -87,44 +87,45 @@ defmodule Site.ContentRewriterTest do
             </tbody>
           </table>
         </div>
-        """
+        )
 
       assert remove_whitespace(safe_to_string(rewritten)) == remove_whitespace(expected)
     end
 
-    test "strips dimension attributes from images" do
+    test "strips dimension attributes from images", %{conn: conn} do
       assert ~s(<img src="/image.png" alt="an image" width="600" height="400"/>)
              |> raw()
-             |> rewrite() == {:safe, ~s(<img class="img-fluid" src="/image.png" alt="an image"/>)}
+             |> rewrite(conn) == {:safe, ~s(<img class="img-fluid" src="/image.png" alt="an image"/>)}
     end
 
-    test "adds img-fluid to images that don't already have a class" do
+    test "adds img-fluid to images that don't already have a class", %{conn: conn} do
       assert ~s(<img src="/image.png" alt="an image" />)
              |> raw()
-             |> rewrite() == {:safe, ~s(<img class="img-fluid" src="/image.png" alt="an image"/>)}
+             |> rewrite(conn) == {:safe, ~s(<img class="img-fluid" src="/image.png" alt="an image"/>)}
     end
 
-    test "adds img-fluid to images that do already have a class" do
+    test "adds img-fluid to images that do already have a class", %{conn: conn} do
       assert ~s(<img src="/image.png" alt="an image" class="existing-class" />)
              |> raw()
-             |> rewrite() == {:safe, ~s(<img class="existing-class img-fluid" src="/image.png" alt="an image"/>)}
+             |> rewrite(conn) == {:safe, ~s(<img class="existing-class img-fluid" src="/image.png" alt="an image"/>)}
     end
 
-    test "adds iframe classes to iframes and their container elements" do
+    test "adds iframe classes to iframes and their container elements", %{conn: conn} do
       assert ~s(<p><iframe src="https://www.anything.com"></iframe></p>)
              |> raw()
-             |> rewrite() == {:safe, ~s(<p class="iframe-container"><iframe class="iframe" src="https://www.anything.com"></iframe></p>)}
+             |> rewrite(conn) == {:safe, ~s(<p class="iframe-container"><iframe class="iframe" src="https://www.anything.com"></iframe></p>)}
     end
-    test "adds iframe-full-width class to google maps and livestream iframes" do
+
+    test "adds iframe-full-width class to google maps and livestream iframes", %{conn: conn} do
       assert {:safe, ~s(<p class="iframe-container"><iframe class="iframe iframe-full-width") <> _} =
         ~s(<p><iframe src="https://livestream.com/anything"></iframe></p>)
         |> raw()
-        |> rewrite()
+        |> rewrite(conn)
 
       assert {:safe, ~s(<p class="iframe-container"><iframe class="iframe iframe-full-width") <> _} =
         ~s(<p><iframe src="https://www.google.com/maps/anything"></iframe></p>)
         |> raw()
-        |> rewrite()
+        |> rewrite(conn)
     end
 
   end

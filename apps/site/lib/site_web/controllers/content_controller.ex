@@ -32,7 +32,7 @@ defmodule SiteWeb.ContentController do
     |> assign(:breadcrumbs, page.breadcrumbs)
     |> assign(:page, page)
     |> assign(:narrow_template, no_sidebar?(page))
-    |> render(SiteWeb.ContentView, "page.html", [])
+    |> render(SiteWeb.ContentView, "page.html", conn: conn)
   end
   defp render_page(conn, %Content.Event{} = event) do
     conn

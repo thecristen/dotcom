@@ -13,8 +13,6 @@ defmodule Content.Repo do
 
   @spec get_page(String.t, map) :: Content.Page.t | nil
   def get_page(path, query_params \\ %{}) do
-    query_params = Map.delete(query_params, "from") # remove tracking
-
     case view_or_preview(path, query_params) do
       {:ok, api_data} -> Content.Page.from_api(api_data)
       _ -> nil
@@ -193,12 +191,12 @@ defmodule Content.Repo do
 
   @spec view_or_preview(String.t, map) :: {:ok, map()} | {:error, String.t}
   defp view_or_preview(path, params) do
-    with %{"preview" => _, "vid" => revision_id} <- params,
-         ["", "node", node_id] <- String.split(path, "/"),
-         {_, ""} <- Integer.parse(node_id),
-         {vid, ""} <- Integer.parse(revision_id)
-    do
-      node_id |> @cms_api.preview() |> get_revision(vid)
+    with %{"preview" => _, "vid" => vid} <- params do
+      path
+      |> @cms_api.view([])
+      |> get_node_id()
+      |> @cms_api.preview()
+      |> get_revision(vid)
     else
       _ ->
         path = case params do
@@ -209,14 +207,27 @@ defmodule Content.Repo do
     end
   end
 
-  @spec get_revision({:error, any} | {:ok, [map]}, integer()) :: {:error, String.t} | {:ok, map}
+  @spec get_revision({:error, any} | {:ok, [map]}, String.t) :: {:error, String.t} | {:ok, map}
   def get_revision({:error, err}, _), do: {:error, err}
   def get_revision({:ok, []}, _), do: {:error, "No results"}
-  def get_revision({:ok, revisions}, vid) when is_list(revisions) do
-    case Enum.find(revisions, fn %{"vid" => [%{"value" => id}]} -> id == vid end) do
-      nil -> {:error, "Revision not found"}
-      revision -> {:ok, revision}
+  def get_revision({:ok, revisions}, revision_id) when is_list(revisions) do
+    case revision_id do
+      "latest" -> {:ok, List.first(revisions)}
+      _ ->
+        with {vid, ""} <- Integer.parse(revision_id) do
+          case Enum.find(revisions, fn %{"vid" => [%{"value" => id}]} -> id == vid end) do
+            nil -> {:error, "Revision not found"}
+            revision -> {:ok, revision}
+          end
+        else
+          _ -> {:error, "Invalid revision request"}
+      end
     end
   end
 
+  @spec get_node_id({:error, String.t} | {:ok, map}) :: {:error, String.t} | integer
+  def get_node_id({:error, err}), do: {:error, err}
+  def get_node_id({:ok, content}) do
+    get_in content, ["nid", Access.at(0), "value"]
+  end
 end

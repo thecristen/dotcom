@@ -1,7 +1,7 @@
 defmodule SiteWeb.SearchView do
   use SiteWeb, :view
   import SiteWeb.ContentView, only: [render_duration: 2]
-  import Site.ContentRewriter, only: [rewrite: 1]
+  import Site.ContentRewriter, only: [rewrite: 2]
   alias Content.SearchResult.{Event, LandingPage, NewsEntry, Page, Person, File, Link}
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
@@ -33,22 +33,22 @@ defmodule SiteWeb.SearchView do
   defp icon(%Link{}), do: fa "file-o"
   defp icon(%File{mimetype: mimetype}), do: fa_icon_for_file_type(mimetype)
 
-  @spec fragment(Content.Search.result) :: Phoenix.HTML.safe | String.t
-  defp fragment(%NewsEntry{highlights: higlights}), do: highlights(higlights)
-  defp fragment(%Person{highlights: higlights}), do: highlights(higlights)
-  defp fragment(%Page{highlights: higlights}), do: highlights(higlights)
-  defp fragment(%Link{description: description}), do: description
-  defp fragment(%LandingPage{highlights: higlights}), do: highlights(higlights)
-  defp fragment(%Event{start_time: start_time, location: location}) do
+  @spec fragment(Content.Search.result, Plug.Conn.t) :: Phoenix.HTML.safe | String.t
+  defp fragment(%NewsEntry{highlights: higlights}, conn), do: highlights(higlights, conn)
+  defp fragment(%Person{highlights: higlights}, conn), do: highlights(higlights, conn)
+  defp fragment(%Page{highlights: higlights}, conn), do: highlights(higlights, conn)
+  defp fragment(%Link{description: description}, _conn), do: description
+  defp fragment(%LandingPage{highlights: higlights}, conn), do: highlights(higlights, conn)
+  defp fragment(%Event{start_time: start_time, location: location}, _conn) do
     [content_tag(:div, render_duration(start_time, nil)), content_tag(:div, "#{location}")]
   end
-  defp fragment(_), do: ""
+  defp fragment(_, _conn), do: ""
 
-  @spec highlights([String.t]) :: Phoenix.HTML.safe
-  defp highlights(html_strings) do
+  @spec highlights([String.t], Plug.Conn.t) :: Phoenix.HTML.safe
+  defp highlights(html_strings, conn) do
     html_strings
     |> raw()
-    |> rewrite()
+    |> rewrite(conn)
   end
 
   @spec track_search_click(String.t, String.t) :: String.t

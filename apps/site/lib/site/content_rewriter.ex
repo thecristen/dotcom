@@ -13,16 +13,16 @@ defmodule Site.ContentRewriter do
   docs for more information about how the visitor function should work to
   traverse and manipulate the tree.
   """
-  @spec rewrite(Phoenix.HTML.safe | String.t) :: Phoenix.HTML.safe
-  def rewrite({:safe, content}) do
+  @spec rewrite(Phoenix.HTML.safe | String.t, Plug.Conn.t) :: Phoenix.HTML.safe
+  def rewrite({:safe, content}, conn) do
     content
     |> Floki.parse
-    |> Site.FlokiHelpers.traverse(&dispatch_rewrites/1)
+    |> Site.FlokiHelpers.traverse(&dispatch_rewrites(&1, conn))
     |> render
     |> Phoenix.HTML.raw
   end
-  def rewrite(content) when is_binary(content) do
-    dispatch_rewrites(content)
+  def rewrite(content, conn) when is_binary(content) do
+    dispatch_rewrites(content, conn)
   end
 
   # necessary since foo |> Floki.parse |> Floki.raw_html blows up
@@ -30,47 +30,48 @@ defmodule Site.ContentRewriter do
   defp render(content) when is_binary(content), do: content
   defp render(content), do: Floki.raw_html(content)
 
-  @spec dispatch_rewrites(Floki.html_tree | binary) :: Floki.html_tree | binary | nil
-  defp dispatch_rewrites({"table", _, _} = element) do
+  @spec dispatch_rewrites(Floki.html_tree | binary, Plug.Conn.t) :: Floki.html_tree | binary | nil
+  defp dispatch_rewrites({"table", _, _} = element, conn) do
     element
     |> ResponsiveTables.rewrite_table()
-    |> rewrite_children()
+    |> rewrite_children(conn)
   end
-  defp dispatch_rewrites({"a", _, _} = element) do
+  defp dispatch_rewrites({"a", _, _} = element, conn) do
     element
     |> Links.add_target_to_redirect()
-    |> rewrite_children()
+    |> Links.add_preview_params(conn)
+    |> rewrite_children(conn)
   end
-  defp dispatch_rewrites({"p", _, [{"iframe", _, _} | _]} = element) do
+  defp dispatch_rewrites({"p", _, [{"iframe", _, _} | _]} = element, conn) do
     element
     |> add_class("iframe-container")
-    |> rewrite_children()
+    |> rewrite_children(conn)
   end
-  defp dispatch_rewrites({"img", _, _} = element) do
+  defp dispatch_rewrites({"img", _, _} = element, conn) do
     element
     |> remove_style_attrs()
     |> add_class("img-fluid")
-    |> rewrite_children()
+    |> rewrite_children(conn)
   end
-  defp dispatch_rewrites({"iframe", _, _} = element) do
+  defp dispatch_rewrites({"iframe", _, _} = element, conn) do
     element
     |> remove_style_attrs()
     |> set_iframe_class()
-    |> rewrite_children()
+    |> rewrite_children(conn)
   end
-  defp dispatch_rewrites(content) when is_binary(content) do
+  defp dispatch_rewrites(content, _conn) when is_binary(content) do
     Regex.replace(~r/\{\{(.*)\}\}/U, content, fn(_, obj) ->
       obj
       |> String.trim
       |> LiquidObjects.replace
     end)
   end
-  defp dispatch_rewrites(_node) do
+  defp dispatch_rewrites(_node, _conn) do
     nil
   end
 
-  defp rewrite_children({name, attrs, children}) do
-    {name, attrs, Site.FlokiHelpers.traverse(children, &dispatch_rewrites/1)}
+  defp rewrite_children({name, attrs, children}, conn) do
+    {name, attrs, Site.FlokiHelpers.traverse(children, &dispatch_rewrites(&1, conn))}
   end
 
   @spec set_iframe_class(Floki.html_tree) :: Floki.html_tree
