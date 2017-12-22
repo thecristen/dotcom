@@ -191,20 +191,23 @@ defmodule Content.Repo do
 
   @spec view_or_preview(String.t, map) :: {:ok, map()} | {:error, String.t}
   defp view_or_preview(path, params) do
-    with %{"preview" => _, "vid" => vid} <- params do
-      normal = @cms_api.view(path, [])
-      normal
-      |> get_node_id()
-      |> @cms_api.preview()
-      |> get_revision(vid)
-      |> add_breadcrumbs(elem(normal, 1))
-    else
-      _ ->
-        path = case params do
-          %{"id" => old_site_page_id} -> path <> URI.encode_www_form("?id=#{old_site_page_id}")
-          _ -> path
+    path = case params do
+      # Drupal ignores params for alias matching unless encoded
+      %{"id" => old_site_page_id} -> path <> URI.encode_www_form("?id=#{old_site_page_id}")
+      _ -> path
+    end
+    case result = @cms_api.view(path, []) do
+      {:error, _err} -> result
+      {:ok, api_data} -> 
+        with %{"preview" => _, "vid" => vid} <- params do
+          result
+          |> get_node_id()
+          |> @cms_api.preview()
+          |> get_revision(vid)
+          |> add_breadcrumbs(api_data)
+        else
+          _ -> result
         end
-        @cms_api.view(path, [])
     end
   end
 
@@ -238,7 +241,20 @@ defmodule Content.Repo do
   def add_breadcrumbs({:error, err}, _), do: {:error, err}
   def add_breadcrumbs({:ok, revision}, normal) do
     case normal do
-      %{"breadcrumbs" => crumbs} -> {:ok, Map.put(revision, "breadcrumbs", crumbs)}
+      %{"breadcrumbs" => crumbs} ->
+        preview_crumbs = Enum.reduce(crumbs, [], fn(crumb, acc) ->
+          case crumb do
+            %{"text" => "Home", "uri" => "/"} -> acc
+            %{"uri" => "/" <> _path} ->
+              preview_crumb = %{
+                "text" => crumb["text"],
+                "uri" => crumb["uri"] <> "?preview&vid=latest"
+              }
+              acc ++ [preview_crumb]
+            _ -> acc ++ [crumb]
+          end
+        end)
+        {:ok, Map.put(revision, "breadcrumbs", preview_crumbs)}
       _ -> {:ok, revision}
     end
   end
