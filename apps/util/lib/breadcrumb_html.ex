@@ -73,7 +73,7 @@ defmodule Util.BreadcrumbHTML do
   defp breadcrumb_link(breadcrumb, conn) do
     if breadcrumb.url != "" do
       breadcrumb.text
-      |> Phoenix.HTML.Link.link(to: check_preview(conn, breadcrumb.url))
+      |> Phoenix.HTML.Link.link(to: check_preview(conn, breadcrumb.url)) 
       |> Phoenix.HTML.safe_to_string()
     else
       breadcrumb.text
