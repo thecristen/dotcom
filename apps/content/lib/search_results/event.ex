@@ -19,7 +19,7 @@ defmodule Content.SearchResult.Event do
   def build(result) do
     %__MODULE__{
       title: result["ts_title"],
-      url: List.first(result["sm_url"]),
+      url: "/events/#{result["its_nid"]}",
       start_time: start_time(result["ds_field_start_time"]),
       location: location(result)
     }
