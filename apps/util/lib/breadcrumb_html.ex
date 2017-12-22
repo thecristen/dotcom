@@ -80,9 +80,7 @@ defmodule Util.BreadcrumbHTML do
     end
   end
 
-  def check_preview(%{query_params: %{"preview" => nil, "vid" => _}}, path = "/" <> _internal) do
-    path <> "?preview&vid=latest"
-  end
+  def check_preview(%{query_params: %{"preview" => nil, "vid" => _}}, path), do: path <> "?preview&vid=latest"
   def check_preview(_conn, path), do: path
 
   defp fa_icon, do: ~s(fa fa-angle-right)
