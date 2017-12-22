@@ -198,13 +198,13 @@ defmodule Content.Repo do
     end
     case result = @cms_api.view(path, []) do
       {:error, _err} -> result
-      {:ok, api_data} -> 
+      {:ok, api_data} ->
         with %{"preview" => _, "vid" => vid} <- params do
           result
           |> get_node_id()
           |> @cms_api.preview()
           |> get_revision(vid)
-          |> add_breadcrumbs(api_data)
+          |> process_breadcrumbs(api_data)
         else
           _ -> result
         end
@@ -237,25 +237,30 @@ defmodule Content.Repo do
   end
 
   # Full path breadcrumbs are available from result of view/2, but need manual transfer to revision
-  @spec add_breadcrumbs({:error, String.t} | {:ok, map}, map) :: {:error, String.t} | {:ok, map}
-  def add_breadcrumbs({:error, err}, _), do: {:error, err}
-  def add_breadcrumbs({:ok, revision}, normal) do
-    case normal do
+  @spec process_breadcrumbs({:error, String.t} | {:ok, map}, map) :: {:error, String.t} | {:ok, map}
+  def process_breadcrumbs({:error, err}, _), do: {:error, err}
+  def process_breadcrumbs({:ok, revision}, default) do
+    case default do
       %{"breadcrumbs" => crumbs} ->
-        preview_crumbs = Enum.reduce(crumbs, [], fn(crumb, acc) ->
-          case crumb do
-            %{"text" => "Home", "uri" => "/"} -> acc
-            %{"uri" => "/" <> _path} ->
-              preview_crumb = %{
-                "text" => crumb["text"],
-                "uri" => crumb["uri"] <> "?preview&vid=latest"
-              }
-              acc ++ [preview_crumb]
-            _ -> acc ++ [crumb]
-          end
-        end)
+        preview_crumbs = crumbs |> crumb_loop()
         {:ok, Map.put(revision, "breadcrumbs", preview_crumbs)}
       _ -> {:ok, revision}
     end
+  end
+
+  @spec crumb_loop(list()) :: list()
+  def crumb_loop(crumbs) do
+    Enum.reduce(crumbs, [], fn(crumb, acc) ->
+      case crumb do
+        %{"text" => "Home", "uri" => "/"} -> acc # Skip the Home item
+        %{"uri" => "/" <> _path} ->
+          preview_crumb = %{
+            "text" => crumb["text"],
+            "uri" => crumb["uri"] <> "?preview&vid=latest"
+          }
+          acc ++ [preview_crumb]
+        _ -> acc ++ [crumb] # Keep non-linked items as-is
+      end
+    end)
   end
 end
