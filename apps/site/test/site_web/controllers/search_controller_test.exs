@@ -15,11 +15,11 @@ defmodule SiteWeb.SearchControllerTest do
       assert response =~ "solr-highlight-match"
 
       # check links from each type of document result
-      assert response =~ "/people/monica-tibbits-nutt?from=search"
-      assert response =~ "/node/1884?from=search"
+      assert response =~ "/people/2610?from=search"
+      assert response =~ "/news/1884?from=search"
       assert response =~ "/safety/transit-police/office-the-chief?from=search"
       assert response =~ "/sites/default/files/2017-01/C. Perkins.pdf?from=search"
-      assert response =~ "/node/1215?from=search"
+      assert response =~ "/events/1215?from=search"
       assert response =~ "/fares?a=b&amp;from=search"
     end
 
