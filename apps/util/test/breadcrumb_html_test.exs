@@ -80,22 +80,22 @@ defmodule Util.BreadcrumbHTMLTest do
     end
   end
 
-  describe "build_html/2" do
-    test "returns html for a breadcrumb", %{conn: conn} do
+  describe "build_html/1" do
+    test "returns html for a breadcrumb" do
       breadcrumbs = [%Util.Breadcrumb{text: "home", url: "sample"}]
 
-      assert build_html(breadcrumbs, conn) == [
+      assert build_html(breadcrumbs) == [
         ~s(<a href="sample">home</a>)
       ]
     end
 
-    test "separates each breadcrumb with an icon", %{conn: conn} do
+    test "separates each breadcrumb with an icon" do
       breadcrumbs = [
         %Util.Breadcrumb{text: "Home", url: "/"},
         %Util.Breadcrumb{text: "Second", url: ""}
       ]
 
-      [first_crumb, second_crumb] = build_html(breadcrumbs, conn)
+      [first_crumb, second_crumb] = build_html(breadcrumbs)
 
       assert first_crumb ==
         ~s(<span>) <>
@@ -106,14 +106,14 @@ defmodule Util.BreadcrumbHTMLTest do
       assert second_crumb == "Second"
     end
 
-    test "includes a 'collapse on mobile' class for breadcrumbs except the last two", %{conn: conn} do
+    test "includes a 'collapse on mobile' class for breadcrumbs except the last two" do
       breadcrumbs = [
         %Util.Breadcrumb{text: "Home", url: "/"},
         %Util.Breadcrumb{text: "Second", url: "/second"},
         %Util.Breadcrumb{text: "Third", url: "/third"}
       ]
 
-      [first_crumb, second_crumb, third_crumb] = build_html(breadcrumbs, conn)
+      [first_crumb, second_crumb, third_crumb] = build_html(breadcrumbs)
 
       assert first_crumb ==
         ~s(<span class="focusable-sm-down">) <>
