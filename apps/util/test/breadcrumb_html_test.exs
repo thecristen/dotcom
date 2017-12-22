@@ -89,19 +89,6 @@ defmodule Util.BreadcrumbHTMLTest do
       ]
     end
 
-    test "appends preview params given preview params", %{conn: conn} do
-      conn = Map.put(conn, :query_params, %{"preview" => nil, "vid" => "latest"})
-
-      breadcrumbs = [
-        %Util.Breadcrumb{text: "Home", url: "/"},
-        %Util.Breadcrumb{text: "CMS Page", url: "/cms/path"}
-      ]
-
-      [_, second_crumb] = build_html(breadcrumbs, conn)
-
-      assert second_crumb == ~s(<a href="/cms/path?preview&amp;vid=latest">CMS Page</a>)
-    end
-
     test "separates each breadcrumb with an icon", %{conn: conn} do
       breadcrumbs = [
         %Util.Breadcrumb{text: "Home", url: "/"},
