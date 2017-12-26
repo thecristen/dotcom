@@ -14,6 +14,10 @@ defmodule Content.CMS.Static do
     parse_json("parking/by-station.json")
   end
 
+  def basic_page_with_breadcrumbs do
+    parse_json("on-demand-pilot.json")
+  end
+
   def projects_response do
     parse_json("api/projects.json")
   end
@@ -80,6 +84,9 @@ defmodule Content.CMS.Static do
   end
   def view("/accessibility", _) do
     {:ok, basic_page_response()}
+  end
+  def view("/accessibility/the-ride/on-demand-pilot", _) do
+    {:ok, basic_page_with_breadcrumbs()}
   end
   def view("/news", [id: id]) do
     news_entry = filter_by(news_response(), "nid", id)
@@ -186,9 +193,8 @@ defmodule Content.CMS.Static do
 
   @impl true
   def preview(node_id)
-  def preview(6) do
-    {:ok, do_preview(basic_page_response())}
-  end
+  def preview(6), do: {:ok, do_preview(basic_page_response())}
+  def preview(2549), do: {:ok, do_preview(basic_page_with_breadcrumbs())}
 
   @impl true
   def post("entity/node", body) do
@@ -238,6 +244,7 @@ defmodule Content.CMS.Static do
     |> Poison.Parser.parse!()
   end
 
+  defp do_preview(%{"nid" => [%{"value" => 2549}]} = response), do: [response]
   defp do_preview(%{"title" => [%{"value" => title}]} = response) do
     for vid <- [111, 112, 113] do
       %{response | "vid" => [%{"value" => vid}], "title" => [%{"value" => "#{title} #{vid}"}]}

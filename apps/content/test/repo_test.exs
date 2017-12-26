@@ -81,6 +81,12 @@ defmodule Content.RepoTest do
       assert %Content.BasicPage{} = result
       assert result.title == "Accessibility at the T 112"
     end
+
+    test "breadcrumbs respect preview parameters" do
+      result = Content.Repo.get_page("/accessibility/the-ride/on-demand-pilot", %{"preview" => "", "vid" => "6070"})
+      breadcrumb_1 = Enum.at(result.breadcrumbs, 1)
+      assert breadcrumb_1.url =~ "?preview&vid=latest"
+    end
   end
 
   describe "events/1" do
