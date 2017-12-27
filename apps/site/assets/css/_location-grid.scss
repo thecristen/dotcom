@@ -1,6 +1,4 @@
-@import 'variables';
-
-.location-grid-results {
+.c-location-cards {
   column-gap: $grid-gutter-width / 2;
   display: flex;
   flex-flow: row wrap;
@@ -12,15 +10,15 @@
   }
 }
 
-.location-grid-gray {
+.c-location-cards--background-gray {
   background: $gray-lightest;
 }
 
-.location-grid-white {
+.c-location-cards--background-white {
   background: $white;
 }
 
-.location-card {
+.c-location-card {
   @extend %button-focus-color;
   background-color: $white;
   border: 1px solid $gray-lightest;
@@ -54,7 +52,7 @@
   }
 }
 
-.location-card-description {
+.c-location-card__description {
   clear: both;
   color: $gray-dark;
   font-size: $font-size-sm;
@@ -64,17 +62,7 @@
   }
 }
 
-.transit-route-icon {
-  float: left;
-  width: $space-24;
-}
-
-.transit-route-name {
-  float: left;
-  width: 83%;
-}
-
-.location-card-name {
+.c-location-card__name {
   float: left;
   font-size: $font-size-h4;
   font-weight: bold;
@@ -87,10 +75,20 @@
   }
 }
 
-.location-card-distance {
+.c-location-card__distance {
   color: $gray-dark;
   float: left;
   font-size: $font-size-base-xs;
   text-align: right;
   width: 33.333%;
+}
+
+.c-location-card__transit-route-icon {
+  float: left;
+  width: $space-24;
+}
+
+.c-location-card__transit-route-name {
+  float: left;
+  width: 83%;
 }

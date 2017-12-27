@@ -1,0 +1,13 @@
+<%= link to: stop_path(@conn, :show, @stop.id, tab: "schedule"), class: "c-location-card" do %>
+  <div class="c-location-card__name">
+    <%= SiteWeb.ViewHelpers.break_text_at_slash(@stop.name) %>
+  </div>
+  <div class="c-location-card__distance"><%= round_distance(@distance) %></div>
+
+  <%= for {type, routes} <- @routes do %>
+    <div class="c-location-card__description">
+      <div class="c-location-card__transit-route-icon"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: type, class: "icon-small"}) %></div>
+      <div class="c-location-card__transit-route-name"><%= get_type_list(type, routes) %></div>
+    </div>
+  <% end %>
+<% end %>
