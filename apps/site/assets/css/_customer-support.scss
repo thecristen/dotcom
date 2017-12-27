@@ -145,3 +145,13 @@ button .waiting {
 .phone-description {
   margin-bottom: $space-4;
 }
+
+.support-check-container {
+  &.form-group {
+    padding-bottom: $space-4;
+  }
+}
+
+.response-time-disclaimer {
+  margin-top: $space-8;
+}

@@ -38,7 +38,7 @@
           <a class="upload-photo-link" tabindex="-1"><%= fa "camera" %> Upload Photo</a>
           <%= file_input f, :photo, accept: "image/*", id: "photo" %>
         </div>
-        <div class="col-xs-12 support-check-container contrast">
+        <div class="form-group col-xs-12 support-check-container contrast">
           <div class="form-check">
             <label class="form-check-label">
               <%= checkbox f, :request_response, id: "request_response", class: "form-check-input",
@@ -102,6 +102,9 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="col-xs-12 response-time-disclaimer">
+          Responses may take up to 5 business days. If this is an emergency, please <%= link("contact the Transit Police", to: "/transit-police") %>.
         </div>
         <div class="submit-button form-group col-xs-12 col-sm-4 col-md-3">
           <button class="btn btn-primary btn-block" type="submit" id="support-submit">
