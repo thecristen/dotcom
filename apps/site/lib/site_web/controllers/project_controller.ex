@@ -58,7 +58,7 @@ defmodule SiteWeb.ProjectController do
   def show_project_update(conn, project, update) do
     breadcrumbs = [
       Breadcrumb.build(@breadcrumb_base, project_path(conn, :index)),
-      Breadcrumb.build(project.title, project_path(conn, :show, project.id)),
+      Breadcrumb.build(project.title, SiteWeb.ResourceLinkHelpers.show_path(:project, project.path_alias)),
       Breadcrumb.build(update.title)]
 
     render conn, "update.html", breadcrumbs: breadcrumbs, update: update, narrow_template: true
