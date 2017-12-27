@@ -2,7 +2,7 @@
   <p><%= format_date(@news_entry.posted_on) %></p>
   <p>
     <%= link @news_entry.title,
-        to: URI.decode(news_entry_path(@conn, :show, @news_entry.path_alias)),
+        to: SiteWeb.ResourceLinkHelpers.show_path(:news, @news_entry.path_alias),
         class: "news-entry-title"%>
   </p>
   <p><%= @news_entry.teaser %></p>
