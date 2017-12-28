@@ -101,7 +101,7 @@ defmodule Stops.RouteStopsTest do
       stops = Stops.Repo.by_route("Green-B", 0)
       stops = RouteStops.by_direction(stops, shapes, route, 0)
 
-      assert [%Stops.RouteStops{branch: "Boston College", stops: [%Stops.RouteStop{id: "place-pktrm", is_terminus?: true}|_] = b_stops}] = stops
+      assert [%Stops.RouteStops{stops: [%Stops.RouteStop{id: "place-pktrm", is_terminus?: true}|_] = b_stops}] = stops
       assert %Stops.RouteStop{id: "place-lake", is_terminus?: true} = List.last(b_stops)
     end
 

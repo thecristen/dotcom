@@ -100,13 +100,9 @@ defmodule SiteWeb.ScheduleV2Controller.Line do
     |> get_requested_shape(variant)
     |> get_default_shape(shapes)
   end
-  defp get_active_shapes(shapes, %Routes.Route{id: "Green"}, _variant) do
-    headsign =
-      "Green"
-      |> Routes.Repo.headsigns()
-      |> Map.get(0)
-      |> Enum.at(0)
-      [Enum.find(shapes, & &1.name == headsign)]
+  defp get_active_shapes(_shapes, %Routes.Route{id: "Green"}, _variant) do
+    # not used by the green line code
+    []
   end
   defp get_active_shapes(shapes, _route, _variant), do: shapes
 
@@ -139,10 +135,11 @@ defmodule SiteWeb.ScheduleV2Controller.Line do
     headsign = branch_id
     |> Routes.Repo.headsigns()
     |> Map.get(direction_id)
-    |> List.first()
+    |> hd
 
     branch = shapes
-    |> Enum.filter(& &1.name == headsign)
+    |> Enum.reject(&is_nil(&1.name))
+    |> Enum.filter(& &1.name =~ headsign)
     |> get_branches(%{branch_id => stops}, %Routes.Route{id: branch_id, type: 0}, direction_id)
     |> List.first()
 
