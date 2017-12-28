@@ -63,6 +63,11 @@
     <p class="nav-title">Riding the T</p>
     <ul>
       <li>
+        <%= link to: cms_static_page_path(@conn, "/winter") do %>
+          <%= fa "caret-right" %> Winter Weather 
+        <% end %>
+      </li>
+      <li>
         <%= link to: cms_static_page_path(@conn, "/accessibility") do %>
           <%= fa "caret-right" %> Accessibility
         <% end %>
@@ -70,11 +75,6 @@
       <li>
         <%= link to: cms_static_page_path(@conn, "/parking") do %>
           <%= fa "caret-right" %> Parking
-        <% end %>
-      </li>
-      <li>
-        <%= link to: cms_static_page_path(@conn, "/rider-etiquette") do %>
-          <%= fa "caret-right" %> Rider Etiquette
         <% end %>
       </li>
       <li>
