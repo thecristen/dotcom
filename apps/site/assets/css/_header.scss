@@ -108,7 +108,7 @@
   right: 0;
   margin-bottom: 0;
   text-align: left;
-  z-index: $z-index-above-main-container-content;
+  z-index: $z-index-desktop-menu;
 
   @include media-breakpoint-down(sm) {
     display: none;
