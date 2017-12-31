@@ -248,19 +248,14 @@ defmodule Content.Repo do
     end
   end
 
-  # Process each breadcrumb. If not "Home" or current page, append preview params
+  # Process each breadcrumb
   @spec crumb_loop(list()) :: list()
   def crumb_loop(crumbs) do
-    Enum.reduce(crumbs, [], fn(crumb, acc) ->
-      case crumb do
-        %{"uri" => "/" <> path} when path != "" -> # Don't process "/" Home uri
-          preview_crumb = %{
-            "text" => crumb["text"],
-            "uri" => crumb["uri"] <> "?preview&vid=latest"
-          }
-          acc ++ [preview_crumb]
-        _ -> acc ++ [crumb] # Keep non-linked items as-is
-      end
+    Enum.flat_map(crumbs, fn
+      %{"uri" => uri = ("/" <> path)} = crumb when path != "" ->
+        [Map.put(crumb, "uri", uri <> "?preview&vid=latest")]
+      crumb ->
+        [crumb] # Keep "Home" and non-linked items as-is
     end)
   end
 end
