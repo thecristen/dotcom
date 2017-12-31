@@ -83,9 +83,24 @@ defmodule Content.RepoTest do
     end
 
     test "breadcrumbs respect preview parameters" do
-      result = Content.Repo.get_page("/accessibility/the-ride/on-demand-pilot", %{"preview" => "", "vid" => "6070"})
+      result = Content.Repo.get_page("/accessibility/the-ride/on-demand-pilot", %{"preview" => "", "vid" => "6641"})
+
+      breadcrumb_0 = Enum.at(result.breadcrumbs, 0)
       breadcrumb_1 = Enum.at(result.breadcrumbs, 1)
-      assert breadcrumb_1.url =~ "?preview&vid=latest"
+      breadcrumb_2 = Enum.at(result.breadcrumbs, 2)
+      breadcrumb_3 = Enum.at(result.breadcrumbs, 3)
+
+      assert breadcrumb_0.url == "/"
+      assert breadcrumb_0.text == "Home"
+
+      assert breadcrumb_1.url == "/accessibility?preview&vid=latest"
+      assert breadcrumb_1.text == "Accessibility on the MBTA"
+
+      assert breadcrumb_2.url == "/accessibility/the-ride?preview&vid=latest"
+      assert breadcrumb_2.text == "The RIDE"
+
+      assert breadcrumb_3.url == ""
+      assert breadcrumb_3.text == "On-Demand Paratransit Pilot Program"
     end
   end
 

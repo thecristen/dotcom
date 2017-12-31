@@ -1,0 +1,1217 @@
+[
+  {
+    "nid": [
+      {
+        "value": 2549
+      }
+    ],
+    "uuid": [
+      {
+        "value": "a35e1c60-ad3d-4529-b852-b0d2dd1ce3cc"
+      }
+    ],
+    "vid": [
+      {
+        "value": 6641
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "page",
+        "target_type": "node_type",
+        "target_uuid": "9e4b5efa-9303-469e-b5d6-20ef12fbe1d1"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1513692427
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 17,
+        "target_type": "user",
+        "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+        "url": "/user/17"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": false
+      }
+    ],
+    "title": [
+      {
+        "value": "On-Demand Paratransit Pilot Program"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 7,
+        "target_type": "user",
+        "target_uuid": "d403ed87-c9e8-46d0-963f-4f9719dc599b",
+        "url": "/user/7"
+      }
+    ],
+    "created": [
+      {
+        "value": 1497030018
+      }
+    ],
+    "changed": [
+      {
+        "value": 1513692427
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "draft"
+      }
+    ],
+    "path": [
+      {
+        "alias": "/accessibility/the-ride/on-demand-pilot",
+        "pid": 48,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p>The MBTA is running a pilot program with ridesharing companies Uber and Lyft to offer on-demand transit service to RIDE customers. You can book trips right from your smartphone, instantly!</p>\r\n\r\n<p>You get:</p>\r\n\r\n<ul>\r\n\t<li>Fares as low as $5.25</li>\r\n\t<li>Shorter wait times</li>\r\n\t<li>Instant, same-day booking</li>\r\n\t<li>Faster trips</li>\r\n\t<li>Access to wheelchair-accessible vehicles</li>\r\n</ul>\r\n\r\n<p>The pilot program has been extended to April 1, 2018. The decision to extend was based on customer feedback and an analysis of the first year of the&nbsp;trial period.&nbsp;</p>\r\n\r\n<p>To better align the pilot experience with&nbsp;The RIDE premium service, as an alternative mode of public transportation, starting on January 1, 2018, the MBTA is applying the following changes to the program:</p>\r\n\r\n<ul>\r\n\t<li>Set initial fare as $5.25</li>\r\n\t<li>Allow trips to occur only on <a href=\"https://www.uber.com/ride/uberpool/\">UberPool</a> or <a href=\"https://www.uber.com/ride/uberwav/\">UberWAV</a> and <a href=\"https://help.lyft.com/hc/en-us/articles/115013078848-About-Lyft-Line-ridesharing\">Lyft Line</a> or <a href=\"https://help.lyft.com/hc/en-us/articles/115013081668\">Lyft WAV</a></li>\r\n\t<li>Trip allocation changes, allowing for more trips</li>\r\n</ul>\r\n\r\n<p>On shared ride&nbsp;service, because there may be other passengers depending on you, be ready to take your trip when you request one.</p>\r\n\r\n<p>You can participate in the pilot program and also use The RIDE paratransit services.</p>\r\n\r\n<p><strong>The&nbsp;On-Demand Paratransit program is still in pilot mode, and the MBTA can change or cancel it at any time.&nbsp;</strong></p>\r\n\r\n<h2>Service Comparison</h2>\r\n\r\n<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\">\r\n\t<caption>\r\n\t<p>Service Comparison</p>\r\n\t</caption>\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<th align=\"left\" valign=\"top\">Service</th>\r\n\t\t\t<th align=\"left\" valign=\"top\">THE RIDE</th>\r\n\t\t\t<th align=\"left\" valign=\"top\">Pilot Program</th>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td>Fare</td>\r\n\t\t\t<td>$3.15 or $5.25 for premium trips</td>\r\n\t\t\t<td>As low as $5.25</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>Booking Timeframe</td>\r\n\t\t\t<td>At least 1 day in advance</td>\r\n\t\t\t<td>On demand&nbsp;- Instant request&nbsp;to dispatch</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>Day-of Wait Time</td>\r\n\t\t\t<td>30-minute window</td>\r\n\t\t\t<td>As low as 5 minutes in core service areas</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>Trip Reservations</td>\r\n\t\t\t<td>By phone</td>\r\n\t\t\t<td>Via smartphone app or phone call (Lyft only)</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<div>\r\n<h2>How to Sign Up</h2>\r\n\r\n<p>If you’re a RIDE customer, sign up with Uber or Lyft by clicking the link for the company and language you want in the table below. You can only sign up with 1 company.</p>\r\n\r\n<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\">\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<th colspan=\"1\">Service</th>\r\n\t\t\t<th colspan=\"7\" text-align=\"center\">Language</th>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td><img alt=\"uber_logo_thumb.jpg\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"75\" src=\"/sites/default/files/Accessibility/uber_logo_thumb.jpg\" width=\"75\" /></td>\r\n\t\t\t<td valign=\"middle\"><a href=\"https://www.uber.com/info/mbta/\">English</a></td>\r\n\t\t\t<td valign=\"middle\"><a href=\"http://translate.google.com/translate?hl=en&amp;sl=en&amp;tl=es&amp;u=https%3A%2F%2Fwww.uber.com%2Finfo%2Fmbta%2F\">Spanish</a></td>\r\n\t\t\t<td valign=\"middle\"><a href=\"http://translate.google.com/translate?hl=en&amp;sl=en&amp;tl=pt&amp;u=https%3A%2F%2Fwww.uber.com%2Finfo%2Fmbta%2F\">Portuguese</a></td>\r\n\t\t\t<td valign=\"middle\"><a href=\"http://translate.google.com/translate?hl=en&amp;sl=en&amp;tl=zh-TW&amp;u=https%3A%2F%2Fwww.uber.com%2Finfo%2Fmbta%2F&amp;sandbox=1\">Traditional Chinese</a></td>\r\n\t\t\t<td valign=\"middle\"><a href=\"http://translate.google.com/translate?hl=en&amp;sl=en&amp;tl=ru&amp;u=https://www.uber.com/info/mbta/\">Russian</a></td>\r\n\t\t\t<td valign=\"middle\"><a href=\"http://translate.google.com/translate?hl=en&amp;sl=en&amp;tl=vi&amp;u=https://www.uber.com/info/mbta/&amp;sandbox=1\">Vietnamese</a></td>\r\n\t\t\t<td valign=\"middle\"><a href=\"http://translate.google.com/translate?hl=en&amp;sl=en&amp;tl=ht&amp;u=https://www.uber.com/info/mbta/\">Haitian Creole</a></td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><img alt=\"lyft_logo_thumb.jpg\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"75\" src=\"/sites/default/files/Accessibility/lyft_logo_thumb.jpg\" width=\"75\" /></td>\r\n\t\t\t<td><a href=\"http://get.lyft.com/mbta/\">English</a></td>\r\n\t\t\t<td><a href=\"http://translate.google.com/translate?hl=en&amp;sl=en&amp;tl=es&amp;u=http%3A%2F%2Fget.lyft.com%2Fmbta%2F\">Spanish</a></td>\r\n\t\t\t<td><a href=\"http://translate.google.com/translate?hl=en&amp;sl=en&amp;tl=pt&amp;u=http%3A%2F%2Fget.lyft.com%2Fmbta%2F\">Portuguese</a></td>\r\n\t\t\t<td><a href=\"http://translate.google.com/translate?hl=en&amp;sl=en&amp;tl=zh-TW&amp;u=http%3A%2F%2Fget.lyft.com%2Fmbta%2F\">Traditional Chinese</a></td>\r\n\t\t\t<td><a href=\"http://translate.google.com/translate?hl=en&amp;sl=en&amp;tl=ru&amp;u=http://get.lyft.com/mbta/\">Russian</a></td>\r\n\t\t\t<td><a href=\"http://translate.google.com/translate?hl=en&amp;sl=en&amp;tl=vi&amp;u=http://get.lyft.com/mbta/&amp;sandbox=1\">Vietnamese</a></td>\r\n\t\t\t<td><a href=\"http://translate.google.com/translate?hl=en&amp;sl=en&amp;tl=ht&amp;u=http://get.lyft.com/mbta/\">Haitian Creole</a></td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<ol>\r\n\t<li>Follow the prompts on the company’s website.</li>\r\n\t<li>Download the Uber or Lyft app onto your smartphone and create an account if you don’t already have one (separate from your pilot program enrollment).</li>\r\n\t<li>Within 2 weeks, if you’re approved, the company will email you with instructions on how to set up your RIDE account.</li>\r\n</ol>\r\n\r\n<p>Please note, if you don't have a smartphone, there are 2 ways for you to participate in the program:</p>\r\n\r\n<ul>\r\n\t<li>Lyft offers a phone-in service for rides.</li>\r\n\t<li>Uber has offered to provide a limited number of RIDE customers with smartphones during the pilot program.</li>\r\n</ul>\r\n\r\n<h2>How It Works</h2>\r\n\r\n<h3>Eligibility</h3>\r\n\r\n<p>All RIDE customers can participate in the pilot program if:</p>\r\n\r\n<ul>\r\n\t<li>You are not currently suspended</li>\r\n\t<li>Your eligibility for The RIDE does not expire during the pilot time period</li>\r\n\t<li>You are not up for renewal of your RIDE membership during the pilot time period</li>\r\n\t<li>You have a valid email address, phone number, and payment method on file with The RIDE</li>\r\n</ul>\r\n\r\n<h3>Fares</h3>\r\n\r\n<p>Each month, you’ll get a limited number of subsidized rides, depending on your RIDE eligibility.</p>\r\n\r\n<p>Prices will be as follows:</p>\r\n\r\n<ul>\r\n\t<li><strong>For UberPOOL, Lyft Line, or WAV service</strong>—You’ll pay the first $5.25&nbsp;for the trip and anything over a $45.25&nbsp;fare</li>\r\n\t<li><strong>For all other Uber or Lyft services</strong>—You’ll pay the full fare</li>\r\n</ul>\r\n</div>\r\n",
+        "format": "full_html",
+        "summary": ""
+      }
+    ],
+    "field_downloads": [],
+    "field_page_type": [
+      {
+        "target_id": 11,
+        "target_type": "taxonomy_term",
+        "target_uuid": "bc680cf1-43c8-4e23-8bc2-17a014069764",
+        "url": "/taxonomy/term/11"
+      }
+    ],
+    "field_paragraphs": [
+      {
+        "target_id": 836,
+        "target_revision_id": 13223,
+        "id": [
+          {
+            "value": 836
+          }
+        ],
+        "uuid": [
+          {
+            "value": "b3c35f5a-926c-4613-afca-431000f0cc4c"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 13223
+          }
+        ],
+        "type": [
+          {
+            "target_id": "multi_column",
+            "target_type": "paragraphs_type",
+            "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "uid": [
+          {
+            "target_id": 17,
+            "target_type": "user",
+            "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+            "url": "/user/17"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1511347531
+          }
+        ],
+        "revision_uid": [
+          {
+            "target_id": 17,
+            "target_type": "user",
+            "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+            "url": "/user/17"
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "2549"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": "a:0:{}"
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [
+          {
+            "value": true
+          }
+        ],
+        "moderation_state": [],
+        "field_column": [
+          {
+            "target_id": 834,
+            "target_revision_id": 13221,
+            "id": [
+              {
+                "value": 834
+              }
+            ],
+            "uuid": [
+              {
+                "value": "2a2bbce3-ccf2-43f7-b6b8-db6678c8e94f"
+              }
+            ],
+            "revision_id": [
+              {
+                "value": 13221
+              }
+            ],
+            "type": [
+              {
+                "target_id": "column",
+                "target_type": "paragraphs_type",
+                "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+              }
+            ],
+            "langcode": [
+              {
+                "value": "en"
+              }
+            ],
+            "uid": [
+              {
+                "target_id": 17,
+                "target_type": "user",
+                "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+                "url": "/user/17"
+              }
+            ],
+            "status": [
+              {
+                "value": true
+              }
+            ],
+            "created": [
+              {
+                "value": 1511347773
+              }
+            ],
+            "revision_uid": [
+              {
+                "target_id": 17,
+                "target_type": "user",
+                "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+                "url": "/user/17"
+              }
+            ],
+            "parent_id": [
+              {
+                "value": "836"
+              }
+            ],
+            "parent_type": [
+              {
+                "value": "paragraph"
+              }
+            ],
+            "parent_field_name": [
+              {
+                "value": "field_column"
+              }
+            ],
+            "behavior_settings": [
+              {
+                "value": "a:0:{}"
+              }
+            ],
+            "default_langcode": [
+              {
+                "value": true
+              }
+            ],
+            "revision_translation_affected": [],
+            "moderation_state": [],
+            "field_column_body": [
+              {
+                "value": "<p>Examples of your cost:</p>\r\n\r\n<ul>\r\n\t<li>A $6 trip will cost you $5.25&nbsp;and the MBTA will pay $0.75</li>\r\n\t<li>A $20 trip will cost you $5.25 and the MBTA will pay $14.75</li>\r\n\t<li>A $50&nbsp;trip will cost you $10&nbsp;and the MBTA will pay $40</li>\r\n</ul>\r\n",
+                "format": "basic_html"
+              }
+            ]
+          },
+          {
+            "target_id": 835,
+            "target_revision_id": 13222,
+            "id": [
+              {
+                "value": 835
+              }
+            ],
+            "uuid": [
+              {
+                "value": "dd2f599e-d447-49a2-832e-9354dc7ee069"
+              }
+            ],
+            "revision_id": [
+              {
+                "value": 13222
+              }
+            ],
+            "type": [
+              {
+                "target_id": "column",
+                "target_type": "paragraphs_type",
+                "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+              }
+            ],
+            "langcode": [
+              {
+                "value": "en"
+              }
+            ],
+            "uid": [
+              {
+                "target_id": 17,
+                "target_type": "user",
+                "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+                "url": "/user/17"
+              }
+            ],
+            "status": [
+              {
+                "value": true
+              }
+            ],
+            "created": [
+              {
+                "value": 1511347784
+              }
+            ],
+            "revision_uid": [
+              {
+                "target_id": 17,
+                "target_type": "user",
+                "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+                "url": "/user/17"
+              }
+            ],
+            "parent_id": [
+              {
+                "value": "836"
+              }
+            ],
+            "parent_type": [
+              {
+                "value": "paragraph"
+              }
+            ],
+            "parent_field_name": [
+              {
+                "value": "field_column"
+              }
+            ],
+            "behavior_settings": [
+              {
+                "value": "a:0:{}"
+              }
+            ],
+            "default_langcode": [
+              {
+                "value": true
+              }
+            ],
+            "revision_translation_affected": [],
+            "moderation_state": [],
+            "field_column_body": [
+              {
+                "value": "<p>Notes about fares:</p>\r\n\r\n<ul>\r\n\t<li>Fares are determined by the ridesharing company and may be subject to <a href=\"https://help.uber.com/h/34212e8b-d69a-4d8a-a923-095d3075b487\"><span>dynamic pricing</span></a> or <a href=\"https://help.lyft.com/hc/en-us/articles/213818898-Prime-Time-for-Passengers\"><span>prime time pricing</span></a>.</li>\r\n\t<li>Payment is done through the Uber or Lyft app - you cannot use your RIDE account funds to pay for your trip.</li>\r\n\t<li>If you have an issue with a fare or payment, contact Uber or Lyft directly.</li>\r\n\t<li>Tips to drivers are not available for the subsidy.</li>\r\n</ul>\r\n",
+                "format": "basic_html"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "target_id": 837,
+        "target_revision_id": 13224,
+        "id": [
+          {
+            "value": 837
+          }
+        ],
+        "uuid": [
+          {
+            "value": "2fc0516d-ec95-4334-8efe-a4eaac11f25f"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 13224
+          }
+        ],
+        "type": [
+          {
+            "target_id": "custom_html",
+            "target_type": "paragraphs_type",
+            "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "uid": [
+          {
+            "target_id": 17,
+            "target_type": "user",
+            "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+            "url": "/user/17"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1511347801
+          }
+        ],
+        "revision_uid": [
+          {
+            "target_id": 17,
+            "target_type": "user",
+            "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+            "url": "/user/17"
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "2549"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": "a:0:{}"
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [],
+        "moderation_state": [],
+        "field_custom_html_body": [
+          {
+            "value": "<h3>Service Area and Hours</h3>\r\n\r\n<p>Subsidized rides are available during regular RIDE hours, 5 AM–1 AM daily.</p>\r\n\r\n<p>All of The RIDE’s regular service area is covered under the pilot EXCEPT trips to Logan Airport.</p>\r\n\r\n<h3>Activating Your Subsidized Rides</h3>\r\n",
+            "format": "basic_html"
+          }
+        ]
+      },
+      {
+        "target_id": 840,
+        "target_revision_id": 13227,
+        "id": [
+          {
+            "value": 840
+          }
+        ],
+        "uuid": [
+          {
+            "value": "074db40b-882a-4637-9f58-c56c3eb779b2"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 13227
+          }
+        ],
+        "type": [
+          {
+            "target_id": "multi_column",
+            "target_type": "paragraphs_type",
+            "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "uid": [
+          {
+            "target_id": 17,
+            "target_type": "user",
+            "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+            "url": "/user/17"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1511347807
+          }
+        ],
+        "revision_uid": [
+          {
+            "target_id": 17,
+            "target_type": "user",
+            "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+            "url": "/user/17"
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "2549"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": "a:0:{}"
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [
+          {
+            "value": true
+          }
+        ],
+        "moderation_state": [],
+        "field_column": [
+          {
+            "target_id": 838,
+            "target_revision_id": 13225,
+            "id": [
+              {
+                "value": 838
+              }
+            ],
+            "uuid": [
+              {
+                "value": "f7663c83-9153-4313-aa93-9951ed677887"
+              }
+            ],
+            "revision_id": [
+              {
+                "value": 13225
+              }
+            ],
+            "type": [
+              {
+                "target_id": "column",
+                "target_type": "paragraphs_type",
+                "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+              }
+            ],
+            "langcode": [
+              {
+                "value": "en"
+              }
+            ],
+            "uid": [
+              {
+                "target_id": 17,
+                "target_type": "user",
+                "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+                "url": "/user/17"
+              }
+            ],
+            "status": [
+              {
+                "value": true
+              }
+            ],
+            "created": [
+              {
+                "value": 1511347817
+              }
+            ],
+            "revision_uid": [
+              {
+                "target_id": 17,
+                "target_type": "user",
+                "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+                "url": "/user/17"
+              }
+            ],
+            "parent_id": [
+              {
+                "value": "840"
+              }
+            ],
+            "parent_type": [
+              {
+                "value": "paragraph"
+              }
+            ],
+            "parent_field_name": [
+              {
+                "value": "field_column"
+              }
+            ],
+            "behavior_settings": [
+              {
+                "value": "a:0:{}"
+              }
+            ],
+            "default_langcode": [
+              {
+                "value": true
+              }
+            ],
+            "revision_translation_affected": [],
+            "moderation_state": [],
+            "field_column_body": [
+              {
+                "value": "<h4><strong><span><span>Lyft</span></span></strong></h4>\r\n\r\n<p>Your subsidized trips will be added to your account automatically at the beginning of each month.</p>\r\n",
+                "format": "basic_html"
+              }
+            ]
+          },
+          {
+            "target_id": 839,
+            "target_revision_id": 13226,
+            "id": [
+              {
+                "value": 839
+              }
+            ],
+            "uuid": [
+              {
+                "value": "8d8fc337-f2f7-4e08-9e3a-9787f9d119a3"
+              }
+            ],
+            "revision_id": [
+              {
+                "value": 13226
+              }
+            ],
+            "type": [
+              {
+                "target_id": "column",
+                "target_type": "paragraphs_type",
+                "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+              }
+            ],
+            "langcode": [
+              {
+                "value": "en"
+              }
+            ],
+            "uid": [
+              {
+                "target_id": 17,
+                "target_type": "user",
+                "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+                "url": "/user/17"
+              }
+            ],
+            "status": [
+              {
+                "value": true
+              }
+            ],
+            "created": [
+              {
+                "value": 1511347830
+              }
+            ],
+            "revision_uid": [
+              {
+                "target_id": 17,
+                "target_type": "user",
+                "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+                "url": "/user/17"
+              }
+            ],
+            "parent_id": [
+              {
+                "value": "840"
+              }
+            ],
+            "parent_type": [
+              {
+                "value": "paragraph"
+              }
+            ],
+            "parent_field_name": [
+              {
+                "value": "field_column"
+              }
+            ],
+            "behavior_settings": [
+              {
+                "value": "a:0:{}"
+              }
+            ],
+            "default_langcode": [
+              {
+                "value": true
+              }
+            ],
+            "revision_translation_affected": [],
+            "moderation_state": [],
+            "field_column_body": [
+              {
+                "value": "<h4><strong><span><span>Uber</span></span></strong></h4>\r\n\r\n<ol>\r\n\t<li>Go to the menu in the top left corner.</li>\r\n\t<li>Pick “RIDER PASS.”</li>\r\n\t<li>Activate your trips by selecting “Purchase.” Note the charge to activate is $0.</li>\r\n</ol>\r\n",
+                "format": "basic_html"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "target_id": 841,
+        "target_revision_id": 13228,
+        "id": [
+          {
+            "value": 841
+          }
+        ],
+        "uuid": [
+          {
+            "value": "a5222d72-e4f1-45a7-83bd-8e3ad101fcce"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 13228
+          }
+        ],
+        "type": [
+          {
+            "target_id": "custom_html",
+            "target_type": "paragraphs_type",
+            "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "uid": [
+          {
+            "target_id": 17,
+            "target_type": "user",
+            "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+            "url": "/user/17"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1511347836
+          }
+        ],
+        "revision_uid": [
+          {
+            "target_id": 17,
+            "target_type": "user",
+            "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+            "url": "/user/17"
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "2549"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": "a:0:{}"
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [],
+        "moderation_state": [],
+        "field_custom_html_body": [
+          {
+            "value": "<h3>Driver Assistance</h3>\r\n\r\n<p>If you need help from your door to your ride, help boarding vehicles, or other assistance from a driver, you should consider using The RIDE services for your trip. Uber and Lyft drivers are not required to assist customers in the same way that RIDE drivers are.</p>\r\n\r\n<h2>How to Order a Ride</h2>\r\n\r\n<ul>\r\n\t<li>You can request a ride through whichever company you’ve signed up with—Uber or Lyft—through their smartphone apps.\r\n\t<ul>\r\n\t\t<li>If you’re a Lyft customer, you can use their phone-in service to order a ride. Lyft will provide details to you if you’re approved for their program.</li>\r\n\t</ul>\r\n\t</li>\r\n\t<li>Set your pick-up point.</li>\r\n\t<li>Choose your service and vehicle type.\r\n\t<ul>\r\n\t\t<li>Both companies allow you to pick wheelchair-accessible vehicles.</li>\r\n\t</ul>\r\n\t</li>\r\n\t<li>Enter your destination.\r\n\t<ul>\r\n\t\t<li>If you change your destination after you request your trip, you may not be eligible for the subsidy.</li>\r\n\t</ul>\r\n\t</li>\r\n\t<li>View your fare and your driver's estimated time of arrival.</li>\r\n\t<li>Hit “Request.”</li>\r\n\t<li>Your ride will arrive in no time!</li>\r\n</ul>\r\n\r\n<h2>Contact</h2>\r\n\r\n<p>For questions about your app, trip, or other pilot questions, please contact Lyft/Uber directly.</p>\r\n\r\n<p>For questions about your sign-up status, eligible customers will receive further instructions and access to the program via email from Uber or Lyft within 1-2 weeks of sign-up.</p>\r\n",
+            "format": "basic_html"
+          }
+        ]
+      },
+      {
+        "target_id": 844,
+        "target_revision_id": 13231,
+        "id": [
+          {
+            "value": 844
+          }
+        ],
+        "uuid": [
+          {
+            "value": "531e80fa-54ef-4e07-95d0-72bf22aac9b7"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 13231
+          }
+        ],
+        "type": [
+          {
+            "target_id": "multi_column",
+            "target_type": "paragraphs_type",
+            "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "uid": [
+          {
+            "target_id": 17,
+            "target_type": "user",
+            "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+            "url": "/user/17"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1511347855
+          }
+        ],
+        "revision_uid": [
+          {
+            "target_id": 17,
+            "target_type": "user",
+            "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+            "url": "/user/17"
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "2549"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": "a:0:{}"
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [
+          {
+            "value": true
+          }
+        ],
+        "moderation_state": [],
+        "field_column": [
+          {
+            "target_id": 842,
+            "target_revision_id": 13229,
+            "id": [
+              {
+                "value": 842
+              }
+            ],
+            "uuid": [
+              {
+                "value": "df12db79-00b6-4778-9820-e289d76d6e93"
+              }
+            ],
+            "revision_id": [
+              {
+                "value": 13229
+              }
+            ],
+            "type": [
+              {
+                "target_id": "column",
+                "target_type": "paragraphs_type",
+                "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+              }
+            ],
+            "langcode": [
+              {
+                "value": "en"
+              }
+            ],
+            "uid": [
+              {
+                "target_id": 17,
+                "target_type": "user",
+                "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+                "url": "/user/17"
+              }
+            ],
+            "status": [
+              {
+                "value": true
+              }
+            ],
+            "created": [
+              {
+                "value": 1511347869
+              }
+            ],
+            "revision_uid": [
+              {
+                "target_id": 17,
+                "target_type": "user",
+                "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+                "url": "/user/17"
+              }
+            ],
+            "parent_id": [
+              {
+                "value": "844"
+              }
+            ],
+            "parent_type": [
+              {
+                "value": "paragraph"
+              }
+            ],
+            "parent_field_name": [
+              {
+                "value": "field_column"
+              }
+            ],
+            "behavior_settings": [
+              {
+                "value": "a:0:{}"
+              }
+            ],
+            "default_langcode": [
+              {
+                "value": true
+              }
+            ],
+            "revision_translation_affected": [],
+            "moderation_state": [],
+            "field_column_body": [
+              {
+                "value": "<h3>Lyft</h3>\r\n\r\n<p>You can <a href=\"https://help.lyft.com/hc/en-us/requests/new\">contact Lyft on their&nbsp;website</a>&nbsp;or by mobile&nbsp;app. If you choose to contact them via mobile app, see instructions below:</p>\r\n\r\n<ul>\r\n\t<li><strong>Trip Question&nbsp;</strong>\r\n\r\n\t<ol>\r\n\t\t<li>Click on the profile button (icon with a face in the top left corner)</li>\r\n\t\t<li>Click on \"Ride History\" (3rd option)</li>\r\n\t\t<li>Click on the particular trip with the issue</li>\r\n\t\t<li>Scroll all the way to the bottom and select \"Get Help\"</li>\r\n\t</ol>\r\n\t</li>\r\n\t<li><strong>General Question</strong>\r\n\t<ol>\r\n\t\t<li>Click on the profile button (icon with a face in the top left corner)</li>\r\n\t\t<li>Click on Help (6th option)</li>\r\n\t\t<li>Click \"Help Center\"</li>\r\n\t\t<li>Select a specific topic within the FAQ or scroll down to the section titled \"Need something else?\" and click on \"Contact Support\"</li>\r\n\t</ol>\r\n\t</li>\r\n</ul>\r\n",
+                "format": "basic_html"
+              }
+            ]
+          },
+          {
+            "target_id": 843,
+            "target_revision_id": 13230,
+            "id": [
+              {
+                "value": 843
+              }
+            ],
+            "uuid": [
+              {
+                "value": "50bc6edc-664e-4511-8120-543a503456f5"
+              }
+            ],
+            "revision_id": [
+              {
+                "value": 13230
+              }
+            ],
+            "type": [
+              {
+                "target_id": "column",
+                "target_type": "paragraphs_type",
+                "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+              }
+            ],
+            "langcode": [
+              {
+                "value": "en"
+              }
+            ],
+            "uid": [
+              {
+                "target_id": 17,
+                "target_type": "user",
+                "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+                "url": "/user/17"
+              }
+            ],
+            "status": [
+              {
+                "value": true
+              }
+            ],
+            "created": [
+              {
+                "value": 1511347884
+              }
+            ],
+            "revision_uid": [
+              {
+                "target_id": 17,
+                "target_type": "user",
+                "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+                "url": "/user/17"
+              }
+            ],
+            "parent_id": [
+              {
+                "value": "844"
+              }
+            ],
+            "parent_type": [
+              {
+                "value": "paragraph"
+              }
+            ],
+            "parent_field_name": [
+              {
+                "value": "field_column"
+              }
+            ],
+            "behavior_settings": [
+              {
+                "value": "a:0:{}"
+              }
+            ],
+            "default_langcode": [
+              {
+                "value": true
+              }
+            ],
+            "revision_translation_affected": [],
+            "moderation_state": [],
+            "field_column_body": [
+              {
+                "value": "<h3>Uber</h3>\r\n\r\n<p>You can <a href=\"https://help.uber.com/h/d0eba0a6-e9a8-445f-9b8d-22b77e9e8c2d\">contact Uber on their&nbsp;website</a>&nbsp;or by mobile app.&nbsp;If you choose to contact them via mobile app, see instructions below:</p>\r\n\r\n<ul>\r\n\t<li><strong>Trip Question</strong>\r\n\r\n\t<ol>\r\n\t\t<li>Click on the menu button (icon with 3 lines in the top left corner)</li>\r\n\t\t<li>Click \"Your Trips\" (2nd&nbsp;option)</li>\r\n\t\t<li>Click on the particular trip with the issue</li>\r\n\t\t<li>Select the specific issue from the list below or select &nbsp;\"I had a different issue\", then \"I have a question about the MBTA pilot\"&nbsp;</li>\r\n\t</ol>\r\n\t</li>\r\n\t<li><strong>General Question</strong>\r\n\t<ol>\r\n\t\t<li>Click on the menu button (icon with three lines in the top left corner)</li>\r\n\t\t<li>Click \"Help\" (5th option)</li>\r\n\t\t<li>Select any of the topics related to your issue below</li>\r\n\t\t<li>Follow the instructions on the screen</li>\r\n\t</ol>\r\n\t</li>\r\n</ul>\r\n",
+                "format": "basic_html"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "target_id": 845,
+        "target_revision_id": 13232,
+        "id": [
+          {
+            "value": 845
+          }
+        ],
+        "uuid": [
+          {
+            "value": "46566bb3-97c9-4de4-bc1b-fce73c4ec925"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 13232
+          }
+        ],
+        "type": [
+          {
+            "target_id": "custom_html",
+            "target_type": "paragraphs_type",
+            "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "uid": [
+          {
+            "target_id": 17,
+            "target_type": "user",
+            "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+            "url": "/user/17"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1511347896
+          }
+        ],
+        "revision_uid": [
+          {
+            "target_id": 17,
+            "target_type": "user",
+            "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+            "url": "/user/17"
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "2549"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": "a:0:{}"
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [],
+        "moderation_state": [],
+        "field_custom_html_body": [
+          {
+            "value": "<h3>Eligibility Inquiries&nbsp;</h3>\r\n\r\n<p>For questions about your eligibility or if you haven’t heard from Uber or Lyft after 72 hours, contact the MBTA at <a href=\"mailto:ridepilots@mbta.com\">ridepilots@mbta.com</a>.</p>\r\n",
+            "format": "basic_html"
+          }
+        ]
+      }
+    ],
+    "field_sidebar_menu": [],
+    "breadcrumbs": [
+      {
+        "text": "Home",
+        "uri": "/a"
+      },
+      {
+        "text": "PREVIEW MODE",
+        "uri": ""
+      }
+    ]
+  }
+]
