@@ -229,31 +229,29 @@ defmodule Content.Repo do
     end
   end
 
-  # Scrape normalized view/2 response for node ID
+  @doc "Scrape normalized view/2 response for node ID"
   @spec get_node_id({:error, String.t} | {:ok, map}) :: {:error, String.t} | integer
   def get_node_id({:error, err}), do: {:error, err}
   def get_node_id({:ok, content}) do
     get_in content, ["nid", Access.at(0), "value"]
   end
 
-  # Full path breadcrumbs are available from result of view/2, but need manual transfer to revision
+  @doc "Full path breadcrumbs are available from result of view/2, but need manual transfer to revision"
   @spec process_breadcrumbs({:error, String.t} | {:ok, map}, map) :: {:error, String.t} | {:ok, map}
   def process_breadcrumbs({:error, err}, _), do: {:error, err}
   def process_breadcrumbs({:ok, revision}, default) do
     case default do
-      %{"breadcrumbs" => crumbs} ->
-        preview_crumbs = crumbs |> crumb_loop()
-        {:ok, Map.put(revision, "breadcrumbs", preview_crumbs)}
+      %{"breadcrumbs" => crumbs} -> {:ok, Map.put(revision, "breadcrumbs", crumb_preview_params(crumbs))}
       _ -> {:ok, revision}
     end
   end
 
-  # Process each breadcrumb
-  @spec crumb_loop(list()) :: list()
-  def crumb_loop(crumbs) do
+  @doc "Process each breadcrumb, appending preview params as necessary"
+  @spec crumb_preview_params(list()) :: list()
+  def crumb_preview_params(crumbs) do
     Enum.flat_map(crumbs, fn
       %{"uri" => uri = ("/" <> path)} = crumb when path != "" ->
-        [Map.put(crumb, "uri", uri <> "?preview&vid=latest")]
+        [%{crumb | "uri" => uri <> "?preview&vid=latest"}]
       crumb ->
         [crumb] # Keep "Home" and non-linked items as-is
     end)
