@@ -84,7 +84,7 @@ defmodule Content.RepoTest do
 
     test "breadcrumbs respect preview parameters" do
       result = Content.Repo.get_page("/accessibility/the-ride/on-demand-pilot", %{"preview" => "", "vid" => "6641"})
-      assert [home, grandparent, parent, current] = result.breadcrumbs  
+      assert [home, grandparent, parent, current] = result.breadcrumbs
       assert home == %Util.Breadcrumb{url: "/", text: "Home"}
       assert grandparent == %Util.Breadcrumb{url: "/accessibility?preview&vid=latest", text: "Accessibility on the MBTA"}
       assert parent == %Util.Breadcrumb{url: "/accessibility/the-ride?preview&vid=latest", text: "The RIDE"}
