@@ -311,14 +311,14 @@ defmodule SiteWeb.ScheduleV2ControllerTest do
     end
 
     test "Bus line with variant", %{conn: conn} do
-      variant = "090112"
+      variant = List.last(Routes.Repo.get_shapes("9", 1)).id
       conn = get conn, line_path(conn, :show, "9", direction_id: 1, variant: variant)
 
       # during the summer, the 9 only has 2 shapes. It has three when school
       # is in session.
       assert Enum.count(conn.assigns.route_shapes) >= 2
       assert %Routes.Shape{stop_ids: [_ | _] = stop_ids} = Enum.find(conn.assigns.route_shapes, & &1.id == variant)
-      assert "880" in stop_ids
+      assert "place-brdwy" in stop_ids
       assert variant == conn.assigns.active_shape.id
     end
 
