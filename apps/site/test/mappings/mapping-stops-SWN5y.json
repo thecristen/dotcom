@@ -1,7 +1,7 @@
 {
   "uuid" : "740e2873-dace-3645-9158-1553b12bcbc2",
   "request" : {
-    "url" : "/stops/?route=CR-Providence&include=parent_station&direction_id=0&date=2017-12-15",
+    "url" : "/stops/?route=CR-Providence&include=parent_station&direction_id=0",
     "method" : "GET"
   },
   "response" : {
