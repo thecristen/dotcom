@@ -6,10 +6,10 @@ defmodule Site.VehicleHelpersTest do
 
   @locations %{{"CR-Weekday-Fall-17-515", "place-sstat"} =>
                 %Vehicles.Vehicle{latitude: 1.1, longitude: 2.2, status: :stopped, stop_id: "place-sstat",
-                                  trip_id: "CR-Weekday-Fall-17-515", shape_id: "090111"}}
+                                  trip_id: "CR-Weekday-Fall-17-515", shape_id: "903_0018"}}
 
   @predictions [%Predictions.Prediction{departing?: true, time: ~N[2017-01-01T11:00:00], status: "On Time",
-                                        trip: %Schedules.Trip{id: "CR-Weekday-Fall-17-515", shape_id: "090111"},
+                                        trip: %Schedules.Trip{id: "CR-Weekday-Fall-17-515", shape_id: "903_0018"},
                                         stop: %Stops.Stop{id: "place-sstat"}}]
 
   @route %Routes.Route{name: "Framingham/Worcester Line", type: 2}
@@ -188,11 +188,11 @@ defmodule Site.VehicleHelpersTest do
   describe "get_vehicle_polylines/2" do
     test "vehicle polyline not in route polylines" do
       vehicle_polylines = get_vehicle_polylines(@locations, [])
-      assert vehicle_polylines == ["_glaGjlppLEdAP?P?j@AAwB?WA{AAuEAmB???YAgBCsHjBAb@A??R?bDGxCA??P?DxKDzK?\\??BdJ???VF`L?b@??@vCBxD???VBfG@xD???v@B~H?d@??H~M???VDhF?p@oCzE??_C`ES\\??qDrGS\\??_@p@k@`AgBbDS^??A@k@z@c@x@eApB]h@Q\\??GJoAzBgAnB??S\\{@zAWd@{B~Dd@l@b@f@dAjAX`@d@l@h@fAs@MoC?}BD}AB????KLm@Ds@DcA@_CBgA@cACjE~BpB~@j@Fh@qCZiATJdECc@bCi@dDc@tCI`@YhBWxAc@hCW~Ai@xCmAhHOt@??ETYtA]fBYzA??G\\_@`Be@xBcAfEaAvDYhA??_@|AOl@KTGHqAj@kA`@yAj@c@N??UHcGbCQHi@R??OFiAb@eBp@oDpAdBhK??F`@p@vEXjBNt@JZ@D??FNVx@Vh@pBdCh@r@dAlAhD`EeBfA??{CjByA@????a@PG@IAKEQS{@{EkBwK"]
+      assert [<< _::binary >>] = vehicle_polylines
     end
 
     test "vehicle polyline in route polylines" do
-      shape = %Routes.Shape{id: "090111"}
+      shape = %Routes.Shape{id: "903_0018"}
       vehicle_polylines = get_vehicle_polylines(@locations, [shape])
       assert vehicle_polylines == []
     end

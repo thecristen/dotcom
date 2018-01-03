@@ -324,8 +324,8 @@ defmodule SiteWeb.ScheduleV2ControllerTest do
 
     test "Bus line with correct default shape", %{conn: conn} do
       conn = get conn, line_path(conn, :show, "9", direction_id: 1)
-
-      assert conn.assigns.active_shape.id == "090111"
+      default_shape_id = List.first(Routes.Repo.get_shapes("9", 1)).id
+      assert conn.assigns.active_shape.id == default_shape_id
     end
 
     test "sets schedule link to current direction for last stop and opposite for all other stops on non-bus lines", %{conn: conn} do
