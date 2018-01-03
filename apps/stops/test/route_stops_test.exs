@@ -92,7 +92,7 @@ defmodule Stops.RouteStopsTest do
       stops = Stops.Repo.by_route("Green-E", 0)
       stops = RouteStops.by_direction(stops, shapes, route, 0)
 
-      assert [%Stops.RouteStops{branch: "Heath Street", stops: [%Stops.RouteStop{id: "place-lech", is_terminus?: true}|_]}] = stops
+      assert [%Stops.RouteStops{stops: [%Stops.RouteStop{id: "place-lech", is_terminus?: true}|_]}] = stops
     end
 
     test "works for green non-E line" do
