@@ -21,7 +21,8 @@ defmodule Site.BodyTag do
     [
       javascript_class(conn),
       error_class(conn),
-      mticket_class(conn)
+      mticket_class(conn),
+      preview_class(conn)
     ]
     |> Enum.filter(&(&1 != ""))
     |> Enum.join(" ")
@@ -58,4 +59,8 @@ defmodule Site.BodyTag do
       _ -> "mticket"
     end
   end
+
+  @spec preview_class(Plug.Conn.t) :: String.t
+  defp preview_class(%Plug.Conn{query_params: %{"preview" => _, "vid" => _}}), do: "cms-preview"
+  defp preview_class(_conn), do: ""
 end

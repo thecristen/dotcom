@@ -71,6 +71,27 @@ body {
       padding-bottom: 0;
     }
   }
+
+  // Display a label when viewing CMS content previews
+  &.cms-preview {
+    &::after {
+      background-color: $alert-color;
+      border: 1px solid darken($color: $alert-color, $amount: 10);
+      border-radius: $border-radius;
+      bottom: 1em;
+      box-shadow: 0 0 .5em 0 transparentize($color: $black, $amount: .75);
+      content: 'PREVIEW MODE';
+      display: block;
+      font-size: $font-size-h2;
+      font-weight: bold;
+      line-height: 1;
+      padding: .5em;
+      pointer-events: none;
+      position: fixed;
+      right: 1em;
+      z-index: 100;
+    }
+  }
 }
 
 // undo styles in app.html.eex
@@ -146,8 +167,8 @@ body {
 }
 
 .post-container-wrapper {
-  padding-top: $base-spacing;
   padding-bottom: $base-spacing;
+  padding-top: $base-spacing;
 }
 
 .page-container {
