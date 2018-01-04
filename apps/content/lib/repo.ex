@@ -191,19 +191,23 @@ defmodule Content.Repo do
 
   @spec view_or_preview(String.t, map) :: {:ok, map()} | {:error, String.t}
   defp view_or_preview(path, params) do
-    with %{"preview" => _, "vid" => vid} <- params do
-      path
-      |> @cms_api.view([])
-      |> get_node_id()
-      |> @cms_api.preview()
-      |> get_revision(vid)
-    else
-      _ ->
-        path = case params do
-          %{"id" => old_site_page_id} -> path <> URI.encode_www_form("?id=#{old_site_page_id}")
-          _ -> path
+    path = case params do
+      # Drupal ignores params for alias matching unless encoded
+      %{"id" => old_site_page_id} -> path <> URI.encode_www_form("?id=#{old_site_page_id}")
+      _ -> path
+    end
+    case result = @cms_api.view(path, []) do
+      {:error, _err} -> result
+      {:ok, api_data} ->
+        with %{"preview" => _, "vid" => vid} <- params do
+          result
+          |> get_node_id()
+          |> @cms_api.preview()
+          |> get_revision(vid)
+          |> process_breadcrumbs(api_data)
+        else
+          _ -> result
         end
-        @cms_api.view(path, [])
     end
   end
 
@@ -225,9 +229,31 @@ defmodule Content.Repo do
     end
   end
 
+  @doc "Scrape normalized view/2 response for node ID"
   @spec get_node_id({:error, String.t} | {:ok, map}) :: {:error, String.t} | integer
   def get_node_id({:error, err}), do: {:error, err}
   def get_node_id({:ok, content}) do
     get_in content, ["nid", Access.at(0), "value"]
+  end
+
+  @doc "Full path breadcrumbs are available from result of view/2, but need manual transfer to revision"
+  @spec process_breadcrumbs({:error, String.t} | {:ok, map}, map) :: {:error, String.t} | {:ok, map}
+  def process_breadcrumbs({:error, err}, _), do: {:error, err}
+  def process_breadcrumbs({:ok, revision}, default) do
+    case default do
+      %{"breadcrumbs" => crumbs} -> {:ok, Map.put(revision, "breadcrumbs", crumb_preview_params(crumbs))}
+      _ -> {:ok, revision}
+    end
+  end
+
+  @doc "Process each breadcrumb, appending preview params as necessary"
+  @spec crumb_preview_params(list()) :: list()
+  def crumb_preview_params(crumbs) do
+    Enum.flat_map(crumbs, fn
+      %{"uri" => uri = ("/" <> path)} = crumb when path != "" ->
+        [%{crumb | "uri" => uri <> "?preview&vid=latest"}]
+      crumb ->
+        [crumb] # Keep "Home" and non-linked items as-is
+    end)
   end
 end

@@ -81,6 +81,15 @@ defmodule Content.RepoTest do
       assert %Content.BasicPage{} = result
       assert result.title == "Accessibility at the T 112"
     end
+
+    test "breadcrumbs respect preview parameters" do
+      result = Content.Repo.get_page("/accessibility/the-ride/on-demand-pilot", %{"preview" => "", "vid" => "6641"})
+      assert [home, grandparent, parent, current] = result.breadcrumbs
+      assert home == %Util.Breadcrumb{url: "/", text: "Home"}
+      assert grandparent == %Util.Breadcrumb{url: "/accessibility?preview&vid=latest", text: "Accessibility on the MBTA"}
+      assert parent == %Util.Breadcrumb{url: "/accessibility/the-ride?preview&vid=latest", text: "The RIDE"}
+      assert current == %Util.Breadcrumb{url: "", text: "On-Demand Paratransit Pilot Program"}
+    end
   end
 
   describe "events/1" do
