@@ -32,6 +32,7 @@ defmodule Alerts.Alert do
   :dock_issue |
   :access_issue |
   :policy_change |
+  :summary |
   :unknown
   @type severity :: 0..10
   @type lifecycle :: :ongoing | :upcoming | :ongoing_upcoming | :new | :unknown
@@ -140,6 +141,7 @@ defmodule Alerts.Alert do
   defp do_human_effect(:dock_issue), do: "Dock Issue"
   defp do_human_effect(:access_issue), do: "Access Issue"
   defp do_human_effect(:policy_change), do: "Policy Change"
+  defp do_human_effect(:summary), do: "Summary"
   defp do_human_effect(_), do: "Unknown"
 
   @doc "Returns a friendly name for the alert's lifecycle"

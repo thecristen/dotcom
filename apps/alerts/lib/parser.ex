@@ -99,6 +99,7 @@ defmodule Alerts.Parser do
     defp do_effect("ACCESS_ISSUE"), do: :access_issue
     defp do_effect("POLICY_CHANGE"), do: :policy_change
     defp do_effect("STOP_SHOVELING"), do: :stop_shoveling
+    defp do_effect("SUMMARY"), do: :summary
     defp do_effect(_), do: :unknown
 
     @spec severity(String.t | integer) :: Alerts.Alert.severity
