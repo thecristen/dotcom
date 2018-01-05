@@ -233,12 +233,6 @@ $location-line-width: $space-6;
   }
 }
 
-.expand-branch-link-icon {
-  color: $brand-primary;
-  flex: 0 0 4.5rem;
-  text-align: right;
-}
-
 .expand-branch-stop-count {
   color: $brand-primary;
 
@@ -249,6 +243,14 @@ $location-line-width: $space-6;
 
 .expand-link-stop-text {
   flex: 1 1 auto;
+  max-width: 80%;
+  // .btn has white-space: nowrap set. We need to override this to allow the stop text to wrap
+  white-space: initial;
+}
+
+.expand-branch-link-icon {
+  color: $brand-primary;
+  flex: 0 0 auto;
 }
 
 @include media-breakpoint-only(xs) {
