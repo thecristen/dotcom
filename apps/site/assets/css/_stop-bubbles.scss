@@ -245,7 +245,7 @@ $location-line-width: $space-6;
   flex: 1 1 auto;
   max-width: 80%;
   // .btn has white-space: nowrap set. We need to override this to allow the stop text to wrap
-  white-space: initial;
+  white-space: normal;
 }
 
 .expand-branch-link-icon {
