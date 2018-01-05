@@ -49,10 +49,13 @@
           <%= @origin.name %> <i class="fa fa-arrow-right"></i> <%= @destination.name %>
         </p>
         <p class="fares-info-lead">
-          People aged 12 years or older who do not qualify for reduced fares will be charged the standard
-          fare. If you are a student, senior, or someone with disabilities who qualifies for
-          <%= link "reduced fares", to: fare_path(@conn, :show, "reduced") %>, click on the correct category
-          below to see applicable fares. People aged 11 and younger ride on MBTA services for free.
+          People aged 12 years or older who do not qualify for
+          <%= link to: fare_path(SiteWeb.Endpoint, :show, :reduced) do %>
+            reduced fares
+          <% end %>
+          will be charged the standard fare. If you are a student, senior, or someone with disabilities who qualifies
+          for reduced fares", click on the correct category below to see applicable fares. Children aged 11 and younger
+          accompanied by a paying adult ride on MBTA services for free (up to 2 children per adult).
         </p>
       </div>
     </div>
