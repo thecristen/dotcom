@@ -93,14 +93,6 @@ body {
   margin-left: 1rem;
 }
 
-.support-twitter {
-  background-color: $twitter;
-  border-radius: 100%;
-  color: $white;
-  margin-right: .5rem;
-  padding: .25rem .4rem;
-}
-
 .support-form-control {
   border-color: $gray-light;
 }
@@ -154,4 +146,28 @@ button .waiting {
 
 .response-time-disclaimer {
   margin-top: $space-8;
+}
+
+.support-section-row {
+  margin-bottom: $space-16;
+}
+
+.support-phone-text {
+  font-weight: bold;
+}
+
+.support-header {
+  margin-bottom: $space-8;
+}
+
+.support-lift-updates {
+  font-style: italic;
+}
+
+.support-link {
+  display: block;
+}
+
+.support-text {
+  margin-bottom: $space-8;
 }

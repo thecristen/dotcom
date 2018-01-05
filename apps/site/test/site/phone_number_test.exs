@@ -5,13 +5,13 @@ defmodule Site.PhoneNumberTest do
 
   describe "pretty_format/1" do
     test "works with or without leading 1" do
-      assert pretty_format("1-345-456-3456") == "(345) 456-3456"
-      assert pretty_format("345-456-3456") == "(345) 456-3456"
+      assert pretty_format("1-345-456-3456") == "345-456-3456"
+      assert pretty_format("345-456-3456") == "345-456-3456"
     end
 
     test "strips other formatting" do
-      assert pretty_format("(345) 456-3456") == "(345) 456-3456"
-      assert pretty_format("345.456.3456") == "(345) 456-3456"
+      assert pretty_format("(345) 456-3456") == "345-456-3456"
+      assert pretty_format("345.456.3456") == "345-456-3456"
     end
 
     test "returns the orignal if it can't be formatted" do

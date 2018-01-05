@@ -14,7 +14,7 @@ defmodule Site.PhoneNumber do
   def pretty_format(number) do
     case parse_phone_number(number) do
       {area_code, prefix, line} ->
-        "(#{area_code}) #{prefix}-#{line}"
+        "#{area_code}-#{prefix}-#{line}"
       nil ->
         number
     end

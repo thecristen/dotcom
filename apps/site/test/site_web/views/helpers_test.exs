@@ -33,7 +33,7 @@ defmodule SiteWeb.ViewHelpersTest do
   describe "tel_link/1" do
     test "renders formattable numbers as a link" do
       assert tel_link("617-222-3200") ==
-        content_tag(:a, "(617) 222-3200", href: "tel:+1-617-222-3200")
+        content_tag(:a, "617-222-3200", href: "tel:+1-617-222-3200")
     end
 
     test "non-formattable numbers don't get processed and don't become links" do
