@@ -144,7 +144,7 @@ defmodule SiteWeb.ScheduleV2View do
       [" — effective ", pretty_date(pdf.date_start)]
     end
 
-    [fa("file-pdf-o"), " View PDF of ", current_or_upcoming_text, pdf_name, effective_date_text]
+    [fa("file-pdf-o"), " Download PDF of ", current_or_upcoming_text, pdf_name, effective_date_text]
   end
 
   @spec pretty_route_name(Route.t) :: String.t

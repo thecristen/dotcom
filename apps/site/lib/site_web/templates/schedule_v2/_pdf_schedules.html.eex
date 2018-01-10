@@ -1,0 +1,4 @@
+<div class="pdf-schedules-container">
+  <h3 class="pdf-schedules-header">PDF Schedules</h3>
+  <%= route_pdf_link(assigns[:route_pdfs], @route, @date) %>
+</div>

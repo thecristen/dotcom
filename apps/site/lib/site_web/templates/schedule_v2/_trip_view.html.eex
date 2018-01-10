@@ -24,5 +24,5 @@
     <% end %>
   <% end %>
 
-  <%= route_pdf_link(assigns[:route_pdfs], @route, @date) %>
+  <%= render "_pdf_schedules.html", assigns %>
 </div>

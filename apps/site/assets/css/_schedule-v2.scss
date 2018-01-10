@@ -268,8 +268,12 @@ a {
   @include first-column;
 }
 
+.pdf-schedules-header {
+  padding-bottom: 0;
+}
+
 .schedules-v2-pdf-link {
-  padding-top: $base-spacing;
+  padding-bottom: $base-spacing;
 }
 
 // we use the del tag to indicate a cancels trip time, but sometimes it has children that also need the same style
@@ -779,6 +783,10 @@ del .trip-list-v2-realtime {
 }
 
 .route-holiday-container {
+  margin-top: $base-spacing;
+}
+
+.pdf-schedules-container {
   margin-top: $base-spacing;
 }
 
