@@ -21,7 +21,7 @@ defmodule SiteWeb.ContentViewTest do
         |> Phoenix.HTML.safe_to_string
 
       assert rendered =~ "Parking Info by Station"
-      assert rendered =~ ~s(<ul class="sidebar-menu">)
+      assert rendered =~ ~s(<ul class="m-cms__sidebar-links">)
     end
 
     test "renders a page without a sidebar menu", %{basic_page: basic_page} do

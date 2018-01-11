@@ -1,9 +1,54 @@
-.sidebar-menu-title {
-  margin-bottom: $base-spacing-sm;
-  margin-top: $base-spacing-lg;
+.m-cms--with-sidebar {
+  @include media-breakpoint-down(sm) {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
-.sidebar-menu {
+.m-cms__sidebar,
+.m-cms__content--with-sidebar {
+  @include make-col();
+}
+
+.m-cms__sidebar {
+  @include media-breakpoint-down(sm) {
+    order: 2;
+  }
+
+  @include media-breakpoint-only(md) {
+    @include make-col-span(4);
+  }
+
+  @include media-breakpoint-up(lg) {
+    @include make-col-span(3);
+  }
+
+  &.fixedsticky-on {
+    // We use a vendor plugin that applies position: fixed in browsers
+    // that don't support position: sticky, and this class indicates that
+    // it is active. However, it appears that position: fixed
+    // affects sidebar's width context somehow, & makes it so that 25%
+    // means 25% of the whole page, instead of the container.
+    // So when that class is applied, we define the width using pixels
+    // instead of %.  -kh
+    @each $breakpoint in md, lg, xxl {
+      @include media-breakpoint-only($breakpoint) {
+        width: map-get($container-max-widths, $breakpoint) / 4;
+      }
+    }
+  }
+}
+
+.m-cms__sidebar-title {
+  margin-bottom: $base-spacing-sm;
+  margin-top: $base-spacing-lg;
+
+  @include media-breakpoint-up(md) {
+    @include h3();
+  }
+}
+
+.m-cms__sidebar-links {
   padding-left: 0;
 
   li {
@@ -15,7 +60,7 @@
   }
 }
 
-.sidebar-menu-item {
+.m-cms__sidebar-link {
   border-left: $border;
   border-right: $border;
   border-top: $border;
@@ -30,9 +75,25 @@
   }
 }
 
-.sidebar-menu-current {
+.m-cms__sidebar-link--is-current {
   background-color: $brand-primary;
   color: $white;
+}
+
+.m-cms__content--with-sidebar {
+  @include make-col();
+
+  @include media-breakpoint-only(md) {
+    @include make-col-span(8);
+  }
+
+  @include media-breakpoint-up(lg) {
+    @include make-col-span(9);
+  }
+
+  .fixedsticky-on ~ & {
+    float: right;
+  }
 }
 
 .news-content,

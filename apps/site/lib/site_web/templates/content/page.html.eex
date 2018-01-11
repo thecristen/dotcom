@@ -1,26 +1,7 @@
-<%= if @page.sidebar_menu do %>
-  <div class="row">
-    <div class="hidden-sm-down col-md-4 col-lg-3 fixedsticky sticky-top">
-      <div class="sidebar-menu-title">
-        <strong><%= @page.sidebar_menu.title %></strong>
-      </div>
-
-      <ul class="sidebar-menu">
-        <%= for link <- @page.sidebar_menu.links do %>
-          <li>
-            <%= if @conn.request_path == link.url do %>
-              <span class="sidebar-menu-current sidebar-menu-item"><%= link.title %></span>
-            <% else %>
-              <%= link link.title, to: cms_static_page_path(@conn, link.url), class: "sidebar-menu-item" %>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-    <div class="col-md-8 col-lg-9">
-      <%= render "_basic_page.html", page: @page, conn: @conn %>
-    </div>
-  </div>
-<% else %>
-  <%= render "_basic_page.html", page: @page, conn: @conn %>
-<% end %>
+<%=
+  container_class = if @page.sidebar_menu do ["row", " ", "m-cms--with-sidebar"] else ["row"] end
+  content_tag :div, [
+    render("_sidebar.html", page: @page, conn: @conn),
+    render("_basic_page.html", page: @page, conn: @conn)
+  ], [class: container_class]
+%>
