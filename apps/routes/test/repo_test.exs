@@ -119,11 +119,10 @@ defmodule Routes.RepoTest do
       }
     end
 
-    test "returns headsigns for rail routes" do
+    test "returns headsigns for primary route for rail routes" do
       headsigns = Routes.Repo.headsigns("CR-Lowell")
-
       assert "Lowell" in headsigns[0]
-      assert "Haverhill" in headsigns[0]
+      refute "Haverhill" in headsigns[0]
       assert "North Station" in headsigns[1]
     end
 
@@ -145,13 +144,41 @@ defmodule Routes.RepoTest do
     test "returns headsigns sorted by frequency" do
       data = %JsonApi{
         data: [
-          %JsonApi.Item{attributes: %{"headsign" => ""}},
-          %JsonApi.Item{attributes: %{"headsign" => "first"}},
-          %JsonApi.Item{attributes: %{"headsign" => "second"}},
-          %JsonApi.Item{attributes: %{"headsign" => "first"}},
+          %JsonApi.Item{attributes: %{"headsign" => ""},
+                        relationships: %{"route" => [%{id: "primary"}]}
+          },
+          %JsonApi.Item{attributes: %{"headsign" => "first"},
+                        relationships: %{"route" => [%{id: "primary"}]}
+          },
+          %JsonApi.Item{attributes: %{"headsign" => "second"},
+                        relationships: %{"route" => [%{id: "primary"}]}
+          },
+          %JsonApi.Item{attributes: %{"headsign" => "first"},
+                        relationships: %{"route" => [%{id: "primary"}]}
+          },
         ]
       }
-      assert Routes.Repo.calculate_headsigns(data) == ["first", "second"]
+      assert Routes.Repo.calculate_headsigns(data, "primary") == ["first", "second"]
+    end
+
+    test "filters out items with route ids not matching primary route" do
+      data = %JsonApi{
+        data: [
+          %JsonApi.Item{attributes: %{"headsign" => ""},
+                        relationships: %{"route" => [%{id: "primary"}]}
+          },
+          %JsonApi.Item{attributes: %{"headsign" => "first"},
+                        relationships: %{"route" => [%{id: "primary"}]}
+          },
+          %JsonApi.Item{attributes: %{"headsign" => "second"},
+                        relationships: %{"route" => [%{id: "other"}]}
+          },
+          %JsonApi.Item{attributes: %{"headsign" => "first"},
+                        relationships: %{"route" => [%{id: "primary"}]}
+          },
+        ]
+      }
+      assert Routes.Repo.calculate_headsigns(data, "primary") == ["first"]
     end
   end
 

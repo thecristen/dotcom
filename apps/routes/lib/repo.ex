@@ -141,21 +141,28 @@ defmodule Routes.Repo do
   def fetch_headsigns(route_id, direction_id) do
     route_id
     |> V3Api.Trips.by_route("fields[trip]": "headsign", direction_id: direction_id)
-    |> calculate_headsigns
+    |> calculate_headsigns(route_id)
   end
 
-  @spec calculate_headsigns(JsonApi.t | JsonApi.Error.t) :: [String.t]
-  def calculate_headsigns(%JsonApi{data: data}) do
+  @spec calculate_headsigns(JsonApi.t | JsonApi.Error.t, Routes.Route.id_t) :: [Routes.Route.id_t]
+  def calculate_headsigns(%JsonApi{data: data}, route_id) do
     data
-    |> Enum.flat_map(fn
-      %{attributes: %{"headsign" => ""}} -> []
-      %{attributes: %{"headsign" => headsign}} -> [headsign]
-    end)
+    |> filter_non_primary_routes(route_id)
+    |> Enum.flat_map(&get_headsign(&1))
     |> order_by_frequency
   end
   def calculate_headsigns(_) do
     []
   end
+
+  defp get_headsign(%{attributes: %{"headsign" => ""}}), do: []
+  defp get_headsign(%{attributes: %{"headsign" => headsign}}), do: [headsign]
+
+  @spec filter_non_primary_routes([JsonApi.Item.t], Routes.Route.id_t) :: [JsonApi.t | JsonApi.Error.t]
+  defp filter_non_primary_routes(trips, route_id), do: Enum.filter(trips, &route_id_matches?(&1, route_id))
+
+  @spec route_id_matches?(JsonApi.Item.t, Routes.Route.id_t) :: boolean
+  defp route_id_matches?(trip, route_id), do: Enum.any?(trip.relationships["route"], fn(trip) -> trip.id == route_id end)
 
   @spec handle_response(JsonApi.t | {:error, any}) :: {:ok, [Routes.Route.t]} | {:error, any}
   def handle_response({:error, reason}) do
