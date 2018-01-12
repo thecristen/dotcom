@@ -1,7 +1,7 @@
 <%= if @journeys.journeys != [] do %>
   <% refresh = if JourneyList.has_predictions?(@journeys), do: render "_refresh.html", conn: @conn %>
   <div class="trip-list-v2" role="table">
-    <div class="trip-list-v2-row trip-list-v2-header trip-list-v2-row-2-col sticky-top" role="row">
+    <div class="trip-list-v2-row trip-list-v2-header trip-list-v2-row-2-col fixedsticky sticky-top" role="row">
       <%= if @destination do %>
         <div class="trip-list-v2-departure" role="columnheader">Departure</div>
         <div class="trip-list-v2-headsign" role="columnheader">Arrival <%= refresh %></div>

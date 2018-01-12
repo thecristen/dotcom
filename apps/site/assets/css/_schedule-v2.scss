@@ -206,7 +206,10 @@ a {
   border: 0;
   color: $white;
   margin-top: $base-spacing;
-  position: sticky;
+
+  @include media-breakpoint-down(sm) {
+    position: sticky;
+  }
 
   * {
     color: $white;
