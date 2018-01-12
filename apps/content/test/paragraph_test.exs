@@ -36,14 +36,12 @@ defmodule Content.ParagraphTest do
       assert %Content.Paragraph.ColumnMulti{
         columns: [
           %Content.Paragraph.Column{} = column1,
-          %Content.Paragraph.Column{} = column2,
-          %Content.Paragraph.Column{} = column3
+          %Content.Paragraph.Column{} = column2
         ]
       } = from_api(api_data)
 
-      assert safe_to_string(column1.body) =~ "<h4>Column A Headline</h4><p>Body"
-      assert safe_to_string(column2.body) =~ "<h4>Column B Headline</h4><p>Body"
-      assert safe_to_string(column3.body) =~ "<p>Headlines are optional"
+      assert safe_to_string(column1.body) =~ "<h4>Basic Format</h4><p>The multi-column"
+      assert safe_to_string(column2.body) =~ "<h4>Multi-column vs. Title card set</h4><p>We recommend"
     end
 
     test "parses upcoming board meetings" do
