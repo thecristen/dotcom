@@ -13,46 +13,30 @@ body {
 
 h1,
 .h1 {
-  border-bottom-color: $brand-primary;
-  border-bottom-style: solid;
-  border-bottom-width: $base-spacing / 4;
-
-  @include media-breakpoint-up(xxl) {
-    font-size: $font-size-h1-xxl;
-  }
+  @include h1();
 }
 
 h2,
 .h2 {
-  @include media-breakpoint-up(xxl) {
-    font-size: $font-size-h2-xxl;
-  }
+  @include h2();
 }
 
 h3,
 .h3 {
-  @include media-breakpoint-up(xxl) {
-    font-size: $font-size-h3-xxl;
-  }
+  @include h3();
 }
 
 h4,
 .h4 {
-  @include media-breakpoint-up(xxl) {
-    font-size: $font-size-h4-xxl;
-  }
+  @include h4();
 }
 
 h5,
 .h5 {
-  @include media-breakpoint-up(xxl) {
-    font-size: $font-size-h5-xxl;
-  }
+  @include h5();
 }
 
 h6,
 .h6 {
-  @include media-breakpoint-up(xxl) {
-    font-size: $font-size-h6-xxl;
-  }
+  @include h6();
 }

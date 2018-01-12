@@ -40,3 +40,54 @@
     @content;
   }
 }
+
+@mixin h1 {
+  border-bottom-color: $brand-primary;
+  border-bottom-style: solid;
+  border-bottom-width: $base-spacing / 4;
+  font-size: $font-size-h1;
+
+  @include media-breakpoint-up(xxl) {
+    font-size: $font-size-h1-xxl;
+  }
+}
+
+@mixin h2 {
+  font-size: $font-size-h2;
+
+  @include media-breakpoint-up(xxl) {
+    font-size: $font-size-h2-xxl;
+  }
+}
+
+@mixin h3 {
+  font-size: $font-size-h3;
+
+  @include media-breakpoint-up(xxl) {
+    font-size: $font-size-h3-xxl;
+  }
+}
+
+@mixin h4 {
+  font-size: $font-size-h4;
+
+  @include media-breakpoint-up(xxl) {
+    font-size: $font-size-h4-xxl;
+  }
+}
+
+@mixin h5 {
+  font-size: $font-size-h5;
+
+  @include media-breakpoint-up(xxl) {
+    font-size: $font-size-h5-xxl;
+  }
+}
+
+@mixin h6 {
+  font-size: $font-size-h6;
+
+  @include media-breakpoint-up(xxl) {
+    font-size: $font-size-h6-xxl;
+  }
+}
