@@ -212,28 +212,35 @@
   @include media-breakpoint-down(sm) {
     height: 0;
     overflow: hidden;
-    padding-bottom: 56.25%; // 16x9 Aspect Ratio
+    padding-bottom: 100%;
     position: relative;
+  }
+
+  .event-description-with-sidebar & { // FMCB livestream iframe
+    padding-bottom: 56.25%; // 16x9 Aspect Ratio
   }
 }
 
-.iframe {
+.iframe,
+.iframe-full-width {
   border: 0;
   display: block;
-
-  @include media-breakpoint-up(md) {
-    height: $base-spacing * 19;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-  }
+  width: 100%;
 
   @include media-breakpoint-down(sm) {
     height: 100%;
     left: 0;
     position: absolute;
     top: 0;
-    width: 100%;
+  }
+}
+
+.iframe {
+  @include media-breakpoint-up(md) {
+    height: $base-spacing * 19;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
   }
 }
 

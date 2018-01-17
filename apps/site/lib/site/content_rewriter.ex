@@ -42,22 +42,21 @@ defmodule Site.ContentRewriter do
     |> Links.add_preview_params(conn)
     |> rewrite_children(conn)
   end
-  defp dispatch_rewrites({"p", _, [{"iframe", _, _} | _]} = element, conn) do
-    element
-    |> add_class("iframe-container")
-    |> rewrite_children(conn)
-  end
   defp dispatch_rewrites({"img", _, _} = element, conn) do
     element
     |> remove_style_attrs()
     |> add_class("img-fluid")
     |> rewrite_children(conn)
   end
-  defp dispatch_rewrites({"iframe", _, _} = element, conn) do
+  defp dispatch_rewrites({_, [{"class", "iframe-container"}], [{"iframe", _, _}]} = element, _conn) do
     element
-    |> remove_style_attrs()
-    |> set_iframe_class()
-    |> rewrite_children(conn)
+  end
+  defp dispatch_rewrites({"iframe", _, _} = element, conn) do
+    iframe = element
+             |> remove_style_attrs()
+             |> set_iframe_class()
+             |> rewrite_children(conn)
+    {"div", [{"class", "iframe-container"}], [iframe]}
   end
   defp dispatch_rewrites(content, _conn) when is_binary(content) do
     Regex.replace(~r/\{\{(.*)\}\}/U, content, fn(_, obj) ->

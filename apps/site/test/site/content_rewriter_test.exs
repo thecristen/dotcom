@@ -110,20 +110,20 @@ defmodule Site.ContentRewriterTest do
              |> rewrite(conn) == {:safe, ~s(<img class="existing-class img-fluid" src="/image.png" alt="an image"/>)}
     end
 
-    test "adds iframe classes to iframes and their container elements", %{conn: conn} do
-      assert ~s(<p><iframe src="https://www.anything.com"></iframe></p>)
+    test "adds iframe classes to iframes", %{conn: conn} do
+      assert ~s(<iframe src="https://www.anything.com"></iframe>)
              |> raw()
-             |> rewrite(conn) == {:safe, ~s(<p class="iframe-container"><iframe class="iframe" src="https://www.anything.com"></iframe></p>)}
+             |> rewrite(conn) == {:safe, ~s(<div class="iframe-container"><iframe class="iframe" src="https://www.anything.com"></iframe></div>)}
     end
 
     test "adds iframe-full-width class to google maps and livestream iframes", %{conn: conn} do
-      assert {:safe, ~s(<p class="iframe-container"><iframe class="iframe iframe-full-width") <> _} =
-        ~s(<p><iframe src="https://livestream.com/anything"></iframe></p>)
+      assert {:safe, ~s(<div class="iframe-container"><iframe class="iframe iframe-full-width") <> _} =
+        ~s(<iframe src="https://livestream.com/anything"></iframe>)
         |> raw()
         |> rewrite(conn)
 
-      assert {:safe, ~s(<p class="iframe-container"><iframe class="iframe iframe-full-width") <> _} =
-        ~s(<p><iframe src="https://www.google.com/maps/anything"></iframe></p>)
+      assert {:safe, ~s(<div class="iframe-container"><iframe class="iframe iframe-full-width") <> _} =
+        ~s(<iframe src="https://www.google.com/maps/anything"></iframe>)
         |> raw()
         |> rewrite(conn)
     end
