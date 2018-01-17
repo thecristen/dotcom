@@ -20,13 +20,41 @@ defmodule SiteWeb.ContentController do
     "transitpolice",
   ]
 
-  def page(conn, _params) do
-    maybe_page = Content.Repo.get_page(conn.request_path, conn.query_params)
-    conn
-    |> put_layout({SiteWeb.LayoutView, :app})
-    |> render_page(maybe_page)
+  @page_types [
+    Content.BasicPage,
+    Content.Event,
+    Content.NewsEntry,
+    Content.LandingPage,
+    Content.Project,
+    Content.ProjectUpdate,
+    Content.Person,
+    Content.Redirect
+  ]
+
+  @spec page(Plug.Conn.t, map) :: Plug.Conn.t
+  def page(%Plug.Conn{request_path: path, query_params: query_params} = conn, _params) do
+    path
+    |> Content.Repo.get_page(query_params)
+    |> handle_page_response(conn)
   end
 
+  @spec handle_page_response(Content.Page.t | {:error, Content.CMS.error}, Plug.Conn.t) :: Plug.Conn.t
+  defp handle_page_response(%{__struct__: struct} = page, conn) when struct in @page_types do
+    conn
+    |> put_layout({SiteWeb.LayoutView, :app})
+    |> render_page(page)
+  end
+  defp handle_page_response({:error, {:redirect, path}}, conn) do
+    redirect conn, to: path
+  end
+  defp handle_page_response({:error, :not_found}, %Plug.Conn{path_info: [top | _]} = conn) when top in @old_site_paths do
+    redirect conn, to: redirect_path(conn, :show, conn.path_info, conn.query_params)
+  end
+  defp handle_page_response({:error, :not_found}, conn) do
+    render_404(conn)
+  end
+
+  @spec render_page(Plug.Conn.t, Content.Page.t) :: Plug.Conn.t
   defp render_page(conn, %Content.BasicPage{} = page) do
     conn
     |> assign(:breadcrumbs, page.breadcrumbs)
@@ -68,12 +96,6 @@ defmodule SiteWeb.ContentController do
   end
   defp render_page(conn, %Content.Redirect{link: link}) do
     redirect conn, external: link.url
-  end
-  defp render_page(%{path_info: [top | _]} = conn, _) when top in @old_site_paths do
-    redirect conn, to: redirect_path(conn, :show, conn.path_info, conn.query_params)
-  end
-  defp render_page(conn, _) do
-    render_404(conn)
   end
 
   defp no_sidebar?(%Content.BasicPage{sidebar_menu: nil}), do: true

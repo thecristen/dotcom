@@ -71,6 +71,11 @@ defmodule SiteWeb.ContentControllerTest do
       assert html_response(conn, 302) =~ "google.com"
     end
 
+    test "redirects when CMS returns a 301 or 302", %{conn: conn} do
+      conn = get conn, "/redirected_url"
+      assert html_response(conn, 302) =~ "/different_url"
+    end
+
     test "redirects to the old site when no CMS content and certain path", %{conn: conn} do
       conn = get conn, "/fares_and_passes/non-existent?foo=5"
       assert html_response(conn, 302) =~ "/redirect/fares_and_passes/non-existent?foo=5"

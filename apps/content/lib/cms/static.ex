@@ -209,13 +209,19 @@ defmodule Content.CMS.Static do
     {:ok, route_pdfs_response()}
   end
   def view("/api/route-pdfs/error", _) do
-    {:error, "Not able to retrieve response"}
+    {:error, :invalid_response}
   end
   def view("/api/route-pdfs/" <> _route_id, _) do
     {:ok, []}
   end
+  def view("/redirected_url", _) do
+    {:error, {:redirect, "/different_url"}}
+  end
+  def view("/invalid", _) do
+    {:error, :invalid_response}
+  end
   def view(_, _) do
-    {:error, "Not able to retrieve response"}
+    {:error, :not_found}
   end
 
   @impl true

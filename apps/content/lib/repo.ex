@@ -11,11 +11,11 @@ defmodule Content.Repo do
 
   @cms_api Application.get_env(:content, :cms_api)
 
-  @spec get_page(String.t, map) :: Content.Page.t | :not_found
+  @spec get_page(String.t, map) :: Content.Page.t | {:error, Content.CMS.error}
   def get_page(path, query_params \\ %{}) do
     case view_or_preview(path, query_params) do
       {:ok, api_data} -> Content.Page.from_api(api_data)
-      _ -> :not_found
+      {:error, error} -> {:error, error}
     end
   end
 
@@ -166,26 +166,32 @@ defmodule Content.Repo do
   end
 
   @spec view_or_preview(String.t, map) :: {:ok, map()} | {:error, String.t}
-  defp view_or_preview(path, params) do
-    path = case params do
-      # Drupal ignores params for alias matching unless encoded
-      %{"id" => old_site_page_id} -> path <> URI.encode_www_form("?id=#{old_site_page_id}")
-      _ -> path
-    end
-    case result = @cms_api.view(path, []) do
-      {:error, _err} -> result
-      {:ok, api_data} ->
-        with %{"preview" => _, "vid" => vid} <- params do
-          result
-          |> get_node_id()
-          |> @cms_api.preview()
-          |> get_revision(vid)
-          |> process_breadcrumbs(api_data)
-        else
-          _ -> result
-        end
-    end
+  defp view_or_preview(path, %{"id" => old_site_page_id} = params) do
+    path
+    |> Kernel.<>(URI.encode_www_form("?id=#{old_site_page_id}"))
+    |> do_view_or_preview(params)
   end
+  defp view_or_preview(path, params) do
+    do_view_or_preview(path, params)
+  end
+
+  defp do_view_or_preview(path, params) do
+    path
+    |> @cms_api.view([])
+    |> process_view_or_preview(params)
+  end
+
+  @spec process_view_or_preview({:ok, map} | {:error, Content.CMS.error}, map)
+  :: {:ok, map} | {:error, Content.CMS.error}
+  defp process_view_or_preview({:ok, %{} = api_data}, %{"preview" => _, "vid" => vid}) do
+    {:ok, api_data}
+    |> get_node_id()
+    |> @cms_api.preview()
+    |> get_revision(vid)
+    |> process_breadcrumbs(api_data)
+  end
+  defp process_view_or_preview({:ok, %{} = response}, _params), do: {:ok, response}
+  defp process_view_or_preview({:error, error}, _params), do: {:error, error}
 
   @spec get_revision({:error, any} | {:ok, [map]}, String.t) :: {:error, String.t} | {:ok, map}
   def get_revision({:error, err}, _), do: {:error, err}

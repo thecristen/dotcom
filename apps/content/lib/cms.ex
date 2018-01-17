@@ -3,14 +3,16 @@ defmodule Content.CMS do
   The behaviour for a live HTTP or a static testing API over our content CMS.
   """
 
+  @type error :: :invalid_response | :not_found | {:redirect, String.t}
+
   @doc """
   Issues a request for a given path, with optional parameters
   for the request. Parses the JSON result but does not do anything
   beyond that. Shouldn't raise an exception; if the HTTP request
   or JSON decoding fails, returns {:error, message}
   """
-  @callback view(String.t, Keyword.t) :: {:ok, list(map())} | {:ok, map()} | {:error, String.t}
-  @callback preview(integer) :: {:ok, list(map())} | {:error, String.t}
+  @callback view(String.t, Keyword.t) :: {:ok, map() | [map()]} | {:error, error}
+  @callback preview(integer) :: {:ok, [map()]} | {:error, error}
   @callback post(String.t, String.t) :: {:ok, Poison.Parser.t} | {:error, map} | {:error, String.t}
   @callback update(String.t, String.t) :: {:ok, Poison.Parser.t} | {:error, map} | {:error, String.t}
 end

@@ -106,7 +106,7 @@ defmodule SiteWeb.ControllerHelpers do
 
   @spec check_cms_or_404(Conn.t) :: Conn.t
   def check_cms_or_404(conn) do
-    SiteWeb.ContentController.page(conn, [])
+    SiteWeb.ContentController.page(conn, %{})
   end
 
   @spec best_cms_path(map, String.t) :: String.t

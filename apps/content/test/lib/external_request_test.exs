@@ -60,25 +60,48 @@ defmodule Content.ExternaRequestTest do
         Plug.Conn.resp(conn, 404, "{\"message\":\"No page found\"}")
       end
 
-      expected = {:error, %{status_code: 404, reason: "{\"message\":\"No page found\"}"}}
-      assert ^expected = process(:get, "/page")
+      assert {:error, :not_found} = process(:get, "/page")
     end
 
-    test "returns the HTTP error if the request returns an exception" do
+    test "returns {:error, :invalid_response} the request returns an exception" do
       bypass = bypass_cms()
 
       Bypass.down bypass
-      assert {:error, %{reason: :econnrefused}} = process(:get, "/page")
+      assert process(:get, "/page") == {:error, :invalid_response}
     end
 
-    test "returns an error if the json cannot be parsed" do
+    test "returns {:error, :invalid_response} if the json cannot be parsed" do
       bypass = bypass_cms()
 
       Bypass.expect bypass, fn conn ->
         Plug.Conn.resp(conn, 200, "{invalid")
       end
 
-      assert {:error, "Could not parse JSON response"} = process(:get, "/page")
+      assert process(:get, "/page") == {:error, :invalid_response}
+    end
+
+    test "returns {:error, {:redirect, path}} when CMS returns a 301" do
+      bypass = bypass_cms()
+      Bypass.expect bypass, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("location", "http://cms.com/redirected_url")
+        |> Plug.Conn.resp(301, "redirecting?_format=json")
+      end
+
+      assert {:error, {:redirect, url}} = process(:get, "/redirect")
+      assert url =~ "/redirected_url"
+    end
+
+    test "path retains query params when CMS returns a 301" do
+      bypass = bypass_cms()
+      Bypass.expect bypass, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("location", "http://cms.com/redirected_url?foo=bar")
+        |> Plug.Conn.resp(301, "redirecting")
+      end
+
+      assert {:error, {:redirect, url}} = process(:get, "/redirect?foo=bar&_format=json")
+      assert url =~ "/redirected_url?foo=bar"
     end
   end
 
