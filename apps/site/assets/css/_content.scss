@@ -48,6 +48,12 @@
   }
 }
 
+.m-cms__sidebar-blurb {
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+}
+
 .m-cms__sidebar-links {
   padding-left: 0;
 

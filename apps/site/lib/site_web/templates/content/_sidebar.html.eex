@@ -3,7 +3,7 @@
     <h2 class="m-cms__sidebar-title">
       More from <%= @page.sidebar_menu.title %>
     </h2>
-
+    <div class="m-cms__sidebar-blurb"><%= @page.sidebar_menu.blurb %></div>
     <ul class="m-cms__sidebar-links">
       <%= for link <- @page.sidebar_menu.links do %>
         <li>

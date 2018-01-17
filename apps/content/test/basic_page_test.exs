@@ -30,7 +30,9 @@ defmodule Content.BasicPageTest do
     test "it parses a sidebar menu" do
       api_page = Content.CMS.Static.basic_page_with_sidebar_response()
       assert %Content.BasicPage{
-        sidebar_menu: %Content.MenuLinks{}
+        sidebar_menu: %Content.MenuLinks{
+          blurb: {:safe, "<p>Blurby blurb blurb.</p>"}
+        }
       } = Content.BasicPage.from_api(api_page)
     end
   end

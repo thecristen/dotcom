@@ -232,6 +232,12 @@
       "menu_link": [
 
       ],
+      "field_blurb": [
+        {
+          "value": "<p>Blurby blurb blurb.</p>\r\n",
+          "format": "basic_html"
+        }
+      ],
       "field_links": [
         {
           "uri": "internal:\/parking\/by-station",
