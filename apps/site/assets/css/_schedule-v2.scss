@@ -839,3 +839,10 @@ del .trip-list-v2-realtime {
   padding: .5rem;
   padding-bottom: 0;
 }
+
+.route-disclaimer-container {
+  background-color: $alert-color-lighter;
+  border: $border;
+  margin-top: $base-spacing;
+  padding: $space-12;
+}
