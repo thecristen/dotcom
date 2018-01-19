@@ -56,20 +56,15 @@ defmodule SiteWeb.ContentController do
     |> assign(:breadcrumbs, [Breadcrumb.build("People"), Breadcrumb.build(person.name)])
     |> render("person.html", person: person)
   end
-  defp render_page(conn, %Content.Project{id: id} = project) do
-    id = Integer.to_string(id)
-    [updates, events] = Util.async_with_timeout(
-      [ProjectController.get_updates(id), ProjectController.get_events(id)], nil)
+  defp render_page(conn, %Content.Project{} = project) do
     conn
     |> put_view(ProjectView)
-    |> ProjectController.show_project(project, updates, events)
+    |> ProjectController.show_project(project)
   end
-  defp render_page(conn, %Content.ProjectUpdate{project_id: project_id} = project_update) do
-    project_id = Integer.to_string(project_id)
-    project = ProjectController.get_project(project_id).()
+  defp render_page(conn, %Content.ProjectUpdate{} = project_update) do
     conn
     |> put_view(ProjectView)
-    |> ProjectController.show_project_update(project, project_update)
+    |> ProjectController.show_project_update(project_update)
   end
   defp render_page(conn, %Content.Redirect{link: link}) do
     redirect conn, external: link.url

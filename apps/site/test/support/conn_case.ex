@@ -20,7 +20,20 @@ defmodule SiteWeb.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
 
-      import SiteWeb.Router.Helpers
+      import SiteWeb.Router.Helpers,
+        except: [
+          news_entry_path: 2,
+          news_entry_path: 3,
+          news_entry_path: 4,
+          event_path: 2,
+          event_path: 3,
+          event_path: 4,
+          project_path: 2,
+          project_path: 3,
+          project_update_path: 3,
+          project_update_path: 4
+        ]
+      import SiteWeb.CmsRouterHelpers
       import Content.Factory
 
       # The default endpoint for testing

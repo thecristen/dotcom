@@ -3,9 +3,10 @@ defmodule SiteWeb.ProjectViewTest do
   use SiteWeb.ConnCase, async: true
 
   @conn %Plug.Conn{}
-  @project %Content.Project{id: 1, updated_on: Timex.now, posted_on: Timex.now, path_alias: "1"}
-  @events [%Content.Event{id: 1, start_time: Timex.now, end_time: Timex.now, path_alias: "1"}]
-  @updates [%{id: 1, title: "title", teaser: "teaser", posted_on: Timex.now, path_alias: "1"}]
+  @project %Content.Project{id: 1, updated_on: Timex.now, posted_on: Timex.now, path_alias: nil}
+  @events [%Content.Event{id: 1, start_time: Timex.now, end_time: Timex.now, path_alias: nil}]
+  @updates [%Content.ProjectUpdate{
+    id: 1, title: "title", teaser: "teaser", posted_on: Timex.now, path_alias: nil, project_id: 1}]
 
   describe "_contact.html" do
     test ".project-contact is not rendered if no data is available" do

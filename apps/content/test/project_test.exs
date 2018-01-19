@@ -43,7 +43,7 @@ defmodule Content.ProjectTest do
       assert teaser == "Ruggles Station Platform Project tease"
       assert title == "Ruggles Station Platform Project"
       assert updated_on == ~D[2017-07-11]
-      assert path_alias == "2679"
+      assert path_alias == nil
     end
 
     test "maps project api data with path alias to a struct", %{api_data_with_path_alias: api_data} do
@@ -51,7 +51,7 @@ defmodule Content.ProjectTest do
         path_alias: path_alias
       } = Content.Project.from_api(api_data)
 
-      assert path_alias == "path_to/path_alias"
+      assert path_alias == "/projects/project-name"
     end
 
     test "when files are provided", %{api_data_without_path_alias: api_data} do

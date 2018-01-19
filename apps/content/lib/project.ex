@@ -32,7 +32,7 @@ defmodule Content.Project do
     teaser: "",
     title: "",
     updated_on: nil,
-    path_alias: ""
+    path_alias: nil
   ]
 
   @type t :: %__MODULE__{
@@ -51,7 +51,7 @@ defmodule Content.Project do
     teaser: String.t,
     title: String.t,
     updated_on: Date.t | nil,
-    path_alias: String.t
+    path_alias: String.t | nil
   }
 
   @spec from_api(map) :: t
@@ -72,7 +72,7 @@ defmodule Content.Project do
       teaser: field_value(data, "field_teaser"),
       title: field_value(data, "title"),
       updated_on: parse_date(data, "field_updated_on"),
-      path_alias: path_alias(data) || data |> field_value("nid") |> to_string()
+      path_alias: path_alias(data)
     }
   end
 

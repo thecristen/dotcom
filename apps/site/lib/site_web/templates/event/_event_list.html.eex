@@ -12,7 +12,7 @@
                 <%= render_duration(event.start_time, event.end_time) %>
               </div>
               <div>
-                <%= link to: SiteWeb.ResourceLinkHelpers.show_path(:event, event.path_alias) do %>
+                <%= link to: event_path(@conn, :show, event) do %>
                   <%= event.title %>
                 <% end %>
               </div>

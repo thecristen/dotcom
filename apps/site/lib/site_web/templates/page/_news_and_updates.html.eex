@@ -3,7 +3,7 @@
     <h2>News &amp; Updates</h2>
     <div class="l-title-cards">
       <%= for news_entry <- @news do %>
-        <%= link to: SiteWeb.ResourceLinkHelpers.show_path(:news, news_entry.path_alias), class: "c-title-card c-title-card--link" do %>
+        <%= link to: news_entry_path(@conn, :show, news_entry), class: "c-title-card c-title-card--link" do %>
           <div class="c-title-card__title c-title-card--link__title"><%= news_entry.title %></div>
           <p><%= news_entry.teaser |> safe_to_string |> Content.Blurb.blurb(90) |> raw %></p>
         <% end %>

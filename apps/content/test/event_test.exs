@@ -40,7 +40,7 @@ defmodule Content.EventTest do
       assert safe_to_string(body) =~ "<p><strong>Massachusetts"
       assert safe_to_string(notes) =~ "<p><strong>THIS AGENDA"
       assert safe_to_string(agenda) =~ "<p><strong>Call to Order Chair"
-      assert path_alias == "17"
+      assert path_alias == nil
     end
 
     test "it parses the response with path alias", %{api_event_with_path_alias: api_event} do
@@ -48,7 +48,7 @@ defmodule Content.EventTest do
         path_alias: path_alias
       } = from_api(api_event)
 
-      assert path_alias == "path_to/path_alias"
+      assert path_alias == "/events/date/title"
     end
   end
 

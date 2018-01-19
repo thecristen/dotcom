@@ -6,7 +6,11 @@ defmodule Content.NewsEntry do
   @number_of_recent_news_suggestions 4  # configured in the CMS
 
   import Content.Helpers, only: [
-    field_value: 2, handle_html: 1, int_or_string_to_int: 1, parse_body: 1, path_alias: 1
+    field_value: 2,
+    handle_html: 1,
+    int_or_string_to_int: 1,
+    parse_body: 1,
+    path_alias: 1
   ]
 
   defstruct [
@@ -20,7 +24,7 @@ defmodule Content.NewsEntry do
     posted_on: nil,
     teaser: Phoenix.HTML.raw(""),
     migration_id: nil,
-    path_alias: ""
+    path_alias: nil
   ]
 
   @type t :: %__MODULE__{
@@ -34,7 +38,7 @@ defmodule Content.NewsEntry do
     posted_on: Date.t | nil,
     teaser: Phoenix.HTML.safe,
     migration_id: String.t | nil,
-    path_alias: String.t
+    path_alias: String.t | nil
   }
 
   @spec from_api(map) :: t
@@ -50,7 +54,7 @@ defmodule Content.NewsEntry do
       posted_on: parse_posted_date(data),
       teaser: handle_html(field_value(data, "field_teaser")),
       migration_id: field_value(data, "field_migration_id"),
-      path_alias: path_alias(data) || data |> field_value("nid") |> to_string()
+      path_alias: path_alias(data)
     }
   end
 

@@ -26,7 +26,20 @@ defmodule SiteWeb do
     quote do
       use Phoenix.Controller, namespace: SiteWeb
 
-      import SiteWeb.Router.Helpers
+      import SiteWeb.Router.Helpers,
+        except: [
+          news_entry_path: 2,
+          news_entry_path: 3,
+          news_entry_path: 4,
+          event_path: 2,
+          event_path: 3,
+          event_path: 4,
+          project_path: 2,
+          project_path: 3,
+          project_update_path: 3,
+          project_update_path: 4
+        ]
+      import SiteWeb.CmsRouterHelpers
       import SiteWeb.ControllerHelpers
       import SiteWeb.Gettext
       alias Util.Breadcrumb
@@ -45,7 +58,19 @@ defmodule SiteWeb do
       use Phoenix.HTML
       use Site.Components.Precompiler
 
-      import SiteWeb.Router.Helpers
+      import SiteWeb.Router.Helpers,
+      except: [
+        news_entry_path: 2,
+        news_entry_path: 3,
+        news_entry_path: 4,
+        event_path: 2,
+        event_path: 3,
+        event_path: 4,
+        project_path: 2,
+        project_path: 3,
+        project_update_path: 3,
+        project_update_path: 4]
+      import SiteWeb.CmsRouterHelpers
       import SiteWeb.ErrorHelpers
       import SiteWeb.Gettext
       import SiteWeb.ViewHelpers

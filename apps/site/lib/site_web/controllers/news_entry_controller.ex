@@ -19,8 +19,11 @@ defmodule SiteWeb.NewsEntryController do
     |> render(:index)
   end
 
-  def show(conn, %{"id" => id}) do
-    case Content.Repo.news_entry(id) do
+  def show(conn, %{"id" => id}), do: do_show(conn, Content.Repo.news_entry(Content.Helpers.int_or_string_to_int(id)))
+  def show(conn, _), do: do_show(conn, Content.Repo.get_page(conn.request_path, conn.query_params))
+
+  defp do_show(conn, maybe_news) do
+    case maybe_news do
       :not_found -> check_cms_or_404(conn)
       news_entry -> show_news_entry(conn, news_entry)
     end

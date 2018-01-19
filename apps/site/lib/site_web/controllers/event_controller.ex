@@ -13,11 +13,14 @@ defmodule SiteWeb.EventController do
     |> assign(:events, events)
     |> assign(:breadcrumbs, [Breadcrumb.build("Events")])
     |> assign(:narrow_template, true)
-    |> render("index.html")
+    |> render("index.html", conn: conn)
   end
 
-  def show(conn, %{"id" => id}) do
-    case Content.Repo.event(id) do
+  def show(conn, %{"id" => id}), do: do_show(conn, Content.Repo.event(Content.Helpers.int_or_string_to_int(id)))
+  def show(conn, _), do: do_show(conn, Content.Repo.get_page(conn.request_path, conn.query_params))
+
+  def do_show(conn, maybe_event) do
+    case maybe_event do
       :not_found -> check_cms_or_404(conn)
       event -> show_event(conn, event)
     end

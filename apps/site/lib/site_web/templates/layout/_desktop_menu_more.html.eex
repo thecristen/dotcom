@@ -89,7 +89,7 @@
     <p class="nav-title">Improvements and Projects</p>
     <ul>
       <li>
-        <%= link to: SiteWeb.ResourceLinkHelpers.show_path(:project, "commuter-rail-positive-train-control-ptc") do %>
+        <%= link to: project_path(@conn, :show, "commuter-rail-positive-train-control-ptc") do %>
           <%= fa "caret-right" %> Commuter Rail Positive Train Control
         <% end %>
       </li>
@@ -108,7 +108,7 @@
         <% end %>
       </li>
       <li>
-        <%= link to: cms_static_page_path(@conn, "/projects") do %>
+        <%= link to: project_path(@conn, :index) do %>
           <%= fa "caret-right" %> See All Projects
         <% end %>
     </ul>

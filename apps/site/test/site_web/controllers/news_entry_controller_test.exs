@@ -23,11 +23,11 @@ defmodule SiteWeb.NewsEntryControllerTest do
   end
 
   describe "GET show" do
-    test "renders a news entry", %{conn: conn} do
+    test "renders a news entry which has no path_alias", %{conn: conn} do
       news_entry = news_entry_factory()
       news_entry_title = Phoenix.HTML.safe_to_string(news_entry.title)
 
-      conn = get conn, news_entry_path(conn, :show, news_entry.id)
+      conn = get conn, news_entry_path(conn, :show, news_entry)
 
       body = html_response(conn, 200)
       assert body =~ Phoenix.HTML.safe_to_string(news_entry.title)
@@ -36,10 +36,25 @@ defmodule SiteWeb.NewsEntryControllerTest do
       assert breadcrumbs_include?(body, ["News", news_entry_title])
     end
 
+    test "renders a news entry which has a path_alias", %{conn: conn} do
+     news_entry = Content.CMS.Static.news_response()
+     |> Enum.at(1)
+     |> Content.NewsEntry.from_api()
+
+     news_entry_title = Phoenix.HTML.safe_to_string(news_entry.title)
+     conn = get conn, news_entry_path(conn, :show, news_entry)
+
+     body = html_response(conn, 200)
+     assert body =~ Phoenix.HTML.safe_to_string(news_entry.title)
+     assert body =~ Phoenix.HTML.safe_to_string(news_entry.body)
+     assert body =~ Phoenix.HTML.safe_to_string(news_entry.more_information)
+     assert breadcrumbs_include?(body, ["News", news_entry_title])
+   end
+
     test "includes Recent News suggestions", %{conn: conn} do
       news_entry = news_entry_factory()
 
-      conn = get conn, news_entry_path(conn, :show, news_entry.id)
+      conn = get conn, news_entry_path(conn, :show, news_entry)
 
       body = html_response(conn, 200)
       assert body =~ "Recent News on the T"
@@ -49,7 +64,7 @@ defmodule SiteWeb.NewsEntryControllerTest do
     end
 
     test "renders a 404 given an invalid id", %{conn: conn} do
-      conn = get conn, news_entry_path(conn, :show, "invalid")
+      conn = get conn, SiteWeb.Router.Helpers.news_entry_path(conn, :show, "invalid")
       assert conn.status == 404
     end
   end

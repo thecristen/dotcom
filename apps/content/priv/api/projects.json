@@ -257,7 +257,7 @@
         "value": true
       }
     ],
-    "path": [ {"alias": "/projects/path_to/path_alias"} ],
+    "path": [ {"alias": "/projects/project-name"} ],
     "publish_on": [
 
     ],

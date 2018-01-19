@@ -23,10 +23,10 @@
   </div>
   <h2>Improvements & Projects</h2>
   <div class="button-group">
-    <%= render "_link.html", text: "Commuter Rail Positive Train Control", href: SiteWeb.ResourceLinkHelpers.show_path(:project, "commuter-rail-positive-train-control-ptc"), class: "col-xs-12 col-sm-4" %>
+    <%= render "_link.html", text: "Commuter Rail Positive Train Control", href: project_path(@conn, :show , "commuter-rail-positive-train-control-ptc"), class: "col-xs-12 col-sm-4" %>
     <%= render "_link.html", text: "Automated Fare Collection 2.0", href: cms_static_page_path(@conn, "/afc2"), class: "col-xs-12 col-sm-4" %>
     <%= render "_link.html", text: "Green Line Extension", href: "http://greenlineextension.eot.state.ma.us/", class: "col-xs-12 col-sm-4", target: "_blank" %>
     <%= render "_link.html", text: "Wollaston Station", href: cms_static_page_path(@conn, "/wollaston"), class: "col-xs-12 col-sm-4" %>
-    <%= render "_link.html", text: "See All Projects", href: cms_static_page_path(@conn, "/projects"), class: "col-xs-12 col-sm-4" %>
+    <%= render "_link.html", text: "See All Projects", href: project_path(@conn, :index), class: "col-xs-12 col-sm-4" %>
   </div>
 </div>

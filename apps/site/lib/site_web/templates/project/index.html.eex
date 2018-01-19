@@ -10,9 +10,9 @@
   <% end %>
 
   <%= for project <- @featured_projects do %>
-    <%= render "_featured_project.html", project: project %>
+    <%= render "_featured_project.html", project: project, conn: @conn %>
     <hr>
   <% end %>
 
-  <%= render "_all_projects.html", projects: @projects %>
+  <%= render "_all_projects.html", projects: @projects, conn: @conn %>
 </div>

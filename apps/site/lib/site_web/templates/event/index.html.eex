@@ -6,6 +6,7 @@
   </div>
   <%= render "_event_list.html",
     events: @events,
+    conn: @conn,
     title: month_navigation_header(@conn, @month),
     empty_placeholder_text: no_results_message(@month) %>
 </div>

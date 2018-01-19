@@ -250,7 +250,7 @@
         "value": true
       }
     ],
-    "path": [ {"alias": "/events/path_to/path_alias"}],
+    "path": [ {"alias": "/events/date/title"}],
     "publish_on": [],
     "unpublish_on": [],
     "menu_link": [],

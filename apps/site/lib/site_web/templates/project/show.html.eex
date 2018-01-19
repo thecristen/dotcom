@@ -23,10 +23,10 @@
   <%= Site.ContentRewriter.rewrite(@project.body, @conn) %>
 </div>
 <%= if !Enum.empty?(@project.photo_gallery), do: render "_photos.html", photos: @project.photo_gallery %>
-<%= if !Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates, project_id: @project.id %>
+<%= if !Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates %>
 <%= if Content.Project.contact?(@project), do: render "_contact.html", project: @project %>
 <%= if !Enum.empty?(@upcoming_events), do: SiteWeb.EventView.render "_event_list.html",
-  events: @upcoming_events, title: "Upcoming Meetings" %>
+  events: @upcoming_events, title: "Upcoming Meetings", conn: @conn%>
 <%= if !Enum.empty?(@past_events), do: SiteWeb.EventView.render "_event_list.html",
-  events: @past_events, title: "Past Meetings" %>
+  events: @past_events, title: "Past Meetings", conn: @conn %>
 <%= if !Enum.empty?(@project.files), do: render "_downloads.html", files: @project.files %>

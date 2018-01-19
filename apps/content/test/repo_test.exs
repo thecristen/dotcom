@@ -27,7 +27,7 @@ defmodule Content.RepoTest do
     test "returns the news entry for the given id" do
       assert %Content.NewsEntry{
         id: 1
-      } = Content.Repo.news_entry("1")
+      } = Content.Repo.news_entry(1)
     end
 
     test "returns :not_found given an unknown id" do
@@ -37,11 +37,11 @@ defmodule Content.RepoTest do
 
   describe "news_entry_by/1" do
     test "returns the news entry for the given id" do
-      assert %Content.NewsEntry{id: 1} = Content.Repo.news_entry_by(id: "1")
+      assert %Content.NewsEntry{id: 1} = Content.Repo.news_entry_by(id: 1)
     end
 
     test "returns :not_found given no record is found" do
-      assert :not_found == Content.Repo.news_entry_by(id: "999")
+      assert :not_found == Content.Repo.news_entry_by(id: 999)
     end
   end
 
@@ -108,21 +108,21 @@ defmodule Content.RepoTest do
     test "returns the event if it's present" do
       assert %Content.Event{
         id: 17
-      } = Content.Repo.event("17")
+      } = Content.Repo.event(17)
     end
 
     test "returns :not_found if not present" do
-      assert :not_found == Content.Repo.event("999")
+      assert :not_found == Content.Repo.event(999)
     end
   end
 
   describe "event_by/1" do
     test "returns the event for the given id" do
-      assert %Content.Event{id: 17} = Content.Repo.event_by(id: "17")
+      assert %Content.Event{id: 17} = Content.Repo.event_by(id: 17)
     end
 
     test "returns :not_found given no record is found" do
-      assert :not_found == Content.Repo.event_by(id: "999")
+      assert :not_found == Content.Repo.event_by(id: 999)
     end
   end
 
@@ -147,22 +147,27 @@ defmodule Content.RepoTest do
       assert %Content.Project{
         id: id,
         body: body
-      } = Content.Repo.project("2679")
+      } = Content.Repo.project(2679)
 
       assert id == 2679
       assert safe_to_string(body) =~ "Ruggles Station Platform Project"
     end
 
     test "returns :not_found if not present" do
-      assert :not_found == Content.Repo.project("0")
+      assert :not_found == Content.Repo.project(0)
     end
   end
 
   describe "project_updates/1" do
     test "returns a list of Content.ProjectUpdate" do
-      assert [%Content.ProjectUpdate{body: body, id: id}] = Content.Repo.project_updates()
+      assert [
+        %Content.ProjectUpdate{body: body, id: id},
+        %Content.ProjectUpdate{body: body_2, id: id_2}
+        ] = Content.Repo.project_updates()
       assert id == 123
+      assert id_2 == 124
       assert safe_to_string(body) =~ "body"
+      assert safe_to_string(body_2) =~ "body2"
     end
 
     test "returns empty list if error" do
@@ -172,13 +177,13 @@ defmodule Content.RepoTest do
 
   describe "project_update/1" do
     test "returns a Content.ProjectUpdate" do
-      assert %Content.ProjectUpdate{body: body, id: id} = Content.Repo.project_update("123")
+      assert %Content.ProjectUpdate{body: body, id: id} = Content.Repo.project_update(123)
       assert id == 123
       assert safe_to_string(body) =~ "body"
     end
 
     test "returns :not_found if not present" do
-      assert Content.Repo.project_update("0") == :not_found
+      assert Content.Repo.project_update(0) == :not_found
     end
   end
 

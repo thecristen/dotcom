@@ -82,12 +82,19 @@ defmodule SiteWeb.Router do
     get "/schedules/ct3", Redirector, to: "/schedules/708"
 
     get "/", PageController, :index
+
     resources "/events", EventController, only: [:index, :show] do
       get "/icalendar", IcalendarController, :show
     end
+    get "/events/:date/:title", EventController, :show
+
     resources "/news", NewsEntryController, only: [:index, :show]
+    get "/news/:date/:title", NewsEntryController, :show
+
     resources "/projects", ProjectController, only: [:index, :show]
-    get "/projects/:project_id/update/:id", ProjectController, :project_update
+
+    get "/projects/:project_id/update/:update_id", ProjectController, :project_update
+
     get "/redirect/*path", RedirectController, :show
     get "/stops/Boat-George", Redirector, to: "/stops/ferry"
     resources "/stops", StopController, only: [:index, :show]

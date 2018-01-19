@@ -77,7 +77,6 @@ defmodule Content.CMS.Static do
   @impl true
   def view(path, params)
   def view("/recent-news", [current_id: id]) do
-    id = Integer.to_string(id)
     filtered_recent_news = Enum.reject(news_response(), &match?(%{"nid" => [%{"value" => ^id}]}, &1))
     recent_news = Enum.take(filtered_recent_news, NewsEntry.number_of_recent_news_suggestions())
 
@@ -107,6 +106,9 @@ defmodule Content.CMS.Static do
     record = List.first(news_response())
     {:ok, [record]}
   end
+  def view("/news/date/title", []) do
+    {:ok, Enum.at(news_response(), 1)}
+  end
   def view("/events", [meeting_id: "multiple-records"]) do
     {:ok, events_response()}
   end
@@ -115,7 +117,10 @@ defmodule Content.CMS.Static do
     {:ok, events}
   end
   def view("/events", [id: id]) do
-    {:ok, filter_by(events_response(), "nid", String.to_integer(id))}
+    {:ok, filter_by(events_response(), "nid", id)}
+  end
+  def view("/events/date/title", []) do
+    {:ok, Enum.at(events_response(), 1)}
   end
   def view("/events", _opts) do
     {:ok, events_response()}
@@ -127,7 +132,7 @@ defmodule Content.CMS.Static do
     {:ok, search_response()}
   end
   def view("/api/projects", [id: id]) do
-    {:ok, filter_by(projects_response(), "nid", String.to_integer(id))}
+    {:ok, filter_by(projects_response(), "nid", id)}
   end
   def view("/api/projects", opts) do
     if Keyword.get(opts, :error) do
@@ -136,8 +141,11 @@ defmodule Content.CMS.Static do
       {:ok, projects_response()}
     end
   end
+  def view("/projects/project-name", []) do
+    {:ok, Enum.at(projects_response(), 1)}
+  end
   def view("/api/project-updates", [id: id]) do
-    {:ok, filter_by(project_updates_response(), "nid", String.to_integer(id))}
+    {:ok, filter_by(project_updates_response(), "nid", id)}
   end
   def view("/api/project-updates", opts) do
     if Keyword.get(opts, :error) do
@@ -145,6 +153,9 @@ defmodule Content.CMS.Static do
     else
       {:ok, project_updates_response()}
     end
+  end
+  def view("/projects/project-name/update/project-progress", []) do
+    {:ok, Enum.at(project_updates_response(), 1)}
   end
   def view("/whats-happening", _) do
     {:ok, whats_happening_response()}
@@ -178,6 +189,9 @@ defmodule Content.CMS.Static do
   end
   def view("/node/123", _) do
     {:ok, List.first(project_updates_response())}
+  end
+  def view("/node/124", _) do
+    {:ok, List.last(project_updates_response())}
   end
   def view("/node/2679", _) do
     {:ok, List.first(projects_response())}

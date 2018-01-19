@@ -3,7 +3,7 @@ defmodule SiteWeb.IcalendarController do
   alias Site.IcalendarGenerator
 
   def show(conn, %{"event_id" => id}) do
-    case Content.Repo.event(id) do
+    case Content.Repo.event(Content.Helpers.int_or_string_to_int(id)) do
       :not_found -> render_404(conn)
       event ->
         conn

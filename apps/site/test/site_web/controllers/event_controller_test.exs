@@ -14,13 +14,23 @@ defmodule SiteWeb.EventControllerTest do
   end
 
   describe "GET show" do
-    test "renders the given event", %{conn: conn} do
-      conn = get conn, event_path(conn, :show, "17")
+    test "renders the given event with no path_alias", %{conn: conn} do
+      event = event_factory()
+      conn = get conn, event_path(conn, :show, event)
       assert html_response(conn, 200) =~ "Finance &amp; Audit Committee Meeting"
     end
 
+    test "renders the given event with a path_alias", %{conn: conn} do
+      event = Content.CMS.Static.events_response()
+      |> Enum.at(1)
+      |> Content.Event.from_api()
+      conn = get conn, event_path(conn, :show, event)
+      assert html_response(conn, 200) =~ "AACT Executive Board Meeting"
+    end
+
     test "renders a 404 given an invalid id", %{conn: conn} do
-      conn = get conn, event_path(conn, :show, "999")
+      IO.puts SiteWeb.Router.Helpers.event_path(conn, :show, "999")
+      conn = get conn, SiteWeb.Router.Helpers.event_path(conn, :show, "999")
       assert conn.status == 404
     end
   end

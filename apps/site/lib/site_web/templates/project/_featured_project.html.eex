@@ -6,7 +6,7 @@
   </div>
   <div class="col-sm-8">
     <div class="featured-project-title">
-      <%= link @project.title, to: SiteWeb.ResourceLinkHelpers.show_path(:project, @project.path_alias) %>
+      <%= link @project.title, to: project_path(@conn, :show, @project) %>
     </div>
     <div class="featured-project-updated-on">
       Updated on <%= @project.updated_on && format_full_date(@project.updated_on) %>

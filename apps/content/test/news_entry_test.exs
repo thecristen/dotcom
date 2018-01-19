@@ -32,7 +32,7 @@ defmodule Content.NewsEntryTest do
       assert posted_on == ~D[2017-01-01]
       assert Phoenix.HTML.safe_to_string(teaser) == "Example teaser"
       assert migration_id == "1234"
-      assert path_alias == "1"
+      assert path_alias == nil
     end
 
     test "parses api response with path alias", %{api_page_path_alias: api_page} do
@@ -40,7 +40,7 @@ defmodule Content.NewsEntryTest do
         path_alias: path_alias
       } = Content.NewsEntry.from_api(api_page)
 
-      assert path_alias == "path_to/alias_path"
+      assert path_alias == "/news/date/title"
     end
   end
 end

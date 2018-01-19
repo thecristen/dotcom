@@ -12,8 +12,8 @@ defmodule SiteWeb.ContentView do
   def render_paragraph(%Content.Paragraph.TitleCardSet{} = para, conn) do
     render "_title_card_set.html", paragraph: para, conn: conn
   end
-  def render_paragraph(%Content.Paragraph.UpcomingBoardMeetings{} = para, _) do
-    render "_upcoming_board_meetings.html", paragraph: para
+  def render_paragraph(%Content.Paragraph.UpcomingBoardMeetings{} = para, conn) do
+    render "_upcoming_board_meetings.html", paragraph: para, conn: conn
   end
   def render_paragraph(%Content.Paragraph.PeopleGrid{} = para, conn) do
     render "_people_grid.html", paragraph: para, conn: conn

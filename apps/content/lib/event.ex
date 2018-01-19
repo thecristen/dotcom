@@ -32,7 +32,7 @@ defmodule Content.Event do
     files: [],
     agenda_file: nil,
     minutes_file: nil,
-    path_alias: ""
+    path_alias: nil
   ]
 
   @type t :: %__MODULE__{
@@ -53,7 +53,7 @@ defmodule Content.Event do
     files: [Content.Field.File.t],
     agenda_file: Content.Field.File.t | nil,
     minutes_file: Content.Field.File.t | nil,
-    path_alias: String.t
+    path_alias: String.t | nil
   }
 
   @spec from_api(map) :: t
@@ -74,9 +74,9 @@ defmodule Content.Event do
       imported_address: handle_html(field_value(data, "field_imported_address")),
       meeting_id: field_value(data, "field_meeting_id"),
       files: parse_files(data, "field_other_files"),
-      agenda_file: parse_files(data, "field_agenda_file") |> List.first,
-      minutes_file: parse_files(data, "field_minutes_file") |> List.first,
-      path_alias: path_alias(data) || data |> field_value("nid") |> to_string()
+      agenda_file: List.first(parse_files(data, "field_agenda_file")),
+      minutes_file: List.first(parse_files(data, "field_minutes_file")),
+      path_alias: path_alias(data)
     }
   end
 

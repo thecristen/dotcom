@@ -1,11 +1,12 @@
 <div class="events-paragraph">
   <%= SiteWeb.EventView.render "_event_list.html",
     events: @paragraph.events,
+    conn: @conn,
     title: "Upcoming Board Meetings",
     empty_placeholder_text: "There are no upcoming board meetings" %>
   <div class="row">
     <div class="col-xs-12">
-      <%= link to: event_path(SiteWeb.Endpoint, :index) do %>
+      <%= link to: event_path(@conn, :index) do %>
         View all upcoming meetings
         <%= fa "arrow-right" %>
       <% end %>

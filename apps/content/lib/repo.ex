@@ -59,7 +59,7 @@ defmodule Content.Repo do
     end
   end
 
-  @spec event(String.t) :: Content.Event.t | :not_found
+  @spec event(integer) :: Content.Event.t | :not_found
   def event(id) do
     case events(id: id) do
       [record] -> record
