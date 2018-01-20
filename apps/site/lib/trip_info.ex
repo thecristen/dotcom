@@ -176,8 +176,13 @@ defmodule TripInfo do
   defp duration(times, origin_id) do
     first = Enum.find(times, & PredictedSchedule.stop(&1).id == origin_id)
     last = List.last(times)
-    Timex.diff(PredictedSchedule.time(last), PredictedSchedule.time(first), :minutes)
+    duration_diff(PredictedSchedule.time(last), PredictedSchedule.time(first))
   end
+
+  @spec duration_diff(DateTime.t | nil, DateTime.t | nil) :: Timex.Duration.t | integer | {:error, term}
+  defp duration_diff(nil, _), do: -1
+  defp duration_diff(_, nil), do: -1
+  defp duration_diff(last, first), do: Timex.diff(last, first, :minutes)
 
   @doc "Determines if the trip info box should be displayed"
   @spec should_display_trip_info?(TripInfo.t | nil) :: boolean

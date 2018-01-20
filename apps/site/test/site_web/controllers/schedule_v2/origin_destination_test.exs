@@ -2,12 +2,14 @@ defmodule SiteWeb.ScheduleV2Controller.OriginDestinationTest do
   use SiteWeb.ConnCase, async: true
   alias SiteWeb.ScheduleV2Controller.OriginDestination
   alias Stops.Stop
+  import Site.DateHelpers
 
   defp setup_conn(conn) do
+    service_date = Util.service_date() |> non_holiday_date() |> non_weekend_date()
     conn
     |> SiteWeb.Plugs.Route.call([])
     |> assign(:date_time, Util.now())
-    |> assign(:date, Util.service_date())
+    |> assign(:date, service_date)
     |> fetch_query_params()
     |> SiteWeb.ScheduleV2Controller.Defaults.call([])
     |> SiteWeb.ScheduleV2Controller.AllStops.call([])
