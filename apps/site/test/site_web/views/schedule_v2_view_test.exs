@@ -149,6 +149,48 @@ defmodule SiteWeb.ScheduleV2ViewTest do
 
 
   describe "_trip_info.html" do
+    test "show duration when it is set", %{conn: conn} do
+      route = %Routes.Route{type: 2}
+      trip_info = %TripInfo{
+        route: route,
+        vehicle: %Vehicles.Vehicle{status: :incoming},
+        vehicle_stop_name: "Readville",
+        duration: 30
+      }
+      actual = SiteWeb.ScheduleV2View.render(
+        "_trip_info.html",
+        trip_info: trip_info,
+        origin: nil,
+        destination: nil,
+        direction_id: 0,
+        conn: conn,
+        route: route,
+        expanded: nil
+      )
+      assert safe_to_string(actual) =~ "30 minutes"
+    end
+
+    test "hide duration when it is set to nil", %{conn: conn} do
+      route = %Routes.Route{type: 2}
+      trip_info = %TripInfo{
+        route: route,
+        vehicle: %Vehicles.Vehicle{status: :incoming},
+        vehicle_stop_name: "Readville",
+        duration: nil
+      }
+      actual = SiteWeb.ScheduleV2View.render(
+        "_trip_info.html",
+        trip_info: trip_info,
+        origin: nil,
+        destination: nil,
+        direction_id: 0,
+        conn: conn,
+        route: route,
+        expanded: nil
+      )
+      refute safe_to_string(actual) =~ "minutes"
+    end
+
     test "make sure page reflects information from full_status function", %{conn: conn} do
       route = %Routes.Route{type: 2}
       trip_info = %TripInfo{

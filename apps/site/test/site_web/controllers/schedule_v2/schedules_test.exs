@@ -4,6 +4,7 @@ defmodule SiteWeb.ScheduleV2Controller.SchedulesTest do
   alias Stops.Stop
   alias Routes.Route
 
+  import Site.DateHelpers
   import SiteWeb.ScheduleV2Controller.Schedules
 
   @route %Route{id: "Red", type: 1, name: "Red"}
@@ -137,7 +138,8 @@ defmodule SiteWeb.ScheduleV2Controller.SchedulesTest do
 
     test "does not include schedules which stop at the selected origin", %{conn: conn} do
       # 2some mondays are holidays, so check a tuesday
-      date = non_holiday_date(Util.service_date())
+      date = Util.service_date() |> non_holiday_date() |> non_weekend_date()
+
       route_id = "CR-Providence"
       direction_id = 0
       stop_id = "Providence" # some trips stop at Providence, others keep going
@@ -244,14 +246,6 @@ end
       conn = assign_frequency_table(conn, {:error, :error})
 
       refute :frequency_table in Map.keys(conn.assigns)
-    end
-  end
-
-  defp non_holiday_date(date) do
-    # return a date that's not a holiday
-    case Holiday.Repo.by_date(date) do
-      [] -> date
-      _ -> non_holiday_date(Timex.shift(date, days: 1))
     end
   end
 end

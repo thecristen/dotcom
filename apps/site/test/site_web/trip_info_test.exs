@@ -68,6 +68,12 @@ defmodule TripInfoTest do
       assert actual == expected
     end
 
+    test "creates a TripInfo even when the first or last prediction time is nil" do
+      schedule = %Schedule{time: nil, trip: @trip, route: @route, stop: %Stop{id: "place-sstat", name: "South Station"}}
+      assert from_list([%PredictedSchedule{schedule: schedule}] ++ @time_list).duration == nil
+      assert from_list(@time_list ++ [%PredictedSchedule{schedule: schedule}]).duration == nil
+    end
+
     test "given an origin, limits the times to just those after origin" do
       actual = from_list(@time_list, origin_id: "place-north")
       first_predicted_schedule = List.first(actual.times)
