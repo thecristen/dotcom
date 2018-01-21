@@ -37,10 +37,9 @@
   <div class="trip-duration">
     <strong>Trip duration:</strong>
     <%= [Integer.to_string(@trip_info.stop_count), " stops; "] %>
-    <%= case @trip_info.duration do
-          -1 -> ""
-          _ -> [Integer.to_string(@trip_info.duration), " minutes"]
-        end %>
+    <%= if duration = @trip_info.duration do %>
+      <%= duration %> minutes
+    <% end %>
   </div>
   <%= if base_fare = @trip_info.base_fare do %>
     <div class="trip-fare">

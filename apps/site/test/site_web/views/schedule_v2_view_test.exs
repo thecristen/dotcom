@@ -170,12 +170,13 @@ defmodule SiteWeb.ScheduleV2ViewTest do
       assert safe_to_string(actual) =~ "30 minutes"
     end
 
-    test "hide duration when it is set to default", %{conn: conn} do
+    test "hide duration when it is set to nil", %{conn: conn} do
       route = %Routes.Route{type: 2}
       trip_info = %TripInfo{
         route: route,
         vehicle: %Vehicles.Vehicle{status: :incoming},
-        vehicle_stop_name: "Readville"
+        vehicle_stop_name: "Readville",
+        duration: nil
       }
       actual = SiteWeb.ScheduleV2View.render(
         "_trip_info.html",

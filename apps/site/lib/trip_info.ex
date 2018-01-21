@@ -31,7 +31,7 @@ defmodule TripInfo do
     status: String.t,
     times: time_list,
     stop_count: pos_integer,
-    duration: pos_integer,
+    duration: pos_integer | nil,
     base_fare: Fares.Fare.t
   }
 
@@ -180,8 +180,8 @@ defmodule TripInfo do
   end
 
   @spec duration_diff(DateTime.t | nil, DateTime.t | nil) :: Timex.Duration.t | integer | {:error, term}
-  defp duration_diff(nil, _), do: -1
-  defp duration_diff(_, nil), do: -1
+  defp duration_diff(nil, _), do: nil
+  defp duration_diff(_, nil), do: nil
   defp duration_diff(last, first), do: Timex.diff(last, first, :minutes)
 
   @doc "Determines if the trip info box should be displayed"
