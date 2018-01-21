@@ -8,6 +8,7 @@
     "lib/green_line/cache_supervisor.ex",
     "lib/mix/tasks/backstop/servers.ex",
     "lib/mix/tasks/backstop/tests.ex",
-    "lib/mix/tasks/backstop/update.ex"
+    "lib/mix/tasks/backstop/update.ex",
+    "test/support"
   ]
 }
