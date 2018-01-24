@@ -10,15 +10,13 @@ defmodule SiteWeb.ProjectControllerTest do
 
   describe "show" do
     test "renders a project with no path alias", %{conn: conn} do
-      project = project_factory()
+      project = project_factory(0)
       conn = get conn, project_path(conn, :show, project)
       assert html_response(conn, 200) =~ "<h1>Ruggles Station Platform Project</h1>"
     end
 
     test "renders a project with a path alias", %{conn: conn} do
-      project = Content.CMS.Static.projects_response()
-      |> Enum.at(1)
-      |> Content.Project.from_api()
+      project = project_factory(1)
 
       conn = get conn, project_path(conn, :show, project)
       assert html_response(conn, 200) =~ "<h1>Symphony, Hynes, and Wollaston Stations Accessibility Upgrades</h1>"
@@ -37,18 +35,14 @@ defmodule SiteWeb.ProjectControllerTest do
     end
 
     test "renders a project update with no path alias", %{conn: conn} do
-      project_update = Content.CMS.Static.project_updates_response()
-      |> Enum.at(0)
-      |> Content.ProjectUpdate.from_api()
+      project_update = project_update_factory(0)
 
       conn = get conn, project_update_path(conn, :project_update, project_update)
       assert html_response(conn, 200) =~ "<h1>Project Update Title 1</h1>"
     end
 
     test "renders a project update with a path alias", %{conn: conn} do
-      project_update = Content.CMS.Static.project_updates_response()
-      |> Enum.at(1)
-      |> Content.ProjectUpdate.from_api()
+      project_update = project_update_factory(1)
 
       conn = get conn, project_update_path(conn, :project_update, project_update)
       assert html_response(conn, 200) =~ "<h1>Project Update Title 2</h1>"

@@ -6,7 +6,7 @@ defmodule SiteWeb.NewsEntryViewTest do
 
   describe "index.html" do
     test "does not display a Next link when additional content is not available", %{conn: conn} do
-      news_entry = news_entry_factory()
+      news_entry = news_entry_factory(0)
 
       body =
         SiteWeb.NewsEntryView
@@ -23,7 +23,7 @@ defmodule SiteWeb.NewsEntryViewTest do
    end
 
     test "does not display a Previous link on the first page", %{conn: conn} do
-      news_entry = news_entry_factory()
+      news_entry = news_entry_factory(0)
 
       body =
         SiteWeb.NewsEntryView
@@ -42,9 +42,9 @@ defmodule SiteWeb.NewsEntryViewTest do
 
   describe "show.html" do
     test "does not display recent_news when there are two or fewer news entries", %{conn: conn} do
-      news_entry = news_entry_factory()
+      news_entry = news_entry_factory(0)
       news_titles = ["News 1", "News 2"]
-      recent_news = Enum.map(news_titles, fn(title) -> news_entry_factory(%{title: title}) end)
+      recent_news = Enum.map(news_titles, fn(title) -> news_entry_factory(0, title: title) end)
 
       SiteWeb.NewsEntryView
       |> render_to_string("show.html", conn: conn, news_entry: news_entry, recent_news: recent_news)
@@ -52,7 +52,7 @@ defmodule SiteWeb.NewsEntryViewTest do
     end
 
     test "does not display more information when the more_information field is empty", %{conn: conn} do
-      news_entry = news_entry_factory(%{more_information: ""})
+      news_entry = news_entry_factory(0, more_information: "")
 
       SiteWeb.NewsEntryView
       |> render_to_string("show.html", conn: conn, news_entry: news_entry, recent_news: [])
@@ -64,11 +64,11 @@ defmodule SiteWeb.NewsEntryViewTest do
         media_email: choose(from: [value("massdot@example.com"), value(nil)]),
         media_phone: choose(from: [value("555-555-5555"), value(nil)]) do
 
-        news_entry = news_entry_factory(%{
+        news_entry = news_entry_factory(0, [
           media_contact: media_contact,
           media_email: media_email,
           media_phone: media_phone
-        })
+        ])
 
         rendered = render_to_string(SiteWeb.NewsEntryView, "show.html", conn: conn, news_entry: news_entry, recent_news: [])
 
@@ -103,7 +103,7 @@ defmodule SiteWeb.NewsEntryViewTest do
     test "includes links to recent news entries", %{conn: conn} do
       recent_news_count = Content.NewsEntry.number_of_recent_news_suggestions()
       recent_news = Enum.map(1..recent_news_count, fn(integer) ->
-        news_entry_factory(%{id: integer, title: "News Entry #{integer}"})
+        news_entry_factory(0, id: integer, title: "News Entry #{integer}")
       end)
 
       rendered = render_to_string(

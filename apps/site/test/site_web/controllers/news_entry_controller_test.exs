@@ -24,7 +24,7 @@ defmodule SiteWeb.NewsEntryControllerTest do
 
   describe "GET show" do
     test "renders a news entry which has no path_alias", %{conn: conn} do
-      news_entry = news_entry_factory()
+      news_entry = news_entry_factory(0)
       news_entry_title = Phoenix.HTML.safe_to_string(news_entry.title)
 
       conn = get conn, news_entry_path(conn, :show, news_entry)
@@ -37,9 +37,7 @@ defmodule SiteWeb.NewsEntryControllerTest do
     end
 
     test "renders a news entry which has a path_alias", %{conn: conn} do
-     news_entry = Content.CMS.Static.news_response()
-     |> Enum.at(1)
-     |> Content.NewsEntry.from_api()
+     news_entry = news_entry_factory(1)
 
      news_entry_title = Phoenix.HTML.safe_to_string(news_entry.title)
      conn = get conn, news_entry_path(conn, :show, news_entry)
@@ -52,7 +50,7 @@ defmodule SiteWeb.NewsEntryControllerTest do
    end
 
     test "includes Recent News suggestions", %{conn: conn} do
-      news_entry = news_entry_factory()
+      news_entry = news_entry_factory(0)
 
       conn = get conn, news_entry_path(conn, :show, news_entry)
 

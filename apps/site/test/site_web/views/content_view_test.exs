@@ -1,7 +1,7 @@
 defmodule SiteWeb.ContentViewTest do
   use Site.ViewCase, async: true
 
-  import Content.Factory, only: [event_factory: 0, person_factory: 0]
+  import Content.Factory, only: [event_factory: 1, person_factory: 0]
   import SiteWeb.ContentView
 
   alias Content.Paragraph
@@ -113,7 +113,7 @@ defmodule SiteWeb.ContentViewTest do
     end
 
     test "renders a Content.Paragraph.UpcomingBoardMeetings", %{conn: conn} do
-      event = event_factory()
+      event = event_factory(0)
       paragraph = %Paragraph.UpcomingBoardMeetings{
         events: [event]
       }

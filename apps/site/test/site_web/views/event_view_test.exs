@@ -20,9 +20,7 @@ defmodule SiteWeb.EventViewTest do
 
   describe "show.html" do
     test "the notes section is not rendered when the event notes are empty", %{conn: conn} do
-      event =
-        event_factory()
-        |> Map.put(:notes, nil)
+      event = event_factory(0, notes: nil)
 
       html =
         SiteWeb.EventView
@@ -32,9 +30,7 @@ defmodule SiteWeb.EventViewTest do
     end
 
     test "the agenda section is not renderd when the event agenda is empty", %{conn: conn} do
-      event =
-        event_factory()
-        |> Map.put(:agenda, nil)
+      event = event_factory(0, agenda: nil)
 
       html =
         SiteWeb.EventView
@@ -45,9 +41,7 @@ defmodule SiteWeb.EventViewTest do
 
     test "the location field takes priority over the imported address", %{conn: conn} do
       event =
-        event_factory()
-        |> Map.put(:location, "MassDot")
-        |> Map.put(:imported_address, "Meet me at the docks")
+        event_factory(0, location: "MassDot", imported_address: "Meed me at the docks")
 
       html =
         SiteWeb.EventView
@@ -59,9 +53,7 @@ defmodule SiteWeb.EventViewTest do
 
     test "given the location field is empty, the imported address is shown", %{conn: conn} do
       event =
-        event_factory()
-        |> Map.put(:location, nil)
-        |> Map.put(:imported_address, "Meet me at the docks")
+        event_factory(0, location: nil, imported_address: "Meet me at the docks")
 
       html =
         SiteWeb.EventView
@@ -97,26 +89,19 @@ defmodule SiteWeb.EventViewTest do
 
   describe "city_and_state" do
     test "returns the city and state, separated by a comma" do
-      event =
-        event_factory()
-        |> Map.put(:city, "Charleston")
-        |> Map.put(:state, "South Carolina")
+      event = event_factory(0, city: "Charleston", state: "South Carolina")
 
       assert city_and_state(event) == "Charleston, South Carolina"
     end
 
     test "when the city is not provided" do
-      event =
-        event_factory()
-        |> Map.put(:city, nil)
+      event = event_factory(0, city: nil)
 
       assert city_and_state(event) == nil
     end
 
     test "when the state is not provided" do
-      event =
-        event_factory()
-        |> Map.put(:state, nil)
+      event = event_factory(0, state: nil)
 
       assert city_and_state(event) == nil
     end

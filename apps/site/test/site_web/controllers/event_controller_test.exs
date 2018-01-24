@@ -15,15 +15,13 @@ defmodule SiteWeb.EventControllerTest do
 
   describe "GET show" do
     test "renders the given event with no path_alias", %{conn: conn} do
-      event = event_factory()
+      event = event_factory(0)
       conn = get conn, event_path(conn, :show, event)
       assert html_response(conn, 200) =~ "Finance &amp; Audit Committee Meeting"
     end
 
     test "renders the given event with a path_alias", %{conn: conn} do
-      event = Content.CMS.Static.events_response()
-      |> Enum.at(1)
-      |> Content.Event.from_api()
+      event = event_factory(1)
       conn = get conn, event_path(conn, :show, event)
       assert html_response(conn, 200) =~ "AACT Executive Board Meeting"
     end

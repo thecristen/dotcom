@@ -6,7 +6,7 @@ defmodule IcalendarGeneratorTest do
 
   describe "to_ical/1" do
     test "includes the appropriate headers for the iCalendar file format" do
-      event = event_factory()
+      event = event_factory(0)
 
       result =
         IcalendarGenerator.to_ical(event)
@@ -19,14 +19,14 @@ defmodule IcalendarGeneratorTest do
     end
 
     test "includes the event details" do
-      event =
-        event_factory()
-        |> Map.put(:title, "Event Title")
-        |> Map.put(:body, raw("<p>Here is a <strong>description</strong></p>."))
-        |> Map.put(:location, "MassDot")
-        |> Map.put(:street_address, "10 Park Plaza")
-        |> Map.put(:city, "Boston")
-        |> Map.put(:state, "MA")
+      event = event_factory(0, [
+        title: "Event Title",
+        body: raw("<p>Here is a <strong>description</strong></p>."),
+        location: "MassDot",
+        street_address: "10 Park Plaza",
+        city: "Boston",
+        state: "MA"
+      ])
 
       result =
         IcalendarGenerator.to_ical(event)
@@ -39,7 +39,7 @@ defmodule IcalendarGeneratorTest do
     end
 
     test "includes unique identifiers for updating an existing calendar event" do
-      event = event_factory()
+      event = event_factory(0)
 
       result =
         IcalendarGenerator.to_ical(event)
@@ -54,10 +54,7 @@ defmodule IcalendarGeneratorTest do
       start_datetime = Timex.to_datetime({{2017,2,28}, {14, 00, 00}})
       end_datetime = Timex.to_datetime({{2017,2,28}, {16, 00, 00}})
 
-      event =
-        event_factory()
-        |> Map.put(:start_time, start_datetime)
-        |> Map.put(:end_time, end_datetime)
+      event = event_factory(0, start_time: start_datetime, end_time: end_datetime)
 
       result =
         IcalendarGenerator.to_ical(event)
@@ -68,9 +65,7 @@ defmodule IcalendarGeneratorTest do
     end
 
     test "when the event does not have an end time" do
-      event =
-        event_factory()
-        |> Map.put(:end_time, nil)
+      event = event_factory(0, end_time: nil)
 
       result =
         IcalendarGenerator.to_ical(event)
@@ -80,11 +75,11 @@ defmodule IcalendarGeneratorTest do
     end
 
     test "the imported_address field decode the ampersand html entity" do
-      event =
-        event_factory()
-        |> Map.put(:title, "Bidding Process & Procedures")
-        |> Map.put(:location, nil)
-        |> Map.put(:imported_address, raw("Conference Rooms 2 &amp; 3"))
+      event = event_factory(0, [
+        title: "Bidding Process & Procedures",
+        location: nil,
+        imported_address: raw("Conference Rooms 2 &amp; 3")
+      ])
 
       result =
         IcalendarGenerator.to_ical(event)
@@ -95,10 +90,10 @@ defmodule IcalendarGeneratorTest do
     end
 
     test "the location field takes precedence over the imported_address field" do
-      event =
-        event_factory()
-        |> Map.put(:location, "MassDot")
-        |> Map.put(:imported_address, raw("Somewhere else"))
+      event = event_factory(0, [
+        location: "MassDot",
+        imported_address: raw("Somewhere else"),
+      ])
 
       result =
         IcalendarGenerator.to_ical(event)
@@ -109,9 +104,10 @@ defmodule IcalendarGeneratorTest do
 
     test "the imported address is used when the location field is empty" do
       event =
-        event_factory()
-        |> Map.put(:location, nil)
-        |> Map.put(:imported_address, raw("MassDot"))
+        event_factory(0, [
+          location: nil,
+          imported_address: raw("MassDot"),
+        ])
 
       result =
         IcalendarGenerator.to_ical(event)
