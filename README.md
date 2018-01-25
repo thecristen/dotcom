@@ -2,23 +2,50 @@
 
 # DotCom
 
-The new face of http://mbta.com/
+The new face of https://www.mbta.com/
 
 ## Getting Started
 
-1. Install Homebrew: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`. More installation options [here](https://docs.brew.sh/Installation.html)
-2. Install Erlang/Elixir: `brew install elixir` or through http://elixir-lang.org/install.html
-3. Install NodeJS, version 8. If you don't need any other versions of node installed, then install with `brew install node@8 && brew link node@8 --force`. Check that the correct version is installed with `node --version`.
-4. Install Sass:
-  * `gem install sass`
-  * You might get a permission error here.  You can either `sudo gem install
-    sass`, or install a Ruby environment manager.
-5. Install our Elixir dependencies: From the root of this repo, `mix deps.get`
-6. Install our Node dependencies: From the root of this repo, `npm run install`
-  * If you run into an error about fetching a Github dependency, you can tell Git to always use HTTP for Github:
+1. Install [Homebrew](https://docs.brew.sh/Installation.html): 
+```
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
 
-      git config --global url.https://github.com/.insteadOf git://github.com/
-7. Run `npm run brunch:build`
+2. Install [Erlang/Elixir](http://elixir-lang.org/install.html): 
+```
+brew install elixir
+``` 
+
+3. Install NodeJS, version 8. If you don't need any other versions of node installed, install with:
+```
+brew install node@8 && brew link node@8 --force
+``` 
+Check that the correct version is installed with `node --version`
+
+4. Install Sass:
+```
+gem install sass
+```
+You might get a permission error here.  You can either `sudo gem install sass`, or install a Ruby environment manager.
+
+5. Install our Elixir dependencies: From the root of this repo:
+```
+mix deps.get
+```
+
+6. Install our Node dependencies: From the root of this repo: 
+```
+npm run install
+```
+If you run into an error about fetching a Github dependency, you can tell Git to always use HTTP for Github: 
+```
+git config --global url.https://github.com/.insteadOf git://github.com/
+````
+
+7. Run 
+```
+npm run brunch:build
+```
 
 ## Running the Server
 
