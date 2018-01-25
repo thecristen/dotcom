@@ -1,5 +1,6 @@
 defmodule SiteWeb.FareView.Description do
   alias Fares.Fare
+  import Phoenix.HTML.Tag, only: [content_tag: 2]
   import Util.AndJoin
 
   @spec description(Fare.t, map()) :: Phoenix.HTML.unsafe
@@ -76,24 +77,52 @@ defmodule SiteWeb.FareView.Description do
     "Free transfer to one additional Local Bus included."
   end
   def description(%Fare{mode: :subway, duration: :month, reduced: :student}, _assigns) do
-    "Unlimited travel for one calendar month on the Subway, Local Bus, Inner Express Bus, and Outer Express Bus. Valid on the Commuter Rail through Zone 1A when printed on a CharlieTicket."
+    modes = ["Local Bus", "Subway", "Commuter Rail Zone 1A (CharlieTicket only)"]
+            |> Enum.map(&content_tag(:li, &1))
+
+    [content_tag(:div, "Unlimited travel for 1 calendar month on:"),
+     content_tag(:ul, modes)
+    ]
   end
   def description(%Fare{mode: :subway, duration: :month}, _assigns) do
-    "Unlimited travel for one calendar month on the Local Bus and Subway. Valid on the Commuter Rail through Zone 1A when printed on a CharlieTicket."
+    modes = ["Local Bus", "Subway", "Commuter Rail Zone 1A (CharlieTicket only)"]
+            |> Enum.map(&content_tag(:li, &1))
+
+    [content_tag(:div, "Unlimited travel for 1 calendar month on:"),
+     content_tag(:ul, modes)
+    ]
   end
   def description(%Fare{mode: :subway, duration: duration}, _assigns) when duration in [:day, :week] do
-    "Can be used for the Subway, Bus, Commuter Rail Zone 1A, and the Charlestown Ferry."
+    modes = ["Local Bus", "Subway", "Commuter Rail Zone 1A (CharlieTicket only)", "Charlestown Ferry (CharlieTicket only)"]
+            |> Enum.map(&content_tag(:li, &1))
+
+    [content_tag(:div, "Unlimited travel for #{duration_string_header(duration)}* on:"),
+     content_tag(:ul, modes),
+     "*CharlieTickets are valid for ",
+     duration_string_body(duration),
+     " from purchase. CharlieCards are valid for ",
+     duration_string_body(duration),
+     " after first use."
+    ]
   end
   def description(%Fare{name: :local_bus, duration: :month}, _assigns) do
-    "Unlimited travel for one calendar month on the Local Bus (not including Routes SL1 or SL2)."
+    modes = ["Local Bus (not including routes SL1 and SL2)"]
+            |> Enum.map(&content_tag(:li, &1))
+
+    [content_tag(:div, "Unlimited travel for 1 calendar month on:"),
+     content_tag(:ul, modes)
+    ]
   end
   def description(%Fare{name: :inner_express_bus, media: [:charlie_card, :charlie_ticket], duration: :month}, _assigns) do
-    ["Unlimited travel for one calendar month on the Inner Express Bus",
-     "Local Bus",
-     "Subway",
-     "Commuter Rail Zone 1A (CharlieTicket only)",
-     "the Charlestown Ferry (CharlieTicket only)."
-    ] |> and_join
+    modes = ["Inner Express Bus", "Local Bus", "Subway",
+             "Commuter Rail Zone 1A (CharlieTicket or pre-printed CharlieCard with valid date only)",
+             "Charlestown Ferry (CharlieTicket or pre-printed CharlieCard with valid date only)"]
+            |> Enum.map(&content_tag(:li, &1))
+
+    [content_tag(:div, "Unlimited travel for 1 calendar month on:"),
+     content_tag(:ul, modes)
+    ]
+
   end
   def description(%Fare{name: :inner_express_bus, duration: :month}, _assigns) do
     ["Unlimited travel for one calendar month on the Inner Express Bus",
@@ -102,12 +131,15 @@ defmodule SiteWeb.FareView.Description do
     ] |> and_join
   end
   def description(%Fare{name: :outer_express_bus, media: [:charlie_card, :charlie_ticket], duration: :month}, _assigns) do
-    ["Unlimited travel for one calendar month on the Outer Express Bus as well as the Inner Express Bus",
-     "Local Bus",
-     "Subway",
-     "Commuter Rail Zone 1A (CharlieTicket only)",
-     "the Charlestown Ferry (CharlieTicket only).",
-    ] |> and_join
+    modes = ["Outer Express Bus", "Inner Express Bus", "Local Bus", "Subway",
+             "Commuter Rail Zone 1A (CharlieTicket or pre-printed CharlieCard with valid date only)",
+             "Charlestown Ferry (CharlieTicket or pre-printed CharlieCard with valid date only)"
+            ]
+            |> Enum.map(&content_tag(:li, &1))
+
+    [content_tag(:div, "Unlimited travel for 1 calendar month on:"),
+     content_tag(:ul, modes)
+    ]
   end
   def description(%Fare{name: :outer_express_bus, duration: :month}, _assigns) do
     ["Unlimited travel for one calendar month on the Outer Express Bus as well as the Inner Express Bus",
@@ -133,6 +165,12 @@ defmodule SiteWeb.FareView.Description do
      "A trip also qualifies if it is not within the core ADA area of service, or has a destination more than 3/4 miles away from an active MBTA Bus or Subway service."
     ]
   end
+
+  defp duration_string_body(:day), do: "24 hours"
+  defp duration_string_body(:week), do: "7 days"
+
+  defp duration_string_header(:day), do: "1 day"
+  defp duration_string_header(:week), do: "7 days"
 
   defp valid_commuter_zones({:zone, "1A"}) do
     "in Zone 1A only"

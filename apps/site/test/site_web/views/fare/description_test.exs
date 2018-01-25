@@ -45,12 +45,18 @@ defmodule SiteWeb.FareView.DescriptionTest do
     end
 
     test "fare description for an inner express bus describes the modes you can use it on with a charlie ticket" do
-      expected = ["Unlimited travel for one calendar month on the Inner Express Bus, Local Bus, Subway, ",
-                  "Commuter Rail Zone 1A (CharlieTicket only), and the Charlestown Ferry (CharlieTicket only)."]
-                  |> iodata_to_binary()
-     assert %Fare{name: :inner_express_bus, duration: :month, media: [:charlie_card, :charlie_ticket]}
-              |> description(%{})
-              |> iodata_to_binary == expected
+      result = %Fare{name: :inner_express_bus, duration: :month, media: [:charlie_card, :charlie_ticket]}
+               |> description(%{})
+               |> List.flatten
+      intro = result |> List.first() |> Phoenix.HTML.safe_to_string()
+      body = result |> Enum.at(1) |> Phoenix.HTML.safe_to_string()
+
+      assert intro =~ "Unlimited travel for 1 calendar month on:"
+      assert body =~ "Inner Express Bus"
+      assert body =~ "Subway"
+      assert body =~ "Local Bus"
+      assert body =~ "Commuter Rail Zone 1A (CharlieTicket or pre-printed CharlieCard with valid date only)"
+      assert body =~ "Charlestown Ferry (CharlieTicket or pre-printed CharlieCard with valid date only)"
     end
 
     test "fare description for an inner express bus describes the modes you can use it on" do
@@ -59,12 +65,18 @@ defmodule SiteWeb.FareView.DescriptionTest do
     end
 
     test "fare description for an outer express bus describes the modes you can use it on with a charlie ticket" do
-      expected = ["Unlimited travel for one calendar month on the Outer Express Bus as well as the Inner Express Bus,",
-                  " Local Bus, Subway, Commuter Rail Zone 1A (CharlieTicket only), and the Charlestown Ferry (CharlieTicket only)."]
-                  |> iodata_to_binary()
-      assert %Fare{name: :outer_express_bus, duration: :month, media: [:charlie_card, :charlie_ticket]}
-             |> description(%{})
-             |> iodata_to_binary == expected
+      result = %Fare{name: :outer_express_bus, duration: :month, media: [:charlie_card, :charlie_ticket]}
+               |> description(%{})
+               |> List.flatten
+      intro = result |> List.first() |> Phoenix.HTML.safe_to_string()
+      body = result |> Enum.at(1) |> Phoenix.HTML.safe_to_string()
+
+      assert intro =~ "Unlimited travel for 1 calendar month on:"
+      assert body =~ "Inner Express Bus"
+      assert body =~ "Subway"
+      assert body =~ "Local Bus"
+      assert body =~ "Commuter Rail Zone 1A (CharlieTicket or pre-printed CharlieCard with valid date only)"
+      assert body =~ "Charlestown Ferry (CharlieTicket or pre-printed CharlieCard with valid date only)"
     end
 
     test "fare description for an outer express bus describes the modes you can use it on" do
@@ -72,11 +84,25 @@ defmodule SiteWeb.FareView.DescriptionTest do
         "Unlimited travel for one calendar month on the Outer Express Bus as well as the Inner Express Bus, Local Bus, and Subway."
     end
 
-    test "mentions zone 1a fares as part of the description for month passes on subway" do
+    test "mentions zone 1a fares as part of the description for month passes on subway (regular fare)" do
       fare = %Fare{duration: :month, mode: :subway}
-      assert fare |> description(%{}) |> iodata_to_binary =~ "Valid on the Commuter Rail through Zone 1A when printed on a CharlieTicket."
-      fare = %Fare{duration: :month, mode: :subway, reduced: :student}
-      assert fare |> description(%{}) |> iodata_to_binary =~ "Valid on the Commuter Rail through Zone 1A when printed on a CharlieTicket."
+      result = fare |> description(%{}) |> List.flatten()
+      body = result |> Enum.at(1) |> Phoenix.HTML.safe_to_string()
+
+      assert body =~ "Commuter Rail Zone 1A (CharlieTicket only)"
+    end
+
+    test "mentions zone 1a fares as part of the description for month passes on subway (student fare)" do
+      result = %Fare{duration: :month, mode: :subway, reduced: :student}
+               |> description(%{})
+               |> List.flatten()
+      intro = result |> List.first() |> Phoenix.HTML.safe_to_string()
+      body = result |> Enum.at(1) |> Phoenix.HTML.safe_to_string()
+
+      assert intro =~ "Unlimited travel for 1 calendar month on:"
+      assert body =~ "Subway"
+      assert body =~ "Local Bus"
+      assert body =~ "Commuter Rail Zone 1A (CharlieTicket only)"
     end
 
     test "can make a description for every fare" do
