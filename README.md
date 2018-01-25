@@ -106,7 +106,7 @@ sudo gem install pronto-credo
 
 Run it by calling `pronto run` in the `mbta/dotcom` directory. If there is no output, that means it passed.
 
-## Backstop Tests
+### Backstop Tests
 
 We use [BackstopJS](https://github.com/garris/BackstopJS) to test for
 unexpected visual changes. Backstop works by keeping a repository of
@@ -197,9 +197,9 @@ To make your local server externally visible (useful for testing on a real phone
 The path to your wiremock `.jar` file. Currently, this optional variable is only used by `npm` tasks, and not `mix`. If it is not set, `bin/wiremock-standalone-2.1.10.jar` will be used as the default. Ssee this wiki [article](https://github.com/mbta/wiki/blob/master/website/testing/backstop.md) for details.
 
 
-### Making the variables available to the app.
+### Making the variables available to the app
 
-There are different ways to make sure these environment variables are in the environment when the app runs:
+There are different ways to make sure these variables are in the environment when the application runs:
 
 * Run the server with `env VARIABLE1=value2 VARIABLE2=value2 mix phx.server`. You may want to store them in a file (one per line) and run ```env `cat file_where_you_stored_the_variables` mix phx.server``` instead.
 * Put the line `export VARIABLE=value` somewhere in your `.bash_profile`. Then run the application as normal with `mix phx.server`. Note that this environment variable will be available to anything you run in the terminal now, and if you host your config files publicly on github then you should be careful to not let your API key be publicly visible.
@@ -207,8 +207,7 @@ There are different ways to make sure these environment variables are in the env
 ## Documentation
 
 You can generate documentation for the project by running `$ mix docs` from the root directory.
-You can then view the genereated documentation in the `doc/` directory
-`$ open doc/index.html`
+You can then view the generated documentation in the `doc/` directory with `open doc/index.html`
 
 ## Content
 
