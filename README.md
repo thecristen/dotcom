@@ -6,7 +6,7 @@ The new face of https://www.mbta.com/
 
 ## Getting Started
 
-1. Request V3_API key at https://dev.api.mbtace.com/
+1. Request V3 API key at https://dev.api.mbtace.com/
 
 1. Install [Homebrew](https://docs.brew.sh/Installation.html): 
     ```
@@ -86,17 +86,6 @@ errors that can be ignored.
 `npm run dialyzer` will filter out these errors, though there are still a few
 which show up.
 
-### Other helpful test scripts
-
-All run from the main folder:
-
-* `npm run backstop:reference` — create new backstop reference images
-* `npm run backstop:bless` — allow backstop tests to run after changing the
-  backstop.json file without creating new reference images
-* `npm run brunch:build` — builds the static files
-* `semaphore/smoke_test.sh` - tries to hit all the URLs on your server.
-  Requires wget (installable with `brew install wget`)
-
 ### Pronto
 
 Pronto is a lint runner for various languages.
@@ -140,9 +129,21 @@ mix backstop.tests
 
 For more information about the initial setup, running the tests, and adding new ones please see this wiki [article](https://github.com/mbta/wiki/blob/master/website/testing/backstop.md).
 
+### Other helpful test scripts
+
+All run from the main folder:
+
+* `npm run backstop:reference` — create new backstop reference images
+* `npm run backstop:bless` — allow backstop tests to run after changing the
+  backstop.json file without creating new reference images
+* `npm run brunch:build` — builds the static files
+* `semaphore/smoke_test.sh` - tries to hit all the URLs on your server.
+  Requires wget (installable with `brew install wget`)
+
+
 ## Environment Variables
 
-The following variables can be used in your development environment.
+The following variables are used in your development environment:
 
 ### `V3_API_KEY`
 
@@ -164,7 +165,7 @@ This will ensure any part of the site that uses Google's API will not get rate l
 
 ### `DRUPAL_ROOT`
 
-The url for the CMS. You'll need to set this to view any of the static content on the site. 
+This is the url for the CMS. You'll need to set this to view any of the static content on the site. 
 
 Unless you are working on some CMS-related feature, you should set it to:
     ```
@@ -182,8 +183,8 @@ Since different tasks require different servers, there's a script to quickly swi
 
 ### `V3_URL`
 
-You can use this to point at
-* `https://dev.api.mbtace.com`, the development api server. This is the recommended option, and is also the default if the environment variable isn't set.
+This variable is used if you want to use a different API V3 server. You can use this to point at:
+* `https://dev.api.mbtace.com`, the development API server. This is the recommended option, and it's also the default if the environment variable isn't set.
 * `https://api.mbtace.com`, the production server.
 * `http://localhost:4000`, if you're running [the api server](https://github.com/mbta/api) locally.
 
@@ -193,11 +194,12 @@ To make your local server externally visible (useful for testing on a real phone
 
 ### `WIREMOCK_PATH`
 
-The path to your wiremock `.jar` file. Currently, this optional variable is only used by `npm` tasks, and not `mix`. If it is not set, `bin/wiremock-standalone-2.1.10.jar` will be used as the default.
+The path to your wiremock `.jar` file. Currently, this optional variable is only used by `npm` tasks, and not `mix`. If it is not set, `bin/wiremock-standalone-2.1.10.jar` will be used as the default. Ssee this wiki [article](https://github.com/mbta/wiki/blob/master/website/testing/backstop.md) for details.
+
 
 ### Making the variables available to the app.
 
-There are two ways to make sure these environment variables are in the environment when the app runs.
+There are different ways to make sure these environment variables are in the environment when the app runs:
 
 * Run the server with `env VARIABLE1=value2 VARIABLE2=value2 mix phx.server`. You may want to store them in a file (one per line) and run ```env `cat file_where_you_stored_the_variables` mix phx.server``` instead.
 * Put the line `export VARIABLE=value` somewhere in your `.bash_profile`. Then run the application as normal with `mix phx.server`. Note that this environment variable will be available to anything you run in the terminal now, and if you host your config files publicly on github then you should be careful to not let your API key be publicly visible.
@@ -212,7 +214,7 @@ You can then view the genereated documentation in the `doc/` directory
 
 To set up the Drupal CMS and work on the content app, follow its [README](/apps/content/README.md). You will need to set up the `DRUPAL_ROOT` environment variable as described above.
 
-## Building
+## Building the distribution package
 
 1. (once) Install Docker: https://docs.docker.com/engine/installation/
 1. Build the .ZIP package:
@@ -224,6 +226,6 @@ The root `Dockerfile` is responsible the build. Because most of us develop on a 
 
 The Dockerfile used to run the application lives in `rel/Dockerfile`. It runs the script that `exrm` provides for us to run the server (`/root/rel/site/bin/site foreground`). At startup, the `relx` application looks for configuration values that look like `${VARIABLE}` and replaces them with the `VARIABLE` environment variable. This allows us to make a single build, but use it for different environments by changing the environment variables.
 
-##Deploying
+## Deploying
 
 The [operations instructions](https://github.com/mbta/wiki/blob/master/website/operations.md#deployment) are in the wiki.
