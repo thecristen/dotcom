@@ -83,16 +83,14 @@ defmodule SiteWeb.Router do
 
     get "/", PageController, :index
 
-    resources "/events", EventController, only: [:index, :show] do
-      get "/icalendar", IcalendarController, :show
-    end
-    get "/events/:date/:title", EventController, :show
+    get "/events", EventController, :index
+    get "/events/:event_id/icalendar", IcalendarController, :show, as: :event_icalendar
+    get "/events/*alias", EventController, :show
 
-    resources "/news", NewsEntryController, only: [:index, :show]
-    get "/news/:date/:title", NewsEntryController, :show
+    get "/news", NewsEntryController, :index
+    get "/news/*alias", NewsEntryController, :show
 
     resources "/projects", ProjectController, only: [:index, :show]
-
     get "/projects/:project_id/update/:update_id", ProjectController, :project_update
 
     get "/redirect/*path", RedirectController, :show

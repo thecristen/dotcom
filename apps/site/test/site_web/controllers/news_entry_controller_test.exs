@@ -62,7 +62,7 @@ defmodule SiteWeb.NewsEntryControllerTest do
     end
 
     test "renders a 404 given an invalid id", %{conn: conn} do
-      conn = get conn, SiteWeb.Router.Helpers.news_entry_path(conn, :show, "invalid")
+      conn = get conn, SiteWeb.Router.Helpers.news_entry_path(conn, :show, ["invalid"])
       assert conn.status == 404
     end
   end

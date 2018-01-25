@@ -16,7 +16,12 @@ defmodule SiteWeb.EventController do
     |> render("index.html", conn: conn)
   end
 
-  def show(conn, %{"id" => id}), do: do_show(conn, Content.Repo.event(Content.Helpers.int_or_string_to_int(id)))
+  def show(conn, %{"alias" => [id]}) do
+    event = id
+    |> Content.Helpers.int_or_string_to_int()
+    |> Content.Repo.event()
+    do_show(conn, event)
+  end
   def show(conn, _), do: do_show(conn, Content.Repo.get_page(conn.request_path, conn.query_params))
 
   def do_show(conn, maybe_event) do

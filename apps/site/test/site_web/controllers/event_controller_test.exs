@@ -27,8 +27,7 @@ defmodule SiteWeb.EventControllerTest do
     end
 
     test "renders a 404 given an invalid id", %{conn: conn} do
-      IO.puts SiteWeb.Router.Helpers.event_path(conn, :show, "999")
-      conn = get conn, SiteWeb.Router.Helpers.event_path(conn, :show, "999")
+      conn = get conn, SiteWeb.Router.Helpers.event_path(conn, :show, ["999"])
       assert conn.status == 404
     end
   end

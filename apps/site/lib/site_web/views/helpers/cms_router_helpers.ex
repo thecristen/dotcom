@@ -14,7 +14,7 @@ defmodule SiteWeb.CmsRouterHelpers do
     RouterHelpers.news_entry_path(conn, :index, opts)
   end
   def news_entry_path(conn, :show, %Content.NewsEntry{path_alias: nil} = news_entry) do
-    check_preview(conn, RouterHelpers.news_entry_path(conn, :show, news_entry.id))
+    check_preview(conn, RouterHelpers.news_entry_path(conn, :show, [to_string(news_entry.id)]))
   end
   def news_entry_path(conn, :show, %Content.NewsEntry{} = news_entry) do
     check_preview(conn, news_entry.path_alias)
@@ -22,7 +22,7 @@ defmodule SiteWeb.CmsRouterHelpers do
 
   @spec news_entry_path(Plug.Conn.t, atom, String.t, String.t) :: String.t
   def news_entry_path(conn, :show, date, title) do
-    check_preview(conn, "/news/#{date}/#{title}")
+    check_preview(conn, RouterHelpers.news_entry_path(conn, :show, [date, title]))
   end
 
   @spec event_path(Plug.Conn.t, atom, Keyword.t | Content.Event.t) :: String.t
@@ -31,7 +31,7 @@ defmodule SiteWeb.CmsRouterHelpers do
     RouterHelpers.event_path(conn, :index, opts)
   end
   def event_path(conn, :show, %Content.Event{path_alias: nil} = event) do
-    check_preview(conn, RouterHelpers.event_path(conn, :show, event.id))
+    check_preview(conn, RouterHelpers.event_path(conn, :show, [to_string(event.id)]))
   end
   def event_path(conn, :show, %Content.Event{} = event) do
     check_preview(conn, event.path_alias)
@@ -39,7 +39,7 @@ defmodule SiteWeb.CmsRouterHelpers do
 
   @spec event_path(Plug.Conn.t, atom, String.t, String.t) :: String.t
   def event_path(conn, :show, date, title) do
-    check_preview(conn, "/events/#{date}/#{title}")
+    check_preview(conn, RouterHelpers.event_path(conn, :show, [date, title]))
   end
 
   @spec project_path(Plug.Conn.t, atom, Keyword.t | Content.Project.t) :: String.t

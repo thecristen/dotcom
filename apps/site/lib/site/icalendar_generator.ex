@@ -66,7 +66,7 @@ defmodule Site.IcalendarGenerator do
   end
 
   defp full_url(event) do
-    event_url(SiteWeb.Endpoint, :show, event.id)
+    event_url(SiteWeb.Endpoint, :show, [to_string(event.id)])
   end
 
   defp start_time(%Content.Event{start_time: nil}), do: ""

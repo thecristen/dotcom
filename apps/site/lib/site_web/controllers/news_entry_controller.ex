@@ -19,7 +19,12 @@ defmodule SiteWeb.NewsEntryController do
     |> render(:index)
   end
 
-  def show(conn, %{"id" => id}), do: do_show(conn, Content.Repo.news_entry(Content.Helpers.int_or_string_to_int(id)))
+  def show(conn, %{"alias" => [id]}) do
+    entry = id
+    |> Content.Helpers.int_or_string_to_int()
+    |> Content.Repo.news_entry()
+    do_show(conn, entry)
+  end
   def show(conn, _), do: do_show(conn, Content.Repo.get_page(conn.request_path, conn.query_params))
 
   defp do_show(conn, maybe_news) do
@@ -30,7 +35,7 @@ defmodule SiteWeb.NewsEntryController do
   end
 
   @spec show_news_entry(Plug.Conn.t, Content.NewsEntry.t) :: Plug.Conn.t
-  def show_news_entry(conn, news_entry) do
+  def show_news_entry(conn, %Content.NewsEntry{} = news_entry) do
     recent_news = Content.Repo.recent_news(current_id: news_entry.id)
     conn
     |> assign(:narrow_template, true)
