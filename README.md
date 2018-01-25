@@ -6,46 +6,53 @@ The new face of https://www.mbta.com/
 
 ## Getting Started
 
+1. Request V3_API key at https://dev.api.mbtace.com/
+
 1. Install [Homebrew](https://docs.brew.sh/Installation.html): 
     ```
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     ```
 
-2. Install [Erlang/Elixir](http://elixir-lang.org/install.html): 
+1. Install [Erlang/Elixir](http://elixir-lang.org/install.html): 
     ```
     brew install elixir
     ``` 
 
-3. Install NodeJS, version 8. If you don't need any other versions of node installed, install with:
+1. Install NodeJS, version 8. If you don't need any other versions of node installed, install with:
     ```
     brew install node@8 && brew link node@8 --force
     ``` 
    Check that the correct version is installed with `node --version`
 
-4. Install Sass:
+1. Install Sass:
     ```
     gem install sass
     ```
-   You might get a permission error here.  You can either `sudo gem install sass` or install a Ruby environment manager.
+   You might get a permission error here.  You can either do `sudo gem install sass` or install a Ruby environment manager.
 
-5. Install our Elixir dependencies. From the root of this repo:
+1. Install our Elixir dependencies. From the root of this repo:
     ```
     mix deps.get
     ```
 
-6. Install our Node dependencies. From the root of this repo: 
+1. Install our Node dependencies. From the root of this repo: 
     ```
     npm run install
     ```
    If you run into an error about fetching a Github dependency, you can tell Git to always use HTTP for Github: 
     ```
     git config --global url.https://github.com/.insteadOf git://github.com/
-    ````
+    ```
 
-7. Run 
+1. Build the assets:
     ```
     npm run brunch:build
     ```
+
+1. Set up the following environment variables see [Environment Variables](#environment-variables) section
+  * `V3_API_KEY`
+  * `GOOGLE_API_KEY`
+  * `DRUPAL_ROOT`
 
 ## Running the Server
 
@@ -137,42 +144,56 @@ For more information about the initial setup, running the tests, and adding new 
 
 The following variables can be used in your development environment.
 
+### `V3_API_KEY`
+
+You need to obtain and use an API key to run the website. 
+To request the key, use the [Development V3 API Portal](https://dev.api.mbtace.com/)
+
 ### `GOOGLE_API_KEY`
 
-This will ensure any part of the site that uses Google's API will not get rate limited. See below for how to get a Google API Key. You can get a key from [Google's API documentation](https://developers.google.com/maps/documentation/javascript/get-api-key).
+This will ensure any part of the site that uses Google's API will not get rate limited. See below for how to get a Google API Key.
 
-1. Click on "Get a Key", create a project (e.g. "mbtadotcom") and click "Enable API".
-1. Go to the API library for your project (e.g. https://console.developers.google.com/apis/library?project=mbtadotcom)
-1. Look for the Google Maps APIs list, expand "More"
-1. Click on "Geolocation API" and
-1. Click "Enable"
-1. Depending on what you're working on, you may need to enable other APIs (several of them are enabled by default).
+1. Obtain a Google API key:
+    * Go to [Google's API documentation](https://developers.google.com/maps/documentation/javascript/get-api-key)
+    * Click on "Get a Key", create a project (e.g. "mbtadotcom") and click "Enable API".
+1. Enable specic APIs used in the project:
+    * Go to the API library for your project (e.g. https://console.developers.google.com/apis/library?project=mbtadotcom)
+    * Using the seearch box at the top of the page, find 'Google Maps Geolocation API'
+    * Click "Enable"
+    * Depending on what you're working on, you may need to enable other APIs (several of them are enabled by default).
 
 ### `DRUPAL_ROOT`
 
-The url for the CMS. You'll need to set this to view any of the static content on the site. Possible values are
+The url for the CMS. You'll need to set this to view any of the static content on the site. 
 
-* `http://test-mbta.pantheonsite.io` The staging server for the content. This will include changes to the content as they happen.
-* `http://dev-mbta.pantheonsite.io` The sandbox CMS server. Code changes for the CMS are sometimes deployed here to test them without disturbing the content writers' workflow.
+Unless you are working on some CMS-related feature, you should set it to:
+    ```
+    https://live-mbta.pantheonsite.io
+    ```
+
+Otherwise you can set it one of the following possible values:
+
+* `https://test-mbta.pantheonsite.io` The staging server for the content. This will include changes to the content as they happen.
+* `https://dev-mbta.pantheonsite.io` The sandbox CMS server. Code changes for the CMS are sometimes deployed here to test them without disturbing the content writers' workflow.
 * `http://mbta.kbox.site` Your local CMS server, if you are running it. Instructions for setting it up are in the [Content README](/apps/content/README.md).
 * None, if you don't want any connection to a CMS.
 
 Since different tasks require different servers, there's a script to quickly switch between different them in [the wiki](https://github.com/mbta/wiki/blob/master/website/development/tips-and-tricks.md#quickly-switching-between-cms-servers)
 
-### `WIREMOCK_PATH`
-
-The path to your wiremock `.jar` file. Currently, this optional variable is only used by `npm` tasks, and not `mix`. If it is not set, `bin/wiremock-standalone-2.1.10.jar` will be used as the default.
-
 ### `V3_URL`
 
 You can use this to point at
-* `https://dev.api.mbtace.com`, the development api server. This is the recommended option, and the default if the environment variable isn't set.
+* `https://dev.api.mbtace.com`, the development api server. This is the recommended option, and is also the default if the environment variable isn't set.
 * `https://api.mbtace.com`, the production server.
 * `http://localhost:4000`, if you're running [the api server](https://github.com/mbta/api) locally.
 
 ### `STATIC_HOST`
 
 To make your local server externally visible (useful for testing on a real phone, for example), set this to your IP address, which you can find from `ifconfig`, probably under `en0`.
+
+### `WIREMOCK_PATH`
+
+The path to your wiremock `.jar` file. Currently, this optional variable is only used by `npm` tasks, and not `mix`. If it is not set, `bin/wiremock-standalone-2.1.10.jar` will be used as the default.
 
 ### Making the variables available to the app.
 
