@@ -23,18 +23,6 @@ defmodule Content.RepoTest do
     end
   end
 
-  describe "news_entry/1" do
-    test "returns the news entry for the given id" do
-      assert %Content.NewsEntry{
-        id: 1
-      } = Content.Repo.news_entry(1)
-    end
-
-    test "returns :not_found given an unknown id" do
-      assert :not_found == Content.Repo.news_entry("nonexistent")
-    end
-  end
-
   describe "news_entry_by/1" do
     test "returns the news entry for the given id" do
       assert %Content.NewsEntry{id: 1} = Content.Repo.news_entry_by(id: 1)
@@ -49,6 +37,26 @@ defmodule Content.RepoTest do
     test "given the path for a Basic page" do
       result = Content.Repo.get_page("/accessibility")
       assert %Content.BasicPage{} = result
+    end
+
+    test "returns a node given an system path" do
+      assert %Content.Event{} = Content.Repo.get_page("/node/17")
+    end
+
+    test "returns a NewsEntry" do
+      assert %Content.NewsEntry{} = Content.Repo.get_page("/news/2018/news-entry")
+    end
+
+    test "returns an Event" do
+      assert %Content.Event{} = Content.Repo.get_page("/events/date/title")
+    end
+
+    test "returns a Project" do
+      assert %Content.Project{} = Content.Repo.get_page("/projects/project-name")
+    end
+
+    test "returns a ProjectUpdate" do
+      assert %Content.ProjectUpdate{} = Content.Repo.get_page("/projects/project-name/update/project-progress")
     end
 
     test "given the path for a Basic page with tracking params" do
@@ -66,8 +74,8 @@ defmodule Content.RepoTest do
       assert %Content.Redirect{} = result
     end
 
-    test "returns nil when the path does not match an existing page" do
-      assert nil == Content.Repo.get_page("/does/not/exist")
+    test "returns :not_found when the path does not match an existing page" do
+      assert Content.Repo.get_page("/does/not/exist") == :not_found
     end
 
     test "URL encodes the query string before fetching" do
@@ -104,18 +112,6 @@ defmodule Content.RepoTest do
     end
   end
 
-  describe "event/1" do
-    test "returns the event if it's present" do
-      assert %Content.Event{
-        id: 17
-      } = Content.Repo.event(17)
-    end
-
-    test "returns :not_found if not present" do
-      assert :not_found == Content.Repo.event(999)
-    end
-  end
-
   describe "event_by/1" do
     test "returns the event for the given id" do
       assert %Content.Event{id: 17} = Content.Repo.event_by(id: 17)
@@ -142,22 +138,6 @@ defmodule Content.RepoTest do
     end
   end
 
-  describe "project/1" do
-    test "returns a Content.Project" do
-      assert %Content.Project{
-        id: id,
-        body: body
-      } = Content.Repo.project(2679)
-
-      assert id == 2679
-      assert safe_to_string(body) =~ "Ruggles Station Platform Project"
-    end
-
-    test "returns :not_found if not present" do
-      assert :not_found == Content.Repo.project(0)
-    end
-  end
-
   describe "project_updates/1" do
     test "returns a list of Content.ProjectUpdate" do
       assert [
@@ -172,18 +152,6 @@ defmodule Content.RepoTest do
 
     test "returns empty list if error" do
       assert [] = Content.Repo.project_updates(error: true)
-    end
-  end
-
-  describe "project_update/1" do
-    test "returns a Content.ProjectUpdate" do
-      assert %Content.ProjectUpdate{body: body, id: id} = Content.Repo.project_update(123)
-      assert id == 123
-      assert safe_to_string(body) =~ "body"
-    end
-
-    test "returns :not_found if not present" do
-      assert Content.Repo.project_update(0) == :not_found
     end
   end
 

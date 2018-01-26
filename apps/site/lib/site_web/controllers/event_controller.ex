@@ -16,22 +16,17 @@ defmodule SiteWeb.EventController do
     |> render("index.html", conn: conn)
   end
 
-  def show(conn, %{"alias" => [id]}) do
-    event = id
-    |> Content.Helpers.int_or_string_to_int()
-    |> Content.Repo.event()
-    do_show(conn, event)
-  end
-  def show(conn, _), do: do_show(conn, Content.Repo.get_page(conn.request_path, conn.query_params))
-
-  def do_show(conn, maybe_event) do
-    case maybe_event do
-      :not_found -> check_cms_or_404(conn)
-      event -> show_event(conn, event)
-    end
+  def show(conn, params) do
+    params
+    |> best_cms_path(conn.request_path)
+    |> Content.Repo.get_page(conn.query_params)
+    |> do_show(conn)
   end
 
-  @spec show_event(Conn.t, Content.Event.t) :: Conn.t
+  defp do_show(%Content.Event{} = event, conn), do: show_event(conn, event)
+  defp do_show(_404_or_mismatch, conn), do: render_404(conn)
+
+  @spec show_event(Plug.Conn.t, Content.Event.t) :: Plug.Conn.t
   def show_event(conn, event) do
     conn
     |> assign(:narrow_template, true)

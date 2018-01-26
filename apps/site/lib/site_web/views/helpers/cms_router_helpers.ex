@@ -8,7 +8,7 @@ defmodule SiteWeb.CmsRouterHelpers do
   """
   alias SiteWeb.Router.Helpers, as: RouterHelpers
 
-  @spec news_entry_path(Plug.Conn.t, atom, Keyword.t | Content.NewsEntry.t) :: String.t
+  @spec news_entry_path(Plug.Conn.t, atom, Keyword.t | Content.NewsEntry.t | String.t) :: String.t
   def news_entry_path(conn, verb, opts \\ [])
   def news_entry_path(conn, :index, opts) do
     RouterHelpers.news_entry_path(conn, :index, opts)
@@ -19,13 +19,16 @@ defmodule SiteWeb.CmsRouterHelpers do
   def news_entry_path(conn, :show, %Content.NewsEntry{} = news_entry) do
     check_preview(conn, news_entry.path_alias)
   end
+  def news_entry_path(conn, :show, value) when is_binary(value) do
+    check_preview(conn, RouterHelpers.news_entry_path(conn, :show, [value]))
+  end
 
   @spec news_entry_path(Plug.Conn.t, atom, String.t, String.t) :: String.t
   def news_entry_path(conn, :show, date, title) do
     check_preview(conn, RouterHelpers.news_entry_path(conn, :show, [date, title]))
   end
 
-  @spec event_path(Plug.Conn.t, atom, Keyword.t | Content.Event.t) :: String.t
+  @spec event_path(Plug.Conn.t, atom, Keyword.t | Content.Event.t | String.t) :: String.t
   def event_path(conn, verb, opts \\ [])
   def event_path(conn, :index, opts) do
     RouterHelpers.event_path(conn, :index, opts)
@@ -36,13 +39,16 @@ defmodule SiteWeb.CmsRouterHelpers do
   def event_path(conn, :show, %Content.Event{} = event) do
     check_preview(conn, event.path_alias)
   end
+  def event_path(conn, :show, value) when is_binary(value) do
+    check_preview(conn, RouterHelpers.event_path(conn, :show, [value]))
+  end
 
   @spec event_path(Plug.Conn.t, atom, String.t, String.t) :: String.t
   def event_path(conn, :show, date, title) do
     check_preview(conn, RouterHelpers.event_path(conn, :show, [date, title]))
   end
 
-  @spec project_path(Plug.Conn.t, atom, Keyword.t | Content.Project.t) :: String.t
+  @spec project_path(Plug.Conn.t, atom, Keyword.t | Content.Project.t | String.t) :: String.t
   def project_path(conn, verb, opts \\ [])
   def project_path(conn, :index, opts) do
     RouterHelpers.project_path(conn, :index, opts)
@@ -53,10 +59,8 @@ defmodule SiteWeb.CmsRouterHelpers do
   def project_path(conn, :show, %Content.Project{} = project) do
     check_preview(conn, project.path_alias)
   end
-
-  @spec project_path(Plug.Conn.t, atom, String.t) :: String.t
-  def project_path(conn, :show, title) do
-    check_preview(conn, "/projects/#{title}")
+  def project_path(conn, :show, value) when is_binary(value) do
+    check_preview(conn, RouterHelpers.project_path(conn, :show, value))
   end
 
   @spec project_update_path(Plug.Conn.t, atom, Content.ProjectUpdate.t) :: String.t

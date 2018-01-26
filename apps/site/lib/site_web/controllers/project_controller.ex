@@ -14,19 +14,15 @@ defmodule SiteWeb.ProjectController do
     })
   end
 
-  def show(conn, %{"id" => id}) do
-    case Integer.parse(id) do
-      {int_id, ""} -> do_show(conn, Content.Repo.project(int_id))
-      _ -> do_show(conn, Content.Repo.get_page(conn.request_path, conn.query_params))
-    end
+  def show(conn, params) do
+    params
+    |> best_cms_path(conn.request_path)
+    |> Content.Repo.get_page(conn.query_params)
+    |> do_show(conn)
   end
 
-  defp do_show(conn, maybe_project) do
-    case maybe_project do
-      :not_found -> check_cms_or_404(conn)
-      project -> show_project(conn, project)
-    end
-  end
+  defp do_show(%Content.Project{} = project, conn), do: show_project(conn, project)
+  defp do_show(_404_or_mismatch, conn), do: render_404(conn)
 
   @spec show_project(Conn.t, Content.Project.t) :: Conn.t
   def show_project(conn, project) do
@@ -50,24 +46,20 @@ defmodule SiteWeb.ProjectController do
     }
   end
 
-  def project_update(conn, %{"update_id" => update_id}) do
-    case Integer.parse(update_id) do
-      {int_id, ""} -> do_project_update(conn, Content.Repo.project_update(int_id))
-      _ -> do_project_update(conn, Content.Repo.get_page(conn.request_path, conn.query_params))
-    end
+  def project_update(conn, params) do
+    params
+    |> best_cms_path(conn.request_path)
+    |> Content.Repo.get_page(conn.query_params)
+    |> do_project_update(conn)
   end
 
-  defp do_project_update(conn, maybe_update) do
-    case maybe_update do
-      :not_found -> check_cms_or_404(conn)
-      update -> show_project_update(conn, update)
-    end
-  end
+  defp do_project_update(%Content.ProjectUpdate{} = update, conn), do: show_project_update(conn, update)
+  defp do_project_update(_404_or_mismatch, conn), do: render_404(conn)
 
   @spec show_project_update(Conn.t, Content.ProjectUpdate.t) :: Conn.t
-  def show_project_update(conn, update) do
+  def show_project_update(%Conn{} = conn, %Content.ProjectUpdate{} = update) do
 
-    project = Content.Repo.project(update.project_id)
+    %Content.Project{} = project = Content.Repo.get_page("/node/#{update.project_id}")
 
     breadcrumbs = [
       Breadcrumb.build(@breadcrumb_base, project_path(conn, :index, [])),

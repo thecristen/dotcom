@@ -9,43 +9,70 @@ defmodule SiteWeb.ProjectControllerTest do
   end
 
   describe "show" do
-    test "renders a project with no path alias", %{conn: conn} do
+    test "renders a project when project has no path alias", %{conn: conn} do
       project = project_factory(0)
+      assert project.path_alias == nil
+
       conn = get conn, project_path(conn, :show, project)
-      assert html_response(conn, 200) =~ "<h1>Ruggles Station Platform Project</h1>"
+      assert html_response(conn, 200) =~ "Transforming the T"
     end
 
     test "renders a project with a path alias", %{conn: conn} do
       project = project_factory(1)
 
+      assert project.path_alias == "/projects/project-name"
+
       conn = get conn, project_path(conn, :show, project)
       assert html_response(conn, 200) =~ "<h1>Symphony, Hynes, and Wollaston Stations Accessibility Upgrades</h1>"
     end
 
+    test "renders a preview of the requested project", %{conn: conn} do
+      project = project_factory(1)
+      conn = get(conn, project_path(conn, :show, project) <> "?preview&vid=112")
+      assert html_response(conn, 200) =~ "Symphony, Hynes, and Wollaston Stations Accessibility Upgrades 112"
+      assert %{"preview" => nil, "vid" => "112"} == conn.query_params
+    end
+
+    test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do
+      conn = get conn, project_path(conn, :show, "17")
+      assert conn.status == 404
+    end
+
     test "renders a 404 given an invalid id", %{conn: conn} do
-      conn = get conn, SiteWeb.Router.Helpers.project_path(conn, :show, "999")
+      conn = get conn, project_path(conn, :show, "this-does-not-exist")
       assert conn.status == 404
     end
   end
 
   describe "update" do
-    test "renders a project update", %{conn: conn} do
-      conn = get conn, SiteWeb.Router.Helpers.project_path(conn, :project_update, "2679", "123")
-      assert html_response(conn, 200) =~ "<h1>Project Update Title 1</h1>"
-    end
+    test "renders a project update when update has no path alias", %{conn: conn} do
+      project_update = project_update_factory(1, path_alias: nil)
 
-    test "renders a project update with no path alias", %{conn: conn} do
-      project_update = project_update_factory(0)
+      assert project_update.path_alias == nil
 
       conn = get conn, project_update_path(conn, :project_update, project_update)
-      assert html_response(conn, 200) =~ "<h1>Project Update Title 1</h1>"
+      assert html_response(conn, 200) =~ "Project Update Title 2"
     end
 
     test "renders a project update with a path alias", %{conn: conn} do
       project_update = project_update_factory(1)
 
+      assert project_update.path_alias == "/projects/project-name/update/project-progress"
+
       conn = get conn, project_update_path(conn, :project_update, project_update)
       assert html_response(conn, 200) =~ "<h1>Project Update Title 2</h1>"
+    end
+
+    test "renders a preview of the requested project update", %{conn: conn} do
+      project_update = project_update_factory(1)
+      conn = get(conn, project_update_path(conn, :project_update, project_update) <> "?preview&vid=112")
+      assert html_response(conn, 200) =~ "Project Update Title 2 112"
+      assert %{"preview" => nil, "vid" => "112"} == conn.query_params
+    end
+
+    test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do
+      conn = get conn, project_path(conn, :project_update, "2679", "17")
+      assert conn.status == 404
     end
 
     test "renders a 404 given an invalid id", %{conn: conn} do

@@ -39,7 +39,7 @@ defmodule SiteWeb.ContentControllerTest do
     end
 
     test "renders a news entry", %{conn: conn} do
-      conn = get conn, "/node/1"
+      conn = get conn, "/news/2018/news-entry"
       rendered = html_response(conn, 200)
       assert rendered =~ "Example News Entry"
     end

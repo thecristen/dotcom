@@ -19,20 +19,15 @@ defmodule SiteWeb.NewsEntryController do
     |> render(:index)
   end
 
-  def show(conn, %{"alias" => [id]}) do
-    entry = id
-    |> Content.Helpers.int_or_string_to_int()
-    |> Content.Repo.news_entry()
-    do_show(conn, entry)
+  def show(conn, params) do
+    params
+    |> best_cms_path(conn.request_path)
+    |> Content.Repo.get_page(conn.query_params)
+    |> do_show(conn)
   end
-  def show(conn, _), do: do_show(conn, Content.Repo.get_page(conn.request_path, conn.query_params))
 
-  defp do_show(conn, maybe_news) do
-    case maybe_news do
-      :not_found -> check_cms_or_404(conn)
-      news_entry -> show_news_entry(conn, news_entry)
-    end
-  end
+  defp do_show(%Content.NewsEntry{} = news_entry, conn), do: show_news_entry(conn, news_entry)
+  defp do_show(_404_or_mismatch, conn), do: render_404(conn)
 
   @spec show_news_entry(Plug.Conn.t, Content.NewsEntry.t) :: Plug.Conn.t
   def show_news_entry(conn, %Content.NewsEntry{} = news_entry) do

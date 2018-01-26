@@ -106,8 +106,14 @@ defmodule Content.CMS.Static do
     record = List.first(news_response())
     {:ok, [record]}
   end
+  def view("/news/incorrect-pattern", []) do
+    {:ok, Enum.at(news_response(), 1)}
+  end
   def view("/news/date/title", []) do
     {:ok, Enum.at(news_response(), 1)}
+  end
+  def view("/news/2018/news-entry", _) do
+    {:ok, List.first(news_response())}
   end
   def view("/events", [meeting_id: "multiple-records"]) do
     {:ok, events_response()}
@@ -118,6 +124,9 @@ defmodule Content.CMS.Static do
   end
   def view("/events", [id: id]) do
     {:ok, filter_by(events_response(), "nid", id)}
+  end
+  def view("/events/incorrect-pattern", []) do
+    {:ok, Enum.at(events_response(), 1)}
   end
   def view("/events/date/title", []) do
     {:ok, Enum.at(events_response(), 1)}
@@ -211,6 +220,10 @@ defmodule Content.CMS.Static do
 
   @impl true
   def preview(node_id)
+  def preview(2), do: {:ok, do_preview(Enum.at(news_response(), 1))}
+  def preview(5), do: {:ok, do_preview(Enum.at(events_response(), 1))}
+  def preview(2678), do: {:ok, do_preview(Enum.at(projects_response(), 1))}
+  def preview(124), do: {:ok, do_preview(Enum.at(project_updates_response(), 1))}
   def preview(6), do: {:ok, do_preview(basic_page_response())}
   def preview(2549), do: {:ok, basic_page_revisions_response()}
 

@@ -11,11 +11,11 @@ defmodule Content.Repo do
 
   @cms_api Application.get_env(:content, :cms_api)
 
-  @spec get_page(String.t, map) :: Content.Page.t | nil
+  @spec get_page(String.t, map) :: Content.Page.t | :not_found
   def get_page(path, query_params \\ %{}) do
     case view_or_preview(path, query_params) do
       {:ok, api_data} -> Content.Page.from_api(api_data)
-      _ -> nil
+      _ -> :not_found
     end
   end
 
@@ -24,14 +24,6 @@ defmodule Content.Repo do
     case @cms_api.view("/news", opts) do
       {:ok, api_data} -> Enum.map(api_data, &Content.NewsEntry.from_api/1)
       _ -> []
-    end
-  end
-
-  @spec news_entry(integer) :: Content.NewsEntry.t | :not_found
-  def news_entry(id) do
-    case news(id: id) do
-      [record] -> record
-      _ -> :not_found
     end
   end
 
@@ -83,27 +75,11 @@ defmodule Content.Repo do
     end
   end
 
-  @spec project(integer) :: Content.Project.t | :not_found
-  def project(id) do
-    case projects([id: id]) do
-      [record | _] -> record
-      _ -> :not_found
-    end
-  end
-
   @spec project_updates(Keyword.t) :: [Content.ProjectUpdate.t]
   def project_updates(opts \\ []) do
     case @cms_api.view("/api/project-updates", opts) do
       {:ok, api_data} -> Enum.map(api_data, &Content.ProjectUpdate.from_api/1)
       _ -> []
-    end
-  end
-
-  @spec project_update(integer) :: Content.ProjectUpdate.t | :not_found
-  def project_update(id) do
-    case project_updates([id: id]) do
-      [record | _] -> record
-      _ -> :not_found
     end
   end
 

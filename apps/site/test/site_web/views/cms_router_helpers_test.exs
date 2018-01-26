@@ -16,6 +16,10 @@ defmodule SiteWeb.CmsRouterHelpersTest do
     test "handles :show with path_alias", %{conn: conn} do
       assert news_entry_path(conn, :show, %Content.NewsEntry{id: 12, path_alias: "/news/date/title"}) == "/news/date/title"
     end
+
+    test "handles :show with non-conforming path_alias", %{conn: conn} do
+      assert news_entry_path(conn, :show, "incorrect-pattern") == "/news/incorrect-pattern"
+    end
   end
 
   describe "news_entry_path/4" do
@@ -35,6 +39,10 @@ defmodule SiteWeb.CmsRouterHelpersTest do
 
     test "handles :show with path_alias", %{conn: conn} do
       assert event_path(conn, :show, %Content.Event{id: 12, path_alias: "/events/date/title"}) == "/events/date/title"
+    end
+
+    test "handles :show with non-conforming path_alias", %{conn: conn} do
+      assert event_path(conn, :show, "incorrect-pattern") == "/events/incorrect-pattern"
     end
   end
 
