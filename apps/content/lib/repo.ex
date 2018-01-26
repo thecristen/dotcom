@@ -177,7 +177,7 @@ defmodule Content.Repo do
 
   defp do_view_or_preview(path, params) do
     path
-    |> @cms_api.view([])
+    |> @cms_api.view(params)
     |> process_view_or_preview(params)
   end
 

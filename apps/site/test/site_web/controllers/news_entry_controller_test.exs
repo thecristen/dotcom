@@ -75,6 +75,12 @@ defmodule SiteWeb.NewsEntryControllerTest do
       assert Plug.Conn.get_resp_header(conn, "location") == ["/news/date/title"]
     end
 
+    test "retains params (except _format) when CMS returns a native redirect", %{conn: conn} do
+      conn = get conn, news_entry_path(conn, :show, "redirected_url") <> "?preview&vid=999"
+      assert conn.status == 302
+      assert Plug.Conn.get_resp_header(conn, "location") == ["/news/date/title?preview=&vid=999"]
+    end
+
     test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do
       conn = get conn, news_entry_path(conn, :show, "17")
       assert conn.status == 404

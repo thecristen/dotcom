@@ -56,12 +56,6 @@ defmodule Content.ExternalRequest do
   defp parse_redirect_query(nil), do: ""
   defp parse_redirect_query("_format=json"), do: ""
   defp parse_redirect_query("_format=json&" <> query), do: "?" <> query
-  defp parse_redirect_query(<<query::binary>>) do
-    "?"
-    |> Kernel.<>(query)
-    |> String.replace("_format=json", "")
-    |> String.replace("&&", "&")
-  end
 
   defp full_url(path) do
     Content.Config.url(path)

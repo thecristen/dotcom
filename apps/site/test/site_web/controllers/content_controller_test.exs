@@ -8,6 +8,12 @@ defmodule SiteWeb.ContentControllerTest do
       assert rendered =~ "Accessibility at the T"
     end
 
+    test "given special preview query params, return certain revision of node", %{conn: conn} do
+      conn = get conn, "/accessibility?preview&vid=112"
+      assert conn.query_params == %{"preview" => nil, "vid" => "112"}
+      assert html_response(conn, 200) =~ "Accessibility at the T 112"
+    end
+
     test "renders a basic page without sidebar", %{conn: conn} do
       conn = get conn, "/accessibility"
       rendered = html_response(conn, 200)
@@ -39,7 +45,7 @@ defmodule SiteWeb.ContentControllerTest do
     end
 
     test "renders a news entry", %{conn: conn} do
-      conn = get conn, "/news/2018/news-entry"
+      conn = get conn, "/node/1"
       rendered = html_response(conn, 200)
       assert rendered =~ "Example News Entry"
     end
@@ -71,9 +77,16 @@ defmodule SiteWeb.ContentControllerTest do
       assert html_response(conn, 302) =~ "google.com"
     end
 
-    test "redirects when CMS returns a 301 or 302", %{conn: conn} do
+    test "redirects when CMS returns a native redirect (no params)", %{conn: conn} do
       conn = get conn, "/redirected_url"
-      assert html_response(conn, 302) =~ "/different_url"
+      assert conn.status == 302
+      assert Plug.Conn.get_resp_header(conn, "location") == ["/different_url"]
+    end
+
+    test "retains params (except _format) when CMS returns a native redirect", %{conn: conn} do
+      conn = get conn, "/redirected_url?preview&vid=latest"
+      assert conn.status == 302
+      assert Plug.Conn.get_resp_header(conn, "location") == ["/different_url?preview=&vid=latest"]
     end
 
     test "redirects to the old site when no CMS content and certain path", %{conn: conn} do

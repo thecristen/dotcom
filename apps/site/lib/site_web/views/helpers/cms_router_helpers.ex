@@ -24,7 +24,7 @@ defmodule SiteWeb.CmsRouterHelpers do
   end
 
   @spec news_entry_path(Plug.Conn.t, atom, String.t, String.t) :: String.t
-  def news_entry_path(conn, :show, date, title) do
+  def news_entry_path(conn, :show, date, title) when is_binary(date) and is_binary(title) do
     check_preview(conn, RouterHelpers.news_entry_path(conn, :show, [date, title]))
   end
 
@@ -44,7 +44,7 @@ defmodule SiteWeb.CmsRouterHelpers do
   end
 
   @spec event_path(Plug.Conn.t, atom, String.t, String.t) :: String.t
-  def event_path(conn, :show, date, title) do
+  def event_path(conn, :show, date, title) when is_binary(date) and is_binary(title) do
     check_preview(conn, RouterHelpers.event_path(conn, :show, [date, title]))
   end
 

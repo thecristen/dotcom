@@ -80,28 +80,32 @@ defmodule Content.ExternaRequestTest do
       assert process(:get, "/page") == {:error, :invalid_response}
     end
 
-    test "returns {:error, {:redirect, path}} when CMS returns a 301" do
+    test "returns {:error, {:redirect, path}} when CMS issues a native redirect and removes _format=json" do
       bypass = bypass_cms()
       Bypass.expect bypass, fn conn ->
+        conn = Plug.Conn.fetch_query_params(conn)
+        redirected_path = "/redirect?" <> URI.encode_query(conn.query_params)
         conn
-        |> Plug.Conn.put_resp_header("location", "http://cms.com/redirected_url")
-        |> Plug.Conn.resp(301, "redirecting?_format=json")
+        |> Plug.Conn.put_resp_header("location", redirected_path)
+        |> Plug.Conn.resp(302, "redirecting")
       end
 
-      assert {:error, {:redirect, url}} = process(:get, "/redirect")
-      assert url =~ "/redirected_url"
+      assert {:error, {:redirect, url}} = process(:get, "/path?_format=json")
+      assert url =~ "/redirect"
     end
 
-    test "path retains query params when CMS returns a 301" do
+    test "path retains query params and removes _format=json when CMS issues a native redirect" do
       bypass = bypass_cms()
       Bypass.expect bypass, fn conn ->
+        conn = Plug.Conn.fetch_query_params(conn)
+        redirected_path = "/redirect?" <> URI.encode_query(conn.query_params)
         conn
-        |> Plug.Conn.put_resp_header("location", "http://cms.com/redirected_url?foo=bar")
-        |> Plug.Conn.resp(301, "redirecting")
+        |> Plug.Conn.put_resp_header("location", redirected_path)
+        |> Plug.Conn.resp(302, "redirecting")
       end
 
-      assert {:error, {:redirect, url}} = process(:get, "/redirect?foo=bar&_format=json")
-      assert url =~ "/redirected_url?foo=bar"
+      assert {:error, {:redirect, url}} = process(:get, "/path?_format=json&foo=bar")
+      assert url =~ "/redirect?foo=bar"
     end
   end
 

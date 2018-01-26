@@ -11,7 +11,7 @@ defmodule Content.CMS do
   beyond that. Shouldn't raise an exception; if the HTTP request
   or JSON decoding fails, returns {:error, message}
   """
-  @callback view(String.t, Keyword.t) :: {:ok, map() | [map()]} | {:error, error}
+  @callback view(String.t, Keyword.t | map) :: {:ok, map() | [map()]} | {:error, error}
   @callback preview(integer) :: {:ok, [map()]} | {:error, error}
   @callback post(String.t, String.t) :: {:ok, Poison.Parser.t} | {:error, map} | {:error, String.t}
   @callback update(String.t, String.t) :: {:ok, Poison.Parser.t} | {:error, map} | {:error, String.t}
