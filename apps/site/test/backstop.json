@@ -189,6 +189,14 @@
       "delay": 100
     },
     {
+      "label": "Subway Schedule Stop List",
+      "url": "http://localhost:8082/schedules/Red/schedule?date=2017-12-15&direction_id=1&origin=place-sstat&trip=",
+      "selectors": [".modal-body"],
+      "readyEvent": null,
+      "onReadyScript": "stop-list.js",
+      "delay": 100
+    },
+    {
       "label": "Commuter Rail Schedule",
       "url": "http://localhost:8082/schedules/CR-Providence/timetable?date=2017-12-15&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
       "removeSelectors": [".pdf-links"],
