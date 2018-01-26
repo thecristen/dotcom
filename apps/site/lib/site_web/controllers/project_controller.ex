@@ -61,7 +61,10 @@ defmodule SiteWeb.ProjectController do
   @spec show_project_update(Conn.t, Content.ProjectUpdate.t) :: Conn.t
   def show_project_update(%Conn{} = conn, %Content.ProjectUpdate{} = update) do
 
-    %Content.Project{} = project = Content.Repo.get_page("/node/#{update.project_id}")
+    %Content.Project{} = project = case Content.Repo.get_page("/node/#{update.project_id}") do
+      {:error, {:redirect, project_alias}} -> Content.Repo.get_page(project_alias)
+      %Content.Project{} = project -> project
+    end
 
     breadcrumbs = [
       Breadcrumb.build(@breadcrumb_base, project_path(conn, :index, [])),

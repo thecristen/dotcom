@@ -115,7 +115,7 @@ defmodule Content.CMS.Static do
   def view("/news/2018/news-entry", _) do
     {:ok, List.first(news_response())}
   end
-  def view("/news/redirected_url", params) do
+  def view("/news/redirected-url", params) do
     redirect("/news/date/title", params)
   end
   def view("/events", [meeting_id: "multiple-records"]) do
@@ -134,7 +134,7 @@ defmodule Content.CMS.Static do
   def view("/events/date/title", _) do
     {:ok, Enum.at(events_response(), 1)}
   end
-  def view("/events/redirected_url", params) do
+  def view("/events/redirected-url", params) do
     redirect("/events/date/title", params)
   end
   def view("/events", _opts) do
@@ -169,13 +169,13 @@ defmodule Content.CMS.Static do
       {:ok, project_updates_response()}
     end
   end
-  def view("/projects/redirected_project", params) do
+  def view("/projects/redirected-project", params) do
     redirect("/projects/project-name", params)
   end
   def view("/projects/project-name/update/project-progress", _) do
     {:ok, Enum.at(project_updates_response(), 1)}
   end
-  def view("/projects/redirected_project/update/not_redirected_update", _) do
+  def view("/projects/redirected-project/update/not-redirected-update", _) do
     {:ok, Enum.at(project_updates_response(), 1)}
   end
   def view("/projects/project-name/update/redirected-update", params) do
@@ -229,8 +229,8 @@ defmodule Content.CMS.Static do
   def view("/api/route-pdfs/" <> _route_id, _) do
     {:ok, []}
   end
-  def view("/redirected_url", params) do
-    redirect("/different_url", params)
+  def view("/redirected-url", params) do
+    redirect("/different-url", params)
   end
   def view("/invalid", _) do
     {:error, :invalid_response}
@@ -302,11 +302,6 @@ defmodule Content.CMS.Static do
     end
   end
 
-  def redirect(path, params) do
-    path = case Map.keys(params) do
-      [] -> path
-      _ -> path <> "?" <> URI.encode_query(params)
-    end
-    {:error, {:redirect, path}}
-  end
+  def redirect(path, params) when params == %{}, do: {:error, {:redirect, path}}
+  def redirect(path, params), do: redirect(path <> "?" <> URI.encode_query(params), %{})
 end

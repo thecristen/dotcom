@@ -63,7 +63,7 @@ defmodule Content.ExternaRequestTest do
       assert {:error, :not_found} = process(:get, "/page")
     end
 
-    test "returns {:error, :invalid_response} the request returns an exception" do
+    test "returns {:error, :invalid_response} if the request returns an exception" do
       bypass = bypass_cms()
 
       Bypass.down bypass
@@ -91,7 +91,7 @@ defmodule Content.ExternaRequestTest do
       end
 
       assert {:error, {:redirect, url}} = process(:get, "/path?_format=json")
-      assert url =~ "/redirect"
+      assert url == "/redirect"
     end
 
     test "path retains query params and removes _format=json when CMS issues a native redirect" do
@@ -105,7 +105,7 @@ defmodule Content.ExternaRequestTest do
       end
 
       assert {:error, {:redirect, url}} = process(:get, "/path?_format=json&foo=bar")
-      assert url =~ "/redirect?foo=bar"
+      assert url == "/redirect?foo=bar"
     end
   end
 

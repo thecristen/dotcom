@@ -34,13 +34,13 @@ defmodule SiteWeb.ProjectControllerTest do
     end
 
     test "redirects when CMS returns a native redirect", %{conn: conn} do
-      conn = get conn, project_path(conn, :show, "redirected_project")
+      conn = get conn, project_path(conn, :show, "redirected-project")
       assert conn.status == 302
       assert Plug.Conn.get_resp_header(conn, "location") == ["/projects/project-name"]
     end
 
     test "retains params (except _format) when CMS returns a native redirect", %{conn: conn} do
-      conn = get conn, project_path(conn, :show, "redirected_project") <> "?preview&vid=999"
+      conn = get conn, project_path(conn, :show, "redirected-project") <> "?preview&vid=999"
       assert conn.status == 302
       assert Plug.Conn.get_resp_header(conn, "location") == ["/projects/project-name?preview=&vid=999"]
     end
@@ -83,7 +83,7 @@ defmodule SiteWeb.ProjectControllerTest do
     end
 
     test "doesn't redirect update when project part of path would by itself return a native redirect", %{conn: conn} do
-      conn = get conn, project_update_path(conn, :show, "redirected_project", "not_redirected_update")
+      conn = get conn, project_update_path(conn, :show, "redirected-project", "not-redirected-update")
       assert conn.status == 200
     end
 

@@ -49,13 +49,12 @@ defmodule Content.ExternalRequest do
   defp do_get_redirect(nil), do: {:error, :invalid_response}
   defp do_get_redirect({_key, url}) do
     %URI{path: path, query: query} = URI.parse(url)
-    {:error, {:redirect, path <> parse_redirect_query(query)}}
+    {:error, {:redirect, parse_redirect_query(path, query)}}
   end
 
-  @spec parse_redirect_query(nil | String.t) :: String.t
-  defp parse_redirect_query(nil), do: ""
-  defp parse_redirect_query("_format=json"), do: ""
-  defp parse_redirect_query("_format=json&" <> query), do: "?" <> query
+  @spec parse_redirect_query(String.t, nil | String.t) :: String.t
+  defp parse_redirect_query(path, "_format=json&" <> query), do: path <> "?" <> query
+  defp parse_redirect_query(path, _), do: path
 
   defp full_url(path) do
     Content.Config.url(path)
