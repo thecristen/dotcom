@@ -13,16 +13,19 @@ The new face of https://www.mbta.com/
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     ```
 
-1. Install [Erlang/Elixir](http://elixir-lang.org/install.html): 
-    ```
-    brew install elixir
-    ``` 
-
-1. Install NodeJS, version 8. If you don't need any other versions of node installed, install with:
-    ```
-    brew install node@8 && brew link node@8 --force
-    ``` 
-   Check that the correct version is installed with `node --version`
+1. Install [asdf package version manager](https://github.com/asdf-vm/asdf)
+   * Follow the instructions on https://github.com/asdf-vm/asdf
+   * Install asdf plugins:
+     ```
+     asdf plugin-add erlang
+     asdf plugin-add elixir
+     asdf plugin-add ruby
+     asdf plugin-add nodejs
+     ```
+   * run the install
+     ```
+     asdf install
+     ```
 
 1. Install Sass:
     ```
@@ -49,7 +52,7 @@ The new face of https://www.mbta.com/
     npm run brunch:build
     ```
 
-1. Set up the following environment variables see [Environment Variables](#environment-variables) section
+1. Set up the following environment variables (see [Environment Variables](#environment-variables) section):
   * `V3_API_KEY`
   * `GOOGLE_API_KEY`
   * `DRUPAL_ROOT`
@@ -174,7 +177,7 @@ Unless you are working on some CMS-related feature, you should set it to:
 
 Otherwise you can set it one of the following possible values:
 
-* `https://test-mbta.pantheonsite.io` The staging server for the content. This will include changes to the content as they happen.
+* `https://test-mbta.pantheonsite.io` The staging server for the content.
 * `https://dev-mbta.pantheonsite.io` The sandbox CMS server. Code changes for the CMS are sometimes deployed here to test them without disturbing the content writers' workflow.
 * `http://mbta.kbox.site` Your local CMS server, if you are running it. Instructions for setting it up are in the [Content README](/apps/content/README.md).
 * None, if you don't want any connection to a CMS.
@@ -187,6 +190,8 @@ This variable is used if you want to use a different API V3 server. You can use 
 * `https://dev.api.mbtace.com`, the development API server. This is the recommended option, and it's also the default if the environment variable isn't set.
 * `https://api.mbtace.com`, the production server.
 * `http://localhost:4000`, if you're running [the api server](https://github.com/mbta/api) locally.
+
+Please note that you'll need a different API V3 key when working with different API servers.
 
 ### `STATIC_HOST`
 
