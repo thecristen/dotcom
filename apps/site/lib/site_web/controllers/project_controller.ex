@@ -22,6 +22,7 @@ defmodule SiteWeb.ProjectController do
   end
 
   defp do_show(%Content.Project{} = project, conn), do: show_project(conn, project)
+  defp do_show({:error, {:redirect, path}}, conn), do: redirect conn, to: path
   defp do_show(_404_or_mismatch, conn), do: render_404(conn)
 
   @spec show_project(Conn.t, Content.Project.t) :: Conn.t
@@ -54,6 +55,7 @@ defmodule SiteWeb.ProjectController do
   end
 
   defp do_project_update(%Content.ProjectUpdate{} = update, conn), do: show_project_update(conn, update)
+  defp do_project_update({:error, {:redirect, path}}, conn), do: redirect conn, to: path
   defp do_project_update(_404_or_mismatch, conn), do: render_404(conn)
 
   @spec show_project_update(Conn.t, Content.ProjectUpdate.t) :: Conn.t

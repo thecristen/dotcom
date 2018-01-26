@@ -27,6 +27,7 @@ defmodule SiteWeb.NewsEntryController do
   end
 
   defp do_show(%Content.NewsEntry{} = news_entry, conn), do: show_news_entry(conn, news_entry)
+  defp do_show({:error, {:redirect, path}}, conn), do: redirect conn, to: path
   defp do_show(_404_or_mismatch, conn), do: render_404(conn)
 
   @spec show_news_entry(Plug.Conn.t, Content.NewsEntry.t) :: Plug.Conn.t

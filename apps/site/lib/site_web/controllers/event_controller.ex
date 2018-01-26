@@ -24,6 +24,7 @@ defmodule SiteWeb.EventController do
   end
 
   defp do_show(%Content.Event{} = event, conn), do: show_event(conn, event)
+  defp do_show({:error, {:redirect, path}}, conn), do: redirect conn, to: path
   defp do_show(_404_or_mismatch, conn), do: render_404(conn)
 
   @spec show_event(Plug.Conn.t, Content.Event.t) :: Plug.Conn.t

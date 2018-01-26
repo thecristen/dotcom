@@ -115,6 +115,9 @@ defmodule Content.CMS.Static do
   def view("/news/2018/news-entry", _) do
     {:ok, List.first(news_response())}
   end
+  def view("/news/redirected_url", _) do
+    {:error, {:redirect, "/news/date/title"}}
+  end
   def view("/events", [meeting_id: "multiple-records"]) do
     {:ok, events_response()}
   end
@@ -130,6 +133,9 @@ defmodule Content.CMS.Static do
   end
   def view("/events/date/title", []) do
     {:ok, Enum.at(events_response(), 1)}
+  end
+  def view("/events/redirected_url", _) do
+    {:error, {:redirect, "/events/date/title"}}
   end
   def view("/events", _opts) do
     {:ok, events_response()}
@@ -163,8 +169,17 @@ defmodule Content.CMS.Static do
       {:ok, project_updates_response()}
     end
   end
+  def view("/projects/redirected_project", _) do
+    {:error, {:redirect, "/projects/project-name"}}
+  end
   def view("/projects/project-name/update/project-progress", []) do
     {:ok, Enum.at(project_updates_response(), 1)}
+  end
+  def view("/projects/redirected_project/update/not_redirected_update", _) do
+    {:ok, Enum.at(project_updates_response(), 1)}
+  end
+  def view("/projects/project-name/update/redirected-update", _) do
+    {:error, {:redirect, "/projects/project-name/update/project-progress"}}
   end
   def view("/whats-happening", _) do
     {:ok, whats_happening_response()}

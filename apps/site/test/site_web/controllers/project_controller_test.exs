@@ -33,6 +33,12 @@ defmodule SiteWeb.ProjectControllerTest do
       assert %{"preview" => nil, "vid" => "112"} == conn.query_params
     end
 
+    test "redirects when CMS returns a native redirect", %{conn: conn} do
+      conn = get conn, project_path(conn, :show, "redirected_project")
+      assert conn.status == 302
+      assert Plug.Conn.get_resp_header(conn, "location") == ["/projects/project-name"]
+    end
+
     test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do
       conn = get conn, project_path(conn, :show, "17")
       assert conn.status == 404
@@ -68,6 +74,17 @@ defmodule SiteWeb.ProjectControllerTest do
       conn = get(conn, project_update_path(conn, :project_update, project_update) <> "?preview&vid=112")
       assert html_response(conn, 200) =~ "Project Update Title 2 112"
       assert %{"preview" => nil, "vid" => "112"} == conn.query_params
+    end
+
+    test "doesn't redirect update when project part of path would by itself return a native redirect", %{conn: conn} do
+      conn = get conn, project_update_path(conn, :show, "redirected_project", "not_redirected_update")
+      assert conn.status == 200
+    end
+
+    test "redirects when CMS returns a native redirect", %{conn: conn} do
+      conn = get conn, project_update_path(conn, :show, "project-name", "redirected-update")
+      assert conn.status == 302
+      assert Plug.Conn.get_resp_header(conn, "location") == ["/projects/project-name/update/project-progress"]
     end
 
     test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do
