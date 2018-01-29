@@ -105,7 +105,7 @@ defmodule Content.ExternaRequestTest do
       end
 
       assert {:error, {:redirect, url}} = process(:get, "/path?_format=json&foo=bar")
-      assert url == "/redirect?foo=bar"
+      assert url == "/redirect?&foo=bar"
     end
   end
 

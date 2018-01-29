@@ -6,7 +6,7 @@ defmodule Content.ExternalRequest do
     issue a request.
   """
 
-  @spec process(atom, String.t, String.t, Keyword.t) :: {:ok, [map()] | map()} | {:error, Content.CMS.error}
+  @spec process(atom, String.t, String.t, Keyword.t) :: Content.CMS.response
   def process(method, path, body \\ "", opts \\ []) do
     request_path = full_url(path)
     request_headers = build_headers(method)
@@ -17,7 +17,7 @@ defmodule Content.ExternalRequest do
   end
 
   @spec handle_response({:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t})
-  :: {:ok, [map()] | map()} | {:error, Content.CMS.error}
+  :: Content.CMS.response
   defp handle_response(response) do
     case response do
       {:ok, %{status_code: code, body: body}} when code in [200, 201] ->
@@ -53,8 +53,14 @@ defmodule Content.ExternalRequest do
   end
 
   @spec parse_redirect_query(String.t, nil | String.t) :: String.t
-  defp parse_redirect_query(path, "_format=json&" <> query), do: path <> "?" <> query
-  defp parse_redirect_query(path, _), do: path
+  defp parse_redirect_query(path, query) when query in [nil, "_format=json"] do
+    path
+  end
+  defp parse_redirect_query(path, query) do
+    # If the redirect path happens to include query params,
+    # Drupal will append the request query parameters to the redirect params.
+    path <> "?" <> String.replace(query, "_format=json", "")
+  end
 
   defp full_url(path) do
     Content.Config.url(path)

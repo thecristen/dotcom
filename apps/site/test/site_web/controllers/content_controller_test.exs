@@ -29,12 +29,6 @@ defmodule SiteWeb.ContentControllerTest do
       refute rendered =~ ~s(class="page-narrow")
     end
 
-    test "renders an event", %{conn: conn} do
-      conn = get conn, "/node/17"
-      rendered = html_response(conn, 200)
-      assert rendered =~ "Audit Committee Meeting"
-    end
-
     test "renders a landing page with all its paragraphs", %{conn: conn} do
       conn = get conn, "/cms/style-guide"
       rendered = html_response(conn, 200)
@@ -43,27 +37,37 @@ defmodule SiteWeb.ContentControllerTest do
       assert rendered =~ ~s(<div class="c-title-card__title c-title-card--link__title">Example Card 1</div>)
     end
 
-    test "renders a news entry", %{conn: conn} do
-      conn = get conn, "/node/1"
-      rendered = html_response(conn, 200)
-      assert rendered =~ "Example News Entry"
-    end
-
     test "renders a person page", %{conn: conn} do
       conn = get conn, "/people/joseph-aiello"
       assert html_response(conn, 200) =~ "<h1>Joseph Aiello</h1>"
     end
 
-    test "renders a project", %{conn: conn} do
-      conn = get conn, "/node/2679"
-      rendered = html_response(conn, 200)
-      assert rendered =~ "Ruggles Station Platform Project"
+    test "renders a 404 for an unaliased news entry response", %{conn: conn} do
+      ExUnit.CaptureLog.capture_log fn ->
+        conn = get conn, "/node/1"
+        assert conn.status == 404
+      end
     end
 
-    test "renders project update", %{conn: conn} do
-      conn = get conn, "/node/123"
-      rendered = html_response(conn, 200)
-      assert rendered =~ "Project Update Title"
+    test "renders a 404 for an unaliased event", %{conn: conn} do
+      ExUnit.CaptureLog.capture_log fn ->
+        conn = get conn, "/node/17"
+        assert conn.status == 404
+      end
+    end
+
+    test "renders a 404 for an unaliased project page", %{conn: conn} do
+      ExUnit.CaptureLog.capture_log fn ->
+        conn = get conn, "/node/2679"
+        assert conn.status == 404
+      end
+    end
+
+    test "renders a 404 for an unaliased project update", %{conn: conn} do
+      ExUnit.CaptureLog.capture_log fn ->
+        conn = get conn, "/node/123"
+        assert conn.status == 404
+      end
     end
 
     test "redirects when content type is a redirect", %{conn: conn} do

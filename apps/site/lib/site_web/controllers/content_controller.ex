@@ -2,13 +2,6 @@ defmodule SiteWeb.ContentController do
   use SiteWeb, :controller
   require Logger
 
-  alias SiteWeb.EventController
-  alias SiteWeb.EventView
-  alias SiteWeb.NewsEntryController
-  alias SiteWeb.NewsEntryView
-  alias SiteWeb.ProjectController
-  alias SiteWeb.ProjectView
-
   @old_site_paths [
     "about_the_mbta",
     "business_center",
@@ -20,15 +13,18 @@ defmodule SiteWeb.ContentController do
     "transitpolice",
   ]
 
-  @page_types [
+  @generic_page_types [
     Content.BasicPage,
+    Content.Person,
+    Content.LandingPage,
+    Content.Redirect
+  ]
+
+  @routed_page_types [
     Content.Event,
     Content.NewsEntry,
-    Content.LandingPage,
     Content.Project,
     Content.ProjectUpdate,
-    Content.Person,
-    Content.Redirect
   ]
 
   @spec page(Plug.Conn.t, map) :: Plug.Conn.t
@@ -39,7 +35,17 @@ defmodule SiteWeb.ContentController do
   end
 
   @spec handle_page_response(Content.Page.t | {:error, Content.CMS.error}, Plug.Conn.t) :: Plug.Conn.t
-  defp handle_page_response(%{__struct__: struct} = page, conn) when struct in @page_types do
+  defp handle_page_response(%{__struct__: struct} = page, conn) when struct in @routed_page_types do
+    # if these content types reach this point with a 200, something is wrong with their path or alias.
+    # We want to return a 404 and log a warning to alert the team to investigate.
+    _ = Logger.warn fn ->
+      "A request to #{conn.request_path} returned a #{inspect(struct)}, but #{conn.request_path}" <>
+      " does not conform to front-end pattern for this content type.
+      Got: #{inspect(page)}"
+    end
+    render_404(conn)
+  end
+  defp handle_page_response(%{__struct__: struct} = page, conn) when struct in @generic_page_types do
     conn
     |> put_layout({SiteWeb.LayoutView, :app})
     |> render_page(page)
@@ -62,11 +68,6 @@ defmodule SiteWeb.ContentController do
     |> assign(:narrow_template, no_sidebar?(page))
     |> render(SiteWeb.ContentView, "page.html", conn: conn)
   end
-  defp render_page(conn, %Content.Event{} = event) do
-    conn
-    |> put_view(EventView)
-    |> EventController.show_event(event)
-  end
   defp render_page(conn, %Content.LandingPage{} = page) do
     conn
     |> assign(:breadcrumbs, page.breadcrumbs)
@@ -74,25 +75,10 @@ defmodule SiteWeb.ContentController do
     |> assign(:pre_container_template, "landing_page.html")
     |> render(SiteWeb.ContentView, "empty.html", [])
   end
-  defp render_page(conn, %Content.NewsEntry{} = news_entry) do
-    conn
-    |> put_view(NewsEntryView)
-    |> NewsEntryController.show_news_entry(news_entry)
-  end
   defp render_page(conn, %Content.Person{} = person) do
     conn
     |> assign(:breadcrumbs, [Breadcrumb.build("People"), Breadcrumb.build(person.name)])
     |> render("person.html", person: person)
-  end
-  defp render_page(conn, %Content.Project{} = project) do
-    conn
-    |> put_view(ProjectView)
-    |> ProjectController.show_project(project)
-  end
-  defp render_page(conn, %Content.ProjectUpdate{} = project_update) do
-    conn
-    |> put_view(ProjectView)
-    |> ProjectController.show_project_update(project_update)
   end
   defp render_page(conn, %Content.Redirect{link: link}) do
     redirect conn, external: link.url

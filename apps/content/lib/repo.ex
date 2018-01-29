@@ -190,8 +190,12 @@ defmodule Content.Repo do
     |> get_revision(vid)
     |> process_breadcrumbs(api_data)
   end
-  defp process_view_or_preview({:ok, %{} = response}, _params), do: {:ok, response}
-  defp process_view_or_preview({:error, error}, _params), do: {:error, error}
+  defp process_view_or_preview({:ok, %{} = response}, _params) do
+    {:ok, response}
+  end
+  defp process_view_or_preview({:error, error}, _params) do
+    {:error, error}
+  end
 
   @spec get_revision({:error, any} | {:ok, [map]}, String.t) :: {:error, String.t} | {:ok, map}
   def get_revision({:error, err}, _), do: {:error, err}
