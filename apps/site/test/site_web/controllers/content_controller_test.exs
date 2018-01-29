@@ -76,13 +76,7 @@ defmodule SiteWeb.ContentControllerTest do
       assert html_response(conn, 302) =~ "google.com"
     end
 
-    test "redirects when CMS returns a native redirect (no params)", %{conn: conn} do
-      conn = get conn, "/redirected-url"
-      assert conn.status == 302
-      assert Plug.Conn.get_resp_header(conn, "location") == ["/different-url"]
-    end
-
-    test "retains params (except _format) when CMS returns a native redirect", %{conn: conn} do
+    test "retains params (except _format) and redirects when CMS returns a native redirect", %{conn: conn} do
       conn = get conn, "/redirected-url?preview&vid=latest"
       assert conn.status == 302
       assert Plug.Conn.get_resp_header(conn, "location") == ["/different-url?preview=&vid=latest"]

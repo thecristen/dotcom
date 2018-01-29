@@ -215,7 +215,7 @@ defmodule Content.CMS.Static do
     {:ok, List.first(project_updates_response())}
   end
   def view("/node/124", _) do
-    {:ok, List.last(project_updates_response())}
+    {:ok, Enum.at(project_updates_response(), 1)}
   end
   def view("/node/2679", _) do
     {:ok, List.first(projects_response())}

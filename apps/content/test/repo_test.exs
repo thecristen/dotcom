@@ -148,10 +148,8 @@ defmodule Content.RepoTest do
 
   describe "project_updates/1" do
     test "returns a list of Content.ProjectUpdate" do
-      assert [
-        %Content.ProjectUpdate{body: body, id: id},
-        %Content.ProjectUpdate{body: body_2, id: id_2}
-        ] = Content.Repo.project_updates()
+      assert [%Content.ProjectUpdate{body: body, id: id},
+              %Content.ProjectUpdate{body: body_2, id: id_2} | _] = Content.Repo.project_updates()
       assert id == 123
       assert id_2 == 124
       assert safe_to_string(body) =~ "body"

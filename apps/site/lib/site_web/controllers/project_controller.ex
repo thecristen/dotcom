@@ -61,17 +61,17 @@ defmodule SiteWeb.ProjectController do
   @spec show_project_update(Conn.t, Content.ProjectUpdate.t) :: Conn.t
   def show_project_update(%Conn{} = conn, %Content.ProjectUpdate{} = update) do
 
-    %Content.Project{} = project = case Content.Repo.get_page("/node/#{update.project_id}") do
-      {:error, {:redirect, project_alias}} -> Content.Repo.get_page(project_alias)
-      %Content.Project{} = project -> project
+    case Content.Repo.get_page(update.project_url) do
+      %Content.Project{} = project ->
+        breadcrumbs = [
+          Breadcrumb.build(@breadcrumb_base, project_path(conn, :index, [])),
+          Breadcrumb.build(project.title, project_path(conn, :show, project)),
+          Breadcrumb.build(update.title)]
+
+        render conn, "update.html", breadcrumbs: breadcrumbs, update: update, narrow_template: true
+      _ -> render_404(conn)
     end
 
-    breadcrumbs = [
-      Breadcrumb.build(@breadcrumb_base, project_path(conn, :index, [])),
-      Breadcrumb.build(project.title, project_path(conn, :show, project)),
-      Breadcrumb.build(update.title)]
-
-    render conn, "update.html", breadcrumbs: breadcrumbs, update: update, narrow_template: true
   end
 
   @spec get_events_async(integer) :: (() -> [Content.Event.t])
