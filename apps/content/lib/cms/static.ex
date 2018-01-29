@@ -159,6 +159,9 @@ defmodule Content.CMS.Static do
   def view("/projects/project-name", _) do
     {:ok, Enum.at(projects_response(), 1)}
   end
+  def view("/porjects/project-name", _) do
+    {:ok, Enum.at(projects_response(), 1)}
+  end
   def view("/api/project-updates", [id: id]) do
     {:ok, filter_by(project_updates_response(), "nid", id)}
   end

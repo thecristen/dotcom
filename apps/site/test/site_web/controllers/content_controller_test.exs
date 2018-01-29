@@ -42,32 +42,31 @@ defmodule SiteWeb.ContentControllerTest do
       assert html_response(conn, 200) =~ "<h1>Joseph Aiello</h1>"
     end
 
-    test "renders a 404 for an unaliased news entry response", %{conn: conn} do
-      ExUnit.CaptureLog.capture_log fn ->
-        conn = get conn, "/node/1"
-        assert conn.status == 404
-      end
+    test "redirects for an unaliased news entry response", %{conn: conn} do
+      conn = get conn, "/node/1"
+      assert conn.status == 302
     end
 
-    test "renders a 404 for an unaliased event", %{conn: conn} do
-      ExUnit.CaptureLog.capture_log fn ->
-        conn = get conn, "/node/17"
-        assert conn.status == 404
-      end
+    test "redirects for an unaliased event", %{conn: conn} do
+      conn = get conn, "/node/17"
+      assert conn.status == 302
     end
 
-    test "renders a 404 for an unaliased project page", %{conn: conn} do
-      ExUnit.CaptureLog.capture_log fn ->
-        conn = get conn, "/node/2679"
-        assert conn.status == 404
-      end
+    test "redirects for an unaliased project page", %{conn: conn} do
+      conn = get conn, "/node/2679"
+      assert conn.status == 302
     end
 
-    test "renders a 404 for an unaliased project update", %{conn: conn} do
-      ExUnit.CaptureLog.capture_log fn ->
-        conn = get conn, "/node/123"
+    test "redirects for an unaliased project update", %{conn: conn} do
+      conn = get conn, "/node/123"
+      assert conn.status == 302
+    end
+
+    test "returns a 404 when alias does not match expected pattern", %{conn: conn} do
+      ExUnit.CaptureLog.capture_log(fn ->
+        conn = get conn, "/porjects/project-name"
         assert conn.status == 404
-      end
+      end)
     end
 
     test "redirects when content type is a redirect", %{conn: conn} do
