@@ -15,16 +15,48 @@ The new face of https://www.mbta.com/
 
 1. Install [asdf package version manager](https://github.com/asdf-vm/asdf)
    * Follow the instructions on https://github.com/asdf-vm/asdf
-   * Install asdf plugins:
+   * Install the necessary tools to set up asdf plugins:
+
+     ```
+     brew install autoconf
+     brew install coreutils
+     brew install gpg
+     ```
+
+   * Add asdf plugins
+
      ```
      asdf plugin-add erlang
      asdf plugin-add elixir
      asdf plugin-add ruby
      asdf plugin-add nodejs
      ```
-   * run the install
+
+   * Import the Node.js release team's OpenPGP keys to install 'nodejs' plugin:
+
+     ```
+     bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
+     ```
+
+   * Run the install:
+
      ```
      asdf install
+     ```
+
+   * Verify that all the plugins got installed: 
+
+     ```
+     asdf plugin-list
+     ```
+
+     You should see the following output:
+
+     ```
+     elixir
+     erlang
+     nodejs
+     ruby
      ```
 
 1. Install Sass:
