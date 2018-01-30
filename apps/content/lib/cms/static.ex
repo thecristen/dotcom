@@ -134,6 +134,9 @@ defmodule Content.CMS.Static do
   def view("/events/date/title", _) do
     {:ok, Enum.at(events_response(), 1)}
   end
+  def view("/events/17", _) do
+    {:ok, Enum.at(events_response(), 1)}
+  end
   def view("/events/redirected-url", params) do
     redirect("/events/date/title", params)
   end

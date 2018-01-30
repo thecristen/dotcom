@@ -1,6 +1,7 @@
 defmodule SiteWeb.EventController do
   use SiteWeb, :controller
   alias SiteWeb.EventDateRange
+  alias Site.IcalendarGenerator
   alias Plug.Conn
 
   def index(conn, params) do
@@ -16,11 +17,15 @@ defmodule SiteWeb.EventController do
     |> render("index.html", conn: conn)
   end
 
-  def show(conn, params) do
-    params
-    |> best_cms_path(conn.request_path)
-    |> Content.Repo.get_page(conn.query_params)
-    |> do_show(conn)
+  def show(conn, %{"path_params" => path} = params) do
+    case List.last(path) do
+      "icalendar" -> icalendar(conn, params)
+      _ ->
+        params
+        |> best_cms_path(conn.request_path)
+        |> Content.Repo.get_page(conn.query_params)
+        |> do_show(conn)
+    end
   end
 
   defp do_show(%Content.Event{} = event, conn), do: show_event(conn, event)
@@ -42,5 +47,49 @@ defmodule SiteWeb.EventController do
         Breadcrumb.build("Events", event_path(conn, :index)),
         Breadcrumb.build(event.title)
       ])
+  end
+
+  @spec icalendar(Plug.Conn.t, map) :: Plug.Conn.t
+  def icalendar(conn, %{"path_params" => path} = params) do
+    params
+    |> best_cms_path(ical_path(path))
+    |> Content.Repo.get_page(conn.query_params)
+    |> do_icalendar(conn)
+  end
+
+  @spec do_icalendar(Content.Page.t | {:error, Content.CMS.error}, Plug.Conn.t) :: Plug.Conn.t
+  defp do_icalendar(%Content.Event{} = event, conn) do
+    conn
+    |> put_resp_content_type("text/calendar")
+    |> put_resp_header("content-disposition", "attachment; filename='#{filename(event.title)}.ics'")
+    |> send_resp(200, IcalendarGenerator.to_ical(event))
+  end
+  defp do_icalendar({:error, {:redirect, path}}, conn) do
+    path
+    |> Content.Repo.get_page(conn.query_params)
+    |> do_icalendar(conn)
+  end
+  defp do_icalendar(_, conn) do
+    render_404(conn)
+  end
+
+  @spec ical_path([String.t]) :: String.t
+  defp ical_path(parts) do
+    ["/events" | parts]
+    |> Enum.slice(0..-2)
+    |> Path.join()
+  end
+
+  @spec filename(String.t) :: String.t
+  defp filename(title) do
+    title
+    |> String.downcase
+    |> String.replace(" ", "_")
+    |> decode_ampersand_html_entity
+  end
+
+  @spec decode_ampersand_html_entity(String.t) :: String.t
+  defp decode_ampersand_html_entity(string) do
+    String.replace(string, "&amp;", "&")
   end
 end

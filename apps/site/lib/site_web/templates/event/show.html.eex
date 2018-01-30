@@ -11,7 +11,7 @@
         <p>
           <span class="event-info-label">Date:</span> <%= render_duration(@event.start_time, @event.end_time) %>
           &nbsp;
-          <%= link to: event_icalendar_path(@conn, :show, @event.id),
+          <%= link to: event_icalendar_path(@conn, :show, @event),
               data: [turbolinks: false],
               class: "hidden-md-down" do %>
             <%= fa "calendar" %> Add to Calendar

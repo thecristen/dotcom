@@ -57,4 +57,59 @@ defmodule SiteWeb.EventControllerTest do
       assert conn.status == 404
     end
   end
+
+  describe "GET icalendar" do
+    test "returns an icalendar file as an attachment when event does not have an alias", %{conn: conn} do
+      event = event_factory(0)
+      assert event.path_alias == nil
+      conn = get conn, event_icalendar_path(conn, :show, event)
+      assert conn.status == 200
+
+      assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]
+      assert Plug.Conn.get_resp_header(conn, "content-disposition") == [
+        "attachment; filename='aact_executive_board_meeting.ics'"
+      ]
+    end
+
+    test "returns an icalendar file as an attachment when event has a valid alias", %{conn: conn} do
+      event = event_factory(1)
+      assert event.path_alias == "/events/date/title"
+      conn = get conn, event_icalendar_path(conn, :show, event)
+      assert conn.status == 200
+
+      assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]
+      assert Plug.Conn.get_resp_header(conn, "content-disposition") == [
+        "attachment; filename='aact_executive_board_meeting.ics'"
+      ]
+    end
+
+    test "returns an icalendar file as an attachment when event has a non-conforming alias", %{conn: conn} do
+      event = event_factory(0, path_alias: "/events/incorrect-pattern")
+      assert event.path_alias == "/events/incorrect-pattern"
+      conn = get conn, event_icalendar_path(conn, :show, event)
+      assert conn.status == 200
+
+      assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]
+      assert Plug.Conn.get_resp_header(conn, "content-disposition") == [
+        "attachment; filename='aact_executive_board_meeting.ics'"
+      ]
+    end
+
+    test "renders a 404 given an invalid id", %{conn: conn} do
+      event = event_factory(0, id: 999)
+      conn = get conn, event_icalendar_path(conn, :show, event)
+      assert conn.status == 404
+    end
+
+    test "renders an icalendar file for a redirected event", %{conn: conn} do
+      event = event_factory(0, path_alias: "/events/redirected-url")
+      assert event.path_alias == "/events/redirected-url"
+      conn = get conn, event_icalendar_path(conn, :show, event)
+      assert conn.status == 200
+      assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]
+      assert Plug.Conn.get_resp_header(conn, "content-disposition") == [
+        "attachment; filename='aact_executive_board_meeting.ics'"
+      ]
+    end
+  end
 end
