@@ -27,6 +27,10 @@ defmodule Backstop.ServersTest do
       GenServer.start_link(__MODULE__, %{parent: self()})
     end
 
+    def init(args) do
+      {:ok, args}
+    end
+
     def handle_call({:start_server, module, args}, _from, state) do
       {:reply, module.start_link(args), state}
     end

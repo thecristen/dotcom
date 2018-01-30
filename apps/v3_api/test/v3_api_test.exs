@@ -39,7 +39,12 @@ defmodule V3ApiTest do
       Bypass.expect bypass, fn conn ->
         assert conn.request_path == "/with_api_key"
         conn = fetch_query_params(conn)
-        assert conn.query_params["api_key"] == "test_key"
+
+        # make sure the key is in headers
+        assert Enum.member?(conn.req_headers, {"x-api-key", "test_key"})
+
+        # make sure the key is not in params and other param values are there
+        assert conn.query_params["api_key"] == nil
         assert conn.query_params["other"] == "value"
         send_resp(conn, 200, "")
       end

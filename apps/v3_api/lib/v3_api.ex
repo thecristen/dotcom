@@ -31,9 +31,12 @@ defmodule V3Api do
   defp timed_get(url, params, opts) do
     url = Keyword.fetch!(opts, :base_url) <> url
     timeout = Keyword.fetch!(opts, :timeout)
-    params = add_api_key(params, opts)
+    api_key = Keyword.fetch!(opts, :api_key)
+
+    headers = api_key_headers(api_key)
+
     {time, response} = :timer.tc(fn ->
-      get(url, [],
+      get(url, headers,
         params: params,
         timeout: timeout,
         recv_timeout: timeout)
@@ -102,14 +105,8 @@ defmodule V3Api do
      | headers]
   end
 
-  defp add_api_key(params, opts) do
-    case Keyword.fetch!(opts, :api_key) do
-      nil ->
-        params
-      key ->
-        Keyword.put(params, :api_key, key)
-    end
-  end
+  defp api_key_headers(nil), do: []
+  defp api_key_headers(api_key), do: [ {"x-api-key", api_key} ]
 
   defp default_options do
     [
