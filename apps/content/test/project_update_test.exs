@@ -33,7 +33,9 @@ defmodule Content.ProjectUpdateTest do
         id: id,
         project_id: project_id,
         path_alias: path_alias
-      } = Content.ProjectUpdate.from_api(List.last(api_data))
+      } = api_data
+          |> Enum.at(1)
+          |> Content.ProjectUpdate.from_api()
 
       assert id == 124
       assert project_id == 2679

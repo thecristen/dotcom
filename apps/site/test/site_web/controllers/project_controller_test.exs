@@ -33,6 +33,12 @@ defmodule SiteWeb.ProjectControllerTest do
       assert %{"preview" => nil, "vid" => "112"} == conn.query_params
     end
 
+    test "retains params (except _format) and redirects when CMS returns a native redirect", %{conn: conn} do
+      conn = get conn, project_path(conn, :show, "redirected-project") <> "?preview&vid=999"
+      assert conn.status == 302
+      assert Plug.Conn.get_resp_header(conn, "location") == ["/projects/project-name?preview=&vid=999"]
+    end
+
     test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do
       conn = get conn, project_path(conn, :show, "17")
       assert conn.status == 404
@@ -44,7 +50,7 @@ defmodule SiteWeb.ProjectControllerTest do
     end
   end
 
-  describe "update" do
+  describe "project_update" do
     test "renders a project update when update has no path alias", %{conn: conn} do
       project_update = project_update_factory(1, path_alias: nil)
 
@@ -70,6 +76,17 @@ defmodule SiteWeb.ProjectControllerTest do
       assert %{"preview" => nil, "vid" => "112"} == conn.query_params
     end
 
+    test "doesn't redirect update when project part of path would by itself return a native redirect", %{conn: conn} do
+      conn = get conn, project_update_path(conn, :show, "redirected-project", "not-redirected-update")
+      assert conn.status == 200
+    end
+
+    test "retains params (except _format) and redirects when CMS returns a native redirect", %{conn: conn} do
+      conn = get conn, project_update_path(conn, :show, "project-name", "redirected-update") <> "?preview&vid=999"
+      assert conn.status == 302
+      assert Plug.Conn.get_resp_header(conn, "location") == ["/projects/project-name/update/project-progress?preview=&vid=999"]
+    end
+
     test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do
       conn = get conn, project_path(conn, :project_update, "2679", "17")
       assert conn.status == 404
@@ -82,6 +99,11 @@ defmodule SiteWeb.ProjectControllerTest do
 
     test "renders a 404 given an invalid id when project found", %{conn: conn} do
       conn = get conn, project_path(conn, :project_update, "2679", "999")
+      assert conn.status == 404
+    end
+
+    test "renders a 404 when project update exists but project does not exist", %{conn: conn} do
+      conn = get conn, project_path(conn, :project_update, "project-deleted", "project-deleted-progress")
       assert conn.status == 404
     end
   end

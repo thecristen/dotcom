@@ -41,6 +41,12 @@ defmodule SiteWeb.EventControllerTest do
       assert %{"preview" => nil, "vid" => "112"} == conn.query_params
     end
 
+    test "retains params (except _format) and redirects when CMS returns a native redirect", %{conn: conn} do
+      conn = get conn, event_path(conn, :show, "redirected-url") <> "?preview&vid=999"
+      assert conn.status == 302
+      assert Plug.Conn.get_resp_header(conn, "location") == ["/events/date/title?preview=&vid=999"]
+    end
+
     test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do
       conn = get conn, event_path(conn, :show, "1")
       assert conn.status == 404

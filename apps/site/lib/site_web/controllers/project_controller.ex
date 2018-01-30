@@ -22,6 +22,7 @@ defmodule SiteWeb.ProjectController do
   end
 
   defp do_show(%Content.Project{} = project, conn), do: show_project(conn, project)
+  defp do_show({:error, {:redirect, path}}, conn), do: redirect conn, to: path
   defp do_show(_404_or_mismatch, conn), do: render_404(conn)
 
   @spec show_project(Conn.t, Content.Project.t) :: Conn.t
@@ -54,19 +55,23 @@ defmodule SiteWeb.ProjectController do
   end
 
   defp do_project_update(%Content.ProjectUpdate{} = update, conn), do: show_project_update(conn, update)
+  defp do_project_update({:error, {:redirect, path}}, conn), do: redirect conn, to: path
   defp do_project_update(_404_or_mismatch, conn), do: render_404(conn)
 
   @spec show_project_update(Conn.t, Content.ProjectUpdate.t) :: Conn.t
   def show_project_update(%Conn{} = conn, %Content.ProjectUpdate{} = update) do
 
-    %Content.Project{} = project = Content.Repo.get_page("/node/#{update.project_id}")
+    case Content.Repo.get_page(update.project_url) do
+      %Content.Project{} = project ->
+        breadcrumbs = [
+          Breadcrumb.build(@breadcrumb_base, project_path(conn, :index, [])),
+          Breadcrumb.build(project.title, project_path(conn, :show, project)),
+          Breadcrumb.build(update.title)]
 
-    breadcrumbs = [
-      Breadcrumb.build(@breadcrumb_base, project_path(conn, :index, [])),
-      Breadcrumb.build(project.title, project_path(conn, :show, project)),
-      Breadcrumb.build(update.title)]
+        render conn, "update.html", breadcrumbs: breadcrumbs, update: update, narrow_template: true
+      _ -> render_404(conn)
+    end
 
-    render conn, "update.html", breadcrumbs: breadcrumbs, update: update, narrow_template: true
   end
 
   @spec get_events_async(integer) :: (() -> [Content.Event.t])

@@ -106,14 +106,17 @@ defmodule Content.CMS.Static do
     record = List.first(news_response())
     {:ok, [record]}
   end
-  def view("/news/incorrect-pattern", []) do
+  def view("/news/incorrect-pattern", _) do
     {:ok, Enum.at(news_response(), 1)}
   end
-  def view("/news/date/title", []) do
+  def view("/news/date/title", _) do
     {:ok, Enum.at(news_response(), 1)}
   end
   def view("/news/2018/news-entry", _) do
     {:ok, List.first(news_response())}
+  end
+  def view("/news/redirected-url", params) do
+    redirect("/news/date/title", params)
   end
   def view("/events", [meeting_id: "multiple-records"]) do
     {:ok, events_response()}
@@ -125,11 +128,14 @@ defmodule Content.CMS.Static do
   def view("/events", [id: id]) do
     {:ok, filter_by(events_response(), "nid", id)}
   end
-  def view("/events/incorrect-pattern", []) do
+  def view("/events/incorrect-pattern", _) do
     {:ok, Enum.at(events_response(), 1)}
   end
-  def view("/events/date/title", []) do
+  def view("/events/date/title", _) do
     {:ok, Enum.at(events_response(), 1)}
+  end
+  def view("/events/redirected-url", params) do
+    redirect("/events/date/title", params)
   end
   def view("/events", _opts) do
     {:ok, events_response()}
@@ -150,7 +156,10 @@ defmodule Content.CMS.Static do
       {:ok, projects_response()}
     end
   end
-  def view("/projects/project-name", []) do
+  def view("/projects/project-name", _) do
+    {:ok, Enum.at(projects_response(), 1)}
+  end
+  def view("/porjects/project-name", _) do
     {:ok, Enum.at(projects_response(), 1)}
   end
   def view("/api/project-updates", [id: id]) do
@@ -163,8 +172,17 @@ defmodule Content.CMS.Static do
       {:ok, project_updates_response()}
     end
   end
-  def view("/projects/project-name/update/project-progress", []) do
+  def view("/projects/redirected-project", params) do
+    redirect("/projects/project-name", params)
+  end
+  def view("/projects/project-name/update/project-progress", _) do
     {:ok, Enum.at(project_updates_response(), 1)}
+  end
+  def view("/projects/redirected-project/update/not-redirected-update", _) do
+    {:ok, Enum.at(project_updates_response(), 1)}
+  end
+  def view("/projects/project-name/update/redirected-update", params) do
+    redirect("/projects/project-name/update/project-progress", params)
   end
   def view("/whats-happening", _) do
     {:ok, whats_happening_response()}
@@ -200,7 +218,7 @@ defmodule Content.CMS.Static do
     {:ok, List.first(project_updates_response())}
   end
   def view("/node/124", _) do
-    {:ok, List.last(project_updates_response())}
+    {:ok, Enum.at(project_updates_response(), 1)}
   end
   def view("/node/2679", _) do
     {:ok, List.first(projects_response())}
@@ -209,13 +227,19 @@ defmodule Content.CMS.Static do
     {:ok, route_pdfs_response()}
   end
   def view("/api/route-pdfs/error", _) do
-    {:error, "Not able to retrieve response"}
+    {:error, :invalid_response}
   end
   def view("/api/route-pdfs/" <> _route_id, _) do
     {:ok, []}
   end
+  def view("/redirected-url", params) do
+    redirect("/different-url", params)
+  end
+  def view("/invalid", _) do
+    {:error, :invalid_response}
+  end
   def view(_, _) do
-    {:error, "Not able to retrieve response"}
+    {:error, :not_found}
   end
 
   @impl true
@@ -280,4 +304,7 @@ defmodule Content.CMS.Static do
       %{response | "vid" => [%{"value" => vid}], "title" => [%{"value" => "#{title} #{vid}"}]}
     end
   end
+
+  def redirect(path, params) when params == %{}, do: {:error, {:redirect, path}}
+  def redirect(path, params), do: redirect(path <> "?" <> URI.encode_query(params), %{})
 end

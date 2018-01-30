@@ -60,25 +60,52 @@ defmodule Content.ExternaRequestTest do
         Plug.Conn.resp(conn, 404, "{\"message\":\"No page found\"}")
       end
 
-      expected = {:error, %{status_code: 404, reason: "{\"message\":\"No page found\"}"}}
-      assert ^expected = process(:get, "/page")
+      assert {:error, :not_found} = process(:get, "/page")
     end
 
-    test "returns the HTTP error if the request returns an exception" do
+    test "returns {:error, :invalid_response} if the request returns an exception" do
       bypass = bypass_cms()
 
       Bypass.down bypass
-      assert {:error, %{reason: :econnrefused}} = process(:get, "/page")
+      assert process(:get, "/page") == {:error, :invalid_response}
     end
 
-    test "returns an error if the json cannot be parsed" do
+    test "returns {:error, :invalid_response} if the json cannot be parsed" do
       bypass = bypass_cms()
 
       Bypass.expect bypass, fn conn ->
         Plug.Conn.resp(conn, 200, "{invalid")
       end
 
-      assert {:error, "Could not parse JSON response"} = process(:get, "/page")
+      assert process(:get, "/page") == {:error, :invalid_response}
+    end
+
+    test "returns {:error, {:redirect, path}} when CMS issues a native redirect and removes _format=json" do
+      bypass = bypass_cms()
+      Bypass.expect bypass, fn conn ->
+        conn = Plug.Conn.fetch_query_params(conn)
+        redirected_path = "/redirect?" <> URI.encode_query(conn.query_params)
+        conn
+        |> Plug.Conn.put_resp_header("location", redirected_path)
+        |> Plug.Conn.resp(302, "redirecting")
+      end
+
+      assert {:error, {:redirect, url}} = process(:get, "/path?_format=json")
+      assert url == "/redirect"
+    end
+
+    test "path retains query params and removes _format=json when CMS issues a native redirect" do
+      bypass = bypass_cms()
+      Bypass.expect bypass, fn conn ->
+        conn = Plug.Conn.fetch_query_params(conn)
+        redirected_path = "/redirect?" <> URI.encode_query(conn.query_params)
+        conn
+        |> Plug.Conn.put_resp_header("location", redirected_path)
+        |> Plug.Conn.resp(302, "redirecting")
+      end
+
+      assert {:error, {:redirect, url}} = process(:get, "/path?_format=json&foo=bar")
+      assert url == "/redirect?&foo=bar"
     end
   end
 

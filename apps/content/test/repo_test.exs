@@ -74,8 +74,16 @@ defmodule Content.RepoTest do
       assert %Content.Redirect{} = result
     end
 
-    test "returns :not_found when the path does not match an existing page" do
-      assert Content.Repo.get_page("/does/not/exist") == :not_found
+    test "returns {:error, :not_found} when the path does not match an existing page" do
+      assert Content.Repo.get_page("/does/not/exist") == {:error, :not_found}
+    end
+
+    test "returns {:error, :invalid_response} when the CMS returns a server error" do
+      assert Content.Repo.get_page("/api/route-pdfs/error") == {:error, :invalid_response}
+    end
+
+    test "returns {:error, :invalid_response} when JSON is invalid" do
+      assert Content.Repo.get_page("/invalid") == {:error, :invalid_response}
     end
 
     test "URL encodes the query string before fetching" do
@@ -140,10 +148,8 @@ defmodule Content.RepoTest do
 
   describe "project_updates/1" do
     test "returns a list of Content.ProjectUpdate" do
-      assert [
-        %Content.ProjectUpdate{body: body, id: id},
-        %Content.ProjectUpdate{body: body_2, id: id_2}
-        ] = Content.Repo.project_updates()
+      assert [%Content.ProjectUpdate{body: body, id: id},
+              %Content.ProjectUpdate{body: body_2, id: id_2} | _] = Content.Repo.project_updates()
       assert id == 123
       assert id_2 == 124
       assert safe_to_string(body) =~ "body"

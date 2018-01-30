@@ -1,12 +1,10 @@
 defmodule Content.CMS.HTTPClient do
   @behaviour Content.CMS
 
-  import Content.ExternalRequest, only: [process: 3, process: 4]
-
   @impl true
   def preview(node_id) do
     path = ~s(/api/revisions/#{node_id})
-    process(:get, path, "", [
+    Content.ExternalRequest.process(:get, path, "", [
       params: [_format: "json"],
       # More time needed (receives 1 - 50 JSON node entities)
       timeout: 30_000,
@@ -16,19 +14,20 @@ defmodule Content.CMS.HTTPClient do
 
   @impl true
   def view(path, params) do
-    params = Keyword.merge(params, [_format: "json"])
-    process(:get, path, "", [
+    params = [{"_format", "json"} | Enum.map(params, fn {key, val} -> {to_string(key), val} end)]
+
+    Content.ExternalRequest.process(:get, path, "", [
       params: params
     ])
   end
 
   @impl true
   def post(path, body) do
-    process(:post, path, body)
+    Content.ExternalRequest.process(:post, path, body)
   end
 
   @impl true
   def update(path, body) do
-    process(:patch, path, body)
+    Content.ExternalRequest.process(:patch, path, body)
   end
 end

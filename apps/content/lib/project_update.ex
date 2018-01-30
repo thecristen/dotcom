@@ -16,12 +16,13 @@ defmodule Content.ProjectUpdate do
   defstruct [
     :id,
     :project_id,
+    :path_alias,
+    project_url: "",
     body: Phoenix.HTML.raw(""),
     photo_gallery: [],
     posted_on: "",
     teaser: "",
     title: "",
-    path_alias: nil
   ]
 
   @type t :: %__MODULE__{
@@ -30,26 +31,28 @@ defmodule Content.ProjectUpdate do
     photo_gallery: [Content.Field.Image.t],
     posted_on: Date.t,
     project_id: integer,
+    project_url: String.t,
+    path_alias: String.t | nil,
     teaser: String.t,
     title: String.t,
-    path_alias: String.t | nil
   }
 
   @spec from_api(map) :: t
   def from_api(%{} = data) do
-    project_id = parse_project_id(data)
+    {project_id, project_alias} = parse_project(data)
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
       body: parse_body(data),
       photo_gallery: parse_images(data, "field_photo_gallery"),
       posted_on: parse_date(data, "field_posted_on"),
       project_id: project_id,
+      project_url: project_alias,
       teaser: field_value(data, "field_teaser"),
       title: field_value(data, "title"),
       path_alias: path_alias(data)
     }
   end
 
-  defp parse_project_id(%{"field_project" => [%{"target_id" => id}]}), do: id
-
+  defp parse_project(%{"field_project" => [%{"target_id" => id, "url" => url}]}), do: {id, url}
+  defp parse_project(%{"field_project" => [%{"target_id" => id}]}), do: {id, ""}
 end
