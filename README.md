@@ -63,7 +63,6 @@ The new face of https://www.mbta.com/
     ```
     gem install sass
     ```
-   You might get a permission error here.  You can either do `sudo gem install sass` or install a Ruby environment manager.
 
 1. Install our Elixir dependencies. From the root of this repo:
     ```
@@ -132,11 +131,10 @@ Follow these instructions to install:
 ```
 brew install cmake
 brew install pkg-config
-sudo gem install json -v 1.8
-sudo gem install pronto
-sudo gem install pronto-scss
-sudo gem install pronto-eslint
-sudo gem install pronto-credo
+gem install pronto
+gem install pronto-scss
+gem install pronto-eslint
+gem install pronto-credo
 ```
 
 Run it by calling `pronto run` in the `mbta/dotcom` directory. If there is no output, that means it passed.
