@@ -113,5 +113,13 @@ defmodule SiteWeb.EventControllerTest do
         "attachment; filename='aact_executive_board_meeting.ics'"
       ]
     end
+
+    test "redirects old icalendar path to new icalendar path", %{conn: conn} do
+      event = event_factory(1)
+      old_path = Path.join(event_path(conn, :show, event), "icalendar")
+      assert old_path == "/events/date/title/icalendar"
+      conn = get conn, old_path
+      assert conn.status == 302
+    end
   end
 end
