@@ -31,7 +31,15 @@ defmodule Stops.Api do
   end
 
   @spec by_route({Routes.Route.id_t, 0 | 1, Keyword.t}) :: [Stop.t]
+  def by_route({"Red" = route_id, direction_id, opts}) do
+    route_id
+    |> get_stops(direction_id, opts)
+  end
   def by_route({route_id, direction_id, opts}) do
+    get_stops(route_id, direction_id, opts)
+  end
+
+  defp get_stops(route_id, direction_id, opts) do
     params = [
       route: route_id,
       include: "parent_station",

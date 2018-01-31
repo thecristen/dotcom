@@ -1,0 +1,14 @@
+<div class="route-branch-stop-name-icons">
+  <div class="route-branch-stop-name">
+    <span class="route-branch-stop-disabled"><%= @stop.name %></span>
+    <span class="route-branch-warning-icon"><%= fa "warning" %></span>
+  </div>
+  <div class="route-branch-stop-icons">
+    <%= link to: @stop.closed_stop_info.info_link do %>
+      Learn More <span><%= fa "arrow-right" %></span>
+    <% end %>
+  </div>
+</div>
+<div class="route-branch-stop-links route-branch-stop-disabled">
+  <%= String.capitalize @stop.closed_stop_info.reason %>
+</div>

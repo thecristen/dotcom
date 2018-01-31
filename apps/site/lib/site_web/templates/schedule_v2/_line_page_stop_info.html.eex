@@ -1,29 +1,26 @@
-<div class="route-branch-stop-name-icons">
-  <div class="route-branch-stop-name">
-    <%= break_text_at_slash(@stop.name) %>
-  </div>
-  <div class="route-branch-stop-icons">
-    <%= Enum.map(@stop.stop_features, &SiteWeb.StopView.stop_feature_icon(&1))%>
-  </div>
-</div>
-<%= if @stop.zone do %>
-  <div>
-    <div class="commuter-rail-zone route-branch-stop-zone">
-      <%= unless @route.type == 2 do %>Commuter Rail<% end %>
-      Zone <%= @stop.zone %>
+<%= if @stop.closed_stop_info do %>
+  <%= render "_line_page_stop_closed_text_icons.html", stop: @stop %>
+<% else %>
+  <%= render "_line_page_stop_text_icons.html", stop: @stop %>
+  <%= if @stop.zone do %>
+    <div>
+      <div class="commuter-rail-zone route-branch-stop-zone">
+        <%= unless @route.type == 2 do %>Commuter Rail<% end %>
+        Zone <%= @stop.zone %>
+      </div>
     </div>
+  <% end %>
+  <div class="route-branch-stop-links">
+    <%= if direction_id = schedule_link_direction_id(@stop, @reverse_direction_all_stops, @direction_id) do %>
+      <% trip_path = trip_view_path(@conn, :show, @route.id, origin: @stop.id, direction_id: direction_id) %>
+      <%= link class: "route-branch-stop-link schedule-link", to: trip_path do %>
+        <%= fa "caret-right" %> Schedules from here
+      <% end %>
+    <% else %>
+      <div class="route-branch-stop-link"></div>
+    <% end %>
+    <%= link class: "route-branch-stop-link stop-info-link", to: stop_path(@conn, :show, @stop.id) do %>
+      <%= fa "caret-right" %> Stop Info
+    <% end %>
   </div>
 <% end %>
-<div class="route-branch-stop-links">
-  <%= if direction_id = schedule_link_direction_id(@stop, @reverse_direction_all_stops, @direction_id) do %>
-    <% trip_path = trip_view_path(@conn, :show, @route.id, origin: @stop.id, direction_id: direction_id) %>
-    <%= link class: "route-branch-stop-link schedule-link", to: trip_path do %>
-      <%= fa "caret-right" %> Schedules from here
-    <% end %>
-  <% else %>
-    <div class="route-branch-stop-link"></div>
-  <% end %>
-  <%= link class: "route-branch-stop-link stop-info-link", to: stop_path(@conn, :show, @stop.id) do %>
-    <%= fa "caret-right" %> Stop Info
-  <% end %>
-</div>

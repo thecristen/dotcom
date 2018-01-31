@@ -11,7 +11,10 @@
           label_text: "Departing from:",
           placeholder_text: "origin",
           route: @route,
-          disabled_values: [{"Foxboro", "Trains depart 30 minutes after conclusion of events"} | Enum.map(@excluded_origin_stops, &{&1, "last #{@route |> Routes.Route.direction_name(@direction_id) |> String.downcase} stop"})],
+          disabled_values: Enum.concat([special_disabled_stops(:origin),
+                                        departure_stop(:origin, @origin),
+                                        excluded_stops(:origin, @route, @excluded_origin_stops, @direction_id),
+                                        closed_stops(@all_stops)]),
           clearable?: false,
           exclude: ["trip"]
       %>
@@ -33,7 +36,10 @@
             placeholder_text: "destination",
             route: @route,
             exclude: ["trip"],
-            disabled_values: [{@origin.id, "departure stop"} | Enum.map(@excluded_destination_stops, &({&1, "not on branch"}))],
+            disabled_values: Enum.concat([special_disabled_stops(:destination),
+                                          departure_stop(:destination, @origin),
+                                          excluded_stops(:destination, @route, @excluded_destination_stops, @direction_id),
+                                          closed_stops(@all_stops)]),
             # filter out non-destination stops because they're on a different branch
             clearable?: !assigns[:preselected_destination?]
         %>

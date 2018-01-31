@@ -4,11 +4,11 @@ defmodule SiteWeb.ScheduleV2Controller.AllStopsTest do
 
   @moduletag :external
 
-  test "deduplicates red line stops", %{conn: conn} do
+  test "deduplicates green line stops", %{conn: conn} do
     conn = conn
     |> assign(:date, nil)
     |> assign(:direction_id, 1)
-    |> assign(:route, %Routes.Route{id: "Red"})
+    |> assign(:route, %Routes.Route{id: "Green"})
     |> AllStops.call([])
 
     all_stops = conn.assigns[:all_stops]

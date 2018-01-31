@@ -31,7 +31,8 @@ defmodule Stops.RouteStop do
     route: Routes.Route.t | nil,
     stop_features: [Stops.Repo.stop_feature] | {:error, :not_fetched},
     is_terminus?: boolean,
-    is_beginning?: boolean
+    is_beginning?: boolean,
+    closed_stop_info: Stops.Stop.ClosedStopInfo.t | nil
   }
 
   defstruct [
@@ -43,7 +44,8 @@ defmodule Stops.RouteStop do
     zone: {:error, :not_fetched},
     stop_features: {:error, :not_fetched},
     is_terminus?: false,
-    is_beginning?: false
+    is_beginning?: false,
+    closed_stop_info: nil
   ]
 
   alias __MODULE__, as: RouteStop

@@ -131,7 +131,7 @@ defmodule SiteWeb.ScheduleV2Controller.LineTest do
         |> build_stop_list(0)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      for {id, idx} <- [{"place-alfcl", 0}, {"place-jfk", 12}, {"place-brntn", 16}, {"place-asmnl", -1}] do
+      for {id, idx} <- [{"place-alfcl", 0}, {"place-jfk", 12}, {"place-brntn", -5}, {"place-asmnl", -1}] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
     end
@@ -168,7 +168,7 @@ defmodule SiteWeb.ScheduleV2Controller.LineTest do
         |> build_stop_list(1)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      for {id, idx} <- [{"place-alfcl", -1}, {"place-jfk", -13}, {"place-brntn", -17}, {"place-asmnl", 0}] do
+      for {id, idx} <- [{"place-alfcl", -1}, {"place-jfk", -13}, {"place-brntn", 4}, {"place-asmnl", 0}] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
     end
@@ -341,6 +341,7 @@ defmodule SiteWeb.ScheduleV2Controller.LineTest do
       stops = ["first", "middle", "last"]
       |> Util.EnumHelpers.with_first_last()
       |> Enum.map(fn {stop_id, is_terminus?} -> %RouteStop{id: stop_id, is_terminus?: is_terminus?} end)
+
       outbound = build_branched_stop_list(%RouteStops{branch: nil, stops: stops}, {[], []})
       inbound = build_branched_stop_list(%RouteStops{branch: nil, stops: stops}, {[], []})
       assert outbound == inbound

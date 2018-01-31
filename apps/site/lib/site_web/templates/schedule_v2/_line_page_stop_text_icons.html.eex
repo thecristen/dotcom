@@ -1,0 +1,8 @@
+<div class="route-branch-stop-name-icons">
+  <div class="route-branch-stop-name">
+    <%= break_text_at_slash(@stop.name) %>
+  </div>
+  <div class="route-branch-stop-icons">
+    <%= Enum.map(@stop.stop_features, &SiteWeb.StopView.stop_feature_icon(&1))%>
+  </div>
+</div>

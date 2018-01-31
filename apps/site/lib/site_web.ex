@@ -74,6 +74,7 @@ defmodule SiteWeb do
       import SiteWeb.ErrorHelpers
       import SiteWeb.Gettext
       import SiteWeb.ViewHelpers
+      import SiteWeb.Views.Helpers.StopHelpers
       import UrlHelpers
 
       @dialyzer :no_match

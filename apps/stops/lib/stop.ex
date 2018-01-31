@@ -15,7 +15,8 @@ defmodule Stops.Stop do
     longitude: nil,
     station?: false,
     has_fare_machine?: false,
-    has_charlie_card_vendor?: false]
+    has_charlie_card_vendor?: false,
+    closed_stop_info: nil]
 
   @type id_t :: String.t
   @type t :: %Stop{
@@ -29,7 +30,8 @@ defmodule Stops.Stop do
     longitude: float,
     station?: boolean,
     has_fare_machine?: boolean,
-    has_charlie_card_vendor?: boolean
+    has_charlie_card_vendor?: boolean,
+    closed_stop_info: Stop.ClosedStopInfo.t | nil
   }
 
   defimpl Util.Position do
@@ -89,5 +91,19 @@ defmodule Stops.Stop.Manager do
     phone: String.t,
     email: String.t,
     website: String.t
+  }
+end
+
+defmodule Stops.Stop.ClosedStopInfo do
+  @moduledoc """
+  Information about stations not in API data.
+  """
+  defstruct [
+    reason: "",
+    info_link: ""]
+
+  @type t :: %Stops.Stop.ClosedStopInfo{
+    reason: String.t,
+    info_link: String.t
   }
 end
