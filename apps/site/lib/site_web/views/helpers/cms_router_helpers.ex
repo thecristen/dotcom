@@ -49,10 +49,10 @@ defmodule SiteWeb.CmsRouterHelpers do
   end
 
   def event_icalendar_path(conn, :show, %Content.Event{} = event) do
-    path = conn
-           |> event_path(:show, event)
-           |> Path.join("icalendar")
-    check_preview(conn, path)
+    ["", "events" | path] = conn
+                            |> event_path(:show, event)
+                            |> String.split("/")
+    check_preview(conn, Path.join(["/", "events", "icalendar" | path]))
   end
 
   @spec project_path(Plug.Conn.t, atom, Keyword.t | Content.Project.t | String.t) :: String.t

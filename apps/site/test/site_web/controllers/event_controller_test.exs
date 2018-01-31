@@ -62,18 +62,20 @@ defmodule SiteWeb.EventControllerTest do
     test "returns an icalendar file as an attachment when event does not have an alias", %{conn: conn} do
       event = event_factory(0)
       assert event.path_alias == nil
+      assert event.title == "Finance & Audit Committee Meeting"
       conn = get conn, event_icalendar_path(conn, :show, event)
       assert conn.status == 200
 
       assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]
       assert Plug.Conn.get_resp_header(conn, "content-disposition") == [
-        "attachment; filename='aact_executive_board_meeting.ics'"
+        "attachment; filename='finance_&_audit_committee_meeting.ics'"
       ]
     end
 
     test "returns an icalendar file as an attachment when event has a valid alias", %{conn: conn} do
       event = event_factory(1)
       assert event.path_alias == "/events/date/title"
+      assert event.title == "AACT Executive Board Meeting"
       conn = get conn, event_icalendar_path(conn, :show, event)
       assert conn.status == 200
 

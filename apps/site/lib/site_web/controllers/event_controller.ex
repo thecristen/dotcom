@@ -17,15 +17,11 @@ defmodule SiteWeb.EventController do
     |> render("index.html", conn: conn)
   end
 
-  def show(conn, %{"path_params" => path} = params) do
-    case List.last(path) do
-      "icalendar" -> icalendar(conn, params)
-      _ ->
-        params
-        |> best_cms_path(conn.request_path)
-        |> Content.Repo.get_page(conn.query_params)
-        |> do_show(conn)
-    end
+  def show(conn, %{"path_params" => _path} = params) do
+    params
+    |> best_cms_path(conn.request_path)
+    |> Content.Repo.get_page(conn.query_params)
+    |> do_show(conn)
   end
 
   defp do_show(%Content.Event{} = event, conn), do: show_event(conn, event)
@@ -52,7 +48,7 @@ defmodule SiteWeb.EventController do
   @spec icalendar(Plug.Conn.t, map) :: Plug.Conn.t
   def icalendar(conn, %{"path_params" => path} = params) do
     params
-    |> best_cms_path(ical_path(path))
+    |> best_cms_path(Path.join(["/events" | path]))
     |> Content.Repo.get_page(conn.query_params)
     |> do_icalendar(conn)
   end
@@ -71,13 +67,6 @@ defmodule SiteWeb.EventController do
   end
   defp do_icalendar(_, conn) do
     render_404(conn)
-  end
-
-  @spec ical_path([String.t]) :: String.t
-  defp ical_path(parts) do
-    ["/events" | parts]
-    |> Enum.slice(0..-2)
-    |> Path.join()
   end
 
   @spec filename(String.t) :: String.t
