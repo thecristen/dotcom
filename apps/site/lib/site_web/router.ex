@@ -84,7 +84,7 @@ defmodule SiteWeb.Router do
     get "/", PageController, :index
 
     get "/events", EventController, :index
-    get "/events/:event_id/icalendar", IcalendarController, :show, as: :event_icalendar
+    get "/events/icalendar/*path_params", EventController, :icalendar
     get "/events/*path_params", EventController, :show
 
     get "/news", NewsEntryController, :index

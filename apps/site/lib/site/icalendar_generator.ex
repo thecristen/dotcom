@@ -1,9 +1,9 @@
 defmodule Site.IcalendarGenerator do
-  import SiteWeb.Router.Helpers
+  import SiteWeb.CmsRouterHelpers, only: [event_path: 3]
   import SiteWeb.ContentHelpers, only: [content: 1]
 
-  @spec to_ical(Content.Event.t) :: iodata
-  def to_ical(%Content.Event{} = event) do
+  @spec to_ical(Plug.Conn.t, Content.Event.t) :: iodata
+  def to_ical(%Plug.Conn{} = conn, %Content.Event{} = event) do
     [
       "BEGIN:VCALENDAR\n",
       "VERSION:2.0\n",
@@ -16,7 +16,7 @@ defmodule Site.IcalendarGenerator do
       "DESCRIPTION:", description(event), "\n",
       "LOCATION:", address(event), "\n",
       "SUMMARY:", event_summary(event), "\n",
-      "URL:", full_url(event), "\n",
+      "URL:", full_url(conn, event), "\n",
       "END:VEVENT\n",
       "END:VCALENDAR\n"
     ]
@@ -65,8 +65,8 @@ defmodule Site.IcalendarGenerator do
     Timex.now |> Timex.format!("{ISO:Basic:Z}")
   end
 
-  defp full_url(event) do
-    event_url(SiteWeb.Endpoint, :show, [to_string(event.id)])
+  defp full_url(conn, event) do
+    Path.join(SiteWeb.Endpoint.url(), event_path(conn, :show, event))
   end
 
   defp start_time(%Content.Event{start_time: nil}), do: ""
