@@ -8,7 +8,7 @@
     "brunch:build": "cd apps/site/assets && node_modules/brunch/bin/brunch b -p",
     "server:mocked": "MIX_ENV=prod PORT=8082 STATIC_SCHEME=http STATIC_HOST=localhost STATIC_PORT=8082 V3_URL=http://localhost:8080 DRUPAL_ROOT=http://www.cms.example mix do deps.compile --force, compile --no-deps-check --force, phx.server",
     "server:mocked:nocompile": "MIX_ENV=prod PORT=8082 STATIC_SCHEME=http STATIC_HOST=localhost STATIC_PORT=8082 V3_URL=http://localhost:8080 DRUPAL_ROOT=http://www.cms.example mix phx.server",
-    "wiremock": "cd apps/site && java -jar ${WIREMOCK_PATH:-../../bin/wiremock-standalone-2.1.14.jar} --root-dir=test",
+    "wiremock": "cd apps/site && java -jar ${WIREMOCK_PATH:-../../bin/bin/wiremock-standalone-2.14.0.jar} --root-dir=test",
     "wiremock:record": "npm run wiremock -- --proxy-all=\"https://dev.api.mbtace.com\" --record-mappings",
     "wiremock:record:clean": "rm -fr apps/site/test/{__files,mappings} && npm run wiremock:record",
     "routes": "cd apps/site && mix phx.routes && cd ../..",
