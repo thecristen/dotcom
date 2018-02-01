@@ -1,0 +1,22 @@
+{
+  "id" : "cab28121-9340-3e02-85a3-af5a0224f8e6",
+  "request" : {
+    "url" : "/stops/?route=Green-D&include=parent_station&direction_id=1&date=2018-01-24",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-kt17d.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:37:47 GMT",
+      "etag" : "CB80D35DE15ECCF48982A32F7D9F59EEBE7818DCC0FF8FD0FED1AE9654E6EE70",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:57 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "kcqqmcet9troor5ug3i9cn5hvpgejn56",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "cab28121-9340-3e02-85a3-af5a0224f8e6"
+}

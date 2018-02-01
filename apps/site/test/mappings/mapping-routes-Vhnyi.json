@@ -1,0 +1,22 @@
+{
+  "id" : "0848b6dc-6922-373d-988a-7c2d566161c7",
+  "request" : {
+    "url" : "/routes/?stop=163&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Vhnyi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:39:22 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "6tdiqe5vugh23l9hg0p6e3gspnr48lpf",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0848b6dc-6922-373d-988a-7c2d566161c7"
+}

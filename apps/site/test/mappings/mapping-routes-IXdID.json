@@ -1,0 +1,22 @@
+{
+  "id" : "3bb39372-6c45-3a37-950e-18d15b4d9e7b",
+  "request" : {
+    "url" : "/routes/?stop=place-forhl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-IXdID.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:42:09 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "u4nlei56pgne9lvq90vb7lctc9pvu5d4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3bb39372-6c45-3a37-950e-18d15b4d9e7b"
+}

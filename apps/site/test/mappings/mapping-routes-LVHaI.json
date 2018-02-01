@@ -1,0 +1,22 @@
+{
+  "id" : "ea4fc0c8-e84e-35aa-8b6f-e5380b49a4fe",
+  "request" : {
+    "url" : "/routes/?stop=144&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LVHaI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:39:21 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "d86n6uvhmh42cu4tnbf8779fs7a77f5h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ea4fc0c8-e84e-35aa-8b6f-e5380b49a4fe"
+}

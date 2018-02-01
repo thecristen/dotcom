@@ -1,0 +1,22 @@
+{
+  "id" : "c8c7d5dd-1b5c-34a1-a6f7-2d270e77b181",
+  "request" : {
+    "url" : "/routes/?stop=place-symcl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-g5ib7.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:42:09 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "g4itutor2lvq7ir59568dn7898n71p88",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c8c7d5dd-1b5c-34a1-a6f7-2d270e77b181"
+}

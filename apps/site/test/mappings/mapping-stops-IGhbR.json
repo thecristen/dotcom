@@ -1,0 +1,22 @@
+{
+  "id" : "b7445ed3-26f3-3031-8533-74987fb3d637",
+  "request" : {
+    "url" : "/stops/?route=Green-C&include=parent_station&direction_id=0&date=2018-01-21",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-IGhbR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:37:46 GMT",
+      "etag" : "CB80D35DE15ECCF48982A32F7D9F59EEBE7818DCC0FF8FD0FED1AE9654E6EE70",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:57 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "5vv0gh5dmbv2dk0doia37qnnq2qmcrvv",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b7445ed3-26f3-3031-8533-74987fb3d637"
+}

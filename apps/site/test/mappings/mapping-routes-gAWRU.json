@@ -1,0 +1,22 @@
+{
+  "id" : "e05d996c-1f32-3479-aa46-397816b90c25",
+  "request" : {
+    "url" : "/routes/?stop=251&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-gAWRU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:39:22 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "p06rl22cb3toumh8msjebdotc4rj25ve",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e05d996c-1f32-3479-aa46-397816b90c25"
+}

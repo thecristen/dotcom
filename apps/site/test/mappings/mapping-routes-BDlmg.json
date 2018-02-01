@@ -1,0 +1,22 @@
+{
+  "id" : "c6f38ee7-d0bf-36df-81e7-ae735958e115",
+  "request" : {
+    "url" : "/routes/?stop=place-harvd",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BDlmg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:42:09 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "njirrrg9klkpedo6d6ad2or7tbsd05si",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c6f38ee7-d0bf-36df-81e7-ae735958e115"
+}

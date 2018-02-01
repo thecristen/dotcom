@@ -1,0 +1,22 @@
+{
+  "id" : "bc6caa24-8e0d-3486-846a-0dddc24ebaf6",
+  "request" : {
+    "url" : "/routes/?stop=place-harvd&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-wWJPA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:39:20 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "c69i28ear9gfei05uk6o8b659el3h0ut",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "bc6caa24-8e0d-3486-846a-0dddc24ebaf6"
+}

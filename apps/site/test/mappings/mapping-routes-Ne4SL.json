@@ -1,0 +1,22 @@
+{
+  "id" : "e3bbb5cd-79f7-3da3-9fb5-3d6d3f05368c",
+  "request" : {
+    "url" : "/routes/?stop=place-bndhl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Ne4SL.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:39:20 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "dv19l2i1aqa97i0mhpibse0t9djljqqb",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e3bbb5cd-79f7-3da3-9fb5-3d6d3f05368c"
+}

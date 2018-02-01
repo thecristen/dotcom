@@ -1,0 +1,22 @@
+{
+  "id" : "3a5d66eb-4e87-39e0-b65c-1581f256866f",
+  "request" : {
+    "url" : "/routes/?stop=place-spmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-hxPIA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:42:09 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "vcpb7s3gca9nf10i6vb4rn8bg673glq0",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3a5d66eb-4e87-39e0-b65c-1581f256866f"
+}

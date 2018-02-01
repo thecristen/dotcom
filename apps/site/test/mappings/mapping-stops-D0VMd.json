@@ -1,0 +1,22 @@
+{
+  "id" : "071b9652-441f-3889-b783-d75eded3fedc",
+  "request" : {
+    "url" : "/stops/?route=CR-Worcester&include=parent_station&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-D0VMd.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:42:36 GMT",
+      "etag" : "CB80D35DE15ECCF48982A32F7D9F59EEBE7818DCC0FF8FD0FED1AE9654E6EE70",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:57 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "22mink6r6hoqceclvs7mn8sqrc0oms69",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "071b9652-441f-3889-b783-d75eded3fedc"
+}

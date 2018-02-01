@@ -1,0 +1,22 @@
+{
+  "id" : "29a3fe89-6d5e-39c3-8925-702c641e4c8d",
+  "request" : {
+    "url" : "/stops/Ruggles?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Ruggles-B61kg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:41:29 GMT",
+      "etag" : "CB80D35DE15ECCF48982A32F7D9F59EEBE7818DCC0FF8FD0FED1AE9654E6EE70",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:57 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "br39h0u3ientucf2ck1k8pmmakt4a6gs",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "29a3fe89-6d5e-39c3-8925-702c641e4c8d"
+}

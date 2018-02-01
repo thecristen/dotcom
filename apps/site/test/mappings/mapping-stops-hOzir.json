@@ -1,0 +1,22 @@
+{
+  "id" : "4d6657ee-715d-3e6f-a5d7-fa0fa7c5c339",
+  "request" : {
+    "url" : "/stops/?route=Green-D&include=parent_station&direction_id=1&date=2018-03-17",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-hOzir.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:37:51 GMT",
+      "etag" : "CB80D35DE15ECCF48982A32F7D9F59EEBE7818DCC0FF8FD0FED1AE9654E6EE70",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:57 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "dkg226c2bje2g0osjennt48e3q4cp4vt",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4d6657ee-715d-3e6f-a5d7-fa0fa7c5c339"
+}

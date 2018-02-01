@@ -1,0 +1,22 @@
+{
+  "id" : "6a5dbbfc-4a88-3cce-a031-c1b227a6da07",
+  "request" : {
+    "url" : "/stops/place-sstat?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-sstat-vewZM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:40:43 GMT",
+      "etag" : "CB80D35DE15ECCF48982A32F7D9F59EEBE7818DCC0FF8FD0FED1AE9654E6EE70",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:57 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "k6up7iblvgqh9qhs5k41vqrsat4tsrq5",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "6a5dbbfc-4a88-3cce-a031-c1b227a6da07"
+}

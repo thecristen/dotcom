@@ -1,0 +1,22 @@
+{
+  "id" : "879cfed4-63ea-30e8-bc3f-13e218f9b5a9",
+  "request" : {
+    "url" : "/routes/?stop=place-rugg&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-lKR52.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:39:20 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "sc072nbqsh1hgm7vhrih9jfojq20psis",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "879cfed4-63ea-30e8-bc3f-13e218f9b5a9"
+}

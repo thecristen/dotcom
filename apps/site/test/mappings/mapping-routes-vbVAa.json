@@ -1,0 +1,22 @@
+{
+  "id" : "1ec6d82e-c917-3b62-9319-b339ca2445b2",
+  "request" : {
+    "url" : "/routes/?stop=15088&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-vbVAa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:39:23 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "cv5o4u8e0b38v91fct2lmms327sroq2l",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "1ec6d82e-c917-3b62-9319-b339ca2445b2"
+}
