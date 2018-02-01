@@ -1,0 +1,22 @@
+{
+  "id" : "b0356733-6ffa-3335-b356-2d7efe0f3309",
+  "request" : {
+    "url" : "/routes/?stop=place-hymnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Wqfda.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:42:09 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "fu322k9fupvu7poltc0af0fno7afl09t",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b0356733-6ffa-3335-b356-2d7efe0f3309"
+}

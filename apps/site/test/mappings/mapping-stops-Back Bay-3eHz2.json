@@ -1,0 +1,22 @@
+{
+  "id" : "bacd13a5-593b-3720-98c4-7bbbe66ba61f",
+  "request" : {
+    "url" : "/stops/Back%20Bay?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Back Bay-3eHz2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:41:29 GMT",
+      "etag" : "CB80D35DE15ECCF48982A32F7D9F59EEBE7818DCC0FF8FD0FED1AE9654E6EE70",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:57 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "27tokugp0uiqt20aim9t51knmgj9d0p9",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "bacd13a5-593b-3720-98c4-7bbbe66ba61f"
+}

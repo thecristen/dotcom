@@ -1,0 +1,20 @@
+{
+  "id" : "2392f9a5-8750-3ca1-b0ad-b7ee608afacf",
+  "request" : {
+    "url" : "/predictions/?trip=&stop=&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname&include=trip",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-a5ogT.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:42:36 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "vgbm1ctmmqua8hlip181v1k5kk6cls1v",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "2392f9a5-8750-3ca1-b0ad-b7ee608afacf"
+}

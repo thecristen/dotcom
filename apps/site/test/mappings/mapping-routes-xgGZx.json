@@ -1,0 +1,22 @@
+{
+  "id" : "c2b7fa9e-4c27-30c5-b0c2-49243fc7654c",
+  "request" : {
+    "url" : "/routes/?stop=Andover",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-xgGZx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:42:21 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "l3m18bdqqoibj6v5joj6cagkfhm0mu5i",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c2b7fa9e-4c27-30c5-b0c2-49243fc7654c"
+}

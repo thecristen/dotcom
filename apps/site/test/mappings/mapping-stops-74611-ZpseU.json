@@ -1,0 +1,22 @@
+{
+  "id" : "fcc89aa0-56d9-3770-8c20-887c483e6bda",
+  "request" : {
+    "url" : "/stops/74611?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-74611-ZpseU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:41:44 GMT",
+      "etag" : "CB80D35DE15ECCF48982A32F7D9F59EEBE7818DCC0FF8FD0FED1AE9654E6EE70",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:57 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "ja282en3ieicq7tgk4gbmk8llv6gnd6g",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "fcc89aa0-56d9-3770-8c20-887c483e6bda"
+}

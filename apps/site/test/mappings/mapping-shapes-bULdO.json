@@ -1,0 +1,22 @@
+{
+  "id" : "0abec7e4-fae1-3399-ab2a-ae89e9202f6f",
+  "request" : {
+    "url" : "/shapes/?route=Green-E&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-bULdO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:37:47 GMT",
+      "etag" : "7C055AFED4AAABA552A29569B125A1F0D492DCEC040C2358E17F3BF2184794A3",
+      "last-modified" : "Wed, 31 Jan 2018 13:16:04 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "07gqn7o0lci8csm0a82buijjopv2bu8l",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0abec7e4-fae1-3399-ab2a-ae89e9202f6f"
+}

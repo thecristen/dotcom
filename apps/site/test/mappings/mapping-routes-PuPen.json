@@ -1,0 +1,22 @@
+{
+  "id" : "347c9e38-049a-33f2-a1e5-b1414ef342d1",
+  "request" : {
+    "url" : "/routes/?stop=place-engav",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-PuPen.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:42:09 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "t9d32nqclk3tiku97pokfpqd18o3g92h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "347c9e38-049a-33f2-a1e5-b1414ef342d1"
+}

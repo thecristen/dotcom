@@ -43,4 +43,4 @@ config :logger, level: :info, colors: [enabled: true]
 # and calculating stacktraces is usually expensive.
 config :phoenix, :stacktrace_depth, 20
 
-config :site, :wiremock_path, Path.expand("bin/wiremock-standalone-2.1.10.jar")
+config :site, :wiremock_path, Path.expand("bin/wiremock-standalone-2.14.0.jar")

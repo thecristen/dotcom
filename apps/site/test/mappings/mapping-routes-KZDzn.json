@@ -1,0 +1,22 @@
+{
+  "id" : "3901894d-f081-333b-8787-a83a379755d4",
+  "request" : {
+    "url" : "/routes/?stop=place-brntn",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-KZDzn.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:42:09 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "ib1pbs4cl6vt5c2alrtf4gj989t5q8mn",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3901894d-f081-333b-8787-a83a379755d4"
+}

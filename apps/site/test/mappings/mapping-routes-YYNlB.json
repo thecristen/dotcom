@@ -1,0 +1,22 @@
+{
+  "id" : "77be3e70-f542-3284-82ab-5227c13fbcd3",
+  "request" : {
+    "url" : "/routes/?stop=place-valrd&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-YYNlB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:39:21 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2b6rk6orrv9283iavea6blj96jlkl37r",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "77be3e70-f542-3284-82ab-5227c13fbcd3"
+}

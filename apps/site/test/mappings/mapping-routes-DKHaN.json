@@ -1,0 +1,22 @@
+{
+  "id" : "a33a1b06-c961-3931-b64c-665751bc492b",
+  "request" : {
+    "url" : "/routes/?stop=Manchester",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-DKHaN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:42:22 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "pihfr33and62d0nss7gi46vl1riu6a75",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a33a1b06-c961-3931-b64c-665751bc492b"
+}

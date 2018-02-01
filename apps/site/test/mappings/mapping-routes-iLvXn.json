@@ -1,0 +1,22 @@
+{
+  "id" : "3c2fd66f-873c-3c43-9a19-3dcbd0ff5a4a",
+  "request" : {
+    "url" : "/routes/?stop=Lawrence",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-iLvXn.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:42:21 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "0nf8urq0hljh12qoatkdsr571jjkpcod",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3c2fd66f-873c-3c43-9a19-3dcbd0ff5a4a"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "38fa57e9-75d4-3762-bf09-7c0cf0f70afd",
+  "request" : {
+    "url" : "/stops/?route=Green-C&include=parent_station&direction_id=0&date=2018-01-22",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-ruIZI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:37:46 GMT",
+      "etag" : "CB80D35DE15ECCF48982A32F7D9F59EEBE7818DCC0FF8FD0FED1AE9654E6EE70",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:57 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "vfcgdj3v04g7psdoljkni8tipq86199r",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "38fa57e9-75d4-3762-bf09-7c0cf0f70afd"
+}

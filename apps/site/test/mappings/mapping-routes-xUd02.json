@@ -1,0 +1,22 @@
+{
+  "id" : "d834fa51-1e25-3aad-a5a8-758c15f89c00",
+  "request" : {
+    "url" : "/routes/?stop=North+Wilmington",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-xUd02.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:42:21 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "kh2rd2npf4uf3bq5rf66vi1hir7llskh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d834fa51-1e25-3aad-a5a8-758c15f89c00"
+}

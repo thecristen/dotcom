@@ -1,0 +1,22 @@
+{
+  "id" : "db026043-6ad7-301e-a35b-c2f8a32df7dd",
+  "request" : {
+    "url" : "/routes/?stop=place-newto&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-wBh4M.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:39:21 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "sskjb2b0a8sf0e6241htoi7jh4u0redg",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "db026043-6ad7-301e-a35b-c2f8a32df7dd"
+}

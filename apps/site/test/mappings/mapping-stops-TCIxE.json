@@ -1,0 +1,22 @@
+{
+  "id" : "ead22f48-9cf1-3e08-9b95-72bc8117edc6",
+  "request" : {
+    "url" : "/stops/?route=Green-D&include=parent_station&direction_id=0&date=2018-02-17",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-TCIxE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:37:49 GMT",
+      "etag" : "CB80D35DE15ECCF48982A32F7D9F59EEBE7818DCC0FF8FD0FED1AE9654E6EE70",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:57 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "7gu7ghjl6lnqmbsrp49gcba1mrgp8d9h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ead22f48-9cf1-3e08-9b95-72bc8117edc6"
+}

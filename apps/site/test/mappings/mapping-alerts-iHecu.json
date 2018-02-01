@@ -1,0 +1,22 @@
+{
+  "id" : "1b5226e1-dcc0-310f-accf-64e7f1059bad",
+  "request" : {
+    "url" : "/alerts/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-alerts-iHecu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:37:46 GMT",
+      "etag" : "A8608A8885382DDCD72587E6FBDBBF224F2155F59CEAF28DEBA47FBA4E0CE3E8",
+      "last-modified" : "Wed, 31 Jan 2018 18:37:23 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "72mle9po18d6i4sdv0lch7ntp5b20mhq",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "1b5226e1-dcc0-310f-accf-64e7f1059bad"
+}

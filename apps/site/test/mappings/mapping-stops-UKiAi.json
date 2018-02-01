@@ -1,0 +1,22 @@
+{
+  "id" : "ce291e14-a0bc-305c-b666-d0b163d85cd8",
+  "request" : {
+    "url" : "/stops/?route=CR-Haverhill&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-UKiAi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:42:18 GMT",
+      "etag" : "CB80D35DE15ECCF48982A32F7D9F59EEBE7818DCC0FF8FD0FED1AE9654E6EE70",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:57 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "8ljcvldieqisoj3pnvclvf9ue1da2h1b",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ce291e14-a0bc-305c-b666-d0b163d85cd8"
+}

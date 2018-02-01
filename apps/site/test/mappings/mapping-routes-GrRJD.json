@@ -1,0 +1,22 @@
+{
+  "id" : "0a107234-86cc-309b-804d-9d2f20cf8c58",
+  "request" : {
+    "url" : "/routes/?stop=Haverhill",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-GrRJD.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:42:21 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "3lle69ennu7igop8ic98aeii95lfsbad",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0a107234-86cc-309b-804d-9d2f20cf8c58"
+}

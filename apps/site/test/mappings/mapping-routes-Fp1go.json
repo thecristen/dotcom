@@ -1,0 +1,22 @@
+{
+  "id" : "139aca0c-5042-3652-b469-29d770633b6a",
+  "request" : {
+    "url" : "/routes/?stop=8281",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Fp1go.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:39:23 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "cvp34r1jvpg088fnppetcs9jm7s72p6c",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "139aca0c-5042-3652-b469-29d770633b6a"
+}

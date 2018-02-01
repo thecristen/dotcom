@@ -1,0 +1,22 @@
+{
+  "id" : "96dcd110-ffb2-3d7f-a196-d2b2e86c0a3f",
+  "request" : {
+    "url" : "/routes/?stop=place-brntn&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-uX2AI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jan 2018 18:39:21 GMT",
+      "etag" : "86F659FCE38EC95E9E624B1E4463787E5FD129FE2DB80C1BB3C3EF3117FF09AB",
+      "last-modified" : "Wed, 31 Jan 2018 13:13:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "0es1f6pg06uct5rnjmdhm5jeb6ldd3sl",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "96dcd110-ffb2-3d7f-a196-d2b2e86c0a3f"
+}
