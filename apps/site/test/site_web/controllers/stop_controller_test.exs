@@ -212,15 +212,6 @@ defmodule SiteWeb.StopControllerTest do
     assert html_response(conn, 200) =~ "All Ferry routes"
   end
 
-  describe "access_alerts/2" do
-    test "returns only access issues which affect the given stop" do
-      assert StopController.access_alerts(@alerts, %Stops.Stop{id: "place-sstat"}) == [
-        Enum.at(@alerts, 2)
-      ]
-      assert StopController.access_alerts(@alerts, %Stops.Stop{id: "place-davis"}) == []
-    end
-  end
-
   describe "breadcrumbs/2" do
     test "returns station breadcrumbs if the stop is served by more than buses" do
       stop = %Stops.Stop{name: "Name", station?: true}

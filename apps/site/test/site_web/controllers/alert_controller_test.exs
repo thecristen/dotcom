@@ -117,58 +117,36 @@ defmodule SiteWeb.AlertControllerTest do
   describe "group_access_alerts/1" do
     test "given a list of alerts, groups the access alerts by type" do
       alerts = [
-        "Escalator alert",
-        "Elevator alert",
-        "Lift alert"
+        Alert.new(effect: :escalator_closure, header: "Escalator Alert"),
+        Alert.new(effect: :elevator_closure, header: "Elevator Alert"),
+        Alert.new(effect: :access_issue, header: "Access Alert")
       ]
-      |> Enum.map(fn header ->
-        Alert.new(
-          effect: :access_issue,
-          header: header)
-      end)
 
       assert group_access_alerts(alerts) == %{
-        %Routes.Route{id: "Elevator", name: "Elevator"} => [Enum.at(alerts, 1)],
         %Routes.Route{id: "Escalator", name: "Escalator"} => [Enum.at(alerts, 0)],
-        %Routes.Route{id: "Lift", name: "Lift"} => [Enum.at(alerts, 2)]
+        %Routes.Route{id: "Elevator", name: "Elevator"} => [Enum.at(alerts, 1)],
+        %Routes.Route{id: "Other", name: "Other"} => [Enum.at(alerts, 2)]
       }
     end
 
     test "keeps alerts in order within a a type" do
       alerts = [
-        "Elevator alert",
-        "Elevator alert two",
-      ]
-      |> Enum.map(fn header ->
-        Alert.new(
-          effect: :access_issue,
-          header: header)
-      end)
+        Alert.new(effect: :escalator_closure, header: "Escalator Alert 1"),
+        Alert.new(effect: :escalator_closure, header: "Escalator Alert 2"),
+     ]
 
       assert group_access_alerts(alerts) == %{
-        %Routes.Route{id: "Elevator", name: "Elevator"} => alerts,
-        %Routes.Route{id: "Escalator", name: "Escalator"} => [],
-        %Routes.Route{id: "Lift", name: "Lift"} => [],
+        %Routes.Route{id: "Elevator", name: "Elevator"} => [],
+        %Routes.Route{id: "Escalator", name: "Escalator"} => alerts,
+        %Routes.Route{id: "Other", name: "Other"} => [],
       }
     end
 
-    test "ignores non Access Issue alerts" do
+    test "ignores non access Issue, elevator or escalator  alerts" do
       assert group_access_alerts([Alert.new()]) == %{
         %Routes.Route{id: "Elevator", name: "Elevator"} => [],
         %Routes.Route{id: "Escalator", name: "Escalator"} => [],
-        %Routes.Route{id: "Lift", name: "Lift"} => [],
-      }
-    end
-
-    test "includes alerts that don't start with the type" do
-      alert = Alert.new(
-        effect: :access_issue,
-        header: "This has the word 'Escalator' in it"
-      )
-      assert group_access_alerts([alert]) == %{
-        %Routes.Route{id: "Elevator", name: "Elevator"} => [],
-        %Routes.Route{id: "Escalator", name: "Escalator"} => [alert],
-        %Routes.Route{id: "Lift", name: "Lift"} => []
+        %Routes.Route{id: "Other", name: "Other"} => [],
       }
     end
   end

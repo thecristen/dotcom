@@ -8,7 +8,7 @@ The new face of https://www.mbta.com/
 
 1. Request V3 API key at https://dev.api.mbtace.com/
 
-1. Install [Homebrew](https://docs.brew.sh/Installation.html): 
+1. Install [Homebrew](https://docs.brew.sh/Installation.html):
     ```
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     ```
@@ -44,7 +44,7 @@ The new face of https://www.mbta.com/
      asdf install
      ```
 
-   * Verify that all the plugins got installed: 
+   * Verify that all the plugins got installed:
 
      ```
      asdf plugin-list
@@ -69,11 +69,11 @@ The new face of https://www.mbta.com/
     mix deps.get
     ```
 
-1. Install our Node dependencies. From the root of this repo: 
+1. Install our Node dependencies. From the root of this repo:
     ```
     npm run install
     ```
-   If you run into an error about fetching a Github dependency, you can tell Git to always use HTTP for Github: 
+   If you run into an error about fetching a Github dependency, you can tell Git to always use HTTP for Github:
     ```
     git config --global url.https://github.com/.insteadOf git://github.com/
     ```
@@ -180,7 +180,7 @@ The following variables are used in your development environment:
 
 ### `V3_API_KEY`
 
-You need to obtain and use an API key to run the website. 
+You need to obtain and use an API key to run the website.
 To request the key, use the [Development V3 API Portal](https://dev.api.mbtace.com/)
 
 ### `GOOGLE_API_KEY`
@@ -198,7 +198,7 @@ This will ensure any part of the site that uses Google's API will not get rate l
 
 ### `DRUPAL_ROOT`
 
-This is the url for the CMS. You'll need to set this to view any of the static content on the site. 
+This is the url for the CMS. You'll need to set this to view any of the static content on the site.
 
 Unless you are working on some CMS-related feature, you should set it to:
     ```
@@ -218,6 +218,7 @@ Since different tasks require different servers, there's a script to quickly swi
 
 This variable is used if you want to use a different API V3 server. You can use this to point at:
 * `https://dev.api.mbtace.com`, the development API server. This is the recommended option, and it's also the default if the environment variable isn't set.
+* `http://green.dev.api.mbtace.com`, the green.dev server (Note: http, not https).
 * `https://api.mbtace.com`, the production server.
 * `http://localhost:4000`, if you're running [the api server](https://github.com/mbta/api) locally.
 

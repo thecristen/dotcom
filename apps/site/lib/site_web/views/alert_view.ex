@@ -151,7 +151,7 @@ defmodule SiteWeb.AlertView do
   defp ensure_scheme(url), do: "http://" <> url
 
   @spec show_mode_icon?(Route.t) :: boolean
-  defp show_mode_icon?(%Route{name: name}) when name in ["Escalator", "Elevator"], do: false
-  defp show_mode_icon?(%Route{type: type}) when type in [0,1], do: true
+  defp show_mode_icon?(%Route{name: name}) when name in ["Escalator", "Elevator", "Other"], do: false
+  defp show_mode_icon?(%Route{type: type}) when type in [0, 1], do: true
   defp show_mode_icon?(_), do: false
 end

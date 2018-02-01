@@ -101,7 +101,6 @@ defmodule SiteWeb.StopController do
     |> async_assign(:fare_name, fn -> fare_name(stop, routes) end)
     |> async_assign(:terminal_stations, fn -> terminal_stations(routes) end)
     |> async_assign(:fare_sales_locations, fn -> Fares.RetailLocations.get_nearby(stop) end)
-    |> assign(:access_alerts, access_alerts(alerts, stop))
     |> assign(:requires_google_maps?, true)
     |> assign(:map_info, StopMap.map_info(stop))
     |> assign(:stop_alerts, stop_alerts(alerts, stop))
@@ -167,13 +166,6 @@ defmodule SiteWeb.StopController do
     end
   end
   defp do_terminal_stations(_routes, _type), do: ""
-
-  @spec access_alerts([Alerts.Alert.t], Stop.t) :: [Alerts.Alert.t]
-  def access_alerts(alerts, stop) do
-    alerts
-    |> Enum.filter(&(&1.effect == :access_issue))
-    |> stop_alerts(stop)
-  end
 
   @spec stop_alerts([Alerts.Alert.t], Stop.t) :: [Alerts.Alert.t]
   def stop_alerts(alerts, stop) do

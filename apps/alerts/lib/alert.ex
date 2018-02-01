@@ -31,6 +31,8 @@ defmodule Alerts.Alert do
   :station_issue |
   :dock_issue |
   :access_issue |
+  :elevator_closure |
+  :escalator_closure |
   :policy_change |
   :summary |
   :unknown
@@ -112,6 +114,13 @@ defmodule Alerts.Alert do
   def is_notice?(%__MODULE__{}, _) do
     # Default to true
     true
+  end
+
+  def access_alert_types do
+    [elevator_closure: "Elevator",
+     escalator_closure: "Escalator",
+     access_issue: "Other"
+    ]
   end
 
   @doc "Returns a friendly name for the alert's effect"

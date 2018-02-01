@@ -7,11 +7,6 @@ defmodule SiteWeb.AlertController do
   plug SiteWeb.Plug.Mticket
 
   @valid_ids ~w(subway commuter-rail bus ferry access)s
-  @access_route_ids ["Elevator", "Escalator", "Lift"]
-  @access_routes @access_route_ids
-  |> Enum.map(&(%Routes.Route{id: &1, name: &1}))
-  @access_route_map @access_routes
-  |> Enum.reduce(%{}, fn route, map -> put_in map[route], [] end)
 
   def index(conn, _params) do
     conn
@@ -55,29 +50,14 @@ defmodule SiteWeb.AlertController do
   end
 
   def group_access_alerts(alerts) do
-    alerts
-    |> Enum.filter(&(&1.effect == :access_issue))
-    |> Enum.reverse
-    |> Enum.reduce(@access_route_map, fn alert, map ->
-      route = access_route(alert)
-      update_in map[route], fn existing ->
-        [alert | existing]
-      end
-    end)
+    Enum.reduce(Alerts.Alert.access_alert_types, %{}, &group_access_alerts_by_type(alerts, &1, &2))
   end
 
-  defp access_route(%Alerts.Alert{header: header}) do
-    # create a fake "Route" for grouping access alerts. We want it to be
-    # something from @access_route_types, so we find the first one that
-    # matches the header
-    type = @access_route_ids
-    |> Enum.find(&String.contains?(header, &1))
+  defp group_access_alerts_by_type(alerts, {type, name}, accumulator) do
+    route = %Routes.Route{id: name, name: name}
+    filtered_alerts = Enum.filter(alerts, &(&1.effect == type))
 
-    # fail if we didn't find anything
-    case type do
-      type when is_binary(type) ->
-        %Routes.Route{id: type, name: type}
-    end
+    Map.put(accumulator, route, filtered_alerts)
   end
 
   defp all_routes(%{params: %{"id" => "subway"}} = conn, _opts), do: do_all_routes(conn, [0, 1])
