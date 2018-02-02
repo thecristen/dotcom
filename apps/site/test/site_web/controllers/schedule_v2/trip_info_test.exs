@@ -1,4 +1,4 @@
-defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
+ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
   use SiteWeb.ConnCase, async: true
   import SiteWeb.ScheduleV2Controller.TripInfo
   alias Schedules.{Schedule, Trip}
@@ -37,7 +37,42 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
       time: Timex.shift(@time, minutes: 4)
     }
   ]
-
+  @non_red_schedules [
+    %Schedule{
+      trip: %Trip{id: "non-red-trip"},
+      stop: %Stop{id: "id1"},
+      time: Timex.shift(@time, minutes: 5)
+    },
+    %Schedule{
+      trip: %Trip{id: "non-red-trip"},
+      stop: %Stop{id: "id2"},
+      time: Timex.shift(@time, minutes: 4)
+    }
+  ]
+  @red_schedules_1 [
+    %Schedule{
+      trip: %Trip{id: "red-trip-1"},
+      stop: %Stop{id: "place-nqncy"},
+      time: Timex.shift(@time, minutes: 5)
+    },
+    %Schedule{
+      trip: %Trip{id: "red-trip-1"},
+      stop: %Stop{id: "place-qnctr"},
+      time: Timex.shift(@time, minutes: 4)
+    }
+  ]
+  @red_schedules_0 [
+    %Schedule{
+      trip: %Trip{id: "red-trip-0"},
+      stop: %Stop{id: "place-qnctr"},
+      time: Timex.shift(@time, minutes: 5)
+    },
+    %Schedule{
+      trip: %Trip{id: "red-trip-0"},
+      stop: %Stop{id: "place-nqncy"},
+      time: Timex.shift(@time, minutes: 4)
+    }
+  ]
   @predictions [
     %Prediction{
       trip: %Trip{id: "32893585"},
@@ -49,6 +84,44 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
     }
   ]
 
+  @non_red_predictions [
+    %Prediction{
+      direction_id: 0,
+      trip: %Trip{id: "non-red-trip"},
+      stop: %Stop{id: "id1"}
+    },
+    %Prediction{
+      direction_id: 0,
+      trip: %Trip{id: "non-red-trip"},
+      stop: %Stop{id: "id2"}
+    }
+  ]
+
+  @red_predictions_1 [
+    %Prediction{
+      direction_id: 1,
+      trip: %Trip{id: "red-trip-1"},
+      stop: %Stop{id: "place-nqncy"}
+    },
+    %Prediction{
+      direction_id: 1,
+      trip: %Trip{id: "red-trip-1"},
+      stop: %Stop{id: "place-qnctr"}
+    }
+  ]
+  @red_predictions_0 [
+    %Prediction{
+      direction_id: 0,
+      trip: %Trip{id: "red-trip-0"},
+      stop: %Stop{id: "place-qnctr"}
+    },
+    %Prediction{
+      direction_id: 0,
+      trip: %Trip{id: "red-trip-0"},
+      stop: %Stop{id: "place-nqncy"}
+    }
+  ]
+
   setup %{conn: conn} do
     conn = conn
     |> assign(:date_time, @time)
@@ -56,12 +129,30 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
     {:ok, %{conn: conn}}
   end
 
+  defp prediction_fn([trip: "non-red-trip"]) do
+    Enum.map(@non_red_predictions, &(%Prediction{&1 | trip: %Trip{id: "non-red-trip"}}))
+  end
+  defp prediction_fn([trip: "red-trip-0"]) do
+    Enum.map(@red_predictions_0, &(%Prediction{&1 | trip: %Trip{id: "red-trip-0"}}))
+  end
+  defp prediction_fn([trip: "red-trip-1"]) do
+    Enum.map(@red_predictions_1, &(%Prediction{&1 | trip: %Trip{id: "red-trip-1"}}))
+  end
   defp prediction_fn([trip: trip_id]) do
     Enum.map(@predictions, &(%Prediction{&1 | trip: %Trip{id: trip_id}}))
   end
 
   defp trip_fn("32893585", [date: @date]) do
     @trip_schedules
+  end
+  defp trip_fn("non-red-trip", [date: @date]) do
+    @non_red_schedules
+  end
+  defp trip_fn("red-trip-0", [date: @date]) do
+    @red_schedules_0
+  end
+  defp trip_fn("red-trip-1", [date: @date]) do
+    @red_schedules_1
   end
   defp trip_fn("long_trip", [date: @date]) do
     # add some extra schedule data so that we can collapse this trip
@@ -104,6 +195,9 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
   defp vehicle_fn("32893585") do
     %Vehicles.Vehicle{}
   end
+  defp vehicle_fn("non-red-trip") do
+    %Vehicles.Vehicle{}
+  end
   defp vehicle_fn(_) do
     nil
   end
@@ -119,6 +213,7 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
       params: params}
     |> assign_journeys_from_schedules(schedules)
     |> assign(:vehicle_locations, %{})
+    |> assign(:route, %{type: 0, id: "id"})
     |> call(init)
   end
 
@@ -199,6 +294,7 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
     |> assign(:schedules, [])
     |> assign(:date, future_date)
     |> assign(:vehicle_locations, %{})
+    |> assign(:route, %{})
     |> call(init)
 
     for %PredictedSchedule{schedule: _schedule, prediction: prediction} <- conn.assigns.trip_info.times do
@@ -514,6 +610,65 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfoTest do
     test "is true when looking at any non-subway route" do
       next_day = Timex.shift(@time, days: 1)
       assert SiteWeb.ScheduleV2Controller.TripInfo.show_trips?(next_day, @time, 3, "1") == true
+    end
+  end
+
+  describe "test that wollaston station is properly inserted when expected" do
+    test "Does not add Wollaston to non Red line routes", %{conn: conn} do
+      init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+      route = %{id: "Not-Red"}
+      times = [%{times: %{direction_id: 1, route: %{id: "Not-Red"}, stop: %{id: "id1"}}},
+               %{times: %{direction_id: 1, route: %{id: "Not-Red"}, stop: %{id: "id2"}}}]
+
+      trip_info = %{route: route, times: times}
+
+      conn = %{conn | query_params: %{"trip" => "non-red-trip"}}
+             |> assign(:route, route)
+             |> assign(:trip_info, trip_info)
+             |> assign(:vehicle_locations, %{})
+             |> call(init)
+
+      stops = Enum.map(conn.assigns.trip_info.times, &(&1.schedule.stop.id))
+
+      assert stops == ["id2", "id1"]
+    end
+
+    test "Adds Wollaston in correct place for Red line routes with direction_id=0", %{conn: conn} do
+      init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+      route = %{id: "Red"}
+      times = [%{times: %{direction_id: 0, route: %{id: "Red"}, stop: %{id: "place-nqncy"}}},
+               %{times: %{direction_id: 0, route: %{id: "Red"}, stop: %{id: "place-qnctr"}}}]
+
+      trip_info = %{route: route, times: times}
+
+      conn = %{conn | query_params: %{"trip" => "red-trip-0"}}
+             |> assign(:route, route)
+             |> assign(:trip_info, trip_info)
+             |> assign(:vehicle_locations, %{})
+             |> call(init)
+
+      stops = Enum.map(conn.assigns.trip_info.times, &(&1.schedule.stop.id))
+
+      assert stops == ["place-nqncy", "place-wstn", "place-qnctr"]
+    end
+
+    test "Adds Wollaston in correct place for Red line routes with direction_id=1", %{conn: conn} do
+      init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+      route = %{id: "Red"}
+      times = [%{times: %{direction_id: 1, route: %{id: "Red"}, stop: %{id: "place-qnctr", name: "Quincy Center"}}},
+               %{times: %{direction_id: 1, route: %{id: "Red"}, stop: %{id: "place-nqncy", name: "North Quincy"}}}]
+
+      trip_info = %{route: route, times: times}
+
+      conn = %{conn | query_params: %{"trip" => "red-trip-1"}}
+             |> assign(:route, route)
+             |> assign(:trip_info, trip_info)
+             |> assign(:vehicle_locations, %{})
+             |> call(init)
+
+      stops = Enum.map(conn.assigns.trip_info.times, &(&1.schedule.stop.id))
+
+      assert stops == ["place-qnctr", "place-wstn", "place-nqncy"]
     end
   end
 end

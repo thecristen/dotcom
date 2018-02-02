@@ -1,7 +1,7 @@
 <%= if @route.id == "Red" do %>
   <div class="route-disclaimer-container">
     <strong>Shuttle routes in effect due to Wollaston Station closure.</strong>
-    <%= link to: "/projects/wollaston-station/project-updates/how-the-wollaston-station-improvements-affect-your-trip" do %>
+    <%= link to: "/projects/wollaston-station-improvements/update/how-the-wollaston-station-closure-affects-your-trip" do %>
       Learn how this will affect your trip <%= fa "arrow-right" %>
     <% end %>
   </div>

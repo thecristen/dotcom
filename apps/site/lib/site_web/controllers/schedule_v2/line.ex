@@ -5,7 +5,7 @@ defmodule SiteWeb.ScheduleV2Controller.Line do
   alias Routes.{Route, Shape}
   alias SiteWeb.ScheduleV2Controller.Line.Maps
   alias SiteWeb.ScheduleV2Controller.Line.Dependencies, as: Dependencies
-  alias SiteWeb.ScheduleV2Controller.ClosedStops
+  import SiteWeb.ScheduleV2Controller.ClosedStops, only: [add_wollaston: 4]
 
   defmodule Dependencies do
     defstruct [
@@ -309,24 +309,21 @@ defmodule SiteWeb.ScheduleV2Controller.Line do
     stop_list = branch_stops
     |> Util.EnumHelpers.with_first_last()
     |> Enum.reduce(all_stops, &build_branched_stop(&1, &2, {current_branch, branch_names}))
-    |> add_wollaston(current_branch)
+    |> add_wollaston_on_red_line(current_branch)
 
     {stop_list, branch_names}
   end
 
-  @spec add_wollaston([RouteStops.t], Route.branch_name) :: [RouteStops.t]
-  defp add_wollaston([{_, %Stops.RouteStop{route: %Routes.Route{id: "Red"}}} | _tail] = stop_list, nil) do
-    Enum.flat_map(stop_list, &insert_wollaston_node/1)
+  defp extract_fn({_bubbles, stop}), do: stop
+
+  defp build_fn({bubbles, _stop}, new_stop), do: {bubbles, new_stop}
+
+  @spec add_wollaston_on_red_line([RouteStops.t], Route.branch_name) :: [RouteStops.t]
+  defp add_wollaston_on_red_line([{_, %Stops.RouteStop{route: %Routes.Route{id: "Red"}}} | _tail] = stop_list, nil) do
+    add_wollaston(stop_list, 0, &extract_fn/1, &build_fn/2)
   end
-  defp add_wollaston(stop_list, _current_branch) do
+  defp add_wollaston_on_red_line(stop_list, _current_branch) do
     stop_list
-  end
-
-  defp insert_wollaston_node({_bubbles, %Stops.RouteStop{id: "place-qnctr"}} = item), do: [wollaston_stop_with_bubbles(item), item]
-  defp insert_wollaston_node(item), do: [item]
-
-  defp wollaston_stop_with_bubbles({bubbles, stop}) do
-    {bubbles, ClosedStops.wollaston_stop(stop)}
   end
 
   @doc """

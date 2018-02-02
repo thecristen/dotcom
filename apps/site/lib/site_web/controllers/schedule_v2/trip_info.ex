@@ -10,6 +10,7 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfo do
   import Plug.Conn, only: [assign: 3, halt: 1]
   import Phoenix.Controller, only: [redirect: 2]
   import UrlHelpers, only: [update_url: 2]
+  import SiteWeb.ScheduleV2Controller.ClosedStops, only: [add_wollaston: 4]
 
   require Routes.Route
   alias Routes.Route
@@ -73,8 +74,28 @@ defmodule SiteWeb.ScheduleV2Controller.TripInfo do
       {:error, _} ->
         possibly_remove_trip_query(conn)
       info ->
-        assign(conn, :trip_info, info)
+        assign_trip_info(conn, info)
     end
+  end
+
+  defp extract_fn(elem), do: elem.schedule.stop
+
+  defp build_fn(elem, new_stop) do
+    schedule = elem.schedule
+    new_schedule = %{schedule | stop: new_stop}
+
+    prediction = elem.prediction
+    new_prediction = if prediction, do: %{prediction | stop: new_stop}, else: prediction
+
+    %{elem | prediction: new_prediction, schedule: new_schedule}
+  end
+
+  defp assign_trip_info(%{assigns: %{route: %{id: "Red"}}} = conn, info) do
+    direction_id = List.first(info.times).prediction.direction_id
+    assign(conn, :trip_info, %{info | times: add_wollaston(info.times, direction_id, &extract_fn/1, &build_fn/2)})
+  end
+  defp assign_trip_info(conn, info) do
+    assign(conn, :trip_info, info)
   end
 
   defp possibly_remove_trip_query(%{query_params: %{"trip" => _}} = conn) do

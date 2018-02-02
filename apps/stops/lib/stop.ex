@@ -31,7 +31,7 @@ defmodule Stops.Stop do
     station?: boolean,
     has_fare_machine?: boolean,
     has_charlie_card_vendor?: boolean,
-    closed_stop_info: Stop.ClosedStopInfo.t | nil
+    closed_stop_info: Stops.Stop.ClosedStopInfo.t | nil
   }
 
   defimpl Util.Position do
