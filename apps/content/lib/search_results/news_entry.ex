@@ -15,7 +15,7 @@ defmodule Content.SearchResult.NewsEntry do
   def build(result) do
     %__MODULE__{
       title: result["ts_title"],
-      url: "/news/#{result["its_nid"]}",
+      url: List.first(result["sm_url"]),
       highlights: result["highlights"]
     }
   end
