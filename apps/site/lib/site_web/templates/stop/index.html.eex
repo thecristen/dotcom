@@ -1,6 +1,20 @@
 <% subway? = @mode == :subway%>
 <div class="page-section">
   <h1>MBTA Stations</h1>
+  <div class="hidden-no-js c-search-bar">
+    <label for="search-bar">
+      Search for a Station
+    </label>
+    <div class="text-input-button-widget" id="search-bar__container">
+      <input type="text" id="search-bar" class="text-input-button-widget-input" placeholder="Enter station name"></input>
+      <div class="clearfix"></div>
+    </div>
+    <div id="search-bar__results" class="c-search-bar__results c-search-bar__results--hidden">
+      <%= for {_, stops} <- @stop_info, stop <- stops do %>
+        <%= render "_detailed_stop.html", conn: @conn, detailed_stop: stop %>
+      <% end %>
+    </div>
+  </div>
   <%= mode_tab_list %ModeTabList{
     links: for mode <- [:subway, "commuter-rail", :ferry] do
       {mode, stop_path(@conn, :show, mode)}
@@ -13,7 +27,11 @@
     <%= render("_hub_stops.html", hubs: @mode_hubs, conn: @conn)%>
     </div>
   <% end %>
-  <%= for {route, detailed_stops} <- @stop_info do %>
+  <%
+    types = Routes.Route.types_for_mode(@mode)
+    stops = Enum.filter(@stop_info, fn {route, _} -> Enum.member?(types, route.type) end)
+  %>
+  <%= for {route, detailed_stops} <- stops do %>
     <div class="page-section stops-for-route">
       <div class="h2">
         <%= if subway?, do: svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.icon_atom(route)})  %>

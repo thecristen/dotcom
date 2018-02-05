@@ -1,0 +1,32 @@
+$shadow: rgba(0, 0, 0, .2);
+
+.c-search-bar {
+  margin-bottom: $base-spacing;
+  position: relative;
+}
+
+.c-search-bar__results {
+  background: $white;
+  border: 1px solid $shadow;
+  box-shadow: 3px 3px 5px $shadow;
+  position: absolute;
+  top: $base-spacing * 4;
+  width: 100%;
+  z-index: $z-index-search-bar-results;
+
+  &--hidden {
+    display: none;
+  }
+}
+
+.c-search-bar__result {
+  border-bottom-color: $gray-lightest;
+  border-style: solid;
+  border-width: 0 0 1px;
+  display: block;
+  padding: $base-spacing / 2;
+
+  &--hidden {
+    display: none;
+  }
+}

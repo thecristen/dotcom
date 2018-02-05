@@ -115,6 +115,7 @@ import stopBubbles from './stop-bubbles';
 import search from './search';
 import photoGallery from './photo-gallery';
 import filter from './filter';
+import { setupSearch } from "./search-bar";
 
 submitOnEvents(["blur", "change"]);
 googleMapsLoaded();
@@ -143,5 +144,6 @@ search(window.$, breakpoints);
 photoGallery();
 filter();
 stickyTooltip();
+setupSearch();
 
 document.body.className = document.body.className.replace("no-js", "js");
