@@ -149,6 +149,8 @@ defmodule Alerts.Alert do
   defp do_human_effect(:station_issue), do: "Station Issue"
   defp do_human_effect(:dock_issue), do: "Dock Issue"
   defp do_human_effect(:access_issue), do: "Access Issue"
+  defp do_human_effect(:elevator_closure), do: "Elevator Closure"
+  defp do_human_effect(:escalator_closure), do: "Escalator Closure"
   defp do_human_effect(:policy_change), do: "Policy Change"
   defp do_human_effect(:summary), do: "Summary"
   defp do_human_effect(_), do: "Unknown"
