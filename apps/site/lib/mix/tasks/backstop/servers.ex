@@ -193,6 +193,7 @@ defmodule Backstop.Servers.Phoenix do
   @default_args [
     {'V3_URL', 'http://localhost:8080'},
     {'V3_API_KEY', ''},
+    {'DRUPAL_ROOT', ''},
     {'GOOGLE_API_KEY', ''}
   ]
 
