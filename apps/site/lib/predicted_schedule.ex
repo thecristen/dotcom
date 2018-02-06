@@ -246,4 +246,14 @@ defmodule PredictedSchedule do
       false
     end
   end
+
+  @doc """
+  Replaces the stop for both predicted and schedule.
+  """
+  @spec put_stop(PredictedSchedule.t, Stops.Stop.t) :: PredictedSchedule.t
+  def put_stop(%PredictedSchedule{schedule: schedule, prediction: prediction} = predicted_schedule, %Stops.Stop{} = stop) do
+    new_schedule = if schedule, do: %{schedule | stop: stop}, else: schedule
+    new_prediction = if prediction, do: %{prediction | stop: stop}, else: prediction
+    %{predicted_schedule | prediction: new_prediction, schedule: new_schedule}
+  end
 end
