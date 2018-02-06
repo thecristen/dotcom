@@ -1,19 +1,20 @@
 import { expect } from 'chai';
 import jsdom from 'mocha-jsdom';
 import Sifter from 'sifter';
-import { setupSearch, siftStops } from '../../assets/js/search-bar';
+import { setupSearch, siftStops, showResults, addButtonClasses, buttonList, SELECTORS, STYLE_CLASSES } from '../../assets/js/search-bar';
 
 describe.only("search-bar", function() {
   jsdom();
 
   beforeEach(function() {
     document.body.innerHTML = `
-      <label for="search-bar">Search for a Station</label>
+      <label for="${SELECTORS.IDS.INPUT}">Search for a Station</label>
       <div class="text-input-button-widget hidden-no-js">
-        <input type="text" id="search-bar" class="text-input-button-widget-input" placeholder="Enter station name"></input>
+        <input type="text" id="${SELECTORS.IDS.INPUT}" class="text-input-button-widget-input" placeholder="Enter station name"></input>
         <div class="clearfix"></div>
       </div>
-      <div id="search-bar__results">
+      <div id="${SELECTORS.IDS.RESULT_LIST}">
+        <h4 id="${SELECTORS.IDS.EMPTY_MSG}">No results match</h4>
         <a href="/stops/place-alfcl" data-name="Alewife">
           Alewife
           <span class="stop-features-list"></span>
@@ -43,7 +44,8 @@ describe.only("search-bar", function() {
         {name: "porter"},
         {name: "harvard"}
       ];
-      document.getElementById("search-bar").value = "alewife"
+      expect(typeof SELECTORS.IDS.INPUT).to.equal("string");
+      document.getElementById(SELECTORS.IDS.INPUT).value = "alewife"
       const result = siftStops(data);
       expect(result).to.have.a.lengthOf(2);
       expect(result[0].name).to.equal("alewife");
@@ -51,21 +53,31 @@ describe.only("search-bar", function() {
     });
   });
 
-  describe("setupSearch", function() {
-    it("builds a list of stops on keyup", function() {
-      setupSearch()
-      const resultContainer = document.getElementById("search-bar__results")
-      expect(resultContainer).to.be.an.instanceOf(window.HTMLElement);
-      expect(resultContainer.children).to.have.a.lengthOf(4);
-      const el = document.getElementById("search-bar");
+  describe("addButtonClasses", function() {
+    it("adds js selector classes to buttons", function() {
+      expect(buttonList()).to.have.a.lengthOf(0);
+      addButtonClasses();
+      expect(buttonList()).to.have.a.lengthOf(4);
+    });
+  });
+
+  function isVisible(btn) {
+    return btn.classList.contains(STYLE_CLASSES.RESULT.HIDDEN) == false
+  }
+
+  describe("showResults", function() {
+    it("shows stops that match search", function() {
+      addButtonClasses();
+      expect(buttonList().filter(isVisible)).to.have.a.lengthOf(0); // all buttons start out hidden
+
+      const el = document.getElementById(SELECTORS.IDS.INPUT);
       expect(el).to.be.an.instanceOf(window.HTMLInputElement);
-      el.value = "ale"
-      el.dispatchEvent(new window.Event("keyup"));
-      const showing = Array.from(resultContainer.children).filter(el => {
-        return el.classList.contains("c-search-bar__result--hidden") == false
-      })
+      el.value = "Ale"
+      showResults();
+
+      const showing = buttonList().filter(isVisible)
       expect(showing).to.have.a.lengthOf(1);
-      expect(resultContainer.children[0].textContent).to.contain("Alewife");
+      expect(showing[0].textContent).to.contain("Alewife");
     });
   });
 });
