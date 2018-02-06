@@ -1,54 +1,76 @@
 import Sifter from 'sifter';
 
+export const STYLE_CLASSES = {
+  RESULT_LIST: {
+    ELEMENT: "c-search-bar__results",
+    HIDDEN: "c-search-bar__results--hidden"
+  },
+  RESULT: {
+    ELEMENT: "c-search-bar__result",
+    HIDDEN: "c-search-bar__result--hidden"
+  }
+}
+
+export const SELECTORS = {
+  CLASSES: {
+    RESULT: "js-search-bar__result"
+  },
+  IDS: {
+    INPUT: "search-bar",
+    RESULT_LIST: "search-bar__results",
+    EMPTY_MSG: "search-bar__empty"
+  }
+}
+
 export function setupSearch() {
   document.addEventListener("turbolinks:load", doSetupSearch, {passive: true});
 }
 
 function doSetupSearch() {
-  if (document.getElementById("search-bar")) {
+  const searchBar = document.getElementById(SELECTORS.IDS.INPUT);
+  if (searchBar) {
     addButtonClasses();
 
-    const searchBar = document.getElementById("search-bar");
     searchBar.addEventListener("keyup", showResults);
     searchBar.addEventListener("blur", hideResults);
   }
 }
 
-function buttonList() {
-  return Array.from(document.getElementsByClassName("js-search-bar__result"));
+export function buttonList() {
+  return Array.from(document.getElementsByClassName(SELECTORS.CLASSES.RESULT));
 }
 
-function addButtonClasses() {
+export function addButtonClasses() {
   const cls = [
-    "js-search-bar__result",
-    "c-search-bar__result",
-    "c-search-bar__result--hidden"
+    SELECTORS.CLASSES.RESULT,
+    STYLE_CLASSES.RESULT.ELEMENT,
+    STYLE_CLASSES.RESULT.HIDDEN
   ];
-  Array.from(document.getElementById("search-bar__results").children)
+  Array.from(document.getElementById(SELECTORS.IDS.RESULT_LIST).children)
     .filter(el => el.href && el.href != "")
     .forEach(btn => btn.classList.add(...cls));
 }
 
-function showResults() {
+export function showResults() {
   const data = buttonList().map(el => { return {name: el.getAttribute("data-name")} })
-  document.getElementById("search-bar__results").classList
-    .remove("c-search-bar__results--hidden");
-  Array.from(document.getElementsByClassName("js-search-bar__result"))
-    .forEach(btn => btn.classList.add("c-search-bar__result--hidden"));
+  document.getElementById(SELECTORS.IDS.RESULT_LIST).classList
+    .remove(STYLE_CLASSES.RESULT_LIST.HIDDEN);
+  Array.from(document.getElementsByClassName(SELECTORS.CLASSES.RESULT))
+    .forEach(btn => btn.classList.add(STYLE_CLASSES.RESULT.HIDDEN));
   const matches = siftStops(data)
   if (matches.length > 0) {
-    document.getElementById("search-bar__empty").style.display = "none";
+    document.getElementById(SELECTORS.IDS.EMPTY_MSG).style.display = "none";
     matches.forEach(addStopToResults);
   } else {
-    document.getElementById("search-bar__empty").style.display = "block";
+    document.getElementById(SELECTORS.IDS.EMPTY_MSG).style.display = "block";
   }
 }
 
 function hideResults(ev) {
-  if (ev.relatedTarget && ev.relatedTarget.classList.contains("js-search-bar__result")) {
+  if (ev.relatedTarget && ev.relatedTarget.classList.contains(SELECTORS.CLASSES.RESULT)) {
     return;
   } else {
-    document.getElementById("search-bar__results").classList.add("c-search-bar__results--hidden");
+    document.getElementById(SELECTORS.IDS.RESULT_LIST).classList.add(STYLE_CLASSES.RESULT_LIST.HIDDEN);
   }
 }
 
