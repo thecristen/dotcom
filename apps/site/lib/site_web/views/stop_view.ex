@@ -73,7 +73,14 @@ defmodule SiteWeb.StopView do
   def format_accessibility_prefix(stop) do
     case Enum.flat_map(stop.accessibility, &pretty_accessibility/1) do
       [] -> []
-      _ -> " It has the following features:"
+      _ ->
+        cond do
+          Stop.accessible?(stop) ->
+            " It has the following features:"
+          Stop.accessibility_known?(stop) ->
+            [" ", stop.name, " has the following features:"]
+          true -> []
+        end
     end
   end
 
@@ -83,7 +90,7 @@ defmodule SiteWeb.StopView do
     case Enum.flat_map(stop.accessibility, &pretty_accessibility/1) do
       [] -> []
       features ->
-        content_tag :p, Enum.intersperse(features, ", ")
+        content_tag :ul, Enum.map(features, fn(feature) -> content_tag :li, feature end)
     end
   end
 
@@ -92,11 +99,11 @@ defmodule SiteWeb.StopView do
     name = stop.name
     cond do
       Stop.accessible?(stop) ->
-        [name, " is an accessible station."]
+        [name, " is accessible."]
       Stop.accessibility_known?(stop) ->
-        [name, " is not an accessible station."]
+        ["Significant accessibility barriers exist at ", name, ". Customers using wheeled mobility devices may need to board at street level."]
       :unknown ->
-        ["No accessibility information is available for ", name, "."]
+        ["Minor to moderate accessibility barriers exist at ", name, ". Bus operator may need to relocate bus for safe boarding and exiting."]
     end
   end
 

@@ -32,10 +32,10 @@ defmodule SiteWeb.StopViewTest do
     @unknown_accessibly  %Stop{id: "44", name: "44", accessibility: ["unknown"]}
 
     test "Accessibility description reflects features" do
-      has_text? accessibility_info(@unknown_accessibly), "No accessibility information is available for "
-      has_text? accessibility_info(@no_accessible_feature), "is not an accessible station"
-      has_text? accessibility_info(@no_accessible_with_feature), "is not an accessible station"
-      has_text? accessibility_info(@only_accessible_feature), "is an accessible station"
+      has_text? accessibility_info(@unknown_accessibly), "Minor to moderate accessibility barriers exist"
+      has_text? accessibility_info(@no_accessible_feature), "Significant accessibility barriers exist"
+      has_text? accessibility_info(@no_accessible_with_feature), "Significant accessibility barriers exist"
+      has_text? accessibility_info(@only_accessible_feature), "is accessible"
       has_text? accessibility_info(@many_feature), "has the following"
     end
 
