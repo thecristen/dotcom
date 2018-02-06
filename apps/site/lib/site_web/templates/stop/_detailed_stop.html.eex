@@ -2,10 +2,8 @@
   <%= @detailed_stop.stop.name %>
   <span class="stop-features-list"><%= feature_icons(@detailed_stop)%></span>
   <%= if @detailed_stop.zone do %>
-    <div>
-      <div class="commuter-rail-zone">
-        Zone <%= @detailed_stop.zone %>
-      </div>
+    <div class="commuter-rail-zone">
+      Zone <%= @detailed_stop.zone %>
     </div>
   <% end %>
 </a>

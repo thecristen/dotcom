@@ -1,8 +1,12 @@
-$shadow: rgba(0, 0, 0, .2);
 
 .c-search-bar {
   margin-bottom: $base-spacing;
   position: relative;
+}
+
+.c-search-bar__empty,
+.c-search-bar__results-header {
+  padding: $base-spacing / 2 $base-spacing;
 }
 
 .c-search-bar__results {
@@ -19,12 +23,18 @@ $shadow: rgba(0, 0, 0, .2);
   }
 }
 
+.c-search-bar__results-header {
+  @include h6();
+  color: $gray-lighter;
+  margin: 0;
+}
+
 .c-search-bar__result {
   border-bottom-color: $gray-lightest;
   border-style: solid;
   border-width: 0 0 1px;
   display: block;
-  padding: $base-spacing / 2;
+  padding: $base-spacing / 4 $base-spacing * 1.5;
 
   &--hidden {
     display: none;
