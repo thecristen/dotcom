@@ -274,4 +274,35 @@ defmodule SiteWeb.StopViewTest do
     end
 
   end
+
+  describe "_detailed_stop_list.html" do
+    test "renders a list of stops", %{conn: conn} do
+      stops = [
+        %DetailedStop{stop: %Stop{name: "Alewife", id: "place-alfcl"}},
+        %DetailedStop{stop: %Stop{name: "Davis", id: "place-davis"}},
+        %DetailedStop{stop: %Stop{name: "Porter", id: "place-porter"}},
+      ]
+      html = "_detailed_stop_list.html"
+             |>  SiteWeb.StopView.render(detailed_stops: stops, conn: conn)
+             |> safe_to_string()
+      assert [{"a", _, alewife}, {"a", _, davis}, {"a", _, porter}] = Floki.find(html, ".stop-btn")
+      assert ["\nAlewife" <> _, _] = alewife
+      assert ["\nDavis" <> _, _] = davis
+      assert ["\nPorter" <> _, _] = porter
+    end
+  end
+
+  describe "_search-bar.html" do
+    test "renders a search bar", %{conn: conn} do
+      stops = [
+        %DetailedStop{stop: %Stop{name: "Alewife", id: "place-alfcl"}},
+        %DetailedStop{stop: %Stop{name: "Davis", id: "place-davis"}},
+        %DetailedStop{stop: %Stop{name: "Porter", id: "place-porter"}},
+      ]
+      html = "_search-bar.html"
+             |>  SiteWeb.StopView.render(stop_info: stops, conn: conn)
+             |> safe_to_string()
+      assert [{"div", _, _}] = Floki.find(html, ".c-search-bar")
+    end
+  end
 end

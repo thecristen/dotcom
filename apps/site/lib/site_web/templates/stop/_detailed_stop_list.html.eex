@@ -1,7 +1,7 @@
 <div class="button-group">
-  <%= for detailed_stop <- @detailed_stops do %>
-    <div class="detailed-stop-list">
-      <%= render "_detailed_stop.html", conn: @conn, detailed_stop: detailed_stop %>
-    </div>
-  <% end %>
+  <div class="detailed-stop-list">
+    <%= for detailed_stop <- @detailed_stops do %>
+        <%= render "_detailed_stop.html", conn: @conn, detailed_stop: detailed_stop %>
+    <% end %>
+  </div>
 </div>
