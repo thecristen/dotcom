@@ -1,20 +1,7 @@
 <% subway? = @mode == :subway%>
 <div class="page-section">
   <h1>MBTA Stations</h1>
-  <div class="hidden-no-js c-search-bar">
-    <label for="search-bar">
-      Search for a Station
-    </label>
-    <div class="text-input-button-widget" id="search-bar__container">
-      <input type="text" id="search-bar" class="text-input-button-widget-input" placeholder="Enter station name"></input>
-      <div class="clearfix"></div>
-    </div>
-    <div id="search-bar__results" class="c-search-bar__results c-search-bar__results--hidden">
-      <%= for {_, stops} <- @stop_info, stop <- stops do %>
-        <%= render "_detailed_stop.html", conn: @conn, detailed_stop: stop %>
-      <% end %>
-    </div>
-  </div>
+  <%= render "_search-bar.html", stop_info: @stop_info, conn: @conn %>
   <%= mode_tab_list %ModeTabList{
     links: for mode <- [:subway, "commuter-rail", :ferry] do
       {mode, stop_path(@conn, :show, mode)}
