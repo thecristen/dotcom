@@ -10,10 +10,12 @@ defmodule Content.ExternaRequestTest do
         assert "GET" = conn.method
         assert "/get" == conn.request_path
         assert Plug.Conn.fetch_query_params(conn).params["cake"] == "is the best"
-        Plug.Conn.resp(conn, 200, "[]")
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.resp(200, "[]")
       end
 
-      assert {:ok, []} = process(:get, "/get", "", [params: [cake: "is the best"]])
+      assert process(:get, "/get", "", [params: [cake: "is the best"]]) == {:ok, []}
     end
 
     test "handles a request with a body" do
@@ -57,10 +59,36 @@ defmodule Content.ExternaRequestTest do
       bypass = bypass_cms()
 
       Bypass.expect bypass, fn conn ->
-        Plug.Conn.resp(conn, 404, "{\"message\":\"No page found\"}")
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.resp(404, "{\"message\":\"No page found\"}")
       end
 
-      assert {:error, :not_found} = process(:get, "/page")
+      assert process(:get, "/page") == {:error, :not_found}
+    end
+
+    test "returns the HTTP response as an error if the request is unauthenticated" do
+      bypass = bypass_cms()
+
+      Bypass.expect bypass, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.resp(401, "{\"message\":\"Access Denied\"}")
+      end
+
+      assert process(:get, "/page") == {:error, :not_found}
+    end
+
+    test "returns an unauthorized HTTP response as an error" do
+      bypass = bypass_cms()
+
+      Bypass.expect bypass, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.resp(403, "{\"message\":\"Access Denied\"}")
+      end
+
+      assert process(:get, "/page") == {:error, :not_found}
     end
 
     test "returns {:error, :invalid_response} if the request returns an exception" do
@@ -70,11 +98,25 @@ defmodule Content.ExternaRequestTest do
       assert process(:get, "/page") == {:error, :invalid_response}
     end
 
-    test "returns {:error, :invalid_response} if the json cannot be parsed" do
+    test "returns {:error, :invalid_response} if the request returns an unhandled error" do
       bypass = bypass_cms()
 
       Bypass.expect bypass, fn conn ->
-        Plug.Conn.resp(conn, 200, "{invalid")
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.resp(418, "I'm a teapot")
+      end
+
+      assert process(:get, "/page") == {:error, :invalid_response}
+    end
+
+    test "returns {:error, :invalid_response} if the JSON cannot be parsed" do
+      bypass = bypass_cms()
+
+      Bypass.expect bypass, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.resp(200, "{invalid")
       end
 
       assert process(:get, "/page") == {:error, :invalid_response}
@@ -87,6 +129,7 @@ defmodule Content.ExternaRequestTest do
         redirected_path = "/redirect?" <> URI.encode_query(conn.query_params)
         conn
         |> Plug.Conn.put_resp_header("location", redirected_path)
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.resp(302, "redirecting")
       end
 
@@ -101,6 +144,7 @@ defmodule Content.ExternaRequestTest do
         redirected_path = "/redirect?" <> URI.encode_query(conn.query_params)
         conn
         |> Plug.Conn.put_resp_header("location", redirected_path)
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.resp(302, "redirecting")
       end
 

@@ -30,6 +30,13 @@ defmodule Content.CMS.HTTPClientTest do
         assert called ExternalRequest.process(:get, "/path", "", [params: [{"_format", "json"}, {"foo", "bar"}]])
       end
     end
+
+    test "illegal List() param values are converted to strings" do
+      with_mock ExternalRequest, [process: fn(_method, _path, _body, _params) -> {:ok, []} end] do
+        view("/path", %{"foo" => ["bar", "baz"]})
+        assert called ExternalRequest.process(:get, "/path", "", [params: [{"_format", "json"}, {"foo", "barbaz"}]])
+      end
+    end
   end
 
   describe "post/2" do

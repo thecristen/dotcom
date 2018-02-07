@@ -50,7 +50,7 @@ defmodule SiteWeb.ContentController do
     # if these content types reach this point with a 200, something is wrong with their path or alias.
     # We want to return a 404 and log a warning to alert the team to investigate.
     _ = Logger.warn fn ->
-      "A request to #{conn.request_path} returned a #{inspect(struct)}, but #{conn.request_path}" <>
+      "[CMS] A request to #{conn.request_path} returned a #{inspect(struct)}, but #{conn.request_path}" <>
       " does not conform to front-end pattern for this content type.
       Got: #{inspect(page)}"
     end

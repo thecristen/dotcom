@@ -14,7 +14,7 @@ defmodule Content.CMS.HTTPClient do
 
   @impl true
   def view(path, params) do
-    params = [{"_format", "json"} | Enum.map(params, fn {key, val} -> {to_string(key), val} end)]
+    params = [{"_format", "json"} | Enum.map(params, fn {key, val} -> {to_string(key), to_string(val)} end)]
 
     Content.ExternalRequest.process(:get, path, "", [
       params: params

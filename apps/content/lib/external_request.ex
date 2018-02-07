@@ -11,35 +11,39 @@ defmodule Content.ExternalRequest do
     request_path = full_url(path)
     request_headers = build_headers(method)
 
-    method
-    |> time_request(request_path, body, request_headers, opts)
-    |> handle_response()
+    response = time_request(method, request_path, body, request_headers, opts)
+    handle_response(response, parse_headers(response))
   end
 
-  @spec handle_response({:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t})
-  :: Content.CMS.response
-  defp handle_response(response) do
+  @spec handle_response({:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t}, map()) :: Content.CMS.response
+  defp handle_response({:ok, %HTTPoison.Response{} = response}, %{"content-type" => "application/json"}) do
     case response do
-      {:ok, %{status_code: code, body: body}} when code in [200, 201] ->
+      %{status_code: code, body: body} when code in [200, 201] ->
         decode_body(body)
-      {:ok, %HTTPoison.Response{status_code: code, headers: headers}} when code in [301, 302] ->
+      %{status_code: code, headers: headers} when code in [301, 302] ->
         get_redirect(headers)
-      {:ok, %HTTPoison.Response{status_code: 404}} ->
-        {:error, :not_found}
+      %{status_code: code} when code in [400, 401, 403, 404, 406] ->
+        {:error, :not_found} # drive handled errors to the 404 page
       _ ->
-        {:error, :invalid_response}
+        {:error, :invalid_response} # unusual/unhandled status codes (will throw 500)
     end
   end
+  defp handle_response({:ok, %HTTPoison.Response{}}, _header_map) do
+    {:error, :not_found} # a response that isn't returned in JSON format
+  end
+  defp handle_response({:error, %HTTPoison.Error{}}, _header_map) do
+    {:error, :invalid_response}
+  end
 
-  @spec decode_body(String.t) :: {:ok, [map()] | map()} | {:error, :invalid_response}
+  @spec decode_body(String.t) :: {:ok, [map()] | map()} | {:error, :not_found}
   defp decode_body(body) do
     case Poison.decode(body) do
       {:ok, decoded} -> {:ok, decoded}
-      _ -> {:error, :invalid_response}
+      _ -> {:error, :invalid_response} # a malformed JSON response
     end
   end
 
-  @spec get_redirect([{String.t, String.t}]) :: {:error, :invalid_response | {:redirect, String.t}}
+  @spec get_redirect([{String.t, String.t}]) :: {:error, :invalid_response} | {:redirect, String.t}
   defp get_redirect(header_list) do
     header_list
     |> Enum.find(fn {key, _} -> String.downcase(key) == "location" end)
@@ -64,6 +68,14 @@ defmodule Content.ExternalRequest do
 
   defp full_url(path) do
     Content.Config.url(path)
+  end
+
+  @spec parse_headers({:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t}) :: map()
+  defp parse_headers({:ok, %HTTPoison.Response{headers: header_list}}) do
+    Map.new(header_list, fn {key, value} -> {String.downcase(key), value} end)
+  end
+  defp parse_headers({:error, %HTTPoison.Error{}}) do
+    %{}
   end
 
   defp build_headers(:get), do: headers()
