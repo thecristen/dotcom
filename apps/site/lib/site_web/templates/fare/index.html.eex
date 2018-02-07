@@ -2,21 +2,31 @@
   <h1>Fares and Passes</h1>
   <div>
     <p>
-      Your fare will depend on whether you travel by Subway, Bus, Commuter Rail, or Ferry and whether you pay by cash, CharlieTicket, CharlieCard, or mobile app.
+      Your MBTA fare depends on whether you travel by subway, bus, Commuter Rail, or ferry and whether you pay with cash,
+      CharlieTicket, CharlieCard, or the mTicket app. You may pay more to transfer to other modes.
+    </p>
+    <p>
+      <%= link to: cms_static_page_path(@conn, "/fares/transfers") do %>
+        Learn more about transfers <span class="no-wrap"><%= fa "arrow-right" %></span>
+      <% end %>
+    </p>
+    <p>
+      You can also purchase passes that grant you unlimited travel on certain modes for 1 day, 7 days, or a month.
+    </p>
+    <p>
+      The MBTA does not refund any fare products.
     </p>
   </div>
   <div>
     <h2>Paying Your Fare</h2>
     <p>
-      You can pay your fare with a CharlieCard, CharlieTicket, the mTicket app, or by cash on-board.
-      <%= link "Click here", to: fare_path(@conn, :show, "payment-methods") %> to see what types of transportation
-        each payment option is accepted on. How you choose to pay may affect how much your fare costs, which passes you can purchase,
-      and your eligibility to make discounted transfers.
+      Use our step-by-step guides to learn how to pay your fare on the subway, bus, Commuter Rail, and ferry.
     </p>
-    <div class="l-title-cards">
-      <%= render "_related_page_card.html", title: "How to Pay Your Fare", body: ["Accepted payment methods", "Where to purchase your fare", "Paying your fare"], href: how_to_pay_path(@conn, :index), target: "_self" %>
-      <%= render "_related_page_card.html", title: "Payment Methods", body: ["Ways to pay your fare", "Where each payment method can be used", "Types of fares you can load onto each payment method"], href: fare_path(@conn, :show, "payment-methods"), target: "_self" %>
-    </div>
+    <p>
+      <%= link to: how_to_pay_path(@conn, :index) do %>
+        Learn how to pay your fare <span class="no-wrap"><%= fa "arrow-right" %></span>
+      <% end %>
+    </p>
   </div>
   <div>
     <h2>Bus and Subway Fares</h2>
@@ -32,9 +42,11 @@
       Below are the most common Bus and Subway Fares.
     </p>
     <%= SiteWeb.FareView.summarize @bus_subway %>
-    <p><%= link to: fare_path(@conn, :show, "bus-subway") do %>
-      View all Bus and Subway fares <span class="no-wrap"><%= fa "arrow-right" %></span>
-    <% end %></p>
+    <p>
+      <%= link to: fare_path(@conn, :show, "bus-subway") do %>
+        View all Bus and Subway fares <span class="no-wrap"><%= fa "arrow-right" %></span>
+      <% end %>
+    </p>
   </div>
   <div>
     <h2>Commuter Rail Fares</h2>
@@ -47,9 +59,11 @@
       Below are the ranges in prices (based on zone) for the most common Commuter Rail fares.
     </p>
     <%= SiteWeb.FareView.summarize @commuter_rail %>
-    <p><%= link to: fare_path(@conn, :show, "commuter-rail") do %>
-      Find your Commuter Rail fare <span class="no-wrap"><%= fa "arrow-right" %></span>
-    <% end %></p>
+    <p>
+      <%= link to: fare_path(@conn, :show, "commuter-rail") do %>
+        Find your Commuter Rail fare <span class="no-wrap"><%= fa "arrow-right" %></span>
+      <% end %>
+    </p>
   </div>
   <div>
     <h2>Ferry Fares</h2>
@@ -60,13 +74,17 @@
       Below are the ranges in prices for the most common Ferry fares.
     </p>
     <%= SiteWeb.FareView.summarize @ferry %>
-    <p><%= link to: fare_path(@conn, :show, :ferry) do %>
-      Find your Ferry fare <span class="no-wrap"><%= fa "arrow-right" %></span>
-    <% end %></p>
+    <p>
+      <%= link to: fare_path(@conn, :show, :ferry) do %>
+        Find your Ferry fare <span class="no-wrap"><%= fa "arrow-right" %></span>
+      <% end %>
+    </p>
   </div>
   <div>
     <h2>The RIDE</h2>
-    <p>Fares for The RIDE are determined by when the trip is booked and the location of the destination. The two fare options are listed below.</p>
+    <p>
+      Fares for The RIDE are determined by when the trip is booked and the location of the destination. The two fare options are listed below.
+    </p>
     <div class="fare-summary-container-table-multi-col">
       <div class="fare-summary-row">
         <%= for fare <- @the_ride do %>
@@ -106,20 +124,28 @@
         <%= link "Order Monthly Passes", to: "https://commerce.mbta.com/", class: "btn btn-block mode-group-btn", target: "_blank" %>
       </div>
     </div>
-    <p><%= link to: fare_path(@conn, :show, "charliecard") do %>
-      Learn more about CharlieCards <span class="no-wrap"><%= fa "arrow-right" %></span>
-    <% end %></p>
+    <p>
+      <%= link to: fare_path(@conn, :show, "charliecard") do %>
+        Learn more about CharlieCards <span class="no-wrap"><%= fa "arrow-right" %></span>
+      <% end %>
+    </p>
   </div>
   <div>
     <h2>Reduced Fare Eligibility</h2>
-    <p>Children aged 11 years and under and persons who are  blind or visually impaired may ride MBTA services for free. Seniors, persons with disabilities, and students are eligible for reduced One Way fares. </p>
-    <p><%= link to: fare_path(@conn, :show, :reduced) do %>
-      Learn more about reduced fare <span class="no-wrap fare-link">eligibility <%= fa "arrow-right" %></span>
-    <% end %></p>
+    <p>
+      Children aged 11 years and under and persons who are  blind or visually impaired may ride MBTA services for free.
+      Seniors, persons with disabilities, and students are eligible for reduced One Way fares.
+    </p>
+    <p>
+      <%= link to: fare_path(@conn, :show, :reduced) do %>
+        Learn more about reduced fare <span class="no-wrap fare-link">eligibility <%= fa "arrow-right" %></span>
+      <% end %></p>
   </div>
   <div>
     <h2>Pass Programs</h2>
-    <p>Employers, schools, and visitor groups can sign up for pass programs that have benefits such as online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups.
-    For more information, take a look at the <%= link "Pass Program Website", to: redirect_path(@conn, "pass_program"), target: "_blank" %> or call <%= tel_link "(888) 844-0353" %>. </p>
+    <p>
+      Employers, schools, and visitor groups can sign up for pass programs that have benefits such as online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups.
+      For more information, take a look at the <%= link "Pass Program Website", to: redirect_path(@conn, "pass_program"), target: "_blank" %> or call <%= tel_link "(888) 844-0353" %>.
+    </p>
   </div>
 </div>
