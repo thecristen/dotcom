@@ -1,8 +1,8 @@
 defmodule SiteWeb.CmsRouterHelpers do
   @moduledoc """
   A replacement module for path helpers from RouterHelpers.
-  This allows us to use either a path_alias if it exists 
-  to fetch from the CMS. If no path_alias exists, we will 
+  This allows us to use either a path_alias if it exists
+  to fetch from the CMS. If no path_alias exists, we will
   fetch using "/type/:id" In the case where we are using the
   id, we delegate to the Phoeniox helpers from RouterHelpers.
   """
@@ -78,11 +78,11 @@ defmodule SiteWeb.CmsRouterHelpers do
     check_preview(conn, project_update.path_alias)
   end
 
-  @spec project_update_path(Plug.Conn.t, atom, String.t, String.t) :: String.t
-  def project_update_path(conn, :show, project, update) do
+  @spec project_update_path(module | Plug.Conn.t, atom, String.t, String.t) :: String.t
+  def project_update_path(conn, :project_update, project, update) do
     check_preview(conn, "/projects/#{project}/update/#{update}")
   end
 
-  @spec check_preview(Plug.Conn.t, String.t) :: String.t
+  @spec check_preview(module | Plug.Conn.t, String.t) :: String.t
   defp check_preview(conn, path), do: SiteWeb.ViewHelpers.cms_static_page_path(conn, path)
 end

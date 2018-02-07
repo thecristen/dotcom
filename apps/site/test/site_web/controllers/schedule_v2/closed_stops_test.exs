@@ -13,7 +13,7 @@ defmodule SiteWeb.ScheduleV2Controller.ClosedStopsTest do
       assert result.name == "Wollaston"
       assert result.id == "place-wstn"
       assert result.closed_stop_info.reason == "closed for renovation"
-      assert result.closed_stop_info.info_link == "/projects/wollaston-station-improvements/update/how-the-wollaston-station-closure-affects-your-trip"
+      assert result.closed_stop_info.info_link == "/wollaston-learn-more"
     end
 
     test "Builds proper struct for for Stops.RouteStop" do
@@ -22,7 +22,7 @@ defmodule SiteWeb.ScheduleV2Controller.ClosedStopsTest do
       assert result.name == "Wollaston"
       assert result.id == "place-wstn"
       assert result.closed_stop_info.reason == "closed for renovation"
-      assert result.closed_stop_info.info_link == "/projects/wollaston-station-improvements/update/how-the-wollaston-station-closure-affects-your-trip"
+      assert result.closed_stop_info.info_link == "/wollaston-learn-more"
     end
   end
 

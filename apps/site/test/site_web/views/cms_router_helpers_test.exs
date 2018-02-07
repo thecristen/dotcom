@@ -83,8 +83,8 @@ defmodule SiteWeb.CmsRouterHelpersTest do
   end
 
   describe "project_update_path/4" do
-    test "handles :show", %{conn: conn} do
-      assert project_update_path(conn, :show, "project-name", "update-name") == "/projects/project-name/update/update-name"
+    test "handles :project_update", %{conn: conn} do
+      assert project_update_path(conn, :project_update, "project-name", "update-name") == "/projects/project-name/update/update-name"
     end
   end
 end
