@@ -45,8 +45,7 @@ describe("search-bar", function() {
         {name: "harvard"}
       ];
       expect(typeof SELECTORS.IDS.INPUT).to.equal("string");
-      document.getElementById(SELECTORS.IDS.INPUT).value = "alewife"
-      const result = siftStops(data);
+      const result = siftStops(data, "alewife");
       expect(result).to.have.a.lengthOf(2);
       expect(result[0].name).to.equal("alewife");
       expect(result[1].name).to.equal("alewife1");

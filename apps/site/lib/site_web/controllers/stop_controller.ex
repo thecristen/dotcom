@@ -190,8 +190,7 @@ defmodule SiteWeb.StopController do
   defp get_stop_info do
     [:subway, :commuter_rail, :ferry]
     |> Task.async_stream(&DetailedStopGroup.from_mode/1)
-    |> Enum.map(fn {:ok, stops} -> stops end)
-    |> List.flatten()
+    |> Enum.flat_map(fn {:ok, stops} -> stops end)
     |> separate_mattapan()
   end
 

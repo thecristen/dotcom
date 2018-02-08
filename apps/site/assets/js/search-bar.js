@@ -57,7 +57,7 @@ export function showResults() {
     .remove(STYLE_CLASSES.RESULT_LIST.HIDDEN);
   Array.from(document.getElementsByClassName(SELECTORS.CLASSES.RESULT))
     .forEach(btn => btn.classList.add(STYLE_CLASSES.RESULT.HIDDEN));
-  const matches = siftStops(data)
+  const matches = siftStops(data, document.getElementById("search-bar").value)
   if (matches.length > 0) {
     document.getElementById(SELECTORS.IDS.EMPTY_MSG).style.display = "none";
     matches.forEach(addStopToResults);
@@ -81,9 +81,8 @@ function addStopToResults(stop) {
        .classList.remove("c-search-bar__result--hidden");
 }
 
-export function siftStops(data) {
+export function siftStops(data, value) {
   const sifter = new Sifter(data);
-  const value = document.getElementById("search-bar").value
   return sifter.search(value, {
     fields: ['name'],
     sort: [{field: 'name'}],
