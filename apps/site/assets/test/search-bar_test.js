@@ -3,7 +3,7 @@ import jsdom from 'mocha-jsdom';
 import Sifter from 'sifter';
 import { setupSearch, siftStops, showResults, addButtonClasses, buttonList, SELECTORS, STYLE_CLASSES } from '../../assets/js/search-bar';
 
-describe.only("search-bar", function() {
+describe("search-bar", function() {
   jsdom();
 
   beforeEach(function() {

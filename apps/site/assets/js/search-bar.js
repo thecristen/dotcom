@@ -32,7 +32,6 @@ function doSetupSearch() {
     addButtonClasses();
 
     searchBar.addEventListener("keyup", showResults);
-    searchBar.addEventListener("blur", hideResults);
   }
 }
 
@@ -52,6 +51,7 @@ export function addButtonClasses() {
 }
 
 export function showResults() {
+  document.addEventListener("click", hideResults);
   const data = buttonList().map(el => { return {name: el.getAttribute("data-name")} })
   document.getElementById(SELECTORS.IDS.RESULT_LIST).classList
     .remove(STYLE_CLASSES.RESULT_LIST.HIDDEN);
@@ -66,18 +66,19 @@ export function showResults() {
   }
 }
 
-function hideResults(ev) {
-  if (ev.relatedTarget && ev.relatedTarget.classList.contains(SELECTORS.CLASSES.RESULT)) {
-    return;
-  } else {
+function hideResults() {
+  const input = document.getElementById(SELECTORS.IDS.INPUT);
+  if (input) {
+    document.removeEventListener("click", hideResults);
+    document.getElementById(SELECTORS.IDS.INPUT).value = "";
     document.getElementById(SELECTORS.IDS.RESULT_LIST).classList.add(STYLE_CLASSES.RESULT_LIST.HIDDEN);
   }
 }
 
 function addStopToResults(stop) {
-  const button = Array.from(document.getElementsByClassName("js-search-bar__result"))
-                       .find(btn => btn.getAttribute("data-name") == stop.name);
-  button.classList.remove("c-search-bar__result--hidden");
+  Array.from(document.getElementsByClassName(SELECTORS.CLASSES.RESULT))
+       .find(btn => btn.getAttribute("data-name") == stop.name)
+       .classList.remove("c-search-bar__result--hidden");
 }
 
 export function siftStops(data) {

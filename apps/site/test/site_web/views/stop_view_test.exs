@@ -285,7 +285,9 @@ defmodule SiteWeb.StopViewTest do
       html = "_detailed_stop_list.html"
              |>  SiteWeb.StopView.render(detailed_stops: stops, conn: conn)
              |> safe_to_string()
-      assert [{"a", _, alewife}, {"a", _, davis}, {"a", _, porter}] = Floki.find(html, ".stop-btn")
+      assert [{"a", _, [{"div", _, alewife}]},
+              {"a", _, [{"div", _, davis}]},
+              {"a", _, [{"div", _, porter}]}] = Floki.find(html, ".stop-btn")
       assert ["\nAlewife" <> _, _] = alewife
       assert ["\nDavis" <> _, _] = davis
       assert ["\nPorter" <> _, _] = porter
