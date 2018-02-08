@@ -63,7 +63,7 @@ defmodule DetailedStopGroup do
       stop,
       exclude: excluded_features,
       expand_branches?: green_line?)
-    %DetailedStop{stop: stop, features: features, zone: zone_name}
+    %DetailedStop{stop: stop, features: features, zone: zone_name, route_icon: Route.icon_atom(route)}
   end
 
   @spec group_green_line([grouped_stops]) :: [grouped_stops]

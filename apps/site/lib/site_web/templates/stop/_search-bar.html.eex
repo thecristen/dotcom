@@ -10,7 +10,7 @@
     <h4 class="c-search-bar__results-header">MBTA station results</h4>
     <p id="search-bar__empty" class="c-search-bar__empty">No matching stations</p>
     <%= for {_, stops} <- @stop_info, stop <- stops do %>
-      <%= render "_detailed_stop.html", conn: @conn, detailed_stop: stop %>
+      <%= render "_detailed_stop.html", conn: @conn, detailed_stop: stop, include_route_icon?: true %>
     <% end %>
   </div>
 </div>
