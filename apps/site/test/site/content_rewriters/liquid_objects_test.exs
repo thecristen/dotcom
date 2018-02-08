@@ -26,6 +26,18 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
       assert replace(~s(mbta-circle-icon "unknown")) == ~s({{ mbta-circle-icon "unknown" }})
     end
 
+    test "it handles simple fare requests" do
+      price_like = ~r/\$\d+\.\d+/
+      assert replace(~s(fare:subway:charlie_card)) =~ price_like
+      assert replace(~s(fare:subway:cash)) =~ price_like
+      assert replace(~s(fare:bus:charlie_card)) =~ price_like
+      assert replace(~s(fare:bus:cash)) =~ price_like
+    end
+
+    test "non-existent fare replacement is not replaced" do
+      assert replace(~s(fare:commuter_rail:cash)) == "{{ fare:commuter_rail:cash }}"
+    end
+
     test "it returns liquid object when not otherwise handled" do
       assert replace("something-else") == "{{ something-else }}"
     end

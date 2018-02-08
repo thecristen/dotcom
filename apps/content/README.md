@@ -56,6 +56,17 @@ Font awesome icons are supported with the `{{ fa "rss" }}` syntax. Any string pr
 
 Certain MBTA svg icons are supported via `{{ mbta-circle-icon "bus" }}` syntax. The currently supported list of icons is `"bus"`, `"commuter-rail"`, `"subway"`, and `"ferry"`.
 
+### Dynamic fares
+
+There are a few common replacement patterns available in the CMS that will expand to the current price of a fare when rendered on the front-end (print output here is only an example). The syntax must be followed exactly -- any non-matching patterns will be passed-through w/o being modified in the front-end.
+
+```js
+{{ fare:subway:charlie_card }} // prints "$2.25"
+{{ fare:subway:cash }}         // prints "$2.75" 
+{{ fare:bus:charlie_card }}    // prints "$1.70"
+{{ fare:bus:cash }}            // prints "$2.00"
+```
+
 ## Fetching news/meetings from the Ektron DB
 
 First, ensure you have all the dependencies:
