@@ -15,6 +15,6 @@ defmodule DetailedStop do
     stop: Stop.t,
     features: [Stops.Repo.stop_feature],
     zone: String.t | nil,
-    route_icon: String.t
+    route_icon: Routes.Route.subway_lines_type | Routes.Route.gtfs_route_type
   }
 end
