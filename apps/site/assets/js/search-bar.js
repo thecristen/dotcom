@@ -25,7 +25,7 @@ export const SELECTORS = {
   }
 }
 
-function setupSearch() {
+export function setupSearch() {
   document.addEventListener("turbolinks:load", doSetupSearch, {passive: true});
   document.addEventListener("turbolinks:before-cache", hideResults, {passive: true});
 }
