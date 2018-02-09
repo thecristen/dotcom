@@ -14,6 +14,7 @@ defmodule Site.TripPlan.ItineraryRowListTest do
         route_mapper: &route_mapper/1,
         stop_mapper: &stop_mapper/1,
         trip_mapper: &trip_mapper/1,
+        alerts_repo: &alerts_repo/1,
       }
       {:ok, %{itinerary: itinerary, itinerary_row_list: from_itinerary(itinerary, deps), deps: deps}}
     end
@@ -55,7 +56,7 @@ defmodule Site.TripPlan.ItineraryRowListTest do
 
     test "Destination is the last stop in itinerary", %{itinerary: itinerary, itinerary_row_list: row_list} do
       last_position = itinerary.legs |> List.last() |> Map.get(:to)
-      {stop_name, _stop_id, _arrival_time} = row_list.destination
+      {stop_name, _stop_id, _arrival_time, _} = row_list.destination
       position_name = case stop_mapper(last_position.stop_id) do
         nil -> last_position.name
         %{name: name} -> name
@@ -88,7 +89,7 @@ defmodule Site.TripPlan.ItineraryRowListTest do
     end
 
     test "Uses to name when one is provided", %{itinerary: itinerary, deps: deps} do
-      {destination, stop_id, _datetime} = from_itinerary(itinerary, deps, [to: "Final Destination"]).destination
+      {destination, stop_id, _datetime, _alerts} = from_itinerary(itinerary, deps, [to: "Final Destination"]).destination
       assert destination == "Final Destination"
       refute stop_id
     end
@@ -96,7 +97,7 @@ defmodule Site.TripPlan.ItineraryRowListTest do
     test "Does not replace to stop_id", %{deps: deps} do
       to = TripPlan.Api.MockPlanner.random_stop(stop_id: "place-north")
       {:ok, [itinerary]} = TripPlan.plan(@from, to, depart_at: @date_time)
-      {name, id, _datetime} = itinerary |> from_itinerary(deps, [to: "Final Destination"]) |> Map.get(:destination)
+      {name, id, _datetime, _alerts} = itinerary |> from_itinerary(deps, [to: "Final Destination"]) |> Map.get(:destination)
       assert name == "Final Destination"
       assert id == "place-north"
     end
@@ -139,9 +140,46 @@ defmodule Site.TripPlan.ItineraryRowListTest do
       assert accessible_itinerary_rows.accessible?
       refute inaccessible_itinerary_rows.accessible?
     end
+
+    test "Alerts for stations mid travel and destination parsed correctly", %{itinerary: itinerary, deps: deps} do
+      red_leg = %TripPlan.Leg{
+        start: @date_time,
+        stop: @date_time,
+        from: %TripPlan.NamedPosition{stop_id: "place-sstat", name: "South Station"},
+        to: %TripPlan.NamedPosition{stop_id: "place-pktrm", name: "Park Street"},
+        mode: %TripPlan.TransitDetail{
+          route_id: "Red",
+          intermediate_stop_ids: []
+        }
+      }
+      green_leg = %TripPlan.Leg{
+        start: @date_time,
+        stop: @date_time,
+        from: %TripPlan.NamedPosition{stop_id: "place-pktrm", name: "Park Street"},
+        to: %TripPlan.NamedPosition{stop_id: "place-kencl", name: "Kenmore"},
+        mode: %TripPlan.TransitDetail{
+          route_id: "Green-C",
+          trip_id: "Green-1",
+          intermediate_stop_ids: []
+        }
+      }
+
+      itinerary = %{itinerary | legs: [red_leg, green_leg]}
+      itinerary_rows = from_itinerary(itinerary, deps, [to: "place-kencl"])
+      {_destination, _id, _datetime, destination_alerts} = Map.get(itinerary_rows, :destination)
+      assert length(destination_alerts) == 1
+      assert List.first(destination_alerts).id == 2
+      transfer_alerts = List.last(itinerary_rows.rows).alerts
+      assert length(transfer_alerts) == 1
+      assert List.first(transfer_alerts).id == 1
+
+    end
   end
 
   defp route_mapper("Blue" = id) do
+    %Routes.Route{type: 1, id: id, name: "Subway"}
+  end
+  defp route_mapper("Red" = id) do
     %Routes.Route{type: 1, id: id, name: "Subway"}
   end
   defp route_mapper("CR-Lowell" = id) do
@@ -181,5 +219,22 @@ defmodule Site.TripPlan.ItineraryRowListTest do
   end
   defp trip_mapper(_) do
     %Schedules.Trip{id: "trip_id"}
+  end
+
+  defp alerts_repo(_) do
+    [
+      Alerts.Alert.new(
+        id: 1,
+        effect: :access_issue,
+        active_period: [{nil, nil}],
+        informed_entity: [%Alerts.InformedEntity{stop: "place-pktrm"}],
+      ),
+      Alerts.Alert.new(
+        id: 2,
+        effect: :access_issue,
+        active_period: [{nil, nil}],
+        informed_entity: [%Alerts.InformedEntity{stop: "place-kencl"}],
+      ),
+    ]
   end
 end

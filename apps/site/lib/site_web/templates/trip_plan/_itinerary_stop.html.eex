@@ -1,24 +1,7 @@
 <div class="itinerary-stop">
   <%= if @stop_id do %>
     <%= link @stop_name, to: stop_path(@conn, :show, @stop_id), class: "itinerary-transfer-row-label" %>
-    <%= unless Enum.empty?(@alerts) do %>
-      <%= fa "exclamation-triangle", [{:"data-toggle", "tooltip"}, {:title, "Service alert or delay"}] %>
-      <a
-        class="itinerary-alert-toggle"
-        data-toggle="collapse"
-        data-target="#itinerary-alert-<%= @itinerary_idx %>-<%= @row_idx %>"
-        aria-expanded="true"
-        aria-controls="itinerary-alert-<%= @itinerary_idx %>-<%= @row_idx %>"
-        style="display: none"
-      >
-        (hide alert)
-      </a>
-      <%= for alert <- @alerts do %>
-        <div class="alert-list-item collapse in" id="itinerary-alert-<%= @itinerary_idx %>-<%= @row_idx %>">
-          <%= SiteWeb.AlertView.render "_item.html", alert: alert, extra_id: ItineraryRow.route_id(@itinerary_row), time: @conn.assigns.date_time %>
-        </div>
-      <% end %>
-    <% end %>
+    <%= render "_itinerary_alert.html", assigns %>
   <% else %>
     <span class="itinerary-transfer-row-label"><%= @stop_name %></span>
   <% end %>

@@ -8,7 +8,7 @@ defmodule Site.TripPlan.ItineraryRowList do
   alias TripPlan.Itinerary
   alias Stops.Stop
 
-  @typep destination :: {String.t, Stop.id_t, DateTime.t}
+  @typep destination :: {String.t, Stop.id_t, DateTime.t, [Alerts.Alert.t]}
 
   defstruct [
     rows: [],
@@ -31,24 +31,18 @@ defmodule Site.TripPlan.ItineraryRowList do
   """
   @spec from_itinerary(Itinerary.t, ItineraryRow.Dependencies.t, opts) :: t
   def from_itinerary(%Itinerary{legs: legs, accessible?: accessible?} = itinerary, deps, opts \\ []) do
-    rows = get_rows(itinerary, deps, opts)
+    alerts = get_alerts(itinerary, deps)
+    rows = get_rows(itinerary, deps, opts, alerts)
     %__MODULE__{
       rows: rows,
-      destination: get_destination(legs, opts),
+      destination: get_destination(legs, opts, alerts),
       accessible?: accessible?,
       alerts?: Enum.any?(rows, fn row -> !Enum.empty?(row.alerts) end)
     }
   end
 
-  @spec get_rows(Itinerary.t, ItineraryRow.Dependencies.t, opts) :: [ItineraryRow.t]
-  defp get_rows(itinerary, deps, opts) do
-    alerts = itinerary.start
-    |> Alerts.Repo.all()
-    |> Site.TripPlan.Alerts.filter_for_itinerary(
-      itinerary,
-      route_by_id: deps.route_mapper,
-      trip_by_id: deps.trip_mapper)
-
+  @spec get_rows(Itinerary.t, ItineraryRow.Dependencies.t, opts, [Alerts.Alert.t]) :: [ItineraryRow.t]
+  defp get_rows(itinerary, deps, opts, alerts) do
     rows = for leg <- itinerary do
       leg
       |> ItineraryRow.from_leg(deps)
@@ -58,11 +52,22 @@ defmodule Site.TripPlan.ItineraryRowList do
     update_from_name(rows, opts[:from])
   end
 
-  @spec get_destination([TripPlan.Leg.t], Keyword.t) :: destination
-  defp get_destination(legs, opts) do
+  @spec get_alerts(Itinerary.t, ItineraryRow.Dependencies.t) :: [Alerts.Alert.t]
+  defp get_alerts(itinerary, deps) do
+    itinerary.start
+    |> deps.alerts_repo.()
+    |> Site.TripPlan.Alerts.filter_for_itinerary(
+      itinerary,
+      route_by_id: deps.route_mapper,
+      trip_by_id: deps.trip_mapper)
+  end
+
+  @spec get_destination([TripPlan.Leg.t], Keyword.t, [Alerts.Alert.t]) :: destination
+  defp get_destination(legs, opts, alerts) do
     last_leg = List.last(legs)
     {name, stop_id} = last_leg |> Map.get(:to) |> ItineraryRow.name_from_position(&Stops.Repo.get/1)
-    {destination_name(name, opts[:to]), stop_id, last_leg.stop}
+    alerts = Alerts.Stop.match(alerts, stop_id)
+    {destination_name(name, opts[:to]), stop_id, last_leg.stop, alerts}
   end
 
   @spec destination_name(String.t, String.t | nil) :: String.t
