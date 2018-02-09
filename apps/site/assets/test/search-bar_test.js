@@ -61,7 +61,7 @@ describe("search-bar", function() {
   });
 
   function isVisible(btn) {
-    return btn.classList.contains(STYLE_CLASSES.RESULT.HIDDEN) == false
+    return btn.style.display == "flex"
   }
 
   describe("showResults", function() {
