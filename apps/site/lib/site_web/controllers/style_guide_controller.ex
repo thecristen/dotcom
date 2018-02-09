@@ -9,14 +9,13 @@ defmodule SiteWeb.StyleGuideController do
   def known_pages do
     [
       components: [:typography, :colors, :logo | Keyword.keys(@components)],
-      content: [:audience_goals_tone, :grammar_and_mechanics, :terms],
       principles: [],
       about: []
     ]
   end
 
   def index(conn, %{"section" => "content"}) do
-    redirect conn, to: "/style-guide/content/audience-goals-tone"
+    redirect conn, to: "/cms/content-style-guide"
   end
   def index(conn, %{"section" => "components"}) do
     redirect conn, to: "/style-guide/components/typography"
@@ -38,9 +37,7 @@ defmodule SiteWeb.StyleGuideController do
   def show(conn, %{"subpage" => "typography"} = params), do: render_subpage(conn, params)
   def show(conn, %{"subpage" => "colors"} = params), do: render_subpage(conn, params)
   def show(conn, %{"subpage" => "logo"} = params), do: render_subpage(conn, params)
-  def show(conn, %{"section" => "content", "subpage" => "audience-goals-tone"} = params), do: render_subpage(conn, %{params | "subpage" => "audience_goals_tone"})
-  def show(conn, %{"section" => "content", "subpage" => "grammar-and-mechanics"} = params), do: render_subpage(conn, %{params | "subpage" => "grammar_and_mechanics"})
-  def show(conn, %{"section" => "content", "subpage" => _} = params), do: render_subpage(conn, params)
+  def show(conn, %{"section" => "content"}), do: index(conn, %{"section" => "content"})
   def show(conn, %{"subpage" => component_group} = params) do
     conn
     |> assign_styleguide_conn(params)

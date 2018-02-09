@@ -42,9 +42,9 @@ defmodule SiteWeb.StyleGuideControllerTest do
     |> Enum.each(&(assert &1.status == 200))
   end
 
-  test "/style-guide/content redirects to /style-guide/content/audience_goals_tone", %{conn: conn} do
+  test "/style-guide/content redirects to /cms/content-style-guide", %{conn: conn} do
     conn = get conn, "style-guide/content"
-    assert html_response(conn, 302) =~ "/style-guide/content/audience-goals-tone"
+    assert html_response(conn, 302) =~ "/cms/content-style-guide"
   end
 
   test "/style-guide/components/* has a side navbar", %{conn: conn} do
@@ -52,9 +52,12 @@ defmodule SiteWeb.StyleGuideControllerTest do
     assert html_response(conn, 200) =~ "subpage-nav"
   end
 
-  test "/style-guide/content/* has a side navbar", %{conn: conn} do
-    conn = get conn, "/style-guide/content/terms"
-    assert html_response(conn, 200) =~ "subpage-nav"
+  test "old /style-guide/content/* links redirect to /cms/content-style-guide/", %{conn: conn} do
+    old_sections = ["audience_goals_tone", "grammar_and_mechanics", "terms"]
+    for section_string <- old_sections do
+      conn = get conn, "/style-guide/content/#{section_string}"
+      assert html_response(conn, 302) =~ "/cms/content-style-guide"
+    end
   end
 
   ###########################

@@ -4,6 +4,11 @@
     <div class="col-xs-6 p-a-0">
       <ul>
         <li>
+          <%= link to: cms_static_page_path(@conn, "/mbta-at-a-glance") do %>
+            <%= fa "caret-right" %> Overview
+          <% end %>
+        </li>
+        <li>
           <%= link to: cms_static_page_path(@conn, "/leadership") do %>
             <%= fa "caret-right" %> Leadership
           <% end %>
@@ -23,15 +28,15 @@
             <%= fa "caret-right" %> Events
           <% end %>
         </li>
+      </ul>
+    </div>
+    <div class="col-xs-6">
+      <ul>
         <li>
           <%= link to: cms_static_page_path(@conn, "/policies/title-vi") do %>
             <%= fa "caret-right" %> Civil Rights
           <% end %>
         </li>
-      </ul>
-    </div>
-    <div class="col-xs-6">
-      <ul>
         <li>
           <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" do %>
             <span class="no-wrap"><%= fa "caret-right" %> Performance</span>

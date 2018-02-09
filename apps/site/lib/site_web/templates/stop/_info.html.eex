@@ -10,9 +10,19 @@
   <% else %>
     <p>No parking information is available for this station.</p>
   <% end %>
+  <p>
+    <%= link to: cms_static_page_path(@conn, "/parking") do %>
+      Learn more about parking <%= fa "arrow-right" %>
+    <% end %>
+  </p>
 
   <h2>Accessibility</h2>
   <%= accessibility_info(@stop) %>
+  <p>
+    <%= link to: cms_static_page_path(@conn, "/accessibility") do %>
+      Learn more about accessibility <%= fa "arrow-right" %>
+    <% end %>
+  </p>
 
   <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>
   <%= unless Enum.empty?(types) do %>
@@ -44,6 +54,11 @@
     <% end %>
     <%= unless @fare_sales_locations == [] do %>
       <%= render SiteWeb.FareView, "_nearby_locations.html", fare_sales_locations: @fare_sales_locations, search_position: @stop %>
+      <p>
+        <%= link to: cms_static_page_path(@conn, "/fares/retail-sales-locations") do %>
+          Find more retail sales locations <%= fa "arrow-right" %>
+        <% end %>
+      </p>
     <% end %>
   <% end %>
 

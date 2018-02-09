@@ -116,7 +116,7 @@ defmodule SiteWeb.StopView do
       _ ->
         link to: customer_support_path(SiteWeb.Endpoint, :index) do
           content_tag :p do
-            ["Problem with an elevator, escalator or other accessibility issue? Send us a message ",
+            ["Problem with an elevator, escalator, or other accessibility issue? Send us a message ",
              fa("arrow-right")]
           end
         end
