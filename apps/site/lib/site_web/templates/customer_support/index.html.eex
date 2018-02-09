@@ -24,28 +24,57 @@
         <div class="col-xs-12 col-sm-6 support-section">
           <h2 class="support-header">Call Us</h2>
           <div class="support-text">
-            <div>Monday&mdash;Friday: 6:30 AM&mdash;8 PM</div>
-            <div>Saturday&mdash;Sunday: 8 AM&mdash;4 PM</div>
+            <div>Monday &mdash; Friday: 6:30 AM &mdash; 8 PM</div>
+            <div>Saturday &mdash; Sunday: 8 AM &mdash; 4 PM</div>
           </div>
           <div class="support-text">
-            <div><span class="support-phone-text">Main Hotline:</span> <%= tel_link "617-222-3200" %></div>
-            <div><span class="support-phone-text">Toll Free:</span> <%= tel_link "800-392-6100" %></div>
-            <div><span class="support-phone-text">TTY:</span> <%= tel_link "617-222-5146" %></div>
-            <div><span class="support-phone-text">TTY:</span> <%= tel_link "617-222-5146" %></div>
+            <div>
+              <span class="support-phone-text">Main Hotline:</span>
+              <%= tel_link "617-222-3200" %>
+            </div>
+            <div>
+              <span class="support-phone-text">Toll Free:</span>
+              <%= tel_link "800-392-6100" %>
+            </div>
+            <div>
+              <span class="support-phone-text">TTY:</span>
+              <%= tel_link "617-222-5146" %>
+            </div>
           </div>
-          <div><span class="support-phone-text">Accessibility Hotline:</span> <%= tel_link "617-222-2828" %></div>
-          <div class="support-lift-updates">For elevator, escalator, or lift updates</div>
+          <div class="support-text">
+            <div>
+              <span class="support-phone-text">Accessibility Hotline:</span>
+              <%= tel_link "617-222-2828" %>
+            </div>
+            <div class="support-lift-updates">For elevator, escalator, or lift updates</div>
+          </div>
+          <div class="support-text">
+            <div>
+              <span class="support-phone-text">Lost and Found:</span> 
+              <%= link to: cms_static_page_path(@conn, "/customer-support/lost-and-found"), class: "support-link-inline" do %>
+                View phone numbers <%= fa "arrow-right" %>
+              <% end %>
+            </div>
+          </div>
         </div>
         <div class="col-xs-12 col-sm-6 support-section">
           <h2 class="support-header">Transit Police</h2>
-          <div><span class="support-phone-text">Emergency:</span> <%= tel_link "617-222-1212" %></div>
-          <div><span class="support-phone-text">TTY:</span> <%= tel_link "617-222-1200" %></div>
-          <div>
+          <div class="support-text">
+            <div>
+              <span class="support-phone-text">Emergency:</span>
+              <%= tel_link "617-222-1212" %>
+            </div>
+            <div>
+              <span class="support-phone-text">TTY:</span>
+              <%= tel_link "617-222-1200" %>
+            </div>
+          </div>
+          <div class="support-text">
             <%= link to: cms_static_page_path(@conn, "/transit-police"), class: "support-link" do %>
               Contact the Transit Police <%= fa "arrow-right" %>
             <% end %>
           </div>
-          <div>
+          <div class="support-text">
             <%= link to: cms_static_page_path(@conn, "/transit-police/see-something-say-something"), class: "support-link" do %>
               See Something, Say Something <%= fa "arrow-right" %>
             <% end %>
@@ -67,7 +96,7 @@
           <p>
             MBTA <br />
             10 Park Plaza <br />
-            Suite 3910 <br />
+            Suite 5610 <br />
             Boston, MA 02116
           </p>
         </div>
@@ -100,7 +129,7 @@
             Learn about MBTA career opportunities <%= fa "arrow-right" %>
           <% end %>
           <%= link to: "https://jobs.lever.co/mbta", class: "support-link", target: "_blank" do %>
-            See Customer Technology opportunities <%= fa "arrow-right" %>
+            View Customer Technology opportunities <%= fa "arrow-right" %>
           <% end %>
         </div>
       </div>

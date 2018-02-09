@@ -43,7 +43,7 @@
             <label class="form-check-label">
               <%= checkbox f, :request_response, id: "request_response", class: "form-check-input",
                                                  checked_value: "on" %>
-              You would like us to get back to you with questions or updates
+              I would like a response from the Customer Support team.
             </label>
           </div>
         </div>

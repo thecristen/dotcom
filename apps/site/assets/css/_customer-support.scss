@@ -1,13 +1,14 @@
 @import 'variables';
 
 .support-section {
+  margin-bottom: $base-spacing / 2;
   ul {
     @include list-unstyled();
     margin: 0;
   }
 
   li {
-    margin: $space-8 0;
+    margin: $base-spacing / 2 0;
   }
 }
 
@@ -34,8 +35,8 @@
 .photo-preview-container {
   .photo-preview {
     display: inline-block;
-    margin-left: $space-8;
-    margin-top: $space-8;
+    margin-left: $base-spacing / 2;
+    margin-top: $base-spacing / 2;
 
     img {
       // Polyfill for IE object-fit support
@@ -49,7 +50,7 @@
   }
 
   .clear-photo {
-    padding-left: $space-2;
+    padding-left: $base-spacing / 8;
   }
 }
 
@@ -57,7 +58,7 @@
   cursor: pointer;
 
   + input {
-    padding: $space-8 0;
+    padding: $base-spacing / 2 0;
   }
 }
 
@@ -108,7 +109,7 @@ body {
 }
 
 .submit-button {
-  margin-top: $space-8;
+  margin-top: $base-spacing / 2;
 }
 
 button .waiting {
@@ -117,39 +118,41 @@ button .waiting {
 
 .contrast {
   background-color: $gray-bordered-background;
-  margin-left: $space-12;
+  margin-left: $base-spacing * .75;
 
   &.form-group {
-    margin-bottom: $space-2;
-    padding: $space-12;
+    margin-bottom: $base-spacing / 8;
+    padding: $base-spacing * .75;
   }
 }
 
 .service-radio {
-  margin: 0 $space-16 0 0;
+  margin: 0 $base-spacing 0 0;
 
   input {
     display: inline-block;
-    width: $space-16;
+    width: $base-spacing;
   }
 }
 
 .phone-description {
-  margin-bottom: $space-4;
+  margin-bottom: $base-spacing / 4;
 }
 
 .support-check-container {
   &.form-group {
-    padding-bottom: $space-4;
+    padding-bottom: $base-spacing / 4;
   }
 }
 
 .response-time-disclaimer {
-  margin-top: $space-8;
+  margin-top: $base-spacing / 2;
 }
 
 .support-section-row {
-  margin-bottom: $space-16;
+  @include media-breakpoint-up(sm) {
+    margin-bottom: $base-spacing;
+  }
 }
 
 .support-phone-text {
@@ -157,7 +160,7 @@ button .waiting {
 }
 
 .support-header {
-  margin-bottom: $space-8;
+  margin-bottom: $base-spacing / 2;
 }
 
 .support-lift-updates {
@@ -166,8 +169,14 @@ button .waiting {
 
 .support-link {
   display: block;
+  margin-bottom: $base-spacing / 2;
 }
 
+.support-link-inline {
+  display: inline-block;
+}
+
+
 .support-text {
-  margin-bottom: $space-8;
+  margin-bottom: $base-spacing / 2;
 }
