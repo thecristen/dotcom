@@ -217,7 +217,9 @@
   }
 
   .event-description-with-sidebar & { // FMCB livestream iframe
-    padding-bottom: 56.25%; // 16x9 Aspect Ratio
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 56.25%; // 16x9 Aspect Ratio
+    }
   }
 }
 
