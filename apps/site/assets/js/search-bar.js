@@ -30,11 +30,11 @@ export function setupSearch() {
   document.addEventListener("turbolinks:before-cache", hideResults, {passive: true});
 }
 
-function doSetupSearch() {
-  document.getElementById(SELECTORS.IDS.CONTAINER)
-    .classList.remove(STYLE_CLASSES.CONTAINER.HIDDEN);
+export function doSetupSearch() {
   const searchBar = document.getElementById(SELECTORS.IDS.INPUT);
   if (searchBar) {
+    document.getElementById(SELECTORS.IDS.CONTAINER)
+      .classList.remove(STYLE_CLASSES.CONTAINER.HIDDEN);
     addButtonClasses();
 
     searchBar.addEventListener("keyup", showResults);
