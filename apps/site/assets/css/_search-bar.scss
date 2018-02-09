@@ -1,0 +1,53 @@
+.c-search-bar {
+  margin-bottom: $base-spacing;
+  position: relative;
+}
+
+.c-search-bar__empty,
+.c-search-bar__results-header {
+  padding: $base-spacing / 2 $base-spacing;
+}
+
+.c-search-bar__header {
+  font-weight: bold;
+}
+
+.c-search-bar__results {
+  background: $white;
+  box-shadow: $drop-shadow;
+  position: absolute;
+  top: $base-spacing * 4;
+  width: 100%;
+  z-index: $z-index-search-bar-results;
+}
+
+.c-search-bar__results-header {
+  @include h6();
+  border-left: $border;
+  border-right: $border;
+  border-top: $border;
+  color: $gray-lighter;
+  font-weight: normal;
+  margin: 0;
+}
+
+.c-search-bar__result {
+  display: block;
+}
+
+.c-search-bar__result-name {
+  font-weight: bold;
+}
+
+.c-search-bar__empty {
+  border-bottom: $border;
+  border-left: $border;
+  border-right: $border;
+  margin-bottom: 0;
+}
+
+.c-search-bar--hidden,
+.c-search-bar__results--hidden,
+.c-search-bar__result--hidden {
+  display: none;
+}

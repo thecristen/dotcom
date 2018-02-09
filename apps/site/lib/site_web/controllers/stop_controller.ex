@@ -16,7 +16,7 @@ defmodule SiteWeb.StopController do
 
   def show(conn, %{"id" => mode}) when mode in ["subway", "commuter-rail", "ferry"] do
     mode_atom = Routes.Route.type_atom(mode)
-    {mattapan, stop_info} = get_stop_info(mode_atom)
+    {mattapan, stop_info} = get_stop_info()
     conn
     |> async_assign(:mode_hubs, fn -> HubStops.mode_hubs(mode_atom, stop_info) end)
     |> async_assign(:route_hubs, fn -> HubStops.route_hubs(stop_info) end)
@@ -186,10 +186,11 @@ defmodule SiteWeb.StopController do
     assign(conn, :all_alerts, Alerts.Repo.all(conn.assigns.date_time))
   end
 
-  @spec get_stop_info(Route.gtfs_route_type) :: {DetailedStopGroup.t, [DetailedStopGroup.t]}
-  defp get_stop_info(mode) do
-    mode
-    |> DetailedStopGroup.from_mode()
+  @spec get_stop_info :: {DetailedStopGroup.t, [DetailedStopGroup.t]}
+  defp get_stop_info do
+    [:subway, :commuter_rail, :ferry]
+    |> Task.async_stream(&DetailedStopGroup.from_mode/1)
+    |> Enum.flat_map(fn {:ok, stops} -> stops end)
     |> separate_mattapan()
   end
 

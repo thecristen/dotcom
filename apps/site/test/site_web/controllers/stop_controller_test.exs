@@ -61,16 +61,11 @@ defmodule SiteWeb.StopControllerTest do
     assert redirected_to(conn) == stop_path(conn, :show, "Four Corners / Geneva")
   end
 
-  test "separates mattapan from stop info for subway", %{conn: conn} do
-      conn = get(conn, stop_path(conn, :show, :subway))
-      assert conn.assigns.mattapan
-      stop_info_routes = Enum.map(conn.assigns.stop_info, fn {route, _stops} -> route.id end)
-      refute "Mattapan" in stop_info_routes
-  end
-
-  test "mattapan is nil for non subway index pages", %{conn: conn} do
-      conn = get(conn, stop_path(conn, :show, "commuter-rail"))
-      refute conn.assigns.mattapan
+  test "separates mattapan from stop info", %{conn: conn} do
+    conn = get(conn, stop_path(conn, :show, :subway))
+    assert conn.assigns.mattapan
+    stop_info_routes = Enum.map(conn.assigns.stop_info, fn {route, _stops} -> route.id end)
+    refute "Mattapan" in stop_info_routes
   end
 
   test "shows stops", %{conn: conn} do
