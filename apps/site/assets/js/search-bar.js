@@ -23,6 +23,7 @@ export const SELECTORS = {
 
 export function setupSearch() {
   document.addEventListener("turbolinks:load", doSetupSearch, {passive: true});
+  document.addEventListener("turbolinks:before-cache", hideResults, {passive: true});
 }
 
 function doSetupSearch() {
