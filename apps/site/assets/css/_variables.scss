@@ -92,6 +92,7 @@ $border-color: $gray-lightest;
 $border: $border-width solid $border-color;
 $border-md: 2px solid $border-color;
 $border-radius: $base-spacing / 4;
+$drop-shadow: $space-4 $space-4 $space-6 $drop-shadow-color;
 
 $headings-margin-bottom: $space-16;
 $header-navbar-height-multiplier: 3;

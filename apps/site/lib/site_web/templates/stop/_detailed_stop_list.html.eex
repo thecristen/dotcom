@@ -1,5 +1,5 @@
 <div class="button-group">
-  <div class="detailed-stop-list">
+  <div class="m-detailed-stops">
     <%= for detailed_stop <- @detailed_stops do %>
         <%= render "_detailed_stop.html", conn: @conn, detailed_stop: detailed_stop %>
     <% end %>

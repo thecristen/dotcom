@@ -170,32 +170,6 @@
 
 }
 
-.detailed-stop-list {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
-.detailed-stop-btn {
-  border: $border;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-left: -1px;
-  margin-top: -1px;
-
-  @include media-breakpoint-only(xs) {
-    flex-basis: 100%;
-  }
-
-  @include media-breakpoint-only(sm) {
-    flex-basis: 50%;
-  }
-
-  @include media-breakpoint-up(md) {
-    flex-basis: 33%;
-  }
-}
-
 .stops-view-all-btn {
   border: $border;
   display: inline-block;

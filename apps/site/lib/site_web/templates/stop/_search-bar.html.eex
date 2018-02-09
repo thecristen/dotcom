@@ -1,5 +1,5 @@
 <div class="hidden-no-js c-search-bar">
-  <label for="search-bar">
+  <label for="search-bar" class="c-search-bar__header">
     Search for a Station
   </label>
   <div class="text-input-button-widget" id="search-bar__container">
@@ -7,7 +7,7 @@
     <div class="clearfix"></div>
   </div>
   <div id="search-bar__results" class="c-search-bar__results c-search-bar__results--hidden">
-    <h4 class="c-search-bar__results-header">MBTA station results</h4>
+    <p class="c-search-bar__results-header">MBTA station results</p>
     <p id="search-bar__empty" class="c-search-bar__empty">No matching stations</p>
     <%= for {_, stops} <- @stop_info, stop <- stops do %>
       <%= render "_detailed_stop.html", conn: @conn, detailed_stop: stop, include_route_icon?: true %>

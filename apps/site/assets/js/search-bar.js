@@ -7,7 +7,6 @@ export const STYLE_CLASSES = {
   },
   RESULT: {
     ELEMENT: "c-search-bar__result",
-    HIDDEN: "c-search-bar__result--hidden"
   }
 }
 
@@ -42,8 +41,7 @@ export function buttonList() {
 export function addButtonClasses() {
   const cls = [
     SELECTORS.CLASSES.RESULT,
-    STYLE_CLASSES.RESULT.ELEMENT,
-    STYLE_CLASSES.RESULT.HIDDEN
+    STYLE_CLASSES.RESULT.ELEMENT
   ];
   Array.from(document.getElementById(SELECTORS.IDS.RESULT_LIST).children)
     .filter(el => el.href && el.href != "")
@@ -55,9 +53,8 @@ export function showResults() {
   const data = buttonList().map(el => { return {name: el.getAttribute("data-name")} })
   document.getElementById(SELECTORS.IDS.RESULT_LIST).classList
     .remove(STYLE_CLASSES.RESULT_LIST.HIDDEN);
-  Array.from(document.getElementsByClassName(SELECTORS.CLASSES.RESULT))
-    .forEach(btn => btn.classList.add(STYLE_CLASSES.RESULT.HIDDEN));
-  const matches = siftStops(data, document.getElementById("search-bar").value)
+  buttonList().forEach(hideButton);
+  const matches = siftStops(data, document.getElementById(SELECTORS.IDS.INPUT).value)
   if (matches.length > 0) {
     document.getElementById(SELECTORS.IDS.EMPTY_MSG).style.display = "none";
     matches.forEach(addStopToResults);
@@ -66,19 +63,22 @@ export function showResults() {
   }
 }
 
+function hideButton(btn) {
+  btn.style.display = "none"
+}
+
 function hideResults() {
+  document.removeEventListener("click", hideResults);
   const input = document.getElementById(SELECTORS.IDS.INPUT);
   if (input) {
-    document.removeEventListener("click", hideResults);
     document.getElementById(SELECTORS.IDS.INPUT).value = "";
     document.getElementById(SELECTORS.IDS.RESULT_LIST).classList.add(STYLE_CLASSES.RESULT_LIST.HIDDEN);
   }
 }
 
 function addStopToResults(stop) {
-  Array.from(document.getElementsByClassName(SELECTORS.CLASSES.RESULT))
-       .find(btn => btn.getAttribute("data-name") == stop.name)
-       .classList.remove("c-search-bar__result--hidden");
+  buttonList().find(btn => btn.getAttribute("data-name") == stop.name)
+    .style.display = "flex";
 }
 
 export function siftStops(data, value) {
