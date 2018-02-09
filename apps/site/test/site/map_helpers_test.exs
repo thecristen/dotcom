@@ -13,7 +13,7 @@ defmodule MapHelpersTest do
     end
 
     test "returns the bus map for bus" do
-      assert map_pdf_url(:bus)  == static_url(SiteWeb.Endpoint, "/sites/default/files/maps/Full_System_Map.pdf")
+      assert map_pdf_url(:bus)  == static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-system-map.pdf")
     end
 
     test "returns the map link for commuter rail" do

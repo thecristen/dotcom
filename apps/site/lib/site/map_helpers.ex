@@ -14,7 +14,7 @@ defmodule Site.MapHelpers do
     static_url(SiteWeb.Endpoint, "/sites/default/files/maps/Rapid_Transit_Map.pdf")
   end
   def map_pdf_url(:bus) do
-    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/Full_System_Map.pdf")
+    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-system-map.pdf")
   end
   def map_pdf_url(:commuter_rail) do
     static_url(SiteWeb.Endpoint, "/sites/default/files/maps/Commuter_Rail_Map.pdf")
