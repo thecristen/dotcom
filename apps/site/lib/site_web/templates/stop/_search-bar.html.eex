@@ -1,8 +1,8 @@
-<div class="hidden-no-js c-search-bar">
+<div id="search-bar-container" class="hidden-no-js c-search-bar c-search-bar--hidden">
   <label for="search-bar" class="c-search-bar__header">
     Search for a Station
   </label>
-  <div class="text-input-button-widget" id="search-bar__container">
+  <div class="text-input-button-widget">
     <input type="text" id="search-bar" class="text-input-button-widget-input" placeholder="Enter station name"></input>
     <div class="clearfix"></div>
   </div>

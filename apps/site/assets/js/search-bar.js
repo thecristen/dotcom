@@ -7,6 +7,9 @@ export const STYLE_CLASSES = {
   },
   RESULT: {
     ELEMENT: "c-search-bar__result",
+  },
+  CONTAINER: {
+    HIDDEN: "c-search-bar--hidden"
   }
 }
 
@@ -17,7 +20,8 @@ export const SELECTORS = {
   IDS: {
     INPUT: "search-bar",
     RESULT_LIST: "search-bar__results",
-    EMPTY_MSG: "search-bar__empty"
+    EMPTY_MSG: "search-bar__empty",
+    CONTAINER: "search-bar-container"
   }
 }
 
@@ -27,6 +31,8 @@ export function setupSearch() {
 }
 
 function doSetupSearch() {
+  document.getElementById(SELECTORS.IDS.CONTAINER)
+    .classList.remove(STYLE_CLASSES.CONTAINER.HIDDEN);
   const searchBar = document.getElementById(SELECTORS.IDS.INPUT);
   if (searchBar) {
     addButtonClasses();
