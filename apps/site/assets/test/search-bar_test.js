@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import jsdom from 'mocha-jsdom';
 import Sifter from 'sifter';
-import { setupSearch, siftStops, showResults, addButtonClasses, buttonList, SELECTORS, STYLE_CLASSES } from '../../assets/js/search-bar';
+import { doSetupSearch, siftStops, showResults, addButtonClasses, buttonList, SELECTORS, STYLE_CLASSES } from '../../assets/js/search-bar';
 
 describe("search-bar", function() {
   jsdom();
@@ -9,7 +9,7 @@ describe("search-bar", function() {
   beforeEach(function() {
     document.body.innerHTML = `
       <label for="${SELECTORS.IDS.INPUT}">Search for a Station</label>
-      <div class="text-input-button-widget hidden-no-js">
+      <div id="search-bar-container" class="text-input-button-widget hidden-no-js">
         <input type="text" id="${SELECTORS.IDS.INPUT}" class="text-input-button-widget-input" placeholder="Enter station name"></input>
         <div class="clearfix"></div>
       </div>
@@ -77,6 +77,19 @@ describe("search-bar", function() {
       const showing = buttonList().filter(isVisible)
       expect(showing).to.have.a.lengthOf(1);
       expect(showing[0].textContent).to.contain("Alewife");
+    });
+  });
+
+  describe("setupSearch", function() {
+    it("adds js classes and keyup event handler", function() {
+      expect(buttonList()).to.have.a.lengthOf(0);
+      doSetupSearch();
+      expect(buttonList()).to.have.a.lengthOf(4);
+      expect(buttonList().filter(isVisible)).to.have.a.lengthOf(0);
+      const input = document.getElementById(SELECTORS.IDS.INPUT);
+      input.value = "alewife";
+      input.dispatchEvent(new window.Event("keyup"));
+      expect(buttonList().filter(isVisible)).to.have.a.lengthOf(1);
     });
   });
 });

@@ -25,12 +25,12 @@ export const SELECTORS = {
   }
 }
 
-export function setupSearch() {
+function setupSearch() {
   document.addEventListener("turbolinks:load", doSetupSearch, {passive: true});
   document.addEventListener("turbolinks:before-cache", hideResults, {passive: true});
 }
 
-function doSetupSearch() {
+export function doSetupSearch() {
   const searchBar = document.getElementById(SELECTORS.IDS.INPUT);
   if (searchBar) {
     document.getElementById(SELECTORS.IDS.CONTAINER)
