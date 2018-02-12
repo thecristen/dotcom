@@ -1,4 +1,5 @@
-.m-cms--with-sidebar {
+.m-cms--with-sidebar-bottom {
+  // Only use flexbox when menu appears below content (default)
   @include media-breakpoint-down(sm) {
     display: flex;
     flex-direction: column;
@@ -11,9 +12,6 @@
 }
 
 .m-cms__sidebar {
-  @include media-breakpoint-down(sm) {
-    order: 2;
-  }
 
   @include media-breakpoint-only(md) {
     @include make-col-span(4);
@@ -36,6 +34,20 @@
         width: map-get($container-max-widths, $breakpoint) / 4;
       }
     }
+  }
+}
+
+.m-cms__sidebar--bottom {
+  // Only use order when menu appears below content (default)
+  @include media-breakpoint-down(sm) {
+    order: 2;
+  }
+}
+
+.m-cms__sidebar--top {
+  // Disable sticky positioning when menu appears at top of page
+  @include media-breakpoint-down(sm) {
+    position: relative;
   }
 }
 

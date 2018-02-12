@@ -20,8 +20,10 @@ defmodule SiteWeb.ContentViewTest do
         |> render(page: basic_page, conn: fake_conn)
         |> Phoenix.HTML.safe_to_string
 
+      assert rendered =~ ~s( m-cms--with-sidebar-top")
       assert rendered =~ "Parking Info by Station"
       assert rendered =~ ~s(<ul class="m-cms__sidebar-links">)
+      assert rendered =~ ~s( m-cms__sidebar--top )
     end
 
     test "renders a page without a sidebar menu", %{basic_page: basic_page} do

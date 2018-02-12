@@ -16,6 +16,7 @@ defmodule Content.MenuLinksTest do
     test "parses the data into a MenuLinks struct", %{api_data: api_data} do
       assert %Content.MenuLinks{
         title: "Parking",
+        position: :top,
         links: [
           %Content.Field.Link{
             title: "Parking Info By Station",

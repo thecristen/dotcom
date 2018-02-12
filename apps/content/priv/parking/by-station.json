@@ -267,6 +267,11 @@
 
           ]
         }
+      ],
+      "field_menu_position": [
+        {
+          "value": "top"
+        }
       ]
     }
   ]

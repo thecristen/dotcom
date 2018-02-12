@@ -1,6 +1,12 @@
 <%=
-  container_class = if @page.sidebar_menu do ["row", " ", "m-cms--with-sidebar"] else ["row"] end
-  content_tag :div, [
+  container_class =
+    if @page.sidebar_menu do
+      ["row", " ", "m-cms--with-sidebar", " ",
+       "m-cms--with-sidebar-", Atom.to_string(@page.sidebar_menu.position)]
+    else
+      ["row"]
+    end
+  content_tag :div, [ 
     render("_sidebar.html", page: @page, conn: @conn),
     render("_basic_page.html", page: @page, conn: @conn)
   ], [class: container_class]
