@@ -30,14 +30,6 @@ $location-line-width: $space-6;
   }
 }
 
-.route-branch-stop-list {
-  .route-branch-stop:last-child {
-    .route-branch-stop-info {
-      border-bottom-width: 0;
-    }
-  }
-}
-
 .trip-info-labels {
   .route-branch-stop-info {
     border-bottom-width: 0;
@@ -205,6 +197,10 @@ $location-line-width: $space-6;
   margin-bottom: $base-spacing;  // both margin-bottom and padding-bottom are needed on this element
   padding-bottom: $base-spacing; // to keep the icon properly aligned with the text
   width: 60%; // for non-flex browsers
+}
+
+.route-branch-destination {
+  border-bottom-width: 0;
 }
 
 @include media-breakpoint-down(sm) {

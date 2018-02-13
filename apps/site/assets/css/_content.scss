@@ -7,7 +7,7 @@
 }
 
 .m-cms__sidebar,
-.m-cms__content--with-sidebar {
+.m-cms__content {
   @include make-col();
 }
 
@@ -268,7 +268,6 @@
   display: flex;
   flex-wrap: wrap;
   margin-bottom: $base-spacing;
-  margin-top: -($base-spacing);
 }
 
 .c-content-file {
