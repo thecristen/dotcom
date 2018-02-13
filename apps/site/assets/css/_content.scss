@@ -47,7 +47,9 @@
 .m-cms__sidebar--top {
   // Disable sticky positioning when menu appears at top of page
   @include media-breakpoint-down(sm) {
-    position: relative;
+    &.fixedsticky {
+      position: relative;
+    }
   }
 }
 

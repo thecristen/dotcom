@@ -18,7 +18,7 @@ defmodule Content.MenuLinks do
   def from_api(%{"type" => [%{"target_id" => "menu_links"}]} = data) do
     %__MODULE__{
       title: field_value(data, "title"),
-      position: String.to_existing_atom(field_value(data, "field_menu_position")),
+      position: parse_position(field_value(data, "field_menu_position")),
       blurb: parse_blurb(data),
       links: Enum.map(data["field_links"], & Content.Field.Link.from_api(&1))
     }
@@ -30,4 +30,8 @@ defmodule Content.MenuLinks do
     |> field_value("field_blurb")
     |> handle_html
   end
+
+  @spec parse_position(String.t) :: atom()
+  defp parse_position("top"), do: :top
+  defp parse_position("bottom"), do: :bottom
 end
