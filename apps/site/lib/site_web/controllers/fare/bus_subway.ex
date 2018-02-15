@@ -22,6 +22,7 @@ defmodule SiteWeb.FareController.BusSubway do
   def fares(_conn) do
     [:subway, :bus]
     |> Enum.flat_map(&Fares.Repo.all(mode: &1))
+    |> Enum.reject(&(&1.name == :free_fare))
   end
 
   @impl true

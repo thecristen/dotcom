@@ -72,6 +72,36 @@ defmodule BaseFareTest do
 
       assert %Fares.Fare{cents: 525} = base_fare(outer_express_route, nil, nil, fare_fn)
     end
+
+    test "returns the subway fare for for SL1 route (id=741)" do
+      sl1 = %Route{type: 3, id: "741"}
+
+      fare_fn = fn [reduced: nil, name: :subway] ->
+        Enum.filter(@subway_fares, &(&1.name == :subway))
+      end
+
+      assert %Fares.Fare{cents: 225} = base_fare(sl1, nil, nil, fare_fn)
+    end
+
+    test "returns the subway fare for for SL2 route (id=742)" do
+      sl2 = %Route{type: 3, id: "742"}
+
+      fare_fn = fn [reduced: nil, name: :subway] ->
+        Enum.filter(@subway_fares, &(&1.name == :subway))
+      end
+
+      assert %Fares.Fare{cents: 225} = base_fare(sl2, nil, nil, fare_fn)
+    end
+
+    test "returns the bus fare for for SL4 route (id=751)" do
+      sl4 = %Route{type: 3, id: "751"}
+
+      fare_fn = fn [reduced: nil, name: :local_bus] ->
+        Enum.filter(@bus_fares, &(&1.name == :local_bus))
+      end
+
+      assert %Fares.Fare{cents: 170} = base_fare(sl4, nil, nil, fare_fn)
+    end
   end
 
   describe "commuter rail" do

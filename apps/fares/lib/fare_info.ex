@@ -37,6 +37,22 @@ defmodule Fares.FareInfo do
     |> File.stream!
     |> CSV.decode
     |> Enum.flat_map(&mapper/1)
+    |> Enum.concat(free_fare())
+  end
+
+  @doc "Special fare used only for inbound trips from the airport"
+  @spec free_fare() :: [Fare.t]
+  def free_fare do
+    [
+      %Fare{
+        mode: :bus,
+        name: :free_fare,
+        duration: :single_trip,
+        media: [],
+        reduced: nil,
+        cents: dollars_to_cents("0.00")
+      }
+    ]
   end
 
   _ = @lint {Credo.Check.Refactor.ABCSize, false}

@@ -147,6 +147,9 @@ defmodule SiteWeb.FareView.Description do
      "Subway.",
     ] |> and_join
   end
+  def description(%Fare{name: :free_fare, mode: :bus, media: []}, _assigns) do
+    ["Valid for the Local Bus (includes Route SL4 and SL5)."]
+  end
   def description(%Fare{mode: :bus, media: media} = fare, _assigns)
   when media != [:charlie_ticket, :cash] do
     [
@@ -164,6 +167,9 @@ defmodule SiteWeb.FareView.Description do
      "<br><br>" |> Phoenix.HTML.raw,
      "A trip also qualifies if it is not within the core ADA area of service, or has a destination more than 3/4 miles away from an active MBTA Bus or Subway service."
     ]
+  end
+  def description(%Fare{name: :free_fare}, _assigns) do
+    ["Inbound SL1 travel from any airport stop is free."]
   end
 
   defp duration_string_body(:day), do: "24 hours"

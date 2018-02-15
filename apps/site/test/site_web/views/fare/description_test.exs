@@ -105,6 +105,13 @@ defmodule SiteWeb.FareView.DescriptionTest do
       assert body =~ "Commuter Rail Zone 1A (CharlieTicket only)"
     end
 
+    test "fare description for busses with no media (free fare) do not include transfer info" do
+      fare = %Fare{name: :free_fare, duration: :month, mode: :bus, media: []}
+      result = fare |> description(%{}) |> iodata_to_binary()
+
+      assert result == "Valid for the Local Bus (includes Route SL4 and SL5)."
+    end
+
     test "can make a description for every fare" do
       for fare <- Fares.Repo.all() do
         result = description(fare, %{})

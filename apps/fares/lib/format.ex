@@ -73,6 +73,7 @@ defmodule Fares.Format do
   def name({:zone, zone}), do: "Zone #{zone}"
   def name({:interzone, zone}), do: "Interzone #{zone}"
   def name(:foxboro), do: "Foxboro"
+  def name(:free_fare), do: "Free Fare for SL1 Trips from Airport Stops"
 
   @spec full_name(Fare.t) :: String.t | iolist
   def full_name(%Fare{mode: :subway, duration: :month}), do: "Monthly LinkPass"

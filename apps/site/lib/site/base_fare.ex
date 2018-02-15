@@ -30,10 +30,12 @@ defmodule Site.BaseFare do
   defp name_or_mode_filter(:subway, _route, _origin_id, _destination_id) do
     [mode: :subway]
   end
-  defp name_or_mode_filter(:bus, route, _origin_id, _destination_id) do
+  defp name_or_mode_filter(:bus, route, origin_id, _destination_id) do
     name = cond do
       Route.inner_express?(route) -> :inner_express_bus
       Route.outer_express?(route) -> :outer_express_bus
+      Route.silver_line_airport_stop?(route, origin_id) -> :free_fare
+      Route.silver_line_rapid_transit?(route) -> :subway
       true -> :local_bus
     end
 

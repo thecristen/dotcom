@@ -131,6 +131,24 @@ defmodule Routes.RouteTest do
     end
   end
 
+  describe "silver line rapid transit routes" do
+    test "silver_line_rapid_transit?/1 returns true if a route id is in @silver_line_rapid_transit_routes" do
+      assert silver_line_rapid_transit?(sample(silver_line_rapid_transit()))
+      refute silver_line_rapid_transit?(%Route{id: "751"})
+    end
+  end
+
+  describe "silver line airport origin routes" do
+    test "inbound routes originating at airport are properly identified" do
+      airport_stops =  ["17091", "27092", "17093", "17094", "17095"]
+      for origin_id <- airport_stops do
+        assert silver_line_airport_stop?(%Route{id: "741"}, origin_id)
+      end
+
+      refute silver_line_airport_stop?(%Route{id: "742"}, "17091")
+    end
+  end
+
   describe "Phoenix.Param.to_param" do
     test "Green routes are normalized to Green" do
       green_e = %Route{id: "Green-E"}
