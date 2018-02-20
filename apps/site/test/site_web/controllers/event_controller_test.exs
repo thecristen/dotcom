@@ -17,7 +17,10 @@ defmodule SiteWeb.EventControllerTest do
     test "renders an event when the given event has no path_alias", %{conn: conn} do
       event = event_factory(0, path_alias: nil)
       assert event.path_alias == nil
-      conn = get conn, event_path(conn, :show, event)
+      assert event.title == "Finance & Audit Committee Meeting"
+      path = event_path(conn, :show, event)
+      assert path == "/events/17"
+      conn = get conn, path
       assert html_response(conn, 200) =~ "Finance & Audit Committee Meeting"
     end
 

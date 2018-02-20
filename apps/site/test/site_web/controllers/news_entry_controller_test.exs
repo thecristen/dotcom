@@ -25,8 +25,11 @@ defmodule SiteWeb.NewsEntryControllerTest do
   describe "GET show" do
     test "renders a news entry when entry has no path_alias", %{conn: conn} do
       news_entry = news_entry_factory(0, path_alias: nil)
+      assert news_entry.title == {:safe, "Example News Entry"}
+      path = news_entry_path(conn, :show, news_entry)
+      assert path == "/news/1"
 
-      conn = get conn, news_entry_path(conn, :show, news_entry)
+      conn = get conn, path
 
       assert html_response(conn, 200) =~ "Example News Entry"
     end

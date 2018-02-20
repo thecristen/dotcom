@@ -12,9 +12,12 @@ defmodule SiteWeb.ProjectControllerTest do
     test "renders a project when project has no path alias", %{conn: conn} do
       project = project_factory(0)
       assert project.path_alias == nil
+      assert project.title == "Ruggles Station Platform Project"
+      path = project_path(conn, :show, project)
+      assert path == "/projects/2679"
 
-      conn = get conn, project_path(conn, :show, project)
-      assert html_response(conn, 200) =~ "Transforming the T"
+      conn = get conn, path
+      assert html_response(conn, 200) =~ "Ruggles Station Platform Project"
     end
 
     test "renders a project with a path alias", %{conn: conn} do
@@ -55,8 +58,12 @@ defmodule SiteWeb.ProjectControllerTest do
       project_update = project_update_factory(1, path_alias: nil)
 
       assert project_update.path_alias == nil
+      assert project_update.title == "Project Update Title 2"
+      path = project_update_path(conn, :project_update, project_update)
+      assert path == "/projects/2679/update/124"
 
-      conn = get conn, project_update_path(conn, :project_update, project_update)
+      conn = get conn, path
+      assert conn.status == 200
       assert html_response(conn, 200) =~ "Project Update Title 2"
     end
 
@@ -66,12 +73,14 @@ defmodule SiteWeb.ProjectControllerTest do
       assert project_update.path_alias == "/projects/project-name/update/project-progress"
 
       conn = get conn, project_update_path(conn, :project_update, project_update)
+      assert conn.status == 200
       assert html_response(conn, 200) =~ "<h1>Project Update Title 2</h1>"
     end
 
     test "renders a preview of the requested project update", %{conn: conn} do
       project_update = project_update_factory(1)
       conn = get(conn, project_update_path(conn, :project_update, project_update) <> "?preview&vid=112")
+      assert conn.status == 200
       assert html_response(conn, 200) =~ "Project Update Title 2 112"
       assert %{"preview" => nil, "vid" => "112"} == conn.query_params
     end
@@ -103,7 +112,12 @@ defmodule SiteWeb.ProjectControllerTest do
     end
 
     test "renders a 404 when project update exists but project does not exist", %{conn: conn} do
-      conn = get conn, project_path(conn, :project_update, "project-deleted", "project-deleted-progress")
+      path = project_path(conn, :project_update, "project-deleted", "project-deleted-progress")
+      assert %Content.ProjectUpdate{project_url: "/projects/project-deleted"} = Content.Repo.get_page(path)
+      assert conn
+             |> project_path(:show, "project-deleted")
+             |> Content.Repo.get_page() == {:error, :not_found}
+      conn = get conn, path
       assert conn.status == 404
     end
   end

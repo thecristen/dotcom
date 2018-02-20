@@ -19,9 +19,8 @@ defmodule SiteWeb.NewsEntryController do
     |> render(:index)
   end
 
-  def show(conn, params) do
-    params
-    |> best_cms_path(conn.request_path)
+  def show(%Plug.Conn{} = conn, _params) do
+    conn.request_path
     |> Content.Repo.get_page(conn.query_params)
     |> do_show(conn)
   end

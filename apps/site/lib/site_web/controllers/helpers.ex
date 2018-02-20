@@ -108,21 +108,4 @@ defmodule SiteWeb.ControllerHelpers do
   def check_cms_or_404(conn) do
     SiteWeb.ContentController.page(conn, %{})
   end
-
-  @spec best_cms_path(map, String.t) :: String.t
-  def best_cms_path(%{"id" => id}, full_path), do: parse_id(id, full_path)
-  def best_cms_path(%{"path_params" => [path_params]}, full_path), do: parse_id(path_params, full_path)
-  def best_cms_path(%{"project_id" => _pid, "update_id" => uid}, full_path), do: parse_id(uid, full_path)
-  def best_cms_path(_, full_path), do: full_path
-
-  @spec parse_id(String.t, String.t) :: String.t
-  defp parse_id(id, full_path) do
-    id
-    |> Integer.parse()
-    |> do_best_cms_path(full_path)
-  end
-
-  @spec do_best_cms_path({integer, String.t} | :error, String.t) :: String.t
-  defp do_best_cms_path({id, ""}, _), do: "/node/#{id}"
-  defp do_best_cms_path(_, full_path), do: full_path
 end

@@ -8,12 +8,22 @@ defmodule Content.CMS.StaticTest do
       assert record_type(record) == "news_entry"
     end
 
+    test "/projects/project-deleted/update/project-deleted-update" do
+      assert {:ok, %{"field_project" => [project]}} = view("/projects/project-deleted/update/project-deleted-progress", %{})
+      assert %{"url" => "/projects/project-deleted"} = project
+    end
+
     test "redirects" do
       assert {:error, {:redirect, _}} = view("/redirected-url", %{})
       assert {:error, {:redirect, _}} = view("/news/redirected-url", %{})
       assert {:error, {:redirect, _}} = view("/events/redirected-url", %{})
       assert {:error, {:redirect, _}} = view("/projects/redirected-project", %{})
       assert {:error, {:redirect, _}} = view("/projects/project-name/update/redirected-update", %{})
+      assert {:error, {:redirect, _}} = view("/node/1", %{})
+      assert {:error, {:redirect, _}} = view("/node/17", %{})
+      assert {:error, {:redirect, _}} = view("/node/123", %{})
+      assert {:error, {:redirect, _}} = view("/node/124", %{})
+      assert {:error, {:redirect, _}} = view("/node/2679", %{})
     end
   end
 

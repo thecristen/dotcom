@@ -14,9 +14,8 @@ defmodule SiteWeb.ProjectController do
     })
   end
 
-  def show(conn, params) do
-    params
-    |> best_cms_path(conn.request_path)
+  def show(%Plug.Conn{} = conn, _) do
+    conn.request_path
     |> Content.Repo.get_page(conn.query_params)
     |> do_show(conn)
   end
@@ -47,9 +46,8 @@ defmodule SiteWeb.ProjectController do
     }
   end
 
-  def project_update(conn, params) do
-    params
-    |> best_cms_path(conn.request_path)
+  def project_update(%Plug.Conn{} = conn, _params) do
+    conn.request_path
     |> Content.Repo.get_page(conn.query_params)
     |> do_project_update(conn)
   end
@@ -69,6 +67,8 @@ defmodule SiteWeb.ProjectController do
           Breadcrumb.build(update.title)]
 
         render conn, "update.html", breadcrumbs: breadcrumbs, update: update, narrow_template: true
+      {:error, {:redirect, path}} ->
+        show_project_update(conn, %{update | project_url: path})
       _ -> render_404(conn)
     end
 

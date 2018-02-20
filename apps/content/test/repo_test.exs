@@ -39,10 +39,6 @@ defmodule Content.RepoTest do
       assert %Content.BasicPage{} = result
     end
 
-    test "returns a node given an system path" do
-      assert %Content.Event{} = Content.Repo.get_page("/node/17")
-    end
-
     test "returns a NewsEntry" do
       assert %Content.NewsEntry{} = Content.Repo.get_page("/news/2018/news-entry")
     end

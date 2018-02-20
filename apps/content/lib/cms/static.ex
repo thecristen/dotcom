@@ -109,6 +109,9 @@ defmodule Content.CMS.Static do
   def view("/news/incorrect-pattern", _) do
     {:ok, Enum.at(news_response(), 1)}
   end
+  def view("/news/1", _) do
+    {:ok, List.first(news_response())}
+  end
   def view("/news/date/title", _) do
     {:ok, Enum.at(news_response(), 1)}
   end
@@ -135,7 +138,7 @@ defmodule Content.CMS.Static do
     {:ok, Enum.at(events_response(), 1)}
   end
   def view("/events/17", _) do
-    {:ok, Enum.at(events_response(), 1)}
+    {:ok, Enum.at(events_response(), 0)}
   end
   def view("/events/redirected-url", params) do
     redirect("/events/date/title", params)
@@ -159,12 +162,6 @@ defmodule Content.CMS.Static do
       {:ok, projects_response()}
     end
   end
-  def view("/projects/project-name", _) do
-    {:ok, Enum.at(projects_response(), 1)}
-  end
-  def view("/porjects/project-name", _) do
-    {:ok, Enum.at(projects_response(), 1)}
-  end
   def view("/api/project-updates", [id: id]) do
     {:ok, filter_by(project_updates_response(), "nid", id)}
   end
@@ -175,11 +172,34 @@ defmodule Content.CMS.Static do
       {:ok, project_updates_response()}
     end
   end
+  def view("/projects/2679", _) do
+    {:ok, List.first(projects_response())}
+  end
+  def view("/projects/project-name", _) do
+    {:ok, Enum.at(projects_response(), 1)}
+  end
+  def view("/porjects/project-name", _) do
+    {:ok, Enum.at(projects_response(), 1)}
+  end
   def view("/projects/redirected-project", params) do
     redirect("/projects/project-name", params)
   end
+  def view("/projects/2679/update/124", _) do
+    {:ok, Enum.at(project_updates_response(), 1)}
+  end
   def view("/projects/project-name/update/project-progress", _) do
     {:ok, Enum.at(project_updates_response(), 1)}
+  end
+  def view("/projects/project-deleted/update/project-deleted-progress", _) do
+    project_info = %{"field_project" => [%{
+                      "target_id" => 2679,
+                      "target_type" => "node",
+                      "target_uuid" => "5d55a7f8-22da-4ce8-9861-09602c64c7e4",
+                      "url" => "/projects/project-deleted"
+                    }]}
+    {:ok, project_updates_response()
+          |> Enum.at(0)
+          |> Map.merge(project_info)}
   end
   def view("/projects/redirected-project/update/not-redirected-update", _) do
     {:ok, Enum.at(project_updates_response(), 1)}
@@ -211,20 +231,20 @@ defmodule Content.CMS.Static do
   def view("/people/joseph-aiello", _) do
     {:ok, person_response()}
   end
-  def view("/node/1", _) do
-    {:ok, List.first(news_response())}
+  def view("/node/1", params) do
+    redirect("/news/2018/news-entry", params)
   end
-  def view("/node/17", _) do
-    {:ok, List.first(events_response())}
+  def view("/node/17", params) do
+    redirect("/events/date/title", params)
   end
-  def view("/node/123", _) do
-    {:ok, List.first(project_updates_response())}
+  def view("/node/123", params) do
+    redirect("/projects/project-name", params)
   end
-  def view("/node/124", _) do
-    {:ok, Enum.at(project_updates_response(), 1)}
+  def view("/node/124", params) do
+    redirect("/projects/project-name/updates/project-progress", params)
   end
-  def view("/node/2679", _) do
-    {:ok, List.first(projects_response())}
+  def view("/node/2679", params) do
+    redirect("/projects/2679", params)
   end
   def view("/api/route-pdfs/87", _) do
     {:ok, route_pdfs_response()}

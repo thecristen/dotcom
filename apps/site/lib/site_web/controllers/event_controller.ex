@@ -17,13 +17,12 @@ defmodule SiteWeb.EventController do
     |> render("index.html", conn: conn)
   end
 
-  def show(conn, %{"path_params" => path} = params) do
+  def show(conn, %{"path_params" => path}) do
     case List.last(path) do
       "icalendar" ->
         redirect conn, to: Path.join(["/events", "icalendar" | Enum.slice(path, 0..-2)])
       _ ->
-        params
-        |> best_cms_path(conn.request_path)
+        conn.request_path
         |> Content.Repo.get_page(conn.query_params)
         |> do_show(conn)
     end
@@ -51,9 +50,9 @@ defmodule SiteWeb.EventController do
   end
 
   @spec icalendar(Plug.Conn.t, map) :: Plug.Conn.t
-  def icalendar(conn, %{"path_params" => path} = params) do
-    params
-    |> best_cms_path(Path.join(["/events" | path]))
+  def icalendar(conn, %{"path_params" => path}) do
+    ["/events" | path]
+    |> Path.join()
     |> Content.Repo.get_page(conn.query_params)
     |> do_icalendar(conn)
   end
