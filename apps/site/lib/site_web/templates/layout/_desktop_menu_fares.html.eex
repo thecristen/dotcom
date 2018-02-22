@@ -24,7 +24,7 @@
       </li>
       <li>
         <%= link to: cms_static_page_path(@conn, "/fares/how-to-pay") do %>
-          <%= fa "caret-right" %> Payment Methods
+          <%= fa "caret-right" %> How to Pay Your Fare
         <% end %>
       </li>
     </ul>
