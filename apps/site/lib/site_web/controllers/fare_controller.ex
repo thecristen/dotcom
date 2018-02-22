@@ -9,10 +9,6 @@ defmodule SiteWeb.FareController do
     nearby_fn: &Fares.RetailLocations.get_nearby/1
   }
 
-  @static_page_titles %{
-    "payment-methods" => "Payment Methods"
-  }
-  @static_pages Map.keys(@static_page_titles)
   @bus_subway_filters [[name: :subway, duration: :single_trip, reduced: nil],
                        [name: :local_bus, duration: :single_trip, reduced: nil],
                        [name: :subway, duration: :week, reduced: nil],
@@ -34,14 +30,6 @@ defmodule SiteWeb.FareController do
     |> render("index.html")
   end
 
-  def show(conn, %{"id" => static}) when static in @static_pages do
-    render conn, "#{String.replace(static, "-", "_")}.html", [
-      breadcrumbs: [
-        Breadcrumb.build("Fares", fare_path(conn, :index)),
-        Breadcrumb.build(@static_page_titles[static])
-      ]
-    ]
-  end
   def show(%Plug.Conn{assigns: %{date_time: date_time}} = conn, %{"id" => "retail-sales-locations"} = params) do
     {position, formatted} = calculate_position(params, @options.geocode_fn)
 

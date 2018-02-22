@@ -51,8 +51,8 @@
 </div>
 <h2>Related Pages</h2>
 <div class="l-title-cards">
-  <%= render "_mode_pay.html", mode: :subway %>
-  <%= render "_mode_pay.html", mode: :bus %>
-  <%= render "_related_page_card.html", title: "Payment Methods", body: ["Ways to pay your fare", "Where each payment method can be used", "Types of fares you can load onto each payment method"], href: fare_path(@conn, :show, "payment-methods"), target: "_self" %>
+  <%= render "_mode_pay.html", mode: :subway, conn: @conn %>
+  <%= render "_mode_pay.html", mode: :bus, conn: @conn %>
+  <%= render "_related_page_card.html", title: "Payment Methods", body: ["Ways to pay your fare", "Where each payment method can be used", "Types of fares you can load onto each payment method"], href: cms_static_page_path(@conn, "/fares/how-to-pay"), target: "_self" %>
   <%= render "_related_page_card.html", title: "Pass Purchase Programs", body: ["Corporations", "Schools and Universities", "Tour and Field Trip groups"], href: redirect_path(@conn, "pass_program"), target: "_blank" %>
 </div>

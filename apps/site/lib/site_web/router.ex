@@ -55,9 +55,7 @@ defmodule SiteWeb.Router do
     get "/fares/charlie-card", Redirector, to: "/fares/charliecard"
     get "/fares/commuter_rail", Redirector, to: "/fares/commuter-rail"
     get "/fares/commuter_rail/zone", Redirector, to: "/fares/commuter-rail/zone"
-    get "/fares/payment_methods", Redirector, to: "/fares/payment-methods"
     get "/fares/retail_sales_locations", Redirector, to: "/fares/retail-sales-locations"
-    get "/how-to-pay/commuter_rail", Redirector, to: "/how-to-pay/commuter-rail"
     get "/schedules/commuter_rail", Redirector, to: "/schedules/commuter-rail"
     get "/stops/commuter_rail", Redirector, to: "/stops/commuter-rail"
     get "/style_guide", Redirector, to: "/style-guide"
@@ -121,7 +119,6 @@ defmodule SiteWeb.Router do
     post "/customer-support", CustomerSupportController, :submit
     get "/fares/commuter-rail/zone", FareController, :zone
     resources "/fares", FareController, only: [:index, :show]
-    resources "/how-to-pay", HowToPayController, only: [:index, :show], param: "mode"
     get "/search", SearchController, :index
     for static_page <- StaticPage.static_pages do
       get "/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page

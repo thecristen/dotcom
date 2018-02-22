@@ -23,7 +23,7 @@
       Use our step-by-step guides to learn how to pay your fare on the subway, bus, Commuter Rail, and ferry.
     </p>
     <p>
-      <%= link to: how_to_pay_path(@conn, :index) do %>
+      <%= link to: cms_static_page_path(@conn, "/fares/how-to-pay") do %>
         Learn how to pay your fare <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %>
     </p>

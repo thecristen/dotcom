@@ -175,17 +175,6 @@ defmodule SiteWeb.FareControllerTest do
     end
   end
 
-  describe "payment methods page" do
-    test "renders payment info" do
-      conn = get build_conn(), fare_path(SiteWeb.Endpoint, :show, "payment-methods")
-      content = html_response(conn, 200)
-      assert content =~ "CharlieCards are durable, plastic cards"
-      assert content =~ "Pick up a CharlieTicket at"
-      assert content =~ "Commuter Rail and Ferry riders can easily purchase any pass"
-      assert content =~ "Each mode accepts cash on-board"
-    end
-  end
-
   describe "zone" do
     test "assigns zone fare info", %{conn: conn} do
       conn = get conn, fare_path(conn, :zone)
