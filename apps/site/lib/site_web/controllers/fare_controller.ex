@@ -25,7 +25,7 @@ defmodule SiteWeb.FareController do
     |> async_assign(:commuter_rail, fn -> format_filters(@commuter_rail_filters, :commuter_rail) end)
     |> async_assign(:ferry, fn -> format_filters(@ferry_filters, :ferry) end)
     |> async_assign(:the_ride, fn -> format_filters(@the_ride_filters, :the_ride) end)
-    |> assign(:breadcrumbs, [Breadcrumb.build("Fares and Passes")])
+    |> assign(:breadcrumbs, [Breadcrumb.build("Fares")])
     |> await_assign_all()
     |> render("index.html")
   end

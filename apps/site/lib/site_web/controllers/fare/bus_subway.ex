@@ -13,7 +13,7 @@ defmodule SiteWeb.FareController.BusSubway do
   def before_render(conn) do
     conn
     |> assign(:breadcrumbs, [
-          Breadcrumb.build("Fares and Passes", fare_path(conn, :index)),
+          Breadcrumb.build("Fares", fare_path(conn, :index)),
           Breadcrumb.build("Bus and Subway")
         ])
   end

@@ -46,7 +46,7 @@ defmodule SiteWeb.FareController.OriginDestinationFareBehavior do
 
     conn
     |> assign(:breadcrumbs, [
-          Breadcrumb.build("Fares and Passes", fare_path(conn, :index)),
+          Breadcrumb.build("Fares", fare_path(conn, :index)),
           Breadcrumb.build(SiteWeb.ViewHelpers.mode_name(module.mode))
         ])
     |> assign(:mode,  module.mode)
