@@ -1,3 +1,16 @@
+.ap-name {
+  font-weight: bold;
+}
+
+.ap-suggestion-icon {
+  margin-right: $base-spacing / 4;
+}
+
+.ap-address {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .c-search-bar {
   margin-bottom: $base-spacing;
   position: relative;
@@ -5,7 +18,7 @@
 
 .c-search-bar__empty,
 .c-search-bar__results-header {
-  padding: $base-spacing / 2 $base-spacing;
+  padding: $base-spacing / 2;
 }
 
 .c-search-bar__header {
@@ -22,13 +35,11 @@
 }
 
 .c-search-bar__results-header {
-  @include h6();
-  border-left: $border;
-  border-right: $border;
   border-top: $border;
   color: $gray-lighter;
   font-weight: normal;
   margin: 0;
+  text-align: left;
 }
 
 .c-search-bar__result {
@@ -48,6 +59,57 @@
 
 .c-search-bar--hidden,
 .c-search-bar__results--hidden,
+.c-search-bar__results-header--hidden,
+.c-search-bar__autocomplete-results--hidden,
 .c-search-bar__result--hidden {
   display: none;
+}
+
+.c-search-bar__autocomplete {
+  width: 100%;
+}
+
+.c-search-bar__-dropdown-menu {
+  background-color: $white;
+  border: $border;
+  border-top: 0;
+  width: 100%;
+}
+
+.c-search-bar__-suggestion {
+  border-bottom: $border;
+  cursor: pointer;
+  padding: $base-spacing / 2 $base-spacing;
+  text-align: left;
+
+  em {
+    font-style: normal;
+    font-weight: bold;
+  }
+}
+
+.c-search-bar__-cursor {
+  background-color: $brand-primary-lightest;
+}
+
+.c-search-bar__cards {
+  margin-left: -$base-spacing / 2;
+  padding: 0;
+}
+
+.c-search-bar__stop-name {
+  font-weight: bold;
+}
+
+.c-search-bar__input {
+  display: flex;
+
+  @include media-breakpoint-up(md) {
+    width: 50%;
+  }
+}
+
+.c-search-bar__my-location {
+  color: $brand-primary;
+  text-decoration: none;
 }

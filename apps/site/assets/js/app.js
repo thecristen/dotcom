@@ -242,6 +242,7 @@ import search from './search';
 import photoGallery from './photo-gallery';
 import filter from './filter';
 import { setupSearch } from "./search-bar";
+import algoliaSearch from "./algolia-search";
 
 submitOnEvents(["blur", "change"]);
 googleMapsLoaded();
@@ -270,6 +271,11 @@ search(window.$, breakpoints);
 photoGallery();
 filter();
 stickyTooltip();
-setupSearch();
+
+if (window.useAlgoliaSearch) {
+  algoliaSearch();
+} else {
+  setupSearch();
+}
 
 document.body.className = document.body.className.replace("no-js", "js");

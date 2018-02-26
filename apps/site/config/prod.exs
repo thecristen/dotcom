@@ -113,3 +113,9 @@ config :site, OldSiteFileController,
 
 config :site, StaticFileController,
   response_fn: {SiteWeb.StaticFileController, :redirect_through_cdn}
+
+config :site, :algolia,
+  algolia_app_id: "${ALGOLIA_APP_ID}",
+  algolia_api_key: "${ALGOLIA_API_KEY}",
+  algolia_places_app_id: "${ALGOLIA_PLACES_APP_ID}",
+  algolia_places_api_key: "${ALGOLIA_PLACES_API_KEY}"

@@ -1,0 +1,16 @@
+<div id="search-bar-container" class="hidden-no-js c-search-bar c-search-bar--hidden">
+  <label for="search-bar" class="c-search-bar__header">
+    Search for a Station
+  </label>
+  <div class="text-input-button-widget">
+    <input type="text" id="search-bar" class="text-input-button-widget-input" placeholder="Enter station name"></input>
+    <div class="clearfix"></div>
+  </div>
+  <div id="search-bar__results" class="c-search-bar__results c-search-bar__results--hidden">
+    <p class="c-search-bar__results-header">MBTA station results</p>
+    <p id="search-bar__empty" class="c-search-bar__empty">No matching stations</p>
+    <%= for {_, stops} <- @stop_info, stop <- stops do %>
+      <%= render "_detailed_stop.html", conn: @conn, detailed_stop: stop, include_route_icon?: true %>
+    <% end %>
+  </div>
+</div>

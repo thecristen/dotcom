@@ -1,7 +1,19 @@
 <% subway? = @mode == :subway%>
 <div class="page-section">
   <h1>MBTA Stations</h1>
-  <%= render "_search-bar.html", stop_info: @stop_info, conn: @conn %>
+  <div>
+    <%= for feature <- [:red_line, :green_line, :blue_line, :orange_line, :access, :parking_lot, :bus, :commuter_rail, :ferry, :mattapan_trolley] do %>
+      <div id="icon-feature-<%= feature %>" class="hidden-js hidden-no-js">
+        <%= stop_feature_icon(feature, "icon-small") %>
+      </div>
+    <% end %>
+  </div>
+  <%= if Laboratory.enabled?(@conn, :stops_search_bar) do
+        render "_search-bar.html", stop_info: @stop_info, conn: @conn
+      else
+        render "_legacy-search-bar.html", stop_info: @stop_info, conn: @conn
+      end
+  %>
   <%= mode_tab_list %ModeTabList{
     links: for mode <- [:subway, "commuter-rail", :ferry] do
       {mode, stop_path(@conn, :show, mode)}
