@@ -1,8 +1,8 @@
 # The one the elixir image was built with
-FROM debian:jessie
+FROM debian:stretch
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-		libssl1.0.0 libsctp1 curl \
+		libssl1.1 libsctp1 curl \
 	&& rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root
