@@ -16,15 +16,15 @@
     <% end %>
   </p>
 
+  <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>
   <h2>Accessibility</h2>
-  <%= accessibility_info(@stop) %>
+  <%= accessibility_info(@stop, types) %>
   <p>
     <%= link to: cms_static_page_path(@conn, "/accessibility") do %>
       Learn more about accessibility <%= fa "arrow-right" %>
     <% end %>
   </p>
 
-  <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>
   <%= unless Enum.empty?(types) do %>
     <h2>Fares</h2>
     <%= if :subway in types || :bus in types do %>

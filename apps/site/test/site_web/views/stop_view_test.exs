@@ -32,20 +32,27 @@ defmodule SiteWeb.StopViewTest do
     @unknown_accessibly  %Stop{id: "44", name: "44", accessibility: ["unknown"]}
 
     test "Accessibility description reflects features" do
-      has_text? accessibility_info(@unknown_accessibly), "Minor to moderate accessibility barriers exist"
-      has_text? accessibility_info(@no_accessible_feature), "Significant accessibility barriers exist"
-      has_text? accessibility_info(@no_accessible_with_feature), "Significant accessibility barriers exist"
-      has_text? accessibility_info(@only_accessible_feature), "is accessible"
-      has_text? accessibility_info(@many_feature), "has the following"
+      has_text? accessibility_info(@unknown_accessibly, []), "Minor to moderate accessibility barriers exist"
+      has_text? accessibility_info(@no_accessible_feature, []), "Significant accessibility barriers exist"
+      has_text? accessibility_info(@no_accessible_with_feature, []), "Significant accessibility barriers exist"
+      has_text? accessibility_info(@only_accessible_feature, []), "is accessible"
+      has_text? accessibility_info(@many_feature, []), "has the following"
+    end
+
+    test "Accessibility description only has extra information for bus routes" do
+      has_text? accessibility_info(@unknown_accessibly, [:bus]), "Bus operator may need to relocate bus for safe boarding and exiting"
+      no_text? accessibility_info(@unknown_accessibly, []), "Bus operator may need to relocate bus for safe boarding and exiting"
+      has_text? accessibility_info(@no_accessible_feature, [:bus]), "Customers using wheeled mobility devices may need to board at street level"
+      no_text? accessibility_info(@no_accessible_feature, []), "Customers using wheeled mobility devices may need to board at street level"
     end
 
     test "Contact link only appears for stops with accessibility features" do
       text = "Problem with an elevator"
-      has_text? accessibility_info(@many_feature), text
-      has_text? accessibility_info(@no_accessible_with_feature), text
-      no_text? accessibility_info(@only_accessible_feature), text
-      no_text? accessibility_info(@no_accessible_feature), text
-      no_text? accessibility_info(@unknown_accessibly), text
+      has_text? accessibility_info(@many_feature, []), text
+      has_text? accessibility_info(@no_accessible_with_feature, []), text
+      no_text? accessibility_info(@only_accessible_feature, []), text
+      no_text? accessibility_info(@no_accessible_feature, []), text
+      no_text? accessibility_info(@unknown_accessibly, []), text
     end
 
     defp has_text?(unsafe, text) do

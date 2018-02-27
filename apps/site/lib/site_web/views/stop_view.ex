@@ -58,24 +58,25 @@ defmodule SiteWeb.StopView do
     Enum.uniq_by(routes, &Phoenix.Param.to_param/1)
   end
 
-  @spec accessibility_info(Stop.t) :: Phoenix.HTML.Safe.t
+  @spec accessibility_info(Stop.t, [Routes.Route.gtfs_route_type]) :: Phoenix.HTML.Safe.t
   @doc "Accessibility content for given stop"
-  def accessibility_info(stop) do
+  def accessibility_info(stop, route_types) do
     [
       content_tag(:p, [
-            format_accessibility_text(stop),
-            format_accessibility_prefix(stop)]),
+            format_accessibility_text(stop, route_types),
+            format_accessibility_prefix(stop, route_types)]),
       format_accessibility_options(stop),
       accessibility_contact_link(stop)
     ]
   end
 
-  def format_accessibility_prefix(stop) do
+  @spec format_accessibility_prefix(Stop.t, [Routes.Route.gtfs_route_type]) :: Phoenix.HTML.Safe.t
+  def format_accessibility_prefix(stop, route_types) do
     case Enum.flat_map(stop.accessibility, &pretty_accessibility/1) do
       [] -> []
       _ ->
         cond do
-          Stop.accessible?(stop) ->
+          Stop.accessible?(stop) || !bus_route?(route_types) ->
             " It has the following features:"
           Stop.accessibility_known?(stop) ->
             [" ", stop.name, " has the following features:"]
@@ -94,18 +95,38 @@ defmodule SiteWeb.StopView do
     end
   end
 
-  @spec format_accessibility_text(Stop.t) :: iodata
-  defp format_accessibility_text(stop) do
-    name = stop.name
+  @spec format_accessibility_text(Stop.t, [Routes.Route.gtfs_route_type]) :: iodata
+  defp format_accessibility_text(stop, route_types) do
+    bus_route? = bus_route?(route_types)
+
     cond do
       Stop.accessible?(stop) ->
-        [name, " is accessible."]
+        [stop.name, " is accessible."]
       Stop.accessibility_known?(stop) ->
-        ["Significant accessibility barriers exist at ", name, ". Customers using wheeled mobility devices may need to board at street level."]
+        accessibility_text(stop.name,
+                           bus_route?,
+                           "Significant",
+                           "Customers using wheeled mobility devices may need to board at street level."
+        )
       :unknown ->
-        ["Minor to moderate accessibility barriers exist at ", name, ". Bus operator may need to relocate bus for safe boarding and exiting."]
+        accessibility_text(stop.name,
+                           bus_route?,
+                           "Minor to moderate",
+                           "Bus operator may need to relocate bus for safe boarding and exiting."
+        )
     end
   end
+
+  @spec accessibility_text(String.t, boolean, String.t, String.t) :: iodata
+  defp accessibility_text(stop_name, true, main_text, bus_text) do
+      [main_text, " accessibility barriers exist at ", stop_name, ". ", bus_text]
+  end
+  defp accessibility_text(stop_name, false, main_text, _bus_text) do
+      [main_text, " accessibility barriers exist at ", stop_name, "."]
+  end
+
+  @spec bus_route?([Routes.Route.gtfs_route_type]) :: boolean
+  defp bus_route?(route_types), do: Enum.any?(route_types, &(&1 == :bus))
 
   @spec accessibility_contact_link(Stop.t) :: Phoenix.HTML.Safe.t
   defp accessibility_contact_link(stop) do
