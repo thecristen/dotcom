@@ -22,5 +22,6 @@ apps/site/node_modules
 apps/site/vendor/nodep-date-input-polyfill/node_modules
 apps/site/test
 apps/site/assets/test
+apps/site/assets/node_modules
 aws
 site-build.zip
