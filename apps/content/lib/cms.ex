@@ -3,7 +3,7 @@ defmodule Content.CMS do
   The behaviour for a live HTTP or a static testing API over our content CMS.
   """
 
-  @type error :: :not_found | :invalid_response | {:redirect, String.t}
+  @type error :: :not_found | :invalid_response | {:redirect, integer, String.t}
   @type response :: {:ok, map() | [map()]} | {:error, error}
 
   @doc """

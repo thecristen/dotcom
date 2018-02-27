@@ -46,7 +46,7 @@ defmodule SiteWeb.EventControllerTest do
 
     test "retains params (except _format) and redirects when CMS returns a native redirect", %{conn: conn} do
       conn = get conn, event_path(conn, :show, "redirected-url") <> "?preview&vid=999"
-      assert conn.status == 302
+      assert conn.status == 301
       assert Plug.Conn.get_resp_header(conn, "location") == ["/events/date/title?preview=&vid=999"]
     end
 

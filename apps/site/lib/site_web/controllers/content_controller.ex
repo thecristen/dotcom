@@ -61,8 +61,10 @@ defmodule SiteWeb.ContentController do
     |> put_layout({SiteWeb.LayoutView, :app})
     |> render_page(page)
   end
-  defp handle_page_response({:error, {:redirect, path}}, conn) do
-    redirect conn, to: path
+  defp handle_page_response({:error, {:redirect, status, path}}, conn) do
+    conn
+    |> put_status(status)
+    |> redirect(to: path)
   end
   defp handle_page_response({:error, :not_found}, %Plug.Conn{path_info: [top | _]} = conn)
   when top in @old_site_paths do

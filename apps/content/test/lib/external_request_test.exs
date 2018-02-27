@@ -122,7 +122,7 @@ defmodule Content.ExternaRequestTest do
       assert process(:get, "/page") == {:error, :invalid_response}
     end
 
-    test "returns {:error, {:redirect, path}} when CMS issues a native redirect and removes _format=json" do
+    test "returns {:error, {:redirect, status, path}} when CMS issues a native redirect and removes _format=json" do
       bypass = bypass_cms()
       Bypass.expect bypass, fn conn ->
         conn = Plug.Conn.fetch_query_params(conn)
@@ -133,7 +133,7 @@ defmodule Content.ExternaRequestTest do
         |> Plug.Conn.resp(302, "redirecting")
       end
 
-      assert {:error, {:redirect, url}} = process(:get, "/path?_format=json")
+      assert {:error, {:redirect, 302, url}} = process(:get, "/path?_format=json")
       assert url == "/redirect"
     end
 
@@ -148,7 +148,7 @@ defmodule Content.ExternaRequestTest do
         |> Plug.Conn.resp(302, "redirecting")
       end
 
-      assert {:error, {:redirect, url}} = process(:get, "/path?_format=json&foo=bar")
+      assert {:error, {:redirect, 302, url}} = process(:get, "/path?_format=json&foo=bar")
       assert url == "/redirect?&foo=bar"
     end
   end

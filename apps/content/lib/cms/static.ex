@@ -119,7 +119,7 @@ defmodule Content.CMS.Static do
     {:ok, List.first(news_response())}
   end
   def view("/news/redirected-url", params) do
-    redirect("/news/date/title", params)
+    redirect("/news/date/title", params, 301)
   end
   def view("/events", [meeting_id: "multiple-records"]) do
     {:ok, events_response()}
@@ -141,7 +141,7 @@ defmodule Content.CMS.Static do
     {:ok, Enum.at(events_response(), 0)}
   end
   def view("/events/redirected-url", params) do
-    redirect("/events/date/title", params)
+    redirect("/events/date/title", params, 301)
   end
   def view("/events", _opts) do
     {:ok, events_response()}
@@ -182,7 +182,7 @@ defmodule Content.CMS.Static do
     {:ok, Enum.at(projects_response(), 1)}
   end
   def view("/projects/redirected-project", params) do
-    redirect("/projects/project-name", params)
+    redirect("/projects/project-name", params, 301)
   end
   def view("/projects/2679/update/124", _) do
     {:ok, Enum.at(project_updates_response(), 1)}
@@ -205,7 +205,7 @@ defmodule Content.CMS.Static do
     {:ok, Enum.at(project_updates_response(), 1)}
   end
   def view("/projects/project-name/update/redirected-update", params) do
-    redirect("/projects/project-name/update/project-progress", params)
+    redirect("/projects/project-name/update/project-progress", params, 301)
   end
   def view("/whats-happening", _) do
     {:ok, whats_happening_response()}
@@ -232,19 +232,19 @@ defmodule Content.CMS.Static do
     {:ok, person_response()}
   end
   def view("/node/1", params) do
-    redirect("/news/2018/news-entry", params)
+    redirect("/news/2018/news-entry", params, 301)
   end
   def view("/node/17", params) do
-    redirect("/events/date/title", params)
+    redirect("/events/date/title", params, 301)
   end
   def view("/node/123", params) do
-    redirect("/projects/project-name", params)
+    redirect("/projects/project-name", params, 301)
   end
   def view("/node/124", params) do
-    redirect("/projects/project-name/updates/project-progress", params)
+    redirect("/projects/project-name/updates/project-progress", params, 301)
   end
   def view("/node/2679", params) do
-    redirect("/projects/2679", params)
+    redirect("/projects/2679", params, 301)
   end
   def view("/api/route-pdfs/87", _) do
     {:ok, route_pdfs_response()}
@@ -256,7 +256,7 @@ defmodule Content.CMS.Static do
     {:ok, []}
   end
   def view("/redirected-url", params) do
-    redirect("/different-url", params)
+    redirect("/different-url", params, 302)
   end
   def view("/invalid", _) do
     {:error, :invalid_response}
@@ -328,6 +328,6 @@ defmodule Content.CMS.Static do
     end
   end
 
-  def redirect(path, params) when params == %{}, do: {:error, {:redirect, path}}
-  def redirect(path, params), do: redirect(path <> "?" <> URI.encode_query(params), %{})
+  def redirect(path, params, code) when params == %{}, do: {:error, {:redirect, code, path}}
+  def redirect(path, params, code), do: redirect(path <> "?" <> URI.encode_query(params), %{}, code)
 end

@@ -14,26 +14,26 @@ defmodule Content.CMS.StaticTest do
     end
 
     test "redirects" do
-      assert {:error, {:redirect, _}} = view("/redirected-url", %{})
-      assert {:error, {:redirect, _}} = view("/news/redirected-url", %{})
-      assert {:error, {:redirect, _}} = view("/events/redirected-url", %{})
-      assert {:error, {:redirect, _}} = view("/projects/redirected-project", %{})
-      assert {:error, {:redirect, _}} = view("/projects/project-name/update/redirected-update", %{})
-      assert {:error, {:redirect, _}} = view("/node/1", %{})
-      assert {:error, {:redirect, _}} = view("/node/17", %{})
-      assert {:error, {:redirect, _}} = view("/node/123", %{})
-      assert {:error, {:redirect, _}} = view("/node/124", %{})
-      assert {:error, {:redirect, _}} = view("/node/2679", %{})
+      assert {:error, {:redirect, 302, _}} = view("/redirected-url", %{})
+      assert {:error, {:redirect, 301, _}} = view("/news/redirected-url", %{})
+      assert {:error, {:redirect, 301, _}} = view("/events/redirected-url", %{})
+      assert {:error, {:redirect, 301, _}} = view("/projects/redirected-project", %{})
+      assert {:error, {:redirect, 301, _}} = view("/projects/project-name/update/redirected-update", %{})
+      assert {:error, {:redirect, 301, _}} = view("/node/1", %{})
+      assert {:error, {:redirect, 301, _}} = view("/node/17", %{})
+      assert {:error, {:redirect, 301, _}} = view("/node/123", %{})
+      assert {:error, {:redirect, 301, _}} = view("/node/124", %{})
+      assert {:error, {:redirect, 301, _}} = view("/node/2679", %{})
     end
   end
 
-  describe "redirect/2" do
+  describe "redirect/3" do
     test "redirects with params if they exist" do
-      assert redirect("path", %{}) == {:error, {:redirect, "path"}}
+      assert redirect("path", %{}, 302) == {:error, {:redirect, 302, "path"}}
     end
 
     test "redirects without params if they do not exist" do
-      assert redirect("path", %{"foo" => "bar"}) == {:error, {:redirect, "path?foo=bar"}}
+      assert redirect("path", %{"foo" => "bar"}, 302) == {:error, {:redirect, 302, "path?foo=bar"}}
     end
   end
 

@@ -20,9 +20,17 @@ defmodule SiteWeb.ProjectController do
     |> do_show(conn)
   end
 
-  defp do_show(%Content.Project{} = project, conn), do: show_project(conn, project)
-  defp do_show({:error, {:redirect, path}}, conn), do: redirect conn, to: path
-  defp do_show(_404_or_mismatch, conn), do: render_404(conn)
+  defp do_show(%Content.Project{} = project, conn) do
+    show_project(conn, project)
+  end
+  defp do_show({:error, {:redirect, status, path}}, conn) do
+    conn
+    |> put_status(status)
+    |> redirect(to: path)
+  end
+  defp do_show(_404_or_mismatch, conn) do
+    render_404(conn)
+  end
 
   @spec show_project(Conn.t, Content.Project.t) :: Conn.t
   def show_project(conn, project) do
@@ -52,13 +60,20 @@ defmodule SiteWeb.ProjectController do
     |> do_project_update(conn)
   end
 
-  defp do_project_update(%Content.ProjectUpdate{} = update, conn), do: show_project_update(conn, update)
-  defp do_project_update({:error, {:redirect, path}}, conn), do: redirect conn, to: path
-  defp do_project_update(_404_or_mismatch, conn), do: render_404(conn)
+  defp do_project_update(%Content.ProjectUpdate{} = update, conn) do
+    show_project_update(conn, update)
+  end
+  defp do_project_update({:error, {:redirect, status, path}}, conn) do
+    conn
+    |> put_status(status)
+    |> redirect(to: path)
+  end
+  defp do_project_update(_404_or_mismatch, conn) do
+    render_404(conn)
+  end
 
   @spec show_project_update(Conn.t, Content.ProjectUpdate.t) :: Conn.t
   def show_project_update(%Conn{} = conn, %Content.ProjectUpdate{} = update) do
-
     case Content.Repo.get_page(update.project_url) do
       %Content.Project{} = project ->
         breadcrumbs = [
@@ -67,7 +82,7 @@ defmodule SiteWeb.ProjectController do
           Breadcrumb.build(update.title)]
 
         render conn, "update.html", breadcrumbs: breadcrumbs, update: update, narrow_template: true
-      {:error, {:redirect, path}} ->
+      {:error, {:redirect, _, path}} ->
         show_project_update(conn, %{update | project_url: path})
       _ -> render_404(conn)
     end

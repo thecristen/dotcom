@@ -36,9 +36,9 @@ defmodule SiteWeb.ProjectControllerTest do
       assert %{"preview" => nil, "vid" => "112"} == conn.query_params
     end
 
-    test "retains params (except _format) and redirects when CMS returns a native redirect", %{conn: conn} do
+    test "retains params and redirects with correct status code when CMS returns a native redirect", %{conn: conn} do
       conn = get conn, project_path(conn, :show, "redirected-project") <> "?preview&vid=999"
-      assert conn.status == 302
+      assert conn.status == 301
       assert Plug.Conn.get_resp_header(conn, "location") == ["/projects/project-name?preview=&vid=999"]
     end
 
@@ -90,9 +90,9 @@ defmodule SiteWeb.ProjectControllerTest do
       assert conn.status == 200
     end
 
-    test "retains params (except _format) and redirects when CMS returns a native redirect", %{conn: conn} do
+    test "retains params and redirects with correct status code when CMS returns a native redirect", %{conn: conn} do
       conn = get conn, project_update_path(conn, :project_update, "project-name", "redirected-update") <> "?preview&vid=999"
-      assert conn.status == 302
+      assert conn.status == 301
       assert Plug.Conn.get_resp_header(conn, "location") == ["/projects/project-name/update/project-progress?preview=&vid=999"]
     end
 

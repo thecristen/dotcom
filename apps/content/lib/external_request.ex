@@ -20,8 +20,8 @@ defmodule Content.ExternalRequest do
     case response do
       %{status_code: code, body: body} when code in [200, 201] ->
         decode_body(body)
-      %{status_code: code, headers: headers} when code in [301, 302] ->
-        get_redirect(headers)
+      %{status_code: code} when code in [301, 302] ->
+        get_redirect(response)
       %{status_code: code} when code in [400, 401, 403, 404, 406] ->
         {:error, :not_found} # drive handled errors to the 404 page
       _ ->
@@ -43,17 +43,19 @@ defmodule Content.ExternalRequest do
     end
   end
 
-  @spec get_redirect([{String.t, String.t}]) :: {:error, :invalid_response} | {:redirect, String.t}
-  defp get_redirect(header_list) do
-    header_list
+  @spec get_redirect(HTTPoison.Response.t) :: {:error, :invalid_response | {:redirect, integer, String.t}}
+  defp get_redirect(%HTTPoison.Response{headers: headers, status_code: status}) do
+    headers
     |> Enum.find(fn {key, _} -> String.downcase(key) == "location" end)
-    |> do_get_redirect()
+    |> do_get_redirect(status)
   end
 
-  defp do_get_redirect(nil), do: {:error, :invalid_response}
-  defp do_get_redirect({_key, url}) do
+  @spec do_get_redirect({String.t, String.t} | nil, integer) :: {:error, {:redirect, integer, String.t} |
+                                                                         :invalid_response}
+  defp do_get_redirect(nil, _), do: {:error, :invalid_response}
+  defp do_get_redirect({_key, url}, status_code) do
     %URI{path: path, query: query} = URI.parse(url)
-    {:error, {:redirect, parse_redirect_query(path, query)}}
+    {:error, {:redirect, status_code, parse_redirect_query(path, query)}}
   end
 
   @spec parse_redirect_query(String.t, nil | String.t) :: String.t

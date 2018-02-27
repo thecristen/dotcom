@@ -44,22 +44,22 @@ defmodule SiteWeb.ContentControllerTest do
 
     test "redirects for an unaliased news entry response", %{conn: conn} do
       conn = get conn, "/node/1"
-      assert conn.status == 302
+      assert conn.status == 301
     end
 
     test "redirects for an unaliased event", %{conn: conn} do
       conn = get conn, "/node/17"
-      assert conn.status == 302
+      assert conn.status == 301
     end
 
     test "redirects for an unaliased project page", %{conn: conn} do
       conn = get conn, "/node/2679"
-      assert conn.status == 302
+      assert conn.status == 301
     end
 
     test "redirects for an unaliased project update", %{conn: conn} do
       conn = get conn, "/node/123"
-      assert conn.status == 302
+      assert conn.status == 301
     end
 
     test "returns a 404 when alias does not match expected pattern", %{conn: conn} do
