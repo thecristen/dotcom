@@ -189,6 +189,25 @@ defmodule SiteWeb.StopView do
     end
   end
 
+  @doc """
+  If some predictions for the same route and variation have a combination of predictions where
+  some have status and some have time, we want to filter out the ones with only a time. This avoids
+  a mix of "stops away" and "minutes away" on one line of upcoming departures.
+  Given that the records are sorted such that those with predictions come first, we can look at the
+  first element to see if filtering is required.
+  """
+  @spec filter_times_without_stops_away([PredictedSchedule.t]) :: [PredictedSchedule.t]
+  def filter_times_without_stops_away([first | _]  = predicted_schedules) do
+    if PredictedSchedule.status(first) do
+      Enum.filter(predicted_schedules, &PredictedSchedule.status/1)
+    else
+      predicted_schedules
+    end
+  end
+  def filter_times_without_stops_away([]) do
+    []
+  end
+
   @spec time_differences([PredictedSchedule.t], DateTime.t) :: [Phoenix.HTML.Safe.t]
   @doc "A list of time differences for the predicted schedules, with the empty ones removed."
   def time_differences(predicted_schedules, date_time) do
@@ -196,6 +215,7 @@ defmodule SiteWeb.StopView do
     |> Enum.reject(&PredictedSchedule.empty?/1)
     |> Enum.sort_by(&PredictedSchedule.sort_with_status/1)
     |> Enum.take(3)
+    |> filter_times_without_stops_away()
     |> Enum.flat_map(fn departure ->
       case PredictedSchedule.Display.time_difference(departure, date_time) do
         "" -> []

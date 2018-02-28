@@ -205,6 +205,19 @@ defmodule SiteWeb.StopViewTest do
       ]
       assert time_differences(predicted_schedules, date_time) == []
     end
+
+    test "does not return a combination of stops away amd time" do
+      now = Util.now()
+      date_time = ~N[2017-01-01T00:00:00]
+      schedules = [
+        %PredictedSchedule{prediction: %Prediction{status: "Boarding"}},
+        %PredictedSchedule{prediction: %Prediction{status: "Approaching"}},
+        %PredictedSchedule{prediction: %Prediction{time: Timex.shift(now, minutes: 5)}},
+      ]
+      assert [board, approach] = time_differences(schedules, date_time)
+      assert safe_to_string(board) =~ "Boarding"
+      assert safe_to_string(approach) =~ "Approaching"
+    end
   end
 
   @alerts [
