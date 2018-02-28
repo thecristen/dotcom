@@ -16,7 +16,7 @@
   </div>
   <h2>Business Center</h2>
   <div class="button-group">
-    <%= render "_link.html", text: "Business Opportunities", href: redirect_path(@conn, "business_center/"), class: "col-xs-12 col-sm-4", target: "_blank" %>
+    <%= render "_link.html", text: "Business Opportunities", href: cms_static_page_path(@conn, "/business"), class: "col-xs-12 col-sm-4" %>
     <%= render "_link.html", text: "Careers", href: cms_static_page_path(@conn, "/careers"), class: "col-xs-12 col-sm-4" %>
     <%= render "_link.html", text: "Developers", href: cms_static_page_path(@conn, "/developers"), class: "col-xs-12 col-sm-4" %>
     <%= render "_link.html", text: "Financials", href: cms_static_page_path(@conn, "/financials"), class: "col-xs-12 col-sm-4" %>

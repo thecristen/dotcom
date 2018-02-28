@@ -64,7 +64,7 @@
     <p class="nav-title">Business Center</p>
     <ul>
       <li>
-        <%= link to: redirect_path(@conn, "business_center/"), target: "_blank" do %>
+        <%= link to: cms_static_page_path(@conn, "/business") do %>
           <%= fa "caret-right" %> Business Opportunities
         <% end %>
       </li>
