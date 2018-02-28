@@ -25,11 +25,11 @@ defmodule RepoCache do
   defmacro __using__(opts \\ []) do
     opts = include_defaults(opts)
 
-    quote do
-      @opts unquote(opts)
-
+    quote location: :keep do
       require unquote(__MODULE__)
       import unquote(__MODULE__), only: [cache: 2, cache: 3]
+
+      def opts, do: unquote(opts)
 
       unquote(server_functions())
     end
@@ -64,11 +64,11 @@ defmodule RepoCache do
   def server_functions do
     quote do
       def start_link do
-        ConCache.start_link(@opts, [name: __MODULE__])
+        ConCache.start_link(opts(), name: __MODULE__)
       end
 
       def default_ttl do
-        Keyword.get(@opts, :ttl)
+        Keyword.get(opts(), :ttl)
       end
 
       def clear_cache do
