@@ -61,6 +61,6 @@ defmodule Site.BodyTag do
   end
 
   @spec preview_class(Plug.Conn.t) :: String.t
-  defp preview_class(%Plug.Conn{query_params: %{"preview" => _, "vid" => _}}), do: "cms-preview"
+  defp preview_class(%Plug.Conn{query_params: %{"preview" => _, "vid" => _, "nid" => _}}), do: "cms-preview"
   defp preview_class(_conn), do: ""
 end

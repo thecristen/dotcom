@@ -9,7 +9,7 @@ defmodule SiteWeb.ContentControllerTest do
     end
 
     test "given special preview query params, return certain revision of node", %{conn: conn} do
-      conn = get conn, "/accessibility?preview&vid=112"
+      conn = get conn, "/accessibility?preview&vid=112&nid=6"
       assert html_response(conn, 200) =~ "Accessibility at the T 112"
     end
 

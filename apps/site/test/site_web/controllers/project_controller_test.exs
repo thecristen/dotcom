@@ -31,9 +31,9 @@ defmodule SiteWeb.ProjectControllerTest do
 
     test "renders a preview of the requested project", %{conn: conn} do
       project = project_factory(1)
-      conn = get(conn, project_path(conn, :show, project) <> "?preview&vid=112")
+      conn = get(conn, project_path(conn, :show, project) <> "?preview&vid=112&nid=2678")
       assert html_response(conn, 200) =~ "Symphony, Hynes, and Wollaston Stations Accessibility Upgrades 112"
-      assert %{"preview" => nil, "vid" => "112"} == conn.query_params
+      assert %{"preview" => nil, "vid" => "112", "nid" => "2678"} == conn.query_params
     end
 
     test "retains params and redirects with correct status code when CMS returns a native redirect", %{conn: conn} do
@@ -79,10 +79,10 @@ defmodule SiteWeb.ProjectControllerTest do
 
     test "renders a preview of the requested project update", %{conn: conn} do
       project_update = project_update_factory(1)
-      conn = get(conn, project_update_path(conn, :project_update, project_update) <> "?preview&vid=112")
+      conn = get(conn, project_update_path(conn, :project_update, project_update) <> "?preview&vid=112&nid=124")
       assert conn.status == 200
       assert html_response(conn, 200) =~ "Project Update Title 2 112"
-      assert %{"preview" => nil, "vid" => "112"} == conn.query_params
+      assert %{"preview" => nil, "vid" => "112", "nid" => "124"} == conn.query_params
     end
 
     test "doesn't redirect update when project part of path would by itself return a native redirect", %{conn: conn} do

@@ -56,7 +56,7 @@ defmodule SiteWeb.NewsEntryControllerTest do
 
     test "renders a preview of the requested news entry", %{conn: conn} do
       news_entry = news_entry_factory(1)
-      conn = get(conn, news_entry_path(conn, :show, news_entry) <> "?preview&vid=112")
+      conn = get(conn, news_entry_path(conn, :show, news_entry) <> "?preview&vid=112&nid=2")
       assert html_response(conn, 200) =~ "MBTA Urges Customers to Stay Connected This Winter 112"
     end
 

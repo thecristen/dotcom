@@ -35,9 +35,6 @@ defmodule SiteWeb.ViewHelpers do
   frontend<->CMS linking strategy in the future.
   """
   @spec cms_static_page_path(module | Plug.Conn.t, String.t) :: String.t
-  def cms_static_page_path(%{query_params: %{"preview" => nil, "vid" => _}}, path = "/" <> _internal) do
-    path <> "?preview&vid=latest"
-  end
   def cms_static_page_path(_conn, path), do: path
 
   def google_tag_manager_id do
@@ -232,7 +229,7 @@ defmodule SiteWeb.ViewHelpers do
 
   @doc "Link a stop's name to its page."
   @spec stop_link(Stops.Stop.t | String.t) :: Phoenix.HTML.Safe.t
-  def stop_link(%Stops.Stop{} = stop) do
+  def stop_link(stop = %Stops.Stop{}) do
     link stop.name, to: stop_path(SiteWeb.Endpoint, :show, stop.id)
   end
   def stop_link(stop_id) do

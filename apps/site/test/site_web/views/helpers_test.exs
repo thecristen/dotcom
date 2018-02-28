@@ -140,7 +140,7 @@ defmodule SiteWeb.ViewHelpersTest do
     test "Bus_subway summaries return both bus and subway information" do
       summaries = mode_summaries(:bus_subway)
       mode_present = fn(summary, mode) -> mode in summary.modes end
-      assert Enum.any?(summaries, &(mode_present.(&1,:bus))) && Enum.any?(summaries, &(mode_present.(&1,:subway)))
+      assert Enum.any?(summaries, &(mode_present.(&1, :bus))) && Enum.any?(summaries, &(mode_present.(&1, :subway)))
     end
 
     test "Ferry summaries with nil fare name return range of fares" do
@@ -188,11 +188,11 @@ defmodule SiteWeb.ViewHelpersTest do
       assert path == "https://www.google.com"
     end
 
-    test "returns the given internal path with preview params matching conn", %{conn: conn} do
+    test "returns the given path as-is, even with preview params (chained-preview disabled)", %{conn: conn} do
       path = conn
-      |> Map.put(:query_params, %{"preview" => nil, "vid" => "1234"})
+      |> Map.put(:query_params, %{"preview" => nil, "vid" => "6641", "nid" => "2549"})
       |> cms_static_page_path("/cms/path")
-      assert path == "/cms/path?preview&vid=latest"
+      assert path == "/cms/path"
     end
   end
 

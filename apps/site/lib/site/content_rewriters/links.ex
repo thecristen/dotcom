@@ -18,7 +18,7 @@ defmodule Site.ContentRewriters.Links do
   end
 
   @doc """
-  Adds the ?preview&vid=latest query paramters to relative URLs
+  Adds the ?preview&vid=latest query parameters to relative URLs
   if the current page is in preview mode.
   """
   @spec add_preview_params(Floki.html_tree, Plug.Conn.t) :: Floki.html_tree

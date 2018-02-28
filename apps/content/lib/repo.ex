@@ -169,77 +169,43 @@ defmodule Content.Repo do
   defp view_or_preview(path, %{"id" => old_site_page_id} = params) do
     path
     |> Kernel.<>(URI.encode_www_form("?id=#{old_site_page_id}"))
-    |> do_view_or_preview(params)
-  end
-  defp view_or_preview(path, params) do
-    do_view_or_preview(path, params)
-  end
-
-  defp do_view_or_preview(path, params) do
-    path
-    |> @cms_api.view(params)
     |> process_view_or_preview(params)
   end
+  defp view_or_preview(path, params) do
+    process_view_or_preview(path, params)
+  end
 
-  @spec process_view_or_preview({:ok, map} | {:error, Content.CMS.error}, map)
+  @spec process_view_or_preview(String.t, map)
   :: {:ok, map} | {:error, Content.CMS.error}
-  defp process_view_or_preview({:ok, %{} = api_data}, %{"preview" => _, "vid" => vid}) do
-    {:ok, api_data}
-    |> get_node_id()
-    |> @cms_api.preview()
-    |> get_revision(vid)
-    |> process_breadcrumbs(api_data)
+  defp process_view_or_preview(_path, %{"preview" => _, "vid" => vid, "nid" => node_id}) do
+    case Integer.parse(node_id) do
+      {nid, ""} ->
+        nid
+        |> @cms_api.preview()
+        |> get_revision(vid)
+      _ ->
+        {:error, :not_found} # Invalid or missing node ID
+    end
   end
-  defp process_view_or_preview({:ok, %{} = response}, _params) do
-    {:ok, response}
-  end
-  defp process_view_or_preview({:error, error}, _params) do
-    {:error, error}
+  defp process_view_or_preview(path, params) do
+    @cms_api.view(path, params)
   end
 
   @spec get_revision({:error, any} | {:ok, [map]}, String.t) :: {:error, String.t} | {:ok, map}
   def get_revision({:error, err}, _), do: {:error, err}
-  def get_revision({:ok, []}, _), do: {:error, "No results"}
+  def get_revision({:ok, []}, _), do: {:error, :not_found} # No results
   def get_revision({:ok, revisions}, revision_id) when is_list(revisions) do
     case revision_id do
       "latest" -> {:ok, List.first(revisions)}
       _ ->
         with {vid, ""} <- Integer.parse(revision_id) do
           case Enum.find(revisions, fn %{"vid" => [%{"value" => id}]} -> id == vid end) do
-            nil -> {:error, "Revision not found"}
+            nil -> {:error, :not_found} # Revision not found
             revision -> {:ok, revision}
           end
         else
-          _ -> {:error, "Invalid revision request"}
+          _ -> {:error, :not_found} # Invalid revision request
       end
     end
-  end
-
-  @doc "Scrape normalized view/2 response for node ID"
-  @spec get_node_id({:error, String.t} | {:ok, map}) :: {:error, String.t} | integer
-  def get_node_id({:error, err}), do: {:error, err}
-  def get_node_id({:ok, content}) do
-    get_in content, ["nid", Access.at(0), "value"]
-  end
-
-  @doc "Full path breadcrumbs are available from result of view/2, but need manual transfer to revision"
-  @spec process_breadcrumbs({:error, String.t} | {:ok, map}, map) :: {:error, String.t} | {:ok, map}
-  def process_breadcrumbs({:error, err}, _), do: {:error, err}
-  def process_breadcrumbs({:ok, revision}, default) do
-    case default do
-      %{"breadcrumbs" => crumbs} -> {:ok, Map.put(revision, "breadcrumbs", crumb_preview_params(crumbs))}
-      _ -> {:ok, revision}
-    end
-  end
-
-  @doc "Process each breadcrumb, appending preview params as necessary"
-  @spec crumb_preview_params(list()) :: list()
-  def crumb_preview_params(crumbs) do
-    Enum.flat_map(crumbs, fn
-      %{"uri" => uri = ("/" <> path)} = crumb when path != "" ->
-        [%{crumb | "uri" => uri <> "?preview&vid=latest"}]
-      crumb ->
-        [crumb] # Keep "Home" and non-linked items as-is
-    end)
   end
 end

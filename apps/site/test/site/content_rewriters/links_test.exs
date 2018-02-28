@@ -24,10 +24,13 @@ defmodule Site.ContentRewriters.LinksTest do
 
   describe "add_preview_params/2" do
     test "internal links and external links call the correct rewrite", %{conn: conn} do
-      conn = Map.put(conn, :query_params, %{"preview" => nil, "vid" => "1234"})
-      assert Floki.attribute(add_preview_params(make_link("http://www.google.com"), conn), "href") == ["http://www.google.com"]
-      assert Floki.attribute(add_preview_params(make_link("https://www.google.com"), conn), "href") == ["https://www.google.com"]
-      assert Floki.attribute(add_preview_params(make_link("/internal_page"), conn), "href") == ["/internal_page?preview&vid=latest"]
+      conn_a = Map.put(conn, :query_params, %{"preview" => nil, "vid" => "1234"})
+      assert Floki.attribute(add_preview_params(make_link("http://www.google.com"), conn_a), "href") == ["http://www.google.com"]
+      assert Floki.attribute(add_preview_params(make_link("https://www.google.com"), conn_a), "href") == ["https://www.google.com"]
+      assert Floki.attribute(add_preview_params(make_link("/internal_page"), conn_a), "href") == ["/internal_page"]
+
+      conn_b = Map.put(conn, :query_params, %{"preview" => nil, "vid" => "6641", "nid" => "2549"})
+      assert Floki.attribute(add_preview_params(make_link("/internal_page"), conn_b), "href") == ["/internal_page"]
     end
   end
 

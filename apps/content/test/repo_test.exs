@@ -89,18 +89,9 @@ defmodule Content.RepoTest do
     end
 
     test "given special preview query params, return certain revision of node" do
-      result = Content.Repo.get_page("/accessibility", %{"preview" => "", "vid" => "112"})
+      result = Content.Repo.get_page("/accessibility", %{"preview" => "", "vid" => "112", "nid" => "6"})
       assert %Content.BasicPage{} = result
       assert result.title == "Accessibility at the T 112"
-    end
-
-    test "breadcrumbs respect preview parameters" do
-      result = Content.Repo.get_page("/accessibility/the-ride/on-demand-pilot", %{"preview" => "", "vid" => "6641"})
-      assert [home, grandparent, parent, current] = result.breadcrumbs
-      assert home == %Util.Breadcrumb{url: "/", text: "Home"}
-      assert grandparent == %Util.Breadcrumb{url: "/accessibility?preview&vid=latest", text: "Accessibility on the MBTA"}
-      assert parent == %Util.Breadcrumb{url: "/accessibility/the-ride?preview&vid=latest", text: "The RIDE"}
-      assert current == %Util.Breadcrumb{url: "", text: "On-Demand Paratransit Pilot Program"}
     end
   end
 
