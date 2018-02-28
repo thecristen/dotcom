@@ -74,11 +74,23 @@ defmodule Routes.RouteTest do
         assert type_name(atom) == str
       end
     end
+  end
 
-    test "handles hyphen in commuter-rail" do
-      assert type_name("commuter-rail") == "Commuter Rail"
-      assert type_name(:commuter_rail) == "Commuter Rail"
+  describe "type_summary" do
+    test "lists route names for bus routes" do
+      routes = [%Route{id: "1", name: "1", type: 3}, %Route{id: "747", name: "SL1", type: 3}]
+      assert type_summary(:bus, routes) == "Bus: 1, SL1"
     end
+
+    test "returns type name for all other route types" do
+      assert type_summary(:green_line, [%Route{id: "Green-C", name: "Green Line C", type: 0},
+                                        %Route{id: "Green-C", name: "Green Line C", type: 0}]) == "Green Line"
+      assert type_summary(:mattapan_trolley, [%Route{id: "Mattapan", name: "Mattapan", type: 0}]) == "Mattapan Trolley"
+      assert type_summary(:red_line, [%Route{id: "Red", name: "Red Line", type: 1}]) == "Red Line"
+      assert type_summary(:commuter_rail, [%Route{id: "CR-Fitchburg", name: "Fitchburg", type: 2}]) == "Commuter Rail"
+      assert type_summary(:ferry, [%Route{id: "Boat-F1", name: "Hull Ferry", type: 4}]) == "Ferry"
+    end
+
   end
 
   describe "direction_name/2" do

@@ -55,13 +55,36 @@ defmodule Routes.Route do
   def icon_atom(%__MODULE__{} = route), do: type_atom(route.type)
 
   @spec type_name(atom) :: String.t
-  def type_name("commuter-rail"), do: type_name(:commuter_rail)
-  def type_name(:commuter_rail), do: "Commuter Rail"
-  def type_name(:the_ride), do: "The Ride"
-  def type_name(atom) do
-    atom
-    |> Atom.to_string
-    |> String.capitalize
+  for type_atom <- ~w(subway commuter_rail bus ferry
+                      orange_line red_line green_line blue_line
+                      mattapan_trolley the_ride)a do
+    type_string = type_atom
+    |> Atom.to_string()
+    |> String.replace("_", " ")
+    |> String.split(" ")
+    |> Enum.map(&String.capitalize/1)
+    |> Enum.join(" ")
+    def type_name(unquote(type_atom)), do: unquote(type_string)
+  end
+
+  @doc """
+  A slightly more detailed version of &Route.type_name/1.
+  The only difference is that route ids are listed for bus routes, otherwise it just returns &Route.type_name/1.
+  """
+  @spec type_summary(subway_lines_type | gtfs_route_type, [t]) :: String.t
+  def type_summary(:bus, [%__MODULE__{} | _] = routes) do
+    "Bus: #{bus_route_list(routes)}"
+  end
+  def type_summary(atom, _) do
+    type_name(atom)
+  end
+
+  @spec bus_route_list([Routes.Route.t]) :: String.t
+  defp bus_route_list(routes) when is_list(routes) do
+    routes
+    |> Enum.filter(&(icon_atom(&1) == :bus))
+    |> Enum.map(&(&1.name))
+    |> Enum.join(", ")
   end
 
   @spec direction_name(t, 0 | 1) :: String.t
