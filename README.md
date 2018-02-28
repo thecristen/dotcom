@@ -87,6 +87,11 @@ The new face of https://www.mbta.com/
   * `V3_API_KEY`
   * `GOOGLE_API_KEY`
   * `DRUPAL_ROOT`
+  * `ALGOLIA_APP_ID`
+  * `ALGOLIA_ADMIN_KEY`
+  * `ALGOLIA_SEARCH_KEY`
+  * `ALGOLIA_PLACES_APP_ID`
+  * `ALGOLIA_PLACES_SEARCH_KEY`
 
 ## Running the Server
 
@@ -213,6 +218,16 @@ Otherwise you can set it one of the following possible values:
 * None, if you don't want any connection to a CMS.
 
 Since different tasks require different servers, there's a script to quickly switch between different them in [the wiki](https://github.com/mbta/wiki/blob/master/website/development/tips-and-tricks.md#quickly-switching-between-cms-servers)
+
+### `ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, `ALGOLIA_ADMIN_KEY`, `ALGOLIA_PLACES_APP_ID`, and `ALGOLIA_PLACES_SEARCH_KEY`
+
+These keys are used to interact with the Algolia search api. The values can be found under the `Api Keys` section in Algolia (you'll need to be added as a team member to get access).
+
+`ALGOLIA_APP_ID` is the id of the Algolia account that holds all of our search indexes
+`ALGOLIA_ADMIN_KEY` allows write access and is used by the Algolia app to keep our search indexes updated
+`ALGOLIA_SEARCH_KEY` is a read-only key that is used by the Site app to perform searches from the front-end
+`ALGOLIA_PLACES_APP_ID` is the app id for our Algolia Places app, which is separate from the main Algolia app
+`ALGOLIA_PLACES_SEARCH_KEY` is the read-only key for the Algolia Places app
 
 ### `V3_URL`
 

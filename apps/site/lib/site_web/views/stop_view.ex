@@ -271,11 +271,4 @@ defmodule SiteWeb.StopView do
   def stop_feature_icon(feature, class) do
     svg_icon_with_circle(%SvgIconWithCircle{icon: feature, class: class})
   end
-
-  def algolia_config do
-    :site
-    |> Application.get_env(:algolia)
-    |> Enum.into(%{})
-    |> Poison.encode!()
-  end
 end

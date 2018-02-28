@@ -10,9 +10,15 @@ defmodule Algolia.Api do
   @admin_key Keyword.fetch!(@keys, :admin)
   if @admin_key == nil, do: raise Algolia.MissingAdminKeyError
 
+  # used by javascript in Site app
   if Keyword.fetch!(@keys, :search) == nil do
-    # used by javascript in Site app
     raise Algolia.MissingSearchKeyError
+  end
+  if @keys |> Keyword.fetch!(:places) |> Keyword.fetch!(:app_id) == nil do
+    raise Algolia.MissingPlacesAppIdError
+  end
+  if @keys |> Keyword.fetch!(:places) |> Keyword.fetch!(:search) == nil do
+    raise Algolia.MissingPlacesSearchKeyError
   end
 
   @base_url "https://" <> @application_id <> ".algolia.net/1/indexes/"

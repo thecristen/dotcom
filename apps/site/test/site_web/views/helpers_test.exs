@@ -282,4 +282,17 @@ defmodule SiteWeb.ViewHelpersTest do
       end
     end
   end
+
+  describe "algolia_config" do
+    test "returns an encoded map of algolia config values" do
+      assert {:ok, config} = algolia_config() |> Poison.decode(keys: :atoms!)
+      assert Map.keys(config) == [:admin, :app_id, :places, :search]
+      assert Map.keys(config.places) == [:app_id, :search]
+      assert String.length(config.app_id) > 0
+      assert String.length(config.admin) > 0
+      assert String.length(config.search) > 0
+      assert String.length(config.places.app_id) > 0
+      assert String.length(config.places.search) > 0
+    end
+  end
 end

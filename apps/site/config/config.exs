@@ -58,12 +58,6 @@ config :site, OldSiteFileController,
 config :site, StaticFileController,
   response_fn: {SiteWeb.StaticFileController, :send_file}
 
-config :site, :algolia,
-  algolia_app_id: System.get_env("ALGOLIA_APP_ID"),
-  algolia_api_key: System.get_env("ALGOLIA_API_KEY"),
-  algolia_places_app_id: System.get_env("ALGOLIA_PLACES_APP_ID"),
-  algolia_places_api_key: System.get_env("ALGOLIA_PLACES_API_KEY")
-
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

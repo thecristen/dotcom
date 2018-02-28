@@ -351,4 +351,12 @@ defmodule SiteWeb.ViewHelpers do
       Timex.format!(date, format)
     end
   end
+
+  def algolia_config do
+    :algolia
+    |> Application.get_env(:keys)
+    |> Enum.into(%{})
+    |> Map.update!(:places, & Enum.into(&1, %{}))
+    |> Poison.encode!()
+  end
 end

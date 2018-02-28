@@ -5,7 +5,11 @@ use Mix.Config
 config :algolia, :keys,
   app_id: System.get_env("ALGOLIA_APP_ID"),
   admin: System.get_env("ALGOLIA_ADMIN_KEY"),
-  search: System.get_env("ALGOLIA_SEARCH_KEY")
+  search: System.get_env("ALGOLIA_SEARCH_KEY"),
+  places: [
+    app_id: System.get_env("ALGOLIA_PLACES_APP_ID"),
+    search: System.get_env("ALGOLIA_PLACES_SEARCH_KEY")
+  ]
 
 config :algolia, :repos,
   stops: Stops.Api,

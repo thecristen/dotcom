@@ -63,7 +63,11 @@ export default function() {
   }
   function doSetupSearch() {
     const ALGOLIA = window.algoliaConfig;
-    const client = algoliasearch(ALGOLIA.algolia_app_id, ALGOLIA.algolia_api_key);
+    if (!ALGOLIA.app_id || !ALGOLIA.search || !ALGOLIA.places || !ALGOLIA.places.app_id || !ALGOLIA.places.search) {
+      console.error("missing algolia keys", ALGOLIA);
+      return;
+    }
+    const client = algoliasearch(ALGOLIA.app_id, ALGOLIA.search);
     const stopsIndex = client.initIndex("stops");
 
     function renderSuggestion(suggestion) {
@@ -180,7 +184,7 @@ export default function() {
       });
     }
 
-    let places = algoliasearch.initPlaces(ALGOLIA.algolia_places_app_id, ALGOLIA.algolia_places_api_key)
+    let places = algoliasearch.initPlaces(ALGOLIA.places.app_id, ALGOLIA.places.search)
     function locationHandler(pos) {
       places.search({
         getRankingInfo: true,
