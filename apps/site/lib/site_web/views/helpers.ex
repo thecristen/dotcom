@@ -354,7 +354,7 @@ defmodule SiteWeb.ViewHelpers do
 
   def algolia_config do
     :algolia
-    |> Application.get_env(:keys)
+    |> Application.get_env(:keys, app_id: nil, search: nil, places: [app_id: nil, search: nil])
     |> Enum.into(%{})
     |> Map.update!(:places, & Enum.into(&1, %{}))
     |> Poison.encode!()
