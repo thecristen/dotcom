@@ -107,6 +107,11 @@
         <% end %>
       </div>
     </div>
+    <p>
+      <%= link to: cms_static_page_path(@conn, "/accessibility/the-ride") do %>
+        Learn more about The RIDE <span class="no-wrap"><%= fa "arrow-right" %></span>
+      <% end %>
+    </p>
   </div>
   <div>
     <h2>The CharlieCard</h2>
