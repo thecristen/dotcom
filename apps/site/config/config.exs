@@ -35,11 +35,6 @@ config :laboratory,
 config :site, Site.BodyTag,
   mticket_header: "x-mticket"
 
-config :content,
-  mfa: [
-    static: {SiteWeb.Router.Helpers, :static_url, [SiteWeb.Endpoint]}
-  ]
-
 # Centralize Error reporting
 config :sentry,
   dsn: System.get_env("SENTRY_DSN") || "",
@@ -57,6 +52,10 @@ config :site, OldSiteFileController,
 
 config :site, StaticFileController,
   response_fn: {SiteWeb.StaticFileController, :send_file}
+
+config :util,
+  router_helper_module: {:ok, SiteWeb.Router.Helpers},
+  endpoint: {:ok, SiteWeb.Endpoint}
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

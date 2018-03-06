@@ -23,6 +23,6 @@ defmodule Content.SearchResult.File do
   @spec link(String.t) :: String.t
   defp link(path) do
     path = String.replace(path, "public:/", Content.Config.static_path)
-    Content.Config.apply(:static, [path])
+    Util.site_path(:static_url, [path])
   end
 end

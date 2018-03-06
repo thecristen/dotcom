@@ -104,7 +104,7 @@ defmodule Content.Helpers do
   defp rewrite_static_file_links(body) do
     static_path = Content.Config.static_path
     Regex.replace(~r/"(#{static_path}[^"]+)"/, body, fn _, path ->
-      ['"', Content.Config.apply(:static, [path]), '"']
+      ['"', Util.site_path(:static_url, [path]), '"']
     end)
   end
 
@@ -118,7 +118,7 @@ defmodule Content.Helpers do
       uri.path
     end
 
-    Content.Config.apply(:static, [path])
+    Util.site_path(:static_url, [path])
   end
 
   @spec int_or_string_to_int(integer | String.t | nil) :: integer | nil

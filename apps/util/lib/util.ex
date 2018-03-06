@@ -2,6 +2,12 @@ defmodule Util do
   require Logger
   use Timex
 
+  {:ok, endpoint} = Application.get_env(:util, :endpoint)
+  {:ok, route_helper_module} = Application.get_env(:util, :router_helper_module)
+
+  @endpoint endpoint
+  @route_helper_module route_helper_module
+
   @doc "The current datetime in the America/New_York timezone."
   @spec now() :: DateTime.t
   @spec now((() -> DateTime.t)) :: DateTime.t
@@ -93,5 +99,18 @@ defmodule Util do
         _ = Logger.warn(fn -> "async task timed out. Returning: #{inspect(default)}" end)
         default
     end
+  end
+
+  @doc """
+  Makes SiteWeb.Router.Helpers available to other apps.
+  #
+  # Examples
+
+    iex> Util.site_path(:schedule_path, [:show, "test"])
+    "/schedules/test"
+  """
+  @spec site_path(atom, [any]) :: String.t
+  def site_path(helper_fn, opts) when is_list(opts) do
+    apply(@route_helper_module, helper_fn, [@endpoint | opts])
   end
 end

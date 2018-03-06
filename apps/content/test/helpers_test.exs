@@ -1,28 +1,39 @@
 defmodule Content.HelpersTest do
   use ExUnit.Case, async: true
-  import Content.ImageHelpers, only: [site_app_domain: 0]
-
   import Content.Helpers
 
   describe "rewrite_url/1" do
     test "rewrites when the URL has query params" do
-      rewritten = rewrite_url("http://test-mbta.pantheonsite.io/foo/bar?baz=quux")
-      assert rewritten == Content.Config.apply(:static, ["/foo/bar?baz=quux"])
+      assert %URI{} = uri =
+        "http://test-mbta.pantheonsite.io/foo/bar?baz=quux"
+        |> Content.Helpers.rewrite_url()
+        |> URI.parse()
+      assert uri.scheme == "http"
+      assert uri.host == "localhost"
+      assert uri.path == "/foo/bar"
+      assert uri.query == "baz=quux"
     end
 
     test "rewrites when the URL has no query params" do
-      rewritten = rewrite_url("http://test-mbta.pantheonsite.io/foo/bar")
-      assert rewritten == Content.Config.apply(:static, ["/foo/bar"])
+      assert %URI{} = uri =
+        "http://test-mbta.pantheonsite.io/foo/bar"
+        |> Content.Helpers.rewrite_url()
+        |> URI.parse()
+      assert uri.scheme == "http"
+      assert uri.host == "localhost"
+      assert uri.path == "/foo/bar"
+      assert uri.query == nil
     end
 
     test "rewrites the URL for https" do
-      rewritten = rewrite_url("https://example.com/foo/bar")
-      assert rewritten == Content.Config.apply(:static, ["/foo/bar"])
-    end
-
-    test "rewrites the URL to use the Site app host" do
-      rewritten = rewrite_url("https://example.com/foo/bar")
-      assert rewritten == "http://#{site_app_domain()}/foo/bar"
+      assert %URI{} = uri =
+        "https://example.com/foo/bar"
+        |> Content.Helpers.rewrite_url()
+        |> URI.parse()
+      assert uri.scheme == "http"
+      assert uri.host == "localhost"
+      assert uri.path == "/foo/bar"
+      assert uri.query == nil
     end
   end
 
@@ -37,7 +48,7 @@ defmodule Content.HelpersTest do
 
       assert parse_image(data, "field_my_image") == %Content.Field.Image{
         alt: "Picture of a barn",
-        url: "http://#{site_app_domain()}/files/barn.jpg"
+        url: Util.site_path(:static_url, ["/files/barn.jpg"])
       }
     end
 
@@ -64,11 +75,11 @@ defmodule Content.HelpersTest do
       expected_result = [
         %Content.Field.Image{
           alt: "Picture of a barn",
-          url: "http://#{site_app_domain()}/files/barn.jpg"
+          url: Util.site_path(:static_url, ["/files/barn.jpg"])
         },
         %Content.Field.Image{
           alt: "Picture of a horse",
-          url: "http://#{site_app_domain()}/files/horse.jpg"
+          url: Util.site_path(:static_url, ["/files/horse.jpg"])
         }
       ]
 

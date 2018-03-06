@@ -43,6 +43,8 @@ defmodule Site.ContentRewriters.ResponsiveTablesTest do
     end
 
     test "finds caption when it's a tag" do
+      assert Floki.parse("<table><caption>Caption in a tag</caption></table>") ==
+        {"table", [], [{"caption", [], ["Caption in a tag"]}]}
       rewritten =
         """
           <table>
@@ -51,10 +53,23 @@ defmodule Site.ContentRewriters.ResponsiveTablesTest do
             #{tbody()}
           </table>
         """
-        |> Floki.parse
-        |> rewrite_table
+        |> Floki.parse()
+        |> rewrite_table()
 
       assert [{"caption", [], ["Caption in tag"]}] = Floki.find(rewritten, "caption")
+    end
+    test "finds caption when it is not in a tag" do
+      assert Floki.parse("<table>Caption outside of a tag</table>") == {"table", [], ["Caption outside of a tag"]}
+      assert """
+        <table>
+          Caption outside of a tag
+          #{thead()}
+          #{tbody()}
+        </table>
+      """
+      |> Floki.parse()
+      |> rewrite_table()
+      |> Floki.find("caption") == [{"caption", [], ["Caption outside of a tag"]}]
     end
 
     test "gracefully handles an invalid table" do

@@ -1,6 +1,5 @@
 defmodule Content.Field.ImageTest do
   use ExUnit.Case, async: true
-  import Content.ImageHelpers, only: [site_app_domain: 0]
 
   describe "from_api/1" do
     test "maps image api data to a struct" do
@@ -19,7 +18,7 @@ defmodule Content.Field.ImageTest do
       image = Content.Field.Image.from_api(image_data)
 
       assert image.alt == image_data["alt"]
-      assert image.url == "http://#{site_app_domain()}/files/purple-train.jpeg"
+      assert %URI{host: "localhost", path: "/files/purple-train.jpeg"} = URI.parse(image.url)
     end
   end
 end
