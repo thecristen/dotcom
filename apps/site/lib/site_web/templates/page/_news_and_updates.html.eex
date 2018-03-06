@@ -5,6 +5,9 @@
       <%= for news_entry <- @news do %>
         <%= link to: news_entry_path(@conn, :show, news_entry), class: "c-title-card c-title-card--link" do %>
           <div class="c-title-card__title c-title-card--link__title"><%= news_entry.title %></div>
+          <p class="news-metadata news-metadata--below-title">
+            <%= SiteWeb.TimeHelpers.format_date(news_entry.posted_on) %>
+          </p>
           <p><%= news_entry.teaser |> safe_to_string |> Content.Blurb.blurb(90) |> raw %></p>
         <% end %>
       <% end %>
