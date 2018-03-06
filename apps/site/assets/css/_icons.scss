@@ -37,6 +37,17 @@ h2,
   }
 }
 
+h3,
+.h3 {
+  .icon {
+    margin-top: (($font-size-h3 * 1.75) - $icon-size) / 2;
+
+    @include media-breakpoint-up(xxl) {
+      margin-top: (($font-size-h3-xxl * 1.75) - $icon-size) / 2;
+    }
+  }
+}
+
 // Sizes
 .icon-small {
   height: $icon-size-sm;
