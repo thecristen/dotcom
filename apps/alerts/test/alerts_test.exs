@@ -28,6 +28,12 @@ defmodule AlertsTest do
     end
   end
 
+  describe "all_types/0" do
+    test "contains no duplicates" do
+      assert Enum.uniq(all_types()) == all_types()
+    end
+  end
+
   describe "is_notice?/2" do
     test "Delay alerts are not notices" do
       delay = %Alert{effect: :delay}
@@ -37,6 +43,12 @@ defmodule AlertsTest do
     test "Suspension alerts are not notices" do
       suspension = %Alert{effect: :suspension}
       refute is_notice? suspension, now()
+    end
+
+    test "severe alerts are always an alert" do
+      for type <- all_types() do
+        assert {type, is_notice?(%Alert{effect: type, severity: 7}, now())} == {type, false}
+      end
     end
 
     test "Track Change is a notice" do

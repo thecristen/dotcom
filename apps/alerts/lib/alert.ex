@@ -11,31 +11,35 @@ defmodule Alerts.Alert do
     description: ""
   ]
   @type period_pair :: {DateTime.t | nil, DateTime.t | nil}
+
   @type effect ::
+  :access_issue |
   :amber_alert |
   :cancellation |
   :delay |
-  :suspension |
-  :track_change |
   :detour |
-  :shuttle |
-  :stop_closure |
-  :dock_closure |
-  :station_closure |
-  :stop_moved |
-  :extra_service |
-  :schedule_change |
-  :service_change |
-  :snow_route |
-  :stop_shoveling |
-  :station_issue |
   :dock_issue |
-  :access_issue |
+  :dock_closure |
   :elevator_closure |
   :escalator_closure |
+  :extra_service |
+  :no_service |
   :policy_change |
+  :service_change |
+  :shuttle |
+  :suspension |
+  :station_closure |
+  :stop_closure |
+  :stop_moved |
+  :schedule_change |
+  :snow_route |
+  :snow_route |
+  :station_issue |
+  :stop_shoveling |
   :summary |
+  :track_change |
   :unknown
+
   @type severity :: 0..10
   @type lifecycle :: :ongoing | :upcoming | :ongoing_upcoming | :new | :unknown
   @type t :: %Alerts.Alert{
@@ -53,15 +57,34 @@ defmodule Alerts.Alert do
   use Timex
 
   @ongoing_effects [
-    :shuttle,
-    :stop_closure,
-    :snow_route,
-    :stop_shoveling,
     :cancellation,
     :detour,
     :no_service,
-    :service_change
+    :service_change,
+    :snow_route,
+    :shuttle,
+    :stop_closure,
+    :stop_shoveling
   ]
+
+  @all_types [
+    :access_issue,
+    :amber_alert,
+    :delay,
+    :dock_closure,
+    :dock_issue,
+    :extra_service,
+    :elevator_closure,
+    :escalator_closure,
+    :policy_change,
+    :schedule_change,
+    :station_closure,
+    :station_issue,
+    :stop_moved,
+    :summary,
+    :suspension,
+    :track_change,
+    :unknown | @ongoing_effects]
 
   def new(keywords \\ [])
   def new([]) do
@@ -77,6 +100,9 @@ defmodule Alerts.Alert do
     ensure_entity_set(alert)
   end
 
+  @spec all_types :: [effect]
+  def all_types, do: @all_types
+
   defp ensure_entity_set(%{informed_entity: %Alerts.InformedEntitySet{}} = alert) do
     alert
   end
@@ -87,6 +113,10 @@ defmodule Alerts.Alert do
   @doc "Returns true if the Alert should be displayed as a less-prominent notice"
   @spec is_notice?(t, DateTime.t | Date.t) :: boolean
   def is_notice?(alert_list, time_or_date)
+  def is_notice?(%__MODULE__{severity: severity}, _) when severity >= 7 do
+    # severe alerts are never notices
+    false
+  end
   def is_notice?(%__MODULE__{effect: :delay}, _) do
     # Delays are never notices
     false
