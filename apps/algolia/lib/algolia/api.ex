@@ -1,32 +1,9 @@
 defmodule Algolia.Api do
+  alias Algolia.Config
+
   @type t :: %{routes: success | error, stops: success | error}
   @type success :: :ok
   @type error :: {:error, HTTPoison.Response.t | HTTPoison.Error.t}
-
-  @keys Application.get_env(:algolia, :keys)
-  @application_id Keyword.fetch!(@keys, :app_id)
-  if @application_id == nil, do: raise Algolia.MissingAppIdError
-
-  @admin_key Keyword.fetch!(@keys, :admin)
-  if @admin_key == nil, do: raise Algolia.MissingAdminKeyError
-
-  # used by javascript in Site app
-  if Keyword.fetch!(@keys, :search) == nil do
-    raise Algolia.MissingSearchKeyError
-  end
-  if @keys |> Keyword.fetch!(:places) |> Keyword.fetch!(:app_id) == nil do
-    raise Algolia.MissingPlacesAppIdError
-  end
-  if @keys |> Keyword.fetch!(:places) |> Keyword.fetch!(:search) == nil do
-    raise Algolia.MissingPlacesSearchKeyError
-  end
-
-  @base_url "https://" <> @application_id <> ".algolia.net/1/indexes/"
-
-  @headers [
-    {"X-Algolia-API-Key", @admin_key},
-    {"X-Algolia-Application-Id", @application_id}
-  ]
 
   @indexes Application.get_env(:algolia, :indexes, [])
 
@@ -34,33 +11,40 @@ defmodule Algolia.Api do
   Updates stops and routes data on Algolia. Stops data does not include bus stops.
   """
   @spec update(String.t) :: t
-  def update(base_url \\ @base_url) do
-    Map.new(@indexes, &{&1, update_index(&1, base_url)})
+  def update(host \\ "algolia.net") when is_binary(host) do
+    Map.new(@indexes, &{&1, update_index(&1, host, Config.config())})
   end
 
-  @spec generate_url(String.t, atom) :: String.t
-  defp generate_url(base_url, index_module) do
-    Path.join([base_url, index_module.index_name(), "batch"])
-  end
-
-  @spec update_index(atom, String.t) :: success | error
-  def update_index(index_module, base_url) do
+  @spec update_index(atom, String.t, Config.t) :: success | error
+  def update_index(index_module, base_url, %Config{} = config) do
     index_module.all()
     |> Enum.map(&build_data_object/1)
     |> build_request_object()
-    |> send_update(base_url, index_module)
+    |> send_update(base_url, index_module, config)
   end
 
   @spec send_update({:ok, Poison.Parser.t} | {:error, :invalid} | {:error, {:invalid, String.t}},
-                    String.t, atom) :: success | error
-  defp send_update({:ok, request}, base_url, index_module) do
+                    String.t, atom, Config.t) :: success | error
+  defp send_update({:ok, request}, base_url, index_module, %Config{} = config) do
     base_url
-    |> generate_url(index_module)
-    |> HTTPoison.post(request, @headers)
+    |> generate_url(index_module, config)
+    |> HTTPoison.post(request, headers(config))
     |> parse_response()
   end
-  defp send_update({:error, error}, _, _) do
+  defp send_update({:error, error}, _, _, %Config{}) do
     {:error, {:json_error, error}}
+  end
+
+  @spec generate_url(String.t, atom, Config.t) :: String.t
+  defp generate_url(host, index_module, %Config{} = config) do
+    Path.join([base_url(host, config), "1", "indexes", index_module.index_name(), "batch"])
+  end
+
+  defp base_url("algolia" <> _ = host, %Config{app_id: app_id}) do
+    app_id <> "." <> host
+  end
+  defp base_url(host, %Config{}) when is_binary(host) do
+    host
   end
 
   @spec parse_response({:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t}) :: success | error
@@ -88,5 +72,13 @@ defmodule Algolia.Api do
       objectID: Algolia.Object.object_id(data),
       url: Algolia.Object.url(data)
     })
+  end
+
+  @spec headers(Config.t) :: [{String.t, String.t}]
+  defp headers(%Config{app_id: app_id, admin: admin}) do
+    [
+      {"X-Algolia-API-Key", admin},
+      {"X-Algolia-Application-Id", app_id}
+    ]
   end
 end

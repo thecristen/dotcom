@@ -6,7 +6,7 @@ end
 
 defimpl Algolia.Object, for: Stops.Stop do
   def object_id(stop), do: "stop-" <> stop.id
-  def url(stop), do: SiteWeb.Router.Helpers.stop_path(SiteWeb.Endpoint, :show, stop)
+  def url(stop), do: Util.site_path(:stop_path, [:show, stop])
   def data(stop) do
     %{
       _geoloc: %{
@@ -23,7 +23,7 @@ end
 
 defimpl Algolia.Object, for: Routes.Route do
   def object_id(route), do: "route-" <> route.id
-  def url(route), do: SiteWeb.Router.Helpers.schedule_path(SiteWeb.Endpoint, :show, route)
+  def url(route), do: Util.site_path(:schedule_path, [:show, route])
   def data(%Routes.Route{direction_names: direction_names} = route) do
     # Poison can't parse maps with integer keys
     direction_names = [direction_names[0], direction_names[1]]

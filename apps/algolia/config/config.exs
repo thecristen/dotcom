@@ -2,14 +2,14 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-config :algolia, :keys,
-  app_id: System.get_env("ALGOLIA_APP_ID"),
-  admin: System.get_env("ALGOLIA_ADMIN_KEY"),
-  search: System.get_env("ALGOLIA_SEARCH_KEY"),
-  places: [
-    app_id: System.get_env("ALGOLIA_PLACES_APP_ID"),
-    search: System.get_env("ALGOLIA_PLACES_SEARCH_KEY")
-  ]
+config :algolia, :config,
+  app_id: {:system, "ALGOLIA_APP_ID"},
+  admin: {:system, "ALGOLIA_ADMIN_KEY"},
+  search: {:system, "ALGOLIA_SEARCH_KEY"}
+
+config :algolia, :places_config,
+  app_id: {:system, "ALGOLIA_PLACES_APP_ID"},
+  search: {:system, "ALGOLIA_PLACES_SEARCH_KEY"}
 
 config :algolia, :repos,
   stops: Stops.Api,

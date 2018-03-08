@@ -352,11 +352,9 @@ defmodule SiteWeb.ViewHelpers do
     end
   end
 
+  @spec algolia_config :: Phoenix.HTML.Safe.t
   def algolia_config do
-    :algolia
-    |> Application.get_env(:keys, app_id: nil, search: nil, places: [app_id: nil, search: nil])
-    |> Enum.into(%{})
-    |> Map.update!(:places, & Enum.into(&1, %{}))
-    |> Poison.encode!()
+    {:ok, config} = Poison.encode(%{Algolia.Config.config() | admin: nil})
+    raw(config)
   end
 end

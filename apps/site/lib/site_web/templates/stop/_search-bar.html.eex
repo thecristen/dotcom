@@ -1,6 +1,6 @@
 <script>
   window.useAlgoliaSearch = true;
-  window.algoliaConfig = <%= raw algolia_config() %>
+  window.algoliaConfig = <%= algolia_config() %>
 </script>
 
 <div id="search-bar-container" class="hidden-no-js c-search-bar">

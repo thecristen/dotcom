@@ -323,6 +323,10 @@ defmodule SiteWeb.StopViewTest do
              |>  SiteWeb.StopView.render(stop_info: stops, conn: conn)
              |> safe_to_string()
       assert [{"div", _, _}] = Floki.find(html, ".c-search-bar")
+      %Algolia.Config{app_id: app_id} = Algolia.Config.config()
+      assert is_binary(app_id)
+      assert String.length(app_id) > 0
+      assert html =~ app_id
     end
   end
 end

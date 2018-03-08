@@ -16,7 +16,7 @@ defmodule Algolia.ApiTest do
       assert %{Algolia.MockObjects => result} =
         Algolia.Api.update("http://localhost:#{bypass.port}")
       assert result == :ok
-      assert_receive {"/objects/batch", headers, body}
+      assert_receive {"/1/indexes/objects/batch", headers, body}
 
       for header <- ["x-algolia-api-key", "x-algolia-application-id"] do
         assert {^header, val} = Enum.find(headers, & elem(&1, 0) == header)
