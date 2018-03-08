@@ -241,7 +241,6 @@ import stopBubbles from './stop-bubbles';
 import search from './search';
 import photoGallery from './photo-gallery';
 import filter from './filter';
-import { setupSearch } from "./search-bar";
 import algoliaSearch from "./algolia-search";
 
 submitOnEvents(["blur", "change"]);
@@ -271,11 +270,6 @@ search(window.$, breakpoints);
 photoGallery();
 filter();
 stickyTooltip();
-
-if (window.useAlgoliaSearch) {
-  algoliaSearch();
-} else {
-  setupSearch();
-}
+algoliaSearch();
 
 document.body.className = document.body.className.replace("no-js", "js");
