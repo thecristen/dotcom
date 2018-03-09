@@ -5,30 +5,30 @@ defmodule SiteWeb.FareViewTest do
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
   alias Fares.{Fare, Summary}
 
-  describe "fare_type_note/1" do
+  describe "fare_type_note/2" do
     test "returns fare note for students" do
-      assert safe_to_string(fare_type_note(%Fare{mode: :commuter_rail, reduced: :student})) =~
-        "Middle and high school students are eligible"
+      assert safe_to_string(fare_type_note(%Plug.Conn{}, %Fare{mode: :commuter_rail, reduced: :student})) =~
+        "Middle and high school students at participating schools"
     end
 
     test "returns fare note for seniors" do
-      assert safe_to_string(fare_type_note(%Fare{mode: :commuter_rail, reduced: :senior_disabled})) =~
-        "People aged 65 years or older"
+      assert safe_to_string(fare_type_note(%Plug.Conn{}, %Fare{mode: :commuter_rail, reduced: :senior_disabled})) =~
+        "People 65 and older and people with disabilities"
     end
 
     test "returns fare note for bus and subway" do
-      assert safe_to_string(fare_type_note(%Fare{mode: :bus, reduced: nil})) =~
-        "click on the \“Passes\” tab below"
+      assert safe_to_string(fare_type_note(%Plug.Conn{}, %Fare{mode: :bus, reduced: nil})) =~
+        "click on the &quot;Passes&quot; tab below"
     end
 
     test "returns fare note for ferry" do
-      assert safe_to_string(fare_type_note(%Fare{mode: :ferry, reduced: nil})) =~
-      "You may pay for your Ferry fare on-board"
+      assert safe_to_string(fare_type_note(%Plug.Conn{}, %Fare{mode: :ferry, reduced: nil})) =~
+      "You can buy a ferry ticket after you board the boat"
     end
 
     test "returns fare note for commuter rail" do
-      assert safe_to_string(fare_type_note(%Fare{mode: :commuter_rail, reduced: nil})) =~
-      "If you pay for a Round Trip "
+      assert safe_to_string(fare_type_note(%Plug.Conn{}, %Fare{mode: :commuter_rail, reduced: nil})) =~
+      "If you buy a round trip ticket"
     end
   end
 

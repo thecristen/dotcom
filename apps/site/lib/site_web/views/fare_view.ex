@@ -12,40 +12,42 @@ defmodule SiteWeb.FareView do
   end
 
   @doc "Return the reduced fare note for the given fare"
-  @spec fare_type_note(Fare.t) :: Phoenix.HTML.safe | nil
-  def fare_type_note(%Fare{reduced: :student}) do
+  @spec fare_type_note(Plug.Conn.t, Fare.t) :: Phoenix.HTML.safe | nil
+  def fare_type_note(conn, %Fare{reduced: :student}) do
     content_tag :span do
-      ["Middle and high school students are eligible for reduced fares on Subway. In order to receive a reduced fare, students must use a ",
-       (link "Student CharlieCard ", to: fare_path(SiteWeb.Endpoint, :show, :reduced)<>"#students", data: [turbolinks: "false"]),
-       "issued by their school. Student discounts apply to One Way fares only. Discounts for passes are not available. College students may
-       be eligible for reduced fares through a Semester Pass Program. For more information, please contact an administrator at your school."]
+      ["Middle and high school students at participating schools can get a ",
+       (link "Student CharlieCard", to: cms_static_page_path(conn, "/fares/reduced/student-charliecards"), data: [turbolinks: "false"]),
+       " for discounts on the subway, bus, Commuter Rail, and ferry. College students are not eligible for these discounts, but may be able to purchase a ",
+       (link "Semester Pass", to: "https://passprogram.mbta.com/Public/ppinfo.aspx?p=u", data: [turbolinks: "false"]),
+       " through their school."]
     end
   end
-  def fare_type_note(%Fare{reduced: :senior_disabled}) do
+  def fare_type_note(conn, %Fare{reduced: :senior_disabled}) do
     content_tag :span do
-      ["People aged 65 years or older and persons with disabilities qualify for a reduced fare on Bus and Subway. Seniors must obtain a ",
-      (link "Senior CharlieCard ", to: fare_path(SiteWeb.Endpoint, :show, :reduced), data: [turbolinks: "false"]),
-      "and persons with disabilities must apply for a ",
-     (link "Transportation Access Pass (TAP) ", to: fare_path(SiteWeb.Endpoint, :show, :reduced)<>"#reduced-disability", data: [turbolinks: "false"]),
-      "in order to receive a reduced fare. Discounts apply to One Way fares only. Discounts for passes are not available."]
+      ["People 65 and older and people with disabilities qualify for reduced fares on the subway, bus, Commuter Rail, and ferry. Seniors must obtain a ",
+      (link "Senior CharlieCard", to: cms_static_page_path(conn, "/fares/reduced/senior-charliecard"), data: [turbolinks: "false"]),
+      " and people with disabilities must apply for a ",
+     (link "Transportation Access Pass (TAP)", to: cms_static_page_path(conn, "/fares/reduced/transportation-access-pass"), data: [turbolinks: "false"]),
+      ". People who are blind or have low vision can ride all MBTA services for free with a ",
+      (link "Blind Access Card", to: cms_static_page_path(conn, "/fares/reduced/blind-access-charliecard"), data: [turbolinks: "false"]), "."]
     end
   end
-  def fare_type_note(%Fare{reduced: nil, mode: mode}) when mode in [:bus, :subway] do
+  def fare_type_note(_conn, %Fare{reduced: nil, mode: mode}) when mode in [:bus, :subway] do
     content_tag :span do
-      "If you would like information on purchasing more than one trip, click on the “Passes” tab below."
+      ~s(For information about 1-day, 7-day, and monthly passes, click on the "Passes" tab below.)
     end
   end
-  def fare_type_note(%Fare{reduced: nil, mode: :ferry}) do
+  def fare_type_note(_conn, %Fare{reduced: nil, mode: :ferry}) do
     content_tag :span do
-      "You may pay for your Ferry fare on-board if there is no ticket office at your terminal."
+      ~s(You can buy a ferry ticket after you board the boat, but we recommend buying your ticket or pass in advance.)
     end
   end
-  def fare_type_note(%Fare{reduced: nil, mode: :commuter_rail}) do
+  def fare_type_note(_conn, %Fare{reduced: nil, mode: :commuter_rail}) do
     content_tag :span do
-      "If you pay for a Round Trip with cash on-board, your ticket for your return trip will only be valid until the end of service that same day."
+      ~s(If you buy a round trip ticket with cash on board the train, it is only valid until the end of service that same day.)
     end
   end
-  def fare_type_note(_) do
+  def fare_type_note(_conn, _fare) do
     nil
   end
 
