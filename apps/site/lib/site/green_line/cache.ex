@@ -47,7 +47,7 @@ defmodule Site.GreenLine.Cache do
     Process.send_after(
       self(),
       :populate_caches,
-      next_update_after(Timex.now("America/New_York"))
+      next_update_after(Util.now())
     )
 
     {:noreply, state, :hibernate}
@@ -81,14 +81,16 @@ defmodule Site.GreenLine.Cache do
     end
   end
 
-  def next_update_after(now) do
-    tomorrow_morning =
-      now
-      |> Timex.shift(days: 1)
-      |> Timex.beginning_of_day
-      |> Timex.shift(hours: 7)
-
-    Timex.diff(tomorrow_morning, now, :milliseconds)
+  @doc """
+  Calculates the milliseconds between a date and 7am the next day.
+  """
+  @spec next_update_after(DateTime.t) :: integer
+  def next_update_after(%DateTime{} = now) do
+    now
+    |> Timex.shift(days: 1)
+    |> Timex.beginning_of_day
+    |> Timex.shift(hours: 7)
+    |> Timex.diff(now, :milliseconds)
   end
 
   defp populate_cache(date, nil, reset_fn) do

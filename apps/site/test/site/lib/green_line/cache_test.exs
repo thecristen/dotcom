@@ -29,15 +29,38 @@ defmodule Site.GreenLine.CacheTest do
     assert msgs == [:ok, :ok, :nothing]
   end
 
-  test "next_update_after/1 calculates proper wait time" do
-    start =
-      Timex.now("America/New_York")
-      |> Timex.beginning_of_day
-      |> Timex.shift(hours: 20)
+  describe "next_update_after/1" do
+    test "calculates proper wait time" do
+      start =
+        "America/New_York"
+        |> Timex.now()
+        |> Timex.beginning_of_day
+        |> Timex.shift(hours: 20)
 
-    # 8pm -> 7am = 11 hrs = 39,600,000 ms
+      # 8pm -> 7am = 11 hrs = 39,600,000 ms
 
-    assert next_update_after(start) == 39_600_000
+      assert next_update_after(start) == 39_600_000
+    end
+
+    test "handles beginning of daylight saving time" do
+      time = ~N[2018-03-11T07:00:00] # 2am EST -> 3am EDT
+      assert %DateTime{hour: 3} = Timex.Timezone.convert(time, "America/New_York")
+
+      # 3am -> 7am the next day = 28 hrs
+      assert time
+             |> Util.to_local_time()
+             |> next_update_after() == 1000 * 60 * 60 * 28
+    end
+
+    test "handles end of daylight saving time" do
+      time = ~N[2018-11-04T06:00:00] # 2am EDT -> 1am EST
+      assert %Timex.AmbiguousDateTime{} = Timex.Timezone.convert(time, "America/New_York")
+
+      # 1am -> 7am the next day = 30 hrs
+      assert time
+             |> Util.to_local_time()
+             |> next_update_after() == 1000 * 60 * 60 * 30
+    end
   end
 
   test "it stops the previous day's agent" do
