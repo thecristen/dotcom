@@ -12,9 +12,32 @@ defmodule UtilTest do
             {~N[2016-11-06T07:00:00], "2016-11-06T02:00:00-05:00"}
           ] do
 
-          utc_fn = fn -> Timex.set(time, timezone: "UTC") end
+          utc_fn = fn "America/New_York" -> Timex.set(time, timezone: "UTC") end
           assert utc_fn |> now() |> Timex.format("{ISO:Extended}") == {:ok, expected}
       end
+    end
+  end
+
+  describe "to_local_time/1" do
+    test "handles NaiveDateTime" do
+      assert %DateTime{day: 02, hour: 0, zone_abbr: "EST"} = Util.to_local_time(~N[2016-01-02T05:00:00])
+    end
+
+    test "handles NaiveDateTime in EST -> EDT transition" do
+      assert %DateTime{month: 3, day: 11, hour: 1, zone_abbr: "EST"} = Util.to_local_time(~N[2018-03-11T06:00:00])
+      assert %DateTime{month: 3, day: 11, hour: 3, zone_abbr: "EDT"} = Util.to_local_time(~N[2018-03-11T07:00:00])
+    end
+
+    test "handles NaiveDateTime in EDT -> EST transition" do
+      assert %DateTime{month: 11, day: 4, hour: 1, zone_abbr: "EDT"} = Util.to_local_time(~N[2018-11-04T05:00:00])
+      assert %DateTime{month: 11, day: 4, hour: 2, zone_abbr: "EDT"} = Util.to_local_time(~N[2018-11-04T06:00:00])
+      assert %DateTime{month: 11, day: 4, hour: 2, zone_abbr: "EST"} = Util.to_local_time(~N[2018-11-04T07:00:00])
+    end
+
+    test "handles DateTime in UTC timezone" do
+      assert %DateTime{day: 02, hour: 0} = ~N[2016-01-02T05:00:00]
+      |> DateTime.from_naive!("Etc/UTC")
+      |> Util.to_local_time()
     end
   end
 
@@ -24,16 +47,182 @@ defmodule UtilTest do
     end
   end
 
-  describe "service_date/1" do
+  describe "service_date/1 for NaiveDateTime" do
     test "returns the service date" do
-      expected = ~D[2016-01-01]
-      for time_str <- [
-            "2016-01-01T03:00:00-04:00",
-            "2016-01-01T12:00:00-04:00",
-            "2016-01-02T02:59:59-04:00"] do
-          date_time = Timex.parse!(time_str, "{ISO:Extended}")
-          assert service_date(date_time) == expected
-      end
+      yesterday = ~D[2016-01-01]
+      today = ~D[2016-01-02]
+
+      midnight = ~N[2016-01-02T05:00:00]
+      assert %DateTime{day: 02, hour: 0} = Util.to_local_time(midnight)
+      assert Util.service_date(midnight) == yesterday
+
+      one_am = ~N[2016-01-02T06:00:00]
+      assert %DateTime{day: 02, hour: 1} = Util.to_local_time(one_am)
+      assert Util.service_date(one_am) == yesterday
+
+      two_am = ~N[2016-01-02T07:00:00]
+      assert %DateTime{day: 02, hour: 2} = Util.to_local_time(two_am)
+      assert Util.service_date(two_am) == yesterday
+
+      three_am = ~N[2016-01-02T08:00:00]
+      assert %DateTime{day: 02, hour: 3} = Util.to_local_time(three_am)
+      assert Util.service_date(three_am) == today
+
+      four_am = ~N[2016-01-02T09:00:00]
+      assert %DateTime{day: 02, hour: 4} = Util.to_local_time(four_am)
+      assert Util.service_date(four_am) == today
+    end
+
+    test "handles EST -> EDT transition" do
+      assert Util.service_date(~N[2018-03-11T05:00:00]) == ~D[2018-03-10] # midnight EST
+      assert Util.service_date(~N[2018-03-11T06:00:00]) == ~D[2018-03-10] # 1am EST
+      assert Util.service_date(~N[2018-03-11T07:00:00]) == ~D[2018-03-11] # 2am EST / 3am EDT
+      assert Util.service_date(~N[2018-03-11T08:00:00]) == ~D[2018-03-11] # 4am EDT
+    end
+
+    test "handles EDT -> EST transition" do
+      assert Util.service_date(~N[2018-11-04T04:00:00]) == ~D[2018-11-03] # midnight EDT
+      assert Util.service_date(~N[2018-11-04T05:00:00]) == ~D[2018-11-03] # 1am EDT
+      assert Util.service_date(~N[2018-11-04T06:00:00]) == ~D[2018-11-03] # 2am EDT / 1am EST
+      assert Util.service_date(~N[2018-11-04T07:00:00]) == ~D[2018-11-03] # 2am EST
+      assert Util.service_date(~N[2018-11-04T08:00:00]) == ~D[2018-11-04] # 3am EST
+      assert Util.service_date(~N[2018-11-04T09:00:00]) == ~D[2018-11-04] # 4am EST
+    end
+  end
+
+  describe "service_date/1 for DateTime in America/New_York timezone" do
+    test "returns the service date" do
+      yesterday = ~D[2016-01-01]
+      today = ~D[2016-01-02]
+
+      assert ~N[2016-01-02T05:00:00] # 12am
+             |> Util.to_local_time()
+             |> Util.service_date() == yesterday
+
+      assert ~N[2016-01-02T06:00:00] # 1am
+             |> Util.to_local_time()
+             |> Util.service_date() == yesterday
+
+      assert ~N[2016-01-02T07:00:00] # 2am
+             |> Util.to_local_time()
+             |> Util.service_date() == yesterday
+
+      assert ~N[2016-01-02T08:00:00] # 3am
+             |> Util.to_local_time()
+             |> Util.service_date() == today
+
+      assert ~N[2016-01-02T09:00:00] # 4am
+             |> Util.to_local_time()
+             |> Util.service_date() == today
+    end
+
+    test "handles EST -> EDT transition" do
+      assert ~N[2018-03-11T05:00:00] # midnight EST
+             |> Util.to_local_time()
+             |> Util.service_date() == ~D[2018-03-10]
+      assert ~N[2018-03-11T06:00:00] # 1am EST
+             |> Util.to_local_time()
+             |> Util.service_date() == ~D[2018-03-10]
+      assert ~N[2018-03-11T07:00:00] # 2am EST / 3am EDT
+             |> Util.to_local_time()
+             |> Util.service_date() == ~D[2018-03-11]
+      assert ~N[2018-03-11T08:00:00] # 4am EDT
+             |> Util.to_local_time()
+             |> Util.service_date() == ~D[2018-03-11]
+    end
+
+    test "handles EDT -> EST transition" do
+      assert ~N[2018-11-04T04:00:00] # midnight EDT
+             |> Util.to_local_time()
+             |> Util.service_date() == ~D[2018-11-03]
+
+      assert ~N[2018-11-04T05:00:00] # 1am EDT
+             |> Util.to_local_time()
+             |> Util.service_date() == ~D[2018-11-03]
+
+      assert ~N[2018-11-04T06:00:00] # 2am EDT / 1am EST
+             |> Util.to_local_time()
+             |> Util.service_date() == ~D[2018-11-03]
+
+      assert ~N[2018-11-04T07:00:00] # 2am EST
+             |> Util.to_local_time()
+             |> Util.service_date() == ~D[2018-11-03]
+
+      assert ~N[2018-11-04T08:00:00] # 3am EST
+             |> Util.to_local_time()
+             |> Util.service_date() == ~D[2018-11-04]
+
+      assert ~N[2018-11-04T09:00:00] # 4am EST
+             |> Util.to_local_time()
+             |> Util.service_date() == ~D[2018-11-04]
+    end
+  end
+
+  describe "service_date/1 for DateTime in UTC timezone" do
+    test "returns the service date" do
+      yesterday = ~D[2016-01-01]
+      today = ~D[2016-01-02]
+
+      assert ~N[2016-01-02T05:00:00] # 12am
+             |> DateTime.from_naive!("Etc/UTC")
+             |> Util.service_date() == yesterday
+
+      assert ~N[2016-01-02T06:00:00] # 1am
+             |> DateTime.from_naive!("Etc/UTC")
+             |> Util.service_date() == yesterday
+
+      assert ~N[2016-01-02T07:00:00] # 2am
+             |> DateTime.from_naive!("Etc/UTC")
+             |> Util.service_date() == yesterday
+
+      assert ~N[2016-01-02T08:00:00] # 3am
+             |> DateTime.from_naive!("Etc/UTC")
+             |> Util.service_date() == today
+
+      assert ~N[2016-01-02T09:00:00] # 4am
+             |> DateTime.from_naive!("Etc/UTC")
+             |> Util.service_date() == today
+    end
+
+    test "handles EST -> EDT transition" do
+      assert ~N[2018-03-11T05:00:00] # midnight EST
+             |> DateTime.from_naive!("Etc/UTC")
+             |> Util.service_date() == ~D[2018-03-10]
+      assert ~N[2018-03-11T06:00:00] # 1am EST
+             |> DateTime.from_naive!("Etc/UTC")
+             |> Util.service_date() == ~D[2018-03-10]
+      assert ~N[2018-03-11T07:00:00] # 2am EST / 3am EDT
+             |> DateTime.from_naive!("Etc/UTC")
+             |> Util.service_date() == ~D[2018-03-11]
+      assert ~N[2018-03-11T08:00:00] # 4am EDT
+             |> DateTime.from_naive!("Etc/UTC")
+             |> Util.service_date() == ~D[2018-03-11]
+    end
+
+    test "handles EDT -> EST transition" do
+      assert ~N[2018-11-04T04:00:00] # midnight EDT
+             |> DateTime.from_naive!("Etc/UTC")
+             |> Util.service_date() == ~D[2018-11-03]
+
+      assert ~N[2018-11-04T05:00:00] # 1am EDT
+             |> DateTime.from_naive!("Etc/UTC")
+             |> Util.service_date() == ~D[2018-11-03]
+
+      assert ~N[2018-11-04T06:00:00] # 2am EDT / 1am EST
+             |> DateTime.from_naive!("Etc/UTC")
+             |> Util.service_date() == ~D[2018-11-03]
+
+      assert ~N[2018-11-04T07:00:00] # 2am EST
+             |> DateTime.from_naive!("Etc/UTC")
+             |> Util.service_date() == ~D[2018-11-03]
+
+      assert ~N[2018-11-04T08:00:00] # 3am EST
+             |> DateTime.from_naive!("Etc/UTC")
+             |> Util.service_date() == ~D[2018-11-04]
+
+      assert ~N[2018-11-04T09:00:00] # 4am EST
+             |> DateTime.from_naive!("Etc/UTC")
+             |> Util.service_date() == ~D[2018-11-04]
     end
   end
 
@@ -59,10 +248,13 @@ defmodule UtilTest do
     end
 
     test "returns the default for a task that runs too long" do
-      assert async_with_timeout([
-        fn -> 5 end,
-        fn -> :timer.sleep(60_000) end
-      ], :default, 10) == [5, :default]
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        assert async_with_timeout([
+          fn -> 5 end,
+          fn -> :timer.sleep(60_000) end
+        ], :default, 10) == [5, :default]
+      end)
+      assert log =~ "timed out"
     end
   end
 end

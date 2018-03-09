@@ -7,12 +7,16 @@ defmodule Util do
 
   @endpoint endpoint
   @route_helper_module route_helper_module
+  @local_tz "America/New_York"
 
   @doc "The current datetime in the America/New_York timezone."
   @spec now() :: DateTime.t
-  @spec now((() -> DateTime.t)) :: DateTime.t
-  def now(utc_now_fn \\ &Timex.now/0) do
-    to_local_time(utc_now_fn.())
+  @spec now((String.t -> DateTime.t)) :: DateTime.t
+  def now(utc_now_fn \\ &Timex.now/1) do
+    @local_tz
+    |> utc_now_fn.()
+    |> to_local_time()
+    # to_local_time(utc_now_fn.())
   end
 
   @doc "Today's date in the America/New_York timezone."
@@ -21,13 +25,35 @@ defmodule Util do
   end
 
   @doc "Converts a DateTime.t into the America/New_York zone, handling ambiguities"
-  @spec to_local_time(DateTime.t) :: DateTime.t
-  def to_local_time(time) do
-    case Timex.Timezone.convert(time, "America/New_York") do
-      %Timex.AmbiguousDateTime{before: before} -> before
-      time -> time
-    end
+  @spec to_local_time(DateTime.t | NaiveDateTime.t) :: DateTime.t | {:error, any}
+  def to_local_time(%DateTime{zone_abbr: zone} = time) when zone in ["EDT", "EST", "-04", "-05"] do
+    time
   end
+  def to_local_time(%DateTime{zone_abbr: "UTC"} = time) do
+    time
+    |> Timex.Timezone.convert(@local_tz)
+    |> handle_ambiguous_time()
+  end
+  def to_local_time(%NaiveDateTime{} = time) do
+    time
+    |> DateTime.from_naive!("Etc/UTC")
+    |> to_local_time()
+  end
+
+  @spec handle_ambiguous_time(Timex.AmbiguousDateTime.t | DateTime.t | {:error, any}) :: DateTime.t | {:error, any}
+  defp handle_ambiguous_time(%Timex.AmbiguousDateTime{before: before}) do
+    # ambiguous time only happens between midnight and 3am
+    # during November daylight saving transition
+    before
+  end
+  defp handle_ambiguous_time(%DateTime{} = time) do
+    time
+  end
+  defp handle_ambiguous_time({:error, error}) do
+    {:error, error}
+  end
+
+  def local_tz, do: @local_tz
 
   @doc """
   Converts an {:error, _} tuple to a default value.
@@ -55,10 +81,20 @@ defmodule Util do
   times after midnight belong to the service of the previous date.
 
   """
+  @spec service_date(DateTime.t | NaiveDateTime.t) :: Date.t
   def service_date(current_time \\ Util.now()) do
-    %{year: year, month: month, day: day} = Timex.shift(current_time, hours: -3)
-    {:ok, date} = Date.new(year, month, day)
-    date
+    current_time
+    |> to_local_time()
+    |> do_service_date()
+  end
+
+  defp do_service_date(%DateTime{hour: hour} = time) when hour < 3 do
+    time
+    |> Timex.shift(hours: -3)
+    |> DateTime.to_date()
+  end
+  defp do_service_date(%DateTime{} = time) do
+    DateTime.to_date(time)
   end
 
   @doc """
