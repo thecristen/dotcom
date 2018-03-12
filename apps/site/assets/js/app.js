@@ -241,7 +241,7 @@ import stopBubbles from './stop-bubbles';
 import search from './search';
 import photoGallery from './photo-gallery';
 import filter from './filter';
-import algoliaSearch from "./algolia-search";
+import stopsSearch from "./algolia-stop-search";
 
 submitOnEvents(["blur", "change"]);
 googleMapsLoaded();
@@ -270,6 +270,6 @@ search(window.$, breakpoints);
 photoGallery();
 filter();
 stickyTooltip();
-algoliaSearch();
+stopsSearch();
 
 document.body.className = document.body.className.replace("no-js", "js");
