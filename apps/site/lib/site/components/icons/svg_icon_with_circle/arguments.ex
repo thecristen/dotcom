@@ -42,6 +42,13 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   def translate(:calendar), do: "6,5"
   def translate(:direction), do: "6,5"
   def translate(:variation), do: "12,11"
+  def translate(:mattapan_trolley), do: "4,4"
+  def translate(:subway), do: "4,4"
+  def translate(:bus), do: "4,4"
+  def translate(:commuter_rail), do: "4,4"
+  def translate(:ferry), do: "4,4"
+  def translate(:station), do: "4,4"
+  def translate(:stop), do: "4,4"
   def translate(icon) when icon in [:tools, :alert], do: "9,9"
   def translate(icon) do
     if icon in Site.Components.Icons.SvgIcon.mode_icons(), do: "10,10", else: "5,5"
@@ -52,6 +59,13 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   def scale(:direction), do: "1.25"
   def scale(:variation), do: "1.25"
   def scale(:calendar), do: "1.25"
+  def scale(:mattapan_trolley), do: "0.7"
+  def scale(:subway), do: "0.7"
+  def scale(:bus), do: "0.7"
+  def scale(:commuter_rail), do: "0.7"
+  def scale(:ferry), do: "0.7"
+  def scale(:station), do: "0.7"
+  def scale(:stop), do: "0.7"
   def scale(icon) do
     if icon in Site.Components.Icons.SvgIcon.mode_icons(), do: "1.4", else: "1"
   end
