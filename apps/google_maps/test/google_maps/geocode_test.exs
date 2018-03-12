@@ -106,8 +106,11 @@ defmodule GoogleMaps.GeocodeTest do
 
       address = "bad domain"
 
-      actual = geocode(address)
-      assert {:error, :internal_error} = actual
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        actual = geocode(address)
+        assert {:error, :internal_error} = actual
+      end)
+      assert log =~ "HTTP error"
     end
 
     test "returns :error with error and message from google" do
@@ -124,8 +127,11 @@ defmodule GoogleMaps.GeocodeTest do
         Plug.Conn.resp(conn, 200, ~s({"status": "INVALID_REQUEST", "error_message": "Message"}))
       end
 
-      actual = geocode(address)
-      assert {:error, :internal_error} == actual
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        actual = geocode(address)
+        assert {:error, :internal_error} == actual
+      end)
+      assert log =~ "API error"
     end
 
     test "returns :error if the status != 200" do
@@ -138,8 +144,11 @@ defmodule GoogleMaps.GeocodeTest do
         Plug.Conn.resp(conn, 500, "")
       end
 
-      actual = geocode(address)
-      assert {:error, :internal_error} = actual
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        actual = geocode(address)
+        assert {:error, :internal_error} = actual
+      end)
+      assert log =~ "Unexpected HTTP code"
     end
 
     test "returns :error if the JSON is invalid" do
@@ -152,8 +161,11 @@ defmodule GoogleMaps.GeocodeTest do
         Plug.Conn.resp(conn, 200, "{")
       end
 
-      actual = geocode(address)
-      assert {:error, :internal_error} = actual
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        actual = geocode(address)
+        assert {:error, :internal_error} = actual
+      end)
+      assert log =~ "Error parsing to JSON"
     end
 
     test "uses cache" do

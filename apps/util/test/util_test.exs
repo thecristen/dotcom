@@ -247,14 +247,14 @@ defmodule UtilTest do
       assert async_with_timeout([fn -> 5 end, fn -> 6 end], nil, 1000) == [5, 6]
     end
 
-    test "returns the default for a task that runs too long" do
+    test "returns the default for a task that runs too long and logs a warning" do
       log = ExUnit.CaptureLog.capture_log(fn ->
         assert async_with_timeout([
           fn -> 5 end,
           fn -> :timer.sleep(60_000) end
         ], :default, 10) == [5, :default]
       end)
-      assert log =~ "timed out"
+      assert log =~ "async task timed out"
     end
   end
 end

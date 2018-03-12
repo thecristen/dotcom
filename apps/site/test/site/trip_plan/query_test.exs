@@ -203,7 +203,10 @@ defmodule Site.TripPlan.QueryTest do
         "date_time" => @date_time
       }
 
-      assert %Query{itineraries: {:error, :timeout}} = from_query(params)
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        assert %Query{itineraries: {:error, :timeout}} = from_query(params)
+      end)
+      assert log =~ "timed out"
     end
   end
 

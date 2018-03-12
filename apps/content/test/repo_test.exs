@@ -186,7 +186,10 @@ defmodule Content.RepoTest do
     end
 
     test "returns empty list if there's an error" do
-      assert [] = Content.Repo.get_route_pdfs("error")
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        assert [] = Content.Repo.get_route_pdfs("error")
+      end)
+      assert log =~ "Error getting pdfs"
     end
 
     test "returns empty list if there's no pdfs for the route id" do

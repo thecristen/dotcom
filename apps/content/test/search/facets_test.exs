@@ -31,8 +31,11 @@ defmodule Content.Search.FacetsTest do
     end
 
     test "timeouts result in an error", %{search_fn: search_fn} do
-      opts = [search_fn: search_fn, response_timeout: 0]
-      assert facet_responses("timeout", 0, ["page"], opts) == :error
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        opts = [search_fn: search_fn, response_timeout: 0]
+        assert facet_responses("timeout", 0, ["page"], opts) == :error
+      end)
+      assert log =~ "timed out"
     end
   end
 
