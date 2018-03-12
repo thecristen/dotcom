@@ -1,0 +1,35 @@
+.c-searchv2__filter-label {
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-h3-xxl;
+    padding-left: $base-spacing;
+  }
+}
+
+.c-searchv2__filter-button {
+  display: none;
+  margin-bottom: $base-spacing;
+  margin-top: $base-spacing;
+  width: 100%;
+
+  @include media-breakpoint-down(sm) {
+    display: block;
+  }
+}
+
+.c-searchv2__results-header {
+  padding-top: $base-spacing * 2;
+
+  @include media-breakpoint-up(md) {
+    padding-bottom: $base-spacing * 5;
+  }
+}
+
+.c-searchv2__results-input {
+  border: 3px solid $brand-primary-dark;
+  border-radius: $border-radius;
+  font-size: $font-size-h4;
+  font-weight: bold;
+  padding: $base-spacing / 2;
+  width: 100%;
+}
+

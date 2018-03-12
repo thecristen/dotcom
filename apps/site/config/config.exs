@@ -26,7 +26,7 @@ config :site, SiteWeb.ViewHelpers,
   google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
 
 config :laboratory,
-  features: [],
+  features: [{:search_v2, "Algolia Search Results", "Enables Algolia Search Results"}],
   cookie: [
     max_age: 3600 * 24 * 30, # one month,
     http_only: true
