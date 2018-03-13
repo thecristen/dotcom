@@ -45,6 +45,11 @@ defmodule Routes.Route do
   def types_for_mode(:commuter_rail), do: [2]
   def types_for_mode(:bus), do: [3]
   def types_for_mode(:ferry), do: [4]
+  def types_for_mode(:green_line), do: [0]
+  def types_for_mode(:red_line), do: [1]
+  def types_for_mode(:blue_line), do: [1]
+  def types_for_mode(:orange_line), do: [1]
+  def types_for_mode(:mattapan_trolley), do: [0]
 
   @spec icon_atom(t) :: gtfs_route_type | subway_lines_type
   def icon_atom(%__MODULE__{id: "Red"}), do: :red_line
