@@ -1,7 +1,7 @@
 {
   "repository": {},
   "dependencies": {
-    "algoliasearch": "^3.24.11",
+    "algoliasearch": "^3.25.1",
     "autocomplete.js": "mbta/autocomplete.js",
     "autoprefixer": "^7.1.2",
     "babel-brunch": "~6.0.0",

@@ -15,7 +15,7 @@
     <h1> Search </h1>
   </div>
   <div class="col-md-8">
-    <input id="search-input" class="c-searchv2__results-input" placeholder="Search by keyword"></input>
+    <input id="searchv2-input" class="c-searchv2__results-input" placeholder="Search by keyword"></input>
     <button id="show-facets" class="btn btn-primary c-searchv2__filter-button">
       Filter by type
     </button>

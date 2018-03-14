@@ -242,6 +242,7 @@ import search from './search';
 import photoGallery from './photo-gallery';
 import filter from './filter';
 import stopsSearch from "./algolia-stop-search";
+import * as globalSearch from "./algolia-global-search";
 
 submitOnEvents(["blur", "change"]);
 googleMapsLoaded();
@@ -271,5 +272,6 @@ photoGallery();
 filter();
 stickyTooltip();
 stopsSearch();
+globalSearch.init();
 
 document.body.className = document.body.className.replace("no-js", "js");
