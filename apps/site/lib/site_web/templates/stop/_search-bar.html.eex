@@ -1,4 +1,5 @@
 <script>
+  window.useAlgoliaSearch = true;
   window.algoliaConfig = <%= algolia_config() %>
 </script>
 
