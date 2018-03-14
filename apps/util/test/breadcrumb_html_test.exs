@@ -7,33 +7,47 @@ defmodule Util.BreadcrumbHTMLTest do
   end
 
   describe "title_breadcrumbs/1" do
-    test "returns the text for each breadcrumb, in reverse order", %{conn: conn} do
+    test "returns the text for the last two CMS breadcrumbs, in reverse order, separated by pipes", %{conn: conn} do
       breadcrumbs = [
         %Util.Breadcrumb{text: "Home", url: "/"},
-        %Util.Breadcrumb{text: "Second", url: "/second"}
+        %Util.Breadcrumb{text: "Second", url: "/second"},
+        %Util.Breadcrumb{text: "Third", url: "/second/third"}
       ]
       conn = Plug.Conn.assign(conn, :breadcrumbs, breadcrumbs)
 
       breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary
-      assert breadcrumbs =~ "Second < Home"
+      assert breadcrumbs =~ "Third | Second | MBTA"
     end
 
-    test "appends the MBTA's name", %{conn: conn} do
-      breadcrumbs = [%Util.Breadcrumb{text: "Home", url: "/"}]
+    test "returns the text for the last two static breadcrumbs, in reverse order, separated by pipes", %{conn: conn} do
+      breadcrumbs = [
+        %Util.Breadcrumb{text: "First", url: "/first"},
+        %Util.Breadcrumb{text: "Second", url: "/first/second"},
+      ]
       conn = Plug.Conn.assign(conn, :breadcrumbs, breadcrumbs)
 
       breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary
-      assert breadcrumbs == "Home < MBTA - Massachusetts Bay Transportation Authority"
-
+      assert breadcrumbs =~ "Second | First | MBTA"
     end
 
-    test "returns the MBTA's name when breadcrumbs are empty", %{conn: conn} do
+    test "replaces Home text with MBTA abbreviation", %{conn: conn} do
+      breadcrumbs = [
+        %Util.Breadcrumb{text: "Home", url: "/"},
+        %Util.Breadcrumb{text: "First", url: "/first"}
+      ]
+      conn = Plug.Conn.assign(conn, :breadcrumbs, breadcrumbs)
+
+      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary
+      assert breadcrumbs == "First | MBTA"
+    end
+
+    test "returns the MBTA's full name when breadcrumbs are empty", %{conn: conn} do
       conn = Plug.Conn.assign(conn, :breadcrumbs, [])
       breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary
       assert breadcrumbs == "MBTA - Massachusetts Bay Transportation Authority"
     end
 
-    test "returns the MBTA's name when the breadcrumbs key is not found", %{conn: conn} do
+    test "returns the MBTA's full name when the breadcrumbs key is not found", %{conn: conn} do
       breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary
       assert breadcrumbs == "MBTA - Massachusetts Bay Transportation Authority"
     end

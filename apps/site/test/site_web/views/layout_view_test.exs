@@ -22,7 +22,7 @@ defmodule SiteWeb.LayoutViewTest do
     conn = get conn, "/schedules/subway"
     body = html_response(conn, 200)
 
-    expected_title = "Subway &lt; Schedules &amp; Maps &lt; MBTA - Massachusetts Bay Transportation Authority"
+    expected_title = "Subway | Schedules &amp; Maps | MBTA"
     assert body =~ "<title>#{expected_title}</title>"
   end
 
