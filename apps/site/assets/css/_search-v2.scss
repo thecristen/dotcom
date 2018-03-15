@@ -33,3 +33,45 @@
   width: 100%;
 }
 
+.c-searchv2__facets-container {
+  background-color: $white;
+  display: block;
+
+  @include media-breakpoint-down(sm) {
+    bottom: 0;
+    display: none;
+    height: 100%;
+    left: 0;
+    overflow-y: scroll;
+    padding: $base-spacing 0 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+  }
+}
+
+.c-searchv2__open-modal {
+  overflow-y: hidden;
+}
+
+.c-searchv2__close-modal-button {
+  color: $brand-primary;
+  cursor: pointer;
+  display: none;
+  float: right;
+  padding-right: $base-spacing;
+  text-align: right;
+
+  @include media-breakpoint-down(sm) {
+    display: block;
+  }
+}
+
+.c-searchv2__facets-container--open,
+.c-searchv2__close-modal-button--open {
+  @include media-breakpoint-down(sm) {
+    display: block;
+  }
+}

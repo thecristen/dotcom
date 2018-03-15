@@ -24,9 +24,10 @@ describe("AlgoliaGlobalSearch", function() {
 
   describe("init", function() {
     it("generates a new Algolia client if search element exists", function() {
-      document.body.innerHTML = `
-        <div id="${AlgoliaGlobalSearch.SELECTORS.searchBar}"></div>
-      `;
+      document.body.innerHTML = "";
+      Object.keys(AlgoliaGlobalSearch.SELECTORS).forEach(key => {
+        document.body.innerHTML += `<div id="${AlgoliaGlobalSearch.SELECTORS[key]}"></div>`;
+      });
       const globalSearch = new AlgoliaGlobalSearch();
       expect(document.getElementById(AlgoliaGlobalSearch.SELECTORS.searchBar)).to.be.an.instanceOf(window.HTMLDivElement);
       globalSearch.init();
