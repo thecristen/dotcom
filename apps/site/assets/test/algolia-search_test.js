@@ -84,6 +84,19 @@ describe("Algolia", function() {
       expect(this.mockClient.search.args[0][0][1].params).to.have.keys(["facets", "hitsPerPage"]);
       expect(this.mockClient.search.args[0][0][1].params.facets).to.include("*");
     });
+
+    it("updates the search query if search is called with arguments", function() {
+      this.algolia._client = this.mockClient;
+      this.algolia.search("search string");
+      expect(this.mockClient.search.args[0][0][0]["query"]).to.equal("search string");
+    });
+
+    it("uses a previous query if search is called with no arguments", function() {
+      this.algolia._client = this.mockClient;
+      this.algolia.search("previous query");
+      this.algolia.search();
+      expect(this.mockClient.search.args[0][0][0]["query"]).to.equal("previous query");
+    });
   });
 
   describe("Algolia.onResults", function() {

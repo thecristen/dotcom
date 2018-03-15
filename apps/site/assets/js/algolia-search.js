@@ -42,9 +42,9 @@ export class Algolia {
     }
 
     if (typeof query == "string") {
-      this.currentQuery = query;
+      this._currentQuery = query;
     } else {
-      this.currentQuery = this._lastQuery;
+      this._currentQuery = this._lastQuery;
     }
     const allQueries = this._buildAllQueries(searchIndices);
 
