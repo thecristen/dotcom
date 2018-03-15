@@ -9,7 +9,7 @@ defmodule Algolia.MockStopsRepo do
     [get("place-commuter-rail")]
   end
   def by_route_type({3, []}) do
-    []
+    [get("place-bus")]
   end
   def by_route_type({4, []}) do
     [get("place-ferry")]
@@ -45,6 +45,14 @@ defmodule Algolia.MockStopsRepo do
           spots: [%Stops.Stop.Parking{spots: 287, type: "basic"}],
         }
       ]
+    }
+  end
+  def get("place-bus") do
+    %Stops.Stop{
+      id: "place-bus", name: "Bus Stop",
+      accessibility: ["accessible", "ramp"],
+      latitude: 42.303251,
+      longitude: -70.920215
     }
   end
   def get("place-ferry") do

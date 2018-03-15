@@ -1,5 +1,6 @@
 defmodule Algolia.Api do
   alias Algolia.Config
+  require Logger
 
   @type t :: %{routes: success | error, stops: success | error}
   @type success :: :ok
@@ -41,7 +42,7 @@ defmodule Algolia.Api do
   end
 
   defp base_url("algolia" <> _ = host, %Config{app_id: app_id}) do
-    app_id <> "." <> host
+    "https://" <> app_id <> "." <> host
   end
   defp base_url(host, %Config{}) when is_binary(host) do
     host
@@ -68,6 +69,7 @@ defmodule Algolia.Api do
   defp do_build_data_object(data) do
     data
     |> Algolia.Object.data()
+    |> set_rank(data)
     |> Map.merge(%{
       objectID: Algolia.Object.object_id(data),
       url: Algolia.Object.url(data)
@@ -81,4 +83,39 @@ defmodule Algolia.Api do
       {"X-Algolia-Application-Id", app_id}
     ]
   end
+
+  @type rank :: 1 | 2 | 3 | 4
+
+  @spec set_rank(map, Stops.Stop.t | Routes.Route.t | map) :: map
+  defp set_rank(%{routes: []} = data, %Stops.Stop{}) do
+    :ok = Logger.warn("stop has no routes: #{inspect(data)}")
+    do_set_rank(4, data)
+  end
+  defp set_rank(%{routes: routes} = data, %Stops.Stop{}) do
+    routes
+    |> Enum.map(fn %Algolia.Stop.Route{type: type} -> rank_route_by_type(type) end)
+    |> Enum.sort()
+    |> List.first()
+    |> do_set_rank(data)
+  end
+  defp set_rank(%{} = data, %Routes.Route{type: type}) do
+    type
+    |> rank_route_by_type()
+    |> do_set_rank(data)
+  end
+  defp set_rank(data, _) do
+    do_set_rank(1, data)
+  end
+
+  @spec do_set_rank(rank, map) :: map
+  defp do_set_rank(rank, %{} = data) when rank in 1..4 do
+    Map.put(data, :rank, rank)
+  end
+
+  @spec rank_route_by_type(Routes.Route.type_int) :: rank
+  defp rank_route_by_type(0), do: 3
+  defp rank_route_by_type(1), do: 3
+  defp rank_route_by_type(2), do: 2
+  defp rank_route_by_type(3), do: 4
+  defp rank_route_by_type(4), do: 1
 end

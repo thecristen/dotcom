@@ -59,6 +59,8 @@ defmodule Routes.RouteTest do
       assert types_for_mode(:commuter_rail) == [2]
       assert types_for_mode(:bus) == [3]
       assert types_for_mode(:ferry) == [4]
+      for light_rail <- [:green_line, :mattapan_trolley], do: assert types_for_mode(light_rail) == [0]
+      for heavy_rail <- [:red_line, :orange_line, :blue_line], do: assert types_for_mode(heavy_rail) == [1]
     end
   end
 

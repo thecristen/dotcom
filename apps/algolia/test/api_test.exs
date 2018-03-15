@@ -27,7 +27,8 @@ defmodule Algolia.ApiTest do
       assert obj == %{
         data: %{id: "test"},
         url: "/object/test",
-        objectID: "object-test"
+        objectID: "object-test",
+        rank: 1
       }
     end
   end
@@ -38,7 +39,7 @@ defmodule Algolia.ApiTest do
       object = Algolia.Api.build_data_object(mock)
 
       assert object.action == "addObject"
-      assert Map.keys(object.body) == [:data, :objectID, :url]
+      assert Map.keys(object.body) == [:data, :objectID, :rank, :url]
       assert object.body.objectID == Algolia.Object.object_id(mock)
       assert object.body.url == Algolia.Object.url(mock)
     end

@@ -13,11 +13,11 @@ defmodule Algolia.Stop.RoutesTest do
         ]
       end
       assert [light_rail, heavy_rail, commuter_rail, bus, ferry] = Algolia.Stop.Routes.for_stop("place-test", repo_fn)
-      assert light_rail == %Algolia.Stop.Route{display_name: "Green Line", icon: :green_line}
-      assert heavy_rail  == %Algolia.Stop.Route{display_name: "Red Line", icon: :red_line}
-      assert commuter_rail == %Algolia.Stop.Route{display_name: "Commuter Rail", icon: :commuter_rail}
-      assert bus == %Algolia.Stop.Route{display_name: "Bus: 1000", icon: :bus}
-      assert ferry == %Algolia.Stop.Route{display_name: "Ferry", icon: :ferry}
+      assert light_rail == %Algolia.Stop.Route{display_name: "Green Line", icon: :green_line, type: 0}
+      assert heavy_rail  == %Algolia.Stop.Route{display_name: "Red Line", icon: :red_line, type: 1}
+      assert commuter_rail == %Algolia.Stop.Route{display_name: "Commuter Rail", icon: :commuter_rail, type: 2}
+      assert bus == %Algolia.Stop.Route{display_name: "Bus: 1000", icon: :bus, type: 3}
+      assert ferry == %Algolia.Stop.Route{display_name: "Ferry", icon: :ferry, type: 4}
     end
   end
 end

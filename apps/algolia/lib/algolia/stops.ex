@@ -6,7 +6,7 @@ defmodule Algolia.Stops do
 
   @impl Algolia.Index
   def all do
-    [0, 1, 2, 4]
+    [0, 1, 2, 3, 4]
     |> Task.async_stream(& @repo.by_route_type({&1, []}))
     |> Stream.flat_map(fn {:ok, stops} -> stops end)
     |> Enum.into([])
