@@ -27,7 +27,7 @@ export class Algolia {
 
   resetSearch() {
     this._params = {};
-    this._searchIndices.forEach(index => this._params[index] = this._defaultParams);
+    this._searchIndices.forEach(index => this._params[index] = JSON.parse(JSON.stringify(this._defaultParams)));
   }
 
   doBlankSearch(blank) {
