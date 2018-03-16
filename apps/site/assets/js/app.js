@@ -244,6 +244,7 @@ import filter from './filter';
 import { setupSearch } from "./search-bar";
 import stopsSearch from "./algolia-stop-search";
 import * as globalSearch from "./algolia-global-search";
+import AlgoliaResults from "./algolia-results";
 
 submitOnEvents(["blur", "change"]);
 googleMapsLoaded();

@@ -1,5 +1,6 @@
 import { Algolia } from './algolia-search';
 import { AlgoliaFacets } from './algolia-facets';
+import { AlgoliaResults } from './algolia-results';
 
 export function init() {
   const search = new AlgoliaGlobalSearch()
@@ -23,6 +24,7 @@ export class AlgoliaGlobalSearch {
     }
 
     this.controller.addWidget(new AlgoliaFacets(AlgoliaGlobalSearch.INDICES, AlgoliaGlobalSearch.SELECTORS, this.controller));
+    this.controller.addWidget(new AlgoliaResults(AlgoliaGlobalSearch.INDICES));
     this.container.addEventListener("input", () => {
       this.controller.search(this.container.value);
     });
