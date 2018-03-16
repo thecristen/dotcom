@@ -30,16 +30,16 @@ export class AlgoliaFacets {
             icon: this._getFeatureIcon("red_line")
           },
           {
-            id: "commuter-rail",
-            name: "Commuter Rail",
-            facets: ["2"],
-            icon: this._getFeatureIcon("commuter_rail")
-          },
-          {
             id: "bus",
             name: "Bus",
             facets: ["3"],
             icon: this._getFeatureIcon("bus")
+          },
+          {
+            id: "commuter-rail",
+            name: "Commuter Rail",
+            facets: ["2"],
+            icon: this._getFeatureIcon("commuter_rail")
           },
           {
             id: "ferry",
@@ -53,59 +53,23 @@ export class AlgoliaFacets {
       },
       stops: {
         indexName: "stops",
-        facetName: "routes.icon",
+        facetName: "stop.station?",
         items: [
         {
           id: "stops",
           name: "Stations and Stops",
           items: [
           {
-            id: "stop-bus",
-            name: "Bus",
-            facets: ["bus"],
+            id: "facet-station",
+            name: "Stations",
+            facets: ["true"],
             icon: this._getFeatureIcon("bus")
           },
           {
-            id: "stop-cr",
-            name: "Commuter Rail",
-            facets: ["commuter_rail"],
+            id: "facet-stop",
+            name: "Stops",
+            facets: ["false"],
             icon: this._getFeatureIcon("commuter_rail")
-          },
-          {
-            id: "stop-green",
-            name: "Green Line",
-            facets: ["green_line"],
-            icon: this._getFeatureIcon("green_line")
-          },
-          {
-            id: "stop-red",
-            name: "Red Line",
-            facets: ["red_line"],
-            icon: this._getFeatureIcon("red_line")
-          },
-          {
-            id: "stop-orange",
-            name: "Orange Line",
-            facets: ["orange_line"],
-            icon: this._getFeatureIcon("orange_line")
-          },
-          {
-            id: "stop-blue",
-            name: "Blue Line",
-            facets: ["blue_line"],
-            icon: this._getFeatureIcon("blue_line")
-          },
-          {
-            id: "stop-mattapan",
-            name: "Mattapan Trolley",
-            facets: ["mattapan_trolley"],
-            icon: this._getFeatureIcon("mattapan_trolley")
-          },
-          {
-            id: "stop-ferry",
-            name: "Ferry",
-            facets: ["ferry"],
-            icon: this._getFeatureIcon("ferry")
           },
           ]
         }
@@ -122,31 +86,14 @@ export class AlgoliaFacets {
           {
             id: "page",
             name: "Pages",
-            facets: ["page"],
+            facets: ["page", "search_result", "landing_page", "person", "project", "project_update"],
             icon: this._faIcon("fa-file-o"),
           },
           {
-            id: "people",
-            name: "People",
-            facets: ["person"],
-            icon: this._faIcon("fa-user")
-          },
-          {
-            id: "landing",
-            name: "Landing Pages",
-            facets: ["landing_page"],
-            icon: this._faIcon("fa-file-o")
-          },
-          {
-            id: "project",
-            name: "Projects",
-            facets: ["project"],
-            icon: this._faIcon("fa-file-o")
-          },
-          {
-            id: "project-update",
-            name: "Project Updates",
-            facets: ["project_update"],
+            id: "document",
+            name: "Documents",
+            prefix: "search_api_datasource",
+            facets: ["entity:file"],
             icon: this._faIcon("fa-file-o")
           },
           ]
