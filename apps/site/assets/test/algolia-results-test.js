@@ -3,10 +3,14 @@ import jsdom from 'mocha-jsdom';
 import { AlgoliaResults } from '../../assets/js/algolia-results';
 
 describe('AlgoliaResults', () => {
+  jsdom();
   var search;
 
-  beforeEach( () => {
-    search = new AlgoliaResults();
+  beforeEach(() => {
+    document.body.innerHTML = `
+      <div id="search-results"></div>
+    `
+    search = new AlgoliaResults("search-results");
   });
 
   describe('correct icon types are selected', () => {
@@ -129,7 +133,6 @@ describe('AlgoliaResults', () => {
 
   describe('stopsHitsFilter', () => {
     var $;
-    jsdom();
 
     beforeEach(() => {
       $ = jsdom.rerequire('jquery');
@@ -230,7 +233,6 @@ describe('AlgoliaResults', () => {
 
   describe('routesHitsFilter', () => {
     var $;
-    jsdom();
 
     beforeEach(() => {
       $ = jsdom.rerequire('jquery');
@@ -275,7 +277,6 @@ describe('AlgoliaResults', () => {
 
   describe("render", () => {
     var $;
-    jsdom();
 
     beforeEach(() => {
       $ = jsdom.rerequire('jquery');

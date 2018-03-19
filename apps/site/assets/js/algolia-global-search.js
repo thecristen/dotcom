@@ -24,7 +24,7 @@ export class AlgoliaGlobalSearch {
     }
 
     this.controller.addWidget(new AlgoliaFacets(AlgoliaGlobalSearch.INDICES, AlgoliaGlobalSearch.SELECTORS, this.controller));
-    this.controller.addWidget(new AlgoliaResults(AlgoliaGlobalSearch.INDICES));
+    this.controller.addWidget(new AlgoliaResults(AlgoliaGlobalSearch.SELECTORS.resultsContainer));
     this.container.addEventListener("input", () => {
       this.controller.search(this.container.value);
     });
@@ -43,6 +43,7 @@ AlgoliaGlobalSearch.PARAMS = {
 AlgoliaGlobalSearch.SELECTORS = {
   searchBar: "searchv2-input",
   facetsContainer: "searchv2-facets-container",
+  resultsContainer: "searchv2-results-container",
   closeModalButton: "close-facets-modal",
   showFacetsButton: "show-facets",
 };

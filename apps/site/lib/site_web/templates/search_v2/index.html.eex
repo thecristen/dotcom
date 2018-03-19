@@ -28,8 +28,6 @@
   <h3 class="c-searchv2__filter-label">
     Filter by type
   </h3>
-  <div id="search-facets-container">
-  </div>
+  <div id="search-facets-container"></div>
 </div>
-<div id="search-results" class="col-md-8">
-</div>
+<div id="searchv2-results-container" class="col-md-8"></div>

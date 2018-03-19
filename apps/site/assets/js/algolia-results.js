@@ -25,6 +25,14 @@ const TEMPLATES = {
 };
 
 export class AlgoliaResults {
+  constructor(id) {
+    this._id = id
+    this._container = document.getElementById(this._id);
+    if (!this._container) {
+      console.error(`could not find results container with id: ${this._id}`);
+    }
+  }
+
   _getFeatureIcon(feature) {
     const icon = document.getElementById(`icon-feature-${feature}`);
     if (icon) {
@@ -204,9 +212,8 @@ export class AlgoliaResults {
     const stopsHTML = this._renderIndex(results, "stops", "Stations and Stops");
     const contentHTML = this._renderIndex(results, "drupal", "Events, News, Pages and Documents");
 
-    const container = document.getElementById('search-results');
-    if (container) {
-      container.innerHTML = routesHTML + stopsHTML + contentHTML;
+    if (this._container) {
+      this._container.innerHTML = routesHTML + stopsHTML + contentHTML;
     }
   }
 }
