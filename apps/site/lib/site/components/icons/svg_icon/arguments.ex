@@ -4,8 +4,8 @@ defmodule Site.Components.Icons.SvgIcon do
   @type t :: %__MODULE__{icon: icon_arg, class: String.t, show_tooltip?: boolean}
   @type icon_arg :: atom | String.t | Routes.Route.t | 0..4
 
-  @mode_icons [:bus, :ferry, :subway, :commuter_rail, :mattapan_trolley, :t_logo,
-               :green_line, :orange_line, :blue_line, :red_line]
+  @transit_type_icons [:bus, :ferry, :subway, :commuter_rail, :mattapan_trolley]
+  @mode_icons [:t_logo, :green_line, :orange_line, :blue_line, :red_line]
 
   @icons [
     {:bus,
@@ -186,4 +186,6 @@ defmodule Site.Components.Icons.SvgIcon do
   def unoptimized_paths, do: @icons
 
   def mode_icons, do: @mode_icons
+
+  def transit_type_icons, do: @transit_type_icons
 end
