@@ -37,6 +37,9 @@ export function getIcon(hit, type) {
       return _featureIcon(iconName);
 
     case "drupal":
+    case "pagesdocuments":
+    case "events":
+    case "news":
       return _contentIcon(hit);
 
     default:
@@ -126,6 +129,9 @@ export function getTitle(hit, type) {
       return hit.route.name;
 
     case "drupal":
+    case "pagesdocuments":
+    case "events":
+    case "news":
       return _contentTitle(hit);
 
     default:
@@ -151,6 +157,9 @@ export function getUrl(hit, type) {
       return `/schedules/${hit.route.id}/line`;
 
     case "drupal":
+    case "pagesdocuments":
+    case "events":
+    case "news":
       return _contentUrl(hit);
 
     default:
