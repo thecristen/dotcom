@@ -38,11 +38,11 @@ describe('AlgoliaResults', () => {
       });
 
       it('handles search_result', () => {
-        const hit = { type: "search_result",
-                        search_api_datasource: "no_file",
-                        search_result_title: "search-results-title",
-                        _search_result_url: "file-url"
-                      };
+        const hit = { _content_type: "search_result",
+                      search_api_datasource: "no_file",
+                      content_title: "search-results-title",
+                      _search_result_url: "file-url"
+                    };
         const results = search._renderIndex({
           drupal: {
             nbHits: 1,
@@ -51,12 +51,12 @@ describe('AlgoliaResults', () => {
         }, "drupal");
 
         expect(results).to.be.a("string");
-        expect(results).to.have.string(hit.search_result_title);
+        expect(results).to.have.string(hit.content_title);
         expect(results).to.have.string(hit._search_result_url);
       });
 
       it('handles other result types', () => {
-        const hit = { type: "other",
+        const hit = { _content_type: "other",
                         search_api_datasource: "no_file",
                         content_title: "content-title",
                         _content_url: "file-url"

@@ -137,8 +137,6 @@ export function getTitle(hit, type) {
 function _contentTitle(hit) {
   if (hit.search_api_datasource === "entity:file") {
     return hit.file_name_raw;
-  } else if (hit.type == "search_result") {
-    return hit.search_result_title;
   } else {
     return hit.content_title;
   }
@@ -164,8 +162,8 @@ export function getUrl(hit, type) {
 function _contentUrl(hit) {
   if (hit.search_api_datasource === "entity:file") {
     return  "/sites/default/files/" + hit._file_uri.replace(/public:\/\//, "");
-  } else if (hit.type == "search_result") {
-    return hit._search_result_url;
+  } else if (hit._content_type == "search_result") {
+    return hit._search_result_url.replace(/internal:/, "");
   } else {
     return hit._content_url;
   }
