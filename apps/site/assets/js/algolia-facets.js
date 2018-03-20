@@ -2,7 +2,7 @@ import {FacetBar} from './facet-bar';
 import {FacetItem} from './facet-bar';
 
 export class AlgoliaFacets {
-  constructor(indices, selectors, search) {
+  constructor(selectors, search) {
     document.getElementById(selectors.closeModalButton).addEventListener("click", function() {
       document.getElementById(selectors.facetsContainer).classList.remove("c-searchv2__facets-container--open");
       document.getElementById(selectors.closeModalButton).classList.remove("c-searchv2__close-modal-button--open");
@@ -16,7 +16,7 @@ export class AlgoliaFacets {
 
     const facets = {
       routes: {
-        indexName: "routes",
+        queryId: "routes",
         facetName: "route.type",
         items: [
         {
@@ -52,7 +52,7 @@ export class AlgoliaFacets {
         ]
       },
       stops: {
-        indexName: "stops",
+        queryId: "stops",
         facetName: "stop.station?",
         items: [
         {
@@ -75,8 +75,8 @@ export class AlgoliaFacets {
         }
         ]
       },
-      drupal: {
-        indexName: "drupal",
+      pagesdocuments: {
+        queryId: "pagesdocuments",
         facetName: "_content_type",
         items: [
         {
@@ -97,20 +97,27 @@ export class AlgoliaFacets {
             icon: this._faIcon("fa-file-o")
           },
           ]
-        },
-        {
+        }]
+      },
+      events: {
+        queryId: "events",
+        facetName: "_content_type",
+        items: [{
           id: "event",
           name: "Events",
           icon: this._faIcon("fa-calendar"),
           facets: ["event"],
-        },
-        {
+        }]
+      },
+      news: {
+        queryId: "news",
+        facetName: "_content_type",
+        items: [{
           id: "news",
           name: "News",
           icon: this._faIcon("fa-newspaper-o"),
           facets: ["news_entry"],
-        },
-        ]
+        }]
       }
     }
     this._facetBar = new FacetBar("search-facets-container", search, facets);

@@ -1,9 +1,9 @@
 import algoliasearch from "algoliasearch"
 
 export class Algolia {
-  constructor(indices, defaultParams) {
-    this._indices = indices;
-    this._searchIndices = indices.slice(0);
+  constructor(queries, defaultParams) {
+    this._queries = queries;
+    this._activeQueryIds = Object.keys(queries);
     this._defaultParams = defaultParams;
     this.resetSearch();
     this._currentQuery = "";
@@ -26,112 +26,95 @@ export class Algolia {
   }
 
   resetSearch() {
-    this._params = {};
-    this._searchIndices.forEach(index => this._params[index] = JSON.parse(JSON.stringify(this._defaultParams)));
-  }
-
-  doBlankSearch(blank) {
-    this._doBlankSearch = blank;
+    Object.keys(this._queries).forEach(queryId => {
+      this._queries[queryId].params = JSON.parse(JSON.stringify(this._defaultParams[queryId]));
+    });
   }
 
   search(query) {
-    let searchIndices = this._indices;
-    this._doBlankSearch = this._indices.length == 0;
-    if (this._doBlankSearch) {
-      searchIndices = this._searchIndices;
-    }
-
     if (typeof query == "string") {
       this._currentQuery = query;
     } else {
       this._currentQuery = this._lastQuery;
     }
-    const allQueries = this._buildAllQueries(searchIndices);
+    const allQueries = this._buildAllQueries();
 
     this._lastQuery = this._currentQuery;
     this._client.search(allQueries, this.onResults.bind(this));
   }
 
   _buildAllQueries() {
-    const searchIndices = this._indices.length > 0 ? this._indices : this._searchIndices;
-    const queries = searchIndices.reduce(this._buildQuery({isFacetQuery: false}), []);
-    const facetQueries = this._searchIndices.reduce(this._buildQuery({isFacetQuery: true}), []);
+    const requestedQueryIds = this._activeQueryIds.length > 0 ? this._activeQueryIds : Object.keys(this._queries);
+    const queries = requestedQueryIds.map(queryId => this._buildQuery(queryId));
+    const facetQueries = Object.keys(this._queries).map(queryId => this._buildFacetQuery(queryId));
     return queries.concat(facetQueries);
   }
 
-  _buildQuery(isFacetQuery) {
-    return (acc, index) => {
-      acc.push({
-        indexName: index,
-        query: this._currentQuery,
-        params: this._buildQueryParams(index, isFacetQuery)
-      });
-      return acc;
-    }
-  }
-
-  _buildQueryParams(index, {isFacetQuery: isFacetQuery}) {
-    if (isFacetQuery === true) {
-      return {
+  _buildFacetQuery(queryId) {
+    return {
+      indexName: this._queries[queryId].indexName,
+      query: this._currentQuery,
+      params: {
         hitsPerPage: 0,
         facets: ["*"]
       }
     }
-    return this._params[index];
+  }
+
+  _buildQuery(queryId, isFacetQuery) {
+    const currentQuery = this._queries[queryId];
+    currentQuery.query = this._currentQuery;
+    return currentQuery;
   }
 
   updateAllParams(key, value) {
-    Object.keys(this._params).forEach(index => this._params[index][key] = value);
+    Object.keys(this._queries).forEach(key => this._queries[key].params[key] = value);
   }
 
-  updateIndices(indices) {
-    this._indices = indices;
+  updateActiveQueries(queryIds) {
+    this._activeQueryIds = queryIds;
   }
 
-  removeIndex(index) {
-    const i = this._indices.indexOf(index);
+  removeActiveQuery(queryId) {
+    const i = this._activeQueryIds.indexOf(queryId);
     if (i != -1) {
-      this._indices.splice(i, 1);
+      this._activeQueryIds.splice(i, 1);
     }
   }
 
-  addIndex(index) {
-    if (this._indices.indexOf(index) == -1) {
-      this._indices.push(index);
+  addIndex(queryId) {
+    if (this._activeQueryIds.indexOf(queryId) == -1) {
+      this._activeQueryIds.push(queryId);
     }
   }
 
-  updateFacetFilters(index, filters) {
-    this._params[index]["facetFilters"][0] = filters;
+  updateFacetFilters(queryId, filters) {
+    this._queries[queryId].params["facetFilters"][0] = filters;
   }
 
-  addFacetFilter(index, filter) {
-    if (this._params[index]["facetFilters"][0].indexOf(filter) == -1) {
-      this._params[index]["facetFilters"][0].push(filter);
+  addFacetFilter(queryId, filter) {
+    if (this._queries[queryId].params["facetFilters"][0].indexOf(filter) == -1) {
+      this._queries[queryId].params["facetFilters"][0].push(filter);
     }
   }
 
-  removeFacetFilter(index, filter) {
-    const i = this._params[index]["facetFilters"][0].indexOf(filter);
+  removeFacetFilter(queryId, filter) {
+    const i = this._queries[queryId].params["facetFilters"][0].indexOf(filter);
     if (i != -1) {
-      this._params[index]["facetFilters"][0].splice(i, 1);
+      this._queries[queryId].params["facetFilters"][0].splice(i, 1);
     }
   }
 
-  get_indices() {
-    return this._indices;
+  updateParams(queryId, params) {
+    this._queries[queryId].params = params;
   }
 
-  updateParams(index, params) {
-    this._params[index] = params;
+  updateParamsByKey(queryId, key, value) {
+    this._queries[queryId].params[key] = value;
   }
 
-  updateParamsByKey(index, key, value) {
-    this._params[index][key] = value;
-  }
-
-  getParams(index) {
-    return this._params[index];
+  getParams(queryId) {
+    return this._queries[queryId].params;
   }
 
   addWidget(widget) {
@@ -140,18 +123,19 @@ export class Algolia {
   }
 
   onResults(err, response) {
-    let searchResultsLength = this._indices.length;
-    if (this._doBlankSearch) {
-      searchResultsLength = this._searchIndices.length;
+    let searchedQueries = this._activeQueryIds.slice(0);
+    if (this._activeQueryIds.length == 0) {
+      searchedQueries = Object.keys(this._queries);
     }
-    const searchResults = response.results.slice(0, searchResultsLength);
-    const facetResults = response.results.slice(searchResultsLength, searchResultsLength + this._searchIndices.length);
+    const facetLength = Object.keys(this._queries).length;
+    const searchResults = response.results.slice(0, searchedQueries.length);
+    const facetResults = response.results.slice(searchedQueries.length, searchedQueries.length + facetLength);
     const results = {}
-    searchResults.forEach(function(result) {
-      results[result.index] = result;
+    searchResults.forEach((result, i) => {
+      results[searchedQueries[i]] = result;
     });
-    facetResults.forEach(function(result) {
-      results[`facets-${result.index}`] = result;
+    facetResults.forEach((result, i) => {
+      results[`facets-${Object.keys(this._queries)[i]}`] = result;
     });
     this._widgets.forEach(function(widget) {
       widget.render(results);

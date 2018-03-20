@@ -22,7 +22,11 @@ describe("Algolia", function() {
       init: sinon.spy(),
       render: sinon.spy()
     }
-    this.algolia = new Algolia(["stops"], {foo: "bar"});
+    this.algolia = new Algolia({
+      stops: {
+        indexName: "stops"
+      }
+    }, {stops: {foo: "bar"}});
   });
 
   describe("constructor", function() {
@@ -38,25 +42,28 @@ describe("Algolia", function() {
         app_id: null
       }
       sinon.stub(console, "error")
-      const algolia = new Algolia(["stops"], {foo: "bar"})
+      const algolia = new Algolia({stops: {indexName:"stops"}}, {stops: {foo: "bar"}});
       expect(algolia._client).to.equal(null);
       console.error.restore()
     });
   });
 
   describe("Algolia.resetSearch", function() {
-    it("resets search params", function() {
+    it("resets search params regardless of active queries", function() {
+      this.algolia._queries["stops"].params = { not_default: "nope" };
+      this.algolia._activeQueryIds = [];
       this.algolia.resetSearch();
-      expect(this.algolia._params).to.have.keys(["stops"]);
-      expect(this.algolia._params.stops).to.be.an("object");
-      expect(this.algolia._params.stops).to.have.keys(["foo"]);
+      expect(this.algolia._queries).to.have.keys(["stops"]);
+      expect(this.algolia._queries.stops).to.be.an("object");
+      expect(this.algolia._queries.stops).to.have.keys(["indexName", "params"]);
+      expect(this.algolia._queries.stops.params).to.have.keys(["foo"]);
     });
   });
 
   describe("Algolia._buildAllQueries", function() {
     it("builds a list of queries for result list AND facets", function() {
-      expect(this.algolia._indices).to.be.an("array");
-      expect(this.algolia._indices).to.have.members(["stops"]);
+      expect(this.algolia._queries).to.be.an("object");
+      expect(this.algolia._queries).to.have.keys(["stops"]);
       const queries = this.algolia._buildAllQueries();
       expect(queries).to.be.an("array");
       expect(queries).to.have.a.lengthOf(2);

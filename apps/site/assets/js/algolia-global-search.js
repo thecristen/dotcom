@@ -20,10 +20,10 @@ export class AlgoliaGlobalSearch {
       return false;
     }
     if (!this.controller) {
-      this.controller = new Algolia(AlgoliaGlobalSearch.INDICES, AlgoliaGlobalSearch.PARAMS);
+      this.controller = new Algolia(AlgoliaGlobalSearch.INITIAL_QUERIES, AlgoliaGlobalSearch.DEFAULT_PARAMS);
     }
 
-    this.controller.addWidget(new AlgoliaFacets(AlgoliaGlobalSearch.INDICES, AlgoliaGlobalSearch.SELECTORS, this.controller));
+    this.controller.addWidget(new AlgoliaFacets(AlgoliaGlobalSearch.SELECTORS, this.controller));
     this.controller.addWidget(new AlgoliaResults(AlgoliaGlobalSearch.SELECTORS.resultsContainer));
     this.container.addEventListener("input", () => {
       this.controller.search(this.container.value);
@@ -32,12 +32,67 @@ export class AlgoliaGlobalSearch {
   }
 }
 
-AlgoliaGlobalSearch.INDICES = ["routes", "stops", "drupal"];
+AlgoliaGlobalSearch.INITIAL_QUERIES = {
+  routes: {
+    indexName: "routes",
+    query: ""
+  },
+  stops: {
+    indexName: "stops",
+    query: ""
+  },
+  pagesdocuments: {
+    indexName: "drupal",
+    query: ""
+  },
+  events: {
+    indexName: "drupal",
+    query: ""
+  },
+  news: {
+    indexName: "drupal",
+    query: ""
+  },
+}
 
-AlgoliaGlobalSearch.PARAMS = {
-  hitsPerPage: 5,
-  facets: ["*"],
-  facetFilters: [[]]
+AlgoliaGlobalSearch.DEFAULT_PARAMS = {
+  routes: {
+    hitsPerPage: 5,
+    facets: ["*"],
+    facetFilters: [[]]
+  },
+  stops: {
+    hitsPerPage: 5,
+    facets: ["*"],
+    facetFilters: [[]]
+  },
+  pagesdocuments: {
+    hitsPerPage: 5,
+    facets: ["*"],
+    facetFilters: [[
+      "_content_type:page",
+      "_content_type:search_result",
+      "_content_type:landing_page",
+      "_content_type:person",
+      "_content_type:project",
+      "_content_type:project_update",
+      "search_api_datasource:entity:file"
+    ]]
+  },
+  events: {
+    hitsPerPage: 5,
+    facets: ["_content_type"],
+    facetFilters: [[
+      "_content_type:event",
+    ]]
+  },
+  news: {
+    hitsPerPage: 5,
+    facets: ["_content_type"],
+    facetFilters: [[
+      "_content_type:news_entry",
+    ]]
+  },
 }
 
 AlgoliaGlobalSearch.SELECTORS = {

@@ -140,7 +140,7 @@ export class AlgoliaResults {
     let renderedHTML = "";
 
     if (results[index]) {
-      const hits = this._hitsFilter(results[index].hits, index);
+      const hits = this._hitsFilter(results[index].hits, this._indexMapper(index));
 
       const content = { title: title,
                         nbHits: results[index].nbHits,
@@ -150,6 +150,19 @@ export class AlgoliaResults {
       renderedHTML = TEMPLATES.contentResults.render(content);
     }
     return renderedHTML;
+  }
+
+  _indexMapper(index) {
+    switch(index) {
+      case "pagesdocuments":
+        return "drupal";
+      case "news":
+        return "drupal";
+      case "events":
+        return "drupal";
+      default:
+        return index;
+    }
   }
 
   _getHitIcon(hit, type) {
@@ -210,10 +223,12 @@ export class AlgoliaResults {
   render(results)  {
     const routesHTML = this._renderIndex(results, "routes", "Lines and Routes");
     const stopsHTML = this._renderIndex(results, "stops", "Stations and Stops");
-    const contentHTML = this._renderIndex(results, "drupal", "Events, News, Pages and Documents");
+    const pagesHTML = this._renderIndex(results, "pagesdocuments", "Pages and Documents");
+    const eventsHTML = this._renderIndex(results, "events", "Events");
+    const newsHTML = this._renderIndex(results, "news", "News");
 
     if (this._container) {
-      this._container.innerHTML = routesHTML + stopsHTML + contentHTML;
+      this._container.innerHTML = routesHTML + stopsHTML + pagesHTML + eventsHTML + newsHTML;
     }
   }
 }

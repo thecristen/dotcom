@@ -171,8 +171,8 @@ describe('facet', function() {
 
     it('disables indexes if a facet tree is completely unchecked', function() {
       $(checkBoxes.cr).prop("checked", true);
-      assert.equal(this.facetBar.shouldDisableIndex("routes"), false);
-      assert.equal(this.facetBar.shouldDisableIndex("stops"), true);
+      assert.equal(this.facetBar.shouldDisableQuery("routes"), false);
+      assert.equal(this.facetBar.shouldDisableQuery("stops"), true);
     });
   });
 });

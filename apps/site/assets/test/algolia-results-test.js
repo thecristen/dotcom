@@ -295,7 +295,7 @@ describe('AlgoliaResults', () => {
                         routes: {
                           hits: []
                         },
-                        drupal: {
+                        pagesdocuments: {
                           hits: []
                         }
                       };
@@ -334,7 +334,7 @@ describe('AlgoliaResults', () => {
                         routes: {
                           hits: []
                         },
-                        drupal: {
+                        pagesdocuments: {
                           hits: []
                         }
                       };
@@ -375,7 +375,7 @@ describe('AlgoliaResults', () => {
                         stops: {
                           hits: []
                         },
-                        drupal: {
+                        pagesdocuments: {
                           hits: []
                         }
                       };
@@ -389,7 +389,7 @@ describe('AlgoliaResults', () => {
 
     it("renders content hits", () => {
       const results = {
-                        drupal: {
+                        pagesdocuments: {
                           title: "title",
                           nbHits: 2,
                           hasHits: true,

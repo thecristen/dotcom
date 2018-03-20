@@ -28,15 +28,15 @@ export class FacetBar {
   }
 
   _parseFacets(facets) {
-    Object.keys(facets).forEach(index => {
-      this._items[index] = [];
-      facets[index].items.forEach(facetData => {
+    Object.keys(facets).forEach(queryId => {
+      this._items[queryId] = [];
+      facets[queryId].items.forEach(facetData => {
         if (!facetData.prefix) {
-          facetData.prefix = facets[index].facetName;
+          facetData.prefix = facets[queryId].facetName;
         }
-        this._items[index].push(new FacetItem(facetData, this));
+        this._items[queryId].push(new FacetItem(facetData, this));
       });
-      this._items[index].forEach(facetItem => {
+      this._items[queryId].forEach(facetItem => {
         facetItem.render(this._container, "c-facets__search-facet");
       });
     });
@@ -46,25 +46,25 @@ export class FacetBar {
     this._facetMap[facets] = facetItem;
   }
 
-  getFacetsForIndex(index) {
-    return [].concat.apply([], this._items[index].map(item => { return item.getActiveFacets() }));
+  getFacetsForQuery(queryId) {
+    return [].concat.apply([], this._items[queryId].map(item => { return item.getActiveFacets() }));
   }
 
-  shouldDisableIndex(index) {
-    return this._items[index].map(item => { return item.allChildrenStatus(false) }).every(item => { return item == true });
+  shouldDisableQuery(queryId) {
+    return this._items[queryId].map(item => { return item.allChildrenStatus(false) }).every(item => { return item == true });
   }
 
   update() {
     this._search.resetSearch();
-    const indexes = Object.keys(this._items);
-    let toSearch = []
-      indexes.forEach(index => {
-        if (!this.shouldDisableIndex(index)) {
-          toSearch.push(index);
-          this._search.updateFacetFilters(index, this.getFacetsForIndex(index));
-        }
-      });
-    this._search.updateIndices(toSearch);
+    const queryIds = Object.keys(this._items);
+    let toSearch = [];
+    queryIds.forEach(queryId => {
+      if (!this.shouldDisableQuery(queryId)) {
+        toSearch.push(queryId);
+        this._search.updateFacetFilters(queryId, this.getFacetsForQuery(queryId));
+      }
+    });
+    this._search.updateActiveQueries(toSearch);
     this._search.search();
   }
 
