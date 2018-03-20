@@ -93,6 +93,16 @@ defmodule BaseFareTest do
       assert %Fares.Fare{cents: 225} = base_fare(sl2, nil, nil, fare_fn)
     end
 
+    test "returns the subway fare for for SL3 route (id=743)" do
+      sl3 = %Route{type: 3, id: "743"}
+
+      fare_fn = fn [reduced: nil, name: :subway] ->
+        Enum.filter(@subway_fares, &(&1.name == :subway))
+      end
+
+      assert %Fares.Fare{cents: 225} = base_fare(sl3, nil, nil, fare_fn)
+    end
+
     test "returns the bus fare for for SL4 route (id=751)" do
       sl4 = %Route{type: 3, id: "751"}
 

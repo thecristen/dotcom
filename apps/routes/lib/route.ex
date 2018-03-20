@@ -24,7 +24,7 @@ defmodule Routes.Route do
   @inner_express_route_set MapSet.new(@inner_express_routes)
   @outer_express_routes ~w(352 354 505)
   @outer_express_route_set MapSet.new(@outer_express_routes)
-  @silver_line_rapid_transit_routes ~w(741 742 746)
+  @silver_line_rapid_transit_routes ~w(741 742 743 746)
   @silver_line_rapid_transit_route_set MapSet.new(@silver_line_rapid_transit_routes)
 
   @spec type_atom(t | type_int | String.t) :: gtfs_route_type

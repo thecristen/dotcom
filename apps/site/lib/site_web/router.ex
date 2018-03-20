@@ -67,6 +67,8 @@ defmodule SiteWeb.Router do
     get "/schedules/sl1", Redirector, to: "/schedules/741"
     get "/schedules/SL2", Redirector, to: "/schedules/742"
     get "/schedules/sl2", Redirector, to: "/schedules/742"
+    get "/schedules/SL3", Redirector, to: "/schedules/743"
+    get "/schedules/sl3", Redirector, to: "/schedules/743"
     get "/schedules/SL4", Redirector, to: "/schedules/751"
     get "/schedules/sl4", Redirector, to: "/schedules/751"
     get "/schedules/SL5", Redirector, to: "/schedules/749"

@@ -67,6 +67,7 @@ defmodule SiteWeb.OldSiteRedirectController do
   defp old_route_to_route_id("F4"), do: "Boat-F4"
   defp old_route_to_route_id("SL1"), do: "741"
   defp old_route_to_route_id("SL2"), do: "742"
+  defp old_route_to_route_id("SL3"), do: "743"
   defp old_route_to_route_id("SL4"), do: "751"
   defp old_route_to_route_id("SL5"), do: "749"
   defp old_route_to_route_id("CT1"), do: "701"

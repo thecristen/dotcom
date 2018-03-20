@@ -65,7 +65,7 @@ defmodule SiteWeb.FareView.Description do
   when media != [:charlie_ticket, :cash] do
 
     [
-      "Valid for all Subway lines (includes Routes SL1 and SL2). ",
+      "Valid for all Subway lines (includes Routes SL1, SL2, and SL3). ",
       transfers(fare),
       " Must be done within 2 hours of your original ride."
     ]
@@ -106,7 +106,7 @@ defmodule SiteWeb.FareView.Description do
     ]
   end
   def description(%Fare{name: :local_bus, duration: :month}, _assigns) do
-    modes = ["Local Bus (not including routes SL1 and SL2)"]
+    modes = ["Local Bus (not including routes SL1, SL2, or SL3)"]
             |> Enum.map(&content_tag(:li, &1))
 
     [content_tag(:div, "Unlimited travel for 1 calendar month on:"),
