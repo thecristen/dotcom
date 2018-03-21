@@ -9,6 +9,8 @@ export class FacetItem {
       childrenDiv: `facet-children-${this._id}`,
       checkboxLabel: `facet-label-${this._id}`,
       icon: `facet-icon-${this._id}`,
+      expansionContainer: `expansion-container-${this._id}`,
+      checkboxControlContainer: `checkbox-container-${this._id}`,
     }
   }
 
@@ -16,14 +18,20 @@ export class FacetItem {
     return {
       facetItem: hogan.compile(`
         <div class="{{class}}">
-          {{#iconClass}}
-            {{{iconClass}}}
-          {{/iconClass}}
-          <span id="${this.selectors.textDisplay}">{{text}}</span>
-          <span class="c-facets__facet-item" id="${this.selectors.counter}"></span>
-          <div class="c-facets__facet-checkbox">
-            <input id="${this.selectors.checkbox}" type="checkbox" checked=false>
-            <label id="${this.selectors.checkboxLabel}" for="${this.selectors.checkbox}"></label>
+          <div id="${this.selectors.expansionContainer}" class="c-facets__flex-container--normal">
+            <div class="c-facets__icon">
+              {{#iconClass}}
+                {{{iconClass}}}
+              {{/iconClass}}
+            </div>
+            <div id="${this.selectors.textDisplay}" class="c-facets__title">{{text}}</div>
+          </div>
+          <div id="${this.selectors.checkboxControlContainer}" class="c-facets__flex-container--wide">
+            <div class="c-facets__facet-item" id="${this.selectors.counter}"></div>
+            <div class="c-facets__facet-checkbox">
+              <input id="${this.selectors.checkbox}" class="c-facets__checkbox--input" type="checkbox">
+              <label id="${this.selectors.checkboxLabel}" for="${this.selectors.checkbox}"></label>
+            </div>
           </div>
         </div>
         <div id="${this.selectors.childrenDiv}"></div>
@@ -51,7 +59,7 @@ export class FacetItem {
     this._icon = null;
     this._children = [];
     if (data.items) {
-      this._iconHTML = this._triangleDownIcon(this._id);
+      this._iconHTML = this._triangleRightIcon(this._id);
       this._children = data.items.map(item => {
         if (!item.prefix) {
           item.prefix = this._prefix;
@@ -77,8 +85,8 @@ export class FacetItem {
     return this._checkbox.checked;
   }
 
-  _triangleDownIcon(id) {
-    return  `<span id="${this.selectors.icon}" class="c-facets__triangle--down"></span>`;
+  _triangleRightIcon(id) {
+    return  `<span id="${this.selectors.icon}" class="c-facets__triangle--right"></span>`;
   }
 
   toggleExpansion() {
@@ -133,9 +141,9 @@ export class FacetItem {
 
   toggleCheck() {
     if (this._checkbox.checked) {
-      this.check();
-    } else {
       this.uncheck();
+    } else {
+      this.check();
     }
     this._parent.update();
   }
@@ -188,6 +196,7 @@ export class FacetItem {
     });
     container.appendChild(div);
     this.gatherElements();
+    this._childrenDiv.style.display = "none";
     this._childrenDiv = document.getElementById(`facet-children-${this._id}`);
     this._children.forEach(child => {
       child.render(this._childrenDiv, "c-facets__search-facet-child");
@@ -195,15 +204,18 @@ export class FacetItem {
   }
 
   setupListeners() {
-    this._checkbox.addEventListener("click", function() {
+    const expansionContainer = document.getElementById(this.selectors.expansionContainer);
+    const checkboxControlContainer = document.getElementById(this.selectors.checkboxControlContainer);
+    checkboxControlContainer.addEventListener("click", () => {
       this.toggleCheck();
-    }.bind(this));
-
-    this._textDisplay.addEventListener("click", function() {
+    });
+    expansionContainer.addEventListener("click", () => {
       if (this._children.length > 0) {
         this.toggleExpansion();
+      } else {
+        this.toggleCheck();
       }
-    }.bind(this));
+    });
   }
 
   setupAllListeners() {

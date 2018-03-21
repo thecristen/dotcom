@@ -27,7 +27,7 @@ export class AlgoliaFacets {
             id: "subway",
             name: "Subway",
             facets: ["0", "1"],
-            icon: this._getFeatureIcon("red_line")
+            icon: this._getFeatureIcon("subway")
           },
           {
             id: "bus",
@@ -63,13 +63,13 @@ export class AlgoliaFacets {
             id: "facet-station",
             name: "Stations",
             facets: ["true"],
-            icon: this._getFeatureIcon("bus")
+            icon: this._getFeatureIcon("station")
           },
           {
             id: "facet-stop",
             name: "Stops",
             facets: ["false"],
-            icon: this._getFeatureIcon("commuter_rail")
+            icon: this._getFeatureIcon("stop")
           },
           ]
         }

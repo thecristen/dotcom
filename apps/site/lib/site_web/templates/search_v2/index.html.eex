@@ -3,7 +3,7 @@
 </script>
 
 <div>
-  <%= for feature <- [:red_line, :green_line, :blue_line, :orange_line, :bus, :commuter_rail, :ferry, :mattapan_trolley, :stop, :station] do %>
+  <%= for feature <- [:red_line, :green_line, :blue_line, :orange_line, :bus, :commuter_rail, :ferry, :mattapan_trolley, :stop, :station, :subway] do %>
     <div id="icon-feature-<%= feature %>" class="hidden-js hidden-no-js">
       <%=  svg_icon_with_circle(%SvgIconWithCircle{icon: feature, class: "icon-small"}) %>
     </div>

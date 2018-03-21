@@ -84,6 +84,14 @@ describe('facet', function() {
     subway: "#checkbox-item-subway",
   };
 
+  const checkboxHandlers = {
+    parent: "#checkbox-container-lines-routes",
+    bus: "#checkbox-container-bus",
+    cr: "#checkbox-container-commuter-rail",
+    ferry: "#checkbox-container-ferry",
+    subway: "#checkbox-container-subway",
+  };
+
   beforeEach(function() {
     $ = jsdom.rerequire('jquery');
     $('body').empty();
@@ -101,30 +109,30 @@ describe('facet', function() {
     it('unchecks all children when unchecking the parent box', function() {
       changeAllCheckboxes(true);
       assert.equal($("input[type='checkbox']:checked").length, 5);
-      $(checkBoxes.parent).trigger("click");
+      $(checkboxHandlers.parent).trigger("click");
       assert.equal($("input[type='checkbox']:checked").length, 0);
     });
 
     it('checks all children when checking the parent box', function() {
       assert.equal($("input[type='checkbox']:checked").length, 0);
-      $(checkBoxes.parent).trigger("click");
+      $(checkboxHandlers.parent).trigger("click");
       assert.equal($("input[type='checkbox']:checked").length, 5);
     });
 
     it('unchecks the parent if any child is unchecked', function() {
       changeAllCheckboxes(true);
-      $(checkBoxes.bus).trigger("click");
+      $(checkboxHandlers.bus).trigger("click");
       assert.equal($(checkBoxes.parent).prop("checked"), false);
       assert.equal($(checkBoxes.bus).prop("checked"), false);
     });
 
     it('checks the parent if all children are checked', function() {
       assert.equal($(checkBoxes.parent).prop("checked"), false);
-      $(checkBoxes.bus).trigger("click");
-      $(checkBoxes.cr).trigger("click");
-      $(checkBoxes.subway).trigger("click");
+      $(checkboxHandlers.bus).trigger("click");
+      $(checkboxHandlers.cr).trigger("click");
+      $(checkboxHandlers.subway).trigger("click");
       assert.equal($(checkBoxes.parent).prop("checked"), false);
-      $(checkBoxes.ferry).trigger("click");
+      $(checkboxHandlers.ferry).trigger("click");
       assert.equal($(checkBoxes.parent).prop("checked"), true);
     });
   });
