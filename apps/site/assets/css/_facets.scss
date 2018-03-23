@@ -91,6 +91,11 @@
   color: $gray-light;
   flex-grow: 2;
   user-select: none;
+
+  @include media-breakpoint-only(md) {
+    visibility: hidden;
+    width: 0;
+  }
 }
 
 .c-facets__triangle--right {

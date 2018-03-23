@@ -29,7 +29,7 @@ export class FacetItem {
           <div id="${this.selectors.checkboxControlContainer}" class="c-facets__flex-container--wide">
             <div class="c-facets__facet-item" id="${this.selectors.counter}"></div>
             <div class="c-facets__facet-checkbox">
-              <input id="${this.selectors.checkbox}" class="c-facets__checkbox--input" type="checkbox">
+              <input id="${this.selectors.checkbox}" class="c-facets__checkbox--input" type="checkbox" name="{{text}}">
               <label id="${this.selectors.checkboxLabel}" for="${this.selectors.checkbox}"></label>
             </div>
           </div>
