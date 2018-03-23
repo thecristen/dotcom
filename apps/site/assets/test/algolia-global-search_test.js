@@ -4,7 +4,11 @@ import { Algolia } from "../../assets/js/algolia-search";
 import { AlgoliaGlobalSearch } from "../../assets/js/algolia-global-search";
 
 describe("AlgoliaGlobalSearch", function() {
-  jsdom();
+  jsdom({
+    scripts: [
+      'https://maps.googleapis.com/maps/api/js?libraries=places,geometry',
+    ],
+  });
 
   beforeEach(function() {
     window.algoliaConfig = {

@@ -4,7 +4,8 @@
     "algoliasearch": "^3.25.1",
     "autocomplete.js": "git+https://github.com/mbta/autocomplete.js.git",
     "autoprefixer": "^7.1.2",
-    "babel-brunch": "~6.0.0",
+    "babel-brunch": "^6.1.1",
+    "babel-polyfill": "^6.26.0",
     "bootstrap": "4.0.0-alpha.2",
     "brunch": "~2.10",
     "clean-css-brunch": "~1.8.0",
@@ -38,7 +39,7 @@
     "mocha": "^2.5.3",
     "mocha-jsdom": "^1.1.0",
     "phantomjs-prebuilt": "^2.1",
-    "sinon": "^1.17.5"
+    "sinon": "^4.4.8"
   },
   "scripts": {
     "test": "mocha --compilers js:babel-register test/**/*.js"

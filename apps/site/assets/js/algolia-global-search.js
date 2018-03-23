@@ -1,10 +1,15 @@
+import { doWhenGoogleMapsIsReady } from './google-maps-loaded';
 import { Algolia } from './algolia-search';
+import { AlgoliaWithGeo } from './algolia-search-with-geo';
 import { AlgoliaFacets } from './algolia-facets';
 import { AlgoliaResults } from './algolia-results';
 
 export function init() {
   const search = new AlgoliaGlobalSearch()
-  document.addEventListener("turbolinks:load", search.init.bind(search), {passive: true});
+  doWhenGoogleMapsIsReady(() => {
+    document.addEventListener("turbolinks:load", search.init.bind(search), {passive: true});
+    search.init.bind(search);
+  });
   return search;
 }
 
@@ -20,7 +25,7 @@ export class AlgoliaGlobalSearch {
       return false;
     }
     if (!this.controller) {
-      this.controller = new Algolia(AlgoliaGlobalSearch.INITIAL_QUERIES, AlgoliaGlobalSearch.DEFAULT_PARAMS);
+      this.controller = new AlgoliaWithGeo(AlgoliaGlobalSearch.INITIAL_QUERIES, AlgoliaGlobalSearch.DEFAULT_PARAMS, AlgoliaGlobalSearch.LATLNGBOUNDS);
     }
 
     this.controller.addWidget(new AlgoliaFacets(AlgoliaGlobalSearch.SELECTORS, this.controller));
@@ -102,3 +107,10 @@ AlgoliaGlobalSearch.SELECTORS = {
   closeModalButton: "close-facets-modal",
   showFacetsButton: "show-facets",
 };
+
+AlgoliaGlobalSearch.LATLNGBOUNDS = {
+  west: 41.3193,
+  north: -71.9380,
+  east: 42.8266,
+  south: -69.6189
+}

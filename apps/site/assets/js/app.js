@@ -214,6 +214,7 @@ if (!Array.prototype.find) {
 const breakpoints = {xs: 0, sm: 544, md: 800, lg: 1088, xxl: 1344};
 
 // Imports
+import "babel-polyfill";
 import googleMapsLoaded from './google-maps-loaded';
 import submitOnEvents from './submit-on-events';
 import selectModal from './select-modal';

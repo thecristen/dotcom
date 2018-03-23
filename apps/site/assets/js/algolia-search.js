@@ -1,4 +1,4 @@
-import algoliasearch from "algoliasearch"
+import algoliasearch from "algoliasearch";
 
 export class Algolia {
   constructor(queries, defaultParams) {
@@ -40,7 +40,16 @@ export class Algolia {
     const allQueries = this._buildAllQueries();
 
     this._lastQuery = this._currentQuery;
-    this._client.search(allQueries, this.onResults.bind(this));
+    this._doSearch(allQueries);
+  }
+
+  _doSearch(allQueries) {
+    this._client.search(allQueries)
+                .then(this._processAlgoliaResults())
+                .then(results => {
+                  this.updateWidgets(results);
+                })
+                .catch(err => console.log(err));
   }
 
   _buildAllQueries() {
@@ -122,23 +131,29 @@ export class Algolia {
     this._widgets.push(widget);
   }
 
-  onResults(err, response) {
-    let searchedQueries = this._activeQueryIds.slice(0);
-    if (this._activeQueryIds.length == 0) {
-      searchedQueries = Object.keys(this._queries);
-    }
-    const facetLength = Object.keys(this._queries).length;
-    const searchResults = response.results.slice(0, searchedQueries.length);
-    const facetResults = response.results.slice(searchedQueries.length, searchedQueries.length + facetLength);
-    const results = {}
-    searchResults.forEach((result, i) => {
-      results[searchedQueries[i]] = result;
-    });
-    facetResults.forEach((result, i) => {
-      results[`facets-${Object.keys(this._queries)[i]}`] = result;
-    });
+  updateWidgets(results) {
     this._widgets.forEach(function(widget) {
       widget.render(results);
     });
+  }
+
+  _processAlgoliaResults() {
+    return (response) => {
+      let searchedQueries = this._activeQueryIds.slice(0);
+      if (this._activeQueryIds.length == 0) {
+        searchedQueries = Object.keys(this._queries);
+      }
+      const facetLength = Object.keys(this._queries).length;
+      const searchResults = response.results.slice(0, searchedQueries.length);
+      const facetResults = response.results.slice(searchedQueries.length, searchedQueries.length + facetLength);
+      const results = {}
+      searchResults.forEach((result, i) => {
+        results[searchedQueries[i]] = result;
+      });
+      facetResults.forEach((result, i) => {
+        results[`facets-${Object.keys(this._queries)[i]}`] = result;
+      });
+      return Promise.resolve(results);
+    }
   }
 }
