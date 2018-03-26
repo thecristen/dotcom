@@ -1,32 +1,32 @@
 {
   "viewports": [
     {
-      "name": "xs-narrow",
+      "label": "xs-narrow",
       "width": 320,
       "height": 480
     },
     {
-      "name": "xs-wide",
+      "label": "xs-wide",
       "width": 543,
       "height": 713
     },
     {
-      "name": "sm-narrow",
+      "label": "sm-narrow",
       "width": 544,
       "height": 714
     },
     {
-      "name": "sm-wide",
+      "label": "sm-wide",
       "width": 799,
       "height": 1023
     },
     {
-      "name": "md_lg",
+      "label": "md_lg",
       "width": 800,
       "height": 1024
     },
     {
-      "name": "xxl",
+      "label": "xxl",
       "width": 1236,
       "height": 1600
     }
@@ -248,7 +248,7 @@
     "bitmaps_reference": "apps/site/test/backstop_data/bitmaps_reference",
     "bitmaps_test": "apps/site/test/backstop_data/bitmaps_test",
     "compare_data": "apps/site/test/backstop_data/bitmaps_test/compare.json",
-    "casper_scripts": "apps/site/test/backstop_data/casper_scripts",
+    "engine_scripts": "apps/site/test/backstop_data/casper_scripts",
     "html_report": "apps/site/test/backstop_data/html_report"
   },
   "id": "MBTA_Backstop",
