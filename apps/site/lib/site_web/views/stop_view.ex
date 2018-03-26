@@ -255,7 +255,7 @@ defmodule SiteWeb.StopView do
   def stop_feature_icon(feature, class \\ "")
   def stop_feature_icon(feature, class) when feature in [:"Green-B", :"Green-C", :"Green-D", :"Green-E"] do
     route_id = Atom.to_string(feature)
-    content_tag :span, class: "green-line route-branch-stop-list stop-feature-green" do
+    content_tag :span, class: "green-line route-branch-stop-list stop-feature-green", id: "icon-feature-#{feature}" do
       SiteWeb.PartialView.render("_stop_bubble_without_vehicle.html",
                               route_id: route_id,
                               class: "stop",

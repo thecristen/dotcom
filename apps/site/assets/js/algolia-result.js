@@ -3,10 +3,15 @@ import hogan from "hogan.js";
 export const TEMPLATES = {
   fontAwesomeIcon: hogan.compile(`<span aria-hidden="true" class="c-search-result__content-icon fa {{icon}}"></span>`),
   default: hogan.compile(`
-    <a class="hit-content" href="{{hitUrl}}">
+    <a class="c-search_result__link" onclick="Turbolinks.visit('{{hitUrl}}')">
       <span>{{{hitIcon}}}</span>
-      <span class="hit-name">{{hitTitle}}</span>
+      <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
     </a>
+    <span class="c-search-result__feature-icons">
+      {{#hitFeatureIcons}}
+        {{{.}}}
+      {{/hitFeatureIcons}}
+    </span>
   `)
 };
 
@@ -21,14 +26,15 @@ export function parseResult(hit, type) {
   return Object.assign(hit, {
     hitIcon: getIcon(hit, type),
     hitUrl: getUrl(hit, type),
-    hitTitle: getTitle(hit, type)
+    hitTitle: getTitle(hit, type),
+    hitFeatureIcons: getFeatureIcons(hit, type)
   });
 }
 
 export function getIcon(hit, type) {
   switch(type) {
     case "stops":
-      return _featureIcon("stop");
+      return _getStopOrStationIcon(hit);
 
     case "routes":
       const iconName = _iconFromRoute(hit.route);
@@ -121,10 +127,10 @@ function _iconFromRoute(route) {
 export function getTitle(hit, type) {
   switch(type){
     case "stops":
-      return hit.stop.name;
+      return hit._highlightResult.stop.name.value;
 
     case "routes":
-      return hit.route.name;
+      return hit._highlightResult.route.name.value;
 
     case "drupal":
     case "pagesdocuments":
@@ -140,9 +146,9 @@ export function getTitle(hit, type) {
 
 function _contentTitle(hit) {
   if (hit.search_api_datasource === "entity:file") {
-    return hit.file_name_raw;
+    return hit._highlightResult.file_name_raw.value;
   } else {
-    return hit.content_title;
+    return hit._highlightResult.content_title.value;
   }
 };
 
@@ -175,3 +181,103 @@ function _contentUrl(hit) {
     return hit._content_url;
   }
 };
+
+function _getCommuterRailZone(hit) {
+   if (hit.zone) {
+     return [`<span class="c-search-results__commuter-rail-zone">Zone ${hit.zone}</span>`];
+   } else {
+     return [];
+   }
+ }
+
+function _stopsWithAlerts() {
+  const stopsWithAlertsDiv = document.getElementById("stops-with-alerts");
+  let stopsWithAlerts = "";
+  if (stopsWithAlertsDiv) {
+    stopsWithAlerts = stopsWithAlertsDiv.dataset.stopsWithAlerts;
+  }
+  return stopsWithAlerts
+}
+
+function _routesWithAlerts() {
+  const routesWithAlertsDiv = document.getElementById("routes-with-alerts");
+  let routesWithAlerts = "";
+  if (routesWithAlertsDiv) {
+    routesWithAlerts = routesWithAlertsDiv.dataset.routesWithAlerts;
+  }
+
+  return routesWithAlerts;
+}
+
+function _getAlertIcon(hit, type) {
+   let hasAlert = false;
+   switch(type) {
+     case "stops":
+       hasAlert = _stopsWithAlerts().includes(hit.stop.id);
+       break;
+
+     case "routes":
+       hasAlert = _routesWithAlerts().includes(hit.route.id);
+       break;
+   }
+
+   return hasAlert ? ["alert"] : [];
+ }
+
+function _featuresToIcons(features) {
+   return features.map((feature) => {
+     const icon = document.getElementById(`icon-feature-${feature}`);
+     if (icon) {
+       return icon.innerHTML;
+     } else {
+       console.error(`Can't find feature: ${feature}`);
+       return "";
+     }
+   });
+ }
+
+function _sortFeatures(features) {
+   const featuresWithoutBranches = features.filter((feature) => !feature.includes("Green-"));
+   const branches = features.filter((feature) => feature.includes("Green-"));
+   if (branches.length > 0) {
+     const greenLinePosition = featuresWithoutBranches.findIndex((feature) => feature === "green_line");
+
+     featuresWithoutBranches.splice(greenLinePosition + 1, 0, ...branches);
+     return featuresWithoutBranches;
+
+   } else {
+     return features;
+   }
+ }
+
+function getFeatureIcons(hit, type) {
+  const alertFeature = _getAlertIcon(hit, type);
+  switch(type) {
+    case "stops":
+      const filteredFeatures = hit.features.filter((feature) => ((feature != "access") && (feature != "parking_lot")));
+
+      const branchFeatures = hit.green_line_branches;
+      const allFeatures = alertFeature.concat(filteredFeatures.concat(branchFeatures));
+      const allFeaturesSorted = _sortFeatures(allFeatures);
+      const allIcons = _featuresToIcons(allFeaturesSorted);
+
+      const zoneIcon = _getCommuterRailZone(hit);
+
+      return allIcons.concat(zoneIcon);
+
+    case "routes":
+      return _featuresToIcons(alertFeature)
+
+    case "drupal":
+      return [];
+  }
+}
+
+function _getStopOrStationIcon(hit) {
+  if (hit.stop["station?"]) {
+    return _featureIcon("station");
+  } else {
+    return _featureIcon("stop");
+  }
+}
+

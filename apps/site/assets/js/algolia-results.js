@@ -7,9 +7,6 @@ const TEMPLATES = {
       {{#hasHits}}
         <div class="c-search-result__header">{{title}}</div>
         {{{hits}}}
-        {{#nbHits}}
-          <div class="c-search-result__footer">{{nbHits}} results</div>
-        {{/nbHits}}
       {{/hasHits}}
     </div>
  `),

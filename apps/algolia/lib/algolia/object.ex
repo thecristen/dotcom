@@ -8,6 +8,7 @@ defimpl Algolia.Object, for: Stops.Stop do
   def object_id(stop), do: "stop-" <> stop.id
   def url(stop), do: Util.site_path(:stop_path, [:show, stop])
   def data(stop) do
+    routes_for_stop = Routes.Repo.by_stop(stop.id)
     %{
       _geoloc: %{
         lat: stop.latitude,
@@ -15,8 +16,9 @@ defimpl Algolia.Object, for: Stops.Stop do
       },
       stop: stop,
       zone: Zones.Repo.get(stop.id),
-      routes: Algolia.Stop.Routes.for_stop(stop.id),
-      features: Stops.Repo.stop_features(stop)
+      routes: Algolia.Stop.Routes.for_stop(routes_for_stop),
+      features: Stops.Repo.stop_features(stop),
+      green_line_branches: Algolia.Stop.Routes.green_line_branches(routes_for_stop)
     }
   end
 end

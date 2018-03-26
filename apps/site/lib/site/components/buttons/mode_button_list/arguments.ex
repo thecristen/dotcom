@@ -118,7 +118,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
   end
 
   # Returns true if there is a non-notice alert for the given route on `date`
-  defp has_alert?(route, alerts, date) do
+  def has_alert?(route, alerts, date) do
     date = date || Util.now()
     entity = %Alerts.InformedEntity{route_type: route.type, route: route.id}
     Enum.any?(alerts, fn alert -> not Alerts.Alert.is_notice?(alert, date) &&

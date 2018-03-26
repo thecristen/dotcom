@@ -79,6 +79,8 @@
 .c-search-result__hit {
   border: 1px solid $gray-bordered-background;
   border-top: 0;
+  display: flex;
+  justify-content: space-between;
   padding: $space-4 $space-8;
 }
 
@@ -94,4 +96,21 @@
 .c-search-result__content-icon {
   color: $brand-primary;
   margin-right: $space-4;
+}
+
+.c-search-result__hit-name {
+  color: $black;
+
+  em {
+    font-style: normal;
+    font-weight: bold;
+  }
+}
+
+.c-search-results__commuter-rail-zone {
+  border: solid 1px $brand-commuter-rail;
+  border-radius: $space-4;
+  color: $brand-commuter-rail;
+  padding-left: $space-6;
+  padding-right: $space-6;
 }

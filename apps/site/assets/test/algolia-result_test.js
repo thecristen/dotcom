@@ -7,65 +7,132 @@ describe("AlgoliaResult", () => {
     searchResult: {
       _content_type: "search_result",
       _search_result_url: "internal:/search/result",
-      content_title: "Search Result Title"
+      content_title: "Search Result Title",
+      _highlightResult: {
+        content_title: {
+          value: "Search Result Title"
+        }
+      }
     },
     newsEntry: {
       _content_type: "news_entry",
       _content_url: "/news/entry",
-      content_title: "News Entry Title"
+      content_title: "News Entry Title",
+      _highlightResult: {
+        content_title: {
+          value: "News Entry Title"
+        }
+      }
     },
     event: {
       _content_type: "event",
       _content_url: "/events/event",
-      content_title: "Event Title"
+      content_title: "Event Title",
+      _highlightResult: {
+        content_title: {
+          value: "Event Title"
+        }
+      }
     },
     page: {
       _content_type: "page",
       _content_url: "/pages/page",
-      content_title: "Page Title"
+      content_title: "Page Title",
+      _highlightResult: {
+        content_title: {
+          value: "Page Title"
+        }
+      }
     },
     landingPage: {
       _content_type: "landing_page",
       _content_url: "/landing_page",
-      content_title: "Landing Page Title"
+      content_title: "Landing Page Title",
+      _highlightResult: {
+        content_title: {
+          value: "Landing Page Title"
+        }
+      }
     },
     person: {
       _content_type: "person",
       _content_url: "/people/person",
-      content_title: "Person Name"
+      content_title: "Person Name",
+      _highlightResult: {
+        content_title: {
+          value: "Person Name"
+        }
+      }
     },
     other: {
       _content_type: "random_type",
       _content_url: "/other/page",
-      content_title: "Other Title"
+      content_title: "Other Title",
+      _highlightResult: {
+        content_title: {
+          value: "Other Title"
+        }
+      }
     },
     pdf: {
       search_api_datasource: "entity:file",
       _file_type: "application/pdf",
       _file_uri: "public://pdf.pdf",
       content_title: "PDF Title",
-      file_name_raw: "PDF file name"
+      file_name_raw: "PDF file name",
+      _highlightResult: {
+        content_title: {
+          value: "PDF Title"
+        },
+        file_name_raw: {
+          value: "PDF file name"
+        }
+      }
     },
     excel: {
       search_api_datasource: "entity:file",
       _file_type: "application/vnd.ms-excel",
       _file_uri: "public://excel.exs",
       content_title: "Excel Title",
-      file_name_raw: "Excel file name"
+      file_name_raw: "Excel file name",
+      _highlightResult: {
+        content_title: {
+          value: "Excel Title"
+        },
+        file_name_raw: {
+          value: "Excel file name"
+        }
+      }
     },
     powerpoint: {
       search_api_datasource: "entity:file",
       _file_type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
       _file_uri: "public://powerpoint.ppt",
       content_title: "Powerpoint Title",
-      file_name_raw: "Powerpoint file name"
+      file_name_raw: "Powerpoint file name",
+      _highlightResult: {
+        content_title: {
+          value: "Powerpoint Title"
+        },
+        file_name_raw: {
+          value: "Powerpoint file name"
+        }
+      }
     },
     unrecognizedFileType: {
       search_api_datasource: "entity:file",
       _file_type: "application/unrecognized",
       _file_uri: "public://file.file",
       content_title: "Unrecognized File Title",
-      file_name_raw: "Unrecognized file name"
+      file_name_raw: "Unrecognized file name",
+      _highlightResult: {
+        content_title: {
+          value: "Unrecognized File Title"
+        },
+        file_name_raw: {
+          value: "Unrecognized file name"
+        }
+      }
     }
   };
   const routeHits = {
@@ -74,6 +141,13 @@ describe("AlgoliaResult", () => {
         id: "CR-Fitchburg",
         name: "Fitchburg Line",
         type: 2
+      },
+      _highlightResult: {
+        route: {
+          name: {
+            value: "Fitchburg Line"
+          }
+        }
       }
     },
     bus: {
@@ -81,6 +155,13 @@ describe("AlgoliaResult", () => {
         id: "93",
         name: "93e",
         type: 3
+      },
+      _highlightResult: {
+        route: {
+          name: {
+            value: "93e"
+          }
+        }
       }
     },
     ferry: {
@@ -88,6 +169,13 @@ describe("AlgoliaResult", () => {
         id: "Boat-F4",
         name: "Charlestown Ferry",
         type: 4
+      },
+      _highlightResult: {
+        route: {
+          name: {
+            value: "Charlestown Ferry"
+          }
+        }
       }
     },
     redLine: {
@@ -95,6 +183,13 @@ describe("AlgoliaResult", () => {
         id: "Red",
         name: "Red Line",
         type: 1
+      },
+      _highlightResult: {
+        route: {
+          name: {
+            value: "Red Line"
+          }
+        }
       }
     },
     blueLine: {
@@ -102,6 +197,13 @@ describe("AlgoliaResult", () => {
         id: "Blue",
         name: "Blue Line",
         type: 1
+      },
+      _highlightResult: {
+        route: {
+          name: {
+            value: "Blue Line"
+          }
+        }
       }
     },
     orangeLine: {
@@ -109,6 +211,13 @@ describe("AlgoliaResult", () => {
         id: "Orange",
         name: "Orange Line",
         type: 1
+      },
+      _highlightResult: {
+        route: {
+          name: {
+            value: "Orange Line"
+          }
+        }
       }
     },
     greenLineC: {
@@ -116,6 +225,13 @@ describe("AlgoliaResult", () => {
         id: "Green-C",
         name: "Green Line C Branch",
         type: 0
+      },
+      _highlightResult: {
+        route: {
+          name: {
+            value: "Green Line C Branch"
+          }
+        }
       }
     },
     mattapan: {
@@ -123,6 +239,13 @@ describe("AlgoliaResult", () => {
         id: "Mattapan",
         name: "Mattapan Trolley",
         type: 0
+      },
+      _highlightResult: {
+        route: {
+          name: {
+            value: "Mattapan Trolley"
+          }
+        }
       }
     }
   };
@@ -136,14 +259,28 @@ describe("AlgoliaResult", () => {
           routeHits.orangeLine.route,
           routeHits.commuterRail.route
         ]
-      }
+      },
+      _highlightResult: {
+        stop: {
+          name: {
+            value: "North Station"
+          }
+        }
+      },
     },
     busStop: {
       stop: {
         id: "place-bus",
         name: "Bus Stop",
         routes: [{name: "Bus Route", id: "bus-route", type: 3}]
-      }
+      },
+      _highlightResult: {
+        stop: {
+          name: {
+            value: "Bus Stop"
+          }
+        }
+      },
     }
   }
 
@@ -159,6 +296,10 @@ describe("AlgoliaResult", () => {
       <div id="icon-feature-green_line"><span>green line icon</span></div>
       <div id="icon-feature-mattapan_trolley"><span>mattapan line icon</span></div>
       <div id="icon-feature-stop"><span>stop icon</span></div>
+      <div id="icon-feature-station"><span>statiostationon</span></div>
+      <div id="icon-feature-alert"><span> icon</span></div>
+      <div id="stops-with-alerts" data-stops-with-alerts=""></div>
+      <div id="routes-with-alerts" data-routes-with-alerts=""></div>
     `;
   });
   describe("getIcon", () => {

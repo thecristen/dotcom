@@ -88,7 +88,7 @@ defmodule Stops.Repo do
     |> Enum.uniq
   end
 
-  @spec by_route_type(Route.t, Keyword.t):: stops_response
+  @spec by_route_type(Route.route_type, Keyword.t):: stops_response
   def by_route_type(route_type, opts \\ []) do
     cache {route_type, opts}, &Stops.Api.by_route_type/1
   end

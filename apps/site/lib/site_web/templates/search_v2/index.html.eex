@@ -2,6 +2,26 @@
   window.algoliaConfig = <%= raw SiteWeb.ViewHelpers.algolia_config() %>
 </script>
 
+<div class="hidden-js hidden-no-js"n aria-hidden="true">
+  <%= for feature <- [:red_line, :green_line, :blue_line, :orange_line, :bus, :commuter_rail, :ferry, :mattapan_trolley, :stop, :station, :subway] do %>
+    <div id="icon-feature-<%= feature %>">
+      <%=  svg_icon_with_circle(%SvgIconWithCircle{icon: feature, class: "icon-small"}) %>
+    </div>
+  <% end %>
+
+    <div id="icon-feature-alert">
+      <%=  svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
+    </div>
+
+    <%= for feature <- [:"Green-B", :"Green-C", :"Green-D", :"Green-E"] do
+          SiteWeb.StopView.stop_feature_icon(feature, "icon-small")
+        end
+    %>
+</div>
+
+<div id="stops-with-alerts" data-stops-with-alerts="<%= Enum.join(@conn.assigns.stops_with_alerts, " ") %>"></div>
+<div id="routes-with-alerts" data-routes-with-alerts="<%= Enum.join(@conn.assigns.routes_with_alerts, " ") %>"></div>
+
 <div class="c-searchv2__results-header">
   <div class="col-md-4 c-searchv2__results-label">
     <h1> Search </h1>

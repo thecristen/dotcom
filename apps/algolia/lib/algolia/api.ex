@@ -9,7 +9,7 @@ defmodule Algolia.Api do
   @indexes Application.get_env(:algolia, :indexes, [])
 
   @doc """
-  Updates stops and routes data on Algolia. Stops data does not include bus stops.
+  Updates stops and routes data on Algolia.
   """
   @spec update(String.t) :: t
   def update(host \\ "algolia.net") when is_binary(host) do

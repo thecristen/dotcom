@@ -10,7 +10,9 @@ describe('AlgoliaResults', () => {
     document.body.innerHTML = `
       <div id="icon-feature-stop">stop-icon</div>
       <div id="icon-feature-commuter_rail">commuter-rail-icon</div>
+      <div id="icon-feature-bus">bus-icon</div>
       <div id="icon-feature-orange_line">orange-line-icon</div>
+      <div id="icon-feature-Green-B">green-line-b-icon</div>
       <div id="search-results"></div>
     `
     search = new AlgoliaResults("search-results");
@@ -21,8 +23,13 @@ describe('AlgoliaResults', () => {
       it('handles file types', () => {
         const hit = {
           search_api_datasource: "entity:file",
-          file_name_raw: "file-file-name",
-          _file_uri: "public://file-url"
+          file_name_raw: "pre_file-file-name",
+          _file_uri: "public://file-url",
+          _highlightResult: {
+            file_name_raw: {
+              value: "file-file-name"
+            }
+          }
         }
 
         const results = search._renderIndex({
@@ -33,15 +40,20 @@ describe('AlgoliaResults', () => {
         }, "drupal");
 
         expect(results).to.be.a("string");
-        expect(results).to.have.string(hit.file_name_raw);
+        expect(results).to.have.string(hit._highlightResult.file_name_raw.value);
         expect(results).to.have.string("/sites/default/files/file-url");
       });
 
       it('handles search_result', () => {
         const hit = { _content_type: "search_result",
                       search_api_datasource: "no_file",
-                      content_title: "search-results-title",
-                      _search_result_url: "file-url"
+                      content_title: "pre_search-results-title",
+                      _search_result_url: "file-url",
+                      _highlightResult: {
+                        content_title: {
+                          value: "search-results-title"
+                        }
+                      }
                     };
         const results = search._renderIndex({
           drupal: {
@@ -51,16 +63,21 @@ describe('AlgoliaResults', () => {
         }, "drupal");
 
         expect(results).to.be.a("string");
-        expect(results).to.have.string(hit.content_title);
+        expect(results).to.have.string(hit._highlightResult.content_title.value);
         expect(results).to.have.string(hit._search_result_url);
       });
 
       it('handles other result types', () => {
         const hit = { _content_type: "other",
-                        search_api_datasource: "no_file",
-                        content_title: "content-title",
-                        _content_url: "file-url"
-                      };
+                      search_api_datasource: "no_file",
+                      content_title: "pre_content-title",
+                      _content_url: "file-url",
+                      _highlightResult: {
+                        content_title: {
+                          value: "content-title"
+                        }
+                      }
+                    };
 
         const results = search._renderIndex({
           drupal: {
@@ -70,17 +87,27 @@ describe('AlgoliaResults', () => {
         }, "drupal");
 
         expect(results).to.be.a("string");
-        expect(results).to.have.string(hit.content_title);
+        expect(results).to.have.string(hit._highlightResult.content_title.value);
         expect(results).to.have.string(hit._content_url);
       });
     });
     describe("for stop results", () => {
-      it("properly maps icon, url and title", () => {
+      it("properly maps icon, url, title and feature icons", () => {
         const hit = {
           stop: {
             id: "stop-id",
-            name: "stop-name"
-          }
+            name: "pre_stop-name"
+          },
+          _highlightResult: {
+            stop: {
+              name: {
+                value: "stop-name"
+              }
+            }
+          },
+          zone: 8,
+          green_line_branches: ["Green-B"],
+          features: ["bus"]
         };
 
         const result = search._renderIndex({
@@ -92,8 +119,11 @@ describe('AlgoliaResults', () => {
 
         expect(result).to.be.a("string");
         expect(result).to.have.string("/stops/" + hit.stop.id);
-        expect(result).to.have.string(hit.stop.name);
+        expect(result).to.have.string(hit._highlightResult.stop.name.value);
         expect(result).to.have.string("stop-icon");
+        expect(result).to.have.string("green-line-b-icon");
+        expect(result).to.have.string("bus-icon");
+        expect(result).to.have.string("Zone 8");
       });
     });
     describe("for route results", () => {
@@ -102,8 +132,15 @@ describe('AlgoliaResults', () => {
           route: {
            id: "CR-Fitchburg",
            type: 2,
-           name: "Fitchburg Line"
-          }
+           name: "pre_Fitchburg Line"
+          },
+          _highlightResult: {
+            route: {
+              name: {
+                value: "Fitchburg Line"
+              }
+            }
+          },
         };
 
         const result = search._renderIndex({
@@ -115,7 +152,7 @@ describe('AlgoliaResults', () => {
 
         expect(result).to.be.a("string");
         expect(result).to.have.string("/schedules/" + hit.route.id);
-        expect(result).to.have.string(hit.route.name);
+        expect(result).to.have.string(hit._highlightResult.route.name.value);
         expect(result).to.have.string("commuter-rail-icon");
       });
 
@@ -124,8 +161,15 @@ describe('AlgoliaResults', () => {
           route: {
             id: "Orange",
             type: 1,
-            name: "Orange Line"
-          }
+            name: "pre_Orange Line"
+          },
+          _highlightResult: {
+            route: {
+              name: {
+                value: "Orange Line"
+              }
+            }
+          },
         };
 
         const result = search._renderIndex({
@@ -137,7 +181,7 @@ describe('AlgoliaResults', () => {
 
         expect(result).to.be.a("string");
         expect(result).to.have.string("/schedules/" + hit.route.id);
-        expect(result).to.have.string(hit.route.name);
+        expect(result).to.have.string(hit._highlightResult.route.name.value);
         expect(result).to.have.string("orange-line-icon");
       });
     });
@@ -198,7 +242,16 @@ describe('AlgoliaResults', () => {
                                     stop: {
                                       id: "id1",
                                       name: "name1"
-                                    }
+                                    },
+                                    _highlightResult: {
+                                      stop: {
+                                        name: {
+                                          value: "name1"
+                                        }
+                                      }
+                                    },
+                                    green_line_branches: [],
+                                    features: []
                                   },
                                   { hitUrl: "url2",
                                     hitIcon: "icon2",
@@ -206,7 +259,16 @@ describe('AlgoliaResults', () => {
                                     stop: {
                                       id: "id2",
                                       name: "name2"
-                                    }
+                                    },
+                                    _highlightResult: {
+                                      stop: {
+                                        name: {
+                                          value: "name2"
+                                        }
+                                      }
+                                    },
+                                    green_line_branches: [],
+                                    features: []
                                   },
                                 ]
                         },
@@ -238,7 +300,14 @@ describe('AlgoliaResults', () => {
                                       type: 3,
                                       id: "id1",
                                       name: "name1"
-                                    }
+                                    },
+                                    _highlightResult: {
+                                      route: {
+                                        name: {
+                                          value: "name1"
+                                        }
+                                      }
+                                    },
                                   },
                                   { hitUrl: "url2",
                                     hitIcon: "icon2",
@@ -247,7 +316,14 @@ describe('AlgoliaResults', () => {
                                       type: 3,
                                       id: "id2",
                                       name: "name2"
-                                    }
+                                    },
+                                    _highlightResult: {
+                                      route: {
+                                        name: {
+                                          value: "name2"
+                                        }
+                                      }
+                                    },
                                   },
                                 ]
                         },
@@ -275,10 +351,20 @@ describe('AlgoliaResults', () => {
                           hits: [ { hitUrl: "url1",
                                     hitIcon: "icon1",
                                     hitTitle: "title1",
+                                    _highlightResult: {
+                                      content_title: {
+                                        value: "title1"
+                                      }
+                                    }
                                   },
                                   { hitUrl: "url2",
                                     hitIcon: "icon2",
                                     hitTitle: "title2",
+                                    _highlightResult: {
+                                      content_title: {
+                                        value: "title1"
+                                      }
+                                    }
                                   },
                                 ]
                         },
