@@ -31,7 +31,7 @@ export class AlgoliaResults {
         nbHits: results[index].nbHits,
         hasHits: results[index].nbHits > 0,
         hits: results[index].hits.slice(0)
-                                 .map(hit => AlgoliaResult.renderResult(hit, index))
+                                 .map(this.renderResult(index))
                                  .join("")
       });
     }
@@ -47,6 +47,16 @@ export class AlgoliaResults {
         ["routes", "stops", "pagesdocuments", "events", "news"]
         .map(index => this._renderIndex(results, index))
         .join("");
+    }
+  }
+
+  renderResult(index) {
+    return (hit) => {
+      return `
+        <div class="c-search-result__hit">
+          ${AlgoliaResult.renderResult(hit, index)}
+        </div>
+      `;
     }
   }
 }

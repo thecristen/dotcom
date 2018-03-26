@@ -88,7 +88,7 @@ exports.config = {
       import: false,
       minifier: true,
       autoprefixer: {
-				browsers: [
+        browsers: [
           "safari >= 4",
           "ie >= 9",
           "last 20 versions"
@@ -112,7 +112,8 @@ exports.config = {
       collapse: "bootstrap/dist/js/umd/collapse",
       modal: "bootstrap/dist/js/umd/modal",
       tooltip: "bootstrap/dist/js/umd/tooltip",
-      Turbolinks: "turbolinks"
+      Turbolinks: "turbolinks",
+      autocomplete: "autocomplete.js"
     }
   },
 

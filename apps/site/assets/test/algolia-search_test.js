@@ -16,7 +16,7 @@ describe("Algolia", function() {
       }
     }
     this.mockClient = {
-      search: sinon.spy()
+      search: sinon.stub().resolves([])
     }
     this.widget = {
       init: sinon.spy(),
@@ -91,6 +91,12 @@ describe("Algolia", function() {
       expect(this.algolia._doSearch.args[0][0][1]).to.have.keys(["indexName", "params", "query"]);
       expect(this.algolia._doSearch.args[0][0][1].params).to.have.keys(["facets", "hitsPerPage"]);
       expect(this.algolia._doSearch.args[0][0][1].params.facets).to.include("*");
+    });
+
+    it("returns a promise", function() {
+      this.algolia._client = this.mockClient;
+      const returned = this.algolia.search("query");
+      expect(returned).to.be.an.instanceOf(Promise)
     });
 
     it("updates the search query if search is called with arguments", function() {

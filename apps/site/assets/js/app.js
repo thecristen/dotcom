@@ -243,7 +243,7 @@ import search from './search';
 import photoGallery from './photo-gallery';
 import filter from './filter';
 import { setupSearch } from "./search-bar";
-import stopsSearch from "./algolia-stop-search";
+import * as stopsSearch from "./algolia-stop-search";
 import * as globalSearch from "./algolia-global-search";
 import AlgoliaResults from "./algolia-results";
 
@@ -275,10 +275,6 @@ photoGallery();
 filter();
 stickyTooltip();
 globalSearch.init();
-if (window.useAlgoliaSearch) {
-  stopsSearch();
-} else {
-  setupSearch();
-}
+stopsSearch.init();
 
 document.body.className = document.body.className.replace("no-js", "js");

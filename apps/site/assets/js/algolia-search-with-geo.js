@@ -13,11 +13,9 @@ export class AlgoliaWithGeo extends Algolia {
                                .catch(err => console.error(err));
     const googleResults = this._doGoogleAutocomplete(this._currentQuery)
                               .catch(() => console.error("Error while contacting google places API."));
-    Promise.all([algoliaResults, googleResults]).then(resultsList => {
-      this.updateWidgets(resultsList.reduce((acc, res) => {
-        return Object.assign(acc, res);
-      }));
-    }).catch(err => console.error(err));
+    return Promise.all([algoliaResults, googleResults])
+                  .then(resultsList => this.updateWidgets(resultsList.reduce((acc, res) => Object.assign(acc, res))))
+                  .catch(err => console.error(err));
   }
 
   _doGoogleAutocomplete(query) {

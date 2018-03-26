@@ -3,12 +3,10 @@ import hogan from "hogan.js";
 export const TEMPLATES = {
   fontAwesomeIcon: hogan.compile(`<span aria-hidden="true" class="c-search-result__content-icon fa {{icon}}"></span>`),
   default: hogan.compile(`
-    <div class="c-search-result__hit">
-      <a class="hit-content" onclick="Turbolinks.visit('{{hitUrl}}')">
-        <span>{{{hitIcon}}}</span>
-        <span class="hit-name">{{hitTitle}}</span>
-      </a>
-    </div>
+    <a class="hit-content" href="{{hitUrl}}">
+      <span>{{{hitIcon}}}</span>
+      <span class="hit-name">{{hitTitle}}</span>
+    </a>
   `)
 };
 

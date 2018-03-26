@@ -38,6 +38,13 @@
           </div>
         </div>
       <% end %>
+      <div class="js-feature-icons hidden-js hidden-no-js" aria-hidden="true">
+        <%= for feature <- [:red_line, :green_line, :blue_line, :orange_line, :bus, :commuter_rail, :ferry, :mattapan_trolley, :stop, :station, :subway] do %>
+          <div id="icon-feature-<%= feature %>" >
+            <%=  svg_icon_with_circle(%SvgIconWithCircle{icon: feature, class: "icon-small"}) %>
+          </div>
+        <% end %>
+      </div>
       <%= render "_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(@view_module, @view_template)) |> forward_assigns %>
       <%= if assigns[:pre_container_template] do %>
         <%= render_existing @view_module, assigns[:pre_container_template], assigns %>

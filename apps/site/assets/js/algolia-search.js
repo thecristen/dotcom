@@ -25,10 +25,26 @@ export class Algolia {
     }
   }
 
+  get client() {
+    return this._client;
+  }
+
+  get widgets() {
+    return this._widgets;
+  }
+
   resetSearch() {
-    Object.keys(this._queries).forEach(queryId => {
-      this._queries[queryId].params = JSON.parse(JSON.stringify(this._defaultParams[queryId]));
-    });
+    Object.keys(this._queries).forEach(this.resetDefaultParams());
+  }
+
+  resetDefaultParams() {
+    return (queryId) => {
+      if (this._defaultParams[queryId]) {
+        this._queries[queryId].params = JSON.parse(JSON.stringify(this._defaultParams[queryId]));
+      } else {
+        console.error("default params not set for queryId", queryId, this._defaultParams);
+      }
+    }
   }
 
   search(query) {
@@ -40,16 +56,17 @@ export class Algolia {
     const allQueries = this._buildAllQueries();
 
     this._lastQuery = this._currentQuery;
-    this._doSearch(allQueries);
+    return this._doSearch(allQueries);
   }
 
   _doSearch(allQueries) {
-    this._client.search(allQueries)
-                .then(this._processAlgoliaResults())
-                .then(results => {
-                  this.updateWidgets(results);
-                })
-                .catch(err => console.log(err));
+    return this._client.search(allQueries)
+               .then(this._processAlgoliaResults())
+               .then(results => {
+                 this.updateWidgets(results)
+                 return results;
+               })
+               .catch(err => console.log(err));
   }
 
   _buildAllQueries() {
@@ -127,7 +144,7 @@ export class Algolia {
   }
 
   addWidget(widget) {
-    widget.init();
+    widget.init(this);
     this._widgets.push(widget);
   }
 

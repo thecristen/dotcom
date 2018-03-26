@@ -1,19 +1,14 @@
 <script>
-  window.useAlgoliaSearch = true;
   window.algoliaConfig = <%= algolia_config() %>
 </script>
 
-<div id="search-bar-container" class="hidden-no-js c-search-bar">
+<div id="stop-search" class="hidden-no-js c-search-bar">
   <label for="search-bar" class="c-search-bar__header">
     Search for a station
   </label>
   <div class="text-input-button-widget c-search-bar__input">
-    <input type="text" id="search-bar" class="text-input-button-widget-input" placeholder="Enter name or location"></input>
+    <input type="text" id="stop-search__input" class="text-input-button-widget-input" placeholder="Enter name or location"></input>
   </div>
-  <div id="search-bar__results" class="c-search-bar__results">
-  </div>
-</div>
-<div id="location-result-container">
-  <div id="location-result-header"></div>
-  <div id="location-result-body" class="location-result-body"></div>
+  <div id="stop-search__autocomplete" class="c-search-bar__results"></div>
+  <div id="stop-search__results" class="c-search-bar__results"></div>
 </div>
