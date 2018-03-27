@@ -2,6 +2,8 @@ import { assert } from 'chai';
 import jsdom from 'mocha-jsdom';
 import {FacetItem} from '../../assets/js/facet-item.js'
 import {FacetBar} from '../../assets/js/facet-bar.js'
+import {FacetGroup} from '../../assets/js/facet-group.js'
+import {FacetLocationGroup} from '../../assets/js/facet-location-group.js'
 
 function getFeatureIcon(feature) {
   return `<span id=${feature}></span>`
@@ -15,58 +17,64 @@ describe('facet', function() {
     routes: {
       indexName: "routes",
       facetName: "routes",
-      items: [
+      item: {
+        id: "lines-routes",
+        name: "Lines and Routes",
+        items: [
         {
-          id: "lines-routes",
-          name: "Lines and Routes",
-          items: [
-            {
-              id: "subway",
-              name: "Subway",
-              facets: ["0", "1"],
-              icon: getFeatureIcon("station")
-            },
-            {
-              id: "commuter-rail",
-              name: "Commuter Rail",
-              facets: ["2"],
-              icon: getFeatureIcon("commuter_rail")
-            },
-            {
-              id: "bus",
-              name: "Bus",
-              facets: ["3"],
-              icon: getFeatureIcon("bus")
-            },
-            {
-              id: "ferry",
-              name: "Ferry",
-              facets: ["4"],
-              icon: getFeatureIcon("ferry")
-            },
-          ]
+          id: "subway",
+          name: "Subway",
+          facets: ["0", "1"],
+          icon: getFeatureIcon("station")
         },
-      ]
+        {
+          id: "commuter-rail",
+          name: "Commuter Rail",
+          facets: ["2"],
+          icon: getFeatureIcon("commuter_rail")
+        },
+        {
+          id: "bus",
+          name: "Bus",
+          facets: ["3"],
+          icon: getFeatureIcon("bus")
+        },
+        {
+          id: "ferry",
+          name: "Ferry",
+          facets: ["4"],
+          icon: getFeatureIcon("ferry")
+        },
+        ]
+      },
     },
     stops: {
       indexName: "stops",
       facetName: "stop",
-      items: [
+      item: {
+        id: "stops",
+        name: "Stops",
+        prefix: "stop",
+        items: [
         {
-          id: "stops",
-          name: "Stops",
-          prefix: "stop",
-          items: [
-            {
-              id: "stop-subway",
-              name: "Subway",
-              facets: ["subway"],
-              icon: getFeatureIcon("station")
-            }
-          ]
+          id: "stop-subway",
+          name: "Subway",
+          facets: ["subway"],
+          icon: getFeatureIcon("station")
         }
-      ]
-    }
+        ]
+      }
+    },
+    locations: {
+      queryId: "locations",
+      item:
+      {
+        id: "locations",
+        name: "Locations",
+        cls: "FacetLocationGroup",
+        icon: getFeatureIcon("station")
+      }
+    },
   }
 
   const search = {};
@@ -97,13 +105,13 @@ describe('facet', function() {
     $('body').empty();
     $('body').append('<div id="test"></div>');
     this.facetBar = new FacetBar("test", search, testData);
-    this.testFacetItem = this.facetBar._items["routes"][0];
+    this.testFacetItem = this.facetBar._items["routes"];
     changeAllCheckboxes(false);
   });
 
   describe("item event handlers", function() {
-    it('makes 7 checkboxes, one for each item', function() {
-      assert.equal($("input[type='checkbox']").length, 7);
+    it('makes 8 checkboxes, one for each item', function() {
+      assert.equal($("input[type='checkbox']").length, 8);
     });
 
     it('unchecks all children when unchecking the parent box', function() {
@@ -140,21 +148,24 @@ describe('facet', function() {
   describe("item", function() {
     it('returns a flattened list of active facets', function() {
       changeAllCheckboxes(true);
-      assert.deepEqual(this.testFacetItem.getActiveFacets(), ["routes:0", "routes:1", "routes:2", "routes:3", "routes:4"]);
+      assert.deepEqual(this.testFacetItem._item.getActiveFacets(), ["routes:0", "routes:1", "routes:2", "routes:3", "routes:4"]);
     });
   });
 
   describe("bar", function() {
-    it('properly parses facet data into items', function() {
-      assert.deepEqual(Object.keys(this.facetBar._items), ["routes", "stops"]);
-      assert.equal(this.facetBar._items["routes"][0]._id, "lines-routes");
-      assert.deepEqual(this.facetBar._items["routes"][0]._children.map(item => { return item._id }), ["subway", "commuter-rail", "bus", "ferry"]);
-      assert.equal(this.facetBar._items["stops"][0]._id, "stops");
-      assert.deepEqual(this.facetBar._items["stops"][0]._children.map(item => { return item._id }), ["stop-subway"]);
+    it('properly parses facet data into groups with items', function() {
+      assert.deepEqual(Object.keys(this.facetBar._items), ["routes", "stops", "locations"]);
+      assert.instanceOf(this.facetBar._items["routes"], FacetGroup, "routes facet is instance of FacetLocationGroup");
+      assert.equal(this.facetBar._items["routes"]._item._id, "lines-routes");
+      assert.deepEqual(this.facetBar._items["routes"]._item._children.map(item => { return item._id }), ["subway", "commuter-rail", "bus", "ferry"]);
+      assert.equal(this.facetBar._items["stops"]._item._id, "stops");
+      assert.deepEqual(this.facetBar._items["stops"]._item._children.map(item => { return item._id }), ["stop-subway"]);
+      assert.instanceOf(this.facetBar._items["locations"], FacetLocationGroup, "locations facet is instance of FacetLocationGroup");
     });
 
-    it('updates a map to keep track of which facets should be updated', function() {
-      assert.deepEqual(Object.keys(this.facetBar._facetMap), ['routes:0,routes:1', 'routes:2', 'routes:3', 'routes:4', 'stop:subway']);
+    it('groups update maps to keep track of which facets should be updated', function() {
+      assert.deepEqual(Object.keys(this.facetBar._items["routes"]._facetMap), ['routes:0,routes:1', 'routes:2', 'routes:3', 'routes:4']);
+      assert.deepEqual(Object.keys(this.facetBar._items["stops"]._facetMap), ['stop:subway']);
     });
 
     it('updates results for facet items in the facet map', function() {
@@ -167,8 +178,8 @@ describe('facet', function() {
         "stop:subway": 10
       };
       this.facetBar.updateCounts(results);
-      const routesFacet = this.facetBar._items["routes"][0];
-      const stopsFacet = this.facetBar._items["stops"][0];
+      const routesFacet = this.facetBar._items["routes"]._item;
+      const stopsFacet = this.facetBar._items["stops"]._item;
       assert(routesFacet._count, results["routes:0"] +
                                  results["routes:1"] +
                                  results["routes:2"] +
@@ -179,8 +190,8 @@ describe('facet', function() {
 
     it('disables indexes if a facet tree is completely unchecked', function() {
       $(checkBoxes.cr).prop("checked", true);
-      assert.equal(this.facetBar.shouldDisableQuery("routes"), false);
-      assert.equal(this.facetBar.shouldDisableQuery("stops"), true);
+      assert.equal(this.facetBar._items["routes"].shouldDisableQuery(), false);
+      assert.equal(this.facetBar._items["stops"].shouldDisableQuery(), true);
     });
   });
 });

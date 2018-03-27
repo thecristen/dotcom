@@ -2,8 +2,14 @@ import hogan from "hogan.js";
 
 export const TEMPLATES = {
   fontAwesomeIcon: hogan.compile(`<span aria-hidden="true" class="c-search-result__content-icon fa {{icon}}"></span>`),
+  locations: hogan.compile(`
+    <a id="hit-{{id}}" class="c-search_result__link" href="{{hitUrl}}">
+      <span>{{{hitIcon}}}</span>
+      <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
+    </a>
+  `),
   default: hogan.compile(`
-    <a class="c-search_result__link" onclick="Turbolinks.visit('{{hitUrl}}')">
+    <a class="c-search_result__link" href="{{hitUrl}}">
       <span>{{{hitIcon}}}</span>
       <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
     </a>
@@ -27,12 +33,16 @@ export function parseResult(hit, type) {
     hitIcon: getIcon(hit, type),
     hitUrl: getUrl(hit, type),
     hitTitle: getTitle(hit, type),
-    hitFeatureIcons: getFeatureIcons(hit, type)
+    hitFeatureIcons: getFeatureIcons(hit, type),
+    id: hit.place_id || null
   });
 }
 
 export function getIcon(hit, type) {
   switch(type) {
+    case "locations":
+      hit._content_type = "locations";
+      return _contentIcon(hit);
     case "stops":
       return _getStopOrStationIcon(hit);
 
@@ -89,7 +99,8 @@ function _contentIcon(hit) {
       event: "fa-calendar",
       page: "fa-file-o",
       landing_page: "fa-file-o",
-      person: "fa-user"
+      person: "fa-user",
+      locations: "fa-map-marker"
     };
     icon = iconMapper[hit._content_type] || "fa-file-o";
   }
@@ -126,6 +137,8 @@ function _iconFromRoute(route) {
 
 export function getTitle(hit, type) {
   switch(type){
+    case "locations":
+      return hit.description;
     case "stops":
       return hit._highlightResult.stop.name.value;
 
@@ -154,6 +167,8 @@ function _contentTitle(hit) {
 
 export function getUrl(hit, type) {
   switch(type) {
+    case "locations":
+      return "#";
     case "stops":
       return `/stops/${hit.stop.id}`;
 
@@ -268,7 +283,7 @@ function getFeatureIcons(hit, type) {
     case "routes":
       return _featuresToIcons(alertFeature)
 
-    case "drupal":
+    default:
       return [];
   }
 }

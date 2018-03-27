@@ -100,6 +100,16 @@
   padding: $space-4 $space-8;
 }
 
+.c-search-result__loading-indicator {
+  display: none;
+}
+
+.c-search-result__header--location {
+  color: $brand-primary;
+  cursor: pointer;
+  float: right;
+}
+
 .c-search-result__footer {
   padding: $space-4 $space-8;
 }

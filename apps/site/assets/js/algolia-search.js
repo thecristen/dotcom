@@ -112,7 +112,7 @@ export class Algolia {
     }
   }
 
-  addIndex(queryId) {
+  addActiveQuery(queryId) {
     if (this._activeQueryIds.indexOf(queryId) == -1) {
       this._activeQueryIds.push(queryId);
     }

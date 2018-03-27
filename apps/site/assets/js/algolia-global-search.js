@@ -5,11 +5,12 @@ import { AlgoliaFacets } from './algolia-facets';
 import { AlgoliaResults } from './algolia-results';
 
 export function init() {
-  const search = new AlgoliaGlobalSearch()
-  doWhenGoogleMapsIsReady(() => {
-    document.addEventListener("turbolinks:load", search.init.bind(search), {passive: true});
-    search.init.bind(search);
-  });
+  const search = new AlgoliaGlobalSearch();
+  document.addEventListener("turbolinks:load", () => {
+    doWhenGoogleMapsIsReady(() => {
+      search.init();
+    })
+  }, {passive: true});
   return search;
 }
 
@@ -28,6 +29,7 @@ export class AlgoliaGlobalSearch {
       this.controller = new AlgoliaWithGeo(AlgoliaGlobalSearch.INITIAL_QUERIES, AlgoliaGlobalSearch.DEFAULT_PARAMS, AlgoliaGlobalSearch.LATLNGBOUNDS);
     }
 
+    this.container.value = "";
     this.controller.addWidget(new AlgoliaFacets(AlgoliaGlobalSearch.SELECTORS, this.controller));
     this.controller.addWidget(new AlgoliaResults(AlgoliaGlobalSearch.SELECTORS.resultsContainer));
     this.container.addEventListener("input", () => {

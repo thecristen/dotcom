@@ -15,10 +15,20 @@ export class AlgoliaFacets {
     });
 
     const facets = {
+      locations: {
+        queryId: "locations",
+        item:
+        {
+          id: "locations",
+          name: "Locations",
+          cls: "FacetLocationGroup",
+          icon: this._faIcon("fa-map-marker")
+        }
+      },
       routes: {
         queryId: "routes",
         facetName: "route.type",
-        items: [
+        item:
         {
           id: "lines-routes",
           name: "Lines and Routes",
@@ -49,12 +59,11 @@ export class AlgoliaFacets {
           },
           ]
         }
-        ]
       },
       stops: {
         queryId: "stops",
         facetName: "stop.station?",
-        items: [
+        item:
         {
           id: "stops",
           name: "Stations and Stops",
@@ -73,12 +82,11 @@ export class AlgoliaFacets {
           },
           ]
         }
-        ]
       },
       pagesdocuments: {
         queryId: "pagesdocuments",
         facetName: "_content_type",
-        items: [
+        item:
         {
           id: "pages-parent",
           name: "Pages and Documents",
@@ -97,27 +105,27 @@ export class AlgoliaFacets {
             icon: this._faIcon("fa-file-o")
           },
           ]
-        }]
+        }
       },
       events: {
         queryId: "events",
         facetName: "_content_type",
-        items: [{
+        item: {
           id: "event",
           name: "Events",
           icon: this._faIcon("fa-calendar"),
           facets: ["event"],
-        }]
+        }
       },
       news: {
         queryId: "news",
         facetName: "_content_type",
-        items: [{
+        item: {
           id: "news",
           name: "News",
           icon: this._faIcon("fa-newspaper-o"),
           facets: ["news_entry"],
-        }]
+        }
       }
     }
     this._facetBar = new FacetBar("search-facets-container", search, facets);
@@ -149,8 +157,11 @@ export class AlgoliaFacets {
             facetResults[`${prefix}:${facet}`] = values[facet];
           });
         });
+      } else if (key == "locations") {
+        facetResults["locations"]  = results["locations"].hits.length;
       }
     });
+
     this._facetBar.updateCounts(facetResults);
   }
 }

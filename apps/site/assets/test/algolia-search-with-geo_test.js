@@ -29,6 +29,8 @@ describe("AlgoliaWithGeo", function() {
 
   describe("AlgoliaWithGeo._doSearch", function() {
     it("searches both indexes and updates widgets when both have returned", function(done) {
+      this.algoliaWithGeo.enableLocationSearch(true);
+      this.algoliaWithGeo.addActiveQuery("stops");
       this.algoliaWithGeo.updateWidgets = function(results) {
         assert.deepEqual(results, {
           index: "foo",
