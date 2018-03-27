@@ -79,6 +79,8 @@
 .c-search-bar__-suggestion {
   border-bottom: $border;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
   padding: $base-spacing / 2 $base-spacing;
   text-align: left;
 

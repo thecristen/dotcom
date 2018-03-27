@@ -76,6 +76,17 @@
   }
 }
 
+.c-search-result__link {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.c-search-result__feature-icons {
+  flex: 0 0 auto;
+}
+
 .c-search-result__hit {
   border: 1px solid $gray-bordered-background;
   border-top: 0;
