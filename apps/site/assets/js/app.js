@@ -242,7 +242,6 @@ import stopBubbles from './stop-bubbles';
 import search from './search';
 import photoGallery from './photo-gallery';
 import filter from './filter';
-import { setupSearch } from "./search-bar";
 import * as stopsSearch from "./algolia-stop-search";
 import * as globalSearch from "./algolia-global-search";
 import AlgoliaResults from "./algolia-results";

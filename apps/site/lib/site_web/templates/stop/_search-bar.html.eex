@@ -7,7 +7,7 @@
     Search for a station
   </label>
   <div class="text-input-button-widget c-search-bar__input">
-    <input type="text" id="stop-search__input" class="text-input-button-widget-input" placeholder="Enter name or location"></input>
+    <input type="text" id="stop-search__input" class="text-input-button-widget-input" placeholder="Enter stop name"></input>
   </div>
   <div id="stop-search__autocomplete" class="c-search-bar__results"></div>
   <div id="stop-search__results" class="c-search-bar__results"></div>
