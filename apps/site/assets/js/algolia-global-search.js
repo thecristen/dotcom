@@ -33,7 +33,6 @@ export class AlgoliaGlobalSearch {
     this.container.addEventListener("input", () => {
       this.controller.search(this.container.value);
     });
-    this.controller.search("");
   }
 }
 

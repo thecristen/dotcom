@@ -95,6 +95,7 @@ describe("Algolia", function() {
 
     it("returns a promise", function() {
       this.algolia._client = this.mockClient;
+      sinon.stub(this.algolia, "_processAlgoliaResults").resolves({});
       const returned = this.algolia.search("query");
       expect(returned).to.be.an.instanceOf(Promise)
     });

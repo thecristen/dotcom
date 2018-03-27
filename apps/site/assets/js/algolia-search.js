@@ -53,10 +53,14 @@ export class Algolia {
     } else {
       this._currentQuery = this._lastQuery;
     }
-    const allQueries = this._buildAllQueries();
-
-    this._lastQuery = this._currentQuery;
-    return this._doSearch(allQueries);
+    if (this._currentQuery.length > 0) {
+      const allQueries = this._buildAllQueries();
+      this._lastQuery = this._currentQuery;
+      return this._doSearch(allQueries);
+    } else {
+      this.updateWidgets({});
+      return Promise.resolve({});
+    }
   }
 
   _doSearch(allQueries) {

@@ -171,7 +171,7 @@ export class FacetItem {
       count = 0;
     }
     this._count = count;
-    this._counter.innerHTML = count;
+    this._counter.innerHTML = count ? count : ""
     this._parent.updateCount(this._parent.sumChildren());
   }
 
