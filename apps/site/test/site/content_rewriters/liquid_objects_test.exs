@@ -4,7 +4,7 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
   import Site.ContentRewriters.LiquidObjects
   import Phoenix.HTML, only: [safe_to_string: 1]
   import SiteWeb.ContentView, only: [svg_icon_with_circle: 1]
-  import SiteWeb.ViewHelpers, only: [fa: 1]
+  import SiteWeb.ViewHelpers, only: [fa: 1, svg: 1]
 
   alias Site.Components.Icons.SvgIconWithCircle
 
@@ -24,6 +24,15 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
 
     test "it handles unknown mbta icons" do
       assert replace(~s(mbta-circle-icon "unknown")) == ~s({{ mbta-circle-icon "unknown" }})
+    end
+
+    test "it replaces an app badge" do
+      assert replace(~s(app-badge "apple")) == safe_to_string(svg("badge-apple-store.svg"))
+      assert replace(~s(app-badge "google")) == safe_to_string(svg("badge-google-play.svg"))
+    end
+
+    test "it handles unknown badges" do
+      assert replace(~s(app-badge "unknown")) == ~s({{ app-badge "unknown" }})
     end
 
     test "it handles simple fare requests" do

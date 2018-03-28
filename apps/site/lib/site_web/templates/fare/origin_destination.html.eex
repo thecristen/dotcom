@@ -73,12 +73,11 @@
       </p>
       <p>
         <a href="https://itunes.apple.com/us/app/mbta-mticket/id560487958?mt=8">
-          <span class="sr-only">Download on the app store</span>
-          <%= svg "download_on_the_app_store.svg" %>
-        </a>
+          <span class="sr-only">Download on the App Store</span>
+          <%= svg("badge-apple-store.svg") %></a>
         <a href="https://play.google.com/store/apps/details?id=com.mbta.mobileapp">
-          <img class="fares-google-play" src="<%= static_url(@conn, "/images/get_it_on_google_play.png") %>" alt="Get it on Google Play" height="41" />
-        </a>
+          <span class="sr-only">Get it on Google Play</span>
+          <%= svg("badge-google-play.svg") %></a>
       </p>
     </div>
     <div class="commuter-rail-photo-video-container">
