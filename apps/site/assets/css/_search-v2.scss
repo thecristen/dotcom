@@ -83,16 +83,16 @@
   white-space: nowrap;
 }
 
-.c-search-result__feature-icons {
-  flex: 0 0 auto;
-}
-
 .c-search-result__hit {
   border: 1px solid $gray-bordered-background;
   border-top: 0;
   display: flex;
   justify-content: space-between;
   padding: $space-4 $space-8;
+}
+
+.c-search-result__feature-icons {
+  flex: 0 0 auto;
 }
 
 .c-search-result__header {
@@ -134,4 +134,8 @@
   color: $brand-commuter-rail;
   padding-left: $space-6;
   padding-right: $space-6;
+}
+
+.c-search-result__event-date {
+  color: $gray-lighter;
 }

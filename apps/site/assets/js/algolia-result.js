@@ -2,14 +2,14 @@ import hogan from "hogan.js";
 
 export const TEMPLATES = {
   fontAwesomeIcon: hogan.compile(`<span aria-hidden="true" class="c-search-result__content-icon fa {{icon}}"></span>`),
-  locations: hogan.compile(`
-    <a id="hit-{{id}}" class="c-search_result__link" href="{{hitUrl}}">
-      <span>{{{hitIcon}}}</span>
-      <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
-    </a>
-  `),
+  formattedDate: hogan.compile(`<span class="c-search-result__event-date">{{date}}</span>`),
   default: hogan.compile(`
+    {{#id}}
+    <a id="hit-{{id}}" class="c-search_result__link" href="{{hitUrl}}">
+    {{/id}}
+    {{^id}}
     <a class="c-search_result__link" href="{{hitUrl}}">
+    {{/id}}
       <span>{{{hitIcon}}}</span>
       <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
     </a>
@@ -265,27 +265,54 @@ function _sortFeatures(features) {
    }
  }
 
-function getFeatureIcons(hit, type) {
+export function getFeatureIcons(hit, type) {
   const alertFeature = _getAlertIcon(hit, type);
   switch(type) {
     case "stops":
-      const filteredFeatures = hit.features.filter((feature) => ((feature != "access") && (feature != "parking_lot")));
-
-      const branchFeatures = hit.green_line_branches;
-      const allFeatures = alertFeature.concat(filteredFeatures.concat(branchFeatures));
-      const allFeaturesSorted = _sortFeatures(allFeatures);
-      const allIcons = _featuresToIcons(allFeaturesSorted);
-
-      const zoneIcon = _getCommuterRailZone(hit);
-
-      return allIcons.concat(zoneIcon);
+      return _stopIcons(hit, type);
 
     case "routes":
       return _featuresToIcons(alertFeature)
 
+    case "events":
+    case "news":
+      return _contentDate(hit);
+
     default:
       return [];
   }
+}
+
+function _stopIcons(hit, type) {
+  const filteredFeatures = hit.features.filter((feature) => ((feature != "access") && (feature != "parking_lot")));
+
+  const alertFeature = _getAlertIcon(hit, type);
+  const branchFeatures = hit.green_line_branches;
+  const allFeatures = alertFeature.concat(filteredFeatures.concat(branchFeatures));
+  const allFeaturesSorted = _sortFeatures(allFeatures);
+  const allIcons = _featuresToIcons(allFeaturesSorted);
+
+  const zoneIcon = _getCommuterRailZone(hit);
+
+  return allIcons.concat(zoneIcon);
+}
+
+function _contentDate(hit) {
+  const dateString = hit._content_url.split("/")[2]
+  try {
+    const dateStringWithTime = `${dateString}T01:00:00`;
+    const date = new Date(dateStringWithTime);
+    return [_formatDate(date)];
+  }
+  catch(err) {
+    console.error(`Invalid date detected in AlgoliaResult.getFeatureIcons (${dateString})`);
+    return []
+  }
+}
+
+function _formatDate(date) {
+  const formattedDate = date.toLocaleDateString("en-US", {year: 'numeric', month: 'short', day: 'numeric'});
+  return TEMPLATES.formattedDate.render({date: formattedDate});
 }
 
 function _getStopOrStationIcon(hit) {

@@ -16,7 +16,7 @@ describe("AlgoliaResult", () => {
     },
     newsEntry: {
       _content_type: "news_entry",
-      _content_url: "/news/entry",
+      _content_url: "/news/2018-03-30/entry",
       content_title: "News Entry Title",
       _highlightResult: {
         content_title: {
@@ -26,7 +26,7 @@ describe("AlgoliaResult", () => {
     },
     event: {
       _content_type: "event",
-      _content_url: "/events/event",
+      _content_url: "/events/2018-03-29/event",
       content_title: "Event Title",
       _highlightResult: {
         content_title: {
@@ -380,12 +380,21 @@ describe("AlgoliaResult", () => {
     });
     it("for drupal content", () => {
       expect(AlgoliaResult.getUrl(drupalHits.searchResult, "drupal")).to.equal("/search/result");
-      expect(AlgoliaResult.getUrl(drupalHits.newsEntry, "drupal")).to.equal("/news/entry");
-      expect(AlgoliaResult.getUrl(drupalHits.event, "drupal")).to.equal("/events/event");
+      expect(AlgoliaResult.getUrl(drupalHits.newsEntry, "drupal")).to.equal("/news/2018-03-30/entry");
+      expect(AlgoliaResult.getUrl(drupalHits.event, "drupal")).to.equal("/events/2018-03-29/event");
       expect(AlgoliaResult.getUrl(drupalHits.page, "drupal")).to.equal("/pages/page");
       expect(AlgoliaResult.getUrl(drupalHits.landingPage, "drupal")).to.equal("/landing_page");
       expect(AlgoliaResult.getUrl(drupalHits.person, "drupal")).to.equal("/people/person");
       expect(AlgoliaResult.getUrl(drupalHits.other, "drupal")).to.equal("/other/page");
+    });
+  });
+
+  describe("getFeatureIcons returns correct content date", () => {
+    it("for news", () => {
+      expect(AlgoliaResult.getFeatureIcons(drupalHits.newsEntry, "news")[0]).to.contain(["Mar 30, 2018"]);
+    });
+    it("for news", () => {
+      expect(AlgoliaResult.getFeatureIcons(drupalHits.event, "events")[0]).to.contain(["Mar 29, 2018"]);
     });
   });
 });

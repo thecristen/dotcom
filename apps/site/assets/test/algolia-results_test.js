@@ -187,17 +187,6 @@ describe('AlgoliaResults', () => {
     });
   });
 
-  describe('routesHitsFilter', () => {
-    var $;
-
-    beforeEach(() => {
-      $ = jsdom.rerequire('jquery');
-      $('body').append(`
-      `);
-    });
-
-  });
-
   describe("render", () => {
     var $;
 
