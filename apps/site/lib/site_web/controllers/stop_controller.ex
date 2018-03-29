@@ -39,6 +39,7 @@ defmodule SiteWeb.StopController do
       routes = Routes.Repo.by_stop(stop.id)
       conn
       |> async_assign(:grouped_routes, fn -> grouped_routes(routes) end)
+      |> assign(:fare_types, fare_types(routes))
       |> async_assign(:zone_number, fn -> Zones.Repo.get(stop.id) end)
       |> assign(:breadcrumbs, breadcrumbs(stop, routes))
       |> assign(:tab, tab_value(query_params["tab"]))
@@ -58,11 +59,28 @@ defmodule SiteWeb.StopController do
     |> halt
   end
 
+  @spec coerce_sl_rapid_transit_to_subway(Routes.Route.t) :: Routes.Route.t
+  defp coerce_sl_rapid_transit_to_subway(route) do
+    if Enum.member?(Route.silver_line_rapid_transit, route.id) do
+      %{route | type: 1}
+    else
+      route
+    end
+  end
+
   @spec grouped_routes([Routes.Route.t]) :: [{Route.gtfs_route_type, Route.t}]
   defp grouped_routes(routes) do
     routes
     |> Enum.group_by(&Route.type_atom/1)
     |> Enum.sort_by(&Routes.Group.sorter/1)
+  end
+
+  @spec fare_types([Routes.Route.t]) :: [Route.id_t]
+  defp fare_types(routes) do
+    routes
+    |> Enum.map(&coerce_sl_rapid_transit_to_subway/1)
+    |> Enum.map(&Route.type_atom/1)
+    |> Enum.uniq()
   end
 
   @spec breadcrumbs(Stop.t, [Routes.Route.t]) :: [Util.Breadcrumb.t]

@@ -255,10 +255,41 @@ defmodule SiteWeb.StopViewTest do
                                           date: ~D[2017-05-11],
                                           stop: %Stop{name: "Iron Island", id: "IronIsland"},
                                           grouped_routes: [{:ferry}],
+                                          fare_types: [:ferry],
                                           fare_sales_locations: [],
                                           terminal_stations: %{4 => ""},
                                           conn: conn)
       assert safe_to_string(output) =~ "/fares/ferry?origin=IronIsland"
+    end
+
+    test "Can render multiple fares types", %{conn: conn} do
+      output = SiteWeb.StopView.render("_info.html",
+                                          stop_alerts: [],
+                                          fare_name: "The Iron Price",
+                                          date: ~D[2017-05-11],
+                                          stop: %Stop{name: "My Stop", id: "MyStop"},
+                                          grouped_routes: [{:bus}, {:subway}],
+                                          fare_types: [:bus, :subway],
+                                          fare_sales_locations: [],
+                                          terminal_stations: %{4 => ""},
+                                          conn: conn)
+      assert safe_to_string(output) =~ "Local Bus One Way"
+      assert safe_to_string(output) =~ "Subway One Way"
+    end
+
+    test "Does not render fares unless they are in fare_types assign", %{conn: conn} do
+      output = SiteWeb.StopView.render("_info.html",
+                                          stop_alerts: [],
+                                          fare_name: "The Iron Price",
+                                          date: ~D[2017-05-11],
+                                          stop: %Stop{name: "My Stop", id: "MyStop"},
+                                          grouped_routes: [{:bus}, {:subway}],
+                                          fare_types: [:subway],
+                                          fare_sales_locations: [],
+                                          terminal_stations: %{4 => ""},
+                                          conn: conn)
+      refute safe_to_string(output) =~ "Local Bus One Way"
+      assert safe_to_string(output) =~ "Subway One Way"
     end
   end
 

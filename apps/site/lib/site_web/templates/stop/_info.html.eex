@@ -25,22 +25,22 @@
     <% end %>
   </p>
 
-  <%= unless Enum.empty?(types) do %>
+  <%= unless Enum.empty?(@fare_types) do %>
     <h2>Fares</h2>
-    <%= if :subway in types || :bus in types do %>
+    <%= if :subway in @fare_types || :bus in @fare_types do %>
       <h3 class="station-fare-subheader">Bus and Subway Fares</h3>
-      <%= SiteWeb.FareView.summarize(mode_summaries(fare_mode(types), @fare_name)) %>
+      <%= SiteWeb.FareView.summarize(mode_summaries(fare_mode(@fare_types), @fare_name)) %>
       <p>
         <%= link to: fare_path(@conn, :show, "bus_subway") do %>
           View all Bus and Subway fares <%= fa "arrow-right" %>
         <% end %>
       </p>
     <% end %>
-    <%= if :commuter_rail in types and @fare_name do %>
+    <%= if :commuter_rail in @fare_types and @fare_name do %>
       <% commuter_terminal = @terminal_stations[2]%>
       <%= render "_commuter_fare.html", conn: @conn, stop: @stop, fare_name: @fare_name, terminal_station: commuter_terminal %>
     <% end %>
-    <%= if :ferry in types do %>
+    <%= if :ferry in @fare_types do %>
       <h3 class="station-fare-subheader">Ferry Fares</h3>
       <% ferry_terminal = if origin_station?(@stop), do: "", else: @terminal_stations[4]%>
       <% fare_path_opts = if ferry_terminal == "", do: [], else: [destination: ferry_terminal] %>
