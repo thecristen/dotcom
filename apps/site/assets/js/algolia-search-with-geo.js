@@ -1,9 +1,9 @@
 import { Algolia } from './algolia-search';
+import * as GoogleMapsHelpers from './google-maps-helpers'
 
 export class AlgoliaWithGeo extends Algolia {
   constructor(indices, defaultParams, bounds) {
     super(indices, defaultParams);
-    this._googleAutocomplete = new google.maps.places.AutocompleteService();
     this._bounds = bounds;
     this._locationEnabled = true;
   }
@@ -29,7 +29,7 @@ export class AlgoliaWithGeo extends Algolia {
     }
 
     if (!(!this._locationEnabled && this._activeQueryIds.length > 0)) {
-      googleResults = this._doGoogleAutocomplete(this._currentQuery)
+      googleResults = GoogleMapsHelpers.autocomplete(this._currentQuery, this._bounds)
                           .catch(() => console.error("Error while contacting google places API."));
     }
 
@@ -43,36 +43,6 @@ export class AlgoliaWithGeo extends Algolia {
   resetSearch() {
     super.resetSearch();
     this._locationEnabled = true;
-  }
-
-  _doGoogleAutocomplete(query) {
-    if (query.length == 0) {
-      return Promise.resolve({});
-    } else {
-      return new Promise((resolve, reject) => {
-        this._googleAutocomplete.getPlacePredictions({
-          input: this._currentQuery,
-          bounds: new google.maps.LatLngBounds(
-            new google.maps.LatLng(this._bounds.west, this._bounds.north),
-            new google.maps.LatLng(this._bounds.east, this._bounds.south)
-          ),
-        }, this._processAutocompleteResults(resolve, reject));
-      });
-    }
-  }
-
-  _processAutocompleteResults(resolve, reject) {
-    return (predictions, status) => {
-      const results = {};
-      if (status != google.maps.places.PlacesServiceStatus.OK) {
-        return reject(results);
-      }
-      results.locations = {
-        hits: predictions,
-        nbHits: predictions.length
-      };
-      return resolve(results);
-    }
   }
 
   enableLocationSearch(enabled) {

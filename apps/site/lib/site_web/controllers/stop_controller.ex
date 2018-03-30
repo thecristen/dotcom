@@ -24,6 +24,7 @@ defmodule SiteWeb.StopController do
     |> assign(:mattapan, mattapan)
     |> assign(:mode, mode_atom)
     |> assign(:breadcrumbs, [Breadcrumb.build("Stations")])
+    |> assign(:requires_google_maps?, true)
     |> await_assign_all
     |> render("index.html")
   end

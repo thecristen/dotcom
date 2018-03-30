@@ -6,7 +6,9 @@ import { Algolia } from "../../assets/js/algolia-search";
 
 describe("AlgoliaAutocomplete", () => {
   jsdom();
-  const selector = "autocomplete-input";
+  const selectors = {
+    input: "autocomplete-input"
+  };
   const indices = ["stops"];
   const queries = {
     stops: {
@@ -37,17 +39,16 @@ describe("AlgoliaAutocomplete", () => {
     window.autocomplete = jsdom.rerequire("autocomplete.js");
   });
   it("constructor does not initialize autocomplete", () => {
-    const ac = new AlgoliaAutocomplete(selector, indices);
-    expect(ac._selectors.input).to.equal(selector);
-    expect(ac._selectors.container).to.equal(selector + "-autocomplete-container");
+    const ac = new AlgoliaAutocomplete(selectors, indices);
+    expect(ac._selectors.container).to.equal(selectors.input + "-autocomplete-container");
     expect(ac._indices).to.equal(indices);
     expect(ac._autocomplete).to.equal(null);
   });
 
   describe("init", () => {
     it("initializes autocomplete if input exists", () => {
-      expect(document.getElementById(selector)).to.be.an.instanceOf(window.HTMLInputElement);
-      const ac = new AlgoliaAutocomplete(selector, indices);
+      expect(document.getElementById(selectors.input)).to.be.an.instanceOf(window.HTMLInputElement);
+      const ac = new AlgoliaAutocomplete(selectors, indices);
       const client = new Algolia(queries, queryParams);
       ac.init(client);
       expect(ac._autocomplete).to.be.an("object");
@@ -57,7 +58,7 @@ describe("AlgoliaAutocomplete", () => {
 
   describe("_onResults", () => {
     it("only returns the hits for the given index", () => {
-      const ac = new AlgoliaAutocomplete(selector, indices);
+      const ac = new AlgoliaAutocomplete(selectors, indices);
       const callback = sinon.spy();
       const results = {
         stops: {

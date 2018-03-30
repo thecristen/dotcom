@@ -23,6 +23,8 @@ describe("AlgoliaStopSearch", function() {
     it("initializes autocomplete if input exists", () => {
       document.body.innerHTML = `
         <input id="${AlgoliaStopSearch.SELECTORS.input}"></input>
+        <div id="${AlgoliaStopSearch.SELECTORS.locationResultsBody}"></div>
+        <div id="${AlgoliaStopSearch.SELECTORS.locationResultsHeader}"></div>
       `;
       const ac = new AlgoliaStopSearch();
       expect(ac._input).to.be.an.instanceOf(window.HTMLInputElement);

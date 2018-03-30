@@ -115,3 +115,11 @@
   color: $brand-primary;
   text-decoration: none;
 }
+
+.c-search-bar__loading-indicator {
+  margin-bottom: auto;
+  margin-top: auto;
+  position: relative;
+  right: $base-spacing / 2;
+  visibility: hidden;
+}

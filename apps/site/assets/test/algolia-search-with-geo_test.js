@@ -2,6 +2,7 @@ import { expect, assert } from "chai";
 import jsdom from "mocha-jsdom";
 import sinon from "sinon";
 import { AlgoliaWithGeo } from "../../assets/js/algolia-search-with-geo";
+import * as GoogleMapsHelpers from "../../assets/js/google-maps-helpers";
 
 describe("AlgoliaWithGeo", function() {
   jsdom({
@@ -40,7 +41,7 @@ describe("AlgoliaWithGeo", function() {
       };
       sinon.stub(this.algoliaWithGeo, "_processAlgoliaResults").returnsArg(0);
       sinon.stub(this.algoliaWithGeo._client, "search").resolves({ index: "foo" } );
-      sinon.stub(this.algoliaWithGeo, "_doGoogleAutocomplete").resolves({ locations: "loc" });
+      sinon.stub(GoogleMapsHelpers, "autocomplete").resolves({ locations: "loc" });
       this.algoliaWithGeo.search("query");
     });
   });

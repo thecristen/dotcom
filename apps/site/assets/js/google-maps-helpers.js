@@ -1,3 +1,38 @@
+export function autocomplete(query, searchBounds) {
+  if (query.length == 0) {
+    return Promise.resolve({});
+  } else {
+    return new Promise((resolve, reject) => {
+      new google.maps.places.AutocompleteService().getPlacePredictions({
+        input: query,
+        bounds: new google.maps.LatLngBounds(
+          new google.maps.LatLng(searchBounds.west, searchBounds.north),
+          new google.maps.LatLng(searchBounds.east, searchBounds.south)
+        ),
+      }, processAutocompleteResults(resolve, reject));
+    });
+  }
+}
+
+function processAutocompleteResults(resolve, reject) {
+  return (predictions, status) => {
+    const results = {
+      locations: {
+        hits: [],
+        nbHits: 0
+      }
+    };
+    if (status != google.maps.places.PlacesServiceStatus.OK) {
+      return resolve(results);
+    }
+    results.locations = {
+      hits: predictions,
+      nbHits: predictions.length
+    }
+    return resolve(results);
+  }
+}
+
 export function lookupPlace(placeId) {
   const places = new google.maps.places.PlacesService(document.createElement("div"));
   return new Promise((resolve, reject) => {

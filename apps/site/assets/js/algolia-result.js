@@ -3,6 +3,19 @@ import hogan from "hogan.js";
 export const TEMPLATES = {
   fontAwesomeIcon: hogan.compile(`<span aria-hidden="true" class="c-search-result__content-icon fa {{icon}}"></span>`),
   formattedDate: hogan.compile(`<span class="c-search-result__event-date">{{date}}</span>`),
+  locations: hogan.compile(`
+    <a id="hit-{{id}}" class="c-search-result__link" url={{hitUrl}}>
+      <span>{{{hitIcon}}}</span>
+      <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
+    </a>
+  `),
+  usemylocation: hogan.compile(`
+    <span id="search-bar__my-location" class="c-search-bar__my-location">
+      <i aria-hidden="true" class="fa fa-location-arrow "></i>
+      Use my location
+      <i aria-hidden="true" id="search-result__loading-indicator" class="fa fa-cog fa-spin c-search-result__loading-indicator"></i>
+    </span>
+  `),
   default: hogan.compile(`
     {{#id}}
     <a id="hit-{{id}}" class="c-search_result__link" href="{{hitUrl}}">
@@ -48,7 +61,7 @@ export function getIcon(hit, type) {
 
     case "routes":
       const iconName = _iconFromRoute(hit.route);
-      return _featureIcon(iconName);
+      return featureIcon(iconName);
 
     case "drupal":
     case "pagesdocuments":
@@ -56,13 +69,16 @@ export function getIcon(hit, type) {
     case "news":
       return _contentIcon(hit);
 
+    case "usemylocation":
+      return "";
+
     default:
-      console.error(`AlgoliaResult.getIcon not implemented for index type: ${type}`);
+      console.error(`AlgoliaResult.getIcon not implemented for index: ${type}`);
       return ""
   }
 };
 
-function _featureIcon(feature) {
+export function featureIcon(feature) {
   const icon = document.getElementById(`icon-feature-${feature}`);
   if (icon) {
     return icon.innerHTML;
@@ -151,8 +167,11 @@ export function getTitle(hit, type) {
     case "news":
       return _contentTitle(hit);
 
+    case "usemylocation":
+      return "";
+
     default:
-      console.error(`Invalid index type: ${type}`);
+      console.error(`AlgoliaResult.getTitle not implemented for index: ${type}`);
       return ""
   }
 };
@@ -167,8 +186,6 @@ function _contentTitle(hit) {
 
 export function getUrl(hit, type) {
   switch(type) {
-    case "locations":
-      return "#";
     case "stops":
       return `/stops/${hit.stop.id}`;
 
@@ -181,8 +198,13 @@ export function getUrl(hit, type) {
     case "news":
       return _contentUrl(hit);
 
+    case "locations":
+      return "";
+    case "usemylocation":
+      return "#";
+
     default:
-      console.error(`AlgoliaResult.getUrl not implemented for index type: ${type}`);
+      console.error(`AlgoliaResult.getUrl not implemented for index: ${type}`);
       return "#"
   }
 };
@@ -317,9 +339,9 @@ function _formatDate(date) {
 
 function _getStopOrStationIcon(hit) {
   if (hit.stop["station?"]) {
-    return _featureIcon("station");
+    return featureIcon("station");
   } else {
-    return _featureIcon("stop");
+    return featureIcon("stop");
   }
 }
 
