@@ -41,6 +41,7 @@ defmodule Alerts.Mixfile do
   defp deps do
     [{:v3_api, in_umbrella: true},
      {:repo_cache, in_umbrella: true},
+     {:util, in_umbrella: true},
      {:con_cache, "~> 0.12.0"},
      {:timex, ">= 0.0.0"},
      {:quixir, "~> 0.9", only: :test},

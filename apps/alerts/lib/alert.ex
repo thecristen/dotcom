@@ -110,12 +110,51 @@ defmodule Alerts.Alert do
     %{alert | informed_entity: Alerts.InformedEntitySet.new(alert.informed_entity)}
   end
 
+  @doc """
+  Reducer to determine if alert is urgent due to time.
+  High-severity alert should always be an alert if any of the following are true:
+    * updated in the last week
+    * now is within a week of start date
+    * now is within one week of end date
+  """
+  @spec is_urgent_alert?(__MODULE__.t, DateTime.t) :: boolean
+  def is_urgent_alert?(%__MODULE__{severity: sev}, _time) when sev < 7 do
+    false
+  end
+  def is_urgent_alert?(%__MODULE__{active_period: []}, %DateTime{}) do
+    true
+  end
+  def is_urgent_alert?(%__MODULE__{} = alert, %DateTime{} = time) do
+    within_one_week(time, alert.updated_at) || Enum.any?(alert.active_period, &is_urgent_period?(&1, alert, time))
+  end
+
+  @spec is_urgent_period?({DateTime.t | nil, DateTime.t | nil}, __MODULE__.t, DateTime.t) :: boolean
+  def is_urgent_period?(_, %__MODULE__{severity: sev}, %DateTime{}) when sev < 7 do
+    false
+  end
+  def is_urgent_period?({nil, nil}, %__MODULE__{}, %DateTime{}) do
+    true
+  end
+  def is_urgent_period?({nil, %DateTime{} = until}, %__MODULE__{}, %DateTime{} = time) do
+    within_one_week(until, time)
+  end
+  def is_urgent_period?({%DateTime{} = from, nil}, %__MODULE__{}, %DateTime{} = time) do
+    within_one_week(time, from)
+  end
+  def is_urgent_period?({from, until}, alert, time) do
+    is_urgent_period?({from, nil}, alert, time) || is_urgent_period?({nil, until}, alert, time)
+  end
+
+  def within_one_week(time_1, time_2) do
+    diff = Timex.diff(time_1, time_2, :days)
+    diff <= 6 && diff >= -6
+  end
+
   @doc "Returns true if the Alert should be displayed as a less-prominent notice"
   @spec is_notice?(t, DateTime.t | Date.t) :: boolean
   def is_notice?(alert_list, time_or_date)
-  def is_notice?(%__MODULE__{severity: severity}, _) when severity >= 7 do
-    # severe alerts are never notices
-    false
+  def is_notice?(%__MODULE__{} = alert, %Date{} = date) do
+    is_notice?(alert, Timex.to_datetime(date))
   end
   def is_notice?(%__MODULE__{effect: :delay}, _) do
     # Delays are never notices
@@ -125,8 +164,15 @@ defmodule Alerts.Alert do
     # Suspensions are not notices
     false
   end
+  def is_notice?(%__MODULE__{severity: sev} = alert, time) when sev >= 7 do
+     !is_urgent_alert?(alert, time)
+  end
   def is_notice?(%__MODULE__{effect: :access_issue}, _) do
     true
+  end
+  def is_notice?(%__MODULE__{effect: :cancellation, active_period: active_period}, time) do
+    date = Timex.to_date(time)
+    Enum.all?(active_period, &outside_date_range?(date, &1))
   end
   def is_notice?(%__MODULE__{effect: :service_change, severity: severity}, _) when severity <= 3 do
     # minor service changes are never alerts
@@ -144,6 +190,21 @@ defmodule Alerts.Alert do
   def is_notice?(%__MODULE__{}, _) do
     # Default to true
     true
+  end
+
+  @spec outside_date_range?(Date.t, {Date.t, Date.t}) :: boolean
+  defp outside_date_range?(date, {nil, until}) do
+    until_date = Timex.to_date(until)
+    date > until_date
+  end
+  defp outside_date_range?(date, {from, nil}) do
+    from_date = Timex.to_date(from)
+    date < from_date
+  end
+  defp outside_date_range?(date, {from, until}) do
+    from_date = Timex.to_date(from)
+    until_date = Timex.to_date(until)
+    (date < from_date) || (date > until_date)
   end
 
   def access_alert_types do
