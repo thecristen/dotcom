@@ -51,7 +51,7 @@
       ],
       "readyEvent": null,
       "delay": 500,
-      "misMatchThreshold": 0.1
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Subway Hub",
@@ -64,7 +64,7 @@
       ],
       "readyEvent": null,
       "delay": 100,
-      "misMatchThreshold": 0.1
+      "misMatchThreshold": 0.03
     },
     {
       "label": "All Schedules",
@@ -77,27 +77,29 @@
       ],
       "readyEvent": null,
       "delay": 100,
-      "misMatchThreshold": 0.1
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Redirect Page",
       "url": "http://localhost:8082/redirect",
       "selectors": ["main"],
       "hideSelectors": [".error-card-image"],
-      "delay": 100
+      "delay": 100,
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Alerts",
       "url": "http://localhost:8082/alerts/subway?date=2018-03-30&date_time=2018-03-30T16:00:31-00:00#alerts-Orange",
       "selectors": ["main"],
-      "delay": 1000
+      "delay": 1000,
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Getting Around",
       "url": "http://localhost:8082/getting-around",
       "selectors": ["main"],
       "delay": 100,
-      "misMatchThreshold": 0.1
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Transit Near Me",
@@ -105,7 +107,7 @@
       "selectors": ["main"],
       "hideSelectors": ["#address-search-input"],
       "delay": 100,
-      "misMatchThreshold": 0.1
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Header Getting Around",
@@ -113,7 +115,7 @@
       "selectors": ["#gettingAround"],
       "readyEvent": null,
       "delay": 100,
-      "misMatchThreshold": 0.1,
+      "misMatchThreshold": 0.03,
       "onReadyScript": "header.js"
     },
     {
@@ -122,7 +124,7 @@
       "selectors": ["#fares"],
       "readyEvent": null,
       "delay": 100,
-      "misMatchThreshold": 0.1,
+      "misMatchThreshold": 0.03,
       "onReadyScript": "header.js"
     },
     {
@@ -131,7 +133,7 @@
       "selectors": ["#contactUs"],
       "readyEvent": null,
       "delay": 100,
-      "misMatchThreshold": 0.1,
+      "misMatchThreshold": 0.03,
       "onReadyScript": "header.js"
     },
     {
@@ -140,7 +142,7 @@
       "selectors": ["#more"],
       "readyEvent": null,
       "delay": 100,
-      "misMatchThreshold": 0.1,
+      "misMatchThreshold": 0.03,
       "onReadyScript": "header.js"
     },
     {
@@ -149,7 +151,7 @@
       "hideSelectors": [".map"],
       "selectors": ["#station-info"],
       "delay": 100,
-      "misMatchThreshold": 0.1
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Commuter Rail Fares",
@@ -157,7 +159,7 @@
       "selectors": ["main"],
       "hideSelectors": ["iframe.commuter-rail-photo-video"],
       "delay": 100,
-      "misMatchThreshold": 0.1
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Bus Schedule",
@@ -165,14 +167,16 @@
       "hideSelectors": [".animate"],
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
-      "delay": 100
+      "delay": 100,
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Subway Schedule",
       "url": "http://localhost:8082/schedules/Red/schedule?date=2018-03-30&direction_id=1&origin=place-sstat&trip=",
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
-      "delay": 100
+      "delay": 100,
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Subway Schedule Stop List",
@@ -181,14 +185,16 @@
       "removeSelectors": [".pdf-links"],
       "readyEvent": null,
       "onReadyScript": "stop-list.js",
-      "delay": 100
+      "delay": 100,
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Commuter Rail Schedule",
       "url": "http://localhost:8082/schedules/CR-Providence/timetable?date=2018-03-30&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
-      "delay": 100
+      "delay": 100,
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Station Info Framingham",
@@ -199,7 +205,7 @@
       ],
       "selectors": ["main"],
       "delay": 100,
-      "misMatchThreshold": 0.1
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Station Info South Station",
@@ -210,21 +216,21 @@
       ],
       "selectors": ["main"],
       "delay": 100,
-      "misMatchThreshold": 0.1
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Stops List Subway",
       "url": "http://localhost:8082/stops/subway",
       "selectors": ["main"],
       "delay": 100,
-      "misMatchThreshold": 0.05
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Stops List Commuter Rail",
       "url": "http://localhost:8082/stops/commuter-rail",
       "selectors": ["main"],
       "delay": 100,
-      "misMatchThreshold": 0.05
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Commuter Rail Maps and Info Worcester",
@@ -233,7 +239,7 @@
       "hideSelectors": [".map"],
       "removeSelectors": [".pdf-links"],
       "delay": 100,
-      "misMatchThreshold": 0.1
+      "misMatchThreshold": 0.03
     },
     {
       "label": "Retail Sales Locations",
@@ -241,7 +247,7 @@
       "selectors": ["main"],
       "hideSelectors": ["#address-search-input"],
       "delay": 100,
-      "misMatchThreshold": 0.1
+      "misMatchThreshold": 0.03
     }
   ],
   "paths": {
