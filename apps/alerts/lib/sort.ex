@@ -48,6 +48,7 @@ defmodule Alerts.Sort do
 
   defp sort_key(alert, now) do
     {
+      alert_vs_notice(alert),
       effect_index(alert.effect),
       lifecycle_index(alert.lifecycle),
       -alert.severity,
@@ -75,6 +76,10 @@ defmodule Alerts.Sort do
     dt
     |> Timex.beginning_of_day
     |> Timex.to_unix
+  end
+
+  defp alert_vs_notice(alert) do
+    if Alerts.Alert.is_notice?(alert, Timex.now()), do: 1, else: 0
   end
 
   defp first_future_active_period_start([], _now), do: :infinity # atoms are greater than any integer

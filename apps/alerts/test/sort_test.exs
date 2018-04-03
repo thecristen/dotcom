@@ -54,6 +54,33 @@ defmodule Alerts.SortTest do
       assert re_sorted_alerts == [alert_1, alert_2]
     end
 
+    test "prioritizes alerts over notices" do
+      {:ok, now, _} = DateTime.from_iso8601("2018-04-03T11:00:00Z")
+      period_1 = {Timex.shift(now, hours: -1), Timex.shift(now, hours: 1)}
+      alert_prototype = %Alert{
+        effect: :snow_route,
+        lifecycle: "New",
+        severity: 5,
+        updated_at: Timex.shift(now, hours: -3),
+        active_period: [period_1]
+      }
+
+      notice_1 = %{alert_prototype | severity: 3, effect: :access_issue, id: 1}
+      notice_2 = %{alert_prototype | severity: 3, effect: :access_issue, id: 2}
+      alert_1 = %{alert_prototype | severity: 5, effect: :snow_route, id: 3}
+      alerts = [notice_1, alert_1, notice_2]
+
+      assert Alerts.Alert.is_notice?(notice_1, now)
+      assert Alerts.Alert.is_notice?(notice_2, now)
+      refute Alerts.Alert.is_notice?(alert_1, now)
+
+      sorted_effects = alerts
+                      |> Alerts.Sort.sort(now)
+                      |> Enum.map(&(&1.effect))
+      assert sorted_effects == [:snow_route, :access_issue, :access_issue]
+
+    end
+
     def new_datetime(str) do
       Timex.parse!(str, "{ISO:Extended}")
     end
