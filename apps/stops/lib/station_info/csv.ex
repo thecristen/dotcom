@@ -38,6 +38,7 @@ defmodule Stops.StationInfo.Csv do
 
   defp accessibility(row) do
     for {type, row_key} <- [mini_high: "MiniHighs_Access",
+                            full_high: "FullHighs_Access",
                             mobile_lift: "MobileLift_Access",
                             ramp: "Ramp_Access",
                             elevator: "Elevator_Access",
