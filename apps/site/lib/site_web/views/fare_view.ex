@@ -79,7 +79,7 @@ defmodule SiteWeb.FareView do
   def callout(%Fare{}), do: ""
 
   def callout_description(%Fare{name: name}) when name == :outer_express_bus or name == :inner_express_bus do
-    "Travels on Routes: "
+    "Routes "
   end
   def callout_description(%Fare{}), do: ""
 

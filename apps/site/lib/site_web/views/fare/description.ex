@@ -65,16 +65,15 @@ defmodule SiteWeb.FareView.Description do
   when media != [:charlie_ticket, :cash] do
 
     [
-      "Valid for all Subway lines (includes Routes SL1, SL2, and SL3). ",
-      transfers(fare),
-      " Must be done within 2 hours of your original ride."
+      "Travel on all subway lines, SL1, SL2, and SL3. ",
+      transfers(fare)
     ]
   end
   def description(%Fare{mode: :subway, media: [:charlie_ticket, :cash]}, _assigns) do
-    "Free transfer to Subway, Route SL4, and Route SL5 when done within 2 hours of purchasing a ticket."
+    "CharlieTickets include 1 free transfer to any SL route within 2 hours of original ride. No transfers with cash."
   end
   def description(%Fare{mode: :bus, media: [:charlie_ticket, :cash]}, _assigns) do
-    "Free transfer to one additional Local Bus included."
+    "CharlieTickets include 1 free transfer to another Local Bus, SL4, or SL5. No transfers with cash."
   end
   def description(%Fare{mode: :subway, duration: :month, reduced: :student}, _assigns) do
     modes = ["Local Bus", "Subway", "Commuter Rail Zone 1A (CharlieTicket only)"]
@@ -148,14 +147,13 @@ defmodule SiteWeb.FareView.Description do
     ] |> and_join
   end
   def description(%Fare{name: :free_fare, mode: :bus, media: []}, _assigns) do
-    ["Valid for the Local Bus (includes Route SL4 and SL5)."]
+    ["Travel on all local bus routes, SL4 and SL5"]
   end
-  def description(%Fare{mode: :bus, media: media} = fare, _assigns)
+  def description(%Fare{mode: :bus, media: media, name: name} = fare, _assigns)
   when media != [:charlie_ticket, :cash] do
     [
-      "Valid for the Local Bus (includes Route SL4 and SL5). ",
-      transfers(fare),
-      " Must be done within 2 hours of your original ride."
+      bus_description_intro(name),
+      transfers(fare)
     ]
   end
   def description(%Fare{name: :ada_ride}, _assigns) do
@@ -171,6 +169,9 @@ defmodule SiteWeb.FareView.Description do
   def description(%Fare{name: :free_fare}, _assigns) do
     ["Inbound SL1 travel from any airport stop is free."]
   end
+
+  defp bus_description_intro(name) when name in [:inner_express_bus, :outer_express_bus], do: ""
+  defp bus_description_intro(_), do: "Travel on all local bus routes, SL4 and SL5. "
 
   defp duration_string_body(:day), do: "24 hours"
   defp duration_string_body(:week), do: "7 days"
@@ -194,16 +195,35 @@ defmodule SiteWeb.FareView.Description do
   def transfers(fare) do
     # used to generate the list of transfer fees for a a given fare.
     # Transfers <= 0 are considered free.
-    {paid, free} = [subway: "Subway",
-                    local_bus: "Local Bus",
-                    inner_express_bus: "Inner Express Bus",
-                    outer_express_bus: "Outer Express Bus"]
-                    |> Enum.split_with(&transfers_filter(&1, fare))
+    {paid, free} = fare.name
+                   |> valid_transfers()
+                   |> Enum.split_with(&transfers_filter(&1, fare))
     [
       free_transfers(free),
-      Enum.map(paid, &transfers_map(&1, fare))
+      content_tag(:ul, Enum.map(paid, &transfers_map(&1, fare)))
     ]
   end
+
+  defp valid_transfers(:inner_express_bus = name) do
+    [subway: "subway",
+     local_bus: local_bus_text(name),
+     outer_express_bus: "Outer Express Bus"]
+  end
+  defp valid_transfers(:outer_express_bus = name) do
+    [subway: "subway",
+     local_bus: local_bus_text(name)]
+  end
+  defp valid_transfers(name) do
+    [subway: "subway",
+     local_bus: local_bus_text(name),
+     inner_express_bus: "Inner Express Bus",
+     outer_express_bus: "Outer Express Bus"]
+  end
+
+  defp local_bus_text(:subway), do: "Local Bus, SL4, or SL5"
+  defp local_bus_text(:local_bus), do: "another Local Bus, SL4, or SL5"
+  defp local_bus_text(:outer_express_bus), do: "Local Bus, Inner Express Bus, or any SL route"
+  defp local_bus_text(:inner_express_bus), do: "Local Bus, or any SL route"
 
   defp transfers_filter({name, _}, fare) do
     other_fare = transfers_other_fare(name, fare)
@@ -214,17 +234,17 @@ defmodule SiteWeb.FareView.Description do
     []
   end
   defp free_transfers(names_and_texts) do
-    ["Free transfers to ",
+    ["Includes 1 free transfer to ",
      names_and_texts
      |> Enum.map(&elem(&1, 1))
-     |> and_join,
-     "."
+     |> Enum.join(", "),
+     " within 2 hours of your original ride."
     ]
   end
 
   defp transfers_map({name, text}, fare) do
     other_fare = transfers_other_fare(name, fare)
-    [" Transfer to ", text, ": ", Fares.Format.price(other_fare.cents - fare.cents), "."]
+    content_tag(:li, ["Transfer to ", text, ": ", Fares.Format.price(other_fare.cents - fare.cents)])
   end
 
   defp transfers_other_fare(name, fare) do
