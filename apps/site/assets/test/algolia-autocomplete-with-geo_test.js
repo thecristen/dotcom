@@ -71,13 +71,14 @@ describe("AlgoliaAutocompleteWithGeo", function() {
     });
   });
 
-  describe("onHitSelected", function() {
-    it("does a location search when index is \"locations\"", function(done) {
-      const locationSearchResults = {
+  describe("location searches", function() {
+    beforeEach(function() {
+      this.locationSearchResults = {
         locations: {hits: [{hitTitle: "location result"}]}
       }
-      this.client.search = sinon.stub().resolves(locationSearchResults)
-      this.ac.init(this.client);
+      this.client.search = sinon.stub().resolves(this.locationSearchResults)
+      sinon.spy(this.ac, "_showLocation");
+      sinon.spy(this.ac, "_searchAlgoliaByGeo");
       sinon.stub(GoogleMapsHelpers, "lookupPlace").resolves({
         geometry: {
           location: {
@@ -87,18 +88,49 @@ describe("AlgoliaAutocompleteWithGeo", function() {
         },
         formatted_address: "10 Park Plaza, Boston, MA"
       });
-      sinon.spy(this.ac, "_showLocation");
-      sinon.spy(this.ac, "_searchAlgoliaByGeo");
-      const result = this.ac.onHitSelected({
-        _args: [{ id: "hitId" }, "locations"]
+    });
+
+    afterEach(function() {
+      GoogleMapsHelpers.lookupPlace.restore();
+    });
+
+    describe("onHitSelected", function() {
+      it("does a location search when index is \"locations\"", function(done) {
+        this.ac.init(this.client);
+        const result = this.ac.onHitSelected({
+          _args: [{ id: "hitId" }, "locations"]
+        });
+        Promise.resolve(result).then(() => {
+          expect(this.ac._showLocation.called).to.be.true;
+          expect(this.ac._showLocation.args[0][2]).to.equal("10 Park Plaza, Boston, MA");
+          expect(GoogleMapsHelpers.lookupPlace.called).to.be.true;
+          Promise.resolve(this.ac._showLocation.getCall(0).returnValue).then((results) => {
+            expect(results).to.equal(this.locationSearchResults);
+            done();
+          });
+        });
       });
-      Promise.resolve(result).then(() => {
-        expect(this.ac._showLocation.called).to.be.true;
-        expect(this.ac._showLocation.args[0][2]).to.equal("10 Park Plaza, Boston, MA");
-        expect(GoogleMapsHelpers.lookupPlace.called).to.be.true;
-        Promise.resolve(this.ac._showLocation.getCall(0).returnValue).then((results) => {
-          expect(results).to.equal(locationSearchResults);
-          done();
+    });
+
+    describe("onClickGoBtn", function() {
+      it("visits the highlightedHit url", function(done) {
+        this.ac.init(this.client);
+        this.ac._highlightedHit = {
+          index: "locations",
+          hit: {
+            id: "highlightedHitId",
+            url: "/success"
+          }
+        };
+        const result = this.ac.onClickGoBtn({});
+        Promise.resolve(result).then(() => {
+          expect(this.ac._showLocation.called).to.be.true;
+          expect(this.ac._showLocation.args[0][2]).to.equal("10 Park Plaza, Boston, MA");
+          expect(GoogleMapsHelpers.lookupPlace.called).to.be.true;
+          Promise.resolve(this.ac._showLocation.getCall(0).returnValue).then((results) => {
+            expect(results).to.equal(this.locationSearchResults);
+            done();
+          });
         });
       });
     });

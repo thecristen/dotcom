@@ -3,36 +3,44 @@ import * as AlgoliaResult from "./algolia-result";
 export class AlgoliaAutocomplete {
   constructor(selectors, indices) {
     this._selectors = Object.assign(selectors, {
-      container: selectors.input + "-autocomplete-container"
+      resultsContainer: selectors.input + "-autocomplete-results",
+      goBtn: selectors.input + "-go-btn"
     });
     this._input = document.getElementById(this._selectors.input);
-    this._container = document.getElementById(this._selectors.container);
+    this._resultsContainer = document.getElementById(this._selectors.resultsContainer);
+    this._goBtn = document.getElementById(this._selectors.goBtn);
     this._indices = indices;
     this._datasets = [];
     this._results = {};
+    this._highlightedHit = null;
     this._autocomplete = null;
+    this.bind();
+  }
+
+  bind() {
     this.onHitSelected = this.onHitSelected.bind(this);
+    this.onClickGoBtn = this.onClickGoBtn.bind(this);
+    this.onCursorChanged = this.onCursorChanged.bind(this);
+    this.onCursorRemoved = this.onCursorRemoved.bind(this);
   }
 
   init(client) {
     this._client = client;
 
     if (!this._input) {
-      console.error(`could not find autocomplete container: ${this._selectors.input}`);
+      console.error(`could not find autocomplete input: ${this._selectors.input}`);
       return false
     }
 
-    if (!this._container) {
-      this._container = document.createElement("div");
-      this._container.id = this._selectors.container;
-      this._input.parentNode.appendChild(this._container);
-    }
-    this._container.innerHTML = "";
+    this._addGoBtn();
+    this._addResultsContainer();
+
+    this._resultsContainer.innerHTML = "";
 
     this._datasets = this._indices.reduce((acc, index) => { return this._buildDataset(index, acc) }, []);
 
     this._autocomplete = window.autocomplete(this._input, {
-      appendTo: "#" + this._selectors.container,
+      appendTo: "#" + this._selectors.resultsContainer,
       debug: false,
       autoselectOnBlur: false,
       openOnFocus: true,
@@ -44,8 +52,72 @@ export class AlgoliaAutocomplete {
       }
     }, this._datasets);
 
+    this._addListeners()
+  }
+
+  _addListeners() {
+    document.removeEventListener("autocomplete:cursorchanged", this.onCursorChanged);
+    document.addEventListener("autocomplete:cursorchanged", this.onCursorChanged);
+
+    document.removeEventListener("autocomplete:cursorremoved", this.onCursorRemoved);
+    document.addEventListener("autocomplete:cursorremoved", this.onCursorRemoved);
+
     document.removeEventListener("autocomplete:selected", this.onHitSelected);
     document.addEventListener("autocomplete:selected", this.onHitSelected);
+
+    this._goBtn.removeEventListener("click", this.onClickGoBtn);
+    this._goBtn.addEventListener("click", this.onClickGoBtn);
+  }
+
+  _addResultsContainer() {
+    if (!this._resultsContainer) {
+      this._resultsContainer = document.createElement("div");
+      this._resultsContainer.id = this._selectors.resultsContainer;
+      this._input.parentNode.appendChild(this._resultsContainer);
+    }
+  }
+
+  _addGoBtn() {
+    if (!this._goBtn) {
+      this._goBtn = document.createElement("div");
+      this._goBtn.id = this._selectors.goBtn;
+      this._goBtn.classList.add("c-search-bar__go-btn");
+      this._goBtn.innerHTML = `GO`;
+      this._input.parentNode.appendChild(this._goBtn);
+    }
+    return this._goBtn;
+  }
+
+  onCursorChanged({_args: [hit, index]}) {
+    this._highlightedHit = {
+      hit: hit,
+      index: index
+    };
+  }
+
+  onCursorRemoved(ev) {
+    this._highlightedHit = null;
+  }
+
+  onClickGoBtn(ev) {
+    if (this._highlightedHit) {
+      return this.onHitSelected({_args: [this._highlightedHit.hit, this._highlightedHit.index]});
+    }
+
+    return this.clickFirstResult();
+  }
+
+  clickFirstResult() {
+    const firstIndex = this._indices.find(index => {
+      return this._results[index] &&
+             this._results[index].hits.length > 0
+    });
+    if (firstIndex) {
+      return this.onHitSelected({
+        _args: [this._results[firstIndex].hits[0], firstIndex]
+      });
+    }
+    return false;
   }
 
   onHitSelected({_args: [{url, _id}, _index]}) {
@@ -96,6 +168,7 @@ export class AlgoliaAutocomplete {
 
   _onResults(callback, index, results) {
     if (results[index] && results[index].hits) {
+      this._results[index] = results[index]
       callback(results[index].hits);
     } else {
       console.error(`expected results["${index}"].hits, got:`, results);
@@ -104,10 +177,6 @@ export class AlgoliaAutocomplete {
 
   renderResult(index) {
     return (hit) => AlgoliaResult.renderResult(hit, index)
-  }
-
-  render(results) {
-    this._results = results;
   }
 }
 

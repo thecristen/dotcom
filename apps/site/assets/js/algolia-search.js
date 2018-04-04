@@ -154,7 +154,9 @@ export class Algolia {
 
   updateWidgets(results) {
     this._widgets.forEach(function(widget) {
-      widget.render(results);
+      if (typeof widget.render === "function") {
+        widget.render(results);
+      }
     });
   }
 
