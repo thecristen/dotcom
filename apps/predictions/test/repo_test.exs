@@ -2,6 +2,7 @@ defmodule Predictions.RepoTest do
   use ExUnit.Case
   alias Predictions.Repo
   alias Stops.Stop
+  alias Routes.Route
 
   describe "all/1" do
     test "returns a list" do
@@ -114,5 +115,75 @@ defmodule Predictions.RepoTest do
 
       assert Repo.all(route: "Red", trip: "has_an_error") == []
     end
+  end
+
+  describe "load_from_other_repos/1" do
+    test "turns a list of records into structs" do
+      prediction = {
+        "prediction_id",
+        "trip_id",
+        "place-sstat",
+        "Red",
+        0,
+        Util.now(),
+        :stop_sequence,
+        :schedule_relationship,
+        1,
+        :on_time,
+        false
+      }
+
+      assert [%Predictions.Prediction{
+        id: "prediction_id",
+        trip: nil,
+        stop: %Stop{id: "place-sstat"},
+        route: %Route{id: "Red"},
+        direction_id: 0,
+        time: %DateTime{},
+        stop_sequence: :stop_sequence,
+        schedule_relationship: :schedule_relationship,
+        track: 1,
+        status: :on_time,
+        departing?: false
+      }] = Predictions.Repo.load_from_other_repos([prediction])
+    end
+  end
+  test "drops prediction if stop_id is nil" do
+    prediction = {
+      "prediction_id",
+      "trip_id",
+      nil,
+      "Red",
+      0,
+      Util.now(),
+      :stop_sequence,
+      :schedule_relationship,
+      1,
+      :on_time,
+      false
+    }
+    assert Predictions.Repo.load_from_other_repos([prediction]) == []
+  end
+
+  test "drops prediction if stop doesn't exist" do
+    prediction = {
+      "prediction_id",
+      "trip_id",
+      "place-doesnt-exist",
+      "Red",
+      0,
+      Util.now(),
+      :stop_sequence,
+      :schedule_relationship,
+      1,
+      :on_time,
+      false
+    }
+
+    log = ExUnit.CaptureLog.capture_log(fn ->
+      assert Predictions.Repo.load_from_other_repos([prediction]) == []
+    end)
+
+    assert log =~ "Discarding prediction"
   end
 end

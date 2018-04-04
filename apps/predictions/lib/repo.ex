@@ -1,6 +1,7 @@
 defmodule Predictions.Repo do
   use RepoCache, ttl: :timer.seconds(10), ttl_check: :timer.seconds(2)
   require Logger
+  alias Stops.Stop
 
   @default_params [
     "fields[prediction]": "track,status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence",
@@ -60,11 +61,20 @@ defmodule Predictions.Repo do
     # no stop ID
     []
   end
-  defp record_to_structs(record) do
-    {
+  defp record_to_structs({_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _} = record) do
+    stop_id
+    |> Stops.Repo.get()
+    |> do_record_to_structs(record)
+  end
+
+  defp do_record_to_structs(nil, {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _} = record) do
+    :ok = Logger.error("Discarding prediction because stop #{inspect(stop_id)} does not exist. Prediction: #{inspect(record)}")
+    []
+  end
+  defp do_record_to_structs(%Stop{} = stop, {
       id,
       trip_id,
-      stop_id,
+      _stop_id,
       route_id,
       direction_id,
       time,
@@ -72,11 +82,11 @@ defmodule Predictions.Repo do
       schedule_relationship,
       track,
       status,
-      departing?} = record
+      departing?}) do
+
     trip = if trip_id do
       Schedules.Repo.trip(trip_id)
     end
-    stop = Stops.Repo.get(stop_id)
     route = Routes.Repo.get(route_id)
     [
       %Predictions.Prediction{
