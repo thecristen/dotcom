@@ -119,6 +119,7 @@
 .news-content,
 .content-page-content,
 .landing-page-content {
+  flex: 1 0 auto;
   img {
     @include img-fluid();
     margin-bottom: $base-spacing;
