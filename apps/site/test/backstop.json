@@ -185,7 +185,7 @@
       "removeSelectors": [".pdf-links"],
       "readyEvent": null,
       "onReadyScript": "stop-list.js",
-      "delay": 100,
+      "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {

@@ -180,7 +180,7 @@ defmodule SiteWeb.FareView.Description do
   defp duration_string_header(:week), do: "7 days"
 
   defp valid_commuter_zones({:zone, "1A"}) do
-    "in Zone 1A only"
+    "in Zone 1A"
   end
   defp valid_commuter_zones({:zone, final}) do
     ["from Zones 1A-", final]
