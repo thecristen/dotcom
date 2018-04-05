@@ -11,11 +11,11 @@ defmodule Content.WhatsHappeningItemTest do
       blurb: blurb,
       link: %Content.Field.Link{url: url},
       thumb: %Content.Field.Image{},
-      thumb_2x: nil,
+      thumb_2x: %Content.Field.Image{},
     } = Content.WhatsHappeningItem.from_api(api_item)
 
-    assert blurb =~ "The Fiscal and Management Control Board"
-    assert url =~ "/about_the_mbta/news_events"
+    assert blurb =~ "Bus shuttles replace Commuter Rail service on the Franklin Line"
+    assert url == "/franklin"
   end
 
   test "strips out the internal: that drupal adds to relative links", %{api_item: api_item} do

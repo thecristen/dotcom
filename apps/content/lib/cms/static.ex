@@ -2,64 +2,64 @@ defmodule Content.CMS.Static do
   @behaviour Content.CMS
   alias Content.NewsEntry
 
-  def news_response do
-    parse_json("news.json")
-  end
-
-  def basic_page_response do
-    parse_json("accessibility.json")
-  end
-
-  def basic_page_with_sidebar_response do
-    parse_json("parking/by-station.json")
-  end
-
-  def basic_page_with_breadcrumbs do
-    parse_json("on-demand-pilot.json")
-  end
-
-  def basic_page_revisions_response do
-    parse_json("on-demand-pilot--revisions.json")
-  end
-
-  def projects_response do
-    parse_json("api/projects.json")
-  end
-
-  def project_updates_response do
-    parse_json("api/project-updates.json")
-  end
+  # Views REST export responses
 
   def events_response do
-    parse_json("events.json")
+    parse_json("cms/events.json")
   end
 
-  def person_response do
-    parse_json("people/joseph-aiello.json")
-  end
-
-  def search_response do
-    parse_json("api/search.json")
-  end
-
-  def search_response_empty do
-    parse_json("api/search-empty.json")
-  end
-
-  def whats_happening_response do
-    parse_json("whats-happening.json")
+  def news_response do
+    parse_json("cms/news.json")
   end
 
   def important_notices_response do
-    parse_json("important-notices.json")
+    parse_json("cms/important-notices.json")
   end
 
+  def projects_response do
+    parse_json("cms/projects.json")
+  end
+
+  def project_updates_response do
+    parse_json("cms/project-updates.json")
+  end
+
+  def search_response do
+    parse_json("cms/search.json")
+  end
+
+  def search_response_empty do
+    parse_json("cms/search-empty.json")
+  end
+
+  def whats_happening_response do
+    parse_json("cms/whats-happening.json")
+  end
+
+  def route_pdfs_response do
+    parse_json("cms/route-pdfs.json")
+  end
+
+  # Core (entity:node) responses
+
   def all_paragraphs_response do
-    parse_json("cms/style-guide/paragraphs.json")
+    parse_json("landing_page_with_all_paragraphs.json")
+  end
+
+  def basic_page_response do
+    parse_json("basic_page_no_sidebar.json")
+  end
+
+  def basic_page_with_sidebar_response do
+    parse_json("basic_page_with_sidebar.json")
   end
 
   def landing_page_response do
-    parse_json("denali-national-park.json")
+    parse_json("landing_page.json")
+  end
+
+  def person_response do
+    parse_json("person.json")
   end
 
   def redirect_response do
@@ -67,49 +67,42 @@ defmodule Content.CMS.Static do
   end
 
   def redirect_with_query_response do
-    parse_json("test/path%3Fid%3D5.json")
-  end
-
-  def route_pdfs_response do
-    parse_json("api/route-pdfs.json")
+    parse_json("redirect_with_query%3Fid%3D5.json")
   end
 
   @impl true
   def view(path, params)
-  def view("/recent-news", [current_id: id]) do
+  def view("/cms/recent-news", [current_id: id]) do
     filtered_recent_news = Enum.reject(news_response(), &match?(%{"nid" => [%{"value" => ^id}]}, &1))
     recent_news = Enum.take(filtered_recent_news, NewsEntry.number_of_recent_news_suggestions())
 
     {:ok, recent_news}
   end
-  def view("/recent-news", _) do
+  def view("/cms/recent-news", _) do
     {:ok, Enum.take(news_response(), NewsEntry.number_of_recent_news_suggestions())}
   end
-  def view("/accessibility", _) do
+  def view("/basic_page_no_sidebar", _) do
     {:ok, basic_page_response()}
   end
-  def view("/accessibility/the-ride/on-demand-pilot", _) do
-    {:ok, basic_page_with_breadcrumbs()}
-  end
-  def view("/news", [id: id]) do
+  def view("/cms/news", [id: id]) do
     news_entry = filter_by(news_response(), "nid", id)
     {:ok, news_entry}
   end
-  def view("/news", [migration_id: "multiple-records"]) do
+  def view("/cms/news", [migration_id: "multiple-records"]) do
     {:ok, news_response()}
   end
-  def view("/news", [migration_id: id]) do
+  def view("/cms/news", [migration_id: id]) do
     news = filter_by(news_response(), "field_migration_id", id)
     {:ok, news}
   end
-  def view("/news", [page: _page]) do
+  def view("/cms/news", [page: _page]) do
     record = List.first(news_response())
     {:ok, [record]}
   end
   def view("/news/incorrect-pattern", _) do
     {:ok, Enum.at(news_response(), 1)}
   end
-  def view("/news/1", _) do
+  def view("/news/3519", _) do
     {:ok, List.first(news_response())}
   end
   def view("/news/date/title", _) do
@@ -121,14 +114,14 @@ defmodule Content.CMS.Static do
   def view("/news/redirected-url", params) do
     redirect("/news/date/title", params, 301)
   end
-  def view("/events", [meeting_id: "multiple-records"]) do
+  def view("/cms/events", [meeting_id: "multiple-records"]) do
     {:ok, events_response()}
   end
-  def view("/events", [meeting_id: id]) do
+  def view("/cms/events", [meeting_id: id]) do
     events = filter_by(events_response(), "field_meeting_id", id)
     {:ok, events}
   end
-  def view("/events", [id: id]) do
+  def view("/cms/events", [id: id]) do
     {:ok, filter_by(events_response(), "nid", id)}
   end
   def view("/events/incorrect-pattern", _) do
@@ -137,42 +130,42 @@ defmodule Content.CMS.Static do
   def view("/events/date/title", _) do
     {:ok, Enum.at(events_response(), 1)}
   end
-  def view("/events/17", _) do
+  def view("/events/3268", _) do
     {:ok, Enum.at(events_response(), 0)}
   end
   def view("/events/redirected-url", params) do
     redirect("/events/date/title", params, 301)
   end
-  def view("/events", _opts) do
+  def view("/cms/events", _opts) do
     {:ok, events_response()}
   end
-  def view("/api/search", [q: "empty", page: 0]) do
+  def view("/cms/search", [q: "empty", page: 0]) do
     {:ok, search_response_empty()}
   end
-  def view("/api/search", _opts) do
+  def view("/cms/search", _opts) do
     {:ok, search_response()}
   end
-  def view("/api/projects", [id: id]) do
+  def view("/cms/projects", [id: id]) do
     {:ok, filter_by(projects_response(), "nid", id)}
   end
-  def view("/api/projects", opts) do
+  def view("/cms/projects", opts) do
     if Keyword.get(opts, :error) do
       {:error, "Something happened"}
     else
       {:ok, projects_response()}
     end
   end
-  def view("/api/project-updates", [id: id]) do
+  def view("/cms/project-updates", [id: id]) do
     {:ok, filter_by(project_updates_response(), "nid", id)}
   end
-  def view("/api/project-updates", opts) do
+  def view("/cms/project-updates", opts) do
     if Keyword.get(opts, :error) do
       {:error, "Something happened"}
     else
       {:ok, project_updates_response()}
     end
   end
-  def view("/projects/2679", _) do
+  def view("/projects/3004", _) do
     {:ok, List.first(projects_response())}
   end
   def view("/projects/project-name", _) do
@@ -184,7 +177,7 @@ defmodule Content.CMS.Static do
   def view("/projects/redirected-project", params) do
     redirect("/projects/project-name", params, 301)
   end
-  def view("/projects/2679/update/124", _) do
+  def view("/projects/3004/update/3174", _) do
     {:ok, Enum.at(project_updates_response(), 1)}
   end
   def view("/projects/project-name/update/project-progress", _) do
@@ -192,7 +185,7 @@ defmodule Content.CMS.Static do
   end
   def view("/projects/project-deleted/update/project-deleted-progress", _) do
     project_info = %{"field_project" => [%{
-                      "target_id" => 2679,
+                      "target_id" => 3004,
                       "target_type" => "node",
                       "target_uuid" => "5d55a7f8-22da-4ce8-9861-09602c64c7e4",
                       "url" => "/projects/project-deleted"
@@ -207,52 +200,52 @@ defmodule Content.CMS.Static do
   def view("/projects/project-name/update/redirected-update", params) do
     redirect("/projects/project-name/update/project-progress", params, 301)
   end
-  def view("/whats-happening", _) do
+  def view("/cms/whats-happening", _) do
     {:ok, whats_happening_response()}
   end
-  def view("/important-notices", _) do
+  def view("/cms/important-notices", _) do
     {:ok, important_notices_response()}
   end
-  def view("/cms/style-guide", _) do
+  def view("/landing_page_with_all_paragraphs", _) do
     {:ok, all_paragraphs_response()}
   end
-  def view("/denali-national-park", _) do
+  def view("/landing_page", _) do
     {:ok, landing_page_response()}
   end
-  def view("/parking/by-station", _) do
+  def view("/basic_page_with_sidebar", _) do
     {:ok, basic_page_with_sidebar_response()}
   end
-  def view("/test/redirect", _) do
+  def view("/redirect_node", _) do
     {:ok, redirect_response()}
   end
-  def view("/test/path%3Fid%3D5", _) do
+  def view("/redirect_node_with_query%3Fid%3D5", _) do
     {:ok, redirect_with_query_response()}
   end
-  def view("/people/joseph-aiello", _) do
+  def view("/person", _) do
     {:ok, person_response()}
   end
-  def view("/node/1", params) do
+  def view("/node/3519", params) do
     redirect("/news/2018/news-entry", params, 301)
   end
-  def view("/node/17", params) do
+  def view("/node/3268", params) do
     redirect("/events/date/title", params, 301)
   end
-  def view("/node/123", params) do
+  def view("/node/3005", params) do
     redirect("/projects/project-name", params, 301)
   end
-  def view("/node/124", params) do
+  def view("/node/3174", params) do
     redirect("/projects/project-name/updates/project-progress", params, 301)
   end
-  def view("/node/2679", params) do
-    redirect("/projects/2679", params, 301)
+  def view("/node/3004", params) do
+    redirect("/projects/3004", params, 301)
   end
-  def view("/api/route-pdfs/87", _) do
+  def view("/cms/route-pdfs/87", _) do
     {:ok, route_pdfs_response()}
   end
-  def view("/api/route-pdfs/error", _) do
+  def view("/cms/route-pdfs/error", _) do
     {:error, :invalid_response}
   end
-  def view("/api/route-pdfs/" <> _route_id, _) do
+  def view("/cms/route-pdfs/" <> _route_id, _) do
     {:ok, []}
   end
   def view("/redirected-url", params) do
@@ -267,12 +260,11 @@ defmodule Content.CMS.Static do
 
   @impl true
   def preview(node_id)
-  def preview(2), do: {:ok, do_preview(Enum.at(news_response(), 1))}
+  def preview(3518), do: {:ok, do_preview(Enum.at(news_response(), 1))}
   def preview(5), do: {:ok, do_preview(Enum.at(events_response(), 1))}
-  def preview(2678), do: {:ok, do_preview(Enum.at(projects_response(), 1))}
-  def preview(124), do: {:ok, do_preview(Enum.at(project_updates_response(), 1))}
+  def preview(3480), do: {:ok, do_preview(Enum.at(projects_response(), 1))}
+  def preview(3174), do: {:ok, do_preview(Enum.at(project_updates_response(), 1))}
   def preview(6), do: {:ok, do_preview(basic_page_response())}
-  def preview(2549), do: {:ok, basic_page_revisions_response()}
 
   @impl true
   def post("entity/node", body) do

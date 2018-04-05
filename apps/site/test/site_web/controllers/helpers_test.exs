@@ -219,12 +219,12 @@ defmodule SiteWeb.ControllerHelpersTest do
 
   describe "check_cms_or_404/1" do
     test "returns existing pages" do
-      conn = build_conn(:get, "/accessibility", nil)
+      conn = build_conn(:get, "/basic_page_no_sidebar", nil)
       rendered = conn
       |> put_private(:phoenix_endpoint, SiteWeb.Endpoint)
       |> check_cms_or_404()
       |> html_response(200)
-      assert rendered =~ "Accessibility at the T"
+      assert rendered =~ "Arts on the T"
     end
 
     test "404s on nonexistant pages" do

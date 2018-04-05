@@ -29,7 +29,7 @@ defmodule Site.ContentRewriters.LinksTest do
       assert Floki.attribute(add_preview_params(make_link("https://www.google.com"), conn_a), "href") == ["https://www.google.com"]
       assert Floki.attribute(add_preview_params(make_link("/internal_page"), conn_a), "href") == ["/internal_page"]
 
-      conn_b = Map.put(conn, :query_params, %{"preview" => nil, "vid" => "6641", "nid" => "2549"})
+      conn_b = Map.put(conn, :query_params, %{"preview" => nil, "vid" => "112", "nid" => "6"})
       assert Floki.attribute(add_preview_params(make_link("/internal_page"), conn_b), "href") == ["/internal_page"]
     end
   end

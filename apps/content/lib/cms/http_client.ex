@@ -3,7 +3,7 @@ defmodule Content.CMS.HTTPClient do
 
   @impl true
   def preview(node_id) do
-    path = ~s(/api/revisions/#{node_id})
+    path = ~s(/cms/revisions/#{node_id})
     Content.ExternalRequest.process(:get, path, "", [
       params: [_format: "json"],
       # More time needed (receives 1 - 50 JSON node entities)

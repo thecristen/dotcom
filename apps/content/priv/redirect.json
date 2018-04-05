@@ -90,7 +90,7 @@
   ],
   "path": [
     {
-      "alias": "/test/redirect",
+      "alias": "/redirect_node",
       "pid": 90,
       "langcode": "en"
     }

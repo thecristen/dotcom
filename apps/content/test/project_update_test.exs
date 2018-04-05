@@ -19,12 +19,12 @@ defmodule Content.ProjectUpdateTest do
         path_alias: path_alias
       } = Content.ProjectUpdate.from_api(List.first(api_data))
 
-      assert id == 123
-      assert Phoenix.HTML.safe_to_string(body) == "<p>body</p>"
-      assert posted_on == ~D[2017-08-24]
-      assert project_id == 2679
-      assert teaser == "teaser"
-      assert title == "Project Update Title 1"
+      assert id == 3005
+      assert Phoenix.HTML.safe_to_string(body) =~ "What's the bus shuttle schedule?</h2>"
+      assert posted_on == ~D[2018-04-02]
+      assert project_id == 3004
+      assert teaser =~ "On January 8, Wollaston Station on the Red Line closed"
+      assert title == "How the Wollaston Station Closure Affects Your Trip"
       assert path_alias == nil
     end
 
@@ -37,8 +37,8 @@ defmodule Content.ProjectUpdateTest do
           |> Enum.at(1)
           |> Content.ProjectUpdate.from_api()
 
-      assert id == 124
-      assert project_id == 2679
+      assert id == 3174
+      assert project_id == 3004
       assert path_alias == "/projects/project-name/update/project-progress"
     end
 

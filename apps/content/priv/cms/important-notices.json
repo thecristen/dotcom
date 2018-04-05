@@ -1,0 +1,129 @@
+[
+  {
+    "nid": [
+      {
+        "value": 3067
+      }
+    ],
+    "uuid": [
+      {
+        "value": "d92324cd-9d08-43ba-a861-05228c25da96"
+      }
+    ],
+    "vid": [
+      {
+        "value": 10120
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "important_notice",
+        "target_type": "node_type",
+        "target_uuid": "753309a0-5bc2-418e-89a8-9a18435165bb"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522682740
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "FMCB live stream"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1508778359
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522682740
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [],
+    "path": [
+      {
+        "alias": null,
+        "pid": null,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "field_in_blurb": [
+      {
+        "value": "Watch a live stream of today's FMCB meeting at 12PM."
+      }
+    ],
+    "field_in_link": [
+      {
+        "uri": "/events/2018-04-02/fiscal-management-control-board-meeting",
+        "title": "",
+        "options": []
+      }
+    ],
+    "field_in_thumb": [
+      {
+        "target_id": 1815,
+        "alt": "Fiscal & Management Control Board Live Streaming Meeting",
+        "title": "",
+        "width": 800,
+        "height": 315,
+        "target_type": "file",
+        "target_uuid": "34e307e7-3a42-4e48-9829-35b606e46af8",
+        "url": "https://mbta.kbox.site/sites/default/files/fmcb-meeting-docs/livestream-homepage-banner.png",
+        "mime_type": "image/png"
+      }
+    ]
+  }
+]

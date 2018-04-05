@@ -4,7 +4,7 @@ defmodule Content.CMS.StaticTest do
 
   describe "view/2" do
     test "stubs /news when given a page parameter and returns valid json" do
-      assert {:ok, [record]} = view("/news", page: 1)
+      assert {:ok, [record]} = view("/cms/news", page: 1)
       assert record_type(record) == "news_entry"
     end
 
@@ -19,11 +19,11 @@ defmodule Content.CMS.StaticTest do
       assert {:error, {:redirect, 301, _}} = view("/events/redirected-url", %{})
       assert {:error, {:redirect, 301, _}} = view("/projects/redirected-project", %{})
       assert {:error, {:redirect, 301, _}} = view("/projects/project-name/update/redirected-update", %{})
-      assert {:error, {:redirect, 301, _}} = view("/node/1", %{})
-      assert {:error, {:redirect, 301, _}} = view("/node/17", %{})
-      assert {:error, {:redirect, 301, _}} = view("/node/123", %{})
-      assert {:error, {:redirect, 301, _}} = view("/node/124", %{})
-      assert {:error, {:redirect, 301, _}} = view("/node/2679", %{})
+      assert {:error, {:redirect, 301, _}} = view("/node/3519", %{})
+      assert {:error, {:redirect, 301, _}} = view("/node/3268", %{})
+      assert {:error, {:redirect, 301, _}} = view("/node/3005", %{})
+      assert {:error, {:redirect, 301, _}} = view("/node/3174", %{})
+      assert {:error, {:redirect, 301, _}} = view("/node/3004", %{})
     end
   end
 

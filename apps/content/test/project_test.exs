@@ -18,11 +18,11 @@ defmodule Content.ProjectTest do
         contact_information: contact_information,
         end_year: end_year,
         featured: featured,
-        featured_image: nil,
+        featured_image: %Content.Field.Image{},
         files: [],
         media_email: media_email,
         media_phone: media_phone,
-        photo_gallery: [],
+        photo_gallery: [%Content.Field.Image{} | _],
         start_year: start_year,
         status: status,
         teaser: teaser,
@@ -31,18 +31,18 @@ defmodule Content.ProjectTest do
         path_alias: path_alias
       } = Content.Project.from_api(api_data)
 
-      assert id == 2679
-      assert Phoenix.HTML.safe_to_string(body) == "<p>Ruggles Station Platform Project is great</p>"
-      assert contact_information == "Me"
+      assert id == 3004
+      assert Phoenix.HTML.safe_to_string(body) =~ "<p>Major accessibility improvements,"
+      assert contact_information == "MBTA Customer Support"
       assert end_year == "2020"
-      assert featured == false
-      assert media_email == "glx@massdot.com"
-      assert media_phone == "123"
+      assert featured == true
+      assert media_email == "wollaston@mbta.com"
+      assert media_phone == "617-222-3200"
       assert start_year == "2017"
       assert status == "Construction"
-      assert teaser == "Ruggles Station Platform Project tease"
-      assert title == "Ruggles Station Platform Project"
-      assert updated_on == ~D[2017-07-11]
+      assert teaser =~ "Wollaston Station will be completely renovated to become an accessible,"
+      assert title == "Wollaston Station Improvements"
+      assert updated_on == ~D[2018-04-02]
       assert path_alias == nil
     end
 

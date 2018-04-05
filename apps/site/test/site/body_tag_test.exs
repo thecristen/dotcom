@@ -39,7 +39,7 @@ defmodule Site.BodyTagTest do
     end
 
     test "returns 'cms-preview' if page is loaded with CMS ?preview params" do
-      conn = %{build_conn() | query_params: %{"preview" => nil, "vid" => "latest", "nid" => "2549"}}
+      conn = %{build_conn() | query_params: %{"preview" => nil, "vid" => "latest", "nid" => "6"}}
 
       assert safe_to_string(render(conn)) =~ "no-js cms-preview"
     end

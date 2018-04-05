@@ -11,7 +11,7 @@
   ],
   "vid": [
     {
-      "value": 7209
+      "value": 7529
     }
   ],
   "langcode": [
@@ -28,15 +28,15 @@
   ],
   "revision_timestamp": [
     {
-      "value": 1514532687
+      "value": 1515766562
     }
   ],
   "revision_uid": [
     {
-      "target_id": 29,
+      "target_id": 17,
       "target_type": "user",
-      "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
-      "url": "/user/29"
+      "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+      "url": "/user/17"
     }
   ],
   "revision_log": [],
@@ -65,7 +65,7 @@
   ],
   "changed": [
     {
-      "value": 1514532687
+      "value": 1515766562
     }
   ],
   "promote": [
@@ -79,6 +79,11 @@
     }
   ],
   "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "revision_default": [
     {
       "value": true
     }
@@ -142,6 +147,7 @@
       "mime_type": "image/jpeg"
     }
   ],
+  "field_keywords": [],
   "field_page_type": [
     {
       "target_id": 14,
@@ -153,7 +159,7 @@
   "field_paragraphs": [
     {
       "target_id": 35,
-      "target_revision_id": 14115,
+      "target_revision_id": 16465,
       "id": [
         {
           "value": 35
@@ -166,7 +172,7 @@
       ],
       "revision_id": [
         {
-          "value": 14115
+          "value": 16465
         }
       ],
       "type": [
@@ -237,13 +243,14 @@
       "field_custom_html_body": [
         {
           "value": "<p>This page demonstrates all the \"paragraphs\" available to content editors, with tips on how to use them. <strong>Please check with the developers before modifying this page</strong>, as it's the basis for automated tests which work to ensure the paragraphs tool is working as expected.</p>\r\n\r\n<ul>\r\n\t<li><a href=\"#custom-html\">Custom HTML</a></li>\r\n\t<li><a href=\"#title-card-set\">Title Card Set</a></li>\r\n\t<li><a href=\"#people-grid\">People Grid</a></li>\r\n\t<li><a href=\"#upcoming-board-meetings\">Upcoming Board Meeting</a></li>\r\n\t<li><a href=\"#files-grid\">Files Grid</a></li>\r\n\t<li><a href=\"#call-to-action\">Call to Action</a></li>\r\n\t<li><a href=\"#multi-column\">Multi-column</a></li>\r\n</ul>\r\n",
-          "format": "basic_html"
+          "format": "basic_html",
+          "processed": "<p>This page demonstrates all the \"paragraphs\" available to content editors, with tips on how to use them. <strong>Please check with the developers before modifying this page</strong>, as it's the basis for automated tests which work to ensure the paragraphs tool is working as expected.</p>\n\n<ul><li><a href=\"#custom-html\">Custom HTML</a></li>\n\t<li><a href=\"#title-card-set\">Title Card Set</a></li>\n\t<li><a href=\"#people-grid\">People Grid</a></li>\n\t<li><a href=\"#upcoming-board-meetings\">Upcoming Board Meeting</a></li>\n\t<li><a href=\"#files-grid\">Files Grid</a></li>\n\t<li><a href=\"#call-to-action\">Call to Action</a></li>\n\t<li><a href=\"#multi-column\">Multi-column</a></li>\n</ul>"
         }
       ]
     },
     {
       "target_id": 36,
-      "target_revision_id": 14116,
+      "target_revision_id": 16466,
       "id": [
         {
           "value": 36
@@ -256,7 +263,7 @@
       ],
       "revision_id": [
         {
-          "value": 14116
+          "value": 16466
         }
       ],
       "type": [
@@ -327,13 +334,14 @@
       "field_custom_html_body": [
         {
           "value": "<hr />\r\n<h3 id=\"custom-html\">Custom HTML</h3>\r\n\r\n<p>This paragraph provides the usual WYSIWYG editor (see the <a href=\"/cms/style-guide\">Style Guide</a>&nbsp;for tips on using the editor). Its main purpose is to intersperse content between other types of paragraphs.</p>\r\n",
-          "format": "full_html"
+          "format": "full_html",
+          "processed": "<hr /><h3 id=\"custom-html\">Custom HTML</h3>\n\n<p>This paragraph provides the usual WYSIWYG editor (see the <a href=\"/cms/style-guide\">Style Guide</a> for tips on using the editor). Its main purpose is to intersperse content between other types of paragraphs.</p>\n"
         }
       ]
     },
     {
       "target_id": 37,
-      "target_revision_id": 14117,
+      "target_revision_id": 16467,
       "id": [
         {
           "value": 37
@@ -346,7 +354,7 @@
       ],
       "revision_id": [
         {
-          "value": 14117
+          "value": 16467
         }
       ],
       "type": [
@@ -417,13 +425,14 @@
       "field_custom_html_body": [
         {
           "value": "<hr />\r\n<h3 id=\"title-card-set\">Title Card Set</h3>\r\n\r\n<p>After you add the \"Title Card Set\" paragraph, you can add an unlimited number of \"Title Cards\" within, each of which have a header, some body copy, and a link. These are great on \"hub pages\" that link to a number of sub pages. They will be broken up into rows of two each on desktop, or stacked vertically on mobile. An odd number of cards will result in one of the cards being by itself, but its width will be the usual width (i.e.: not stretched across the page).</p>\r\n",
-          "format": "full_html"
+          "format": "full_html",
+          "processed": "<hr /><h3 id=\"title-card-set\">Title Card Set</h3>\n\n<p>After you add the \"Title Card Set\" paragraph, you can add an unlimited number of \"Title Cards\" within, each of which have a header, some body copy, and a link. These are great on \"hub pages\" that link to a number of sub pages. They will be broken up into rows of two each on desktop, or stacked vertically on mobile. An odd number of cards will result in one of the cards being by itself, but its width will be the usual width (i.e.: not stretched across the page).</p>\n"
         }
       ]
     },
     {
       "target_id": 40,
-      "target_revision_id": 14120,
+      "target_revision_id": 16470,
       "id": [
         {
           "value": 40
@@ -436,7 +445,7 @@
       ],
       "revision_id": [
         {
-          "value": 14120
+          "value": 16470
         }
       ],
       "type": [
@@ -511,7 +520,7 @@
       "field_title_cards": [
         {
           "target_id": 38,
-          "target_revision_id": 14118,
+          "target_revision_id": 16468,
           "id": [
             {
               "value": 38
@@ -524,7 +533,7 @@
           ],
           "revision_id": [
             {
-              "value": 14118
+              "value": 16468
             }
           ],
           "type": [
@@ -595,7 +604,8 @@
           "field_title_card_body": [
             {
               "value": "<p>The body of the title card can be anything, but usually it's just a few sentences or maybe a bulleted list. This card just links back to this very same page, but it can link internally or externally.</p>\r\n",
-              "format": "basic_html"
+              "format": "basic_html",
+              "processed": "<p>The body of the title card can be anything, but usually it's just a few sentences or maybe a bulleted list. This card just links back to this very same page, but it can link internally or externally.</p>"
             }
           ],
           "field_title_card_link": [
@@ -613,7 +623,7 @@
         },
         {
           "target_id": 39,
-          "target_revision_id": 14119,
+          "target_revision_id": 16469,
           "id": [
             {
               "value": 39
@@ -626,7 +636,7 @@
           ],
           "revision_id": [
             {
-              "value": 14119
+              "value": 16469
             }
           ],
           "type": [
@@ -697,7 +707,8 @@
           "field_title_card_body": [
             {
               "value": "<p>Another great use of cards is lists:</p>\r\n\r\n<ul>\r\n\t<li>List item 1</li>\r\n\t<li>List item 2</li>\r\n\t<li>List item 3</li>\r\n</ul>\r\n",
-              "format": "basic_html"
+              "format": "basic_html",
+              "processed": "<p>Another great use of cards is lists:</p>\n\n<ul><li>List item 1</li>\n\t<li>List item 2</li>\n\t<li>List item 3</li>\n</ul>"
             }
           ],
           "field_title_card_link": [
@@ -717,7 +728,7 @@
     },
     {
       "target_id": 41,
-      "target_revision_id": 14121,
+      "target_revision_id": 16471,
       "id": [
         {
           "value": 41
@@ -730,7 +741,7 @@
       ],
       "revision_id": [
         {
-          "value": 14121
+          "value": 16471
         }
       ],
       "type": [
@@ -801,13 +812,14 @@
       "field_custom_html_body": [
         {
           "value": "<hr />\r\n<h3 id=\"people-grid\">People Grid</h3>\r\n\r\n<p>To display a person in the \"People Grid\" they must first be added to the CMS via the \"Person\" content type. (Content -&gt; Add content -&gt; Person from the CMS dashboard.)</p>\r\n\r\n<p>If there are one or two people in the grid, then their pictures will be larger and they'll split the page 50/50 on desktop and be stacked on mobile. Three or more people will result in smaller pictures that arrange themselves three-to-a-row on desktop, 50/50 on tablet, and stacked on mobile.</p>\r\n",
-          "format": "full_html"
+          "format": "full_html",
+          "processed": "<hr /><h3 id=\"people-grid\">People Grid</h3>\n\n<p>To display a person in the \"People Grid\" they must first be added to the CMS via the \"Person\" content type. (Content -&gt; Add content -&gt; Person from the CMS dashboard.)</p>\n\n<p>If there are one or two people in the grid, then their pictures will be larger and they'll split the page 50/50 on desktop and be stacked on mobile. Three or more people will result in smaller pictures that arrange themselves three-to-a-row on desktop, 50/50 on tablet, and stacked on mobile.</p>\n"
         }
       ]
     },
     {
       "target_id": 42,
-      "target_revision_id": 14122,
+      "target_revision_id": 16472,
       "id": [
         {
           "value": 42
@@ -820,7 +832,7 @@
       ],
       "revision_id": [
         {
-          "value": 14122
+          "value": 16472
         }
       ],
       "type": [
@@ -996,13 +1008,16 @@
             {
               "value": "<p>Steve&nbsp;Poftak&nbsp;is the Executive Director of the&nbsp;Rappaport&nbsp;Institute for Greater Boston at the Harvard Kennedy School. He also serves as the Vice-Chair of the&nbsp;MBTA’s Fiscal Management and Control Board, as well as serving on the MassDOT Board of Directors. Previously,&nbsp;Poftak&nbsp;was Research Director and Director of the Center for Better Government at the Pioneer Institute for Public Policy Research. He has led research projects and authored a number of papers on transportation policy, government efficiency, municipal finance, and job creation. Prior to that, he worked at the Commonwealth's Executive Office for Administration and Finance, where he managed the $1.3 billion capital budget, prepared the state's quarterly cash flow reporting, and monitored non-tax revenue receipts. Poftak&nbsp;holds an MBA from the Olin School at Babson College and a BA in Political Science from Middlebury College. He is a Boston resident and has children who attend the Boston Public Schools.​</p>\r\n",
               "format": "basic_html",
+              "processed": "<p>Steve Poftak is the Executive Director of the Rappaport Institute for Greater Boston at the Harvard Kennedy School. He also serves as the Vice-Chair of the MBTA’s Fiscal Management and Control Board, as well as serving on the MassDOT Board of Directors. Previously, Poftak was Research Director and Director of the Center for Better Government at the Pioneer Institute for Public Policy Research. He has led research projects and authored a number of papers on transportation policy, government efficiency, municipal finance, and job creation. Prior to that, he worked at the Commonwealth's Executive Office for Administration and Finance, where he managed the $1.3 billion capital budget, prepared the state's quarterly cash flow reporting, and monitored non-tax revenue receipts. Poftak holds an MBA from the Olin School at Babson College and a BA in Political Science from Middlebury College. He is a Boston resident and has children who attend the Boston Public Schools.​</p>",
               "summary": ""
             }
           ],
+          "field_keywords": [],
           "field_position": [
             {
               "value": "Member",
-              "format": "basic_html"
+              "format": "basic_html",
+              "processed": "Member"
             }
           ],
           "field_profile_image": [
@@ -1126,13 +1141,16 @@
             {
               "value": "<p dir=\"ltr\">Monica Tibbits-Nutt is the Executive Director of the 128 Business Council where she has worked since 2010, advising communities in the 128 Corridor in transit planning and overseeing the operation of 12 shuttle routes with nearly half a million in annual ridership. Tibbits-Nutt also has experience with the MBTA, where she served as a Transportation Planning Consultant to the MBTA Advisory Board, and as Executive Director and Transportation Planner for TransitWorks, providing research evaluation for the MBTA and Secretary of Transportation. She holds a B.S. from the University of Southern Indiana and a Masters of City and Regional Planning from Ohio State University.</p>\r\n",
               "format": "basic_html",
+              "processed": "<p dir=\"ltr\">Monica Tibbits-Nutt is the Executive Director of the 128 Business Council where she has worked since 2010, advising communities in the 128 Corridor in transit planning and overseeing the operation of 12 shuttle routes with nearly half a million in annual ridership. Tibbits-Nutt also has experience with the MBTA, where she served as a Transportation Planning Consultant to the MBTA Advisory Board, and as Executive Director and Transportation Planner for TransitWorks, providing research evaluation for the MBTA and Secretary of Transportation. She holds a B.S. from the University of Southern Indiana and a Masters of City and Regional Planning from Ohio State University.</p>",
               "summary": ""
             }
           ],
+          "field_keywords": [],
           "field_position": [
             {
               "value": "Member",
-              "format": "basic_html"
+              "format": "basic_html",
+              "processed": "Member"
             }
           ],
           "field_profile_image": [
@@ -1256,13 +1274,16 @@
             {
               "value": "<p dir=\"ltr\">Brian Shortsleeve served as the MBTA's first-ever Chief Administrator from 2015 until 2017. He joined the MBTA at the time of the creation of Fiscal and Management Control Board to focus on developing and implementing a strategy to put the T on a path to fiscal sustainability. Brian is a Massachusetts native and Harvard Business School graduate who has more than 20 years of leadership experience in the public and private sectors helping complex organizations through periods of both rapid growth and turnaround. He is also a former Marine officer who served in Bosnia-Herzegovina and the Persian Gulf. He spent the early part of his career at Bain &amp; Company and most recently was a Managing Director at General Catalyst Partners. Brian brings extensive experience developing and executing strategies to improve performance and drive organizational change and was appointed to the FMCB by Governor Baker in 2017.</p>\r\n",
               "format": "basic_html",
+              "processed": "<p dir=\"ltr\">Brian Shortsleeve served as the MBTA's first-ever Chief Administrator from 2015 until 2017. He joined the MBTA at the time of the creation of Fiscal and Management Control Board to focus on developing and implementing a strategy to put the T on a path to fiscal sustainability. Brian is a Massachusetts native and Harvard Business School graduate who has more than 20 years of leadership experience in the public and private sectors helping complex organizations through periods of both rapid growth and turnaround. He is also a former Marine officer who served in Bosnia-Herzegovina and the Persian Gulf. He spent the early part of his career at Bain &amp; Company and most recently was a Managing Director at General Catalyst Partners. Brian brings extensive experience developing and executing strategies to improve performance and drive organizational change and was appointed to the FMCB by Governor Baker in 2017.</p>",
               "summary": ""
             }
           ],
+          "field_keywords": [],
           "field_position": [
             {
               "value": "Member",
-              "format": "basic_html"
+              "format": "basic_html",
+              "processed": "Member"
             }
           ],
           "field_profile_image": [
@@ -1283,7 +1304,7 @@
     },
     {
       "target_id": 43,
-      "target_revision_id": 14123,
+      "target_revision_id": 16473,
       "id": [
         {
           "value": 43
@@ -1296,7 +1317,7 @@
       ],
       "revision_id": [
         {
-          "value": 14123
+          "value": 16473
         }
       ],
       "type": [
@@ -1367,13 +1388,14 @@
       "field_custom_html_body": [
         {
           "value": "<hr />\r\n<h3 id=\"upcoming-board-meetings\">Next Upcoming Board Meeting</h3>\r\n\r\n<p>This paragraph will automatically include the next FMCB board meeting, along with links to download its attached agenda, minutes, and presentation files, if present.</p>\r\n",
-          "format": "full_html"
+          "format": "full_html",
+          "processed": "<hr /><h3 id=\"upcoming-board-meetings\">Next Upcoming Board Meeting</h3>\n\n<p>This paragraph will automatically include the next FMCB board meeting, along with links to download its attached agenda, minutes, and presentation files, if present.</p>\n"
         }
       ]
     },
     {
       "target_id": 44,
-      "target_revision_id": 14124,
+      "target_revision_id": 16474,
       "id": [
         {
           "value": 44
@@ -1386,7 +1408,7 @@
       ],
       "revision_id": [
         {
-          "value": 14124
+          "value": 16474
         }
       ],
       "type": [
@@ -1458,17 +1480,17 @@
         {
           "nid": [
             {
-              "value": 3253
+              "value": 3269
             }
           ],
           "uuid": [
             {
-              "value": "e57a7f8e-1a26-48aa-8fbb-744dc770c31e"
+              "value": "2bd08e25-bf27-4833-91cd-c09565d420f0"
             }
           ],
           "vid": [
             {
-              "value": 7177
+              "value": 6967
             }
           ],
           "langcode": [
@@ -1485,7 +1507,7 @@
           ],
           "revision_timestamp": [
             {
-              "value": 1515024544
+              "value": 1514582950
             }
           ],
           "revision_uid": [
@@ -1517,12 +1539,12 @@
           ],
           "created": [
             {
-              "value": 1514567623
+              "value": 1514582931
             }
           ],
           "changed": [
             {
-              "value": 1515024544
+              "value": 1514582950
             }
           ],
           "promote": [
@@ -1552,8 +1574,8 @@
           ],
           "path": [
             {
-              "alias": "/events/2018-01-08/fiscal-management-control-board-meeting",
-              "pid": 610,
+              "alias": "/events/2018-04-09/fiscal-management-control-board-meeting",
+              "pid": 3364,
               "langcode": "en"
             }
           ],
@@ -1562,28 +1584,14 @@
           "menu_link": [],
           "body": [
             {
-              "value": "<p>The <a href=\"/leadership/fmcb\">Fiscal and Management Control Board</a> (FMCB) closely monitors the T's finances, management, and operations.</p>\r\n\r\n<p>Each FMCB meeting starts with a section for public comments on any topic on that day’s agenda.</p>\r\n\r\n<h2>Live Stream</h2>\r\n\r\n<p><iframe allowfullscreen=\"\" frameborder=\"0\" id=\"ls_embed_1514913998\" scrolling=\"no\" src=\"https://livestream.com/accounts/20617794/events/7998915/player?width=600&amp;height=338&amp;enableInfoAndActivity=true&amp;defaultDrawer=&amp;autoPlay=true&amp;mute=false\" width=\"100%\"></iframe><script type=\"text/javascript\" data-embed_id=\"ls_embed_1514913998\" src=\"https://livestream.com/assets/plugins/referrer_tracking.js\"></script></p>\r\n",
+              "value": "<p>The <a href=\"https://www.mbta.com/leadership/fmcb\">Fiscal and Management Control Board</a> (FMCB) closely monitors the T’s finances, management, and operations.</p>\r\n\r\n<p>Each FMCB meeting starts with a section for public comments on any topic on that day’s agenda.</p>\r\n",
               "format": "full_html",
+              "processed": "<p>The <a href=\"https://www.mbta.com/leadership/fmcb\">Fiscal and Management Control Board</a> (FMCB) closely monitors the T’s finances, management, and operations.</p>\n\n<p>Each FMCB meeting starts with a section for public comments on any topic on that day’s agenda.</p>\n",
               "summary": ""
             }
           ],
-          "field_agenda": [
-            {
-              "value": "<h3>Open Meeting</h3>\r\n\r\n<p>A. Call to order by the Chairperson</p>\r\n\r\n<p>B. Public comment period for items appearing on this agenda</p>\r\n\r\n<p>C. Meeting Minutes</p>\r\n\r\n<ul>\r\n\t<li>Approval of December 18, 2017 meeting minutes</li>\r\n</ul>\r\n\r\n<p>D. Report from the General Manager</p>\r\n\r\n<p>E. Report from the Deputy General Manager</p>\r\n\r\n<p>F. FMCB Public Schedule</p>\r\n\r\n<ul>\r\n\t<li>Review of upcoming FMCB agenda items</li>\r\n</ul>\r\n\r\n<p>G. Workforce Modernization</p>\r\n\r\n<p>H. Red/Orange Line Procurement</p>\r\n\r\n<ul>\r\n\t<li>Monthly Update</li>\r\n</ul>\r\n\r\n<p>I. Red/Orange Line Infrastructure</p>\r\n\r\n<ul>\r\n\t<li>Quarterly Update</li>\r\n</ul>\r\n\r\n<p>J. FMCB Meeting Structure for 2018</p>\r\n\r\n<h3>Executive Session</h3>\r\n\r\n<p>K. Approval of executive session meeting minutes</p>\r\n\r\n<ul>\r\n\t<li>November 6, 2017</li>\r\n\t<li>November 13, 2017</li>\r\n\t<li>November 20, 2017</li>\r\n\t<li>November 27, 2017</li>\r\n\t<li>December 18, 2017</li>\r\n</ul>\r\n\r\n<p>L. Executive Session</p>\r\n\r\n<ul>\r\n\t<li>Discussion of strategy related to real estate, collective bargaining, litigation and non-union personnel</li>\r\n</ul>\r\n",
-              "format": "basic_html"
-            }
-          ],
-          "field_agenda_file": [
-            {
-              "target_id": 2491,
-              "display": true,
-              "description": "Agenda",
-              "target_type": "file",
-              "target_uuid": "b7a88583-7f68-42ba-86ea-2f0019c3ff07",
-              "url": "https://mbta.kbox.site/sites/default/files/fmcb-meeting-docs/2018/january/2018-01-08-fmcb-agenda.pdf",
-              "mime_type": "application/pdf"
-            }
-          ],
+          "field_agenda": [],
+          "field_agenda_file": [],
           "field_city": [
             {
               "value": "Boston"
@@ -1599,6 +1607,7 @@
             }
           ],
           "field_imported_address": [],
+          "field_keywords": [],
           "field_location": [
             {
               "value": "State Transportation Building, 2nd Floor, Transportation Board Room"
@@ -1609,14 +1618,15 @@
           "field_notes": [
             {
               "value": "<p>All FMCB meetings are accessible to participants with disabilities. To request a reasonable accommodation, please contact Owen Kane at <a href=\"mailto:OKane@mbta.com\">OKane@mbta.com</a> or at <a href=\"tel:857-368-8767\">857-368-8767</a>.</p>\r\n",
-              "format": "basic_html"
+              "format": "full_html",
+              "processed": "<p>All FMCB meetings are accessible to participants with disabilities. To request a reasonable accommodation, please contact Owen Kane at <a href=\"mailto:OKane@mbta.com\">OKane@mbta.com</a> or at <a href=\"tel:857-368-8767\">857-368-8767</a>.</p>\n"
             }
           ],
           "field_other_files": [],
           "field_project": [],
           "field_start_time": [
             {
-              "value": "2018-01-08T17:00:00"
+              "value": "2018-04-09T16:00:00"
             }
           ],
           "field_state": [
@@ -1638,17 +1648,17 @@
         {
           "nid": [
             {
-              "value": 3256
+              "value": 3318
             }
           ],
           "uuid": [
             {
-              "value": "20079796-0204-4176-96e0-cba500b0c20e"
+              "value": "37e90a7e-37ea-483e-b445-8c2be9594382"
             }
           ],
           "vid": [
             {
-              "value": 6954
+              "value": 7026
             }
           ],
           "langcode": [
@@ -1665,7 +1675,7 @@
           ],
           "revision_timestamp": [
             {
-              "value": 1514571369
+              "value": 1514585240
             }
           ],
           "revision_uid": [
@@ -1697,12 +1707,12 @@
           ],
           "created": [
             {
-              "value": 1514568277
+              "value": 1514585222
             }
           ],
           "changed": [
             {
-              "value": 1514571369
+              "value": 1514585240
             }
           ],
           "promote": [
@@ -1732,8 +1742,8 @@
           ],
           "path": [
             {
-              "alias": "/events/2018-01-17/capital-programs-committee-meeting",
-              "pid": 613,
+              "alias": "/events/2018-04-18/capital-programs-committee-meeting",
+              "pid": 3412,
               "langcode": "en"
             }
           ],
@@ -1743,7 +1753,8 @@
           "body": [
             {
               "value": "<p>The <a href=\"https://www.mass.gov/orgs/capital-programs-subcommittee-massdot\">Capital Programs Committee</a> is a sub-committee of the MassDOT Board of Directors and is responsible for providing oversight of capital construction and procurement projects.</p>\r\n",
-              "format": "basic_html",
+              "format": "full_html",
+              "processed": "<p>The <a href=\"https://www.mass.gov/orgs/capital-programs-subcommittee-massdot\">Capital Programs Committee</a> is a sub-committee of the MassDOT Board of Directors and is responsible for providing oversight of capital construction and procurement projects.</p>\n",
               "summary": ""
             }
           ],
@@ -1764,6 +1775,7 @@
             }
           ],
           "field_imported_address": [],
+          "field_keywords": [],
           "field_location": [
             {
               "value": "State Transportation Building, 2nd Floor, Transportation Board Room"
@@ -1774,14 +1786,15 @@
           "field_notes": [
             {
               "value": "<p>All committee meetings are accessible to participants with disabilities. To request a reasonable accommodation, please contact Owen Kane at <a href=\"mailto:OKane@mbta.com\">OKane@mbta.com</a> or at <a href=\"tel:857-368-8767\">857-368-8767</a>.</p>\r\n",
-              "format": "basic_html"
+              "format": "basic_html",
+              "processed": "<p>All committee meetings are accessible to participants with disabilities. To request a reasonable accommodation, please contact Owen Kane at <a href=\"mailto:OKane@mbta.com\">OKane@mbta.com</a> or at <a href=\"tel:857-368-8767\">857-368-8767</a>.</p>"
             }
           ],
           "field_other_files": [],
           "field_project": [],
           "field_start_time": [
             {
-              "value": "2018-01-17T15:30:00"
+              "value": "2018-04-18T14:30:00"
             }
           ],
           "field_state": [
@@ -1803,17 +1816,17 @@
         {
           "nid": [
             {
-              "value": 3260
+              "value": 3306
             }
           ],
           "uuid": [
             {
-              "value": "1cc002e3-0b8f-4ee3-b4e3-643d22500e74"
+              "value": "247b1bdb-4a07-453a-bb3b-9ac390759b1f"
             }
           ],
           "vid": [
             {
-              "value": 6953
+              "value": 7014
             }
           ],
           "langcode": [
@@ -1830,7 +1843,7 @@
           ],
           "revision_timestamp": [
             {
-              "value": 1514571150
+              "value": 1514584661
             }
           ],
           "revision_uid": [
@@ -1862,12 +1875,12 @@
           ],
           "created": [
             {
-              "value": 1514570616
+              "value": 1514584644
             }
           ],
           "changed": [
             {
-              "value": 1514571150
+              "value": 1514584661
             }
           ],
           "promote": [
@@ -1897,8 +1910,8 @@
           ],
           "path": [
             {
-              "alias": "/events/2018-01-22/finance-and-audit-committee-meeting",
-              "pid": 617,
+              "alias": "/events/2018-04-23/finance-and-audit-committee-meeting",
+              "pid": 3401,
               "langcode": "en"
             }
           ],
@@ -1909,6 +1922,7 @@
             {
               "value": "<p>The <a href=\"https://www.mass.gov/orgs/finance-and-audit-subcommittee-massdot\" target=\"_blank\">Finance and Audit Committee</a> is a sub-committee of the MassDOT Board of Directors, established to review and approve of the finances, business, and management of MassDOT.</p>\r\n",
               "format": "full_html",
+              "processed": "<p>The <a href=\"https://www.mass.gov/orgs/finance-and-audit-subcommittee-massdot\" target=\"_blank\">Finance and Audit Committee</a> is a sub-committee of the MassDOT Board of Directors, established to review and approve of the finances, business, and management of MassDOT.</p>\n",
               "summary": ""
             }
           ],
@@ -1929,6 +1943,7 @@
             }
           ],
           "field_imported_address": [],
+          "field_keywords": [],
           "field_location": [
             {
               "value": "State Transportation Building, 2nd Floor, Transportation Board Room"
@@ -1939,14 +1954,15 @@
           "field_notes": [
             {
               "value": "<p>All committee meetings are accessible to participants with disabilities. To request a reasonable accommodation, please contact Owen Kane at <a href=\"mailto:OKane@mbta.com\">OKane@mbta.com</a> or at <a href=\"tel:857-368-8767\">857-368-8767</a>.</p>\r\n",
-              "format": "full_html"
+              "format": "basic_html",
+              "processed": "<p>All committee meetings are accessible to participants with disabilities. To request a reasonable accommodation, please contact Owen Kane at <a href=\"mailto:OKane@mbta.com\">OKane@mbta.com</a> or at <a href=\"tel:857-368-8767\">857-368-8767</a>.</p>"
             }
           ],
           "field_other_files": [],
           "field_project": [],
           "field_start_time": [
             {
-              "value": "2018-01-22T15:00:00"
+              "value": "2018-04-23T14:00:00"
             }
           ],
           "field_state": [
@@ -1968,17 +1984,17 @@
         {
           "nid": [
             {
-              "value": 3254
+              "value": 3291
             }
           ],
           "uuid": [
             {
-              "value": "aebfac89-3815-44e9-b996-f6097801fab1"
+              "value": "847de9a0-db0c-4550-b470-4e1bf5c6e745"
             }
           ],
           "vid": [
             {
-              "value": 6947
+              "value": 7008
             }
           ],
           "langcode": [
@@ -1995,7 +2011,7 @@
           ],
           "revision_timestamp": [
             {
-              "value": 1514570930
+              "value": 1514584286
             }
           ],
           "revision_uid": [
@@ -2027,12 +2043,12 @@
           ],
           "created": [
             {
-              "value": 1514567976
+              "value": 1514583598
             }
           ],
           "changed": [
             {
-              "value": 1514570930
+              "value": 1514584286
             }
           ],
           "promote": [
@@ -2062,8 +2078,8 @@
           ],
           "path": [
             {
-              "alias": "/events/2018-01-22/joint-meeting-the-fiscal-management-control-board-and-massdot-board",
-              "pid": 611,
+              "alias": "/events/2018-04-23/joint-meeting-the-fiscal-management-control-board-and-massdot-board",
+              "pid": 3386,
               "langcode": "en"
             }
           ],
@@ -2072,8 +2088,9 @@
           "menu_link": [],
           "body": [
             {
-              "value": "<p>The <a href=\"/leadership/fmcb\">Fiscal and Management Control Board</a> (FMCB) closely monitors the T’s finances, management, and operations.</p>\r\n\r\n<p>The <a href=\"https://www.mass.gov/orgs/massdot-board-of-directors\" target=\"_blank\">MassDOT Board of Directors</a> serves as the governing authority for MassDOT.</p>\r\n",
+              "value": "<p>The <a href=\"https://www.mbta.com/leadership/fmcb\">Fiscal and Management Control Board</a> (FMCB) closely monitors the T’s finances, management, and operations.</p>\r\n\r\n<p>The <a href=\"https://www.mass.gov/orgs/massdot-board-of-directors\" target=\"_blank\">MassDOT Board of Directors</a> serves as the governing authority for MassDOT.</p>\r\n",
               "format": "full_html",
+              "processed": "<p>The <a href=\"https://www.mbta.com/leadership/fmcb\">Fiscal and Management Control Board</a> (FMCB) closely monitors the T’s finances, management, and operations.</p>\n\n<p>The <a href=\"https://www.mass.gov/orgs/massdot-board-of-directors\" target=\"_blank\">MassDOT Board of Directors</a> serves as the governing authority for MassDOT.</p>\n",
               "summary": ""
             }
           ],
@@ -2094,6 +2111,7 @@
             }
           ],
           "field_imported_address": [],
+          "field_keywords": [],
           "field_location": [
             {
               "value": "State Transportation Building, 2nd Floor, Transportation Board Room"
@@ -2104,14 +2122,15 @@
           "field_notes": [
             {
               "value": "<p>All FMCB and MassDOT board meetings are accessible to participants with disabilities. To request a reasonable accommodation, please contact Owen Kane at <a href=\"mailto:OKane@mbta.com\">OKane@mbta.com</a> or at <a href=\"tel:857-368-8767\">857-368-8767</a>.</p>\r\n",
-              "format": "basic_html"
+              "format": "full_html",
+              "processed": "<p>All FMCB and MassDOT board meetings are accessible to participants with disabilities. To request a reasonable accommodation, please contact Owen Kane at <a href=\"mailto:OKane@mbta.com\">OKane@mbta.com</a> or at <a href=\"tel:857-368-8767\">857-368-8767</a>.</p>\n"
             }
           ],
           "field_other_files": [],
           "field_project": [],
           "field_start_time": [
             {
-              "value": "2018-01-22T17:00:00"
+              "value": "2018-04-23T16:00:00"
             }
           ],
           "field_state": [
@@ -2134,7 +2153,7 @@
     },
     {
       "target_id": 45,
-      "target_revision_id": 14125,
+      "target_revision_id": 16475,
       "id": [
         {
           "value": 45
@@ -2147,7 +2166,7 @@
       ],
       "revision_id": [
         {
-          "value": 14125
+          "value": 16475
         }
       ],
       "type": [
@@ -2218,13 +2237,14 @@
       "field_custom_html_body": [
         {
           "value": "<hr />\r\n<h3 id=\"files-grid\">Files Grid</h3>\r\n\r\n<p>This paragraph displays a list of attached files. The files are presented three-across on desktop, two-across on tablet, and one-across on mobile.&nbsp;Each file has an icon (e.g. spreadsheet, pdf, etc) next to it based on its file type. To customize the link text fill out the \"Description\" in the CMS. Otherwise, it will use the filename.</p>\r\n",
-          "format": "full_html"
+          "format": "full_html",
+          "processed": "<hr /><h3 id=\"files-grid\">Files Grid</h3>\n\n<p>This paragraph displays a list of attached files. The files are presented three-across on desktop, two-across on tablet, and one-across on mobile. Each file has an icon (e.g. spreadsheet, pdf, etc) next to it based on its file type. To customize the link text fill out the \"Description\" in the CMS. Otherwise, it will use the filename.</p>\n"
         }
       ]
     },
     {
       "target_id": 46,
-      "target_revision_id": 14126,
+      "target_revision_id": 16476,
       "id": [
         {
           "value": 46
@@ -2237,7 +2257,7 @@
       ],
       "revision_id": [
         {
-          "value": 14126
+          "value": 16476
         }
       ],
       "type": [
@@ -2347,7 +2367,7 @@
     },
     {
       "target_id": 67,
-      "target_revision_id": 14127,
+      "target_revision_id": 16477,
       "id": [
         {
           "value": 67
@@ -2360,7 +2380,7 @@
       ],
       "revision_id": [
         {
-          "value": 14127
+          "value": 16477
         }
       ],
       "type": [
@@ -2431,13 +2451,14 @@
       "field_custom_html_body": [
         {
           "value": "<hr />\r\n<h3 id=\"call-to-action\">Call to Action</h3>\r\n\r\n<p>A \"call to action\" is something that you want a user to click on. In this case, it will appear as a link with a right arrow at the end of it. These are commonly used at the end of a section of content to \"read more about...\".</p>\r\n",
-          "format": "full_html"
+          "format": "full_html",
+          "processed": "<hr /><h3 id=\"call-to-action\">Call to Action</h3>\n\n<p>A \"call to action\" is something that you want a user to click on. In this case, it will appear as a link with a right arrow at the end of it. These are commonly used at the end of a section of content to \"read more about...\".</p>\n"
         }
       ]
     },
     {
       "target_id": 47,
-      "target_revision_id": 14128,
+      "target_revision_id": 16478,
       "id": [
         {
           "value": 47
@@ -2450,7 +2471,7 @@
       ],
       "revision_id": [
         {
-          "value": 14128
+          "value": 16478
         }
       ],
       "type": [
@@ -2528,7 +2549,7 @@
     },
     {
       "target_id": 1522,
-      "target_revision_id": 14129,
+      "target_revision_id": 16479,
       "id": [
         {
           "value": 1522
@@ -2541,7 +2562,7 @@
       ],
       "revision_id": [
         {
-          "value": 14129
+          "value": 16479
         }
       ],
       "type": [
@@ -2607,22 +2628,19 @@
           "value": true
         }
       ],
-      "revision_translation_affected": [
-        {
-          "value": true
-        }
-      ],
+      "revision_translation_affected": [],
       "moderation_state": [],
       "field_custom_html_body": [
         {
           "value": "<hr />\r\n<h3 id=\"multi-column\">Multi-column</h3>\r\n\r\n<p>The \"multi-column\" paragraph allows you to display information in 2, 3, or 4 columns on a page. The columns will collapse into a stacked layout on mobile. You can stack these paragraphs to create grid- or table-like displays.&nbsp;</p>\r\n",
-          "format": "full_html"
+          "format": "full_html",
+          "processed": "<hr /><h3 id=\"multi-column\">Multi-column</h3>\n\n<p>The \"multi-column\" paragraph allows you to display information in 2, 3, or 4 columns on a page. The columns will collapse into a stacked layout on mobile. You can stack these paragraphs to create grid- or table-like displays. </p>\n"
         }
       ]
     },
     {
       "target_id": 1525,
-      "target_revision_id": 14132,
+      "target_revision_id": 16482,
       "id": [
         {
           "value": 1525
@@ -2635,7 +2653,7 @@
       ],
       "revision_id": [
         {
-          "value": 14132
+          "value": 16482
         }
       ],
       "type": [
@@ -2710,7 +2728,7 @@
       "field_column": [
         {
           "target_id": 1523,
-          "target_revision_id": 14130,
+          "target_revision_id": 16480,
           "id": [
             {
               "value": 1523
@@ -2723,7 +2741,7 @@
           ],
           "revision_id": [
             {
-              "value": 14130
+              "value": 16480
             }
           ],
           "type": [
@@ -2794,13 +2812,14 @@
           "field_column_body": [
             {
               "value": "<h4>Basic Format</h4>\r\n\r\n<p>The multi-column has all the capabilities of a custom HTML paragraph—it just displays the content in columns. You can add <a href=\"http://www.mbta.com\">links</a>, lists, or images if you so choose.</p>\r\n\r\n<p><img alt=\"snow-branches.jpg\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"192\" src=\"/sites/default/files/2017-12/snow-branches.jpg\" width=\"304\" /></p>\r\n",
-              "format": "basic_html"
+              "format": "basic_html",
+              "processed": "<h4>Basic Format</h4>\n\n<p>The multi-column has all the capabilities of a custom HTML paragraph—it just displays the content in columns. You can add <a href=\"http://www.mbta.com\">links</a>, lists, or images if you so choose.</p>\n\n<p><img alt=\"snow-branches.jpg\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"192\" src=\"/sites/default/files/2017-12/snow-branches.jpg\" width=\"304\" /></p>"
             }
           ]
         },
         {
           "target_id": 1524,
-          "target_revision_id": 14131,
+          "target_revision_id": 16481,
           "id": [
             {
               "value": 1524
@@ -2813,7 +2832,7 @@
           ],
           "revision_id": [
             {
-              "value": 14131
+              "value": 16481
             }
           ],
           "type": [
@@ -2884,7 +2903,8 @@
           "field_column_body": [
             {
               "value": "<h4>Multi-column vs. Title card set</h4>\r\n\r\n<p>We recommend using the \"title card\" paragraph type to list out links to related sub-pages on a landing or hub page, like these examples:</p>\r\n\r\n<ul>\r\n\t<li><a href=\"/accessibility\">Accessibility landing page</a></li>\r\n\t<li><a href=\"/fares/fare-fair\">Fare Is Fair page</a></li>\r\n</ul>\r\n\r\n<p>Use the \"multi-column\" paragraph type to display more detailed&nbsp;information neatly, like on these pages:</p>\r\n\r\n<ul>\r\n\t<li><a href=\"/winter\">Winter Weather landing page</a></li>\r\n\t<li><a href=\"/fares/charliecard\">CharlieCard page</a></li>\r\n</ul>\r\n",
-              "format": "basic_html"
+              "format": "basic_html",
+              "processed": "<h4>Multi-column vs. Title card set</h4>\n\n<p>We recommend using the \"title card\" paragraph type to list out links to related sub-pages on a landing or hub page, like these examples:</p>\n\n<ul><li><a href=\"/accessibility\">Accessibility landing page</a></li>\n\t<li><a href=\"/fares/fare-fair\">Fare Is Fair page</a></li>\n</ul><p>Use the \"multi-column\" paragraph type to display more detailed information neatly, like on these pages:</p>\n\n<ul><li><a href=\"/winter\">Winter Weather landing page</a></li>\n\t<li><a href=\"/fares/charliecard\">CharlieCard page</a></li>\n</ul>"
             }
           ]
         }

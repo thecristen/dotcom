@@ -28,18 +28,18 @@ defmodule Content.EventTest do
         path_alias: path_alias
       } = from_api(api_event)
 
-      assert id == 17
-      assert start_time == Timex.parse!("2017-01-23T15:00:00Z", "{ISO:Extended:Z}")
+      assert id == 3268
+      assert start_time == Timex.parse!("2018-04-02T16:00:00Z", "{ISO:Extended:Z}")
       assert end_time == nil
-      assert title == "Finance & Audit Committee Meeting"
-      assert location == "MassDOT"
+      assert title == "Fiscal & Management Control Board Meeting"
+      assert location == "State Transportation Building, 2nd Floor, Transportation Board Room"
       assert street_address == "10 Park Plaza"
       assert city == "Boston"
       assert state == "MA"
       assert who == "Board Members"
-      assert safe_to_string(body) =~ "<p><strong>Massachusetts"
-      assert safe_to_string(notes) =~ "<p><strong>THIS AGENDA"
-      assert safe_to_string(agenda) =~ "<p><strong>Call to Order Chair"
+      assert safe_to_string(body) =~ "(FMCB) closely monitors the T’s finances, management, and operations.</p>"
+      assert safe_to_string(notes) =~ "<p>All FMCB meetings are accessible to participants with disabilities."
+      assert safe_to_string(agenda) =~ "<p><strong>Please note:</strong> No public comments to be taken"
       assert path_alias == nil
     end
 

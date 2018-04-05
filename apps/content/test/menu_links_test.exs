@@ -15,19 +15,24 @@ defmodule Content.MenuLinksTest do
   describe "from_api/1" do
     test "parses the data into a MenuLinks struct", %{api_data: api_data} do
       assert %Content.MenuLinks{
-        title: "Parking",
-        position: :top,
+        title: "Destinations",
+        position: :bottom,
+        blurb: {:safe, "<p>Visiting Boston? Learn more about some of the popular spots you can get to on the T.</p>"},
         links: [
           %Content.Field.Link{
-            title: "Parking Info By Station",
-            url: "/parking/by-station"
+            url: "/destinations/logan-airport",
+            title: "Logan Airport"
           },
           %Content.Field.Link{},
           %Content.Field.Link{},
           %Content.Field.Link{
-            title: "Contact",
-            url: "https://google.com"
+            url: "/destinations/td-garden",
+            title: "TD Garden"
           },
+          %Content.Field.Link{},
+          %Content.Field.Link{},
+          %Content.Field.Link{},
+          %Content.Field.Link{}
         ]
       } = from_api(api_data)
     end

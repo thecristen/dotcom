@@ -3,34 +3,34 @@ defmodule SiteWeb.ContentControllerTest do
 
   describe "GET - page" do
     test "renders a basic page when the CMS returns a Content.BasicPage", %{conn: conn} do
-      conn = get conn, "/accessibility"
+      conn = get conn, "/basic_page_no_sidebar"
       rendered = html_response(conn, 200)
-      assert rendered =~ "Accessibility at the T"
+      assert rendered =~ "Arts on the T"
     end
 
     test "given special preview query params, return certain revision of node", %{conn: conn} do
-      conn = get conn, "/accessibility?preview&vid=112&nid=6"
-      assert html_response(conn, 200) =~ "Accessibility at the T 112"
+      conn = get conn, "/basic_page_no_sidebar?preview&vid=112&nid=6"
+      assert html_response(conn, 200) =~ "Arts on the T 112"
     end
 
     test "renders a basic page without sidebar", %{conn: conn} do
-      conn = get conn, "/accessibility"
+      conn = get conn, "/basic_page_no_sidebar"
       rendered = html_response(conn, 200)
 
-      assert rendered =~ "the MBTA is dedicated to providing excellent service to customers of all abilities"
+      assert rendered =~ "The MBTA permits musical performances at a number of subway stations in metro Boston"
       assert rendered =~ ~s(class="page-narrow")
     end
 
     test "renders a basic page with sidebar", %{conn: conn} do
-      conn = get conn, "/parking/by-station"
+      conn = get conn, "/basic_page_with_sidebar"
       rendered = html_response(conn, 200)
 
-      assert rendered =~ "Parking Info by Station"
+      assert rendered =~ "Fenway Park"
       refute rendered =~ ~s(class="page-narrow")
     end
 
     test "renders a landing page with all its paragraphs", %{conn: conn} do
-      conn = get conn, "/cms/style-guide"
+      conn = get conn, "/landing_page_with_all_paragraphs"
       rendered = html_response(conn, 200)
 
       assert rendered =~ ~s(<h1 class="landing-page-title">Paragraphs Guide</h1>)
@@ -38,27 +38,27 @@ defmodule SiteWeb.ContentControllerTest do
     end
 
     test "renders a person page", %{conn: conn} do
-      conn = get conn, "/people/joseph-aiello"
+      conn = get conn, "/person"
       assert html_response(conn, 200) =~ "<h1>Joseph Aiello</h1>"
     end
 
     test "redirects for an unaliased news entry response", %{conn: conn} do
-      conn = get conn, "/node/1"
+      conn = get conn, "/node/3519"
       assert conn.status == 301
     end
 
     test "redirects for an unaliased event", %{conn: conn} do
-      conn = get conn, "/node/17"
+      conn = get conn, "/node/3268"
       assert conn.status == 301
     end
 
     test "redirects for an unaliased project page", %{conn: conn} do
-      conn = get conn, "/node/2679"
+      conn = get conn, "/node/3004"
       assert conn.status == 301
     end
 
     test "redirects for an unaliased project update", %{conn: conn} do
-      conn = get conn, "/node/123"
+      conn = get conn, "/node/3005"
       assert conn.status == 301
     end
 
@@ -70,12 +70,12 @@ defmodule SiteWeb.ContentControllerTest do
     end
 
     test "redirects when content type is a redirect", %{conn: conn} do
-      conn = get conn, "/test/redirect"
+      conn = get conn, "/redirect_node"
       assert html_response(conn, 302) =~ "www.google.com"
     end
 
     test "redirects when content type is a redirect and has a query param", %{conn: conn} do
-      conn = get conn, "/test/path?id=5"
+      conn = get conn, "/redirect_node_with_query?id=5"
       assert html_response(conn, 302) =~ "google.com"
     end
 

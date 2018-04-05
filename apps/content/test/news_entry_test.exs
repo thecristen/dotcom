@@ -22,15 +22,15 @@ defmodule Content.NewsEntryTest do
         path_alias: path_alias
       } = Content.NewsEntry.from_api(api_page)
 
-      assert id == 1
-      assert Phoenix.HTML.safe_to_string(title) == "Example News Entry"
-      assert Phoenix.HTML.safe_to_string(body) =~ "<p>BOSTON -- The MBTA"
+      assert id == 3519
+      assert Phoenix.HTML.safe_to_string(title) == "New Early Morning Bus Routes Begin April 1"
+      assert Phoenix.HTML.safe_to_string(body) =~ "<p>Beginning Sunday, April 1, the MBTA will begin"
       assert media_contact == "MassDOT Press Office"
-      assert media_email == "media@example.com"
+      assert media_email == "Lisa.Battiston@dot.state.ma.us"
       assert media_phone == "857-368-8500"
-      assert Phoenix.HTML.safe_to_string(more_information) =~ "For more information"
-      assert posted_on == ~D[2017-01-01]
-      assert Phoenix.HTML.safe_to_string(teaser) == "Example teaser"
+      assert Phoenix.HTML.safe_to_string(more_information) =~ "<p>For more information"
+      assert posted_on == ~D[2018-03-29]
+      assert Phoenix.HTML.safe_to_string(teaser) =~ "The MBTA will begin a one-year early morning bus service pilot"
       assert migration_id == "1234"
       assert path_alias == nil
     end

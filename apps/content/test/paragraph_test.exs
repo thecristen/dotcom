@@ -1,7 +1,6 @@
 defmodule Content.ParagraphTest do
   use ExUnit.Case, async: true
 
-  import Content.JsonHelpers, only: [parse_json_file: 1]
   import Content.Paragraph
   import Phoenix.HTML, only: [safe_to_string: 1]
 
@@ -45,12 +44,14 @@ defmodule Content.ParagraphTest do
     end
 
     test "parses upcoming board meetings" do
-      api_data = parse_json_file("priv/upcoming_board_meetings_paragraph.json")
+      api_data = api_paragraph("upcoming_board_meetings")
 
       assert %Content.Paragraph.UpcomingBoardMeetings{
         events: [
-          %Content.Event{id: 1},
-          %Content.Event{id: 2}
+          %Content.Event{id: 3269},
+          %Content.Event{id: 3318},
+          %Content.Event{id: 3306},
+          %Content.Event{id: 3291}
         ]
       } = from_api(api_data)
     end

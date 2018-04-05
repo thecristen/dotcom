@@ -12,12 +12,12 @@ defmodule SiteWeb.ProjectControllerTest do
     test "renders a project when project has no path alias", %{conn: conn} do
       project = project_factory(0)
       assert project.path_alias == nil
-      assert project.title == "Ruggles Station Platform Project"
+      assert project.title == "Wollaston Station Improvements"
       path = project_path(conn, :show, project)
-      assert path == "/projects/2679"
+      assert path == "/projects/3004"
 
       conn = get conn, path
-      assert html_response(conn, 200) =~ "Ruggles Station Platform Project"
+      assert html_response(conn, 200) =~ "Wollaston Station Improvements"
     end
 
     test "renders a project with a path alias", %{conn: conn} do
@@ -26,14 +26,14 @@ defmodule SiteWeb.ProjectControllerTest do
       assert project.path_alias == "/projects/project-name"
 
       conn = get conn, project_path(conn, :show, project)
-      assert html_response(conn, 200) =~ "<h1>Symphony, Hynes, and Wollaston Stations Accessibility Upgrades</h1>"
+      assert html_response(conn, 200) =~ "<h2>What is the SL3?</h2>"
     end
 
     test "renders a preview of the requested project", %{conn: conn} do
       project = project_factory(1)
-      conn = get(conn, project_path(conn, :show, project) <> "?preview&vid=112&nid=2678")
-      assert html_response(conn, 200) =~ "Symphony, Hynes, and Wollaston Stations Accessibility Upgrades 112"
-      assert %{"preview" => nil, "vid" => "112", "nid" => "2678"} == conn.query_params
+      conn = get(conn, project_path(conn, :show, project) <> "?preview&vid=112&nid=3480")
+      assert html_response(conn, 200) =~ "Silver Line 3 Chelsea (SL3) 112"
+      assert %{"preview" => nil, "vid" => "112", "nid" => "3480"} == conn.query_params
     end
 
     test "retains params and redirects with correct status code when CMS returns a native redirect", %{conn: conn} do
@@ -43,7 +43,7 @@ defmodule SiteWeb.ProjectControllerTest do
     end
 
     test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do
-      conn = get conn, project_path(conn, :show, "17")
+      conn = get conn, project_path(conn, :show, "3268")
       assert conn.status == 404
     end
 
@@ -58,13 +58,13 @@ defmodule SiteWeb.ProjectControllerTest do
       project_update = project_update_factory(1, path_alias: nil)
 
       assert project_update.path_alias == nil
-      assert project_update.title == "Project Update Title 2"
+      assert project_update.title == "Construction 1-Week Look Ahead"
       path = project_update_path(conn, :project_update, project_update)
-      assert path == "/projects/2679/update/124"
+      assert path == "/projects/3004/update/3174"
 
       conn = get conn, path
       assert conn.status == 200
-      assert html_response(conn, 200) =~ "Project Update Title 2"
+      assert html_response(conn, 200) =~ "Construction 1-Week Look Ahead"
     end
 
     test "renders a project update with a path alias", %{conn: conn} do
@@ -74,15 +74,15 @@ defmodule SiteWeb.ProjectControllerTest do
 
       conn = get conn, project_update_path(conn, :project_update, project_update)
       assert conn.status == 200
-      assert html_response(conn, 200) =~ "<h1>Project Update Title 2</h1>"
+      assert html_response(conn, 200) =~ "<p>Wollaston Station on the Red Line closed"
     end
 
     test "renders a preview of the requested project update", %{conn: conn} do
       project_update = project_update_factory(1)
-      conn = get(conn, project_update_path(conn, :project_update, project_update) <> "?preview&vid=112&nid=124")
+      conn = get(conn, project_update_path(conn, :project_update, project_update) <> "?preview&vid=112&nid=3174")
       assert conn.status == 200
-      assert html_response(conn, 200) =~ "Project Update Title 2 112"
-      assert %{"preview" => nil, "vid" => "112", "nid" => "124"} == conn.query_params
+      assert html_response(conn, 200) =~ "Construction 1-Week Look Ahead 112"
+      assert %{"preview" => nil, "vid" => "112", "nid" => "3174"} == conn.query_params
     end
 
     test "doesn't redirect update when project part of path would by itself return a native redirect", %{conn: conn} do
@@ -97,7 +97,7 @@ defmodule SiteWeb.ProjectControllerTest do
     end
 
     test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do
-      conn = get conn, project_path(conn, :project_update, "2679", "17")
+      conn = get conn, project_path(conn, :project_update, "3004", "3268")
       assert conn.status == 404
     end
 
@@ -107,7 +107,7 @@ defmodule SiteWeb.ProjectControllerTest do
     end
 
     test "renders a 404 given an invalid id when project found", %{conn: conn} do
-      conn = get conn, project_path(conn, :project_update, "2679", "999")
+      conn = get conn, project_path(conn, :project_update, "3004", "999")
       assert conn.status == 404
     end
 

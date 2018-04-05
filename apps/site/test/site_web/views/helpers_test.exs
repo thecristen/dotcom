@@ -190,7 +190,7 @@ defmodule SiteWeb.ViewHelpersTest do
 
     test "returns the given path as-is, even with preview params (chained-preview disabled)", %{conn: conn} do
       path = conn
-      |> Map.put(:query_params, %{"preview" => nil, "vid" => "6641", "nid" => "2549"})
+      |> Map.put(:query_params, %{"preview" => nil, "vid" => "112", "nid" => "6"})
       |> cms_static_page_path("/cms/path")
       assert path == "/cms/path"
     end

@@ -10,12 +10,12 @@ defmodule Content.RepoTest do
          media_contact: media_contact
        } | _] = Content.Repo.recent_news()
 
-      assert safe_to_string(body) =~ "BOSTON -- The MBTA"
+      assert safe_to_string(body) =~ "<p>Beginning Sunday, April 1, the MBTA will begin a one-year"
       assert media_contact == "MassDOT Press Office"
     end
 
     test "allows the current News Entry to be excluded" do
-      current_id = 1
+      current_id = 3519
       recent_news = Content.Repo.recent_news(current_id: current_id)
 
       recent_news_ids = Enum.map(recent_news, &(&1.id))
@@ -25,7 +25,7 @@ defmodule Content.RepoTest do
 
   describe "news_entry_by/1" do
     test "returns the news entry for the given id" do
-      assert %Content.NewsEntry{id: 1} = Content.Repo.news_entry_by(id: 1)
+      assert %Content.NewsEntry{id: 3519} = Content.Repo.news_entry_by(id: 3519)
     end
 
     test "returns :not_found given no record is found" do
@@ -35,7 +35,7 @@ defmodule Content.RepoTest do
 
   describe "get_page/1" do
     test "given the path for a Basic page" do
-      result = Content.Repo.get_page("/accessibility")
+      result = Content.Repo.get_page("/basic_page_with_sidebar")
       assert %Content.BasicPage{} = result
     end
 
@@ -56,17 +56,17 @@ defmodule Content.RepoTest do
     end
 
     test "given the path for a Basic page with tracking params" do
-      result = Content.Repo.get_page("/accessibility", %{"from" => "search"})
+      result = Content.Repo.get_page("/basic_page_with_sidebar", %{"from" => "search"})
       assert %Content.BasicPage{} = result
     end
 
     test "given the path for a Landing page" do
-      result = Content.Repo.get_page("/denali-national-park")
+      result = Content.Repo.get_page("/landing_page")
       assert %Content.LandingPage{} = result
     end
 
     test "given the path for a Redirect page" do
-      result = Content.Repo.get_page("/test/redirect")
+      result = Content.Repo.get_page("/redirect_node")
       assert %Content.Redirect{} = result
     end
 
@@ -75,7 +75,7 @@ defmodule Content.RepoTest do
     end
 
     test "returns {:error, :invalid_response} when the CMS returns a server error" do
-      assert Content.Repo.get_page("/api/route-pdfs/error") == {:error, :invalid_response}
+      assert Content.Repo.get_page("/cms/route-pdfs/error") == {:error, :invalid_response}
     end
 
     test "returns {:error, :invalid_response} when JSON is invalid" do
@@ -85,13 +85,13 @@ defmodule Content.RepoTest do
     test "URL encodes the query string before fetching" do
       assert %Content.Redirect{
         link: %Content.Field.Link{url: "http://google.com"}
-      } = Content.Repo.get_page("/test/path", %{"id" => "5"})
+      } = Content.Repo.get_page("/redirect_node_with_query", %{"id" => "5"})
     end
 
     test "given special preview query params, return certain revision of node" do
-      result = Content.Repo.get_page("/accessibility", %{"preview" => "", "vid" => "112", "nid" => "6"})
+      result = Content.Repo.get_page("/basic_page_no_sidebar", %{"preview" => "", "vid" => "112", "nid" => "6"})
       assert %Content.BasicPage{} = result
-      assert result.title == "Accessibility at the T 112"
+      assert result.title == "Arts on the T 112"
     end
   end
 
@@ -102,14 +102,14 @@ defmodule Content.RepoTest do
         body: body
       } | _] = Content.Repo.events()
 
-      assert id == 17
-      assert safe_to_string(body) =~ "<p><strong>Massachusetts Department"
+      assert id == 3268
+      assert safe_to_string(body) =~ "(FMCB) closely monitors the T’s finances, management, and operations.</p>"
     end
   end
 
   describe "event_by/1" do
     test "returns the event for the given id" do
-      assert %Content.Event{id: 17} = Content.Repo.event_by(id: 17)
+      assert %Content.Event{id: 3268} = Content.Repo.event_by(id: 3268)
     end
 
     test "returns :not_found given no record is found" do
@@ -124,8 +124,8 @@ defmodule Content.RepoTest do
         body: body
       }, %Content.Project{} | _] = Content.Repo.projects()
 
-      assert id == 2679
-      assert safe_to_string(body) =~ "Ruggles Station Platform Project"
+      assert id == 3004
+      assert safe_to_string(body) =~ "Wollaston Station Improvements"
     end
 
     test "returns empty list if error" do
@@ -137,10 +137,10 @@ defmodule Content.RepoTest do
     test "returns a list of Content.ProjectUpdate" do
       assert [%Content.ProjectUpdate{body: body, id: id},
               %Content.ProjectUpdate{body: body_2, id: id_2} | _] = Content.Repo.project_updates()
-      assert id == 123
-      assert id_2 == 124
-      assert safe_to_string(body) =~ "body"
-      assert safe_to_string(body_2) =~ "body2"
+      assert id == 3005
+      assert id_2 == 3174
+      assert safe_to_string(body) =~ "What's the bus shuttle schedule?"
+      assert safe_to_string(body_2) =~ "Wollaston Station on the Red Line closed for renovation"
     end
 
     test "returns empty list if error" do
@@ -154,7 +154,7 @@ defmodule Content.RepoTest do
         blurb: blurb
       } | _] = Content.Repo.whats_happening()
 
-      assert blurb =~ "The Fiscal and Management Control Board"
+      assert blurb =~ "Bus shuttles replace Commuter Rail service on the Franklin Line"
     end
   end
 
@@ -164,7 +164,7 @@ defmodule Content.RepoTest do
         blurb: blurb
       } = Content.Repo.important_notice()
 
-      assert blurb =~ "The Red Line north passageway at Downtown Crossing"
+      assert blurb == "Watch a live stream of today's FMCB meeting at 12PM."
     end
   end
 

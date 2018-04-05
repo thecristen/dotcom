@@ -8,8 +8,8 @@ defmodule SiteWeb.EventControllerTest do
     end
 
     test "scopes events based on provided dates", %{conn: conn} do
-      conn = get conn, event_path(conn, :index, %{month: "2017-01-01"})
-      assert html_response(conn, 200) =~ "Finance &amp; Audit Committee Meeting"
+      conn = get conn, event_path(conn, :index, %{month: "2018-06-01"})
+      refute html_response(conn, 200) =~ "Fiscal & Management Control Board Meeting"
     end
   end
 
@@ -17,16 +17,16 @@ defmodule SiteWeb.EventControllerTest do
     test "renders an event when the given event has no path_alias", %{conn: conn} do
       event = event_factory(0, path_alias: nil)
       assert event.path_alias == nil
-      assert event.title == "Finance & Audit Committee Meeting"
+      assert event.title == "Fiscal & Management Control Board Meeting"
       path = event_path(conn, :show, event)
-      assert path == "/events/17"
+      assert path == "/events/3268"
       conn = get conn, path
-      assert html_response(conn, 200) =~ "Finance & Audit Committee Meeting"
+      assert html_response(conn, 200) =~ "(FMCB) closely monitors the T’s finances, management, and operations.</p>"
     end
 
     test "disambiguation: renders an event whose alias pattern is /events/:title instead of /events/:date/:title", %{conn: conn} do
       conn = get conn, event_path(conn, :show, "incorrect-pattern")
-      assert html_response(conn, 200) =~ "AACT Executive Board Meeting"
+      assert html_response(conn, 200) =~ "Senior CharlieCard Event"
     end
 
     test "renders the given event with a path_alias", %{conn: conn} do
@@ -34,13 +34,13 @@ defmodule SiteWeb.EventControllerTest do
 
       assert event.path_alias == "/events/date/title"
       conn = get conn, event_path(conn, :show, event)
-      assert html_response(conn, 200) =~ "AACT Executive Board Meeting"
+      assert html_response(conn, 200) =~ "Senior CharlieCard Event"
     end
 
     test "renders a preview of the requested event", %{conn: conn} do
       event = event_factory(1)
       conn = get(conn, event_path(conn, :show, event) <> "?preview&vid=112&nid=5")
-      assert html_response(conn, 200) =~ "AACT Executive Board Meeting 112"
+      assert html_response(conn, 200) =~ "Senior CharlieCard Event 112"
       assert %{"preview" => nil, "vid" => "112", "nid" => "5"} == conn.query_params
     end
 
@@ -65,26 +65,26 @@ defmodule SiteWeb.EventControllerTest do
     test "returns an icalendar file as an attachment when event does not have an alias", %{conn: conn} do
       event = event_factory(0)
       assert event.path_alias == nil
-      assert event.title == "Finance & Audit Committee Meeting"
+      assert event.title == "Fiscal & Management Control Board Meeting"
       conn = get conn, event_icalendar_path(conn, :show, event)
       assert conn.status == 200
 
       assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]
       assert Plug.Conn.get_resp_header(conn, "content-disposition") == [
-        "attachment; filename='finance_&_audit_committee_meeting.ics'"
+        "attachment; filename='fiscal_&_management_control_board_meeting.ics'"
       ]
     end
 
     test "returns an icalendar file as an attachment when event has a valid alias", %{conn: conn} do
       event = event_factory(1)
       assert event.path_alias == "/events/date/title"
-      assert event.title == "AACT Executive Board Meeting"
+      assert event.title == "Senior CharlieCard Event"
       conn = get conn, event_icalendar_path(conn, :show, event)
       assert conn.status == 200
 
       assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]
       assert Plug.Conn.get_resp_header(conn, "content-disposition") == [
-        "attachment; filename='aact_executive_board_meeting.ics'"
+        "attachment; filename='senior_charliecard_event.ics'"
       ]
     end
 
@@ -96,7 +96,7 @@ defmodule SiteWeb.EventControllerTest do
 
       assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]
       assert Plug.Conn.get_resp_header(conn, "content-disposition") == [
-        "attachment; filename='aact_executive_board_meeting.ics'"
+        "attachment; filename='senior_charliecard_event.ics'"
       ]
     end
 
@@ -113,7 +113,7 @@ defmodule SiteWeb.EventControllerTest do
       assert conn.status == 200
       assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]
       assert Plug.Conn.get_resp_header(conn, "content-disposition") == [
-        "attachment; filename='aact_executive_board_meeting.ics'"
+        "attachment; filename='senior_charliecard_event.ics'"
       ]
     end
 

@@ -13,7 +13,7 @@ defmodule Content.ImportantNoticeTest do
       thumb: %Content.Field.Image{}
     } = Content.ImportantNotice.from_api(api_notice)
 
-    assert blurb =~ "The Red Line north passageway at Downtown Crossing"
-    assert url == "http://www.mbta.com/about_the_mbta/news_events/"
+    assert blurb == "Watch a live stream of today's FMCB meeting at 12PM."
+    assert url == "/events/2018-04-02/fiscal-management-control-board-meeting"
   end
 end

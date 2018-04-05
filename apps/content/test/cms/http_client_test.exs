@@ -9,7 +9,7 @@ defmodule Content.CMS.HTTPClientTest do
       with_mock ExternalRequest, [process: fn(_method, _path, _body, _params) -> {:ok, []} end] do
         preview(6)
         assert called ExternalRequest.process(
-          :get, "/api/revisions/6", "",
+          :get, "/cms/revisions/6", "",
           [params: [_format: "json"], timeout: 30_000, recv_timeout: 30_000]
         )
       end
