@@ -5,7 +5,7 @@ defmodule MapHelpersTest do
 
   describe "map_pdf_url/1" do
     test "returns the map link for subway" do
-      assert map_pdf_url(:subway)  == static_url(SiteWeb.Endpoint, "/sites/default/files/maps/Rapid_Transit_Map.pdf")
+      assert map_pdf_url(:subway)  == static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-04-map-rapid-transit-key-bus-v31a.pdf")
     end
 
     test "returns the map link for ferry" do
@@ -13,15 +13,15 @@ defmodule MapHelpersTest do
     end
 
     test "returns the bus map for bus" do
-      assert map_pdf_url(:bus)  == static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-system-map.pdf")
+      assert map_pdf_url(:bus)  == static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-04-map-system.pdf")
     end
 
     test "returns the map link for commuter rail" do
-      assert map_pdf_url(:commuter_rail)  == static_url(SiteWeb.Endpoint, "/sites/default/files/maps/Commuter_Rail_Map.pdf")
+      assert map_pdf_url(:commuter_rail)  == static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2017-05-map-commuter-rail-v30.pdf")
     end
 
     test "works when given a route type number instead of an atom" do
-      assert map_pdf_url(1)  == static_url(SiteWeb.Endpoint, "/sites/default/files/maps/Rapid_Transit_Map.pdf")
+      assert map_pdf_url(1)  == static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-04-map-rapid-transit-key-bus-v31a.pdf")
       assert map_pdf_url(4)  == static_url(SiteWeb.Endpoint, "/sites/default/files/maps/Ferry_Map.pdf")
     end
 
@@ -32,15 +32,15 @@ defmodule MapHelpersTest do
 
   describe "map_image_url/1" do
     test "returns a map image url for the subway" do
-      assert map_image_url(:subway) == static_url(SiteWeb.Endpoint, "/images/map_thumbnails/Rapid_Transit_Map.png")
+      assert map_image_url(:subway) == static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-04-map-thumbnail-rapid-transit-key-bus-v31a.jpg")
     end
 
     test "returns a map image url for the bus" do
-      assert map_image_url(:bus) == static_url(SiteWeb.Endpoint, "/images/map_thumbnails/Full_System_Map.png")
+      assert map_image_url(:bus) ==  static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-04-map-thumbnail-system.jpg")
     end
 
     test "returns a map image url for the commuter rail" do
-      assert map_image_url(:commuter_rail) == static_url(SiteWeb.Endpoint, "/images/map_thumbnails/Commuter_Rail_Map.png")
+      assert map_image_url(:commuter_rail) == static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2017-05-map-thumbnail-commuter-rail-v30.jpg")
     end
 
     test "returns a map image url for the ferry" do
@@ -48,8 +48,8 @@ defmodule MapHelpersTest do
     end
 
     test "works with numbers instead of route type atoms" do
-      assert map_image_url(2) == static_url(SiteWeb.Endpoint, "/images/map_thumbnails/Commuter_Rail_Map.png")
-      assert map_image_url(1) == static_url(SiteWeb.Endpoint, "/images/map_thumbnails/Rapid_Transit_Map.png")
+      assert map_image_url(2) == static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2017-05-map-thumbnail-commuter-rail-v30.jpg")
+      assert map_image_url(1) == static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-04-map-thumbnail-rapid-transit-key-bus-v31a.jpg")
     end
 
     test "gives nil when the number does not correspond to a route type" do

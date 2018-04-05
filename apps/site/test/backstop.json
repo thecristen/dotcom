@@ -56,7 +56,9 @@
     {
       "label": "Subway Hub",
       "url": "http://localhost:8082/schedules/subway?date=2018-03-30",
-      "hideSelectors": [],
+      "hideSelectors": [
+        ".hub-system-map"
+      ],
       "removeSelectors": [],
       "selectors": [
         "main",

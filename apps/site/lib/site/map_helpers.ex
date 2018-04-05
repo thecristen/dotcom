@@ -11,13 +11,13 @@ defmodule Site.MapHelpers do
     |> map_pdf_url
   end
   def map_pdf_url(:subway) do
-    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/Rapid_Transit_Map.pdf")
+    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-04-map-rapid-transit-key-bus-v31a.pdf")
   end
   def map_pdf_url(:bus) do
-    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-system-map.pdf")
+    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-04-map-system.pdf")
   end
   def map_pdf_url(:commuter_rail) do
-    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/Commuter_Rail_Map.pdf")
+    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2017-05-map-commuter-rail-v30.pdf")
   end
   def map_pdf_url(:ferry) do
     static_url(SiteWeb.Endpoint, "/sites/default/files/maps/Ferry_Map.pdf")
@@ -33,13 +33,13 @@ defmodule Site.MapHelpers do
     |> map_image_url
   end
   def map_image_url(:subway) do
-    static_url(SiteWeb.Endpoint, "/images/map_thumbnails/Rapid_Transit_Map.png")
+    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-04-map-thumbnail-rapid-transit-key-bus-v31a.jpg")
   end
   def map_image_url(:bus) do
-    static_url(SiteWeb.Endpoint, "/images/map_thumbnails/Full_System_Map.png")
+    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-04-map-thumbnail-system.jpg")
   end
   def map_image_url(:commuter_rail) do
-    static_url(SiteWeb.Endpoint, "/images/map_thumbnails/Commuter_Rail_Map.png")
+    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2017-05-map-thumbnail-commuter-rail-v30.jpg")
   end
   def map_image_url(:ferry) do
     static_url(SiteWeb.Endpoint, "/images/map_thumbnails/Ferry_Map.png")

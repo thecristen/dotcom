@@ -49,30 +49,23 @@
   </tbody>
 </table>
 
-<h2>Zone Maps</h2>
-<% zone_spider_pdf = "/sites/default/files/maps/2018-commuter-rail-zones-spider-bw.pdf" %>
-<% zone_spider_png = "/sites/default/files/maps/2018-commuter-rail-zones-spider-bw.png" %>
-<% zone_diagram_pdf = "/sites/default/files/maps/2018-commuter-rail-zones-diagram.pdf" %>
-<% zone_diagram_png = "/sites/default/files/maps/2018-commuter-rail-zones-diagram.png" %>
+<h2>Zone Map</h2>
+<% zone_map_pdf = "/sites/default/files/maps/2018-02-zonemap-commuter-rail-bw.pdf" %>
+<% zone_map_png = "/sites/default/files/maps/2018-02-zonemap-thumbnail-commuter-rail-bw.jpg" %>
 <div class="row two-col">
   <div class="col-md-6 col-1">
+    <a class="hub-system-map has-element-overlay" href="<%= static_url(SiteWeb.Endpoint, zone_map_pdf) %>" target="_blank" aria-label="View full map as PDF.">
+      <img class="img-fluid" src="<%= static_url(SiteWeb.Endpoint, zone_map_png) %>">
+      <div class="element-overlay">
+        <div class="element-overlay-icon">
+          <%= svg "zoom-in.svg" %>
+        </div>
+      </div>
+    </a>
     <p>
-      <a href="<%= static_url(SiteWeb.Endpoint, zone_spider_pdf) %>">
+      <a href="<%= static_url(SiteWeb.Endpoint, zone_map_pdf) %>">
         <i aria-hidden="true" class="fa fa-search-plus "></i> View full map as a PDF
       </a>
     </p>
-    <a href="<%= static_url(SiteWeb.Endpoint, zone_spider_pdf) %>">
-      <img class="img-fluid" src="<%= static_url(SiteWeb.Endpoint, zone_spider_png) %>">
-    </a>
-  </div>
-  <div class="col-md-6 col-2">
-    <p>
-      <a href="<%= static_url(SiteWeb.Endpoint, zone_diagram_pdf) %>">
-        <i aria-hidden="true" class="fa fa-search-plus "></i> View full map as a PDF
-      </a>
-    </p>
-    <a href="<%= static_url(SiteWeb.Endpoint, zone_diagram_pdf) %>">
-      <img class="img-fluid" src="<%= static_url(SiteWeb.Endpoint, zone_diagram_png) %>">
-    </a>
   </div>
 </div>
