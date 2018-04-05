@@ -85,6 +85,14 @@
   width: 100%;
 }
 
+.c-search-bar__my-location-container {
+  background-color: $white;
+  border: $border;
+  position: absolute;
+  width: 100%;
+  z-index: $z-index-search-bar-results;
+}
+
 .c-search-bar__-suggestion {
   border-bottom: $border;
   cursor: pointer;

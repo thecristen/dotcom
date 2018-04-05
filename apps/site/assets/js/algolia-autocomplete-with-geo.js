@@ -1,20 +1,67 @@
 import { AlgoliaAutocomplete } from "./algolia-autocomplete";
 import * as GoogleMapsHelpers from './google-maps-helpers';
 import geolocationPromise from "./geolocation-promise";
+import * as AlgoliaResult from "./algolia-result";
 
 export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   constructor(selectors, indices, parent) {
     super(selectors, indices);
+    this.bind();
     this._loadingIndicator = document.getElementById(selectors.locationLoadingIndicator);
     this._parent = parent;
-    this._indices.unshift("usemylocation");
     this._indices.push("locations");
+  }
+
+  init(client) {
+    super.init(client);
+    this._addUseMyLocation();
+    this._addInputListeners();
+  }
+
+  bind() {
+    this.onInputFocused = this.onInputFocused.bind(this);
+    this._closeUseMyLocation = this._closeUseMyLocation.bind(this);
+  }
+
+  onInputFocused() {
+    if (this._input.value.length == 0) {
+      this._useMyLocation.style.display = "block";
+      this._useMyLocation.style.width = `${this._input.offsetWidth}px`;
+      this._useMyLocation.style.top = `${this._input.offsetHeight * 2 - 4}px`;
+      this._useMyLocation.style.left = "1px";
+    } else {
+      this._closeUseMyLocation();
+    }
+  }
+
+  _closeUseMyLocation() {
+    this._useMyLocation.style.display = "none";
+  }
+
+  _addInputListeners() {
+    this._input.removeEventListener("focusin", this.onInputFocused);
+    this._input.addEventListener("focusin", this.onInputFocused);
+
+    this._input.removeEventListener("input", this.onInputFocused);
+    this._input.addEventListener("input", this.onInputFocused);
+
+    this._input.removeEventListener("blur", this._closeUseMyLocation);
+    this._input.addEventListener("blur", this._closeUseMyLocation);
+  }
+
+  _addUseMyLocation() {
+    this._useMyLocation = document.createElement("div");
+    this._useMyLocation.id = "use-my-location-container";
+    this._useMyLocation.classList.add("c-search-bar__my-location-container");
+    this._useMyLocation.classList.add("c-search-bar__-suggestion");
+    this._useMyLocation.innerHTML = AlgoliaResult.renderResult({}, "usemylocation");
+    this._useMyLocation.style.display = "none";
+    this._input.parentNode.insertBefore(this._useMyLocation, this._input.nextSibling);
+    this._useMyLocation.addEventListener("mousedown", this._useMyLocationSearch());
   }
 
   _datasetSource(index) {
     switch (index) {
-      case "usemylocation":
-        return this._emptySearchSource();
       case "locations":
         return this._locationSource("locations");
       default:
@@ -36,16 +83,9 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     }
   }
 
-  _hitsPerPage(index) {
-    return index == "usemylocation" ? 0 : super._hitsPerPage(index);
-  }
-
   onHitSelected(hit) {
     const index = hit._args[1]
     switch (index) {
-      case "usemylocation":
-        this._useMyLocationSearch();
-        break;
       case "locations":
         this._doLocationSearch(hit._args[0].id);
         break;
@@ -55,12 +95,15 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   }
 
   _useMyLocationSearch() {
-    this._input.disabled = true;
-    this._input.value = "Getting your location...";
-    this._loadingIndicator.style.visibility = "visible";
-    geolocationPromise()
-      .then(pos => this._doReverseGeocodeSearch(pos))
-      .catch(err => console.error(err));
+    return () => {
+      this._closeUseMyLocation();
+      this._input.disabled = true;
+      this._input.value = "Getting your location...";
+      this._loadingIndicator.style.visibility = "visible";
+      geolocationPromise()
+        .then(pos => this._doReverseGeocodeSearch(pos))
+        .catch(err => console.error(err));
+    }
   }
 
   _doLocationSearch(placeId) {

@@ -5,6 +5,7 @@ import { AlgoliaAutocompleteWithGeo } from "../../assets/js/algolia-autocomplete
 import * as GoogleMapsHelpers from "../../assets/js/google-maps-helpers";
 
 describe("AlgoliaAutocompleteWithGeo", function() {
+  var $;
   jsdom();
   const selectors = {
     input: "autocomplete-input",
@@ -18,6 +19,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       <div id="loading-indicator"></div>
     `;
     window.autocomplete = jsdom.rerequire("autocomplete.js");
+    $ = jsdom.rerequire("jquery");
     this.parent = {
       changeLocationHeader: sinon.spy(),
       onLocationResults: sinon.spy((results) => results)
@@ -27,29 +29,44 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       updateParamsByKey: sinon.spy(),
     };
     this.ac = new AlgoliaAutocompleteWithGeo(selectors, indices, this.parent);
+    this.ac.init(this.client);
+    $("#use-my-location-container").css("display", "none");
+  });
+
+  afterEach(function() {
+    $("#use-my-location-container").css("display", "none");
   });
 
   describe("constructor", function() {
-    it("adds usemylocation and locations to indices", function() {
-      expect(this.ac._indices).to.have.members(["stops", "usemylocation", "locations"]);
+    it("adds locations to indices", function() {
+      expect(this.ac._indices).to.have.members(["stops", "locations"]);
       expect(this.ac._loadingIndicator).to.be.an.instanceOf(window.HTMLDivElement);
       expect(this.ac._parent).to.equal(this.parent);
     });
   });
 
-  describe("_datasetSource", function() {
-    it("returns an empty search for usemylocation", function() {
-      this.ac.init(this.client);
-      const source = this.ac._datasetSource("usemylocation");
-      const callback = sinon.spy();
-      source("query value", callback);
-      expect(callback.called).to.be.true;
-      expect(callback.args[0][0]).to.be.an("array");
-      expect(callback.args[0][0]).to.have.a.lengthOf(1);
-      expect(callback.args[0][0][0]).to.have.keys(["data"]);
-      expect(callback.args[0][0][0].data).to.equal("");
+  describe("init", function() {
+    it("creates the use my location div and hides it", function() {
+      expect($("#use-my-location-container").css("display")).to.equal("none");
+    });
+  });
+
+  describe("focus/change behavior", function() {
+    it("shows use my locations on focus", function() {
+      expect($("#use-my-location-container").css("display")).to.equal("none");
+      this.ac.onInputFocused();
+      expect($("#use-my-location-container").css("display")).to.equal("block");
     });
 
+    it("hides use my locations when the input is not empty", function() {
+      $("#use-my-location-container").css("display", "block");
+      $(`#${selectors.input}`).val("query");
+      this.ac.onInputFocused();
+      expect($("#use-my-location-container").css("display")).to.equal("none");
+    });
+  });
+
+  describe("_datasetSource", function() {
     it("returns a callback that calls google for \"location\" index", function(done) {
       this.ac.init(this.client);
       sinon.stub(GoogleMapsHelpers, "autocomplete").resolves({

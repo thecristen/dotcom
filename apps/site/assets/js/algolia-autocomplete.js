@@ -132,17 +132,13 @@ export class AlgoliaAutocomplete {
       source: this._datasetSource(indexName),
       displayKey: AlgoliaAutocomplete.DISPLAY_KEYS[indexName],
       name: indexName,
-      hitsPerPage: this._hitsPerPage(indexName),
+      hitsPerPage: 5,
       templates: {
         header: this._renderHeaderTemplate(indexName),
         suggestion: this.renderResult(indexName)
       }
     });
     return acc;
-  }
-
-  _hitsPerPage(_indexName) {
-    return 5;
   }
 
   _renderHeaderTemplate(indexName) {
