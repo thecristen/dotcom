@@ -243,51 +243,5 @@ defmodule Alerts.ParserTest do
         effect: :access_issue
       } = alert
     end
-
-    test "Categorizes ACCESS_ISSUE alerts with header containing 'Elevator' as :elevator_closure" do
-      alert = Parser.Alert.parse(
-        %JsonApi.Item{
-          type: "alert",
-          id: "130612",
-          attributes: %{
-            "informed_entity" => [],
-            "header" => "This is an Elevator issue",
-            "active_period" => [],
-            "severity" => 3,
-            "lifecycle" => "ONGOING",
-            "effect" => "ACCESS_ISSUE",
-            "updated_at" => "2016-06-20T16:09:29-04:00",
-            "description" => ""
-          }
-        })
-      assert %Alerts.Alert{
-        lifecycle: :ongoing,
-        severity: 3,
-        effect: :elevator_closure
-      } = alert
-    end
-
-    test "Categorizes ACCESS_ISSUE alerts with header containing 'Esclator' as :escalator_closure" do
-      alert = Parser.Alert.parse(
-        %JsonApi.Item{
-          type: "alert",
-          id: "130612",
-          attributes: %{
-            "informed_entity" => [],
-            "header" => "This is an Escalator issue",
-            "active_period" => [],
-            "severity" => 3,
-            "lifecycle" => "ONGOING",
-            "effect" => "ACCESS_ISSUE",
-            "updated_at" => "2016-06-20T16:09:29-04:00",
-            "description" => ""
-          }
-        })
-      assert %Alerts.Alert{
-        lifecycle: :ongoing,
-        severity: 3,
-        effect: :escalator_closure
-      } = alert
-    end
   end
 end

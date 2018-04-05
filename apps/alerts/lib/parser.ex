@@ -96,22 +96,13 @@ defmodule Alerts.Parser do
     defp do_effect("SNOW_ROUTE", _), do: :snow_route
     defp do_effect("STATION_ISSUE", _), do: :station_issue
     defp do_effect("DOCK_ISSUE", _), do: :dock_issue
-    defp do_effect("ACCESS_ISSUE", header), do: categorize_access_issue(header)
+    defp do_effect("ACCESS_ISSUE", _), do: :access_issue
     defp do_effect("ELEVATOR_CLOSURE", _), do: :elevator_closure
     defp do_effect("ESCALATOR_CLOSURE", _), do: :escalator_closure
     defp do_effect("POLICY_CHANGE", _), do: :policy_change
     defp do_effect("STOP_SHOVELING", _), do: :stop_shoveling
     defp do_effect("SUMMARY", _), do: :summary
     defp do_effect(_, _), do: :unknown
-
-    @spec categorize_access_issue(String.t) :: Alerts.Alert.effect
-    defp categorize_access_issue(header) do
-      cond do
-        String.contains?(header, "Elevator") -> :elevator_closure
-        String.contains?(header, "Escalator") -> :escalator_closure
-        true -> :access_issue
-      end
-    end
 
     @spec severity(String.t | integer) :: Alerts.Alert.severity
     def severity(binary) when is_binary(binary) do
