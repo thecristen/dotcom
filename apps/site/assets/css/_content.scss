@@ -11,6 +11,11 @@
   @include make-col();
 }
 
+.m-cms__content {
+  // CMS content column should use maximum space
+  width: 100%;
+}
+
 .m-cms__sidebar {
 
   @include media-breakpoint-only(md) {
