@@ -16,35 +16,48 @@ const TEMPLATES = {
           </div>
           {{/isLocation}}
         </div>
-        {{{hits}}}
+        <div class="c-search-results__hits">
+          {{#hits}}
+              {{{.}}}
+          {{/hits}}
+          {{#showMore}}
+            <div id="show-more--{{group}}" class="c-search-results__show-more" data-group="{{group}}">
+              Show more
+            </div>
+          {{/showMore}}
+        </div>
       {{/hasHits}}
     </div>
  `),
 };
 
 export class AlgoliaResults {
-  constructor(id) {
-    this._id = id
-    this._container = document.getElementById(this._id);
+  constructor(id, parent) {
+    this._parent = parent;
+    this._groups = ["locations", "routes", "stops", "pagesdocuments", "events", "news"];
+    this._container = document.getElementById(id);
     if (!this._container) {
-      console.error(`could not find results container with id: ${this._id}`);
+      console.error(`could not find results container with id: ${id}`);
     }
     this._container.innerHTML = "";
+    this.onClickShowMore = this.onClickShowMore.bind(this);
   }
 
-  _renderIndex(results, index) {
-    if (results[index]) {
-      return TEMPLATES.contentResults.render({
-        title: AlgoliaResults.indexTitles[index] || "",
-        isLocation: index == "locations" || null,
-        nbHits: results[index].nbHits,
-        hasHits: results[index].nbHits > 0,
-        hits: results[index].hits.slice(0)
-                                 .map(this.renderResult(index))
-                                 .join("")
-      });
+  _renderGroup(results, group) {
+    if (!results[group]) {
+      return "";
     }
-    return "";
+
+    return TEMPLATES.contentResults.render({
+      title: AlgoliaResults.indexTitles[group] || "",
+      isLocation: group == "locations" || null,
+      nbHits: results[group].nbHits,
+      hasHits: results[group].nbHits > 0,
+      showMore: results[group].hits.length < results[group].nbHits,
+      group: group,
+      hits: results[group].hits
+                          .map(this.renderResult(group))
+    });
   }
 
   _addLocationListeners(results) {
@@ -68,6 +81,18 @@ export class AlgoliaResults {
         });
       }
     }
+  }
+
+  _addShowMoreListener(groupName) {
+    const el = document.getElementById("show-more--" + groupName)
+    if (el) {
+      el.removeEventListener("click", this.onClickShowMore);
+      el.addEventListener("click", this.onClickShowMore);
+    }
+  }
+
+  onClickShowMore(ev) {
+    this._parent.onClickShowMore(ev.target.getAttribute("data-group"));
   }
 
   _showLocation(latitude, longitude, address) {
@@ -115,9 +140,10 @@ export class AlgoliaResults {
   render(results)  {
     if (this._container) {
       this._container.innerHTML =
-        ["locations", "routes", "stops", "pagesdocuments", "events", "news"]
-        .map(index => this._renderIndex(results, index))
-        .join("");
+        this._groups
+            .map(group => this._renderGroup(results, group))
+            .join("");
+      this._groups.forEach(group => this._addShowMoreListener(group));
       this._addLocationListeners(results);
     }
   }

@@ -18,7 +18,7 @@ describe('AlgoliaResults', () => {
     search = new AlgoliaResults("search-results");
   });
 
-  describe('renderIndex', () => {
+  describe('renderGroup', () => {
     describe("for drupal results", () => {
       it('handles file types', () => {
         const hit = {
@@ -32,7 +32,7 @@ describe('AlgoliaResults', () => {
           }
         }
 
-        const results = search._renderIndex({
+        const results = search._renderGroup({
           drupal: {
             nbHits: 1,
             hits: [hit]
@@ -55,7 +55,7 @@ describe('AlgoliaResults', () => {
                         }
                       }
                     };
-        const results = search._renderIndex({
+        const results = search._renderGroup({
           drupal: {
             nbHits: 1,
             hits: [hit]
@@ -79,7 +79,7 @@ describe('AlgoliaResults', () => {
                       }
                     };
 
-        const results = search._renderIndex({
+        const results = search._renderGroup({
           drupal: {
             nbHits: 1,
             hits: [hit]
@@ -110,7 +110,7 @@ describe('AlgoliaResults', () => {
           features: ["bus"]
         };
 
-        const result = search._renderIndex({
+        const result = search._renderGroup({
           stops: {
             nbHits: 1,
             hits: [hit]
@@ -143,7 +143,7 @@ describe('AlgoliaResults', () => {
           },
         };
 
-        const result = search._renderIndex({
+        const result = search._renderGroup({
           routes: {
             nbHits: 1,
             hits: [hit]
@@ -172,7 +172,7 @@ describe('AlgoliaResults', () => {
           },
         };
 
-        const result = search._renderIndex({
+        const result = search._renderGroup({
           routes: {
             nbHits: 1,
             hits: [hit]

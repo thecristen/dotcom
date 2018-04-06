@@ -31,10 +31,14 @@ export class AlgoliaGlobalSearch {
 
     this.container.value = "";
     this.controller.addWidget(new AlgoliaFacets(AlgoliaGlobalSearch.SELECTORS, this.controller));
-    this.controller.addWidget(new AlgoliaResults(AlgoliaGlobalSearch.SELECTORS.resultsContainer));
+    this.controller.addWidget(new AlgoliaResults(AlgoliaGlobalSearch.SELECTORS.resultsContainer, this));
     this.container.addEventListener("input", () => {
-      this.controller.search(this.container.value);
+      this.controller.search({query: this.container.value});
     });
+  }
+
+  onClickShowMore(group) {
+    this.controller.addPage(group);
   }
 }
 

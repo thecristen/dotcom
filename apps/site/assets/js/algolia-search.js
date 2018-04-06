@@ -6,6 +6,7 @@ export class Algolia {
     this._activeQueryIds = Object.keys(queries);
     this._defaultParams = defaultParams;
     this.resetSearch();
+    this._viewMoreInc = 20;
     this._currentQuery = "";
     this._lastQuery = "";
     this._doBlankSearch = true;
@@ -47,15 +48,16 @@ export class Algolia {
     }
   }
 
-  search(query) {
-    if (typeof query == "string") {
-      this._currentQuery = query;
-    } else {
-      this._currentQuery = this._lastQuery;
-    }
-    if (this._currentQuery.length > 0) {
-      const allQueries = this._buildAllQueries();
-      this._lastQuery = this._currentQuery;
+  addPage(group) {
+    this._queries[group].params.hitsPerPage += this._viewMoreInc;
+    this.search({});
+  }
+
+  search(opts = {}) {
+    if (!opts.query) { opts.query = this._lastQuery; }
+    if (opts.query.length > 0) {
+      const allQueries = this._buildAllQueries(opts);
+      this._lastQuery = opts.query;
       return this._doSearch(allQueries);
     } else {
       this.updateWidgets({});
@@ -73,17 +75,22 @@ export class Algolia {
                .catch(err => console.log(err));
   }
 
-  _buildAllQueries() {
+  _buildAllQueries(opts) {
     const requestedQueryIds = this._activeQueryIds.length > 0 ? this._activeQueryIds : Object.keys(this._queries);
-    const queries = requestedQueryIds.map(queryId => this._buildQuery(queryId));
-    const facetQueries = Object.keys(this._queries).map(queryId => this._buildFacetQuery(queryId));
-    return queries.concat(facetQueries);
+    const queries = [];
+    requestedQueryIds.forEach(queryId => {
+      queries.push(this._buildQuery(queryId, opts))
+    });
+    Object.keys(this._queries).forEach(queryId => {
+      queries.push(this._buildFacetQuery(queryId, opts))
+    });
+    return queries;
   }
 
-  _buildFacetQuery(queryId) {
+  _buildFacetQuery(queryId, opts) {
     return {
       indexName: this._queries[queryId].indexName,
-      query: this._currentQuery,
+      query: opts.query,
       params: {
         hitsPerPage: 0,
         facets: ["*"]
@@ -91,9 +98,9 @@ export class Algolia {
     }
   }
 
-  _buildQuery(queryId, isFacetQuery) {
+  _buildQuery(queryId, { query }) {
     const currentQuery = this._queries[queryId];
-    currentQuery.query = this._currentQuery;
+    currentQuery.query = query;
     return currentQuery;
   }
 

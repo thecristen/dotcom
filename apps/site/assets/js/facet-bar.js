@@ -36,7 +36,6 @@ export class FacetBar {
   }
 
   update() {
-    this._search.resetSearch();
     const queryIds = Object.keys(this._items);
     this._search.updateActiveQueries([]);
     queryIds.forEach(queryId => {

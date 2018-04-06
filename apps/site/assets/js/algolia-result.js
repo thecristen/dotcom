@@ -309,8 +309,10 @@ function _stopIcons(hit, type) {
   const filteredFeatures = hit.features.filter((feature) => ((feature != "access") && (feature != "parking_lot")));
 
   const alertFeature = _getAlertIcon(hit, type);
-  const branchFeatures = hit.green_line_branches;
-  const allFeatures = alertFeature.concat(filteredFeatures.concat(branchFeatures));
+  const branchFeatures = hit.green_line_branches || [];
+  const allFeatures = alertFeature
+                        .concat(branchFeatures)
+                        .concat(filteredFeatures);
   const allFeaturesSorted = _sortFeatures(allFeatures);
   const allIcons = _featuresToIcons(allFeaturesSorted);
 

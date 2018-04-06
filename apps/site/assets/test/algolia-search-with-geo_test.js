@@ -42,7 +42,7 @@ describe("AlgoliaWithGeo", function() {
       sinon.stub(this.algoliaWithGeo, "_processAlgoliaResults").returnsArg(0);
       sinon.stub(this.algoliaWithGeo._client, "search").resolves({ index: "foo" } );
       sinon.stub(GoogleMapsHelpers, "autocomplete").resolves({ locations: "loc" });
-      this.algoliaWithGeo.search("query");
+      this.algoliaWithGeo.search({query: "query"});
     });
   });
 });

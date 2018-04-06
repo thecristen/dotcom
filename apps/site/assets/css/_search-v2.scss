@@ -76,6 +76,20 @@
   }
 }
 
+.c-search-results__hits {
+  padding-bottom: $base-spacing;
+}
+
+.c-search-results__show-more {
+  color: $brand-primary;
+  cursor: pointer;
+  text-align: center;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .c-search-result__link {
   cursor: pointer;
   flex: 1 1 auto;

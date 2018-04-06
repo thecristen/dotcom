@@ -24,9 +24,9 @@ describe("Algolia", function() {
     }
     this.algolia = new Algolia({
       stops: {
-        indexName: "stops"
+        indexName: "stops",
       }
-    }, {stops: {foo: "bar"}});
+    }, {stops: {foo: "bar", hitsPerPage: 5}});
   });
 
   describe("constructor", function() {
@@ -56,7 +56,7 @@ describe("Algolia", function() {
       expect(this.algolia._queries).to.have.keys(["stops"]);
       expect(this.algolia._queries.stops).to.be.an("object");
       expect(this.algolia._queries.stops).to.have.keys(["indexName", "params"]);
-      expect(this.algolia._queries.stops.params).to.have.keys(["foo"]);
+      expect(this.algolia._queries.stops.params).to.have.keys(["foo", "hitsPerPage"]);
     });
   });
 
@@ -64,13 +64,13 @@ describe("Algolia", function() {
     it("builds a list of queries for result list AND facets", function() {
       expect(this.algolia._queries).to.be.an("object");
       expect(this.algolia._queries).to.have.keys(["stops"]);
-      const queries = this.algolia._buildAllQueries();
+      const queries = this.algolia._buildAllQueries({});
       expect(queries).to.be.an("array");
       expect(queries).to.have.a.lengthOf(2);
 
       expect(queries[0]).to.have.all.keys(["indexName", "params", "query"]);
       expect(queries[0].indexName).to.equal("stops");
-      expect(queries[0].params).to.have.all.keys(["foo"]);
+      expect(queries[0].params).to.have.all.keys(["foo", "hitsPerPage"]);
 
       expect(queries[1]).to.have.all.keys(["indexName", "params", "query"]);
       expect(queries[1].indexName).to.equal("stops");
@@ -83,11 +83,11 @@ describe("Algolia", function() {
     it("performs a search", function() {
       this.algolia._client = this.mockClient;
       this.algolia._doSearch = sinon.spy();
-      this.algolia.search("query");
+      this.algolia.search({query: "query"});
       expect(this.algolia._doSearch.called).to.be.true;
       expect(this.algolia._doSearch.args[0][0][0]).to.have.keys(["indexName", "params", "query"]);
       expect(this.algolia._doSearch.args[0][0][0].indexName).to.equal("stops");
-      expect(this.algolia._doSearch.args[0][0][0].params).to.have.keys(["foo"]);
+      expect(this.algolia._doSearch.args[0][0][0].params).to.have.keys(["foo", "hitsPerPage"]);
       expect(this.algolia._doSearch.args[0][0][1]).to.have.keys(["indexName", "params", "query"]);
       expect(this.algolia._doSearch.args[0][0][1].params).to.have.keys(["facets", "hitsPerPage"]);
       expect(this.algolia._doSearch.args[0][0][1].params.facets).to.include("*");
@@ -96,21 +96,21 @@ describe("Algolia", function() {
     it("returns a promise", function() {
       this.algolia._client = this.mockClient;
       sinon.stub(this.algolia, "_processAlgoliaResults").resolves({});
-      const returned = this.algolia.search("query");
+      const returned = this.algolia.search({query: "query"});
       expect(returned).to.be.an.instanceOf(Promise)
     });
 
     it("updates the search query if search is called with arguments", function() {
       this.algolia._client = this.mockClient;
       this.algolia._doSearch = sinon.spy();
-      this.algolia.search("search string");
+      this.algolia.search({query: "search string"});
       expect(this.algolia._doSearch.args[0][0][0]["query"]).to.equal("search string");
     });
 
     it("uses a previous query if search is called with no arguments", function() {
       this.algolia._client = this.mockClient;
       this.algolia._doSearch = sinon.spy();
-      this.algolia.search("previous query");
+      this.algolia.search({query: "previous query"});
       this.algolia.search();
       expect(this.algolia._doSearch.args[0][0][0]["query"]).to.equal("previous query");
     });
@@ -136,6 +136,20 @@ describe("Algolia", function() {
         expect(this.widget.render.args[0][0].stops.index).to.equal("stops");
         done();
       });
+    });
+  });
+
+  describe("addPage", function() {
+    it("increments the hit count for a group and performs a new search", function() {
+      this.algolia._client = this.mockClient;
+      this.algolia._doSearch = sinon.spy();
+
+      this.algolia.search({query: "query"});
+      expect(this.algolia._doSearch.args[0][0][0].params.hitsPerPage).to.equal(5);
+
+      this.algolia.addPage("stops");
+      expect(this.algolia._queries.stops.params.hitsPerPage)
+      expect(this.algolia._doSearch.args[1][0][0].params.hitsPerPage).to.equal(5 + this.algolia._viewMoreInc);
     });
   });
 });
