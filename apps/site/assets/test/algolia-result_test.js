@@ -306,7 +306,7 @@ describe("AlgoliaResult", () => {
     it('renders correct icon for Drupal results', () => {
       assert.include(AlgoliaResult.getIcon(drupalHits.searchResult, "drupal"), "<span");
       assert.include(AlgoliaResult.getIcon(drupalHits.searchResult, "drupal"), "</span>");
-      assert.include(AlgoliaResult.getIcon(drupalHits.searchResult, "drupal"), "fa-search");
+      assert.include(AlgoliaResult.getIcon(drupalHits.searchResult, "drupal"), "fa-file-o");
       assert.include(AlgoliaResult.getIcon(drupalHits.newsEntry, "drupal"), "fa-newspaper-o");
       assert.include(AlgoliaResult.getIcon(drupalHits.event, "drupal"), "fa-calendar");
       assert.include(AlgoliaResult.getIcon(drupalHits.page, "drupal"), "fa-file-o");

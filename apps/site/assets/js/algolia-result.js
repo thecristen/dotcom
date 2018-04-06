@@ -110,7 +110,7 @@ function _contentIcon(hit) {
     icon = _fileIcon(hit);
   } else {
     const iconMapper = {
-      search_result: "fa-search",
+      search_result: "fa-file-o",
       news_entry: "fa-newspaper-o",
       event: "fa-calendar",
       page: "fa-file-o",

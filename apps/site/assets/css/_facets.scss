@@ -25,10 +25,13 @@
   align-items: center;
   display: flex;
   margin-right: $base-spacing * .75;
+  min-width: $base-spacing * 1.25;
+  flex: 0 0 auto;
 }
 
 .c-facets__title {
   user-select: none;
+  flex: 0 0 auto;
 }
 
 .c-facets__search-facet-child {
