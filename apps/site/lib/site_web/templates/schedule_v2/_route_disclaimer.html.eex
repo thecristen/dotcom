@@ -1,8 +1,0 @@
-<%= if @route.id == "Red" do %>
-  <div class="route-disclaimer-container">
-    <strong>Shuttle routes in effect due to Wollaston Station closure.</strong>
-<%= link to: SiteWeb.ScheduleV2Controller.ClosedStops.wollaston_update_link() do %>
-      Learn how this will affect your trip <%= fa "arrow-right" %>
-    <% end %>
-  </div>
-<% end %>

@@ -6,7 +6,7 @@ defmodule VehicleHelpers do
   alias Predictions.Prediction
   alias Routes.{Route, Shape}
   alias Schedules.Trip
-  alias SiteWeb.ScheduleV2Controller.VehicleLocations
+  alias SiteWeb.ScheduleController.VehicleLocations
 
   import Routes.Route, only: [vehicle_name: 1]
   import Phoenix.HTML.Tag, only: [content_tag: 2, content_tag: 3]

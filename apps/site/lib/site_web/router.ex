@@ -102,14 +102,14 @@ defmodule SiteWeb.Router do
     get "/schedules/bus", ModeController, :bus
     get "/schedules/ferry", ModeController, :ferry
     get "/schedules/commuter-rail", ModeController, :commuter_rail
-    get "/schedules/Green/line", ScheduleV2Controller.Green, :line
-    get "/schedules/Green/schedule", ScheduleV2Controller.Green, :trip_view
-    get "/schedules/Green", ScheduleV2Controller.Green, :show
-    get "/schedules/:route/timetable", ScheduleV2Controller.TimetableController, :show, as: :timetable
-    get "/schedules/:route/schedule", ScheduleV2Controller.TripViewController, :show, as: :trip_view
-    get "/schedules/:route/line", ScheduleV2Controller.LineController, :show, as: :line
-    get "/schedules/:route", ScheduleV2Controller, :show, as: :schedule
-    get "/schedules/:route/pdf", ScheduleV2Controller.Pdf, :pdf, as: :route_pdf
+    get "/schedules/Green/line", ScheduleController.Green, :line
+    get "/schedules/Green/schedule", ScheduleController.Green, :trip_view
+    get "/schedules/Green", ScheduleController.Green, :show
+    get "/schedules/:route/timetable", ScheduleController.TimetableController, :show, as: :timetable
+    get "/schedules/:route/schedule", ScheduleController.TripViewController, :show, as: :trip_view
+    get "/schedules/:route/line", ScheduleController.LineController, :show, as: :line
+    get "/schedules/:route", ScheduleController, :show, as: :schedule
+    get "/schedules/:route/pdf", ScheduleController.Pdf, :pdf, as: :route_pdf
     get "/style-guide", StyleGuideController, :index
     get "/style-guide/:section", StyleGuideController, :index
     get "/style-guide/:section/:subpage", StyleGuideController, :show
