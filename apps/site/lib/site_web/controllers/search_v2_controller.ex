@@ -1,41 +1,53 @@
 defmodule SiteWeb.SearchV2Controller do
   use SiteWeb, :controller
+  alias Alerts.Alert
 
-  @typep routes_fn :: (() -> [Routes.Route.t])
-  @typep stops_fn :: (() -> [Stops.Stop.t])
+  @typep id_map :: %{
+    required(:stop) => MapSet.t(String.t),
+    required(:route) => MapSet.t(String.t)
+  }
 
   def index(conn, _params) do
     if Laboratory.enabled?(conn, :search_v2) do
-      all_alerts = Alerts.Repo.all(conn.assigns.date_time)
+      %{stop: stop_ids, route: route_ids} = get_alert_ids(conn.assigns.date_time)
 
       conn
       |> assign(:requires_google_maps?, true)
-      |> assign(:stops_with_alerts, stops_with_alerts(all_alerts))
-      |> assign(:routes_with_alerts, routes_with_alerts(all_alerts))
+      |> assign(:stops_with_alerts, stop_ids)
+      |> assign(:routes_with_alerts, route_ids)
       |> render("index.html")
     else
       render_404(conn)
     end
   end
 
-  defp stops_by_route_fn do
-    Enum.concat([Stops.Repo.by_route_type(:subway),
-                 Stops.Repo.by_route_type(:commuter_rail),
-                 Stops.Repo.by_route_type(:bus),
-                 Stops.Repo.by_route_type(:ferry)])
+  @spec get_alert_ids(DateTime.t, (DateTime.t -> [Alert.t])) :: id_map
+  def get_alert_ids(%DateTime{} = dt, alerts_repo_fn \\ &Alerts.Repo.all/1) do
+    dt
+    |> alerts_repo_fn.()
+    |> Enum.reject(& Alert.is_notice?(&1, dt))
+    |> Enum.reduce(%{stop: MapSet.new(), route: MapSet.new()}, &get_entity_ids/2)
   end
 
-  @spec stops_with_alerts([Alerts.Alert.t], routes_fn) :: [Stops.Stop.t]
-  def stops_with_alerts(alerts, stops_fn \\ &stops_by_route_fn/0) do
-    stops_fn.()
-    |> Enum.filter(&SiteWeb.StopView.has_alerts?(alerts, Util.today(), %Alerts.InformedEntity{stop: &1.id}))
-    |> Enum.map(&(&1.id))
+  @spec get_entity_ids(Alert.t, id_map) :: id_map
+  defp get_entity_ids(alert, acc) do
+    acc
+    |> do_get_entity_ids(alert, :stop)
+    |> do_get_entity_ids(alert, :route)
   end
 
-  @spec routes_with_alerts([Alerts.Alert.t], stops_fn) :: [Routes.Route.t]
-  def routes_with_alerts(alerts, routes_fn \\ &Routes.Repo.all/0) do
-    routes_fn.()
-    |> Enum.filter(&Site.Components.Buttons.ModeButtonList.has_alert?(&1, alerts, Util.now()))
-    |> Enum.map(&(&1.id))
+  @spec do_get_entity_ids(id_map, Alert.t, :stop | :route) :: id_map
+  defp do_get_entity_ids(acc, %Alert{} = alert, key) do
+    alert
+    |> Alert.get_entity(key)
+    |> Enum.reduce(acc, & add_id_to_set(&2, key, &1))
+  end
+
+  @spec add_id_to_set(id_map, :stop | :route, String.t | nil) :: id_map
+  defp add_id_to_set(acc, _set_name, nil) do
+    acc
+  end
+  defp add_id_to_set(acc, set_name, <<id::binary>>) do
+    Map.update!(acc, set_name, & MapSet.put(&1, id))
   end
 end

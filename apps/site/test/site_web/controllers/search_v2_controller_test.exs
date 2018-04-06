@@ -1,5 +1,7 @@
 defmodule SiteWeb.SearchV2ControllerTest do
   use SiteWeb.ConnCase, async: true
+  alias Alerts.Alert
+
   describe "index" do
     test "renders search results page if flag is enabled", %{conn: conn} do
       conn = put_req_cookie(conn, "search_v2", "true")
@@ -12,31 +14,43 @@ defmodule SiteWeb.SearchV2ControllerTest do
       conn = get conn, search_v2_path(conn, :index)
       assert conn.status == 404
     end
+  end
 
-    test "stops_with_alerts/1" do
-      stops_fn = fn() -> [%Stops.Stop{id: "stop_without_alert"}, %Stops.Stop{id: "stop_with_alert"}] end
-      ie_stop_with_alert = %Alerts.InformedEntity{stop: "stop_with_alert"}
-      alerts = [%Alerts.Alert{id: "alert1",
-                              severity: 8,
-                              active_period: [{Timex.shift(Timex.now(), days: -1), Timex.shift(Timex.now(), days: 1)}],
-                              informed_entity: Alerts.InformedEntitySet.new([ie_stop_with_alert])
-                             }
-               ]
+  describe "get_alert_ids/2" do
+    test "builds a hash of stop and route ids" do
+      dt = Util.to_local_time(~N[2018-03-01T12:00:00])
 
-      assert SiteWeb.SearchV2Controller.stops_with_alerts(alerts, stops_fn) == ["stop_with_alert"]
-    end
+      route_entity = Alerts.InformedEntity.from_keywords(route: "route_with_alert")
+      stop_entity = Alerts.InformedEntity.from_keywords(stop: "stop_with_alert")
 
-    test "routes_with_alerts/1" do
-      routes_fn = fn() -> [%Routes.Route{id: "route_without_alert"}, %Routes.Route{id: "route_with_alert"}] end
-      ie_route_with_alert = %Alerts.InformedEntity{route: "route_with_alert"}
-      alerts = [%Alerts.Alert{id: "alert1",
-                              severity: 8,
-                              active_period: [{Timex.shift(Timex.now(), days: -1), Timex.shift(Timex.now(), days: 1)}],
-                              informed_entity: Alerts.InformedEntitySet.new([ie_route_with_alert])
-                             }
-               ]
+      stop_alert = Alert.new(
+        effect: :station_closure,
+        severity: 9,
+        updated_at: Timex.shift(dt, hours: -2),
+        informed_entity: [stop_entity, route_entity]
+      )
+      refute Alert.is_notice?(stop_alert, dt)
 
-      assert SiteWeb.SearchV2Controller.routes_with_alerts(alerts, routes_fn) == ["route_with_alert"]
+      route_alert = Alert.new(
+        effect: :suspension,
+        severity: 9,
+        updated_at: Timex.shift(dt, hours: -1),
+        informed_entity: [route_entity]
+      )
+      refute Alert.is_notice?(route_alert, dt)
+
+      alerts_repo_fn = fn %DateTime{} ->
+        [
+          stop_alert,
+          route_alert
+        ]
+      end
+
+      result = SiteWeb.SearchV2Controller.get_alert_ids(dt, alerts_repo_fn)
+      assert result == %{
+        stop: MapSet.new(["stop_with_alert"]),
+        route: MapSet.new(["route_with_alert"])
+      }
     end
   end
 end

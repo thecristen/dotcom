@@ -1,4 +1,5 @@
 defmodule Alerts.Alert do
+  alias Alerts.InformedEntitySet, as: IESet
   defstruct [
     id: "",
     header: "",
@@ -109,6 +110,15 @@ defmodule Alerts.Alert do
   defp ensure_entity_set(alert) do
     %{alert | informed_entity: Alerts.InformedEntitySet.new(alert.informed_entity)}
   end
+
+  @spec get_entity(t, :route | :stop | :route_type | :trip | :direction_id) ::
+    Enumerable.t
+  @doc "Helper function for retrieving InformedEntity values for an alert"
+  def get_entity(%__MODULE__{informed_entity: %IESet{route:        set}}, :route), do: set
+  def get_entity(%__MODULE__{informed_entity: %IESet{stop:         set}}, :stop), do: set
+  def get_entity(%__MODULE__{informed_entity: %IESet{route_type:   set}}, :route_type), do: set
+  def get_entity(%__MODULE__{informed_entity: %IESet{trip:         set}}, :trip), do: set
+  def get_entity(%__MODULE__{informed_entity: %IESet{direction_id: set}}, :direction_id), do: set
 
   @doc """
   Reducer to determine if alert is urgent due to time.

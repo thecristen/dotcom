@@ -30,6 +30,16 @@ defmodule AlertsTest do
     end
   end
 
+  describe "get_entity/2" do
+    test "can retrieve all InformedEntity types" do
+      for type <- [:route, :route_type, :stop, :trip, :direction_id] do
+        entity = Alerts.InformedEntity.from_keywords([{type, "entity"}])
+        alert = Alert.new(informed_entity: [entity])
+        assert Alert.get_entity(alert, type) == MapSet.new(["entity"])
+      end
+    end
+  end
+
   describe "all_types/0" do
     test "contains no duplicates" do
       assert Enum.uniq(all_types()) == all_types()
