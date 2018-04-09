@@ -152,7 +152,7 @@ export class AlgoliaAutocomplete {
   _datasetSource(index) {
     return (query, callback) => {
       this._client.resetSearch();
-      return this._client.search(query)
+      return this._client.search({query: query})
              .then(results => this._onResults(callback, index, results))
              .catch(err => console.error(err))
     }

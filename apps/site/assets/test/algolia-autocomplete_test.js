@@ -234,4 +234,28 @@ describe("AlgoliaAutocomplete", () => {
       });
     });
   });
+
+  describe("datasetSource", () => {
+    it("returns a callback that performs a search", (done) => {
+      const ac = new AlgoliaAutocomplete(selectors, ["stops", "locations"]);
+      const client = new Algolia(queries, queryParams);
+      client._client.search = sinon.stub();
+      client._client.search.resolves({
+        results: [{hits: []}]
+      })
+      ac.init(client);
+      expect(Object.keys(ac._results)).to.have.members([]);
+
+      const callback = sinon.spy();
+      const returned = ac._datasetSource("stops")("search query", callback);
+      expect(returned).to.be.an.instanceOf(Promise);
+      Promise.resolve(returned).then(result => {
+        expect(ac._results.stops.hits).to.have.members([]);
+        expect(callback.called).to.be.true;
+        expect(callback.args[0][0]).to.be.an("array");
+        expect(callback.args[0][0]).to.have.members([]);
+        done();
+      })
+    });
+  });
 });
