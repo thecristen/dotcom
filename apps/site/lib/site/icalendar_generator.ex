@@ -11,8 +11,8 @@ defmodule Site.IcalendarGenerator do
       "BEGIN:VEVENT\n",
       "UID:", "event", "#{event.id}", "@mbta.com", "\n",
       "SEQUENCE:", timestamp(), "\n",
-      "DTSTART;TZID=\"America/New_York\":", start_time(event), "\n",
-      "DTEND;TZID=\"America/New_York\":", end_time(event), "\n",
+      "DTSTART:", start_time(event), "\n",
+      "DTEND:", end_time(event), "\n",
       "DESCRIPTION:", description(event), "\n",
       "LOCATION:", address(event), "\n",
       "SUMMARY:", event_summary(event), "\n",
@@ -81,7 +81,7 @@ defmodule Site.IcalendarGenerator do
 
   defp convert_to_ical_format(datetime) do
     datetime
-    |> Util.to_local_time
-    |> Timex.format!("{YYYY}{0M}{0D}T{h24}{m}{s}")
+    |> Timex.to_datetime("Etc/UTC")
+    |> Timex.format!("{YYYY}{0M}{0D}T{h24}{m}{s}Z")
   end
 end

@@ -55,8 +55,8 @@ defmodule IcalendarGeneratorTest do
     end
 
     test "includes the event start and end time with timezone information", %{conn: conn} do
-      start_datetime = Timex.to_datetime({{2017, 2, 28}, {14, 00, 00}})
-      end_datetime = Timex.to_datetime({{2017, 2, 28}, {16, 00, 00}})
+      start_datetime = Timex.to_datetime(~N[2017-02-28T09:00:00], "America/New_York")
+      end_datetime = Timex.to_datetime(~N[2017-02-28T11:00:00], "America/New_York")
 
       event = event_factory(0, start_time: start_datetime, end_time: end_datetime)
 
@@ -65,8 +65,8 @@ defmodule IcalendarGeneratorTest do
         |> IcalendarGenerator.to_ical(event)
         |> IO.iodata_to_binary
 
-      assert result =~ "DTSTART;TZID=\"America/New_York\":20170228T090000"
-      assert result =~ "DTEND;TZID=\"America/New_York\":20170228T110000"
+      assert result =~ "DTSTART:20170228T140000Z"
+      assert result =~ "DTEND:20170228T160000Z"
     end
 
     test "when the event does not have an end time", %{conn: conn} do
@@ -77,7 +77,7 @@ defmodule IcalendarGeneratorTest do
         |> IcalendarGenerator.to_ical(event)
         |> IO.iodata_to_binary
 
-      assert result =~ "DTEND;TZID=\"America/New_York\":\n"
+      assert result =~ "DTEND:\n"
     end
 
     test "the imported_address field decode the ampersand html entity", %{conn: conn} do
