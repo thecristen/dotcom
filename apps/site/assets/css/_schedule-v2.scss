@@ -43,14 +43,14 @@
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-.schedulev2view {
+.scheduleview {
   @include media-breakpoint-down(xs) {
     font-size: $font-size-base-xs;
 
     .alert-modal-container,
     .date-filter,
     .direction-filter,
-    .schedule-v2-route-note,
+    .schedule-route-note,
     .line-map-container,
     .route-hours,
     .route-map-heading,
