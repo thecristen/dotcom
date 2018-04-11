@@ -1,47 +1,57 @@
-<div class="page-section search-page">
-  <div class="search-results-facets col-md-3">
-    <%= form_for @conn, search_path(@conn, :index), [as: :search, method: :get, data: [form: "search-filter"]],
-        fn f -> %>
-      <input name="search[offset]" type="hidden" value="0">
-      <%= hidden_input :search, :query, value: @query %>
-      <%= if @facets["content_type"] != [] do %>
-        <div class="search-results-facet" data-facet="search">
-          <fieldset>
-            <legend class="h2 search-filter-heading" data-heading="search-filter">Filter by type<%= render_toggle_filter() %></legend>
-            <ul class="search-filter-container" data-container="search-filter">
-              <%= for option <- @facets["content_type"], do: render_filter_option(f, :content_type, option) %>
-            </ul>
-          </fieldset>
-        </div>
-      <% end %>
-      <button class="btn btn-primary btn-sm hidden-js">Update Results</button>
-    <% end %>
-  </div>
-  <div class="col-md-9">
-    <div class="search-results-documents">
-      <%= if @stats.total == 1 do %>
-        <h3 class="search-summary">Showing 1 result for <span class="search-terms">&ldquo;<%= @query %>&rdquo;</span>
-        </h3>
-      <% else %>
-        <h3 class="search-summary">Showing results <%= @stats.showing_from %>-<%= @stats.showing_to %> of <%= @stats.total %> for
-          <span class="search-terms">&ldquo;<%= @query %>&rdquo;</span>
-        </h3>
-      <% end %>
-      <ul>
-        <%= for result <- @results do %>
-          <li>
-            <%= link to: track_search_click(result.url, "search") do %>
-              <%= icon(result) %><%= result.title %>
-            <% end %>
-            <div><%= fragment(result, @conn) %></div>
-          </li>
-        <% end %>
-      </ul>
+<script>
+  window.algoliaConfig = <%= raw SiteWeb.ViewHelpers.algolia_config() %>
+</script>
+
+<div class="hidden-js hidden-no-js" aria-hidden="true">
+  <%= for feature <- [:red_line, :green_line, :blue_line, :orange_line, :bus, :commuter_rail, :ferry, :mattapan_trolley, :stop, :station, :subway] do %>
+    <div id="icon-feature-<%= feature %>">
+      <%=  svg_icon_with_circle(%SvgIconWithCircle{icon: feature, class: "icon-small"}) %>
     </div>
-    <div class="search-pagination">
-      <%= render SiteWeb.PaginationHelpers, "_responsive_pagination.html", pagination: @pagination,
-                                                                        link_context: @link_context %>
+  <% end %>
+
+    <div id="icon-feature-alert">
+      <%=  svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
     </div>
-    <%= render "_archive.html", assigns %>
+
+    <%= for feature <- [:"Green-B", :"Green-C", :"Green-D", :"Green-E"] do
+          SiteWeb.StopView.stop_feature_icon(feature, "icon-small")
+        end
+    %>
+</div>
+
+<div class="hidden-no-js">
+  <div class="c-searchv2__results-header">
+    <div class="col-md-4 c-searchv2__results-label">
+      <h1> Search </h1>
+    </div>
+    <div class="col-md-8">
+      <input id="searchv2-input" class="c-searchv2__results-input" placeholder="Search by keyword"></input>
+      <button id="show-facets" class="btn btn-primary c-searchv2__filter-button">
+        Filter by type
+      </button>
+    </div>
   </div>
+  <div id="searchv2-facets-container" class="col-md-4 c-searchv2__facets-container">
+    <div id="close-facets-modal" class="c-searchv2__close-modal-button">
+      CLOSE
+    </div>
+    <h3 class="c-searchv2__filter-label">
+      Filter by type
+    </h3>
+    <div id="search-facets-container"></div>
+  </div>
+  <div id="searchv2-results-container" class="col-md-8"></div>
+</div>
+
+<div class="hidden-js">
+  <%= cond do
+    assigns[:empty_query] ->
+      render "empty_query.html", assigns
+    assigns[:results] && assigns[:results] == [] ->
+      render "no_results.html", assigns
+    assigns[:show_error] ->
+      render "error.html", assigns
+    true ->
+      render "index-nojs.html", assigns
+  end %>
 </div>

@@ -27,7 +27,6 @@ config :site, SiteWeb.ViewHelpers,
 
 config :laboratory,
   features: [
-    {:search_v2, "Algolia Search Results", "Enables Algolia Search Results"}
   ],
   cookie: [
     max_age: 3600 * 24 * 30, # one month,

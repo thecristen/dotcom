@@ -13,11 +13,6 @@
 <div class="nav-item nav-item-search hidden-no-js">
   <a
     class="desktop-nav-link collapsed toggle-up-down search-nav-link"
-    aria-controls="search"
-    aria-expanded="false"
-    data-parent="#desktop-menu"
-    data-target="#search"
-    data-toggle="collapse"
     href="/search"
     role="tab">
     <div class="nav-link-content search-label"><label for="search_query">Search</label></div>
