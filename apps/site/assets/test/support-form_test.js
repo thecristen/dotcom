@@ -6,7 +6,8 @@ import sinon from 'sinon';
 import { clearFallbacks,
          handleUploadedPhoto,
          setupTextArea,
-         handleSubmitClick } from '../../assets/js/support-form';
+         handleSubmitClick,
+         rescale } from '../../assets/js/support-form';
 
 describe('support form', () => {
   let $;
@@ -41,6 +42,29 @@ describe('support form', () => {
     });
   });
 
+  describe('rescale', function() {
+    it('returns the same dimensions if they are in the limit', function() {
+      let dim = { width: 900, height: 900 };
+      dim = rescale(dim);
+      assert.equal(dim.width, 900);
+      assert.equal(dim.height, 900);
+    });
+
+    it('returns a properly scaled dimension if the width is longer', function() {
+      let dim = { width: 2000, height: 1000 };
+      dim = rescale(dim);
+      assert.equal(dim.width, 1000);
+      assert.equal(dim.height, 500);
+    });
+
+    it('returns a properly scaled dimension if the height is longer', function() {
+      let dim = { width: 1000, height: 2000 };
+      dim = rescale(dim);
+      assert.equal(dim.width, 500);
+      assert.equal(dim.height, 1000);
+    });
+  });
+
   describe('handleUploadedPhoto', () => {
     var toUpload = [];
 
@@ -65,7 +89,6 @@ describe('support form', () => {
       const $preview = $('.photo-preview')
       assert.equal($preview.length, 1);
       assert.include($preview.html(), 'test-file');
-      assert.include($preview.html(), '24 B');
     });
 
     it('does not hide the upload link', () => {
@@ -90,8 +113,6 @@ describe('support form', () => {
       assert.equal($preview.length, 2);
       assert.include($preview.first().html(), 'test-file')
       assert.include($preview.last().html(), 'test-file-2')
-      assert.include($preview.first().html(), '24 B');
-      assert.include($preview.last().html(), '28 B');
     });
 
     it('stores all the photos to be uploaded in the toUpload array', () => {

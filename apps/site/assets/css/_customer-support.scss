@@ -22,6 +22,9 @@
   .error-container {
     margin: 0 0 .5em;
   }
+  .support-upload-error-container {
+    margin: 0 0 $base-spacing * .25 $base-spacing * .75;
+  }
 }
 
 .support-success {
@@ -179,4 +182,19 @@ button .waiting {
 
 .support-text {
   margin-bottom: $base-spacing / 2;
+}
+
+.clear-upload-container {
+  display: inline-block;
+  position: relative;
+}
+
+.clear-photo {
+  color: $brand-primary;
+  cursor: pointer;
+  height: $base-spacing;
+  position: absolute;
+  right: $base-spacing / 2;
+  top: -$base-spacing / 2;
+  width: $base-spacing;
 }

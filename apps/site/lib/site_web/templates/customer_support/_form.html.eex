@@ -32,6 +32,9 @@
           <span></span>
           <small class="form-text">3000 characters maximum</small>
         </div>
+        <div class="support-upload-error-container error-container col-xs-12 <%= class_for_error("upload", @errors, "", "hidden-xs-up") %>" tabindex="-1">
+          <span id="upload-photo-error" class="support-comments-error">Sorry. We had trouble uploading your image. Please try again.</span>
+        </div>
         <div class="col-xs-12 photo-preview-container contrast <%= unless Map.has_key?(f.params, "photo"), do: "hidden-xs-up" %>" tabindex="-1">
         </div>
         <div class="form-group col-xs-12 contrast">

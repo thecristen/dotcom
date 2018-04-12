@@ -40,28 +40,83 @@ function setupPhotoPreviews($, toUpload) {
   const $container = $('.photo-preview-container');
   $('#photo').change(function () {
     if (this.files.length >= 1) {
-      handleUploadedPhoto($, this.files[0], $container, toUpload);
+      resizeAndHandleUploadedFile($, this.files[0], $container, toUpload);
     }
   });
 };
 
+export function resizeAndHandleUploadedFile($, file, $container, toUpload) {
+  if (/image\//.test(file.type)) {
+    resizeImage(file)
+      .then(newFile => {
+        newFile.name = file.name;
+        handleUploadedPhoto($, newFile, $container, toUpload);
+        $(`.support-upload-error-container`).addClass('hidden-xs-up');
+      })
+      .catch(err => {
+        displayError($, '#upload');
+        $('#upload-photo-error').html("Sorry. We had trouble uploading your image. Please try again.");
+      });
+  } else {
+    displayError($, '#upload');
+    $('#upload-photo-error').html("We couldn't upload your file. Please make sure it's an image and try again.");
+  }
+  $container.focus();
+}
+
 // Split out for testing, since the content of a file input can't be
 // changed programmatically for security reasons
 export function handleUploadedPhoto($, file, $container, toUpload) {
-  if (/image\//.test(file.type)) {
-    toUpload.push(file);
-    hideOrShowPreviews($container, toUpload);
+  toUpload.push(file);
+  hideOrShowPreviews($container, toUpload);
 
-    let preview = new PhotoPreview($, file)
-      .addClickHandler($container, toUpload)
-      .div();
-    $container.append(preview);
-  } else {
-    $container.append($(`
-      <span>Error: ${file.name} <br /> The file you've selected is not valid for review. Please upload images only.</span>
-    `));
+  let preview = new PhotoPreview($, file)
+    .addClickHandler($container, toUpload)
+    .div();
+  $container.append(preview);
+}
+
+export function resizeImage(file) {
+  return new Promise((resolve, reject) => {
+    const fr = new FileReader;
+    fr.onerror = () => {
+      fr.abort();
+      reject(new DOMException("Error parsing file."));
+    };
+    fr.onload = function() {
+      const img = new Image();
+      img.onload = function() {
+        const dim = rescale({width: img.width, height: img.height});
+        const canvas = document.createElement("canvas");
+        canvas.width = dim.width;
+        canvas.height = dim.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, dim.width, dim.height);
+        canvas.toBlob(function(blob) {
+          resolve(blob);
+        }, "image/jpeg");
+      };
+      img.src = fr.result;
+    }
+    fr.readAsDataURL(file);
+  });
+}
+
+export function rescale(dim) {
+  const maxDim = 1000;
+  if (dim.width <= maxDim && dim.height <= maxDim) {
+    return dim;
   }
-  $container.focus();
+  if (dim.width > dim.height) {
+    const ratio = dim.height / dim.width;
+    dim.width = maxDim;
+    dim.height = maxDim * ratio;
+  } else {
+    const ratio = dim.width / dim.height;
+    dim.height = maxDim;
+    dim.width = maxDim * ratio;
+  }
+  return dim;
 }
 
 function hideOrShowPreviews($container, toUpload) {
@@ -77,11 +132,14 @@ function PhotoPreview ($, file) {
 
   let $div = $(`
     <div class="photo-preview">
-      <p>
-        ${file.name} &mdash; ${filesize(file.size)}
-        <button class="btn btn-link clear-photo"><i class="fa fa-times-circle" aria-hidden="true"></i><span class="sr-only">Clear Photo Upload</span></button>
-      </p>
-      <img height="100" class="m-r-1" alt="Uploaded image ${file.name} preview"></img>
+      <div class="clear-upload-container">
+        <img height="64" class="m-r-1" alt="Uploaded image ${file.name} preview"></img>
+        <div class="clear-photo">
+          <i class="fa fa-circle fa-stack-1x" style="color: white" aria-hidden="true"></i>
+          <i class="fa fa-times-circle fa-stack-1x" aria-hidden="true"></i>
+          <span class="sr-only">Clear Photo Upload</span>
+        </div>
+      </div>
     </div>
   `);
 
