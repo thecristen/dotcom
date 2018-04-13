@@ -77,7 +77,7 @@ defmodule SiteWeb.ContentController do
   defp render_page(conn, %Content.Person{} = person) do
     conn
     |> assign(:breadcrumbs, [Breadcrumb.build("People"), Breadcrumb.build(person.name)])
-    |> render("person.html", person: person)
+    |> render(SiteWeb.ContentView, "person.html", person: person)
   end
   defp render_page(conn, %Content.Redirect{link: link}) do
     redirect conn, external: link.url
