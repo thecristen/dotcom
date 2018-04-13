@@ -29,7 +29,7 @@ export class AlgoliaWithGeo extends Algolia {
     }
 
     if (!(!this._locationEnabled && this._activeQueryIds.length > 0)) {
-      googleResults = GoogleMapsHelpers.autocomplete(this._currentQuery, this._bounds)
+      googleResults = GoogleMapsHelpers.autocomplete(this._lastQuery, this._bounds)
                           .catch(() => console.error("Error while contacting google places API."));
     }
 

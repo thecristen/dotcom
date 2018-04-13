@@ -114,6 +114,15 @@ describe("Algolia", function() {
       this.algolia.search();
       expect(this.algolia._doSearch.args[0][0][0]["query"]).to.equal("previous query");
     });
+
+    it("returns empty if search is called with blank query", function() {
+      this.algolia._client = this.mockClient;
+      this.algolia._doSearch = sinon.spy();
+      this.algolia.updateWidgets = sinon.spy();
+      this.algolia.search({query: ""});
+      const returned = this.algolia.search();
+      expect(this.algolia.updateWidgets.calledWith({}));
+    });
   });
 
   describe("Algolia._processAlgoliaResults", function() {

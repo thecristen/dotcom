@@ -7,7 +7,6 @@ export class Algolia {
     this._defaultParams = defaultParams;
     this.resetSearch();
     this._viewMoreInc = 20;
-    this._currentQuery = "";
     this._lastQuery = "";
     this._doBlankSearch = true;
     this._widgets = [];
@@ -54,7 +53,7 @@ export class Algolia {
   }
 
   search(opts = {}) {
-    if (!opts.query) { opts.query = this._lastQuery; }
+    if (!(typeof opts.query == "string")) { opts.query = this._lastQuery; }
     if (opts.query.length > 0) {
       const allQueries = this._buildAllQueries(opts);
       this._lastQuery = opts.query;
