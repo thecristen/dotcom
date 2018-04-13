@@ -2,17 +2,6 @@ defmodule SiteWeb.ContentController do
   use SiteWeb, :controller
   require Logger
 
-  @old_site_paths [
-    "about_the_mbta",
-    "business_center",
-    "customer_support",
-    "fares_and_passes",
-    "rider_tools",
-    "riding_the_t",
-    "schedules_and_maps",
-    "transitpolice",
-  ]
-
   @generic_page_types [
     Content.BasicPage,
     Content.Person,
@@ -65,10 +54,6 @@ defmodule SiteWeb.ContentController do
     conn
     |> put_status(status)
     |> redirect(to: path)
-  end
-  defp handle_page_response({:error, :not_found}, %Plug.Conn{path_info: [top | _]} = conn)
-  when top in @old_site_paths do
-    redirect conn, to: redirect_path(conn, :show, conn.path_info, conn.query_params)
   end
   defp handle_page_response({:error, :not_found}, conn) do
     render_404(conn)

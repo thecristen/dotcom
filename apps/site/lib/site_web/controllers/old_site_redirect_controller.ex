@@ -5,13 +5,13 @@ defmodule SiteWeb.OldSiteRedirectController do
 
   def schedules_and_maps(conn, %{"route" => route}) do
     case old_route_to_route_id(route) do
-      nil -> check_cms_or_404(conn)
+      nil -> redirect conn, to: mode_path(conn, :index)
       route_id -> redirect conn, to: schedule_path(conn, :show, route_id)
     end
   end
   def schedules_and_maps(conn, %{"path" => [_mode, "lines", "stations" | _], "stopId" => stop_id}) do
     case Stops.Repo.old_id_to_gtfs_id(stop_id) do
-      nil ->  check_cms_or_404(conn)
+      nil -> redirect conn, to: mode_path(conn, :index)
       gtfs_id -> redirect conn, to: stop_path(conn, :show, gtfs_id)
     end
   end
@@ -38,11 +38,8 @@ defmodule SiteWeb.OldSiteRedirectController do
   def schedules_and_maps(conn, %{"path" => ["system_map" | _]}) do
     redirect conn, to: cms_static_page_path(conn, "/maps")
   end
-  def schedules_and_maps(conn, params) when params == %{} do
-    redirect conn, to: mode_path(conn, :index)
-  end
   def schedules_and_maps(conn, _params) do
-    check_cms_or_404(conn)
+    redirect conn, to: mode_path(conn, :index)
   end
 
   defp old_route_to_route_id("RED"), do: "Red"
