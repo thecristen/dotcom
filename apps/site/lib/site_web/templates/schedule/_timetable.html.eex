@@ -8,38 +8,38 @@
     <% # only show scroll controllers if we have 2 or more schedules
         should_show_scroll_controls? = match?([_, _ | _], @header_schedules)
     %>
-    <div class="schedule-v2-timetable-container" data-sticky-container>
-      <table class="schedule-v2-timetable schedule-v2-timetable-hide-earlier schedule-v2-timetable-hide-later commuter-rail">
+    <div class="schedule-timetable-container" data-sticky-container>
+      <table class="schedule-timetable schedule-timetable-hide-earlier schedule-timetable-hide-later commuter-rail">
         <tr>
-          <th scope="row" class="schedule-v2-timetable-name-col schedule-v2-timetable-header-col" data-sticky="left">
+          <th scope="row" class="schedule-timetable-name-col schedule-timetable-header-col" data-sticky="left">
             Stop
             <%= if should_show_scroll_controls? do %>
-              <div class="schedule-v2-timetable-more-col schedule-v2-timetable-more-col-earlier schedule-v2-timetable-header-col" aria-hidden="true">
+              <div class="schedule-timetable-more-col schedule-timetable-more-col-earlier schedule-timetable-header-col" aria-hidden="true">
                 <%= fa "angle-left" %>
-                <span class="schedule-v2-timetable-more-text"><%= fa "angle-up" %> Earlier Trains <%= fa "angle-up" %></span>
+                <span class="schedule-timetable-more-text"><%= fa "angle-up" %> Earlier Trains <%= fa "angle-up" %></span>
               </div>
             <% end %>
           </th>
           <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
-            <th scope="col" class="schedule-v2-timetable-header-col schedule-v2-timetable-time-col"<%= if index == @offset, do: " data-scroll-to" %>>
+            <th scope="col" class="schedule-timetable-header-col schedule-timetable-time-col"<%= if index == @offset, do: " data-scroll-to" %>>
               <span class="hidden-sm-down">Train </span><%= schedule.trip.name %>
               <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: @date, route: @route.id, direction_id: @direction_id) != [] do %>
                 <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small icon-inverse"}) %>
               <% end %>
             </th>
           <% end %>
-          <th class="schedule-v2-timetable-header-col schedule-v2-timetable-filler schedule-v2-timetable-time-col"></th>
+          <th class="schedule-timetable-header-col schedule-timetable-filler schedule-timetable-time-col"></th>
           <%= if should_show_scroll_controls? do %>
-            <th class="schedule-v2-timetable-more-col schedule-v2-timetable-more-col-later schedule-v2-timetable-header-col" data-sticky="right" aria-hidden="true">
+            <th class="schedule-timetable-more-col schedule-timetable-more-col-later schedule-timetable-header-col" data-sticky="right" aria-hidden="true">
               <%= fa "angle-right" %>
-              <span class="schedule-v2-timetable-more-text"><%= fa "angle-up" %> Later Trains <%= fa "angle-up" %></span>
+              <span class="schedule-timetable-more-text"><%= fa "angle-up" %> Later Trains <%= fa "angle-up" %></span>
             </th>
           <% end %>
         </tr>
         <%= for stop <- @all_stops do %>
-          <tr class="schedule-v2-timetable-row">
-            <th scope="row" class="schedule-v2-timetable-name-col" data-sticky="left">
-              <div class="schedule-v2-timetable-name">
+          <tr class="schedule-timetable-row">
+            <th scope="row" class="schedule-timetable-name-col" data-sticky="left">
+              <div class="schedule-timetable-name">
                 <%= link break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id) %>&nbsp;<%=
                                                                                                           if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date, direction_id: @direction_id) != [] do
                                                                                                           fa "exclamation-triangle", [{:"data-toggle", "tooltip"}, {:title, "Service alert or delay"}]
@@ -47,11 +47,11 @@
                                                                                                       %>
               </div>
               <%= if should_show_scroll_controls? do %>
-                <div class="schedule-v2-timetable-more-col schedule-v2-timetable-more-col-earlier"></div>
+                <div class="schedule-timetable-more-col schedule-timetable-more-col-earlier"></div>
               <% end %>
             </th>
             <%= for schedule <- @header_schedules do %>
-              <td class="schedule-v2-timetable-time-col">
+              <td class="schedule-timetable-time-col">
                 <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
                   <%= format_schedule_time(trip_schedule.time) %>
                 <% end %>
@@ -63,16 +63,16 @@
                   </span>
                 <% end %>
                 <%= if trip_message = @trip_messages[{schedule.trip.name, stop.id}] do %>
-                  <span class="schedule-v2-timetable-trip-message">
+                  <span class="schedule-timetable-trip-message">
                     <%= trip_message %>
                   </span>
                 <% end %>
               </td>
             <% end %>
-            <td class="schedule-v2-timetable-time-col schedule-v2-timetable-filler"></td>
+            <td class="schedule-timetable-time-col schedule-timetable-filler"></td>
 
             <%= if should_show_scroll_controls? do %>
-              <td class="schedule-v2-timetable-more-col schedule-v2-timetable-more-col-later" data-sticky="right"></td>
+              <td class="schedule-timetable-more-col schedule-timetable-more-col-later" data-sticky="right"></td>
             <% end %>
           </tr>
         <% end %>

@@ -4,14 +4,14 @@ import {FacetItem} from './facet-bar';
 export class AlgoliaFacets {
   constructor(selectors, search) {
     document.getElementById(selectors.closeModalButton).addEventListener("click", function() {
-      document.getElementById(selectors.facetsContainer).classList.remove("c-searchv2__facets-container--open");
-      document.getElementById(selectors.closeModalButton).classList.remove("c-searchv2__close-modal-button--open");
-      document.body.classList.remove("c-searchv2__open-modal");
+      document.getElementById(selectors.facetsContainer).classList.remove("c-search__facets-container--open");
+      document.getElementById(selectors.closeModalButton).classList.remove("c-search__close-modal-button--open");
+      document.body.classList.remove("c-search__open-modal");
     });
     document.getElementById(selectors.showFacetsButton).addEventListener("click", function() {
-      document.getElementById(selectors.facetsContainer).classList.add("c-searchv2__facets-container--open");
-      document.getElementById(selectors.closeModalButton).classList.add("c-searchv2__close-modal-button--open");
-      document.body.classList.add("c-searchv2__open-modal");
+      document.getElementById(selectors.facetsContainer).classList.add("c-search__facets-container--open");
+      document.getElementById(selectors.closeModalButton).classList.add("c-search__close-modal-button--open");
+      document.body.classList.add("c-search__open-modal");
     });
 
     const facets = {

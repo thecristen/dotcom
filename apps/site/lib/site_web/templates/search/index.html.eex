@@ -20,27 +20,27 @@
 </div>
 
 <div class="hidden-no-js">
-  <div class="c-searchv2__results-header">
-    <div class="col-md-4 c-searchv2__results-label">
+  <div class="c-search__results-header">
+    <div class="col-md-4 c-search__results-label">
       <h1> Search </h1>
     </div>
     <div class="col-md-8">
-      <input id="searchv2-input" class="c-searchv2__results-input" placeholder="Search by keyword"></input>
-      <button id="show-facets" class="btn btn-primary c-searchv2__filter-button">
+      <input id="search-input" class="c-search__results-input" placeholder="Search by keyword"></input>
+      <button id="show-facets" class="btn btn-primary c-search__filter-button">
         Filter by type
       </button>
     </div>
   </div>
-  <div id="searchv2-facets-container" class="col-md-4 c-searchv2__facets-container">
-    <div id="close-facets-modal" class="c-searchv2__close-modal-button">
+  <div id="search-facets-container" class="col-md-4 c-search__facets-container">
+    <div id="close-facets-modal" class="c-search__close-modal-button">
       CLOSE
     </div>
-    <h3 class="c-searchv2__filter-label">
+    <h3 class="c-search__filter-label">
       Filter by type
     </h3>
     <div id="search-facets-container"></div>
   </div>
-  <div id="searchv2-results-container" class="col-md-8"></div>
+  <div id="search-results-container" class="col-md-8"></div>
 </div>
 
 <div class="hidden-js">

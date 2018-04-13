@@ -1,7 +1,7 @@
 <%= if @journeys.journeys != [] do %>
   <% refresh = if JourneyList.has_predictions?(@journeys), do: render "_refresh.html", conn: @conn %>
-  <div role="table" class="trip-list-v2 trip-list-v2-commuter">
-    <div class="trip-list-v2-row trip-list-v2-header fixedsticky sticky-top">
+  <div role="table" class="trip-list trip-list-commuter">
+    <div class="trip-list-row trip-list-header fixedsticky sticky-top">
       <div class="row" role="row">
         <%= if @destination do %>
           <div class="col-xs-4" role="columnheader">Departure</div>
@@ -18,7 +18,7 @@
       <%= if trip do %>
         <% alerts = trip_alerts(departure, @all_alerts, @route, @direction_id)
            is_current_trip? = TripInfo.is_current_trip?(@trip_info, trip.id)
-           class = if is_current_trip?, do: (if @trip_chosen?, do: "trip-list-v2-row-selected", else: "trip-list-v2-row-preselected")
+           class = if is_current_trip?, do: (if @trip_chosen?, do: "trip-list-row-selected", else: "trip-list-row-preselected")
            url = trip_link(@conn, @trip_info, @trip_chosen?, trip.id) %>
         <%= render "_commuter_trip_list_row.html", departure: departure, arrival: arrival, name: trip.name, headsign: trip.headsign, alerts: alerts, url: url, class: class, id: trip.id %>
         <%= if is_current_trip? and TripInfo.should_display_trip_info?(@trip_info), do: render "_trip_info.html", forward_assigns(@conn) %>
@@ -27,7 +27,7 @@
       <% end %>
     <% end %>
     <%= trip_expansion_link(@journeys.expansion, @date, @conn)%>
-    <div class="trip-list-v2-row trip-list-v2-row-2-col trip-list-v2-realtime-key">
+    <div class="trip-list-row trip-list-row-2-col trip-list-realtime-key">
       <%= Site.Components.Icons.Realtime.realtime_icon_key %>
     </div>
   </div>

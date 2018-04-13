@@ -129,9 +129,9 @@ defmodule PredictedSchedule.Display do
 
   defp do_realtime(content) do
     content_tag(:div, [
-      content_tag(:div, content, class: "trip-list-v2-realtime-content"),
+      content_tag(:div, content, class: "trip-list-realtime-content"),
       Site.Components.Icons.Realtime.realtime_icon
-    ], class: "trip-list-v2-realtime")
+    ], class: "trip-list-realtime")
   end
 
   defp do_route_headsign(%Routes.Route{id: "Green-B"}, 0) do

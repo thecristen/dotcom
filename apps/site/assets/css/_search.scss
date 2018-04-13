@@ -1,3 +1,6 @@
+// This first set of styles are legacy styles used only
+// by the fallback search used if javascript is not enabled
+//
 .searchview {
   .container {
     @include media-breakpoint-down(sm) {
@@ -45,8 +48,8 @@
   }
 
   label {
-    margin-bottom: 0;
     cursor: pointer;
+    margin-bottom: 0;
   }
 }
 
@@ -301,4 +304,162 @@
   &::after {
     content: ' ';
   }
+}
+// End of lagacy search styles
+
+.c-search__filter-label {
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-h3-xxl;
+    padding-left: $base-spacing;
+  }
+}
+
+.c-search__filter-button {
+  display: none;
+  margin-bottom: $base-spacing;
+  margin-top: $base-spacing;
+  width: 100%;
+
+  @include media-breakpoint-down(sm) {
+    display: block;
+  }
+}
+
+.c-search__results-header {
+  padding-top: $base-spacing * 2;
+
+  @include media-breakpoint-up(md) {
+    padding-bottom: $base-spacing * 5;
+  }
+}
+
+.c-search__results-input {
+  border: 3px solid $brand-primary-dark;
+  border-radius: $border-radius;
+  font-size: $font-size-h4;
+  font-weight: bold;
+  padding: $base-spacing / 2;
+  width: 100%;
+}
+
+.c-search__facets-container {
+  background-color: $white;
+  display: block;
+
+  @include media-breakpoint-down(sm) {
+    bottom: 0;
+    display: none;
+    height: 100%;
+    left: 0;
+    overflow-y: scroll;
+    padding: $base-spacing 0 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+  }
+}
+
+.c-search__open-modal {
+  overflow-y: hidden;
+}
+
+.c-search__close-modal-button {
+  color: $brand-primary;
+  cursor: pointer;
+  display: none;
+  float: right;
+  padding-right: $base-spacing;
+  text-align: right;
+
+  @include media-breakpoint-down(sm) {
+    display: block;
+  }
+}
+
+.c-search__facets-container--open,
+.c-search__close-modal-button--open {
+  @include media-breakpoint-down(sm) {
+    display: block;
+  }
+}
+
+.c-search-results__hits {
+  padding-bottom: $base-spacing;
+}
+
+.c-search-results__show-more {
+  color: $brand-primary;
+  cursor: pointer;
+  text-align: center;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.c-search-result__link {
+  cursor: pointer;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.c-search-result__hit {
+  border: 1px solid $gray-bordered-background;
+  border-top: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: $space-4 $space-8;
+}
+
+.c-search-result__feature-icons {
+  flex: 0 0 auto;
+}
+
+.c-search-result__header {
+  background-color: $gray-bordered-background;
+  padding: $space-4 $space-8;
+}
+
+.c-search-result__loading-indicator {
+  display: none;
+}
+
+.c-search-result__header--location {
+  color: $brand-primary;
+  cursor: pointer;
+  float: right;
+}
+
+.c-search-result__footer {
+  padding: $space-4 $space-8;
+}
+
+.c-search-result__content-icon {
+  color: $brand-primary;
+  margin-right: $space-4;
+}
+
+.c-search-result__hit-name {
+  color: $black;
+
+  em {
+    font-style: normal;
+    font-weight: bold;
+  }
+}
+
+.c-search-results__commuter-rail-zone {
+  border: solid 1px $brand-commuter-rail;
+  border-radius: $space-4;
+  color: $brand-commuter-rail;
+  padding-left: $space-6;
+  padding-right: $space-6;
+}
+
+.c-search-result__event-date {
+  color: $gray-lighter;
 }

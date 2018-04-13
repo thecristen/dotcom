@@ -25,8 +25,8 @@ export default function($) {
         ev.target.scrollLeft = 0;
       }
 
-      toggleClass(table, 'schedule-v2-timetable-hide-earlier', hideEarlier);
-      toggleClass(table, 'schedule-v2-timetable-hide-later', hideLater);
+      toggleClass(table, 'schedule-timetable-hide-earlier', hideEarlier);
+      toggleClass(table, 'schedule-timetable-hide-later', hideLater);
     });
   }
 
@@ -47,7 +47,7 @@ export default function($) {
     if (table.className.indexOf("vertically-centered") === -1) {
       const tableHeight = table.clientHeight;
       window.requestAnimationFrame(
-        () => verticallyCenter($, table, tableHeight, 'schedule-v2-timetable-more-text'));
+        () => verticallyCenter($, table, tableHeight, 'schedule-timetable-more-text'));
     }
   }
 

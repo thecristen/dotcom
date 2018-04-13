@@ -1,13 +1,13 @@
 <%= if @journeys.journeys != [] do %>
   <% refresh = if JourneyList.has_predictions?(@journeys), do: render "_refresh.html", conn: @conn %>
-  <div class="trip-list-v2" role="table">
-    <div class="trip-list-v2-row trip-list-v2-header trip-list-v2-row-2-col fixedsticky sticky-top" role="row">
+  <div class="trip-list" role="table">
+    <div class="trip-list-row trip-list-header trip-list-row-2-col fixedsticky sticky-top" role="row">
       <%= if @destination do %>
-        <div class="trip-list-v2-departure" role="columnheader">Departure</div>
-        <div class="trip-list-v2-headsign" role="columnheader">Arrival <%= refresh %></div>
+        <div class="trip-list-departure" role="columnheader">Departure</div>
+        <div class="trip-list-headsign" role="columnheader">Arrival <%= refresh %></div>
       <% else %>
-        <div class="trip-list-v2-departure" role="columnheader">Scheduled</div>
-        <div class="trip-list-v2-headsign" role="columnheader"><%= display_direction(@journeys) %> <%= refresh %></div>
+        <div class="trip-list-departure" role="columnheader">Scheduled</div>
+        <div class="trip-list-headsign" role="columnheader"><%= display_direction(@journeys) %> <%= refresh %></div>
       <% end %>
     </div>
     <%= for %Journey{departure: departure, arrival: arrival, trip: trip} <- @journeys do %>
@@ -17,7 +17,7 @@
       <%= if trip do %>
         <% is_current_trip? = TripInfo.is_current_trip?(@trip_info, trip.id) %>
         <%= alerts = trip_alerts(departure, @all_alerts, @route, @direction_id)
-            class = if is_current_trip?, do: (if @trip_chosen?, do: "trip-list-v2-row-selected", else: "trip-list-v2-row-preselected")
+            class = if is_current_trip?, do: (if @trip_chosen?, do: "trip-list-row-selected", else: "trip-list-row-preselected")
             url = trip_link(@conn, @trip_info, @trip_chosen?, trip.id)
             render "_trip_list_row.html", departure: departure,
                                           arrival: arrival,
@@ -39,7 +39,7 @@
       <% end %>
     <% end %>
     <%= trip_expansion_link(@journeys.expansion, @date, @conn)%>
-    <div class="trip-list-v2-row trip-list-v2-row-2-col trip-list-v2-realtime-key">
+    <div class="trip-list-row trip-list-row-2-col trip-list-realtime-key">
       <%= Site.Components.Icons.Realtime.realtime_icon_key %>
     </div>
   </div>

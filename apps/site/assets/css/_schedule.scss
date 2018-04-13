@@ -1,4 +1,7 @@
 @import 'variables';
+@import 'table';
+@import 'buttons';
+@import 'vendor/sass-svg-uri/svg-uri';
 
 .schedule-block {
   margin-top: $base-spacing;
@@ -158,6 +161,22 @@ a {
       color: $white;
     }
   }
+
+
+  &.trip-list-row {
+    @include hover-focus-active() {
+      border-bottom-color: $btn-primary-focus-bg;
+      border-top-color: $btn-primary-focus-bg;
+    }
+
+    &:not(.trip-list-row-selected):not(.trip-list-row-preselected) {
+      @extend %button-focus-color;
+    }
+  }
+
+  .trip-list-departure {
+    color: $link-color;
+  }
 }
 
 .selected-period {
@@ -171,11 +190,6 @@ a {
 
 .green-route-name {
   color: $link-color;
-}
-
-.trip-list {
-  padding-left: 1.25em;
-  margin-bottom: 0;
 }
 
 .trip-stop {
@@ -430,4 +444,832 @@ a {
 
 .mobile-legend > span {
   margin-right: $space-12;
+}
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///   GENERAL PAGE STYLES
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+.schedule-filter-row {
+  @include clearfix();
+  margin-bottom: $space-16;
+}
+
+.calendar-covered {
+  position: relative;
+}
+
+.calendar-cover {
+  background-color: $white;
+  height: 100%;
+  opacity: .7;
+  position: absolute;
+  width: 100%;
+  z-index: $z-index-calendar-cover;
+}
+
+.schedule-empty {
+  font-weight: bold;
+  text-align: center;
+}
+
+.schedule-destination-select-toggle {
+  font-weight: bold;
+  margin-top: $base-spacing;
+}
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///// XS size margin and padding adjustments -- may be temporary pending
+///// introduction of sidewide base-font size reduction
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+.scheduleview {
+  @include media-breakpoint-down(xs) {
+    font-size: $font-size-base-xs;
+
+    .alert-modal-container,
+    .date-filter,
+    .direction-filter,
+    .schedule-route-note,
+    .line-map-container,
+    .route-hours,
+    .route-map-heading,
+    .schedule-route-name,
+    .shape-filter,
+    .stop-filters,
+    .trip-filters,
+    .trip-list,
+
+    .route-stop-heading {
+      margin-bottom: $space-4;
+    }
+
+    .page-section {
+      margin-top: $space-12;
+    }
+
+    .route-stop-list {
+      margin-bottom: 0;
+    }
+
+    .select-modal-label {
+      padding: $base-spacing-sm 0;
+    }
+
+    .trip-list-row {
+      padding: $space-6 $space-12;
+    }
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///// TRIP LIST
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+.trip-list-container {
+  @include make-container();
+
+  @include media-breakpoint-up(md) {
+    margin-top: -$base-spacing;
+  }
+}
+
+.trip-list-row {
+  @extend %unpadded-table-row;
+  @include make-row();
+  border-left: $border;
+  border-right: $border;
+  color: $gray-dark;
+  display: block;
+
+  @include media-breakpoint-up(md) {
+    clear: left;
+    float: left;
+    width: 50%;
+  }
+
+  &:empty {
+    display: none;
+  }
+
+  &:focus {
+    border-bottom: $border-md;
+    border-top: $border-md;
+    outline: none;
+    z-index: $z-index-trip-selected;
+  }
+
+  .caret {
+    float: right;
+    line-height: $space-24;
+  }
+
+}
+
+.trip-list-realtime-key {
+  border-bottom-width: 0;
+  border-left-width: 0;
+  border-right-width: 0;
+  line-height: $base-spacing * .75;
+}
+
+.trip-list-row-selected,
+.trip-list-row-preselected {
+  @include media-breakpoint-up(md) {
+    @include button-selected-color;
+
+    .icon,
+    .trip-list-realtime {
+      @include icon-inverse;
+    }
+
+    &::after {
+      background: svg-uri('<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewbox="100 100" height="100px" width="100px"><polygon points="0,0 0,100 20,50" fill="#{$brand-primary}"/></svg>');
+      background-size: cover;
+      bottom: -2px;
+      content: ' ';
+      display: block;
+      margin-top: 1px;
+      position: absolute;
+      right: -1.5rem;
+      top: -2px;
+      width: 1.5rem;
+    }
+  }
+}
+
+.trip-list-row-selected {
+  @include media-breakpoint-down(sm) {
+    @include button-selected-color;
+    border-color: $brand-primary;
+
+    .icon,
+    .trip-list-realtime {
+      @include icon-inverse;
+    }
+
+    .caret {
+      transform: rotate(180deg);
+    }
+
+    .trip-list-row {
+      border: 0;
+    }
+  }
+}
+
+.trip-list {
+  margin-bottom: $base-spacing;
+}
+
+.trip-list-header {
+  @extend %table-header;
+  border: 0;
+  color: $white;
+  margin-top: $base-spacing;
+
+  @include media-breakpoint-down(sm) {
+    position: sticky;
+  }
+
+  * {
+    color: $white;
+  }
+}
+
+.trip-list-row-2-col {
+  @extend %table-row;
+
+  > div {
+    @include make-col();
+  }
+}
+
+.trip-list-departure {
+  @include make-col-span(4);
+}
+
+.trip-list-headsign {
+  @include make-col-span(8);
+}
+
+.time-block-name {
+  @include make-col-span(7);
+}
+
+.time-block-times {
+  @include make-col-span(5);
+}
+
+.trip-list-footer {
+  color: $link-color;
+  display: block;
+}
+
+.trip-list-green-line-icon {
+  .stop-bubble-stop {
+    overflow: visible;
+  }
+
+  circle {
+    fill: $white;
+    stroke: $brand-green-line;
+    stroke-width: 2px;
+  }
+}
+
+.trip-list-realtime {
+  @include media-breakpoint-up(md) {
+    @include no-wrap();
+  }
+}
+
+.trip-list-realtime-content {
+  line-height: $base-spacing;
+}
+
+.commuter-status {
+  @include first-column;
+}
+
+.pdf-schedules-header {
+  padding-bottom: 0;
+}
+
+.schedules-pdf-link {
+  padding-bottom: $base-spacing;
+}
+
+// we use the del tag to indicate a cancels trip time, but sometimes it has children that also need the same style
+del .trip-list-realtime {
+  text-decoration: line-through;
+}
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///// FREQUENCY TABLE
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+.schedule-frequency-time {
+  font-size: $font-size-sm;
+}
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///// TRIP INFO
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///// VEHICLE LOCATION GRAPHIC
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+.route-status,
+.trip-info-labels,
+.trip-stops,
+.trip-duration,
+.trip-fare {
+  padding-left: $base-spacing;
+  padding-right: $base-spacing;
+}
+
+.route-status,
+.trip-duration {
+  padding-bottom: $base-spacing;
+  padding-top: $base-spacing;
+}
+
+.trip-fare {
+  padding-bottom: $base-spacing;
+}
+
+.route-status {
+  border-bottom: $border;
+}
+
+.trip-info-labels {
+  font-weight: bold;
+}
+
+// trip info parent container
+.schedule-trip-info {
+  @include make-row();
+  border-bottom: $border;
+  border-left: $border;
+  border-right: $border;
+
+  @include media-breakpoint-up(md) {
+    float: right;
+    width: 50%;
+  }
+
+  // Add the border to highlight the trip on mobile
+  @include media-breakpoint-down(sm) {
+    border: $border-md;
+    border-bottom-width: $border-width * 3;
+    border-color: $brand-primary;
+
+    .trip-preselected & {
+      display: none;
+    }
+  }
+}
+
+.schedule-trip-info-header {
+  @extend %table-header;
+  @extend %table-row;
+
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+}
+
+.line-map-container {
+  margin-bottom: $base-spacing;
+}
+
+.line-map {
+  width: 100%;
+
+  // the size of the map varies at different breakpoints, these heights make is a square
+  @include media-breakpoint-only(xxl) {
+    height: 356px;
+  }
+
+  @include media-breakpoint-only(lg) {
+    height: 284px;
+  }
+
+  @include media-breakpoint-only(md) {
+    height: 222px;
+  }
+
+  @include media-breakpoint-only(sm) {
+    height: 300px;
+  }
+
+  @include media-breakpoint-only(xs) {
+    height: 256px;
+  }
+
+  // this hides the close "x" from the info window. This is because we use it like a tooltip (it closes on mouseout)
+  .gm-style-iw + div {
+    display: none;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///// DATE AND DIRECTION FILTER BUTTONS
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+.stop-filters {
+  .trip-view-filter-label {
+    padding-top: 0;
+  }
+}
+
+.trip-filters {
+  // We use flexbox to make the filter buttons display as same
+  // height when the headsign is long and text is forced to
+  // wrap. Button heights will simply be uneven equal on browsers
+  // that do not support flexbox (>1% of our visitors).
+
+  @include media-breakpoint-up(sm) {
+    align-items: stretch;
+    display: flex;
+  }
+}
+
+.date-filter,
+.direction-filter,
+.shape-filter,
+.schedule-route-note {
+  // fixes issue on iOS9, see: http://stackoverflow.com/questions/7892863/jquery-click-not-working-with-ipad
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+
+  @include media-breakpoint-down(xs) {
+    margin-bottom: $base-spacing;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // this div is created by modal.js, but is not necessary in this case
+  .select-cover {
+    display: none;
+  }
+}
+
+.schedule-route-note > * {
+  // flex the element inside the note
+  flex: 1;
+}
+
+.filter-button {
+  // scss-lint:disable VendorPrefix
+  @extend %button-primary-outline;
+  @include clearfix();
+  border-radius: $border-radius;
+  display: block;
+  -ms-flex: 1 1 0%; // specify all 3 to work around IE bug
+  flex: 1;
+  min-height: 4rem;
+  overflow: hidden;
+  padding: $base-spacing-sm;
+  position: relative;
+  text-align: left;
+  white-space: normal;
+  width: 100%;
+
+  @include hover-focus-active() {
+    .filter-icon-border {
+      border-color: $btn-primary-focus-color;
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.filter-icon,
+.filter-text {
+  @include make-col();
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.filter-text {
+  max-width: 80%;
+}
+
+.filter-icon {
+  bottom: 0;
+  height: 2rem;
+  margin: auto;
+  padding-right: $base-spacing-sm;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.filter-icon-border {
+  border: 1px solid $brand-primary;
+  border-radius: 50%;
+  height: 2rem;
+  text-align: center;
+  width: 2rem;
+
+  i {
+    height: 100%;
+    line-height: 2rem;
+    margin: -1px auto;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  svg {
+    margin: $space-6 0 0 $space-6;
+
+    path {
+      fill: $brand-primary;
+    }
+  }
+}
+
+.icon-calendar,
+.icon-direction {
+  height: $base-spacing * 2;
+  stroke: $brand-primary;
+  width: $base-spacing * 2;
+
+}
+
+.icon-calendar-circle,
+.icon-direction-circle {
+  stroke: $brand-primary;
+}
+
+.icon-calendar-image,
+.icon-direction-image {
+  fill: $brand-primary;
+  stroke: none;
+}
+
+.icon-variation {
+  height: $base-spacing * 2;
+  stroke: $brand-primary;
+  width: $base-spacing * 2;
+
+  .icon-variation-image {
+    fill: $brand-primary;
+    stroke: none;
+  }
+}
+
+.filter-label {
+  font-weight: bold;
+  margin-bottom: $space-6;
+
+  @include media-breakpoint-only(xs) {
+    margin-bottom: $space-12;
+  }
+}
+
+.inner-label {
+  color: $body-color;
+  font-weight: bold;
+}
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///// COMMUTER RAIL TIMETABLE
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+.schedule-timetable-container {
+  border-bottom: $base-spacing-lg solid $brand-primary-darkest;
+  font-size: $font-size-sm;
+  margin-bottom: $base-spacing;
+  max-width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  width: 100%;
+}
+
+.schedule-timetable-hide-earlier .schedule-timetable-more-col-earlier,
+.schedule-timetable-hide-later .schedule-timetable-more-col-later {
+  color: $gray-light;
+  cursor: auto;
+
+  .schedule-timetable-more-text {
+    color: $gray-light;
+
+    @include hover-focus() {
+      color: $gray-light;
+      text-decoration: none;
+    }
+  }
+}
+
+.schedule-timetable-row:nth-child(even) {
+  > * {
+    background-color: $gray-bordered-background;
+    border-left: $space-1 $gray-bordered-background;
+  }
+}
+
+.schedule-timetable-row:nth-child(odd) {
+  .schedule-timetable-time-col,
+  .schedule-timetable-name-col:not(.schedule-timetable-header-col) {
+    background-color: $white;
+    border-left: $space-1 $white;
+  }
+}
+
+.schedule-timetable-time-col,
+.schedule-timetable-name-col {
+  padding: .25em .5em; // em, not rem, so that it changes with the smaller mobile font size
+
+  @include media-breakpoint-up(md) {
+    padding-right: 1.5em;
+  }
+}
+
+.schedule-timetable-time-col,
+.schedule-timetable-header-col {
+  @include media-breakpoint-down(sm) {
+    text-align: center;
+  }
+}
+
+.schedule-timetable-filler {
+  width: 100%;
+}
+
+.schedule-timetable-header-col {
+  background-color: $brand-primary-darkest;
+  border-left: $border-width solid $brand-primary-darkest;
+  border-right: $border-width solid $brand-primary-darkest;
+  color: $white;
+  font-weight: bold;
+  padding: .5em;
+}
+
+.schedule-timetable-time-col:not([class*="header"]) {
+  // Weird bug in firefox -- at some point when the [data-sticky="left"] columns get set to position: absolute
+  // inside of horizSticky.js, a dark left and right border appears on each table cell. See bug report at
+  // https://app.asana.com/0/111025076443530/298967690426135
+  text-align: left;
+}
+
+.schedule-timetable-name-col {
+  text-align: left;
+
+  @include media-breakpoint-down(sm) {
+    max-width: 10em;
+  }
+}
+
+.schedule-timetable-time-col {
+  min-width: 5em;
+  white-space: nowrap;
+
+  @include media-breakpoint-up(md) {
+    min-width: 8em;
+  }
+}
+
+.schedule-timetable-name {
+  font-weight: normal;
+  margin-right: $base-spacing-sm; // left scroll warning
+
+  @include media-breakpoint-up(xs) {
+    min-width: $base-spacing * 6;
+  }
+
+  @include media-breakpoint-up(md) {
+    margin-right: $base-spacing-lg; // left scroll warning
+    min-width: $base-spacing * 9.5;
+  }
+
+  > i {
+    display: inline;
+  }
+}
+
+.no-js {
+  .schedule-timetable-more-col {
+    display: none;
+  }
+}
+
+.schedule-timetable-more-col {
+  color: $gray-dark;
+  cursor: pointer;
+  min-width: $base-spacing-sm;
+  padding: $base-spacing-sm 0 0;
+  text-align: center;
+
+  @include media-breakpoint-up(md) {
+    min-width: $base-spacing * 3;
+  }
+
+  &:not(.schedule-timetable-header-col) {
+    background-color: $white;
+    border-left: $border;
+    border-right: $border;
+  }
+
+  > .fa-angle-right,
+  > .fa-angle-left {
+    color: $white;
+  }
+
+}
+
+// hides the extra "Earlier/Later Trains" text when we duplicate the element
+// for being stuck to a side.
+[data-sticky] .schedule-timetable-more-text {
+  display: none;
+}
+
+.schedule-timetable-more-col-earlier {
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  .schedule-timetable-more-text {
+    transform: rotate(180deg);
+  }
+}
+
+.schedule-timetable-more-text {
+  // scss-lint:disable DuplicateProperty
+  color: $link-color;
+  cursor: pointer;
+  display: none;
+  font-size: $font-size-h5;
+  font-weight: bold;
+  left: 25%;
+  overflow: visible;
+  position: absolute;
+  right: 25%;
+  text-orientation: sideways;
+  top: 10vh;
+  user-select: none;
+  white-space: nowrap;
+  writing-mode: tb-lr; // for IE
+  writing-mode: vertical-lr; // for everything else
+  z-index: $z-index-schedule-timetable-more-text;
+
+  @include hover-focus() {
+    color: $link-hover-color;
+    text-decoration: $link-hover-decoration;
+  }
+
+  @include media-breakpoint-up(md) {
+    display: block;
+  }
+
+  .fa {
+    font-weight: bold;
+    padding-bottom: $base-spacing-sm;
+    padding-top: $base-spacing-sm;
+  }
+}
+
+.route-row {
+  > .route-row {
+    // branch
+    padding-left: 1rem;
+  }
+}
+
+.route-green-bubble {
+  display: inline-block;
+  width: $icon-size * 1.5;
+}
+
+.route-holiday-info {
+  li {
+    margin-left: -$space-18;
+  }
+}
+
+.route-holiday-container {
+  margin-top: $base-spacing;
+}
+
+.pdf-schedules-container {
+  margin-top: $base-spacing;
+}
+
+.hours-heading {
+  margin-bottom: 0;
+}
+
+.hours-period-heading {
+  margin-bottom: 0;
+  margin-top: $base-spacing-sm;
+}
+
+.schedule-timetable-trip-message {
+  color: $brand-commuter-rail;
+  font-weight: bold;
+}
+
+.prediction-tooltip {
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+[data-sticky-container] {
+  [data-sticky] {
+    position: relative;
+  }
+}
+
+.name-with-icon {
+  &:hover > * {
+    text-decoration: underline;
+  }
+
+  svg {
+    margin-left: $space-6;
+  }
+}
+
+.tooltip-icon {
+  color: $brand-primary;
+}
+
+.schedule-tooltip {
+  font-size: 1rem;
+  max-width: 15rem;
+  padding: .5rem;
+  padding-bottom: 0;
+}
+
+.route-disclaimer-container {
+  background-color: $alert-color-lighter;
+  border: $border;
+  margin-top: $base-spacing;
+  padding: $space-12;
 }

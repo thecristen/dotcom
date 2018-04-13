@@ -70,12 +70,12 @@ defmodule SiteWeb.ScheduleView.TripList do
   @spec display_frequency_departure(TimeGroup.time_block, Schedules.Departures.t | :no_service) :: Phoenix.HTML.Safe.t
   def display_frequency_departure(time_block, departure)
   def display_frequency_departure(:am_rush, %Schedules.Departures{} = departure) do
-    content_tag :div, class: "schedule-v2-frequency-time" do
+    content_tag :div, class: "schedule-frequency-time" do
       "First Departure at #{ViewHelpers.format_schedule_time(departure.first_departure)}"
     end
   end
   def display_frequency_departure(:late_night, %Schedules.Departures{} = departure) do
-    content_tag :div, class: "schedule-v2-frequency-time" do
+    content_tag :div, class: "schedule-frequency-time" do
       "Last Departure at #{ViewHelpers.format_schedule_time(departure.last_departure)}"
     end
   end
@@ -123,12 +123,12 @@ defmodule SiteWeb.ScheduleView.TripList do
   end
   def trip_expansion_link(:collapsed, date, conn) do
     date_string = date |> ViewHelpers.pretty_date |> String.downcase
-    link to: UrlHelpers.update_url(conn, show_all_trips: true) <> "#trip-list", class: "trip-list-v2-row trip-list-v2-footer" do
+    link to: UrlHelpers.update_url(conn, show_all_trips: true) <> "#trip-list", class: "trip-list-row trip-list-footer" do
       "Show all trips for #{date_string}"
     end
   end
   def trip_expansion_link(:expanded, _date, conn) do
-    link to: UrlHelpers.update_url(conn, show_all_trips: false) <> "#trip-list", class: "trip-list-v2-row trip-list-v2-footer" do
+    link to: UrlHelpers.update_url(conn, show_all_trips: false) <> "#trip-list", class: "trip-list-row trip-list-footer" do
       "Show upcoming trips only"
     end
   end

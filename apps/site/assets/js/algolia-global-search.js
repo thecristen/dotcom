@@ -106,9 +106,9 @@ AlgoliaGlobalSearch.DEFAULT_PARAMS = {
 }
 
 AlgoliaGlobalSearch.SELECTORS = {
-  searchBar: "searchv2-input",
-  facetsContainer: "searchv2-facets-container",
-  resultsContainer: "searchv2-results-container",
+  searchBar: "search-input",
+  facetsContainer: "search-facets-container",
+  resultsContainer: "search-results-container",
   closeModalButton: "close-facets-modal",
   showFacetsButton: "show-facets",
 };

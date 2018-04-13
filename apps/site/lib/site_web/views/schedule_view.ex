@@ -115,7 +115,7 @@ defmodule SiteWeb.ScheduleView do
     content_tag :div, class: "pdf-links" do
       for pdf <- route_pdfs do
         url = static_url(SiteWeb.Endpoint, pdf.path)
-        content_tag :div, class: "schedules-v2-pdf-link" do
+        content_tag :div, class: "schedules-pdf-link" do
           link(to: url, target: "_blank") do
             text_for_route_pdf(pdf, route, today, all_current?)
           end

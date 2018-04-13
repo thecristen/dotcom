@@ -110,7 +110,7 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
       assert conn.assigns.direction_id == 1
     end
 
-    test "when origin does not exist, redirects to schedules_v2 page with no stops selected", %{conn: conn} do
+    test "when origin does not exist, redirects to schedules page with no stops selected", %{conn: conn} do
       path = schedule_path(conn, :show, "1")
       conn = setup_conn(
         %{conn |
@@ -122,7 +122,7 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
       assert redirected_to(conn, 302) == path <> "?direction_id=1"
     end
 
-    test "when neither origin or destination exist, redirects to schedules_v2 page with no stops selected", %{conn: conn} do
+    test "when neither origin or destination exist, redirects to schedules page with no stops selected", %{conn: conn} do
       path = schedule_path(conn, :show, "1")
       conn = setup_conn(
         %{conn |
