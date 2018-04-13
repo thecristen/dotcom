@@ -13,15 +13,20 @@ defmodule SiteWeb.StopView do
 
   @spec pretty_accessibility(String.t) :: [String.t]
   def pretty_accessibility("tty_phone"), do: ["TTY Phone"]
-  def pretty_accessibility("escalator_both"), do: ["Escalator (Up and Down)"]
+  def pretty_accessibility("escalator_both"), do: ["Escalator (up and down)"]
+  def pretty_accessibility("escalator_up"), do: ["Escalator (up only)"]
+  def pretty_accessibility("escalator_down"), do: ["Escalator (down only)"]
+  def pretty_accessibility("ramp"), do: ["Long ramp"]
+  def pretty_accessibility("full_high"), do: ["Full high level platform to provide level boarding to every car in a train set"]
+  def pretty_accessibility("mini_high"), do: ["Mini high level platform to provide level boarding to certain cars in a train set"]
   def pretty_accessibility("unknown"), do: []
   def pretty_accessibility("accessible"), do: []
   def pretty_accessibility(accessibility) do
     [
       accessibility
       |> String.split("_")
-      |> Enum.map(&String.capitalize/1)
       |> Enum.join(" ")
+      |> String.capitalize()
     ]
   end
 
@@ -62,9 +67,11 @@ defmodule SiteWeb.StopView do
   @doc "Accessibility content for given stop"
   def accessibility_info(stop, route_types) do
     [
-      content_tag(:p, [
-            format_accessibility_text(stop, route_types),
-            format_accessibility_prefix(stop, route_types)]),
+      content_tag(:p,
+                  [
+                   format_accessibility_text(stop, route_types),
+                   format_accessibility_prefix(stop, route_types)
+                  ]),
       format_accessibility_options(stop),
       accessibility_contact_link(stop)
     ]
@@ -76,8 +83,10 @@ defmodule SiteWeb.StopView do
       [] -> []
       _ ->
         cond do
+          stop.id == "place-asmnl" ->
+            [" ", stop.name, " has the following features:"]
           Stop.accessible?(stop) || !bus_route?(route_types) ->
-            " It has the following features:"
+            [" It has the following features:"]
           Stop.accessibility_known?(stop) ->
             [" ", stop.name, " has the following features:"]
           true -> []
@@ -91,11 +100,22 @@ defmodule SiteWeb.StopView do
     case Enum.flat_map(stop.accessibility, &pretty_accessibility/1) do
       [] -> []
       features ->
-        content_tag :ul, Enum.map(features, fn(feature) -> content_tag :li, feature end)
+        content_tag :ul, Enum.map(Enum.sort(features), fn(feature) -> content_tag :li, feature end)
     end
   end
 
+  defp significant_accessibility_barriers_text(stop) do
+    ["Significant accessibility barriers exist at ", stop.name, ", but customers can board/exit the ",
+     significant_accessibility_train_name(stop), " using a mobile lift."]
+  end
+
+  defp significant_accessibility_train_name(%Stop{id: "place-asmnl"}), do: "Mattapan Trolley"
+  defp significant_accessibility_train_name(_stop), do: "train"
+
   @spec format_accessibility_text(Stop.t, [Routes.Route.gtfs_route_type]) :: iodata
+  defp format_accessibility_text(%Stop{id: id} = stop, _) when id in ["place-lech", "place-brkhl", "place-newtn", "place-asmnl"] do
+    significant_accessibility_barriers_text(stop)
+  end
   defp format_accessibility_text(stop, route_types) do
     bus_route? = bus_route?(route_types)
 
@@ -106,7 +126,7 @@ defmodule SiteWeb.StopView do
         accessibility_text(stop.name,
                            bus_route?,
                            "Significant",
-                           "Customers using wheeled mobility devices may need to board at street level."
+                           "Customers using wheeled mobility devices may need to board at street level. Bus operator will need to relocate bus for safe boarding and exiting."
         )
       :unknown ->
         accessibility_text(stop.name,

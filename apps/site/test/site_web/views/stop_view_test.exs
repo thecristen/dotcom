@@ -30,6 +30,10 @@ defmodule SiteWeb.StopViewTest do
     @only_accessible_feature %Stop{name: "test", accessibility: ["accessible"]}
     @many_feature %Stop{name: "test", accessibility: ["accessible", "ramp", "elevator"]}
     @unknown_accessibly  %Stop{id: "44", name: "44", accessibility: ["unknown"]}
+    @lechmere %Stop{id: "place-lech", name: "Lechmere", accessibility: ["accessible"]}
+    @brookline_hills %Stop{id: "place-brkhl", name: "Brookline Hills", accessibility: ["accessible"]}
+    @newton_highlands %Stop{id: "place-newtn", name: "Newton Highlands", accessibility: ["accessible"]}
+    @ashmont %Stop{id: "place-asmnl", name: "Ashmont", accessibility: ["accessible", "ramp"]}
 
     test "Accessibility description reflects features" do
       has_text? accessibility_info(@unknown_accessibly, []), "Minor to moderate accessibility barriers exist"
@@ -55,6 +59,26 @@ defmodule SiteWeb.StopViewTest do
       no_text? accessibility_info(@unknown_accessibly, []), text
     end
 
+    test "Lechemre has special accessibility text" do
+      has_text? accessibility_info(@lechmere, [:subway]),
+                "Significant accessibility barriers exist at Lechmere, but customers can board/exit the train using a mobile lift."
+    end
+
+    test "Newton Highlands has special accessibility text" do
+      has_text? accessibility_info(@newton_highlands, [:subway]),
+                "Significant accessibility barriers exist at Newton Highlands, but customers can board/exit the train using a mobile lift."
+    end
+
+    test "Brookline Hills has special accessibility text" do
+      has_text? accessibility_info(@brookline_hills, [:subway]),
+                "Significant accessibility barriers exist at Brookline Hills, but customers can board/exit the train using a mobile lift."
+    end
+
+    test "Ashmont has special accessibility text" do
+      has_text? accessibility_info(@ashmont, [:subway]),
+                "Significant accessibility barriers exist at Ashmont, but customers can board/exit the Mattapan Trolley using a mobile lift."
+    end
+
     defp has_text?(unsafe, text) do
       safe = unsafe
       |> Phoenix.HTML.html_escape
@@ -71,14 +95,19 @@ defmodule SiteWeb.StopViewTest do
   end
 
   describe "pretty_accessibility/1" do
-    test "formats phone and escalator fields" do
+    test "formats non-standard accessibility fields" do
       assert pretty_accessibility("tty_phone") == ["TTY Phone"]
-      assert pretty_accessibility("escalator_both") == ["Escalator (Up and Down)"]
+      assert pretty_accessibility("escalator_both") == ["Escalator (up and down)"]
+      assert pretty_accessibility("escalator_up") == ["Escalator (up only)"]
+      assert pretty_accessibility("escalator_down") == ["Escalator (down only)"]
+      assert pretty_accessibility("ramp") == ["Long ramp"]
+      assert pretty_accessibility("full_high") == ["Full high level platform to provide level boarding to every car in a train set"]
+      assert pretty_accessibility("mini_high") == ["Mini high level platform to provide level boarding to certain cars in a train set"]
     end
 
-    test "For all other fields, separates underscore and capitalizes all words" do
-      assert pretty_accessibility("elevator_issues") == ["Elevator Issues"]
-      assert pretty_accessibility("down_escalator_repair_work") == ["Down Escalator Repair Work"]
+    test "For all other fields, separates underscore and capitalizes first word" do
+      assert pretty_accessibility("elevator_issues") == ["Elevator issues"]
+      assert pretty_accessibility("down_escalator_repair_work") == ["Down escalator repair work"]
     end
 
     test "ignores unknown and accessible features" do
