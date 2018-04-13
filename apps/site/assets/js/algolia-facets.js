@@ -1,5 +1,4 @@
 import {FacetBar} from './facet-bar';
-import {FacetItem} from './facet-bar';
 
 export class AlgoliaFacets {
   constructor(selectors, search) {
@@ -144,6 +143,10 @@ export class AlgoliaFacets {
   }
 
   init() {
+  }
+
+  reset() {
+    this._facetBar.reset();
   }
 
   render(results) {

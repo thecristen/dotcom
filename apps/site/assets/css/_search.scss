@@ -333,13 +333,28 @@
   }
 }
 
-.c-search__results-input {
+.c-search__results-input-container {
   border: 3px solid $brand-primary-dark;
   border-radius: $border-radius;
+  display: flex;
+}
+
+.c-search__results-input {
+  border-radius: $border-radius;
+  border-width: 0;
+  flex: 1 1 auto;
   font-size: $font-size-h4;
   font-weight: bold;
   padding: $base-spacing / 2;
   width: 100%;
+}
+
+.c-search__clear-icon {
+  color: $brand-primary;
+  flex: 1 1 auto;
+  height: $space-18;
+  margin-top: .875rem;
+  width: $space-18;
 }
 
 .c-search__facets-container {

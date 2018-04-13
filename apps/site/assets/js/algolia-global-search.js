@@ -18,6 +18,7 @@ export class AlgoliaGlobalSearch {
   constructor() {
     this.container = null;
     this.controller = null;
+    this._facetsWidget = null;
   }
 
   init() {
@@ -30,11 +31,26 @@ export class AlgoliaGlobalSearch {
     }
 
     this.container.value = "";
-    this.controller.addWidget(new AlgoliaFacets(AlgoliaGlobalSearch.SELECTORS, this.controller));
-    this.controller.addWidget(new AlgoliaResults(AlgoliaGlobalSearch.SELECTORS.resultsContainer, this));
+
+    const facetsWidget = new AlgoliaFacets(AlgoliaGlobalSearch.SELECTORS, this.controller);
+    this.controller.addWidget(facetsWidget);
+    this._facetsWidget = facetsWidget;
+
+    const resultsWidget = new AlgoliaResults(AlgoliaGlobalSearch.SELECTORS.resultsContainer, this);
+    this.controller.addWidget(resultsWidget);
+
     this.container.addEventListener("input", () => {
       this.controller.search({query: this.container.value});
     });
+
+    const clearButton = document.getElementById(AlgoliaGlobalSearch.SELECTORS.clearSearchButton);
+    if (clearButton) {
+      clearButton.addEventListener("click", () => {
+        this.container.value = "";
+        this._facetsWidget.reset();
+        this.controller.search({query: this.container.value});
+      });
+    }
   }
 
   onClickShowMore(group) {
@@ -111,6 +127,7 @@ AlgoliaGlobalSearch.SELECTORS = {
   resultsContainer: "search-results-container",
   closeModalButton: "close-facets-modal",
   showFacetsButton: "show-facets",
+  clearSearchButton: "search-clear-icon",
 };
 
 AlgoliaGlobalSearch.LATLNGBOUNDS = {

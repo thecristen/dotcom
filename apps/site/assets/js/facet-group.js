@@ -53,4 +53,8 @@ export class FacetGroup {
       search.addActiveQuery(queryId);
     }
   }
+
+  reset() {
+    this._item.uncheck()
+  }
 }

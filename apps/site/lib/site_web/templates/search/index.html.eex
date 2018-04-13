@@ -25,7 +25,10 @@
       <h1> Search </h1>
     </div>
     <div class="col-md-8">
-      <input id="search-input" class="c-search__results-input" placeholder="Search by keyword"></input>
+      <div class="c-search__results-input-container">
+        <input id="search-input" class="c-search__results-input" placeholder="Search by keyword"></input>
+        <span id="search-clear-icon" class="c-search__clear-icon fa fa-times-circle"></span>
+      </div>
       <button id="show-facets" class="btn btn-primary c-search__filter-button">
         Filter by type
       </button>

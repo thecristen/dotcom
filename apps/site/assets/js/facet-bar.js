@@ -35,6 +35,15 @@ export class FacetBar {
     });
   }
 
+  reset() {
+    const items = this._items;
+
+    for (let item in items) {
+      items[item].reset();
+    }
+    this.update()
+  }
+
   update() {
     const queryIds = Object.keys(this._items);
     this._search.updateActiveQueries([]);
