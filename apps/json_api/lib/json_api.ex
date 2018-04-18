@@ -141,6 +141,7 @@ defmodule JsonApi do
              list when is_list(list) -> list
              item -> [item]
            end
+    data = Enum.map(data, fn item -> Map.delete(item, "relationships") end)
     included
     |> Enum.concat(data)
     |> Map.new(fn %{"type" => type, "id" => id} = item ->

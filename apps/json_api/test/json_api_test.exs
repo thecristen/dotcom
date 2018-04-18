@@ -147,6 +147,71 @@ defmodule JsonApiTest do
     }
   end
 
+  @tag timeout: 5000
+  test ".parse handles a cyclical included relationship with properties" do
+    {:ok, body} = Poison.encode(%{
+      data: %{
+        attributes: %{},
+        id: "Worcester",
+        links: %{},
+        relationships: %{
+          facilities: %{
+            data: [%{
+              id: "subplat-056",
+              type: "facility"
+            }],
+            links: %{}
+          }
+        },
+        type: "stop"
+      },
+      included: [%{
+        attributes: %{},
+        id: "subplat-056",
+        links: %{},
+        relationships: %{
+          stop: %{
+            data: %{
+              id: "Worcester",
+              type: "stop"
+            }
+          }
+        },
+        type: "facility"
+      }],
+      jsonapi: %{"version": "1.0"}
+    })
+    assert JsonApi.parse(body) == %JsonApi{
+      links: %{},
+      data: [
+        %JsonApi.Item{
+          type: "stop",
+          id: "Worcester",
+          attributes: %{},
+          relationships: %{
+            "facilities" => [
+              %JsonApi.Item{
+                type: "facility",
+                id: "subplat-056",
+                attributes: %{},
+                relationships: %{
+                  "stop"=> [
+                    %JsonApi.Item{
+                      type: "stop",
+                      id: "Worcester",
+                      attributes: %{},
+                      relationships: %{}
+                    }
+                  ]
+                },
+              }
+            ]
+          }
+        }
+      ]
+    }
+  end
+
   @lint {Credo.Check.Readability.MaxLineLength, false}
   _ = @lint
   test ".parse handles an empty relationship" do
