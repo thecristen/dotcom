@@ -40,7 +40,12 @@ export class AlgoliaResults {
       console.error(`could not find results container with id: ${id}`);
     }
     this._container.innerHTML = "";
+    this._bind();
+  }
+
+  _bind() {
     this.onClickShowMore = this.onClickShowMore.bind(this);
+    this.onClickResult = this.onClickResult.bind(this);
   }
 
   _addLocationListeners(results) {
@@ -71,6 +76,13 @@ export class AlgoliaResults {
     if (el) {
       el.removeEventListener("click", this.onClickShowMore);
       el.addEventListener("click", this.onClickShowMore);
+    }
+  }
+
+  onClickResult(ev) {
+    if (ev.currentTarget.href) {
+      ev.preventDefault();
+      window.Turbolinks.visit(ev.currentTarget.href + AlgoliaResult.parseParams(this._parent.getParams()));
     }
   }
 
@@ -118,6 +130,8 @@ export class AlgoliaResults {
   }
 
   init() {
+    window.jQuery(document).off("click", ".c-search-result__link", this.onClickResult)
+    window.jQuery(document).on("click", ".c-search-result__link", this.onClickResult)
   }
 
   reset() {

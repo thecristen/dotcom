@@ -224,4 +224,12 @@ export class FacetItem {
       child.setupAllListeners();
     });
   }
+
+  selectedFacetNames(acc) {
+    if (this.isChecked()) {
+      acc.push(this._name)
+    }
+    this._children.forEach(child => child.selectedFacetNames(acc));
+    return acc;
+  }
 }

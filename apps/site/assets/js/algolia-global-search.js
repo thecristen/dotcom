@@ -72,6 +72,14 @@ export class AlgoliaGlobalSearch {
   onClickShowMore(group) {
     this.controller.addPage(group);
   }
+
+  getParams() {
+    return {
+      from: "global-search",
+      query: this.container.value,
+      facets: this._facetsWidget.selectedFacetNames().join(",")
+    }
+  }
 }
 
 AlgoliaGlobalSearch.INITIAL_QUERIES = {

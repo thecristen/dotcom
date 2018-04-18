@@ -1,6 +1,7 @@
 import { doWhenGoogleMapsIsReady} from './google-maps-loaded';
 import hogan from "hogan.js";
 import { Algolia } from "./algolia-search";
+import * as AlgoliaResult from "./algolia-result";
 import { AlgoliaAutocompleteWithGeo } from "./algolia-autocomplete-with-geo"
 import { featureIcon } from "./algolia-result";
 
@@ -13,7 +14,7 @@ export const TEMPLATES = {
   locationResult: hogan.compile(`
     <div class="c-location-cards c-location-cards--background-white large-set c-search-bar__cards">
       {{#hits}}
-        <a class="c-location-card" href="/stops/{{stop.id}}">
+        <a class="c-location-card" href="/stops/{{stop.id}}{{params}}">
           <div class="c-location-card__name">
             {{stop.name}}
           </div>
@@ -71,6 +72,10 @@ export class AlgoliaStopSearch {
   onLocationResults(results) {
     if (results.stops) {
       results.stops.hits.map(hit => this._formatLocationResult(hit));
+      results.stops.params = AlgoliaResult.parseParams({
+        from: "stop-search",
+        query: this._input.value
+      });
       this._locationResultsBody.innerHTML = TEMPLATES.locationResult.render(results.stops);
     }
   }
@@ -86,6 +91,12 @@ export class AlgoliaStopSearch {
     hit._rankingInfo.geoDistance = (hit._rankingInfo.geoDistance / METERS_PER_MILE).toFixed(1);
   }
 
+  getParams() {
+    return {
+      from: "stop-search",
+      query: this._input.value
+    };
+  }
 }
 
 AlgoliaStopSearch.INDICES = {

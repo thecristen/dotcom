@@ -1,7 +1,8 @@
 import * as AlgoliaResult from "./algolia-result";
 
 export class AlgoliaAutocomplete {
-  constructor(selectors, indices) {
+  constructor(selectors, indices, parent) {
+    this._parent = parent;
     this._selectors = Object.assign(selectors, {
       resultsContainer: selectors.input + "-autocomplete-results",
       goBtn: selectors.input + "-go-btn"
@@ -18,6 +19,7 @@ export class AlgoliaAutocomplete {
   }
 
   bind() {
+    this.onClickSuggestion = this.onClickSuggestion.bind(this);
     this.onHitSelected = this.onHitSelected.bind(this);
     this.onClickGoBtn = this.onClickGoBtn.bind(this);
     this.onCursorChanged = this.onCursorChanged.bind(this);
@@ -64,6 +66,12 @@ export class AlgoliaAutocomplete {
 
     document.removeEventListener("autocomplete:selected", this.onHitSelected);
     document.addEventListener("autocomplete:selected", this.onHitSelected);
+
+    // normally we would only use `.js-` prefixed classes for javascript selectors, but
+    // we make an exception here because this element and its class is generated entirely
+    // by the autocomplete widget.
+    window.jQuery(document).off("click", ".c-search-bar__-suggestion", this.onClickSuggestion);
+    window.jQuery(document).on("click", ".c-search-bar__-suggestion", this.onClickSuggestion);
 
     this._goBtn.removeEventListener("click", this.onClickGoBtn);
     this._goBtn.addEventListener("click", this.onClickGoBtn);
@@ -120,11 +128,15 @@ export class AlgoliaAutocomplete {
     return false;
   }
 
+  onClickSuggestion(ev) {
+    ev.preventDefault();
+  }
+
   onHitSelected({_args: [{url, _id}, _index]}) {
     if (this._input) {
       this._input.value = "";
     }
-    window.Turbolinks.visit(url);
+    window.Turbolinks.visit(url + AlgoliaResult.parseParams(this._parent.getParams()));
   }
 
   _buildDataset(indexName, acc) {

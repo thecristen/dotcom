@@ -18,10 +18,10 @@ export const TEMPLATES = {
   `),
   default: hogan.compile(`
     {{#id}}
-    <a id="hit-{{id}}" class="c-search_result__link" href="{{hitUrl}}">
+    <a id="hit-{{id}}" class="c-search-result__link" href="{{hitUrl}}">
     {{/id}}
     {{^id}}
-    <a class="c-search_result__link" href="{{hitUrl}}">
+    <a class="c-search-result__link" href="{{hitUrl}}">
     {{/id}}
       <span>{{{hitIcon}}}</span>
       <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
@@ -207,7 +207,18 @@ export function getUrl(hit, type) {
       console.error(`AlgoliaResult.getUrl not implemented for index: ${type}`);
       return "#"
   }
-};
+}
+
+export function parseParams(params) {
+  params = params || {};
+  if (Object.keys(params).length == 0) {
+    return "";
+  }
+
+  return "?" + Object.keys(params)
+                     .map(key => `${key}=${params[key].replace(/\s/g, "+")}`)
+                     .join("&");
+}
 
 function _contentUrl(hit) {
   if (hit.search_api_datasource === "entity:file") {

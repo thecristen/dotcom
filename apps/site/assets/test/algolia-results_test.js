@@ -1,5 +1,6 @@
 import { assert, expect } from 'chai';
 import jsdom from 'mocha-jsdom';
+import sinon from "sinon";
 import { AlgoliaResults } from '../../assets/js/algolia-results';
 
 describe('AlgoliaResults', () => {
@@ -15,7 +16,16 @@ describe('AlgoliaResults', () => {
       <div id="icon-feature-Green-B">green-line-b-icon</div>
       <div id="search-results"></div>
     `
-    search = new AlgoliaResults("search-results");
+    window.jQuery = jsdom.rerequire("jquery");
+    window.Turbolinks = {
+      visit: sinon.spy()
+    }
+    search = new AlgoliaResults("search-results", {
+      onClickShowMore: sinon.spy(),
+      getParams: () => {
+        return {from: "global-search"}
+      }
+    });
   });
 
   describe('renderGroup', () => {
@@ -370,6 +380,18 @@ describe('AlgoliaResults', () => {
       const hits = document.getElementsByClassName('c-search-result__hit');
       assert.lengthOf(sections, 3);
       assert.lengthOf(hits, 2);
+    });
+  });
+
+  describe("onClickResult", () => {
+    it("updates the href with parameters", () => {
+      const target = document.createElement("a");
+      target.href = "/link";
+      search.onClickResult({
+        currentTarget: target,
+        preventDefault: () => {}
+      });
+      expect(window.Turbolinks.visit.args[0][0]).to.equal("/link?from=global-search");
     });
   });
 });

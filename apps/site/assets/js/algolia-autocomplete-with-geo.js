@@ -5,10 +5,8 @@ import * as AlgoliaResult from "./algolia-result";
 
 export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   constructor(selectors, indices, parent) {
-    super(selectors, indices);
-    this.bind();
+    super(selectors, indices, parent);
     this._loadingIndicator = document.getElementById(selectors.locationLoadingIndicator);
-    this._parent = parent;
     this._indices.push("locations");
   }
 
@@ -19,6 +17,7 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   }
 
   bind() {
+    super.bind();
     this.onInputFocused = this.onInputFocused.bind(this);
     this._closeUseMyLocation = this._closeUseMyLocation.bind(this);
   }
@@ -149,7 +148,7 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     this._client.updateParamsByKey("stops", "aroundLatLng", `${latitude}, ${longitude}`);
     this._client.updateParamsByKey("stops", "hitsPerPage", 12);
     this._client.updateParamsByKey("stops", "getRankingInfo", true);
-    return this._client.search(" ")
+    return this._client.search({query: " "})
             .then(results => this._parent.onLocationResults(results))
             .catch(err => console.error(err));
   }

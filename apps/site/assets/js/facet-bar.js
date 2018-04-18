@@ -55,4 +55,16 @@ export class FacetBar {
     this._resetQueries();
     this._search.search();
   }
+
+  selectedFacetNames() {
+    return Object.keys(this._items)
+                 .reduce((acc, key) => this._selectedFacetsReducer(key, acc), []);
+  }
+
+  _selectedFacetsReducer(key, acc) {
+    this._items[key]
+      .selectedFacetNames()
+      .forEach(name => acc.push(name))
+    return acc;
+  }
 }

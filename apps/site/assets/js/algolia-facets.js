@@ -167,4 +167,8 @@ export class AlgoliaFacets {
 
     this._facetBar.updateCounts(facetResults);
   }
+
+  selectedFacetNames() {
+    return this._facetBar.selectedFacetNames();
+  }
 }

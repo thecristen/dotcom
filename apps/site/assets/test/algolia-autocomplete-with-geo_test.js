@@ -19,7 +19,8 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       <div id="loading-indicator"></div>
     `;
     window.autocomplete = jsdom.rerequire("autocomplete.js");
-    $ = jsdom.rerequire("jquery");
+    window.jQuery = jsdom.rerequire("jquery");
+    $ = window.jQuery;
     this.parent = {
       changeLocationHeader: sinon.spy(),
       onLocationResults: sinon.spy((results) => results)

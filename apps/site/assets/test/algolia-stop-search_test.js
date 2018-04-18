@@ -16,6 +16,7 @@ describe("AlgoliaStopSearch", function() {
         search: process.env.ALGOLIA_PLACES_SEARCH_KEY
       }
     }
+    window.jQuery = jsdom.rerequire("jquery");
     window.autocomplete = jsdom.rerequire("autocomplete.js");
   });
 

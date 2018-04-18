@@ -19,6 +19,7 @@ describe("AlgoliaGlobalSearch", function() {
         search: process.env.ALGOLIA_PLACES_SEARCH_KEY
       }
     }
+    window.jQuery = jsdom.rerequire("jquery");
   });
 
   it("constructor does not create a new Algolia instance", function() {
@@ -44,6 +45,33 @@ describe("AlgoliaGlobalSearch", function() {
       expect(document.getElementById(AlgoliaGlobalSearch.SELECTORS.searchBar)).to.equal(null);
       globalSearch.init();
       expect(globalSearch.controller).to.equal(null);
+    });
+  });
+
+  describe("getParams", function() {
+    beforeEach(function() {
+      document.body.innerHTML = "";
+      Object.keys(AlgoliaGlobalSearch.SELECTORS).forEach(key => {
+        const elType = (key == "searchBar") ? "input" : "div"
+        document.body.innerHTML += `<${elType} id="${AlgoliaGlobalSearch.SELECTORS[key]}"></${elType}>`;
+      });
+      this.globalSearch = new AlgoliaGlobalSearch();
+      this.globalSearch.init();
+    });
+
+    it("returns an object with from, query, and facet params", function() {
+      const params = this.globalSearch.getParams();
+      expect(params).to.be.an("object");
+      expect(params).to.have.keys(["from", "query", "facets"]);
+      expect(params.from).to.equal("global-search");
+      expect(params.query).to.equal("");
+      expect(params.facets).to.equal("");
+    });
+
+    it("query is the value in the search input", function() {
+      window.jQuery(`#${AlgoliaGlobalSearch.SELECTORS.searchBar}`).val("new value");
+      const params = this.globalSearch.getParams();
+      expect(params.query).to.equal("new value");
     });
   });
 });
