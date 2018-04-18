@@ -43,23 +43,6 @@ export class AlgoliaResults {
     this.onClickShowMore = this.onClickShowMore.bind(this);
   }
 
-  _renderGroup(results, group) {
-    if (!results[group]) {
-      return "";
-    }
-
-    return TEMPLATES.contentResults.render({
-      title: AlgoliaResults.indexTitles[group] || "",
-      isLocation: group == "locations" || null,
-      nbHits: results[group].nbHits,
-      hasHits: results[group].nbHits > 0,
-      showMore: results[group].hits.length < results[group].nbHits,
-      group: group,
-      hits: results[group].hits
-                          .map(this.renderResult(group))
-    });
-  }
-
   _addLocationListeners(results) {
     if (results["locations"]) {
       results["locations"].hits.forEach(hit => {
@@ -137,6 +120,10 @@ export class AlgoliaResults {
   init() {
   }
 
+  reset() {
+    this.render({});
+  }
+
   render(results)  {
     if (this._container) {
       this._container.innerHTML =
@@ -146,6 +133,23 @@ export class AlgoliaResults {
       this._groups.forEach(group => this._addShowMoreListener(group));
       this._addLocationListeners(results);
     }
+  }
+
+  _renderGroup(results, group) {
+    if (!results[group]) {
+      return "";
+    }
+
+    return TEMPLATES.contentResults.render({
+      title: AlgoliaResults.indexTitles[group] || "",
+      isLocation: group == "locations" || null,
+      nbHits: results[group].nbHits,
+      hasHits: results[group].nbHits > 0,
+      showMore: results[group].hits.length < results[group].nbHits,
+      group: group,
+      hits: results[group].hits
+                          .map(this.renderResult(group))
+    });
   }
 
   renderResult(index) {

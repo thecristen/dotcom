@@ -19,6 +19,12 @@ export class AlgoliaGlobalSearch {
     this.container = null;
     this.controller = null;
     this._facetsWidget = null;
+    this._bind();
+  }
+
+  _bind() {
+    this.reset = this.reset.bind(this);
+    this.onInput = this.onInput.bind(this);
   }
 
   init() {
@@ -32,25 +38,35 @@ export class AlgoliaGlobalSearch {
 
     this.container.value = "";
 
-    const facetsWidget = new AlgoliaFacets(AlgoliaGlobalSearch.SELECTORS, this.controller);
-    this.controller.addWidget(facetsWidget);
-    this._facetsWidget = facetsWidget;
+    this._facetsWidget = new AlgoliaFacets(AlgoliaGlobalSearch.SELECTORS, this.controller);
+    this.controller.addWidget(this._facetsWidget);
 
-    const resultsWidget = new AlgoliaResults(AlgoliaGlobalSearch.SELECTORS.resultsContainer, this);
-    this.controller.addWidget(resultsWidget);
+    this._resultsWidget = new AlgoliaResults(AlgoliaGlobalSearch.SELECTORS.resultsContainer, this);
+    this.controller.addWidget(this._resultsWidget);
 
-    this.container.addEventListener("input", () => {
-      this.controller.search({query: this.container.value});
-    });
+    this.addEventListeners();
+  }
+
+  addEventListeners() {
+    this.container.removeEventListener("input", this.onInput);
+    this.container.addEventListener("input", this.onInput);
 
     const clearButton = document.getElementById(AlgoliaGlobalSearch.SELECTORS.clearSearchButton);
     if (clearButton) {
-      clearButton.addEventListener("click", () => {
-        this.container.value = "";
-        this._facetsWidget.reset();
-        this.controller.search({query: this.container.value});
-      });
+      clearButton.removeEventListener("click", this.reset);
+      clearButton.addEventListener("click", this.reset);
     }
+  }
+
+  reset(ev) {
+    this.container.value = "";
+    this._facetsWidget.reset();
+    this._resultsWidget.reset();
+    window.jQuery(this.container).focus();
+  }
+
+  onInput(ev) {
+    this.controller.search({query: this.container.value});
   }
 
   onClickShowMore(group) {

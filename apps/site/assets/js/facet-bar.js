@@ -41,15 +41,18 @@ export class FacetBar {
     for (let item in items) {
       items[item].reset();
     }
-    this.update()
+    this._resetQueries()
+  }
+
+  _resetQueries() {
+    this._search.updateActiveQueries([]);
+    for (const item in this._items) {
+      this._items[item].modifySearch(this._search, item);
+    }
   }
 
   update() {
-    const queryIds = Object.keys(this._items);
-    this._search.updateActiveQueries([]);
-    queryIds.forEach(queryId => {
-      this._items[queryId].modifySearch(this._search, queryId);
-    });
+    this._resetQueries();
     this._search.search();
   }
 }

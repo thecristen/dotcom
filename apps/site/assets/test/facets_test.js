@@ -1,5 +1,6 @@
-import { assert } from 'chai';
+import { assert, expect } from 'chai';
 import jsdom from 'mocha-jsdom';
+import sinon from "sinon";
 import {FacetItem} from '../../assets/js/facet-item.js'
 import {FacetBar} from '../../assets/js/facet-bar.js'
 import {FacetGroup} from '../../assets/js/facet-group.js'
@@ -77,7 +78,10 @@ describe('facet', function() {
     },
   }
 
-  const search = {};
+  const search = {
+    updateActiveQueries: sinon.spy(),
+    enableLocationSearch: sinon.spy()
+  };
   const changeAllCheckboxes = (state) => {
     Object.keys(checkBoxes).forEach(key => {
       $(checkBoxes[key]).prop("checked", state);
@@ -192,6 +196,20 @@ describe('facet', function() {
       $(checkBoxes.cr).prop("checked", true);
       assert.equal(this.facetBar._items["routes"].shouldDisableQuery(), false);
       assert.equal(this.facetBar._items["stops"].shouldDisableQuery(), true);
+    });
+
+    describe("reset", function() {
+      it("unchecks all checked boxes", function() {
+        expect(this.facetBar._items["routes"]._item.isChecked()).to.be.false;
+        $(checkboxHandlers.parent).trigger("click");
+        expect(this.facetBar._items["routes"]._item.isChecked()).to.be.true;
+        expect(this.facetBar._items["stops"]._item.isChecked()).to.be.false;
+        expect(this.facetBar._items["locations"]._item.isChecked()).to.be.false;
+        this.facetBar.reset();
+        for (const key in this.facetBar._items) {
+          expect(this.facetBar._items[key]._item.isChecked()).to.be.false;
+        }
+      });
     });
   });
 });
