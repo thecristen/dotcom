@@ -39,17 +39,10 @@ defmodule Util.AsyncAssign do
   """
   @spec await_assign_all_default(Conn.t, timeout) :: Conn.t
   def await_assign_all_default(conn, timeout \\ 5000) do
-    task_keys = for {key, {%Task{}, _}} <- conn.assigns do
-      key
-    end
-    Enum.reduce(task_keys, conn, fn key, conn -> await_assign_default(conn, key, timeout) end)
-  end
+    async_tasks = for {key, {%Task{} = task, default}} <- conn.assigns, into: %{}, do: {task, {key, default}}
 
-  @spec await_assign_default(Conn.t, atom, timeout) :: Conn.t
-  defp await_assign_default(%Conn{} = conn, key, timeout) when is_atom(key) do
-    {task, default} = Map.fetch!(conn.assigns, key)
-    value = Util.yield_or_default(task, timeout, default)
-
-    Conn.assign(conn, key, value)
+    async_tasks
+    |> Util.yield_or_default_many(timeout)
+    |> Enum.reduce(conn, fn {key, result}, conn -> Conn.assign(conn, key, result) end)
   end
 end

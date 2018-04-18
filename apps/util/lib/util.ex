@@ -128,8 +128,41 @@ defmodule Util do
   """
   @spec yield_or_default(Task.t, non_neg_integer, any) :: any
   def yield_or_default(task, timeout, default) do
-    case Task.yield(task, timeout) || Task.shutdown(task, :brutal_kill) do
-     {:ok, result} ->
+    task
+    |> Task.yield(timeout)
+    |> task_result_or_default(default, task)
+  end
+
+  @doc """
+  Takes a map of tasks and calls &Task.yield_many/2 on them, then rebuilds the map with
+  either the result of the task, or the default if the task times out or exits early.
+  """
+  @type task_map :: %{optional(Task.t) => {atom, any}}
+  @spec yield_or_default_many(task_map, non_neg_integer) :: map
+  def yield_or_default_many(%{} = task_map, timeout \\ 5000) do
+    task_map
+    |> Map.keys()
+    |> Task.yield_many(timeout)
+    |> Map.new(&do_yield_or_default_many(&1, task_map))
+  end
+
+  @spec do_yield_or_default_many({Task.t, {:ok, any} | {:exit, term} | nil}, task_map) :: {atom, any}
+  defp do_yield_or_default_many({%Task{} = task, result}, task_map) do
+    {key, default} = Map.get(task_map, task)
+    {key, task_result_or_default(result, default, task)}
+  end
+
+  @spec task_result_or_default({:ok, any} | {:exit, term} | nil, any, Task.t) :: any
+  defp task_result_or_default({:ok, result}, _default, %Task{}) do
+    result
+  end
+  defp task_result_or_default({:exit, _reason}, default, %Task{}) do
+    _ = Logger.warn("Async task exited unexpectedly. Returning: #{inspect(default)}")
+    default
+  end
+  defp task_result_or_default(nil, default, %Task{} = task) do
+    case Task.shutdown(task, :brutal_kill) do
+      {:ok, result} ->
         result
       _ ->
         _ = Logger.warn(fn -> "async task timed out. Returning: #{inspect(default)}" end)
