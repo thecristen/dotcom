@@ -383,13 +383,12 @@
 .c-search__close-modal-button {
   color: $brand-primary;
   cursor: pointer;
-  display: none;
   float: right;
   padding-right: $base-spacing;
   text-align: right;
 
-  @include media-breakpoint-down(sm) {
-    display: block;
+  @include media-breakpoint-up(md) {
+    display: none;
   }
 }
 

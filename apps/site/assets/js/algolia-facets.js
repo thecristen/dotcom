@@ -2,17 +2,11 @@ import {FacetBar} from './facet-bar';
 
 export class AlgoliaFacets {
   constructor(selectors, search) {
-    document.getElementById(selectors.closeModalButton).addEventListener("click", function() {
-      document.getElementById(selectors.facetsContainer).classList.remove("c-search__facets-container--open");
-      document.getElementById(selectors.closeModalButton).classList.remove("c-search__close-modal-button--open");
-      document.body.classList.remove("c-search__open-modal");
-    });
-    document.getElementById(selectors.showFacetsButton).addEventListener("click", function() {
-      document.getElementById(selectors.facetsContainer).classList.add("c-search__facets-container--open");
-      document.getElementById(selectors.closeModalButton).classList.add("c-search__close-modal-button--open");
-      document.body.classList.add("c-search__open-modal");
-    });
-
+    this.selectors = selectors;
+    this._closeModalBtn = null;
+    this._showFacetsBtn = null;
+    this._facetsContainer = null;
+    this._bind();
     const facets = {
       locations: {
         queryId: "locations",
@@ -126,8 +120,25 @@ export class AlgoliaFacets {
           facets: ["news_entry"],
         }
       }
-    }
-    this._facetBar = new FacetBar("search-facets-container", search, facets);
+    };
+    this._facetBar = new FacetBar("search-facets", search, facets);
+  }
+
+  _bind() {
+    this.onClickCloseModalBtn = this.onClickCloseModalBtn.bind(this);
+    this.onClickShowFacetsBtn = this.onClickShowFacetsBtn.bind(this);
+  }
+
+  onClickShowFacetsBtn(ev) {
+    this._facetsContainer.classList.add("c-search__facets-container--open");
+    this._closeModalBtn.classList.add("c-search__close-modal-button--open");
+    document.body.classList.add("c-search__open-modal");
+  }
+
+  onClickCloseModalBtn(ev) {
+    this._facetsContainer.classList.remove("c-search__facets-container--open");
+    this._closeModalBtn.classList.remove("c-search__close-modal-button--open");
+    document.body.classList.remove("c-search__open-modal");
   }
 
   _getFeatureIcon(feature) {
@@ -143,6 +154,20 @@ export class AlgoliaFacets {
   }
 
   init() {
+    this._closeModalBtn = document.getElementById(this.selectors.closeModalButton);
+    this._showFacetsBtn = document.getElementById(this.selectors.showFacetsButton);
+    this._facetsContainer = document.getElementById(this.selectors.facetsContainer);
+    if (this._closeModalBtn && this._showFacetsBtn && this._facetsContainer) {
+      this.addEventListeners();
+    }
+  }
+
+  addEventListeners() {
+    this._closeModalBtn.removeEventListener("click", this.onClickCloseModalBtn)
+    this._closeModalBtn.addEventListener("click", this.onClickCloseModalBtn)
+
+    this._showFacetsBtn.removeEventListener("click", this.onClickShowFacetsBtn);
+    this._showFacetsBtn.addEventListener("click", this.onClickShowFacetsBtn);
   }
 
   reset() {
