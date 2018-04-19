@@ -34,12 +34,13 @@ defmodule SiteWeb.ScheduleController.VehicleLocations do
     |> stop_name_from_tuple()
   end
 
-  @spec stop_name_from_tuple({String.t, String.t} | nil) :: String.t
+  @spec stop_name_from_tuple({String.t, String.t | nil} | nil) :: String.t
   defp stop_name_from_tuple(nil), do: ""
+  defp stop_name_from_tuple({_trip_id, nil}), do: ""
   defp stop_name_from_tuple({_trip_id, stop_id}), do: stop_name(stop_id)
 
   @spec stop_name(String.t) :: String.t
-  defp stop_name(stop_id) do
+  defp stop_name(<<stop_id::binary>>) do
     stop = Stops.Repo.get(stop_id)
     if stop do
       stop.name

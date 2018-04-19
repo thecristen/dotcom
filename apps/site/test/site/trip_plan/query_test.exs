@@ -285,4 +285,20 @@ defmodule Site.TripPlan.QueryTest do
       refute location_name(query, :to)
     end
   end
+
+  describe "suggest_alternate_locations" do
+    test "handles timeouts" do
+      query = %Query{
+        itineraries: {:error, :path_not_found},
+        from: {:ok, %NamedPosition{name: "Timeout error"}},
+        to: {:ok, %NamedPosition{name: "to name"}}
+      }
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        result = suggest_alternate_locations(query, 100)
+        assert result.from == {:ok, %NamedPosition{name: "Timeout error"}}
+        assert {:error, {:multiple_results, _}} = result.to
+      end)
+      assert log =~ "timed out"
+    end
+  end
 end

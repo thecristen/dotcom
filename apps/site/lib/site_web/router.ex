@@ -140,6 +140,7 @@ defmodule SiteWeb.Router do
     get "/schedules_and_maps/*path", OldSiteRedirectController, :schedules_and_maps
     get "/about_the_mbta/public_meetings", Redirector, to: "/events"
     get "/about_the_mbta/news_events", Redirector, to: "/news"
+    get "/about_the_mbta/t_projects", Redirector, to: "/projects"
     get "/about_the_mbta/*path", Redirector, to: "/about"
     get "/rider_tools/t_alerts", Redirector, to: "/about-t-alerts"
     get "/rider_tools/*path", Redirector, to: "/"

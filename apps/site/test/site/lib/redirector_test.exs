@@ -59,4 +59,16 @@ defmodule SiteWeb.RedirectorTest do
     assert conn.halted == true
     assert conn.status == 404
   end
+
+  test "/projects are redirected even if they have an id", %{conn: conn} do
+    conn =
+      conn
+      |> Map.merge(%{params: %{"id" => "12345"}})
+      |> put_private(:phoenix_endpoint, SiteWeb.Endpoint)
+
+    conn = Redirector.call(conn, to: "/projects")
+
+    assert conn.halted == true
+    assert redirected_to(conn) == "/projects"
+  end
 end

@@ -1,5 +1,5 @@
 defmodule Site.TripPlan.Query do
-  alias TripPlan.Itinerary
+  alias TripPlan.{Itinerary, NamedPosition}
   alias Util.Position
 
   @enforce_keys [:from, :to, :itineraries]
@@ -176,24 +176,28 @@ defmodule Site.TripPlan.Query do
     end
   end
 
-  @spec suggest_alternate_locations(t) :: t
-  defp suggest_alternate_locations(%__MODULE__{itineraries: {:error, error}, from: {:ok, from}, to: {:ok, to}} = query)
+  @spec suggest_alternate_locations(t, non_neg_integer) :: t
+  def suggest_alternate_locations(query, timeout \\ 5_000)
+  def suggest_alternate_locations(%__MODULE__{itineraries: {:error, error}, from: {:ok, from}, to: {:ok, to}} = query, timeout)
   when error in [:path_not_found, :location_not_accessible] do
-    [froms, tos] =
-      [from, to]
-      |> Task.async_stream(&TripPlan.stops_nearby/1)
-      |> Enum.zip([from, to])
-      |> Enum.map(fn {results, original} ->
-        case results do
-          {:ok, {:ok, [_ | _] = results}} -> {:error, {:multiple_results, Enum.take(results, 5)}}
-          _ -> {:ok, original}
-        end
-      end)
-
-    %__MODULE__{query |
-      from: froms,
-      to: tos
-    }
+    %{from: froms, to: tos} = Util.yield_or_default_many(%{
+      Task.async(TripPlan, :stops_nearby, [from]) => {:from, from},
+      Task.async(TripPlan, :stops_nearby, [to]) => {:to, to}
+    }, timeout)
+    %__MODULE__{query | from: check_alternate_locations(froms, from), to: check_alternate_locations(tos, to)}
   end
-  defp suggest_alternate_locations(query), do: query
+  def suggest_alternate_locations(query, _timeout), do: query
+
+  defp check_alternate_locations({:ok, [_ | _] = locations}, _) do
+    {:error, {:multiple_results, Enum.take(locations, 5)}}
+  end
+  defp check_alternate_locations({:ok, _}, default) do
+    {:ok, default}
+  end
+  defp check_alternate_locations(%NamedPosition{} = position, _) do
+    {:ok, position}
+  end
+  defp check_alternate_locations({:error, _error}, default) do
+    {:ok, default}
+  end
 end

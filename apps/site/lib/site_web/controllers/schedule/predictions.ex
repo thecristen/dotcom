@@ -22,11 +22,12 @@ defmodule SiteWeb.ScheduleController.Predictions do
   @impl true
   def call(conn, opts) do
     if should_fetch_predictions?(conn) do
+      predictions_task = fn -> predictions(conn, opts[:predictions_fn]) end
+      vehicle_predictions_task = fn -> vehicle_predictions(conn, opts[:predictions_fn]) end
       conn
-      |> async_assign(:predictions, fn -> predictions(conn, opts[:predictions_fn]) end)
-      |> async_assign(:vehicle_predictions, fn -> vehicle_predictions(conn, opts[:predictions_fn]) end)
-      |> await_assign(:predictions)
-      |> await_assign(:vehicle_predictions)
+      |> Util.AsyncAssign.async_assign_default(:predictions, predictions_task, [])
+      |> Util.AsyncAssign.async_assign_default(:vehicle_predictions, vehicle_predictions_task, [])
+      |> Util.AsyncAssign.await_assign_all_default()
     else
       conn
       |> assign(:predictions, [])
