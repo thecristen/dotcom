@@ -91,14 +91,17 @@ defmodule Content.ExternaRequestTest do
       assert process(:get, "/page") == {:error, :not_found}
     end
 
-    test "returns {:error, :invalid_response} if the request returns an exception" do
+    test "Logs a warning and returns {:error, :invalid_response} if the request returns an exception" do
       bypass = bypass_cms()
 
       Bypass.down bypass
-      assert process(:get, "/page") == {:error, :invalid_response}
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        assert process(:get, "/page") == {:error, :invalid_response}
+      end)
+      assert log =~ "Bad response"
     end
 
-    test "returns {:error, :invalid_response} if the request returns an unhandled error" do
+    test "Logs a warning and returns {:error, :invalid_response} if the request returns an unhandled error" do
       bypass = bypass_cms()
 
       Bypass.expect bypass, fn conn ->
@@ -107,10 +110,13 @@ defmodule Content.ExternaRequestTest do
         |> Plug.Conn.resp(418, "I'm a teapot")
       end
 
-      assert process(:get, "/page") == {:error, :invalid_response}
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        assert process(:get, "/page") == {:error, :invalid_response}
+      end)
+      assert log =~ "Bad response"
     end
 
-    test "returns {:error, :invalid_response} if the JSON cannot be parsed" do
+    test "Logs a warning and returns {:error, :invalid_response} if the JSON cannot be parsed" do
       bypass = bypass_cms()
 
       Bypass.expect bypass, fn conn ->
@@ -119,7 +125,10 @@ defmodule Content.ExternaRequestTest do
         |> Plug.Conn.resp(200, "{invalid")
       end
 
-      assert process(:get, "/page") == {:error, :invalid_response}
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        assert process(:get, "/page") == {:error, :invalid_response}
+      end)
+      assert log =~ "Error parsing json"
     end
 
     test "returns {:error, {:redirect, status, path}} when CMS issues a native redirect and removes _format=json" do
@@ -135,6 +144,16 @@ defmodule Content.ExternaRequestTest do
 
       assert {:error, {:redirect, 302, url}} = process(:get, "/path?_format=json")
       assert url == "/redirect"
+    end
+
+    @tag :capture_log
+    test "returns {:error, :timeout} when CMS times out" do
+      bypass = bypass_cms()
+      Bypass.expect bypass, fn _conn ->
+        :timer.sleep(500)
+      end
+
+      assert process(:get, "/path?_format=json", "", recv_timeout: 100) == {:error, :timeout}
     end
 
     test "path retains query params and removes _format=json when CMS issues a native redirect" do

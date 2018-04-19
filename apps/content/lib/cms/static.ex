@@ -254,6 +254,9 @@ defmodule Content.CMS.Static do
   def view("/invalid", _) do
     {:error, :invalid_response}
   end
+  def view("/timeout", _) do
+    {:error, :timeout}
+  end
   def view(_, _) do
     {:error, :not_found}
   end

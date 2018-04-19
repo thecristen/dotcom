@@ -15,12 +15,12 @@ defmodule SiteWeb.ErrorViewTest do
     assert actual =~ expected
   end
 
-  test "render 500.html" do
-    assert render_to_string(SiteWeb.ErrorView, "500.html", []) =~ "It looks like we have our signals crossed"
+  test "render 500.html", %{conn: conn} do
+    assert render_to_string(SiteWeb.ErrorView, "500.html", [conn: conn]) =~ "It looks like we have our signals crossed"
   end
 
-  test "render any other" do
-    assert render_to_string(SiteWeb.ErrorView, "505.html", []) =~ "It looks like we have our signals crossed"
+  test "render any other", %{conn: conn} do
+    assert render_to_string(SiteWeb.ErrorView, "505.html", [conn: conn]) =~ "It looks like we have our signals crossed"
   end
 
   test "render 500.html with a layout", %{conn: conn} do
@@ -31,7 +31,8 @@ defmodule SiteWeb.ErrorViewTest do
     |> put_layout({SiteWeb.LayoutView, "app.html"})
     |> put_view(SiteWeb.ErrorView)
     |> put_status(500)
-    |> render(:"500", %{})
+
+    conn = render(conn, :"500", [conn: conn])
 
     assert html_response(conn, 500) =~ "signals crossed"
   end

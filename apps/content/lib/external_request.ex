@@ -1,5 +1,7 @@
 defmodule Content.ExternalRequest do
   import Content.CMS.TimeRequest, only: [time_request: 5]
+  require Logger
+
   @moduledoc """
     Exposes the function that is used by all requests to simplify testing. This
     function is not intended for direct use. Please see Content.HTTPClient to
@@ -12,11 +14,12 @@ defmodule Content.ExternalRequest do
     request_headers = build_headers(method)
 
     response = time_request(method, request_path, body, request_headers, opts)
-    handle_response(response, parse_headers(response))
+    handle_response(response, parse_headers(response), request_path)
   end
 
-  @spec handle_response({:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t}, map()) :: Content.CMS.response
-  defp handle_response({:ok, %HTTPoison.Response{} = response}, %{"content-type" => "application/json"}) do
+  @spec handle_response({:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t}, map(), String.t)
+  :: Content.CMS.response
+  defp handle_response({:ok, %HTTPoison.Response{} = response}, %{"content-type" => "application/json"}, path) do
     case response do
       %{status_code: code, body: body} when code in [200, 201] ->
         decode_body(body)
@@ -24,22 +27,54 @@ defmodule Content.ExternalRequest do
         get_redirect(response)
       %{status_code: code} when code in [400, 401, 403, 404, 406] ->
         {:error, :not_found} # drive handled errors to the 404 page
-      _ ->
+      error ->
+        _ = log_bad_response(error, path)
         {:error, :invalid_response} # unusual/unhandled status codes (will throw 500)
     end
   end
-  defp handle_response({:ok, %HTTPoison.Response{}}, _header_map) do
+  defp handle_response({:ok, %HTTPoison.Response{}}, _header_map, _path) do
     {:error, :not_found} # a response that isn't returned in JSON format
   end
-  defp handle_response({:error, %HTTPoison.Error{}}, _header_map) do
+  defp handle_response({:error, %HTTPoison.Error{reason: :timeout}}, _header_map, path) do
+    _ = [
+      "module=#{inspect(__MODULE__)}",
+      "path=#{path}",
+      "CMS request timed out"
+    ]
+    |> Enum.join(" ")
+    |> Logger.warn()
+
+    {:error, :timeout}
+  end
+  defp handle_response({:error, %HTTPoison.Error{} = error}, _header_map, path) do
+    _ = log_bad_response(error, path)
     {:error, :invalid_response}
+  end
+
+  defp log_bad_response(error, path) do
+    [
+      "module=#{inspect(__MODULE__)}",
+      "path=#{path}",
+      "Bad response response received from CMS: #{inspect(error)}"
+    ]
+    |> Enum.join(" ")
+    |> Logger.warn()
   end
 
   @spec decode_body(String.t) :: {:ok, [map()] | map()} | {:error, :not_found}
   defp decode_body(body) do
     case Poison.decode(body) do
-      {:ok, decoded} -> {:ok, decoded}
-      _ -> {:error, :invalid_response} # a malformed JSON response
+      {:ok, decoded} ->
+        {:ok, decoded}
+      {:error, error} ->
+        _ = [
+          "module=#{inspect(__MODULE__)}",
+          "Error parsing json received from CMS:",
+          "#{inspect(error)}"
+        ]
+        |> Enum.join(" ")
+        |> Logger.warn()
+        {:error, :invalid_response} # a malformed JSON response
     end
   end
 

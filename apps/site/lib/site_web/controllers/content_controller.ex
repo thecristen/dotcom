@@ -55,6 +55,11 @@ defmodule SiteWeb.ContentController do
     |> put_status(status)
     |> redirect(to: path)
   end
+  defp handle_page_response({:error, :timeout}, conn) do
+    conn
+    |> put_status(503)
+    |> render(SiteWeb.ErrorView, "crash.html", [])
+  end
   defp handle_page_response({:error, :not_found}, conn) do
     render_404(conn)
   end
