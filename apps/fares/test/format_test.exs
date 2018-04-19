@@ -13,12 +13,16 @@ defmodule Fares.FormatTest do
   end
 
   describe "customers/1" do
-    test "gets 'Student' when the fare applies to students" do
-      assert customers(%Fare{reduced: :student}) == "Student"
+    test "gets 'Reduced Fares' when the fare applies to students" do
+      assert customers(%Fare{reduced: :senior_disabled}) == "Reduced Fares"
     end
 
-    test "gets 'Standard Fare' when the fare does not have a reduced field" do
-      assert customers(%Fare{}) == "Standard Fare"
+    test "gets 'Student Fares' when the fare applies to students" do
+      assert customers(%Fare{reduced: :student}) == "Student Fares"
+    end
+
+    test "gets 'Standard Fares' when the fare does not have a reduced field" do
+      assert customers(%Fare{}) == "Standard Fares"
     end
   end
 

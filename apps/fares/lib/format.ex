@@ -30,9 +30,9 @@ defmodule Fares.Format do
   @doc "Formats the customers that are served by the given fare: Standard / Student / Senior"
   @spec customers(Fare.t | Fare.reduced) :: String.t
   def customers(%Fare{reduced: reduced}), do: customers(reduced)
-  def customers(:student), do: "Student"
-  def customers(:senior_disabled), do: "Senior & Disabilities"
-  def customers(nil), do: "Standard Fare"
+  def customers(:student), do: "Student Fares"
+  def customers(:senior_disabled), do: "Reduced Fares"
+  def customers(nil), do: "Standard Fares"
 
   @doc "Formats the duration of the Fare"
   @spec duration(Fare.t) :: String.t
