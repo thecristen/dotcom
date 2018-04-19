@@ -30,6 +30,7 @@ body {
   // Firefox only renders content on the first page.
   // Must also be reverted on .body-wrapper as well.
   // more details: https://app.asana.com/0/395349163493257/434551553219078
+
   @media print {
     color: $black;
     display: block;
@@ -291,11 +292,132 @@ div {
   display: inline;
 }
 
-figcaption {
+// Images, YouTube, iframes, other media (figure + figcaption)
+.c-media {
+  border-color: transparent;
+  clear: both;
+  line-height: 1;
+  margin: $base-spacing / 2 auto $base-spacing * 1.5;
+  padding: 0;
+}
+
+.c-media__media-element {
+
+  // The diagonal line pattern takes up the
+  // background space of an image/iframe, and
+  // is exposed in the add-on space that the
+  // padding-left-or-right provides (depending
+  // on float conditions) in combination with
+  // the alternate "content-box" box-model
+
+  background-image: $gray-stripe-pattern;
+  box-sizing: content-box;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.c-media__caption {
+  border-bottom: $border;
   font-size: $font-size-sm;
-  padding-top: $space-12;
-  text-align: center;
-  width: 100%;
+  line-height: 1.3;
+  padding: $space-12 0;
+}
+
+.c-media--size-full {
+  @include media-breakpoint-up(xxl) {
+
+    @include make-col-span(8);
+    @include make-col-offset(2);
+
+    // 8/12 is the same as 2/3 (thirds), which brings us
+    // back to our gutter discrepancy issue (see below).
+    // Need to reconcile this to align to bootstrap grid.
+    // Padding reduces the figure container to fit grid.
+
+    padding-left: 1% * (1 / 3);
+    padding-right: 1% * (1 / 3);
+  }
+}
+
+.c-media--size-half {
+  @include media-breakpoint-up(sm) {
+    @include make-col-span(6);
+  }
+}
+
+.c-media--size-half,
+.c-media--size-third {
+  @include media-breakpoint-up(sm) {
+
+    // Since we do not have a row/container for our
+    // column-based figures (no inherent gutters), we must
+    // offset and equalize the figure to get it aligned and
+    // fitted within the nominal bootstrap grid system.
+    //
+    // padding: the inner-column padding for stripes; one-full gutter-width
+    // border:  the 'center' minus one-half gutter space
+    // margin:  the inner-column gap for the text side + the other half of the gutter
+
+    &.c-media--align-left {
+      border-right-width: $base-spacing * (1 / 2);
+      margin-right: $base-spacing * (3 / 2);
+    }
+
+    &.c-media--align-right {
+      border-left-width: $base-spacing * (1 / 2);
+      margin-left: $base-spacing * (3 / 2);
+    }
+  }
+}
+
+.c-media--size-third {
+  @include media-breakpoint-up(sm) {
+    @include make-col-span(6);
+  }
+
+  @include media-breakpoint-up(lg) {
+
+    @include make-col-span(4);
+
+    // The offset/fitting for "size-third" figures is
+    // based on thirds, rather than halves (above).
+
+    &.c-media--align-left {
+      border-right-width: $base-spacing * (2 / 3);
+      margin-right: $base-spacing * (4 / 3);
+    }
+
+    &.c-media--align-right {
+      border-left-width: $base-spacing * (2 / 3);
+      margin-left: $base-spacing * (4 / 3);
+    }
+  }
+}
+
+.c-media--align-left {
+  @include media-breakpoint-up(sm) {
+    border-right-style: solid;
+    float: left;
+    padding-right: $base-spacing;
+
+    .c-media__media-element {
+      padding-right: $base-spacing;
+    }
+  }
+}
+
+.c-media--align-right {
+  @include media-breakpoint-up(sm) {
+    border-left-style: solid;
+    float: right;
+    padding-left: $base-spacing;
+
+    .c-media__media-element {
+      margin-left: -$base-spacing;
+      padding-left: $base-spacing;
+    }
+  }
 }
 
 .error-container {
@@ -310,6 +432,7 @@ figcaption {
     // older CSS2 syntax but FA uses it and due to the way SCSS @extend
     // works we need to match selector syntax.
     // scss-lint:disable PseudoElement
+
     &:before {
       @include fa-icon();
       content: $fa-var-exclamation-circle;

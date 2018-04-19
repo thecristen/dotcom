@@ -3,7 +3,7 @@ defmodule Site.ContentRewriter do
   Rewrites the content that comes from the CMS before rendering it to the page.
   """
 
-  alias Site.ContentRewriters.{ResponsiveTables, LiquidObjects, Links}
+  alias Site.ContentRewriters.{ResponsiveTables, LiquidObjects, Links, EmbeddedMedia}
 
   @doc """
   The main entry point for the various transformations we apply to CMS content
@@ -44,16 +44,22 @@ defmodule Site.ContentRewriter do
   end
   defp dispatch_rewrites({"img", _, _} = element, conn) do
     element
-    |> remove_style_attrs()
-    |> add_class("img-fluid")
+    |> Site.FlokiHelpers.remove_style_attrs()
+    |> Site.FlokiHelpers.add_class("img-fluid")
     |> rewrite_children(conn)
   end
   defp dispatch_rewrites({_, [{"class", "iframe-container"}], [{"iframe", _, _}]} = element, _conn) do
     element
   end
+  defp dispatch_rewrites({_, [{"class", "embedded-entity" <> _}], _children} = element, conn) do
+    element
+    |> EmbeddedMedia.parse
+    |> EmbeddedMedia.build
+    |> rewrite_children(conn)
+  end
   defp dispatch_rewrites({"iframe", _, _} = element, conn) do
     iframe = element
-             |> remove_style_attrs()
+             |> Site.FlokiHelpers.remove_style_attrs()
              |> set_iframe_class()
              |> rewrite_children(conn)
     {"div", [{"class", "iframe-container"}], [iframe]}
@@ -80,28 +86,6 @@ defmodule Site.ContentRewriter do
       {"src", "https://livestream.com" <> _} -> [" ", "iframe-full-width"]
       _ -> []
     end
-    add_class(element, ["iframe", new_class])
-  end
-
-  @spec remove_style_attrs(Floki.html_tree) :: Floki.html_tree
-  defp remove_style_attrs({name, attrs, children}) do
-    {name, Enum.reject(attrs, &remove_attr?(&1, name)), children}
-  end
-
-  @spec remove_attr?({String.t, String.t}, String.t) :: boolean
-  defp remove_attr?({"height", _}, _), do: true
-  defp remove_attr?({"width", _}, _), do: true
-  defp remove_attr?({"style", _}, "iframe"), do: true
-  defp remove_attr?(_, _), do: false
-
-  @spec add_class(Floki.html_tree, iodata) :: Floki.html_tree
-  defp add_class({name, attrs, children}, new_class) do
-    attrs = case Enum.split_with(attrs, &match?({"class", _}, &1)) do
-      {[], others} ->
-        [{"class", new_class} | others]
-      {[{"class", existing_class}], others} ->
-        [{"class", [existing_class, " ", new_class]} | others]
-    end
-    {name, attrs, children}
+    Site.FlokiHelpers.add_class(element, ["iframe", new_class])
   end
 end

@@ -3,6 +3,7 @@ defmodule Content.Helpers do
   @spec field_value(map, String.t) :: any
   def field_value(parsed, field) do
     case parsed[field] do
+      [%{"processed" => value}] -> value
       [%{"value" => value}] -> value
       _ -> nil
     end

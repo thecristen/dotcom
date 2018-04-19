@@ -212,6 +212,7 @@ a {
 .commuter-rail-photo-video-container {
   height: 0;
   margin-bottom: $base-spacing * 1.5;
+  margin-top: 0;
   padding-bottom: 56%; // The height of the video will be 56% of the width.
   position: relative;
   width: 100%;

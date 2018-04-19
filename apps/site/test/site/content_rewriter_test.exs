@@ -128,6 +128,57 @@ defmodule Site.ContentRewriterTest do
         |> rewrite(conn)
     end
 
+    test "removes incompatible CMS media embed and replaces with empty div", %{conn: conn} do
+      rewritten =
+        ~s(<figure class="embedded-entity align-right">
+          <div><div class="media media--type-image media--view-mode-quarter"><div class="media-content">
+          <img alt="My Image Alt Text" class="image-style-max-650x650"
+          src="/sites/default/files/styles/max_650x650/public/2018-01/hingham-ferry-dock-repair.png?itok=YwrRrgrG"
+          typeof="foaf:Image" height="488" width="650"></div></div></div>
+          <figcaption>Right aligned third</figcaption></figure>)
+        |> raw()
+        |> rewrite(conn)
+        |> safe_to_string()
+
+      assert rewritten == ~s(<div class="incompatible-media"></div>)
+    end
+
+    test "rebuilds CMS media embed: third-size image | w/caption | aligned right | no link", %{conn: conn} do
+      rewritten =
+        ~s(<figure class="embedded-entity align-right">
+          <div><div class="media media--type-image media--view-mode-third"><div class="media-content">
+          <img alt="My Image Alt Text" class="image-style-max-650x650"
+          src="/sites/default/files/styles/max_650x650/public/2018-01/hingham-ferry-dock-repair.png?itok=YwrRrgrG"
+          typeof="foaf:Image" height="488" width="650"></div></div></div>
+          <figcaption>Right aligned third</figcaption></figure>)
+        |> raw()
+        |> rewrite(conn)
+        |> safe_to_string()
+
+      assert rewritten =~ ~s(<figure class="c-media c-media--type-image c-media--size-third c-media--align-right">)
+      assert rewritten =~ ~s(<img class="image-style-max-650x650 c-media__media-element img-fluid" alt="My Image Alt Text")
+      assert rewritten =~ ~s(src="/sites/default/files/styles/max_650x650/public/2018-01/hingham-ferry-dock-repair.png?itok=YwrRrgrG")
+      assert rewritten =~ ~s(<figcaption class="c-media__caption">Right aligned third</figcaption></figure>)
+    end
+
+    test "rebuilds CMS media embed: full-size image | w/o caption | no alignment | linked", %{conn: conn} do
+      rewritten =
+        ~s(<div class="embedded-entity"><a class="media-link"
+          href="/projects/wollaston-station-improvements" target="_blank">
+          <div class="media media--type-image media--view-mode-full"><div class="media-content">
+          <img src="/sites/default/files/styles/max_2600x2600/public/2018-01/hingham-ferry-dock-repair.png?itok=NWs0V_7W"
+          alt="My Image Alt Text" typeof="foaf:Image" class="image-style-max-2600x2600" height="756" width="1008"></div></div></a></div>)
+        |> raw()
+        |> rewrite(conn)
+        |> safe_to_string()
+
+      assert rewritten =~ ~s(<figure class="c-media c-media--type-image c-media--size-full c-media--align-none">)
+      assert rewritten =~ ~s(<a class="c-media__link" href="/projects/wollaston-station-improvements" target="_blank">)
+      assert rewritten =~ ~s(<img class="image-style-max-2600x2600 c-media__media-element img-fluid")
+      assert rewritten =~ ~s(src="/sites/default/files/styles/max_2600x2600/public/2018-01/hingham-ferry-dock-repair.png?itok=NWs0V_7W" alt="My Image Alt Text")
+      refute rewritten =~ ~s(<figcaption)
+    end
+
   end
 
   defp remove_whitespace(str), do: String.replace(str, ~r/[ \n]/, "")

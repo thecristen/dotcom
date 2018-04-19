@@ -94,8 +94,8 @@
         <%= vending_machine_stations() %>
       </p>
     </div>
-    <figure class="commuter-rail-photo-video-container">
-      <%= img_tag static_url(@conn, "/images/retail-sales-locations.jpg"), class: "commuter-rail-photo-video img-fluid", alt: "A fare vending machine in an MBTA station" %>
+    <figure class="c-figure c-figure--image commuter-rail-photo-video-container">
+      <%= img_tag static_url(@conn, "/images/retail-sales-locations.jpg"), class: "c-figure__media-element commuter-rail-photo-video img-fluid", alt: "A fare vending machine in an MBTA station" %>
     </figure>
   </div>
 </div>
