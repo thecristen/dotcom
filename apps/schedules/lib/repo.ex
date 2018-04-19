@@ -42,20 +42,20 @@ defmodule Schedules.Repo do
     |> load_from_other_repos
   end
 
-  @spec origin_destination(Stop.id_t, Stop.id_t, Keyword.t) :: [schedule_pair] | {:error, any}
+  @spec origin_destination(Stop.id_t, Stop.id_t, Keyword.t) :: [schedule_pair] | {:error, :timeout}
   def origin_destination(origin_stop, dest_stop, opts \\ []) do
-    {origin_stop, dest_stop, opts}
-    |> cache(fn _ ->
-      origin_task = Task.async(__MODULE__, :schedule_for_stop, [origin_stop, opts])
-      dest_task = Task.async(__MODULE__, :schedule_for_stop, [dest_stop, opts])
-      {:ok, origin} = Task.yield(origin_task, @default_timeout)
-      {:ok, dest} = Task.yield(dest_task, @default_timeout)
+    origin_task = Task.async(__MODULE__, :schedule_for_stop, [origin_stop, opts])
+    dest_task = Task.async(__MODULE__, :schedule_for_stop, [dest_stop, opts])
 
-      with origin when is_list(origin) <- origin,
-           dest when is_list(dest) <- dest do
-        join_schedules(origin, dest)
-      end
-    end, timeout: @default_timeout)
+    result = Util.yield_or_default_many(%{
+      origin_task => {:origin, {:error, :timeout}},
+      dest_task => {:dest, {:error, :timeout}}
+    }, @default_timeout)
+    with %{origin: origin, dest: dest} when is_list(origin) and is_list(dest) <- result do
+      join_schedules(origin, dest)
+    else
+      _ -> {:error, :timeout}
+    end
   end
 
   @spec schedule_for_stop(Stop.id_t, Keyword.t) :: [Schedule.t] | {:error, any}
