@@ -245,6 +245,7 @@ import filter from './filter';
 import * as stopsSearch from "./algolia-stop-search";
 import * as globalSearch from "./algolia-global-search";
 import AlgoliaResults from "./algolia-results";
+import fullstory from './fullstory';
 
 submitOnEvents(["blur", "change"]);
 googleMapsLoaded();
@@ -275,5 +276,6 @@ filter();
 stickyTooltip();
 globalSearch.init();
 stopsSearch.init();
+fullstory();
 
 document.body.className = document.body.className.replace("no-js", "js");

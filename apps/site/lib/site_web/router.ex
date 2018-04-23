@@ -24,6 +24,7 @@ defmodule SiteWeb.Router do
     plug SiteWeb.Plugs.DateTime
     plug SiteWeb.Plugs.RewriteUrls
     plug SiteWeb.Plugs.ClearCookies
+    plug SiteWeb.Plugs.Cookies
   end
 
   pipeline :api do
