@@ -21,6 +21,12 @@ defmodule SiteWeb.ContentControllerTest do
       assert rendered =~ ~s(class="page-narrow")
     end
 
+    test "renders and does not redirect an unaliased basic page response", %{conn: conn} do
+      conn = get conn, "/node/3183"
+      rendered = html_response(conn, 200)
+      assert rendered =~ "The MBTA works with local communities and leaders to ensure that all MBTA waste is managed"
+    end
+
     test "renders a basic page with sidebar", %{conn: conn} do
       conn = get conn, "/basic_page_with_sidebar"
       rendered = html_response(conn, 200)
@@ -42,31 +48,49 @@ defmodule SiteWeb.ContentControllerTest do
       assert html_response(conn, 200) =~ "<h1>Joseph Aiello</h1>"
     end
 
-    test "redirects for an unaliased news entry response", %{conn: conn} do
+    test "redirects a raw, ID-based news entry path when it has a CMS alias", %{conn: conn} do
+      conn = get conn, "/node/3518"
+      assert conn.status == 301
+    end
+
+    test "renders and does not redirect an unaliased news entry response", %{conn: conn} do
       conn = get conn, "/node/3519"
+      assert html_response(conn, 200) =~ "New Early Morning Bus Routes Begin April 1"
+    end
+
+    test "redirects a raw, ID-based event path when it has a CMS alias", %{conn: conn} do
+      conn = get conn, "/node/3458"
       assert conn.status == 301
     end
 
-    test "redirects for an unaliased event", %{conn: conn} do
+    test "renders and does not redirect an unaliased event response", %{conn: conn} do
       conn = get conn, "/node/3268"
+      assert html_response(conn, 200) =~ "https://livestream.com/accounts/20617794/events/8130069/"
+    end
+
+    test "redirects a raw, ID-based project path when it has a CMS alias", %{conn: conn} do
+      conn = get conn, "/node/3480"
       assert conn.status == 301
     end
 
-    test "redirects for an unaliased project page", %{conn: conn} do
+    test "renders and does not redirect an unaliased project response", %{conn: conn} do
       conn = get conn, "/node/3004"
+      assert html_response(conn, 200) =~ "<p>Currently the only non ADA-accessible station on the Red Line, Wollaston will be transformed"
+    end
+
+    test "redirects a raw, ID-based project update path when it has a CMS alias", %{conn: conn} do
+      conn = get conn, "/node/3174"
       assert conn.status == 301
     end
 
-    test "redirects for an unaliased project update", %{conn: conn} do
+    test "renders and does not redirect an unaliased project update response", %{conn: conn} do
       conn = get conn, "/node/3005"
-      assert conn.status == 301
+      assert html_response(conn, 200) =~ "What's the bus shuttle schedule?</h2>"
     end
 
-    test "returns a 404 when alias does not match expected pattern", %{conn: conn} do
-      ExUnit.CaptureLog.capture_log(fn ->
-        conn = get conn, "/porjects/project-name"
-        assert conn.status == 404
-      end)
+    test "renders the page even though alias does not match expected route", %{conn: conn} do
+      conn = get conn, "/porjects/project-name"
+      assert html_response(conn, 200) =~ "<p>Travel between Boston and Chelsea will be easier and faster"
     end
 
     test "redirects when content type is a redirect", %{conn: conn} do

@@ -39,9 +39,7 @@ defmodule SiteWeb.NewsEntryController do
     conn
     |> assign(:narrow_template, true)
     |> assign(:breadcrumbs, show_breadcrumbs(conn, news_entry))
-    |> assign(:news_entry, news_entry)
-    |> assign(:recent_news, recent_news)
-    |> render("show.html")
+    |> render(SiteWeb.NewsEntryView, "show.html", news_entry: news_entry, recent_news: recent_news)
   end
 
   defp current_page(params) do

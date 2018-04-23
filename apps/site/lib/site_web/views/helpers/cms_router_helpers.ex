@@ -14,7 +14,7 @@ defmodule SiteWeb.CmsRouterHelpers do
     RouterHelpers.news_entry_path(conn, :index, opts)
   end
   def news_entry_path(conn, :show, %Content.NewsEntry{path_alias: nil} = news_entry) do
-    check_preview(conn, RouterHelpers.news_entry_path(conn, :show, [to_string(news_entry.id)]))
+    check_preview(conn, "/node/#{news_entry.id}")
   end
   def news_entry_path(conn, :show, %Content.NewsEntry{} = news_entry) do
     check_preview(conn, news_entry.path_alias)
@@ -34,7 +34,7 @@ defmodule SiteWeb.CmsRouterHelpers do
     RouterHelpers.event_path(conn, :index, opts)
   end
   def event_path(conn, :show, %Content.Event{path_alias: nil} = event) do
-    check_preview(conn, RouterHelpers.event_path(conn, :show, [to_string(event.id)]))
+    check_preview(conn, "/node/#{event.id}")
   end
   def event_path(conn, :show, %Content.Event{} = event) do
     check_preview(conn, event.path_alias)
@@ -49,10 +49,10 @@ defmodule SiteWeb.CmsRouterHelpers do
   end
 
   def event_icalendar_path(conn, :show, %Content.Event{} = event) do
-    ["", "events" | path] = conn
+    ["", route | path] = conn
                             |> event_path(:show, event)
                             |> String.split("/")
-    check_preview(conn, Path.join(["/", "events", "icalendar" | path]))
+    check_preview(conn, Path.join(["/", route, "icalendar" | path]))
   end
 
   @spec project_path(Plug.Conn.t, atom, Keyword.t | Content.Project.t | String.t) :: String.t
@@ -61,7 +61,7 @@ defmodule SiteWeb.CmsRouterHelpers do
     RouterHelpers.project_path(conn, :index, opts)
   end
   def project_path(conn, :show, %Content.Project{path_alias: nil} = project) do
-    check_preview(conn, RouterHelpers.project_path(conn, :show, project.id))
+    check_preview(conn, "/node/#{project.id}")
   end
   def project_path(conn, :show, %Content.Project{} = project) do
     check_preview(conn, project.path_alias)
@@ -72,7 +72,7 @@ defmodule SiteWeb.CmsRouterHelpers do
 
   @spec project_update_path(Plug.Conn.t, atom, Content.ProjectUpdate.t) :: String.t
   def project_update_path(conn, :project_update, %Content.ProjectUpdate{path_alias: nil} = project_update) do
-    check_preview(conn, RouterHelpers.project_path(conn, :project_update, project_update.project_id, project_update.id))
+    check_preview(conn, "/node/#{project_update.id}")
   end
   def project_update_path(conn, :project_update, %Content.ProjectUpdate{} = project_update) do
     check_preview(conn, project_update.path_alias)

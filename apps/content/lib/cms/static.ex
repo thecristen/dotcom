@@ -54,6 +54,10 @@ defmodule Content.CMS.Static do
     parse_json("basic_page_with_sidebar.json")
   end
 
+  def basic_page_no_alias_response do
+    parse_json("basic_page_with_sidebar_no_alias.json")
+  end
+
   def landing_page_response do
     parse_json("landing_page.json")
   end
@@ -102,9 +106,6 @@ defmodule Content.CMS.Static do
   def view("/news/incorrect-pattern", _) do
     {:ok, Enum.at(news_response(), 1)}
   end
-  def view("/news/3519", _) do
-    {:ok, List.first(news_response())}
-  end
   def view("/news/date/title", _) do
     {:ok, Enum.at(news_response(), 1)}
   end
@@ -129,9 +130,6 @@ defmodule Content.CMS.Static do
   end
   def view("/events/date/title", _) do
     {:ok, Enum.at(events_response(), 1)}
-  end
-  def view("/events/3268", _) do
-    {:ok, Enum.at(events_response(), 0)}
   end
   def view("/events/redirected-url", params) do
     redirect("/events/date/title", params, 301)
@@ -165,9 +163,6 @@ defmodule Content.CMS.Static do
       {:ok, project_updates_response()}
     end
   end
-  def view("/projects/3004", _) do
-    {:ok, List.first(projects_response())}
-  end
   def view("/projects/project-name", _) do
     {:ok, Enum.at(projects_response(), 1)}
   end
@@ -195,7 +190,7 @@ defmodule Content.CMS.Static do
           |> Map.merge(project_info)}
   end
   def view("/projects/redirected-project/update/not-redirected-update", _) do
-    {:ok, Enum.at(project_updates_response(), 1)}
+    {:ok, Enum.at(project_updates_response(), 2)}
   end
   def view("/projects/project-name/update/redirected-update", params) do
     redirect("/projects/project-name/update/project-progress", params, 301)
@@ -224,21 +219,36 @@ defmodule Content.CMS.Static do
   def view("/person", _) do
     {:ok, person_response()}
   end
-  def view("/node/3519", params) do
+  # Nodes without a path alias OR CMS redirect
+  def view("/node/3183", _) do
+    {:ok, basic_page_no_alias_response()}
+  end
+  def view("/node/3519", _) do
+    {:ok, Enum.at(news_response(), 0)}
+  end
+  def view("/node/3268", _) do
+    {:ok, Enum.at(events_response(), 0)}
+  end
+  def view("/node/3004", _) do
+    {:ok, Enum.at(projects_response(), 0)}
+  end
+  def view("/node/3005", _) do
+    {:ok, Enum.at(project_updates_response(), 0)}
+  end
+  # Paths that return CMS redirects (path alias exists)
+  def view("/node/3518", params) do
     redirect("/news/2018/news-entry", params, 301)
   end
-  def view("/node/3268", params) do
+  def view("/node/3458", params) do
     redirect("/events/date/title", params, 301)
   end
-  def view("/node/3005", params) do
+  def view("/node/3480", params) do
     redirect("/projects/project-name", params, 301)
   end
   def view("/node/3174", params) do
     redirect("/projects/project-name/updates/project-progress", params, 301)
   end
-  def view("/node/3004", params) do
-    redirect("/projects/3004", params, 301)
-  end
+
   def view("/cms/route-pdfs/87", _) do
     {:ok, route_pdfs_response()}
   end

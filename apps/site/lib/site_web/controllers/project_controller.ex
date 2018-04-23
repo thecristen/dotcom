@@ -7,11 +7,11 @@ defmodule SiteWeb.ProjectController do
     projects = Content.Repo.projects()
     featured_projects = Enum.filter(projects, & &1.featured)
 
-    render(conn, "index.html", %{
+    render conn, "index.html", %{
       breadcrumbs: [Breadcrumb.build(@breadcrumb_base)],
       projects: projects,
       featured_projects: featured_projects,
-    })
+    }
   end
 
   def show(%Plug.Conn{} = conn, _) do
@@ -44,7 +44,7 @@ defmodule SiteWeb.ProjectController do
 
     {past_events, upcoming_events} = Enum.split_with(events, &Content.Event.past?(&1, conn.assigns.date_time))
 
-    render conn, "show.html", %{
+    render conn, SiteWeb.ProjectView, "show.html", %{
       breadcrumbs: breadcrumbs,
       project: project,
       updates: updates,
@@ -81,10 +81,15 @@ defmodule SiteWeb.ProjectController do
           Breadcrumb.build(project.title, project_path(conn, :show, project)),
           Breadcrumb.build(update.title)]
 
-        render conn, "update.html", breadcrumbs: breadcrumbs, update: update, narrow_template: true
+        render conn, SiteWeb.ProjectView, "update.html", %{
+          breadcrumbs: breadcrumbs,
+          update: update,
+          narrow_template: true
+        }
       {:error, {:redirect, _, path}} ->
         show_project_update(conn, %{update | project_url: path})
-      _ -> render_404(conn)
+      _ ->
+        render_404(conn)
     end
 
   end

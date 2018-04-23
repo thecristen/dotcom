@@ -9,12 +9,12 @@ defmodule SiteWeb.ProjectControllerTest do
   end
 
   describe "show" do
-    test "renders a project when project has no path alias", %{conn: conn} do
+    test "renders and does not rewrite an unaliased project response", %{conn: conn} do
       project = project_factory(0)
       assert project.path_alias == nil
       assert project.title == "Wollaston Station Improvements"
       path = project_path(conn, :show, project)
-      assert path == "/projects/3004"
+      assert path == "/node/3004"
 
       conn = get conn, path
       assert html_response(conn, 200) =~ "Wollaston Station Improvements"
@@ -54,17 +54,17 @@ defmodule SiteWeb.ProjectControllerTest do
   end
 
   describe "project_update" do
-    test "renders a project update when update has no path alias", %{conn: conn} do
-      project_update = project_update_factory(1, path_alias: nil)
+    test "renders and does not rewrite an unaliased project update response", %{conn: conn} do
+      project_update = project_update_factory(0, path_alias: nil)
 
       assert project_update.path_alias == nil
-      assert project_update.title == "Construction 1-Week Look Ahead"
+      assert project_update.title == "How the Wollaston Station Closure Affects Your Trip"
       path = project_update_path(conn, :project_update, project_update)
-      assert path == "/projects/3004/update/3174"
+      assert path == "/node/3005"
 
       conn = get conn, path
       assert conn.status == 200
-      assert html_response(conn, 200) =~ "Construction 1-Week Look Ahead"
+      assert html_response(conn, 200) =~ "How the Wollaston Station Closure Affects Your Trip"
     end
 
     test "renders a project update with a path alias", %{conn: conn} do

@@ -14,12 +14,12 @@ defmodule SiteWeb.EventControllerTest do
   end
 
   describe "GET show" do
-    test "renders an event when the given event has no path_alias", %{conn: conn} do
+    test "renders and does not rewrite an unaliased event response", %{conn: conn} do
       event = event_factory(0, path_alias: nil)
       assert event.path_alias == nil
       assert event.title == "Fiscal & Management Control Board Meeting"
       path = event_path(conn, :show, event)
-      assert path == "/events/3268"
+      assert path == "/node/3268"
       conn = get conn, path
       assert html_response(conn, 200) =~ "(FMCB) closely monitors the T’s finances, management, and operations.</p>"
     end

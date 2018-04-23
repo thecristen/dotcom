@@ -118,7 +118,7 @@
         "target_id": 3004,
         "target_type": "node",
         "target_uuid": "6c72a458-6158-4080-9282-52387841237e",
-        "url": "/projects/wollaston-station-improvements"
+        "url": "/node/3004"
       }
     ],
     "field_teaser": [
@@ -383,10 +383,10 @@
     ],
     "field_project": [
       {
-        "target_id": 3004,
+        "target_id": 3480,
         "target_type": "node",
         "target_uuid": "6c72a458-6158-4080-9282-52387841237e",
-        "url": "/projects/wollaston-station-improvements"
+        "url": "/node/3480"
       }
     ],
     "field_teaser": [

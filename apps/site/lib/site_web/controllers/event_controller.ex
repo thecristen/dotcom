@@ -45,7 +45,7 @@ defmodule SiteWeb.EventController do
     conn
     |> assign(:narrow_template, true)
     |> assign_breadcrumbs(event)
-    |> render("show.html", event: event)
+    |> render(SiteWeb.EventView, "show.html", event: event)
   end
 
   @spec assign_breadcrumbs(Conn.t, Content.Event.t) :: Conn.t
@@ -58,9 +58,9 @@ defmodule SiteWeb.EventController do
   end
 
   @spec icalendar(Plug.Conn.t, map) :: Plug.Conn.t
-  def icalendar(conn, %{"path_params" => path}) do
-    ["/events" | path]
-    |> Path.join()
+  def icalendar(%{request_path: path} = conn, _) do
+    path
+    |> String.replace("/icalendar", "")
     |> Content.Repo.get_page(conn.query_params)
     |> do_icalendar(conn)
   end

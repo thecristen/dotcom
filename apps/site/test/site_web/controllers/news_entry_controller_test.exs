@@ -23,11 +23,11 @@ defmodule SiteWeb.NewsEntryControllerTest do
   end
 
   describe "GET show" do
-    test "renders a news entry when entry has no path_alias", %{conn: conn} do
+    test "renders and does not rewrite an unaliased news entry response", %{conn: conn} do
       news_entry = news_entry_factory(0, path_alias: nil)
       assert news_entry.title == {:safe, "New Early Morning Bus Routes Begin April 1"}
       path = news_entry_path(conn, :show, news_entry)
-      assert path == "/news/3519"
+      assert path == "/node/3519"
 
       conn = get conn, path
 

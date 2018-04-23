@@ -24,28 +24,19 @@ defmodule SiteWeb.ContentController do
   end
 
   @spec handle_page_response(Content.Page.t | {:error, Content.CMS.error}, Plug.Conn.t) :: Plug.Conn.t
-  defp handle_page_response(%{__struct__: struct} = page, %{request_path: "/node/" <> _} = conn)
+  defp handle_page_response(%{__struct__: struct} = page, conn)
   when struct in @routed_page_types do
-    # Routed pages types that don't have an alias should be re-routed to proper helper
-    path = case struct do
-      Content.NewsEntry -> news_entry_path(conn, :show, page)
-      Content.Event -> event_path(conn, :show, page)
-      Content.Project -> project_path(conn, :show, page)
-      Content.ProjectUpdate -> project_update_path(conn, :project_update, page)
+    # If these content types reach this point with a 200, something is wrong with their path alias
+    # (the type-specific route controller is not being invoked due to the path not matching).
+    case struct do
+      Content.NewsEntry -> SiteWeb.NewsEntryController.show_news_entry(conn, page)
+      Content.Event -> SiteWeb.EventController.show_event(conn, page)
+      Content.Project -> SiteWeb.ProjectController.show_project(conn, page)
+      Content.ProjectUpdate -> SiteWeb.ProjectController.show_project_update(conn, page)
     end
-    redirect conn, to: path
   end
-  defp handle_page_response(%{__struct__: struct} = page, conn) when struct in @routed_page_types do
-    # if these content types reach this point with a 200, something is wrong with their path or alias.
-    # We want to return a 404 and log a warning to alert the team to investigate.
-    _ = Logger.warn fn ->
-      "[CMS] A request to #{conn.request_path} returned a #{inspect(struct)}, but #{conn.request_path}" <>
-      " does not conform to front-end pattern for this content type.
-      Got: #{inspect(page)}"
-    end
-    render_404(conn)
-  end
-  defp handle_page_response(%{__struct__: struct} = page, conn) when struct in @generic_page_types do
+  defp handle_page_response(%{__struct__: struct} = page, conn)
+  when struct in @generic_page_types do
     conn
     |> put_layout({SiteWeb.LayoutView, :app})
     |> render_page(page)

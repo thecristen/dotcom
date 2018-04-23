@@ -5,5 +5,4 @@ Disallow: /transit_near_me?*
 Disallow: /trip_planner?*
 Disallow: /trip-planner?*
 Disallow: /search?*
-Disallow: /node/*
 Disallow: /*?*preview*&vid=*

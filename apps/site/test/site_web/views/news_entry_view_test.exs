@@ -114,7 +114,7 @@ defmodule SiteWeb.NewsEntryViewTest do
       )
 
       Enum.each(recent_news, fn(news_entry) ->
-        assert rendered =~ "/news/#{news_entry.id}"
+        assert rendered =~ "/node/#{news_entry.id}"
         assert rendered =~ news_entry.title
       end)
     end
