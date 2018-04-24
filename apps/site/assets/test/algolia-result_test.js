@@ -135,6 +135,15 @@ describe("AlgoliaResult", () => {
       }
     }
   };
+  const locationHits = {
+    bostonCommon: {
+      description: "Boston Common, Tremont Street, Boston, MA, USA",
+      matched_substrings: [
+        { length: 2, offset: 3 },
+        { length: 5, offset: 9 }
+      ],
+    }
+  };
   const routeHits = {
     commuterRail: {
       route: {
@@ -339,6 +348,12 @@ describe("AlgoliaResult", () => {
       it("returns the route name", () => {
         expect(AlgoliaResult.getTitle(routeHits.redLine, "routes")).to.equal("Red Line");
         expect(AlgoliaResult.getTitle(routeHits.commuterRail, "routes")).to.equal("Fitchburg Line");
+      });
+    });
+
+    describe("for locations", function() {
+      it("properly highlights search results from google locations", () => {
+        expect(AlgoliaResult.getTitle(locationHits.bostonCommon, "locations")).to.equal("Bos<em>to</em>n Co<em>mmon,</em> Tremont Street, Boston, MA, USA")
       });
     });
 

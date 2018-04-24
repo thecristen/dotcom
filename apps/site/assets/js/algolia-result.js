@@ -154,7 +154,12 @@ function _iconFromRoute(route) {
 export function getTitle(hit, type) {
   switch(type){
     case "locations":
-      return hit.description;
+      const orig = hit.description.split("");
+      hit.matched_substrings.forEach(match => {
+        orig[match.offset] = "<em>" + orig[match.offset];
+        orig[match.offset + match.length] = "</em>" + orig[match.offset + match.length];
+      });
+      return orig.join("");
     case "stops":
       return hit._highlightResult.stop.name.value;
 
