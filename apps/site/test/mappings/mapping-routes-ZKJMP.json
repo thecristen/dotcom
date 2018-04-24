@@ -1,0 +1,21 @@
+{
+  "id" : "3aac7001-2633-377d-9904-87fbfd13b90e",
+  "request" : {
+    "url" : "/routes/?stop=place-tumnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZKJMP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:36 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvolkk3qavic7000e0ei",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3aac7001-2633-377d-9904-87fbfd13b90e"
+}

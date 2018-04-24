@@ -1,0 +1,21 @@
+{
+  "id" : "a2580c05-9e30-3483-bfcb-d7551e9a2ff4",
+  "request" : {
+    "url" : "/stops/?route=Green-D&include=parent_station&direction_id=1&date=2018-06-10",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-U2SHM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 16:55:09 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6r29ghtc48j4ca000d6q2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a2580c05-9e30-3483-bfcb-d7551e9a2ff4"
+}

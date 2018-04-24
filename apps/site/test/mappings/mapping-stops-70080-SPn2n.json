@@ -1,0 +1,21 @@
+{
+  "id" : "071030dd-b50d-3825-b34d-8208bc3e8d0c",
+  "request" : {
+    "url" : "/stops/70080?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70080-SPn2n.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:09:26 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6sk58aljk42835800es5i",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "071030dd-b50d-3825-b34d-8208bc3e8d0c"
+}

@@ -1,0 +1,21 @@
+{
+  "id" : "e816611f-d756-3344-a475-d31ff133be18",
+  "request" : {
+    "url" : "/trips/?route=68&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-BEXVG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 16:55:13 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 16:55:02 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6r2ford1r3400t800d9r2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e816611f-d756-3344-a475-d31ff133be18"
+}

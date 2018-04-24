@@ -1,0 +1,21 @@
+{
+  "id" : "ceef0eb0-4c75-37d8-a36a-1ea660866bbe",
+  "request" : {
+    "url" : "/routes/?stop=place-symcl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-rpCFS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:33 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvit1a0o0n3it000m4f1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ceef0eb0-4c75-37d8-a36a-1ea660866bbe"
+}

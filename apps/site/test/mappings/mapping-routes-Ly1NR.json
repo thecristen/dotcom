@@ -1,0 +1,21 @@
+{
+  "id" : "0de30c38-d90e-343b-b959-7ecce17ef16a",
+  "request" : {
+    "url" : "/routes/?stop=place-cenav&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Ly1NR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:34 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvknfi0ecc241s00m6c1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0de30c38-d90e-343b-b959-7ecce17ef16a"
+}

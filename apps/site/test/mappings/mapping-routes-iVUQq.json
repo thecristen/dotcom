@@ -1,0 +1,21 @@
+{
+  "id" : "34ba5b8d-8360-3fc7-a660-974df1153187",
+  "request" : {
+    "url" : "/routes/?stop=Framingham",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-iVUQq.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:52:11 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk719eckkubj2mdb000u0u1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "34ba5b8d-8360-3fc7-a660-974df1153187"
+}

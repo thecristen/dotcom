@@ -1,0 +1,21 @@
+{
+  "id" : "de9c72f2-15de-3aae-bc19-a3b725c5bc67",
+  "request" : {
+    "url" : "/stops/?route=CR-Needham&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-HAPtt.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:07:10 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6sc7mnv021m0ifg00e2ji",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "de9c72f2-15de-3aae-bc19-a3b725c5bc67"
+}

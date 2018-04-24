@@ -1,0 +1,21 @@
+{
+  "id" : "cddc5186-5ebf-3ed2-aa83-301fe665d3ad",
+  "request" : {
+    "url" : "/shapes/?route=CR-Providence&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-BxDDR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 16:55:08 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:13:24 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6r2653gscm1agn400l8jh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "cddc5186-5ebf-3ed2-aa83-301fe665d3ad"
+}

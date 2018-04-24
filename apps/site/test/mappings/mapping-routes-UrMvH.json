@@ -1,0 +1,21 @@
+{
+  "id" : "7eb28294-a3c4-34e7-870f-86506812293c",
+  "request" : {
+    "url" : "/routes/?stop=place-brmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-UrMvH.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jgknvfh2lg1v000icg2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "7eb28294-a3c4-34e7-870f-86506812293c"
+}

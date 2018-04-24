@@ -1,0 +1,21 @@
+{
+  "id" : "977baa36-7de8-3f8a-8326-2b0244008e14",
+  "request" : {
+    "url" : "/routes/?stop=6542",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-XIBiG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:36 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvomlinvovic7000e0fi",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "977baa36-7de8-3f8a-8326-2b0244008e14"
+}

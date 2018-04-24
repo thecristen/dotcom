@@ -1,0 +1,21 @@
+{
+  "id" : "30d3dfdd-67c4-3d50-bebc-9af88039c393",
+  "request" : {
+    "url" : "/stops/South%20Station?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-South Station-av5oQ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:49:37 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk710f6td79djf2dc00u041",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "30d3dfdd-67c4-3d50-bebc-9af88039c393"
+}

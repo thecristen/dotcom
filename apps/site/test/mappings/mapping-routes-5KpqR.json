@@ -1,0 +1,21 @@
+{
+  "id" : "e70e120e-e822-34e0-9602-7588f196b4c9",
+  "request" : {
+    "url" : "/routes/?stop=Natick+Center",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-5KpqR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jgfhe51eteifg00u2u1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e70e120e-e822-34e0-9602-7588f196b4c9"
+}

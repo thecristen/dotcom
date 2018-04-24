@@ -1,0 +1,21 @@
+{
+  "id" : "21c2260b-27f0-39bd-b81e-d6064477640d",
+  "request" : {
+    "url" : "/routes/?stop=place-lngmd",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-9VekT.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jhd2vmpklg1v000icqi",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "21c2260b-27f0-39bd-b81e-d6064477640d"
+}

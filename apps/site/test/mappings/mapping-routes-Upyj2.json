@@ -1,0 +1,21 @@
+{
+  "id" : "718dd822-c932-318c-a355-4e4221dc8317",
+  "request" : {
+    "url" : "/routes/?stop=place-cedgr&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Upyj2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:33 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvkddj70em9o6k00dtk2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "718dd822-c932-318c-a355-4e4221dc8317"
+}

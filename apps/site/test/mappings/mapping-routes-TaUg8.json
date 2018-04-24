@@ -1,0 +1,21 @@
+{
+  "id" : "48abfe8c-5c43-3412-b04d-e9d2496bd86b",
+  "request" : {
+    "url" : "/routes/?stop=place-bbsta",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-TaUg8.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:36 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvontj32b9cmd000ma61",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "48abfe8c-5c43-3412-b04d-e9d2496bd86b"
+}

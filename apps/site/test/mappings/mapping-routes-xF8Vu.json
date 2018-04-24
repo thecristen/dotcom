@@ -1,0 +1,21 @@
+{
+  "id" : "3f6f2b9c-1f8f-3bbe-a8e3-d036eab73b64",
+  "request" : {
+    "url" : "/routes/?stop=Boat-George",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-xF8Vu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:03 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jfp8n69qlg1v000u2d1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3f6f2b9c-1f8f-3bbe-a8e3-d036eab73b64"
+}

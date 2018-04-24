@@ -1,0 +1,1 @@
+{"data":[{"attributes":{"color":"80276C","description":"Commuter Rail","direction_names":["Outbound","Inbound"],"long_name":"Haverhill Line","short_name":"","sort_order":56,"text_color":"FFFFFF","type":2},"id":"CR-Haverhill","links":{"self":"/routes/CR-Haverhill"},"type":"route"}],"jsonapi":{"version":"1.0"}}

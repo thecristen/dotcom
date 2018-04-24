@@ -1,0 +1,21 @@
+{
+  "id" : "f29dc52c-d756-36e8-ae85-21055265fa01",
+  "request" : {
+    "url" : "/stops/?route=Green-B&include=parent_station&direction_id=1&date=2018-05-17",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-cWZvN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 16:55:07 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6r25oc342hiod0800l8c1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f29dc52c-d756-36e8-ae85-21055265fa01"
+}

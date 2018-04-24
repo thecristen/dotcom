@@ -1,0 +1,21 @@
+{
+  "id" : "fe88d9a7-0654-3e6b-b056-9cc0b600dc5d",
+  "request" : {
+    "url" : "/routes/746",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-746-PgfBC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:53:45 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71etp76qi2c0bhg00ib5i",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "fe88d9a7-0654-3e6b-b056-9cc0b600dc5d"
+}

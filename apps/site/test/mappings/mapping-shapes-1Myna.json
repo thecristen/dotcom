@@ -1,0 +1,21 @@
+{
+  "id" : "e9b718b4-43eb-33e9-87f5-f7c0975c0cc6",
+  "request" : {
+    "url" : "/shapes/?route=29&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-1Myna.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 16:55:10 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:13:24 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6r2au01shgj4ca000lb41",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e9b718b4-43eb-33e9-87f5-f7c0975c0cc6"
+}

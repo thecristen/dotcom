@@ -1,0 +1,21 @@
+{
+  "id" : "db44c993-1ad7-3971-838c-98726b9584e1",
+  "request" : {
+    "url" : "/routes/?stop=place-brkhl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LzTC0.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:33 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvjsl1nn85ag9g00m5m1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "db44c993-1ad7-3971-838c-98726b9584e1"
+}

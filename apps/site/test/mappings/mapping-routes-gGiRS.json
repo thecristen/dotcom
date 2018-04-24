@@ -1,0 +1,21 @@
+{
+  "id" : "97902973-50ad-341b-b8ef-357eabe6ee77",
+  "request" : {
+    "url" : "/routes/?stop=15095&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-gGiRS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:34 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvlgd6t2uc241s00m6qh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "97902973-50ad-341b-b8ef-357eabe6ee77"
+}

@@ -1,0 +1,21 @@
+{
+  "id" : "5c220626-8ab6-3cb6-af0a-3ffa2df9471b",
+  "request" : {
+    "url" : "/routes/?stop=11219&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-jioMm.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:35 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvmv31d4qvic7000dv72",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "5c220626-8ab6-3cb6-af0a-3ffa2df9471b"
+}

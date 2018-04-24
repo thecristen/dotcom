@@ -1,0 +1,21 @@
+{
+  "id" : "3339677d-8b27-3da5-95dd-7ae701c7c46e",
+  "request" : {
+    "url" : "/routes/?stop=place-kencl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-gx47V.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jh9l4ueeteifg00u4d1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3339677d-8b27-3da5-95dd-7ae701c7c46e"
+}

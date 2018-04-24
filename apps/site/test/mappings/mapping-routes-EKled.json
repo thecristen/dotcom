@@ -1,0 +1,21 @@
+{
+  "id" : "6f80d277-1af5-3702-8c6c-2f487c88d7e8",
+  "request" : {
+    "url" : "/routes/?stop=place-masta",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-EKled.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jgckak8olg1v000icdi",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "6f80d277-1af5-3702-8c6c-2f487c88d7e8"
+}

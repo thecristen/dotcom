@@ -1,0 +1,21 @@
+{
+  "id" : "0defd0b3-95e1-341b-8be9-370e193f7bb5",
+  "request" : {
+    "url" : "/stops/?route=Green-E&include=parent_station&direction_id=0&date=2018-05-19",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-MNlsa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 16:55:07 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6r25vqq0ro1agn400l8g1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0defd0b3-95e1-341b-8be9-370e193f7bb5"
+}

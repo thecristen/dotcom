@@ -1,0 +1,21 @@
+{
+  "id" : "3bc87d74-4176-3334-b29b-43eb3f86575f",
+  "request" : {
+    "url" : "/schedules/?stop=place-sstat&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&date=2018-06-20",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-Aod4q.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:53:45 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:12:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71etlmaioh741j400ib52",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3bc87d74-4176-3334-b29b-43eb3f86575f"
+}

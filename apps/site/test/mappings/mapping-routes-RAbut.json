@@ -1,0 +1,21 @@
+{
+  "id" : "4b10e995-8617-3b59-aa44-ac0fee6cfc18",
+  "request" : {
+    "url" : "/routes/?stop=place-newtn",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-RAbut.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jhhh73oklg1v000icui",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4b10e995-8617-3b59-aa44-ac0fee6cfc18"
+}

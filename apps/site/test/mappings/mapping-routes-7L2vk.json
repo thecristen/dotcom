@@ -1,0 +1,21 @@
+{
+  "id" : "f1f74021-e7b6-3788-aea4-47c8a844a6d9",
+  "request" : {
+    "url" : "/routes/?stop=place-aport",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-7L2vk.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:03 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jftktn55qfvng00u2l1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f1f74021-e7b6-3788-aea4-47c8a844a6d9"
+}

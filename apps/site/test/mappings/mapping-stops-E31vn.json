@@ -1,0 +1,21 @@
+{
+  "id" : "94bc24ec-a0fa-3c2d-88dc-0a111c376cc8",
+  "request" : {
+    "url" : "/stops/?route=Red&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-E31vn.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:03 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jfke8sc0teifg00u29h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "94bc24ec-a0fa-3c2d-88dc-0a111c376cc8"
+}

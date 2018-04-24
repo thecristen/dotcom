@@ -1,0 +1,21 @@
+{
+  "id" : "de8a4978-b4a3-3b4e-94d6-a95ac4726ea7",
+  "request" : {
+    "url" : "/routes/?stop=place-rcmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-aXDJj.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:33 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvj6i6l0kn3it000m4s1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "de8a4978-b4a3-3b4e-94d6-a95ac4726ea7"
+}

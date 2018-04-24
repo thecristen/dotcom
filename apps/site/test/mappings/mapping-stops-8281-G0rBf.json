@@ -1,0 +1,21 @@
+{
+  "id" : "15e43585-a5c8-31aa-8508-18bc911e7354",
+  "request" : {
+    "url" : "/stops/8281?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-8281-G0rBf.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:36 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvogt0vmuvic7000e0b2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "15e43585-a5c8-31aa-8508-18bc911e7354"
+}

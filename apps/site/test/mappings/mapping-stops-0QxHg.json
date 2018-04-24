@@ -1,0 +1,21 @@
+{
+  "id" : "0a65a7e6-1d12-3d8f-9840-315a9e90accd",
+  "request" : {
+    "url" : "/stops/?route=Boat-F1&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-0QxHg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:03 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jfm0pvr6teifg00u2ah",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0a65a7e6-1d12-3d8f-9840-315a9e90accd"
+}

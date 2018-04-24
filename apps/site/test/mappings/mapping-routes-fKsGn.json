@@ -1,0 +1,21 @@
+{
+  "id" : "dce55c14-944d-3e05-a3c2-03c9a433ecdb",
+  "request" : {
+    "url" : "/routes/?stop=place-chhil",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-fKsGn.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jglbjtsalg1v000icgi",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "dce55c14-944d-3e05-a3c2-03c9a433ecdb"
+}

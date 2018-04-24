@@ -1,0 +1,1 @@
+{"data":[{"attributes":{"headsign":"Peabody Square via Western Ave & Goodwins Cir (Express)"},"id":"36602996","links":{"self":"/trips/36602996"},"relationships":{"route":{"data":{"id":"434","type":"route"}},"service":{"data":{"id":"BUS22018-hbl28011-Weekday-02","type":"service"}},"shape":{"data":{"id":"4340027","type":"shape"}}},"type":"trip"}],"jsonapi":{"version":"1.0"}}

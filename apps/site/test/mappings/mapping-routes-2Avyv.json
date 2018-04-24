@@ -1,0 +1,21 @@
+{
+  "id" : "576d434b-ca0c-37b3-aa9f-7e4dd77ce808",
+  "request" : {
+    "url" : "/routes/?stop=place-sbmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-2Avyv.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jgnuteheteifg00u371",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "576d434b-ca0c-37b3-aa9f-7e4dd77ce808"
+}

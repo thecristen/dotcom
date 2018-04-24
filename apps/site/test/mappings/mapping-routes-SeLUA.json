@@ -1,0 +1,21 @@
+{
+  "id" : "de9d9272-7775-3b5d-889b-1983f78c5bf0",
+  "request" : {
+    "url" : "/routes/?stop=place-spmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-SeLUA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jhmbnrf2lg1v000id32",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "de9d9272-7775-3b5d-889b-1983f78c5bf0"
+}

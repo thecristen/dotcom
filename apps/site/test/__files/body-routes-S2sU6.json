@@ -1,0 +1,1 @@
+{"data":[{"attributes":{"color":"80276C","description":"Commuter Rail","direction_names":["Outbound","Inbound"],"long_name":"Framingham/Worcester Line","short_name":"","sort_order":53,"text_color":"FFFFFF","type":2},"id":"CR-Worcester","links":{"self":"/routes/CR-Worcester"},"type":"route"}],"jsonapi":{"version":"1.0"}}

@@ -1,0 +1,21 @@
+{
+  "id" : "ea6a49d2-484c-3a1f-954e-e28bb29a719a",
+  "request" : {
+    "url" : "/stops/?route=CR-Fairmount&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-loBFA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:06:25 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6s9jc8meoh4pilc00md6h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ea6a49d2-484c-3a1f-954e-e28bb29a719a"
+}

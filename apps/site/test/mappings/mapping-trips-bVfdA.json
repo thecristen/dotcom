@@ -1,0 +1,21 @@
+{
+  "id" : "627dc487-7327-3424-96e6-f4a38909787b",
+  "request" : {
+    "url" : "/trips/?route=64&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-bVfdA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 16:55:12 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 16:55:02 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6r2f5esb16q573o00d9ji",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "627dc487-7327-3424-96e6-f4a38909787b"
+}

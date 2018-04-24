@@ -1,0 +1,21 @@
+{
+  "id" : "3e653379-1d46-31b4-9bbd-e4bf8bd6a918",
+  "request" : {
+    "url" : "/routes/?stop=1241",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-lOfKg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:36 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvokfq5cj65a5c00ma3h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3e653379-1d46-31b4-9bbd-e4bf8bd6a918"
+}

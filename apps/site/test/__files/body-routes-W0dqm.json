@@ -1,0 +1,1 @@
+{"data":[{"attributes":{"color":"FFC72C","description":"Local Bus","direction_names":["Outbound","Inbound"],"long_name":"","short_name":"47","sort_order":4700,"text_color":"000000","type":3},"id":"47","links":{"self":"/routes/47"},"type":"route"}],"jsonapi":{"version":"1.0"}}

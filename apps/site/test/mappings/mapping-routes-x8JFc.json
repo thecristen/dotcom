@@ -1,0 +1,21 @@
+{
+  "id" : "8833b855-60b8-35ae-b767-7e5d10415fd6",
+  "request" : {
+    "url" : "/routes/?stop=South+Acton",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-x8JFc.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jgupsrhvqfvng00u3hh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8833b855-60b8-35ae-b767-7e5d10415fd6"
+}

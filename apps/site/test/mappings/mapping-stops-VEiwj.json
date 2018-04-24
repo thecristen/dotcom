@@ -1,0 +1,21 @@
+{
+  "id" : "b92bd79f-84bf-341a-9482-326d8d84215f",
+  "request" : {
+    "url" : "/stops/?route=Orange&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-VEiwj.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:03 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jfk9cgl0t809800u281",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b92bd79f-84bf-341a-9482-326d8d84215f"
+}

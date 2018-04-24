@@ -1,0 +1,21 @@
+{
+  "id" : "fe0bf662-2b23-3057-9722-d6dfb7425153",
+  "request" : {
+    "url" : "/stops/?route=Green-C&include=parent_station&direction_id=0&date=2018-05-09",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-lOgfL.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 16:55:07 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6r24fltsm01agn400d3u2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "fe0bf662-2b23-3057-9722-d6dfb7425153"
+}

@@ -1,0 +1,21 @@
+{
+  "id" : "f1ee5c57-7ee3-3e91-8b04-07f43f7ad32d",
+  "request" : {
+    "url" : "/shapes/?route=CR-Fitchburg&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-iJTZ8.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 16:55:07 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:13:24 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6r24kfa7ui1agn400l7d1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f1ee5c57-7ee3-3e91-8b04-07f43f7ad32d"
+}

@@ -1,0 +1,21 @@
+{
+  "id" : "693e0b59-71bd-32b8-86ce-8e07ce497d7b",
+  "request" : {
+    "url" : "/routes/?stop=Greenbush",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-IGjpO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jgmdp82clg1v000ici2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "693e0b59-71bd-32b8-86ce-8e07ce497d7b"
+}

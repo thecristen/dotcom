@@ -1,0 +1,21 @@
+{
+  "id" : "4fdfad87-a45b-3eb3-a944-c12967c87c5b",
+  "request" : {
+    "url" : "/routes/?stop=place-jaksn",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-HRmlW.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jgc9uafglg1v000icci",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4fdfad87-a45b-3eb3-a944-c12967c87c5b"
+}

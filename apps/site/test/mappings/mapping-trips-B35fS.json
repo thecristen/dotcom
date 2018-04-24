@@ -1,0 +1,21 @@
+{
+  "id" : "15663c76-7acf-3a91-b1db-33a589c8c8fb",
+  "request" : {
+    "url" : "/trips/?route=CR-Foxboro&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-B35fS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 16:55:08 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 16:55:02 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6r266f9tg21agn400l8lh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "15663c76-7acf-3a91-b1db-33a589c8c8fb"
+}

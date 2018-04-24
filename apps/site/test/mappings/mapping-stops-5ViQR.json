@@ -1,0 +1,21 @@
+{
+  "id" : "306b332e-e9e0-3679-b861-54a1979a5d66",
+  "request" : {
+    "url" : "/stops/?route=CR-Franklin&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-5ViQR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:07:10 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6sc7n71inuduvso00e2k2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "306b332e-e9e0-3679-b861-54a1979a5d66"
+}

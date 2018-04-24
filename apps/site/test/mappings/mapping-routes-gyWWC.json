@@ -1,0 +1,21 @@
+{
+  "id" : "4e5a7cc1-e72e-3db3-8681-41292ce131eb",
+  "request" : {
+    "url" : "/routes/?stop=Winchester+Center",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-gyWWC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jh960tg2teifg00u4c1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4e5a7cc1-e72e-3db3-8681-41292ce131eb"
+}

@@ -1,0 +1,21 @@
+{
+  "id" : "489bf723-3ea3-3e28-b546-de097de62308",
+  "request" : {
+    "url" : "/routes/?stop=place-chmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-fPStH.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jg5dbn7alg1v000ic12",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "489bf723-3ea3-3e28-b546-de097de62308"
+}

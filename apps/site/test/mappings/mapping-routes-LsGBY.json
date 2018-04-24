@@ -1,0 +1,21 @@
+{
+  "id" : "30e3aa43-c918-374a-84e3-699fcd405b81",
+  "request" : {
+    "url" : "/routes/?stop=place-bbsta&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LsGBY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:32 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvig667bs5ag9g00m46h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "30e3aa43-c918-374a-84e3-699fcd405b81"
+}

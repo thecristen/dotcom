@@ -1,0 +1,21 @@
+{
+  "id" : "0946546c-1486-34a2-9e6c-c068149a1cca",
+  "request" : {
+    "url" : "/routes/?stop=Windsor+Gardens",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-RDHyg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jgs5m2iglg1v000icmi",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0946546c-1486-34a2-9e6c-c068149a1cca"
+}

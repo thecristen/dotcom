@@ -1,0 +1,21 @@
+{
+  "id" : "0e389014-a1cc-3baf-8caf-944939174bcb",
+  "request" : {
+    "url" : "/routes/?stop=Talbot+Avenue",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-IIAUx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jggen802teifg00u301",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0e389014-a1cc-3baf-8caf-944939174bcb"
+}

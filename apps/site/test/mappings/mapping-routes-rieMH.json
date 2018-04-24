@@ -1,0 +1,21 @@
+{
+  "id" : "5fc5f272-0416-3c96-9542-dd6b6801f2b0",
+  "request" : {
+    "url" : "/routes/?stop=10008&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-rieMH.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:35 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvmmj9tcc7nq2o00m89h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "5fc5f272-0416-3c96-9542-dd6b6801f2b0"
+}

@@ -1,0 +1,21 @@
+{
+  "id" : "1b4f7410-e7b6-31d9-9167-f17279d2e693",
+  "request" : {
+    "url" : "/routes/?stop=place-hwsst",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-lPk5M.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jh6ulq2bqfvng00u46h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "1b4f7410-e7b6-31d9-9167-f17279d2e693"
+}

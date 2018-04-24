@@ -1,0 +1,21 @@
+{
+  "id" : "6a4dd7c7-797c-311c-a7e4-ad33d34b1399",
+  "request" : {
+    "url" : "/stops/place-sstat?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-sstat-go9Tw.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:06:25 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6s9j9c399j4pilc00e1vi",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "6a4dd7c7-797c-311c-a7e4-ad33d34b1399"
+}

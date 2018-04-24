@@ -1,0 +1,21 @@
+{
+  "id" : "159f29d9-bef8-393a-a81d-b924937cc6eb",
+  "request" : {
+    "url" : "/routes/?stop=West+Gloucester",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-OlMUg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jhlrml82lg1v000id1i",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "159f29d9-bef8-393a-a81d-b924937cc6eb"
+}

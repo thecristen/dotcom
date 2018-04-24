@@ -1,0 +1,21 @@
+{
+  "id" : "16f9ec30-9170-3052-a846-0f6b0713cddb",
+  "request" : {
+    "url" : "/shapes/?route=503&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-FaMiF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 16:55:20 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:13:24 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6r2t0g3m62l63bo00dfni",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "16f9ec30-9170-3052-a846-0f6b0713cddb"
+}

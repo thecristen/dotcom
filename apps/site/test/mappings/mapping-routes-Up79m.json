@@ -1,0 +1,21 @@
+{
+  "id" : "07e4301d-b3fc-3976-a39b-e28d6ab0c6e2",
+  "request" : {
+    "url" : "/routes/?stop=place-stplb",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Up79m.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jhlo33jilg1v000id12",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "07e4301d-b3fc-3976-a39b-e28d6ab0c6e2"
+}

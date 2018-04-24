@@ -1,0 +1,21 @@
+{
+  "id" : "39bf0276-f87f-3de9-aece-78894e102694",
+  "request" : {
+    "url" : "/routes/?stop=Fitchburg",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-XVroT.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jgekql22teifg00u2rh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "39bf0276-f87f-3de9-aece-78894e102694"
+}

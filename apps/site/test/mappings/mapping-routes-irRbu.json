@@ -1,0 +1,21 @@
+{
+  "id" : "14a9e8ee-0ef2-3bfb-bc18-aa9266d4b214",
+  "request" : {
+    "url" : "/routes/?stop=171&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-irRbu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:34 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvlabeeu85ag9g00duf2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "14a9e8ee-0ef2-3bfb-bc18-aa9266d4b214"
+}

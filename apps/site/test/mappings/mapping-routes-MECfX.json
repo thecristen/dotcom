@@ -1,0 +1,21 @@
+{
+  "id" : "961e9f3e-22de-3be6-8ef8-1f7fa3d1b37a",
+  "request" : {
+    "url" : "/routes/?stop=place-crtst&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MECfX.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:35 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvne89ruu7nq2o00m8sh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "961e9f3e-22de-3be6-8ef8-1f7fa3d1b37a"
+}

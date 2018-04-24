@@ -1,0 +1,21 @@
+{
+  "id" : "77144cc2-db79-3207-931d-d8ba86483bd3",
+  "request" : {
+    "url" : "/routes/?stop=place-mfa",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-lgPcl.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jhebb4mfqfvng00u4lh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "77144cc2-db79-3207-931d-d8ba86483bd3"
+}

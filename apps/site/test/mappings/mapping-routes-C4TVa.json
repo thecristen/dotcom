@@ -1,0 +1,21 @@
+{
+  "id" : "570feaaf-70f8-3447-8141-637296c2c7f7",
+  "request" : {
+    "url" : "/routes/?stop=place-mispk",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-C4TVa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jhe5lvvtqfvng00u4l1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "570feaaf-70f8-3447-8141-637296c2c7f7"
+}

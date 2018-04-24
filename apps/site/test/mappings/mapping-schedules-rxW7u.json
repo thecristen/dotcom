@@ -1,0 +1,21 @@
+{
+  "id" : "e4ff625a-955f-36b2-b24d-151c0090e3e5",
+  "request" : {
+    "url" : "/schedules/?direction_id=0&date=2018-06-20&route=CR-Providence&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-rxW7u.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:49:36 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:12:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk710evhlpmrjf2dc00iat2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e4ff625a-955f-36b2-b24d-151c0090e3e5"
+}

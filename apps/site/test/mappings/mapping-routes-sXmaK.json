@@ -1,0 +1,21 @@
+{
+  "id" : "7b5231a4-8bd8-3ef7-9bf6-5dccba284ecf",
+  "request" : {
+    "url" : "/routes/?stop=place-smary&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-sXmaK.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:33 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvj80o9fan3it000m4v1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "7b5231a4-8bd8-3ef7-9bf6-5dccba284ecf"
+}

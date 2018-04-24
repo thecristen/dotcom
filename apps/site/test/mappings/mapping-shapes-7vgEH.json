@@ -1,0 +1,21 @@
+{
+  "id" : "23b53a79-22c3-3239-84e7-e319b4c99d97",
+  "request" : {
+    "url" : "/shapes/?route=Mattapan&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-7vgEH.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 16:55:06 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:13:24 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6r2305onbl0lkjk00l6d1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "23b53a79-22c3-3239-84e7-e319b4c99d97"
+}

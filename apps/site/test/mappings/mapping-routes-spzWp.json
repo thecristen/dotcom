@@ -1,0 +1,21 @@
+{
+  "id" : "a353f5ec-4b66-31a8-a8e1-ccbdaf09ca7a",
+  "request" : {
+    "url" : "/routes/?stop=854&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-spzWp.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:36 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvoc82sal65a5c00m9t1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a353f5ec-4b66-31a8-a8e1-ccbdaf09ca7a"
+}

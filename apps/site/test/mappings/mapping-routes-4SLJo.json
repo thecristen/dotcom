@@ -1,0 +1,21 @@
+{
+  "id" : "6bd5d522-e110-3443-9c56-d2a66f04516d",
+  "request" : {
+    "url" : "/routes/?stop=place-asmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-4SLJo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:03 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jfsfnovfqfvng00u2ih",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "6bd5d522-e110-3443-9c56-d2a66f04516d"
+}

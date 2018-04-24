@@ -1,0 +1,21 @@
+{
+  "id" : "10b8366f-ca57-36d7-9f4c-fa5d50779bfa",
+  "request" : {
+    "url" : "/routes/?stop=5089&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-gIVum.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:35 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvnvlkj1r65a5c00e01i",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "10b8366f-ca57-36d7-9f4c-fa5d50779bfa"
+}

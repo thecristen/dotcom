@@ -1,0 +1,21 @@
+{
+  "id" : "4b040b5d-9869-3a5e-a949-439e93768e98",
+  "request" : {
+    "url" : "/routes/?stop=place-wrnst",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-XtLA4.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jhorf27l0jkbc00u50h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4b040b5d-9869-3a5e-a949-439e93768e98"
+}

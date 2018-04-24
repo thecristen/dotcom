@@ -1,0 +1,21 @@
+{
+  "id" : "ddfb7ad9-3f78-3f5d-88e7-95f3642d36cc",
+  "request" : {
+    "url" : "/routes/?stop=Newburyport",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-pRq1R.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:55:04 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk71jhi1vknjqfvng00u4o1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ddfb7ad9-3f78-3f5d-88e7-95f3642d36cc"
+}

@@ -1,0 +1,21 @@
+{
+  "id" : "523eb884-750d-3866-88d4-76c11ead6408",
+  "request" : {
+    "url" : "/routes/?stop=11218&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-hsTov.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 17:03:35 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:11:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6rvn3vq2u07nq2o00m8k1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "523eb884-750d-3866-88d4-76c11ead6408"
+}

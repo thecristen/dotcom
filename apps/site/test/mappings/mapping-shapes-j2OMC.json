@@ -1,0 +1,21 @@
+{
+  "id" : "7eafa252-e630-3013-8728-c6db82b47c1e",
+  "request" : {
+    "url" : "/shapes/?route=CR-Newburyport&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-j2OMC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 24 Apr 2018 16:55:07 GMT",
+      "last-modified" : "Tue, 24 Apr 2018 08:13:24 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "2kk6r25vlnmjr0lkjk00d4ji",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "7eafa252-e630-3013-8728-c6db82b47c1e"
+}
