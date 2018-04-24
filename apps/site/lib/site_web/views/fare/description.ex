@@ -50,11 +50,8 @@ defmodule SiteWeb.FareView.Description do
        ]
   end
   def description(%Fare{mode: :ferry, duration: :month} = fare, _assigns) do
-    [
-      "Valid for one calendar month of unlimited travel on the ",
-      Fares.Format.name(fare),
-      " as well as the Local Bus, \
- Subway, Express Buses, and Commuter Rail up to Zone 5."
+    [content_tag(:div, "Valid for 1 calendar month on:"),
+     content_tag(:ul, boston_ferry_pass_modes(fare))
     ]
   end
   def description(%Fare{name: name, duration: :single_trip, media: [:charlie_ticket, :cash]}, _assigns)
@@ -168,6 +165,15 @@ defmodule SiteWeb.FareView.Description do
   end
   def description(%Fare{name: :free_fare}, _assigns) do
     ["Inbound SL1 travel from any airport stop is free."]
+  end
+
+  defp boston_ferry_pass_modes(fare) do
+    [Fares.Format.name(fare),
+     "Commuter Rail Zone 1A",
+     "Subway",
+     "Local Bus"
+    ]
+    |> Enum.map(&content_tag(:li, &1))
   end
 
   defp bus_description_intro(name) when name in [:inner_express_bus, :outer_express_bus], do: ""
