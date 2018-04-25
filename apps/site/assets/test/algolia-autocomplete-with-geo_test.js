@@ -116,11 +116,12 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       it("does a location search when index is \"locations\"", function(done) {
         this.ac.init(this.client);
         const result = this.ac.onHitSelected({
-          _args: [{ id: "hitId" }, "locations"]
+          _args: [{ id: "hitId", description: "10 Park Plaza, Boston, MA" }, "locations"]
         });
         Promise.resolve(result).then(() => {
           expect(this.ac._showLocation.called).to.be.true;
           expect(this.ac._showLocation.args[0][2]).to.equal("10 Park Plaza, Boston, MA");
+          expect($(`#${selectors.input}`).val()).to.equal("10 Park Plaza, Boston, MA");
           expect(GoogleMapsHelpers.lookupPlace.called).to.be.true;
           Promise.resolve(this.ac._showLocation.getCall(0).returnValue).then((results) => {
             expect(results).to.equal(this.locationSearchResults);

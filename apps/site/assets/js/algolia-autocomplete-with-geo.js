@@ -86,6 +86,7 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     const index = hit._args[1]
     switch (index) {
       case "locations":
+        this._input.value = hit._args[0].description;
         this._doLocationSearch(hit._args[0].id);
         break;
       default:
