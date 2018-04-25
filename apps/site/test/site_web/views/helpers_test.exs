@@ -276,6 +276,22 @@ defmodule SiteWeb.ViewHelpersTest do
   end
 
   describe "svg/1" do
+    test "wraps svg in span with icon class" do
+      svg_name =
+        :site
+        |> Application.app_dir("priv/static/**/*.svg")
+        |> Path.wildcard()
+        |> List.first()
+        |> Path.basename()
+
+      rendered =
+        svg_name
+        |> svg()
+        |> safe_to_string()
+
+      assert [{"span", _, _}] = Floki.find(rendered, ".c-svg__#{Path.rootname(svg_name)}")
+    end
+
     test "throw exception for unknown SVG" do
       assert_raise ArgumentError, fn ->
         svg("???")

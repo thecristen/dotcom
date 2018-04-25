@@ -18,7 +18,7 @@ defmodule SiteWeb.ViewHelpers do
     |> raw
 
     def svg(unquote(name)) do
-      unquote(contents)
+      content_tag :span, [unquote(contents)], class: ["c-svg", "__", Path.rootname(unquote(name))]
     end
   end
   def svg(unknown) do
