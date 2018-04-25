@@ -182,7 +182,9 @@ export function getTitle(hit, type) {
 };
 
 function _contentTitle(hit) {
-  if (hit.search_api_datasource === "entity:file") {
+  if (hit._content_type === "search_result") {
+    return hit._highlightResult.search_result_title.value;
+  } else if (hit.search_api_datasource === "entity:file") {
     return hit._highlightResult.file_name_raw.value;
   } else {
     return hit._highlightResult.content_title.value;

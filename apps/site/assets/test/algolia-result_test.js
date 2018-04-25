@@ -7,9 +7,13 @@ describe("AlgoliaResult", () => {
     searchResult: {
       _content_type: "search_result",
       _search_result_url: "internal:/search/result",
-      content_title: "Search Result Title",
+      content_title: "Search Result Content Title",
+      search_result_title: "Search Result Title",
       _highlightResult: {
         content_title: {
+          value: "Search Result Content Title"
+        },
+        search_result_title: {
           value: "Search Result Title"
         }
       }

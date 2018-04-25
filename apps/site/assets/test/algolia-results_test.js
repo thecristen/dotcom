@@ -57,10 +57,14 @@ describe('AlgoliaResults', () => {
       it('handles search_result', () => {
         const hit = { _content_type: "search_result",
                       search_api_datasource: "no_file",
-                      content_title: "pre_search-results-title",
+                      content_title: "pre_search-results-content-title",
+                      search_result_title: "pre_search-results-title",
                       _search_result_url: "file-url",
                       _highlightResult: {
                         content_title: {
+                          value: "search-results-content-title"
+                        },
+                        search_result_title: {
                           value: "search-results-title"
                         }
                       }
@@ -73,7 +77,7 @@ describe('AlgoliaResults', () => {
         }, "drupal");
 
         expect(results).to.be.a("string");
-        expect(results).to.have.string(hit._highlightResult.content_title.value);
+        expect(results).to.have.string(hit._highlightResult.search_result_title.value);
         expect(results).to.have.string(hit._search_result_url);
       });
 
