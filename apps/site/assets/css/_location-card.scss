@@ -63,10 +63,10 @@
 }
 
 .c-location-card__name {
+  color: $link-color;
   float: left;
   font-size: $font-size-h4;
   font-weight: bold;
-  color: $link-color;
   margin-bottom: $base-spacing-sm;
   width: 66%;
 

@@ -1,27 +1,48 @@
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// VARIABLES AND MIXINS
+//
 @import 'variables';
 @import 'mixins';
 @import 'node_modules/bootstrap/scss/variables';
 @import 'node_modules/bootstrap/scss/mixins';
 @import 'vendor/font-awesome-4.6.3/scss/mixins';
 @import 'vendor/font-awesome-4.6.3/scss/variables';
+
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// VENDOR STYLES
+//
 @import 'vendor/accessible-date-picker';
+
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// NEEDS REFACTOR
+// These files have not yet been refactored to conform to our new BEM-style naming
+// conventions. Use EXTREME caution when editing any of these styles, as they are
+// likely to have been used somewhat randomly across the site, and changes that work
+// on one page may break the layout on another page :(. They are also likely to be
+// deeply nested and difficult to override.
+//
+// Whenever possible, take the opportunity to use new selectors that use correct
+// conventions instead of modifying these existing styles.
+//
 @import 'helpers';
-@import 'svg';
 @import 'map';
 @import 'text-input-button-widget';
 @import 'icons';
-@import 'badges';
 @import 'button-group';
 @import 'mode-group';
 @import 'stop-bubbles';
-@import 'location_card';
 @import 'index';
 @import 'alerts';
 @import 'schedule';
 @import 'route';
 @import 'mode-hub';
 @import 'stops';
-@import 'detailed-stop';
 @import 'modal';
 @import 'errors';
 @import 'customer-support';
@@ -30,17 +51,53 @@
 @import 'how-to-pay';
 @import 'location-input';
 @import 'transit-near-me';
-@import 'location-grid';
-@import 'search-bar';
-@import 'content';
 @import 'carousel';
 @import 'news';
 @import 'events';
 @import 'pagination';
 @import 'trip-plan';
 @import 'people-grid';
-@import 'search';
-@import 'facets';
+@import 'search'; // partially refactored
 @import 'project';
+
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// COMPONENTS
+//
+// These files contain classes that may be used in multiple places on the site.
+// The styles in this file are base styles and are meant to be overridden by
+// module styles where needed; therefore the selectors for these styles should
+// only use single classes with no nesting. If selectors absolutely must be nested,
+// those selectors should be implemented carefully and precisely, and be well-documented.
+// Use caution when editing any of these styles.
+//
+@import 'svg';
+@import 'badges';
+@import 'title-card';
+@import 'location-card';
+@import 'search-bar';
+@import 'facets';
 @import 'photo-gallery';
-@import 'vendor/fixedsticky';
+
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// MODULES
+// These files contain styles that are only meant to be used on one page/template.
+// They may use nesting to override component or helper styles where needed, but should
+// still strive to avoid nesting wherever possible. These styles can be edited more easily
+// with less fear of unexpected consequences.
+//
+@import 'detailed-stop';
+@import 'content';
+
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// OVERRIDES
+// These files contain styles that are meant to always override other styles when used.
+// They may use nesting and even !important when absolutely necessary. These styles
+// should be used VERY sparingly and be well-documented.
+//
+@import 'vendor/fixedsticky'; // needs refactor
