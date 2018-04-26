@@ -17,7 +17,7 @@
   } %>
   <%= if !Enum.empty?(@mode_hubs) do %>
     <div class="page-section">
-    <h2>Major <%= mode_name(@mode)%> Stops</h2>
+  <h2><%=svg_icon_with_circle(%SvgIconWithCircle{icon: @mode})%><%= mode_name(@mode)%> Stations</h2>
     <%= render("_hub_stops.html", hubs: @mode_hubs, conn: @conn)%>
     </div>
   <% end %>
@@ -36,7 +36,7 @@
         <% end %>
       <div <%= if subway?, do: "toggle-element-collapse" %> id="stops-<%= route.id%>">
         <%= if subway? do %>
-          <h3>Stops</h3>
+          <h3>Stations</h3>
         <% end %>
         <%= render("_detailed_stop_list.html", conn: @conn, detailed_stops: detailed_stops) %>
         <%= link to: line_path(@conn, :show, route.id) do %>
