@@ -120,6 +120,7 @@ defmodule SiteWeb.Router do
     get "/trip-planner", TripPlanController, :index
     get "/customer-support", CustomerSupportController, :index
     get "/customer-support/thanks", CustomerSupportController, :thanks
+    post "/customer-support", CustomerSupportController, :submit
     get "/fares/commuter-rail/zone", FareController, :zone
     resources "/fares", FareController, only: [:index, :show]
     get "/search", SearchController, :index

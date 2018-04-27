@@ -22,7 +22,7 @@ defmodule Site.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     apps = [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :gettext, :stops, :routes, :alerts, :schedules,
-            :algolia, :predictions, :timex, :inflex, :html_sanitize_ex, :logster, :sizeable,
+            :algolia, :predictions, :timex, :inflex, :html_sanitize_ex, :logster, :sizeable, :hammer,
             :feedback, :zones, :fares, :content, :holiday, :parallel_stream, :vehicles, :tzdata, :google_maps, :logger,
             :floki, :polyline, :util, :trip_plan]
 
@@ -75,6 +75,7 @@ defmodule Site.Mixfile do
      {:sentry, github: "mbta/sentry-elixir", tag: "6.0.0"},
      {:recon, "~> 2.3.2", only: :prod},
      {:diskusage_logger, "~> 0.2.0"},
+     {:hammer, "~> 4.0"},
      {:stops, in_umbrella: true},
      {:routes, in_umbrella: true},
      {:alerts, in_umbrella: true},
