@@ -113,6 +113,8 @@ defmodule SiteWeb.Router do
     get "/schedules/:route", ScheduleController, :show, as: :schedule
     get "/schedules/:route/pdf", ScheduleController.Pdf, :pdf, as: :route_pdf
     get "/style-guide", StyleGuideController, :index
+    get "/style-guide/principles", Redirector, to: "/style-guide"
+    get "/style-guide/about", Redirector, to: "/style-guide"
     get "/style-guide/:section", StyleGuideController, :index
     get "/style-guide/:section/:subpage", StyleGuideController, :show
     get "/transit-near-me", TransitNearMeController, :index

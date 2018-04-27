@@ -9,8 +9,6 @@ defmodule SiteWeb.StyleGuideController do
   def known_pages do
     [
       components: [:typography, :colors, :logo | Keyword.keys(@components)],
-      principles: [],
-      about: []
     ]
   end
 
@@ -20,18 +18,13 @@ defmodule SiteWeb.StyleGuideController do
   def index(conn, %{"section" => "components"}) do
     redirect conn, to: "/style-guide/components/typography"
   end
-  def index(conn, %{"section" => _} = params), do: render_section(conn, params)
-
-  def index(conn, params) do
+  def index(conn, params) when params == %{} do
     conn
     |> assign_styleguide_conn(params)
     |> render("index.html")
   end
-
-  defp render_section(conn, %{"section" => section} = params) do
-    conn
-    |> assign_styleguide_conn(params)
-    |> render("#{section}.html")
+  def index(conn, _params) do
+    SiteWeb.ControllerHelpers.render_404(conn)
   end
 
   def show(conn, %{"subpage" => "typography"} = params), do: render_subpage(conn, params)

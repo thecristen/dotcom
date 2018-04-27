@@ -15,6 +15,11 @@ defmodule SiteWeb.StyleGuideControllerTest do
     end
   end
 
+  test "unknown top level pages return a 404", %{conn: conn} do
+    conn = get conn, "style-guide/i_dont_exist"
+    assert html_response(conn, 404)
+  end
+
   test "`use Site.Components.Register` registers a list of component groups which each have a list of components" do
     @components
     |> Enum.each(fn {group, components} ->
