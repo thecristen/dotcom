@@ -5,11 +5,11 @@ export class Algolia {
     this._queries = queries;
     this._activeQueryIds = Object.keys(queries);
     this._defaultParams = defaultParams;
-    this.resetSearch();
     this._viewMoreInc = 20;
     this._lastQuery = "";
     this._doBlankSearch = true;
     this._widgets = [];
+    this.reset();
     this._config = window.algoliaConfig;
     this._client = null;
 
@@ -33,8 +33,10 @@ export class Algolia {
     return this._widgets;
   }
 
-  resetSearch() {
+  reset() {
     Object.keys(this._queries).forEach(this.resetDefaultParams());
+    this._lastQuery = "";
+    this.resetWidgets();
   }
 
   resetDefaultParams() {
@@ -60,6 +62,11 @@ export class Algolia {
       return this._doSearch(allQueries);
     } else {
       this.updateWidgets({});
+
+      // This code handles the case where the user backspaces to an empty search string
+      if (this._lastQuery.length > 0) {
+        this.reset();
+      }
       return Promise.resolve({});
     }
   }
@@ -162,6 +169,14 @@ export class Algolia {
     this._widgets.forEach(function(widget) {
       if (typeof widget.render === "function") {
         widget.render(results);
+      }
+    });
+  }
+
+  resetWidgets() {
+    this._widgets.forEach(function(widget) {
+      if (typeof widget.reset === "function") {
+        widget.reset();
       }
     });
   }

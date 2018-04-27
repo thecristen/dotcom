@@ -48,11 +48,11 @@ describe("Algolia", function() {
     });
   });
 
-  describe("Algolia.resetSearch", function() {
+  describe("Algolia.reset", function() {
     it("resets search params regardless of active queries", function() {
       this.algolia._queries["stops"].params = { not_default: "nope" };
       this.algolia._activeQueryIds = [];
-      this.algolia.resetSearch();
+      this.algolia.reset();
       expect(this.algolia._queries).to.have.keys(["stops"]);
       expect(this.algolia._queries.stops).to.be.an("object");
       expect(this.algolia._queries.stops).to.have.keys(["indexName", "params"]);

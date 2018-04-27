@@ -1,5 +1,4 @@
 import { doWhenGoogleMapsIsReady } from './google-maps-loaded';
-import { Algolia } from './algolia-search';
 import { AlgoliaWithGeo } from './algolia-search-with-geo';
 import { AlgoliaFacets } from './algolia-facets';
 import { AlgoliaResults } from './algolia-results';
@@ -60,8 +59,7 @@ export class AlgoliaGlobalSearch {
 
   reset(ev) {
     this.container.value = "";
-    this._facetsWidget.reset();
-    this._resultsWidget.reset();
+    this.controller.reset();
     window.jQuery(this.container).focus();
   }
 

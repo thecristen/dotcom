@@ -27,7 +27,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       onLocationResults: sinon.spy((results) => results)
     };
     this.client = {
-      resetSearch: sinon.spy(),
+      reset: sinon.spy(),
       updateParamsByKey: sinon.spy(),
     };
     this.ac = new AlgoliaAutocompleteWithGeo(selectors, indices, this.parent);

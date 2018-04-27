@@ -40,9 +40,9 @@ export class AlgoliaWithGeo extends Algolia {
     }).catch(err => console.error(err));
   }
 
-  resetSearch() {
-    super.resetSearch();
-    this._locationEnabled = true;
+  reset() {
+    super.reset();
+    this._locationEnabled = false;
   }
 
   enableLocationSearch(enabled) {

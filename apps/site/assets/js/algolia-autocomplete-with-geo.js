@@ -145,7 +145,7 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   }
 
   _searchAlgoliaByGeo(latitude, longitude) {
-    this._client.resetSearch();
+    this._client.reset();
     this._client.updateParamsByKey("stops", "aroundLatLng", `${latitude}, ${longitude}`);
     this._client.updateParamsByKey("stops", "hitsPerPage", 12);
     this._client.updateParamsByKey("stops", "getRankingInfo", true);
