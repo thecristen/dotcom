@@ -40,6 +40,7 @@ describe("AlgoliaAutocomplete", () => {
       }
     }
     document.body.innerHTML = `
+      <div id="powered-by-google-logo"></div>
       <input id="autocomplete-input"></input>
     `;
     window.autocomplete = jsdom.rerequire("autocomplete.js");

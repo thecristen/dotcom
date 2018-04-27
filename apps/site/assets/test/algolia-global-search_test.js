@@ -33,6 +33,7 @@ describe("AlgoliaGlobalSearch", function() {
       Object.keys(AlgoliaGlobalSearch.SELECTORS).forEach(key => {
         document.body.innerHTML += `<div id="${AlgoliaGlobalSearch.SELECTORS[key]}"></div>`;
       });
+      document.body.innerHTML += `<div id="powered-by-google-logo"></div>`
       const globalSearch = new AlgoliaGlobalSearch();
       expect(document.getElementById(AlgoliaGlobalSearch.SELECTORS.searchBar)).to.be.an.instanceOf(window.HTMLDivElement);
       globalSearch.init();
@@ -55,6 +56,7 @@ describe("AlgoliaGlobalSearch", function() {
         const elType = (key == "searchBar") ? "input" : "div"
         document.body.innerHTML += `<${elType} id="${AlgoliaGlobalSearch.SELECTORS[key]}"></${elType}>`;
       });
+      document.body.innerHTML += `<div id="powered-by-google-logo"></div>`
       this.globalSearch = new AlgoliaGlobalSearch();
       this.globalSearch.init();
     });

@@ -38,6 +38,7 @@
           </div>
         </div>
       <% end %>
+      <%= SiteWeb.PartialView.render "_hidden_icons.html", conn: @conn %>
       <div class="js-feature-icons hidden-js hidden-no-js" aria-hidden="true">
         <%= for feature <- [:red_line, :green_line, :blue_line, :orange_line, :bus, :commuter_rail, :ferry, :mattapan_trolley, :stop, :station, :subway] do %>
           <div id="icon-feature-<%= feature %>" >

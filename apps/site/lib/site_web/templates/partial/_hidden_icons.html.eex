@@ -1,0 +1,19 @@
+<div class="hidden-js hidden-no-js" aria-hidden="true">
+  <%= for feature <- [:red_line, :green_line, :blue_line, :orange_line, :bus, :commuter_rail, :ferry, :mattapan_trolley, :stop, :station, :subway] do %>
+    <div id="icon-feature-<%= feature %>">
+      <%=  svg_icon_with_circle(%SvgIconWithCircle{icon: feature, class: "icon-small"}) %>
+    </div>
+  <% end %>
+
+    <div id="icon-feature-alert">
+      <%=  svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
+    </div>
+
+    <%= for feature <- [:"Green-B", :"Green-C", :"Green-D", :"Green-E"] do
+          SiteWeb.StopView.stop_feature_icon(feature, "icon-small")
+        end
+    %>
+  <div id="powered-by-google-logo">
+    <img src="<%= static_url(@conn, "/images/powered_by_google_on_white.png") %>"></img>
+  </div>
+</div>

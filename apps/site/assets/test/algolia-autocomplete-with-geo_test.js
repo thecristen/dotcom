@@ -15,6 +15,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
 
   beforeEach(function() {
     document.body.innerHTML = `
+      <div id="powered-by-google-logo"></div>
       <input id="autocomplete-input" type="text" />
       <div id="loading-indicator"></div>
     `;

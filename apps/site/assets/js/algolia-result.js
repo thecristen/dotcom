@@ -1,6 +1,7 @@
 import hogan from "hogan.js";
 
 export const TEMPLATES = {
+  poweredByGoogleLogo: hogan.compile(`<div class="c-search-result__hit c-search-result__google">{{{logo}}}</div>`),
   fontAwesomeIcon: hogan.compile(`<span aria-hidden="true" class="c-search-result__content-icon fa {{icon}}"></span>`),
   formattedDate: hogan.compile(`<span class="c-search-result__event-date">{{date}}</span>`),
   locations: hogan.compile(`

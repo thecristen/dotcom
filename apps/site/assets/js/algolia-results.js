@@ -20,6 +20,9 @@ const TEMPLATES = {
           {{#hits}}
               {{{.}}}
           {{/hits}}
+          {{#isLocation}}
+            {{{googleLogo}}}
+          {{/isLocation}}
           {{#showMore}}
             <div id="show-more--{{group}}" class="c-search-results__show-more" data-group="{{group}}">
               Show more
@@ -36,6 +39,7 @@ export class AlgoliaResults {
     this._parent = parent;
     this._groups = ["locations", "routes", "stops", "pagesdocuments", "events", "news"];
     this._container = document.getElementById(id);
+    this._googleLogo = document.getElementById("powered-by-google-logo").innerHTML;
     if (!this._container) {
       console.error(`could not find results container with id: ${id}`);
     }
@@ -161,6 +165,9 @@ export class AlgoliaResults {
       hasHits: results[group].nbHits > 0,
       showMore: results[group].hits.length < results[group].nbHits,
       group: group,
+      googleLogo: AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
+        logo: document.getElementById("powered-by-google-logo").innerHTML,
+      }),
       hits: results[group].hits
                           .map(this.renderResult(group))
     });

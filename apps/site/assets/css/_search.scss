@@ -477,3 +477,9 @@
 .c-search-result__event-date {
   color: $gray-lighter;
 }
+
+.c-search-result__google {
+  display: flex;
+  justify-content: flex-end;
+  padding: $base-spacing / 2;
+}

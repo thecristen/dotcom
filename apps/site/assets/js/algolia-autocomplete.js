@@ -147,7 +147,8 @@ export class AlgoliaAutocomplete {
       hitsPerPage: 5,
       templates: {
         header: this._renderHeaderTemplate(indexName),
-        suggestion: this.renderResult(indexName)
+        suggestion: this.renderResult(indexName),
+        footer: this._renderFooterTemplate(indexName),
       }
     });
     return acc;
@@ -159,6 +160,18 @@ export class AlgoliaAutocomplete {
       stops: "MBTA Station Results"
     }
     return titles[indexName] ? `<p class="c-search-bar__results-header">${titles[indexName]}</p>` : ""
+  }
+
+  _renderFooterTemplate(indexName) {
+    switch (indexName) {
+      case "locations":
+        return AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
+          logo: document.getElementById("powered-by-google-logo").innerHTML
+        });
+        break;
+      default:
+        return null;
+    }
   }
 
   _datasetSource(index) {
