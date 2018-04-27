@@ -5,7 +5,7 @@
       <li class="mobile-nav-item">
         <%=
           link to: href, class: "mobile-nav-link" do [
-            bold_if_active(@conn, href, name),
+            content_tag(:span, bold_if_active(@conn, href, name), class: "mobile-nav-item-header"),
             content_tag(:p, description, class: "mobile-nav-description")
           ] end
         %>

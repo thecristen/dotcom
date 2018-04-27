@@ -1,13 +1,10 @@
 <% search_icon = svg_icon(%SvgIcon{icon: :search, show_tooltip?: false}) %>
 <% search_path = search_path(@conn, :index) %>
 <li class="mobile-nav-item search-mobile">
-  <div class="text-input-button-widget" role="search">
-    <%= form_for @conn, search_path, [as: :search, method: :get], fn f -> %>
-      <%= label f, :search, "Search", class: "sr-only" %>
-      <%= search_input :search, :query, placeholder: "Search by keyword", autocomplete: "off",
-          class: "text-input-button-widget-input text-input-button-widget-with-submit", required: "required" %>
-      <button type="submit" class="btn btn-primary" aria-label="submit search"><%= search_icon %></button>
-      <div class="clear"></div>
-    <% end %>
-  </div>
+  <%= Phoenix.HTML.Link.link to: search_path do %>
+    <label class="sr-only" for="mobile-search-icon">Search</label>
+    <button type="submit" id="mobile-search-icon" class="btn btn-primary" aria-label="submit search">
+      <%= search_icon %><span class="mobile-search-text">Search</span>
+    </button>
+  <% end %>
 </li>

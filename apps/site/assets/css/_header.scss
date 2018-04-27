@@ -239,10 +239,15 @@ header {
   }
 }
 
+.mobile-nav-item-header {
+  font-size: $font-size-h2;
+  font-weight: bold;
+}
+
 .mobile-nav-link {
   color: $white;
   display: block;
-  font-size: $font-size-base-xxl;
+  font-size: $font-size-h2;
   margin-bottom: $base-spacing;
 
   @include hover-focus-active {
@@ -253,4 +258,9 @@ header {
 .mobile-nav-description {
   color: $gray-lightest;
   font-size: $font-size-base;
+}
+
+.mobile-search-text {
+  font-size: $font-size-h2;
+  font-weight: bold;
 }
