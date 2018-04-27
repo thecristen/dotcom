@@ -333,6 +333,6 @@ defmodule Content.CMS.Static do
     end
   end
 
-  def redirect(path, params, code) when params == %{}, do: {:error, {:redirect, code, path}}
+  def redirect(path, params, code) when params == %{}, do: {:error, {:redirect, code, [to: path]}}
   def redirect(path, params, code), do: redirect(path <> "?" <> URI.encode_query(params), %{}, code)
 end

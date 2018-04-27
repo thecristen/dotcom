@@ -61,7 +61,7 @@ defmodule Content.ExternalRequest do
     |> Logger.warn()
   end
 
-  @spec decode_body(String.t) :: {:ok, [map()] | map()} | {:error, :not_found}
+  @spec decode_body(String.t) :: Content.CMS.response
   defp decode_body(body) do
     case Poison.decode(body) do
       {:ok, decoded} ->
@@ -78,29 +78,61 @@ defmodule Content.ExternalRequest do
     end
   end
 
-  @spec get_redirect(HTTPoison.Response.t) :: {:error, :invalid_response | {:redirect, integer, String.t}}
+  @spec get_redirect(HTTPoison.Response.t) :: {:error, Content.CMS.error}
   defp get_redirect(%HTTPoison.Response{headers: headers, status_code: status}) do
     headers
     |> Enum.find(fn {key, _} -> String.downcase(key) == "location" end)
     |> do_get_redirect(status)
   end
 
-  @spec do_get_redirect({String.t, String.t} | nil, integer) :: {:error, {:redirect, integer, String.t} |
-                                                                         :invalid_response}
+  @spec do_get_redirect({String.t, String.t} | nil, integer) :: {:error, Content.CMS.error}
   defp do_get_redirect(nil, _), do: {:error, :invalid_response}
   defp do_get_redirect({_key, url}, status_code) do
-    %URI{path: path, query: query} = URI.parse(url)
-    {:error, {:redirect, status_code, parse_redirect_query(path, query)}}
+    opts = set_redirect_options(URI.parse(url))
+    {:error, {:redirect, status_code, opts}}
   end
 
-  @spec parse_redirect_query(String.t, nil | String.t) :: String.t
-  defp parse_redirect_query(path, query) when query in [nil, "_format=json"] do
-    path
+  # Drupal's Redirect module forces all location header values to be
+  # absolute paths, so we need to determine if the domain qualifies
+  # as internal (originally entered as a /relative/path) or external
+  # (entered into Drupal with a URI scheme). Sets :opts for redirect/2.
+
+  @spec set_redirect_options(URI.t) :: Keyword.t
+  defp set_redirect_options(%URI{host: host} = uri) when is_nil(host) do
+    [to: uri |> internal_uri() |> parse_redirect_query()]
   end
-  defp parse_redirect_query(path, query) do
+  defp set_redirect_options(%URI{host: host} = uri) do
+    case String.contains?(Content.Config.root(), host) do
+      true -> [to: uri |> internal_uri() |> parse_redirect_query()]
+      false -> [external: parse_redirect_query(uri)]
+    end
+  end
+
+  @spec parse_redirect_query(URI.t) :: String.t
+  defp parse_redirect_query(%URI{} = uri) do
+    uri
+    |> Map.update!(:query, &update_query/1)
+    |> URI.to_string()
+  end
+
+  @spec update_query(String.t | nil) :: String.t
+  defp update_query(query) when query in ["_format=json", nil] do
+    nil
+  end
+  defp update_query(query) do
+
     # If the redirect path happens to include query params,
     # Drupal will append the request query parameters to the redirect params.
-    path <> "?" <> String.replace(query, "_format=json", "")
+
+    query
+    |> URI.decode_query()
+    |> Map.delete("_format")
+    |> URI.encode_query()
+  end
+
+  @spec internal_uri(URI.t) :: URI.t
+  defp internal_uri(%URI{} = uri) do
+    %URI{uri | scheme: nil, authority: nil, host: nil}
   end
 
   defp full_url(path) do

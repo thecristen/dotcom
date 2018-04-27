@@ -41,10 +41,10 @@ defmodule SiteWeb.ContentController do
     |> put_layout({SiteWeb.LayoutView, :app})
     |> render_page(page)
   end
-  defp handle_page_response({:error, {:redirect, status, path}}, conn) do
+  defp handle_page_response({:error, {:redirect, status, opts}}, conn) do
     conn
     |> put_status(status)
-    |> redirect(to: path)
+    |> redirect(opts)
   end
   defp handle_page_response({:error, :timeout}, conn) do
     conn

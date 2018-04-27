@@ -26,10 +26,10 @@ defmodule SiteWeb.NewsEntryController do
   end
 
   defp do_show(%Content.NewsEntry{} = news_entry, conn), do: show_news_entry(conn, news_entry)
-  defp do_show({:error, {:redirect, status, path}}, conn) do
+  defp do_show({:error, {:redirect, status, opts}}, conn) do
     conn
     |> put_status(status)
-    |> redirect(to: path)
+    |> redirect(opts)
   end
   defp do_show(_404_or_mismatch, conn), do: render_404(conn)
 

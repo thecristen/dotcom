@@ -31,10 +31,10 @@ defmodule SiteWeb.EventController do
   defp do_show(%Content.Event{} = event, conn) do
     show_event(conn, event)
   end
-  defp do_show({:error, {:redirect, status, path}}, conn) do
+  defp do_show({:error, {:redirect, status, opts}}, conn) do
     conn
     |> put_status(status)
-    |> redirect(to: path)
+    |> redirect(opts)
   end
   defp do_show(_404_or_mismatch, conn) do
     render_404(conn)
@@ -72,7 +72,7 @@ defmodule SiteWeb.EventController do
     |> put_resp_header("content-disposition", "attachment; filename='#{filename(event.title)}.ics'")
     |> send_resp(200, IcalendarGenerator.to_ical(conn, event))
   end
-  defp do_icalendar({:error, {:redirect, _status, path}}, conn) do
+  defp do_icalendar({:error, {:redirect, _status, [to: path]}}, conn) do
     path
     |> Content.Repo.get_page(conn.query_params)
     |> do_icalendar(conn)

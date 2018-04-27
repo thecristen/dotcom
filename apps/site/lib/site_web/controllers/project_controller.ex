@@ -23,10 +23,10 @@ defmodule SiteWeb.ProjectController do
   defp do_show(%Content.Project{} = project, conn) do
     show_project(conn, project)
   end
-  defp do_show({:error, {:redirect, status, path}}, conn) do
+  defp do_show({:error, {:redirect, status, opts}}, conn) do
     conn
     |> put_status(status)
-    |> redirect(to: path)
+    |> redirect(opts)
   end
   defp do_show(_404_or_mismatch, conn) do
     render_404(conn)
@@ -63,10 +63,10 @@ defmodule SiteWeb.ProjectController do
   defp do_project_update(%Content.ProjectUpdate{} = update, conn) do
     show_project_update(conn, update)
   end
-  defp do_project_update({:error, {:redirect, status, path}}, conn) do
+  defp do_project_update({:error, {:redirect, status, opts}}, conn) do
     conn
     |> put_status(status)
-    |> redirect(to: path)
+    |> redirect(opts)
   end
   defp do_project_update(_404_or_mismatch, conn) do
     render_404(conn)
@@ -86,7 +86,7 @@ defmodule SiteWeb.ProjectController do
           update: update,
           narrow_template: true
         }
-      {:error, {:redirect, _, path}} ->
+      {:error, {:redirect, _, [to: path]}} ->
         show_project_update(conn, %{update | project_url: path})
       _ ->
         render_404(conn)

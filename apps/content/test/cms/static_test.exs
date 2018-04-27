@@ -33,11 +33,11 @@ defmodule Content.CMS.StaticTest do
 
   describe "redirect/3" do
     test "redirects with params if they exist" do
-      assert redirect("path", %{}, 302) == {:error, {:redirect, 302, "path"}}
+      assert redirect("path", %{}, 302) == {:error, {:redirect, 302, [to: "path"]}}
     end
 
     test "redirects without params if they do not exist" do
-      assert redirect("path", %{"foo" => "bar"}, 302) == {:error, {:redirect, 302, "path?foo=bar"}}
+      assert redirect("path", %{"foo" => "bar"}, 302) == {:error, {:redirect, 302, [to: "path?foo=bar"]}}
     end
   end
 

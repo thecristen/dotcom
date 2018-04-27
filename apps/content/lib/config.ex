@@ -10,11 +10,13 @@ defmodule Content.Config do
 
   @doc "Returns the path prefix for static content."
   @spec static_path() :: String.t
-  def static_path() do
+  def static_path do
     Application.get_env(:content, :drupal)[:static_path]
   end
 
-  defp root do
+  @doc "Returns the host/domain of Drupal."
+  @spec root() :: String.t | nil
+  def root do
     case Application.get_env(:content, :drupal)[:root] do
       {:system, envvar} -> System.get_env(envvar)
       value -> value

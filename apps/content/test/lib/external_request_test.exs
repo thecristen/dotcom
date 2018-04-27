@@ -143,7 +143,7 @@ defmodule Content.ExternaRequestTest do
       end
 
       assert {:error, {:redirect, 302, url}} = process(:get, "/path?_format=json")
-      assert url == "/redirect"
+      assert url == [to: "/redirect"]
     end
 
     @tag :capture_log
@@ -168,9 +168,54 @@ defmodule Content.ExternaRequestTest do
       end
 
       assert {:error, {:redirect, 302, url}} = process(:get, "/path?_format=json&foo=bar")
-      assert url == "/redirect?&foo=bar"
+      assert url == [to: "/redirect?foo=bar"]
     end
+
+    test "path retains fragment identifiers when CMS issues a native redirect" do
+      bypass = bypass_cms()
+      Bypass.expect bypass, fn conn ->
+        conn = Plug.Conn.fetch_query_params(conn)
+        redirected_path = "/redirect#fragment"
+        conn
+        |> Plug.Conn.put_resp_header("location", redirected_path)
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.resp(302, "redirecting")
+      end
+
+      assert {:error, {:redirect, 302, url}} = process(:get, "/path#fragment")
+      assert url == [to: "/redirect#fragment"]
+    end
+
+    test "Drupal content redirects returned as absolute paths are counted as internal and not external" do
+      bypass = bypass_cms()
+      Bypass.expect bypass, fn conn ->
+        conn = Plug.Conn.fetch_query_params(conn)
+        redirected_path = "http://localhost:#{bypass.port}/redirect"
+        conn
+        |> Plug.Conn.put_resp_header("location", redirected_path)
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.resp(302, "redirecting")
+      end
+
+      assert {:error, {:redirect, 302, url}} = process(:get, "/path")
+      assert url == [to: "/redirect"]
+    end
+
+  test "External redirects result in an absolute destination for Phoenix to follow" do
+    bypass = bypass_cms()
+    Bypass.expect bypass, fn conn ->
+      conn = Plug.Conn.fetch_query_params(conn)
+      redirected_path = "https://www.google.com/"
+      conn
+      |> Plug.Conn.put_resp_header("location", redirected_path)
+      |> Plug.Conn.put_resp_header("content-type", "application/json")
+      |> Plug.Conn.resp(302, "redirecting")
+    end
+
+    assert {:error, {:redirect, 302, url}} = process(:get, "/path")
+    assert url == [external: "https://www.google.com/"]
   end
+end
 
   def bypass_cms do
     original_drupal_config = Application.get_env(:content, :drupal)
