@@ -24,7 +24,7 @@ defmodule SiteWeb.StaticFileControllerTest do
       conn = %{build_conn() | request_path: path}
       expected_url = static_url(SiteWeb.Endpoint, path)
       response = SiteWeb.StaticFileController.redirect_through_cdn(conn)
-      assert redirected_to(response, 302) =~ expected_url
+      assert redirected_to(response, 301) =~ expected_url
     end
   end
 
