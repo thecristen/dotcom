@@ -61,7 +61,7 @@ defmodule SiteWeb.OldSiteFileControllerTest do
       path = "/request/path"
       expected_path = SiteWeb.Router.Helpers.static_url(SiteWeb.Endpoint, path)
       conn = SiteWeb.OldSiteFileController.redirect_through_cdn(conn, {"host", path})
-      assert redirected_to(conn, 302) == expected_path
+      assert redirected_to(conn, 301) == expected_path
     end
   end
 end

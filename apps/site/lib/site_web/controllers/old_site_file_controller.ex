@@ -40,7 +40,9 @@ defmodule SiteWeb.OldSiteFileController do
   @doc "Behavior for prod: redirects through the CDN"
   def redirect_through_cdn(conn, {_host, path}) do
     url = static_url(SiteWeb.Endpoint, path)
-    redirect(conn, external: url)
+    conn
+    |> put_status(301)
+    |> redirect(external: url)
   end
 
   defp respond(conn, new_url) do
