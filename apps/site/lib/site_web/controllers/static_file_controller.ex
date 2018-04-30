@@ -16,6 +16,8 @@ defmodule SiteWeb.StaticFileController do
 
   def redirect_through_cdn(conn) do
     url = static_url(SiteWeb.Endpoint, conn.request_path)
-    redirect(conn, external: url)
+    conn
+    |> put_status(301)
+    |> redirect(external: url)
   end
 end
