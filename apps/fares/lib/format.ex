@@ -1,6 +1,8 @@
 defmodule Fares.Format do
   alias Fares.{Fare, Summary}
 
+  @type mode_type :: :bus_subway | :commuter_rail | :ferry
+
   @doc "Formats the price of a fare as a traditional $dollar.cents value"
   @spec price(Fare.t | non_neg_integer | nil) :: String.t
   def price(nil), do: ""
@@ -79,8 +81,8 @@ defmodule Fares.Format do
   def full_name(%Fare{mode: :subway, duration: :month}), do: "Monthly LinkPass"
   def full_name(%Fare{duration: :week}), do: "7-Day Pass"
   def full_name(%Fare{duration: :day}), do: "1-Day Pass"
-  def full_name(%Fare{name: :ada_ride}), do: "ADA Ride"
-  def full_name(%Fare{name: :premium_ride}), do: "Premium Ride"
+  def full_name(%Fare{name: :ada_ride}), do: "ADA Ride Fare"
+  def full_name(%Fare{name: :premium_ride}), do: "Premium Ride Fare"
   def full_name(fare) do
     [name(fare),
      " ",
@@ -88,7 +90,7 @@ defmodule Fares.Format do
     ]
   end
 
-  @spec summarize([Fare.t], :bus_subway | :commuter_rail | :ferry, String.t | nil) :: [Summary.t]
+  @spec summarize([Fare.t], mode_type | [mode_type], String.t | nil) :: [Summary.t]
   def summarize(fares, mode, url \\ nil)
   def summarize(fares, :bus_subway, url) do
     for [base|_] = chunk <- Enum.chunk_by(fares, &{&1.name, &1.duration, &1.additional_valid_modes}) do
@@ -101,7 +103,7 @@ defmodule Fares.Format do
       }
     end
   end
-  def summarize(fares, mode, url) when mode in [:ferry, :commuter_rail] do
+  def summarize(fares, mode, url) when mode in [:commuter_rail, :ferry] do
     for [base|_] = chunk <- Enum.chunk_by(fares, &match?(%{duration: :single_trip}, &1)) do
       price_range_label = price_range_label(mode)
       min_price = Enum.min_by(chunk, &(&1.cents))
@@ -112,9 +114,15 @@ defmodule Fares.Format do
         duration: base.duration,
         modes: [base.mode | base.additional_valid_modes],
         fares: [{price_range_label, [Fares.Format.price(min_price), " - ",
-                                Fares.Format.price(max_price)]}],
+                                     Fares.Format.price(max_price)]}],
         url: url}
     end
+  end
+  def summarize(fares, modes, url) when is_list(modes) do
+    Enum.flat_map(modes, fn mode -> fares
+      |> Enum.filter(fn fare -> fare.mode == mode end)
+      |> summarize(mode, url)
+    end)
   end
 
   defp price_range_summary_name(fare, :commuter_rail), do: "Commuter Rail " <> duration(fare)

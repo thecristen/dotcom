@@ -154,14 +154,30 @@ defmodule SiteWeb.FareView.Description do
     ]
   end
   def description(%Fare{name: :ada_ride}, _assigns) do
-    ["A trip qualifies as ADA if it is booked 1-7 days beforehand. ",
-     "It must also be within 3/4 miles from an active MBTA Bus or Subway service, or be in the core ADA area."]
+    [
+      content_tag(:p, "Destination is:"),
+      content_tag(:ul, [
+        content_tag(:li, [
+          "Less than ", {:safe, ["&frac34;"]}, " mile from an active MBTA bus or subway stop/station ",
+            content_tag(:strong, "OR")]),
+        content_tag(:li, "In the core RIDE service area")]),
+      content_tag(:p, "You may also pay a premium fare if you:")
+    ]
   end
   def description(%Fare{name: :premium_ride}, _assigns) do
-    ["A trip qualifies as premium if it has been booked for same-day service or if a reservation has been changed after 5:00P for service the next day.",
-     "<br><br>" |> Phoenix.HTML.raw,
-     "A trip also qualifies if it is not within the core ADA area of service, or has a destination more than 3/4 miles away from an active MBTA Bus or Subway service."
-    ]
+    [
+      content_tag(:p, "Destination is:"),
+      content_tag(:ul, [
+        content_tag(:li, [
+          "More than ", {:safe, ["&frac34;"]}, " mile from an active MBTA bus or subway stop/station ",
+            content_tag(:strong, "OR")]),
+        content_tag(:li, "Not within the core RIDE service area")]),
+      content_tag(:p, "You may also pay a premium fare if you:"),
+      content_tag(:ul, [
+        content_tag(:li, "Request same-day service changes"),
+        content_tag(:li, "Change your reservation after 5 PM for service the next day")]
+      )
+     ]
   end
   def description(%Fare{name: :free_fare}, _assigns) do
     ["Inbound SL1 travel from any airport stop is free."]

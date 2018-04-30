@@ -15,14 +15,9 @@ defmodule SiteWeb.FareControllerTest do
       assert [%Summary{}, _, _, _] = conn.assigns.bus_subway
     end
 
-    test "includes 2 summarized Commuter Rail fares", %{conn: conn} do
+    test "includes summarized Commuter Rail and Ferry fares", %{conn: conn} do
       conn = get conn, fare_path(conn, :index)
-      assert [%Summary{}, _] = conn.assigns.commuter_rail
-    end
-
-    test "includes 2 summarized Ferry fares", %{conn: conn} do
-      conn = get conn, fare_path(conn, :index)
-      assert [%Summary{}, _] = conn.assigns.ferry
+      assert [%Summary{}, _] = conn.assigns.commuter_and_ferry
     end
   end
 

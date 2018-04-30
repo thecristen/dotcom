@@ -2,44 +2,37 @@
   <h1>Fares and Passes</h1>
   <div>
     <p>
-      Your MBTA fare depends on whether you travel by subway, bus, Commuter Rail, or ferry and whether you pay with cash,
-      CharlieTicket, CharlieCard, or the mTicket app. You may pay more to transfer to other modes.
+      It costs <%= @simple_subway_price %> to ride the subway, trolley, or Silver Line 1-3 and <%= @simple_bus_price %>
+      to ride the bus with a <%= link "CharlieCard", to: cms_static_page_path(@conn, "/fares/charliecard") %>. If you use a
+      <%= link "CharlieTicket", to: cms_static_page_path(@conn, "/fares/charlieticket") %> or cash it costs a little more.
+      Fares on the Commuter Rail, ferry, and The RIDE depend on how far you travel. Reduced fare programs are available.
+    </p>
+    <ul>
+      <li><a href="#bus_subway_overview">Bus and Subway Fares</a></li>
+      <li><a href="#commuter_rail_ferry_overview">Commuter Rail and Ferry Fares</a></li>
+      <li><a href="#the_ride_overview">The RIDE Fares</a></li>
+      <li><a href="#reduced_fares_overview">Reduced Fares</a></li>
+    </ul>
+    <p>
+      Multi-trip and monthly passes are available for all modes except The RIDE. 1-day
+      and weekly passes are available for the subway and bus. The most common fares include
+      <%= link "transfers", to: cms_static_page_path(@conn, "/fares/transfers") %> to other modes and lines.
     </p>
     <p>
-      <%= link to: cms_static_page_path(@conn, "/fares/transfers") do %>
-        Learn more about transfers <span class="no-wrap"><%= fa "arrow-right" %></span>
-      <% end %>
+      Tickets and passes can be purchased in stations or at retail stores in Greater Boston. You can also
+      buy some products on your smartphone or online. The MBTA does not refund any fare products.
     </p>
-    <p>
-      You can also purchase passes that grant you unlimited travel on certain modes for 1 day, 7 days, or a month.
-    </p>
-    <p>
-      The MBTA does not refund any fare products.
-    </p>
+    <ul>
+    <li><a href="#where_to_buy">Where to Buy Tickets and Passes</a></li>
+    <li><a href="#paying_your_fare">Paying Your Fare</a></li>
+    <li><a href="#online_services">Online CharlieCard Services</a></li>
+    <li><a href="#pass_programs">Pass Programs</a></li>
+    </ul>
   </div>
   <div>
-    <h2>Paying Your Fare</h2>
+    <h2 id="bus_subway_overview">Bus and Subway Fares</h2>
     <p>
-      Use our step-by-step guides to learn how to pay your fare on the subway, bus, Commuter Rail, and ferry.
-    </p>
-    <p>
-      <%= link to: cms_static_page_path(@conn, "/fares/how-to-pay") do %>
-        Learn how to pay your fare <span class="no-wrap"><%= fa "arrow-right" %></span>
-      <% end %>
-    </p>
-  </div>
-  <div>
-    <h2>Bus and Subway Fares</h2>
-    <p>
-      Bus fares vary based on the route. The three categories of Bus routes are: Local Bus, Inner Express Bus, and Outer Express Bus.
-    </p>
-    <p>
-      A 1-Day, 7-Day, or Monthly Pass (also called a LinkPass) for Subway will allow you to ride Local Bus for free until the pass
-      expires. Payment of Subway One Way fares with a CharlieCard or CharlieTicket will allow you to transfer to Local Bus for free
-      within 2 hours of paying your original Subway fare.
-    </p>
-    <p>
-      Below are the most common Bus and Subway Fares.
+      Bus and subway fares are flat fees. The most common fares are:
     </p>
     <%= SiteWeb.FareView.summarize @bus_subway %>
     <p>
@@ -49,41 +42,44 @@
     </p>
   </div>
   <div>
-    <h2>Commuter Rail Fares</h2>
+    <h2 id="commuter_rail_ferry_overview">Commuter Rail and Ferry Fares</h2>
     <p>
-      Your Commuter Rail fare will depend on which stops you board and exit the train. Stops are categorized into
-      <%= link "Zones 1A-10", to: fare_path(@conn, :zone) %>.
-      Fares can be bought as One Way, Round Trip, and Monthly Passes.
+      Commuter Rail and ferry fares depend on how far you travel. 
     </p>
     <p>
-      Below are the ranges in prices (based on zone) for the most common Commuter Rail fares.
+      The ranges for a standard one-way ticket on the Commuter Rail and ferry are:
     </p>
-    <%= SiteWeb.FareView.summarize @commuter_rail %>
+    <%= SiteWeb.FareView.summarize @commuter_and_ferry %>
     <p>
-      <%= link to: fare_path(@conn, :show, "commuter-rail") do %>
-        Find your Commuter Rail fare <span class="no-wrap"><%= fa "arrow-right" %></span>
-      <% end %>
+      Round-trip, 10-ride, and monthly passes are also available for the Commuter Rail and ferry.
     </p>
+    <div class="row">
+      <div class="col-md-6">
+        <p>
+          <%= link to: fare_path(@conn, :show, "commuter-rail") do %>
+            Find your Commuter Rail fare <span class="no-wrap"><%= fa "arrow-right" %></span>
+          <% end %>
+        </p>
+        <p>
+          <%= link to: fare_path(@conn, :zone) do %>
+            Learn about Commuter Rail zones <span class="no-wrap"><%= fa "arrow-right" %></span>
+          <% end %>
+        </p>
+      </div>
+      <div class="col-md-6">
+        <p>
+          <%= link to: fare_path(@conn, :show, "ferry") do %>
+            Find your ferry fare <span class="no-wrap"><%= fa "arrow-right" %></span>
+          <% end %>
+        </p>
+      </div>
+    </div>
   </div>
   <div>
-    <h2>Ferry Fares</h2>
+    <h2 id="the_ride_overview">The RIDE Fares</h2>
     <p>
-      Your Ferry fare will depend on your origin and destination. Fares can be bought as One Way, Round Trip, and Monthly Passes.
-    </p>
-    <p>
-      Below are the ranges in prices for the most common Ferry fares.
-    </p>
-    <%= SiteWeb.FareView.summarize @ferry %>
-    <p>
-      <%= link to: fare_path(@conn, :show, :ferry) do %>
-        Find your Ferry fare <span class="no-wrap"><%= fa "arrow-right" %></span>
-      <% end %>
-    </p>
-  </div>
-  <div>
-    <h2>The RIDE</h2>
-    <p>
-      Fares for The RIDE are determined by when the trip is booked and the location of the destination. The two fare options are listed below.
+      The RIDE is the MBTA&rsquo;s shared paratransit service. Fares are determined by the location of the destination
+      and whether you make changes to your reservation. <strong>All fares are one way.</strong> Prices are:
     </p>
     <div class="fare-summary-container-table-multi-col">
       <div class="fare-summary-row">
@@ -107,17 +103,62 @@
         <% end %>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-6">
+        <p>
+          <%= link to: cms_static_page_path(@conn, "/accessibility/the-ride") do %>
+            Learn more about The RIDE <span class="no-wrap"><%= fa "arrow-right" %></span>
+          <% end %>
+        </p>
+      </div>
+      <div class="col-md-6">
+        <p>
+          <%= link to: redirect_path(@conn, "commerce/TheRide") do %>
+            Add funds to your RIDE account <span class="no-wrap"><%= fa "arrow-right" %></span>
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h2 id="reduced_fares_overview">Reduced Fares</h2>
     <p>
-      <%= link to: cms_static_page_path(@conn, "/accessibility/the-ride") do %>
-        Learn more about The RIDE <span class="no-wrap"><%= fa "arrow-right" %></span>
+      Children 11 and younger traveling with an adult and people who are blind or visually impaired may ride MBTA
+      services for free. Seniors, people with disabilities, and some students are eligible for reduced fares.
+    </p>
+    <p>
+      <%= link to: cms_static_page_path(@conn, "/fares/reduced") do %>
+        Learn more about reduced fare <span class="no-wrap">eligibility <%= fa "arrow-right" %></span>
+      <% end %></p>
+  </div>
+  <div>
+    <h2 id="where_to_buy">Where to Buy Tickets and Passes</h2>
+    <p>
+      You can buy your MBTA ticket or pass at a station, on your smartphone, online, or at a retail store.
+      Read our guide to discover the different places and ways to buy.
+    </p>
+    <p>
+      <%= link to: cms_static_page_path(@conn, "/fares/where-to-buy") do %>
+        Find out where to buy <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %>
     </p>
   </div>
   <div>
-    <h2>The CharlieCard</h2>
+    <h2 id="paying_your_fare">Paying Your Fare</h2>
     <p>
-      CharlieCards are reusable, durable cards that can be used on Bus and Subway. You can load money onto a CharlieCard to get
-      a discounted One Way fare or purchase any pass (1-Day, 7-Day, Monthly) at the standard fare.
+      If you’re new to Boston, use our step-by-step guides to learn how to pay your fare on the subway, bus, Commuter Rail, and ferry.
+    </p>
+    <p>
+      <%= link to: cms_static_page_path(@conn, "/fares/how-to-pay") do %>
+        Find out how to pay your fare <span class="no-wrap"><%= fa "arrow-right" %></span>
+      <% end %>
+    </p>
+  </div>
+  <div>
+    <h2 id="online_services">Online CharlieCard Services</h2>
+    <p>
+      You can add cash value or passes for the bus and subway to your CharlieCard online.
+      You can also order monthly passes for the Commuter Rail, Express Bus, and ferry.
     </p>
     <div class="row">
       <div class="col-md-6">
@@ -130,27 +171,22 @@
       </div>
     </div>
     <p>
-      <%= link to: fare_path(@conn, :show, "charliecard") do %>
+      <%= link to: cms_static_page_path(@conn, "/fares/charliecard") do %>
         Learn more about CharlieCards <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %>
     </p>
   </div>
   <div>
-    <h2>Reduced Fare Eligibility</h2>
+    <h2 id="pass_programs">Pass Programs</h2>
     <p>
-      Children aged 11 years and under and persons who are  blind or visually impaired may ride MBTA services for free.
-      Seniors, persons with disabilities, and students are eligible for reduced One Way fares.
+      Employers, schools, and visitor groups can buy MBTA passes in bulk. These programs have benefits like
+      online account management, automatic monthly CharlieCard reloads, and advance ordering. For more information,
+      visit the Pass Program website or call 888-844-0353.
     </p>
     <p>
-      <%= link to: fare_path(@conn, :show, :reduced) do %>
-        Learn more about reduced fare <span class="no-wrap fare-link">eligibility <%= fa "arrow-right" %></span>
-      <% end %></p>
-  </div>
-  <div>
-    <h2>Pass Programs</h2>
-    <p>
-      Employers, schools, and visitor groups can sign up for pass programs that have benefits such as online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups.
-      For more information, take a look at the <%= link "Pass Program Website", to: redirect_path(@conn, "pass_program"), target: "_blank" %> or call <%= tel_link "(888) 844-0353" %>.
+      <%= link to: redirect_path(@conn, "pass_program") do %>
+        Learn about the MBTA's Pass Programs <span class="no-wrap"><%= fa "arrow-right" %></span>
+      <% end %>
     </p>
   </div>
 </div>

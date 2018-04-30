@@ -109,6 +109,33 @@ defmodule Fares.FormatTest do
       assert actual == expected
     end
 
+    test "different mode summaries can be grouped together" do
+      c_base = %Fare{name: :commuter_rail, mode: :commuter_rail, duration: :single_trip}
+      c_cheap = %{c_base | name: {:zone, "1"}, cents: 100}
+      c_expensive = %{c_base | name: {:zone, "10"}, cents: 200}
+
+      f_base = %Fare{name: :ferry, mode: :ferry, duration: :single_trip}
+      f_cheap = %{f_base | cents: 100}
+      f_expensive = %{f_base | cents: 200}
+
+      actual = summarize([c_cheap, c_expensive, f_cheap, f_expensive], [:commuter_rail, :ferry])
+      expected = [
+        %Summary{
+          name: "Commuter Rail One Way",
+          duration: :single_trip,
+          fares: [{"Zones 1A-10", ["$1.00", " - ", "$2.00"]}],
+          modes: [:commuter_rail]
+        },
+        %Summary{
+          name: "Ferry One Way",
+          duration: :single_trip,
+          fares: [{"All Ferry routes", ["$1.00", " - ", "$2.00"]}],
+          modes: [:ferry]
+        }
+      ]
+      assert actual == expected
+    end
+
     test "ferry groups them by single/multiple trip and groups prices" do
       base = %Fare{name: :ferry, mode: :ferry, duration: :single_trip}
       cheap = %{base | cents: 100}
