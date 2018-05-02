@@ -1,6 +1,7 @@
 import hogan from 'hogan.js';
 import * as AlgoliaResult from "./algolia-result";
 import * as GoogleMapsHelpers from "./google-maps-helpers";
+import * as QueryStringHelpers from "./query-string-helpers";
 
 const TEMPLATES = {
   contentResults: hogan.compile(`
@@ -86,7 +87,7 @@ export class AlgoliaResults {
   onClickResult(ev) {
     if (ev.currentTarget.href) {
       ev.preventDefault();
-      window.Turbolinks.visit(ev.currentTarget.href + AlgoliaResult.parseParams(this._parent.getParams()));
+      window.Turbolinks.visit(ev.currentTarget.href + QueryStringHelpers.parseParams(this._parent.getParams()));
     }
   }
 

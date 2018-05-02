@@ -5,12 +5,12 @@ import {FacetLocationGroup} from "./facet-location-group"
 const facetGroupClasses = {FacetGroup, FacetLocationGroup};
 
 export class FacetBar {
-  constructor(container, search, facets) {
+  constructor(container, search, facets, parent) {
     this._container = document.getElementById(container);
     this._search = search;
-    this._items = [];
+    this._parent = parent;
+    this._items = {};
     this._facetPrefixes = [];
-    this._groups = {};
     if (this._container) {
       this._container.innerHTML = "";
       this._parseFacets(facets);
@@ -53,6 +53,7 @@ export class FacetBar {
 
   update() {
     this._resetQueries();
+    this._parent.update();
     this._search.search();
   }
 
@@ -66,5 +67,11 @@ export class FacetBar {
       .selectedFacetNames()
       .forEach(name => acc.push(name))
     return acc;
+  }
+
+  loadState(facets) {
+    facets.forEach(id => {
+      Object.values(this._items).forEach(item => item.loadFacet(id));
+    });
   }
 }

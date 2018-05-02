@@ -1,4 +1,5 @@
 import * as AlgoliaResult from "./algolia-result";
+import * as QueryStringHelpers from "./query-string-helpers";
 
 export class AlgoliaAutocomplete {
   constructor(selectors, indices, parent) {
@@ -136,7 +137,7 @@ export class AlgoliaAutocomplete {
     if (this._input) {
       this._input.value = "";
     }
-    window.Turbolinks.visit(url + AlgoliaResult.parseParams(this._parent.getParams()));
+    window.Turbolinks.visit(url + QueryStringHelpers.parseParams(this._parent.getParams()));
   }
 
   _buildDataset(indexName, acc) {

@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import sinon from "sinon";
 import jsdom from "mocha-jsdom";
 import { Algolia } from "../../assets/js/algolia-search";
 import { AlgoliaGlobalSearch } from "../../assets/js/algolia-global-search";
@@ -20,6 +21,12 @@ describe("AlgoliaGlobalSearch", function() {
       }
     }
     window.jQuery = jsdom.rerequire("jquery");
+    document.body.innerHTML = "";
+    Object.keys(AlgoliaGlobalSearch.SELECTORS).forEach(key => {
+      document.body.innerHTML += `<div id="${AlgoliaGlobalSearch.SELECTORS[key]}"></div>`;
+    });
+    document.body.innerHTML += `<div id="powered-by-google-logo"></div>`;
+
   });
 
   it("constructor does not create a new Algolia instance", function() {
@@ -29,11 +36,6 @@ describe("AlgoliaGlobalSearch", function() {
 
   describe("init", function() {
     it("generates a new Algolia client if search element exists", function() {
-      document.body.innerHTML = "";
-      Object.keys(AlgoliaGlobalSearch.SELECTORS).forEach(key => {
-        document.body.innerHTML += `<div id="${AlgoliaGlobalSearch.SELECTORS[key]}"></div>`;
-      });
-      document.body.innerHTML += `<div id="powered-by-google-logo"></div>`
       const globalSearch = new AlgoliaGlobalSearch();
       expect(document.getElementById(AlgoliaGlobalSearch.SELECTORS.searchBar)).to.be.an.instanceOf(window.HTMLDivElement);
       globalSearch.init();
@@ -46,6 +48,54 @@ describe("AlgoliaGlobalSearch", function() {
       expect(document.getElementById(AlgoliaGlobalSearch.SELECTORS.searchBar)).to.equal(null);
       globalSearch.init();
       expect(globalSearch.controller).to.equal(null);
+    });
+  });
+
+  describe("loadState", function() {
+    it("loads query from query", function() {
+      const globalSearch = new AlgoliaGlobalSearch();
+      globalSearch.init();
+      globalSearch.loadState("?query=foobar");
+      expect(globalSearch.container.value).to.equal("foobar");
+    });
+    it("loads facet state from query", function() {
+      document.body.innerHTML += `<div id="search-facets"></div>`;
+      window.history.replaceState = sinon.spy();
+      const globalSearch = new AlgoliaGlobalSearch();
+      globalSearch.init();
+      globalSearch.loadState("?query=foobar&facets=lines-routes,locations");
+      expect(globalSearch._facetsWidget.selectedFacetNames()).to.have.members(["lines-routes", "locations", "subway", "bus", "commuter-rail", "ferry"]);
+    });
+  });
+
+  describe("updateHistory", function() {
+    it("updates history when query changes", function() {
+      document.body.innerHTML += `<div id="search-facets"></div>`;
+      window.history.replaceState = sinon.spy();
+      const globalSearch = new AlgoliaGlobalSearch();
+      globalSearch.init();
+      globalSearch.container.value = "foo";
+      globalSearch.onInput(null);
+      expect(window.history.replaceState.called).to.be.true;
+      expect(window.history.replaceState.args[0][2]).to.contain("query=foo");
+    });
+    it("updates history when facets change", function() {
+      document.body.innerHTML += `<div id="search-facets"></div>`;
+      window.history.replaceState = sinon.spy();
+      const globalSearch = new AlgoliaGlobalSearch();
+      globalSearch.init();
+      window.jQuery("#checkbox-container-lines-routes").trigger("click");
+      expect(window.history.replaceState.called).to.be.true;
+      expect(window.history.replaceState.args[0][2]).to.contain("facets=lines-routes,subway,bus,commuter-rail,ferry");
+    });
+    it("updates history when show more is clicked", function() {
+      document.body.innerHTML += `<div id="search-facets"></div>`;
+      window.history.replaceState = sinon.spy();
+      const globalSearch = new AlgoliaGlobalSearch();
+      globalSearch.init();
+      globalSearch.onClickShowMore("stops");
+      expect(window.history.replaceState.called).to.be.true;
+      expect(window.history.replaceState.args[0][2]).to.contain("showmore=stops");
     });
   });
 

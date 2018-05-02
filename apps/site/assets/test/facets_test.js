@@ -221,11 +221,11 @@ describe('facet', function() {
     it("returns a list of items if any facets are selected", function() {
       this.facetBar._items["routes"]._item.check();
       const names = this.facetBar.selectedFacetNames();
-      expect(names[0]).to.equal("Lines and Routes");
-      expect(names[1]).to.equal("Subway");
-      expect(names[2]).to.equal("Commuter Rail");
-      expect(names[3]).to.equal("Bus");
-      expect(names[4]).to.equal("Ferry");
+      expect(names[0]).to.equal("lines-routes");
+      expect(names[1]).to.equal("subway");
+      expect(names[2]).to.equal("commuter-rail");
+      expect(names[3]).to.equal("bus");
+      expect(names[4]).to.equal("ferry");
     });
   });
 });

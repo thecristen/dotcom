@@ -1,10 +1,11 @@
 import {FacetBar} from './facet-bar';
 
 export class AlgoliaFacets {
-  constructor(selectors, search) {
+  constructor(selectors, search, parent) {
     this.selectors = selectors;
     this._closeModalBtn = null;
     this._showFacetsBtn = null;
+    this._parent = parent;
     this._facetsContainer = null;
     this._bind();
     const facets = {
@@ -121,7 +122,7 @@ export class AlgoliaFacets {
         }
       }
     };
-    this._facetBar = new FacetBar("search-facets", search, facets);
+    this._facetBar = new FacetBar("search-facets", search, facets, this);
   }
 
   _bind() {
@@ -195,5 +196,13 @@ export class AlgoliaFacets {
 
   selectedFacetNames() {
     return this._facetBar.selectedFacetNames();
+  }
+
+  loadState(facets) {
+    this._facetBar.loadState(facets);
+  }
+
+  update() {
+    this._parent.updateHistory();
   }
 }

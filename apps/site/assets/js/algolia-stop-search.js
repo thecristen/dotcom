@@ -1,4 +1,5 @@
 import { doWhenGoogleMapsIsReady} from './google-maps-loaded';
+import * as QueryStringHelpers from "./query-string-helpers";
 import hogan from "hogan.js";
 import { Algolia } from "./algolia-search";
 import * as AlgoliaResult from "./algolia-result";
@@ -72,7 +73,7 @@ export class AlgoliaStopSearch {
   onLocationResults(results) {
     if (results.stops) {
       results.stops.hits.map(hit => this._formatLocationResult(hit));
-      results.stops.params = AlgoliaResult.parseParams({
+      results.stops.params = QueryStringHelpers.parseParams({
         from: "stop-search",
         query: this._input.value
       });

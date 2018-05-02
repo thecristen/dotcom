@@ -50,8 +50,10 @@ export class Algolia {
   }
 
   addPage(group) {
-    this._queries[group].params.hitsPerPage += this._viewMoreInc;
-    this.search({});
+    if (this._queries[group]) {
+      this._queries[group].params.hitsPerPage += this._viewMoreInc;
+      this.search({});
+    }
   }
 
   search(opts = {}) {

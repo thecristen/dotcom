@@ -227,9 +227,19 @@ export class FacetItem {
 
   selectedFacetNames(acc) {
     if (this.isChecked()) {
-      acc.push(this._name)
+      acc.push(this._id)
     }
     this._children.forEach(child => child.selectedFacetNames(acc));
     return acc;
+  }
+
+  loadFacet(id) {
+    if (this._children.length > 0) {
+      this._children.forEach(child => child.loadFacet(id));
+    }
+    if (this._id == id) {
+      this.check();
+      this.update();
+    }
   }
 }

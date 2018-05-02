@@ -61,4 +61,8 @@ export class FacetGroup {
   selectedFacetNames() {
     return this._item.selectedFacetNames([]);
   }
+
+  loadFacet(id) {
+    this._item.loadFacet(id);
+  }
 }

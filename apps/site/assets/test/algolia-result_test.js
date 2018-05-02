@@ -417,17 +417,4 @@ describe("AlgoliaResult", () => {
     });
   });
 
-  describe("parseParams", () => {
-    it("turns an object into a query string", () => {
-      expect(AlgoliaResult.parseParams({foo: "bar", bing: "bong"})).to.equal("?foo=bar&bing=bong");
-    });
-
-    it("replaces all spaces with +", () => {
-      expect(AlgoliaResult.parseParams({foo: "bar baz bat", bing: "bong"})).to.equal("?foo=bar+baz+bat&bing=bong");
-    });
-
-    it("returns an empty string if object has no values", () => {
-      expect(AlgoliaResult.parseParams({})).to.equal("");
-    });
-  });
 });

@@ -58,11 +58,11 @@ describe("FacetItem", () => {
         this.item.check();
         const names = this.item.selectedFacetNames([]);
         expect(names).to.have.a.lengthOf(5);
-        expect(names[0]).to.equal("Lines and Routes");
-        expect(names[1]).to.equal("Subway");
-        expect(names[2]).to.equal("Commuter Rail");
-        expect(names[3]).to.equal("Bus");
-        expect(names[4]).to.equal("Ferry");
+        expect(names[0]).to.equal("lines-routes");
+        expect(names[1]).to.equal("subway");
+        expect(names[2]).to.equal("commuter-rail");
+        expect(names[3]).to.equal("bus");
+        expect(names[4]).to.equal("ferry");
       });
 
       it("returns a list with only selected child items", function() {
@@ -71,9 +71,9 @@ describe("FacetItem", () => {
         this.item._children[0].uncheck();
         const names = this.item.selectedFacetNames([]);
         expect(names).to.have.a.lengthOf(3);
-        expect(names[0]).to.equal("Commuter Rail");
-        expect(names[1]).to.equal("Bus");
-        expect(names[2]).to.equal("Ferry");
+        expect(names[0]).to.equal("commuter-rail");
+        expect(names[1]).to.equal("bus");
+        expect(names[2]).to.equal("ferry");
       });
     });
   });
@@ -99,7 +99,7 @@ describe("FacetItem", () => {
 
       it("returns its own name when itself is selected", function() {
         this.item.check();
-        expect(this.item.selectedFacetNames([])).to.have.members(["Events"]);
+        expect(this.item.selectedFacetNames([])).to.have.members(["events"]);
       });
     });
   });

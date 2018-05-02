@@ -217,17 +217,6 @@ export function getUrl(hit, type) {
   }
 }
 
-export function parseParams(params) {
-  params = params || {};
-  if (Object.keys(params).length == 0) {
-    return "";
-  }
-
-  return "?" + Object.keys(params)
-                     .map(key => `${key}=${params[key].replace(/\s/g, "+")}`)
-                     .join("&");
-}
-
 function _contentUrl(hit) {
   if (hit.search_api_datasource === "entity:file") {
     return  "/sites/default/files/" + hit._file_uri.replace(/public:\/\//, "");

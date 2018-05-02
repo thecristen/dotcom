@@ -1,10 +1,5 @@
 import { doWhenGoogleMapsIsReady } from './google-maps-loaded';
-import { AlgoliaWithGeo } from './algolia-search-with-geo';
-import { AlgoliaFacets } from './algolia-facets';
-import { AlgoliaResults } from './algolia-results';
-
-export function init() {
-  const search = new AlgoliaGlobalSearch();
+import { AlgoliaWithGeo } from './algolia-search-with-geo'; import { AlgoliaFacets } from './algolia-facets'; import { AlgoliaResults } from './algolia-results'; import * as QueryStringHelpers from "./query-string-helpers"; export function init() { const search = new AlgoliaGlobalSearch();
   document.addEventListener("turbolinks:load", () => {
     doWhenGoogleMapsIsReady(() => {
       search.init();
@@ -19,6 +14,8 @@ export class AlgoliaGlobalSearch {
     this.controller = null;
     this._facetsWidget = null;
     this._bind();
+    this._showMoreList = [];
+    this._queryParams = {};
   }
 
   _bind() {
@@ -35,15 +32,16 @@ export class AlgoliaGlobalSearch {
       this.controller = new AlgoliaWithGeo(AlgoliaGlobalSearch.INITIAL_QUERIES, AlgoliaGlobalSearch.DEFAULT_PARAMS, AlgoliaGlobalSearch.LATLNGBOUNDS);
     }
 
-    this.container.value = "";
-
-    this._facetsWidget = new AlgoliaFacets(AlgoliaGlobalSearch.SELECTORS, this.controller);
+    this._facetsWidget = new AlgoliaFacets(AlgoliaGlobalSearch.SELECTORS, this.controller, this);
+    this._facetsWidget.reset();
     this.controller.addWidget(this._facetsWidget);
+    this.loadState(window.location.search);
 
     this._resultsWidget = new AlgoliaResults(AlgoliaGlobalSearch.SELECTORS.resultsContainer, this);
     this.controller.addWidget(this._resultsWidget);
 
     this.addEventListeners();
+    this.controller.search({query: this.container.value});
   }
 
   addEventListeners() {
@@ -57,18 +55,46 @@ export class AlgoliaGlobalSearch {
     }
   }
 
+  loadState(query) {
+    this._queryParams = QueryStringHelpers.parseQuery(query);
+    this.container.value = this._queryParams["query"] || "";
+    const facetState = this._queryParams["facets"] || "";
+    this._facetsWidget.loadState(facetState.split(","));
+    if (facetState != "") {
+      this.controller.enableLocationSearch(facetState.includes("locations"));
+    }
+    const showMoreState = this._queryParams["showmore"] || "";
+    if (showMoreState != "") {
+      showMoreState.split(",").forEach(group => {
+        this.onClickShowMore(group);
+      });
+    }
+  }
+
   reset(ev) {
     this.container.value = "";
     this.controller.reset();
+    this._queryParams = {};
+    this.updateHistory();
     window.jQuery(this.container).focus();
+  }
+
+  updateHistory() {
+    this._queryParams["query"] = this.container.value;
+    this._queryParams["facets"] = this._facetsWidget.selectedFacetNames().join(",");
+    this._queryParams["showmore"] = this._showMoreList.join(",");
+    window.history.replaceState(window.history.state, "", window.location.pathname + QueryStringHelpers.parseParams(this._queryParams));
   }
 
   onInput(ev) {
     this.controller.search({query: this.container.value});
+    this.updateHistory();
   }
 
   onClickShowMore(group) {
     this.controller.addPage(group);
+    this._showMoreList.push(group);
+    this.updateHistory();
   }
 
   getParams() {
