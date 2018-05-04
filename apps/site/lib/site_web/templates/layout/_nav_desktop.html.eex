@@ -1,7 +1,7 @@
 <% fare_summaries = Map.get(assigns, :common_fare_summaries, []) %>
 <nav id="desktop-menu" class="desktop-menu-nav" role="tablist">
   <div class="pull-right">
-    <%= for {name, _, icon, href} <- nav_link_content(@conn) do %>
+    <%= for {name, _, href} <- nav_link_content(@conn) do %>
       <div class="nav-item">
         <%=
             id = to_camelcase(name)
@@ -10,16 +10,15 @@
             |> String.replace(" ", "_")
 
             link([
-              content_tag(:div, [class: "nav-link-content nav-link-icon"], do: [
-                svg_icon_with_circle(%SvgIconWithCircle{icon: icon, class: "icon-boring", show_tooltip?: false})
-              ]),
               content_tag(:div, [class: "nav-link-content"], do: [
-                "#{name} ",
-                fa("angle-down", class: "down"),
-                fa("angle-up", class: "up")
+                content_tag(:span, ["#{name} "], class: "nav-link-name"),
+                content_tag(:span, [
+                  fa("angle-down", class: "down"),
+                  fa("angle-up", class: "up")
+                ], class: "nav-link-arrows")
               ])
             ], to: href,
-               class: "desktop-nav-link collapsed toggle-up-down",
+               class: "desktop-nav-link navbar-toggle collapsed toggle-up-down",
                data: [toggle: "collapse", parent: "#desktop-menu", target: "#" <> id],
                role: "tab",
                aria: [expanded: "false", controls: id])
@@ -37,6 +36,16 @@
         </div>
       </div>
     <% end %>
-    <%= render "_nav_desktop_search.html", conn: @conn %>
+
+    <div class="nav-item">
+      <%=
+        link([
+          content_tag(:div, [
+            content_tag(:span, "Search", class: "nav-link-name"),
+            content_tag(:span, svg_icon(%SvgIcon{icon: :search, show_tooltip?: false}), class: "nav-search-icon")
+          ], class: "nav-link-content")
+        ], to: "/search", role: "tab", class: "desktop-nav-link navbar-toggle collapsed toggle-up-down")
+      %>
+    </div>
   </div>
 </nav>

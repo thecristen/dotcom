@@ -1,17 +1,19 @@
 <header class="header<%= unless @conn.assigns[:page] == ~s(pageview index-template) do %> header-border<% end %>">
   <div class="container">
-    <div class="header-navbar row">
-      <a class="col-xs-9 col-sm-10 col-md-2 navbar-logo" href="/">
+    <div class="header-navbar">
+      <a class="navbar-logo" href="/">
         <span class="sr-only">MBTA Home Page</span>
         <div class="svg-container" aria-hidden="true">
           <%= svg "mbta-logo.svg" %>
         </div>
       </a>
-      <button class="navbar-toggle collapsed toggle-up-down col-xs-3 col-sm-2 hidden-md-up" aria-expanded="false" type="button" data-toggle="collapse" data-target="#navbar">
+      <button class="navbar-toggle navbar-toggle-mobile collapsed toggle-up-down" aria-expanded="false" type="button" data-toggle="collapse" data-target="#navbar">
         <span class="nav-link-content">
-          Menu
-          <%= fa "angle-down", class: "down" %>
-          <%= fa "angle-up", class: "up" %>
+          <span class="nav-link-name">Menu</span>
+          <span class="nav-link-arrows">
+            <%= fa "angle-down", class: "down" %>
+            <%= fa "angle-up", class: "up" %>
+          </span>
         </span>
       </button>
       <%= render "_nav_desktop.html", assigns %>

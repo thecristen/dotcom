@@ -35,14 +35,13 @@ defmodule SiteWeb.LayoutViewTest do
 
       conn
       |> nav_link_content()
-      |> Enum.each(fn {name, description, icon, href} ->
+      |> Enum.each(fn {name, description, href} ->
 
         camelized = SiteWeb.ViewHelpers.to_camelcase(name)
         id = "#" <> camelized
 
         assert [{"div", _, drawer_content}] = Floki.find(drawers, id)
-        assert [{"a", link_attrs, link_content}] = Floki.find(drawers, ".desktop-nav-link[href=\"#{href}\"]")
-        assert Floki.raw_html(link_content) =~ CSSHelpers.atom_to_class(icon)
+        assert [{"a", link_attrs, _link_content}] = Floki.find(drawers, ".desktop-nav-link[href=\"#{href}\"]")
         assert [controls, expanded, _class, parent, target, toggle, _href, role] = link_attrs
 
         assert controls == {"aria-controls", camelized}
@@ -65,7 +64,7 @@ defmodule SiteWeb.LayoutViewTest do
       html_string = IO.iodata_to_binary(html)
       conn
       |> nav_link_content()
-      |> Enum.each(fn {name, description, _icon, link} ->
+      |> Enum.each(fn {name, description, link} ->
         assert html_string =~ name
         assert html_string =~ description
         assert html_string =~ link

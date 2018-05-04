@@ -14,12 +14,6 @@
   width: 30px;
 }
 
-.nav-item-search {
-  @include media-breakpoint-up(lg) {
-    margin-left: $base-spacing;
-  }
-}
-
 .search-no-js input {
   border: $border;
   border-radius: $border-radius;
