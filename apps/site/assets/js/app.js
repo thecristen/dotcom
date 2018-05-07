@@ -243,6 +243,7 @@ import search from './search';
 import photoGallery from './photo-gallery';
 import filter from './filter';
 import * as stopsSearch from "./algolia-stop-search";
+import * as homepageSearch from "./algolia-homepage-search";
 import * as globalSearch from "./algolia-global-search";
 import AlgoliaResults from "./algolia-results";
 import fullstory from './fullstory';
@@ -275,6 +276,7 @@ photoGallery();
 filter();
 stickyTooltip();
 globalSearch.init();
+homepageSearch.init();
 stopsSearch.init();
 fullstory();
 

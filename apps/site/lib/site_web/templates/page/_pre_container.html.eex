@@ -1,8 +1,18 @@
-<div class="pre-container-wrapper">
-  <div class="container">
+<div class="pre-container-wrapper hidden-no-js">
+  <div class="container homepage-search">
     <div class="pre-container-header">
     </div>
-    <%= render SiteWeb.TransitNearMeView, "_input.html", tnm_address: @tnm_address, conn: @conn, button_class: "location-link-invert" %>
-    <%= render SiteWeb.TransitNearMeView, "_results.html", class: "c-location-cards--background-white", stops_with_routes: @stops_with_routes, conn: @conn %>
+    <script>
+      window.algoliaConfig = <%= algolia_config() %>
+    </script>
+    <label for="search-bar" class="c-search-bar__header--white">
+      Search MBTA.com
+    </label>
+    <div id="homepage-search__container" class="text-input-button-widget c-search-bar__input">
+      <input type="text" id="homepage-search__input" class="text-input-button-widget-input" placeholder="Look up locations, stations, routes and more"></input>
+      <i aria-hidden="true" id="homepage-search__loading-indicator" class="fa fa-cog fa-spin c-search-bar__loading-indicator"></i>
+    </div>
+    <div id="homepage-search__autocomplete" class="c-search-bar__results"></div>
+    <div id="homepage-search__results" class="c-search-bar__results"></div>
   </div>
 </div>

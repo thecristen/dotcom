@@ -66,7 +66,10 @@ export class AlgoliaStopSearch {
     this._controller = new Algolia(AlgoliaStopSearch.INDICES, AlgoliaStopSearch.PARAMS);
     this._autocomplete = new AlgoliaAutocompleteWithGeo(AlgoliaStopSearch.SELECTORS,
                                                         Object.keys(AlgoliaStopSearch.INDICES),
+                                                        AlgoliaStopSearch.HEADERS,
+                                                        {position: 1, hitLimit: 5},
                                                         this);
+    this._autocomplete.renderFooterTemplate = this._renderFooterTemplate.bind(this);
     this._controller.addWidget(this._autocomplete);
   }
 
@@ -79,6 +82,15 @@ export class AlgoliaStopSearch {
       });
       this._locationResultsBody.innerHTML = TEMPLATES.locationResult.render(results.stops);
     }
+  }
+
+  _renderFooterTemplate(indexName) {
+    if (indexName == "locations") {
+      return AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
+        logo: document.getElementById("powered-by-google-logo").innerHTML
+      });
+    }
+    return null;
   }
 
   changeLocationHeader(address) {
@@ -109,6 +121,7 @@ AlgoliaStopSearch.INDICES = {
 
 AlgoliaStopSearch.SELECTORS = {
   input: "stop-search__input",
+  container: "stop-search__container",
   locationResultsBody: "stop-search__location-results--body",
   locationResultsHeader: "stop-search__location-results--header",
   locationLoadingIndicator: "stop-search__loading-indicator"
@@ -120,4 +133,9 @@ AlgoliaStopSearch.PARAMS = {
     facets: ["*"],
     facetFilters: [[]]
   }
+}
+
+AlgoliaStopSearch.HEADERS = {
+  stops: "MBTA Station Results",
+  locations: "Location Results"
 }

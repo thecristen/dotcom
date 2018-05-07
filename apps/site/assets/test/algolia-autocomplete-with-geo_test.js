@@ -9,14 +9,17 @@ describe("AlgoliaAutocompleteWithGeo", function() {
   jsdom();
   const selectors = {
     input: "autocomplete-input",
+    container: "autocomplete-container",
     locationLoadingIndicator: "loading-indicator"
   };
-  const indices = ["stops"];
+  const indices = ["stops", "routes"];
 
   beforeEach(function() {
     document.body.innerHTML = `
       <div id="powered-by-google-logo"></div>
-      <input id="autocomplete-input" type="text" />
+      <div id="autocomplete-container">
+        <input id="autocomplete-input" type="text" />
+      </div>
       <div id="loading-indicator"></div>
     `;
     window.autocomplete = jsdom.rerequire("autocomplete.js");
@@ -30,7 +33,16 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       reset: sinon.spy(),
       updateParamsByKey: sinon.spy(),
     };
-    this.ac = new AlgoliaAutocompleteWithGeo(selectors, indices, this.parent);
+    const headers = {
+      stops: "Stops Header",
+      locations: "Locations Header"
+    };
+
+    const locationsData = {
+      position: 1,
+      hitLimit: 3,
+    };
+    this.ac = new AlgoliaAutocompleteWithGeo(selectors, indices, headers, locationsData, this.parent);
     this.ac.init(this.client);
     $("#use-my-location-container").css("display", "none");
   });
@@ -40,8 +52,9 @@ describe("AlgoliaAutocompleteWithGeo", function() {
   });
 
   describe("constructor", function() {
-    it("adds locations to indices", function() {
-      expect(this.ac._indices).to.have.members(["stops", "locations"]);
+    it("adds locations to indices at the proper position", function() {
+      expect(this.ac._indices).to.have.members(["stops", "locations", "routes"]);
+      expect(this.ac._indices[1]).to.equal("locations");
       expect(this.ac._loadingIndicator).to.be.an.instanceOf(window.HTMLDivElement);
       expect(this.ac._parent).to.equal(this.parent);
     });
@@ -96,7 +109,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
         locations: {hits: [{hitTitle: "location result"}]}
       }
       this.client.search = sinon.stub().resolves(this.locationSearchResults)
-      sinon.spy(this.ac, "_showLocation");
+      sinon.spy(this.ac, "showLocation");
       sinon.spy(this.ac, "_searchAlgoliaByGeo");
       sinon.stub(GoogleMapsHelpers, "lookupPlace").resolves({
         geometry: {
@@ -120,11 +133,11 @@ describe("AlgoliaAutocompleteWithGeo", function() {
           _args: [{ id: "hitId", description: "10 Park Plaza, Boston, MA" }, "locations"]
         });
         Promise.resolve(result).then(() => {
-          expect(this.ac._showLocation.called).to.be.true;
-          expect(this.ac._showLocation.args[0][2]).to.equal("10 Park Plaza, Boston, MA");
+          expect(this.ac.showLocation.called).to.be.true;
+          expect(this.ac.showLocation.args[0][2]).to.equal("10 Park Plaza, Boston, MA");
           expect($(`#${selectors.input}`).val()).to.equal("10 Park Plaza, Boston, MA");
           expect(GoogleMapsHelpers.lookupPlace.called).to.be.true;
-          Promise.resolve(this.ac._showLocation.getCall(0).returnValue).then((results) => {
+          Promise.resolve(this.ac.showLocation.getCall(0).returnValue).then((results) => {
             expect(results).to.equal(this.locationSearchResults);
             done();
           });
@@ -144,10 +157,10 @@ describe("AlgoliaAutocompleteWithGeo", function() {
         };
         const result = this.ac.onClickGoBtn({});
         Promise.resolve(result).then(() => {
-          expect(this.ac._showLocation.called).to.be.true;
-          expect(this.ac._showLocation.args[0][2]).to.equal("10 Park Plaza, Boston, MA");
+          expect(this.ac.showLocation.called).to.be.true;
+          expect(this.ac.showLocation.args[0][2]).to.equal("10 Park Plaza, Boston, MA");
           expect(GoogleMapsHelpers.lookupPlace.called).to.be.true;
-          Promise.resolve(this.ac._showLocation.getCall(0).returnValue).then((results) => {
+          Promise.resolve(this.ac.showLocation.getCall(0).returnValue).then((results) => {
             expect(results).to.equal(this.locationSearchResults);
             done();
           });

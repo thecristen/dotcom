@@ -2,10 +2,11 @@ import { Algolia } from './algolia-search';
 import * as GoogleMapsHelpers from './google-maps-helpers'
 
 export class AlgoliaWithGeo extends Algolia {
-  constructor(indices, defaultParams, bounds) {
+  constructor(indices, defaultParams, bounds, hitLimit) {
     super(indices, defaultParams);
     this._bounds = bounds;
     this._locationEnabled = true;
+    this._hitLimit = hitLimit ? hitLimit : 5;
   }
 
   /*
@@ -29,7 +30,7 @@ export class AlgoliaWithGeo extends Algolia {
     }
 
     if (!(!this._locationEnabled && this._activeQueryIds.length > 0)) {
-      googleResults = GoogleMapsHelpers.autocomplete(this._lastQuery, this._bounds)
+      googleResults = GoogleMapsHelpers.autocomplete(this._lastQuery, this._bounds, this._hitLimit)
                           .catch(() => console.error("Error while contacting google places API."));
     }
 

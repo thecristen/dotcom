@@ -1,4 +1,4 @@
-export function autocomplete(query, searchBounds) {
+export function autocomplete(query, searchBounds, hitLimit) {
   if (query.length == 0) {
     return Promise.resolve({});
   } else {
@@ -9,12 +9,12 @@ export function autocomplete(query, searchBounds) {
           new google.maps.LatLng(searchBounds.west, searchBounds.north),
           new google.maps.LatLng(searchBounds.east, searchBounds.south)
         ),
-      }, processAutocompleteResults(resolve, reject));
+      }, processAutocompleteResults(resolve, reject, hitLimit));
     });
   }
 }
 
-function processAutocompleteResults(resolve, reject) {
+function processAutocompleteResults(resolve, reject, hitLimit) {
   return (predictions, status) => {
     const results = {
       locations: {
@@ -26,7 +26,7 @@ function processAutocompleteResults(resolve, reject) {
       return resolve(results);
     }
     results.locations = {
-      hits: predictions,
+      hits: predictions.slice(0, hitLimit),
       nbHits: predictions.length
     }
     return resolve(results);

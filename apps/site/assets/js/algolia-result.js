@@ -18,6 +18,9 @@ export const TEMPLATES = {
     </span>
   `),
   default: hogan.compile(`
+    {{#hasDate}}
+    <div class="c-search-result__hit--vertical">
+    {{/hasDate}}
     {{#id}}
     <a id="hit-{{id}}" class="c-search-result__link" href="{{hitUrl}}">
     {{/id}}
@@ -32,6 +35,9 @@ export const TEMPLATES = {
         {{{.}}}
       {{/hitFeatureIcons}}
     </span>
+    {{#hasDate}}
+    </div>
+    {{/hasDate}}
   `)
 };
 
@@ -47,6 +53,7 @@ export function parseResult(hit, type) {
     hitIcon: getIcon(hit, type),
     hitUrl: getUrl(hit, type),
     hitTitle: getTitle(hit, type),
+    hasDate: (type == "events" || type == "news") ||  null,
     hitFeatureIcons: getFeatureIcons(hit, type),
     id: hit.place_id || null
   });

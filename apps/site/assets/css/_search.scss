@@ -400,6 +400,8 @@
 .c-search-results__show-more {
   color: $brand-primary;
   cursor: pointer;
+  padding: $base-spacing / 2;
+  position: relative;
   text-align: center;
 
   &:hover {
@@ -421,6 +423,16 @@
   display: flex;
   justify-content: space-between;
   padding: $space-4 $space-8;
+}
+
+.c-search-result__hit--vertical {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+  }
 }
 
 .c-search-result__feature-icons {
@@ -476,4 +488,16 @@
   display: flex;
   justify-content: flex-end;
   padding: $base-spacing / 2;
+}
+
+.c-search-result__google--side {
+  @include media-breakpoint-up(md) {
+    position: absolute;
+    right: $base-spacing / 2;
+    top: $base-spacing / 2;
+  }
+
+  @include media-breakpoint-down(sm) {
+    display: block;
+  }
 }

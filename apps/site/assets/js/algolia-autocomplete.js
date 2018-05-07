@@ -2,7 +2,7 @@ import * as AlgoliaResult from "./algolia-result";
 import * as QueryStringHelpers from "./query-string-helpers";
 
 export class AlgoliaAutocomplete {
-  constructor(selectors, indices, parent) {
+  constructor(selectors, indices, headers, parent) {
     this._parent = parent;
     this._selectors = Object.assign(selectors, {
       resultsContainer: selectors.input + "-autocomplete-results",
@@ -10,8 +10,10 @@ export class AlgoliaAutocomplete {
     });
     this._input = document.getElementById(this._selectors.input);
     this._resultsContainer = document.getElementById(this._selectors.resultsContainer);
+    this._searchContainer = document.getElementById(this._selectors.container);
     this._goBtn = document.getElementById(this._selectors.goBtn);
     this._indices = indices;
+    this._headers = Object.assign(AlgoliaAutocomplete.DEFAULT_HEADERS, headers);
     this._datasets = [];
     this._results = {};
     this._highlightedHit = null;
@@ -25,6 +27,7 @@ export class AlgoliaAutocomplete {
     this.onClickGoBtn = this.onClickGoBtn.bind(this);
     this.onCursorChanged = this.onCursorChanged.bind(this);
     this.onCursorRemoved = this.onCursorRemoved.bind(this);
+    this.onOpen = this.onOpen.bind(this);
   }
 
   init(client) {
@@ -44,7 +47,7 @@ export class AlgoliaAutocomplete {
 
     this._autocomplete = window.autocomplete(this._input, {
       appendTo: "#" + this._selectors.resultsContainer,
-      debug: false,
+      debug: true,
       autoselectOnBlur: false,
       openOnFocus: true,
       hint: false,
@@ -68,6 +71,9 @@ export class AlgoliaAutocomplete {
     document.removeEventListener("autocomplete:selected", this.onHitSelected);
     document.addEventListener("autocomplete:selected", this.onHitSelected);
 
+    document.removeEventListener("autocomplete:shown", this.onOpen);
+    document.addEventListener("autocomplete:shown", this.onOpen);
+
     // normally we would only use `.js-` prefixed classes for javascript selectors, but
     // we make an exception here because this element and its class is generated entirely
     // by the autocomplete widget.
@@ -76,6 +82,11 @@ export class AlgoliaAutocomplete {
 
     this._goBtn.removeEventListener("click", this.onClickGoBtn);
     this._goBtn.addEventListener("click", this.onClickGoBtn);
+  }
+
+  onOpen() {
+    const acDialog = document.getElementsByClassName("c-search-bar__-dropdown-menu")[0];
+    acDialog.style.width = `${this._searchContainer.offsetWidth - 2}px`;
   }
 
   _addResultsContainer() {
@@ -133,11 +144,11 @@ export class AlgoliaAutocomplete {
     ev.preventDefault();
   }
 
-  onHitSelected({_args: [{url, _id}, _index]}) {
+  onHitSelected({_args: [hit, type]}) {
     if (this._input) {
       this._input.value = "";
     }
-    window.Turbolinks.visit(url + QueryStringHelpers.parseParams(this._parent.getParams()));
+    window.Turbolinks.visit(AlgoliaResult.getUrl(hit, type) + QueryStringHelpers.parseParams(this._parent.getParams()));
   }
 
   _buildDataset(indexName, acc) {
@@ -149,30 +160,20 @@ export class AlgoliaAutocomplete {
       templates: {
         header: this._renderHeaderTemplate(indexName),
         suggestion: this.renderResult(indexName),
-        footer: this._renderFooterTemplate(indexName),
+        footer: this.renderFooterTemplate(indexName),
       }
     });
     return acc;
   }
 
   _renderHeaderTemplate(indexName) {
-    const titles = {
-      locations: "Location Results",
-      stops: "MBTA Station Results"
-    }
-    return titles[indexName] ? `<p class="c-search-bar__results-header">${titles[indexName]}</p>` : ""
+    return `<p class="c-search-bar__results-header">${this._headers[indexName]}</p>`;
   }
 
-  _renderFooterTemplate(indexName) {
-    switch (indexName) {
-      case "locations":
-        return AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
-          logo: document.getElementById("powered-by-google-logo").innerHTML
-        });
-        break;
-      default:
-        return null;
-    }
+  renderFooterTemplate(_indexName) {
+    // Does not render a footer template by default.
+    // To render a footer template, override this method.
+    return null;
   }
 
   _datasetSource(index) {
@@ -200,6 +201,15 @@ export class AlgoliaAutocomplete {
   renderResult(index) {
     return (hit) => AlgoliaResult.renderResult(hit, index)
   }
+}
+
+AlgoliaAutocomplete.DEFAULT_HEADERS = {
+  stops: "Stations and Stops",
+  routes: "Lines and Routes",
+  pagesdocuments: "Pages and Documents",
+  events: "Events",
+  news: "News",
+  locations: "Locations"
 }
 
 AlgoliaAutocomplete.DISPLAY_KEYS = {

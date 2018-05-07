@@ -4,10 +4,11 @@ import geolocationPromise from "./geolocation-promise";
 import * as AlgoliaResult from "./algolia-result";
 
 export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
-  constructor(selectors, indices, parent) {
-    super(selectors, indices, parent);
+  constructor(selectors, indices, headers, locationParams, parent) {
+    super(selectors, indices, headers, parent);
     this._loadingIndicator = document.getElementById(selectors.locationLoadingIndicator);
-    this._indices.push("locations");
+    this._locationParams = Object.assign(AlgoliaAutocompleteWithGeo.DEFAULT_LOCATION_PARAMS, locationParams);
+    this._indices.splice(this._locationParams.position, 0, "locations");
   }
 
   init(client) {
@@ -25,8 +26,8 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   onInputFocused() {
     if (this._input.value.length == 0) {
       this._useMyLocation.style.display = "block";
-      this._useMyLocation.style.width = `${this._input.offsetWidth}px`;
-      this._useMyLocation.style.top = `${this._input.offsetHeight * 2 - 4}px`;
+      this._useMyLocation.style.width = `${this._searchContainer.offsetWidth - 3}px`;
+      this._useMyLocation.style.top = `${this._searchContainer.offsetHeight - 3}px`;
       this._useMyLocation.style.left = "1px";
     } else {
       this._closeUseMyLocation();
@@ -76,7 +77,7 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
         east: 42.8266,
         south: -69.6189
       };
-      return GoogleMapsHelpers.autocomplete(query, bounds)
+      return GoogleMapsHelpers.autocomplete(query, bounds, this._locationParams.hitLimit)
               .then(results => this._onResults(callback, index, results))
               .catch(err => console.error(err));
     }
@@ -113,7 +114,7 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   }
 
   _onLocationSearchResult(result) {
-    return this._showLocation(result.geometry.location.lat(),
+    return this.showLocation(result.geometry.location.lat(),
                               result.geometry.location.lng(),
                               result.formatted_address)
   }
@@ -127,11 +128,11 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   _onReverseGeocodeResults(result, latitude, longitude) {
     this._input.disabled = false;
     this._input.value = result;
-    document.getElementById("stop-search__loading-indicator").style.visibility = "hidden";
-    this._showLocation(latitude, longitude, result);
+    this._loadingIndicator.style.visibility = "hidden";
+    this.showLocation(latitude, longitude, result);
   }
 
-  _showLocation(latitude, longitude, address) {
+  showLocation(latitude, longitude, address) {
     this._parent.changeLocationHeader(address);
     return this._searchAlgoliaByGeo(latitude, longitude);
   }
@@ -164,4 +165,9 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     });
     hit._rankingInfo.geoDistance = (hit._rankingInfo.geoDistance / METERS_PER_MILE).toFixed(1);
   }
+}
+
+AlgoliaAutocompleteWithGeo.DEFAULT_LOCATION_PARAMS = {
+  position: 0,
+  hitLimit: 5
 }

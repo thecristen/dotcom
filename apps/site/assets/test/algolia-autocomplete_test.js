@@ -118,12 +118,15 @@ describe("AlgoliaAutocomplete", () => {
   describe("clickFirstResult", () => {
     describe("when results exist:", () => {
       it("clicks the first result of the first index with hits", () => {
-        const ac = new AlgoliaAutocomplete(selectors, ["stops", "locations"], parent);
+        const ac = new AlgoliaAutocomplete(selectors, ["stops", "locations"], {}, parent);
         ac.init({});
         ac._results = {
           stops: {
             hits: [{
-              url: "/stops"
+              url: "/stops",
+              stop: {
+                id: "123"
+              }
             }]
           },
           locations: {
@@ -135,26 +138,28 @@ describe("AlgoliaAutocomplete", () => {
         expect(window.Turbolinks.visit.called).to.be.false;
         ac.clickFirstResult();
         expect(window.Turbolinks.visit.called).to.be.true;
-        expect(window.Turbolinks.visit.args[0][0]).to.equal("/stops?from=stop-search&query=");
+        expect(window.Turbolinks.visit.args[0][0]).to.equal("/stops/123?from=stop-search&query=");
       });
 
       it("finds the first index with results if some are empty", () => {
-        const ac = new AlgoliaAutocomplete(selectors, ["stops", "locations"], parent);
+        const ac = new AlgoliaAutocomplete(selectors, ["stops", "routes"], {}, parent);
         ac.init({});
         ac._results = {
           stops: {
             hits: []
           },
-          locations: {
+          routes: {
             hits: [{
-              url: "/locations"
+              route: {
+                id: "123"
+              }
             }]
           }
         };
         expect(window.Turbolinks.visit.called).to.be.false;
         ac.clickFirstResult();
         expect(window.Turbolinks.visit.called).to.be.true;
-        expect(window.Turbolinks.visit.args[0][0]).to.equal("/locations?from=stop-search&query=");
+        expect(window.Turbolinks.visit.args[0][0]).to.equal("/schedules/123/line?from=stop-search&query=");
       });
 
       it("does nothing if results list is empty", () => {
@@ -186,33 +191,49 @@ describe("AlgoliaAutocomplete", () => {
     });
   });
 
+  describe("_renderHeaderTemplate", function() {
+    it("uses supplied headers if they exist", function() {
+      const headers = {
+        stops: "External Stops Header",
+      };
+      const ac = new AlgoliaAutocomplete(selectors, indices, headers, parent);
+
+      expect(ac._renderHeaderTemplate("stops")).to.contain("External Stops Header");
+      expect(ac._renderHeaderTemplate("routes")).to.contain("Lines and Routes");
+    });
+  });
+
   describe("onClickGoBtn", () => {
     describe("when this._highlightedHit exists", () => {
       it("visits the highlightedHit url if higlightedHit is not null", () => {
-        const ac = new AlgoliaAutocomplete(selectors, indices, parent);
+        const ac = new AlgoliaAutocomplete(selectors, indices, {}, parent);
         ac.init({});
         ac._highlightedHit = {
           index: indices[0],
           hit: {
-            url: "/success"
+            stop: {
+              id: "123"
+            }
           }
         };
         expect(window.Turbolinks.visit.called).to.be.false;
         ac.onClickGoBtn({});
         expect(window.Turbolinks.visit.called).to.be.true;
-        expect(window.Turbolinks.visit.args[0][0]).to.equal("/success?from=stop-search&query=");
+        expect(window.Turbolinks.visit.args[0][0]).to.equal("/stops/123?from=stop-search&query=");
       });
     });
 
     describe("when this._highlightedHit is null", () => {
       describe("and this._results has results", () => {
-        it("visits the url of the first index's results", () => {
-          const ac = new AlgoliaAutocomplete(selectors, ["stops", "locations"], parent);
+        it("visits the url of the first index's results that we get from AlgoliaResult.getUrl", () => {
+          const ac = new AlgoliaAutocomplete(selectors, ["stops", "locations"], {}, parent);
           ac.init({});
           ac._results = {
             stops: {
               hits: [{
-                url: "/success"
+                stop: {
+                  id: "123",
+                }
               }]
             },
             locations: {
@@ -225,7 +246,7 @@ describe("AlgoliaAutocomplete", () => {
           expect(window.Turbolinks.visit.called).to.be.false;
           ac.onClickGoBtn({});
           expect(window.Turbolinks.visit.called).to.be.true;
-          expect(window.Turbolinks.visit.args[0][0]).to.equal("/success?from=stop-search&query=");
+          expect(window.Turbolinks.visit.args[0][0]).to.equal("/stops/123?from=stop-search&query=");
         });
       });
     });
