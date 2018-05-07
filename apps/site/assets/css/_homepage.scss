@@ -1,0 +1,35 @@
+// Refactored styles for homepage.
+
+.m-homepage__shortcuts {
+  padding-bottom: $base-spacing;
+  padding-top: $base-spacing * 3;
+  text-align: center;
+}
+
+.m-homepage__shortcut {
+  display: inline-block;
+  font-size: $font-size-h3;
+  font-weight: bold;
+  line-height: $base-spacing * 1.5;
+  margin-left: $base-spacing / 2;
+  margin-right: $base-spacing / 2;
+  padding-bottom: $base-spacing;
+  text-align: center;
+
+  @include media-breakpoint-up(sm) {
+    @include icon-size($base-spacing * 5);
+    min-width: $base-spacing * 7;
+  }
+
+  @include media-breakpoint-down(xs) {
+    @include icon-size($base-spacing * 3);
+    min-width: $base-spacing * 4;
+  }
+}
+
+.index-template {
+  // Override 2rem padding-bottom on .page-container class.
+  // Putting this here until the template classes are refactored
+  // to follow our new class naming style.
+  padding-bottom: 0;
+}
