@@ -157,13 +157,17 @@ defmodule Site.ComponentsTest do
   end
 
   describe "icons > svg_icon" do
+    test "raises an error if icon not found" do
+      assert_raise RuntimeError, "fail icon not found", fn -> svg_icon(%SvgIcon{icon: :fail}) end
+    end
+
     test "icon can take multiple argument types and render the correct atom" do
       bus = svg_icon(%SvgIcon{icon: :bus})
       assert svg_icon(%SvgIcon{icon: %Routes.Route{type: 3}}) == bus
       assert svg_icon(%SvgIcon{icon: 3}) == bus
       red_line = svg_icon(%SvgIcon{icon: :red_line})
-      mattapan_trolley = svg_icon(%SvgIcon{icon: :mattapan_trolley})
-      assert svg_icon(%SvgIcon{icon: %Routes.Route{type: 0, id: "Mattapan"}}) == mattapan_trolley
+      mattapan_line = svg_icon(%SvgIcon{icon: :mattapan_line})
+      assert svg_icon(%SvgIcon{icon: %Routes.Route{type: 0, id: "Mattapan"}}) == mattapan_line
       assert svg_icon(%SvgIcon{icon: %Routes.Route{type: 1, id: "Red"}}) == red_line
       assert svg_icon(%SvgIcon{icon: "Escalator"}) == svg_icon(%SvgIcon{icon: :access})
     end

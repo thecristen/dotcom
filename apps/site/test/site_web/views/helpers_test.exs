@@ -313,4 +313,56 @@ defmodule SiteWeb.ViewHelpersTest do
       assert config.admin == nil
     end
   end
+
+  test "mode_icon/2" do
+    for type <- [:subway, :commuter_rail, :bus, :ferry, :trolley],
+        size <- [:default, :small] do
+          assert {"span", [{"class", class}], _} =
+            type
+            |> mode_icon(size)
+            |> safe_to_string()
+            |> Floki.parse()
+          if type == :commuter_rail do
+            assert class == "c-svg__icon-mode-commuter-rail-#{size}"
+          else
+            assert class == "c-svg__icon-mode-#{type}-#{size}"
+          end
+    end
+  end
+
+  describe "line_icon/2" do
+    test "for subway routes" do
+      for id <- ["Red", "Orange", "Blue"] do
+        icon =
+          %Routes.Route{id: id, type: 1}
+          |> line_icon(:default)
+          |> safe_to_string()
+        assert icon =~ "c-svg__icon-#{String.downcase(id)}-line-default"
+      end
+    end
+
+    test "for green line" do
+      for branch <- ["B", "C", "D", "E"] do
+        icon =
+          %Routes.Route{id: "Green-" <> branch, type: 0}
+          |> line_icon(:default)
+          |> safe_to_string()
+        assert icon =~ "c-svg__icon-green-line-default"
+      end
+
+      icon =
+        %Routes.Route{id: "Green", type: 0}
+        |> line_icon(:default)
+        |> safe_to_string()
+      assert icon =~ "c-svg__icon-green-line-default"
+    end
+
+    test "for mattapan" do
+      icon =
+        %Routes.Route{id: "Mattapan", type: 0}
+        |> line_icon(:default)
+        |> safe_to_string()
+      assert icon =~ "c-svg__icon-mattapan-line-default"
+    end
+  end
 end

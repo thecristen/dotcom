@@ -273,7 +273,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     test "subway transit legs" do
       for {id, type, expected_icon_class} <- [
         {"Red", 1, "red-line"},
-        {"Mattapan", 0, "mattapan-trolley"},
+        {"Mattapan", 0, "mattapan-line"},
         {"Orange", 1, "orange-line"},
         {"Blue", 1, "blue-line"},
         {"Green", 0, "green-line"}

@@ -91,3 +91,10 @@
     font-size: $font-size-h6-xxl;
   }
 }
+
+@mixin icon-size($width-height) {
+  [class^=c-svg__icon] {
+    height: $width-height;
+    width: $width-height;
+  }
+}

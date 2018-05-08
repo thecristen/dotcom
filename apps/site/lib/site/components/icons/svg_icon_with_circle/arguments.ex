@@ -80,14 +80,15 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   end
   def title(icon) when icon in [
     :bus, :subway, :ferry, :commuter_rail, :the_ride,
-    :orange_line, :green_line, :red_line, :blue_line, :mattapan_trolley
+    :orange_line, :green_line, :red_line, :blue_line,
+    :mattapan_trolley, :mattapan_line
   ] do
     SiteWeb.ViewHelpers.mode_name(icon)
   end
   def title(%Routes.Route{id: "Orange"}), do: SiteWeb.ViewHelpers.mode_name(:orange_line)
   def title(%Routes.Route{id: "Red"}), do: SiteWeb.ViewHelpers.mode_name(:red_line)
   def title(%Routes.Route{id: "Blue"}), do: SiteWeb.ViewHelpers.mode_name(:blue_line)
-  def title(%Routes.Route{id: "Mattapan"}), do: SiteWeb.ViewHelpers.mode_name(:mattapan_trolley)
+  def title(%Routes.Route{id: "Mattapan"}), do: SiteWeb.ViewHelpers.mode_name(:mattapan_line)
   def title(%Routes.Route{id: "Green" <> _}), do: SiteWeb.ViewHelpers.mode_name(:green_line)
   def title(%Routes.Route{type: type}), do: SiteWeb.ViewHelpers.mode_name(type)
   def title(_icon), do: ""

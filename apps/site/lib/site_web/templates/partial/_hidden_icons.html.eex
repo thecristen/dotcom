@@ -1,18 +1,38 @@
 <div class="hidden-js hidden-no-js" aria-hidden="true">
-  <%= for feature <- [:red_line, :green_line, :blue_line, :orange_line, :bus, :commuter_rail, :ferry, :mattapan_trolley, :stop, :station, :subway] do %>
-    <div id="icon-feature-<%= feature %>">
-      <%=  svg_icon_with_circle(%SvgIconWithCircle{icon: feature, class: "icon-small"}) %>
-    </div>
-  <% end %>
+  <%=
+    for light_rail <- ["Green", "Green-B", "Green-C", "Green-D", "Green-E", "Mattapan"] do
+      content_tag(:div, [line_icon(%Routes.Route{id: light_rail, type: 0}, :small)], id: [
+        "icon-feature-",
+        String.downcase(light_rail),
+        "_line"
+      ])
+    end
+  %>
+  <%=
+    for heavy_rail <- ["Red", "Blue", "Orange"] do
+      content_tag(:div, [line_icon(%Routes.Route{id: heavy_rail, type: 1}, :small)], id: [
+        "icon-feature-",
+        String.downcase(heavy_rail),
+        "_line"
+      ])
+    end
+  %>
+  <%=
+    for mode <- [:subway, :commuter_rail, :bus, :ferry] do
+      content_tag(:div, [mode_icon(mode, :small)], id: ["icon-feature-", Atom.to_string(mode)])
+    end
+  %>
+  <%=
+    for feature <- [:stop, :station] do
+      content_tag(:div, [
+        svg_icon_with_circle(%SvgIconWithCircle{icon: feature, class: "icon-small"})
+      ], id: ["icon-feature-", Atom.to_string(feature)])
+    end
+  %>
 
-    <div id="icon-feature-alert">
-      <%=  svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
-    </div>
-
-    <%= for feature <- [:"Green-B", :"Green-C", :"Green-D", :"Green-E"] do
-          SiteWeb.StopView.stop_feature_icon(feature, "icon-small")
-        end
-    %>
+  <div id="icon-feature-alert">
+    <%=  svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
+  </div>
   <div id="powered-by-google-logo">
     <img src="<%= static_url(@conn, "/images/powered_by_google_on_white.png") %>"></img>
   </div>

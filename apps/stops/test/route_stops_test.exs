@@ -38,7 +38,7 @@ defmodule Stops.RouteStopsTest do
       ashmont = List.last(ashmont_stops)
       assert ashmont.name == "Ashmont"
       assert ashmont.branch == "Ashmont"
-      assert ashmont.stop_features == [:mattapan_trolley, :bus, :access]
+      assert ashmont.stop_features == [:mattapan_line, :bus, :access]
       assert ashmont.is_terminus? == true
 
       [north_quincy|_] = braintree_stops

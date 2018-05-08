@@ -17,7 +17,7 @@ defmodule Routes.Route do
   @type gtfs_route_type :: :subway | :commuter_rail | :bus | :ferry
   @type route_type :: gtfs_route_type | :the_ride
   @type type_int :: 0..4
-  @type subway_lines_type :: :orange_line | :red_line | :green_line | :blue_line | :mattapan_trolley
+  @type subway_lines_type :: :orange_line | :red_line | :green_line | :blue_line | :mattapan_line
   @type branch_name :: String.t | nil
 
   @inner_express_routes ~w(170 325 326 351 424 426 428 434 441 442 448 449 450 459 501 502 503 504 553 554 556 558)
@@ -49,13 +49,14 @@ defmodule Routes.Route do
   def types_for_mode(:red_line), do: [1]
   def types_for_mode(:blue_line), do: [1]
   def types_for_mode(:orange_line), do: [1]
-  def types_for_mode(:mattapan_trolley), do: [0]
+  def types_for_mode(:mattapan_line), do: [0]
 
   @spec icon_atom(t) :: gtfs_route_type | subway_lines_type
   def icon_atom(%__MODULE__{id: "Red"}), do: :red_line
-  def icon_atom(%__MODULE__{id: "Mattapan"}), do: :mattapan_trolley
+  def icon_atom(%__MODULE__{id: "Mattapan"}), do: :mattapan_line
   def icon_atom(%__MODULE__{id: "Orange"}), do: :orange_line
   def icon_atom(%__MODULE__{id: "Blue"}), do: :blue_line
+  def icon_atom(%__MODULE__{id: "Green"}), do: :green_line
   def icon_atom(%__MODULE__{id: "Green" <> _}), do: :green_line
   def icon_atom(%__MODULE__{} = route), do: type_atom(route.type)
 
@@ -66,7 +67,7 @@ defmodule Routes.Route do
   @spec type_name(atom) :: String.t
   for type_atom <- ~w(subway commuter_rail bus ferry
                       orange_line red_line green_line blue_line
-                      mattapan_trolley the_ride)a do
+                      mattapan_trolley mattapan_line the_ride)a do
     type_string = type_atom
     |> Atom.to_string()
     |> String.replace("_", " ")

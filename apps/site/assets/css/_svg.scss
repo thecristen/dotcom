@@ -12,6 +12,17 @@
 // fills and strokes. Any other styling for these SVGs (positioning, width,
 // height, etc.) should be handled elsewhere.
 
+[class^=c-svg__icon] {
+  // setting this broadly enables the height and width of each SVG to be defined by the
+  // height/width of the containing span, instead of having to target the svgs themselves.
+  display: inline-block;
+
+  svg {
+    height: 100%;
+    width: 100%;
+  }
+}
+
 .c-svg__mbta-logo {
   @include media-breakpoint-down(sm) {
     text,

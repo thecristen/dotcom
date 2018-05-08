@@ -9,11 +9,15 @@
 }
 
 .station-mode-icon {
+  @include icon-size($font-size-h2);
   white-space: nowrap;
 
-  svg {
-    margin-top: 0;
-    vertical-align: middle;
+  [class^=c-svg__icon] {
+    // For some reason, in Backstop tests these SVGs render as if their center is at the parent
+    // element's baseline. I haven't been able to reproduce this in any actual browser.
+    // However, setting vertical-align: top here seems to fix the problem and does not affect
+    // how the icons display in real browsers. -kh
+    vertical-align: top;
   }
 }
 
@@ -150,7 +154,6 @@
     display: inline-block;
     flex: 1 0 0%;
   }
-
 }
 
 .hub-stop-container {
@@ -167,7 +170,6 @@
     margin-bottom: $base-spacing;
     padding: $space-6 $base-spacing;
   }
-
 }
 
 .stops-view-all-btn {

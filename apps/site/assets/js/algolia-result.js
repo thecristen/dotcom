@@ -137,7 +137,7 @@ function _subwayRouteIcon (routeId) {
     Red: "red_line",
     Orange: "orange_line",
     Blue: "blue_line",
-    Mattapan: "mattapan_trolley"
+    Mattapan: "mattapan_line"
   };
 
   return mapper[routeId] || "green_line";
@@ -278,11 +278,14 @@ function _getAlertIcon(hit, type) {
 
 function _featuresToIcons(features) {
    return features.map((feature) => {
+     // temporarily needed while new icons are being rolled out;
+     // should be removed once that is finished   -kh 5/1/2018
+     feature = feature == "mattapan_trolley" ? "mattapan_line" : feature
      const icon = document.getElementById(`icon-feature-${feature}`);
      if (icon) {
        return icon.innerHTML;
      } else {
-       console.error(`Can't find feature: ${feature}`);
+       console.error(`Can't find feature icon: ${feature}`);
        return "";
      }
    });

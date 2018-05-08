@@ -7,6 +7,18 @@
   margin-top: $base-spacing;
 }
 
+.schedule-route-name {
+  @include icon-size($font-size-h2);
+
+  [class^=c-svg__icon] {
+    // For some reason, in Backstop tests these SVGs render as if their center is at the parent
+    // element's baseline. I haven't been able to reproduce this in any actual browser.
+    // However, setting vertical-align: top here seems to fix the problem and does not affect
+    // how the icons display in real browsers. -kh
+    vertical-align: top;
+  }
+}
+
 .schedule-list-group {
   margin-bottom: $base-spacing;
 }

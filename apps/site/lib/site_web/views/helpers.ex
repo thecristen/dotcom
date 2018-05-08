@@ -4,6 +4,7 @@ defmodule SiteWeb.ViewHelpers do
   import Phoenix.HTML.Link, only: [link: 2]
   import Phoenix.HTML.Tag, only: [content_tag: 3, tag: 2]
   import Plug.Conn
+  alias Routes.Route
 
   # precompile the SVGs, rather than hitting the filesystem every time
   for path <- :site
@@ -27,6 +28,29 @@ defmodule SiteWeb.ViewHelpers do
 
   def redirect_path(conn, path) do
     redirect_path(conn, :show, []) <> path
+  end
+
+  @spec mode_icon(atom, :default | :small) :: Phoenix.HTML.Safe.t
+  def mode_icon(:commuter_rail, size), do: mode_icon(:"commuter-rail", size)
+  def mode_icon(mode, size) when mode in [:subway, :bus, :"commuter-rail", :ferry, :trolley]
+  and size in [:default, :small] do
+    svg("icon-mode-#{mode}-#{size}.svg")
+  end
+
+  @spec line_icon(Route.t, :default | :small) :: Phoenix.HTML.Safe.t
+  def line_icon(%Route{type: type} = route, size) when type in [0, 1] do
+    name =
+      route
+      |> Route.icon_atom()
+      |> Atom.to_string()
+      |> String.replace("_", "-")
+
+    svg("icon-#{name}-#{size}.svg")
+  end
+  def line_icon(%Route{} = route, size) do
+    route
+    |> Route.icon_atom()
+    |> mode_icon(size)
   end
 
   @doc """
@@ -85,6 +109,7 @@ defmodule SiteWeb.ViewHelpers do
   def mode_name(:access), do: "Access"
   def mode_name(:the_ride), do: "The Ride"
   def mode_name(:mattapan_trolley), do: "Mattapan Trolley"
+  def mode_name(:mattapan_line), do: "Mattapan Trolley"
   def mode_name(subway_atom) when subway_atom in [:red_line, :blue_line, :orange_line, :green_line] do
     subway_atom
     |> Atom.to_string

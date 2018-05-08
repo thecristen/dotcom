@@ -418,6 +418,8 @@
 }
 
 .c-search-result__hit {
+  @include icon-size($base-spacing);
+
   border: 1px solid $gray-bordered-background;
   border-top: 0;
   display: flex;

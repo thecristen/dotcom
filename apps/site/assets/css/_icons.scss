@@ -147,6 +147,7 @@ a {
 }
 
 .icon-red-line-circle,
+.icon-mattapan-line-circle,
 .icon-mattapan-trolley-circle {
   fill: $brand-red-line;
 
@@ -295,4 +296,9 @@ a {
   line-height: $base-spacing * .75;
   margin-left: $base-spacing / 4;
   text-transform: uppercase;
+}
+
+.c-svg__icon-live-clock {
+  height: $base-spacing * .6;
+  width: $base-spacing * .6;
 }

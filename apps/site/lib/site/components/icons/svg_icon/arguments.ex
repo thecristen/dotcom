@@ -4,7 +4,7 @@ defmodule Site.Components.Icons.SvgIcon do
   @type t :: %__MODULE__{icon: icon_arg, class: String.t, show_tooltip?: boolean}
   @type icon_arg :: atom | String.t | Routes.Route.t | 0..4
 
-  @transit_type_icons [:bus, :ferry, :subway, :commuter_rail, :mattapan_trolley]
+  @transit_type_icons [:bus, :ferry, :subway, :commuter_rail, :mattapan_trolley, :mattapan_line]
   @mode_icons [:t_logo, :green_line, :orange_line, :blue_line, :red_line]
 
   @icons [
@@ -132,14 +132,19 @@ defmodule Site.Components.Icons.SvgIcon do
     end
   end
 
+  def get_path(:mattapan_line), do: get_path(:mattapan_trolley)
   def get_path(atom) when atom in [:green_line, :red_line, :blue_line, :orange_line], do: get_path(:t_logo)
   def get_path(atom) when is_atom(atom) do
-    @icons
-    |> Map.get(atom)
-    |> String.replace(~r/\n/, "")
-    |> String.replace(~r/\t/, "")
-    |> String.replace(~r/\s\s/, " ")
-    |> build_path
+    case Map.get(@icons, atom) do
+      nil ->
+        raise "#{atom} icon not found"
+      path ->
+        path
+        |> String.replace(~r/\n/, "")
+        |> String.replace(~r/\t/, "")
+        |> String.replace(~r/\s\s/, " ")
+        |> build_path()
+    end
   end
   def get_path(arg), do: arg |> get_icon_atom() |> get_path()
 

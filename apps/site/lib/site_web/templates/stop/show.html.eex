@@ -2,14 +2,15 @@
   <h1>
     <%= @stop.name %>
     <span class="station-mode-icon">
+      <% icon_size = :small %>
       <%= for {type, routes} <- @grouped_routes do %>
         <%= if type == :subway do %>
           <%= for route <- aggregate_routes(routes) do %>
-            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: route}) %>
+            <%= line_icon(route, icon_size) %>
             <span class="station-mode-description"><%= subway_name(route.name) %></span>
           <% end %>
         <% else %>
-          <%= svg_icon_with_circle(%SvgIconWithCircle{icon: type}) %>
+          <%= mode_icon(type, icon_size) %>
           <span class="station-mode-description"><%= mode_name(type) %></span>
         <% end %>
         <%= if type == :commuter_rail and Map.get(assigns, :zone_number) do %>
