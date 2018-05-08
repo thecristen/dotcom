@@ -91,7 +91,7 @@ defmodule SiteWeb.StopController do
   def breadcrumbs(%Stop{station?: true, name: name}, routes) do
     routes
     |> Enum.min_by(& &1.type)
-    |> Routes.Route.type_atom
+    |> Routes.Route.path_atom
     |> breadcrumbs_for_station_type(name)
   end
   def breadcrumbs(%Stop{name: name}, _routes) do
@@ -99,7 +99,7 @@ defmodule SiteWeb.StopController do
   end
 
   defp breadcrumbs_for_station_type(breadcrumb_tab, name)
-  when breadcrumb_tab in ~w(subway commuter_rail ferry)a do
+  when breadcrumb_tab in ~w(subway commuter-rail ferry)a do
     [
       Breadcrumb.build("Stations", stop_path(SiteWeb.Endpoint, :show, breadcrumb_tab)),
       Breadcrumb.build(name)

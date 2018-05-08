@@ -1,6 +1,6 @@
 defmodule SiteWeb.WwwRedirector do
   @behaviour Plug
-  import Plug.Conn, only: [halt: 1]
+  import Plug.Conn, only: [put_status: 2, halt: 1]
   import Phoenix.Controller, only: [redirect: 2]
 
   alias Plug.Conn
@@ -16,6 +16,7 @@ defmodule SiteWeb.WwwRedirector do
     full_redirect_url = redirect_url(site_url, conn)
 
     conn
+    |> put_status(:moved_permanently)
     |> redirect(external: full_redirect_url)
     |> halt()
   end

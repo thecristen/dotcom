@@ -59,6 +59,10 @@ defmodule Routes.Route do
   def icon_atom(%__MODULE__{id: "Green" <> _}), do: :green_line
   def icon_atom(%__MODULE__{} = route), do: type_atom(route.type)
 
+  @spec path_atom(t) :: gtfs_route_type
+  def path_atom(%__MODULE__{type: 2}), do: :"commuter-rail"
+  def path_atom(%__MODULE__{type: type}), do: type_atom(type)
+
   @spec type_name(atom) :: String.t
   for type_atom <- ~w(subway commuter_rail bus ferry
                       orange_line red_line green_line blue_line

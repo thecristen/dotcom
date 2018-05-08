@@ -66,7 +66,7 @@ defmodule SiteWeb.FareView do
   end
 
   defp do_summary_url(name, opts \\ []) do
-    fare_path(SiteWeb.Endpoint, :show, name, opts)
+    fare_path(SiteWeb.Endpoint, :show, SiteWeb.StaticPage.convert_path(name), opts)
   end
 
   @spec callout(Fare.t) :: String.t | iolist

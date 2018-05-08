@@ -31,7 +31,7 @@
       <h3 class="station-fare-subheader">Bus and Subway Fares</h3>
       <%= SiteWeb.FareView.summarize(mode_summaries(fare_mode(@fare_types), @fare_name)) %>
       <p>
-        <%= link to: fare_path(@conn, :show, "bus_subway") do %>
+        <%= link to: fare_path(@conn, :show, "bus-subway") do %>
           View all Bus and Subway fares <%= fa "arrow-right" %>
         <% end %>
       </p>

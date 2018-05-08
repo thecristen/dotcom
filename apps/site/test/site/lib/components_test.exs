@@ -127,7 +127,7 @@ defmodule Site.ComponentsTest do
         truncated_list?: true
       }) |> safe_to_string
       refute Floki.find(rendered, ~s([href="/schedules/CR-Fitchburg"])) == []
-      assert Floki.find(rendered, ~s([href="/schedules/commuter_rail"])) == []
+      assert Floki.find(rendered, ~s([href="/schedules/commuter-rail"])) == []
       refute rendered |> Floki.text |> String.downcase =~ "view all"
     end
 

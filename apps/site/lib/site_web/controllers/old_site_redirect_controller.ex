@@ -5,14 +5,14 @@ defmodule SiteWeb.OldSiteRedirectController do
 
   def schedules_and_maps(conn, %{"route" => route}) do
     case old_route_to_route_id(route) do
-      nil -> redirect conn, to: mode_path(conn, :index)
-      route_id -> redirect conn, to: schedule_path(conn, :show, route_id)
+      nil -> permanent_redirect(conn, mode_path(conn, :index))
+      route_id -> permanent_redirect(conn, schedule_path(conn, :show, route_id))
     end
   end
   def schedules_and_maps(conn, %{"path" => [_mode, "lines", "stations" | _], "stopId" => stop_id}) do
     case Stops.Repo.old_id_to_gtfs_id(stop_id) do
-      nil -> redirect conn, to: mode_path(conn, :index)
-      gtfs_id -> redirect conn, to: stop_path(conn, :show, gtfs_id)
+      nil -> permanent_redirect(conn, mode_path(conn, :index))
+      gtfs_id -> permanent_redirect(conn, stop_path(conn, :show, gtfs_id))
     end
   end
   def schedules_and_maps(conn, %{"path" => [mode, "lines", "stations" | _]}) do
@@ -21,25 +21,32 @@ defmodule SiteWeb.OldSiteRedirectController do
       "boats" -> :ferry
       _ -> :subway
     end
-    redirect conn, to: stop_path(conn, :show, redirect_mode)
+    permanent_redirect(conn, stop_path(conn, :show, redirect_mode))
   end
   def schedules_and_maps(conn, %{"path" => ["rail" | _]}) do
-    redirect conn, to: mode_path(conn, :commuter_rail)
+    permanent_redirect(conn, mode_path(conn, :commuter_rail))
   end
   def schedules_and_maps(conn, %{"path" => ["boats" | _]}) do
-    redirect conn, to: mode_path(conn, :ferry)
+    permanent_redirect(conn, mode_path(conn, :ferry))
   end
   def schedules_and_maps(conn, %{"path" => ["subway" | _]}) do
-    redirect conn, to: mode_path(conn, :subway)
+    permanent_redirect(conn, mode_path(conn, :subway))
   end
   def schedules_and_maps(conn, %{"path" => ["bus" | _]}) do
-    redirect conn, to: mode_path(conn, :bus)
+    permanent_redirect(conn, mode_path(conn, :bus))
   end
   def schedules_and_maps(conn, %{"path" => ["system_map" | _]}) do
-    redirect conn, to: cms_static_page_path(conn, "/maps")
+    permanent_redirect(conn, cms_static_page_path(conn, "/maps"))
   end
   def schedules_and_maps(conn, _params) do
-    redirect conn, to: mode_path(conn, :index)
+    permanent_redirect(conn, mode_path(conn, :index))
+  end
+
+  @spec permanent_redirect(Plug.Conn.t, String.t) :: Plug.Conn.t
+  defp permanent_redirect(conn, destination) do
+    conn
+    |> put_status(:moved_permanently)
+    |> redirect(to: destination)
   end
 
   defp old_route_to_route_id("RED"), do: "Red"

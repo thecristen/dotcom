@@ -1,6 +1,6 @@
 defmodule SiteWeb.WwwRedirectorTest do
   use SiteWeb.ConnCase, async: true
-  import Phoenix.ConnTest, only: [redirected_to: 1]
+  import Phoenix.ConnTest, only: [redirected_to: 2]
 
   alias SiteWeb.WwwRedirector
 
@@ -44,8 +44,8 @@ defmodule SiteWeb.WwwRedirectorTest do
   end
 
   defp assert_conn_redirected_halted(conn, expected_url) do
-    assert redirected_to(conn) == expected_url
-    assert conn.status == 302
+    assert redirected_to(conn, :moved_permanently) == expected_url
+    assert conn.status == 301
     assert conn.halted
   end
 end

@@ -53,6 +53,13 @@ defmodule Routes.RouteTest do
     end
   end
 
+  describe "path_atom/1" do
+    test "hyphenates the :commuter_rail atom for path usage" do
+      assert path_atom(%Route{type: 2}) == :"commuter-rail"
+      assert path_atom(%Route{type: 3}) == :bus
+    end
+  end
+
   describe "types_for_mode/1" do
     test "returns correct mode list for each mode" do
       assert types_for_mode(:subway) == [0, 1]

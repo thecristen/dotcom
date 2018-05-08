@@ -212,7 +212,7 @@ defmodule SiteWeb.StopControllerTest do
       stop = %Stops.Stop{name: "Name", station?: true}
       routes = [%Routes.Route{id: "CR-Lowell", type: 2}]
       assert StopController.breadcrumbs(stop, routes) == [
-        %Util.Breadcrumb{text: "Stations", url: "/stops/commuter_rail"},
+        %Util.Breadcrumb{text: "Stations", url: "/stops/commuter-rail"},
         %Util.Breadcrumb{text: "Name", url: ""}
       ]
     end

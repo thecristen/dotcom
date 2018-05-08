@@ -18,6 +18,7 @@ defmodule SiteWeb.Redirector do
   end
   def call(conn, [to: to]) do
     conn
+    |> put_status(:moved_permanently)
     |> redirect(to: append_query_string(conn, to))
     |> halt()
   end
@@ -34,6 +35,7 @@ defmodule SiteWeb.Redirector do
 
   defp redirect_to_show(conn, to, record) do
     conn
+    |> put_status(:moved_permanently)
     |> redirect(to: to <> "/#{record.id}")
     |> halt()
   end
