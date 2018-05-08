@@ -101,6 +101,7 @@
 }
 
 .c-search-bar__-suggestion {
+  @include icon-size($base-spacing);
   border-bottom: $border;
   cursor: pointer;
   display: flex;
