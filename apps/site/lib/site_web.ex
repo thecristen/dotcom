@@ -76,6 +76,7 @@ defmodule SiteWeb do
       import SiteWeb.ViewHelpers
       import SiteWeb.Views.Helpers.StopHelpers
       import SiteWeb.Views.Helpers.AlertHelpers
+      import SiteWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
       import UrlHelpers
 
       @dialyzer :no_match

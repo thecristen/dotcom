@@ -203,44 +203,6 @@ defmodule Site.ComponentsTest do
     end
   end
 
-  describe "icons > svg_icon_with_circle" do
-    test "icons render an svg with a background circle and an icon positioned correctly" do
-      rendered = svg_icon_with_circle(%SvgIconWithCircle{icon: :subway}) |> safe_to_string
-      assert rendered =~ "</svg>"
-      assert rendered =~ "icon "
-      assert rendered =~ "icon-circle"
-      assert rendered =~ "icon-subway"
-      assert rendered =~ "translate(4,4)"
-      assert rendered =~ "title=\"Subway\""
-    end
-
-    test "optionally accepts a class argument" do
-      rendered = svg_icon_with_circle(%SvgIconWithCircle{icon: :subway, class: "test-class"}) |> safe_to_string
-      assert rendered =~ ~r(class.*test-class)
-    end
-
-    test "title/1" do
-      assert title(:blue_line) == "Blue Line"
-      assert title(%Routes.Route{id: "Orange"}) == "Orange Line"
-      assert title(%Routes.Route{id: "Red"}) == "Red Line"
-      assert title(%Routes.Route{id: "Blue"}) == "Blue Line"
-      assert title(%Routes.Route{id: "Mattapan"}) == "Mattapan Trolley"
-      assert title(%Routes.Route{id: "Green-B"}) == "Green Line"
-      assert title(%Routes.Route{type: 4}) == "Ferry"
-    end
-
-    test "Title tooltip is shown if show_tooltip? is not specified" do
-      rendered = svg_icon_with_circle(%SvgIconWithCircle{icon: :subway}) |> safe_to_string
-      [data_toggle] = Floki.find(rendered, "svg") |> List.first |> Floki.attribute("data-toggle")
-      assert data_toggle == "tooltip"
-    end
-
-    test "Tooltip is not shown if show_tooltip? is false" do
-      rendered = svg_icon_with_circle(%SvgIconWithCircle{icon: :subway, show_tooltip?: false}) |> safe_to_string
-      assert Floki.find(rendered, "svg") |> List.first |> Floki.attribute("data-toggle") == []
-    end
-  end
-
   describe "tabs > mode_tab_list" do
     @links [{"commuter-rail", "/commuter-rail"}, {"bus", "/bus"}, {"subway", "/subway"}, {"the_ride", "/the-ride"}, {"access", "/access"}]
 

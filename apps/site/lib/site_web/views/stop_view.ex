@@ -4,6 +4,7 @@ defmodule SiteWeb.StopView do
   alias Stops.Stop
   alias Routes.Route
   alias Fares.RetailLocations.Location
+  alias SiteWeb.PartialView.SvgIconWithCircle
 
   @origin_stations ["place-north", "place-sstat", "place-rugg", "place-bbsta", "Boat-Long"]
 

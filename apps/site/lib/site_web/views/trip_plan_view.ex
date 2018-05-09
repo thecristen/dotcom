@@ -4,6 +4,7 @@ defmodule SiteWeb.TripPlanView do
   alias Site.TripPlan.{Query, ItineraryRow}
   alias Routes.Route
   alias Phoenix.HTML.Form
+  alias SiteWeb.PartialView.SvgIconWithCircle
   @meters_per_mile 1609.34
 
   @spec itinerary_explanation(Query.t) :: iodata

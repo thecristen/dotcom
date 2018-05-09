@@ -3,10 +3,10 @@ defmodule Site.ContentRewriterTest do
 
   import Site.ContentRewriter
   import Mock
-  import SiteWeb.ContentView, only: [svg_icon_with_circle: 1]
+  import SiteWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
 
-  alias Site.Components.Icons.SvgIconWithCircle
+  alias SiteWeb.PartialView.SvgIconWithCircle
   alias Site.ContentRewriters.ResponsiveTables
 
   describe "rewrite" do

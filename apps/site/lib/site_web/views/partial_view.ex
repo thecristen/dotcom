@@ -1,6 +1,7 @@
 defmodule SiteWeb.PartialView do
   use SiteWeb, :view
   alias Plug.Conn
+  alias SiteWeb.PartialView.SvgIconWithCircle
   import SiteWeb.ContentView, only: [file_description: 1]
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 

@@ -1,6 +1,7 @@
 defmodule SiteWeb.AlertView do
   use SiteWeb, :view
   alias Routes.Route
+  alias SiteWeb.PartialView.SvgIconWithCircle
   import SiteWeb.ViewHelpers
 
   @doc """

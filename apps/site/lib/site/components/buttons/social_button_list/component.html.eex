@@ -1,7 +1,11 @@
-<% import Phoenix.HTML.Link %>
+<%
+  import Phoenix.HTML.Link
+  alias SiteWeb.PartialView.SvgIconWithCircle
+%>
+
 <div class="social-button-block <%= args.class %>" id="<%= args.id %>">
   <%= for site <- [:twitter, :facebook] do %>
     <%= link to: url(site, args), target: "_blank" do %>
-      <%= svg_icon_with_circle %Site.Components.Icons.SvgIconWithCircle{icon: site, class: "icon-small"} %><% end %>
+      <%= SvgIconWithCircle.svg_icon_with_circle %SvgIconWithCircle{icon: site, class: "icon-small"} %><% end %>
   <% end %>
 </div>

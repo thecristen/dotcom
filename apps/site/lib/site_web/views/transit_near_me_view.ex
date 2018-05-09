@@ -1,6 +1,7 @@
 defmodule SiteWeb.TransitNearMeView do
   use SiteWeb, :view
   alias Routes.Route
+  alias SiteWeb.PartialView.SvgIconWithCircle
 
   @spec get_type_list(Route.gtfs_route_type | Route.subway_lines_type, [Route.t]) :: String.t
   def get_type_list(:bus, routes) do
