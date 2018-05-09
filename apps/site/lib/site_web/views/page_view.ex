@@ -25,7 +25,7 @@ defmodule SiteWeb.PageView do
   defp shortcut_text(:stations) do
     [
       "Stations",
-      content_tag(:span, [ " &", tag(:br), "Stops" ], class: "hidden-sm-down")
+      content_tag(:span, [" &", tag(:br), "Stops"], class: "hidden-sm-down")
     ]
   end
   defp shortcut_text(:commuter_rail) do
