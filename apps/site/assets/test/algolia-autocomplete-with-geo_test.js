@@ -145,7 +145,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       });
     });
 
-    describe("onClickGoBtn", function() {
+    describe("clickHighlightedOrFirstResult", function() {
       it("visits the highlightedHit url", function(done) {
         this.ac.init(this.client);
         this.ac._highlightedHit = {
@@ -155,7 +155,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
             url: "/success"
           }
         };
-        const result = this.ac.onClickGoBtn({});
+        const result = this.ac.clickHighlightedOrFirstResult();
         Promise.resolve(result).then(() => {
           expect(this.ac.showLocation.called).to.be.true;
           expect(this.ac.showLocation.args[0][2]).to.equal("10 Park Plaza, Boston, MA");

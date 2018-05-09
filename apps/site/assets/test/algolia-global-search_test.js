@@ -86,7 +86,8 @@ describe("AlgoliaGlobalSearch", function() {
       globalSearch.init();
       window.jQuery("#checkbox-container-lines-routes").trigger("click");
       expect(window.history.replaceState.called).to.be.true;
-      expect(window.history.replaceState.args[0][2]).to.contain("facets=lines-routes,subway,bus,commuter-rail,ferry");
+      const expectedFacets = "facets=lines-routes,subway,bus,commuter-rail,ferry".replace(/,/g, "%2C");
+      expect(window.history.replaceState.args[0][2]).to.contain(expectedFacets);
     });
     it("updates history when show more is clicked", function() {
       document.body.innerHTML += `<div id="search-facets"></div>`;

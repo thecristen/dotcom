@@ -4,7 +4,7 @@ export function parseQuery(query) {
   const queryParams = query.substring(1).split("&");
   queryParams.forEach(param => {
     const split = param.split("=");
-    params[split[0]] = split[1].replace(/\+/g, " ");
+    params[split[0]] = window.decodeURIComponent(split[1].replace(/\+/g, " "));
   });
   return params;
 }
@@ -16,6 +16,6 @@ export function parseParams(params) {
   }
 
   return "?" + Object.keys(params)
-                     .map(key => `${key}=${params[key].replace(/\s/g, "+")}`)
+                     .map(key => `${key}=${window.encodeURIComponent(params[key])}`)
                      .join("&");
 }

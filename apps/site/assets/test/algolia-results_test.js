@@ -21,6 +21,9 @@ describe('AlgoliaResults', () => {
     window.Turbolinks = {
       visit: sinon.spy()
     }
+    window.encodeURIComponent = (string) => {
+      return string.replace(/\s/g, "%20").replace(/\&/g, "%26");
+    }
     search = new AlgoliaResults("search-results", {
       onClickShowMore: sinon.spy(),
       getParams: () => {

@@ -8,10 +8,11 @@
     <label for="search-bar" class="c-search-bar__header--white">
       Search MBTA.com
     </label>
-    <div id="homepage-search__container" class="text-input-button-widget c-search-bar__input">
-      <input type="text" id="homepage-search__input" class="text-input-button-widget-input" placeholder="Look up locations, stations, routes and more"></input>
+    <form action="/search" method="get" id="homepage-search__container" class="text-input-button-widget c-search-bar__input">
+      <input type="text" name="query" id="homepage-search__input" class="text-input-button-widget-input" placeholder="Look up locations, stations, routes and more"></input>
       <i aria-hidden="true" id="homepage-search__loading-indicator" class="fa fa-cog fa-spin c-search-bar__loading-indicator"></i>
-    </div>
+      <input type="submit" value="GO" id="homepage-search__input-go-btn" class="c-search-bar__go-btn">
+    </form>
     <div id="homepage-search__autocomplete" class="c-search-bar__results"></div>
     <div id="homepage-search__results" class="c-search-bar__results"></div>
   </div>

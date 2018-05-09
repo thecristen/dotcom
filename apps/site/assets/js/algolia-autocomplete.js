@@ -5,13 +5,11 @@ export class AlgoliaAutocomplete {
   constructor(selectors, indices, headers, parent) {
     this._parent = parent;
     this._selectors = Object.assign(selectors, {
-      resultsContainer: selectors.input + "-autocomplete-results",
-      goBtn: selectors.input + "-go-btn"
+      resultsContainer: selectors.input + "-autocomplete-results"
     });
     this._input = document.getElementById(this._selectors.input);
     this._resultsContainer = document.getElementById(this._selectors.resultsContainer);
     this._searchContainer = document.getElementById(this._selectors.container);
-    this._goBtn = document.getElementById(this._selectors.goBtn);
     this._indices = indices;
     this._headers = Object.assign(AlgoliaAutocomplete.DEFAULT_HEADERS, headers);
     this._datasets = [];
@@ -24,7 +22,6 @@ export class AlgoliaAutocomplete {
   bind() {
     this.onClickSuggestion = this.onClickSuggestion.bind(this);
     this.onHitSelected = this.onHitSelected.bind(this);
-    this.onClickGoBtn = this.onClickGoBtn.bind(this);
     this.onCursorChanged = this.onCursorChanged.bind(this);
     this.onCursorRemoved = this.onCursorRemoved.bind(this);
     this.onOpen = this.onOpen.bind(this);
@@ -38,7 +35,6 @@ export class AlgoliaAutocomplete {
       return false
     }
 
-    this._addGoBtn();
     this._addResultsContainer();
 
     this._resultsContainer.innerHTML = "";
@@ -79,9 +75,6 @@ export class AlgoliaAutocomplete {
     // by the autocomplete widget.
     window.jQuery(document).off("click", ".c-search-bar__-suggestion", this.onClickSuggestion);
     window.jQuery(document).on("click", ".c-search-bar__-suggestion", this.onClickSuggestion);
-
-    this._goBtn.removeEventListener("click", this.onClickGoBtn);
-    this._goBtn.addEventListener("click", this.onClickGoBtn);
   }
 
   onOpen() {
@@ -97,17 +90,6 @@ export class AlgoliaAutocomplete {
     }
   }
 
-  _addGoBtn() {
-    if (!this._goBtn) {
-      this._goBtn = document.createElement("div");
-      this._goBtn.id = this._selectors.goBtn;
-      this._goBtn.classList.add("c-search-bar__go-btn");
-      this._goBtn.innerHTML = `GO`;
-      this._input.parentNode.appendChild(this._goBtn);
-    }
-    return this._goBtn;
-  }
-
   onCursorChanged({_args: [hit, index]}) {
     this._highlightedHit = {
       hit: hit,
@@ -119,11 +101,10 @@ export class AlgoliaAutocomplete {
     this._highlightedHit = null;
   }
 
-  onClickGoBtn(ev) {
+  clickHighlightedOrFirstResult() {
     if (this._highlightedHit) {
       return this.onHitSelected({_args: [this._highlightedHit.hit, this._highlightedHit.index]});
     }
-
     return this.clickFirstResult();
   }
 

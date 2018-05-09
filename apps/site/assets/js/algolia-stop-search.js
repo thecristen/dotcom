@@ -54,15 +54,22 @@ export class AlgoliaStopSearch {
     this._locationResultsBody = document.getElementById(AlgoliaStopSearch.SELECTORS.locationResultsBody);
     this._controller = null;
     this._autocomplete = null;
+    this._goBtn = document.getElementById(AlgoliaStopSearch.SELECTORS.goBtn);
+    this.bind();
     if (this._input) {
       this.init();
     }
+  }
+
+  bind() {
+    this.onClickGoBtn = this.onClickGoBtn.bind(this);
   }
 
   init() {
     this._locationResultsHeader.innerHTML = "";
     this._locationResultsBody.innerHTML = "";
     this._input.value = "";
+    this._addGoBtn();
     this._controller = new Algolia(AlgoliaStopSearch.INDICES, AlgoliaStopSearch.PARAMS);
     this._autocomplete = new AlgoliaAutocompleteWithGeo(AlgoliaStopSearch.SELECTORS,
                                                         Object.keys(AlgoliaStopSearch.INDICES),
@@ -70,7 +77,28 @@ export class AlgoliaStopSearch {
                                                         {position: 1, hitLimit: 5},
                                                         this);
     this._autocomplete.renderFooterTemplate = this._renderFooterTemplate.bind(this);
+    this.addEventListeners();
     this._controller.addWidget(this._autocomplete);
+  }
+
+  addEventListeners() {
+    this._goBtn.removeEventListener("click", this.onClickGoBtn);
+    this._goBtn.addEventListener("click", this.onClickGoBtn);
+  }
+
+  _addGoBtn() {
+    if (!this._goBtn) {
+      this._goBtn = document.createElement("div");
+      this._goBtn.id = AlgoliaStopSearch.SELECTORS.goBtn;
+      this._goBtn.classList.add("c-search-bar__go-btn");
+      this._goBtn.innerHTML = `GO`;
+      this._input.parentNode.appendChild(this._goBtn);
+    }
+    return this._goBtn;
+  }
+
+  onClickGoBtn(ev) {
+    this._autocomplete.clickHighlightedOrFirstResult();
   }
 
   onLocationResults(results) {
@@ -122,6 +150,7 @@ AlgoliaStopSearch.INDICES = {
 AlgoliaStopSearch.SELECTORS = {
   input: "stop-search__input",
   container: "stop-search__container",
+  goBtn: "stop-search__go-btn",
   locationResultsBody: "stop-search__location-results--body",
   locationResultsHeader: "stop-search__location-results--header",
   locationLoadingIndicator: "stop-search__loading-indicator"

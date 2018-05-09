@@ -48,6 +48,9 @@ describe("AlgoliaAutocomplete", () => {
     window.Turbolinks = {
       visit: sinon.spy()
     }
+    window.encodeURIComponent = (string) => {
+      return string.replace(/\s/g, "%20").replace(/\&/g, "%26");
+    }
   });
   it("constructor does not initialize autocomplete", () => {
     const ac = new AlgoliaAutocomplete(selectors, indices, parent);
@@ -203,7 +206,7 @@ describe("AlgoliaAutocomplete", () => {
     });
   });
 
-  describe("onClickGoBtn", () => {
+  describe("clickHighlightedOrFirstResult", () => {
     describe("when this._highlightedHit exists", () => {
       it("visits the highlightedHit url if higlightedHit is not null", () => {
         const ac = new AlgoliaAutocomplete(selectors, indices, {}, parent);
@@ -217,7 +220,7 @@ describe("AlgoliaAutocomplete", () => {
           }
         };
         expect(window.Turbolinks.visit.called).to.be.false;
-        ac.onClickGoBtn({});
+        ac.clickHighlightedOrFirstResult();
         expect(window.Turbolinks.visit.called).to.be.true;
         expect(window.Turbolinks.visit.args[0][0]).to.equal("/stops/123?from=stop-search&query=");
       });
@@ -244,7 +247,7 @@ describe("AlgoliaAutocomplete", () => {
           };
           expect(ac._highlightedHit).to.equal(null);
           expect(window.Turbolinks.visit.called).to.be.false;
-          ac.onClickGoBtn({});
+          ac.clickHighlightedOrFirstResult();
           expect(window.Turbolinks.visit.called).to.be.true;
           expect(window.Turbolinks.visit.args[0][0]).to.equal("/stops/123?from=stop-search&query=");
         });
@@ -258,7 +261,7 @@ describe("AlgoliaAutocomplete", () => {
         expect(Object.keys(ac._results)).to.have.members([]);
         expect(ac._highlightedHit).to.equal(null);
         expect(window.Turbolinks.visit.called).to.be.false;
-        ac.onClickGoBtn({});
+        ac.clickHighlightedOrFirstResult();
         expect(window.Turbolinks.visit.called).to.be.false;
       });
     });
