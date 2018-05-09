@@ -35,9 +35,21 @@ defmodule Alerts.Parser do
         route: entity["route"],
         stop: entity["stop"],
         trip: entity["trip"],
-        direction_id: entity["direction_id"]
+        direction_id: entity["direction_id"],
+        activities: Enum.map(entity["activities"], &do_activity/1)
       }
     end
+
+    @spec do_activity(String.t) :: Alerts.InformedEntity.activity_type
+    defp do_activity("BOARD"), do: :board
+    defp do_activity("EXIT"), do: :exit
+    defp do_activity("RIDE"), do: :ride
+    defp do_activity("PARK_CAR"), do: :park_car
+    defp do_activity("STORE_BIKE"), do: :store_bike
+    defp do_activity("BRINGING_BIKE"), do: :bringing_bike
+    defp do_activity("USING_WHEELCHAIR"), do: :using_wheelchair
+    defp do_activity("USING_ESCALATOR"), do: :using_escalator
+    defp do_activity(_), do: :unknown
 
     defp active_period(%{"start" => start, "end" => stop}) do
       {parse_time(start), parse_time(stop)}

@@ -16,7 +16,11 @@ defmodule Alerts.ParserTest do
               "route" => "18",
               "stop" => "stop",
               "trip" => "trip",
-              "direction_id" => 1
+              "direction_id" => 1,
+              "activities" => [
+                "BOARD",
+                "RIDE"
+              ]
             }
           ],
             "header" => "Route 18 experiencing moderate delays due to traffic",
@@ -43,7 +47,12 @@ defmodule Alerts.ParserTest do
             route: "18",
             stop: "stop",
             trip: "trip",
-            direction_id: 1}
+            direction_id: 1,
+            activities: [
+              :board,
+              :ride
+            ]
+          }
         ]),
         active_period: [
           {~N[2016-06-06T14:48:48] |> Timex.to_datetime("Etc/GMT+4"),
@@ -71,7 +80,8 @@ defmodule Alerts.ParserTest do
               "route" => "18",
               "stop" => "stop",
               "trip" => "trip",
-              "direction_id" => 1
+              "direction_id" => 1,
+              "activities" => ["BOARD"]
             }
           ],
             "header" => "Route 18 experiencing moderate delays due to traffic",
@@ -102,7 +112,8 @@ defmodule Alerts.ParserTest do
               "route" => "Green-B",
               "stop" => "stop",
               "trip" => "trip",
-              "direction_id" => 1
+              "direction_id" => 1,
+              "activities" => ["BOARD"]
             }
           ],
             "header" => "Green Line is experiencing moderate delays due to traffic",
@@ -136,14 +147,16 @@ defmodule Alerts.ParserTest do
               "route" => "Green-B",
               "stop" => "stop",
               "trip" => "trip",
-              "direction_id" => 1
+              "direction_id" => 1,
+              "activities" => ["BOARD"]
             },
             %{
               "route_type" => 0,
               "route" => "Green-C",
               "stop" => "stop",
               "trip" => "trip",
-              "direction_id" => 1
+              "direction_id" => 1,
+              "activities" => ["BOARD"]
             }
           ],
             "header" => "Green Line is experiencing moderate delays due to traffic",
@@ -179,7 +192,8 @@ defmodule Alerts.ParserTest do
               "route" => "18",
               "stop" => "stop",
               "trip" => "trip",
-              "direction_id" => 1
+              "direction_id" => 1,
+              "activities" => ["BOARD"]
             }
           ],
             "header" => "Route 18 experiencing moderate delays due to traffic",

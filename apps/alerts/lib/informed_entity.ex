@@ -1,13 +1,24 @@
 defmodule Alerts.InformedEntity do
-  @fields [:route, :route_type, :stop, :trip, :direction_id]
+  @fields [:route, :route_type, :stop, :trip, :direction_id, activities: []]
   defstruct @fields
   @type t :: %Alerts.InformedEntity{
     route: String.t | nil,
     route_type: String.t | nil,
     stop: String.t | nil,
     trip: String.t | nil,
-    direction_id: 0 | 1 | nil
+    direction_id: 0 | 1 | nil,
+    activities: [activity_type]
   }
+
+  @type activity_type ::
+  :board |
+  :exit |
+  :ride |
+  :park_car |
+  :bringing_bike |
+  :store_bike |
+  :using_wheelchair |
+  :using_escalator
 
   alias __MODULE__, as: IE
 

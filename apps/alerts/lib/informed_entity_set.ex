@@ -14,6 +14,7 @@ defmodule Alerts.InformedEntitySet do
     stop: MapSet.new(),
     trip: MapSet.new(),
     direction_id: MapSet.new(),
+    activities: MapSet.new(),
     entities: []
   ]
 
@@ -23,6 +24,7 @@ defmodule Alerts.InformedEntitySet do
     stop: MapSet.t,
     trip: MapSet.t,
     direction_id: MapSet.t,
+    activities: MapSet.t,
     entities: [IE.t]
   }
 

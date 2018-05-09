@@ -64,10 +64,10 @@ defmodule Alerts.Cache.FetcherTest do
           "effect_name" => "Service Change",
           "header" => "The header.",
           "informed_entity" => [
-            %{"route" => "CR-Fitchburg", "route_type" => 2},
-            %{"route" => "CR-Haverhill", "route_type" => 2},
-            %{"route" => "CR-Lowell", "route_type" => 2},
-            %{"route" => "CR-Newburyport", "route_type" => 2}
+            %{"route" => "CR-Fitchburg", "route_type" => 2, "activities" => ["BOARD"]},
+            %{"route" => "CR-Haverhill", "route_type" => 2, "activities" => ["BOARD"]},
+            %{"route" => "CR-Lowell", "route_type" => 2, "activities" => ["BOARD"]},
+            %{"route" => "CR-Newburyport", "route_type" => 2, "activities" => ["BOARD"]}
           ],
           "lifecycle" => "New",
           "service_effect" => "Commuter Rail notice",
