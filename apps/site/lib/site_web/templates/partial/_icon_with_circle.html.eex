@@ -1,0 +1,6 @@
+<svg width="30" height="30" aria-hidden="<%= @aria_hidden? %>" class="icon icon-with-circle <%= @hyphenated_class %> <%= @class %>" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="<%= @circle_viewbox %>" <%= @data_toggle %> title="<%= @title %>" preserveAspectRatio="xMidYMid meet">
+  <circle fill="#fff" stroke="#000" stroke-width="1" <%= @circle_args %> class="icon-circle <%= @hyphenated_class %>-circle" transform="translate(1,1)"></circle>
+  <g fill-rule="evenodd" class="icon-image <%= @hyphenated_class %>-image" transform="translate(<%= @translate %>) scale(<%= @scale %>)<%= @rotate %>">
+    <%= @path %>
+  </g>
+</svg>
