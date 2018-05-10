@@ -82,14 +82,6 @@
       "misMatchThreshold": 0.03
     },
     {
-      "label": "Redirect Page",
-      "url": "http://localhost:8082/redirect",
-      "selectors": ["main"],
-      "hideSelectors": [".error-card-image"],
-      "delay": 100,
-      "misMatchThreshold": 0.03
-    },
-    {
       "label": "Alerts",
       "url": "http://localhost:8082/alerts/subway?date=2018-06-20&date_time=2018-06-20T16:00:31-00:00#alerts-Orange",
       "selectors": ["main"],
