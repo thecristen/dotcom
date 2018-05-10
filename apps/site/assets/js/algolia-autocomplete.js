@@ -43,7 +43,7 @@ export class AlgoliaAutocomplete {
 
     this._autocomplete = window.autocomplete(this._input, {
       appendTo: "#" + this._selectors.resultsContainer,
-      debug: true,
+      debug: false,
       autoselectOnBlur: false,
       openOnFocus: true,
       hint: false,
