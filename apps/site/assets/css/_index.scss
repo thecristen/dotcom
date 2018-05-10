@@ -23,9 +23,3 @@
     padding-bottom: 0;
   }
 }
-
-@include media-breakpoint-down(sm) {
-  .index {
-    padding-bottom: $base-spacing;
-  }
-}

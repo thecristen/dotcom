@@ -4,9 +4,10 @@ defmodule SiteWeb.PageView do
   use SiteWeb, :view
 
   def shortcut_icons do
-    content_tag(:div, [
-      Enum.map([:subway, :bus, :commuter_rail, :ferry, :stations], &shortcut_icon/1),
-    ], class: "m-homepage__shortcuts")
+    rows = for row <- [[:subway, :bus, :commuter_rail], [:ferry, :locations, :stations]] do
+      content_tag(:div, Enum.map(row, &shortcut_icon/1), class: "m-homepage__shortcut-row")
+    end
+    content_tag(:div, rows, class: "m-homepage__shortcuts")
   end
 
   @spec shortcut_icon(atom) :: Phoenix.HTML.Safe.t
@@ -19,6 +20,7 @@ defmodule SiteWeb.PageView do
 
   @spec shortcut_link(atom) :: String.t
   defp shortcut_link(:stations), do: stop_path(SiteWeb.Endpoint, :index)
+  defp shortcut_link(:locations), do: transit_near_me_path(SiteWeb.Endpoint, :index)
   defp shortcut_link(mode), do: schedule_path(SiteWeb.Endpoint, :show, mode)
 
   @spec shortcut_text(atom) :: [Phoenix.HTML.Safe.t]
@@ -28,11 +30,18 @@ defmodule SiteWeb.PageView do
       content_tag(:span, [" &", tag(:br), "Stops"], class: "hidden-sm-down")
     ]
   end
+  defp shortcut_text(:locations) do
+    [
+      "Locations",
+      content_tag(:span, [" & ", tag(:br), "Places"], class: "hidden-sm-down")
+    ]
+  end
   defp shortcut_text(:commuter_rail) do
     [
       content_tag(:span, "Commuter ", class: "hidden-sm-down"),
+      tag(:br, class: "hidden-sm-down"),
       "Rail",
-      content_tag(:span, [tag(:br), "Lines"], class: "hidden-sm-down")
+      content_tag(:span, [" Lines"], class: "hidden-sm-down")
     ]
   end
   defp shortcut_text(mode) do
@@ -43,6 +52,7 @@ defmodule SiteWeb.PageView do
   end
 
   defp shortcut_svg_name(:stations), do: "icon-circle-t-default.svg"
+  defp shortcut_svg_name(:locations), do: "icon-circle-locations-default.svg"
   defp shortcut_svg_name(:commuter_rail), do: shortcut_svg_name(:"commuter-rail")
   defp shortcut_svg_name(mode), do: "icon-mode-#{mode}-default.svg"
 
