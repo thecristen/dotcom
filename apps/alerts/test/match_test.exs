@@ -111,4 +111,87 @@ defmodule Alerts.MatchTest do
 
     assert Alerts.Match.match(alerts, %InformedEntity{direction_id: 1}) == []
   end
+
+  test ".match returns alerts with activities if no activities are specified" do
+    alerts = [
+      Alert.new(
+        informed_entity: [
+          %InformedEntity{
+            route_type: 1,
+            route: "2",
+            stop: "3",
+            activities: MapSet.new([:board, :ride])
+          }
+        ]
+      )
+    ]
+
+    assert Alerts.Match.match(alerts, %InformedEntity{stop: "3"}) == alerts
+  end
+
+  test ".match returns alerts with activities that are a superset of specified activities" do
+    alerts = [
+      Alert.new(
+        informed_entity: [
+          %InformedEntity{
+            route_type: 1,
+            route: "2",
+            stop: "3",
+            activities: MapSet.new([:board, :ride])
+          }
+        ]
+      )
+    ]
+
+    query = %InformedEntity{
+      stop: "3",
+      activities: MapSet.new([:board])
+    }
+
+    assert Alerts.Match.match(alerts, query) == alerts
+  end
+
+  test ".match returns alerts with activities that are a subset of specified activities" do
+    alerts = [
+      Alert.new(
+        informed_entity: [
+          %InformedEntity{
+            route_type: 1,
+            route: "2",
+            stop: "3",
+            activities: MapSet.new([:board, :ride])
+          }
+        ]
+      )
+    ]
+
+    query = %InformedEntity{
+      stop: "3",
+      activities: MapSet.new([:ride, :exit, :board])
+    }
+
+    assert Alerts.Match.match(alerts, query) == alerts
+  end
+
+  test ".match does not return alerts that do not have any of specified activities" do
+    alerts = [
+      Alert.new(
+        informed_entity: [
+          %InformedEntity{
+            route_type: 1,
+            route: "2",
+            stop: "3",
+            activities: MapSet.new([:board, :ride])
+          }
+        ]
+      )
+    ]
+
+    query = %InformedEntity{
+      stop: "3",
+      activities: MapSet.new([:exit])
+    }
+
+    assert Alerts.Match.match(alerts, query) == []
+  end
 end

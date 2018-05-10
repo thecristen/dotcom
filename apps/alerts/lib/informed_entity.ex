@@ -1,13 +1,22 @@
 defmodule Alerts.InformedEntity do
-  @fields [:route, :route_type, :stop, :trip, :direction_id, activities: []]
-  defstruct @fields
+  @fields [:route, :route_type, :stop, :trip, :direction_id, :activities]
+  @empty_activities MapSet.new
+  defstruct [
+    route: nil,
+    route_type: nil,
+    stop: nil,
+    trip: nil,
+    direction_id: nil,
+    activities: @empty_activities
+  ]
+
   @type t :: %Alerts.InformedEntity{
     route: String.t | nil,
     route_type: String.t | nil,
     stop: String.t | nil,
     trip: String.t | nil,
     direction_id: 0 | 1 | nil,
-    activities: [activity_type]
+    activities: MapSet.t(activity_type)
   }
 
   @type activity_type ::
@@ -46,15 +55,21 @@ defmodule Alerts.InformedEntity do
     share_a_key?(first, second) && do_match?(first, second)
   end
 
+  def mapsets_match?(%MapSet{} = a, %MapSet{} = b) when a == @empty_activities or b == @empty_activities, do: true
+  def mapsets_match?(%MapSet{} = a, %MapSet{} = b), do: has_intersect?(a, b)
+
+  defp has_intersect?(a, b), do: Enum.any?(a, & &1 in b)
+
   defp do_match?(f, s) do
     @fields
-    |> Enum.all?(&do_key_match(Map.get(f, &1), Map.get(s, &1)))
+    |> Enum.all?(&key_match(Map.get(f, &1), Map.get(s, &1)))
   end
 
-  defp do_key_match(nil, _), do: true
-  defp do_key_match(_, nil), do: true
-  defp do_key_match(eql, eql), do: true
-  defp do_key_match(_, _), do: false
+  defp key_match(nil, _), do: true
+  defp key_match(_, nil), do: true
+  defp key_match(%MapSet{} = a, %MapSet{} = b), do: mapsets_match?(a, b)
+  defp key_match(eql, eql), do: true
+  defp key_match(_, _), do: false
 
   defp share_a_key?(first, second) do
     @fields
@@ -62,6 +77,7 @@ defmodule Alerts.InformedEntity do
   end
 
   defp shared_key(nil, nil), do: false
+  defp shared_key(%MapSet{} = a, %MapSet{} = b), do: has_intersect?(a, b)
   defp shared_key(eql, eql), do: true
   defp shared_key(_, _), do: false
 end

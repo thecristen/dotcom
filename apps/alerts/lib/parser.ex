@@ -36,7 +36,7 @@ defmodule Alerts.Parser do
         stop: entity["stop"],
         trip: entity["trip"],
         direction_id: entity["direction_id"],
-        activities: Enum.map(entity["activities"], &do_activity/1)
+        activities: MapSet.new(Enum.map(entity["activities"], &do_activity/1))
       }
     end
 

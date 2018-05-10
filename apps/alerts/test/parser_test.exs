@@ -48,10 +48,10 @@ defmodule Alerts.ParserTest do
             stop: "stop",
             trip: "trip",
             direction_id: 1,
-            activities: [
+            activities: MapSet.new([
               :board,
               :ride
-            ]
+            ])
           }
         ]),
         active_period: [

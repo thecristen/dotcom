@@ -50,6 +50,10 @@ defmodule Alerts.InformedEntitySet do
     |> Enum.reduce(set, &add_entity_field_to_set/2)
   end
 
+  defp add_entity_field_to_set({:activities, %MapSet{} = value}, set) do
+    map_set = MapSet.union(set.activities, MapSet.new(value))
+    Map.put(set, :activities, map_set)
+  end
   defp add_entity_field_to_set({key, value}, set) do
     map_set = Map.get(set, key)
     map_set = MapSet.put(map_set, value)
@@ -60,6 +64,9 @@ defmodule Alerts.InformedEntitySet do
   defp field_in_set?(_set, {_, nil}) do
     # nil values match everything
     true
+  end
+  defp field_in_set?(set, {:activities, %MapSet{} = value}) do
+    IE.mapsets_match?(set.activities, value)
   end
   defp field_in_set?(set, {key, value}) do
     map_set = Map.get(set, key)
