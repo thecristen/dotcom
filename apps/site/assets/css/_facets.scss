@@ -22,16 +22,22 @@
 }
 
 .c-facets__icon {
+  @include icon-size($base-spacing);
+
   align-items: center;
   display: flex;
+  flex: 0 0 auto;
   margin-right: $base-spacing * .75;
   min-width: $base-spacing * 1.25;
-  flex: 0 0 auto;
+
+  [class^="c-svg__icon"] {
+    margin-top: -$base-spacing / 4;
+  }
 }
 
 .c-facets__title {
-  user-select: none;
   flex: 0 0 auto;
+  user-select: none;
 }
 
 .c-facets__search-facet-child {
