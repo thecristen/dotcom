@@ -45,4 +45,12 @@ defmodule SiteWeb.PageViewTest do
       assert rendered =~ "Uh oh, this is very important!"
     end
   end
+
+  describe "shortcut_icons/0" do
+    test "renders shortcut icons" do
+      rendered = SiteWeb.PageView.shortcut_icons() |> Phoenix.HTML.safe_to_string()
+      icons = Floki.find(rendered, ".m-homepage__shortcut")
+      assert length(icons) == 6
+    end
+  end
 end
