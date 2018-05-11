@@ -1,0 +1,20 @@
+{
+  "id" : "9b0225c9-8f9c-3154-bb67-75d9fdc405c6",
+  "request" : {
+    "url" : "/js/phoenix_html-2b65edbbb3255f1d95ab3974c6ac0062.js?vsn=d",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-js-phoenix_html-2b65edbbb3255f1d95ab3974c6ac0062.js-ZTor1.js",
+    "headers" : {
+      "accept-ranges" : "bytes",
+      "cache-control" : "public, max-age=31536000",
+      "Content-Type" : "application/javascript",
+      "Date" : "Thu, 10 May 2018 20:58:29 GMT",
+      "Server" : "nginx/1.12.1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "9b0225c9-8f9c-3154-bb67-75d9fdc405c6"
+}

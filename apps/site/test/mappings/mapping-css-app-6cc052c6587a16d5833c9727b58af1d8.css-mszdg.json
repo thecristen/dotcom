@@ -1,0 +1,19 @@
+{
+  "id" : "3156f167-5f7b-35fb-b485-11af852f7f9c",
+  "request" : {
+    "url" : "/css/app-6cc052c6587a16d5833c9727b58af1d8.css?vsn=d",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-css-app-6cc052c6587a16d5833c9727b58af1d8.css-mszdg.txt",
+    "headers" : {
+      "cache-control" : "public, max-age=31536000",
+      "Content-Type" : "text/css",
+      "Date" : "Thu, 10 May 2018 20:58:29 GMT",
+      "Server" : "nginx/1.12.1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3156f167-5f7b-35fb-b485-11af852f7f9c"
+}

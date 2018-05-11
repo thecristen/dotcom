@@ -242,6 +242,15 @@
       "hideSelectors": ["#address-search-input"],
       "delay": 100,
       "misMatchThreshold": 0.03
+    },
+    {
+      "label": "Search",
+      "url": "http://localhost:8082/search?date=2018-06-20&date_time=2018-06-20T16:00:31-00:00",
+      "hideSelectors": ["footer"],
+      "readyEvent": null,
+      "onReadyScript": "toggle-search-facets.js",
+      "delay": 1000,
+      "misMatchThreshold": 0.03
     }
   ],
   "paths": {
