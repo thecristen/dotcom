@@ -45,7 +45,10 @@ defmodule SiteWeb.StopView do
 
   @spec render_alerts([Alerts.Alert], DateTime.t, Stop.t) :: Phoenix.HTML.safe | String.t
   def render_alerts(stop_alerts, date, stop) do
-    SiteWeb.AlertView.modal alerts: stop_alerts, hide_t_alerts: true, time: date, route: %{id: stop.id |> String.replace(" ", "-"), name: stop.name}
+    SiteWeb.AlertView.modal alerts: stop_alerts,
+                            hide_t_alerts: true,
+                            time: date,
+                            route: %{id: stop.id |> String.replace(" ", "-"), name: stop.name}
   end
 
   @spec fare_mode([atom]) :: atom

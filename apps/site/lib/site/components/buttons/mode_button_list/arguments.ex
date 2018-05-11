@@ -101,7 +101,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
       aria_hidden?: true
     })
   end
-  def icon_if_subway(%Routes.Route{type: route_type, id: route_id}) when route_type in [0,1] do
+  def icon_if_subway(%Routes.Route{type: route_type, id: route_id}) when route_type in [0, 1] do
     SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{
       icon: "#{route_id}_line" |> String.downcase |> String.to_existing_atom,
       class: "icon-small",

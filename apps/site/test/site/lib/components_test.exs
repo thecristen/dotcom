@@ -8,26 +8,38 @@ defmodule Site.ComponentsTest do
 
   describe "buttons > mode_button_list" do
     test "subway buttons render with T logo in a colored circle" do
-      blue = mode_button_list(%ModeButtonList{
+      blue =
+        %ModeButtonList{
           routes: [%Routes.Route{id: "Blue", key_route?: true, name: "Blue Line", type: 1}],
           route_type: :subway,
-      }) |> safe_to_string
+        }
+        |> mode_button_list()
+        |> safe_to_string()
+
       assert blue =~ "icon-blue-line"
       assert blue =~ "icon-circle"
 
-      mattapan = mode_button_list(%ModeButtonList{
+      mattapan =
+        %ModeButtonList{
           routes: [%Routes.Route{id: "Mattapan", key_route?: true, name: "Mattapan Trolley", type: 1}],
           route_type: :subway
-        }) |> safe_to_string
+        }
+        |> mode_button_list()
+        |> safe_to_string()
+
       assert mattapan =~ "icon-mattapan-trolley"
       assert mattapan =~ "icon-circle"
     end
 
     test "non-subway buttons do not render with color circles" do
-      rendered = mode_button_list(%ModeButtonList{
+      rendered =
+        %ModeButtonList{
           routes: [%Routes.Route{id: "701", key_route?: false, name: "CT1", type: 3}],
           route_type: :bus
-        }) |> safe_to_string
+        }
+        |> mode_button_list()
+        |> safe_to_string()
+
       refute rendered =~ "fa-color-subway-blue"
     end
 
@@ -121,22 +133,29 @@ defmodule Site.ComponentsTest do
     end
 
     test "does not include a 'view all' link for commuter rail regardless of :truncated_list?" do
-      rendered = mode_button_list(%ModeButtonList{
-        routes: [%Routes.Route{id: "CR-Fitchburg", name: "Fitchburg Line", type: 2}],
-        route_type: :commuter_rail,
-        truncated_list?: true
-      }) |> safe_to_string
+      rendered =
+        %ModeButtonList{
+          routes: [%Routes.Route{id: "CR-Fitchburg", name: "Fitchburg Line", type: 2}],
+          route_type: :commuter_rail,
+          truncated_list?: true
+        }
+        |> mode_button_list()
+        |> safe_to_string()
       refute Floki.find(rendered, ~s([href="/schedules/CR-Fitchburg"])) == []
       assert Floki.find(rendered, ~s([href="/schedules/commuter-rail"])) == []
       refute rendered |> Floki.text |> String.downcase =~ "view all"
     end
 
     test "does not include a 'view all' link for ferry regardless of :truncated_list?" do
-      rendered = mode_button_list(%ModeButtonList{
-        routes: [%Routes.Route{id: "Boat-F4", name: "Hull Ferry", type: 4}],
-        route_type: :ferry,
-        truncated_list?: true
-      }) |> safe_to_string
+      rendered =
+        %ModeButtonList{
+          routes: [%Routes.Route{id: "Boat-F4", name: "Hull Ferry", type: 4}],
+          route_type: :ferry,
+          truncated_list?: true
+        }
+        |> mode_button_list()
+        |> safe_to_string()
+
       refute Floki.find(rendered, ~s([href="/schedules/Boat-F4"])) == []
       assert Floki.find(rendered, ~s([href="/schedules/ferry"])) == []
       refute rendered |> Floki.text |> String.downcase =~ "view all"
@@ -146,9 +165,10 @@ defmodule Site.ComponentsTest do
 
   describe "buttons > button_group" do
     test "button list renders links in button containers" do
-      rendered = button_group(%ButtonGroup{
-        links: [{"Link 1", "/link-1"}, {"Link 2", "/link-2"}]
-      }) |> safe_to_string
+      rendered =
+        %ButtonGroup{links: [{"Link 1", "/link-1"}, {"Link 2", "/link-2"}]}
+        |> button_group()
+        |> safe_to_string()
       assert [{"div", [{"class", "button-group"}], links}] = Floki.find(rendered, ".button-group")
       for link <- links do
         assert Floki.attribute(link, "class") == ["button-container"]
@@ -192,14 +212,14 @@ defmodule Site.ComponentsTest do
     end
 
     test "Title tooltip is shown if show_tooltip? is not specified" do
-      rendered = svg_icon(%SvgIcon{icon: :subway}) |> safe_to_string
-      [data_toggle] = Floki.find(rendered, "svg") |> List.first |> Floki.attribute("data-toggle")
+      rendered = %SvgIcon{icon: :subway} |> svg_icon() |> safe_to_string()
+      [data_toggle] = rendered |> Floki.find("svg") |> List.first() |> Floki.attribute("data-toggle")
       assert data_toggle == "tooltip"
     end
 
     test "Tooltip is not shown if show_tooltip? is false" do
-      rendered = svg_icon(%SvgIcon{icon: :subway, show_tooltip?: false}) |> safe_to_string
-      assert Floki.find(rendered, "svg") |> List.first |> Floki.attribute("data-toggle") == []
+      rendered = %SvgIcon{icon: :subway, show_tooltip?: false} |> svg_icon() |> safe_to_string()
+      assert rendered |> Floki.find("svg") |> List.first() |> Floki.attribute("data-toggle") == []
     end
   end
 
