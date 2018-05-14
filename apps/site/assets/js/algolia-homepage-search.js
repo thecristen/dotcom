@@ -82,14 +82,6 @@ AlgoliaHomepageSearch.INDICES = {
     indexName: "drupal",
     query: ""
   },
-  events: {
-    indexName: "drupal",
-    query: ""
-  },
-  news: {
-    indexName: "drupal",
-    query: ""
-  }
 }
 
 AlgoliaHomepageSearch.SELECTORS = {
@@ -113,14 +105,6 @@ AlgoliaHomepageSearch.SHOWMOREPARAMS = {
   pagesdocuments: {
     facets: "pages-parent,page,document",
     showMore: "pagesdocuments"
-  },
-  events: {
-    facets: "event",
-    showMore: "events"
-  },
-  news: {
-    facets: "news",
-    showMore: "news"
   },
 }
 
@@ -148,21 +132,6 @@ AlgoliaHomepageSearch.PARAMS = {
       "search_api_datasource:entity:file"
     ]]
   },
-  events: {
-    hitsPerPage: 2,
-    facets: ["_content_type"],
-    facetFilters: [[
-      "_content_type:event",
-    ]]
-  },
-  news: {
-    hitsPerPage: 2,
-    facets: ["_content_type"],
-    facetFilters: [[
-      "_content_type:news_entry",
-    ]]
-  },
-
 }
 
 AlgoliaHomepageSearch.LOCATION_PARAMS = {
