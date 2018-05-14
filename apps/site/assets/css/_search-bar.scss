@@ -41,7 +41,6 @@
 
 .c-search-bar__results {
   background: $white;
-  box-shadow: $drop-shadow;
   position: absolute;
   top: $base-spacing * 4;
   width: 100%;
@@ -81,7 +80,6 @@
 
 .c-search-bar__autocomplete {
   border-radius: $base-spacing / 4;
-  box-shadow: $drop-shadow;
   width: 100%;
 }
 
@@ -89,6 +87,7 @@
   background-color: $white;
   border: $border;
   border-top: 0;
+  box-shadow: $drop-shadow;
   width: 100%;
 }
 
