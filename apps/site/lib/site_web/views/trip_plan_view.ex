@@ -158,12 +158,17 @@ defmodule SiteWeb.TripPlanView do
      | params]
   end
 
-  def render_steps(steps, mode_class) do
+  def render_steps(conn, steps, mode_class, itinerary_id, row_id) do
     for {step, bubbles} <- steps do
       render "_itinerary_row_step.html",
-        step: step,
+        step: step.description,
+        alerts: step.alerts,
+        stop_id: step.stop_id,
+        itinerary_idx: itinerary_id,
+        row_idx: row_id,
         mode_class: mode_class,
-        bubble_params: bubbles
+        bubble_params: bubbles,
+        conn: conn
     end
   end
 

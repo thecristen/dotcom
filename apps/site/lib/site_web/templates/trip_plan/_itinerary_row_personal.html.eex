@@ -8,4 +8,4 @@
                          alerts: @itinerary_row.alerts,
                          bubble_params: transfer_bubbles}) %>
 
-<%= render_steps(steps, "personal") %>
+<%= render_steps(@conn, steps, "personal", @itinerary_idx, @row_idx) %>

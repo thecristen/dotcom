@@ -69,6 +69,7 @@
             itinerary_row: row,
             conn: @conn,
             row_idx: idx,
+            stop_id: "stop",
             itinerary_idx: @index,
             expanded: @expanded
         end %>
@@ -81,6 +82,7 @@
             </span>
             <%= render "_itinerary_alert.html",
               itinerary_idx: @index,
+              stop_id: "stop",
               row_idx: "last",
               alerts: alerts,
               conn: @conn

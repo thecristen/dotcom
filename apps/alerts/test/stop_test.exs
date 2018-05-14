@@ -36,6 +36,26 @@ defmodule Alerts.StopTest do
       direction_id: 0)
   end
 
+  test "returns alerts and match given activities" do
+    alert = Alert.new(informed_entity: [IE.from_keywords([
+      stop: @stop_id,
+      route: "1",
+      direction_id: 0,
+      activities: [:board, :ride]])])
+    wrong_alert = Alert.new(informed_entity: [IE.from_keywords([
+      stop: @stop_id,
+      route: "1",
+      direction_id: 0,
+      activities: [:exit]])])
+
+    assert [alert] == Stop.match(
+      [alert, wrong_alert],
+      @stop_id,
+      route: "1",
+      direction_id: 0,
+      activities: ~w(ride)a)
+  end
+
   test "does not include alerts that are not currently active" do
     now = Timex.now
     alert = Alert.new(informed_entity: [%IE{stop: @stop_id}],

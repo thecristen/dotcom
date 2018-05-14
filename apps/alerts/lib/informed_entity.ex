@@ -39,7 +39,16 @@ defmodule Alerts.InformedEntity do
   """
   @spec from_keywords(list) :: %IE{}
   def from_keywords(options) do
-    struct(__MODULE__, options)
+    options
+    |> Enum.map(&ensure_value_type/1)
+    |> (&struct(__MODULE__, &1)).()
+  end
+
+  defp ensure_value_type({:activities, enum}) do
+    {:activities, MapSet.new(enum)}
+  end
+  defp ensure_value_type(item) do
+    item
   end
 
   @doc """

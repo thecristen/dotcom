@@ -1,6 +1,7 @@
 defmodule Site.TripPlan.ItineraryRow do
   alias TripPlan.{PersonalDetail, TransitDetail, NamedPosition, Leg}
   alias TripPlan.PersonalDetail.Step
+  alias Site.TripPlan.IntermediateStop
   alias Routes.Route
 
   @typep name_and_id :: {String.t, String.t | nil}
@@ -48,7 +49,6 @@ defmodule Site.TripPlan.ItineraryRow do
     additional_routes: [Route.t],
     alerts: [Alerts.Alert.t],
   }
-
 
   def route_id(%__MODULE__{route: %Route{id: id}}), do: id
   def route_id(_row), do: nil
@@ -100,8 +100,24 @@ defmodule Site.TripPlan.ItineraryRow do
       trip: row.trip.id,
       direction_id: row.trip.direction_id
     }
-    alerts = Alerts.Match.match(alerts, entity, row.departure)
-    %{row | alerts: alerts}
+    row_alerts = Alerts.Match.match(alerts, entity, row.departure)
+    steps = fetch_alerts_for_steps(row, alerts)
+    %{row | alerts: row_alerts, steps: steps}
+  end
+
+  def fetch_alerts_for_steps(%__MODULE__{steps: steps}, alerts) do
+    Enum.map(steps, &match_step(&1, alerts))
+  end
+
+  def match_step(%IntermediateStop{stop_id: nil} = step, _alerts) do
+    step
+  end
+  def match_step(step, alerts) do
+    %{step | alerts: Alerts.Stop.match(alerts, step.stop_id, activities: ~w(ride)a)}
+  end
+
+  def intermediate_alerts?(%__MODULE__{steps: steps}) do
+    Enum.any?(steps, fn step -> step.alerts != [] end)
   end
 
   @spec name_from_position(NamedPosition.t, Dependencies.stop_mapper) :: {String.t, String.t}
@@ -116,13 +132,16 @@ defmodule Site.TripPlan.ItineraryRow do
     {name, nil}
   end
 
-  @spec get_steps(TripPlan.Leg.mode, Dependencies.stop_mapper) :: [iodata]
+  @spec get_steps(TripPlan.Leg.mode, Dependencies.stop_mapper) :: [IntermediateStop.t]
   defp get_steps(%PersonalDetail{steps: steps}, _stop_mapper) do
     Enum.map(steps, &format_personal_step/1)
   end
   defp get_steps(%TransitDetail{intermediate_stop_ids: stop_ids}, stop_mapper) do
     for {:ok, stop} <- Task.async_stream(stop_ids, stop_mapper), stop do
-      stop.name
+      %IntermediateStop{
+        description: stop.name,
+        stop_id: stop.id
+      }
     end
   end
 
@@ -135,11 +154,13 @@ defmodule Site.TripPlan.ItineraryRow do
   defp parse_trip_id({:ok, trip_id}, trip_mapper), do: trip_mapper.(trip_id)
 
   defp format_personal_step(step) do
-    [
-      Step.human_relative_direction(step.relative_direction),
-      " onto ",
-      step.street_name
-    ]
+    %IntermediateStop{
+      description: [
+        Step.human_relative_direction(step.relative_direction),
+        " onto ",
+        step.street_name
+      ]
+    }
   end
 
   @spec get_additional_routes(Route.t, Schedules.Trip.t, Leg.t, name_and_id, Dependencies.t) :: [Route.t]

@@ -104,4 +104,31 @@ defmodule TripPlan.ItineraryTest do
       assert same_itinerary?(itinerary, accessible_itinerary)
     end
   end
+
+  describe "intermediate_stop_ids" do
+    test "returns intermediate stop ids if the leg is transit detail and has them" do
+       itinerary = %TripPlan.Itinerary{
+        start: DateTime.from_unix(10),
+        stop: DateTime.from_unix(13),
+        legs: [
+          %Leg{mode: %PersonalDetail{}},
+          %Leg{mode: %TransitDetail{intermediate_stop_ids: ["1", "2", "3"]}},
+          %Leg{mode: %PersonalDetail{}},
+        ],
+      }
+      assert intermediate_stop_ids(itinerary) == ["1", "2", "3"]
+    end
+    test "does not return duplicate ids" do
+      itinerary = %TripPlan.Itinerary{
+        start: DateTime.from_unix(10),
+        stop: DateTime.from_unix(13),
+        legs: [
+          %Leg{mode: %PersonalDetail{}},
+          %Leg{mode: %TransitDetail{intermediate_stop_ids: ["1", "2", "3"]}},
+          %Leg{mode: %TransitDetail{intermediate_stop_ids: ["1", "2", "3"]}},
+        ],
+      }
+      assert intermediate_stop_ids(itinerary) == ["1", "2", "3"]
+    end
+  end
 end

@@ -18,6 +18,11 @@
           <%= Inflex.inflect("stop", intermediate_stop_count) %></span>
         on the
         <%= @branch_display %>
+        <%= if Map.get(assigns, :alerts?, false) do %>
+          <span class="itinerary-has-alerts-icon">
+            <%= fa "exclamation-triangle" %>
+          </span>
+        <% end %>
       </span>
 
       <span class="expand-branch-link-icon">

@@ -3,7 +3,7 @@ defmodule SiteWeb.TripPlanViewTest do
   import SiteWeb.TripPlanView
   import Phoenix.HTML, only: [safe_to_string: 1]
   import UrlHelpers, only: [update_url: 2]
-  alias Site.TripPlan.{Query, ItineraryRow}
+  alias Site.TripPlan.{Query, ItineraryRow, IntermediateStop}
   alias TripPlan.Api.MockPlanner
   alias Routes.Route
 
@@ -208,23 +208,48 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
   end
 
-  describe "render_steps/2" do
+  describe "render_steps/5" do
     @bubble_params [%Site.StopBubble.Params{
       render_type: :empty,
       class: "line"
     }]
     @steps [
-      {"Tremont and Winter", @bubble_params},
-      {"Winter and Washington", @bubble_params},
-      {"Court St. and Washington", @bubble_params}
+      {%IntermediateStop{description: "Tremont and Winter"}, @bubble_params},
+      {%IntermediateStop{description: "Winter and Washington"}, @bubble_params},
+      {%IntermediateStop{description: "Court St. and Washington"}, @bubble_params},
     ]
+    @transit_steps [
+      {%IntermediateStop{
+        description: "Alewife",
+        alerts: [%Alerts.Alert{description: "step alert"}]}, @bubble_params},
+      {%IntermediateStop{description: "Davis"}, @bubble_params},
+      {%IntermediateStop{description: "Porter",
+        alerts: [%Alerts.Alert{description: "step alert"}]}, @bubble_params},
+    ]
+    @itinerary_id 0
+    @row_id 0
+    @conn %{
+      assigns: %{
+        date_time: Util.now()
+      }
+    }
+
+    test "renders alerts for steps that have them" do
+      html =
+        @conn
+        |> render_steps(@transit_steps, "personal", @itinerary_id, @row_id)
+        |> Enum.map(&safe_to_string/1)
+        |> IO.iodata_to_binary()
+
+      assert Enum.count(Floki.find(html, ".itinerary-alert-toggle")) == 2
+    end
 
     test "renders the provided subset of {step, bubbles}" do
       html =
-        @steps
-        |> render_steps("personal")
+        @conn
+        |> render_steps(@steps, "personal", @itinerary_id, @row_id)
         |> Enum.map(&safe_to_string/1)
-        |> IO.iodata_to_binary
+        |> IO.iodata_to_binary()
 
       assert Enum.count(Floki.find(html, ".personal")) == 3
       assert Enum.count(Floki.find(html, ".route-branch-stop-bubble")) == 3

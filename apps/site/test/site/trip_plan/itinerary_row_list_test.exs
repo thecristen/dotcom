@@ -141,6 +141,30 @@ defmodule Site.TripPlan.ItineraryRowListTest do
       refute inaccessible_itinerary_rows.accessible?
     end
 
+    test "Alerts for intermediate steps parsed correctly", %{itinerary: itinerary, deps: deps} do
+      red_leg = %TripPlan.Leg{
+        start: @date_time,
+        stop: @date_time,
+        from: %TripPlan.NamedPosition{stop_id: "place-sstat", name: "South Station"},
+        to: %TripPlan.NamedPosition{stop_id: "place-pktrm", name: "Park Street"},
+        mode: %TripPlan.TransitDetail{
+          route_id: "Red",
+          intermediate_stop_ids: ["place-dwnxg"]
+        }
+      }
+
+      itinerary = %{itinerary | legs: [red_leg]}
+      itinerary_rows = from_itinerary(itinerary, deps, [to: "place-pktrm"])
+      rows = Map.get(itinerary_rows, :rows)
+      assert length(List.first(rows).steps) == 1
+      intermediate_step = List.first(List.first(rows).steps)
+
+      # Alert id 4 should not be included because it is not of type :ride
+      assert length(intermediate_step.alerts) == 1
+      assert intermediate_step.description == "Downtown Crossing"
+      assert List.first(intermediate_step.alerts).id == 3
+    end
+
     test "Alerts for stations mid travel and destination parsed correctly", %{itinerary: itinerary, deps: deps} do
       red_leg = %TripPlan.Leg{
         start: @date_time,
@@ -204,6 +228,9 @@ defmodule Site.TripPlan.ItineraryRowListTest do
   defp stop_mapper("place-kencl") do
     %Stops.Stop{name: "Kenmore", id: "place-kencl"}
   end
+  defp stop_mapper("place-dwnxg") do
+    %Stops.Stop{name: "Downtown Crossing", id: "place-dwnxg"}
+  end
   defp stop_mapper("place-pktrm") do
     %Stops.Stop{name: "Park Street", id: "place-pktrm"}
   end
@@ -227,14 +254,30 @@ defmodule Site.TripPlan.ItineraryRowListTest do
         id: 1,
         effect: :access_issue,
         active_period: [{nil, nil}],
-        informed_entity: [%Alerts.InformedEntity{stop: "place-pktrm"}],
+        informed_entity: [%Alerts.InformedEntity{stop: "place-pktrm",
+                                                 activities: MapSet.new([:board, :exit])}],
       ),
       Alerts.Alert.new(
         id: 2,
         effect: :access_issue,
         active_period: [{nil, nil}],
-        informed_entity: [%Alerts.InformedEntity{stop: "place-kencl"}],
+        informed_entity: [%Alerts.InformedEntity{stop: "place-kencl",
+                                                 activities: MapSet.new([:board, :exit])}],
       ),
+      Alerts.Alert.new(
+        id: 3,
+        effect: :access_issue,
+        active_period: [{nil, nil}],
+        informed_entity: [%Alerts.InformedEntity{stop: "place-dwnxg",
+                                                 activities: MapSet.new([:ride])}],
+      ),
+      Alerts.Alert.new(
+        id: 4,
+        effect: :access_issue,
+        active_period: [{nil, nil}],
+        informed_entity: [%Alerts.InformedEntity{stop: "place-dwnxg",
+                                                 activities: MapSet.new([:park_car])}],
+      )
     ]
   end
 end

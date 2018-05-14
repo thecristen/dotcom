@@ -86,6 +86,21 @@ defmodule TripPlan.Itinerary do
     Enum.count(legs_1) == Enum.count(legs_2) &&
     legs_1 |> Enum.zip(legs_2) |> Enum.all?(fn {l1, l2} -> TripPlan.Leg.same_leg?(l1, l2) end)
   end
+
+  @doc "Return a lost of all of the "
+  @spec intermediate_stop_ids(t) :: [Stops.Stop.id_t]
+  def intermediate_stop_ids(itinerary) do
+    itinerary
+    |> Enum.flat_map(&leg_intermediate/1)
+    |> Enum.uniq()
+  end
+
+  defp leg_intermediate(%TripPlan.Leg{mode: %TripPlan.TransitDetail{intermediate_stop_ids: ids}}) do
+    ids
+  end
+  defp leg_intermediate(_) do
+    []
+  end
 end
 
 defimpl Enumerable, for: TripPlan.Itinerary do

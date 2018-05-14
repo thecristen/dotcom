@@ -20,7 +20,16 @@ defmodule Site.TripPlan.Alerts do
   @spec filter_for_itinerary([Alert.t], Itinerary.t, Keyword.t) :: [Alert.t]
   def filter_for_itinerary(alerts, itinerary, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
-    Alerts.Match.match(alerts, entities(itinerary, opts), itinerary.start)
+
+    Alerts.Match.match(alerts,
+                       Enum.concat(intermediate_entities(itinerary), entities(itinerary, opts)),
+                       itinerary.start)
+  end
+
+  defp intermediate_entities(itinerary) do
+    itinerary
+    |> Itinerary.intermediate_stop_ids()
+    |> Enum.map(& %IE{stop: &1})
   end
 
   @spec entities(Itinerary.t, Keyword.t) :: [IE.t]

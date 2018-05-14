@@ -33,4 +33,5 @@ defmodule Alerts.Stop do
     |> Keyword.put(:stop, stop_id)
     |> IE.from_keywords
   end
+
 end
