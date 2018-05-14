@@ -2,8 +2,10 @@
 
 .m-homepage__shortcuts {
   @include make-row();
-  padding-bottom: $base-spacing * 2;
-  padding-top: $base-spacing * 2;
+  margin-bottom: $base-spacing;
+  margin-top: $base-spacing;
+  padding-bottom: $base-spacing;
+  padding-top: $base-spacing;
   text-align: center;
 }
 
@@ -52,7 +54,7 @@
   }
 }
 
-.index-template {
+.pageview.index-template {
   // Override 2rem padding-bottom on .page-container class.
   // Putting this here until the template classes are refactored
   // to follow our new class naming style.

@@ -27,6 +27,7 @@ config :site, SiteWeb.ViewHelpers,
 
 config :laboratory,
   features: [
+    {:homepage_redesign, "Homepage Redesign", "https://app.zeplin.io/project/5a946671d3f01f932efdf18b/screen/5a948890bb799c73128420af"}
   ],
   cookie: [
     max_age: 3600 * 24 * 30, # one month,

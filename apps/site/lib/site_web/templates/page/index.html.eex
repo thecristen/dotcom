@@ -1,3 +1,9 @@
 <div class="index">
-  <%= shortcut_icons() %>
+  <%= if Laboratory.enabled?(@conn, :homepage_redesign) do shortcut_icons() end %>
+  <%=
+    if assigns[:important_notice] do
+      render SiteWeb.PageView, "_important_notice.html", conn: @conn, important_notice: assigns[:important_notice]
+    end
+  %>
+  <%= render(SiteWeb.ModeView, "index.html", conn: @conn, grouped_routes: @grouped_routes, include_ride: false, card_class: "page-section-narrow", all_alerts: @all_alerts, date: @date) %>
 </div>
