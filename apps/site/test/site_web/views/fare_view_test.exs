@@ -7,13 +7,14 @@ defmodule SiteWeb.FareViewTest do
 
   describe "fare_type_note/2" do
     test "returns fare note for students" do
-      assert safe_to_string(fare_type_note(%Plug.Conn{}, %Fare{mode: :commuter_rail, reduced: :student})) =~
-        "Middle and high school students at participating schools"
+      note = fare_type_note(%Plug.Conn{}, %Fare{mode: :commuter_rail, reduced: :student})
+      assert note |> List.first() |> safe_to_string() =~
+        "Middle and high school students with an MBTA-issued"
     end
 
     test "returns fare note for seniors" do
       assert safe_to_string(fare_type_note(%Plug.Conn{}, %Fare{mode: :commuter_rail, reduced: :senior_disabled})) =~
-        "People 65 and older and people with disabilities"
+        "Seniors are eligible for reduced fares on the subway, bus, Commuter Rail, and ferry"
     end
 
     test "returns fare note for bus and subway" do

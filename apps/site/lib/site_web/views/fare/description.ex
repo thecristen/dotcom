@@ -1,7 +1,7 @@
 defmodule SiteWeb.FareView.Description do
   alias Fares.Fare
   import Phoenix.HTML.Tag, only: [content_tag: 2]
-  import Util.AndJoin
+  import Util.AndOr
 
   @spec description(Fare.t, map()) :: Phoenix.HTML.unsafe
   def description(%Fare{mode: :commuter_rail, duration: :single_trip, name: name}, _assigns) do
@@ -11,46 +11,55 @@ defmodule SiteWeb.FareView.Description do
     ["Valid for travel on Commuter Rail ", valid_commuter_zones(name), " only."]
   end
   def description(%Fare{mode: :commuter_rail, duration: :month, media: [:mticket], name: name}, _assigns) do
-    ["Valid for one calendar month of travel on the commuter rail ",
-     valid_commuter_zones(name),
-     " only."
+    [
+     content_tag(:p, ["Valid for 1 calendar month of travel on the commuter rail ",
+                      valid_commuter_zones(name),
+                      " only."]),
+     cr_interzone_note()
     ]
   end
   def description(%Fare{mode: :commuter_rail, duration: :month, additional_valid_modes: [:bus], name: name}, _assigns) do
-    ["Valid for one calendar month of unlimited travel on Commuter Rail ",
+    [
+     "Valid for 1 calendar month of unlimited travel on Commuter Rail ",
      valid_commuter_zones(name),
-     " as well as Local Bus."]
+     " as well as Local Bus."
+    ]
+  end
+  def description(%Fare{mode: :commuter_rail, duration: :month, name: {:zone, zone} = name}, _assigns) when zone in ["6", "7", "8", "9", "10"] do
+    [
+     content_tag(:p, ["Valid for 1 calendar month of unlimited travel on Commuter Rail ",
+                      [valid_commuter_zones(name), "Local Bus", "Express Bus", "subway", "all ferry routes"]
+                      |> join(:and), "."]),
+     cr_interzone_note()
+    ]
   end
   def description(%Fare{mode: :commuter_rail, duration: :month, name: name}, _assigns) do
-    ["Valid for one calendar month of unlimited travel on Commuter Rail ",
-     valid_commuter_zones(name),
-     " as well as Local Bus, Subway, and the Charlestown Ferry."]
+    [
+     "Valid for 1 calendar month of unlimited travel on Commuter Rail ",
+     [valid_commuter_zones(name), "Local Bus", "Express Bus", "subway", "Charlestown Ferry"] |> join(:and), ".",
+     cr_interzone_note()
+    ]
   end
-  def description(%Fare{mode: :ferry, duration: duration}, %{origin: origin, destination: destination}) when duration in [:round_trip, :single_trip, :day, :week] do
+  def description(%Fare{mode: :ferry, duration: duration}, %{origin: origin, destination: destination}) when duration in [:round_trip, :single_trip] do
     [
       "Valid between ",
-      origin.name,
-      " and ",
-      destination.name,
+      [origin.name, destination.name] |> join(:and),
       " only."
     ]
   end
-  def description(%Fare{mode: :ferry, duration: duration} = fare, _assigns) when duration in [:round_trip, :single_trip, :day, :week] do
+  def description(%Fare{mode: :ferry, duration: duration} = fare, _assigns) when duration in [:round_trip, :single_trip] do
     [
       "Valid for the ",
       Fares.Format.name(fare),
       " only."
     ]
   end
-  def description(%Fare{mode: :ferry, duration: :month, media: [:mticket]} = fare, _assigns) do
-       [
-         "Valid for one calendar month of unlimited travel on the ",
-         Fares.Format.name(fare),
-         " only."
-       ]
+  def description(%Fare{mode: :ferry, duration: :month, media: [:mticket]}, _assigns) do
+    "Valid for 1 calendar month of unlimited travel on all ferry routes."
   end
   def description(%Fare{mode: :ferry, duration: :month} = fare, _assigns) do
-    [content_tag(:div, "Valid for 1 calendar month on:"),
+    [
+     content_tag(:p, "Valid for 1 calendar month of unlimited travel on:"),
      content_tag(:ul, boston_ferry_pass_modes(fare))
     ]
   end
@@ -60,9 +69,9 @@ defmodule SiteWeb.FareView.Description do
   end
   def description(%Fare{mode: :subway, media: media, duration: :single_trip} = fare, _assigns)
   when media != [:charlie_ticket, :cash] do
-
     [
-      "Travel on all subway lines, SL1, SL2, and SL3. ",
+      "Travel on ",
+      ["all subway lines", "SL1", "SL2", "SL3"] |> join(:and), ". ",
       transfers(fare)
     ]
   end
@@ -70,81 +79,102 @@ defmodule SiteWeb.FareView.Description do
     "CharlieTickets include 1 free transfer to any SL route within 2 hours of original ride. No transfers with cash."
   end
   def description(%Fare{mode: :bus, media: [:charlie_ticket, :cash]}, _assigns) do
-    "CharlieTickets include 1 free transfer to another Local Bus, SL4, or SL5. No transfers with cash."
+    [
+      "CharlieTickets include 1 free transfer to ",
+      :local_bus |> local_bus_text() |> join(:or),
+      ". No transfers with cash."
+    ]
   end
   def description(%Fare{mode: :subway, duration: :month, reduced: :student}, _assigns) do
-    modes = ["Local Bus", "Subway", "Commuter Rail Zone 1A (CharlieTicket only)"]
-            |> Enum.map(&content_tag(:li, &1))
+    modes = [
+             "Local Bus",
+             "Inner and Outer Express Bus",
+             "Subway",
+             "Commuter Rail Zones 1A-2 (M7 Card only)"
+            ]
+            |> list_items()
 
-    [content_tag(:div, "Unlimited travel for 1 calendar month on:"),
-     content_tag(:ul, modes)
+    [
+     content_tag(:p, "Unlimited travel for 1 calendar month on:"),
+     content_tag(:ul, modes),
     ]
   end
   def description(%Fare{mode: :subway, duration: :month}, _assigns) do
-    modes = ["Local Bus", "Subway", "Commuter Rail Zone 1A (CharlieTicket only)"]
-            |> Enum.map(&content_tag(:li, &1))
+    modes = [
+             "Local Bus",
+             "Subway"
+            ]
+            |> list_items()
 
-    [content_tag(:div, "Unlimited travel for 1 calendar month on:"),
-     content_tag(:ul, modes)
+    [
+     content_tag(:p, "Unlimited travel for 1 calendar month on:"),
+     content_tag(:ul, modes),
+     content_tag(:p, [
+                      "CharlieTicket also valid for travel on ",
+                      ["Commuter Rail Zone 1A", "Charlestown Ferry"] |> join(:and), "."])
     ]
   end
   def description(%Fare{mode: :subway, duration: duration}, _assigns) when duration in [:day, :week] do
-    modes = ["Local Bus", "Subway", "Commuter Rail Zone 1A (CharlieTicket only)", "Charlestown Ferry (CharlieTicket only)"]
-            |> Enum.map(&content_tag(:li, &1))
+    modes = [
+             "Local Bus",
+             "Subway"
+            ]
+            |> list_items()
 
-    [content_tag(:div, "Unlimited travel for #{duration_string_header(duration)}* on:"),
+    [
+     content_tag(:p, "Unlimited travel for #{duration_string_header(duration)}* on:"),
      content_tag(:ul, modes),
-     "*CharlieTickets are valid for ",
-     duration_string_body(duration),
-     " from purchase. CharlieCards are valid for ",
-     duration_string_body(duration),
-     " after first use."
+     content_tag(:p, [
+                      "CharlieTicket also valid for travel on ",
+                      ["Commuter Rail Zone 1A", "Charlestown Ferry"] |> join(:and), "."]),
+     content_tag(:p, "*CharlieTickets are valid from the time of purchase. CharlieCards are valid from the first time they are used.")
     ]
   end
   def description(%Fare{name: :local_bus, duration: :month}, _assigns) do
-    modes = ["Local Bus (not including routes SL1, SL2, or SL3)"]
-            |> Enum.map(&content_tag(:li, &1))
+    modes = ["Local Bus (not including routes ", ["SL1", "SL2", "SL3"] |> join(:or), ")"] |> Enum.join()
+            |> List.wrap()
+            |> list_items()
 
-    [content_tag(:div, "Unlimited travel for 1 calendar month on:"),
+    [
+     content_tag(:p, "Unlimited travel for 1 calendar month on:"),
      content_tag(:ul, modes)
     ]
   end
   def description(%Fare{name: :inner_express_bus, media: [:charlie_card, :charlie_ticket], duration: :month}, _assigns) do
-    modes = ["Inner Express Bus", "Local Bus", "Subway",
-             "Commuter Rail Zone 1A (CharlieTicket or pre-printed CharlieCard with valid date only)",
-             "Charlestown Ferry (CharlieTicket or pre-printed CharlieCard with valid date only)"]
-            |> Enum.map(&content_tag(:li, &1))
-
-    [content_tag(:div, "Unlimited travel for 1 calendar month on:"),
-     content_tag(:ul, modes)
-    ]
-
-  end
-  def description(%Fare{name: :inner_express_bus, duration: :month}, _assigns) do
-    ["Unlimited travel for one calendar month on the Inner Express Bus",
-     "Local Bus",
-     "Subway."
-    ] |> and_join
-  end
-  def description(%Fare{name: :outer_express_bus, media: [:charlie_card, :charlie_ticket], duration: :month}, _assigns) do
-    modes = ["Outer Express Bus", "Inner Express Bus", "Local Bus", "Subway",
+    modes = [
+             "Inner Express Bus",
+             "Local Bus",
+             "Subway",
              "Commuter Rail Zone 1A (CharlieTicket or pre-printed CharlieCard with valid date only)",
              "Charlestown Ferry (CharlieTicket or pre-printed CharlieCard with valid date only)"
             ]
-            |> Enum.map(&content_tag(:li, &1))
+            |> list_items()
 
-    [content_tag(:div, "Unlimited travel for 1 calendar month on:"),
+    [
+     content_tag(:p, "Unlimited travel for 1 calendar month on:"),
+     content_tag(:ul, modes)
+    ]
+
+  end
+  def description(%Fare{name: :outer_express_bus, media: [:charlie_card, :charlie_ticket], duration: :month}, _assigns) do
+    modes = [
+             "Outer Express Bus",
+             "Inner Express Bus",
+             "Local Bus",
+             "Subway",
+             "Commuter Rail Zone 1A (CharlieTicket or pre-printed CharlieCard with valid date only)",
+             "Charlestown Ferry (CharlieTicket or pre-printed CharlieCard with valid date only)"
+            ]
+            |> list_items()
+
+    [
+     content_tag(:p, "Unlimited travel for 1 calendar month on:"),
      content_tag(:ul, modes)
     ]
   end
-  def description(%Fare{name: :outer_express_bus, duration: :month}, _assigns) do
-    ["Unlimited travel for one calendar month on the Outer Express Bus as well as the Inner Express Bus",
-     "Local Bus",
-     "Subway.",
-    ] |> and_join
-  end
   def description(%Fare{name: :free_fare, mode: :bus, media: []}, _assigns) do
-    ["Travel on all local bus routes, SL4 and SL5"]
+    ["Travel on ",
+     :local_bus_all |> local_bus_text() |> join(:and), "."]
   end
   def description(%Fare{mode: :bus, media: media, name: name} = fare, _assigns)
   when media != [:charlie_ticket, :cash] do
@@ -180,23 +210,35 @@ defmodule SiteWeb.FareView.Description do
      ]
   end
   def description(%Fare{name: :free_fare}, _assigns) do
-    ["Inbound SL1 travel from any airport stop is free."]
+    "Inbound SL1 travel from any airport stop is free."
   end
 
-  defp boston_ferry_pass_modes(fare) do
-    [Fares.Format.name(fare),
-     "Commuter Rail Zone 1A",
+  defp boston_ferry_pass_modes(%Fare{name: :ferry_inner_harbor}) do
+    [
+     "Charlestown Ferry",
+     "Local Bus",
      "Subway",
-     "Local Bus"
+     "Commuter Rail Zones 1A"
     ]
-    |> Enum.map(&content_tag(:li, &1))
+    |> list_items()
+  end
+  defp boston_ferry_pass_modes(_) do
+    [
+     "All ferry routes",
+     "Local Bus",
+     "Express Bus",
+     "Subway",
+     "Commuter Rail Zones 1A-5"
+    ]
+    |> list_items()
   end
 
   defp bus_description_intro(name) when name in [:inner_express_bus, :outer_express_bus], do: ""
   defp bus_description_intro(_), do: "Travel on all local bus routes, SL4 and SL5. "
 
-  defp duration_string_body(:day), do: "24 hours"
-  defp duration_string_body(:week), do: "7 days"
+  defp cr_interzone_note do
+    content_tag(:p, "Travel beyond the designated zone on your pass will cost an additional interzone fare.")
+  end
 
   defp duration_string_header(:day), do: "1 day"
   defp duration_string_header(:week), do: "7 days"
@@ -205,7 +247,7 @@ defmodule SiteWeb.FareView.Description do
     "in Zone 1A"
   end
   defp valid_commuter_zones({:zone, final}) do
-    ["from Zones 1A-", final]
+    ["Zones 1A-", final]
   end
   defp valid_commuter_zones({:interzone, total}) do
     ["between ", total, " zones outside of Zone 1A"]
@@ -242,10 +284,11 @@ defmodule SiteWeb.FareView.Description do
      outer_express_bus: "Outer Express Bus"]
   end
 
-  defp local_bus_text(:subway), do: "Local Bus, SL4, or SL5"
-  defp local_bus_text(:local_bus), do: "another Local Bus, SL4, or SL5"
-  defp local_bus_text(:outer_express_bus), do: "Local Bus, Inner Express Bus, or any SL route"
-  defp local_bus_text(:inner_express_bus), do: "Local Bus, or any SL route"
+  defp local_bus_text(:subway), do: ["Local Bus", "SL4", "SL5"]
+  defp local_bus_text(:local_bus), do: ["another Local Bus", "SL4", "SL5"]
+  defp local_bus_text(:local_bus_all), do: ["all Local Bus routes", "SL4", "SL5"]
+  defp local_bus_text(:outer_express_bus), do: ["Local Bus", "Inner Express Bus", "any SL route"]
+  defp local_bus_text(:inner_express_bus), do: ["Local Bus", "any SL route"]
 
   defp transfers_filter({name, _}, fare) do
     other_fare = transfers_other_fare(name, fare)
@@ -256,10 +299,12 @@ defmodule SiteWeb.FareView.Description do
     []
   end
   defp free_transfers(names_and_texts) do
-    ["Includes 1 free transfer to ",
+    [
+     "Includes 1 free transfer to ",
      names_and_texts
      |> Enum.map(&elem(&1, 1))
-     |> Enum.join(", "),
+     |> List.flatten()
+     |> join(:or),
      " within 2 hours of your original ride."
     ]
   end
@@ -272,6 +317,13 @@ defmodule SiteWeb.FareView.Description do
   defp transfers_other_fare(name, fare) do
     case {fare, name, Fares.Repo.all(name: name, media: fare.media, duration: fare.duration)} do
       {_, _, [other_fare]} -> other_fare
+    end
+  end
+
+  @spec list_items([String.t]) :: Phoenix.HTML.unsafe
+  defp list_items(items) when is_list(items) do
+    for item <- items do
+      content_tag(:li, item)
     end
   end
 end

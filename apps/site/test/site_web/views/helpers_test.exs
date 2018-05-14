@@ -149,7 +149,7 @@ defmodule SiteWeb.ViewHelpersTest do
         |> mode_summaries(nil)
         |> Enum.map(fn %Fares.Summary{fares: [{text, prices}]} -> IO.iodata_to_binary([text, " ", prices]) end)
 
-      assert fares == ["All Ferry routes $3.50 - $18.50", "All Ferry routes $84.50 - $308.00"]
+      assert fares == ["All ferry routes $3.50 - $18.50", "All ferry routes $84.50 - $308.00"]
     end
 
     test "Ferry summmaries with a fare name return a single fare" do

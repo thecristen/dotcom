@@ -14,21 +14,24 @@ defmodule SiteWeb.FareView do
   @doc "Return the reduced fare note for the given fare"
   @spec fare_type_note(Plug.Conn.t, Fare.t) :: Phoenix.HTML.safe | nil
   def fare_type_note(conn, %Fare{reduced: :student}) do
-    content_tag :span do
-      ["Middle and high school students at participating schools can get a ",
-       (link "Student CharlieCard", to: cms_static_page_path(conn, "/fares/reduced/student-charliecards"), data: [turbolinks: "false"]),
-       " for discounts on the subway, bus, Commuter Rail, and ferry. College students are not eligible for these discounts, but may be able to purchase a ",
-       (link "Semester Pass", to: "https://passprogram.mbta.com/Public/ppinfo.aspx?p=u", data: [turbolinks: "false"]),
-       " through their school."]
-    end
+    [
+      content_tag(:span,
+        ["Middle and high school students with an MBTA-issued ",
+         (link "Student CharlieCard", to: cms_static_page_path(conn, "/fares/reduced/student-charliecards"), data: [turbolinks: "false"]),
+         " or a current school ID are eligible for reduced Commuter Rail fares. Students with M7 CharlieCards can travel free up to Zone 2 and are eligible for reduced interzone fares."]),
+      content_tag(:p,
+        ["College students are not eligible for these discounts, but may be able to purchase a ",
+         (link "Semester Pass", to: "https://passprogram.mbta.com/Public/ppinfo.aspx?p=u", data: [turbolinks: "false"]),
+         " through their school."])
+    ]
   end
   def fare_type_note(conn, %Fare{reduced: :senior_disabled}) do
     content_tag :span do
-      ["People 65 and older and people with disabilities qualify for reduced fares on the subway, bus, Commuter Rail, and ferry. Seniors must obtain a ",
+      ["Seniors are eligible for reduced fares on the subway, bus, Commuter Rail, and ferry with a ",
       (link "Senior CharlieCard", to: cms_static_page_path(conn, "/fares/reduced/senior-charliecard"), data: [turbolinks: "false"]),
-      " and people with disabilities must apply for a ",
-     (link "Transportation Access Pass (TAP)", to: cms_static_page_path(conn, "/fares/reduced/transportation-access-pass"), data: [turbolinks: "false"]),
-      ". People who are blind or have low vision can ride all MBTA services for free with a ",
+      " or state-issued ID. People with disabilities are eligible for reduced fares with a ",
+      (link "Transportation Access Pass (TAP)", to: cms_static_page_path(conn, "/fares/reduced/transportation-access-pass"), data: [turbolinks: "false"]),
+      ". People who are blind or have low vision ride all MBTA services for free with a ",
       (link "Blind Access Card", to: cms_static_page_path(conn, "/fares/reduced/blind-access-charliecard"), data: [turbolinks: "false"]), "."]
     end
   end
@@ -71,10 +74,10 @@ defmodule SiteWeb.FareView do
 
   @spec callout(Fare.t) :: String.t | iolist
   def callout(%Fare{name: :inner_express_bus}) do
-    [Util.AndJoin.and_join(Routes.Route.inner_express()), "."]
+    [Util.AndOr.join(Routes.Route.inner_express(), :and), "."]
   end
   def callout(%Fare{name: :outer_express_bus}) do
-    [Util.AndJoin.and_join(Routes.Route.outer_express()), "."]
+    [Util.AndOr.join(Routes.Route.outer_express(), :and), "."]
   end
   def callout(%Fare{}), do: ""
 

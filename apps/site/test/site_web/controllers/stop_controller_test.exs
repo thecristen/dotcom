@@ -199,12 +199,12 @@ defmodule SiteWeb.StopControllerTest do
   test "Assigns specific fare for Charlestown Ferry", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "Boat-Charlestown", tab: "info")
     assert html_response(conn, 200) =~ "Inner Harbor Ferry One Way"
-    refute html_response(conn, 200) =~ "All Ferry routes"
+    refute html_response(conn, 200) =~ "All ferry routes"
   end
 
   test "Does not assign specific fares for Long Wharf Ferry stop", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "Boat-Long", tab: "info")
-    assert html_response(conn, 200) =~ "All Ferry routes"
+    assert html_response(conn, 200) =~ "All ferry routes"
   end
 
   describe "breadcrumbs/2" do

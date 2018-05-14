@@ -65,7 +65,7 @@ defmodule Fares.FareInfo do
     [
       %{base |
         duration: :single_trip,
-        media: [:commuter_ticket, :cash],
+        media: [:commuter_ticket, :cash, :mticket],
         reduced: nil,
         cents: dollars_to_cents(single_trip),},
       %{base |
@@ -80,7 +80,7 @@ defmodule Fares.FareInfo do
         cents: dollars_to_cents(single_trip_reduced)},
       %{base |
         duration: :round_trip,
-        media: [:commuter_ticket, :cash],
+        media: [:commuter_ticket, :cash, :mticket],
         reduced: nil,
         cents: dollars_to_cents(single_trip) * 2},
       %{base |
@@ -292,8 +292,8 @@ defmodule Fares.FareInfo do
     commuter_ferry_price,
     commuter_ferry_month_price,
     commuter_ferry_logan_price,
-    day_pass_price,
-    week_pass_price
+    _day_pass_price,
+    _week_pass_price
   ]) do
     fares = [
       %Fare{
@@ -385,22 +385,6 @@ defmodule Fares.FareInfo do
         media: [:mticket],
         reduced: nil,
         cents: dollars_to_cents(commuter_ferry_month_price) - 1000
-      },
-      %Fare{
-        mode: :ferry,
-        name: :ferry_inner_harbor,
-        duration: :day,
-        media: [:charlie_ticket],
-        reduced: nil,
-        cents: dollars_to_cents(day_pass_price)
-      },
-      %Fare{
-        mode: :ferry,
-        name: :ferry_inner_harbor,
-        duration: :week,
-        media: [:charlie_ticket],
-        reduced: nil,
-        cents: dollars_to_cents(week_pass_price)
       }
     ]
 

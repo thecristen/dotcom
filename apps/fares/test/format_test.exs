@@ -85,7 +85,7 @@ defmodule Fares.FormatTest do
         %Summary{
           name: "Monthly LinkPass",
           duration: :month,
-          fares: [{"CharlieCard or CharlieTicket", "$4.00"}],
+          fares: [{["CharlieCard", " or ", "CharlieTicket"], "$4.00"}],
           modes: [:subway]
         }
       ]
@@ -129,7 +129,7 @@ defmodule Fares.FormatTest do
         %Summary{
           name: "Ferry One Way",
           duration: :single_trip,
-          fares: [{"All Ferry routes", ["$1.00", " - ", "$2.00"]}],
+          fares: [{"All ferry routes", ["$1.00", " - ", "$2.00"]}],
           modes: [:ferry]
         }
       ]
@@ -146,7 +146,7 @@ defmodule Fares.FormatTest do
         %Summary{
           name: "Ferry One Way",
           duration: :single_trip,
-          fares: [{"All Ferry routes", ["$1.00", " - ", "$2.00"]}],
+          fares: [{"All ferry routes", ["$1.00", " - ", "$2.00"]}],
           modes: [:ferry]
         }
       ]

@@ -19,7 +19,7 @@ defmodule Fares.Format do
   def media(list) when is_list(list) do
     list
     |> Enum.map(&media/1)
-    |> Enum.join(" or ")
+    |> Util.AndOr.join(:or)
   end
   def media(:charlie_card), do: "CharlieCard"
   def media(:charlie_ticket), do: "CharlieTicket"
@@ -129,7 +129,7 @@ defmodule Fares.Format do
   defp price_range_summary_name(fare, :ferry), do: "Ferry " <> duration(fare)
 
   defp price_range_label(:commuter_rail), do: "Zones 1A-10"
-  defp price_range_label(:ferry), do: "All Ferry routes"
+  defp price_range_label(:ferry), do: "All ferry routes"
 
   @spec summarize_one(Fare.t, Keyword.t) :: Summary.t
   def summarize_one(fare, opts \\ []) do
