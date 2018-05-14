@@ -26,3 +26,6 @@ erl_crash.dump
 
 # Benchmark results
 /bench/snapshots
+
+# Wallaby screenshots
+/screenshots

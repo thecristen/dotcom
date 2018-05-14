@@ -64,6 +64,12 @@ The new face of https://www.mbta.com/
     gem install sass
     ```
 
+1. Install chromedriver (for Elixir acceptance tests using Wallaby)
+    ```
+    brew tap caskroom/cask
+    brew cask install chromedriver
+    ```
+
 1. Install our Elixir dependencies. From the root of this repo:
     ```
     mix deps.get

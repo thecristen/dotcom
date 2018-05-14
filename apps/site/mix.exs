@@ -76,6 +76,7 @@ defmodule Site.Mixfile do
      {:recon, "~> 2.3.2", only: :prod},
      {:diskusage_logger, "~> 0.2.0"},
      {:hammer, "~> 4.0"},
+     {:wallaby, "~> 0.20", [runtime: false, only: :test]},
      {:stops, in_umbrella: true},
      {:routes, in_umbrella: true},
      {:alerts, in_umbrella: true},
