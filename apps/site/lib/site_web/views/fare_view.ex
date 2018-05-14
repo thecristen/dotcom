@@ -2,6 +2,7 @@ defmodule SiteWeb.FareView do
   use SiteWeb, :view
 
   alias Fares.{Fare, Summary}
+  alias SiteWeb.PartialView.SvgIconWithCircle
 
   defdelegate description(fare, assigns), to: SiteWeb.FareView.Description
 

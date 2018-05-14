@@ -12,6 +12,7 @@ defmodule Site.Components.Buttons.SocialButtonList do
     id: nil,
     url: ""
   ]
+
   @type t :: %__MODULE__{
     class: String.t | nil,
     id: String.t | nil,

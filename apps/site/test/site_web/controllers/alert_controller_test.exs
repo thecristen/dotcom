@@ -3,7 +3,7 @@ defmodule SiteWeb.AlertControllerTest do
 
   use Phoenix.Controller
   alias Alerts.Alert
-  alias Site.Components.Icons.SvgIconWithCircle
+  alias SiteWeb.PartialView.SvgIconWithCircle
   import SiteWeb.AlertController, only: [group_access_alerts: 1]
 
   test "renders commuter rail", %{conn: conn} do
@@ -46,7 +46,7 @@ defmodule SiteWeb.AlertControllerTest do
       response = render_alerts_page(conn, :subway, alerts)
 
       expected = %SvgIconWithCircle{icon: :red_line, aria_hidden?: true}
-      |> SiteWeb.AlertView.svg_icon_with_circle
+      |> SvgIconWithCircle.svg_icon_with_circle
       |> Phoenix.HTML.safe_to_string
       |> Kernel.<>(:red_line |> get_route |> Map.get(:name))
 
@@ -69,7 +69,7 @@ defmodule SiteWeb.AlertControllerTest do
 
     defp mode_icon_tag(mode) do
       %SvgIconWithCircle{icon: mode}
-      |> SiteWeb.AlertView.svg_icon_with_circle
+      |> SvgIconWithCircle.svg_icon_with_circle
       |> Phoenix.HTML.safe_to_string
       |> Kernel.<>(mode |> get_route |> Map.get(:name))
     end

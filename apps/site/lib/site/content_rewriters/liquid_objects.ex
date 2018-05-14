@@ -8,9 +8,9 @@ defmodule Site.ContentRewriters.LiquidObjects do
   """
 
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
-  import SiteWeb.ContentView, only: [svg_icon_with_circle: 1]
+  import SiteWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
 
-  alias Site.Components.Icons.SvgIconWithCircle
+  alias SiteWeb.PartialView.SvgIconWithCircle
 
   @available_fare_replacements [
     "subway:charlie_card",

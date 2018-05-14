@@ -9,6 +9,7 @@ defmodule SiteWeb.ScheduleView do
   alias Routes.Route
   alias Stops.Stop
   alias Site.MapHelpers
+  alias SiteWeb.PartialView.SvgIconWithCircle
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
 

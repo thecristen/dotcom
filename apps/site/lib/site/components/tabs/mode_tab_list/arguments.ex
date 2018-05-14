@@ -6,6 +6,7 @@ defmodule Site.Components.Tabs.ModeTabList do
   Use class=tab-select-btn-group-table-layout-auto to make the button widths adjust to the text inside them.
   """
   alias SiteWeb.ViewHelpers
+  alias SiteWeb.PartialView.SvgIconWithCircle
 
   defstruct [
     id: "modes",
@@ -44,7 +45,7 @@ defmodule Site.Components.Tabs.ModeTabList do
   defp do_build_mode_icon_map("the-ride"), do: do_build_mode_icon_map(:the_ride)
   defp do_build_mode_icon_map(mode) when is_binary(mode), do: mode |> String.to_existing_atom() |> do_build_mode_icon_map()
   defp do_build_mode_icon_map(mode) when is_atom(mode) do
-    icon = SiteWeb.PageView.svg_icon_with_circle(%Site.Components.Icons.SvgIconWithCircle{icon: mode, aria_hidden?: true})
+    icon = SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{icon: mode, aria_hidden?: true})
     {ViewHelpers.mode_name(mode), icon}
   end
 

@@ -1,6 +1,7 @@
 defmodule SiteWeb.TransitNearMeView do
   use SiteWeb, :view
   alias Routes.Route
+  alias SiteWeb.PartialView.SvgIconWithCircle
 
   @spec get_type_list(Route.gtfs_route_type | Route.subway_lines_type, [Route.t]) :: String.t
   def get_type_list(:bus, routes) do
@@ -22,7 +23,8 @@ defmodule SiteWeb.TransitNearMeView do
   - 7 results or less: "small-set"
   - 8 results or more: "large-set"
   """
-  @spec result_container_classes(String.t, [{Routes.Route.gtfs_route_type | Route.subway_lines_type, [Route.t]}]) :: String.t
+  @spec result_container_classes(String.t, [{Routes.Route.gtfs_route_type | Route.subway_lines_type, [Route.t]}])
+  :: String.t
   def result_container_classes(class, []), do: class <> " empty"
   def result_container_classes(class, routes) when length(routes) >= 8, do: class <> " large-set"
   def result_container_classes(class, _), do: class <> " small-set"

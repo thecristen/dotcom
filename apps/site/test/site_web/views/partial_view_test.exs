@@ -2,6 +2,8 @@ defmodule SiteWeb.PartialViewTest do
   use SiteWeb.ConnCase, async: true
 
   import SiteWeb.PartialView
+  import SiteWeb.PartialView.SvgIconWithCircle
+  alias SiteWeb.PartialView.SvgIconWithCircle
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   describe "stop_selector_suffix/2" do
@@ -60,6 +62,50 @@ defmodule SiteWeb.PartialViewTest do
 
       assert result =~ "(clear<span class=\"sr-only\"> destination</span>)"
       refute result =~ "place-davis"
+    end
+  end
+
+  describe "svg_icon_with_circle" do
+    test "icons render an svg with a background circle and an icon positioned correctly" do
+      rendered =
+        %SvgIconWithCircle{icon: :subway}
+        |> svg_icon_with_circle()
+        |> safe_to_string()
+      assert rendered =~ "</svg>"
+      assert rendered =~ "icon "
+      assert rendered =~ "icon-circle"
+      assert rendered =~ "icon-subway"
+      assert rendered =~ "translate(4,4)"
+      assert rendered =~ "title=\"Subway\""
+    end
+
+    test "optionally accepts a class argument" do
+      rendered =
+        %SvgIconWithCircle{icon: :subway, class: "test-class"}
+        |> svg_icon_with_circle()
+        |> safe_to_string()
+      assert rendered =~ ~r(class.*test-class)
+    end
+
+    test "title/1" do
+      assert title(:blue_line) == "Blue Line"
+      assert title(%Routes.Route{id: "Orange"}) == "Orange Line"
+      assert title(%Routes.Route{id: "Red"}) == "Red Line"
+      assert title(%Routes.Route{id: "Blue"}) == "Blue Line"
+      assert title(%Routes.Route{id: "Mattapan"}) == "Mattapan Trolley"
+      assert title(%Routes.Route{id: "Green-B"}) == "Green Line"
+      assert title(%Routes.Route{type: 4}) == "Ferry"
+    end
+
+    test "Title tooltip is shown if show_tooltip? is not specified" do
+      rendered = %SvgIconWithCircle{icon: :subway} |> svg_icon_with_circle() |> safe_to_string()
+      [data_toggle] = rendered |> Floki.find("svg") |> List.first |> Floki.attribute("data-toggle")
+      assert data_toggle == "tooltip"
+    end
+
+    test "Tooltip is not shown if show_tooltip? is false" do
+      rendered = %SvgIconWithCircle{icon: :subway, show_tooltip?: false} |> svg_icon_with_circle() |> safe_to_string()
+      assert rendered |> Floki.find("svg") |> List.first |> Floki.attribute("data-toggle") == []
     end
   end
 

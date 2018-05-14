@@ -1,5 +1,6 @@
 defmodule SiteWeb.ModeView do
   use SiteWeb, :view
+  alias SiteWeb.PartialView.SvgIconWithCircle
 
   def get_route_group(:commuter_rail = route_type, route_groups) do
     # Note that we do not sort the commuter rail routes by name as we

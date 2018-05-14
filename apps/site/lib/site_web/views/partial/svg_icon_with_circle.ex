@@ -1,8 +1,10 @@
-defmodule Site.Components.Icons.SvgIconWithCircle do
+defmodule SiteWeb.PartialView.SvgIconWithCircle do
+
   defstruct icon:  :bus,
             class: "",
             show_tooltip?: true,
             aria_hidden?: false
+
   @type t :: %__MODULE__{
     icon: Site.Components.Icons.SvgIcon.icon_arg,
     class: String.t,
@@ -10,20 +12,24 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
     aria_hidden?: boolean
   }
 
-  def variants() do
-    for {title, svg_icon} <- Site.Components.Icons.SvgIcon.variants,
-      {class_title, class} <- [
-        {"", ""},
-        {" (Small)", "icon-small"},
-        {" (Large)", "icon-large"},
-        {" (Boring)", "icon-boring"},
-        {" (Selected)", "icon-selected"},
-        {" (Inverse)", "icon-inverse"}] do
-      {
-        "#{title} with circle#{class_title}",
-        %__MODULE__{icon: svg_icon.icon, class: class}
-      }
-    end
+  def svg_icon_with_circle(%__MODULE__{} = args) do
+    icon = Site.Components.Icons.SvgIcon.get_icon_atom(args.icon)
+    data_toggle = if args.show_tooltip?, do: "data-toggle=tooltip", else: ""
+    title = if args.show_tooltip?, do: title(icon), else: ""
+    Phoenix.View.render(SiteWeb.PartialView, "_icon_with_circle.html", [
+      icon: icon,
+      data_toggle: data_toggle,
+      title: title,
+      aria_hidden?: args.aria_hidden?,
+      class: args.class,
+      circle_viewbox: circle_viewbox(icon),
+      circle_args: circle_args(icon),
+      translate: translate(icon),
+      scale: scale(icon),
+      rotate: rotate(icon),
+      path: Site.Components.Icons.SvgIcon.get_path(icon),
+      hyphenated_class: "icon-#{CSSHelpers.atom_to_class(icon)}"
+    ])
   end
 
   def circle_viewbox(:twitter), do: "0 0 400 400"

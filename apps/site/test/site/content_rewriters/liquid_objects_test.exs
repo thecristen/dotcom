@@ -3,10 +3,10 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
 
   import Site.ContentRewriters.LiquidObjects
   import Phoenix.HTML, only: [safe_to_string: 1]
-  import SiteWeb.ContentView, only: [svg_icon_with_circle: 1]
+  import SiteWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
   import SiteWeb.ViewHelpers, only: [fa: 1, svg: 1]
 
-  alias Site.Components.Icons.SvgIconWithCircle
+  alias SiteWeb.PartialView.SvgIconWithCircle
 
   describe "replace/1" do
     test "it replaces fa- prefixed objects" do

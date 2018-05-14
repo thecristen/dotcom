@@ -5,7 +5,8 @@ defmodule Site.Components.Buttons.ModeButtonList do
   "view all" link to the bus route list.
 
   """
-  alias Site.Components.Icons.{SvgIcon, SvgIconWithCircle}
+  alias Site.Components.Icons.SvgIcon
+  alias SiteWeb.PartialView.SvgIconWithCircle
   alias Site.Components.Buttons.ButtonGroup
   import Phoenix.HTML, only: [raw: 1]
 
@@ -94,14 +95,14 @@ defmodule Site.Components.Buttons.ModeButtonList do
   """
   @spec icon_if_subway(Routes.Route.t) :: String.t | Phoenix.HTML.Safe.t
   def icon_if_subway(%Routes.Route{id: "Mattapan"}) do
-    SiteWeb.PageView.svg_icon_with_circle(%SvgIconWithCircle{
+    SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{
       icon: :mattapan_trolley,
       class: "icon-small",
       aria_hidden?: true
     })
   end
-  def icon_if_subway(%Routes.Route{type: route_type, id: route_id}) when route_type in [0,1] do
-    SiteWeb.PageView.svg_icon_with_circle(%SvgIconWithCircle{
+  def icon_if_subway(%Routes.Route{type: route_type, id: route_id}) when route_type in [0, 1] do
+    SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{
       icon: "#{route_id}_line" |> String.downcase |> String.to_existing_atom,
       class: "icon-small",
       aria_hidden?: true
