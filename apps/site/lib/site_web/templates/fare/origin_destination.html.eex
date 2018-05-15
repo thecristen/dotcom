@@ -37,7 +37,9 @@
   </div>
 </div>
 
-<p>View table of <%= link "fares by zone.", to: fare_path(@conn, :zone) %></p>
+<%= if @mode == :commuter_rail do %>
+  <p>View table of <%= link "fares by zone.", to: fare_path(@conn, :zone) %></p>
+<% end %>
 
 <%= unless @selected_filter == nil do %>
   <%= if @origin && @destination do %>
