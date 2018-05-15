@@ -128,6 +128,12 @@ export class FacetItem {
     this._checkboxLabel.classList.add("c-facets__checkbox--unchecked");
   }
 
+  reset() {
+    this.uncheck();
+    this._children.forEach(child => child.reset());
+    this.updateCount(0);
+  }
+
   uncheck() {
     this.uncheckUI();
     this._children.forEach(child => {

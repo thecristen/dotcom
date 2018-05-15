@@ -55,7 +55,7 @@ export class FacetGroup {
   }
 
   reset() {
-    this._item.uncheck()
+    this._item.reset()
   }
 
   selectedFacetNames() {
