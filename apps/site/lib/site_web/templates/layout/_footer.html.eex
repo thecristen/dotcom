@@ -24,9 +24,9 @@
       <li class="m-footer__group">
         <h5 class="m-footer__group-title">Riding the T</h5>
         <ul class="list-unstyled">
-          <li class="m-footer__item"><%= link "Winter Weather", to: cms_static_page_path(@conn, "/winter") %></li>
           <li class="m-footer__item"><%= link "Accessibility", to: cms_static_page_path(@conn, "/accessibility") %></li>
           <li class="m-footer__item"><%= link "Parking", to: cms_static_page_path(@conn, "/parking") %></li>
+          <li class="m-footer__item"><%= link "Bikes", to: cms_static_page_path(@conn, "/bikes") %></li>
           <li class="m-footer__item"><%= link "Language Services", to: cms_static_page_path(@conn, "/language-services") %></li>
           <li class="m-footer__item"><%= link "Safety", to: cms_static_page_path(@conn, "/safety") %></li>
         </ul>
@@ -36,7 +36,7 @@
         <ul class="list-unstyled">
           <li class="m-footer__item"><%= link "Fare Information by Mode", to: fare_path(@conn, :index) %></li>
           <li class="m-footer__item"><%= link "Reduced Fares", to: fare_path(@conn, :show, "reduced") %></li>
-          <li class="m-footer__item"><%= link "Pass Programs", to: redirect_path(@conn, "pass_program"), target: "_blank" %></li>
+          <li class="m-footer__item"><%= link "Pass Programs", to: "https://passprogram.mbta.com/", target: "_blank" %></li>
           <li class="m-footer__item"><%= link "Add Value to CharlieCard", to: "https://charliecard.mbta.com", target: "_blank" %></li>
           <li class="m-footer__item"><%= link "Order Monthly Passes", to: "https://commerce.mbta.com", target: "_blank" %></li>
         </ul>
