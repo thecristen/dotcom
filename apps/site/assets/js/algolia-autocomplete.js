@@ -126,10 +126,11 @@ export class AlgoliaAutocomplete {
   }
 
   onHitSelected({_args: [hit, type]}) {
+    const params = this._parent.getParams();
     if (this._input) {
       this._input.value = "";
     }
-    window.Turbolinks.visit(AlgoliaResult.getUrl(hit, type) + QueryStringHelpers.parseParams(this._parent.getParams()));
+    window.Turbolinks.visit(AlgoliaResult.getUrl(hit, type) + QueryStringHelpers.parseParams(params));
   }
 
   _buildDataset(indexName, acc) {
