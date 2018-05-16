@@ -54,6 +54,16 @@
   }
 }
 
+.m-homepage-search__reset {
+  display: none; // gets toggled by javascript on keyup
+  flex: 0 0 auto;
+  margin-right: $base-spacing / 2;
+}
+
+.m-homepage-search__go-btn {
+  flex: 0 0 auto;
+}
+
 .pageview.index-template {
   // Override 2rem padding-bottom on .page-container class.
   // Putting this here until the template classes are refactored

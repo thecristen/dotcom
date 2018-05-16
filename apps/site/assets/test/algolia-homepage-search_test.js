@@ -25,6 +25,7 @@ describe("AlgoliaHomepageSearch", function() {
       document.body.innerHTML = `
         <div id="powered-by-google-logo"></div>
         <input id="${AlgoliaHomepageSearch.SELECTORS.input}"></input>
+        <i id="${AlgoliaHomepageSearch.SELECTORS.resetButton}"></i>
         <div id="${AlgoliaHomepageSearch.SELECTORS.locationResultsBody}"></div>
         <div id="${AlgoliaHomepageSearch.SELECTORS.locationResultsHeader}"></div>
       `;

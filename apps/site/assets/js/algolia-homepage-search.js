@@ -17,12 +17,14 @@ export class AlgoliaHomepageSearch {
     this._input = document.getElementById(AlgoliaHomepageSearch.SELECTORS.input);
     this._controller = null;
     this._autocomplete = null;
+    this.bind();
     if (this._input) {
       this.init();
     }
   }
 
   init() {
+    this._resetButton = document.getElementById(AlgoliaHomepageSearch.SELECTORS.resetButton);
     this._input.value = "";
     this._controller = new Algolia(AlgoliaHomepageSearch.INDICES, AlgoliaHomepageSearch.PARAMS);
     this._autocomplete = new AlgoliaAutocompleteWithGeo(AlgoliaHomepageSearch.SELECTORS,
@@ -30,15 +32,23 @@ export class AlgoliaHomepageSearch {
                                                         {},
                                                         AlgoliaHomepageSearch.LOCATION_PARAMS,
                                                         this);
-    this._autocomplete.renderFooterTemplate = this._renderFooterTemplate.bind(this);
-    this._autocomplete.renderHeaderTemplate = this._renderHeaderTemplate.bind(this);
+    this._autocomplete.renderFooterTemplate = this._renderFooterTemplate;
+    this._autocomplete.renderHeaderTemplate = this._renderHeaderTemplate;
     this._autocomplete.showLocation = this._showLocation;
     this._controller.addWidget(this._autocomplete);
     this.addEventListeners();
+    this._toggleResetButton(false);
   }
 
   _showLocation(latitude, longitude, address) {
     Turbolinks.visit(`/transit-near-me?latitude=${latitude}&longitude=${longitude}&location[address]=${address}`);
+  }
+
+  bind() {
+    this._renderFooterTemplate = this._renderFooterTemplate.bind(this);
+    this._renderHeaderTemplate = this._renderHeaderTemplate.bind(this);
+    this.reset = this.reset.bind(this);
+    this.onKeyup = this.onKeyup.bind(this);
   }
 
   addEventListeners() {
@@ -47,6 +57,26 @@ export class AlgoliaHomepageSearch {
         this._onClickShowMore(key);
       });
     });
+
+    window.jQuery(document).off("keyup", "#" + this._input.id, this.onKeyup);
+    window.jQuery(document).on("keyup", "#" + this._input.id, this.onKeyup);
+
+    this._resetButton.removeEventListener("click", this.reset);
+    this._resetButton.addEventListener("click", this.reset);
+  }
+
+  reset(ev) {
+    this._input.value = "";
+    this._toggleResetButton(false);
+    this._controller.reset();
+  }
+
+  _toggleResetButton(show) {
+    this._resetButton.style.display = show ? "block" : "none";
+  }
+
+  onKeyup(ev) {
+    this._toggleResetButton(this._input.value != "");
   }
 
   _renderHeaderTemplate(indexName) {
@@ -97,7 +127,8 @@ AlgoliaHomepageSearch.INDICES = {
 AlgoliaHomepageSearch.SELECTORS = {
   input: "homepage-search__input",
   container: "homepage-search__container",
-  locationLoadingIndicator: "homepage-search__loading-indicator"
+  locationLoadingIndicator: "homepage-search__loading-indicator",
+  resetButton: "homepage-search__reset"
 }
 
 AlgoliaHomepageSearch.SHOWMOREPARAMS = {
