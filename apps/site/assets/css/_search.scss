@@ -491,15 +491,3 @@
   justify-content: flex-end;
   padding: $base-spacing / 2;
 }
-
-.c-search-result__google--side {
-  @include media-breakpoint-up(md) {
-    position: absolute;
-    right: $base-spacing / 2;
-    top: $base-spacing / 2;
-  }
-
-  @include media-breakpoint-down(sm) {
-    display: block;
-  }
-}

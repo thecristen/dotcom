@@ -70,6 +70,9 @@ export class AlgoliaAutocomplete {
     document.removeEventListener("autocomplete:shown", this.onOpen);
     document.addEventListener("autocomplete:shown", this.onOpen);
 
+    window.removeEventListener("resize", this.onOpen);
+    window.addEventListener("resize", this.onOpen);
+
     // normally we would only use `.js-` prefixed classes for javascript selectors, but
     // we make an exception here because this element and its class is generated entirely
     // by the autocomplete widget.
@@ -140,7 +143,7 @@ export class AlgoliaAutocomplete {
       name: indexName,
       hitsPerPage: 5,
       templates: {
-        header: this._renderHeaderTemplate(indexName),
+        header: this.renderHeaderTemplate(indexName),
         suggestion: this.renderResult(indexName),
         footer: this.renderFooterTemplate(indexName),
       }
@@ -148,7 +151,9 @@ export class AlgoliaAutocomplete {
     return acc;
   }
 
-  _renderHeaderTemplate(indexName) {
+  renderHeaderTemplate(indexName) {
+    // Default header template simply includes the index name
+    // To render a different header template, override this method.
     return `<p class="c-search-bar__results-header">${this._headers[indexName]}</p>`;
   }
 

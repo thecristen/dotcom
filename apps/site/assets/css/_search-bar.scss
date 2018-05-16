@@ -18,6 +18,8 @@
 
 .c-search-bar__empty,
 .c-search-bar__results-header {
+  display: flex;
+  justify-content: space-between;
   padding: $base-spacing / 2;
 }
 
@@ -149,4 +151,14 @@
   position: relative;
   right: $base-spacing / 2;
   visibility: hidden;
+}
+
+.c-search-bar__autocomplete--show-more {
+  color: $brand-primary;
+  cursor: pointer;
+  text-align: center;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

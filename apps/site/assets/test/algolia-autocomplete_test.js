@@ -194,15 +194,15 @@ describe("AlgoliaAutocomplete", () => {
     });
   });
 
-  describe("_renderHeaderTemplate", function() {
+  describe("renderHeaderTemplate", function() {
     it("uses supplied headers if they exist", function() {
       const headers = {
         stops: "External Stops Header",
       };
       const ac = new AlgoliaAutocomplete(selectors, indices, headers, parent);
 
-      expect(ac._renderHeaderTemplate("stops")).to.contain("External Stops Header");
-      expect(ac._renderHeaderTemplate("routes")).to.contain("Lines and Routes");
+      expect(ac.renderHeaderTemplate("stops")).to.contain("External Stops Header");
+      expect(ac.renderHeaderTemplate("routes")).to.contain("Lines and Routes");
     });
   });
 

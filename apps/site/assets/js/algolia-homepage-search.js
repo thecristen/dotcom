@@ -3,6 +3,7 @@ import hogan from "hogan.js";
 import { Algolia } from "./algolia-search";
 import * as AlgoliaResult from "./algolia-result";
 import { AlgoliaAutocompleteWithGeo } from "./algolia-autocomplete-with-geo"
+import { AlgoliaAutocomplete } from "./algolia-autocomplete"
 import { featureIcon } from "./algolia-result";
 
 export function init() {
@@ -30,6 +31,7 @@ export class AlgoliaHomepageSearch {
                                                         AlgoliaHomepageSearch.LOCATION_PARAMS,
                                                         this);
     this._autocomplete.renderFooterTemplate = this._renderFooterTemplate.bind(this);
+    this._autocomplete.renderHeaderTemplate = this._renderHeaderTemplate.bind(this);
     this._autocomplete.showLocation = this._showLocation;
     this._controller.addWidget(this._autocomplete);
     this.addEventListeners();
@@ -47,14 +49,22 @@ export class AlgoliaHomepageSearch {
     });
   }
 
+  _renderHeaderTemplate(indexName) {
+    const showMore = this._renderShowMoreTemplate(indexName);
+    return `<div class="c-search-bar__results-header">${AlgoliaAutocomplete.DEFAULT_HEADERS[indexName]}${showMore}</div>`;
+  }
+
   _renderFooterTemplate(indexName) {
-    let googleLogo = "";
     if (indexName == "locations") {
-      googleLogo = '<span class="c-search-result__google--side">' +
-                 document.getElementById("powered-by-google-logo").innerHTML +
-               '</span>';
+      return '<div class="c-search-result__google">' +
+                document.getElementById("powered-by-google-logo").innerHTML +
+             '</div>';
     }
-    return `<div id="show-more--${indexName}" class="c-search-results__show-more">Show more${googleLogo}</div>`;
+    return "";
+  }
+
+  _renderShowMoreTemplate(indexName) {
+    return `<span id="show-more--${indexName}" class="c-search-bar__autocomplete--show-more">Show more</span>`;
   }
 
   _onClickShowMore(indexName) {
@@ -135,6 +145,6 @@ AlgoliaHomepageSearch.PARAMS = {
 }
 
 AlgoliaHomepageSearch.LOCATION_PARAMS = {
-  position: 0,
+  position: 3,
   hitLimit: 2
 }
