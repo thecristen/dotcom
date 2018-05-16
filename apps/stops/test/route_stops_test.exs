@@ -15,7 +15,7 @@ defmodule Stops.RouteStopsTest do
       assert %Stops.RouteStops{branch: "Ashmont", stops: ashmont_stops} = ashmont
 
       assert unbranched_stops |> Enum.map(& &1.name) == ["Alewife", "Davis", "Porter", "Harvard", "Central",
-        "Kendall/MIT", "Charles/MGH", "Park Street", "Downtown Crossing", "South Station", "Broadway", "Andrew", "JFK/Umass"]
+        "Kendall/MIT", "Charles/MGH", "Park Street", "Downtown Crossing", "South Station", "Broadway", "Andrew", "JFK/UMass"]
 
       [alewife | _] = unbranched_stops
       assert alewife.is_terminus? == true
@@ -24,7 +24,7 @@ defmodule Stops.RouteStopsTest do
       assert alewife.stop_features == [:bus, :access, :parking_lot]
 
       jfk = List.last(unbranched_stops)
-      assert jfk.name == "JFK/Umass"
+      assert jfk.name == "JFK/UMass"
       assert jfk.branch == nil
       assert jfk.stop_features == [:bus, :commuter_rail, :access]
       assert jfk.is_terminus? == false
