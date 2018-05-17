@@ -35,10 +35,6 @@ defmodule RepoCache do
     end
   end
 
-  def log(hit_or_miss, module, name) do
-    RepoCache.Log.log(hit_or_miss, module, name)
-  end
-
   defp include_defaults(opts) do
     opts = opts
     |> Keyword.put_new(:ttl, :timer.seconds(1))
@@ -94,12 +90,23 @@ defmodule RepoCache do
     timeout = Keyword.get(cache_opts, :timeout)
     case ConCache.get(mod, key) do
       nil ->
-        RepoCache.log(:miss, mod, name)
+        RepoCache.Log.log(:miss, mod, name)
         ConCache.isolated mod, key, timeout, fn ->
-          maybe_set_value(fun.(fun_param), mod, key, cache_opts[:ttl])
+          do_cache_isolated(fun, fun_param, mod, key, cache_opts)
         end
       value ->
-        RepoCache.log(:hit, mod, name)
+        RepoCache.Log.log(:hit, mod, name)
+        value
+    end
+  end
+
+  defp do_cache_isolated(fun, fun_param, mod, key, cache_opts) do
+    # We try again to get a value: if we were waiting a while for the lock,
+    # another process may have already updated the cache for us.
+    case ConCache.get(mod, key) do
+      nil ->
+        maybe_set_value(fun.(fun_param), mod, key, cache_opts)
+      value ->
         value
     end
   end
@@ -107,8 +114,8 @@ defmodule RepoCache do
   defp maybe_set_value({:error, _} = error, _, _, _) do
     error
   end
-  defp maybe_set_value(value, mod, key, ttl) do
-    ttl = ttl || mod.default_ttl
+  defp maybe_set_value(value, mod, key, cache_opts) do
+    ttl = Keyword.get(cache_opts, :ttl, mod.default_ttl())
     item = %ConCache.Item{value: value, ttl: ttl}
     ConCache.dirty_put(mod, key, item)
     value

@@ -21,9 +21,11 @@ defmodule Content.Repo do
 
   @spec news(Keyword.t) :: [Content.NewsEntry.t] | []
   def news(opts \\ []) do
-    case @cms_api.view("/cms/news", opts) do
-      {:ok, api_data} -> Enum.map(api_data, &Content.NewsEntry.from_api/1)
-      _ -> []
+    cache opts, fn _ ->
+      case @cms_api.view("/cms/news", opts) do
+        {:ok, api_data} -> Enum.map(api_data, &Content.NewsEntry.from_api/1)
+        _ -> []
+      end
     end
   end
 
@@ -37,9 +39,11 @@ defmodule Content.Repo do
 
   @spec recent_news(Keyword.t) :: [Content.NewsEntry.t]
   def recent_news(opts \\ []) do
-    case @cms_api.view("/cms/recent-news", opts) do
-      {:ok, api_data} -> Enum.map(api_data, &Content.NewsEntry.from_api/1)
-      _ -> []
+    cache opts, fn _ ->
+      case @cms_api.view("/cms/recent-news", opts) do
+        {:ok, api_data} -> Enum.map(api_data, &Content.NewsEntry.from_api/1)
+        _ -> []
+      end
     end
   end
 
