@@ -110,12 +110,12 @@ export class AlgoliaHomepageSearch {
 }
 
 AlgoliaHomepageSearch.INDICES = {
-  stops: {
-    indexName: "stops",
-    query: ""
-  },
   routes: {
     indexName: "routes",
+    query: ""
+  },
+  stops: {
+    indexName: "stops",
     query: ""
   },
   pagesdocuments: {
