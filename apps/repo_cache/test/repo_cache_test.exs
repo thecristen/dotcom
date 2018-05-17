@@ -14,6 +14,14 @@ defmodule RepoCacheTest.Repo do
       Agent.get(pid, fn state -> state end)
     end)
   end
+
+  def slow_message(pid, value) do
+    cache(pid, fn pid ->
+      Process.sleep(100)
+      send pid, {:message, value}
+      :ok
+    end)
+  end
 end
 
 defmodule RepoCacheTest do
@@ -53,6 +61,24 @@ defmodule RepoCacheTest do
     assert :value == Repo.agent_state(pid)
     Repo.clear_cache
     assert :real == Repo.agent_state(pid)
+  end
+
+  test "many simultaneous requests don't all call the function" do
+    parent = self()
+    tasks =
+    for i <- 0..10 do
+      Task.async fn ->
+        Repo.slow_message(parent, i)
+      end
+    end
+    for {_task, result} <- Task.yield_many(tasks) do
+      assert result == {:ok, :ok}, "one of the tasks failed: #{inspect result}"
+    end
+    # function was only called once
+    assert_received {:message, 0}
+    for i <- 1..10 do
+      refute_received {:message, ^i}
+    end
   end
 
   describe "child_spec/1" do
