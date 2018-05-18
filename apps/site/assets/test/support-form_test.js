@@ -373,7 +373,7 @@ describe('support form', () => {
       $('#privacy').prop('checked', 'checked');
       $('#support-submit').click();
 
-      const photos = spy.firstCall.args[0].data.getAll("photos[]");
+      const photos = spy.firstCall.args[0].data.getAll("support[photos][]");
       // getAll returns [ "[object Object]", "[object Object]" ]
       // not sure how to recover actual values
       assert.equal(photos.length, toUpload.length);

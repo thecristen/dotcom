@@ -336,7 +336,7 @@ export function handleSubmitClick($, toUpload) {
       formData.append(name, value);
     });
     toUpload.forEach((photo) => {
-      formData.append("photos[]", photo);
+      formData.append("support[photos][]", photo, photo.name);
     });
     $.ajax({
       url: $('#support-form').attr('action'),
