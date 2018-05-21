@@ -149,4 +149,12 @@ defmodule Fares.FareInfoTest do
       assert mticket_price(2000) == 1000
     end
   end
+
+  describe "floor_to_ten_cents/1" do
+    test "floors to nearest ten cents" do
+      assert floor_to_ten_cents(949) == 940
+      assert floor_to_ten_cents(944) == 940
+    end
+  end
+
 end

@@ -391,7 +391,7 @@ defmodule Fares.FareInfo do
     reduced_fares = fares
     |> Enum.filter(&(&1.duration in [:single_trip, :round_trip]))
     |> Enum.flat_map(fn fare ->
-      reduced_price = round(fare.cents / 2)
+      reduced_price = floor_to_ten_cents(fare.cents) / 2
       [
         %{fare | cents: reduced_price, media: [:senior_card], reduced: :senior_disabled},
         %{fare | cents: reduced_price, media: [:student_card], reduced: :student}
@@ -452,6 +452,8 @@ defmodule Fares.FareInfo do
     |> Kernel.*(100)
     |> round
   end
+
+  def floor_to_ten_cents(fare), do: Float.floor(fare / 10) * 10
 
   _ = @lint # fix warning
 end
