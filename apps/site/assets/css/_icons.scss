@@ -60,17 +60,6 @@ h3,
   width: $icon-size-lg;
 }
 
-// Groups
-.icon-group {
-  margin-left: -1 * $base-spacing-sm;
-  margin-right: -1 * $base-spacing-sm;
-
-  .icon {
-    margin-left: $base-spacing-sm / 2;
-    margin-right: $base-spacing-sm / 2;
-  }
-}
-
 // Default colors
 .icon-image {
   fill: $gray-dark;
