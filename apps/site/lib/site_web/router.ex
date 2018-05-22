@@ -126,6 +126,7 @@ defmodule SiteWeb.Router do
     get "/fares/commuter-rail/zone", FareController, :zone
     resources "/fares", FareController, only: [:index, :show]
     get "/search", SearchController, :index
+    post "/search/click", SearchController, :click
     for static_page <- StaticPage.static_pages do
       get "/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page
     end

@@ -51,6 +51,7 @@ export class AlgoliaResults {
   _bind() {
     this.onClickShowMore = this.onClickShowMore.bind(this);
     this.onClickResult = this.onClickResult.bind(this);
+    this.addResultClickHandler = this.addResultClickHandler.bind(this);
   }
 
   _addLocationListeners(results) {
@@ -87,7 +88,19 @@ export class AlgoliaResults {
   onClickResult(ev) {
     if (ev.currentTarget.href) {
       ev.preventDefault();
-      window.Turbolinks.visit(ev.currentTarget.href + QueryStringHelpers.parseParams(this._parent.getParams()));
+
+      window.jQuery.post("/search/click", {
+        queryID: ev.currentTarget.getAttribute("data-queryid"),
+        position: ev.currentTarget.getAttribute("data-hit-position"),
+        objectID: ev.currentTarget.getAttribute("data-objectid")
+      }, this.onClickResultCallback(ev.currentTarget.href));
+    }
+  }
+
+  onClickResultCallback(href) {
+    return (response) => {
+      this.reset();
+      window.Turbolinks.visit(href + QueryStringHelpers.parseParams(this._parent.getParams()));
     }
   }
 
@@ -134,10 +147,7 @@ export class AlgoliaResults {
     });
   }
 
-  init() {
-    window.jQuery(document).off("click", ".c-search-result__link", this.onClickResult)
-    window.jQuery(document).on("click", ".c-search-result__link", this.onClickResult)
-  }
+  init() { }
 
   reset() {
     this.render({});
@@ -149,6 +159,10 @@ export class AlgoliaResults {
         this._groups
             .map(group => this._renderGroup(results, group))
             .join("");
+
+      Array.from(document.getElementsByClassName(AlgoliaResult.SELECTORS.result))
+           .forEach(this.addResultClickHandler)
+
       this._groups.forEach(group => this._addShowMoreListener(group));
       this._addLocationListeners(results);
     }
@@ -170,18 +184,31 @@ export class AlgoliaResults {
         logo: document.getElementById("powered-by-google-logo").innerHTML,
       }),
       hits: results[group].hits
-                          .map(this.renderResult(group))
+                          .map(this.renderResult(group, results[group]))
     });
   }
 
-  renderResult(index) {
-    return (hit) => {
+  renderResult(index, groupData) {
+    return (hit, idx) => {
+      const analyticsData = this.getAnalytics(groupData, idx);
       return `
         <div class="c-search-result__hit">
-          ${AlgoliaResult.renderResult(hit, index)}
+          ${AlgoliaResult.renderResult(Object.assign(hit, analyticsData), index)}
         </div>
       `;
     }
+  }
+
+  getAnalytics(results, idx) {
+    return {
+      queryID: results.queryID,
+      hitPosition: (results.hitsPerPage * results.page) + idx + 1
+    }
+  }
+
+  addResultClickHandler(el) {
+    el.removeEventListener("click", this.onClickResult);
+    el.addEventListener("click", this.onClickResult);
   }
 }
 

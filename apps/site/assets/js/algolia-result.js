@@ -1,5 +1,9 @@
 import hogan from "hogan.js";
 
+export const SELECTORS = {
+  result: "js-search-result"
+}
+
 export const TEMPLATES = {
   poweredByGoogleLogo: hogan.compile(`<div class="c-search-result__hit c-search-result__google">{{{logo}}}</div>`),
   fontAwesomeIcon: hogan.compile(`<span aria-hidden="true" class="c-search-result__content-icon fa {{icon}}"></span>`),
@@ -22,10 +26,10 @@ export const TEMPLATES = {
     <div class="c-search-result__hit--vertical">
     {{/hasDate}}
     {{#id}}
-    <a id="hit-{{id}}" class="c-search-result__link" href="{{hitUrl}}">
+    <a id="hit-{{id}}" class="${SELECTORS.result} c-search-result__link" href="{{hitUrl}}">
     {{/id}}
     {{^id}}
-    <a class="c-search-result__link" href="{{hitUrl}}">
+    <a class="${SELECTORS.result} c-search-result__link" href="{{hitUrl}}" data-queryid="{{queryID}}" data-hit-position="{{hitPosition}}" data-objectid="{{objectID}}">
     {{/id}}
       <span>{{{hitIcon}}}</span>
       <span class="c-search-result__hit-name">{{{hitTitle}}}</span>

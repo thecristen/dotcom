@@ -70,7 +70,7 @@ describe("Algolia", function() {
 
       expect(queries[0]).to.have.all.keys(["indexName", "params", "query"]);
       expect(queries[0].indexName).to.equal("stops");
-      expect(queries[0].params).to.have.all.keys(["foo", "hitsPerPage"]);
+      expect(queries[0].params).to.have.all.keys(["foo", "hitsPerPage", "clickAnalytics"]);
 
       expect(queries[1]).to.have.all.keys(["indexName", "params", "query"]);
       expect(queries[1].indexName).to.equal("stops");
@@ -87,7 +87,7 @@ describe("Algolia", function() {
       expect(this.algolia._doSearch.called).to.be.true;
       expect(this.algolia._doSearch.args[0][0][0]).to.have.keys(["indexName", "params", "query"]);
       expect(this.algolia._doSearch.args[0][0][0].indexName).to.equal("stops");
-      expect(this.algolia._doSearch.args[0][0][0].params).to.have.keys(["foo", "hitsPerPage"]);
+      expect(this.algolia._doSearch.args[0][0][0].params).to.have.keys(["foo", "hitsPerPage", "clickAnalytics"]);
       expect(this.algolia._doSearch.args[0][0][1]).to.have.keys(["indexName", "params", "query"]);
       expect(this.algolia._doSearch.args[0][0][1].params).to.have.keys(["facets", "hitsPerPage"]);
       expect(this.algolia._doSearch.args[0][0][1].params.facets).to.include("*");

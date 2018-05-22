@@ -7,3 +7,5 @@ config :algolia, :repos,
 config :algolia, :indexes, [
   Algolia.MockObjects
 ]
+
+config :algolia, :click_analytics_url, :not_set

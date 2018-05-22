@@ -13,6 +13,49 @@ defmodule SiteWeb.SearchControllerTest do
     end
   end
 
+  describe "click" do
+    test "logs a click", %{conn: conn} do
+      bypass = Bypass.open()
+      Bypass.expect(bypass, fn conn -> Plug.Conn.send_resp(conn, 200, "success") end)
+
+      old_env = Application.get_env(:algolia, :click_analytics_url)
+      Application.put_env(:algolia, :click_analytics_url, "http://localhost:#{bypass.port}")
+
+      conn = post conn, search_path(conn, :click), %{objectID: "objectID", position: "1", queryID: "queryID"}
+      assert json_response(conn, 200) == %{"message" => "success"}
+
+      Application.put_env(:algolia, :click_analytics_url, old_env)
+    end
+
+    @tag :capture_log
+    test "returns error info if Algolia returns a bad response", %{conn: conn} do
+      bypass = Bypass.open()
+      Bypass.expect(bypass, fn conn -> Plug.Conn.send_resp(conn, 401, "Feature not available") end)
+
+      old_env = Application.get_env(:algolia, :click_analytics_url)
+      Application.put_env(:algolia, :click_analytics_url, "http://localhost:#{bypass.port}")
+
+      conn = post conn, search_path(conn, :click), %{objectID: "objectID", position: "1", queryID: "queryID"}
+      assert json_response(conn, 200) == %{"message" => "bad_response", "body" => "Feature not available", "status_code" => 401}
+
+      Application.put_env(:algolia, :click_analytics_url, old_env)
+    end
+
+    @tag :capture_log
+    test "returns error info if Algolia is down", %{conn: conn} do
+      bypass = Bypass.open()
+      Bypass.down(bypass)
+
+      old_env = Application.get_env(:algolia, :click_analytics_url)
+      Application.put_env(:algolia, :click_analytics_url, "http://localhost:#{bypass.port}")
+
+      conn = post conn, search_path(conn, :click), %{objectID: "objectID", position: "1", queryID: "queryID"}
+      assert json_response(conn, 200) == %{"message" => "error", "reason" => "econnrefused"}
+
+      Application.put_env(:algolia, :click_analytics_url, old_env)
+    end
+  end
+
   describe "get_alert_ids/2" do
     test "builds a hash of stop and route ids" do
       dt = Util.to_local_time(~N[2018-03-01T12:00:00])

@@ -391,14 +391,10 @@ describe('AlgoliaResults', () => {
     });
   });
 
-  describe("onClickResult", () => {
+  describe("onClickResultCallback", () => {
     it("updates the href with parameters", () => {
       const target = document.createElement("a");
-      target.href = "/link";
-      search.onClickResult({
-        currentTarget: target,
-        preventDefault: () => {}
-      });
+      search.onClickResultCallback("/link")({});
       expect(window.Turbolinks.visit.args[0][0]).to.equal("/link?from=global-search");
     });
   });

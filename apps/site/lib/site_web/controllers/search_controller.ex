@@ -37,6 +37,19 @@ defmodule SiteWeb.SearchController do
     |> render("index.html")
   end
 
+  @spec click(Conn.t, map) :: Conn.t
+  def click(conn, params) do
+    response = case Algolia.Analytics.click(params) do
+      :ok ->
+        %{message: "success"}
+      {:error, %HTTPoison.Response{} = response} ->
+        %{message: "bad_response", body: response.body, status_code: response.status_code}
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        %{message: "error", reason: reason}
+    end
+    json(conn, response)
+  end
+
   @spec render_error(Conn.t) :: Conn.t
   defp render_error(conn) do
     conn

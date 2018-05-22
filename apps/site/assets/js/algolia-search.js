@@ -108,6 +108,8 @@ export class Algolia {
   _buildQuery(queryId, { query }) {
     const currentQuery = this._queries[queryId];
     currentQuery.query = query;
+    currentQuery.params = currentQuery.params || {};
+    currentQuery.params.clickAnalytics = true;
     return currentQuery;
   }
 
