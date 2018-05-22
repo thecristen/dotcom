@@ -202,7 +202,7 @@ export class AlgoliaFacets {
     this._facetBar.loadState(facets);
   }
 
-  update() {
+  updateState() {
     this._parent.updateHistory();
   }
 }

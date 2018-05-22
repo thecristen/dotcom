@@ -1,6 +1,7 @@
-defmodule GlobalSearchTest do
+defmodule SiteWeb.GlobalSearchTest do
   use SiteWeb.IntegrationCase, async: true
   import Wallaby.Query
+  import SiteWeb.IntegrationHelpers
 
   @search_input css("#search-input")
 
@@ -202,24 +203,35 @@ defmodule GlobalSearchTest do
     end
   end
 
-  def search_results_section(count) do
-    css(".c-search-results__section", count: count)
-  end
+  describe "load state" do
+    @tag :wallaby
+    test "fills in query", %{session: session} do
+      session = visit(session, "/search?query=Test")
+      assert attr(session, @search_input, "value") == "Test"
+    end
 
-  def search_hits(count) do
-    css(".c-search-result__hit", count: count)
-  end
+    @tag :wallaby
+    test "checks off facets and does a search", %{session: session} do
+      session = visit(session, "/search?query=alewife&facets=stops,facet-station,facet-stop")
+      assert attr(session, @search_input, "value") == "alewife"
+      session = session
+      |> assert_has(search_results_section(1))
+      |> assert_has(search_hits(1))
+      assert selected?(session, facet_checkbox("stops"))
+      assert selected?(session, facet_checkbox("facet-station"))
+      assert selected?(session, facet_checkbox("facet-stop"))
+    end
 
-  def toggle_facet_section(session, name) do
-    click(session, css("#expansion-container-#{name}"))
-
-  end
-
-  def click_facet_checkbox(session, facet) do
-    click(session, css("#checkbox-container-#{facet}"))
-  end
-
-  def click_clear_search(session) do
-    click(session, css("#search-clear-icon"))
+    @tag :wallaby
+    test "does a search, checks off facets and loads show more", %{session: session} do
+      session = visit(session, "/search?query=alewife&facets=pages-parent,page,document&showmore=pagesdocuments")
+      assert attr(session, @search_input, "value") == "alewife"
+      session = session
+      |> assert_has(search_results_section(1))
+      |> assert_has(search_hits(7))
+      assert selected?(session, facet_checkbox("pages-parent"))
+      assert selected?(session, facet_checkbox("page"))
+      assert selected?(session, facet_checkbox("document"))
+    end
   end
 end

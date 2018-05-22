@@ -39,6 +39,10 @@ export class FacetGroup {
     this._parent.update();
   }
 
+  updateState() {
+    this._parent.updateState();
+  }
+
   getFacetsForQuery() {
     return this._item.getActiveFacets();
   }

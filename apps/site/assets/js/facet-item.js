@@ -155,12 +155,17 @@ export class FacetItem {
   }
 
   update() {
+    this.updateState();
+    this._parent.update();
+  }
+
+  updateState() {
     if (this.allChildrenStatus(true)) {
       this.check();
     } else {
       this.uncheckUI();
     }
-    this._parent.update();
+    this._parent.updateState();
   }
 
   allChildrenStatus(status) {
@@ -245,7 +250,7 @@ export class FacetItem {
     }
     if (this._id == id) {
       this.check();
-      this.update();
+      this.updateState();
     }
   }
 }

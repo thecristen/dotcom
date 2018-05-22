@@ -149,7 +149,7 @@ describe("Algolia", function() {
   });
 
   describe("addPage", function() {
-    it("increments the hit count for a group and performs a new search", function() {
+    it("increments the hit count for a group", function() {
       this.algolia._client = this.mockClient;
       this.algolia._doSearch = sinon.spy();
 
@@ -158,7 +158,6 @@ describe("Algolia", function() {
 
       this.algolia.addPage("stops");
       expect(this.algolia._queries.stops.params.hitsPerPage)
-      expect(this.algolia._doSearch.args[1][0][0].params.hitsPerPage).to.equal(5 + this.algolia._viewMoreInc);
     });
   });
 });

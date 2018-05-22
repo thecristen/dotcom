@@ -35,12 +35,12 @@ export class AlgoliaGlobalSearch {
     this._facetsWidget = new AlgoliaFacets(AlgoliaGlobalSearch.SELECTORS, this.controller, this);
     this._facetsWidget.reset();
     this.controller.addWidget(this._facetsWidget);
-    this.loadState(window.location.search);
 
     this._resultsWidget = new AlgoliaResults(AlgoliaGlobalSearch.SELECTORS.resultsContainer, this);
     this.controller.addWidget(this._resultsWidget);
 
     this.addEventListeners();
+    this.loadState(window.location.search);
     this.controller.search({query: this.container.value});
   }
 
@@ -58,16 +58,18 @@ export class AlgoliaGlobalSearch {
   loadState(query) {
     this._queryParams = QueryStringHelpers.parseQuery(query);
     this.container.value = this._queryParams["query"] || "";
+
+    const showMoreState = this._queryParams["showmore"] || "";
+    if (showMoreState != "") {
+      showMoreState.split(",").forEach(group => {
+        this.addPage(group);
+      });
+    }
+
     const facetState = this._queryParams["facets"] || "";
     this._facetsWidget.loadState(facetState.split(","));
     if (facetState != "") {
       this.controller.enableLocationSearch(facetState.includes("locations"));
-    }
-    const showMoreState = this._queryParams["showmore"] || "";
-    if (showMoreState != "") {
-      showMoreState.split(",").forEach(group => {
-        this.onClickShowMore(group);
-      });
     }
   }
 
@@ -92,9 +94,14 @@ export class AlgoliaGlobalSearch {
   }
 
   onClickShowMore(group) {
+    this.addPage(group);
+    this.updateHistory();
+    this.controller.search({});
+  }
+
+  addPage(group) {
     this.controller.addPage(group);
     this._showMoreList.push(group);
-    this.updateHistory();
   }
 
   getParams() {

@@ -52,9 +52,13 @@ export class FacetBar {
   }
 
   update() {
-    this._resetQueries();
-    this._parent.update();
+    this.updateState();
     this._search.search();
+  }
+
+  updateState() {
+    this._resetQueries();
+    this._parent.updateState();
   }
 
   selectedFacetNames() {

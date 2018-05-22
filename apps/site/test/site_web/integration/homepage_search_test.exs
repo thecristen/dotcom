@@ -2,6 +2,7 @@ defmodule SiteWeb.HomepageSearchTest do
   use SiteWeb.IntegrationCase, async: true
   alias Wallaby.Browser
   import Wallaby.Query
+  import SiteWeb.IntegrationHelpers
 
   @search_input css("#homepage-search__input")
 
@@ -12,14 +13,19 @@ defmodule SiteWeb.HomepageSearchTest do
 
   describe "basic search" do
     @tag :wallaby
-    test "can click show more and go to search page with facet checked", %{session: session} do
+    test "clicking show more goes to search page with facet checked and show more populated", %{session: session} do
       session =
         session
         |> fill_in(@search_input, with: "Alewife")
-        |> assert_has(css(".c-search-bar__-dataset-stops"))
-        |> click(css("#show-more--stops"))
-        |> assert_has(css("#facet-label-stops"))
-      assert attr(session, css("#checkbox-item-stops", visible: false), "checked") == "true"
+        |> assert_has(css(".c-search-bar__-dataset-pagesdocuments"))
+        |> click(css("#show-more--pagesdocuments"))
+
+      assert Wallaby.Browser.text(session, css(".c-search-result__header")) == "Pages and Documents"
+      section = find(session, search_results_section(1))
+      assert_has(section, search_hits(7))
+      assert selected?(session, facet_checkbox("pages-parent"))
+      assert selected?(session, facet_checkbox("page"))
+      assert selected?(session, facet_checkbox("document"))
     end
   end
 
