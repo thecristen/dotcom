@@ -1,10 +1,4 @@
 <div class="page-section">
-  <h1 class="schedule-route-name">
-    <%= line_icon(@route, :default) %>
-    <%= route_header_text(@route) %>
-  </h1>
-
-  <%= SiteWeb.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
   <%
     timetable_link = timetable_path(@conn, :show, @route.id, @tab_params)
     schedule_link = trip_view_path(@conn, :show, @route.id, @tab_params)

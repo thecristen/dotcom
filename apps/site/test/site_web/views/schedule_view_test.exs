@@ -3,7 +3,9 @@ defmodule SiteWeb.ScheduleViewTest do
 
   alias Schedules.Trip
   alias Stops.{Stop, RouteStop}
+  alias Routes.Route
   import SiteWeb.ScheduleView
+  import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   @trip %Schedules.Trip{name: "101", headsign: "Headsign", direction_id: 0, id: "1"}
@@ -96,6 +98,8 @@ defmodule SiteWeb.ScheduleViewTest do
     test "renders a message if no scheduled trips", %{conn: conn} do
       conn = conn
       |> assign(:all_stops, [])
+      |> assign(:alerts, [])
+      |> assign(:upcoming_alerts, [])
       |> assign(:date, ~D[2017-01-01])
       |> assign(:destination, nil)
       |> assign(:origin, nil)
@@ -394,6 +398,8 @@ defmodule SiteWeb.ScheduleViewTest do
                           {[{nil, :terminus}], route_stop_2}],
               route_shapes: [@shape, @shape],
               active_shape: @shape,
+              alerts: [],
+              upcoming_alerts: [],
               expanded: nil,
               show_variant_selector: true,
               map_img_src: nil,
@@ -426,6 +432,8 @@ defmodule SiteWeb.ScheduleViewTest do
               all_stops: [{[{nil, :terminus}], route_stop_1},
                           {[{nil, :terminus}], route_stop_2}],
               route_shapes: [@shape],
+              alerts: [],
+              upcoming_alerts: [],
               expanded: nil,
               active_shape: nil,
               map_img_src: nil,
@@ -455,6 +463,8 @@ defmodule SiteWeb.ScheduleViewTest do
               conn: Plug.Conn.fetch_query_params(conn),
               stop_list_template: "_stop_list.html",
               all_stops: [],
+              alerts: [],
+              upcoming_alerts: [],
               route_shapes: [],
               expanded: nil,
               active_shape: nil,
@@ -480,6 +490,8 @@ defmodule SiteWeb.ScheduleViewTest do
               conn: Plug.Conn.fetch_query_params(conn),
               stop_list_template: "_stop_list.html",
               all_stops: [],
+              alerts: [],
+              upcoming_alerts: [],
               route_shapes: [],
               expanded: nil,
               active_shape: nil,
@@ -509,6 +521,8 @@ defmodule SiteWeb.ScheduleViewTest do
               conn: Plug.Conn.fetch_query_params(conn),
               stop_list_template: "_stop_list.html",
               all_stops: [{[{nil, :terminus}], route_stop}],
+              alerts: [],
+              upcoming_alerts: [],
               route_shapes: [@shape],
               expanded: nil,
               active_shape: nil,
@@ -702,6 +716,16 @@ defmodule SiteWeb.ScheduleViewTest do
 
     test "fare link when origin and destination chosen" do
       assert fare_params(@origin, @destination) == %{origin: @origin, destination: @destination}
+    end
+  end
+
+  describe "route_header_text/2" do
+    test "translates the type number to a string or number if non-silver-line bus" do
+      assert route_header_text(%Route{type: 0, name: "test route"}) == ["test route"]
+      assert route_header_text(%Route{type: 3, name: "SL1", id: "741"}) == ["Silver Line ", "SL1"]
+      assert route_header_text(%Route{type: 3, id: "2"}) == content_tag(:div, "2", class: "bus-route-sign")
+      assert route_header_text(%Route{type: 1, name: "Red Line"}) == ["Red Line"]
+      assert route_header_text(%Route{type: 2, name: "Fitchburg Line"}) == ["Fitchburg"]
     end
   end
 end

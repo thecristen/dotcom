@@ -7,15 +7,6 @@ defmodule SiteWeb.ViewHelpersTest do
   import Phoenix.HTML, only: [safe_to_string: 1, html_escape: 1]
   alias Routes.Route
 
-  describe "route_header_text/2" do
-    test "translates the type number to a string" do
-      assert route_header_text(%Route{type: 0, name: "test route"}) == ["test route"]
-      assert route_header_text(%Route{type: 3, name: "2"}) == ["Route ", "2"]
-      assert route_header_text(%Route{type: 1, name: "Red Line"}) == ["Red Line"]
-      assert route_header_text(%Route{type: 2, name: "Fitchburg Line"}) == ["Fitchburg"]
-    end
-  end
-
   describe "break_text_at_slash/1" do
     test "doesn't change text without slashes" do
       s = "this text doesn't contain a slash"

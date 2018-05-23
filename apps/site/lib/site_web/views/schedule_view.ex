@@ -212,4 +212,43 @@ defmodule SiteWeb.ScheduleView do
     route = PredictedSchedule.route(predicted_schedule)
     Stops.RouteStop.build_route_stop(stop, route, first?: first?, last?: last?)
   end
+
+  @doc "Prefix route name with route for bus lines"
+  def route_header_text(route = %{type: 3, name: name}) do
+    if Route.silver_line_rapid_transit?(route) do
+      ["Silver Line ", name]
+    else
+      content_tag :div, class: "bus-route-sign" do
+        route.id
+      end
+    end
+  end
+  def route_header_text(%{type: 2, name: name}), do: [clean_route_name(name)]
+  def route_header_text(%{name: name}), do: [name]
+
+  def header_class(route) do
+    case Route.type_atom(route.type) do
+      :bus ->
+        if Route.silver_line_rapid_transit?(route) do
+          "schedule__header--silver"
+        else
+          "schedule__header--bus"
+        end
+      :commuter_rail -> "schedule__header--commuter-rail"
+      :ferry -> "schedule__header--ferry"
+      :subway -> "schedule__header--" <> route_to_class(route)
+    end
+  end
+
+  @doc "Route sub text (long names for bus routes)"
+  def route_header_description(route = %{type: 3}) do
+    if Route.silver_line_rapid_transit?(route) do
+      ""
+    else
+      content_tag :h2, class: "schedule__description" do
+        "Bus Route"
+      end
+    end
+  end
+  def route_header_description(_), do: ""
 end

@@ -7,8 +7,10 @@
   margin-top: $base-spacing;
 }
 
-.schedule-route-name {
+.schedule__route-name {
+  display: inline-block;
   @include icon-size($font-size-h2);
+  text-transform: uppercase;
 
   [class^=c-svg__icon] {
     // For some reason, in Backstop tests these SVGs render as if their center is at the parent
@@ -1291,4 +1293,69 @@ del .trip-list-realtime {
   border: $border;
   margin-top: $base-spacing;
   padding: $space-12;
+}
+
+.schedule__description {
+  color: $black;
+  display: inline-block;
+}
+
+.schedule__header {
+  color: $white;
+}
+
+.schedule__header-container {
+  @include make-container-max-widths();
+  margin-left: auto;
+  margin-right: auto;
+
+  @include media-breakpoint-down(sm) {
+    padding-left: $grid-gutter-width / 2;
+    padding-right: $grid-gutter-width / 2;
+  }
+}
+
+.schedule__header--red-line {
+  background-color: $brand-red-line;
+}
+
+.schedule__header--mattapan-line {
+  background-color: $brand-red-line;
+}
+
+.schedule__header--orange-line {
+  background-color: $brand-orange-line;
+}
+
+.schedule__header--blue-line {
+  background-color: $brand-blue-line;
+}
+
+.schedule__header--green-line {
+  background-color: $brand-green-line;
+}
+
+.schedule__header--bus {
+  background-color: $brand-bus;
+}
+
+.schedule__header--silver {
+  background-color: $brand-silver-line;
+}
+
+.schedule__header--ferry {
+  background-color: $brand-ferry;
+}
+
+.schedule__header--commuter-rail {
+  background-color: $brand-commuter-rail;
+}
+
+.bus-route-sign {
+  background-color: $black;
+  border-radius: $base-spacing * 2;
+  color: $white;
+  display: inline-block;
+  font-weight: bold;
+  padding: $base-spacing / 4 $base-spacing;
 }
