@@ -227,3 +227,23 @@
     vertical-align: text-top;
   }
 }
+
+.station__header {
+  background: $gray-bordered-background;
+  border-bottom: 0;
+}
+
+.station__header-container {
+  @include make-container-max-widths();
+  margin-left: auto;
+  margin-right: auto;
+
+  @include media-breakpoint-down(sm) {
+    padding-left: $grid-gutter-width / 2;
+    padding-right: $grid-gutter-width / 2;
+  }
+}
+
+.station__name--upcase {
+  text-transform: uppercase;
+}

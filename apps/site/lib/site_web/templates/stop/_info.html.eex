@@ -2,6 +2,8 @@
 <%= render_alerts(@stop_alerts, @date, @stop) %>
 </div>
 <div id="station-info" class="page-section">
+  <%= render "_map.html", forward_assigns(@conn) %>
+
   <h2>Parking</h2>
   <%= if !Enum.empty?(@stop.parking_lots) do %>
     <%= for lot <- @stop.parking_lots do %>

@@ -287,4 +287,8 @@ defmodule SiteWeb.StopView do
   defp stop_feature_icon_atom(feature) do
     feature
   end
+
+  @spec station_name_class(Keyword.t) :: String.t
+  def station_name_class([{:bus, _}]), do: "station__name"
+  def station_name_class(_), do: "station__name station__name--upcase"
 end

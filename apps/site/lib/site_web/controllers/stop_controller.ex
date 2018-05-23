@@ -39,6 +39,7 @@ defmodule SiteWeb.StopController do
     if stop do
       routes = Routes.Repo.by_stop(stop.id)
       conn
+      |> assign(:pre_container_template, "_header.html")
       |> async_assign(:grouped_routes, fn -> grouped_routes(routes) end)
       |> assign(:fare_types, fare_types(routes))
       |> async_assign(:zone_number, fn -> Zones.Repo.get(stop.id) end)

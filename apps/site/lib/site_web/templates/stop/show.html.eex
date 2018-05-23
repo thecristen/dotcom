@@ -1,29 +1,4 @@
 <div class="page-section station">
-  <h1>
-    <%= @stop.name %>
-    <span class="station-mode-icon">
-      <% icon_size = :small %>
-      <%= for {type, routes} <- @grouped_routes do %>
-        <%= if type == :subway do %>
-          <%= for route <- aggregate_routes(routes) do %>
-            <%= line_icon(route, icon_size) %>
-            <span class="station-mode-description"><%= subway_name(route.name) %></span>
-          <% end %>
-        <% else %>
-          <%= mode_icon(type, icon_size) %>
-          <span class="station-mode-description"><%= mode_name(type) %></span>
-        <% end %>
-        <%= if type == :commuter_rail and Map.get(assigns, :zone_number) do %>
-          <span class="station-info-zone">Zone <%= @zone_number %></span>
-        <% end %>
-      <% end %>
-      <%= if Stop.accessible?(@stop) do %>
-        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access}) %>
-        <span class="station-mode-description">Accessible</span>
-      <% end %>
-    </span>
-    </span>
-  </h1>
   <p class="stations-address">
   <%= if @stop.address && @stop.address != "" do %>
     <%= @stop.address %>
@@ -34,10 +9,6 @@
     </span>
   <% end %>
   </p>
-
-  <%= if @tab == "info" do %>
-    <%= render "_map.html", forward_assigns(@conn) %>
-  <% end %>
 
   <%= tab_selector(%TabSelector{
     links: [
