@@ -38,28 +38,28 @@
 }
 
 .pre-container-wrapper {
-  // scss-lint:disable ColorVariable
+  @include media-breakpoint-up(sm) {
+    padding-top: $base-spacing * 3;
+  }
+}
+
+.pre-container-wrapper--with-background {
   background-color: $brand-primary-darkest;
   background-image: $hp-hero-gradient, url('/images/green-line-hero.jpg');
   background-position-x: 50%;
   background-position-y: 50%;
   background-repeat: no-repeat;
   background-size: cover;
-  padding: $base-spacing * 3;
-  width: 100%;
-  // scss-lint:enable ColorVariable
+  padding-left: $base-spacing * 3;
+  padding-right: $base-spacing * 3;
 
-  @include media-breakpoint-only(xs) {
-    padding: 0;
+  @include media-breakpoint-up(sm) {
+    padding-bottom: $base-spacing * 3;
   }
 
-  .transit-input-label {
-    color: $white;
-    margin-bottom: $base-spacing-sm;
-
-    @include media-breakpoint-only(xs) {
-      padding-top: $grid-gutter-width;
-    }
+  @include media-breakpoint-down(xs) {
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 

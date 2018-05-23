@@ -1,11 +1,11 @@
-<div class="pre-container-wrapper hidden-no-js">
+<% new_design? = Laboratory.enabled?(@conn, :homepage_redesign) %>
+<%= if new_design? do render "_secondary_nav.html", conn: @conn end %>
+<div class="pre-container-wrapper<%= if new_design? do "" else " pre-container-wrapper--with-background" end %> hidden-no-js">
   <div class="container homepage-search">
-    <div class="pre-container-header">
-    </div>
     <script>
       window.algoliaConfig = <%= algolia_config() %>
     </script>
-    <label for="search-bar" class="c-search-bar__header--white">
+    <label for="search-bar" class="c-search-bar__header<%= if new_design? do "" else "--white" end %>">
       Search MBTA.com
     </label>
     <form action="/search" method="get" id="homepage-search__container" class="text-input-button-widget c-search-bar__input">

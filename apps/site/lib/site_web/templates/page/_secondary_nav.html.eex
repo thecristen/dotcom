@@ -1,0 +1,31 @@
+<div class="m-secondary-nav">
+  <div class="m-secondary-nav__items">
+    <a class="m-secondary-nav__item" href="/schedules">
+      <span class="m-secondary-nav__icon">
+        <%= svg("icon-map-default.svg") %>
+      </span>
+      <span class="m-secondary-nav__icon-text">
+        Schedules
+        <span class="hidden-xs-down">&amp; Maps</span>
+      </span>
+    </a>
+    <a class="m-secondary-nav__item" href="/alerts">
+      <span class="m-secondary-nav__icon">
+        <%= svg("icon-alerts-default.svg") %>
+      </span>
+      <span class="m-secondary-nav__icon-text">Alerts</span>
+    </a>
+    <a class="m-secondary-nav__item" href="/trip-planner">
+      <span class="m-secondary-nav__icon">
+        <%= svg("icon-trip-planner-default.svg") %>
+      </span>
+      <span class="m-secondary-nav__icon-text">Trip Planner</span>
+    </a>
+    <a class="m-secondary-nav__item" href="/customer-support">
+      <span class="m-secondary-nav__icon">
+        <%= svg("icon-support-default.svg") %>
+      </span>
+      <span class="m-secondary-nav__icon-text">Support</span>
+    </a>
+  </div>
+</div>
