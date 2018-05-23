@@ -240,7 +240,7 @@ function _contentUrl(hit) {
 
 function _getCommuterRailZone(hit) {
    if (hit.zone) {
-     return [`<span class="c-search-results__commuter-rail-zone">Zone ${hit.zone}</span>`];
+     return [`<span class="c-icon__cr-zone">Zone ${hit.zone}</span>`];
    } else {
      return [];
    }
