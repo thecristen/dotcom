@@ -1,26 +1,15 @@
-<h1 class="station__header">
+<div class="station__header">
   <div class="station__header-container">
     <%= content_tag(:h1, @stop.name, class: "#{station_name_class(@grouped_routes)} h1--new") %>
-    <div class="station-mode-icon">
-      <% icon_size = :small %>
-      <%= for {type, routes} <- @grouped_routes do %>
-        <%= if type == :subway do %>
-          <%= for route <- aggregate_routes(routes) do %>
-            <%= line_icon(route, icon_size) %>
-            <span class="station-mode-description"><%= subway_name(route.name) %></span>
-          <% end %>
-        <% else %>
-          <%= mode_icon(type, icon_size) %>
-          <span class="station-mode-description"><%= mode_name(type) %></span>
-        <% end %>
-        <%= if type == :commuter_rail and Map.get(assigns, :zone_number) do %>
-          <span class="station-info-zone">Zone <%= @zone_number %></span>
-        <% end %>
-      <% end %>
+    <div class="station__header-features">
+      <%= render_header_modes(@grouped_routes, Map.get(assigns, :zone_number)) %>
       <%= if Stop.accessible?(@stop) do %>
-        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access}) %>
-        <span class="station-mode-description">Accessible</span>
+        <span class="station__header-feature">
+          <span class="station__header-icon">
+            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access}) %>
+          </span>
+        </span>
       <% end %>
     </div>
   </div>
-</h1>
+</div>

@@ -214,7 +214,7 @@ defmodule SiteWeb.ScheduleView do
   end
 
   @doc "Prefix route name with route for bus lines"
-  def route_header_text(route = %{type: 3, name: name}) do
+  def route_header_text(%Route{type: 3, name: name} = route) do
     if Route.silver_line_rapid_transit?(route) do
       ["Silver Line ", name]
     else
@@ -223,25 +223,31 @@ defmodule SiteWeb.ScheduleView do
       end
     end
   end
-  def route_header_text(%{type: 2, name: name}), do: [clean_route_name(name)]
-  def route_header_text(%{name: name}), do: [name]
+  def route_header_text(%Route{type: 2, name: name}), do: [clean_route_name(name)]
+  def route_header_text(%Route{name: name}), do: [name]
 
-  def header_class(route) do
-    case Route.type_atom(route.type) do
-      :bus ->
-        if Route.silver_line_rapid_transit?(route) do
-          "schedule__header--silver"
-        else
-          "schedule__header--bus"
-        end
-      :commuter_rail -> "schedule__header--commuter-rail"
-      :ferry -> "schedule__header--ferry"
-      :subway -> "schedule__header--" <> route_to_class(route)
+  @spec header_class(Route.t) :: String.t
+  def header_class(%Route{type: 3} = route) do
+    if Route.silver_line_rapid_transit?(route) do
+      do_header_class("silver-line")
+    else
+      do_header_class("bus")
     end
+  end
+  def header_class(%Route{} = route) do
+    route
+    |> route_to_class()
+    |> do_header_class()
+  end
+
+  @spec do_header_class(String.t) :: String.t
+  defp do_header_class(<<modifier::binary>>) do
+    "u-bg--" <> modifier
   end
 
   @doc "Route sub text (long names for bus routes)"
-  def route_header_description(route = %{type: 3}) do
+  @spec route_header_description(Route.t) :: String.t
+  def route_header_description(%Route{type: 3} = route) do
     if Route.silver_line_rapid_transit?(route) do
       ""
     else

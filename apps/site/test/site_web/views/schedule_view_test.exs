@@ -728,4 +728,19 @@ defmodule SiteWeb.ScheduleViewTest do
       assert route_header_text(%Route{type: 2, name: "Fitchburg Line"}) == ["Fitchburg"]
     end
   end
+
+  describe "route_header_class/1" do
+    test "returns a line-specific background class for silver line and subway" do
+      assert header_class(%Route{type: 3, id: "741"}) == "u-bg--silver-line"
+      assert header_class(%Route{type: 0, id: "Green-B"}) == "u-bg--green-line"
+      assert header_class(%Route{type: 1, id: "Red"}) == "u-bg--red-line"
+    end
+
+    test "returns a mode-specific background class for other modes" do
+      assert header_class(%Route{type: 2, id: "CR-Fitchburg"}) == "u-bg--commuter-rail"
+      assert header_class(%Route{type: 3, id: "2"}) == "u-bg--bus"
+      assert header_class(%Route{type: 3, id: "2"}) == "u-bg--bus"
+      assert header_class(%Route{type: 4, id: "Boat-Hull"}) == "u-bg--ferry"
+    end
+  end
 end

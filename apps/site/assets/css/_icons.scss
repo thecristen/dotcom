@@ -293,9 +293,9 @@ a {
 }
 
 .c-icon__cr-zone {
-  border: solid 1px $brand-commuter-rail;
+  border: solid $border-width $brand-commuter-rail;
   border-radius: $space-4;
   color: $brand-commuter-rail;
-  padding-left: $space-6;
-  padding-right: $space-6;
+  padding-left: $base-spacing / 4;
+  padding-right: $base-spacing / 4;
 }

@@ -276,6 +276,95 @@ defmodule SiteWeb.StopViewTest do
     end
   end
 
+  def header_mode_to_string(io) do
+    io
+    |> Enum.flat_map(& Enum.map(&1, fn safe -> safe_to_string(safe) end))
+    |> IO.iodata_to_binary()
+  end
+
+  describe "render_header_modes/2" do
+    test "renders separate icon and mode pill for subway lines" do
+      grouped_routes = [
+        subway: [
+          %Route{id: "Red", type: 1, name: "Red Line"},
+          %Route{id: "Green-B", type: 0, name: "Green Line B"},
+          %Route{id: "Green-C", type: 0, name: "Green Line C"},
+          %Route{id: "Green-D", type: 0, name: "Green Line D"},
+          %Route{id: "Green-E", type: 0, name: "Green Line E"}
+        ]
+      ]
+      rendered = SiteWeb.StopView.render_header_modes(grouped_routes, nil)
+      assert [subway_io, [], [], []] = rendered
+      subway = header_mode_to_string(subway_io)
+      assert [_] = Floki.find(subway, ".c-svg__icon-red-line-default")
+      assert Floki.text(subway) =~ "Red Line"
+      assert [_] = Floki.find(subway, ".c-svg__icon-green-line-default")
+      assert Floki.text(subway) =~ "Green Line"
+      for branch <- ["b", "c", "d", "e"] do
+        assert Floki.find(subway, ".c-svg__icon-green-line-#{branch}-default") == []
+        refute Floki.text(subway) =~ "Green Line " <> String.upcase(branch)
+      end
+    end
+
+    test "renders one icon and pill for ferry" do
+      grouped_routes = [
+        ferry: [
+          %Route{id: "Boat-Hingham", type: 4},
+          %Route{id: "Boat-Hull", type: 4}
+        ]
+      ]
+      rendered = SiteWeb.StopView.render_header_modes(grouped_routes, nil)
+      assert [[], ferry_io, [], []] = rendered
+      ferry = header_mode_to_string(ferry_io)
+      assert [_] = Floki.find(ferry, ".c-svg__icon-mode-ferry-default")
+      assert [_] = Floki.find(ferry, ".station__header-description")
+    end
+
+    test "renders one icon and pill for commuter rail, and renders zone" do
+      grouped_routes = [
+        commuter_rail: [
+          %Route{id: "CR-Fitchburg", type: 2},
+          %Route{id: "CR-Lowell", type: 2}
+        ]
+      ]
+      rendered = SiteWeb.StopView.render_header_modes(grouped_routes, 2)
+      assert [[], [], cr_io, []] = rendered
+      cr = header_mode_to_string(cr_io)
+      assert [_] = Floki.find(cr, ".c-svg__icon-mode-commuter-rail-default")
+      assert [_] = Floki.find(cr, ".station__header-description")
+      assert [_] = Floki.find(cr, ".c-icon__cr-zone")
+    end
+
+    test "renders CR with no zone if zone not assigned" do
+      grouped_routes = [
+        commuter_rail: [
+          %Route{id: "CR-Fitchburg", type: 2},
+          %Route{id: "CR-Lowell", type: 2}
+        ]
+      ]
+      rendered = SiteWeb.StopView.render_header_modes(grouped_routes, nil)
+      assert [[], [], cr_io, []] = rendered
+      cr = header_mode_to_string(cr_io)
+      assert [_] = Floki.find(cr, ".c-svg__icon-mode-commuter-rail-default")
+      assert [_] = Floki.find(cr, ".station__header-description")
+      assert Floki.find(cr, ".c-icon__cr-zone") == []
+    end
+
+    test "renders one icon with no pill for bus lines" do
+      grouped_routes = [
+        bus: [
+          %Route{id: "77", type: 3},
+          %Route{id: "86", type: 3}
+        ]
+      ]
+      rendered = SiteWeb.StopView.render_header_modes(grouped_routes, nil)
+      assert [[], [], [], bus_io] = rendered
+      bus = header_mode_to_string(bus_io)
+      assert [_] = Floki.find(bus, ".c-svg__icon-mode-bus-default")
+      assert Floki.find(bus, ".station__header-description") == []
+    end
+  end
+
   describe "_info.html" do
     test "Ferry Fare link preselects origin", %{conn: conn} do
       output = SiteWeb.StopView.render("_info.html",

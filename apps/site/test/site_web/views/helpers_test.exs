@@ -89,22 +89,6 @@ defmodule SiteWeb.ViewHelpersTest do
     end
   end
 
-  describe "subway_name/1" do
-    test "All Green line routes display \"Green Line\"" do
-      assert subway_name("Green-B") == "Green Line"
-      assert subway_name("Green-C") == "Green Line"
-      assert subway_name("Green-D") == "Green Line"
-      assert subway_name("Green-E") == "Green Line"
-    end
-
-    test "Lines show correct display name" do
-      assert subway_name("Red Line") == "Red Line"
-      assert subway_name("Mattapan") == "Mattapan Trolley"
-      assert subway_name("Blue Line") == "Blue Line"
-      assert subway_name("Orange Line") == "Orange Line"
-    end
-  end
-
   describe "route_to_class/1" do
     test "converts routes to css classes based on type" do
       assert route_to_class(%Routes.Route{type: 0}) == "subway"
