@@ -38,7 +38,7 @@ defmodule IcalendarGeneratorTest do
       assert result =~ "DESCRIPTION:Here is a description."
       assert result =~ "LOCATION:MassDot 10 Park Plaza Boston, MA"
       assert result =~ "SUMMARY:Event Title"
-      assert result =~ "URL:http://localhost:4001#{event.path_alias}"
+      assert result =~ "URL:#{SiteWeb.Endpoint.url()}#{event.path_alias}"
     end
 
     test "includes unique identifiers for updating an existing calendar event", %{conn: conn} do

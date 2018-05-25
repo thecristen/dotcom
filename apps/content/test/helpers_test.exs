@@ -180,8 +180,9 @@ defmodule Content.HelpersTest do
     end
 
     test "rewrites static file links" do
+      {:ok, endpoint} = Application.get_env(:util, :endpoint)
       html = "<img src=\"/sites/default/files/converted.jpg\">"
-      assert handle_html(html) == {:safe, "<img src=\"http://localhost:4001/sites/default/files/converted.jpg\" />"}
+      assert handle_html(html) == {:safe, "<img src=\"#{endpoint.url()}/sites/default/files/converted.jpg\" />"}
     end
 
     test "allows an empty string" do
