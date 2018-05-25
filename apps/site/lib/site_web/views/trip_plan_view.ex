@@ -190,14 +190,17 @@ defmodule SiteWeb.TripPlanView do
 
   defp format_green_line_name("Green Line " <> branch), do: "Green Line (#{branch})"
 
-  @spec accessibility_icon([String.t]) :: Phoenix.HTML.Safe.t
-  defp accessibility_icon(classes) do
-    svg_icon_with_circle(%SvgIconWithCircle{
-      icon: :access,
-      class: Enum.join(["icon-small" | classes], " "),
-      show_tooltip?: false,
-      aria_hidden?: true,
-    })
+  @spec accessibility_icon(TripPlan.Itinerary.t) :: Phoenix.HTML.Safe.t
+  defp accessibility_icon(%TripPlan.Itinerary{accessible?: accessible?}) do
+    content_tag(:span, [
+      svg_icon_with_circle(%SvgIconWithCircle{
+        icon: if accessible? do :access else :no_access end,
+        class: "icon-small",
+        show_tooltip?: false,
+        aria_hidden?: true
+      }),
+      if accessible? do "Accessible" else "May not be accessible" end
+    ], class: "trip-plan-itinerary-accessibility")
   end
 
   @spec icon_for_route(Route.t) :: Phoenix.HTML.Safe.t

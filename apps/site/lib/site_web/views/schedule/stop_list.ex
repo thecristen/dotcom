@@ -135,6 +135,16 @@ defmodule SiteWeb.ScheduleView.StopList do
     end
   end
 
+  def filter_stop_features(icons, %Stops.RouteStop{route: %Routes.Route{id: "Green-" <> _}}) do
+    Enum.reject(icons, &is_green_branch_icon?/1)
+  end
+  def filter_stop_features(icons, %Stops.RouteStop{}) do
+    icons
+  end
+
+  defp is_green_branch_icon?(icon) when icon in [:green_line_b, :green_line_c, :green_line_d, :green_line_e], do: true
+  defp is_green_branch_icon?(_), do: false
+
   defp show_checkmark?(nil, first_stop?, bubble_type) do
     !first_stop? and bubble_type == :terminus
   end

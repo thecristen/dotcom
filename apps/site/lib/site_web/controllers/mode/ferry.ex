@@ -5,6 +5,8 @@ defmodule SiteWeb.Mode.FerryController do
 
   def mode_name, do: "Ferry"
 
+  def mode_icon, do: :ferry
+
   def fare_description do
     "Fares differ between Commuter Ferries & Inner Harbor Ferries. Refer to the information below:"
   end

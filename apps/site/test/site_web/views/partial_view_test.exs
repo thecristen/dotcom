@@ -66,25 +66,19 @@ defmodule SiteWeb.PartialViewTest do
   end
 
   describe "svg_icon_with_circle" do
-    test "icons render an svg with a background circle and an icon positioned correctly" do
+    test "icons render an svg" do
       rendered =
         %SvgIconWithCircle{icon: :subway}
         |> svg_icon_with_circle()
         |> safe_to_string()
       assert rendered =~ "</svg>"
-      assert rendered =~ "icon "
-      assert rendered =~ "icon-circle"
-      assert rendered =~ "icon-subway"
-      assert rendered =~ "translate(4,4)"
+      assert rendered =~ "c-svg__icon-mode-subway"
       assert rendered =~ "title=\"Subway\""
     end
 
-    test "optionally accepts a class argument" do
-      rendered =
-        %SvgIconWithCircle{icon: :subway, class: "test-class"}
-        |> svg_icon_with_circle()
-        |> safe_to_string()
-      assert rendered =~ ~r(class.*test-class)
+    test "uses small icon if class includes icon-small" do
+      rendered = %SvgIconWithCircle{icon: :subway, class: "icon-small"} |> svg_icon_with_circle() |> safe_to_string()
+      assert rendered =~ "c-svg__icon-mode-subway-small"
     end
 
     test "title/1" do
@@ -98,9 +92,11 @@ defmodule SiteWeb.PartialViewTest do
     end
 
     test "Title tooltip is shown if show_tooltip? is not specified" do
-      rendered = %SvgIconWithCircle{icon: :subway} |> svg_icon_with_circle() |> safe_to_string()
-      [data_toggle] = rendered |> Floki.find("svg") |> List.first |> Floki.attribute("data-toggle")
-      assert data_toggle == "tooltip"
+      rendered =
+        %SvgIconWithCircle{icon: :subway}
+        |> svg_icon_with_circle()
+        |> safe_to_string()
+      assert Floki.attribute(rendered, "data-toggle") == ["tooltip"]
     end
 
     test "Tooltip is not shown if show_tooltip? is false" do

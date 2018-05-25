@@ -1,5 +1,9 @@
 @import 'variables';
 
+.mode-hub-header {
+  @include icon-size($base-spacing * 1.5);
+}
+
 .system-map {
   @include img-fluid();
   margin-bottom: $base-spacing;

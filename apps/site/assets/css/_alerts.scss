@@ -45,6 +45,8 @@
 }
 
 .alert-show-title {
+  @include icon-size($base-spacing * 1.5);
+
   background: $white;
   display: inline-block;
   font-weight: bold;
@@ -53,6 +55,11 @@
   padding-right: 1rem;
   position: relative;
   z-index: $z-index-alert-show-title;
+
+  [class^=c-svg__icon] {
+    margin-right: $base-spacing / 4;
+    vertical-align: top;
+  }
 }
 
 .alert-show-title-subway {

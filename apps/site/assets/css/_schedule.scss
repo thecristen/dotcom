@@ -895,6 +895,7 @@ del .trip-list-realtime {
   // scss-lint:disable VendorPrefix
   @extend %button-primary-outline;
   @include clearfix();
+  @include icon-size($base-spacing * 2);
   border-radius: $border-radius;
   display: block;
   -ms-flex: 1 1 0%; // specify all 3 to work around IE bug

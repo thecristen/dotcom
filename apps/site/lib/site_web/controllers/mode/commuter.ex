@@ -6,6 +6,8 @@ defmodule SiteWeb.Mode.CommuterRailController do
 
   def mode_name, do: "Commuter Rail"
 
+  def mode_icon, do: :commuter_rail
+
   def fare_description do
     [
       link_to_zone_fares(),

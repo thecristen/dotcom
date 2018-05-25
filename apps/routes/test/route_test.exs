@@ -34,7 +34,7 @@ defmodule Routes.RouteTest do
             orange_line: "Orange",
             blue_line: "Blue",
             green_line: "Green",
-            green_line: "Green-B"] do
+            green_line_b: "Green-B"] do
           route = %Route{id: id}
           actual = icon_atom(route)
           assert actual == expected

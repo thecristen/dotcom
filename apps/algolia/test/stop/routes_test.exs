@@ -12,7 +12,7 @@ defmodule Algolia.Stop.RoutesTest do
           %Routes.Route{id: "Boat-F1", name: "Ferry", type: 4}
         ]
       assert [light_rail, heavy_rail, commuter_rail, bus, ferry] = Algolia.Stop.Routes.for_stop(routes)
-      assert light_rail == %Algolia.Stop.Route{display_name: "Green Line", icon: :green_line, type: 0}
+      assert light_rail == %Algolia.Stop.Route{display_name: "Green Line C", icon: :green_line_c, type: 0}
       assert heavy_rail  == %Algolia.Stop.Route{display_name: "Red Line", icon: :red_line, type: 1}
       assert commuter_rail == %Algolia.Stop.Route{display_name: "Commuter Rail", icon: :commuter_rail, type: 2}
       assert bus == %Algolia.Stop.Route{display_name: "Bus: 1000", icon: :bus, type: 3}

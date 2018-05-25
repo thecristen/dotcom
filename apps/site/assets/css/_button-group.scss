@@ -1,12 +1,17 @@
 @import 'variables';
 
 .tab-select-btn-group {
-  width: 100%;
-  display: table;
-  table-layout: fixed;
-  border-collapse: collapse;
+  @include icon-size($base-spacing * 1.5);
 
   border-bottom: $space-4 solid $btn-primary-bg;
+  border-collapse: collapse;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+
+  [class^="c-svg__icon"] {
+    vertical-align: bottom;
+  }
 
   .btn {
     border: $tab-border;

@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="filter-icon">
-      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :direction, show_tooltip?: false}) %>
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :reversal, show_tooltip?: false}) %>
     </div>
   <% end %>
 </div>

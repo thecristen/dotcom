@@ -117,7 +117,13 @@
 }
 
 .stop-features-list {
+  @include icon-size($base-spacing);
+
   float: right;
+
+  [class^="c-svg__icon"] {
+    margin-left: $base-spacing / 4;
+  }
 }
 
 .stop-feature-green {
@@ -139,20 +145,19 @@
 
   @include media-breakpoint-up(md) {
     max-width: 33%;
-  }
 
-  .stop-features-list {
-    display: inline-block;
-    float: none;
+    .stop-features-list {
+      display: block;
+      float: none;
+    }
+
+    .hub-stop-name {
+      display: block;
+    }
   }
 
   .commuter-rail-zone {
     margin-left: $base-spacing / 2;
-  }
-
-  .hub-stop-name {
-    display: inline-block;
-    flex: 1 0 0%;
   }
 }
 
@@ -170,6 +175,10 @@
     margin-bottom: $base-spacing;
     padding: $space-6 $base-spacing;
   }
+}
+
+.stop-list-header {
+  @include icon-size($font-size-h2);
 }
 
 .stops-view-all-btn {
@@ -208,5 +217,13 @@
 
   @include media-breakpoint-down(xs) {
     padding-top: 0;
+  }
+}
+
+.mode-route-name {
+  @include icon-size($base-spacing);
+
+  [class^=c-svg__icon] {
+    vertical-align: text-top;
   }
 }

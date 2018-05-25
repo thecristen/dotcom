@@ -42,6 +42,8 @@
 }
 
 @mixin h1 {
+  @include icon-size($base-spacing * 2);
+
   border-bottom-color: $brand-primary;
   border-bottom-style: solid;
   border-bottom-width: $base-spacing / 4;
@@ -53,6 +55,8 @@
 }
 
 @mixin h2 {
+  @include icon-size($base-spacing * 1.5);
+
   font-size: $font-size-h2;
 
   @include media-breakpoint-up(xxl) {
@@ -61,6 +65,8 @@
 }
 
 @mixin h3 {
+  @include icon-size($base-spacing * 1.25);
+
   font-size: $font-size-h3;
 
   @include media-breakpoint-up(xxl) {
@@ -69,6 +75,8 @@
 }
 
 @mixin h4 {
+  @include icon-size($base-spacing);
+
   font-size: $font-size-h4;
 
   @include media-breakpoint-up(xxl) {
@@ -77,6 +85,7 @@
 }
 
 @mixin h5 {
+  @include icon-size($base-spacing);
   font-size: $font-size-h5;
 
   @include media-breakpoint-up(xxl) {
@@ -85,6 +94,7 @@
 }
 
 @mixin h6 {
+  @include icon-size($base-spacing);
   font-size: $font-size-h6;
 
   @include media-breakpoint-up(xxl) {

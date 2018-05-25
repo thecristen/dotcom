@@ -345,12 +345,24 @@ $location-line-width: $space-6;
   color: $gray-lighter;
 }
 
+.route-branch-stop-icons {
+  @include icon-size($base-spacing * 1.5);
+
+  [class^="c-svg__icon"] {
+    margin-left: $base-spacing / 4;
+  }
+}
+
 @include stop-bubble-mode-color(".commuter-rail", $brand-commuter-rail);
 @include stop-bubble-mode-color(".red-line", $brand-red-line);
 @include stop-bubble-mode-color(".mattapan-line", $brand-red-line);
 @include stop-bubble-mode-color(".blue-line", $brand-blue-line);
 @include stop-bubble-mode-color(".orange-line", $brand-orange-line);
 @include stop-bubble-mode-color(".green-line", $brand-green-line);
+@include stop-bubble-mode-color(".green-line-b", $brand-green-line);
+@include stop-bubble-mode-color(".green-line-c", $brand-green-line);
+@include stop-bubble-mode-color(".green-line-d", $brand-green-line);
+@include stop-bubble-mode-color(".green-line-e", $brand-green-line);
 @include stop-bubble-mode-color(".bus", $brand-bus);
 @include stop-bubble-mode-color(".ferry", $brand-ferry);
 @include stop-bubble-mode-color(".personal-itinerary", $gray-dark);

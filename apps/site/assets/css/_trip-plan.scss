@@ -176,6 +176,8 @@
 }
 
 .trip-plan-form-container {
+  @include icon-size($base-spacing * 1.5);
+
   @include media-breakpoint-up(md) {
     margin-bottom: 0;
     margin-top: 0;
@@ -186,6 +188,10 @@
                                           // is higher than this sidebar so the datepicker popup
                                           // is covered by the footer. -kh
                                           // https://philipwalton.com/articles/what-no-one-told-you-about-z-index/
+  }
+
+  [class^="c-svg__icon"] {
+    vertical-align: top;
   }
 }
 
@@ -209,7 +215,6 @@
   > * {
     padding-left: $space-16;
     padding-right: $space-16;
-    padding-top: $space-16;
   }
 
   .toggle-stop-list {
@@ -229,9 +234,12 @@
 }
 
 .trip-plan-itinerary-header {
+  align-items: center;
   border: $border-width solid $brand-primary;
   border-radius: $border-radius;
   display: flex;
+  padding-bottom: $base-spacing / 2;
+  padding-top: $base-spacing / 2;
 
   &:not(.collapsed) {
     background-color: $brand-primary-darkest;
@@ -267,22 +275,45 @@
   flex-wrap: wrap;
 }
 
+.trip-plan-itinerary-accessibility {
+  @include icon-size($base-spacing);
+
+  [class^="c-svg__icon"] {
+    margin-right: $base-spacing / 4;
+    vertical-align: text-top;
+  }
+}
+
 .trip-plan-itinerary-legs {
+  @include icon-size($base-spacing * 1.5);
+  align-items: center;
+  display: flex;
   flex: 1 1 auto;
-  margin-bottom: $space-16;
-  margin-right: $space-36;
+
+  [class^="c-svg__icon"] {
+    vertical-align: top;
+  }
+
+  .fa-angle-right {
+    margin-left: $base-spacing / 4;
+    margin-right: $base-spacing / 4;
+  }
 }
 
 .trip-plan-itinerary-length {
+  align-items: center;
+  display: flex;
   flex: 0 1 auto;
-  margin-bottom: $space-16;
+  margin-right: $base-spacing / 2;
 }
 
 .trip-plan-itinerary-length-time {
+  flex: 0 0 auto;
   font-weight: bold;
 }
 
 .trip-plan-itinerary-length-distance {
+  flex: 0 0 auto;
   font-size: .875rem;
   line-height: 1.125rem;
   margin-left: $space-12;
@@ -302,8 +333,6 @@
   flex: 0 0 auto;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: $space-16;
-  margin-left: $space-24;
 }
 
 .trip-plan-itinerary-body {
@@ -314,6 +343,7 @@
 .trip-plan-map {
   height: $base-spacing * 31.5;
   margin-bottom: $base-spacing;
+  margin-top: $base-spacing;
 
   @include media-breakpoint-down(sm) {
     height: $base-spacing * 20;
@@ -337,6 +367,8 @@
 }
 
 .trip-plan-related-links {
+  @include icon-size($base-spacing);
+
   display: flex;
   flex-flow: wrap;
   margin: $base-spacing 0;
@@ -355,6 +387,12 @@
 
   @media print {
     display: none;
+  }
+}
+
+.trip-plan-related-link {
+  [class^="c-svg__icon"] {
+    margin-right: $base-spacing / 4;
   }
 }
 

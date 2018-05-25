@@ -55,8 +55,14 @@
 }
 
 .fare-summary-mode-icons {
+  @include icon-size($base-spacing);
+
   display: inline-block;
   white-space: nowrap;
+
+  [class^=c-svg__icon] {
+    vertical-align: text-top;
+  }
 }
 
 .fare-summary-fare {

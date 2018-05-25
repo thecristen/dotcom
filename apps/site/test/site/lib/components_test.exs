@@ -17,7 +17,6 @@ defmodule Site.ComponentsTest do
         |> safe_to_string()
 
       assert blue =~ "icon-blue-line"
-      assert blue =~ "icon-circle"
 
       mattapan =
         %ModeButtonList{
@@ -27,8 +26,7 @@ defmodule Site.ComponentsTest do
         |> mode_button_list()
         |> safe_to_string()
 
-      assert mattapan =~ "icon-mattapan-trolley"
-      assert mattapan =~ "icon-circle"
+      assert mattapan =~ "icon-mattapan-line"
     end
 
     test "non-subway buttons do not render with color circles" do
@@ -248,8 +246,11 @@ defmodule Site.ComponentsTest do
 
     test "renders icons for each mode" do
       rendered = mode_tab_args() |> mode_tab_list() |> safe_to_string()
-      for mode <- ["bus", "subway", "the-ride", "access"] do
-        assert rendered =~ "icon-#{mode}"
+      for mode <- ["bus", "subway"] do
+        assert rendered =~ "icon-mode-#{mode}"
+      end
+      for icon <- ["the-ride", "accessible"] do
+        assert rendered =~ "icon-#{icon}"
       end
     end
 
@@ -260,8 +261,8 @@ defmodule Site.ComponentsTest do
 
     test "build_icon_map/2" do
       icon_map = build_mode_icon_map(@links)
-      assert safe_to_string(icon_map["Subway"]) =~ "icon-subway"
-      assert safe_to_string(icon_map["Bus"]) =~ "icon-bus"
+      assert safe_to_string(icon_map["Subway"]) =~ "icon-mode-subway"
+      assert safe_to_string(icon_map["Bus"]) =~ "icon-mode-bus"
     end
   end
 

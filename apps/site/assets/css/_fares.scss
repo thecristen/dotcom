@@ -226,3 +226,7 @@ a {
     width: 100%;
   }
 }
+
+.fares-mode-icon-group {
+  @include icon-size($base-spacing * 1.5);
+}

@@ -1,12 +1,6 @@
 <div class="trip-plan-itinerary-container">
   <div class="itinerary-accessible">
-    <%= if @itinerary.accessible? do %>
-      <%= accessibility_icon([]) %>
-      Accessible
-    <% else %>
-      <%= accessibility_icon(["icon-circle-grayed"]) %>
-      May not be accessible
-    <% end %>
+    <%= accessibility_icon(@itinerary) %>
   </div>
   <% id_to_focus = if @index == 1, do: "plan_result_focus", else: "" %>
   <a id="<%= id_to_focus %>" class="trip-plan-itinerary-header collapsed" aria-controls="itinerary-<%= @index %>"
@@ -95,7 +89,7 @@
     <div class="trip-plan-related-links">
       <strong>Related Links</strong>
       <%= for link <- @links do %>
-        <div><%= link %></div>
+        <div class="trip-plan-related-link"><%= link %></div>
       <% end %>
     </div>
   </div>

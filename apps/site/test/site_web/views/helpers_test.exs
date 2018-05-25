@@ -347,7 +347,7 @@ defmodule SiteWeb.ViewHelpersTest do
           %Routes.Route{id: "Green-" <> branch, type: 0}
           |> line_icon(:default)
           |> safe_to_string()
-        assert icon =~ "c-svg__icon-green-line-default"
+        assert icon =~ "c-svg__icon-green-line-#{String.downcase(branch)}-default"
       end
 
       icon =

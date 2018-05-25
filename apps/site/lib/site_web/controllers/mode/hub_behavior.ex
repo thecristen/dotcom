@@ -46,6 +46,7 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> assign(:routes, mode_routes)
     |> assign(:route_type, mode_strategy.route_type |> Routes.Route.type_atom())
     |> assign(:mode_name, mode_strategy.mode_name())
+    |> assign(:mode_icon, mode_strategy.mode_icon())
     |> assign(:fare_description, mode_strategy.fare_description())
     |> assign(:map_pdf_url, MapHelpers.map_pdf_url(mode_strategy.route_type))
     |> assign(:map_image_url, MapHelpers.map_image_url(mode_strategy.route_type))

@@ -40,12 +40,16 @@ defmodule Routes.Route do
   def type_atom("bus"), do: :bus
   def type_atom("ferry"), do: :ferry
 
-  @spec types_for_mode(gtfs_route_type) :: [0..4]
+  @spec types_for_mode(gtfs_route_type | subway_lines_type) :: [0..4]
   def types_for_mode(:subway), do: [0, 1]
   def types_for_mode(:commuter_rail), do: [2]
   def types_for_mode(:bus), do: [3]
   def types_for_mode(:ferry), do: [4]
   def types_for_mode(:green_line), do: [0]
+  def types_for_mode(:green_line_b), do: [0]
+  def types_for_mode(:green_line_c), do: [0]
+  def types_for_mode(:green_line_d), do: [0]
+  def types_for_mode(:green_line_e), do: [0]
   def types_for_mode(:red_line), do: [1]
   def types_for_mode(:blue_line), do: [1]
   def types_for_mode(:orange_line), do: [1]
@@ -57,7 +61,10 @@ defmodule Routes.Route do
   def icon_atom(%__MODULE__{id: "Orange"}), do: :orange_line
   def icon_atom(%__MODULE__{id: "Blue"}), do: :blue_line
   def icon_atom(%__MODULE__{id: "Green"}), do: :green_line
-  def icon_atom(%__MODULE__{id: "Green" <> _}), do: :green_line
+  def icon_atom(%__MODULE__{id: "Green-B"}), do: :green_line_b
+  def icon_atom(%__MODULE__{id: "Green-C"}), do: :green_line_c
+  def icon_atom(%__MODULE__{id: "Green-D"}), do: :green_line_d
+  def icon_atom(%__MODULE__{id: "Green-E"}), do: :green_line_e
   def icon_atom(%__MODULE__{} = route), do: type_atom(route.type)
 
   @spec path_atom(t) :: gtfs_route_type
@@ -66,7 +73,8 @@ defmodule Routes.Route do
 
   @spec type_name(atom) :: String.t
   for type_atom <- ~w(subway commuter_rail bus ferry
-                      orange_line red_line green_line blue_line
+                      orange_line red_line blue_line
+                      green_line green_line_b green_line_c green_line_d green_line_e
                       mattapan_trolley mattapan_line the_ride)a do
     type_string = type_atom
     |> Atom.to_string()

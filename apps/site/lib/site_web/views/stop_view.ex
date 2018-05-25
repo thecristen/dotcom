@@ -277,22 +277,14 @@ defmodule SiteWeb.StopView do
   """
   @spec stop_feature_icon(Stops.Repo.stop_feature, String.t) :: Phoenix.HTML.Safe.t
   def stop_feature_icon(feature, class \\ "")
-  def stop_feature_icon(feature, class) when feature in [:"Green-B", :"Green-C", :"Green-D", :"Green-E"] do
-    route_id = Atom.to_string(feature)
-    content_tag :span, class: "green-line route-branch-stop-list stop-feature-green", id: "icon-feature-#{feature}" do
-      SiteWeb.PartialView.render("_stop_bubble_without_vehicle.html",
-                              route_id: route_id,
-                              class: "stop",
-                              icon_class: class,
-                              transform: "translate(1,1)",
-                              content: String.last(route_id)
-      )
-    end
-  end
-  def stop_feature_icon(:parking_lot, class) do
-    svg_icon(%SvgIcon{icon: :parking_lot, class: class})
-  end
   def stop_feature_icon(feature, class) do
-    svg_icon_with_circle(%SvgIconWithCircle{icon: feature, class: class})
+    svg_icon_with_circle(%SvgIconWithCircle{icon: stop_feature_icon_atom(feature), class: class})
+  end
+
+  defp stop_feature_icon_atom(branch) when branch in [:"Green-B", :"Green-C", :"Green-D", :"Green-E"] do
+    Routes.Route.icon_atom(%Route{id: Atom.to_string(branch), type: 0})
+  end
+  defp stop_feature_icon_atom(feature) do
+    feature
   end
 end

@@ -1,4 +1,6 @@
 defmodule SiteWeb.PartialView.SvgIconWithCircle do
+  alias SiteWeb.ViewHelpers, as: Helpers
+  alias Routes.Route
 
   defstruct icon:  :bus,
             class: "",
@@ -12,24 +14,81 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
     aria_hidden?: boolean
   }
 
-  def svg_icon_with_circle(%__MODULE__{} = args) do
-    icon = Site.Components.Icons.SvgIcon.get_icon_atom(args.icon)
-    data_toggle = if args.show_tooltip?, do: "data-toggle=tooltip", else: ""
-    title = if args.show_tooltip?, do: title(icon), else: ""
-    Phoenix.View.render(SiteWeb.PartialView, "_icon_with_circle.html", [
-      icon: icon,
-      data_toggle: data_toggle,
-      title: title,
-      aria_hidden?: args.aria_hidden?,
-      class: args.class,
-      circle_viewbox: circle_viewbox(icon),
-      circle_args: circle_args(icon),
-      translate: translate(icon),
-      scale: scale(icon),
-      rotate: rotate(icon),
-      path: Site.Components.Icons.SvgIcon.get_path(icon),
-      hyphenated_class: "icon-#{CSSHelpers.atom_to_class(icon)}"
-    ])
+  def svg_icon_with_circle(%__MODULE__{icon: %Route{}} = args) do
+    args.icon
+    |> Helpers.line_icon(icon_size(args))
+    |> do_svg_icon_with_circle(args)
+  end
+  def svg_icon_with_circle(%__MODULE__{icon: :mattapan_trolley} = args) do
+    svg_icon_with_circle(%{args | icon: %Route{id: "Mattapan", type: 0}})
+  end
+  def svg_icon_with_circle(%__MODULE__{icon: line} = args)
+  when line in [:red_line, :orange_line, :blue_line, :green_line, :mattapan_line] do
+    route_id =
+      line
+      |> Atom.to_string()
+      |> String.replace("_line", "")
+      |> String.capitalize()
+
+    [type] = Route.types_for_mode(line)
+
+    svg_icon_with_circle(%{args | icon: %Route{id: route_id, type: type}})
+  end
+  def svg_icon_with_circle(%__MODULE__{icon: branch} = args)
+  when branch in [:green_line_b, :green_line_c, :green_line_d, :green_line_e] do
+    "green_line_" <> letter = Atom.to_string(branch)
+    svg_icon_with_circle(%{args | icon: %Route{id: "Green-" <> String.upcase(letter), type: 0}})
+  end
+  def svg_icon_with_circle(%__MODULE__{icon: mode} = args)
+  when mode in [:subway, :bus, :commuter_rail, :ferry] do
+    mode
+    |> Helpers.mode_icon(icon_size(args))
+    |> do_svg_icon_with_circle(args)
+  end
+  def svg_icon_with_circle(%__MODULE__{icon: icon} = args)
+  when icon in [:calendar, :stop, :station, :parking_lot, :access, :no_access,
+                :the_ride, :reversal, :variant, :t_logo] do
+    "icon-#{icon_name(icon)}-#{icon_size(args)}.svg"
+    |> Helpers.svg()
+    |> do_svg_icon_with_circle(args)
+  end
+
+  @spec do_svg_icon_with_circle(Phoenix.HTML.Safe.t, __MODULE__.t) :: Phoenix.HTML.Safe.t
+  defp do_svg_icon_with_circle({:safe, _} = icon, %__MODULE__{aria_hidden?: false, show_tooltip?: false}) do
+    icon
+  end
+  defp do_svg_icon_with_circle({:safe, _} = icon, %__MODULE__{} = args) do
+    attrs = [
+      aria: aria_attrs(args),
+      data: data_attrs(args),
+      title: title_attr(args)
+    ]
+    Phoenix.HTML.Tag.content_tag(:span, [icon], attrs)
+  end
+
+  defp icon_name(:access), do: "accessible"
+  defp icon_name(:no_access), do: "not-accessible"
+  defp icon_name(:the_ride), do: "the-ride"
+  defp icon_name(:parking_lot), do: "parking"
+  defp icon_name(:station), do: "circle-t"
+  defp icon_name(:t_logo), do: "circle-t"
+  defp icon_name(icon), do: Atom.to_string(icon)
+
+  @spec aria_attrs(__MODULE__.t) :: Keyword.t
+  defp aria_attrs(%__MODULE__{aria_hidden?: true}), do: [hidden: true]
+  defp aria_attrs(%__MODULE__{}), do: []
+
+  @spec data_attrs(__MODULE__.t) :: Keyword.t
+  defp data_attrs(%__MODULE__{show_tooltip?: true}), do: [toggle: "tooltip"]
+  defp data_attrs(%__MODULE__{}), do: []
+
+  @spec title_attr(__MODULE__.t) :: String.t | nil
+  defp title_attr(%__MODULE__{show_tooltip?: true, icon: icon}), do: title(icon)
+  defp title_attr(%__MODULE__{}), do: nil
+
+  @spec icon_size(__MODULE__.t) :: :default | :small
+  defp icon_size(%__MODULE__{class: class}) do
+    if class =~ "icon-small", do: :small, else: :default
   end
 
   def circle_viewbox(:twitter), do: "0 0 400 400"

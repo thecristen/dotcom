@@ -1,7 +1,7 @@
 <div class="page-section">
   <div class="mode-hub">
-    <h1>
-      <%= svg_icon_with_circle %SvgIconWithCircle{icon: @mode_name, aria_hidden?: true} %>
+    <h1 class="mode-hub-header">
+      <%= svg_icon_with_circle(%SvgIconWithCircle{aria_hidden?: true, icon: @mode_icon}) %>
       <%= @mode_name %>
     </h1>
     <%= if @route_type == :bus do %>

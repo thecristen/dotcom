@@ -10,8 +10,14 @@
   } %>
   <%= if !Enum.empty?(@mode_hubs) do %>
     <div class="page-section">
-  <h2><%=svg_icon_with_circle(%SvgIconWithCircle{icon: @mode})%><%= mode_name(@mode)%> Stations</h2>
-    <%= render("_hub_stops.html", hubs: @mode_hubs, conn: @conn)%>
+      <h2>
+        <%=svg_icon_with_circle(%SvgIconWithCircle{icon: @mode})%>
+        <span>
+          <%= mode_name(@mode)%>
+          Stations
+        </span>
+      </h2>
+      <%= render("_hub_stops.html", hubs: @mode_hubs, conn: @conn)%>
     </div>
   <% end %>
   <%
@@ -20,7 +26,7 @@
   %>
   <%= for {route, detailed_stops} <- stops do %>
     <div class="page-section stops-for-route">
-      <div class="h2">
+      <div class="h2 stop-list-header">
         <%= if subway?, do: svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.icon_atom(route)})  %>
         <span><%= route.name %></span>
       </div>

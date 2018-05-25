@@ -1,4 +1,6 @@
 .mode-button-group {
+  @include icon-size($base-spacing * 1.25);
+
   margin-bottom: $base-spacing / 2;
   margin-top: $base-spacing / -2;
   padding: $grid-gutter-width / 2 1px;
@@ -16,6 +18,11 @@
 
   &:first-child {
     padding-top: 0;
+  }
+
+  [class^="c-svg__icon"] {
+    margin-right: $base-spacing / 4;
+    vertical-align: text-top;
   }
 
   .icon-alert {
@@ -58,8 +65,14 @@
 }
 
 .mode-group-header {
+  @include icon-size($base-spacing * 1.5);
+
   font-size: $font-size-base;
   font-weight: bold;
+
+  [class^=c-svg__icon] {
+    vertical-align: top;
+  }
 }
 
 @include media-breakpoint-only(xs) {
