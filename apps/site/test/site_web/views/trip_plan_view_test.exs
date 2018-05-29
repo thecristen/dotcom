@@ -313,6 +313,25 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
   end
 
+  describe "transfer_route_name/1" do
+    test "for subway" do
+      assert transfer_route_name(%Route{id: "Mattapan", type: 0, name: "Mattapan Trolley"}) == "Mattapan Trolley"
+      assert transfer_route_name(%Route{id: "Green", type: 0, name: "Green Line"}) == "Green Line"
+      for branch <- ["B", "C", "D", "E"] do
+        assert transfer_route_name(%Route{id: "Green-" <> branch, type: 0, name: "Green Line " <> branch}) == "Green Line"
+      end
+      for line <- ["Red", "Orange", "Blue"] do
+        assert transfer_route_name(%Route{id: line, type: 1, name: line <> " Line"}) == line <> " Line"
+      end
+    end
+
+    test "for other modes" do
+      assert transfer_route_name(%Route{id: "CR-Fitchburg", type: 2, name: "Fitchburg Line"}) == "Commuter Rail"
+      assert transfer_route_name(%Route{id: "77", type: 3, name: "77"}) == "Bus"
+      assert transfer_route_name(%Route{id: "Boat-Hingham", type: 4, name: "Hingham Ferry"}) == "Ferry"
+    end
+  end
+
   describe "index.html" do
     @index_assigns %{date: Util.now(),
                      date_time: Util.now(),
