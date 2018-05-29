@@ -218,8 +218,8 @@ defmodule SiteWeb.ScheduleView do
     if Route.silver_line_rapid_transit?(route) do
       ["Silver Line ", name]
     else
-      content_tag :div, class: "bus-route-sign" do
-        route.id
+      content_tag :div, class: "bus-route-sign h1--new" do
+        route.name
       end
     end
   end
@@ -245,7 +245,7 @@ defmodule SiteWeb.ScheduleView do
     if Route.silver_line_rapid_transit?(route) do
       ""
     else
-      content_tag :h2, class: "schedule__description" do
+      content_tag :h2, class: "schedule__description h2--new" do
         "Bus Route"
       end
     end

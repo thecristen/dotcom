@@ -1,6 +1,6 @@
 <h1 class="station__header">
   <div class="station__header-container">
-    <%= content_tag(:div, @stop.name, class: station_name_class(@grouped_routes)) %>
+    <%= content_tag(:h1, @stop.name, class: "#{station_name_class(@grouped_routes)} h1--new") %>
     <div class="station-mode-icon">
       <% icon_size = :small %>
       <%= for {type, routes} <- @grouped_routes do %>

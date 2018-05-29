@@ -242,6 +242,10 @@
     padding-left: $grid-gutter-width / 2;
     padding-right: $grid-gutter-width / 2;
   }
+
+  .station__name {
+    margin-bottom: 0;
+  }
 }
 
 .station__name--upcase {

@@ -1357,5 +1357,15 @@ del .trip-list-realtime {
   color: $white;
   display: inline-block;
   font-weight: bold;
+  min-width: $base-spacing * 4;
   padding: $base-spacing / 4 $base-spacing;
+  text-align: center;
+
+  @include media-breakpoint-down(xs) {
+    min-width: $base-spacing * 3;
+  }
+
+  @include media-breakpoint-up(lg) {
+    min-width: $base-spacing * 5;
+  }
 }
