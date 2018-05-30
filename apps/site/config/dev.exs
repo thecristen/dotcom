@@ -10,8 +10,8 @@ use Mix.Config
 port = String.to_integer(System.get_env("PORT") || "4001")
 host = System.get_env("HOST") || "localhost"
 static_url = case System.get_env("STATIC_URL") do
-  nil -> [ host: System.get_env("STATIC_HOST") || host, port: port]
-  static_url -> [ url: static_url ]
+  nil -> [host: System.get_env("STATIC_HOST") || host, port: port]
+  static_url -> [url: static_url]
 end
 config :site, SiteWeb.Endpoint,
   http: [port: port],

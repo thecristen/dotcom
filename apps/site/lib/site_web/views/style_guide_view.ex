@@ -8,8 +8,8 @@ defmodule SiteWeb.StyleGuideView do
 
   @spec get_css_value(String.t, atom) :: String.t
   @doc "Replaces any css variables with actual values."
-  def get_css_value("$"<>_ = value, :colors), do: do_get_css_value(value, @colors)
-  def get_css_value("$"<>_ = value, :font_sizes), do: do_get_css_value(value, @font_sizes)
+  def get_css_value("$" <> _ = value, :colors), do: do_get_css_value(value, @colors)
+  def get_css_value("$" <> _ = value, :font_sizes), do: do_get_css_value(value, @font_sizes)
   def get_css_value(value, _), do: value
 
   defp do_get_css_value(value, variable_map) do

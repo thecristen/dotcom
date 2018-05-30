@@ -70,7 +70,7 @@ defmodule Alerts.Cache.Store do
   """
   @spec all_alerts(DateTime.t) :: [Alerts.Alert.t]
   def all_alerts(now) do
-    :ets.select(:alert_id_to_alert, [{ {:_, :"$1"}, [], [:"$1"]  }])
+    :ets.select(:alert_id_to_alert, [{{:_, :"$1"}, [], [:"$1"]}])
     |> Alerts.Sort.sort(now)
   end
 
@@ -106,7 +106,7 @@ defmodule Alerts.Cache.Store do
       Enum.reduce(alerts, {[], []}, fn alert, {alert_inserts_acc, route_inserts_acc} ->
         {
           [{alert.id, alert} | alert_inserts_acc],
-          Enum.map(alert.informed_entity, &( {&1.route, &1.route_type, alert.id})) ++ route_inserts_acc
+          Enum.map(alert.informed_entity, &({&1.route, &1.route_type, alert.id})) ++ route_inserts_acc
         }
       end)
 
