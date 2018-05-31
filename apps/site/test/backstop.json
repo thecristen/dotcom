@@ -142,7 +142,10 @@
       "label": "Station Info Tab South Station",
       "url": "http://localhost:8082/stops/place-sstat?date=2018-06-20&tab=info",
       "hideSelectors": [".map"],
-      "selectors": ["#station-info"],
+      "selectors": [
+        ".station__header",
+        "#station-info"
+      ],
       "delay": 100,
       "misMatchThreshold": 0.03
     },
@@ -159,7 +162,10 @@
       "url": "http://localhost:8082/schedules/1/schedule?date=2018-06-20&direction_id=0&trip=&origin=102",
       "hideSelectors": [".animate"],
       "removeSelectors": [".pdf-links"],
-      "selectors": ["main"],
+      "selectors": [
+        "main",
+        ".schedule__header"
+      ],
       "delay": 100,
       "misMatchThreshold": 0.03
     },
@@ -167,7 +173,10 @@
       "label": "Subway Schedule",
       "url": "http://localhost:8082/schedules/Red/schedule?date=2018-06-20&direction_id=1&origin=place-sstat&trip=",
       "removeSelectors": [".pdf-links"],
-      "selectors": ["main"],
+      "selectors": [
+        "main",
+        ".schedule__header"
+      ],
       "delay": 100,
       "misMatchThreshold": 0.03
     },
@@ -185,7 +194,10 @@
       "label": "Commuter Rail Schedule",
       "url": "http://localhost:8082/schedules/CR-Providence/timetable?date=2018-06-20&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
       "removeSelectors": [".pdf-links"],
-      "selectors": ["main"],
+      "selectors": [
+        ".schedule__header",
+        "main"
+      ],
       "delay": 100,
       "misMatchThreshold": 0.03
     },
@@ -196,7 +208,10 @@
         ".map",
         ".animate"
       ],
-      "selectors": ["main"],
+      "selectors": [
+        ".station__header",
+        "main"
+      ],
       "delay": 100,
       "misMatchThreshold": 0.03
     },
@@ -228,7 +243,10 @@
     {
       "label": "Commuter Rail Maps and Info Worcester",
       "url": "http://localhost:8082/schedules/CR-Worcester/line?direction_id=0&date=2018-06-20&date_time=2018-06-20T13:00:00-05:00",
-      "selectors": ["main"],
+      "selectors": [
+        ".schedule__header",
+        "main"
+      ],
       "hideSelectors": [".map"],
       "removeSelectors": [".pdf-links"],
       "delay": 100,
