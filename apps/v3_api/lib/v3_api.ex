@@ -106,7 +106,7 @@ defmodule V3Api do
   end
 
   defp api_key_headers(nil), do: []
-  defp api_key_headers(api_key), do: [ {"x-api-key", api_key} ]
+  defp api_key_headers(api_key), do: [{"x-api-key", api_key}]
 
   defp default_options do
     [

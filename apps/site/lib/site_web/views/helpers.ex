@@ -247,14 +247,14 @@ defmodule SiteWeb.ViewHelpers do
   @doc """
   Puts the conn into the assigns dictionary so that downstream templates can use it
   """
-  def forward_assigns(conn = %{assigns: assigns}) do
+  def forward_assigns(%{assigns: assigns} = conn) do
     assigns
     |> Map.put(:conn, conn)
   end
 
   @doc "Link a stop's name to its page."
   @spec stop_link(Stops.Stop.t | String.t) :: Phoenix.HTML.Safe.t
-  def stop_link(stop = %Stops.Stop{}) do
+  def stop_link(%Stops.Stop{} = stop) do
     link stop.name, to: stop_path(SiteWeb.Endpoint, :show, stop.id)
   end
   def stop_link(stop_id) do
@@ -265,8 +265,8 @@ defmodule SiteWeb.ViewHelpers do
 
   @spec external_link(String.t) :: String.t
   @doc "Adds protocol if one is needed"
-  def external_link(href = <<"http://", _::binary>>), do: href
-  def external_link(href = <<"https://", _::binary>>), do: href
+  def external_link(<<"http://", _::binary>> = href), do: href
+  def external_link(<<"https://", _::binary>> = href), do: href
   def external_link(href), do: "http://" <> href
 
   @spec round_distance(float) :: String.t
