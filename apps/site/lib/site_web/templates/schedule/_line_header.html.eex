@@ -4,5 +4,6 @@
       <%= route_header_text(@route) %>
     </h1>
     <%= route_header_description(@route) %>
+    <%= route_header_tabs(@conn) %>
   </div>
 </div>

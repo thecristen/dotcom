@@ -208,7 +208,6 @@
 .station__header {
   background: $gray-bordered-background;
   border-bottom: 0;
-  padding-bottom: $base-spacing / 2;
 }
 
 .station__header-container {
@@ -230,6 +229,7 @@
   align-items: center;
   display: flex;
   height: $base-spacing * 2;
+  padding-bottom: $base-spacing / 2;
 }
 
 .station__header-feature {

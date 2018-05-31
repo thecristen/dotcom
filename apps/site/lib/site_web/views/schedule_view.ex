@@ -257,4 +257,29 @@ defmodule SiteWeb.ScheduleView do
     end
   end
   def route_header_description(_), do: ""
+
+  def route_header_tabs(conn) do
+    route = conn.assigns.route
+    tab_params = conn.assigns.tab_params
+    schedule_link = trip_view_path(conn, :show, route.id, tab_params)
+    info_link = line_path(conn, :show, route.id, tab_params)
+    timetable_link = timetable_path(conn, :show, route.id, tab_params)
+    tabs = [{"trip-view", "Schedule", schedule_link},
+            {"line", "Info & Maps", info_link}]
+    tabs = case route.type do
+        2 -> [{"timetable", "Timetable", timetable_link} | tabs]
+        _ -> tabs
+    end
+    SiteWeb.PartialView.HeaderTabs.render_tabs(tabs, conn.assigns.tab, route_tab_class(route))
+  end
+
+  @spec route_tab_class(Route.t) :: String.t
+  defp route_tab_class(%Route{type: 3} = route) do
+    if Route.silver_line_rapid_transit?(route) do
+      ""
+    else
+      "header-tab--bus"
+    end
+  end
+  defp route_tab_class(_), do: ""
 end

@@ -1,28 +1,3 @@
 <div class="page-section">
-  <%
-    timetable_link = timetable_path(@conn, :show, @route.id, @tab_params)
-    schedule_link = trip_view_path(@conn, :show, @route.id, @tab_params)
-    info_link = line_path(@conn, :show, @route.id, @tab_params)
-  %>
-  <%= if @route.type == 2 do %>
-    <%= tab_selector(%TabSelector{
-      links: [
-        {"timetable", "Timetable", timetable_link},
-        {"trip-view", "Schedule", schedule_link},
-        {"line", "Info and Maps", info_link}
-      ],
-      selected: @tab,
-      class: "tab-select-btn-group-partial"
-    }) %>
-  <% else %>
-    <%= tab_selector(%TabSelector{
-      links: [
-        {"trip-view", "Schedule", schedule_link},
-        {"line", "Info and Maps", info_link}
-      ],
-      selected: @tab,
-      class: "tab-select-btn-group-partial"
-    }) %>
-  <% end %>
   <%= render template_for_tab(@tab), forward_assigns(@conn) %>
 </div>
