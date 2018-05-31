@@ -18,6 +18,7 @@ defmodule SiteWeb.StyleGuideViewTest do
 
   test "can get actual hex values for CSS variables that reference other variables" do
     assert SiteWeb.StyleGuideView.get_css_value("$brand-secondary", :colors) == "#ffce0c"
+    assert SiteWeb.StyleGuideView.get_css_value("$font-size-base", :font_sizes) == "16px"
   end
 
   test "component_description returns the module documentation" do
