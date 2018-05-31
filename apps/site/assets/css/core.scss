@@ -135,6 +135,8 @@ body {
 
 .alert-announcement-container,
 .header,
+.station__header,
+.schedule__header,
 .breadcrumb-container,
 .l-footer,
 .m-secondary-nav {
@@ -161,6 +163,8 @@ body {
   flex-shrink: 0;
 }
 
+.station__header,
+.schedule__header,
 .pre-container-wrapper,
 .post-container-wrapper {
   max-width: 100%;
