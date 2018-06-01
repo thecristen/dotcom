@@ -15,6 +15,13 @@ defmodule Algolia.MockStopsRepo do
     [get("place-ferry")]
   end
 
+  def by_route({"CR-Commuterrail", 0, []}) do
+    [get("place-greenline"), get("place-subway"), get("place-commuter-rail")]
+  end
+  def by_route({"1000", 0, []}) do
+    [get("place-greenline"), get("place-bus"), get("place-commuter-rail")]
+  end
+
   def get("place-subway") do
     %Stops.Stop{
       accessibility: ["accessible", "elevator", "tty_phone", "escalator_up"],
@@ -29,7 +36,8 @@ defmodule Algolia.MockStopsRepo do
       id: "place-greenline",
       accessibility: ["accessible", "mobile_lift"],
       latitude: 42.336142, longitude: -71.149326,
-      name: "Green Line Stop"
+      name: "Green Line Stop",
+      station?: true
     }
   end
   def get("place-commuter-rail") do
@@ -39,6 +47,7 @@ defmodule Algolia.MockStopsRepo do
       latitude: 42.460574,
       longitude: -71.457804,
       name: "Commuter Rail Stop",
+      station?: true,
       parking_lots: [
         %Stops.Stop.ParkingLot{
           manager: %Stops.Stop.Manager{email: nil, name: "Town of Acton"},
@@ -52,6 +61,7 @@ defmodule Algolia.MockStopsRepo do
       id: "place-bus", name: "Bus Stop",
       accessibility: ["accessible", "ramp"],
       latitude: 42.303251,
+      station?: false,
       longitude: -70.920215
     }
   end
@@ -60,7 +70,8 @@ defmodule Algolia.MockStopsRepo do
       id: "place-ferry", name: "Ferry Stop",
       accessibility: ["accessible", "ramp"],
       latitude: 42.303251,
-      longitude: -70.920215
+      longitude: -70.920215,
+      station?: true
     }
   end
 end

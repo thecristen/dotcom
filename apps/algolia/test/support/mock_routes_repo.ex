@@ -2,6 +2,9 @@ defmodule Algolia.MockRoutesRepo do
   def by_stop("place-subway") do
     [get("HeavyRail")]
   end
+  def by_stop("place-bus") do
+    [get("1000")]
+  end
 
   def by_stop("place-multi") do
     Enum.map(["HeavyRail", "LightRail", "1000", "CR-Commuterrail"], &get/1)

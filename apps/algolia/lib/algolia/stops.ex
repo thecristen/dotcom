@@ -14,4 +14,6 @@ defmodule Algolia.Stops do
 
   @impl Algolia.Index
   def index_name, do: "stops"
+
+  def by_route(route_id), do: @repo.by_route({route_id, 0, []})
 end

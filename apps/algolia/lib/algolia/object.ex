@@ -29,9 +29,10 @@ defimpl Algolia.Object, for: Routes.Route do
   def data(%Routes.Route{direction_names: direction_names} = route) do
     # Poison can't parse maps with integer keys
     direction_names = [direction_names[0], direction_names[1]]
-
+    stop_names = Algolia.Routes.get_stop_names(route)
     %{
-      route: %{route | direction_names: direction_names}
+      route: %{route | direction_names: direction_names},
+      stop_names: stop_names
     }
   end
 end
