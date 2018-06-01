@@ -6,13 +6,13 @@
     "Look up locations, stations, routes and more"
    end
  %>
-<div class="pre-container-wrapper <%= if new_design?, do: "", else: "pre-container-wrapper--with-background" %>" hidden-no-js">
+<div class="pre-container-wrapper <%= if new_design?, do: "", else: "pre-container-wrapper--with-background" %> hidden-no-js">
   <div class="container homepage-search">
     <script>
       window.algoliaConfig = <%= algolia_config() %>
     </script>
     <%= unless new_design? do %>
-      <label for="search-bar" class="c-search-bar__header">
+      <label for="search-bar" class="c-search-bar__header m-homepage-search__header">
         Search MBTA.com
       </label>
     <% end %>

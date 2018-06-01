@@ -54,6 +54,11 @@
   }
 }
 
+// This can be removed when the homepage redesign feature flag is removed
+.m-homepage-search__header {
+  color: $white;
+}
+
 .m-homepage-search__reset {
   display: none; // gets toggled by javascript on keyup
   flex: 0 0 auto;
