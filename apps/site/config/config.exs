@@ -26,9 +26,7 @@ config :site, SiteWeb.ViewHelpers,
   google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
 
 config :laboratory,
-  features: [
-    {:homepage_redesign, "Homepage Redesign", "https://app.zeplin.io/project/5a946671d3f01f932efdf18b/screen/5a948890bb799c73128420af"}
-  ],
+  features: [],
   cookie: [
     max_age: 3600 * 24 * 30, # one month,
     http_only: true

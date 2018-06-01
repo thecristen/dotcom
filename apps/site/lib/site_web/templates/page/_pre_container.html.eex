@@ -1,32 +1,16 @@
-<% new_design? = Laboratory.enabled?(@conn, :homepage_redesign) %>
-<%= if new_design? do render "_secondary_nav.html", conn: @conn end %>
-<% placeholder = if new_design? do
-    "Search for routes, places, information, and more"
-   else
-    "Look up locations, stations, routes and more"
-   end
- %>
-<div class="pre-container-wrapper <%= if new_design?, do: "", else: "pre-container-wrapper--with-background" %> hidden-no-js">
+<%= render "_secondary_nav.html", conn: @conn %>
+<div class="pre-container-wrapper hidden-no-js">
   <div class="container homepage-search">
     <script>
       window.algoliaConfig = <%= algolia_config() %>
     </script>
-    <%= unless new_design? do %>
-      <label for="search-bar" class="c-search-bar__header m-homepage-search__header">
-        Search MBTA.com
-      </label>
-    <% end %>
-    <form action="/search" method="get" id="homepage-search__container" class="text-input-button-widget c-search-bar__input <%= if new_design?, do: "c-search-bar__input--new-homepage", else: "" %>">
-      <input type="text" name="query" id="homepage-search__input" class="text-input-button-widget-input" placeholder="<%= placeholder %>"></input>
+    <form action="/search" method="get" id="homepage-search__container" class="text-input-button-widget c-search-bar__input c-search-bar__input--new-homepage">
+      <input type="text" name="query" id="homepage-search__input" class="text-input-button-widget-input" placeholder="Search for routes, places, information, and more"></input>
       <i aria-hidden="true" id="homepage-search__loading-indicator" class="fa fa-cog fa-spin c-search-bar__loading-indicator"></i>
       <i id="homepage-search__reset" class="m-homepage-search__reset c-search__clear-icon fa fa-times-circle"></i>
-      <%= if new_design? do %>
-        <button id="homepage-search__input-go-btn" class="c-search-bar__go-btn c-search-bar__go-btn--new-homepage">
-          <%= svg("icon-search-reverse-default.svg") %>
-        </button>
-      <% else %>
-        <input type="submit" value="GO" id="homepage-search__input-go-btn" class="c-search-bar__go-btn m-homepage-search__go-btn">
-      <% end %>
+      <button id="homepage-search__input-go-btn" class="c-search-bar__go-btn c-search-bar__go-btn--new-homepage">
+        <%= svg("icon-search-reverse-default.svg") %>
+      </button>
     </form>
     <div id="homepage-search__autocomplete" class="c-search-bar__results"></div>
     <div id="homepage-search__results" class="c-search-bar__results"></div>

@@ -1,5 +1,5 @@
 <div class="index">
-  <%= if Laboratory.enabled?(@conn, :homepage_redesign) do shortcut_icons() end %>
+  <%= shortcut_icons() %>
   <%=
     if assigns[:important_notice] do
       render SiteWeb.PageView, "_important_notice.html", conn: @conn, important_notice: assigns[:important_notice]
