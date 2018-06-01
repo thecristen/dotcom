@@ -48,7 +48,7 @@ defmodule SiteWeb.ScheduleController.Green do
   end
 
   def route(conn, _params) do
-    assign(conn, :route, GreenLine.green_line())
+    assign(conn, :route, Routes.Repo.green_line())
   end
 
   def stops_on_routes(%Plug.Conn{assigns: %{direction_id: direction_id, date: date}} = conn, _opts) do

@@ -16,6 +16,10 @@ defmodule Algolia.MockRoutesRepo do
     [get("Boat-1000")]
   end
 
+  def green_line do
+    Routes.Repo.green_line()
+  end
+
   def all do
     Enum.map(["HeavyRail", "LightRail", "CR-Commuterrail", "1000", "Boat-1000"], &get/1)
   end

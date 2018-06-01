@@ -7,7 +7,7 @@ defmodule Algolia.Routes do
 
   @impl Algolia.Index
   def all do
-    @repo.all()
+    [@repo.green_line() | @repo.all()]
   end
 
   @impl Algolia.Index

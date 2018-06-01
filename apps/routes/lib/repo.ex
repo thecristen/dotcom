@@ -214,4 +214,17 @@ defmodule Routes.Repo do
     end)
     |> Enum.map(&(elem(&1, 0)))
   end
+
+  @doc """
+  The Green Line.
+  """
+  @spec green_line :: Routes.Route.t
+  def green_line do
+    %Routes.Route{
+      id: "Green",
+      name: "Green Line",
+      direction_names: %{0 => "Westbound", 1 => "Eastbound"},
+      type: 0
+    }
+  end
 end

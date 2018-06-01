@@ -21,7 +21,7 @@ defmodule SiteWeb.ScheduleController.HoursOfOperationTest do
 
   test "uses schedules for each Green line branch", %{conn: conn} do
     conn = conn
-    |> assign(:route, GreenLine.green_line())
+    |> assign(:route, Routes.Repo.green_line())
     |> assign(:date, Util.service_date())
     |> SiteWeb.ScheduleController.HoursOfOperation.call([])
 

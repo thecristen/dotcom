@@ -136,19 +136,6 @@ defmodule GreenLine do
   def split_id("Green-E"), do: "place-prmnl"
 
   @doc """
-  The Green Line.
-  """
-  @spec green_line() :: Route.t
-  def green_line() do
-    %Routes.Route{
-      id: "Green",
-      name: "Green Line",
-      direction_names: %{0 => "Westbound", 1 => "Eastbound"},
-      type: 0
-    }
-  end
-
-  @doc """
   Creates a map %{stop_id => [route_id]}
   where each stop_id key has a value of the Green line routes
   that stops at that Stop

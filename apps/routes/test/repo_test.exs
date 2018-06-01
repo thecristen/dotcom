@@ -278,4 +278,10 @@ defmodule Routes.RepoTest do
 
     assert shape.id == "903_0018"
   end
+
+  describe "green_line" do
+    green_line =  Routes.Repo.green_line()
+    assert green_line.id == "Green"
+    assert green_line.name == "Green Line"
+  end
 end
