@@ -25,4 +25,12 @@ defmodule Algolia.Routes do
   def filter_stations(stops, route_type)
   def filter_stations(stops, 3), do: Enum.filter(stops, & &1.station?)
   def filter_stations(stops, _), do: stops
+
+  @spec headsigns(String.t) :: [String.t]
+  def headsigns(id) do
+    id
+    |> @repo.headsigns()
+    |> Map.values()
+    |> List.flatten()
+  end
 end

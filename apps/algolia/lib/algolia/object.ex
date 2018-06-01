@@ -30,9 +30,11 @@ defimpl Algolia.Object, for: Routes.Route do
     # Poison can't parse maps with integer keys
     direction_names = [direction_names[0], direction_names[1]]
     stop_names = Algolia.Routes.get_stop_names(route)
+    headsigns = Algolia.Routes.headsigns(route.id)
     %{
       route: %{route | direction_names: direction_names},
-      stop_names: stop_names
+      stop_names: stop_names,
+      headsigns: headsigns
     }
   end
 end

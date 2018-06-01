@@ -27,6 +27,13 @@ defmodule Algolia.MockRoutesRepo do
     Enum.map(["HeavyRail", "LightRail", "CR-Commuterrail", "1000", "Boat-1000"], &get/1)
   end
 
+  def headsigns("CR-Commuterrail") do
+    %{0 => "CR Terminus 1", 1 => "CR Terminus 2"}
+  end
+  def headsigns("1000") do
+    %{0 => "Terminus 1", 1 => "Terminus 2"}
+  end
+
   def get("HeavyRail"), do: %Routes.Route{id: "HeavyRail", key_route?: true, name: "Heavy Rail", type: 1}
   def get("LightRail"), do: %Routes.Route{id: "Green-LightRail", key_route?: true, name: "Light Rail", type: 0}
 
