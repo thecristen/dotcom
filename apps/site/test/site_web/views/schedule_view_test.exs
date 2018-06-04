@@ -67,10 +67,16 @@ defmodule SiteWeb.ScheduleViewTest do
     end
   end
 
-  describe "template_for_tab/1" do
-    test "returns the template corresponding to a tab value" do
-      assert template_for_tab("trip-view") == "_trip_view.html"
-      assert template_for_tab("timetable") == "_timetable.html"
+  describe "template_for_tab/2" do
+    test "returns the template corresponding to a tab value regardless of route for trip view and timetable" do
+      assert template_for_tab("trip-view", %Routes.Route{}) == "_trip_view.html"
+      assert template_for_tab("timetable", %Routes.Route{}) == "_timetable.html"
+    end
+
+    test "returns bus_line.html for line tab on bus routes" do
+      assert template_for_tab("line", %Routes.Route{type: 3}) == "_line_bus.html"
+      assert template_for_tab("line", %Routes.Route{type: 1}) == "_line.html"
+      assert template_for_tab("line", %Routes.Route{type: 2}) == "_line.html"
     end
   end
 

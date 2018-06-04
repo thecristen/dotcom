@@ -1,0 +1,29 @@
+<% encoded_map_data = @dynamic_map_data |> Poison.encode!() |> raw() %>
+
+<div class="page-section m-schedule-line m-schedule-line--bus">
+  <div class="row">
+    <div class="col-xs-12 col-md-8">
+
+      <%= SiteWeb.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
+
+      <%= render "_line_filters.html", conn: @conn,
+                                       headsigns: @headsigns,
+                                       direction_id: @direction_id,
+                                       route: @route,
+                                       origin: assigns[:origin],
+                                       destination: assigns[:destination],
+                                       show_date_select?: @show_date_select?,
+                                       force_six_column: false,
+                                       route_shapes: @route_shapes,
+                                       active_shape: @active_shape,
+                                       show_variant_selector: assigns[:show_variant_selector] %>
+      <div class="line-map-container">
+        <%= render "_line_map.html", encoded_data: encoded_map_data, map_img_src: @map_img_src %>
+      </div>
+      <%= render "_stop_list.html", assigns %>
+    </div>
+    <div class="col-xs-12 col-md-4">
+      <%= render "_hours_of_op.html", assigns %>
+    </div>
+  </div>
+</div>
