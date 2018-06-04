@@ -251,8 +251,8 @@ function reevaluateMapBoundByIndex(index) {
 function buildIcon(iconData, iconSize) {
   if (iconData) {
     return {
-      url: "data:image/svg+xml;utf-8, " + iconSvg(iconData),
-      size: new google.maps.Size(iconSize, iconSize),
+      url: "data:image/svg+xml;base64, " + window.btoa(iconSvg(iconData)),
+      scaledSize: new google.maps.Size(iconSize, iconSize),
       origin: new google.maps.Point(0, 0),
       anchor: new google.maps.Point(iconSize / 2, iconSize / 2)
     };
