@@ -38,6 +38,34 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
       assert get_flash(conn) == %{}
     end
 
+    test "assigns address and stops with routes when address param is not nested", %{conn: conn} do
+      options = init(nearby_fn: &mock_response/1)
+
+      conn = conn
+      |> bypass_through(SiteWeb.Router, :browser)
+      |> get("/")
+      |> assign_query_params(%{"address" => @tnm_address, "latitude" => "42.0", "longitude" => "-71.0"})
+      |> call(options)
+
+      assert :stops_with_routes in Map.keys conn.assigns
+      assert conn.assigns.tnm_address == @tnm_address
+      assert get_flash(conn) == %{}
+    end
+
+    test "assigns address and stops with routes when address param is nested and lat/lng is provided", %{conn: conn} do
+      options = init(nearby_fn: &mock_response/1)
+
+      conn = conn
+      |> bypass_through(SiteWeb.Router, :browser)
+      |> get("/")
+      |> assign_query_params(%{"location" => %{"address" => @tnm_address}, "latitude" => "42.0", "longitude" => "-71.0"})
+      |> call(options)
+
+      assert :stops_with_routes in Map.keys conn.assigns
+      assert conn.assigns.tnm_address == @tnm_address
+      assert get_flash(conn) == %{}
+    end
+
     test "assigns no stops and empty address if none is provided", %{conn: conn} do
       conn = conn
       |> assign_query_params(%{})

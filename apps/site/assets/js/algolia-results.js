@@ -52,6 +52,7 @@ export class AlgoliaResults {
     this.onClickShowMore = this.onClickShowMore.bind(this);
     this.onClickResult = this.onClickResult.bind(this);
     this.addResultClickHandler = this.addResultClickHandler.bind(this);
+    this._showLocation = this._showLocation.bind(this);
   }
 
   _addLocationListeners(results) {
@@ -109,7 +110,11 @@ export class AlgoliaResults {
   }
 
   _showLocation(latitude, longitude, address) {
-    Turbolinks.visit(`/transit-near-me?latitude=${latitude}&longitude=${longitude}&location[address]=${address}`);
+    const params = this._parent.getParams();
+    params.latitude = latitude;
+    params.longitude = longitude;
+    params.address = address;
+    window.Turbolinks.visit("/transit-near-me" + QueryStringHelpers.parseParams(params))
   }
 
   _locationSearchByGeo(latitude, longitude) {

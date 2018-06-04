@@ -173,6 +173,91 @@ defmodule SiteWeb.GlobalSearchTest do
     end
   end
 
+  describe "url parameters" do
+    test "url parameters change when search field is filled", %{session: session} do
+      url =
+        session
+        |> visit("/search")
+        |> fill_in(@search_input, with: "Alewife")
+        |> current_url()
+
+      query_string_elements = url_to_param_map(url)
+
+      assert Keyword.fetch(query_string_elements, :query) == {:ok, "Alewife"}
+      assert Keyword.fetch(query_string_elements, :facets) == {:ok, ""}
+      assert Keyword.fetch(query_string_elements, :showmore) == {:ok, ""}
+    end
+
+    test "selected facets are tracked in url params", %{session: session} do
+      url =
+        session
+        |> visit("/search")
+        |> click_facet_checkbox("stops")
+        |> current_url()
+
+      query_string_elements = url_to_param_map(url)
+
+      assert Keyword.fetch(query_string_elements, :query) == {:ok, ""}
+      assert Keyword.fetch(query_string_elements, :facets) == {:ok, "stops,facet-station,facet-stop"}
+      assert Keyword.fetch(query_string_elements, :showmore) == {:ok, ""}
+    end
+
+    test "show more is tracked in url params", %{session: session} do
+      url =
+        session
+        |> visit("/search")
+        |> fill_in(@search_input, with: "a")
+        |> click(css("#show-more--stops"))
+        |> current_url()
+
+      query_string_elements = url_to_param_map(url)
+
+      assert Keyword.fetch(query_string_elements, :query) == {:ok, "a"}
+      assert Keyword.fetch(query_string_elements, :facets) == {:ok, ""}
+      assert Keyword.fetch(query_string_elements, :showmore) == {:ok, "stops"}
+    end
+  end
+
+  describe "url parameters on followed links" do
+    setup do
+      bypass = Bypass.open()
+      old_url = Application.get_env(:algolia, :click_analytics_url)
+      Application.put_env(:algolia, :click_analytics_url, "http://localhost:#{bypass.port}")
+
+      on_exit fn ->
+        Application.put_env(:algolia, :click_analytics_url, old_url)
+      end
+
+      {:ok, bypass: bypass}
+    end
+
+    test "location url contains correct query params", %{session: session, bypass: bypass} do
+      Bypass.expect(bypass, fn conn -> Plug.Conn.send_resp(conn, 200, "success") end)
+      session =
+        session
+        |> visit("/search")
+        |> fill_in(@search_input, with: "community college")
+        |> click_facet_checkbox("stops")
+        |> assert_has(search_results_section(:any))
+        |> assert_has(css(".c-search-result__link", count: :any))
+
+      [first_link | _]  = find(session, css(".c-search-result__link", count: :any))
+
+      Wallaby.Element.click(first_link)
+      assert_has(session, css(".stations-address"))
+
+      url = current_url(session)
+
+      parsed_url = URI.parse(url)
+      assert parsed_url.path == "/stops/place-ccmnl"
+
+      query_string_elements = url_to_param_map(url)
+      assert Keyword.fetch(query_string_elements, :from) == {:ok, "global-search"}
+      assert Keyword.fetch(query_string_elements, :query) == {:ok, "community college"}
+      assert Keyword.fetch(query_string_elements, :facets) == {:ok, "stops,facet-station,facet-stop"}
+    end
+  end
+
   describe "load state" do
     @tag :wallaby
     test "fills in query", %{session: session} do
@@ -203,5 +288,13 @@ defmodule SiteWeb.GlobalSearchTest do
       assert selected?(session, facet_checkbox("page"))
       assert selected?(session, facet_checkbox("document"))
     end
+  end
+
+  def url_to_param_map(url) do
+    query_string = URI.parse(url)
+
+    query_string.query
+      |> URI.query_decoder()
+      |> Enum.map(fn({a, b}) -> {String.to_atom(a), b} end)
   end
 end

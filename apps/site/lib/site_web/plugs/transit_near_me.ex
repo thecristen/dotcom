@@ -28,15 +28,11 @@ defmodule SiteWeb.Plugs.TransitNearMe do
   end
   # Used when latitude and longitude are given, bypasses the geocoding call
   def call(%{params: %{"latitude" => latitude, "longitude" => longitude}} = conn, options) do
-    formatted = conn.params
-    |> Map.get("location", %{})
-    |> Map.get("address", "#{latitude}, #{longitude}")
-
     location = {:ok, [
         %Geocode.Address{
           latitude: String.to_float(latitude),
           longitude: String.to_float(longitude),
-          formatted: formatted
+          formatted: formatted_address(conn.params)
         }
       ]
     }
@@ -63,7 +59,16 @@ defmodule SiteWeb.Plugs.TransitNearMe do
     |> flash_if_error()
   end
 
-  #TODO handle differently when multiple results are returned?
+  # Visits to this page from Algolia search results already have lat/lng geocoding, but use
+  # different parameters for the address. We track "address" as one of our analytics
+  # parameters for Algolia search results, but the Phoenix form helper used in the
+  # /transit-near-me template requires that we use a nested "locations"["address"] data structure.
+  # This helper function simply looks for the address in one of those two values and falls
+  # back to using the lat/lng if neither can be found.
+  defp formatted_address(%{"address" => address}), do: address
+  defp formatted_address(%{"location" => %{"address" => address}}), do: address
+  defp formatted_address(%{"latitude" => lat, "longitude" => lng}), do: lat <> "," <> lng
+
   @doc """
     Retrieves stops close to a location and parses into the correct configuration
   """

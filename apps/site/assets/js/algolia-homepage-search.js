@@ -1,4 +1,5 @@
 import { doWhenGoogleMapsIsReady} from './google-maps-loaded';
+import * as QueryStringHelpers from "./query-string-helpers";
 import hogan from "hogan.js";
 import { Algolia } from "./algolia-search";
 import * as AlgoliaResult from "./algolia-result";
@@ -41,12 +42,17 @@ export class AlgoliaHomepageSearch {
   }
 
   _showLocation(latitude, longitude, address) {
-    Turbolinks.visit(`/transit-near-me?latitude=${latitude}&longitude=${longitude}&location[address]=${address}`);
+    const params = this.getParams();
+    params.latitude = latitude;
+    params.longitude = longitude;
+    params.address = address;
+    window.Turbolinks.visit("/transit-near-me" + QueryStringHelpers.parseParams(params))
   }
 
   bind() {
     this._renderFooterTemplate = this._renderFooterTemplate.bind(this);
     this._renderHeaderTemplate = this._renderHeaderTemplate.bind(this);
+    this._showLocation = this._showLocation.bind(this);
     this.reset = this.reset.bind(this);
     this.onKeyup = this.onKeyup.bind(this);
   }
