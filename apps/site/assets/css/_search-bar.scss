@@ -137,7 +137,9 @@
 .c-search-bar__input {
   display: flex;
   position: relative;
+}
 
+.c-search-bar__-input {
   &::-ms-clear {
     display: none;
   }
