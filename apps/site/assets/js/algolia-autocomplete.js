@@ -82,7 +82,13 @@ export class AlgoliaAutocomplete {
 
   onOpen() {
     const acDialog = document.getElementsByClassName("c-search-bar__-dropdown-menu")[0];
-    acDialog.style.width = `${this._searchContainer.offsetWidth - 2}px`;
+    const homepageSearchBox = document.getElementsByClassName("js-homepage-search-input");
+
+    const borderWidth = parseInt($(`#${this._selectors.container}`).css("border-left-width"));
+
+    acDialog.style.width = `${this._searchContainer.offsetWidth}px`;
+    acDialog.style.marginLeft = `${-borderWidth}px`;
+    acDialog.style.marginTop = `${2 * borderWidth}px`;
   }
 
   _addResultsContainer() {

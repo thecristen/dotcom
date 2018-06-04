@@ -26,9 +26,12 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   onInputFocused() {
     if (this._input.value.length == 0) {
       this._useMyLocation.style.display = "block";
-      this._useMyLocation.style.width = `${this._searchContainer.offsetWidth - 3}px`;
-      this._useMyLocation.style.top = `${this._searchContainer.offsetHeight - 3}px`;
-      this._useMyLocation.style.left = "1px";
+
+      const $ = window.jQuery;
+      const borderWidth = parseInt($(`#${this._selectors.container}`).css("border-left-width"));
+      this._useMyLocation.style.left = `${-borderWidth}px`;
+      this._useMyLocation.style.top = `${this._searchContainer.offsetHeight - borderWidth}px`;
+      this._useMyLocation.style.width = `${this._searchContainer.offsetWidth}px`;
     } else {
       this._closeUseMyLocation();
     }

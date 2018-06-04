@@ -14,7 +14,7 @@ defmodule SiteWeb.PageView do
   defp shortcut_icon(id) do
     content_tag(:a, [
       id |> shortcut_svg_name() |> svg(),
-      content_tag(:div, shortcut_text(id), []),
+      content_tag(:div, shortcut_text(id), class: "m-homepage__shortcut-text"),
     ], href: shortcut_link(id), class: "m-homepage__shortcut")
   end
 

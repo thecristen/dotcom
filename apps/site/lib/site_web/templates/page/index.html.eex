@@ -1,5 +1,8 @@
 <div class="index">
-  <%= shortcut_icons() %>
+  <div class="m-homepage__search-wrapper">
+      <%= render "_search_bar.html", conn: @conn  %>
+      <%= shortcut_icons() %>
+  </div>
   <%=
     if assigns[:important_notice] do
       render SiteWeb.PageView, "_important_notice.html", conn: @conn, important_notice: assigns[:important_notice]

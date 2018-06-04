@@ -36,6 +36,7 @@
   }
 
   @include media-breakpoint-down(sm) {
+    min-height: $base-spacing * 3;
     padding: $base-spacing / 2;
 
     &:last-child {

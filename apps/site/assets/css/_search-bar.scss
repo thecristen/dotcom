@@ -30,6 +30,7 @@
 .c-search-bar__go-btn {
   @include icon-size($base-spacing * 1.5);
   background: $brand-primary;
+  border: 0;
   border-radius: $base-spacing / 4;
   color: $white;
   cursor: pointer;
@@ -41,8 +42,7 @@
   }
 }
 
-.c-search-bar__go-btn--new-homepage {
-  border: 0;
+.c-search-bar__go-btn--homepage {
   padding: $space-8;
 }
 
@@ -137,11 +137,16 @@
 .c-search-bar__input {
   display: flex;
   position: relative;
+
+  &::-ms-clear {
+    display: none;
+  }
 }
 
-.c-search-bar__input--new-homepage {
+.c-search-bar__input--homepage {
   border: 3px $brand-primary solid;
   border-radius: $base-spacing / 4;
+  margin-top: $space-16;
 }
 
 .c-search-bar__input--half {
