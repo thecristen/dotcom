@@ -39,36 +39,6 @@ defmodule SiteWeb.GlobalSearchTest do
     end
 
     @tag :wallaby
-    test "lines and routes facets can be expanded and checked", %{session: session} do
-      session
-      |> visit("/search")
-      |> fill_in(@search_input, with: "Green")
-      |> assert_has(search_results_section(6))
-
-      # With all lines and routes selected we should see Greenbush and 4 Green line branches
-      |> click_facet_checkbox("lines-routes")
-      |> assert_has(search_results_section(1))
-      |> assert_has(search_hits(5))
-      |> assert_has(Query.text("bush Line"))
-      |> assert_has(Query.text("Line B"))
-      |> assert_has(Query.text("Line C"))
-      |> assert_has(Query.text("Line D"))
-      |> assert_has(Query.text("Line E"))
-
-      # Disable bus, commuter rail and ferry and we should see only 4 green line branches
-      |> toggle_facet_section("lines-routes")
-      |> click_facet_checkbox("bus")
-      |> click_facet_checkbox("commuter-rail")
-      |> click_facet_checkbox("ferry")
-      |> assert_has(search_results_section(1))
-      |> assert_has(search_hits(4))
-      |> assert_has(Query.text("Line B"))
-      |> assert_has(Query.text("Line C"))
-      |> assert_has(Query.text("Line D"))
-      |> assert_has(Query.text("Line E"))
-    end
-
-    @tag :wallaby
     test "stations and stops facets can be expanded", %{session: session} do
       session
       |> visit("/search")
