@@ -229,7 +229,8 @@
   align-items: center;
   display: flex;
   height: $base-spacing * 2;
-  padding-bottom: $base-spacing / 2;
+  margin-bottom: $base-spacing;
+  margin-top: $base-spacing;
 }
 
 .station__header-feature {
