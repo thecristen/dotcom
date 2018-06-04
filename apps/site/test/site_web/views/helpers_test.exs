@@ -7,15 +7,6 @@ defmodule SiteWeb.ViewHelpersTest do
   import Phoenix.HTML, only: [safe_to_string: 1, html_escape: 1]
   alias Routes.Route
 
-  describe "route_header_text/2" do
-    test "translates the type number to a string" do
-      assert route_header_text(%Route{type: 0, name: "test route"}) == ["test route"]
-      assert route_header_text(%Route{type: 3, name: "2"}) == ["Route ", "2"]
-      assert route_header_text(%Route{type: 1, name: "Red Line"}) == ["Red Line"]
-      assert route_header_text(%Route{type: 2, name: "Fitchburg Line"}) == ["Fitchburg"]
-    end
-  end
-
   describe "break_text_at_slash/1" do
     test "doesn't change text without slashes" do
       s = "this text doesn't contain a slash"
@@ -95,22 +86,6 @@ defmodule SiteWeb.ViewHelpersTest do
       assert external_link("http://www.google.com") == "http://www.google.com"
       assert external_link("www.google.com") == "http://www.google.com"
       assert external_link("https://google.com") == "https://google.com"
-    end
-  end
-
-  describe "subway_name/1" do
-    test "All Green line routes display \"Green Line\"" do
-      assert subway_name("Green-B") == "Green Line"
-      assert subway_name("Green-C") == "Green Line"
-      assert subway_name("Green-D") == "Green Line"
-      assert subway_name("Green-E") == "Green Line"
-    end
-
-    test "Lines show correct display name" do
-      assert subway_name("Red Line") == "Red Line"
-      assert subway_name("Mattapan") == "Mattapan Trolley"
-      assert subway_name("Blue Line") == "Blue Line"
-      assert subway_name("Orange Line") == "Orange Line"
     end
   end
 

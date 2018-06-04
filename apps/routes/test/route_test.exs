@@ -170,6 +170,21 @@ defmodule Routes.RouteTest do
     end
   end
 
+  describe "to_naive/1" do
+    test "turns a green line branch into a generic green line route" do
+      for branch <- ["B", "C", "D", "E"] do
+        assert Route.to_naive(%Routes.Route{
+          id: "Green-" <> branch,
+          name: "Green Line " <> branch
+        }) == %Routes.Route{id: "Green", name: "Green Line"}
+      end
+    end
+    test "does nothing for other routes" do
+      route = %Routes.Route{id: "Red", type: 1}
+      assert Route.to_naive(route) == route
+    end
+  end
+
   describe "Phoenix.Param.to_param" do
     test "Green routes are normalized to Green" do
       green_e = %Route{id: "Green-E"}

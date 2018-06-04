@@ -130,20 +130,10 @@ defmodule SiteWeb.ViewHelpers do
   @spec route_to_class(Routes.Route.t) :: String.t
   def route_to_class(route) do
     route
+    |> Routes.Route.to_naive()
     |> Routes.Route.icon_atom
     |> CSSHelpers.atom_to_class
   end
-
-  @spec subway_name(String.t) :: String.t
-  @doc "Textual version of subway line"
-  def subway_name("Mattapan" <> _trolley), do: "Mattapan Trolley"
-  def subway_name("Green" <> _line), do: "Green Line"
-  def subway_name(color) when color in ["Red Line", "Blue Line", "Orange Line"], do: color
-
-  @doc "Prefix route name with route for bus lines"
-  def route_header_text(%{type: 3, name: name}), do: ["Route ", name]
-  def route_header_text(%{type: 2, name: name}), do: [clean_route_name(name)]
-  def route_header_text(%{name: name}), do: [name]
 
   @doc "Clean up a GTFS route name for better presentation"
   @spec clean_route_name(String.t) :: String.t

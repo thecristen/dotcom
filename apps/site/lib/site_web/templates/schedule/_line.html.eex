@@ -1,3 +1,4 @@
+<%= SiteWeb.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
 <% encoded_map_data = raw Poison.encode!(@dynamic_map_data) %>
 <%= render "_line_filters.html", conn: @conn, headsigns: @headsigns, direction_id: @direction_id, route: @route, origin: assigns[:origin], destination: assigns[:destination], show_date_select?: @show_date_select?, force_six_column: true, route_shapes: @route_shapes, active_shape: @active_shape, show_variant_selector: assigns[:show_variant_selector] %>
 <div class="page-section container">

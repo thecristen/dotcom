@@ -28,6 +28,8 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
       direction_id = 0
       origin = destination = nil
       all_alerts = []
+      alerts = []
+      upcoming_alerts = []
       all_stops = [
         %Stops.Stop{id: "stop", name: "Stop"}
       ]
@@ -42,6 +44,8 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
         origin: origin,
         destination: destination,
         all_alerts: all_alerts,
+        alerts: alerts,
+        upcoming_alerts: upcoming_alerts,
         offset: offset,
         show_date_select?: show_date_select?,
         all_stops: all_stops,

@@ -80,3 +80,6 @@ $btn-primary-color: $white;
 $btn-primary-bg: $brand-primary;
 $btn-primary-focus-color: $gray-dark;
 $btn-primary-focus-bg: $brand-primary-lightest;
+
+$transparent-white: transparentize($white, .4);
+$transparent-gray: transparentize($gray-lighter, .5);

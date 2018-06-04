@@ -86,6 +86,17 @@ defmodule Routes.Route do
   end
 
   @doc """
+  Standardizes a route with branches into a generic route. Currently only changes Green Line branches.
+  """
+  @spec to_naive(__MODULE__.t) :: __MODULE__.t
+  def to_naive(%__MODULE__{id: "Green-" <> _, type: 0} = route) do
+    %{route | id: "Green", name: "Green Line"}
+  end
+  def to_naive(%__MODULE__{} = route) do
+    route
+  end
+
+  @doc """
   A slightly more detailed version of &Route.type_name/1.
   The only difference is that route ids are listed for bus routes, otherwise it just returns &Route.type_name/1.
   """

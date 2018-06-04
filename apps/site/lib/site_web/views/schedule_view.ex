@@ -212,4 +212,74 @@ defmodule SiteWeb.ScheduleView do
     route = PredictedSchedule.route(predicted_schedule)
     Stops.RouteStop.build_route_stop(stop, route, first?: first?, last?: last?)
   end
+
+  @doc "Prefix route name with route for bus lines"
+  def route_header_text(%Route{type: 3, name: name} = route) do
+    if Route.silver_line_rapid_transit?(route) do
+      ["Silver Line ", name]
+    else
+      content_tag :div, class: "bus-route-sign h1--new" do
+        route.name
+      end
+    end
+  end
+  def route_header_text(%Route{type: 2, name: name}), do: [clean_route_name(name)]
+  def route_header_text(%Route{name: name}), do: [name]
+
+  @spec header_class(Route.t) :: String.t
+  def header_class(%Route{type: 3} = route) do
+    if Route.silver_line_rapid_transit?(route) do
+      do_header_class("silver-line")
+    else
+      do_header_class("bus")
+    end
+  end
+  def header_class(%Route{} = route) do
+    route
+    |> route_to_class()
+    |> do_header_class()
+  end
+
+  @spec do_header_class(String.t) :: String.t
+  defp do_header_class(<<modifier::binary>>) do
+    "u-bg--" <> modifier
+  end
+
+  @doc "Route sub text (long names for bus routes)"
+  @spec route_header_description(Route.t) :: String.t
+  def route_header_description(%Route{type: 3} = route) do
+    if Route.silver_line_rapid_transit?(route) do
+      ""
+    else
+      content_tag :h2, class: "schedule__description h2--new" do
+        "Bus Route"
+      end
+    end
+  end
+  def route_header_description(_), do: ""
+
+  def route_header_tabs(conn) do
+    route = conn.assigns.route
+    tab_params = conn.assigns.tab_params
+    schedule_link = trip_view_path(conn, :show, route.id, tab_params)
+    info_link = line_path(conn, :show, route.id, tab_params)
+    timetable_link = timetable_path(conn, :show, route.id, tab_params)
+    tabs = [{"trip-view", "Schedule", schedule_link},
+            {"line", "Info & Maps", info_link}]
+    tabs = case route.type do
+        2 -> [{"timetable", "Timetable", timetable_link} | tabs]
+        _ -> tabs
+    end
+    SiteWeb.PartialView.HeaderTabs.render_tabs(tabs, conn.assigns.tab, route_tab_class(route))
+  end
+
+  @spec route_tab_class(Route.t) :: String.t
+  defp route_tab_class(%Route{type: 3} = route) do
+    if Route.silver_line_rapid_transit?(route) do
+      ""
+    else
+      "header-tab--bus"
+    end
+  end
+  defp route_tab_class(_), do: ""
 end

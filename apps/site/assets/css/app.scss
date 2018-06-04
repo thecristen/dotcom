@@ -76,6 +76,7 @@
 @import 'title-card';
 @import 'location-card';
 @import 'search-bar';
+@import 'header-tabs';
 @import 'facets';
 @import 'photo-gallery';
 
@@ -102,3 +103,4 @@
 // should be used VERY sparingly and be well-documented.
 //
 @import 'vendor/fixedsticky'; // needs refactor
+@import 'utilities';

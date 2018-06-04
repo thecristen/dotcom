@@ -1,5 +1,6 @@
 <div class="page-section">
-<%= render_alerts(@stop_alerts, @date, @stop) %>
+  <%= render_alerts(@stop_alerts, @date, @stop) %>
+  <%= render "_map.html", forward_assigns(@conn) %>
 </div>
 <div id="station-info" class="page-section">
   <h2>Parking</h2>

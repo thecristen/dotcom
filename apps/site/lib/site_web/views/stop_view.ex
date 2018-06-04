@@ -62,9 +62,11 @@ defmodule SiteWeb.StopView do
   end
 
   @spec aggregate_routes([map()]) :: [map()]
-  @doc "Combine multipe routes on the same subway line"
+  @doc "Combine multiple routes on the same subway line. Combines Green Line branches into a single route."
   def aggregate_routes(routes) do
-    Enum.uniq_by(routes, &Phoenix.Param.to_param/1)
+    routes
+    |> Enum.uniq_by(&Phoenix.Param.to_param/1)
+    |> Enum.map(&Route.to_naive/1)
   end
 
   @spec accessibility_info(Stop.t, [Routes.Route.gtfs_route_type]) :: Phoenix.HTML.Safe.t
@@ -287,4 +289,89 @@ defmodule SiteWeb.StopView do
   defp stop_feature_icon_atom(feature) do
     feature
   end
+
+  @spec station_name_class(Keyword.t) :: String.t
+  def station_name_class([{:bus, _}]), do: "station__name"
+  def station_name_class(_), do: "station__name station__name--upcase"
+
+  @spec render_header_modes(Keyword.t, integer | nil) :: [Phoenix.HTML.Safe.t]
+  def render_header_modes(grouped_routes, zone_number) do
+    for mode <- [:subway, :ferry, :commuter_rail, :bus] do
+      do_render_header_modes(mode, Keyword.get(grouped_routes, mode, []), zone_number)
+    end
+  end
+
+  defp do_render_header_modes(_type, [], _zone) do
+    []
+  end
+  defp do_render_header_modes(type, [%Route{} | _] = routes, zone) do
+    [
+      render_header_mode(type, routes),
+      render_cr_zone(type, zone)
+    ]
+  end
+
+  @spec render_header_mode(Route.gtfs_route_type, [Route.t]) :: [Phoenix.HTML.Safe.t]
+  defp render_header_mode(_type, []) do
+    []
+  end
+  defp render_header_mode(:subway, routes) do
+    for route <- aggregate_routes(routes) do
+      route
+      |> line_icon(:default)
+      |> do_render_header_mode(route.name, route)
+    end
+  end
+  defp render_header_mode(type, [route | _]) do
+    [
+      type
+      |> mode_icon(:default)
+      |> do_render_header_mode(mode_name(type), route)
+    ]
+  end
+
+  @spec do_render_header_mode(Phoenix.HTML.Safe.t, String.t, Route.t) :: Phoenix.HTML.Safe.t
+  defp do_render_header_mode({:safe, _} = icon, <<text::binary>>, %Route{} = route) do
+    content_tag(:span, [
+      content_tag(:span, icon, class: "station__header-icon#{unless route.type == 3 do " hidden-md-up" end}"),
+      render_header_mode_name(route, text)
+    ], class: "station__header-feature")
+  end
+
+  @spec render_header_mode_name(Route.t, String.t) :: [Phoenix.HTML.Safe.t]
+  defp render_header_mode_name(%Route{type: 3}, _) do
+    []
+  end
+  defp render_header_mode_name(%Route{} = route, text) do
+    [content_tag(:span, text, class: "station__header-description #{header_mode_bg_class(route)}")]
+  end
+
+  @spec render_cr_zone(Route.gtfs_route_type, integer | nil) :: [Phoenix.HTML.Safe.t]
+  defp render_cr_zone(:commuter_rail, nil) do
+    []
+  end
+  defp render_cr_zone(:commuter_rail, zone) do
+    [content_tag(:span, [
+      content_tag(:span, "Zone #{zone}", class: "station__header-icon c-icon__cr-zone")
+    ], class: "station__header-feature")]
+  end
+  defp render_cr_zone(_, _) do
+    []
+  end
+
+  @spec header_mode_bg_class(Route.t) :: String.t
+  defp header_mode_bg_class(%Route{type: type} = route) when type in [0, 1] do
+    route
+    |> route_to_class()
+    |> do_header_mode_bg_class()
+  end
+  defp header_mode_bg_class(%Route{type: type}) do
+    type
+    |> Route.type_atom()
+    |> CSSHelpers.atom_to_class()
+    |> do_header_mode_bg_class()
+  end
+
+  @spec do_header_mode_bg_class(String.t) :: String.t
+  defp do_header_mode_bg_class(modifier), do: "u-bg--#{modifier}"
 end

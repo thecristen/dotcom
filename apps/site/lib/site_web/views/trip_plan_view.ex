@@ -292,4 +292,14 @@ defmodule SiteWeb.TripPlanView do
       select(:date_time, :am_pm, ["AM": "AM", "PM": "PM"], selected: Timex.format!(datetime, "{AM}"), name: "plan[date_time][am_pm]", id: "plan_date_time_am_pm")
     ], class: "plan-time-select hidden-js", id: "plan-time-select")
   end
+
+  @spec transfer_route_name(Route.t) :: String.t
+  def transfer_route_name(%Route{type: type} = route) when type in [0, 1] do
+    route
+    |> Route.to_naive()
+    |> Map.get(:name)
+  end
+  def transfer_route_name(%Route{type: type}) do
+    SiteWeb.ViewHelpers.mode_name(type)
+  end
 end

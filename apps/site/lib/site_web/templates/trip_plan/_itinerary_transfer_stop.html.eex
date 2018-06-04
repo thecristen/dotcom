@@ -7,12 +7,7 @@
         <% route = @itinerary_row.route %>
           <div class="callout callout-small">
             <%= svg_icon(%SvgIcon{icon: Route.type_atom(route), class: "icon-boring icon-small"}) %>
-            Connect to the
-            <%= if Route.subway?(route.type, route.id) do %>
-              <%= subway_name(route.name) %>
-            <% else %>
-              <%= mode_name(route.type) %>
-            <% end %>
+            Connect to the <%= transfer_route_name(route) %>
           </div>
         <span class="itinerary-instruction">
           Take the <%= route.name %> <%= Routes.Route.direction_name(route, @itinerary_row.trip.direction_id) %>
