@@ -32,8 +32,8 @@ defmodule SiteWeb.PageView do
   end
   defp shortcut_text(:nearby) do
     [
-      content_tag(:span, ["Service", tag(:br)], class: "hidden-sm-down"),
-      "Nearby"
+      content_tag(:span, ["Transit", tag(:br)], class: "hidden-sm-down"),
+      content_tag(:span, "Near Me", class: "u-nowrap")
     ]
   end
   defp shortcut_text(:commuter_rail) do
@@ -44,10 +44,16 @@ defmodule SiteWeb.PageView do
       content_tag(:span, [" Lines"], class: "hidden-sm-down")
     ]
   end
+  defp shortcut_text(:subway) do
+    [
+      "Subway",
+      content_tag(:span, [tag(:br), "Lines"], class: "hidden-sm-down")
+    ]
+  end
   defp shortcut_text(mode) do
     [
       mode_name(mode),
-      content_tag(:span, [tag(:br), "Lines"], class: "hidden-sm-down")
+      content_tag(:span, [tag(:br), "Routes"], class: "hidden-sm-down")
     ]
   end
 
