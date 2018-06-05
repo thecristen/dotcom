@@ -51,7 +51,7 @@ defmodule SiteWeb.TransitNearMeViewTest do
   end
 
   defp test_get_type_list({:bus, routes}) do
-    assert View.get_type_list(:bus, routes) |> safe_to_string =~ "Bus: "
+    assert :bus |> View.get_type_list(routes) |> safe_to_string =~ "Bus: "
   end
   defp test_get_type_list({mode_name, routes}) do
     assert View.get_type_list(mode_name, routes) =~ mode_name

@@ -89,7 +89,8 @@ defmodule Site.ContentRewriters.ResponsiveTables do
       |> Enum.map(fn {_, _, header} -> {"th", [], [Floki.text(header)]} end)
 
     trs =
-      Floki.find(tbody, "tr")
+      tbody
+      |> Floki.find("tr")
       |> Enum.map(fn {"tr", _, tds} -> {"tr", [], Util.interleave(headers, tds)} end)
 
     {"table", [{"class", "responsive-table"}], [

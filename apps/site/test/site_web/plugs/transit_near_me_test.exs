@@ -157,7 +157,7 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
       green_line = %Route{id: "Green-B", name: "Green-B", type: 0}
       route_list = [green_line, red_line]
 
-      assert get_route_groups(route_list) |> Enum.sort == [
+      assert route_list |> get_route_groups() |> Enum.sort() == [
         green_line: [%Route{id: "Green-B", name: "Green-B", type: 0}],
         red_line: [red_line]]
 

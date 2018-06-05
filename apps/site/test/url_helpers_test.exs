@@ -9,7 +9,8 @@ defmodule UrlHelpersTest do
 
   setup do
     conn =
-      build_conn(:get, "/path")
+      :get
+      |> build_conn("/path")
       |> fetch_query_params([])
       |> Map.from_struct
       |> Map.put(:query_params, @original_query)

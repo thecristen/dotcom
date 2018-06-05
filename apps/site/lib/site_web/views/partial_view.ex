@@ -32,23 +32,26 @@ defmodule SiteWeb.PartialView do
       text || ""
     end
   end
-  def stop_selector_suffix(%Conn{assigns: %{route: %Routes.Route{id: "Green"}}} = conn, stop_id, text) do
-    case GreenLine.branch_ids()
-    |> Enum.flat_map(fn route_id ->
-      if GreenLine.stop_on_route?(stop_id, route_id, conn.assigns.stops_on_routes) do
-        [display_branch_name(route_id)]
-      else
-        []
-      end
-    end)
-    |> Enum.intersperse(",") do
-      [] -> text || ""
-      iodata -> iodata
-    end
+  def stop_selector_suffix(%Conn{assigns: %{route: %Routes.Route{id: "Green"},
+                                            stops_on_routes: stops}}, stop_id, text) do
+    GreenLine.branch_ids()
+    |> Enum.flat_map(& stop_id |> GreenLine.stop_on_route?(&1, stops) |> green_branch_name(&1))
+    |> Enum.intersperse(",")
+    |> green_line_stop_selector_suffix(text)
   end
   def stop_selector_suffix(_conn, _stop_id, text) do
     text || ""
   end
+
+  @spec green_line_stop_selector_suffix(iodata, String.t | nil) :: String.t | iodata
+  defp green_line_stop_selector_suffix([], nil), do: ""
+  defp green_line_stop_selector_suffix([], <<text::binary>>), do: text
+  defp green_line_stop_selector_suffix(iodata, _), do: iodata
+
+  @spec green_branch_name(boolean, Routes.Route.id_t) :: [String.t | nil]
+  defp green_branch_name(stop_on_green_line?, route_id)
+  defp green_branch_name(true, route_id), do: [display_branch_name(route_id)]
+  defp green_branch_name(false, _), do: []
 
   @doc """
   Pulls out the branch name of a Green Line route ID.
@@ -56,5 +59,4 @@ defmodule SiteWeb.PartialView do
   @spec display_branch_name(Routes.Route.id_t) :: String.t | nil
   def display_branch_name(<<"Green-", branch :: binary>>), do: branch
   def display_branch_name(_), do: nil
-
 end

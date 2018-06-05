@@ -61,7 +61,8 @@ defmodule Alerts.Cache.Store do
   """
   @spec alerts([String.t], DateTime.t) :: [Alerts.Alert.t]
   def alerts(alert_ids, now) do
-    select_many(:alert_id_to_alert, alert_ids)
+    :alert_id_to_alert
+    |> select_many(alert_ids)
     |> Alerts.Sort.sort(now)
   end
 
@@ -70,7 +71,8 @@ defmodule Alerts.Cache.Store do
   """
   @spec all_alerts(DateTime.t) :: [Alerts.Alert.t]
   def all_alerts(now) do
-    :ets.select(:alert_id_to_alert, [{{:_, :"$1"}, [], [:"$1"]}])
+    :alert_id_to_alert
+    |> :ets.select([{{:_, :"$1"}, [], [:"$1"]}])
     |> Alerts.Sort.sort(now)
   end
 
