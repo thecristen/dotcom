@@ -34,11 +34,13 @@ defmodule SiteWeb.ScheduleView do
   end
   defp do_display_direction([]), do: ""
 
-  @spec template_for_tab(String.t) :: String.t
+  @spec template_for_tab(String.t, Route.t) :: String.t
   @doc "Returns the template for the selected tab."
-  def template_for_tab("trip-view"), do: "_trip_view.html"
-  def template_for_tab("timetable"), do: "_timetable.html"
-  def template_for_tab("line"), do: "_line.html"
+  def template_for_tab(tab_name, route)
+  def template_for_tab("trip-view", _), do: "_trip_view.html"
+  def template_for_tab("timetable", _), do: "_timetable.html"
+  def template_for_tab("line", %Route{type: 3}), do: "_line_bus.html"
+  def template_for_tab("line", %Route{}), do: "_line.html"
 
   @spec reverse_direction_opts(Stops.Stop.t | nil, Stops.Stop.t | nil, 0..1) :: Keyword.t
   def reverse_direction_opts(origin, destination, direction_id) do

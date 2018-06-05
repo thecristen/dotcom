@@ -1,0 +1,22 @@
+{
+  "id" : "85b77cd3-4b57-3051-b44c-8c00dc765a22",
+  "request" : {
+    "url" : "/routes/?stop=97",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-PsXL4.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 05 Jun 2018 16:13:57 GMT",
+      "last-modified" : "Tue, 05 Jun 2018 10:12:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2kqkvabsthq8s9op2400bud2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "85b77cd3-4b57-3051-b44c-8c00dc765a22"
+}

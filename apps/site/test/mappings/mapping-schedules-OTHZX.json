@@ -1,0 +1,22 @@
+{
+  "id" : "8e163d1b-a52b-3b9d-a2f9-db8766ff16bc",
+  "request" : {
+    "url" : "/schedules/?route=1&date=2018-06-23&direction_id=0&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-OTHZX.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 05 Jun 2018 16:13:57 GMT",
+      "last-modified" : "Tue, 05 Jun 2018 10:12:44 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2kqkvab7h8593l3a6400bu7i",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8e163d1b-a52b-3b9d-a2f9-db8766ff16bc"
+}

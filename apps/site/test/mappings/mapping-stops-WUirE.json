@@ -1,0 +1,22 @@
+{
+  "id" : "e32a0855-5f1c-321f-b303-c9421dd6c14d",
+  "request" : {
+    "url" : "/stops/?route=1&include=parent_station&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-WUirE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 05 Jun 2018 16:13:58 GMT",
+      "last-modified" : "Tue, 05 Jun 2018 10:12:03 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2kqkvac2qo6vo9op2400bufi",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e32a0855-5f1c-321f-b303-c9421dd6c14d"
+}
