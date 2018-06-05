@@ -18,9 +18,8 @@ The new face of https://www.mbta.com/
    * Install the necessary tools to set up asdf plugins:
 
      ```
-     brew install autoconf
-     brew install coreutils
-     brew install gpg
+     brew install coreutils automake autoconf openssl libyaml readline libxslt libtool unixodbc
+     brew cask install java
      ```
 
    * Add asdf plugins
