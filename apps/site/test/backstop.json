@@ -170,6 +170,15 @@
       "misMatchThreshold": 0.03
     },
     {
+      "label": "Bus Map & Info",
+      "url": "http://localhost:8082/schedules/1/line?date=2018-06-20&direction_id=0&trip=&origin=102",
+      "hideSelectors": [".map"],
+      "removeSelectors": [".pdf-links"],
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold": 0.03
+    },
+    {
       "label": "Subway Schedule",
       "url": "http://localhost:8082/schedules/Red/schedule?date=2018-06-20&direction_id=1&origin=place-sstat&trip=",
       "removeSelectors": [".pdf-links"],
