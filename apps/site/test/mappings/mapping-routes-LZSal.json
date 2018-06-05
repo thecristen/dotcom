@@ -1,0 +1,22 @@
+{
+  "id" : "c5274e0f-05cb-3720-a15f-ebda8c315f84",
+  "request" : {
+    "url" : "/routes/?stop=95",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LZSal.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 05 Jun 2018 16:13:57 GMT",
+      "last-modified" : "Tue, 05 Jun 2018 10:12:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2kqkvabseb2069op2400bubi",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c5274e0f-05cb-3720-a15f-ebda8c315f84"
+}
