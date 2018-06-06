@@ -199,10 +199,12 @@ This will ensure any part of the site that uses Google's API will not get rate l
 
 1. Obtain a Google API key:
     * Go to [Google's API documentation](https://developers.google.com/maps/documentation/javascript/get-api-key)
-    * Click on "Get a Key", create a project (e.g. "mbtadotcom") and click "Enable API".
-1. Enable specic APIs used in the project:
+    * Click on "GET STARTED", create a personal project (e.g. "mbtadotcom") and exit this flow before entering any billing information (it's not necessary!)
+    * Go to [the Google developer credentials page](https://console.developers.google.com/apis/credentials)
+    * Use the "Select Project" button at the top of the page to choose your project and then hit "Create Credentials" -> "API Key"
+1. Enable specific APIs:
     * Go to the API library for your project (e.g. https://console.developers.google.com/apis/library?project=mbtadotcom)
-    * Using the seearch box at the top of the page, find 'Google Maps Geolocation API'
+    * Using the search box at the top of the page, find 'Google Maps Geolocation API'
     * Click "Enable"
     * Depending on what you're working on, you may need to enable other APIs (several of them are enabled by default).
 
