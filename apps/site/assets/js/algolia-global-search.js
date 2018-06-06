@@ -26,11 +26,12 @@ export class AlgoliaGlobalSearch {
 
   _bind() {
     this.reset = this.reset.bind(this);
-    this.onInput = this.onInput.bind(this);
+    this.onKeyup = this.onKeyup.bind(this);
   }
 
   init() {
     this.container = document.getElementById(AlgoliaGlobalSearch.SELECTORS.searchBar);
+    this._resetButton = document.getElementById(AlgoliaGlobalSearch.SELECTORS.resetButton);
     if (!this.container) {
       return false;
     }
@@ -51,14 +52,12 @@ export class AlgoliaGlobalSearch {
   }
 
   addEventListeners() {
-    this.container.removeEventListener("input", this.onInput);
-    this.container.addEventListener("input", this.onInput);
+    this._resetButton.removeEventListener("click", this.reset);
+    this._resetButton.addEventListener("click", this.reset);
 
-    const clearButton = document.getElementById(AlgoliaGlobalSearch.SELECTORS.clearSearchButton);
-    if (clearButton) {
-      clearButton.removeEventListener("click", this.reset);
-      clearButton.addEventListener("click", this.reset);
-    }
+    const inputField = document.getElementById(AlgoliaGlobalSearch.SELECTORS.input);
+    window.jQuery(document).off("keyup", "#" + inputField.id, this.onKeyup);
+    window.jQuery(document).on("keyup", "#" + inputField.id, this.onKeyup);
   }
 
   loadState(query) {
@@ -82,9 +81,21 @@ export class AlgoliaGlobalSearch {
   reset(ev) {
     this.container.value = "";
     this.controller.reset();
+    this._toggleResetButton(false);
     this._queryParams = {};
     this.updateHistory();
     window.jQuery(this.container).focus();
+  }
+
+  _toggleResetButton(show) {
+    this._resetButton.style.display = show ? "block" : "none";
+  }
+
+  onKeyup(ev) {
+    const inputField = document.getElementById(AlgoliaGlobalSearch.SELECTORS.input);
+    this._toggleResetButton(inputField.value != "");
+    this.controller.search({query: this.container.value});
+    this.updateHistory();
   }
 
   updateHistory() {
@@ -92,11 +103,6 @@ export class AlgoliaGlobalSearch {
     this._queryParams["facets"] = this._facetsWidget.selectedFacetNames().join(",");
     this._queryParams["showmore"] = this._showMoreList.join(",");
     window.history.replaceState(window.history.state, "", window.location.pathname + QueryStringHelpers.parseParams(this._queryParams));
-  }
-
-  onInput(ev) {
-    this.controller.search({query: this.container.value});
-    this.updateHistory();
   }
 
   onClickShowMore(group) {
@@ -188,7 +194,8 @@ AlgoliaGlobalSearch.SELECTORS = {
   resultsContainer: "search-results-container",
   closeModalButton: "close-facets-modal",
   showFacetsButton: "show-facets",
-  clearSearchButton: "search-clear-icon",
+  resetButton: "search-clear-icon",
+  input: "search-input",
 };
 
 AlgoliaGlobalSearch.LATLNGBOUNDS = {

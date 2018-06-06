@@ -148,6 +148,18 @@ defmodule SiteWeb.GlobalSearchTest do
       |> send_keys([:backspace])
       |> assert_has(search_results_section(0))
     end
+
+    @tag :wallaby
+    test "clear button only shows when text has been entered", %{session: session} do
+      reset_id = "#search-clear-icon"
+      session
+      |> visit("/search")
+      |> assert_has(css(reset_id, visible: false))
+      |> fill_in(@search_input, with: "a")
+      |> assert_has(css(reset_id, visible: true))
+      |> send_keys(@search_input, [:backspace])
+      |> assert_has(css(reset_id, visible: false))
+    end
   end
 
   describe "mobile search" do

@@ -75,7 +75,7 @@ describe("AlgoliaGlobalSearch", function() {
       const globalSearch = new AlgoliaGlobalSearch();
       globalSearch.init();
       globalSearch.container.value = "foo";
-      globalSearch.onInput(null);
+      globalSearch.onKeyup(null);
       expect(window.history.replaceState.called).to.be.true;
       expect(window.history.replaceState.args[0][2]).to.contain("query=foo");
     });
