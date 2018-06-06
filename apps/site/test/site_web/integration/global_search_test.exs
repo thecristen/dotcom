@@ -174,6 +174,7 @@ defmodule SiteWeb.GlobalSearchTest do
   end
 
   describe "url parameters" do
+    @tag :wallaby
     test "url parameters change when search field is filled", %{session: session} do
       url =
         session
@@ -188,6 +189,7 @@ defmodule SiteWeb.GlobalSearchTest do
       assert Keyword.fetch(query_string_elements, :showmore) == {:ok, ""}
     end
 
+    @tag :wallaby
     test "selected facets are tracked in url params", %{session: session} do
       url =
         session
@@ -202,6 +204,7 @@ defmodule SiteWeb.GlobalSearchTest do
       assert Keyword.fetch(query_string_elements, :showmore) == {:ok, ""}
     end
 
+    @tag :wallaby
     test "show more is tracked in url params", %{session: session} do
       url =
         session
@@ -231,6 +234,7 @@ defmodule SiteWeb.GlobalSearchTest do
       {:ok, bypass: bypass}
     end
 
+    @tag :wallaby
     test "location url contains correct query params", %{session: session, bypass: bypass} do
       Bypass.expect(bypass, fn conn -> Plug.Conn.send_resp(conn, 200, "success") end)
       session =
