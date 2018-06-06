@@ -90,12 +90,6 @@
   line-height: $space-16 * 1.3;
 }
 
-.m-homepage-search__reset {
-  display: none; // gets toggled by javascript on keyup
-  flex: 0 0 auto;
-  margin-right: $base-spacing / 2;
-}
-
 .m-homepage-search__go-btn {
   flex: 0 0 auto;
 }

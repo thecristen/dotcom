@@ -347,15 +347,6 @@
   }
 }
 
-.c-search__clear-icon {
-  color: $brand-primary;
-  display: none; // gets toggled by javascript on text entry
-  flex: 1 1 auto;
-  height: $space-18;
-  margin-top: .875rem;
-  width: $space-18;
-}
-
 .c-search__facets-container {
   background-color: $white;
   display: block;
@@ -487,4 +478,14 @@
   display: flex;
   justify-content: flex-end;
   padding: $base-spacing / 2;
+}
+
+.c-search__reset-icon {
+  color: $brand-primary;
+  display: none; // gets toggled by javascript on keyup
+  flex: 0 0 auto;
+  height: $space-18;
+  margin-right: $base-spacing / 2;
+  margin-top: .875rem;
+  width: $space-18;
 }

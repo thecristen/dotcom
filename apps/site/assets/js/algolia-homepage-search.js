@@ -25,7 +25,6 @@ export class AlgoliaHomepageSearch {
   }
 
   init() {
-    this._resetButton = document.getElementById(AlgoliaHomepageSearch.SELECTORS.resetButton);
     this._input.value = "";
     this._controller = new Algolia(AlgoliaHomepageSearch.INDICES, AlgoliaHomepageSearch.PARAMS);
     this._autocomplete = new AlgoliaAutocompleteWithGeo(AlgoliaHomepageSearch.SELECTORS,
@@ -38,7 +37,6 @@ export class AlgoliaHomepageSearch {
     this._autocomplete.showLocation = this._showLocation;
     this._controller.addWidget(this._autocomplete);
     this.addEventListeners();
-    this._toggleResetButton(false);
   }
 
   _showLocation(latitude, longitude, address) {
@@ -53,8 +51,6 @@ export class AlgoliaHomepageSearch {
     this._renderFooterTemplate = this._renderFooterTemplate.bind(this);
     this._renderHeaderTemplate = this._renderHeaderTemplate.bind(this);
     this._showLocation = this._showLocation.bind(this);
-    this.reset = this.reset.bind(this);
-    this.onKeyup = this.onKeyup.bind(this);
   }
 
   addEventListeners() {
@@ -64,25 +60,6 @@ export class AlgoliaHomepageSearch {
       });
     });
 
-    window.jQuery(document).off("keyup", "#" + this._input.id, this.onKeyup);
-    window.jQuery(document).on("keyup", "#" + this._input.id, this.onKeyup);
-
-    this._resetButton.removeEventListener("click", this.reset);
-    this._resetButton.addEventListener("click", this.reset);
-  }
-
-  reset(ev) {
-    this._input.value = "";
-    this._toggleResetButton(false);
-    this._controller.reset();
-  }
-
-  _toggleResetButton(show) {
-    this._resetButton.style.display = show ? "block" : "none";
-  }
-
-  onKeyup(ev) {
-    this._toggleResetButton(this._input.value != "");
   }
 
   _renderHeaderTemplate(indexName) {

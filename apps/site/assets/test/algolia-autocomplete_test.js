@@ -7,7 +7,8 @@ import { Algolia } from "../../assets/js/algolia-search";
 describe("AlgoliaAutocomplete", () => {
   jsdom();
   const selectors = {
-    input: "autocomplete-input"
+    input: "autocomplete-input",
+    resetButton: "autocomplete-reset"
   };
   const indices = ["stops"];
   const queries = {
@@ -42,6 +43,7 @@ describe("AlgoliaAutocomplete", () => {
     document.body.innerHTML = `
       <div id="powered-by-google-logo"></div>
       <input id="autocomplete-input"></input>
+      <i id="autocomplete-reset"></i>
     `;
     window.autocomplete = jsdom.rerequire("autocomplete.js");
     window.jQuery = jsdom.rerequire("jquery");

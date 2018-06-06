@@ -153,7 +153,8 @@ AlgoliaStopSearch.SELECTORS = {
   goBtn: "stop-search__go-btn",
   locationResultsBody: "stop-search__location-results--body",
   locationResultsHeader: "stop-search__location-results--header",
-  locationLoadingIndicator: "stop-search__loading-indicator"
+  locationLoadingIndicator: "stop-search__loading-indicator",
+  resetButton: "stop-search__reset"
 }
 
 AlgoliaStopSearch.PARAMS = {

@@ -10,6 +10,7 @@ export class AlgoliaAutocomplete {
     this._input = document.getElementById(this._selectors.input);
     this._resultsContainer = document.getElementById(this._selectors.resultsContainer);
     this._searchContainer = document.getElementById(this._selectors.container);
+    this._resetButton = document.getElementById(this._selectors.resetButton);
     this._indices = indices;
     this._headers = Object.assign(AlgoliaAutocomplete.DEFAULT_HEADERS, headers);
     this._datasets = [];
@@ -25,6 +26,17 @@ export class AlgoliaAutocomplete {
     this.onCursorChanged = this.onCursorChanged.bind(this);
     this.onCursorRemoved = this.onCursorRemoved.bind(this);
     this.onOpen = this.onOpen.bind(this);
+    this.onKeyup = this.onKeyup.bind(this);
+    this.clear = this.clear.bind(this);
+    this._toggleResetButton = this._toggleResetButton.bind(this);
+  }
+
+  clear() {
+    this._autocomplete.autocomplete.close();
+    this._autocomplete.autocomplete.setVal("");
+    this._toggleResetButton(false);
+    this._client.reset();
+    this._input.focus();
   }
 
   init(client) {
@@ -32,6 +44,11 @@ export class AlgoliaAutocomplete {
 
     if (!this._input) {
       console.error(`could not find autocomplete input: ${this._selectors.input}`);
+      return false
+    }
+
+    if (!this._resetButton) {
+      console.error(`could not find reset button: ${this._selectors.resetButton}`);
       return false
     }
 
@@ -54,6 +71,7 @@ export class AlgoliaAutocomplete {
       }
     }, this._datasets);
 
+    this._toggleResetButton(false);
     this._addListeners()
   }
 
@@ -70,14 +88,28 @@ export class AlgoliaAutocomplete {
     document.removeEventListener("autocomplete:shown", this.onOpen);
     document.addEventListener("autocomplete:shown", this.onOpen);
 
+    window.jQuery(document).off("keyup", "#" + this._input.id, this.onKeyup);
+    window.jQuery(document).on("keyup", "#" + this._input.id, this.onKeyup);
+
     window.removeEventListener("resize", this.onOpen);
     window.addEventListener("resize", this.onOpen);
+
+    this._resetButton.removeEventListener("click", this.clear);
+    this._resetButton.addEventListener("click", this.clear);
 
     // normally we would only use `.js-` prefixed classes for javascript selectors, but
     // we make an exception here because this element and its class is generated entirely
     // by the autocomplete widget.
     window.jQuery(document).off("click", ".c-search-bar__-suggestion", this.onClickSuggestion);
     window.jQuery(document).on("click", ".c-search-bar__-suggestion", this.onClickSuggestion);
+  }
+
+  _toggleResetButton(show) {
+    this._resetButton.style.display = show ? "block" : "none";
+  }
+
+  onKeyup(ev) {
+    this._toggleResetButton(this._autocomplete.autocomplete.getVal() != "");
   }
 
   onOpen() {
