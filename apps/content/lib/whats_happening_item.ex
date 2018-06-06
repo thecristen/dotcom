@@ -12,11 +12,17 @@ defmodule Content.WhatsHappeningItem do
 
   @spec from_api(map) :: t
   def from_api(%{} = data) do
+
+    {thumb, thumb_2x} = case parse_image(data["field_image"]) do
+      %Content.Field.Image{} = image -> {image, nil}
+      nil -> {parse_image(data["field_wh_thumb"]), parse_image(data["field_wh_thumb_2x"])}
+    end
+
     %__MODULE__{
       blurb: field_value(data, "field_wh_blurb"),
       link: parse_link(data, "field_wh_link"),
-      thumb: parse_image(data["field_wh_thumb"]),
-      thumb_2x: parse_image(data["field_wh_thumb_2x"])
+      thumb: thumb,
+      thumb_2x: thumb_2x
     }
   end
 

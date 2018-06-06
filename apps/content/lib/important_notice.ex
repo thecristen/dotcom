@@ -23,7 +23,7 @@ defmodule Content.ImportantNotice do
     %__MODULE__{
       blurb: field_value(data, "field_in_blurb"),
       link: parse_link(data, "field_in_link"),
-      thumb: parse_image(data["field_in_thumb"]),
+      thumb: parse_image(data["field_image"]) || parse_image(data["field_in_thumb"]),
     }
   end
 

@@ -252,6 +252,12 @@
         "options": []
       }
     ],
+    "field_image": [
+      {
+        "alt": "New, media-based image",
+        "url": "https://mbta.kbox.site/sites/default/files/media-image.jpg"
+      }
+    ],
     "field_wh_thumb": [
       {
         "target_id": 3360,

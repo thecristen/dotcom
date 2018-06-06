@@ -101,7 +101,7 @@ defmodule Content.Repo do
   def important_notice do
     cached_value = cache [], fn _ ->
       case @cms_api.view("/cms/important-notices", []) do
-        {:ok, [api_data]} -> Content.ImportantNotice.from_api(api_data)
+        {:ok, [api_data | _]} -> Content.ImportantNotice.from_api(api_data)
         {:ok, _} -> :empty
         {:error, _} -> :error
       end
