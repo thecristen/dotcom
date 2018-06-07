@@ -2,6 +2,13 @@
   .trip-filters,
   .line-map-container {
     margin-bottom: $base-spacing;
-    margin-top: $base-spacing;
   }
+}
+
+.m-schedule-line__info {
+  margin-bottom: 0;
+}
+
+.m-schedule-line__info:last-child {
+  margin-bottom: $base-spacing;
 }

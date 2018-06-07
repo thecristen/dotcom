@@ -171,7 +171,7 @@
     },
     {
       "label": "Bus Map & Info",
-      "url": "http://localhost:8082/schedules/1/line?date=2018-06-20&direction_id=0&trip=&origin=102",
+      "url": "http://localhost:8082/schedules/1/line?date=2018-06-20&direction_id=0&trip=",
       "hideSelectors": [".map"],
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],

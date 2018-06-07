@@ -1,0 +1,14 @@
+<div class="m-schedule-line__fares">
+  <h2>Fares</h2>
+  <%= for {title, price} <- SiteWeb.ScheduleView.single_trip_fares(@route) do %>
+    <p class="m-schedule-line__info">
+      <span class="fare-summary-fare-name"><%= title %></span>
+      <span class="fare-summary-fare-price"><%= price %></span>
+    </p>
+  <% end %>
+  <%= link to: cms_static_page_path(@conn, "/fares/bus-subway") do %>
+    <p class="m-schedule-line__info">
+      More about fares <%= fa "arrow-right" %>
+    </p>
+  <% end %>
+</div>

@@ -284,4 +284,23 @@ defmodule SiteWeb.ScheduleView do
     end
   end
   defp route_tab_class(_), do: ""
+
+  @spec single_trip_fares(Route.t) :: [{String.t, String.t | iolist}]
+  def single_trip_fares(route) do
+    summary = route
+              |> to_fare_atom()
+              |> SiteWeb.ViewHelpers.mode_summaries()
+              |> Enum.find(fn summary -> summary.duration == :single_trip end)
+    summary.fares
+  end
+
+  @spec to_fare_atom(Route.t) :: atom
+  def to_fare_atom(%Route{type: 3} = route) do
+    if Route.silver_line_rapid_transit?(route) do
+      :subway
+    else
+      :bus
+    end
+  end
+  def to_fare_atom(route), do: Routes.Route.type_atom(route)
 end

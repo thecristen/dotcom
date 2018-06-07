@@ -1,8 +1,4 @@
 .route-hours {
-  p {
-    margin-bottom: 0;
-  }
-
   h3 {
     margin-bottom: $base-spacing / 2;
   }
@@ -13,6 +9,8 @@
 }
 
 .hours-directions {
+  margin-bottom: 0;
+
   @include media-breakpoint-up(md) {
     width: 75%;
   }

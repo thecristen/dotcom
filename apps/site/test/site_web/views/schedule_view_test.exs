@@ -749,4 +749,16 @@ defmodule SiteWeb.ScheduleViewTest do
       assert header_class(%Route{type: 4, id: "Boat-Hull"}) == "u-bg--ferry"
     end
   end
+
+  describe "to_fare_atom/1" do
+    test "silver line returns subway" do
+      assert to_fare_atom(%Route{type: 3, id: "741"}) == :subway
+    end
+    test "other types of routes return specific atoms" do
+      assert to_fare_atom(%Route{type: 0, id: "Green-B"}) == :subway
+      assert to_fare_atom(%Route{type: 1, id: "Red"}) == :subway
+      assert to_fare_atom(%Route{type: 2, id: "CR-Fitchbury"}) == :commuter_rail
+      assert to_fare_atom(%Route{type: 3, id: "1"}) == :bus
+    end
+  end
 end
