@@ -16,6 +16,7 @@ config :tzdata, :autoupdate, :disabled
 config :wallaby,
   screenshot_on_failure: true,
   driver: Wallaby.Experimental.Chrome,
+  max_wait_time: 5_000,
   chrome: [
     headless: true
   ],

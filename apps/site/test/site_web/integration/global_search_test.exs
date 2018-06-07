@@ -1,5 +1,5 @@
 defmodule SiteWeb.GlobalSearchTest do
-  use SiteWeb.IntegrationCase, async: true
+  use SiteWeb.IntegrationCase
   import Wallaby.Query
   import SiteWeb.IntegrationHelpers
 
@@ -133,6 +133,7 @@ defmodule SiteWeb.GlobalSearchTest do
       |> assert_has(search_hits(25))
       |> click_clear_search()
       |> fill_in(@search_input, with: "a")
+      |> assert_has(search_results_section(6))
       |> click_facet_checkbox("stops")
       |> assert_has(search_hits(5))
     end

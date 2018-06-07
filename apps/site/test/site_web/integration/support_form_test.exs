@@ -1,5 +1,5 @@
 defmodule CustomerSupportTest do
-  use SiteWeb.IntegrationCase, async: true
+  use SiteWeb.IntegrationCase
   import Wallaby.Query
 
   @submit_button css("#support-submit")

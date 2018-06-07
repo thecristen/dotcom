@@ -1,5 +1,5 @@
 defmodule SiteWeb.HomepageSearchTest do
-  use SiteWeb.IntegrationCase, async: true
+  use SiteWeb.IntegrationCase
   alias Wallaby.Browser
   import Wallaby.Query
   import SiteWeb.IntegrationHelpers
