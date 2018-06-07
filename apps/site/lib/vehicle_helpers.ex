@@ -108,7 +108,7 @@ defmodule VehicleHelpers do
   end
 
   @spec prediction_status_text(Prediction.t | nil) :: iodata
-  defp prediction_status_text(%Prediction{status: status, track: track}) when not is_nil(track) do
+  defp prediction_status_text(%Prediction{status: status, track: track}) when not is_nil(track) and not is_nil(status) do
     [String.capitalize(status), " on track ", track]
   end
   defp prediction_status_text(_) do
