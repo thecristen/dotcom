@@ -27,7 +27,7 @@
 </ul>
 <p>
   Tickets and passes can be loaded onto a <%= link "CharlieCard", to: cms_static_page_path(@conn, "/fares/charliecard") %>
-  or a <%= link "CharlieTicket", to: cms_static_page_path(@conn, "/fares/charlieticket") %>.
+  or a CharlieTicket.
 </p>
 <h3>
   Commuter Rail and Ferry
@@ -37,7 +37,7 @@
   <li>Monthly* ferry passes</li>
 </ul>
 <p>
-  All tickets and passes are provided on <%= link "CharlieTickets", to: cms_static_page_path(@conn, "/fares/charlieticket") %>.
+  All tickets and passes are provided on CharlieTickets.
 </p>
 <h3>
   Reduced Fares

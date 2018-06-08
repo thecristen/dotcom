@@ -3,9 +3,9 @@
   <div>
     <p>
       It costs <%= @simple_subway_price %> to ride the subway, trolley, or Silver Line 1-3 and <%= @simple_bus_price %>
-      to ride the bus with a <%= link "CharlieCard", to: cms_static_page_path(@conn, "/fares/charliecard") %>. If you use a
-      <%= link "CharlieTicket", to: cms_static_page_path(@conn, "/fares/charlieticket") %> or cash it costs a little more.
-      Fares on the Commuter Rail, ferry, and The RIDE depend on how far you travel. Reduced fare programs are available.
+      to ride the bus with a <%= link "CharlieCard", to: cms_static_page_path(@conn, "/fares/charliecard") %>. If you
+      use a CharlieTicket or cash it costs a little more. Fares on the Commuter Rail, ferry, and The RIDE depend on how
+      far you travel. Reduced fare programs are available.
     </p>
     <ul>
       <li><a href="#bus_subway_overview">Bus and Subway Fares</a></li>
