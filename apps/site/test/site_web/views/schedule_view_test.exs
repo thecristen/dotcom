@@ -754,6 +754,12 @@ defmodule SiteWeb.ScheduleViewTest do
     test "silver line returns subway" do
       assert to_fare_atom(%Route{type: 3, id: "741"}) == :subway
     end
+    test "inner express bus returns :inner_express_bus" do
+      assert to_fare_atom(%Route{type: 3, id: "170"}) == :inner_express_bus
+    end
+    test "outer express bus returns :inner_express_bus" do
+      assert to_fare_atom(%Route{type: 3, id: "352"}) == :outer_express_bus
+    end
     test "other types of routes return specific atoms" do
       assert to_fare_atom(%Route{type: 0, id: "Green-B"}) == :subway
       assert to_fare_atom(%Route{type: 1, id: "Red"}) == :subway

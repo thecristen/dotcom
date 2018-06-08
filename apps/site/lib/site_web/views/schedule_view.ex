@@ -296,10 +296,11 @@ defmodule SiteWeb.ScheduleView do
 
   @spec to_fare_atom(Route.t) :: atom
   def to_fare_atom(%Route{type: 3} = route) do
-    if Route.silver_line_rapid_transit?(route) do
-      :subway
-    else
-      :bus
+    cond do
+      Route.silver_line_rapid_transit?(route) -> :subway
+      Route.inner_express?(route) -> :inner_express_bus
+      Route.outer_express?(route) -> :outer_express_bus
+      true -> :bus
     end
   end
   def to_fare_atom(route), do: Routes.Route.type_atom(route)
