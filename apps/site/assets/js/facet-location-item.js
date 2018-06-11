@@ -4,6 +4,5 @@ export class FacetLocationItem extends FacetItem {
 
   constructor(data, cls) {
     super(data,cls);
-    console.log('location!!');
   }
 }

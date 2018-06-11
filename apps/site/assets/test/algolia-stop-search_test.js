@@ -22,6 +22,7 @@ describe("AlgoliaStopSearch", function() {
     document.body.innerHTML = `
       <div id="powered-by-google-logo"></div>
       <input id="${AlgoliaStopSearch.SELECTORS.input}"></input>
+      <div id="${AlgoliaStopSearch.SELECTORS.resetButton}"></div>
       <div id="${AlgoliaStopSearch.SELECTORS.locationResultsBody}"></div>
       <div id="${AlgoliaStopSearch.SELECTORS.locationResultsHeader}"></div>
     `;

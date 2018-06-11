@@ -10,17 +10,19 @@ describe("AlgoliaAutocompleteWithGeo", function() {
   const selectors = {
     input: "autocomplete-input",
     container: "autocomplete-container",
-    locationLoadingIndicator: "loading-indicator"
+    locationLoadingIndicator: "loading-indicator",
+    resetButton: "reset-button"
   };
   const indices = ["stops", "routes"];
 
   beforeEach(function() {
     document.body.innerHTML = `
       <div id="powered-by-google-logo"></div>
-      <div id="autocomplete-container">
-        <input id="autocomplete-input" type="text" />
+      <div id="${selectors.container}">
+        <input id="${selectors.input}" type="text" />
+        <div id="${selectors.resetButton}"></div>
       </div>
-      <div id="loading-indicator"></div>
+      <div id="${selectors.locationLoadingIndicator}"></div>
     `;
     window.autocomplete = jsdom.rerequire("autocomplete.js");
     window.jQuery = jsdom.rerequire("jquery");
