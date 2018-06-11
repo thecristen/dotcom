@@ -108,12 +108,19 @@
   text-align: center;
 
   p {
-    margin-top: $space-12;
+    margin: $space-12 0 0;
   }
 
   .btn {
     border-color: $white;
     color: $white;
+    margin: 0 $space-6 $space-12;
+    width: 12rem;
+  }
+
+  .btn-white {
+    background-color: $white;
+    color: $brand-primary;
   }
 }
 
