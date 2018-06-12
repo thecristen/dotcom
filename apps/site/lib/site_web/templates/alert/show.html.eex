@@ -39,11 +39,12 @@
   <% end %>
   <div class="alert-show-row">
     <div class="t-alert-container-big">
-      <h2 class="h3">Sign Up For T-Alerts</h2>
-      <p>T-Alerts lets you sign up to receive notifications of delays and disruptions, as well as advanced notice of planned service changes, by e-mail or text message (SMS). </p>
+      <h2 class="h2">Try T-Alerts Beta!</h2>
+      <p>Test the new and improved version of T-Alerts.<br>
+      Tell us about your travel plans and receive text or email alerts about delays that are relevant to you.</p>
       <p>
-        <%= link "Sign Up Now", to: "https://public.govdelivery.com/accounts/MABTA/subscriber/new", class: "btn" %>
-        <%= link "Learn More", to: cms_static_page_path(@conn, "/about-t-alerts"), class: "btn" %>
+        <%= link "Learn more", to: "https://www.mbta.com/about-t-alerts-beta", class: "btn" %>
+        <%= link "Become a beta tester", to: "https://beta.alerts.mbta.com/", class: "btn btn-white" %>
       </p>
     </div>
   </div>
