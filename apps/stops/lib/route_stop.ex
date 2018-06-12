@@ -29,6 +29,7 @@ defmodule Stops.RouteStop do
     branch: branch_name_t,
     station_info: Stops.Stop.t,
     route: Routes.Route.t | nil,
+    connections: [Routes.Route.t] | {:error, :not_fetched},
     stop_features: [Stops.Repo.stop_feature] | {:error, :not_fetched},
     is_terminus?: boolean,
     is_beginning?: boolean,
@@ -41,6 +42,7 @@ defmodule Stops.RouteStop do
     :branch,
     :station_info,
     :route,
+    connections: {:error, :not_fetched},
     zone: {:error, :not_fetched},
     stop_features: {:error, :not_fetched},
     is_terminus?: false,
@@ -127,20 +129,24 @@ defmodule Stops.RouteStop do
 
   @spec fetch_stop_features(t) :: t
   def fetch_stop_features(%__MODULE__{stop_features: {:error, :not_fetched}} = route_stop) do
-    features = route_stop_features(route_stop.route, route_stop.station_info)
+    features = route_stop_features(route_stop)
     %{route_stop | stop_features: features}
   end
 
-  @spec route_stop_features(Routes.Route.t | nil, Stops.Stop.t) :: [Stops.Repo.stop_feature]
-  defp route_stop_features(route, stop)
-  defp route_stop_features(nil, _stop) do
-    []
+  def fetch_connections(%__MODULE__{route: %Routes.Route{}, connections: {:error, :not_fetched}} = route_stop) do
+    connections =
+      route_stop.id
+      |> Routes.Repo.by_stop()
+      |> Enum.reject(& &1.id == route_stop.route.id)
+    %{route_stop | connections: connections}
   end
-  defp route_stop_features(route, stop) do
-    exclude = [
-      Routes.Route.icon_atom(route)
-    ]
-    Stops.Repo.stop_features(stop, exclude: exclude)
+
+  @spec route_stop_features(t) :: [Stops.Repo.stop_feature]
+  defp route_stop_features(%__MODULE__{station_info: %Stops.Stop{}} = route_stop) do
+    Stops.Repo.stop_features(route_stop.station_info, connections: route_stop.connections)
+  end
+  defp route_stop_features(%__MODULE__{}) do
+    []
   end
 
   @spec merge_branch_list([[RouteStop.t]], direction_id_t) :: [RouteStop.t]

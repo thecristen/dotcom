@@ -18,8 +18,9 @@ defmodule Stops.RouteStops do
     |> RouteStop.list_from_shapes(stops, route, direction_id)
     |> Task.async_stream(fn route_stop ->
       route_stop
-      |> RouteStop.fetch_zone
-      |> RouteStop.fetch_stop_features
+      |> RouteStop.fetch_zone()
+      |> RouteStop.fetch_connections()
+      |> RouteStop.fetch_stop_features()
     end)
     |> Enum.flat_map(fn
       {:ok, route_stop} -> [route_stop]

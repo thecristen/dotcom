@@ -212,6 +212,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert List.last(stops).stop_features == [
         :red_line,
         :bus,
+        :commuter_rail,
         :access,
         :parking_lot
       ]

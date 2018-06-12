@@ -18,6 +18,7 @@ defmodule Stops.RouteStopTest do
       assert result.branch == "Braintree"
       assert result.zone == {:error, :not_fetched}
       assert result.stop_features == {:error, :not_fetched} #~w(bus commuter_rail)a
+      assert result.connections == {:error, :not_fetched}
     end
   end
 
@@ -34,6 +35,16 @@ defmodule Stops.RouteStopTest do
       route_stop = build_route_stop(@stop, @route)
       fetched = fetch_stop_features(route_stop)
       refute fetched.stop_features == route_stop.stop_features
+    end
+  end
+
+  describe "fetch_connections/1" do
+    test "builds a list of connecting routes at a stop" do
+      route_stop = build_route_stop(@stop, @route)
+      assert route_stop.connections == {:error, :not_fetched}
+      fetched = fetch_connections(route_stop)
+      assert [%Route{} | _] = fetched.connections
+      assert Enum.find(fetched.connections, & &1.id == fetched.route.id) == nil
     end
   end
 

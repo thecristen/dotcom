@@ -103,7 +103,7 @@ defmodule Stops.Repo do
   Returns a list of the features associated with the given stop
   """
   @spec stop_features(Stop.t, Keyword.t) :: [stop_feature]
-  def stop_features(stop, opts \\ []) do
+  def stop_features(%Stop{} = stop, opts \\ []) do
     excluded = Keyword.get(opts, :exclude, [])
     [
       route_features(stop.id, opts),
@@ -125,10 +125,20 @@ defmodule Stops.Repo do
     else
       &Route.icon_atom/1
     end
-    stop_id
-    |> Routes.Repo.by_stop
+
+    opts
+    |> Keyword.get(:connections)
+    |> get_stop_connections(stop_id)
     |> Enum.map(icon_fn)
     |> Enum.uniq()
+  end
+
+  @spec get_stop_connections([Routes.Route.t] | {:error, :not_fetched} | nil, Stops.Stop.id_t) :: [Routes.Route.t]
+  defp get_stop_connections(connections, _stop_id) when is_list(connections) do
+    connections
+  end
+  defp get_stop_connections(_, stop_id) do
+    Routes.Repo.by_stop(stop_id)
   end
 
   def branch_feature(%Route{id: "Green-B"}), do: :"Green-B"
