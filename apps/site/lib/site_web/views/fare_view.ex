@@ -144,17 +144,26 @@ defmodule SiteWeb.FareView do
   end
 
   @doc "Summary copy for describing origin-destination modes."
-  @spec origin_destination_description(:commuter_rail | :ferry) :: Phoenix.HTML.Safe.t
-  def origin_destination_description(:commuter_rail) do
-    content_tag :p do
-      [
-        "Your Commuter Rail fare will depend on which stops you board and exit the train. Stops are categorized into ",
-        link("Zones 1A-10", to: fare_path(SiteWeb.Endpoint, :zone)),
-        ". Enter two stops below to find your trip's exact fare."
-      ]
-    end
+  @spec origin_destination_description(Plug.Conn.t, :commuter_rail | :ferry) :: Phoenix.HTML.Safe.t
+  def origin_destination_description(conn, :commuter_rail) do
+    [
+      content_tag :p do
+        [
+          "Learn about ",
+          link("$10 summer weekends on Commuter Rail", to: cms_static_page_path(conn, "/weekendrail")),
+          "."
+        ]
+      end,
+      content_tag :p do
+        [
+          "Your Commuter Rail fare will depend on which stops you board and exit the train. Stops are categorized into ",
+          link("Zones 1A-10", to: fare_path(conn, :zone)),
+          ". Enter two stops below to find your trip's exact fare."
+        ]
+      end
+    ]
   end
-  def origin_destination_description(:ferry) do
+  def origin_destination_description(_, :ferry) do
     content_tag :p, do: "Ferry fares depend on your origin and destination."
   end
 

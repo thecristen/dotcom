@@ -2,33 +2,34 @@ defmodule SiteWeb.FareViewTest do
   @moduledoc false
   use ExUnit.Case, async: true
   import SiteWeb.FareView
-  import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
+  import Phoenix.HTML, only: [raw: 1, safe_to_string: 1, html_escape: 1]
+  import Phoenix.ConnTest, only: [build_conn: 0]
   alias Fares.{Fare, Summary}
 
   describe "fare_type_note/2" do
     test "returns fare note for students" do
-      note = fare_type_note(%Plug.Conn{}, %Fare{mode: :commuter_rail, reduced: :student})
+      note = fare_type_note(build_conn(), %Fare{mode: :commuter_rail, reduced: :student})
       assert note |> List.first() |> safe_to_string() =~
         "Middle and high school students with an MBTA-issued"
     end
 
     test "returns fare note for seniors" do
-      assert safe_to_string(fare_type_note(%Plug.Conn{}, %Fare{mode: :commuter_rail, reduced: :senior_disabled})) =~
+      assert safe_to_string(fare_type_note(build_conn(), %Fare{mode: :commuter_rail, reduced: :senior_disabled})) =~
         "Seniors are eligible for reduced fares on the subway, bus, Commuter Rail, and ferry"
     end
 
     test "returns fare note for bus and subway" do
-      assert safe_to_string(fare_type_note(%Plug.Conn{}, %Fare{mode: :bus, reduced: nil})) =~
+      assert safe_to_string(fare_type_note(build_conn(), %Fare{mode: :bus, reduced: nil})) =~
         "click on the &quot;Passes&quot; tab below"
     end
 
     test "returns fare note for ferry" do
-      assert safe_to_string(fare_type_note(%Plug.Conn{}, %Fare{mode: :ferry, reduced: nil})) =~
+      assert safe_to_string(fare_type_note(build_conn(), %Fare{mode: :ferry, reduced: nil})) =~
       "You can buy a ferry ticket after you board the boat"
     end
 
     test "returns fare note for commuter rail" do
-      assert safe_to_string(fare_type_note(%Plug.Conn{}, %Fare{mode: :commuter_rail, reduced: nil})) =~
+      assert safe_to_string(fare_type_note(build_conn(), %Fare{mode: :commuter_rail, reduced: nil})) =~
       "If you buy a round trip ticket"
     end
   end
@@ -131,13 +132,13 @@ defmodule SiteWeb.FareViewTest do
 
   describe "origin_destination_description/2" do
     test "links to the zone fares page for CR" do
-      content = :commuter_rail |> origin_destination_description |> safe_to_string
+      content = build_conn() |> origin_destination_description(:commuter_rail) |> html_escape() |> safe_to_string()
       assert content =~ "Your Commuter Rail fare"
       assert content =~ "fares/commuter-rail/zone"
     end
 
     test "for ferry" do
-      content = :ferry |> origin_destination_description |> safe_to_string
+      content =  build_conn() |> origin_destination_description(:ferry) |> html_escape() |> safe_to_string()
       assert content =~ "Ferry fares depend on your origin and destination."
     end
   end
