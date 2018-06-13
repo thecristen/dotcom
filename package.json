@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "ci-install": "cd apps/site/assets && npm ci --no-optional",
     "install": "cd apps/site/assets && npm install --no-optional",
     "test": "mix test && npm run test:js && mix backstop.tests",
     "backstop:test": "apps/site/assets/node_modules/.bin/backstop test --config=apps/site/test/backstop.json",
