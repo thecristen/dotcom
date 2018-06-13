@@ -1,0 +1,22 @@
+{
+  "id" : "ed20241d-b4a5-3da7-805d-90f8e33e5742",
+  "request" : {
+    "url" : "/routes/?stop=Plymouth",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-OIbS7.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:54 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mp939knecfj4s012rl2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ed20241d-b4a5-3da7-805d-90f8e33e5742"
+}

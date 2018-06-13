@@ -1,0 +1,22 @@
+{
+  "id" : "2350fc0e-da01-3923-aeac-e02674167859",
+  "request" : {
+    "url" : "/routes/?stop=Bridgewater",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-m0K9I.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:54 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mp8di01t56g4c01qug1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "2350fc0e-da01-3923-aeac-e02674167859"
+}

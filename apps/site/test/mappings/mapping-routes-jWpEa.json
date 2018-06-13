@@ -1,0 +1,22 @@
+{
+  "id" : "c820ec1f-e8b9-3b1b-8a30-a96d17165d79",
+  "request" : {
+    "url" : "/routes/?stop=place-fldcr&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-jWpEa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:04:14 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7de0prd1mej4d0012m5i",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c820ec1f-e8b9-3b1b-8a30-a96d17165d79"
+}

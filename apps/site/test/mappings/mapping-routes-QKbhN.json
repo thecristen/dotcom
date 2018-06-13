@@ -1,0 +1,22 @@
+{
+  "id" : "c09b55c9-5724-3546-bda3-e46cf9f71efe",
+  "request" : {
+    "url" : "/routes/?stop=place-rsmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-QKbhN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:55 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mqqsceav56g4c01qv81",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c09b55c9-5724-3546-bda3-e46cf9f71efe"
+}

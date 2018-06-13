@@ -1,0 +1,22 @@
+{
+  "id" : "efcfc468-4526-3965-b51c-c31d6b5ad96c",
+  "request" : {
+    "url" : "/routes/?stop=place-babck",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MtyTL.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:52 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mks0cn8ncip9g01qsr1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "efcfc468-4526-3965-b51c-c31d6b5ad96c"
+}

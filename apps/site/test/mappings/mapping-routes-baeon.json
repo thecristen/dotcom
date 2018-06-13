@@ -1,0 +1,22 @@
+{
+  "id" : "72568bf9-a13a-36da-9ac7-255b6759a72a",
+  "request" : {
+    "url" : "/routes/?stop=Kingston",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-baeon.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:54 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mokdkjn356g4c01qu6h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "72568bf9-a13a-36da-9ac7-255b6759a72a"
+}

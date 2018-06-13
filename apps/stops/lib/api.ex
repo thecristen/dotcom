@@ -2,13 +2,11 @@ defmodule Stops.Api do
   @moduledoc """
   Wrapper around the remote stop information service.
   """
-  alias Stops.StationInfoApi
   alias Stops.Stop
 
-  @spec all :: [Stop.t]
-  def all do
-    StationInfoApi.all
-  end
+  @accessible_facilities ~w(elevator escalator ramp portable_boarding_lift
+                            tty_phone elevated_subplatform fully_elevated_platform
+                            escalator_up escalator_down escalator_both)a
 
   @doc """
   Returns a Stop by its GTFS ID.
@@ -19,15 +17,10 @@ defmodule Stops.Api do
   """
   @spec by_gtfs_id(String.t) :: {:ok, Stop.t | nil} | {:error, any}
   def by_gtfs_id(gtfs_id) do
-    station_info_task = Task.async fn ->
-      StationInfoApi.by_gtfs_id(gtfs_id)
-    end
-    v3_task = Task.async fn ->
-      gtfs_id
-      |> V3Api.Stops.by_gtfs_id
-      |> extract_v3_response
-    end
-    merge_v3(Task.await(station_info_task), Task.await(v3_task))
+    gtfs_id
+    |> V3Api.Stops.by_gtfs_id
+    |> extract_v3_response
+    |> parse_v3_response
   end
 
   @spec by_route({Routes.Route.id_t, 0 | 1, Keyword.t}) :: [Stop.t]
@@ -39,48 +32,43 @@ defmodule Stops.Api do
     get_stops(route_id, direction_id, opts)
   end
 
+  @spec get_stops(Routes.Route.id_t, 0 | 1, Keyword.t) :: [Stops.Stop.t]
   defp get_stops(route_id, direction_id, opts) do
     params = [
       route: route_id,
-      include: "parent_station",
-      direction_id: direction_id
+      include: "parent_station,facilities",
+      direction_id: direction_id,
+      "fields[facility]": "name,type,properties",
+      "fields[stop]": "address,name,latitude,longitude,address,wheelchair_boarding,location_type"
     ]
 
     params
     |> Keyword.merge(opts)
     |> V3Api.Stops.all
-    |> merge_station_info_api
+    |> parse_v3_multiple
   end
 
   @spec by_route_type({0..4, Keyword.t}) :: [Stop.t]
   def by_route_type({route_type, opts}) do
     [
       route_type: route_type,
-      include: "parent_station",
+      include: "parent_station,facilities",
+      "fields[facility]": "name,type,properties",
+      "fields[stop]": "address,name,latitude,longitude,address,wheelchair_boarding,location_type"
     ]
     |> Keyword.merge(opts)
     |> V3Api.Stops.all
-    |> merge_station_info_api
+    |> parse_v3_multiple
   end
 
-  @spec merge_station_info_api(JsonApi.t | {:error, any}) :: [Stop.t]
-  defp merge_station_info_api({:error, _} = error) do
+  @spec parse_v3_multiple(JsonApi.t | {:error, any}) :: [Stops.Stop.t] | {:error, any}
+  defp parse_v3_multiple({:error, _} = error) do
     error
   end
-  defp merge_station_info_api(api) do
+  defp parse_v3_multiple(api) do
     api.data
-    |> Enum.uniq_by(&v3_id/1)
-    |> Task.async_stream(&get_station_info/1)
+    |> Enum.map(&parse_v3_response/1)
     |> Enum.map(fn {:ok, stop} -> stop end)
-  end
-
-  @spec get_station_info(JsonApi.Item.t) :: Stop.t | nil
-  def get_station_info(%JsonApi.Item{} = stop) do
-    {:ok, merged} = stop
-    |> v3_id
-    |> StationInfoApi.by_gtfs_id
-    |> merge_v3({:ok, stop})
-    merged
   end
 
   @spec v3_id(JsonApi.Item.t) :: Stop.id_t
@@ -107,39 +95,123 @@ defmodule Stops.Api do
     error
   end
 
-  @spec merge_v3(Stop.t | nil, {:ok, JsonApi.Item.t} | {:error, any}) :: {:ok, Stop.t | nil} | {:error, any}
-  def merge_v3(station_info_stop, v3_stop_response)
-  def merge_v3(nil, {:ok, item}) do
+  @spec parse_v3_response(JsonApi.Item.t | {:ok, JsonApi.Item.t} | {:error, any}) :: {:ok, Stops.Stop.t | nil} |
+                                                                                     {:error, any}
+  defp parse_v3_response({:ok, %JsonApi.Item{} = item}), do: parse_v3_response(item)
+  defp parse_v3_response({:error, [%JsonApi.Error{code: "not_found"} | _]}), do: {:ok, nil}
+  defp parse_v3_response({:error, _} = error), do: error
+  defp parse_v3_response(%JsonApi.Item{} = item) do
     stop = %Stop{
       id: v3_id(item),
       name: v3_name(item),
-      accessibility: merge_accessibility([],
-        item.attributes),
-      parking_lots: [],
+      address: item.attributes["address"],
+      accessibility: merge_accessibility(v3_accessibility(item), item.attributes),
+      parking_lots: v3_parking(item),
+      station?: is_station?(item),
+      has_fare_machine?: Enum.member?(Stop.vending_machine_stations, item.id),
+      has_charlie_card_vendor?: Enum.member?(Stop.charlie_card_stations, item.id),
       latitude: item.attributes["latitude"],
       longitude: item.attributes["longitude"]
     }
     {:ok, stop}
   end
-  def merge_v3(stop, {:ok, item}) do
-    stop = %{stop |
-             latitude: item.attributes["latitude"],
-             longitude: item.attributes["longitude"],
-             accessibility: merge_accessibility(stop.accessibility,
-               item.attributes),
-             name: v3_name(item)}
-    {:ok, stop}
-  end
-  def merge_v3(%Stop{} = stop, _) do
-    {:ok, stop}
-  end
-  def merge_v3(_stop, {:error, [%JsonApi.Error{code: "not_found"} | _]}) do
-    {:ok, nil}
-  end
-  def merge_v3(_stop, error) do
-    error
+
+  @spec is_station?(JsonApi.Item.t) :: boolean
+  defp is_station?(%JsonApi.Item{} = item) do
+    item.attributes["location_type"] == 1 or item.relationships["facilities"] != []
   end
 
+  @spec v3_accessibility(JsonApi.Item.t) :: [String.t]
+  defp v3_accessibility(item) do
+    {escalators, others} = Enum.split_with(item.relationships["facilities"], & &1.attributes["type"] == "ESCALATOR")
+    escalators = parse_escalator_direction(escalators)
+    other = MapSet.new(others, &facility_atom_from_string(&1.attributes["type"]))
+    matching_others = MapSet.intersection(other, MapSet.new(@accessible_facilities))
+    Enum.map(escalators ++ MapSet.to_list(matching_others), &Atom.to_string/1)
+  end
+
+  @spec parse_escalator_direction([JsonApi.Item.t]) :: [:escalator | :escalator_up | :escalator_down | :escalator_both]
+  defp parse_escalator_direction([]), do: []
+  defp parse_escalator_direction(escalators) do
+    directions =
+      escalators
+      |> Enum.map(& &1.attributes["properties"])
+      |> List.flatten
+      |> Enum.filter(& &1["name"] == "direction")
+      |> Enum.map(& &1["value"])
+    down? = "down" in directions
+    up? = "up" in directions
+    [do_escalator(down?, up?)]
+  end
+
+  defp do_escalator(down?, up?)
+  defp do_escalator(true, false), do: :escalator_down
+  defp do_escalator(false, true), do: :escalator_up
+  defp do_escalator(true, true), do: :escalator_both
+  defp do_escalator(false, false), do: :escalator
+
+  @spec v3_parking(JsonApi.Item.t) :: [Stops.Stop.ParkingLot.t]
+  defp v3_parking(item) do
+    item.relationships["facilities"]
+    |> Enum.filter(&(&1.attributes["type"] == "PARKING_AREA"))
+    |> Enum.map(&parse_parking_area/1)
+  end
+
+  @spec parse_parking_area(JsonApi.Item.t) :: Stops.Stop.ParkingLot.t
+  defp parse_parking_area(parking_area) do
+    parking_area.attributes["properties"]
+    |> Enum.reduce(%{}, &property_acc/2)
+    |> Map.put(:name, parking_area.attributes["name"])
+    |> Map.put(:id, parking_area.id)
+    |> to_parking_lot
+  end
+
+  @spec to_parking_lot(map) :: Stops.Stop.ParkingLot.t
+  defp to_parking_lot(props) do
+    %Stops.Stop.ParkingLot{
+      spots: [
+        %Stops.Stop.Parking {
+          type: "Parking",
+          spots: Map.get(props, "capacity"),
+        },
+        %Stops.Stop.Parking {
+          type: "Accessible",
+          spots: Map.get(props, "capacity-accessible"),
+        },
+      ],
+      rate: Map.get(props, "fee-daily"),
+      pay_by_phone_id: Map.get(props, "payment-app-id"),
+      note: Map.get(props, "note"),
+      manager: %Stops.Stop.Manager{
+        name: Map.get(props, "operator"),
+        email: Map.get(props, "contact"),
+        phone: Map.get(props, "contact-phone"),
+        website: Map.get(props, "contact-url")
+      },
+    }
+  end
+
+  defp property_acc(property, acc) do
+    case property["name"] do
+      "payment-form-accepted" ->
+        payment = pretty_payment(property["value"])
+        Map.update(acc, "payment-form-accepted", [payment], &[payment | &1])
+      _ ->
+        Map.put(acc, property["name"], property["value"])
+    end
+  end
+
+  @spec pretty_payment(String.t) :: String.t
+  def pretty_payment("cash"), do: "Cash"
+  def pretty_payment("check"), do: "Check"
+  def pretty_payment("coin"), do: "Coin"
+  def pretty_payment("credit-debit-card"), do: "Credit/Debit Card"
+  def pretty_payment("e-zpass"), do: "EZ Pass"
+  def pretty_payment("invoice"), do: "Invoice"
+  def pretty_payment("mobile-app"), do: "Mobile App"
+  def pretty_payment("smartcard"), do: "Smart Card"
+
+  @spec merge_accessibility([String.t], %{String.t => any}) :: [String.t]
   defp merge_accessibility(accessibility, stop_attributes)
   defp merge_accessibility(accessibility, %{"wheelchair_boarding" => 0}) do
     # if GTFS says we don't know what the accessibility situation is, then
@@ -153,4 +225,41 @@ defmodule Stops.Api do
   defp merge_accessibility(accessibility, _) do
     accessibility
   end
+
+  @type gtfs_facility_type ::
+    :elevator |
+    :escalator |
+    :ramp |
+    :elevated_subplatform |
+    :fully_elevated_platform |
+    :portable_boarding_lift |
+    :bridge_plate |
+    :parking_area |
+    :pick_drop|
+    :taxi_stand |
+    :bike_storage |
+    :tty_phone |
+    :electric_car_chargers |
+    :fare_vending_retailer |
+    :other
+
+  @spec facility_atom_from_string(String.t) :: gtfs_facility_type
+  defp facility_atom_from_string("ELEVATOR"), do: :elevator
+  defp facility_atom_from_string("ESCALATOR"), do: :escalator
+  defp facility_atom_from_string("ESCALATOR_UP"), do: :escalator_up
+  defp facility_atom_from_string("ESCALATOR_DOWN"), do: :escalator_down
+  defp facility_atom_from_string("ESCALATOR_BOTH"), do: :escalator_both
+  defp facility_atom_from_string("RAMP"), do: :ramp
+  defp facility_atom_from_string("ELEVATED_SUBPLATFORM"), do: :elevated_subplatform
+  defp facility_atom_from_string("FULLY_ELEVATED_PLATFORM"), do: :fully_elevated_platform
+  defp facility_atom_from_string("PORTABLE_BOARDING_LIFT"), do: :portable_boarding_lift
+  defp facility_atom_from_string("BRIDGE_PLATE"), do: :bridge_plate
+  defp facility_atom_from_string("PARKING_AREA"), do: :parking_area
+  defp facility_atom_from_string("PICK_DROP"), do: :pick_drop
+  defp facility_atom_from_string("TAXI_STAND"), do: :taxi_stand
+  defp facility_atom_from_string("BIKE_STORAGE"), do: :bike_storage
+  defp facility_atom_from_string("TTY_PHONE"), do: :tty_phone
+  defp facility_atom_from_string("ELECTRIC_CAR_CHARGERS"), do: :electric_car_chargers
+  defp facility_atom_from_string("FARE_VENDING_RETAILER"), do: :fare_vending_retailer
+  defp facility_atom_from_string("OTHER"), do: :other
 end

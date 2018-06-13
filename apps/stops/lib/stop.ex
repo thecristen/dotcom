@@ -34,6 +34,39 @@ defmodule Stops.Stop do
     closed_stop_info: Stops.Stop.ClosedStopInfo.t | nil
   }
 
+  def vending_machine_stations do
+    [
+      "place-bbsta",
+      "place-brntn",
+      "place-forhl",
+      "place-jfk",
+      "Lynn",
+      "place-mlmnl",
+      "place-north",
+      "place-portr",
+      "place-qnctr",
+      "place-rugg",
+      "place-sstat",
+      "Worcester"
+    ]
+  end
+
+  def charlie_card_stations do
+    [
+      "place-alfcl",
+      "place-armnl",
+      "place-asmnl",
+      "place-bbsta",
+      "64000",
+      "place-forhl",
+      "place-harsq",
+      "place-north",
+      "place-ogmnl",
+      "place-pktrm",
+      "place-rugg"
+    ]
+  end
+
   defimpl Util.Position do
     def latitude(stop), do: stop.latitude
     def longitude(stop), do: stop.longitude
@@ -62,7 +95,7 @@ defmodule Stops.Stop.ParkingLot do
   """
   defstruct [:spots, :rate, :note, :manager, :pay_by_phone_id]
   @type t :: %Stops.Stop.ParkingLot{
-    spots: [Stops.Stop.Parking],
+    spots: [Stops.Stop.Parking.t],
     rate: String.t,
     note: String.t,
     manager: Stops.Stop.Manager.t,

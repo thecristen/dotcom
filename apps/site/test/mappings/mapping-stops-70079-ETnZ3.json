@@ -1,0 +1,22 @@
+{
+  "id" : "2488c9b2-9ecf-3789-97b3-488014d68dee",
+  "request" : {
+    "url" : "/stops/70079?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70079-ETnZ3.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:41 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7m0t19vo1agcbo01qs7h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "2488c9b2-9ecf-3789-97b3-488014d68dee"
+}

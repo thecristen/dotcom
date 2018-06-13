@@ -1,0 +1,22 @@
+{
+  "id" : "e4388e7a-760a-33b2-af8a-0eb313641db7",
+  "request" : {
+    "url" : "/routes/?stop=place-sthld&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-VblCf.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:04:14 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7de86412eej4d0012mh2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e4388e7a-760a-33b2-af8a-0eb313641db7"
+}

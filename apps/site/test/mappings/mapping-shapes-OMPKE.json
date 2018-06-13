@@ -1,0 +1,22 @@
+{
+  "id" : "ab433a0b-f99f-318f-bba1-7279bc2d231b",
+  "request" : {
+    "url" : "/shapes/?route=Mattapan&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-OMPKE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:00:20 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:16:21 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj6vpvairdv292qo01pj21",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ab433a0b-f99f-318f-bba1-7279bc2d231b"
+}

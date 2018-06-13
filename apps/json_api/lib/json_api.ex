@@ -3,7 +3,7 @@ defmodule JsonApi.Item do
   @type t :: %JsonApi.Item{
     type: String.t,
     id: String.t,
-    attributes: %{String.t => String.t},
+    attributes: %{String.t => any},
     relationships: %{String.t => list(JsonApi.Item.t)}}
 end
 

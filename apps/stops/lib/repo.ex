@@ -25,10 +25,15 @@ defmodule Stops.Repo do
     nil
   end
 
-  def stations do
+  def charlie_card_stations do
     cache [], fn _ ->
-      Stops.Api.all
-      |> Enum.sort_by(&(&1.name))
+      Enum.map(Stop.charlie_card_stations, &get/1)
+    end
+  end
+
+  def vending_machine_stations do
+    cache [], fn _ ->
+      Enum.map(Stop.vending_machine_stations, &get/1)
     end
   end
 

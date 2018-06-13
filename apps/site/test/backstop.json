@@ -34,7 +34,7 @@
   "scenarios": [
     {
       "label": "Homepage",
-      "url": "http://localhost:8082/?date=2018-06-20",
+      "url": "http://localhost:8082/?date=2018-09-01",
       "hideSelectors": [],
       "removeSelectors": [
         ".whats-happening-section",
@@ -54,7 +54,7 @@
     },
     {
       "label": "Subway Hub",
-      "url": "http://localhost:8082/schedules/subway?date=2018-06-20",
+      "url": "http://localhost:8082/schedules/subway?date=2018-09-01",
       "hideSelectors": [
         ".hub-system-map"
       ],
@@ -69,7 +69,7 @@
     },
     {
       "label": "All Schedules",
-      "url": "http://localhost:8082/schedules?date=2018-06-20",
+      "url": "http://localhost:8082/schedules?date=2018-09-01",
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
@@ -82,7 +82,7 @@
     },
     {
       "label": "Alerts",
-      "url": "http://localhost:8082/alerts/subway?date=2018-06-20&date_time=2018-06-20T16:00:31-00:00#alerts-Orange",
+      "url": "http://localhost:8082/alerts/subway?date=2018-09-01&date_time=2018-09-01T16:00:31-00:00#alerts-Orange",
       "selectors": ["main"],
       "delay": 1000,
       "misMatchThreshold": 0.03
@@ -104,7 +104,7 @@
     },
     {
       "label": "Header Getting Around",
-      "url": "http://localhost:8082/?date=2018-06-20",
+      "url": "http://localhost:8082/?date=2018-09-01",
       "selectors": ["#gettingAround"],
       "readyEvent": null,
       "delay": 100,
@@ -113,7 +113,7 @@
     },
     {
       "label": "Header Fares",
-      "url": "http://localhost:8082/?date=2018-06-20",
+      "url": "http://localhost:8082/?date=2018-09-01",
       "selectors": ["#fares"],
       "readyEvent": null,
       "delay": 100,
@@ -122,7 +122,7 @@
     },
     {
       "label": "Header Contact Us",
-      "url": "http://localhost:8082/?date=2018-06-20",
+      "url": "http://localhost:8082/?date=2018-09-01",
       "selectors": ["#contactUs"],
       "readyEvent": null,
       "delay": 100,
@@ -131,7 +131,7 @@
     },
     {
       "label": "Header More",
-      "url": "http://localhost:8082/?date=2018-06-20",
+      "url": "http://localhost:8082/?date=2018-09-01",
       "selectors": ["#more"],
       "readyEvent": null,
       "delay": 100,
@@ -140,7 +140,7 @@
     },
     {
       "label": "Station Info Tab South Station",
-      "url": "http://localhost:8082/stops/place-sstat?date=2018-06-20&tab=info",
+      "url": "http://localhost:8082/stops/place-sstat?date=2018-09-01&tab=info",
       "hideSelectors": [".map"],
       "selectors": [
         ".station__header",
@@ -159,7 +159,7 @@
     },
     {
       "label": "Bus Schedule",
-      "url": "http://localhost:8082/schedules/1/schedule?date=2018-06-20&direction_id=0&trip=&origin=102",
+      "url": "http://localhost:8082/schedules/1/schedule?date=2018-09-01&direction_id=0&trip=&origin=102",
       "hideSelectors": [".animate"],
       "removeSelectors": [".pdf-links"],
       "selectors": [
@@ -171,7 +171,7 @@
     },
     {
       "label": "Bus Map & Info",
-      "url": "http://localhost:8082/schedules/1/line?date=2018-06-20&direction_id=0&trip=",
+      "url": "http://localhost:8082/schedules/1/line?date=2018-09-01&direction_id=0&trip=",
       "hideSelectors": [".map"],
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
@@ -180,7 +180,7 @@
     },
     {
       "label": "Subway Schedule",
-      "url": "http://localhost:8082/schedules/Red/schedule?date=2018-06-20&direction_id=1&origin=place-sstat&trip=",
+      "url": "http://localhost:8082/schedules/Red/schedule?date=2018-09-01&direction_id=1&origin=place-sstat&trip=",
       "removeSelectors": [".pdf-links"],
       "selectors": [
         "main",
@@ -191,7 +191,7 @@
     },
     {
       "label": "Subway Schedule Stop List",
-      "url": "http://localhost:8082/schedules/Red/schedule?date=2018-06-20&direction_id=1&origin=place-sstat&trip=",
+      "url": "http://localhost:8082/schedules/Red/schedule?date=2018-09-01&direction_id=1&origin=place-sstat&trip=",
       "selectors": [".modal-body"],
       "removeSelectors": [".pdf-links"],
       "readyEvent": null,
@@ -201,7 +201,7 @@
     },
     {
       "label": "Commuter Rail Schedule",
-      "url": "http://localhost:8082/schedules/CR-Providence/timetable?date=2018-06-20&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
+      "url": "http://localhost:8082/schedules/CR-Providence/timetable?date=2018-09-01&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
       "removeSelectors": [".pdf-links"],
       "selectors": [
         ".schedule__header",
@@ -212,7 +212,7 @@
     },
     {
       "label": "Station Info Framingham",
-      "url": "http://localhost:8082/stops/Framingham?tab=departures&date=2018-06-20&date_time=2018-06-20T18%3A01%3A52.397960-05%3A00",
+      "url": "http://localhost:8082/stops/Framingham?tab=departures&date=2018-09-01&date_time=2018-09-01T18%3A01%3A52.397960-05%3A00",
       "hideSelectors": [
         ".map",
         ".animate"
@@ -226,7 +226,7 @@
     },
     {
       "label": "Station Info South Station",
-      "url": "http://localhost:8082/stops/place-sstat?tab=departures&date=2018-06-20&date_time=2018-06-20T18%3A01%3A52.397960-05%3A00",
+      "url": "http://localhost:8082/stops/place-sstat?tab=departures&date=2018-09-01&date_time=2018-09-01T18%3A01%3A52.397960-05%3A00",
       "hideSelectors": [
         ".station-info-map",
         ".animate"
@@ -251,7 +251,7 @@
     },
     {
       "label": "Commuter Rail Maps and Info Worcester",
-      "url": "http://localhost:8082/schedules/CR-Worcester/line?direction_id=0&date=2018-06-20&date_time=2018-06-20T13:00:00-05:00",
+      "url": "http://localhost:8082/schedules/CR-Worcester/line?direction_id=0&date=2018-09-01&date_time=2018-09-01T13:00:00-05:00",
       "selectors": [
         ".schedule__header",
         "main"
@@ -263,7 +263,7 @@
     },
     {
       "label": "Retail Sales Locations",
-      "url": "http://localhost:8082/fares/retail-sales-locations?location%5Baddress%5D=42.3491637,%20-71.0663166&date_time=2018-06-20T13:00:00-05:00",
+      "url": "http://localhost:8082/fares/retail-sales-locations?location%5Baddress%5D=42.3491637,%20-71.0663166&date_time=2018-09-01T13:00:00-05:00",
       "selectors": ["main"],
       "hideSelectors": ["#address-search-input"],
       "delay": 100,
@@ -271,7 +271,7 @@
     },
     {
       "label": "Search",
-      "url": "http://localhost:8082/search?date=2018-06-20&date_time=2018-06-20T16:00:31-00:00",
+      "url": "http://localhost:8082/search?date=2018-09-01&date_time=2018-09-01T16:00:31-00:00",
       "hideSelectors": ["footer"],
       "readyEvent": null,
       "onReadyScript": "toggle-search-facets.js",

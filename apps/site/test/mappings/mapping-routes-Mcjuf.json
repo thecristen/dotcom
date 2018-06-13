@@ -1,0 +1,22 @@
+{
+  "id" : "30b32f42-1b1c-3d18-b66c-bddee8b83fe5",
+  "request" : {
+    "url" : "/routes/?stop=Abington",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Mcjuf.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:54 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mok1pd48usd4s01qu51",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "30b32f42-1b1c-3d18-b66c-bddee8b83fe5"
+}

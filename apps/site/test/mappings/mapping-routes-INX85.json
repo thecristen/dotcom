@@ -1,0 +1,22 @@
+{
+  "id" : "bba56db8-b47b-35f1-93c5-ad8a93560eae",
+  "request" : {
+    "url" : "/routes/?stop=place-orhte",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-INX85.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:53 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mmhnoa6h56g4c01qtch",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "bba56db8-b47b-35f1-93c5-ad8a93560eae"
+}

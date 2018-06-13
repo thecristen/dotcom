@@ -3,11 +3,6 @@ defmodule Stops.ApiTest do
   import Stops.Api
   alias Stops.Stop
 
-  test "all returns more than 25 items" do
-    assert length(all()) > 25
-    assert all() == Enum.uniq(all())
-  end
-
   describe "by_gtfs_id/1" do
     test "uses the gtfs ID to find a stop" do
       {:ok, stop} = by_gtfs_id("Anderson/ Woburn")
@@ -75,25 +70,5 @@ defmodule Stops.ApiTest do
     end
 
     assert {:error, _} = by_route({"1", 0, []})
-  end
-
-  describe "merge_v3/2" do
-    test "wheelchair_boarding == 0: not known, not accessible" do
-      {:ok, merged} = merge_v3(%Stop{}, {:ok, %JsonApi.Item{attributes: %{"wheelchair_boarding" => 0}}})
-      refute Stop.accessibility_known?(merged)
-      refute Stop.accessible?(merged)
-    end
-
-    test "wheelchair_boarding == 1: known and accessible" do
-      {:ok, merged} = merge_v3(%Stop{}, {:ok, %JsonApi.Item{attributes: %{"wheelchair_boarding" => 1}}})
-      assert Stop.accessibility_known?(merged)
-      assert Stop.accessible?(merged)
-    end
-
-    test "wheelchair_boarding == 2: known but not accessible" do
-      {:ok, merged} = merge_v3(%Stop{}, {:ok, %JsonApi.Item{attributes: %{"wheelchair_boarding" => 2}}})
-      assert Stop.accessibility_known?(merged)
-      refute Stop.accessible?(merged)
-    end
   end
 end

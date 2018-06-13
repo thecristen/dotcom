@@ -1,0 +1,22 @@
+{
+  "id" : "96e58d97-f0b4-3496-add9-9562754a533b",
+  "request" : {
+    "url" : "/trips/?route=Boat-F1&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-mToyZ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:02:08 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 20:02:02 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj764cft5umej36c012dm2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "96e58d97-f0b4-3496-add9-9562754a533b"
+}

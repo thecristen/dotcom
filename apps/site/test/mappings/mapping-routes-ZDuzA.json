@@ -1,0 +1,22 @@
+{
+  "id" : "08ec83e1-6c98-30d7-aebc-f5e6708a48f3",
+  "request" : {
+    "url" : "/routes/?stop=8279",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZDuzA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:04:17 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7dji8dah2f318c012p2i",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "08ec83e1-6c98-30d7-aebc-f5e6708a48f3"
+}

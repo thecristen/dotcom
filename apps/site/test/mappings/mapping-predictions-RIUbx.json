@@ -1,0 +1,22 @@
+{
+  "id" : "4e4b55bb-6d82-392a-917c-a16a0cb56234",
+  "request" : {
+    "url" : "/predictions/?trip=CR-Weekday-Spring-18-517&stop=Wellesley+Square&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname&include=trip",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-RIUbx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:09:33 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 20:09:20 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj800jckk36ek7rk0131ri",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4e4b55bb-6d82-392a-917c-a16a0cb56234"
+}

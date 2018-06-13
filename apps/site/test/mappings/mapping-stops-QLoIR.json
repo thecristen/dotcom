@@ -1,0 +1,22 @@
+{
+  "id" : "80d734e2-3cda-3a21-adf9-ae010c84676a",
+  "request" : {
+    "url" : "/stops/?route=Green-C&include=parent_station&direction_id=1&date=2018-08-06",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-QLoIR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:00:23 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj700rn4vfh2dqe801pn11",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "80d734e2-3cda-3a21-adf9-ae010c84676a"
+}

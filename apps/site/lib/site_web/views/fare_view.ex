@@ -89,15 +89,11 @@ defmodule SiteWeb.FareView do
 
   @spec vending_machine_stations :: [Phoenix.HTML.Safe.t]
   def vending_machine_stations do
-    Stops.Repo.stations
-    |> Enum.filter(fn stop -> stop.has_fare_machine? end)
-    |> stop_link_list
+    stop_link_list(Stops.Repo.vending_machine_stations())
   end
 
   def charlie_card_stations do
-    Stops.Repo.stations
-    |> Enum.filter(fn stop -> stop.has_charlie_card_vendor? end)
-    |> stop_link_list
+    stop_link_list(Stops.Repo.charlie_card_stations())
   end
 
   defp stop_link_list(stops) do

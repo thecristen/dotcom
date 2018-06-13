@@ -49,16 +49,15 @@ defmodule SiteWeb.FareControllerTest do
 
     test "lists vending machine stations on bus/subway page", %{conn: conn} do
       conn = get conn, fare_path(conn, :show, "bus-subway")
-      for station  <- ["Back Bay", "Braintree", "Forest Hills", "JFK/UMass", "Lynn", "Malden Center", "North Station",
-      "Porter Square", "Quincy Center", "Ruggles", "South Station", "Worcester/Union"] do
+
+      for station <- ["place-north", "place-sstat", "place-bbsta", "place-portr", "place-mlmnl", "Lynn", "Worcester", "place-rugg", "place-forhl", "place-jfk", "place-qnctr", "place-brntn"] do
         assert html_response(conn, 200) =~ station
       end
     end
 
     test "lists charliecard stations on bus/subway page", %{conn: conn} do
+      for station <- ["place-alfcl", "place-armnl", "place-asmnl", "place-bbsta", "64000", "place-forhl", "place-harsq", "place-north", "place-ogmnl", "place-pktrm", "place-rugg"] do
       conn = get conn, fare_path(conn, :show, "bus-subway")
-      for station <- ["Alewife", "Arlington", "Ashmont", "Back Bay", "Dudley Square", "Forest Hills", "Harvard Square",
-      "North Station", "Oak Grove", "Park", "Ruggles"] do
         assert html_response(conn, 200) =~ station
       end
     end

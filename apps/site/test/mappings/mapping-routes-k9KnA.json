@@ -1,0 +1,22 @@
+{
+  "id" : "e3a45688-d944-3d25-8a60-15af6fdb3e67",
+  "request" : {
+    "url" : "/routes/?stop=place-harvd",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-k9KnA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:55 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mpl0qc7icfj4s01quk1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e3a45688-d944-3d25-8a60-15af6fdb3e67"
+}

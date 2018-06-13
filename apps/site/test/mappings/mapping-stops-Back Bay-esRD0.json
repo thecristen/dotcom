@@ -1,0 +1,22 @@
+{
+  "id" : "a6822a84-9968-3d54-8221-0eddee69c5d2",
+  "request" : {
+    "url" : "/stops/Back%20Bay?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Back Bay-esRD0.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:30 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7lbh4o6826kg6k01qrph",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a6822a84-9968-3d54-8221-0eddee69c5d2"
+}

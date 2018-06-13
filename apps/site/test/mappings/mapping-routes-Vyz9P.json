@@ -1,0 +1,22 @@
+{
+  "id" : "1bfb294b-00c6-3bf3-9d03-bb9dd770bbbe",
+  "request" : {
+    "url" : "/routes/?stop=Sharon",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Vyz9P.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:55 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mqn1pr7156g4c01qv3h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "1bfb294b-00c6-3bf3-9d03-bb9dd770bbbe"
+}

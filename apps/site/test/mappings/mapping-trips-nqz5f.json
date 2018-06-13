@@ -1,0 +1,22 @@
+{
+  "id" : "94405477-db47-39f9-9998-96fd5aba1612",
+  "request" : {
+    "url" : "/trips/?route=Green-E&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-nqz5f.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:00:19 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 20:00:18 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj6voge1vin292qo01pig1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "94405477-db47-39f9-9998-96fd5aba1612"
+}

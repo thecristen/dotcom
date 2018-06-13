@@ -101,8 +101,8 @@ defmodule SiteWeb.StopViewTest do
       assert pretty_accessibility("escalator_up") == ["Escalator (up only)"]
       assert pretty_accessibility("escalator_down") == ["Escalator (down only)"]
       assert pretty_accessibility("ramp") == ["Long ramp"]
-      assert pretty_accessibility("full_high") == ["Full high level platform to provide level boarding to every car in a train set"]
-      assert pretty_accessibility("mini_high") == ["Mini high level platform to provide level boarding to certain cars in a train set"]
+      assert pretty_accessibility("fully_elevated_platform") == ["Full high level platform to provide level boarding to every car in a train set"]
+      assert pretty_accessibility("elevated_subplatform") == ["Mini high level platform to provide level boarding to certain cars in a train set"]
     end
 
     test "For all other fields, separates underscore and capitalizes first word" do

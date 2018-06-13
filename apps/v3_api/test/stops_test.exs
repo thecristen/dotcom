@@ -10,7 +10,7 @@ defmodule V3Api.StopsTest do
       Bypass.expect bypass, fn conn ->
         assert conn.request_path == "/stops/123"
         conn = Plug.Conn.fetch_query_params(conn)
-        assert conn.params["include"] == "parent_station"
+        assert conn.params["include"] == "parent_station,facilities"
         Plug.Conn.resp(conn, 200, ~s({"data": []}))
       end
 

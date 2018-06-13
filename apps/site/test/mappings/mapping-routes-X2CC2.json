@@ -1,0 +1,22 @@
+{
+  "id" : "feffe3b7-7813-3a58-8708-dfed2730666c",
+  "request" : {
+    "url" : "/routes/?stop=place-mvbcl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-X2CC2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:53 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mme6dmqvcip9g01qt7h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "feffe3b7-7813-3a58-8708-dfed2730666c"
+}

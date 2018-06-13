@@ -1,0 +1,22 @@
+{
+  "id" : "b79fc87c-f864-3445-ab0f-4199a3c96f43",
+  "request" : {
+    "url" : "/routes/?stop=Wedgemere",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ik154.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:55 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mpkvr6j556g4c01qujh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b79fc87c-f864-3445-ab0f-4199a3c96f43"
+}

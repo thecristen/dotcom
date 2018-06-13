@@ -1,0 +1,22 @@
+{
+  "id" : "df20a4ba-fecd-3039-a037-55e25cc7ab89",
+  "request" : {
+    "url" : "/routes/?stop=Lynn",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-kQU0O.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:55 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mqlv1si9agcbo012rqi",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "df20a4ba-fecd-3039-a037-55e25cc7ab89"
+}

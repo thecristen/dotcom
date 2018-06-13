@@ -1,0 +1,22 @@
+{
+  "id" : "e897c3a5-b883-3ee0-9ecd-8b5254cfc298",
+  "request" : {
+    "url" : "/stops/?route=Green-E&include=parent_station&direction_id=1&date=2018-07-26",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-K65OB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:00:22 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj6vuu7r9rc7847g012262",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e897c3a5-b883-3ee0-9ecd-8b5254cfc298"
+}

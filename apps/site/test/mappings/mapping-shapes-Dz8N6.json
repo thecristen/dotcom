@@ -1,0 +1,22 @@
+{
+  "id" : "e5529db1-69c6-3ce4-9bb2-c3557e8ff8d6",
+  "request" : {
+    "url" : "/shapes/?route=CR-Franklin&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-Dz8N6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:00:21 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:16:21 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj6vsnll7h7rfmf801214i",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e5529db1-69c6-3ce4-9bb2-c3557e8ff8d6"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "d516a9f1-8968-37b9-a05d-f51f92348c92",
+  "request" : {
+    "url" : "/routes/?stop=North+Billerica",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-aXnPx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:54 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mp82660t56g4c01queh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d516a9f1-8968-37b9-a05d-f51f92348c92"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "dd2a165f-9e3a-3f2e-81f9-43138f150292",
+  "request" : {
+    "url" : "/routes/?stop=place-alfcl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-wdd3M.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:04:14 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7dehi8m6q2obag01qjkh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "dd2a165f-9e3a-3f2e-81f9-43138f150292"
+}

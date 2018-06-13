@@ -1,0 +1,22 @@
+{
+  "id" : "428b0c1c-78fc-3821-b19c-07d45d405128",
+  "request" : {
+    "url" : "/stops/8279?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-8279-HJgG4.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:04:17 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7djc96ftb7hd7g01qo2h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "428b0c1c-78fc-3821-b19c-07d45d405128"
+}

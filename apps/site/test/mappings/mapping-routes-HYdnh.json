@@ -1,0 +1,22 @@
+{
+  "id" : "5ca25299-347b-3c0c-a984-d213077a00a3",
+  "request" : {
+    "url" : "/routes/?stop=190&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-HYdnh.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:04:15 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7dgptjru3a5q5k01qkm1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "5ca25299-347b-3c0c-a984-d213077a00a3"
+}

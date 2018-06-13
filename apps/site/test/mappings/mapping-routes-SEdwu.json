@@ -1,0 +1,22 @@
+{
+  "id" : "73408dba-4b45-3220-b9c6-250d19ed34b6",
+  "request" : {
+    "url" : "/routes/?stop=place-butlr",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-SEdwu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:54 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mo7a223v56g4c01qts1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "73408dba-4b45-3220-b9c6-250d19ed34b6"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "615c74d9-c94b-3450-a4b3-dd9e6ad2bf80",
+  "request" : {
+    "url" : "/routes/?stop=place-sstat",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CLCtg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:05:28 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7hobstnss4cq5k01qpsh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "615c74d9-c94b-3450-a4b3-dd9e6ad2bf80"
+}

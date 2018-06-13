@@ -18,8 +18,8 @@ defmodule SiteWeb.StopView do
   def pretty_accessibility("escalator_up"), do: ["Escalator (up only)"]
   def pretty_accessibility("escalator_down"), do: ["Escalator (down only)"]
   def pretty_accessibility("ramp"), do: ["Long ramp"]
-  def pretty_accessibility("full_high"), do: ["Full high level platform to provide level boarding to every car in a train set"]
-  def pretty_accessibility("mini_high"), do: ["Mini high level platform to provide level boarding to certain cars in a train set"]
+  def pretty_accessibility("fully_elevated_platform"), do: ["Full high level platform to provide level boarding to every car in a train set"]
+  def pretty_accessibility("elevated_subplatform"), do: ["Mini high level platform to provide level boarding to certain cars in a train set"]
   def pretty_accessibility("unknown"), do: []
   def pretty_accessibility("accessible"), do: []
   def pretty_accessibility(accessibility) do

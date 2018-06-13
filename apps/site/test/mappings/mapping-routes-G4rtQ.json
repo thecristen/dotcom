@@ -1,0 +1,22 @@
+{
+  "id" : "a5f1d27e-54a3-3cfe-b6a1-ae5798a8e014",
+  "request" : {
+    "url" : "/routes/?stop=place-coecl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-G4rtQ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:04:13 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7dckept38ej4d001qikh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a5f1d27e-54a3-3cfe-b6a1-ae5798a8e014"
+}

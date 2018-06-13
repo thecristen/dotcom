@@ -1,0 +1,22 @@
+{
+  "id" : "c1a7f7e9-a71d-3b60-b4e0-07f0d0fa7a6f",
+  "request" : {
+    "url" : "/trips/?route=69&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-Zx2rr.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:00:29 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 20:00:18 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj70c0ep1orhvrb40126d2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c1a7f7e9-a71d-3b60-b4e0-07f0d0fa7a6f"
+}

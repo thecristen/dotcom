@@ -1,0 +1,22 @@
+{
+  "id" : "2b0c8e28-1034-3b99-a066-574977651283",
+  "request" : {
+    "url" : "/routes/?stop=place-chill",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-gORbO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:54 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mnksa5a956g4c01qtqh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "2b0c8e28-1034-3b99-a066-574977651283"
+}

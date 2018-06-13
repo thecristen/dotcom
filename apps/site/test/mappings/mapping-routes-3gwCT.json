@@ -1,0 +1,22 @@
+{
+  "id" : "fa3f0832-fb34-308b-a33c-840b69c981e9",
+  "request" : {
+    "url" : "/routes/?stop=Hastings",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-3gwCT.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:53 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7mme8cj0956g4c01qt81",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "fa3f0832-fb34-308b-a33c-840b69c981e9"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "1cdc0ab7-9894-39d6-becb-f2435e5db4bc",
+  "request" : {
+    "url" : "/stops/Ruggles?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Ruggles-a2yci.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 11 Jun 2018 20:06:30 GMT",
+      "last-modified" : "Mon, 11 Jun 2018 10:13:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2krj7lbh15nro6kg6k01qroh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "1cdc0ab7-9894-39d6-becb-f2435e5db4bc"
+}
