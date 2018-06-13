@@ -5,10 +5,24 @@
   }
 }
 
+.m-schedule-line__connection-icon {
+  @include icon-size($base-spacing * 1.5);
+
+  display: inline-block;
+}
+
 .m-schedule-line__info {
   margin-bottom: 0;
 }
 
 .m-schedule-line__info:last-child {
   margin-bottom: $base-spacing;
+}
+
+.m-schedule-line__connection-line {
+  display: flex;
+}
+
+.m-schedule-line__connection-name {
+  margin-left: $base-spacing / 2;
 }

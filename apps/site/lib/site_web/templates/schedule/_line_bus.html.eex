@@ -24,6 +24,7 @@
     </div>
     <div class="col-xs-12 col-md-4">
       <%= render "_fares.html", assigns %>
+      <%= render "_line_connections.html", assigns %>
       <%= render "_hours_of_op.html", assigns %>
     </div>
   </div>

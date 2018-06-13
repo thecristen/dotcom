@@ -1,0 +1,9 @@
+<h2>Connections</h2>
+<div>
+  <%= for route <- SiteWeb.ScheduleView.route_connections(@all_stops) do %>
+    <p class="m-schedule-line__info m-schedule-line__connection-line">
+      <span class="m-schedule-line__connection-icon"><%= SiteWeb.ViewHelpers.line_icon(route, :small) %></span>
+      <span class="m-schedule-line__connection-name"><%= route.name %></span>
+    </p>
+  <% end %>
+</div>

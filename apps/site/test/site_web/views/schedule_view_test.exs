@@ -767,4 +767,44 @@ defmodule SiteWeb.ScheduleViewTest do
       assert to_fare_atom(%Route{type: 3, id: "1"}) == :bus
     end
   end
+
+  describe "route_connections/1" do
+    test "returns connecting routes from RouteStops" do
+      connections =
+        [{nil, %Stops.RouteStop{connections: [%Route{id: "Red"}, %Route{id: "CR-Fitchburg"}]}}]
+        |> route_connections()
+        |> Enum.map(& &1.id)
+      assert connections == ["Red", "CR-Fitchburg"]
+    end
+  end
+
+  describe "sort_routes/1" do
+    test "sorts subway in the correct order, followed by commuter rail alphabetical" do
+      routes = [
+        %Route{id: "Green-E"},
+        %Route{id: "Mattapan"},
+        %Route{id: "Green-B"},
+        %Route{id: "Green-D"},
+        %Route{id: "Red"},
+        %Route{id: "Green-C"},
+        %Route{id: "Orange"},
+        %Route{id: "Blue"},
+        %Route{type: 2, name: "Worcester"},
+        %Route{type: 2, name: "Fitchburg"}
+      ]
+      sorted_routes = [
+        %Route{id: "Red"},
+        %Route{id: "Orange"},
+        %Route{id: "Green-B"},
+        %Route{id: "Green-C"},
+        %Route{id: "Green-D"},
+        %Route{id: "Green-E"},
+        %Route{id: "Blue"},
+        %Route{id: "Mattapan"},
+        %Route{type: 2, name: "Fitchburg"},
+        %Route{type: 2, name: "Worcester"}
+      ]
+      assert sort_routes(routes) == sorted_routes
+    end
+  end
 end

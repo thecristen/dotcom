@@ -13,6 +13,17 @@ defmodule SiteWeb.ScheduleView do
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
 
+  @subway_order [
+    "Red",
+    "Orange",
+    "Green-B",
+    "Green-C",
+    "Green-D",
+    "Green-E",
+    "Blue",
+    "Mattapan"
+  ]
+
   @doc """
   Given a list of schedules, returns a display of the route direction. Assumes all
   schedules have the same route and direction.
@@ -304,4 +315,28 @@ defmodule SiteWeb.ScheduleView do
     end
   end
   def to_fare_atom(route), do: Routes.Route.type_atom(route)
+
+  @spec route_connections([Stops.RouteStop.t]) :: [Route.t]
+  def route_connections(all_stops) do
+    routes = for {_, route_stop} <- all_stops do
+      route_stop.connections
+    end
+    sort_routes(routes)
+  end
+
+  @spec sort_routes([Route.t]) :: [Route.t]
+  def sort_routes(routes) do
+    routes =
+      routes
+      |> List.flatten
+      |> Enum.filter(& &1.type in [0, 1, 2])
+      |> Enum.uniq
+    {cr, subway} = Enum.split_with(routes, & &1.type == 2)
+    Enum.sort(subway, &sort_subway/2) ++ Enum.sort(cr, & &1.name < &2.name)
+  end
+
+  defp sort_subway(route_a, route_b) do
+    Enum.find_index(@subway_order, fn(x) -> x == route_a.id end) <
+    Enum.find_index(@subway_order, fn(x) -> x == route_b.id end)
+  end
 end
