@@ -7,6 +7,7 @@
 
 <h2>Find a Store Near You</h2>
 <h3 class="h5">Enter your location</h3>
+<p></p>
 <%= form_for @conn, @conn.request_path<>"#address-search-input", [as: :location, method: :get, class: "form"], fn _f -> %>
   <%= input_location(%InputLocation{id: "address-search-input", name: :location, name_index: :address,
                                     address: @address, address_error: get_flash(@conn, :info), submit: true,

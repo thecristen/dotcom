@@ -302,6 +302,8 @@
 // End of lagacy search styles
 
 .c-search__filter-label {
+  margin-top: 0;
+
   @include media-breakpoint-down(sm) {
     font-size: $font-size-h3-xxl;
     padding-left: $base-spacing;
@@ -325,6 +327,10 @@
   @include media-breakpoint-up(md) {
     padding-bottom: $base-spacing * 5;
   }
+}
+
+.c-search__results-title {
+  margin-top: 0;
 }
 
 .c-search__results-input-container {

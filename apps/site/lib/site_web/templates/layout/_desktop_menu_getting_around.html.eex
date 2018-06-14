@@ -1,6 +1,6 @@
 <div class="menu-row">
   <div class="col-xs-4 header-column">
-    <p class="nav-title">Transit Services</p>
+    <div class="h6 header-column-heading">Transit Services</div>
     <ul>
       <li>
         <%= link to: schedule_path(@conn, :show, "subway") do %>
@@ -30,7 +30,7 @@
     </ul>
   </div>
   <div class="col-xs-4 header-column">
-    <p class="nav-title">Plan Your Journey</p>
+    <div class="h6 header-column-heading">Plan Your Journey</div>
     <ul>
       <li>
         <%= link to: trip_plan_path(@conn, :index) do %>
@@ -60,7 +60,7 @@
     </ul>
   </div>
   <div class="col-xs-4 header-column">
-    <p class="nav-title">Riding the T</p>
+    <div class="h6 header-column-heading">Riding the T</div>
     <ul>
       <li>
         <%= link to: cms_static_page_path(@conn, "/accessibility") do %>

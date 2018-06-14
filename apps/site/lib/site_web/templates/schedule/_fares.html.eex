@@ -1,5 +1,5 @@
 <div class="m-schedule-line__fares">
-  <h2>Fares</h2>
+  <h2 class="m-schedule-line__fares--title">Fares</h2>
   <%= for {title, price} <- SiteWeb.ScheduleView.single_trip_fares(@route) do %>
     <p class="m-schedule-line__info">
       <span class="fare-summary-fare-name"><%= title %></span>

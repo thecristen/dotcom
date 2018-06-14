@@ -1,6 +1,6 @@
 <div class="project-contact callout">
-  <h2>Contact Information</h2>
-  <div>For all queries and comments related to <%= @project.title %>, please contact:</div>
+  <h2 class="h3 callout-heading">Contact Information</h2>
+  <p>For all queries and comments related to <%= @project.title %>, please contact:</p>
   <div class="page-section">
     <%= if @project.contact_information do %>
       <div class="contact-element-contact">

@@ -85,7 +85,7 @@
       <div class="fare-summary-row">
         <%= for fare <- @the_ride do %>
           <div class="fare-summary-entry">
-            <h4 class="fare-summary-name">
+            <span class="fare-summary-name">
               <%= Fares.Format.full_name(fare) %>
               <span class="fare-summary-mode-icons" aria-hidden="true">
                 <span class="fares-mode-icon-group">
@@ -95,7 +95,7 @@
               <div class="fare-summary-fare-price">
                 <%= Fares.Format.price(fare) %>
               </div>
-            </h4>
+            </span>
             <div class="fare-summary-box">
               <%= description(fare, @conn.assigns) %>
             </div>

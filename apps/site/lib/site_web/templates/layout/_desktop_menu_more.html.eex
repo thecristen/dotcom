@@ -1,6 +1,6 @@
 <div class="menu-row">
   <div class="col-xs-4 header-column">
-    <p class="nav-title">About Us</p>
+    <div class="h6 header-column-heading">About Us</div>
     <div class="col-xs-6 p-a-0">
       <ul>
         <li>
@@ -61,7 +61,7 @@
     </div>
   </div>
   <div class="col-xs-4 header-column">
-    <p class="nav-title">Business Center</p>
+    <div class="h6 header-column-heading">Business Center</div>
     <ul>
       <li>
         <%= link to: cms_static_page_path(@conn, "/business") do %>
@@ -91,7 +91,7 @@
     </ul>
   </div>
   <div class="col-xs-4 header-column">
-    <p class="nav-title">Improvements and Projects</p>
+    <div class="h6 header-column-heading">Improvements and Projects</div>
     <ul>
       <li>
         <%= link to: project_path(@conn, :show, "commuter-rail-positive-train-control-ptc") do %>

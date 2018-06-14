@@ -1,4 +1,5 @@
 <h2 id="transit-input" class="h5 transit-input-label">Find nearby stops and stations</h2>
+<p></p>
 <div class="transit-near-me">
   <%= form_for @conn, @conn.request_path<>"#address-search-input", [as: :location, method: :get, class: "form"], fn _f -> %>
     <%= input_location(%InputLocation{id: "address-search-input", name: :location, name_index: :address,

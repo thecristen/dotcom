@@ -46,8 +46,6 @@
 }
 
 .project-update {
-  @include icon-size($base-spacing);
-
   img {
     @include img-fluid();
   }

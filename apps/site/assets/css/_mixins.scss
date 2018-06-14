@@ -42,63 +42,144 @@
 }
 
 @mixin h1 {
-  @include icon-size($base-spacing * 2);
-
-  border-bottom-color: $brand-primary;
-  border-bottom-style: solid;
-  border-bottom-width: $base-spacing / 4;
   font-size: $font-size-h1;
+  font-weight: bold;
+  line-height: 2.75rem;
+  margin-bottom: 1rem;
+  margin-top: 2.625rem;
+
+  @include media-breakpoint-down(xs) {
+    font-size: $font-size-h1-xs;
+    line-height: 2rem;
+    margin-bottom: .25rem;
+    margin-top: 1.875rem;
+  }
 
   @include media-breakpoint-up(xxl) {
     font-size: $font-size-h1-xxl;
+    line-height: 3.25rem;
+    margin-top: 2rem;
   }
 }
 
 @mixin h2 {
-  @include icon-size($base-spacing * 1.5);
+  $bottom-space: .25rem;
 
   font-size: $font-size-h2;
+  font-weight: bold;
+  line-height: 2rem;
+  margin-bottom: $base-headings-space + $bottom-space;
+  margin-top: 2rem;
+
+  @include media-breakpoint-down(xs) {
+    font-size: $font-size-h2-xs;
+    line-height: 1.625rem;
+    margin-bottom: $base-headings-space-xs + $bottom-space;
+    margin-top: 1.625rem;
+  }
 
   @include media-breakpoint-up(xxl) {
     font-size: $font-size-h2-xxl;
+    line-height: 2.125rem;
+    margin-bottom: $base-headings-space-xxl + $bottom-space;
+    margin-top: 2.325rem;
   }
 }
 
 @mixin h3 {
-  @include icon-size($base-spacing * 1.25);
+  $bottom-space: .125rem;
 
   font-size: $font-size-h3;
+  font-weight: bold;
+  line-height: 1.375rem;
+  margin-bottom: $base-headings-space + $bottom-space;
+  margin-top: 1.125rem;
+
+  @include media-breakpoint-down(xs) {
+    font-size: $font-size-h3-xs;
+    line-height: 1.375rem;
+    margin-bottom: $base-headings-space-xs + $bottom-space;
+    margin-top: 1rem;
+  }
 
   @include media-breakpoint-up(xxl) {
     font-size: $font-size-h3-xxl;
+    line-height: 1.675rem;
+    margin-bottom: $base-headings-space-xxl + $bottom-space;
+    margin-top: 1.325rem;
+  }
+
+  // H3s before H4s create too large a gap, since H4's top margin
+  // is much smaller and doesn't collapse the way H2 + H3 does.
+  // This nullifies the h3's additional $base-headings-space.
+  + h4 {
+    margin-top: -.25rem;
+
+    @include media-breakpoint-up(xxl) {
+      margin-top: -.555rem;
+    }
   }
 }
 
 @mixin h4 {
-  @include icon-size($base-spacing);
-
+  color: $gray-light;
   font-size: $font-size-h4;
+  font-weight: bold;
+  line-height: 1.25rem;
+  margin-top: .625rem;
+
+  @include media-breakpoint-down(xs) {
+    line-height: 1.375rem;
+    margin-top: .625rem;
+  }
 
   @include media-breakpoint-up(xxl) {
     font-size: $font-size-h4-xxl;
+    line-height: 1.375rem;
+    margin-top: .555rem;
   }
 }
 
 @mixin h5 {
-  @include icon-size($base-spacing);
-  font-size: $font-size-h5;
-
-  @include media-breakpoint-up(xxl) {
-    font-size: $font-size-h5-xxl;
-  }
+  @include h4;
+  color: inherit;
 }
 
 @mixin h6 {
-  @include icon-size($base-spacing);
-  font-size: $font-size-h6;
+  font-size: 1.05em;
+  font-weight: bold;
+  line-height: 1.25em;
+}
 
-  @include media-breakpoint-up(xxl) {
-    font-size: $font-size-h6-xxl;
+@mixin after-heading-space {
+  // Paragraph copy directly following headlines have their own
+  // built-in spacing (line-height), so we undo the global
+  // after-heading spacing when paragraphs directly follow headings.
+  + p {
+    margin-top: -$base-headings-space;
+
+    @include media-breakpoint-up(xs) {
+      margin-top: -$base-headings-space-xs;
+    }
+
+    @include media-breakpoint-up(xxl) {
+      margin-top: -$base-headings-space-xxl;
+    }
+  }
+
+  // When images are visually directly after a headline, they should
+  // get the same gap non-paragraphs get by default (undo negative margin).
+  + p > img:first-child,
+  + p > a:first-child > img:first-child {
+    margin-top: $base-headings-space;
+
+    @include media-breakpoint-up(xs) {
+      margin-top: $base-headings-space-xs;
+    }
+
+    @include media-breakpoint-up(xxl) {
+      margin-top: $base-headings-space-xxl;
+    }
   }
 }
 

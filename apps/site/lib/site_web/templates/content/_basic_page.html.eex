@@ -4,9 +4,7 @@
     <%= Site.ContentRewriter.rewrite(@page.body, @conn) %>
 
     <%= for paragraph <- @page.paragraphs do %>
-      <div>
-        <%= render_paragraph(paragraph, @conn) %>
-      </div>
+      <%= render_paragraph(paragraph, @conn) %>
     <% end %>
   </div>
 </div>

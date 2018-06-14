@@ -32,9 +32,9 @@
 <div class="stripe-bar landing-page-stripe-bar"></div>
 
 <div class="landing-page-content">
-  <%= for paragraph <- @page.paragraphs do %>
-    <div class="container">
+  <div class="container">
+    <%= for paragraph <- @page.paragraphs do %>
       <%= render_paragraph(paragraph, @conn) %>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>

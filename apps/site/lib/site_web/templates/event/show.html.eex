@@ -1,8 +1,6 @@
 <% has_sidebar = @event.agenda_file || @event.minutes_file || Enum.empty?(@event.files) == false %>
 <div class="container">
-  <h1 class="event-title">
-    <%= @event.title %>
-  </h1>
+  <h1><%= @event.title %></h1>
 
   <div class="row">
     <%= content_tag :div, class: "event-description#{if has_sidebar do ~s(-with-sidebar) end}" do %>

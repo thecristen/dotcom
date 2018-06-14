@@ -23,6 +23,7 @@ defmodule SiteWeb.ModeController do
     |> assign(:grouped_routes, grouped_routes)
     |> assign(:breadcrumbs, [Breadcrumb.build("Schedules & Maps")])
     |> assign(:include_ride, true)
+    |> assign(:home, false)
     |> await_assign_all()
     |> render("index.html")
   end

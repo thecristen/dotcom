@@ -1,17 +1,5 @@
 @import 'variables';
 
-.support-section {
-  margin-bottom: $base-spacing / 2;
-  ul {
-    @include list-unstyled();
-    margin: 0;
-  }
-
-  li {
-    margin: $base-spacing / 2 0;
-  }
-}
-
 .support-success,
 .support-error {
   margin-top: .5em;
@@ -22,6 +10,7 @@
   .error-container {
     margin: 0 0 .5em;
   }
+
   .support-upload-error-container {
     margin: 0 0 $base-spacing * .25 $base-spacing * .75;
   }
@@ -138,10 +127,6 @@ button .waiting {
   }
 }
 
-.phone-description {
-  margin-bottom: $base-spacing / 4;
-}
-
 .support-check-container {
   &.form-group {
     padding-bottom: $base-spacing / 4;
@@ -150,38 +135,6 @@ button .waiting {
 
 .response-time-disclaimer {
   margin-top: $base-spacing / 2;
-}
-
-.support-section-row {
-  @include media-breakpoint-up(sm) {
-    margin-bottom: $base-spacing;
-  }
-}
-
-.support-phone-text {
-  font-weight: bold;
-}
-
-.support-header {
-  margin-bottom: $base-spacing / 2;
-}
-
-.support-lift-updates {
-  font-style: italic;
-}
-
-.support-link {
-  display: block;
-  margin-bottom: $base-spacing / 2;
-}
-
-.support-link-inline {
-  display: inline-block;
-}
-
-
-.support-text {
-  margin-bottom: $base-spacing / 2;
 }
 
 .clear-upload-container {

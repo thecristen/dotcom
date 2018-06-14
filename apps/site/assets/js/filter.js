@@ -37,7 +37,7 @@ function filter_element(val, element) {
 }
 
 function displayEmptyMessage(val) {
-  $("[data-filter-empty]").text(`There are no bus routes matching "${val}".`);
+  $("[data-filter-empty]").html(`<p>There are no bus routes matching "${val}".</p>`);
   $("[data-filter-empty]").show();
 }
 

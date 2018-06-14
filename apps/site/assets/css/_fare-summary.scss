@@ -46,14 +46,9 @@
 
 .fare-summary-name {
   display: inline-block;
-  font-size: $font-size-h4;
   font-weight: bold;
   margin-bottom: $base-spacing-sm;
   padding-right: $base-spacing-sm;
-
-  @include media-breakpoint-up(xxl) {
-    font-size: $font-size-h4-xxl;
-  }
 
   a & {
     color: $link-color;

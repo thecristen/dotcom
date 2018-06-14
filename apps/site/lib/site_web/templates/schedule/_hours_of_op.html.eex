@@ -1,8 +1,8 @@
 <div class="hours">
   <%= if assigns[:hours_of_operation] do %>
-    <h2 class="h3 hours-heading">Hours of Operation</h3>
+    <h3 class="hours-heading">Hours of Operation</h3>
     <%= for {period, {direction_0, direction_1}} <- @hours_of_operation do %>
-      <h3 class="h5 hours-period-heading"><%= schedule_period(period) %>:</h5>
+      <h4 class="hours-period-heading"><%= schedule_period(period) %>:</h4>
       <%= for {direction_id, departure} <- [{1, direction_1}, {0, direction_0}] do %>
         <p class="hours-directions">
           <span class="hours-direction-name"><%= @route.direction_names[direction_id] %>:</span>

@@ -125,6 +125,7 @@
 .content-page-content,
 .landing-page-content {
   flex: 1 0 auto;
+
   img {
     @include img-fluid();
     margin-bottom: $base-spacing;
@@ -137,41 +138,25 @@
   background-size: cover;
   color: $white;
   text-align: center;
-
-  @include media-breakpoint-up(md) {
-    min-height: $hero-height-desktop;
-  }
-
-  @include media-breakpoint-down(sm) {
-    // scss-lint:disable PropertySortOrder
-
-    min-height: $hero-height-mobile;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 }
 
 .landing-page-titles {
+  margin: 0 auto;
+  padding: 7.5rem 0;
+
   @include media-breakpoint-down(sm) {
+    padding: 5rem 0;
     width: 80%;
   }
 }
 
 .landing-page-title {
   border: 0;
-  margin-bottom: 0;
-
-  @include media-breakpoint-up(md) {
-    font-size: $font-size-hero-desktop;
-    line-height: $headings-line-height;
-    padding-top: ($hero-height-desktop / 2) - ((($font-size-hero-desktop / 1rem) * $headings-line-height * 16px) / 2);
-  }
+  line-height: $headings-line-height;
+  margin: 0;
 
   @include media-breakpoint-down(sm) {
-    font-size: $font-size-hero-mobile;
-    margin-bottom: $base-spacing;
+    font-size: $font-size-h1-xs;
   }
 }
 
@@ -181,27 +166,6 @@
 
 .landing-page-stripe-bar {
   margin-bottom: $base-spacing-lg;
-}
-
-.landing-page-content h2 {
-  // scss-lint:disable PlaceholderInExtend
-  @extend .h1;
-}
-
-.landing-page-content h3 {
-  font-size: $font-size-h2;
-
-  @include media-breakpoint-up(xxl) {
-    font-size: $font-size-h2-xxl;
-  }
-}
-
-.landing-page-content h4 {
-  font-size: $font-size-h3;
-
-  @include media-breakpoint-up(xxl) {
-    font-size: $font-size-h3-xxl;
-  }
 }
 
 .content-person-sidebar-img {

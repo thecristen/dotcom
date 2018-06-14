@@ -1,6 +1,6 @@
 <div class="station__header">
   <div class="station__header-container">
-    <%= content_tag(:h1, @stop.name, class: "#{station_name_class(@grouped_routes)} h1--new") %>
+    <%= content_tag(:h1, @stop.name, class: "#{station_name_class(@grouped_routes)}") %>
     <div class="station__header-features">
       <%= render_header_modes(@grouped_routes, Map.get(assigns, :zone_number)) %>
       <%= if Stop.accessible?(@stop) do %>

@@ -1,4 +1,4 @@
-<div class="page-section">
+<div class="page-section events-paged-list">
   <div class="row">
     <div class="col-xs-12">
       <h1>Events</h1>
@@ -8,5 +8,6 @@
     events: @events,
     conn: @conn,
     title: month_navigation_header(@conn, @month),
+    nav: true,
     empty_placeholder_text: no_results_message(@month) %>
 </div>

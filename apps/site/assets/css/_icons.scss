@@ -16,35 +16,35 @@
 
 // Adjust icon position relative to headers
 h1,
-.h1 {
-  .icon {
-    margin-top: (($font-size-h1 * 1.5) - $icon-size) / 2;
-
-    @include media-breakpoint-up(xxl) {
-      margin-top: (($font-size-h1-xxl * 1.5) - $icon-size) / 2;
-    }
-  }
-}
-
+.h1,
 h2,
-.h2 {
-  .icon {
-    margin-top: (($font-size-h2 * 1.5) - $icon-size) / 2;
+.h2,
+h3,
+.h3,
+h4,
+.h4 {
+  [class^=c-svg__icon] {
+    height: 1em;
+    margin-top: -.15em;
+    vertical-align: middle;
+    width: 1em;
 
+    // Limit size so that XXL icons aren't over-large
     @include media-breakpoint-up(xxl) {
-      margin-top: (($font-size-h2-xxl * 1.5) - $icon-size) / 2;
+      font-size: .85em;
+      margin-top: -.2em;
     }
   }
 }
 
 h3,
-.h3 {
-  .icon {
-    margin-top: (($font-size-h3 * 1.75) - $icon-size) / 2;
-
-    @include media-breakpoint-up(xxl) {
-      margin-top: (($font-size-h3-xxl * 1.75) - $icon-size) / 2;
-    }
+.h3,
+h4,
+.h4 {
+  // Prevent icon from getting too small
+  [class^=c-svg__icon] {
+    font-size: 1.2em;
+    margin-top: -.2em;
   }
 }
 

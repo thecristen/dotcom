@@ -21,6 +21,10 @@
   }
 }
 
+.fare-name {
+  margin-top: 0;
+}
+
 .fare-price {
   float: right;
 
@@ -63,6 +67,7 @@
 
 .fare-mode-row {
   background-color: $gray-lightest;
+  margin-bottom: 1rem;
   padding: $base-spacing;
 
   > * {
@@ -192,20 +197,6 @@ a {
     .fare-link {
       text-decoration: inherit;
     }
-  }
-}
-
-.commuter-fare-content {
-  @include media-breakpoint-only(md) {
-    min-height: $base-spacing * 15;
-  }
-
-  @include media-breakpoint-only(lg) {
-    min-height: $base-spacing * 13;
-  }
-
-  @include media-breakpoint-up(xxl) {
-    min-height: $base-spacing * 10.5;
   }
 }
 

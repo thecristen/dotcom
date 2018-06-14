@@ -1,4 +1,5 @@
 <% subway? = @mode == :subway%>
+<% h_level_route = if @mode == :commuter_rail, do: :h3, else: :h2 %>
 <div class="page-section">
   <h1>MBTA Stations</h1>
   <%= render "_search-bar.html", stop_info: @stop_info, conn: @conn %>
@@ -26,10 +27,10 @@
   %>
   <%= for {route, detailed_stops} <- stops do %>
     <div class="page-section stops-for-route">
-      <div class="h2 stop-list-header">
+      <%= content_tag h_level_route do %>
         <%= if subway?, do: svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.icon_atom(route)})  %>
         <span><%= route.name %></span>
-      </div>
+      <% end %>
         <%= if @route_hubs[route.id] do %>
           <%= render("_hub_stops.html", hubs: @route_hubs[route.id], conn: @conn)%>
         <% end %>

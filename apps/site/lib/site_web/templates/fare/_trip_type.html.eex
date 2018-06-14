@@ -11,11 +11,11 @@
       </div>
     <% end %>
     <%= for fare <- @fares do %>
-      <p class="fare-mode-row">
+      <div class="fare-mode-row">
         <strong><%= Fares.Format.media(fare) %></strong>
         <span class="fare-price"><%= Fares.Format.price(fare) %></span>
-        <p><%= description(fare, @conn.assigns) %></p>
-      </p>
+      </div>
+      <p><%= description(fare, @conn.assigns) %></p>
     <% end %>
   </div>
   <div class="fares-mode-icon">

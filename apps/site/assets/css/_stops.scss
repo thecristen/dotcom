@@ -112,7 +112,7 @@
 }
 
 .hub-stop-link {
-  margin: $base-spacing / 2 0;
+  margin: 0 0 $base-spacing / 2;
 
   @include media-breakpoint-down(sm) {
     background-color: $white;
@@ -221,7 +221,7 @@
   }
 
   .station__name {
-    margin-bottom: 0;
+    margin-bottom: $base-spacing / 2;
   }
 }
 
@@ -230,7 +230,7 @@
   display: flex;
   height: $base-spacing * 2;
   margin-bottom: $base-spacing;
-  margin-top: $base-spacing;
+  margin-top: $base-spacing / 2;
 }
 
 .station__header-feature {
@@ -260,11 +260,11 @@
 }
 
 .station__header-description {
+  @include h6();
+
   border-radius: $base-spacing * 3;
   color: $white;
   flex: 0 0 auto;
-  font-size: $font-size-h6;
-  font-weight: bold;
   padding: $base-spacing / 4 $base-spacing / 2;
   text-transform: uppercase;
   vertical-align: middle;

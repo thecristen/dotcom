@@ -1,13 +1,18 @@
 <div class="page-section <%= assigns[:card_class] %>" id="schedules">
-  <h1>Schedules and Maps</h1>
+  <% h_level_section = if @home, do: :h2, else: :h1 %>
+  <% h_level_mode = if @home, do: :h3, else: :h2 %>
   <% route_types = Enum.map @grouped_routes, fn {mode, _routes} -> {mode, mode_path(@conn, mode)} end %>
   <% the_ride = if @include_ride, do: [the_ride: cms_static_page_path(@conn, "/accessibility/the-ride")], else: [] %>
+  <%= content_tag(h_level_section, "Schedules and Maps") %>
   <%= for {route_type, mode_page} <- route_types ++ the_ride do %>
     <div class="mode-group <%= CSSHelpers.atom_to_class(route_type) %>" id="<%= route_type %>">
-      <%= link to: mode_page, class: "mode-group-header" do %>
-        <%= svg_icon_with_circle %SvgIconWithCircle{icon: route_type, aria_hidden?: true} %>
-        <span><%= Routes.Route.type_name route_type %></span>
+      <%= content_tag h_level_mode, class: "mode-group-header" do %>
+        <%= link to: mode_page do %>
+          <%= svg_icon_with_circle %SvgIconWithCircle{icon: route_type, aria_hidden?: true} %>
+          <%= Routes.Route.type_name route_type %>
+        <% end %>
       <% end %>
+      </h3>
       <%= mode_button_list %ModeButtonList{
         conn: @conn,
         routes: get_route_group(route_type, @grouped_routes),

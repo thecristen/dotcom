@@ -1,6 +1,6 @@
 <div class="menu-row">
   <div class="col-xs-4 header-column">
-    <p class="nav-title">Customer Support</p>
+    <div class="h6 header-column-heading">Customer Support</div>
     <p>
       <%= tel_link "(617) 222-3200" %><br />
       <strong>TTY</strong> <%= tel_link "(617) 222-5146" %><br />
@@ -22,7 +22,7 @@
     </ul>
   </div>
   <div class="col-xs-4 header-column">
-    <p class="nav-title">Transit Police</p>
+    <div class="h6 header-column-heading">Transit Police</div>
     <p>
       <strong>Emergency:</strong> <%= tel_link "(617) 222-1212" %><br />
       <strong>TTY:</strong> <%= tel_link "(617) 222-1200" %><br />
@@ -41,7 +41,7 @@
     </ul>
   </div>
   <div class="col-xs-4 header-column">
-    <p class="nav-title">Service Updates</p>
+    <div class="h6 header-column-heading">Service Updates</div>
     <p>Receive notifications of MBTA service alerts by e-mail or text message (SMS).</p>
     <ul>
       <li>

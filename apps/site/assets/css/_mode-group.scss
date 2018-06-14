@@ -2,7 +2,7 @@
   @include icon-size($base-spacing * 1.25);
 
   margin-bottom: $base-spacing / 2;
-  margin-top: $base-spacing / -2;
+  margin-top: -$grid-gutter-width / 2;
   padding: $grid-gutter-width / 2 1px;
 
   @include media-breakpoint-only(xs) {
@@ -61,17 +61,6 @@
 
   > .icon-alert {
     margin-left: .375rem;
-  }
-}
-
-.mode-group-header {
-  @include icon-size($base-spacing * 1.5);
-
-  font-size: $font-size-base;
-  font-weight: bold;
-
-  [class^=c-svg__icon] {
-    vertical-align: top;
   }
 }
 

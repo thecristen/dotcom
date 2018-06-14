@@ -8,8 +8,10 @@
 }
 
 .schedule__route-name {
-  display: inline-block;
   @include icon-size($font-size-h2);
+
+  display: inline-block;
+  margin-bottom: $base-spacing / 2;
   text-transform: uppercase;
 
   [class^=c-svg__icon] {
@@ -511,14 +513,11 @@ a {
     .schedule-route-note,
     .line-map-container,
     .route-hours,
-    .route-map-heading,
     .schedule-route-name,
     .shape-filter,
     .stop-filters,
     .trip-filters,
-    .trip-list,
-
-    .route-stop-heading {
+    .trip-list {
       margin-bottom: $space-4;
     }
 
@@ -538,6 +537,11 @@ a {
       padding: $space-6 $space-12;
     }
   }
+}
+
+.route-stop-heading,
+.route-map-heading {
+  margin-top: 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -710,10 +714,6 @@ a {
 
 .commuter-status {
   @include first-column;
-}
-
-.pdf-schedules-header {
-  padding-bottom: 0;
 }
 
 .schedules-pdf-link {
@@ -1241,15 +1241,6 @@ del .trip-list-realtime {
   margin-top: $base-spacing;
 }
 
-.hours-heading {
-  margin-bottom: 0;
-}
-
-.hours-period-heading {
-  margin-bottom: 0;
-  margin-top: $base-spacing-sm;
-}
-
 .schedule-timetable-trip-message {
   color: $brand-commuter-rail;
   font-weight: bold;
@@ -1298,6 +1289,7 @@ del .trip-list-realtime {
 .schedule__description {
   color: $black;
   display: inline-block;
+  margin-bottom: $base-spacing / 2;
 }
 
 .schedule__header {

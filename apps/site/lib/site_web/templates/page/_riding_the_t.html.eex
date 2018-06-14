@@ -1,7 +1,7 @@
 <div class="riding-the-t page-section">
   <div class="container">
-    <h1>Riding the T</h1>
-    <h2>Common Fares and Passes</h2>
+    <h2>Riding the T</h2>
+    <h3>Common Fares and Passes</h3>
     <%= SiteWeb.FareView.summarize(@common_fare_summaries) %>
     <div class="all-fares-link">
       <%= link to: SiteWeb.Router.Helpers.fare_path(@conn, :index), class: "homepage-link light" do
@@ -11,7 +11,7 @@
       ]
       end %>
     </div>
-    <h2>Plan Your Journey</h2>
+    <h3>Plan Your Journey</h3>
     <div class="row">
       <%= link to: trip_plan_path(@conn, :index), class: "homepage-link light" do %>
         <div class="col-md-3 col-xs-6">
