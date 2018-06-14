@@ -20,6 +20,36 @@ defmodule Routes.ParserTest do
       assert parsed.name == "Silver Line Waterfront"
     end
 
+    test "parses gtfs description into description" do
+      item = %Item{
+        id: "id",
+        attributes: %{
+          "type" => 3,
+          "short_name" => "short",
+          "long_name" => "long",
+          "description" => "Key Bus Route (Frequent Service)",
+          "direction_names" => ["zero", "one"]
+        }
+      }
+      parsed = parse_route(item)
+      assert parsed.description == :key_bus_route
+    end
+
+    test "parses unknown gtfs description into :unknown" do
+      item = %Item{
+        id: "id",
+        attributes: %{
+          "type" => 3,
+          "short_name" => "short",
+          "long_name" => "long",
+          "description" => "Monorail",
+          "direction_names" => ["zero", "one"]
+        }
+      }
+      parsed = parse_route(item)
+      assert parsed.description == :unknown
+    end
+
     test "prefers the short name for bus routes" do
       item = %Item{
         id: "id",

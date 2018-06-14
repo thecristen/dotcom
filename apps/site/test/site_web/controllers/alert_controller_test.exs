@@ -80,11 +80,11 @@ defmodule SiteWeb.AlertControllerTest do
       |> do_create_alert(mode)
     end
 
-    defp get_route(:ferry), do: %Routes.Route{id: "Boat-F4", key_route?: false, name: "Charlestown Ferry", type: 4}
-    defp get_route(:bus), do: %Routes.Route{id: "59", key_route?: false, name: "59", type: 3}
-    defp get_route(mode) when mode in [:subway, :access, :red_line], do: %Routes.Route{id: "Red", key_route?: true,
+    defp get_route(:ferry), do: %Routes.Route{id: "Boat-F4", description: :ferry, name: "Charlestown Ferry", type: 4}
+    defp get_route(:bus), do: %Routes.Route{id: "59", description: :local_bus, name: "59", type: 3}
+    defp get_route(mode) when mode in [:subway, :access, :red_line], do: %Routes.Route{id: "Red", description: :rapid_transit,
                                                                                        name: "Red Line", type: 1}
-    defp get_route(:commuter_rail), do: %Routes.Route{id: "CR-Fitchburg", key_route?: false,
+    defp get_route(:commuter_rail), do: %Routes.Route{id: "CR-Fitchburg", description: :commuter_rail,
                                                       name: "Fitchburg Line", type: 2}
 
     defp do_create_alert(route, mode) do

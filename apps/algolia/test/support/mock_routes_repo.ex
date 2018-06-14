@@ -34,10 +34,10 @@ defmodule Algolia.MockRoutesRepo do
     %{0 => "Terminus 1", 1 => "Terminus 2"}
   end
 
-  def get("HeavyRail"), do: %Routes.Route{id: "HeavyRail", key_route?: true, name: "Heavy Rail", type: 1}
-  def get("LightRail"), do: %Routes.Route{id: "Green-LightRail", key_route?: true, name: "Light Rail", type: 0}
+  def get("HeavyRail"), do: %Routes.Route{id: "HeavyRail", description: :rapid_transit, name: "Heavy Rail", type: 1}
+  def get("LightRail"), do: %Routes.Route{id: "Green-LightRail", description: :rapid_transit, name: "Light Rail", type: 0}
 
   def get("CR-Commuterrail"), do: %Routes.Route{id: "CR-Commuterrail", name: "Commuter Rail Line", type: 2}
   def get("1000"), do: %Routes.Route{id: "1000", name: "1000", type: 3}
-  def get("Boat-1000"), do: %Routes.Route{id: "Boat-1000", key_route?: false, name: "Ferry Route", type: 4}
+  def get("Boat-1000"), do: %Routes.Route{id: "Boat-1000", description: :ferry, name: "Ferry Route", type: 4}
 end

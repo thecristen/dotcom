@@ -10,7 +10,7 @@ defmodule Site.ComponentsTest do
     test "subway buttons render with T logo in a colored circle" do
       blue =
         %ModeButtonList{
-          routes: [%Routes.Route{id: "Blue", key_route?: true, name: "Blue Line", type: 1}],
+          routes: [%Routes.Route{id: "Blue", description: :rapid_transit, name: "Blue Line", type: 1}],
           route_type: :subway,
         }
         |> mode_button_list()
@@ -20,7 +20,7 @@ defmodule Site.ComponentsTest do
 
       mattapan =
         %ModeButtonList{
-          routes: [%Routes.Route{id: "Mattapan", key_route?: true, name: "Mattapan Trolley", type: 1}],
+          routes: [%Routes.Route{id: "Mattapan", description: :rapid_transit, name: "Mattapan Trolley", type: 1}],
           route_type: :subway
         }
         |> mode_button_list()
@@ -32,7 +32,7 @@ defmodule Site.ComponentsTest do
     test "non-subway buttons do not render with color circles" do
       rendered =
         %ModeButtonList{
-          routes: [%Routes.Route{id: "701", key_route?: false, name: "CT1", type: 3}],
+          routes: [%Routes.Route{id: "701", description: :local_bus, name: "CT1", type: 3}],
           route_type: :bus
         }
         |> mode_button_list()
@@ -43,7 +43,7 @@ defmodule Site.ComponentsTest do
 
     test "routes with alerts get rendered with an alert" do
       rendered = mode_button_list(%ModeButtonList{
-        routes: [%Routes.Route{id: "106", key_route?: false, name: "106", type: 3}],
+        routes: [%Routes.Route{id: "106", description: :local_bus, name: "106", type: 3}],
         route_type: :bus,
         alerts: [Alerts.Alert.new(
                   effect: :delay,
@@ -72,7 +72,7 @@ defmodule Site.ComponentsTest do
 
     test "green line alerts are rendered with an alert icon" do
       rendered = mode_button_list(%ModeButtonList{
-        routes: [%Routes.Route{id: "Green", key_route?: false, name: "Green", type: 1}],
+        routes: [%Routes.Route{id: "Green", description: :rapid_transit, name: "Green", type: 1}],
         route_type: :bus,
         alerts: [Alerts.Alert.new(
                   effect: :delay,
@@ -85,7 +85,7 @@ defmodule Site.ComponentsTest do
 
     test "routes with notices but no alerts do not get rendered with an alert" do
       rendered = mode_button_list(%ModeButtonList{
-        routes: [%Routes.Route{id: "CR-Haverhill", key_route?: false, name: "Haverhill Line", type: 2}],
+        routes: [%Routes.Route{id: "CR-Haverhill", description: :commuter_rail, name: "Haverhill Line", type: 2}],
         alerts: [Alerts.Alert.new(
                   effect: :track_change,
                   informed_entity: [%Alerts.InformedEntity{route: "CR-Haverhill", route_type: 2}]

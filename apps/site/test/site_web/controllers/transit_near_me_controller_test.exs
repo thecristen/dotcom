@@ -6,17 +6,17 @@ defmodule SiteWeb.TransitNearMeControllerTest do
   @stop_with_routes %{
     distance: 0.52934802,
     routes: [
-     orange_line: [%Routes.Route{id: "Orange", key_route?: true, name: "Orange Line", type: 1}],
+     orange_line: [%Routes.Route{id: "Orange", description: :rapid_transit, name: "Orange Line", type: 1}],
      commuter_rail: [
-       %Route{id: "CR-Worcester", key_route?: false, name: "Framingham/Worcester Line", type: 2},
-       %Route{id: "CR-Franklin", key_route?: false, name: "Franklin Line", type: 2},
-       %Route{id: "CR-Needham", key_route?: false, name: "Needham Line", type: 2},
-       %Route{id: "CR-Providence", key_route?: false, name: "Providence/Stoughton Line", type: 2}
+       %Route{id: "CR-Worcester", description: :commuter_rail, name: "Framingham/Worcester Line", type: 2},
+       %Route{id: "CR-Franklin", description: :commuter_rail, name: "Franklin Line", type: 2},
+       %Route{id: "CR-Needham", description: :commuter_rail, name: "Needham Line", type: 2},
+       %Route{id: "CR-Providence", description: :commuter_rail, name: "Providence/Stoughton Line", type: 2}
       ],
       bus: [
-        %Route{id: "10", key_route?: false, name: "10", type: 3},
-        %Route{id: "39", key_route?: true, name: "39", type: 3},
-        %Route{id: "170", key_route?: false, name: "170", type: 3}
+        %Route{id: "10", description: :local_bus, name: "10", type: 3},
+        %Route{id: "39", description: :key_bus_route, name: "39", type: 3},
+        %Route{id: "170", description: :limited_service, name: "170", type: 3}
       ]
     ],
     stop: %Stops.Stop{

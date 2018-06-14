@@ -125,9 +125,9 @@ defmodule Routes.RouteTest do
   end
 
   describe "key_route?" do
-    test "extracts the :key_route? boolean" do
-      assert key_route?(%Route{key_route?: true})
-      refute key_route?(%Route{key_route?: false})
+    test "true if rapid transit or key bus route" do
+      assert key_route?(%Route{description: :key_bus_route})
+      assert key_route?(%Route{description: :rapid_transit})
     end
   end
 

@@ -174,7 +174,7 @@ defmodule SiteWeb.StopViewTest do
   describe "info_tab_name/1" do
     test "is stop info when given a bus line" do
       grouped_routes = [bus: [%Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
-        id: "742", key_route?: true, name: "SL2", type: 3}]]
+        id: "742", description: :rapid_transit, name: "SL2", type: 3}]]
 
       assert info_tab_name(grouped_routes) == "Stop Info"
     end
@@ -182,9 +182,9 @@ defmodule SiteWeb.StopViewTest do
     test "is station info when given any other line" do
       grouped_routes = [
         bus: [%Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
-          id: "742", key_route?: true, name: "SL2", type: 3}],
+          id: "742", description: :rapid_transit, name: "SL2", type: 3}],
         subway: [%Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
-          id: "Red", key_route?: true, name: "Red", type: 1}]
+          id: "Red", description: :rapid_transit, name: "Red", type: 1}]
       ]
 
       assert info_tab_name(grouped_routes) == "Station Info"

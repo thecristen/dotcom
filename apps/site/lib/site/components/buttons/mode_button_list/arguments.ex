@@ -14,8 +14,8 @@ defmodule Site.Components.Buttons.ModeButtonList do
             id:        nil,
             conn:      SiteWeb.Endpoint,  # not a conn, but works in the link helpers
             routes:    [
-              %Routes.Route{id: "CR-Fitchburg", key_route?: false, name: "Fitchburg Line", type: 2},
-              %Routes.Route{id: "CR-Worcester", key_route?: false, name: "Framingham/Worcester Line", type: 2}
+              %Routes.Route{id: "CR-Fitchburg", name: "Fitchburg Line", type: 2},
+              %Routes.Route{id: "CR-Worcester", name: "Framingham/Worcester Line", type: 2}
             ],
             route_type: :commuter_rail,
             alerts:    [],

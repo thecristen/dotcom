@@ -12,7 +12,7 @@ defmodule Routes.RepoTest do
         type: 1,
         name: "Red Line",
         direction_names: %{0 => "Southbound", 1 => "Northbound"},
-        key_route?: true
+        description: :rapid_transit
       }
     end
 
@@ -24,7 +24,7 @@ defmodule Routes.RepoTest do
         type: 0,
         name: "Green Line B",
         direction_names: %{0 => "Westbound", 1 => "Eastbound"},
-        key_route?: true
+        description: :rapid_transit
       }
     end
 
@@ -35,7 +35,7 @@ defmodule Routes.RepoTest do
         id: "741",
         type: 3,
         name: "SL1",
-        key_route?: true
+        description: :rapid_transit
       }
     end
 
@@ -46,7 +46,7 @@ defmodule Routes.RepoTest do
         id: "23",
         type: 3,
         name: "23",
-        key_route?: true
+        description: :key_bus_route
       }
     end
 
@@ -89,9 +89,9 @@ defmodule Routes.RepoTest do
   end
 
   test "key bus routes are tagged" do
-    assert %Routes.Route{key_route?: true} = Routes.Repo.get("1")
-    assert %Routes.Route{key_route?: true} = Routes.Repo.get("741")
-    assert %Routes.Route{key_route?: false} = Routes.Repo.get("47")
+    assert %Routes.Route{description: :key_bus_route} = Routes.Repo.get("1")
+    assert %Routes.Route{description: :rapid_transit} = Routes.Repo.get("741")
+    assert %Routes.Route{description: :local_bus} = Routes.Repo.get("47")
   end
 
   describe "headsigns/1" do

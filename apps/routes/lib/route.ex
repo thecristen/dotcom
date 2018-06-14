@@ -4,7 +4,7 @@ defmodule Routes.Route do
     type: 0,
     name: "",
     direction_names: %{0 => "Outbound", 1 => "Inbound"},
-    key_route?: false
+    description: :unknown,
   ]
   @type id_t :: String.t
   @type t :: %__MODULE__{
@@ -12,9 +12,18 @@ defmodule Routes.Route do
     type: 0..4,
     name: String.t,
     direction_names: %{0 => String.t, 1 => String.t},
-    key_route?: boolean
+    description: gtfs_route_desc,
   }
   @type gtfs_route_type :: :subway | :commuter_rail | :bus | :ferry
+  @type gtfs_route_desc :: :airport_shuttle |
+                           :commuter_rail |
+                           :rapid_transit |
+                           :local_bus |
+                           :key_bus_route |
+                           :limited_service |
+                           :ferry |
+                           :rail_replacement_bus |
+                           :unknown
   @type route_type :: gtfs_route_type | :the_ride
   @type type_int :: 0..4
   @type subway_lines_type :: :orange_line | :red_line | :green_line | :blue_line | :mattapan_line
@@ -139,9 +148,9 @@ defmodule Routes.Route do
   def vehicle_atom(_), do: :train
 
   @spec key_route?(t) :: boolean
-  def key_route?(%__MODULE__{key_route?: key_route?}) do
-    key_route?
-  end
+  def key_route?(%__MODULE__{description: :key_bus_route}), do: true
+  def key_route?(%__MODULE__{description: :rapid_transit}), do: true
+  def key_route?(%__MODULE__{}), do: false
 
   defmacro subway?(type, id) do
     quote do
