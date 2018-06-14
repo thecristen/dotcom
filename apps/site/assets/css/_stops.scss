@@ -260,8 +260,6 @@
 }
 
 .station__header-description {
-  @include h6();
-
   border-radius: $base-spacing * 3;
   color: $white;
   flex: 0 0 auto;

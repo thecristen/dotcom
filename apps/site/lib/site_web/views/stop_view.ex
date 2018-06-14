@@ -343,7 +343,7 @@ defmodule SiteWeb.StopView do
     []
   end
   defp render_header_mode_name(%Route{} = route, text) do
-    [content_tag(:span, text, class: "station__header-description #{header_mode_bg_class(route)}")]
+    [content_tag(:span, text, class: "h6 station__header-description #{header_mode_bg_class(route)}")]
   end
 
   @spec render_cr_zone(Route.gtfs_route_type, integer | nil) :: [Phoenix.HTML.Safe.t]
