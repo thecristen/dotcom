@@ -30,3 +30,9 @@
 .m-schedule-line__connection-name {
   margin-left: $base-spacing / 2;
 }
+
+.m-schedule-line__map-static {
+  @include media-breakpoint-up(lg) {
+    height: 600px;
+  }
+}

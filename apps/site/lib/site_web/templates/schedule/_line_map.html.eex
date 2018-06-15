@@ -1,4 +1,6 @@
-<div class="line-map map">
+<div class="line-map map hidden-no-js">
   <script class="map-dynamic-data" type="text/plain"><%= @encoded_data %></script>
-  <div class="map-static" style="background-image:url(<%= @map_img_src %>);"></div>
+</div>
+<div class="line-map map m-schedule-line__map-static hidden-js">
+  <img class="map-static map-static-img" srcset="<%= @map_img_src %>"></img>
 </div>
