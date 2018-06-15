@@ -9,7 +9,7 @@ defmodule Predictions.ParserTest do
     test "parses a %JsonApi.Item{} into a record" do
       item = %Item{
         attributes: %{
-          "track" => nil,
+          "track" => "5",
           "status" => "On Time",
           "direction_id" => 0,
           "departure_time" => "2016-09-15T15:40:00-04:00",
@@ -45,7 +45,7 @@ defmodule Predictions.ParserTest do
         ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
         5,
         nil,
-        nil,
+        "5",
         "On Time",
         true
       }
@@ -91,7 +91,7 @@ defmodule Predictions.ParserTest do
     test "can parse a prediction with no times" do
       item = %Item{
         attributes: %{
-          "track" => nil,
+          "track" => "5",
           "status" => "On Time",
           "direction_id" => 0,
           "departure_time" => nil,
@@ -121,6 +121,39 @@ defmodule Predictions.ParserTest do
 
       assert elem(parsed, 5) == nil
       refute elem(parsed, 10)
+    end
+
+    test "can parse a prediction where the track is part of the stop" do
+      item = %Item{
+        attributes: %{
+          "status" => "On Time",
+          "direction_id" => 0,
+          "departure_time" => "2018-06-15T12:00:00-04:00",
+          "arrival_time" => nil,
+        },
+        relationships: %{
+          "route" => [%Item{id: "route_id", attributes: %{
+                               "long_name" => "Route",
+                               "direction_names" => ["Eastbound", "Westbound"],
+                               "type" => 5
+                            }},
+                      %Item{id: "wrong"}],
+          "stop" => [%Item{id: "South Station-11", attributes: %{"platform_code" => "11"}}],
+          "trip" => [%Item{id: "trip_id", attributes: %{
+                              "name" => "trip_name",
+                              "direction_id" => "0",
+                              "headsign" => "trip_headsign"
+                           }},
+                     %Item{id: "wrong", attributes: %{
+                              "name" => "trip_name",
+                              "direction_id" => "0",
+                              "headsign" => "trip_headsign"
+                           }}]
+        }
+      }
+      parsed = parse(item)
+
+      assert elem(parsed, 8) == "11"
     end
 
     test "can parse possible schedule relationships" do

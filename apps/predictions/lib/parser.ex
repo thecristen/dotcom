@@ -26,7 +26,7 @@ defmodule Predictions.Parser do
       [attributes["departure_time"], attributes["arrival_time"]] |> first_time,
       attributes["stop_sequence"] || 0,
       schedule_relationship(attributes["schedule_relationship"]),
-      attributes["track"],
+      track(item),
       attributes["status"],
       departing?(attributes)
     }
@@ -41,6 +41,11 @@ defmodule Predictions.Parser do
       _ -> nil
     end
   end
+
+  @spec track(JsonApi.Item.t) :: String.t | nil
+  defp track(%{attributes: %{"track" => track}}), do: track
+  defp track(%{relationships: %{"stop" => [%{attributes: %{"platform_code" => track}} | _]}}), do: track
+  defp track(_), do: nil
 
   defp departing?(%{"departure_time" => binary}) when is_binary(binary) do
     true
