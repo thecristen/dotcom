@@ -172,11 +172,11 @@ defmodule Stops.Api do
       spots: [
         %Stops.Stop.Parking {
           type: "Parking",
-          spots: Map.get(props, "capacity"),
+          spots: Map.get(props, "capacity", 0),
         },
         %Stops.Stop.Parking {
           type: "Accessible",
-          spots: Map.get(props, "capacity-accessible"),
+          spots: Map.get(props, "capacity-accessible", 0),
         },
       ],
       rate: Map.get(props, "fee-daily"),
