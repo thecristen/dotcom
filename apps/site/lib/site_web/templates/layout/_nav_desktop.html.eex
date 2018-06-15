@@ -10,18 +10,14 @@
             |> String.replace(" ", "_")
 
             link([
-              content_tag(:div, [class: "nav-link-content"], do: [
-                content_tag(:span, ["#{name} "], class: "nav-link-name"),
-                content_tag(:span, [
-                  fa("angle-down", class: "down"),
-                  fa("angle-up", class: "up")
-                ], class: "nav-link-arrows")
+              content_tag(:div, [class: "nav-link-content js-header-link__content"], do: [
+                content_tag(:span, ["#{name} "], class: "nav-link-name")
               ])
             ], to: href,
-               class: "desktop-nav-link navbar-toggle collapsed toggle-up-down",
-               data: [toggle: "collapse", parent: "#desktop-menu", target: "#" <> id],
+               class: "desktop-nav-link js-header-link collapsed",
+               data: [parent: "#desktop-menu", target: "#" <> id],
                role: "tab",
-               aria: [expanded: "false", controls: id])
+               aria: [controls: id])
         %>
         <div class="desktop-menu">
           <div class="desktop-menu-background-image">

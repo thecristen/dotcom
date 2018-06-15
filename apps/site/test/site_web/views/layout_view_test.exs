@@ -42,12 +42,10 @@ defmodule SiteWeb.LayoutViewTest do
 
         assert [{"div", _, drawer_content}] = Floki.find(drawers, id)
         assert [{"a", link_attrs, _link_content}] = Floki.find(drawers, ".desktop-nav-link[href=\"#{href}\"]")
-        assert [controls, expanded, _class, parent, target, toggle, _href, role] = link_attrs
+        assert [controls, _class, parent, target, _href, role] = link_attrs
 
         assert controls == {"aria-controls", camelized}
-        assert expanded == {"aria-expanded", "false"}
         assert parent == {"data-parent", "#desktop-menu"}
-        assert toggle == {"data-toggle", "collapse"}
         assert target == {"data-target", id}
         assert role == {"role", "tab"}
 
