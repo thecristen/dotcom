@@ -42,26 +42,6 @@ defmodule SiteWeb.FareControllerTest do
       assert response =~ "Find Your Fare"
     end
 
-    test "renders bus/subway", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, "bus-subway")
-      assert html_response(conn, 200) =~ "Bus and Subway Fares"
-    end
-
-    test "lists vending machine stations on bus/subway page", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, "bus-subway")
-
-      for station <- ["place-north", "place-sstat", "place-bbsta", "place-portr", "place-mlmnl", "Lynn", "Worcester", "place-rugg", "place-forhl", "place-jfk", "place-qnctr", "place-brntn"] do
-        assert html_response(conn, 200) =~ station
-      end
-    end
-
-    test "lists charliecard stations on bus/subway page", %{conn: conn} do
-      for station <- ["place-alfcl", "place-armnl", "place-asmnl", "place-bbsta", "64000", "place-forhl", "place-harsq", "place-north", "place-ogmnl", "place-pktrm", "place-rugg"] do
-      conn = get conn, fare_path(conn, :show, "bus-subway")
-        assert html_response(conn, 200) =~ station
-      end
-    end
-
     test "renders a page about retail sale locations", %{conn: conn} do
       conn = get conn, fare_path(conn, :show, "retail-sales-locations")
       assert html_response(conn, 200) =~ "Retail Sales Locations"

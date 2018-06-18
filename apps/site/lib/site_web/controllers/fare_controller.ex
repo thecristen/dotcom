@@ -1,7 +1,6 @@
-defmodule SiteWeb.FareController do
-  use SiteWeb, :controller
+defmodule SiteWeb.FareController do use SiteWeb, :controller
 
-  alias SiteWeb.FareController.{Commuter, BusSubway, Ferry, Filter}
+  alias SiteWeb.FareController.{Commuter, Ferry, Filter}
   alias Fares.{Format, Repo, RetailLocations}
 
   @options %{
@@ -54,9 +53,6 @@ defmodule SiteWeb.FareController do
   end
   def show(conn, %{"id" => "ferry"}) do
     render_fare_module(Ferry, conn)
-  end
-  def show(conn, %{"id" => "bus-subway"}) do
-    render_fare_module(BusSubway, conn)
   end
   def show(conn, _) do
     check_cms_or_404(conn)

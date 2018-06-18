@@ -51,7 +51,6 @@ defmodule SiteWeb.Router do
 
     # redirect underscored urls to hyphenated version
     get "/alerts/commuter_rail", Redirector, to: "/alerts/commuter-rail"
-    get "/fares/bus_subway", Redirector, to: "/fares/bus-subway"
     get "/fares/charlie_card", Redirector, to: "/fares/charliecard"
     get "/fares/charlie-card", Redirector, to: "/fares/charliecard"
     get "/fares/commuter_rail", Redirector, to: "/fares/commuter-rail"

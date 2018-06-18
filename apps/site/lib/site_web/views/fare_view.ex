@@ -58,19 +58,24 @@ defmodule SiteWeb.FareView do
   @spec summary_url(Summary.t) :: String.t
   def summary_url(%Summary{url: url}) when not is_nil(url), do: url
   def summary_url(%Summary{modes: [subway_or_bus | _], duration: duration}) when subway_or_bus in [:subway, :bus] do
-    opts = if duration in ~w(day week month)a do
-      [filter: "passes"]
-    else
-      []
+    anchor = cond do
+      duration in ~w(day week)a -> "#7-day"
+      duration in ~w(month)a -> "#monthly"
+      true -> ""
     end
-    do_summary_url(:bus_subway, opts)
+    do_summary_url(subway_or_bus, anchor)
   end
   def summary_url(%Summary{modes: [mode | _]}) do
     do_summary_url(mode)
   end
 
-  defp do_summary_url(name, opts \\ []) do
-    fare_path(SiteWeb.Endpoint, :show, SiteWeb.StaticPage.convert_path(name), opts)
+  @spec do_summary_url(atom, String.t) :: String.t
+  defp do_summary_url(name, anchor \\ "")
+  defp do_summary_url(subway_or_bus, anchor) when subway_or_bus in [:subway, :bus] do
+    fare_path(SiteWeb.Endpoint, :show, SiteWeb.StaticPage.convert_path(subway_or_bus) <> "-fares") <> anchor
+  end
+  defp do_summary_url(name, _anchor) do
+    fare_path(SiteWeb.Endpoint, :show, SiteWeb.StaticPage.convert_path(name))
   end
 
   @spec callout(Fare.t) :: String.t | iolist

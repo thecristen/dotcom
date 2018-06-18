@@ -35,15 +35,17 @@ defmodule SiteWeb.FareViewTest do
   end
 
   describe "summary_url/1" do
-    test "links to bus-subway for bus/subway summaries" do
-      expected = SiteWeb.Router.Helpers.fare_path(SiteWeb.Endpoint, :show, "bus-subway")
+    test "links to :mode-fares for bus/subway summaries" do
+      expected = SiteWeb.Router.Helpers.fare_path(SiteWeb.Endpoint, :show, "bus-fares")
       assert summary_url(%Summary{modes: [:bus]}) == expected
-      assert summary_url(%Summary{modes: [:subway, :commuter_rail]}) == expected
+      expected = SiteWeb.Router.Helpers.fare_path(SiteWeb.Endpoint, :show, "subway-fares")
+      assert summary_url(%Summary{modes: [:subway]}) == expected
     end
 
-    test "if the summary has a duration, link to the passes filter" do
-      expected = SiteWeb.Router.Helpers.fare_path(SiteWeb.Endpoint, :show, "bus-subway", filter: "passes")
-      assert summary_url(%Summary{modes: [:bus], duration: :week}) == expected
+    test "if the summary has a duration, link to the correct anchor" do
+      expected = SiteWeb.Router.Helpers.fare_path(SiteWeb.Endpoint, :show, "subway-fares")
+      assert summary_url(%Summary{modes: [:subway, :bus], duration: :week}) == expected <> "#7-day"
+      assert summary_url(%Summary{modes: [:subway, :bus], duration: :month}) == expected <> "#monthly"
     end
 
     test "links directly for commuter rail/ferry" do

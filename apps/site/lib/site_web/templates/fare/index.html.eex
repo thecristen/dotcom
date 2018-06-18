@@ -24,7 +24,6 @@
     </p>
     <ul>
     <li><a href="#where_to_buy">Where to Buy Tickets and Passes</a></li>
-    <li><a href="#paying_your_fare">Paying Your Fare</a></li>
     <li><a href="#online_services">Online CharlieCard Services</a></li>
     <li><a href="#pass_programs">Pass Programs</a></li>
     </ul>
@@ -35,16 +34,27 @@
       Bus and subway fares are flat fees. The most common fares are:
     </p>
     <%= SiteWeb.FareView.summarize @bus_subway %>
-    <p>
-      <%= link to: fare_path(@conn, :show, "bus-subway") do %>
-        View all Bus and Subway fares <span class="no-wrap"><%= fa "arrow-right" %></span>
-      <% end %>
-    </p>
+    <div class="row">
+      <div class="col-md-6">
+        <p>
+          <%= link to: fare_path(@conn, :show, "subway-fares") do %>
+            View all subway fares <span class="no-wrap"><%= fa "arrow-right" %></span>
+          <% end %>
+        </p>
+      </div>
+      <div class="col-md-6">
+        <p>
+          <%= link to: fare_path(@conn, :show, "bus-fares") do %>
+            View all bus fares <span class="no-wrap"><%= fa "arrow-right" %></span>
+          <% end %>
+        </p>
+      </div>
+    </div>
   </div>
   <div>
     <h2 id="commuter_rail_ferry_overview">Commuter Rail and Ferry Fares</h2>
     <p>
-      Commuter Rail and ferry fares depend on how far you travel. 
+      Commuter Rail and ferry fares depend on how far you travel.
     </p>
     <p>
       The ranges for a standard one-way ticket on the Commuter Rail and ferry are:
@@ -140,17 +150,6 @@
     <p>
       <%= link to: cms_static_page_path(@conn, "/fares/where-to-buy") do %>
         Find out where to buy <span class="no-wrap"><%= fa "arrow-right" %></span>
-      <% end %>
-    </p>
-  </div>
-  <div>
-    <h2 id="paying_your_fare">Paying Your Fare</h2>
-    <p>
-      If you’re new to Boston, use our step-by-step guides to learn how to pay your fare on the subway, bus, Commuter Rail, and ferry.
-    </p>
-    <p>
-      <%= link to: cms_static_page_path(@conn, "/fares/how-to-pay") do %>
-        Find out how to pay your fare <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %>
     </p>
   </div>
