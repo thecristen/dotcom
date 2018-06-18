@@ -12,15 +12,7 @@ describe("AlgoliaWithGeo", function() {
   });
 
   beforeEach(function() {
-    window.algoliaConfig = {
-      app_id: process.env.ALGOLIA_APP_ID,
-      search: process.env.ALGOLIA_SEARCH_KEY,
-      places: {
-        app_id: process.env.ALGOLIA_PLACES_APP_ID,
-        search: process.env.ALGOLIA_PLACES_SEARCH_KEY
-      }
-    }
-
+    window.jQuery = jsdom.rerequire("jquery");
     this.algoliaWithGeo = new AlgoliaWithGeo({
       stops: {
         indexName: "stops"
@@ -36,14 +28,14 @@ describe("AlgoliaWithGeo", function() {
       this.algoliaWithGeo.updateWidgets = function(results) {
         assert.equal(gmsStub.getCall(0).args[0], "query");
         assert.deepEqual(results, {
-          index: "foo",
+          results: [],
           locations: "loc"
         });
         done();
       };
       sinon.stub(this.algoliaWithGeo, "_processAlgoliaResults").returnsArg(0);
-      sinon.stub(this.algoliaWithGeo._client, "search").resolves({ index: "foo" } );
-      this.algoliaWithGeo.search({query: "query"});
+      sinon.stub(this.algoliaWithGeo, "_sendQueries").resolves({"results": []});
+      this.algoliaWithGeo.search({indexName: "index", query: "query", params: {}});
     });
   });
 });

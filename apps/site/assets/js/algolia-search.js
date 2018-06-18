@@ -10,23 +10,6 @@ export class Algolia {
     this._doBlankSearch = true;
     this._widgets = [];
     this.reset();
-    this._config = window.algoliaConfig;
-    this._client = null;
-
-    if (this._config &&
-        this._config.app_id &&
-        this._config.search &&
-        this._config.places &&
-        this._config.places.app_id &&
-        this._config.places.search) {
-      this._client = algoliasearch(this._config.app_id, this._config.search);
-    } else {
-      console.error("missing algolia keys", this.config);
-    }
-  }
-
-  get client() {
-    return this._client;
   }
 
   get widgets() {
@@ -73,13 +56,45 @@ export class Algolia {
   }
 
   _doSearch(allQueries) {
-    return this._client.search(allQueries)
+    return this._sendQueries(allQueries)
                .then(this._processAlgoliaResults())
                .then(results => {
                  this.updateWidgets(results)
                  return results;
                })
                .catch(err => console.log(err));
+  }
+
+  _sendQueries(queries) {
+    const body = {requests: queries.map(query => this._encodeQuery(query))}
+    return new Promise((resolve, reject) => {
+      window.jQuery.ajax({
+        type: "POST",
+        url: "/search/query",
+        data: JSON.stringify(body),
+        dataType: "json",
+        contentType: "application/json"
+      })
+      .done(resolve)
+      .fail(reject)
+    });
+  }
+
+  _encodeQuery(query) {
+    return {
+      indexName: query.indexName,
+      params: this._paramsToString(query.params, "query=" + window.encodeURIComponent(query.query))
+    }
+  }
+
+  _paramsToString(params, str) {
+    for (var key in params) {
+      if (key !== null && params[key] !== undefined && params.hasOwnProperty(key)) {
+        str += str === '' ? '' : '&';
+        str += key + '=' + encodeURIComponent(Object.prototype.toString.call(params[key]) === '[object Array]' ? JSON.stringify(params[key]) : params[key]);
+      }
+    }
+    return str;
   }
 
   _buildAllQueries(opts) {

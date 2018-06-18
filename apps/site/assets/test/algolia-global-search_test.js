@@ -12,14 +12,6 @@ describe("AlgoliaGlobalSearch", function() {
   });
 
   beforeEach(function() {
-    window.algoliaConfig = {
-      app_id: process.env.ALGOLIA_APP_ID,
-      search: process.env.ALGOLIA_SEARCH_KEY,
-      places: {
-        app_id: process.env.ALGOLIA_PLACES_APP_ID,
-        search: process.env.ALGOLIA_PLACES_SEARCH_KEY
-      }
-    }
     window.jQuery = jsdom.rerequire("jquery");
     document.body.innerHTML = "";
     Object.keys(AlgoliaGlobalSearch.SELECTORS).forEach(key => {
@@ -75,6 +67,7 @@ describe("AlgoliaGlobalSearch", function() {
       const globalSearch = new AlgoliaGlobalSearch();
       globalSearch.init();
       globalSearch.container.value = "foo";
+      globalSearch.controller.search = sinon.spy();
       globalSearch.onKeyup(null);
       expect(window.history.replaceState.called).to.be.true;
       expect(window.history.replaceState.args[0][2]).to.contain("query=foo");

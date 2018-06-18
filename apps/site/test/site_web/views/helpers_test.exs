@@ -274,21 +274,6 @@ defmodule SiteWeb.ViewHelpersTest do
     end
   end
 
-  describe "algolia_config/0" do
-    test "removes admin key and encodes" do
-      assert %Algolia.Config{
-        app_id: <<app_id::binary>>,
-        admin: <<admin::binary>>
-      } = Algolia.Config.config()
-      assert String.length(app_id) > 0
-      assert String.length(admin) > 0
-      assert {:safe, config} = algolia_config()
-      assert {:ok, config} = Poison.decode(config, keys: :atoms!)
-      assert config.app_id == app_id
-      assert config.admin == nil
-    end
-  end
-
   test "mode_icon/2" do
     for type <- [:subway, :commuter_rail, :bus, :ferry, :trolley],
         size <- [:default, :small] do

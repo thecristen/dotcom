@@ -13,6 +13,38 @@ defmodule SiteWeb.SearchControllerTest do
     end
   end
 
+  describe "query" do
+    @tag :capture_log
+    test "sends a POST to Algolia and returns the results", %{conn: conn} do
+      bypass = Bypass.open()
+
+      Bypass.expect(bypass, fn conn ->
+        {status, resp} = case Plug.Conn.read_body(conn) do
+          {:ok, ~s({"requests":[]}), %Plug.Conn{}} -> {200, ~s({"results": []})}
+          {:ok, body, %Plug.Conn{}} -> {500, body}
+        end
+        Plug.Conn.send_resp(conn, status, resp)
+      end)
+
+      assert %{"results" => []} =
+        conn
+        |> assign(:algolia_host, "http://localhost:#{bypass.port}")
+        |> post(search_path(conn, :query), %{requests: []})
+        |> json_response(200)
+    end
+
+    @tag :capture_log
+    test "returns {error: bad_response} if algolia returns a bad response", %{conn: conn} do
+      bypass = Bypass.open()
+      Bypass.down(bypass)
+
+      assert conn
+             |> assign(:algolia_host, "http://localhost:#{bypass.port}")
+             |> post(search_path(conn, :query), %{requests: []})
+             |> json_response(200) == %{"error" => "bad_response"}
+    end
+  end
+
   describe "click" do
     test "logs a click", %{conn: conn} do
       bypass = Bypass.open()

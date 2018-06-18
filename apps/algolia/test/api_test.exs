@@ -1,47 +1,31 @@
 defmodule Algolia.ApiTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
-  describe "&update/0" do
-    test "sends a request to the Algolia api" do
+  @request ~s({"requests" : [{"indexName" : "index"}]})
+  @success_response ~s({"message" : "success"})
+
+  describe "post" do
+    test "sends a post request to /1/indexes/$INDEX/$ACTION" do
       bypass = Bypass.open()
-
-      proc = self()
-
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, "POST", "/1/indexes/*/queries", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
-        send proc, {conn.request_path, conn.req_headers, body}
-        Plug.Conn.send_resp(conn, 200, "ok")
-      end
+        case Poison.decode(body) do
+          {:ok, %{"requests" => [%{"indexName" => "index_test"}]}} ->
+            Plug.Conn.send_resp(conn, 200, @success_response)
+          _ ->
+            Plug.Conn.send_resp(conn, 400, ~s({"error" : "bad request"}))
+        end
+      end)
 
-      assert %{Algolia.MockObjects => result} =
-        Algolia.Api.update("http://localhost:#{bypass.port}")
-      assert result == :ok
-      assert_receive {"/1/indexes/objects/batch", headers, body}
-
-      for header <- ["x-algolia-api-key", "x-algolia-application-id"] do
-        assert {^header, val} = Enum.find(headers, & elem(&1, 0) == header)
-        assert is_binary(val)
-      end
-
-      assert {:ok, %{requests: [%{action: "addObject", body: obj}]}} = Poison.decode(body, keys: :atoms!)
-      assert obj == %{
-        data: %{id: "test"},
-        url: "/object/test",
-        objectID: "object-test",
-        rank: 1
+      opts = %Algolia.Api{
+        host: "http://localhost:#{bypass.port}",
+        index: "*",
+        action: "queries",
+        body: @request
       }
-    end
-  end
 
-  describe "&build_data_object/1" do
-    test "builds a valid Algolia data object" do
-      mock = %Algolia.MockObject{id: "place-test"}
-      object = Algolia.Api.build_data_object(mock)
-
-      assert object.action == "addObject"
-      assert Map.keys(object.body) == [:data, :objectID, :rank, :url]
-      assert object.body.objectID == Algolia.Object.object_id(mock)
-      assert object.body.url == Algolia.Object.url(mock)
+      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} = Algolia.Api.post(opts)
+      assert body == @success_response
     end
   end
 end

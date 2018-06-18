@@ -366,10 +366,4 @@ defmodule SiteWeb.ViewHelpers do
       Timex.format!(date, format)
     end
   end
-
-  @spec algolia_config :: Phoenix.HTML.Safe.t
-  def algolia_config do
-    {:ok, config} = Poison.encode(%{Algolia.Config.config() | admin: nil})
-    raw(config)
-  end
 end

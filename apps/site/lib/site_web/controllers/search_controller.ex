@@ -1,5 +1,6 @@
 defmodule SiteWeb.SearchController do
   use SiteWeb, :controller
+  require Logger
   import Site.ResponsivePagination, only: [build: 1]
   import SiteWeb.Router.Helpers, only: [search_path: 2]
   alias Plug.Conn
@@ -35,6 +36,27 @@ defmodule SiteWeb.SearchController do
     |> assign_js
     |> assign(:empty_query, true)
     |> render("index.html")
+  end
+
+  @spec query(Conn.t, Keyword.t) :: Conn.t
+  def query(%Conn{} = conn, params) do
+    %Algolia.Api{
+      host: conn.assigns[:algolia_host],
+      index: "*",
+      action: "queries",
+      body: Poison.encode!(params)
+    }
+    |> Algolia.Api.post()
+    |> do_query(conn)
+  end
+
+  defp do_query({:ok, %HTTPoison.Response{status_code: 200, body: body}}, conn) do
+    {:ok, json} = Poison.decode(body)
+    json(conn, json)
+  end
+  defp do_query(response, conn) do
+    _ = Logger.warn("Received bad response from Algolia: #{inspect response}")
+    json(conn, %{error: "bad_response"})
   end
 
   @spec click(Conn.t, map) :: Conn.t

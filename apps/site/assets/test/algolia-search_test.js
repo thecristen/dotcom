@@ -7,14 +7,13 @@ describe("Algolia", function() {
   jsdom();
 
   beforeEach(function() {
-    window.algoliaConfig = {
-      app_id: process.env.ALGOLIA_APP_ID,
-      search: process.env.ALGOLIA_SEARCH_KEY,
-      places: {
-        app_id: process.env.ALGOLIA_PLACES_APP_ID,
-        search: process.env.ALGOLIA_PLACES_SEARCH_KEY
-      }
-    }
+    window.encodeURIComponent = (str) => {
+      return str.replace(/\s/g, "%20")
+                .replace(/\[/g, "%5B")
+                .replace(/\]/g, "%5D")
+                .replace(/\,/g, "%2C")
+    };
+    window.jQuery = jsdom.rerequire("jquery");
     this.mockClient = {
       search: sinon.stub().resolves([])
     }
@@ -31,20 +30,7 @@ describe("Algolia", function() {
 
   describe("constructor", function() {
     it("builds an Algolia object", function() {
-      expect(window.algoliaConfig.app_id).to.be.a("string");
-      expect(window.algoliaConfig.search).to.be.a("string");
-      expect(this.algolia._config).to.eq(window.algoliaConfig);
-      expect(this.algolia._client.applicationID).to.equal(window.algoliaConfig.app_id);
-    });
-
-    it("does not initalize client if config is invalid", function() {
-      window.algoliaConfig = {
-        app_id: null
-      }
-      sinon.stub(console, "error")
-      const algolia = new Algolia({stops: {indexName:"stops"}}, {stops: {foo: "bar"}});
-      expect(algolia._client).to.equal(null);
-      console.error.restore()
+      expect(this.algolia).to.be.an.instanceOf(Algolia);
     });
   });
 
@@ -81,7 +67,6 @@ describe("Algolia", function() {
 
   describe("Algolia.search", function() {
     it("performs a search", function() {
-      this.algolia._client = this.mockClient;
       this.algolia._doSearch = sinon.spy();
       this.algolia.search({query: "query"});
       expect(this.algolia._doSearch.called).to.be.true;
@@ -94,21 +79,19 @@ describe("Algolia", function() {
     });
 
     it("returns a promise", function() {
-      this.algolia._client = this.mockClient;
+      this.algolia._sendQueries = sinon.stub().resolves({"results": []})
       sinon.stub(this.algolia, "_processAlgoliaResults").resolves({});
       const returned = this.algolia.search({query: "query"});
       expect(returned).to.be.an.instanceOf(Promise)
     });
 
     it("updates the search query if search is called with arguments", function() {
-      this.algolia._client = this.mockClient;
       this.algolia._doSearch = sinon.spy();
       this.algolia.search({query: "search string"});
       expect(this.algolia._doSearch.args[0][0][0]["query"]).to.equal("search string");
     });
 
     it("uses a previous query if search is called with no arguments", function() {
-      this.algolia._client = this.mockClient;
       this.algolia._doSearch = sinon.spy();
       this.algolia.search({query: "previous query"});
       this.algolia.search();
@@ -116,7 +99,6 @@ describe("Algolia", function() {
     });
 
     it("returns empty if search is called with blank query", function() {
-      this.algolia._client = this.mockClient;
       this.algolia._doSearch = sinon.spy();
       this.algolia.updateWidgets = sinon.spy();
       this.algolia.search({query: ""});
@@ -127,7 +109,6 @@ describe("Algolia", function() {
 
   describe("Algolia._processAlgoliaResults", function() {
     it("returns results in a promise", function(done) {
-      this.algolia._client = this.mockClient;
       this.algolia.addWidget(this.widget);
       const response = {
         results: [{
@@ -150,7 +131,6 @@ describe("Algolia", function() {
 
   describe("addPage", function() {
     it("increments the hit count for a group", function() {
-      this.algolia._client = this.mockClient;
       this.algolia._doSearch = sinon.spy();
 
       this.algolia.search({query: "query"});
@@ -158,6 +138,24 @@ describe("Algolia", function() {
 
       this.algolia.addPage("stops");
       expect(this.algolia._queries.stops.params.hitsPerPage)
+    });
+  });
+
+  describe("_encodeQuery", function() {
+    it("encodes a query", function() {
+      const query = {
+        indexName: "index",
+        query: "query",
+        params: {
+          foo: "foo",
+          bar: ["*"],
+          baz: ["whiz", "bang"]
+        }
+      }
+      const encoded = this.algolia._encodeQuery(query);
+      expect(encoded).to.have.keys(["indexName", "params"]);
+      expect(encoded.indexName).to.equal("index");
+      expect(encoded.params).to.equal("query=query&foo=foo&bar=%5B%22*%22%5D&baz=%5B%22whiz%22%2C%22bang%22%5D");
     });
   });
 });

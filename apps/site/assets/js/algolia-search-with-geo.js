@@ -24,7 +24,7 @@ export class AlgoliaWithGeo extends Algolia {
     let algoliaResults = {};
     let googleResults = {};
     if (!(this._locationEnabled && this._activeQueryIds.length == 0)) {
-      algoliaResults = this._client.search(allQueries)
+      algoliaResults = this._sendQueries(allQueries)
                            .then(this._processAlgoliaResults())
                            .catch(err => console.error(err));
     }

@@ -9,14 +9,6 @@ describe("AlgoliaStopSearch", function() {
   jsdom();
   const selector = "autocomplete-input";
   beforeEach(() => {
-    window.algoliaConfig = {
-      app_id: process.env.ALGOLIA_APP_ID,
-      search: process.env.ALGOLIA_SEARCH_KEY,
-      places: {
-        app_id: process.env.ALGOLIA_PLACES_APP_ID,
-        search: process.env.ALGOLIA_PLACES_SEARCH_KEY
-      }
-    }
     window.jQuery = jsdom.rerequire("jquery");
     window.autocomplete = jsdom.rerequire("autocomplete.js");
     document.body.innerHTML = `

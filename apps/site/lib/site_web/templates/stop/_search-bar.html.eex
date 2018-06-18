@@ -1,7 +1,3 @@
-<script>
-  window.algoliaConfig = <%= algolia_config() %>
-</script>
-
 <div id="stop-search" class="hidden-no-js c-search-bar">
   <label for="search-bar" class="c-search-bar__header">
     Search for a station

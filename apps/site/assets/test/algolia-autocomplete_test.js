@@ -32,14 +32,6 @@ describe("AlgoliaAutocomplete", () => {
   }
 
   beforeEach(() => {
-    window.algoliaConfig = {
-      app_id: process.env.ALGOLIA_APP_ID,
-      search: process.env.ALGOLIA_SEARCH_KEY,
-      places: {
-        app_id: process.env.ALGOLIA_PLACES_APP_ID,
-        search: process.env.ALGOLIA_PLACES_SEARCH_KEY
-      }
-    }
     document.body.innerHTML = `
       <div id="powered-by-google-logo"></div>
       <input id="autocomplete-input"></input>
@@ -273,8 +265,8 @@ describe("AlgoliaAutocomplete", () => {
     it("returns a callback that performs a search", (done) => {
       const ac = new AlgoliaAutocomplete(selectors, ["stops", "locations"], parent);
       const client = new Algolia(queries, queryParams);
-      client._client.search = sinon.stub();
-      client._client.search.resolves({
+      client._sendQueries = sinon.stub();
+      client._sendQueries.resolves({
         results: [{hits: []}]
       })
       ac.init(client);
