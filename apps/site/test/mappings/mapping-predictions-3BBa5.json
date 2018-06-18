@@ -1,7 +1,7 @@
 {
   "id" : "c16fa628-a56a-3ac6-8252-4211e6f36c2a",
   "request" : {
-    "url" : "/predictions/?stop=place-sstat&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname&include=trip",
+    "url" : "/predictions/?stop=place-sstat&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname&fields%5Bstop%5D=platform_code&include=trip,stop",
     "method" : "GET"
   },
   "response" : {

@@ -6,7 +6,8 @@ defmodule Predictions.Repo do
   @default_params [
     "fields[prediction]": "track,status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence",
     "fields[trip]": "direction_id,headsign,name",
-    "include": "trip"
+    "fields[stop]": "platform_code",
+    "include": "trip,stop"
   ]
 
   def all(opts) when is_list(opts) and opts != [] do

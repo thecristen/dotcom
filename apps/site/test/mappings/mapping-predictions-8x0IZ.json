@@ -1,7 +1,7 @@
 {
   "id" : "ef76ba50-ace0-3695-b4ec-db54fdced187",
   "request" : {
-    "url" : "/predictions/?stop=Framingham&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname&include=trip",
+    "url" : "/predictions/?stop=Framingham&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname&fields%5Bstop%5D=platform_code&include=trip,stop",
     "method" : "GET"
   },
   "response" : {
