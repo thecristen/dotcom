@@ -40,6 +40,16 @@
       <% end %>
       <%= SiteWeb.PartialView.render "_hidden_icons.html", conn: @conn %>
       <%= render "_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(@view_module, @view_template)) |> forward_assigns %>
+      <%= if assigns[:breadcrumbs] do %>
+        <div class="breadcrumb-container">
+          <div class="container">
+            <%= breadcrumb_trail(@conn) %>
+          </div>
+        </div>
+      <% end %>
+      <%= if assigns[:search_header?] do %>
+        <%= render "_searchbar.html", assigns %>
+      <% end %>
       <%= if assigns[:pre_container_template] do %>
         <%= render_existing @view_module, assigns[:pre_container_template], assigns %>
       <% end %>

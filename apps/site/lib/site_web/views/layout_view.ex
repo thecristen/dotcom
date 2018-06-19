@@ -3,7 +3,10 @@ defmodule SiteWeb.LayoutView do
   import Util.BreadcrumbHTML, only: [breadcrumb_trail: 1, title_breadcrumbs: 1]
   import SiteWeb.SearchHelpers, only: [desktop_form: 2]
 
-  def bold_if_active(conn, path, text) do
+  def bold_if_active(SiteWeb.Endpoint, _, text) do
+    raw text
+  end
+  def bold_if_active(%Plug.Conn{} = conn, path, text) do
     requested_path = Enum.at(String.split(conn.request_path, "/"), 1)
     if requested_path == String.trim(path, "/") do
       raw "<strong>#{text}</strong>"

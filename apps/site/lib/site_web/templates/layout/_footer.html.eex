@@ -93,7 +93,9 @@
             </li>
           <% end %>
         </ul>
-        <%= render "_google_translate_plugin.html", conn: @conn %>
+        <%= unless assigns[:exclude_google_translate] do %>
+          <%= render "_google_translate_plugin.html", conn: @conn %>
+        <% end %>
       </li>
     </ul>
     <p class="m-footer__copyright">&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
