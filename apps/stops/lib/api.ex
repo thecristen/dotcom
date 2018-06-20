@@ -261,5 +261,7 @@ defmodule Stops.Api do
   defp facility_atom_from_string("TTY_PHONE"), do: :tty_phone
   defp facility_atom_from_string("ELECTRIC_CAR_CHARGERS"), do: :electric_car_chargers
   defp facility_atom_from_string("FARE_VENDING_RETAILER"), do: :fare_vending_retailer
+  defp facility_atom_from_string("FARE_VENDING_MACHINE"), do: :fare_vending_machine
+  defp facility_atom_from_string("FARE_MEDIA_ASSISTANT"), do: :fare_media_assistant
   defp facility_atom_from_string("OTHER"), do: :other
 end
