@@ -96,6 +96,11 @@
   border-top: 0;
   box-shadow: $drop-shadow;
   width: 100%;
+
+  .c-search__error {
+    border-radius: 0;
+    text-align: left;
+  }
 }
 
 .c-search-bar__my-location-container {

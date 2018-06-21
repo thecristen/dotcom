@@ -495,3 +495,11 @@
   margin-top: .875rem;
   width: $space-18;
 }
+
+.c-search__error {
+  background: $form-error-message;
+  border-radius: $border-radius;
+  color: $error-text;
+  display: none;
+  padding: $base-spacing / 2;
+}

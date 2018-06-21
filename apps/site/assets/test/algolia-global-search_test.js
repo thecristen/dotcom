@@ -18,6 +18,7 @@ describe("AlgoliaGlobalSearch", function() {
       document.body.innerHTML += `<div id="${AlgoliaGlobalSearch.SELECTORS[key]}"></div>`;
     });
     document.body.innerHTML += `<div id="powered-by-google-logo"></div>`;
+    document.body.innerHTML += `<div id="algolia-error">There was an error</div>`;
 
   });
 
@@ -100,7 +101,8 @@ describe("AlgoliaGlobalSearch", function() {
         const elType = (key == "searchBar") ? "input" : "div"
         document.body.innerHTML += `<${elType} id="${AlgoliaGlobalSearch.SELECTORS[key]}"></${elType}>`;
       });
-      document.body.innerHTML += `<div id="powered-by-google-logo"></div>`
+      document.body.innerHTML += `<div id="powered-by-google-logo"></div>`;
+      document.body.innerHTML += `<div id="algolia-error">There was an error</div>`;
       this.globalSearch = new AlgoliaGlobalSearch();
       this.globalSearch.init();
     });

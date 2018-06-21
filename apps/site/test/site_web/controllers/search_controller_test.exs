@@ -43,6 +43,42 @@ defmodule SiteWeb.SearchControllerTest do
              |> post(search_path(conn, :query), %{requests: []})
              |> json_response(200) == %{"error" => "bad_response"}
     end
+
+    @tag :capture_log
+    test "handles algolia config errors", %{conn: conn} do
+      bypass = Bypass.open()
+
+      config = Application.get_env(:algolia, :config)
+      bad_config = Keyword.delete(config, :admin)
+      Application.put_env(:algolia, :config, bad_config)
+
+      on_exit(fn -> Application.put_env(:algolia, :config, config) end)
+
+      assert conn
+             |> assign(:algolia_host, "http://localhost:#{bypass.port}")
+             |> post(search_path(conn, :query), %{requests: []})
+             |> json_response(200) == %{"error" => "bad_config"}
+    end
+  end
+
+  describe "log_error/1" do
+    test "logs a bad HTTP response" do
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        assert SiteWeb.SearchController.log_error({:ok, %HTTPoison.Response{}}) == :ok
+      end)
+      assert log =~ "bad response"
+
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        assert SiteWeb.SearchController.log_error({:error, %HTTPoison.Error{}}) == :ok
+      end)
+      assert log =~ "bad response"
+    end
+    test "does not log other types of errors" do
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        assert SiteWeb.SearchController.log_error({:error, :bad_config}) == :ok
+      end)
+      assert log == ""
+    end
   end
 
   describe "click" do

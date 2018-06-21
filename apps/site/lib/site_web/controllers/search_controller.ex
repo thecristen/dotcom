@@ -54,9 +54,28 @@ defmodule SiteWeb.SearchController do
     {:ok, json} = Poison.decode(body)
     json(conn, json)
   end
+  defp do_query({:error, :bad_config}, conn) do
+    json(conn, %{error: "bad_config"})
+  end
   defp do_query(response, conn) do
-    _ = Logger.warn("Received bad response from Algolia: #{inspect response}")
+    _ = log_error(response)
     json(conn, %{error: "bad_response"})
+  end
+
+  @spec log_error({:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t | atom}) :: :ok | {:error, any}
+  def log_error({:ok, %HTTPoison.Response{} = response}) do
+    do_log_error(response)
+  end
+  def log_error({:error, %HTTPoison.Error{} = response}) do
+    do_log_error(response)
+  end
+  def log_error(_) do
+    :ok
+  end
+
+  @spec do_log_error(HTTPoison.Response.t | HTTPoison.Error.t) :: :ok | {:error, any}
+  defp do_log_error(error) do
+    Logger.warn("Received bad response from Algolia: #{inspect error}")
   end
 
   @spec click(Conn.t, map) :: Conn.t

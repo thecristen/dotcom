@@ -27,5 +27,21 @@ defmodule Algolia.ApiTest do
       assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} = Algolia.Api.post(opts)
       assert body == @success_response
     end
+
+    test "logs a warning if config keys are missing" do
+      bypass = Bypass.open()
+
+      opts = %Algolia.Api{
+        host: "http://localhost:#{bypass.port}",
+        index: "*",
+        action: "queries",
+        body: @request
+      }
+
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        assert Algolia.Api.post(opts, %Algolia.Config{}) == {:error, :bad_config}
+      end)
+      assert log =~ "missing Algolia config keys"
+    end
   end
 end

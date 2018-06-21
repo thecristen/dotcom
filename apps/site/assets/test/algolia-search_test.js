@@ -14,6 +14,9 @@ describe("Algolia", function() {
                 .replace(/\,/g, "%2C")
     };
     window.jQuery = jsdom.rerequire("jquery");
+    document.body.innerHTML = `
+      <div id="algolia-error">There was an error</div>
+    `;
     this.mockClient = {
       search: sinon.stub().resolves([])
     }
@@ -132,6 +135,8 @@ describe("Algolia", function() {
   describe("addPage", function() {
     it("increments the hit count for a group", function() {
       this.algolia._doSearch = sinon.spy();
+
+      expect(document.getElementById("algolia-error")).to.be.an.instanceOf(window.HTMLDivElement);
 
       this.algolia.search({query: "query"});
       expect(this.algolia._doSearch.args[0][0][0].params.hitsPerPage).to.equal(5);

@@ -7,10 +7,6 @@ config :algolia, :config,
   admin: {:system, "ALGOLIA_ADMIN_KEY"},
   search: {:system, "ALGOLIA_SEARCH_KEY"}
 
-config :algolia, :places_config,
-  app_id: {:system, "ALGOLIA_PLACES_APP_ID"},
-  search: {:system, "ALGOLIA_PLACES_SEARCH_KEY"}
-
 config :algolia, :repos,
   stops: Stops.Api,
   routes: Routes.Repo

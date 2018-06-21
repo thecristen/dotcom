@@ -1,5 +1,7 @@
 defmodule Algolia.Api do
   alias Algolia.Config
+  require Logger
+
   defstruct [:host, :index, :action, :body]
 
   @type t :: %__MODULE__{
@@ -9,11 +11,21 @@ defmodule Algolia.Api do
     body: String.t | nil
   }
 
-  @spec post(t) :: {:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t}
-  def post(%__MODULE__{index: index, action: action, body: body} = opts)
-  when is_binary(index) and is_binary(action) and is_binary(body) do
-    config = Config.config()
+  @spec post(t) :: {:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t | :bad_config}
+  def post(opts, config \\ nil)
+  def post(%__MODULE__{} = opts, nil) do
+    post(opts, Config.config())
+  end
+  def post(%__MODULE__{} = opts, %Config{admin: <<_::binary>>, app_id: <<_::binary>>} = config) do
+    do_post(opts, config)
+  end
+  def post(%__MODULE__{}, %Config{} = config) do
+    _ = Logger.warn("module=#{__MODULE__} missing Algolia config keys: #{inspect(config)}")
+    {:error, :bad_config}
+  end
 
+  defp do_post(%__MODULE__{index: index, action: action, body: body} = opts, %Config{} = config)
+  when is_binary(index) and is_binary(action) and is_binary(body) do
     body = rewrite_indexes(body, opts, Application.get_env(:algolia, :index_suffix))
 
     opts
@@ -41,7 +53,7 @@ defmodule Algolia.Api do
     Path.join([base_url(opts, config), "1", "indexes", opts.index, opts.action])
   end
 
-  defp base_url(%__MODULE__{host: nil}, %Config{app_id: app_id}) do
+  defp base_url(%__MODULE__{host: nil}, %Config{app_id: <<app_id::binary>>}) do
     "https://" <> app_id <> "-dsn.algolia.net"
   end
   defp base_url(%__MODULE__{host: "http://localhost:" <> _ = host}, %Config{}) do
@@ -49,10 +61,10 @@ defmodule Algolia.Api do
   end
 
   @spec headers(Config.t) :: [{String.t, String.t}]
-  defp headers(%Config{app_id: <<app_id::binary>>, admin: <<admin::binary>>}) do
+  defp headers(%Config{} = config) do
     [
-      {"X-Algolia-API-Key", admin},
-      {"X-Algolia-Application-Id", app_id}
+      {"X-Algolia-API-Key", config.admin},
+      {"X-Algolia-Application-Id", config.app_id}
     ]
   end
 

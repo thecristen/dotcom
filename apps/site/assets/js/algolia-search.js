@@ -1,5 +1,3 @@
-import algoliasearch from "algoliasearch";
-
 export class Algolia {
   constructor(queries, defaultParams) {
     this._queries = queries;
@@ -9,6 +7,7 @@ export class Algolia {
     this._lastQuery = "";
     this._doBlankSearch = true;
     this._widgets = [];
+    this.errorContainer = document.getElementById("algolia-error");
     this.reset();
   }
 
@@ -39,7 +38,10 @@ export class Algolia {
   }
 
   search(opts = {}) {
+    this.toggleError(false);
+
     if (!(typeof opts.query == "string")) { opts.query = this._lastQuery; }
+
     if (opts.query.length > 0) {
       const allQueries = this._buildAllQueries(opts);
       this._lastQuery = opts.query;
@@ -184,11 +186,15 @@ export class Algolia {
   }
 
   updateWidgets(results) {
-    this._widgets.forEach(function(widget) {
-      if (typeof widget.render === "function") {
-        widget.render(results);
-      }
-    });
+    if (results["error"]) {
+      this.toggleError(true);
+    } else {
+      this._widgets.forEach(function(widget) {
+        if (typeof widget.render === "function") {
+          widget.render(results);
+        }
+      });
+    }
   }
 
   resetWidgets() {
@@ -201,21 +207,33 @@ export class Algolia {
 
   _processAlgoliaResults() {
     return (response) => {
-      let searchedQueries = this._activeQueryIds.slice(0);
-      if (this._activeQueryIds.length == 0) {
-        searchedQueries = Object.keys(this._queries);
+      if (response["error"]) {
+        return Promise.resolve(response);
+      } else {
+        let searchedQueries = this._activeQueryIds.slice(0);
+        if (this._activeQueryIds.length == 0) {
+          searchedQueries = Object.keys(this._queries);
+        }
+        const facetLength = Object.keys(this._queries).length;
+        const searchResults = response.results.slice(0, searchedQueries.length);
+        const facetResults = response.results.slice(searchedQueries.length, searchedQueries.length + facetLength);
+        const results = {}
+        searchResults.forEach((result, i) => {
+          results[searchedQueries[i]] = result;
+        });
+        facetResults.forEach((result, i) => {
+          results[`facets-${Object.keys(this._queries)[i]}`] = result;
+        });
+        return Promise.resolve(results);
       }
-      const facetLength = Object.keys(this._queries).length;
-      const searchResults = response.results.slice(0, searchedQueries.length);
-      const facetResults = response.results.slice(searchedQueries.length, searchedQueries.length + facetLength);
-      const results = {}
-      searchResults.forEach((result, i) => {
-        results[searchedQueries[i]] = result;
-      });
-      facetResults.forEach((result, i) => {
-        results[`facets-${Object.keys(this._queries)[i]}`] = result;
-      });
-      return Promise.resolve(results);
+    }
+  }
+
+  toggleError(hasError) {
+    if (hasError === true) {
+      this.errorContainer.style.display = "block";
+    } else {
+      this.errorContainer.style.display = "none";
     }
   }
 }

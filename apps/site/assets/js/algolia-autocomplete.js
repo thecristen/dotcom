@@ -71,6 +71,7 @@ export class AlgoliaAutocomplete {
       }
     }, this._datasets);
 
+    this._addErrorMsg();
     this._toggleResetButton(false);
     this._addListeners()
   }
@@ -106,6 +107,21 @@ export class AlgoliaAutocomplete {
 
   _toggleResetButton(show) {
     this._resetButton.style.display = show ? "block" : "none";
+  }
+
+  _addErrorMsg() {
+    if (document.getElementById("algolia-error")) {
+      return;
+    }
+
+    const dropdown = document.getElementsByClassName("c-search-bar__-dropdown-menu").item(0);
+    const errorMsg = document.createElement("div");
+
+    errorMsg.id = "algolia-error";
+    errorMsg.classList.add("c-search__error");
+    errorMsg.innerHTML = "There was a problem performing your search; please try again in a few minutes."
+    dropdown.appendChild(errorMsg);
+    this._client.errorContainer = errorMsg;
   }
 
   onKeyup(ev) {
@@ -215,11 +231,12 @@ export class AlgoliaAutocomplete {
   }
 
   _onResults(callback, index, results) {
+    if (results["error"]) {
+      return;
+    }
     if (results[index] && results[index].hits) {
       this._results[index] = results[index]
       callback(results[index].hits);
-    } else {
-      console.error(`expected results["${index}"].hits, got:`, results);
     }
   }
 

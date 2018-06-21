@@ -64,4 +64,21 @@ defmodule SiteWeb.HomepageSearchTest do
       |> assert_has(css(reset_id, visible: false))
     end
   end
+
+  describe "bad response" do
+    @tag :wallaby
+    @tag :capture_log
+    test "displays an error message", %{session: session} do
+      config = Application.get_env(:algolia, :config)
+      bad_config = Keyword.delete(config, :admin)
+      Application.put_env(:algolia, :config, bad_config)
+      on_exit(fn -> Application.put_env(:algolia, :config, config) end)
+
+      session
+      |> visit("/")
+      |> assert_has(css("#algolia-error", visible: false))
+      |> fill_in(@search_input, with: "a")
+      |> assert_has(css("#algolia-error", visible: true))
+    end
+  end
 end

@@ -13,6 +13,7 @@ describe("AlgoliaWithGeo", function() {
 
   beforeEach(function() {
     window.jQuery = jsdom.rerequire("jquery");
+    document.body.innerHTML = `<div id="algolia-error">There was an error</div>`;
     this.algoliaWithGeo = new AlgoliaWithGeo({
       stops: {
         indexName: "stops"
