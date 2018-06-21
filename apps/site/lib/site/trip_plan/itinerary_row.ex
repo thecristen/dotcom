@@ -83,26 +83,40 @@ defmodule Site.TripPlan.ItineraryRow do
   def fetch_alerts(%__MODULE__{} = row, []) do
     row
   end
-  def fetch_alerts(%__MODULE__{transit?: false} = row, alerts) do
-    alerts = case row.stop do
-      {_name, stop_id} when not is_nil(stop_id) ->
-        Alerts.Stop.match(alerts, stop_id)
-      _ ->
-        row.alerts
-    end
-    %{row | alerts: alerts}
+  def fetch_alerts(%__MODULE__{transit?: false, stop: {_name, <<stop_id::binary>>}} = row, alerts) do
+    %{row | alerts: Alerts.Stop.match(alerts, stop_id)}
+  end
+  def fetch_alerts(%__MODULE__{transit?: false} = row, _) do
+    row
   end
   def fetch_alerts(%__MODULE__{transit?: true} = row, alerts) do
-    entity = %Alerts.InformedEntity{
-      route: row.route.id,
-      route_type: row.route.type,
-      stop: elem(row.stop, 1),
-      trip: row.trip.id,
-      direction_id: row.trip.direction_id
-    }
+    entity = build_alert_informed_entity(row)
     row_alerts = Alerts.Match.match(alerts, entity, row.departure)
     steps = fetch_alerts_for_steps(row, alerts)
     %{row | alerts: row_alerts, steps: steps}
+  end
+
+  @spec build_alert_informed_entity(t) :: Alerts.InformedEntity.t
+  defp build_alert_informed_entity(%__MODULE__{
+    route: %Routes.Route{} = route,
+    stop: {_name, stop_id}
+  } = row) do
+    do_build_alert_informed_entity(row, %Alerts.InformedEntity{
+      route: route.id,
+      route_type: route.type,
+      stop: stop_id,
+    })
+  end
+  defp build_alert_informed_entity(%__MODULE__{stop: {_name, stop_id}} = row) do
+    do_build_alert_informed_entity(row, %Alerts.InformedEntity{stop: stop_id})
+  end
+
+  @spec do_build_alert_informed_entity(t, Alerts.InformedEntity.t) :: Alerts.InformedEntity.t
+  defp do_build_alert_informed_entity(%__MODULE__{trip: %Schedules.Trip{} = trip}, ie) do
+    %{ie | trip: trip.id, direction_id: trip.direction_id}
+  end
+  defp do_build_alert_informed_entity(%__MODULE__{}, ie) do
+    ie
   end
 
   def fetch_alerts_for_steps(%__MODULE__{steps: steps}, alerts) do

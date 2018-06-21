@@ -181,6 +181,47 @@ defmodule TripPlan.ItineraryRowTest do
       assert Enum.flat_map(steps, & &1.alerts) == []
     end
 
+    test "shows stop alerts when row has no trip id" do
+      alert = Alert.new([
+        informed_entity: [%InformedEntity{
+          route: "routeid",
+          route_type: 0,
+          stop: "stopid",
+          trip: nil,
+          direction_id: nil
+        }],
+        active_period: [{DateTime.from_unix!(1), nil}]
+      ])
+      assert fetch_alerts(%{@itinerary_row | trip: nil}, [alert]).alerts == [alert]
+    end
+
+    test "shows route alerts when row has no trip id" do
+      alert = Alert.new([
+        informed_entity: [%InformedEntity{
+          route: "routeid",
+          route_type: 0,
+          stop: nil,
+          trip: nil,
+          direction_id: nil
+        }],
+        active_period: [{DateTime.from_unix!(1), nil}]
+      ])
+      assert fetch_alerts(%{@itinerary_row | trip: nil}, [alert]).alerts == [alert]
+    end
+
+    test "shows alerts if row route is nil" do
+      alert = Alert.new([
+        informed_entity: [%InformedEntity{
+          route: "routeid",
+          route_type: 0,
+          stop: "stopid",
+          trip: nil,
+          direction_id: nil
+        }],
+        active_period: [{DateTime.from_unix!(1), nil}]
+      ])
+      assert fetch_alerts(%{@itinerary_row | route: nil}, [alert]).alerts == [alert]
+    end
   end
 
   describe "intermediate_alerts/1" do
