@@ -234,22 +234,46 @@ defmodule SiteWeb.GlobalSearchTest do
     end
   end
 
-  describe "url parameters on followed links" do
-    setup do
-      bypass = Bypass.open()
-      old_url = Application.get_env(:algolia, :click_analytics_url)
-      Application.put_env(:algolia, :click_analytics_url, "http://localhost:#{bypass.port}")
+  @tag :wallaby
+  test "tracks clicks", %{session: session} do
+    bypass = Bypass.open()
 
-      on_exit fn ->
-        Application.put_env(:algolia, :click_analytics_url, old_url)
+    old_url = Application.get_env(:algolia, :click_analytics_url)
+    Application.put_env(:algolia, :track_clicks?, true)
+    Application.put_env(:algolia, :click_analytics_url, "http://localhost:#{bypass.port}")
+
+    parent = self()
+
+    Bypass.expect(bypass, fn conn ->
+      {:ok, body, _} = Plug.Conn.read_body(conn)
+      case Poison.decode(body) do
+        {:ok, %{"objectID" => "route" <> _, "queryID" => <<_::binary>>, "position" => "1"}} ->
+          send parent, :click_tracked
+        decoded ->
+          send parent, {:bad_click_request, decoded}
+          :ok
       end
+      Plug.Conn.send_resp(conn, 200, "{}")
+    end)
 
-      {:ok, bypass: bypass}
+    on_exit fn ->
+      Application.put_env(:algolia, :track_clicks?, false)
+      Application.put_env(:algolia, :click_analytics_url, old_url)
     end
 
+    assert Application.get_env(:algolia, :track_clicks?) == true
+    session = visit(session, "/search?query=a")
+
+    [_, routes | _] = find(session, css(".c-search-results__section", count: :any))
+    [first_link | _]  = find(routes, css(".c-search-result__link", count: :any))
+
+    Wallaby.Element.click(first_link)
+    assert_receive :click_tracked
+  end
+
+  describe "url parameters on followed links" do
     @tag :wallaby
-    test "location url contains correct query params", %{session: session, bypass: bypass} do
-      Bypass.expect(bypass, fn conn -> Plug.Conn.send_resp(conn, 200, "success") end)
+    test "location url contains correct query params", %{session: session} do
       session =
         session
         |> visit("/search")

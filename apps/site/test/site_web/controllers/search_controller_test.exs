@@ -82,45 +82,44 @@ defmodule SiteWeb.SearchControllerTest do
   end
 
   describe "click" do
-    test "logs a click", %{conn: conn} do
+    setup do
       bypass = Bypass.open()
-      Bypass.expect(bypass, fn conn -> Plug.Conn.send_resp(conn, 200, "success") end)
 
-      old_env = Application.get_env(:algolia, :click_analytics_url)
+      url = Application.get_env(:algolia, :click_analytics_url)
+      track? = Application.get_env(:algolia, :track_clicks?)
+
       Application.put_env(:algolia, :click_analytics_url, "http://localhost:#{bypass.port}")
+      Application.put_env(:algolia, :track_clicks?, true)
+
+      on_exit fn ->
+        Application.put_env(:algolia, :click_analytics_url, url)
+        Application.put_env(:algolia, :track_clicks?, track?)
+      end
+
+      {:ok, bypass: bypass}
+    end
+
+    test "logs a click", %{conn: conn, bypass: bypass} do
+      Bypass.expect(bypass, fn conn -> Plug.Conn.send_resp(conn, 200, "success") end)
 
       conn = post conn, search_path(conn, :click), %{objectID: "objectID", position: "1", queryID: "queryID"}
       assert json_response(conn, 200) == %{"message" => "success"}
-
-      Application.put_env(:algolia, :click_analytics_url, old_env)
     end
 
     @tag :capture_log
-    test "returns error info if Algolia returns a bad response", %{conn: conn} do
-      bypass = Bypass.open()
+    test "returns error info if Algolia returns a bad response", %{conn: conn, bypass: bypass} do
       Bypass.expect(bypass, fn conn -> Plug.Conn.send_resp(conn, 401, "Feature not available") end)
-
-      old_env = Application.get_env(:algolia, :click_analytics_url)
-      Application.put_env(:algolia, :click_analytics_url, "http://localhost:#{bypass.port}")
 
       conn = post conn, search_path(conn, :click), %{objectID: "objectID", position: "1", queryID: "queryID"}
       assert json_response(conn, 200) == %{"message" => "bad_response", "body" => "Feature not available", "status_code" => 401}
-
-      Application.put_env(:algolia, :click_analytics_url, old_env)
     end
 
     @tag :capture_log
-    test "returns error info if Algolia is down", %{conn: conn} do
-      bypass = Bypass.open()
+    test "returns error info if Algolia is down", %{conn: conn, bypass: bypass} do
       Bypass.down(bypass)
-
-      old_env = Application.get_env(:algolia, :click_analytics_url)
-      Application.put_env(:algolia, :click_analytics_url, "http://localhost:#{bypass.port}")
 
       conn = post conn, search_path(conn, :click), %{objectID: "objectID", position: "1", queryID: "queryID"}
       assert json_response(conn, 200) == %{"message" => "error", "reason" => "econnrefused"}
-
-      Application.put_env(:algolia, :click_analytics_url, old_env)
     end
   end
 

@@ -16,7 +16,7 @@ config :algolia, :indexes, [
   Algolia.Routes
 ]
 
-config :algolia, :click_analytics_url, "https://insights.algolia.io"
+config :algolia, :track_clicks?, false
 
 config :algolia, :index_suffix, ""
 
