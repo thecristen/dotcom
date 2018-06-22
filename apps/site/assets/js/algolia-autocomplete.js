@@ -77,22 +77,13 @@ export class AlgoliaAutocomplete {
   }
 
   _addListeners() {
-    document.removeEventListener("autocomplete:cursorchanged", this.onCursorChanged);
     document.addEventListener("autocomplete:cursorchanged", this.onCursorChanged);
-
-    document.removeEventListener("autocomplete:cursorremoved", this.onCursorRemoved);
     document.addEventListener("autocomplete:cursorremoved", this.onCursorRemoved);
-
-    document.removeEventListener("autocomplete:selected", this.onHitSelected);
     document.addEventListener("autocomplete:selected", this.onHitSelected);
-
-    document.removeEventListener("autocomplete:shown", this.onOpen);
     document.addEventListener("autocomplete:shown", this.onOpen);
 
-    window.jQuery(document).off("keyup", "#" + this._input.id, this.onKeyup);
     window.jQuery(document).on("keyup", "#" + this._input.id, this.onKeyup);
 
-    window.removeEventListener("resize", this.onOpen);
     window.addEventListener("resize", this.onOpen);
 
     this._resetButton.removeEventListener("click", this.clear);
@@ -101,8 +92,17 @@ export class AlgoliaAutocomplete {
     // normally we would only use `.js-` prefixed classes for javascript selectors, but
     // we make an exception here because this element and its class is generated entirely
     // by the autocomplete widget.
-    window.jQuery(document).off("click", ".c-search-bar__-suggestion", this.onClickSuggestion);
     window.jQuery(document).on("click", ".c-search-bar__-suggestion", this.onClickSuggestion);
+
+    document.addEventListener("turbolink:before-render", () => {
+      document.removeEventListener("autocomplete:cursorremoved", this.onCursorRemoved);
+      document.removeEventListener("autocomplete:cursorchanged", this.onCursorChanged);
+      document.removeEventListener("autocomplete:selected", this.onHitSelected);
+      document.removeEventListener("autocomplete:shown", this.onOpen);
+      window.removeEventListener("resize", this.onOpen);
+      window.jQuery(document).off("keyup", "#" + this._input.id, this.onKeyup);
+      window.jQuery(document).off("click", ".c-search-bar__-suggestion", this.onClickSuggestion);
+    });
   }
 
   _toggleResetButton(show) {

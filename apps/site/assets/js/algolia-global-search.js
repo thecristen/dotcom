@@ -56,8 +56,11 @@ export class AlgoliaGlobalSearch {
     this._resetButton.addEventListener("click", this.reset);
 
     const inputField = document.getElementById(AlgoliaGlobalSearch.SELECTORS.input);
-    window.jQuery(document).off("keyup", "#" + inputField.id, this.onKeyup);
     window.jQuery(document).on("keyup", "#" + inputField.id, this.onKeyup);
+
+    document.addEventListener("turbolinks:before-render", () => {
+      window.jQuery(document).off("keyup", "#" + inputField.id, this.onKeyup);
+    });
   }
 
   loadState(query) {

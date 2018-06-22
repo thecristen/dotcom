@@ -60,6 +60,11 @@ export class AlgoliaHomepageSearch {
       });
     });
 
+    document.addEventListener("turbolinks:before-render", () => {
+      Object.keys(AlgoliaHomepageSearch.SHOWMOREPARAMS).forEach(key => {
+        window.jQuery(document).off("click", `#show-more--${key}`);
+      });
+    });
   }
 
   _renderHeaderTemplate(indexName) {
