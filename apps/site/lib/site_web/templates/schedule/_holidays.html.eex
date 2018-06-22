@@ -1,7 +1,5 @@
 <div class="route-holiday-container">
-  <h3>Holiday Schedule Information</h3>
-
-  <strong>Upcoming Holidays:</strong>
+  <h2>Upcoming Holidays</h2>
 
   <ul class="route-holiday-info">
     <%= for holiday <- @holidays do %>
@@ -11,6 +9,6 @@
     <% end %>
   </ul>
   <%= link to: cms_static_page_path(@conn, "/holidays") do %>
-    View all holiday schedule changes <%= fa "arrow-right" %>
+    View holiday schedules <%= fa "arrow-right" %>
   <% end %>
 </div>

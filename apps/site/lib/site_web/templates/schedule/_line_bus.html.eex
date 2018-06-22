@@ -2,10 +2,11 @@
 
 <div class="page-section m-schedule-line m-schedule-line--bus">
   <div class="row">
-    <div class="col-xs-12 col-md-8">
-
+    <div class="col-md-12">
       <%= SiteWeb.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
-
+    </div>
+    <div class="col-xs-12 col-md-7">
+      <h2>Stops</h2>
       <%= render "_line_filters.html", conn: @conn,
                                        headsigns: @headsigns,
                                        direction_id: @direction_id,
@@ -22,7 +23,7 @@
       </div>
       <%= render "_stop_list.html", assigns %>
     </div>
-    <div class="col-xs-12 col-md-4">
+    <div class="col-xs-12 col-md-4 col-md-offset-1">
       <%= render "_fares.html", assigns %>
       <%= render "_line_connections.html", assigns %>
       <%= render "_hours_of_op.html", assigns %>
