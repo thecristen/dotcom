@@ -1,4 +1,8 @@
 export default function addCarets() {
+  document.addEventListener("turbolinks:load", () => { initCarets() });
+}
+
+export function initCarets() {
   Array.from(document.getElementsByClassName("js-header-link"))
        .forEach(init);
 
@@ -6,27 +10,29 @@ export default function addCarets() {
     el.classList.add("navbar-toggle", "toggle-up-down");
     el.setAttribute("data-toggle", "collapse");
     el.setAttribute("aria-expanded", "false");
-    const content = Array.from(el.children)
-                         .find(child => child.classList.contains("js-header-link__content"));
-    addCaret(content);
+    Array.from(el.children)
+         .filter(child => child.classList.contains("js-header-link__content"))
+         .forEach(addCarets)
   }
 
-  function addCaret(el) {
-    if (el) {
-      const container = document.createElement("div");
-      container.classList.add("nav-link-arrows");
-      ["up", "down"].map(name => createCaret(name))
-                    .forEach(caret => { container.appendChild(caret) });
-      el.appendChild(container);
-    }
+  function addCarets(el) {
+    Array.from(el.children)
+         .filter(child => child.classList.contains("js-header-link__carets"))
+         .forEach(doAddCarets);
   }
 
-  function createCaret(name) {
+  function doAddCarets(el) {
+    ["up", "down"].forEach(name => addCaret(name, el));
+  }
+
+  function addCaret(name, container) {
     const caret = document.createElement("i");
+
     caret.classList.add("fa");
     caret.classList.add("fa-angle-" + name);
     caret.classList.add(name);
     caret.setAttribute("aria-hidden", true);
-    return caret;
+
+    container.appendChild(caret);
   }
 }

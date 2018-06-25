@@ -11,7 +11,8 @@
 
             link([
               content_tag(:div, [class: "nav-link-content js-header-link__content"], do: [
-                content_tag(:span, ["#{name} "], class: "nav-link-name")
+                content_tag(:span, ["#{name} "], class: "nav-link-name"),
+                content_tag(:div, [], class: "nav-link-arrows js-header-link__carets")
               ])
             ], to: href,
                class: "desktop-nav-link js-header-link collapsed",
