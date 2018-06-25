@@ -24,13 +24,13 @@ defmodule SiteWeb.FareControllerTest do
   describe "show" do
     test "renders commuter rail", %{conn: conn} do
       conn = get conn, fare_path(conn, :show, "commuter-rail", origin: "place-sstat", destination: "Readville")
-      assert html_response(conn, 200) =~ "Commuter Rail Fares"
+      assert html_response(conn, 200) =~ "Commuter Rail"
     end
 
     test "renders ferry", %{conn: conn} do
       conn = get conn, fare_path(conn, :show, :ferry, origin: "Boat-Long", destination: "Boat-Logan")
       response = html_response(conn, 200)
-      assert response =~ "Ferry Fares"
+      assert response =~ "Ferry"
       assert response =~ "Valid between"
       assert response =~ "Long Wharf"
       assert response =~ "Logan"

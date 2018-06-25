@@ -51,7 +51,7 @@ defmodule SiteWeb.FareViewTest do
     test "links directly for commuter rail/ferry" do
       for mode <- [:commuter_rail, :ferry] do
         expected = SiteWeb.Router.Helpers.fare_path(SiteWeb.Endpoint, :show, SiteWeb.StaticPage.convert_path(mode))
-        assert summary_url(%Summary{modes: [mode, :bus]}) == expected
+        assert summary_url(%Summary{modes: [mode, :bus]}) == expected <> "-fares"
       end
     end
 
@@ -135,13 +135,14 @@ defmodule SiteWeb.FareViewTest do
   describe "origin_destination_description/2" do
     test "links to the zone fares page for CR" do
       content = build_conn() |> origin_destination_description(:commuter_rail) |> html_escape() |> safe_to_string()
-      assert content =~ "Your Commuter Rail fare"
-      assert content =~ "fares/commuter-rail/zone"
+      assert content =~ "Select your origin and destination"
+      assert content =~ "your Commuter Rail fare"
     end
 
     test "for ferry" do
       content =  build_conn() |> origin_destination_description(:ferry) |> html_escape() |> safe_to_string()
-      assert content =~ "Ferry fares depend on your origin and destination."
+      assert content =~ "Select your origin and destination"
+      assert content =~ "ferry fare"
     end
   end
 

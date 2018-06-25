@@ -70,12 +70,8 @@ defmodule SiteWeb.FareView do
   end
 
   @spec do_summary_url(atom, String.t) :: String.t
-  defp do_summary_url(name, anchor \\ "")
-  defp do_summary_url(subway_or_bus, anchor) when subway_or_bus in [:subway, :bus] do
-    fare_path(SiteWeb.Endpoint, :show, SiteWeb.StaticPage.convert_path(subway_or_bus) <> "-fares") <> anchor
-  end
-  defp do_summary_url(name, _anchor) do
-    fare_path(SiteWeb.Endpoint, :show, SiteWeb.StaticPage.convert_path(name))
+  defp do_summary_url(name, anchor \\ "") do
+    fare_path(SiteWeb.Endpoint, :show, SiteWeb.StaticPage.convert_path(name) <> "-fares") <> anchor
   end
 
   @spec callout(Fare.t) :: String.t | iolist
@@ -157,15 +153,13 @@ defmodule SiteWeb.FareView do
       end,
       content_tag :p do
         [
-          "Your Commuter Rail fare will depend on which stops you board and exit the train. Stops are categorized into ",
-          link("Zones 1A-10", to: fare_path(conn, :zone)),
-          ". Enter two stops below to find your trip's exact fare."
+          "Select your origin and destination stations from the drop-down lists below to find your Commuter Rail fare."
         ]
       end
     ]
   end
   def origin_destination_description(_, :ferry) do
-    content_tag :p, do: "Ferry fares depend on your origin and destination."
+    content_tag :p, do: "Select your origin and destination stops from the drop-down lists below to find your ferry fare."
   end
 
   def charlie_card_store_link(conn) do
@@ -184,4 +178,15 @@ defmodule SiteWeb.FareView do
     [city, ", MA"]
   end
 
+  @spec cta_for_mode(Plug.Conn.t, :commuter_rail | :ferry) :: Phoenix.HTML.Safe.t
+  def cta_for_mode(conn, mode) do
+    name = Routes.Route.type_name(mode)
+    mode = mode
+          |> Atom.to_string()
+          |> String.replace("_", "-")
+    url = "/fares/" <> mode <> "-fares"
+    content_tag :p, do: [
+      link(["Learn more about ", name, " fares ", fa("arrow-right")], to: cms_static_page_path(conn, url))
+    ]
+  end
 end

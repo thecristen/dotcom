@@ -66,8 +66,8 @@
     <div class="row">
       <div class="col-md-6">
         <p>
-          <%= link to: fare_path(@conn, :show, "commuter-rail") do %>
-            Find your Commuter Rail fare <span class="no-wrap"><%= fa "arrow-right" %></span>
+          <%= link to: fare_path(@conn, :show, "commuter-rail-fares") do %>
+            Learn about Commuter Rail fares <span class="no-wrap"><%= fa "arrow-right" %></span>
           <% end %>
         </p>
         <p>
@@ -78,8 +78,8 @@
       </div>
       <div class="col-md-6">
         <p>
-          <%= link to: fare_path(@conn, :show, "ferry") do %>
-            Find your ferry fare <span class="no-wrap"><%= fa "arrow-right" %></span>
+          <%= link to: fare_path(@conn, :show, "ferry-fares") do %>
+            View all ferry fares <span class="no-wrap"><%= fa "arrow-right" %></span>
           <% end %>
         </p>
       </div>
