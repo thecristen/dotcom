@@ -5,6 +5,7 @@ defmodule SiteWeb.StopView do
   alias Routes.Route
   alias Fares.RetailLocations.Location
   alias SiteWeb.PartialView.SvgIconWithCircle
+  import SiteWeb.StopView.Parking
 
   @origin_stations ["place-north", "place-sstat", "place-rugg", "place-bbsta", "Boat-Long"]
 
@@ -29,18 +30,6 @@ defmodule SiteWeb.StopView do
       |> Enum.join(" ")
       |> String.capitalize()
     ]
-  end
-
-  @spec sort_parking_spots([Stops.Stop.Parking.t]) :: [Stops.Stop.Parking.t]
-  def sort_parking_spots(spots) do
-    spots
-    |> Enum.sort_by(fn %{type: type} ->
-      case type do
-        "basic" -> 0
-        "accessible" -> 1
-        _ -> 2
-      end
-    end)
   end
 
   @spec render_alerts([Alerts.Alert], DateTime.t, Stop.t) :: Phoenix.HTML.safe | String.t

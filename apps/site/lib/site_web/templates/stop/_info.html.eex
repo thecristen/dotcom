@@ -6,7 +6,7 @@
   <h2>Parking</h2>
   <%= if !Enum.empty?(@stop.parking_lots) do %>
     <%= for lot <- @stop.parking_lots do %>
-      <%= render "_parking_lot.html", lot: lot%>
+      <%= SiteWeb.StopView.Parking.parking_lot(lot) %>
     <% end %>
   <% else %>
     <p>No parking information is available for this station.</p>

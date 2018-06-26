@@ -1,54 +1,23 @@
 <div class="row">
-  <%= if !Enum.empty?(@lot.spots) || @lot.rate || @lot.manager do %>
-    <div class="col-sm-4">
-      <%= if !Enum.empty?(@lot.spots) do %>
-        <ul class="list-unstyled">
-          <%= for parking <- sort_parking_spots(@lot.spots) do %>
-            <li><strong><%= parking.type |> parking_type %> <%= Inflex.inflect("Space", parking.spots) %>:</strong> <%= parking.spots %></li>
-          <% end %>
-        </ul>
-      <% else %>
-        <em>No MBTA parking. Street or private parking may exist.</em>
+  <div class="col-sm-12">
+    <h3><%= @lot.name %></h3>
+    <p>
+      <%= link to: "https://maps.google.com/?q=#{@lot.address}", target: "_blank" do %>
+        <%= @lot.address %> <%= fa "arrow-right" %>
       <% end %>
-    </div>
-    <div class="col-sm-4 payment-info">
-      <%= if @lot.rate do %>
-        <strong>Parking Rate:</strong> <%= @lot.rate |> HtmlSanitizeEx.strip_tags %>
-        <% else %>
-        <em>No payment information available</em>
-      <% end %>
-      <div>
-        <%= if @lot.pay_by_phone_id do %>
-          <strong>Pay By Phone:</strong> <%= "##{@lot.pay_by_phone_id}" |> HtmlSanitizeEx.strip_tags %>
-        <% end %>
-      </div>
-    </div>
-    <div class="col-sm-4 payment-info">
-    </div>
-    <div class="col-sm-4">
-      <%= if @lot.manager do %>
-        <ul class="list-unstyled">
-          <%= if @lot.manager.name  do %>
-            <li><strong>Managed by:</strong> <%= @lot.manager.name %></li>
-            <% end %>
-            <%= if @lot.manager.phone do %>
-              <li><strong>Phone:</strong> <%= tel_link @lot.manager.phone %></li>
-            <% end %>
-            <%= if @lot.manager.website do %>
-              <%= link to: external_link(@lot.manager.website) do %>
-                View <%= @lot.manager.name%>'s <span class="no-wrap">Website <%= fa "arrow-right" %></span>
-              <% end %>
-            <% end %>
-        </ul>
-        <% else %>
-        <em>No contact information available</em>
-      <% end %>
-    </div>
-  <% end %>
-</div>
-<%= if @lot.note do %>
-  <div class="callout">
-    <strong>Note:</strong>
-    <%= @lot.note |> HtmlSanitizeEx.strip_tags %>
+    </p>
+    <%= utilization(@lot) %>
   </div>
-<% end %>
+  <div class="col-sm-4">
+    <h4>Capacity</h4>
+    <%= capacity(@lot.capacity) %>
+  </div>
+  <div class="col-sm-4 payment-info">
+    <h4>Payment</h4>
+    <%= payment(@lot.payment) %>
+  </div>
+  <div class="col-sm-4">
+    <h4>Management</h4>
+    <%= manager(@lot.manager) %>
+  </div>
+</div>

@@ -116,16 +116,6 @@ defmodule SiteWeb.StopViewTest do
     end
   end
 
-  describe "sort_parking_spots/1" do
-    test "parkings spots are sorted in correct order" do
-      basic_spot = %{type: "basic"}
-      accessible_spot = %{type: "accessible"}
-      free_spot = %{type: "free"}
-      sorted = sort_parking_spots([free_spot, basic_spot, accessible_spot])
-      assert sorted == [basic_spot, accessible_spot, free_spot]
-    end
-  end
-
   describe "aggregate_routes/1" do
     test "All green line routes are aggregated" do
       e_line = %Route{id: "Green-E"}
@@ -409,39 +399,6 @@ defmodule SiteWeb.StopViewTest do
       refute safe_to_string(output) =~ "Local Bus One Way"
       assert safe_to_string(output) =~ "Subway One Way"
     end
-  end
-
-  describe "_parking_lot.html" do
-    @lot %{spots: [%{type: "basic", spots: 2}], rate: "$5/hr", note: "Parking notice", manager: nil, pay_by_phone_id: nil}
-
-    test "Parking note is only shown when one exists" do
-      note_output = SiteWeb.StopView.render("_parking_lot.html", lot: @lot)
-      assert safe_to_string(note_output) =~ "Note"
-      assert safe_to_string(note_output) =~ "Parking notice"
-    end
-
-    test "parking message is shown when lot has no parking" do
-      output = SiteWeb.StopView.render("_parking_lot.html", lot: %{@lot | spots: []})
-      assert safe_to_string(output) =~ "No MBTA parking. Street or private parking may exist"
-    end
-
-    test "Phone label is not shown when phone nil" do
-      lot = %{@lot | manager: %{phone: nil, name: "Parking name", website: "www.parking.com"}}
-      output = SiteWeb.StopView.render("_parking_lot.html", lot: lot)
-      refute safe_to_string(output) =~ "Phone"
-    end
-
-    test "Pay by Phone ID is not shown if it doesn't exist" do
-      output = SiteWeb.StopView.render("_parking_lot.html", lot: @lot)
-      refute safe_to_string(output) =~ "Pay By Phone"
-    end
-
-    test "Pay by Phone ID is shown if it does exist" do
-      lot = %{@lot | pay_by_phone_id: "1234"}
-      output = SiteWeb.StopView.render("_parking_lot.html", lot: lot)
-      assert safe_to_string(output) =~ "Pay By Phone"
-    end
-
   end
 
   describe "_detailed_stop_list.html" do

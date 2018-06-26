@@ -50,8 +50,8 @@ defmodule Algolia.MockStopsRepo do
       station?: true,
       parking_lots: [
         %Stops.Stop.ParkingLot{
-          manager: %Stops.Stop.Manager{email: nil, name: "Town of Acton"},
-          spots: [%Stops.Stop.Parking{spots: 287, type: "basic"}],
+          manager: %Stops.Stop.ParkingLot.Manager{name: "Town of Acton"},
+          capacity: [%Stops.Stop.ParkingLot.Capacity{total: 287}],
         }
       ]
     }

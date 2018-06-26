@@ -161,33 +161,20 @@ defmodule Stops.Api do
   defp parse_parking_area(parking_area) do
     parking_area.attributes["properties"]
     |> Enum.reduce(%{}, &property_acc/2)
-    |> Map.put(:name, parking_area.attributes["name"])
-    |> Map.put(:id, parking_area.id)
+    |> Map.put("name", parking_area.attributes["name"])
     |> to_parking_lot
   end
 
   @spec to_parking_lot(map) :: Stops.Stop.ParkingLot.t
   defp to_parking_lot(props) do
     %Stops.Stop.ParkingLot{
-      spots: [
-        %Stops.Stop.Parking {
-          type: "Parking",
-          spots: Map.get(props, "capacity", 0),
-        },
-        %Stops.Stop.Parking {
-          type: "Accessible",
-          spots: Map.get(props, "capacity-accessible", 0),
-        },
-      ],
-      rate: Map.get(props, "fee-daily"),
-      pay_by_phone_id: Map.get(props, "payment-app-id"),
+      name: Map.get(props, "name"),
+      address: Map.get(props, "address"),
+      capacity: Stops.Helpers.struct_or_nil(Stops.Stop.ParkingLot.Capacity.parse(props)),
+      payment: Stops.Helpers.struct_or_nil(Stops.Stop.ParkingLot.Payment.parse(props)),
+      utilization: Stops.Helpers.struct_or_nil(Stops.Stop.ParkingLot.Utilization.parse(props)),
       note: Map.get(props, "note"),
-      manager: %Stops.Stop.Manager{
-        name: Map.get(props, "operator"),
-        email: Map.get(props, "contact"),
-        phone: Map.get(props, "contact-phone"),
-        website: Map.get(props, "contact-url")
-      },
+      manager: Stops.Helpers.struct_or_nil(Stops.Stop.ParkingLot.Manager.parse(props)),
     }
   end
 
@@ -264,4 +251,5 @@ defmodule Stops.Api do
   defp facility_atom_from_string("FARE_VENDING_MACHINE"), do: :fare_vending_machine
   defp facility_atom_from_string("FARE_MEDIA_ASSISTANT"), do: :fare_media_assistant
   defp facility_atom_from_string("OTHER"), do: :other
+  defp facility_atom_from_string(_), do: :other
 end
