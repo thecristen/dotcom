@@ -18,6 +18,8 @@ defmodule SiteWeb.ContentController do
 
   @spec page(Plug.Conn.t, map) :: Plug.Conn.t
   def page(%Plug.Conn{request_path: path, query_params: query_params} = conn, _params) do
+    conn = Plug.Conn.assign(conn, :try_encoded_on_404?, Map.has_key?(query_params, "id"))
+
     path
     |> Content.Repo.get_page(query_params)
     |> handle_page_response(conn)
@@ -51,7 +53,14 @@ defmodule SiteWeb.ContentController do
     |> put_status(503)
     |> render(SiteWeb.ErrorView, "crash.html", [])
   end
-  defp handle_page_response({:error, :not_found}, conn) do
+  defp handle_page_response({:error, :not_found}, %Plug.Conn{assigns: %{try_encoded_on_404?: true}} = conn) do
+    conn = Plug.Conn.assign(conn, :try_encoded_on_404?, false)
+
+    conn.request_path
+    |> Content.Repo.get_page_with_encoded_id(conn.query_params)
+    |> handle_page_response(conn)
+  end
+  defp handle_page_response({:error, :not_found}, %Plug.Conn{} = conn) do
     render_404(conn)
   end
 

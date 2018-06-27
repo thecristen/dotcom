@@ -82,16 +82,18 @@ defmodule Content.RepoTest do
       assert Content.Repo.get_page("/invalid") == {:error, :invalid_response}
     end
 
-    test "URL encodes the query string before fetching" do
-      assert %Content.Redirect{
-        link: %Content.Field.Link{url: "http://google.com"}
-      } = Content.Repo.get_page("/redirect_node_with_query", %{"id" => "5"})
-    end
-
     test "given special preview query params, return certain revision of node" do
       result = Content.Repo.get_page("/basic_page_no_sidebar", %{"preview" => "", "vid" => "112", "nid" => "6"})
       assert %Content.BasicPage{} = result
       assert result.title == "Arts on the T 112"
+    end
+  end
+
+  describe "get_page_with_encoded_id/2" do
+    test "encodes the id param into the request" do
+      assert Content.Repo.get_page("/redirect_node_with_query", %{"id" => "5"}) == {:error, :not_found}
+      assert %Content.Redirect{} =
+        Content.Repo.get_page_with_encoded_id("/redirect_node_with_query", %{"id" => "5"})
     end
   end
 

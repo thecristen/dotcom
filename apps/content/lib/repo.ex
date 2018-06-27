@@ -19,6 +19,16 @@ defmodule Content.Repo do
     end
   end
 
+  @spec get_page_with_encoded_id(String.t, map) :: Content.Page.t | {:error, Content.CMS.error}
+  def get_page_with_encoded_id(path, %{"id" => _} = query_params) do
+    {id, params} = Map.pop(query_params, "id")
+    encoded_id = URI.encode_www_form("?id=#{id}")
+
+    path
+    |> Kernel.<>(encoded_id)
+    |> get_page(params)
+  end
+
   @spec news(Keyword.t) :: [Content.NewsEntry.t] | []
   def news(opts \\ []) do
     cache opts, fn _ ->
@@ -169,19 +179,9 @@ defmodule Content.Repo do
     end
   end
 
-  @spec view_or_preview(String.t, map) :: {:ok, map()} | {:error, String.t}
-  defp view_or_preview(path, %{"id" => old_site_page_id} = params) do
-    path
-    |> Kernel.<>(URI.encode_www_form("?id=#{old_site_page_id}"))
-    |> process_view_or_preview(params)
-  end
-  defp view_or_preview(path, params) do
-    process_view_or_preview(path, params)
-  end
-
-  @spec process_view_or_preview(String.t, map)
+  @spec view_or_preview(String.t, map)
   :: {:ok, map} | {:error, Content.CMS.error}
-  defp process_view_or_preview(_path, %{"preview" => _, "vid" => vid, "nid" => node_id}) do
+  defp view_or_preview(_path, %{"preview" => _, "vid" => vid, "nid" => node_id}) do
     case Integer.parse(node_id) do
       {nid, ""} ->
         nid
@@ -191,7 +191,7 @@ defmodule Content.Repo do
         {:error, :not_found} # Invalid or missing node ID
     end
   end
-  defp process_view_or_preview(path, params) do
+  defp view_or_preview(path, params) do
     @cms_api.view(path, params)
   end
 

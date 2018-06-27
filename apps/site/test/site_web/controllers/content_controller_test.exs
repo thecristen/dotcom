@@ -98,8 +98,13 @@ defmodule SiteWeb.ContentControllerTest do
       assert html_response(conn, 302) =~ "www.google.com"
     end
 
-    test "redirects when content type is a redirect and has a query param", %{conn: conn} do
+    test "redirects when content type is redirect & has query param that needs encoding", %{conn: conn} do
       conn = get conn, "/redirect_node_with_query?id=5"
+      assert html_response(conn, 302) =~ "google.com"
+    end
+
+    test "redirects when content type is redirect & has query param that doesn't need encoding", %{conn: conn} do
+      conn = get conn, "/redirect_node_with_query?id=6"
       assert html_response(conn, 302) =~ "google.com"
     end
 

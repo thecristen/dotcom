@@ -216,6 +216,9 @@ defmodule Content.CMS.Static do
   def view("/redirect_node_with_query%3Fid%3D5", _) do
     {:ok, redirect_with_query_response()}
   end
+  def view("/redirect_node_with_query", %{"id" => "6"}) do
+    {:ok, redirect_with_query_response()}
+  end
   def view("/person", _) do
     {:ok, person_response()}
   end
