@@ -1,0 +1,49 @@
+<%
+  from_error = case rendered_location_error(@conn, @query, :from) do
+    "" -> ""
+    error -> content_tag :span, error, id: "plan_result_focus"
+  end
+
+  to_error = case {from_error, rendered_location_error(@conn, @query, :to)} do
+    {"", ""} -> ""
+    {"", error} -> content_tag :span, error, id: "plan_result_focus"
+    {_, error} -> error
+  end
+%>
+
+<div class="form-group">
+  <%= label @parent_form, :from, "From:", for: "from" %>
+  <%= input_location(%InputLocation{
+                       id: "from",
+                       name: :plan,
+                       name_index: :from,
+                       submit: false,
+                       required: true,
+                       address: @parent_form.params["from"],
+                       address_error: from_error,
+                       placeholder: "Ex: 10 Park Plaza",
+                       input_class: location_input_class(@parent_form.params, :from),
+                       aria_label: "Use my current location for departure",
+                       submit_coordinates: true,
+                       latitude: @parent_form.params["from_latitude"],
+                       longitude: @parent_form.params["from_longitude"]
+                     }) %>
+</div>
+<div class="form-group">
+  <%= label @parent_form, :to, "To:", for: "to" %>
+  <%= input_location(%InputLocation{
+                      id: "to",
+                      name: :plan,
+                      name_index: :to,
+                      submit: false,
+                      required: true,
+                      address: @parent_form.params["to"],
+                      address_error: to_error,
+                      placeholder: "Ex: Boston Children's Museum",
+                      input_class: location_input_class(@parent_form.params, :to),
+                      aria_label: "Use my current location for destination",
+                      submit_coordinates: true,
+                      latitude: @parent_form.params["to_latitude"],
+                      longitude: @parent_form.params["to_longitude"]
+                    }) %>
+</div>
