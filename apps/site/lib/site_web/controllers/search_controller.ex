@@ -7,6 +7,7 @@ defmodule SiteWeb.SearchController do
   alias Alerts.Alert
   alias Content.Search.Facets
 
+  plug :breadcrumbs
   plug :search_header
   plug :former_site
 
@@ -152,6 +153,11 @@ defmodule SiteWeb.SearchController do
 
   @spec search_header(Conn.t, Keyword.t) :: Conn.t
   defp search_header(conn, _), do: assign(conn, :search_header?, true)
+
+  @spec breadcrumbs(Conn.t, Keyword.t) :: Conn.t
+  defp breadcrumbs(conn, _) do
+    assign(conn, :breadcrumbs, [Breadcrumb.build("Search")])
+  end
 
   @spec former_site(Conn.t, Keyword.t) :: Conn.t
   def former_site(conn, _) do

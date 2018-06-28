@@ -6,6 +6,7 @@ defmodule SiteWeb.TripPlanController do
 
   plug :require_google_maps
   plug :assign_initial_map
+  plug :breadcrumbs
 
   @type route_map :: %{optional(Routes.Route.id_t) => Routes.Route.t}
   @type route_mapper :: ((Routes.Route.id_t) -> Routes.Route.t | nil)
@@ -120,6 +121,11 @@ defmodule SiteWeb.TripPlanController do
     conn
     |> assign(:initial_map_src, TripPlanMap.initial_map_src())
     |> assign(:initial_map_data, TripPlanMap.initial_map_data())
+  end
+
+  @spec breadcrumbs(Plug.Conn.t, Keyword.t) :: Plug.Conn.t
+  defp breadcrumbs(conn, _) do
+    assign(conn, :breadcrumbs, [Breadcrumb.build("Trip Planner")])
   end
 
   @spec routes_for_query([Itinerary.t]) :: route_map

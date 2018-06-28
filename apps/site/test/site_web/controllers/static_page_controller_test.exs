@@ -1,0 +1,22 @@
+defmodule SiteWeb.StaticPageControllerTest do
+  use SiteWeb.ConnCase, async: true
+
+  test "/getting-around", %{conn: conn} do
+    assert conn
+            |> get("/getting-around")
+            |> html_response(200) =~ "Getting Around"
+  end
+
+  test "/about", %{conn: conn} do
+    assert conn
+           |> get("/about")
+           |> html_response(200) =~ "About"
+  end
+
+  describe "build_breadcrumb/1" do
+    test "builds a breadcrumb from an atom" do
+      assert SiteWeb.StaticPageController.build_breadcrumb(:getting_around) ==
+        [%Util.Breadcrumb{text: "Getting Around", url: ""}]
+    end
+  end
+end
