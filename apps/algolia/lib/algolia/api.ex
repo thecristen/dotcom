@@ -26,26 +26,9 @@ defmodule Algolia.Api do
 
   defp do_post(%__MODULE__{index: index, action: action, body: body} = opts, %Config{} = config)
   when is_binary(index) and is_binary(action) and is_binary(body) do
-    body = rewrite_indexes(body, opts, Application.get_env(:algolia, :index_suffix))
-
     opts
     |> generate_url(config)
     |> HTTPoison.post(body, headers(config), hackney: hackney_opts(opts))
-  end
-
-  defp rewrite_indexes(body, %__MODULE__{}, "") do
-    body
-  end
-  defp rewrite_indexes(body, %__MODULE__{action: "queries"}, <<suffix::binary>>) do
-    {:ok, %{"requests" => requests}} = Poison.decode(body)
-    Poison.encode!(%{"requests" => Enum.map(requests, &rewrite_index(&1, suffix))})
-  end
-  defp rewrite_indexes(body, %__MODULE__{}, <<_::binary>>) do
-    body
-  end
-
-  defp rewrite_index(%{"indexName" => index_name} = request, suffix) do
-    Map.put(request, "indexName", index_name <> suffix)
   end
 
   @spec generate_url(t, Config.t) :: String.t

@@ -7,12 +7,6 @@ describe("Algolia", function() {
   jsdom();
 
   beforeEach(function() {
-    window.encodeURIComponent = (str) => {
-      return str.replace(/\s/g, "%20")
-                .replace(/\[/g, "%5B")
-                .replace(/\]/g, "%5D")
-                .replace(/\,/g, "%2C")
-    };
     window.jQuery = jsdom.rerequire("jquery");
     document.body.innerHTML = `
       <div id="algolia-error">There was an error</div>
@@ -143,24 +137,6 @@ describe("Algolia", function() {
 
       this.algolia.addPage("stops");
       expect(this.algolia._queries.stops.params.hitsPerPage)
-    });
-  });
-
-  describe("_encodeQuery", function() {
-    it("encodes a query", function() {
-      const query = {
-        indexName: "index",
-        query: "query",
-        params: {
-          foo: "foo",
-          bar: ["*"],
-          baz: ["whiz", "bang"]
-        }
-      }
-      const encoded = this.algolia._encodeQuery(query);
-      expect(encoded).to.have.keys(["indexName", "params"]);
-      expect(encoded.indexName).to.equal("index");
-      expect(encoded.params).to.equal("query=query&foo=foo&bar=%5B%22*%22%5D&baz=%5B%22whiz%22%2C%22bang%22%5D");
     });
   });
 });

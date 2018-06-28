@@ -10,7 +10,7 @@ defmodule Algolia.ApiTest do
       Bypass.expect(bypass, "POST", "/1/indexes/*/queries", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
         case Poison.decode(body) do
-          {:ok, %{"requests" => [%{"indexName" => "index_test"}]}} ->
+          {:ok, %{"requests" => [%{"indexName" => "index"}]}} ->
             Plug.Conn.send_resp(conn, 200, @success_response)
           _ ->
             Plug.Conn.send_resp(conn, 400, ~s({"error" : "bad request"}))

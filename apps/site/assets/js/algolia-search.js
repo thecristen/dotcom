@@ -68,7 +68,7 @@ export class Algolia {
   }
 
   _sendQueries(queries) {
-    const body = {requests: queries.map(query => this._encodeQuery(query))}
+    const body = {requests: queries}
     return new Promise((resolve, reject) => {
       window.jQuery.ajax({
         type: "POST",
@@ -80,23 +80,6 @@ export class Algolia {
       .done(resolve)
       .fail(reject)
     });
-  }
-
-  _encodeQuery(query) {
-    return {
-      indexName: query.indexName,
-      params: this._paramsToString(query.params, "query=" + window.encodeURIComponent(query.query))
-    }
-  }
-
-  _paramsToString(params, str) {
-    for (var key in params) {
-      if (key !== null && params[key] !== undefined && params.hasOwnProperty(key)) {
-        str += str === '' ? '' : '&';
-        str += key + '=' + encodeURIComponent(Object.prototype.toString.call(params[key]) === '[object Array]' ? JSON.stringify(params[key]) : params[key]);
-      }
-    }
-    return str;
   }
 
   _buildAllQueries(opts) {

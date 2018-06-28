@@ -39,13 +39,13 @@ defmodule SiteWeb.SearchController do
     |> render("index.html")
   end
 
-  @spec query(Conn.t, Keyword.t) :: Conn.t
+  @spec query(Conn.t, map) :: Conn.t
   def query(%Conn{} = conn, params) do
     %Algolia.Api{
       host: conn.assigns[:algolia_host],
       index: "*",
       action: "queries",
-      body: Poison.encode!(params)
+      body: Algolia.Query.build(params)
     }
     |> Algolia.Api.post()
     |> do_query(conn)
