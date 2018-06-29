@@ -187,6 +187,11 @@ export class AlgoliaAutocomplete {
     if (this._input) {
       this._input.value = "";
     }
+
+    window.jQuery.post("/search/click", hit.analyticsData, this.onHitSelectedCallback(hit, type, params));
+  }
+
+  onHitSelectedCallback(hit, type, params) {
     window.Turbolinks.visit(AlgoliaResult.getUrl(hit, type) + QueryStringHelpers.parseParams(params));
   }
 

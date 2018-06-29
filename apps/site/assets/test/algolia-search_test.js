@@ -109,7 +109,8 @@ describe("Algolia", function() {
       this.algolia.addWidget(this.widget);
       const response = {
         results: [{
-          index: "stops"
+          index: "stops",
+          hits: [],
         }]
       };
       const results = this.algolia._processAlgoliaResults()(response);
@@ -119,7 +120,7 @@ describe("Algolia", function() {
         expect(this.widget.render.args[0]).to.be.an("array");
         expect(this.widget.render.args[0]).to.have.lengthOf(1);
         expect(this.widget.render.args[0][0]).to.have.keys(["stops"]);
-        expect(this.widget.render.args[0][0].stops).to.have.keys(["index"]);
+        expect(this.widget.render.args[0][0].stops).to.have.keys(["index", "hits"]);
         expect(this.widget.render.args[0][0].stops.index).to.equal("stops");
         done();
       });

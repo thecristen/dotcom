@@ -81,4 +81,41 @@ defmodule SiteWeb.HomepageSearchTest do
       |> assert_has(css("#algolia-error", visible: true))
     end
   end
+
+  @tag :wallaby
+  test "tracks clicks", %{session: session} do
+    bypass = Bypass.open()
+
+    old_url = Application.get_env(:algolia, :click_analytics_url)
+    Application.put_env(:algolia, :track_clicks?, true)
+    Application.put_env(:algolia, :click_analytics_url, "http://localhost:#{bypass.port}")
+
+    parent = self()
+
+    Bypass.expect(bypass, fn conn ->
+      {:ok, body, _} = Plug.Conn.read_body(conn)
+      case Poison.decode(body) do
+        {:ok, %{"objectID" => "stop-place-" <> _, "queryID" => <<_::binary>>, "position" => "1"}} ->
+          send parent, :click_tracked
+        decoded ->
+          send parent, {:bad_click_request, decoded}
+          :ok
+      end
+      Plug.Conn.send_resp(conn, 200, "{}")
+    end)
+
+    on_exit fn ->
+      Application.put_env(:algolia, :track_clicks?, false)
+      Application.put_env(:algolia, :click_analytics_url, old_url)
+    end
+
+    session =
+      session
+      |> fill_in(@search_input, with: "Alewife")
+      |> assert_has(css(".c-search-bar__-dataset-stops"))
+
+    click(session, Wallaby.Query.link("Alewife"))
+
+    assert_receive :click_tracked
+  end
 end

@@ -195,19 +195,11 @@ export class AlgoliaResults {
 
   renderResult(index, groupData) {
     return (hit, idx) => {
-      const analyticsData = this.getAnalytics(groupData, idx);
       return `
         <div class="c-search-result__hit">
-          ${AlgoliaResult.renderResult(Object.assign(hit, analyticsData), index)}
+          ${AlgoliaResult.renderResult(hit, index)}
         </div>
       `;
-    }
-  }
-
-  getAnalytics(results, idx) {
-    return {
-      queryID: results.queryID,
-      hitPosition: (results.hitsPerPage * results.page) + idx + 1
     }
   }
 

@@ -61,10 +61,20 @@ export class Algolia {
     return this._sendQueries(allQueries)
                .then(this._processAlgoliaResults())
                .then(results => {
-                 this.updateWidgets(results)
+                 this.updateWidgets(results);
                  return results;
                })
                .catch(err => console.log(err));
+  }
+
+  _addAnalyticsData(result) {
+    result.hits.forEach((hit, i) => {
+      hit.analyticsData = {
+        queryID: result.queryID,
+        position: result.hitsPerPage * result.page + i + 1,
+        objectID: hit.objectID
+      }
+    });
   }
 
   _sendQueries(queries) {
@@ -202,6 +212,7 @@ export class Algolia {
         const facetResults = response.results.slice(searchedQueries.length, searchedQueries.length + facetLength);
         const results = {}
         searchResults.forEach((result, i) => {
+          this._addAnalyticsData(result);
           results[searchedQueries[i]] = result;
         });
         facetResults.forEach((result, i) => {

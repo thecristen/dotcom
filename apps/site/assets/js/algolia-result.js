@@ -29,7 +29,7 @@ export const TEMPLATES = {
     <a id="hit-{{id}}" class="${SELECTORS.result} c-search-result__link" href="{{hitUrl}}">
     {{/id}}
     {{^id}}
-    <a class="${SELECTORS.result} c-search-result__link" href="{{hitUrl}}" data-queryid="{{queryID}}" data-hit-position="{{hitPosition}}" data-objectid="{{objectID}}">
+    <a class="${SELECTORS.result} c-search-result__link" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
     {{/id}}
       <span>{{{hitIcon}}}</span>
       <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
