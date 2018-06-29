@@ -1,0 +1,102 @@
+.trip-planner-form {
+  @include media-breakpoint-up(sm) {
+    &.collapse {
+      display: block;
+    }
+  }
+}
+
+.trip-plan-sidebar {
+  @include make-col();
+  width: 100%;
+
+  @include media-breakpoint-up(md) {
+    @include make-col-span(5);
+  }
+
+  @media print {
+    width: 100%;
+  }
+}
+
+.plan-date-container {
+  background: $white;
+  border: $border;
+  display: none;
+
+  input {
+    border: 0;
+    display: inline;
+    text-align: center;
+    width: $base-spacing * 2;
+
+    &:focus {
+      border: 1px solid $gray-light;
+      outline: none;
+    }
+  }
+}
+
+.plan-datetime-link {
+  background: transparent;
+  border: 0;
+  color: $brand-primary;
+  text-decoration: underline;
+}
+
+.plan-date-input {
+  display: none;
+}
+
+.plan-time-input-select {
+  display: inline-block;
+}
+
+.plan-time {
+  display: inline-block;
+}
+
+@include media-breakpoint-up(md) {
+  .plan-date {
+    display: inline-block;
+  }
+}
+
+.trip-plan-form-container {
+  @include icon-size($base-spacing * 1.5);
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: 0;
+    margin-top: 0;
+    position: sticky;
+    top: 0;
+    z-index: $z-index-datepicker-content; // required so that a new stacking context is defined;
+                                          // without setting z-index, the footer's stacking context
+                                          // is higher than this sidebar so the datepicker popup
+                                          // is covered by the footer. -kh
+                                          // https://philipwalton.com/articles/what-no-one-told-you-about-z-index/
+  }
+
+  [class^="c-svg__icon"] {
+    vertical-align: top;
+  }
+}
+
+.date-time-select {
+  select {
+    background-color: $white;
+    border: $border;
+    border-radius: $space-4;
+    display: inline;
+  }
+}
+
+.plan-date-select,
+.plan-time-select {
+  display: inline-block;
+}
+
+.planner-location-box-location {
+  padding-bottom: $space-8;
+}
+
