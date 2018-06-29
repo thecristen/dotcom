@@ -26,13 +26,15 @@ export function initCarets() {
   }
 
   function addCaret(name, container) {
-    const caret = document.createElement("i");
+    if (container.getElementsByClassName(name).item(0) == null) {
+      const caret = document.createElement("i");
 
-    caret.classList.add("fa");
-    caret.classList.add("fa-angle-" + name);
-    caret.classList.add(name);
-    caret.setAttribute("aria-hidden", true);
+      caret.classList.add("fa");
+      caret.classList.add("fa-angle-" + name);
+      caret.classList.add(name);
+      caret.setAttribute("aria-hidden", true);
 
-    container.appendChild(caret);
+      container.appendChild(caret);
+    }
   }
 }
