@@ -6,7 +6,8 @@
       links: for mode <- [:subway, :bus, "commuter-rail", :ferry, :access] do
         {mode, alert_path(@conn, :show, mode)}
       end,
-      selected_mode: @id
+      selected_mode: @id,
+      stacked_label: "Explore alerts by mode:"
     } %>
     <div class="clearfix"></div>
   </div>

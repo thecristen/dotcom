@@ -14,7 +14,8 @@ defmodule Site.Components.Tabs.ModeTabList do
     links: for mode <- [:bus, :commuter_rail, :subway, :ferry] do
              {mode, "/schedules/#{mode}"}
            end,
-    selected_mode: :bus
+    selected_mode: :bus,
+    stacked_label: "Explore by mode:"
   ]
 
   @type t :: %__MODULE__{

@@ -3,5 +3,6 @@
                               id: args.id,
                               class: "tab-select-btn-group-stacked #{args.class}",
                               selected: Atom.to_string(args.selected_mode),
+                              stacked_label: args.stacked_label,
                               icon_map: build_mode_icon_map(args.links)}
 %>

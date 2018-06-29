@@ -19,6 +19,7 @@ defmodule Site.Components.Tabs.TabSelector do
       {"trip-view", "Schedule", "/schedules/bus"},
       {"info", "Info", "/schedules/bus"}],
     selected: "trip-view",
+    stacked_label: "",
     icon_map: %{},
   ]
 
@@ -27,6 +28,7 @@ defmodule Site.Components.Tabs.TabSelector do
     class: String.t,
     links: [{tab_item_name:: String.t, title:: String.t, href:: String.t}],
     selected: String.t,
+    stacked_label: String.t,
     icon_map: %{optional(title:: String.t) => Phoenix.HTML.safe}
   }
 
