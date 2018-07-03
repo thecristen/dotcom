@@ -123,7 +123,7 @@
       </div>
       <div class="col-md-6">
         <p>
-          <%= link to: redirect_path(@conn, "commerce/TheRide") do %>
+          <%= link to: "https://commerce.mbta.com/theride", target: "_blank" do %>
             Add funds to your RIDE account <span class="no-wrap"><%= fa "arrow-right" %></span>
           <% end %>
         </p>
