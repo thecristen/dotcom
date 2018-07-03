@@ -8,9 +8,9 @@
       <div class="hidden-no-js">
         <div class="route-filter-label">Find your route:</div>
         <%= form_for @conn, @conn.request_path, [as: :filter, method: :get, class: "route-filter-form form-inline"], fn f -> %>
-          <div class="group route-filter-container">
-            <%= text_input f, :q, placeholder: "Search a route to filter", class: "form-control", data_filter_input: "bus"%>
-            <%= submit "GO", class: "btn btn-primary route-filter-btn filter-btn-disabled", data_filter_submit: true %>
+          <div class="group route-filter-container c-form__input-container">
+            <%= text_input f, :q, placeholder: "Search a route to filter", class: "form-control c-form__input js-form__input", data_filter_input: "bus"%>
+            <%= submit "GO", class: "btn btn-primary c-form__submit-btn", data_filter_submit: true %>
           </div>
           <%= if route_name_error = get_flash(@conn, :search_error) do %>
             <div class="error-container filter-error-container" id="filter-error-container">

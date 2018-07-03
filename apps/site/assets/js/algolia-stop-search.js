@@ -90,7 +90,7 @@ export class AlgoliaStopSearch {
     if (!this._goBtn) {
       this._goBtn = document.createElement("div");
       this._goBtn.id = AlgoliaStopSearch.SELECTORS.goBtn;
-      this._goBtn.classList.add("c-search-bar__go-btn");
+      this._goBtn.classList.add("c-form__submit-btn");
       this._goBtn.innerHTML = `GO`;
       this._input.parentNode.appendChild(this._goBtn);
     }

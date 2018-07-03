@@ -12,7 +12,7 @@
 %>
 
 <div class="form-group">
-  <%= label @parent_form, :from, "From:", for: "from" %>
+  <%= label @parent_form, :from, "From", for: "from" %>
   <%= input_location(%InputLocation{
                        id: "from",
                        name: :plan,
@@ -30,7 +30,7 @@
                      }) %>
 </div>
 <div class="form-group">
-  <%= label @parent_form, :to, "To:", for: "to" %>
+  <%= label @parent_form, :to, "To", for: "to" %>
   <%= input_location(%InputLocation{
                       id: "to",
                       name: :plan,

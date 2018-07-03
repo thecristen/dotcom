@@ -27,21 +27,6 @@
   font-weight: bold;
 }
 
-.c-search-bar__go-btn {
-  @include icon-size($base-spacing * 1.5);
-  background: $brand-primary;
-  border: 0;
-  border-radius: $base-spacing / 4;
-  color: $white;
-  cursor: pointer;
-  margin: 0 $space-2;
-  padding: $base-spacing / 2 $base-spacing;
-
-  .c-svg__icon-search-reverse-default {
-    vertical-align: top;
-  }
-}
-
 .c-search-bar__go-btn--homepage {
   padding: $space-8;
 }
@@ -139,11 +124,6 @@
   font-weight: bold;
 }
 
-.c-search-bar__input {
-  display: flex;
-  position: relative;
-}
-
 .c-search-bar__-input {
   &::-ms-clear {
     display: none;
@@ -154,12 +134,6 @@
   border: 3px $brand-primary solid;
   border-radius: $base-spacing / 4;
   margin-top: $space-16;
-}
-
-.c-search-bar__input--half {
-  @include media-breakpoint-up(md) {
-    width: 50%;
-  }
 }
 
 .c-search-bar__my-location {

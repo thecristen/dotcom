@@ -104,11 +104,6 @@
   g {
     fill: $white;
   }
-
-  .text-input-button-widget {
-    margin: auto;
-    width: 90%;
-  }
 }
 
 .searchbar-heading {
@@ -333,12 +328,6 @@
   margin-top: 0;
 }
 
-.c-search__results-input-container {
-  border: 3px solid $brand-primary-dark;
-  border-radius: $border-radius;
-  display: flex;
-}
-
 .c-search__results-input {
   border-radius: $border-radius;
   border-width: 0;
@@ -484,16 +473,6 @@
   display: flex;
   justify-content: flex-end;
   padding: $base-spacing / 2;
-}
-
-.c-search__reset-icon {
-  color: $brand-primary;
-  display: none; // gets toggled by javascript on keyup
-  flex: 0 0 auto;
-  height: $space-18;
-  margin-right: $base-spacing / 2;
-  margin-top: .875rem;
-  width: $space-18;
 }
 
 .c-search__error {

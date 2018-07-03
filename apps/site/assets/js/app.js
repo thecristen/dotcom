@@ -248,6 +248,7 @@ import * as homepageSearch from "./algolia-homepage-search";
 import * as globalSearch from "./algolia-global-search";
 import AlgoliaResults from "./algolia-results";
 import fullstory from './fullstory';
+import inputFocus from './input-focus';
 
 submitOnEvents(["blur", "change"]);
 googleMapsLoaded();
@@ -262,6 +263,7 @@ horizsticky();
 objectFitImages(); // Polyfill for IE object-fit support
 menuCtrlClick();
 carousel();
+inputFocus();
 geoLocation();
 addressSearch();
 autocomplete();

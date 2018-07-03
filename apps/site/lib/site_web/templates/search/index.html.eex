@@ -4,9 +4,9 @@
       <h1 class="c-search__results-title">Search</h1>
     </div>
     <div class="col-md-8">
-      <div class="c-search__results-input-container">
-        <input id="search-input" class="c-search__results-input" placeholder="Search by keyword"></input>
-        <span id="search-clear-icon" class="c-search__reset-icon fa fa-times-circle"></span>
+      <div class="c-form__input-container">
+        <input id="search-input" class="c-form__input js-form__input" placeholder="Search by keyword"></input>
+        <span id="search-clear-icon" class="c-form__reset-icon fa fa-times-circle"></span>
       </div>
       <button id="show-facets" class="btn btn-primary c-search__filter-button">
         Filter by type

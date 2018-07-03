@@ -275,3 +275,16 @@
 .station__name--upcase {
   text-transform: uppercase;
 }
+
+.m-stops__search {
+  .c-form__input-container {
+    @include media-breakpoint-up(md) {
+      width: 50%;
+    }
+  }
+
+  .c-form__submit-btn {
+    padding-left: $base-spacing;
+    padding-right: $base-spacing;
+  }
+}

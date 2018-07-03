@@ -1,10 +1,10 @@
 <div class="hidden-no-js">
   <div class="container homepage-search">
-    <form action="/search" method="get" id="homepage-search__container" class="text-input-button-widget c-search-bar__input c-search-bar__input--homepage">
-      <input type="text" name="query" id="homepage-search__input" class="text-input-button-widget-input" aria-label="Search MBTA.com" placeholder="Search for routes, places, information, and more"></input>
+    <form action="/search" method="get" id="homepage-search__container" class="c-form__input-container">
+      <input type="text" name="query" id="homepage-search__input" class="c-form__input js-form__input" aria-label="Search MBTA.com" placeholder="Search for routes, places, information, and more"></input>
       <i aria-hidden="true" id="homepage-search__loading-indicator" class="fa fa-cog fa-spin c-search-bar__loading-indicator"></i>
-      <i id="homepage-search__reset" class="c-search__reset-icon fa fa-times-circle"></i>
-      <button id="homepage-search__input-go-btn" class="c-search-bar__go-btn c-search-bar__go-btn--homepage" aria-label="search">
+      <i id="homepage-search__reset" class="c-form__reset-icon fa fa-times-circle"></i>
+      <button id="homepage-search__input-go-btn" class="c-form__submit-btn" aria-label="search">
         <%= svg("icon-search-reverse-default.svg") %>
       </button>
     </form>
