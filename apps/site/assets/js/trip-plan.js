@@ -7,6 +7,9 @@ export default function tripPlan($ = window.jQuery) {
   $(document).on("focus", "#from.trip-plan-current-location", highlightCurrentLocation($));
   $(document).on("input", "#to.trip-plan-current-location", clearCurrentLocation($));
   $(document).on("input", "#from.trip-plan-current-location", clearCurrentLocation($));
+  $(document).on("click", "#depart", showDatePicker($));
+  $(document).on("click", "#arrive", showDatePicker($));
+  $(document).on("click", "#leave-now", hideDatePicker($));
   $("[data-planner-body]").on("hide.bs.collapse", toggleIcon);
   $("[data-planner-body]").on("show.bs.collapse", toggleIcon);
   $("[data-planner-body]").on("shown.bs.collapse", redrawMap);
@@ -275,5 +278,17 @@ function toggleAlertDropdownText(e) {
     target.text("(hide alert)");
   } else {
     target.text("(view alert)");
+  }
+}
+
+function hideDatePicker($) {
+  return function(e) {
+    $("#trip-plan-datepicker").hide();
+  }
+}
+
+function showDatePicker($) {
+  return function(e) {
+    $("#trip-plan-datepicker").show();
   }
 }

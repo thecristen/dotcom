@@ -85,6 +85,25 @@ defmodule Site.TripPlan.QueryTest do
       assert opts[:wheelchair_accessible?]
     end
 
+    test "leave now uses depart_at time" do
+      params = %{"from" => "from address",
+                  "to" => "to address",
+                  "time" => "leave-now",
+                  "date_time" => @date_time,
+                  "accessible" => "true"}
+      actual = from_query(params)
+      assert_received {:geocoded_address, "from address", {:ok, from_position}}
+      assert_received {:geocoded_address, "to address", {:ok, to_position}}
+      assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
+      assert %Query{
+        from: {:ok, ^from_position},
+        to: {:ok, ^to_position},
+        time: {:depart_at, @date_time},
+        wheelchair_accessible?: true,
+        itineraries: {:ok, ^itineraries}
+      } = actual
+    end
+
     test "does not plan a trip if we fail to geocode" do
       params = %{"from" => "no results",
                  "to" => "too many results"}
