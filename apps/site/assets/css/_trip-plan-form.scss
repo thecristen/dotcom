@@ -100,3 +100,12 @@
   padding-bottom: $space-8;
 }
 
+.m-trip-plan__accessible-trip {
+  margin-top: $base-spacing;
+}
+
+.m-trip-plan__accordion-last {
+  .form-group {
+    margin-bottom: 0;
+  }
+}

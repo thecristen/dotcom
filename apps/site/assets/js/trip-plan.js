@@ -10,6 +10,9 @@ export default function tripPlan($ = window.jQuery) {
   $(document).on("click", "#depart", showDatePicker($));
   $(document).on("click", "#arrive", showDatePicker($));
   $(document).on("click", "#leave-now", hideDatePicker($));
+  $(document).on("click", "#depart", updateAccordionTitle("Depart at", true));
+  $(document).on("click", "#arrive", updateAccordionTitle("Arrive by", true));
+  $(document).on("click", "#leave-now", updateAccordionTitle("Leave now", false));
   $("[data-planner-body]").on("hide.bs.collapse", toggleIcon);
   $("[data-planner-body]").on("show.bs.collapse", toggleIcon);
   $("[data-planner-body]").on("shown.bs.collapse", redrawMap);
@@ -35,9 +38,12 @@ export default function tripPlan($ = window.jQuery) {
   $(document).on("turbolinks:load", function() {
     $(".itinerary-alert-toggle").show();
     $(".itinerary-alert-toggle").trigger('click');
+    $("#trip-plan-datepicker").hide();
     if (document.getElementById(DATE_TIME_IDS.dateEl.input)) {
+      $("#trip-plan-accordion-title").data("prefix", "Leave now");
       dateInput($);
       timeInput($);
+      doUpdateAccordionTitle("Leave now", false);
     }
   });
 };
@@ -83,6 +89,7 @@ export function dateInput($) {
   const date = new Date(document.getElementById(DATE_TIME_IDS.year).value, actualMonth - 1, document.getElementById(DATE_TIME_IDS.day).value);
 
   $dateInput.val(getFriendlyDate(date));
+  $dateLink.data("date", getShortDate(date));
 
   $dateInput.datepicker({outputFormat: 'MM/dd/yyyy',
                          onUpdate: updateDate.bind(this, $),
@@ -123,6 +130,13 @@ export function getFriendlyDate(date) {
   return date.toLocaleDateString("en-US", options);
 }
 
+export function getShortDate(date) {
+  const options = {year: "numeric",
+                   month: "numeric",
+                   day: "numeric"}
+  return date.toLocaleDateString("en-US", options);
+}
+
 export function getFriendlyTime(datetime) {
   let amPm = "AM";
   let hour = datetime.getHours();
@@ -144,12 +158,15 @@ function updateDate($, newDate) {
   const el = document.getElementById(DATE_TIME_IDS.dateEl.link);
   const ariaMessage = el.getAttribute("aria-label").split(", ")[3];
   el.textContent = friendlyDate;
+  el.setAttribute("data-date", getShortDate(date));
   el.setAttribute("aria-label", friendlyDate + ", " + ariaMessage);
   updateDateSelect($, "#" + DATE_TIME_IDS.year, date.getFullYear().toString());
   updateDateSelect($, "#" + DATE_TIME_IDS.month, month.toString());
   updateDateSelect($, "#" + DATE_TIME_IDS.day, date.getDate().toString());
   $("#" + DATE_TIME_IDS.dateEl.input).datepicker("hide");
   $("#" + DATE_TIME_IDS.dateEl.link).show();
+  $("#" + DATE_TIME_IDS.dateEl.link).data("date", friendlyDate);
+  doUpdateAccordionTitle($("#trip-plan-accordion-title").data("prefix"), true);
 }
 
 function updateDateSelect($, selector, newValue) {
@@ -166,6 +183,7 @@ function updateDateSelect($, selector, newValue) {
 export function timeInput($) {
   document.getElementById(DATE_TIME_IDS.timeEl.link).addEventListener("click", showTimeSelectors, true);
   $(".datepicker-calendar").on("ab.datepicker.closed", updateTime);
+  updateTime();
 }
 
 function showTimeSelectors(ev) {
@@ -197,7 +215,9 @@ function updateTime() {
   time.setMinutes(document.getElementById(DATE_TIME_IDS.minute).value);
   const friendlyTime = getFriendlyTime(time);
   el.textContent = friendlyTime;
+  el.setAttribute("data-time", friendlyTime);
   el.setAttribute("aria-label", friendlyTime + ", " + ariaMessage);
+  doUpdateAccordionTitle(document.getElementById("trip-plan-accordion-title").getAttribute("data-prefix"), true);
 }
 
 function handleClickOutsideTime(ev) {
@@ -291,4 +311,24 @@ function showDatePicker($) {
   return function(e) {
     $("#trip-plan-datepicker").show();
   }
+}
+
+function updateAccordionTitle(text, showDate) {
+  return function(e) {
+    doUpdateAccordionTitle(text, showDate);
+  }
+}
+
+function doUpdateAccordionTitle(text, showDate) {
+  let title = text;
+  if (showDate) {
+    const timeEl = document.getElementById(DATE_TIME_IDS.timeEl.link);
+    const time = timeEl.getAttribute("data-time");
+    const dateEl = document.getElementById(DATE_TIME_IDS.dateEl.link);
+    const date = dateEl.getAttribute("data-date");
+    title = `${text} ${time}, ${date}`;
+  }
+  const accordionTitle = document.getElementById("trip-plan-accordion-title")
+  accordionTitle.innerHTML = title;
+  accordionTitle.setAttribute("data-prefix", text);
 }

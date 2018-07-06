@@ -1,0 +1,55 @@
+.c-accordion__triangle {
+  border-bottom: 6px solid $brand-primary-dark;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 0;
+  height: 0;
+  width: 0;
+}
+
+.c-accordion {
+  border: solid $border-width $brand-primary-dark;
+  color: $brand-primary;
+  display: flex;
+  justify-content: space-between;
+  padding: $base-spacing 0 $base-spacing $base-spacing;
+  width: 100%;
+
+  &.collapsed {
+    .c-accordion__triangle {
+      border-bottom: 0;
+      border-top: 6px solid $brand-primary-dark;
+    }
+  }
+
+  &.collapsed:hover {
+    .c-accordion__triangle {
+      border-bottom: 0;
+      border-top: 6px solid $brand-primary-darkest;
+    }
+  }
+}
+
+.c-accordion:hover {
+  background-color: $brand-primary-lightest;
+  color: $brand-primary-darkest;
+
+  .c-accordion__triangle {
+    border-bottom: 6px solid $brand-primary-darkest;
+    border-top: 0;
+  }
+}
+
+.c-accordion__triangle-container {
+  align-items: center;
+  display: flex;
+  margin-right: $base-spacing;
+}
+
+.c-accordion__content {
+  border: solid $border-width $brand-primary-dark;
+  border-collapse: collapse;
+  border-top: 0;
+  padding: $base-spacing;
+}
+

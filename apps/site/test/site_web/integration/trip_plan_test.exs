@@ -5,6 +5,7 @@ defmodule TripPlanIntegrationTest do
   @leave_now css("#leave-now")
   @depart css("#depart")
   @arrive css("#arrive")
+  @accordion css("#trip-plan-accordion-title")
   @datepicker css("#trip-plan-datepicker")
 
   describe "trip plan form" do
@@ -14,6 +15,7 @@ defmodule TripPlanIntegrationTest do
         session
         |> visit("/trip-planner")
 
+      click(session, @accordion)
       refute visible?(session, @datepicker)
       click(session, @depart)
       assert visible?(session, @datepicker)
@@ -21,6 +23,35 @@ defmodule TripPlanIntegrationTest do
       refute visible?(session, @datepicker)
       click(session, @arrive)
       assert visible?(session, @datepicker)
+    end
+
+    @tag :wallaby
+    test "departure options update accordion title", %{session: session} do
+      session =
+        session
+        |> visit("/trip-planner")
+
+      click(session, @accordion)
+      refute visible?(session, @datepicker)
+      assert Browser.text(session, @accordion) =~ "Leave now"
+      click(session, @depart)
+      assert Browser.text(session, @accordion) =~ "Depart at"
+      click(session, @arrive)
+      assert Browser.text(session, @accordion) =~ "Arrive by"
+    end
+
+    @tag :wallaby
+    test "departure hour updates accordion title", %{session: session} do
+      session =
+        session
+        |> visit("/trip-planner")
+        |> click(@accordion)
+        |> click(@arrive)
+        |> click(css("#plan-time-link"))
+
+      Browser.fill_in(session, css("#plan_date_time_hour"), with: 10)
+      click(session, css("#main"))
+      assert Browser.text(session, @accordion) =~ "Arrive by 10:"
     end
   end
 end

@@ -1,33 +1,12 @@
-<fieldset>
-  <legend class="sr-only">Schedule By Arrival or Departure:</legend>
-  <div class="form-check">
-    <%= label @parent_form, :time, for: "leave-now", class: "form-check-label" do %>
-      <%= radio_button @parent_form, :time, "leave-now", id: "leave-now", checked: true, class: "form-check-input" %>
-      Leave now
-    <% end %>
-  </div>
-  <div class="form-check">
-    <%= label @parent_form, :time, for: "depart", class: "form-check-label" do %>
-      <%= radio_button @parent_form, :time, "depart", id: "depart", class: "form-check-input" %>
-      Depart At
-    <% end %>
-  </div>
-  <div class="form-check">
-    <%= label @parent_form, :time, for: "arrive", class: "form-check-label" do %>
-      <%= radio_button @parent_form, :time, "arrive", id: "arrive", class: "form-check-input" %>
-      Arrive By
-    <% end %>
-  </div>
-</fieldset>
-<div id="trip-plan-datepicker" class="form-group hidden-js">
-  <%= trip_plan_datetime_select(@parent_form, @query) %>
-  <div class="error-container">
-    <%= if @errors[:date_time] do %>
-      <span><%= @errors[:date_time] %></span>
-    <% end %>
-  </div>
-</div>
-<div class="form-group">
+<%= SiteWeb.PartialView.render("_accordion.html",
+  Map.merge(assigns, %{
+    target_id: "trip-plan-accordion",
+    title_id: "trip-plan-accordion-title",
+    title: "Leave Now",
+    parent_view: SiteWeb.TripPlanView,
+    accordion_content: "_departure.html"})) %>
+
+<div class="form-group m-trip-plan__accessible-trip">
   <%= label @parent_form, :accessible, for: "accessible" do %>
     <%= checkbox @parent_form, :accessible, id: "accessible" %>
     <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access}) %>

@@ -1,0 +1,11 @@
+<div class="c-accordion collapsed" data-toggle="collapse" data-target="#<%= @target_id %>">
+  <span <%= if assigns[:title_id] do %>id="<%= @title_id %>"<% end %> class="c-accordion__title"><%= @title %></span>
+  <div class="c-accordion__triangle-container">
+    <span class="c-accordion__triangle"></span>
+  </div>
+</div>
+<div id="<%= @target_id %>" class="collapse">
+  <div class="c-accordion__content">
+    <%= render(@parent_view, @accordion_content, assigns) %>
+  </div>
+</div>
