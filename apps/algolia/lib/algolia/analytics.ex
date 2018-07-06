@@ -1,8 +1,18 @@
 defmodule Algolia.Analytics do
   require Logger
 
-  @spec click(%{String.t => String.t}) :: :ok | {:error, any}
-  def click(%{"objectID" => _, "position" => _, "queryID" => _} = params) do
+  @spec click(%{String.t => String.t | integer}) :: :ok | {:error, any}
+  def click(%{"position" => <<pos::binary>>} = params) do
+    case Integer.parse(pos) do
+      {int, ""} when int > 0 ->
+        params
+        |> Map.put("position", int)
+        |> click()
+      _ ->
+        {:error, %{reason: :bad_params, params: params}}
+    end
+  end
+  def click(%{"objectID" => _, "position" => pos, "queryID" => _} = params) when is_integer(pos) do
     :algolia
     |> Application.get_env(:click_analytics_url)
     |> send_click(params, Application.get_env(:algolia, :track_clicks?, false))
@@ -17,20 +27,24 @@ defmodule Algolia.Analytics do
   end
   defp send_click("http" <> _ = url, params, true) do
     {:ok, json} = Poison.encode(params)
-    url
-    |> Path.join("1/searches/click")
+
+    path = Path.join(url, "1/searches/click")
+
+    _ = Logger.info("module=#{__MODULE__} path=#{path} method=POST params=#{json}")
+
+    path
     |> HTTPoison.post(json, post_headers())
-    |> handle_click_response()
+    |> handle_click_response(json)
   end
 
-  defp handle_click_response({:ok, %HTTPoison.Response{status_code: 200}}) do
+  defp handle_click_response({:ok, %HTTPoison.Response{status_code: 200}}, _) do
     :ok
   end
-  defp handle_click_response({:ok, %HTTPoison.Response{} = response}) do
-    _ = Logger.warn("module=#{__MODULE__} Bad response from Algolia: #{inspect(response)}")
+  defp handle_click_response({:ok, %HTTPoison.Response{} = response}, body) do
+    _ = Logger.warn("module=#{__MODULE__} Bad response from Algolia: #{inspect(response)} request body: #{body}")
     {:error, response}
   end
-  defp handle_click_response({:error, %HTTPoison.Error{} = response}) do
+  defp handle_click_response({:error, %HTTPoison.Error{} = response}, _) do
     _ = Logger.warn("module=#{__MODULE__} Error connecting to Algolia: #{inspect(response)}")
     {:error, response}
   end

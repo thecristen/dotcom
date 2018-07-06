@@ -3,7 +3,7 @@ defmodule Algolia.AnalyticsTest do
 
   @params %{
     "objectID" => "objectID",
-    "position" => "0",
+    "position" => "1",
     "queryID" => "queryID"
   }
 
