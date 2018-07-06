@@ -1,6 +1,6 @@
 <div class="menu-row">
   <div class="col-xs-4 header-column">
-    <div class="h6 header-column-heading">About Us</div>
+    <div class="h5 header-column-heading">About Us</div>
     <div class="col-xs-6 p-a-0">
       <ul>
         <li>
@@ -61,61 +61,65 @@
     </div>
   </div>
   <div class="col-xs-4 header-column">
-    <div class="h6 header-column-heading">Business Center</div>
-    <ul>
-      <li>
-        <%= link to: cms_static_page_path(@conn, "/business") do %>
-          <%= fa "caret-right" %> Business Opportunities
-        <% end %>
-      </li>
-      <li>
-        <%= link to: cms_static_page_path(@conn, "/careers") do %>
-          <%= fa "caret-right" %> Careers
-        <% end %>
-      </li>
-      <li>
-        <%= link to: cms_static_page_path(@conn, "/developers") do %>
-          <%= fa "caret-right" %> Developers
-        <% end %>
-      </li>
-      <li>
-        <%= link to: cms_static_page_path(@conn, "/financials") do %>
-          <%= fa "caret-right" %> Financials
-        <% end %>
-      </li>
-      <li>
-        <%= link to: cms_static_page_path(@conn, "/innovation") do %>
-          <%= fa "caret-right" %> Innovation
-        <% end %>
-      </li>
-    </ul>
+    <div class="h5 header-column-heading">Business Center</div>
+    <div class="col-xs-12 p-a-0">
+      <ul>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/business") do %>
+            <%= fa "caret-right" %> Business Opportunities
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/careers") do %>
+            <%= fa "caret-right" %> Careers
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/developers") do %>
+            <%= fa "caret-right" %> Developers
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/financials") do %>
+            <%= fa "caret-right" %> Financials
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/innovation") do %>
+            <%= fa "caret-right" %> Innovation
+          <% end %>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="col-xs-4 header-column">
-    <div class="h6 header-column-heading">Improvements and Projects</div>
-    <ul>
-      <li>
-        <%= link to: project_path(@conn, :show, "commuter-rail-positive-train-control-ptc") do %>
-          <%= fa "caret-right" %> Commuter Rail Positive Train Control
-        <% end %>
-      </li>
-        <%= link to: cms_static_page_path(@conn, "/afc2") do %>
-          <%= fa "caret-right" %> Automated Fare Collection 2.0
-        <% end %>
-      </li>
-      <li>
-        <%= link to: "http://greenlineextension.eot.state.ma.us/", target: "_blank" do %>
-          <%= fa "caret-right" %> Green Line Extension
-        <% end %>
-      </li>
-      <li>
-        <%= link to: cms_static_page_path(@conn, "/wollaston") do %>
-          <%= fa "caret-right" %> Wollaston Station
-        <% end %>
-      </li>
-      <li>
-        <%= link to: project_path(@conn, :index) do %>
-          <%= fa "caret-right" %> See All Projects
-        <% end %>
-    </ul>
+    <div class="h5 header-column-heading">Improvements and Projects</div>
+    <div class="col-xs-12 p-a-0">
+      <ul>
+        <li>
+          <%= link to: project_path(@conn, :show, "commuter-rail-positive-train-control-ptc") do %>
+            <%= fa "caret-right" %> Commuter Rail Positive Train Control
+          <% end %>
+        </li>
+          <%= link to: cms_static_page_path(@conn, "/afc2") do %>
+            <%= fa "caret-right" %> Automated Fare Collection 2.0
+          <% end %>
+        </li>
+        <li>
+          <%= link to: "http://greenlineextension.eot.state.ma.us/", target: "_blank" do %>
+            <%= fa "caret-right" %> Green Line Extension
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/wollaston") do %>
+            <%= fa "caret-right" %> Wollaston Station
+          <% end %>
+        </li>
+        <li>
+          <%= link to: project_path(@conn, :index) do %>
+            <%= fa "caret-right" %> See All Projects
+          <% end %>
+      </ul>
+    </div>
   </div>
 </div>

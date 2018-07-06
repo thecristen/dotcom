@@ -32,16 +32,12 @@
 .m-homepage__shortcut {
   color: $gray-dark;
   display: inline-block;
-  font-size: $font-size-h3;
+  font-size: $font-size-h4;
   font-weight: bold;
-  line-height: $base-spacing * 1.5;
+  line-height: $headings-line-height;
   padding: $base-spacing;
   text-align: center;
   width: 33%;
-
-  [class^=c-svg__icon] {
-    margin-bottom: $base-spacing;
-  }
 
   @include hover-focus-active {
     background-color: $brand-primary-lightest;
@@ -55,6 +51,10 @@
 
   @include media-breakpoint-down(xs) {
     @include icon-size($base-spacing * 3);
+  }
+
+  [class^=c-svg__icon] {
+    margin-bottom: $base-spacing;
   }
 }
 

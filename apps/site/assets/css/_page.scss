@@ -250,14 +250,11 @@
 
 .important-whats-happening-text {
   font-size: $font-size-h3;
+  line-height: $headings-line-height;
   padding: $base-spacing;
 
   @include media-breakpoint-up(md) {
     padding: $space-24;
-  }
-
-  @include media-breakpoint-up(lg) {
-    font-size: $font-size-h3-xxl;
   }
 }
 

@@ -58,15 +58,6 @@
   }
 }
 
-.m-cms__sidebar-title {
-  margin-bottom: $base-spacing-sm;
-  margin-top: $base-spacing-lg;
-
-  @include media-breakpoint-up(md) {
-    @include h3();
-  }
-}
-
 .m-cms__sidebar-blurb {
   @include media-breakpoint-up(md) {
     display: none;
@@ -142,22 +133,16 @@
 
 .landing-page-titles {
   margin: 0 auto;
-  padding: 7.5rem 0;
+  padding: 7rem 0;
 
   @include media-breakpoint-down(sm) {
-    padding: 5rem 0;
+    padding: 4rem 0;
     width: 80%;
   }
 }
 
 .landing-page-title {
-  border: 0;
-  line-height: $headings-line-height;
   margin: 0;
-
-  @include media-breakpoint-down(sm) {
-    font-size: $font-size-h1-xs;
-  }
 }
 
 .landing-page-subtitle {
@@ -268,9 +253,4 @@
 .c-content-file__description {
   flex: 1 1 auto;
   margin-right: $base-spacing;
-}
-
-.file-grid-section-title {
-  margin-bottom: $base-spacing;
-  margin-top: -($base-spacing / 2);
 }

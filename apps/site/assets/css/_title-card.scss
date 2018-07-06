@@ -50,11 +50,8 @@
 .c-title-card__title {
   font-size: $font-size-h4;
   font-weight: bold;
+  line-height: $headings-line-height;
   margin-bottom: $base-spacing-sm;
-
-  @include media-breakpoint-up(xxl) {
-    font-size: $font-size-h4-xxl;
-  }
 }
 
 .c-title-card--link__title {

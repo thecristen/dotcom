@@ -1,92 +1,98 @@
 <div class="menu-row">
   <div class="col-xs-4 header-column">
-    <div class="h6 header-column-heading">Transit Services</div>
-    <ul>
-      <li>
-        <%= link to: schedule_path(@conn, :show, "subway") do %>
-          <%= fa "caret-right" %> Subway
-        <% end %>
-      </li>
-      <li>
-        <%= link to: schedule_path(@conn, :show, "bus") do %>
-          <%= fa "caret-right" %> Bus
-        <% end %>
-      </li>
-      <li>
-        <%= link to: schedule_path(@conn, :show, "commuter-rail") do %>
-          <%= fa "caret-right" %> Commuter Rail
-        <% end %>
-      </li>
-      <li>
-        <%= link to: schedule_path(@conn, :show, "ferry") do %>
-          <%= fa "caret-right" %> Ferry
-        <% end %>
-      </li>
-      <li>
-        <%= link to: cms_static_page_path(@conn, "/accessibility/the-ride") do %>
-          <%= fa "caret-right" %> The RIDE
-        <% end %>
-      </li>
-    </ul>
+    <div class="h5 header-column-heading">Transit Services</div>
+    <div class="col-xs-12 p-a-0">
+      <ul>
+        <li>
+          <%= link to: schedule_path(@conn, :show, "subway") do %>
+            <%= fa "caret-right" %> Subway
+          <% end %>
+        </li>
+        <li>
+          <%= link to: schedule_path(@conn, :show, "bus") do %>
+            <%= fa "caret-right" %> Bus
+          <% end %>
+        </li>
+        <li>
+          <%= link to: schedule_path(@conn, :show, "commuter-rail") do %>
+            <%= fa "caret-right" %> Commuter Rail
+          <% end %>
+        </li>
+        <li>
+          <%= link to: schedule_path(@conn, :show, "ferry") do %>
+            <%= fa "caret-right" %> Ferry
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/accessibility/the-ride") do %>
+            <%= fa "caret-right" %> The RIDE
+          <% end %>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="col-xs-4 header-column">
-    <div class="h6 header-column-heading">Plan Your Journey</div>
-    <ul>
-      <li>
-        <%= link to: trip_plan_path(@conn, :index) do %>
-          <%= fa "caret-right" %> Trip Planner
-        <% end %>
-      </li>
-      <li>
-        <%= link to: stop_path(@conn, :index) do %>
-          <%= fa "caret-right" %> Station Info
-        <% end %>
-      </li>
-      <li>
-        <%= link to: alert_path(@conn, :index) do %>
-          <%= fa "caret-right" %> Service Alerts
-        <% end %>
-      </li>
-      <li>
-        <%= link to: cms_static_page_path(@conn, "/maps") do %>
-          <%= fa "caret-right" %> Maps
-        <% end %>
-      </li>
-      <li>
-        <%= link to: cms_static_page_path(@conn, "/destinations") do %>
-          <%= fa "caret-right" %> Destinations
-        <% end %>
-      </li>
-    </ul>
+    <div class="h5 header-column-heading">Plan Your Journey</div>
+    <div class="col-xs-12 p-a-0">
+      <ul>
+        <li>
+          <%= link to: trip_plan_path(@conn, :index) do %>
+            <%= fa "caret-right" %> Trip Planner
+          <% end %>
+        </li>
+        <li>
+          <%= link to: stop_path(@conn, :index) do %>
+            <%= fa "caret-right" %> Station Info
+          <% end %>
+        </li>
+        <li>
+          <%= link to: alert_path(@conn, :index) do %>
+            <%= fa "caret-right" %> Service Alerts
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/maps") do %>
+            <%= fa "caret-right" %> Maps
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/destinations") do %>
+            <%= fa "caret-right" %> Destinations
+          <% end %>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="col-xs-4 header-column">
-    <div class="h6 header-column-heading">Riding the T</div>
-    <ul>
-      <li>
-        <%= link to: cms_static_page_path(@conn, "/accessibility") do %>
-          <%= fa "caret-right" %> Accessibility
-        <% end %>
-      </li>
-      <li>
-        <%= link to: cms_static_page_path(@conn, "/parking") do %>
-          <%= fa "caret-right" %> Parking
-        <% end %>
-      </li>
-      <li>
-        <%= link to: cms_static_page_path(@conn, "/bikes") do %>
-          <%= fa "caret-right" %> Bikes 
-        <% end %>
-      </li>
-      <li>
-        <%= link to: cms_static_page_path(@conn, "/language-services") do %>
-          <%= fa "caret-right" %> Language Services
-        <% end %>
-      </li>
-      <li>
-        <%= link to: cms_static_page_path(@conn, "/safety") do %><%# the safety bounce! %>
-          <%= fa "caret-right" %> Safety
-        <% end %>
-      </li>
-    </ul>
+    <div class="h5 header-column-heading">Riding the T</div>
+    <div class="col-xs-12 p-a-0">
+      <ul>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/accessibility") do %>
+            <%= fa "caret-right" %> Accessibility
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/parking") do %>
+            <%= fa "caret-right" %> Parking
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/bikes") do %>
+            <%= fa "caret-right" %> Bikes 
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/language-services") do %>
+            <%= fa "caret-right" %> Language Services
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/safety") do %><%# the safety bounce! %>
+            <%= fa "caret-right" %> Safety
+          <% end %>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

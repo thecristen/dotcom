@@ -16,12 +16,6 @@ $container-max-widths: (
   xxl: map-get($grid-breakpoints, xxl) - (18px * 8)
 );
 
-$headings-font-weight: bold;
-$headings-line-height: 1;
-$headings-margin-bottom: 0;
-$pagination-line-height: 1.5rem;
-
-
 @import 'node_modules/bootstrap/scss/variables';
 $spacers: (
   0: (
@@ -62,36 +56,35 @@ $base-spacing-sm: $space-8;
 $base-spacing-lg: $space-24;
 $base-spacing-xl: $space-36;
 
-$base-headings-space: $space-12;
-$base-headings-space-xs: $space-8;
-$base-headings-space-xxl: $base-spacing;
-
+// style-guide --section Typography
 $font-family-base: 'LatoLatinWeb', $font-family-sans-serif;
 $headings-font-family: 'Helvetica Neue', Helvetica, Arial, $font-family-sans-serif;
-
-$tab-border: $border-width solid $btn-primary-bg;
+$headings-font-weight: 700;
 
 // style-guide --section Font Sizes
-$font-size-base: 16px;
 $font-size-base-xs: 14px;
+$font-size-base: 16px;
 $font-size-base-xxl: 18px;
 $font-size-base-print: 24px;
 
-// style-guide --section Header Styles
-$font-size-h1-xs: 1.625rem;
-$font-size-h1: 2.625rem;
-$font-size-h1-xxl: 3rem;
+// style-guide --section Heading Sizes
+$font-size-h1: 2.5rem;
+$font-size-h2: 1.75rem;
+$font-size-h3: 1.3125rem;
+$font-size-h4: 1.125rem;
+$font-size-h5: 1rem;
 
-$font-size-h2-xs: 1.25rem;
-$font-size-h2: 1.625rem;
-$font-size-h2-xxl: 2rem;
+// style-guide --section Mobile Heading Sizes
+$font-size-h1-sm: 2rem;
+$font-size-h2-sm: 1.625rem;
 
-$font-size-h3-xs: 1.05rem;
-$font-size-h3: 1.125rem;
-$font-size-h3-xxl: 1.375rem;
+// style-guide --section Heading Proportions
+$headings-margin-top: 1.075em;
+$headings-line-height: 1.275em;
+$headings-margin-bottom: .375em;
 
-$font-size-h4: 1.05rem;
-$font-size-h4-xxl: 1.225rem;
+// style-guide --section Misc Typography
+$pagination-line-height: 1.5rem;
 
 // style-guide --ignore
 $border-width: 1px;
@@ -110,6 +103,7 @@ $icon-size: $space-16 * 1.5;
 $icon-size-sm: $space-16;
 $icon-size-lg: $space-16 * 3;
 $tooltip-width: 20rem;
+$tab-border: $border-width solid $btn-primary-bg;
 
 $z-index-desktop-menu: 14;
 $zindex-sticky: 13;

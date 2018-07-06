@@ -1,9 +1,8 @@
 .featured-project-title {
-  font-size: $font-size-h4;
-  font-weight: bold;
+  @include h3();
 
-  @include media-breakpoint-down(xs) {
-    margin-top: $base-spacing;
+  @include media-breakpoint-up(sm) {
+    margin-top: 0;
   }
 }
 

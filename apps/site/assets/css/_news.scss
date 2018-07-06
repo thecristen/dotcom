@@ -6,6 +6,7 @@
   color: $gray-light;
   font-size: $font-size-h6;
   font-weight: bold;
+  line-height: $headings-line-height;
   margin-bottom: 5px;
   padding-top: $base-spacing-sm;
 }
@@ -61,4 +62,5 @@
 .news-entry-title {
   font-size: $font-size-h3;
   font-weight: bold;
+  line-height: $headings-line-height;
 }

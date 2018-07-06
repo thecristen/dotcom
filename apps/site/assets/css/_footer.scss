@@ -30,7 +30,9 @@
 }
 
 .m-footer__group-title {
-  margin-bottom: .25em;
+  @include h5();
+  font-size: 1.04em; // Tweak so that titles appear same size as links (~15px)
+  margin-bottom: .5rem; // Match vertical spacing of listed items below
 }
 
 .m-footer__item {

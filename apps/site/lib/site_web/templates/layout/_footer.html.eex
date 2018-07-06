@@ -2,7 +2,7 @@
   <div class="container">
     <ul class="row list-unstyled">
       <li class="m-footer__group">
-        <div class="h6 m-footer__group-title">Transit Services</div>
+        <div class="m-footer__group-title">Transit Services</div>
         <ul class="list-unstyled">
           <li class="m-footer__item"><%= link "Subway", to: schedule_path(@conn, :show, "subway"), data: [scroll: true] %></li>
           <li class="m-footer__item"><%= link "Bus", to: schedule_path(@conn, :show, "bus"), data: [scroll: true]  %></li>
@@ -12,7 +12,7 @@
         </ul>
       </li>
       <li class="m-footer__group">
-        <div class="h6 m-footer__group-title">Plan Your Journey</div>
+        <div class="m-footer__group-title">Plan Your Journey</div>
         <ul class="list-unstyled">
           <li class="m-footer__item"><%= link "Trip Planner", to: trip_plan_path(@conn, :index) %></li>
           <li class="m-footer__item"><%= link "Station Info", to: stop_path(@conn, :index) %></li>
@@ -22,7 +22,7 @@
         </ul>
       </li>
       <li class="m-footer__group">
-        <div class="h6 m-footer__group-title">Riding the T</div>
+        <div class="m-footer__group-title">Riding the T</div>
         <ul class="list-unstyled">
           <li class="m-footer__item"><%= link "Accessibility", to: cms_static_page_path(@conn, "/accessibility") %></li>
           <li class="m-footer__item"><%= link "Parking", to: cms_static_page_path(@conn, "/parking") %></li>
@@ -32,7 +32,7 @@
         </ul>
       </li>
       <li class="m-footer__group">
-        <div class="h6 m-footer__group-title">Fares &amp; Passes</div>
+        <div class="m-footer__group-title">Fares &amp; Passes</div>
         <ul class="list-unstyled">
           <li class="m-footer__item"><%= link "Fare Information by Mode", to: fare_path(@conn, :index) %></li>
           <li class="m-footer__item"><%= link "Reduced Fares", to: fare_path(@conn, :show, "reduced") %></li>
@@ -42,7 +42,7 @@
         </ul>
       </li>
       <li class="m-footer__group">
-        <div class="h6 m-footer__group-title">About Us</div>
+        <div class="m-footer__group-title">About Us</div>
         <ul class="list-unstyled">
           <li class="m-footer__item"><%= link "Leadership", to: cms_static_page_path(@conn, "/leadership"), data: [scroll: true] %></li>
           <li class="m-footer__item"><%= link "FMCB", to: cms_static_page_path(@conn, "/leadership/fmcb"), data: [scroll: true] %></li>
@@ -52,7 +52,7 @@
         </ul>
       </li>
       <li class="m-footer__group">
-        <div class="h6 m-footer__group-title">Business Center</div>
+        <div class="m-footer__group-title">Business Center</div>
         <ul class="list-unstyled">
           <li class="m-footer__item"><%= link "Business Opportunities", to: cms_static_page_path(@conn, "/business") %></li>
           <li class="m-footer__item"><%= link "Careers", to: cms_static_page_path(@conn, "/careers"), data: [scroll: true]  %></li>
@@ -62,7 +62,7 @@
         </ul>
       </li>
       <li class="m-footer__group m-footer--mobile__group">
-        <div class="h6 m-footer__group-title">Customer Support</div>
+        <div class="m-footer__group-title">Customer Support</div>
         <ul class="list-unstyled">
           <div class="m-footer--mobile__items">
             <li class="m-footer__item m-footer--mobile__item">
@@ -79,7 +79,7 @@
         </ul>
       </li>
       <li class="m-footer__group">
-        <div class="h6 m-footer__group-title">Follow Us Online</div>
+        <div class="m-footer__group-title">Follow Us Online</div>
         <ul class="c-social">
           <% social_links = %{"instagram" => "https://www.instagram.com/mbtapics/",
                               "youtube"   => "https://www.youtube.com/user/mbtagm/",

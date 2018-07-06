@@ -153,7 +153,7 @@
 }
 
 .header-column-heading {
-  margin-bottom: .25em;
+  margin-bottom: .5em;
 }
 
 .nav-title {
@@ -273,4 +273,5 @@ header {
 .mobile-search-text {
   font-size: $font-size-h2;
   font-weight: bold;
+  line-height: $headings-line-height;
 }

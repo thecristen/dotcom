@@ -65,14 +65,11 @@
 .c-location-card__name {
   color: $link-color;
   float: left;
-  font-size: $font-size-h4;
+  font-size: $font-size-h5;
   font-weight: bold;
+  line-height: $headings-line-height;
   margin-bottom: $base-spacing-sm;
   width: 66%;
-
-  @include media-breakpoint-up(xxl) {
-    font-size: $font-size-h4-xxl;
-  }
 }
 
 .c-location-card__distance {

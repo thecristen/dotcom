@@ -14,7 +14,6 @@
   }
 }
 
-// Adjust icon position relative to headers
 h1,
 .h1,
 h2,
@@ -23,28 +22,13 @@ h3,
 .h3,
 h4,
 .h4 {
+  // Adjust icon size/position relative
+  // to current heading font-size.
   [class^=c-svg__icon] {
     height: 1em;
-    margin-top: -.15em;
+    margin-top: -.2375em;
     vertical-align: middle;
     width: 1em;
-
-    // Limit size so that XXL icons aren't over-large
-    @include media-breakpoint-up(xxl) {
-      font-size: .85em;
-      margin-top: -.2em;
-    }
-  }
-}
-
-h3,
-.h3,
-h4,
-.h4 {
-  // Prevent icon from getting too small
-  [class^=c-svg__icon] {
-    font-size: 1.2em;
-    margin-top: -.2em;
   }
 }
 

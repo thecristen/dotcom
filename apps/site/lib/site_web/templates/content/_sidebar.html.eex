@@ -1,6 +1,6 @@
 <%= if @page.sidebar_menu do %>
   <div class="m-cms__sidebar m-cms__sidebar--<%= @page.sidebar_menu.position %> fixedsticky sticky-top">
-    <h2 class="m-cms__sidebar-title">
+    <h2 class="h3 m-cms__sidebar-title">
       More from <%= @page.sidebar_menu.title %>
     </h2>
     <div class="m-cms__sidebar-blurb"><%= @page.sidebar_menu.blurb %></div>
