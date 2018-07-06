@@ -54,7 +54,7 @@
     display: none;
   }
 
-  [class^="c-svg__icon"] {
+  [class*="c-svg__icon"] {
     vertical-align: middle;
   }
 }

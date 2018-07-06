@@ -37,9 +37,16 @@
 
 .c-social--youtube {
   background-color: $youtube;
+
+  .fa {
+    color: $white;
+  }
 }
 
 .c-social--twitter {
   background-color: $twitter;
-}
 
+  .fa {
+    color: $white;
+  }
+}

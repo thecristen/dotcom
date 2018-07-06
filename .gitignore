@@ -15,6 +15,7 @@ erl_crash.dump
 /site-build.zip
 /apps/site/test/backstop_data/bitmaps_test
 /apps/site/test/backstop_data/html_report
+/apps/site/priv/compiled_header_footer/*/*
 npm-debug.log
 /apps/news/posts.zip
 /bin

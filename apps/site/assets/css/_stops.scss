@@ -98,7 +98,7 @@
 
   float: right;
 
-  [class^="c-svg__icon"] {
+  [class*="c-svg__icon"] {
     margin-left: $base-spacing / 4;
   }
 }
@@ -200,7 +200,7 @@
 .mode-route-name {
   @include icon-size($base-spacing);
 
-  [class^=c-svg__icon] {
+  [class*=c-svg__icon] {
     vertical-align: text-top;
   }
 }
@@ -254,7 +254,7 @@
     padding: $base-spacing;
   }
 
-  [class^=c-svg__icon] {
+  [class*=c-svg__icon] {
     vertical-align: text-top;
   }
 }

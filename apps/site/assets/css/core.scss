@@ -5,10 +5,17 @@
 @import 'lato';
 @import 'footer';
 @import 'header';
+@import 'header-desktop-menu';
 @import 'page';
-@import 'type';
+@import 'headings';
 @import 'vendor/font-awesome-4.6.3/scss/font-awesome';
 @import 'social';
+@import 'layout-core-shared';
+
+html,
+body {
+  @include base-font-size();
+}
 
 html {
   height: 100%;
@@ -94,6 +101,30 @@ body {
   }
 }
 
+h1 {
+  @include h1();
+}
+
+h2 {
+  @include h2();
+}
+
+h3 {
+  @include h3();
+}
+
+h4 {
+  @include h4();
+}
+
+h5 {
+  @include h5();
+}
+
+h6 {
+  @include h6();
+}
+
 // undo styles in app.html.eex
 .icon {
   height: initial;
@@ -104,55 +135,6 @@ body {
   fill: initial;
   stroke: initial;
   stroke-width: initial;
-}
-
-.container {
-  @include media-breakpoint-up(md) {
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
-
-.body-wrapper {
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  height: 100%;
-  max-width: 100%;
-  width: 100%;
-
-  // see comment inside body styles about display: block
-  @media print {
-    display: block;
-  }
-}
-
-.header {
-  @media print {
-    display: none;
-  }
-}
-
-.alert-announcement-container,
-.header,
-.station__header,
-.schedule__header,
-.breadcrumb-container,
-.l-footer,
-.m-secondary-nav {
-  flex: 0 0 auto;
-  max-width: 100%;
-  width: 100%;
-}
-
-.alert-announcement-container,
-.header,
-.breadcrumb-container {
-  align-self: flex-start;
-}
-
-.l-footer {
-  align-self: flex-end;
 }
 
 .pre-container-wrapper,
@@ -180,19 +162,6 @@ body {
   align-self: center;
   margin: 0 auto;
   padding: 0 0 $base-spacing * 2;
-}
-
-@each $breakpoint, $width in $container-max-widths {
-  @include media-breakpoint-only($breakpoint) {
-    .container,
-    .page-container {
-      max-width: $width;
-    }
-
-    .page-container {
-      width: $width;
-    }
-  }
 }
 
 .page-narrow {

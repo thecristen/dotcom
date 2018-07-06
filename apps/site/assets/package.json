@@ -8,14 +8,12 @@
     "babel-polyfill": "^6.26.0",
     "bootstrap": "4.0.0-alpha.2",
     "brunch": "~2.10",
-    "clean-css-brunch": "~1.8.0",
-    "css-brunch": "~1.7.0",
     "email-validation": "^0.1.2",
     "filesize": "^3.3.0",
     "form-data": "^1.0.1",
     "hogan.js": "^3.0.2",
-    "javascript-brunch": "~1.8.0",
     "jquery": "> 3.0.0",
+    "js-beautify": "^1.7.5",
     "object-fit-images": "^2.5.6",
     "phoenix": "file:../../../deps/phoenix",
     "phoenix_html": "file:../../../deps/phoenix_html",
@@ -23,15 +21,17 @@
     "pleeease-brunch": "^3.0.0",
     "sass-brunch": "^2.6.3",
     "sifter": "^0.5.1",
+    "spostcss-brunch": "^1.0.1",
     "svgo": "^0.6.6",
     "tether": "^1.3.4",
     "turbolinks": "git+https://github.com/paulswartz/turbolinks.git",
-    "uglify-js-brunch": "~1.7.0"
+    "uglify-js-brunch": "~2.10"
   },
   "devDependencies": {
     "backstopjs": "^2.7.5",
     "casperjs": "^1.1.2",
     "chai": "^3.5.0",
+    "csswring": "^6.0.3",
     "custom-event-autopolyfill": "^0.1.3",
     "file-api": "^0.10.4",
     "jsdom": "< 9.10.0",
@@ -42,6 +42,7 @@
     "sinon": "^4.4.8"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-register test/**/*.js"
+    "test": "mocha --compilers js:babel-register test/**/*.js",
+    "brunch:build:namespaced": "node_modules/brunch/bin/brunch b -c brunch-config-namespaced.js"
   }
 }

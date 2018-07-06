@@ -42,7 +42,7 @@
 }
 
 @mixin icon-size($width-height) {
-  [class^=c-svg__icon] {
+  [class*=c-svg__icon] {
     height: $width-height;
     width: $width-height;
   }
@@ -158,5 +158,17 @@
   + p > img:first-child,
   + p > a:first-child > img:first-child {
     margin-top: .25em;
+  }
+}
+
+@mixin base-font-size {
+  @include media-breakpoint-up(xxl) {
+    font-size: $font-size-base-xxl;
+  }
+
+  @media print {
+    // override the base font size.  Since everything (should) be defined in
+    // rems, this makes all the text bigger.
+    font-size: $font-size-base-print;
   }
 }

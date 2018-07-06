@@ -53,7 +53,7 @@
     @include icon-size($base-spacing * 3);
   }
 
-  [class^=c-svg__icon] {
+  [class*=c-svg__icon] {
     margin-bottom: $base-spacing;
   }
 }

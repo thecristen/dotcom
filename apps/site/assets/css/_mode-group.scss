@@ -20,7 +20,7 @@
     padding-top: 0;
   }
 
-  [class^="c-svg__icon"] {
+  [class*="c-svg__icon"] {
     margin-right: $base-spacing / 4;
     vertical-align: text-top;
   }

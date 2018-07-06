@@ -41,7 +41,12 @@ exports.config = {
     // This option sets where we should place non-css and non-js assets in.
     // By default, we set this to "/assets/static". Files in this directory
     // will be copied to `paths.public`, which is "priv/static" by default.
-    assets: /^(static)/
+    assets: /^(static)/,
+    ignored: [
+      /\/_/, 
+      /vendor\/(node|j?ruby-.+|bundle)\//,
+      /css\/layout.scss/
+    ]
   },
 
   // Phoenix paths configuration
@@ -79,7 +84,6 @@ exports.config = {
       allowCache: true,
       includePaths: ['css'],
     },
-
     pleeease: {
       filters: false,
       rem: false,
@@ -94,7 +98,8 @@ exports.config = {
           "last 20 versions"
         ]
       }
-    }
+    },
+    off: ['postcss']
   },
 
   modules: {

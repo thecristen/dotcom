@@ -14,7 +14,7 @@
   margin-bottom: $base-spacing / 2;
   text-transform: uppercase;
 
-  [class^=c-svg__icon] {
+  [class*=c-svg__icon] {
     // For some reason, in Backstop tests these SVGs render as if their center is at the parent
     // element's baseline. I haven't been able to reproduce this in any actual browser.
     // However, setting vertical-align: top here seems to fix the problem and does not affect
