@@ -78,7 +78,7 @@ defmodule Routes.RouteTest do
         bus: "Bus",
         ferry: "Ferry",
         commuter_rail: "Commuter Rail",
-        the_ride: "The Ride"
+        the_ride: "The RIDE"
       ] do
         assert type_name(atom) == str
       end

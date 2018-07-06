@@ -81,10 +81,11 @@ defmodule Routes.Route do
   def path_atom(%__MODULE__{type: type}), do: type_atom(type)
 
   @spec type_name(atom) :: String.t
+  def type_name(:the_ride), do: "The RIDE"
   for type_atom <- ~w(subway commuter_rail bus ferry
                       orange_line red_line blue_line
                       green_line green_line_b green_line_c green_line_d green_line_e
-                      mattapan_trolley mattapan_line the_ride)a do
+                      mattapan_trolley mattapan_line)a do
     type_string = type_atom
     |> Atom.to_string()
     |> String.replace("_", " ")
