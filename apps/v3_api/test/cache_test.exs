@@ -17,7 +17,7 @@ defmodule V3Api.CacheTest do
   }
 
   setup do
-    {:ok, _pid} = start_link(name: @name)
+    {:ok, _pid} = start_link(name: @name, size: 2)
     :ok
   end
 
@@ -62,6 +62,30 @@ defmodule V3Api.CacheTest do
     test "once a response is cached, returns the last-modified header" do
       _ = cache_response(@name, @url, @params, @response)
       assert cache_headers(@name, @url, @params) == [{"if-modified-since", @last_modified}]
+    end
+  end
+
+  describe "expire!/0" do
+    test "removes the least-recently-used items to get the cache down to the right size" do
+      _ = cache_response(@name, "one", @params, @response)
+      _ = cache_response(@name, "expire", @params, @response)
+      _ = cache_response(@name, "also expire", @params, @response)
+      _ = cache_response(@name, "one", @params, %{@response | status_code: 304})
+      expire!(@name)
+      assert cache_headers(@name, "expire", @params) == []
+      assert cache_headers(@name, "also expire", @params) == []
+      refute cache_headers(@name, "one", @params) == []
+    end
+  end
+
+  describe "handle_info(:expire)" do
+    test "expires the cache and sends an :expire message" do
+      name = :test_expire
+      {:ok, state} = init(name: name, timeout: 50, size: 0)
+      _ = cache_response(name, @url, @params, @response)
+      assert {:noreply, ^state} = handle_info(:expire, state)
+      assert cache_headers(name, @url, @params) == []
+      assert_receive :expire
     end
   end
 end

@@ -8,6 +8,7 @@ defmodule V3Api.Cache do
   return them if the server says that the data is unchanged.
   """
   use GenServer
+  require Logger
   alias HTTPoison.Response
 
   @type url :: String.t()
@@ -28,7 +29,7 @@ defmodule V3Api.Cache do
   def cache_response(name \\ __MODULE__, url, params, response)
 
   def cache_response(name, url, params, %{status_code: 304}) do
-    {:ok, :ets.lookup_element(name, {url, params}, 3)}
+    lookup_cached_response(name, url, params)
   rescue
     ArgumentError ->
       {:error, :no_cached_response}
@@ -38,15 +39,22 @@ defmodule V3Api.Cache do
   when status_code in [200, 400, 404] do
     key = {url, params}
     last_modified = header(response, "last-modified")
-    true = :ets.insert(name, {key, last_modified, response})
+    true = :ets.insert(name, {key, last_modified, response, now()})
     {:ok, response}
   end
 
   def cache_response(name, url, params, response) do
-    {:ok, :ets.lookup_element(name, {url, params}, 3)}
+    lookup_cached_response(name, url, params)
   rescue
     ArgumentError ->
       {:ok, response}
+  end
+
+  defp lookup_cached_response(name, url, params) do
+    key = {url, params}
+    element = :ets.lookup_element(name, key, 3)
+    :ets.update_element(name, key, {4, now()})
+    {:ok, element}
   end
 
   @doc """
@@ -68,10 +76,57 @@ defmodule V3Api.Cache do
     end
   end
 
+  @doc "Expire the least-recently-used cache items"
+  @spec expire!() :: :ok
+  def expire!(name \\ __MODULE__) do
+    GenServer.call(name, :expire!)
+  end
+
   @impl GenServer
   def init(opts) do
     name = Keyword.fetch!(opts, :name)
     ^name = :ets.new(name, [:set, :named_table, :public, {:read_concurrency, true}, {:write_concurrency, true}])
-    {:ok, []}
+    timeout = Keyword.get(opts, :timeout, 60_000)
+    Process.send_after(self(), :expire, timeout)
+    size = Keyword.get(opts, :size, Application.get_env(:v3_api, :cache_size))
+    {:ok, %{name: name, size: size, timeout: timeout}}
+  end
+
+  @impl GenServer
+  def handle_call(:expire!, _from, state) do
+    :ok = do_expire(state)
+    {:reply, :ok, state}
+  end
+
+  @impl GenServer
+  def handle_info(:expire, state) do
+    :ok = do_expire(state)
+    Process.send_after(self(), :expire, state.timeout)
+    {:noreply, state}
+  end
+
+  defp do_expire(%{name: name, size: size}) do
+    current_size = :ets.info(name, :size)
+    _ = Logger.info(fn ->
+      "#{name} report - size=#{current_size} max_size=#{size} memory=#{:ets.info(name, :memory)}"
+    end)
+
+    if current_size > size do
+      # keep half of the cache, so that we don't bounce around clearing the
+      # cache each minute
+      keep = div(size, 2)
+
+      name
+      |> :ets.match({:"$2", :_, :_, :"$1"})
+      |> Enum.sort(&>=/2)
+      |> Enum.drop(keep)
+      |> Enum.each(fn [_lru, key] -> :ets.delete(name, key) end)
+    else
+      :ok
+    end
+  end
+
+  defp now do
+    System.monotonic_time()
   end
 end
