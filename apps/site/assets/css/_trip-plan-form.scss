@@ -6,7 +6,7 @@
   }
 }
 
-.trip-plan-sidebar {
+.m-trip-plan__sidebar {
   @include make-col();
   width: 100%;
 
@@ -17,6 +17,11 @@
   @media print {
     width: 100%;
   }
+}
+
+.m-trip-plan__submit {
+  padding: $base-spacing / 2;
+  width: 100%;
 }
 
 .plan-date-container {
@@ -62,7 +67,7 @@
   }
 }
 
-.trip-plan-form-container {
+.m-trip-plan__form-container {
   @include icon-size($base-spacing * 1.5);
 
   @include media-breakpoint-up(md) {
