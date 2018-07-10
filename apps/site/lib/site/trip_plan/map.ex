@@ -1,7 +1,7 @@
 defmodule Site.TripPlan.Map do
   alias TripPlan.{Leg, TransitDetail, Itinerary, NamedPosition}
   alias Util.Position
-  alias GoogleMaps.{MapData, MapData.Marker, MapData.Path}
+  alias GoogleMaps.{MapData, MapData.Marker, MapData.Path, MapData.Layers}
   alias Site.MapHelpers
   alias Routes.Route
 
@@ -34,6 +34,7 @@ defmodule Site.TripPlan.Map do
     {630, 400}
     |> MapData.new(14)
     |> MapData.add_marker(initial_marker())
+    |> MapData.add_layers(%Layers{transit: true})
   end
 
   @spec initial_marker() :: Marker.t
@@ -61,6 +62,7 @@ defmodule Site.TripPlan.Map do
     |> MapData.new()
     |> MapData.add_markers(markers)
     |> MapData.add_paths(paths)
+    |> MapData.add_layers(%Layers{transit: true})
   end
 
   @spec build_leg_path(Leg.t, route_mapper) :: Path.t

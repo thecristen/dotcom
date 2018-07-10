@@ -64,6 +64,7 @@ defmodule Site.TripPlan.MapTest do
     test "gives the initial map data" do
       expected = %GoogleMaps.MapData{dynamic_options: %{gestureHandling: "cooperative"},
         height: 400,
+        layers: %GoogleMaps.MapData.Layers{transit: true},
         markers: [%GoogleMaps.MapData.Marker{icon: nil,
                     latitude: 42.360718, longitude: -71.05891, size: :mid,
                     tooltip: nil, visible?: false, z_index: 0}], paths: [], scale: 1,

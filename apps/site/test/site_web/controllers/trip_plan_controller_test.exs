@@ -34,6 +34,11 @@ defmodule SiteWeb.TripPlanControllerTest do
       conn = get conn, trip_plan_path(conn, :index)
       assert conn.assigns.initial_map_src
     end
+
+    test "enables transit layer on initial map", %{conn: conn} do
+      conn = get conn, trip_plan_path(conn, :index)
+      assert conn.assigns.initial_map_data.layers.transit == true
+    end
   end
 
   describe "index with params" do
@@ -92,6 +97,13 @@ defmodule SiteWeb.TripPlanControllerTest do
           assert path.color
         end
       end
+    end
+
+    test "enables transit layer on plan maps", %{conn: conn} do
+      conn = get conn, trip_plan_path(conn, :index, @good_params)
+      assert Enum.all?(conn.assigns.itinerary_maps, fn {map_data, _} ->
+        map_data.layers.transit == true
+      end)
     end
 
     test "renders a geocoding error", %{conn: conn} do

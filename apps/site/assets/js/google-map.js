@@ -108,6 +108,10 @@ function displayMap(el, mapData) {
     renderPolylines(el, mapData.paths);
   }
 
+  if (mapData.layers) {
+    addMapLayers(mapData.layers, map);
+  }
+
   // Auto zoom and auto center
   reevaluateMapBoundByIndex(index);
 
@@ -159,6 +163,13 @@ function polylineForPath (path) {
       strokeOpacity: 1.0,
       strokeWeight: path.weight
     });
+  }
+}
+
+function addMapLayers(layers, map) {
+  if (layers.transit === true) {
+    const transitLayer = new google.maps.TransitLayer();
+    transitLayer.setMap(map);
   }
 }
 

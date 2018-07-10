@@ -1,14 +1,6 @@
 const styles = [
 
   {
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#f5f5f5"
-      }
-    ]
-  },
-  {
     "elementType": "labels.icon",
     "stylers": [
       {
@@ -176,7 +168,7 @@ const styles = [
         "visibility": "on"
       },
       {
-        "weight": 1
+        "weight": 2
       }
     ]
   },
@@ -184,9 +176,6 @@ const styles = [
     "featureType": "transit.line",
     "elementType": "geometry",
     "stylers": [
-      {
-        "color": "#acacac"
-      },
       {
         "visibility": "on"
       }
@@ -196,9 +185,6 @@ const styles = [
     "featureType": "transit.line",
     "elementType": "geometry.stroke",
     "stylers": [
-      {
-        "color": "#acacac"
-      },
       {
         "visibility": "on"
       }

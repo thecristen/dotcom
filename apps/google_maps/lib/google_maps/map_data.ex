@@ -1,6 +1,7 @@
 defmodule GoogleMaps.MapData do
   alias GoogleMaps.MapData.Path
   alias GoogleMaps.MapData.Marker
+  alias GoogleMaps.MapData.Layers
 
   @moduledoc """
   Represents the data required to build a a google map.
@@ -14,7 +15,8 @@ defmodule GoogleMaps.MapData do
     height: 0,
     zoom: nil,
     scale: 1,
-    dynamic_options: @default_dynamic_options
+    dynamic_options: @default_dynamic_options,
+    layers: %Layers{}
   ]
 
   @type t :: %__MODULE__{
@@ -24,7 +26,8 @@ defmodule GoogleMaps.MapData do
     height: integer,
     zoom: integer | nil,
     scale: 1 | 2,
-    dynamic_options: %{atom => String.t | boolean}
+    dynamic_options: %{atom => String.t | boolean},
+    layers: Layers.t
   }
 
   @typep static_query_key :: :markers | :path | :zoom | :scale | :center | :size
@@ -90,6 +93,14 @@ defmodule GoogleMaps.MapData do
   @spec add_paths(t, [Path.t]) :: t
   def add_paths(map_data, paths) do
     %{map_data | paths: Enum.concat(map_data.paths, paths)}
+  end
+
+  @doc """
+  Enable or disable layers on the map.
+  """
+  @spec add_layers(t, Layers.t) :: t
+  def add_layers(%__MODULE__{} = map_data, %Layers{} = layers) do
+    %{map_data | layers: layers}
   end
 
   @doc """

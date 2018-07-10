@@ -2,7 +2,7 @@ defmodule GoogleMaps.MapDataTest do
   use ExUnit.Case
   import GoogleMaps.MapData
   alias GoogleMaps.MapData
-  alias GoogleMaps.MapData.{Marker, Path}
+  alias GoogleMaps.MapData.{Marker, Path, Layers}
 
   @markers [
     %Marker {
@@ -93,6 +93,13 @@ defmodule GoogleMaps.MapDataTest do
       paths = [Path.new("polyline1"), Path.new("polyline2")]
       paths_map = add_paths(@base_map, paths)
       assert paths_map.paths == Enum.concat([@base_path], paths)
+    end
+  end
+
+  describe "adding layers" do
+    test "add_layers/2" do
+      assert @base_map.layers.transit == false
+      assert add_layers(@base_map, %Layers{transit: true}).layers.transit == true
     end
   end
 
