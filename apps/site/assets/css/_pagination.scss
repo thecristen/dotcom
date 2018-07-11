@@ -39,11 +39,11 @@
 .pagination-num {
   background-color: $white;
   border: $border;
+  display: table-cell;
+  line-height: $pagination-line-height;
   margin: 0 $space-4;
   min-width: 2rem;
   padding: $space-6;
-  display: table-cell;
-  line-height: $pagination-line-height;
   vertical-align: bottom;
 
   &:last-child {
@@ -68,9 +68,9 @@
 }
 
 .pagination-collapsed {
-  margin: 0;
-  padding: 0;
   display: table-cell;
   line-height: $pagination-line-height;
+  margin: 0;
+  padding: 0;
   vertical-align: bottom;
 }

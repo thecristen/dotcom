@@ -239,12 +239,12 @@
 
   @include media-breakpoint-up(md) {
     // scss-lint:disable PropertySortOrder
+    align-items: center;
     background-image: url('/images/banner-squares.png');
     background-position: right bottom;
-    background-repeat: no-repeat;
 
+    background-repeat: no-repeat;
     display: flex;
-    align-items: center;
   }
 }
 

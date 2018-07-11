@@ -209,24 +209,25 @@ a {
 }
 
 .trip-stop {
-  position: relative;
+  list-style: none;
   margin-bottom: 0;
   padding-bottom: $space-1;
   padding-left: .625rem;
-  list-style: none;
+  position: relative;
 
   &:before {
-    content: "";
-    position: absolute;
-    left: -1 * $space-12;
     border-left: $space-4 solid $brand-primary-dark;
+    content: '';
     height: 100%;
+    left: -1 * $space-12;
+    position: absolute;
     width: $space-1;
   }
 
   &:first-child:before {
     top: $space-6;
   }
+
   &:last-child:before {
     height: $space-6;
   }
@@ -234,9 +235,9 @@ a {
 
 .trip-stop-bubble {
   float: left;
-  position: relative;
   left: -2rem;
   margin-right: -2rem;
+  position: relative;
 }
 
 .trip-stop-suffix {
