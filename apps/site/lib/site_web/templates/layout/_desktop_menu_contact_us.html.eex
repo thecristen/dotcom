@@ -50,7 +50,7 @@
         <% end %>
       </li>
       <li>
-        <%= link to: "https://public.govdelivery.com/accounts/MABTA/subscriber/new", target: "_blank" do %>
+        <%= link to: "https://beta.alerts.mbta.com", target: "_blank" do %>
           <%= fa "caret-right" %> Sign Up for T-Alerts
         <% end %>
       </li>

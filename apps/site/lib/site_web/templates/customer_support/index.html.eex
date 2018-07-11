@@ -68,11 +68,7 @@
         <div class="col-xs-12 col-sm-6">
           <h2>Get Service Updates</h2>
           <p>Receive notifications of MBTA service alerts by email or text.</p>
-          <p>
-            <%= link to: cms_static_page_path(SiteWeb.Endpoint, "/about-t-alerts") do %>
-              Sign up for T-Alerts <%= fa "arrow-right" %>
-            <% end %>
-          </p>
+          <p><a href="https://beta.alerts.mbta.com" target="_blank">Sign up for T-Alerts <%= fa "arrow-right" %></a></p>
           <p><a href="https://twitter.com/MBTA" target="_blank">Follow @MBTA on Twitter <%= fa "arrow-right" %></a></p>
           <p><a href="https://twitter.com/MBTA_CR" target="_blank">Follow @MBTA_CR on Twitter <%= fa "arrow-right" %></a></p>
         </div>
