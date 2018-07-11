@@ -1,5 +1,3 @@
 <div class="t-alerts-container">
-  <%= link to: cms_static_page_path(SiteWeb.Endpoint, "/about-t-alerts") do %>
-    Sign up for T-Alerts <%= fa "mobile" %> <%= fa "envelope" %>
-  <% end %>
+  <a href="https://beta.alerts.mbta.com" target="_blank">Sign up for T-Alerts <%= fa "mobile" %> <%= fa "envelope" %></a>
 </div>
