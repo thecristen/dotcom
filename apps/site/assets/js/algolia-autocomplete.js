@@ -129,15 +129,15 @@ export class AlgoliaAutocomplete {
   }
 
   onOpen() {
-    const acDialog = document.getElementsByClassName("c-search-bar__-dropdown-menu")[0];
-    const homepageSearchBox = document.getElementsByClassName("js-homepage-search-input");
+    const acDialog = document.getElementsByClassName("c-search-bar__-dropdown-menu").item(0);
+    if (acDialog) {
+      const borderWidth = parseInt($(`#${this._selectors.container}`).css("border-left-width"));
+      const padding = parseInt($(`#${this._selectors.container}`).css("padding-left"));
 
-    const borderWidth = parseInt($(`#${this._selectors.container}`).css("border-left-width"));
-    const padding = parseInt($(`#${this._selectors.container}`).css("padding-left"));
-
-    acDialog.style.width = `${this._searchContainer.offsetWidth}px`;
-    acDialog.style.marginLeft = `${-borderWidth + -padding}px`;
-    acDialog.style.marginTop = `${(2 * borderWidth) + padding}px`;
+      acDialog.style.width = `${this._searchContainer.offsetWidth}px`;
+      acDialog.style.marginLeft = `${-borderWidth + -padding}px`;
+      acDialog.style.marginTop = `${(2 * borderWidth) + padding}px`;
+    }
   }
 
   _addResultsContainer() {
