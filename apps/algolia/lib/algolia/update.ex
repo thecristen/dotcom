@@ -99,9 +99,9 @@ defmodule Algolia.Update do
   end
 
   @spec rank_route_by_type(Routes.Route.type_int) :: rank
-  defp rank_route_by_type(0), do: 3
-  defp rank_route_by_type(1), do: 3
-  defp rank_route_by_type(2), do: 2
+  defp rank_route_by_type(0), do: 2
+  defp rank_route_by_type(1), do: 2
+  defp rank_route_by_type(2), do: 3
   defp rank_route_by_type(3), do: 4
   defp rank_route_by_type(4), do: 1
 end
