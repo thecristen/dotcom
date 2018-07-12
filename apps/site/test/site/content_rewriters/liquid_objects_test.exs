@@ -59,7 +59,7 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
   end
 
   defp make_t_logo do
-    %SvgIconWithCircle{icon: :t_logo, class: "icon-boring"}
+    %SvgIconWithCircle{icon: :t_logo}
     |> svg_icon_with_circle
     |> safe_to_string
   end

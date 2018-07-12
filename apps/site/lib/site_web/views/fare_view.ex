@@ -108,7 +108,7 @@ defmodule SiteWeb.FareView do
   def fare_mode_icons(modes) do
     content_tag :span, class: "payment-method-modes no-wrap" do
       for mode <- modes do
-        svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-small"})
+        svg_icon_with_circle(%SvgIconWithCircle{icon: mode, size: :small})
       end
     end
   end

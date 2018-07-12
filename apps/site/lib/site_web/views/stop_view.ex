@@ -259,17 +259,17 @@ defmodule SiteWeb.StopView do
   @spec feature_icons(DetailedStop.t) :: Phoenix.HTML.Safe.t
   def feature_icons(%DetailedStop{features: features}) do
     for feature <- features do
-      stop_feature_icon(feature, "icon-small")
+      stop_feature_icon(feature, :small)
     end
   end
 
   @doc """
   Returns correct svg Icon for the given feature
   """
-  @spec stop_feature_icon(Stops.Repo.stop_feature, String.t) :: Phoenix.HTML.Safe.t
-  def stop_feature_icon(feature, class \\ "")
-  def stop_feature_icon(feature, class) do
-    svg_icon_with_circle(%SvgIconWithCircle{icon: stop_feature_icon_atom(feature), class: class})
+  @spec stop_feature_icon(Stops.Repo.stop_feature, :small | :default) :: Phoenix.HTML.Safe.t
+  def stop_feature_icon(feature, size \\ :default)
+  def stop_feature_icon(feature, size) when is_atom(size) do
+    svg_icon_with_circle(%SvgIconWithCircle{icon: stop_feature_icon_atom(feature), size: size})
   end
 
   defp stop_feature_icon_atom(branch) when branch in [:"Green-B", :"Green-C", :"Green-D", :"Green-E"] do

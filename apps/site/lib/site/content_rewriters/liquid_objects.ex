@@ -72,7 +72,7 @@ defmodule Site.ContentRewriters.LiquidObjects do
   defp mbta_svg_icon("subway"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :subway})
   defp mbta_svg_icon("bus"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :bus})
   defp mbta_svg_icon("ferry"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry})
-  defp mbta_svg_icon("t-logo"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :t_logo, class: "icon-boring"})
+  defp mbta_svg_icon("t-logo"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :t_logo})
   defp mbta_svg_icon(unknown), do: raw(~s({{ mbta-circle-icon "#{unknown}" }}))
 
   defp app_svg_badge("apple"), do: SiteWeb.ViewHelpers.svg("badge-apple-store.svg")

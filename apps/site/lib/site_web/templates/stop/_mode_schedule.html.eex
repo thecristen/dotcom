@@ -15,7 +15,7 @@
           <%= if route_time.departures != [] do %>
             <%= link class: "station-route-row", to: trip_view_path(@conn, :show, route_time.route, origin: @stop.id, direction_id: route_time.direction_id) do %>
               <div class="col-xs-12 mode-route-name" role="cell">
-                <%= svg_icon_with_circle(%SvgIconWithCircle{icon: route_time.route, class: "icon-small"}) %>
+                <%= svg_icon_with_circle(%SvgIconWithCircle{icon: route_time.route, size: :small}) %>
                 <%= route_time.route.name %>
               </div>
               <div class="clearfix">

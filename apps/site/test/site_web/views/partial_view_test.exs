@@ -77,7 +77,7 @@ defmodule SiteWeb.PartialViewTest do
     end
 
     test "uses small icon if class includes icon-small" do
-      rendered = %SvgIconWithCircle{icon: :subway, class: "icon-small"} |> svg_icon_with_circle() |> safe_to_string()
+      rendered = %SvgIconWithCircle{icon: :subway, size: :small} |> svg_icon_with_circle() |> safe_to_string()
       assert rendered =~ "c-svg__icon-mode-subway-small"
     end
 

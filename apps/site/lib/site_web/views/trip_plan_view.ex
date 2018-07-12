@@ -195,7 +195,7 @@ defmodule SiteWeb.TripPlanView do
     content_tag(:span, [
       svg_icon_with_circle(%SvgIconWithCircle{
         icon: if accessible? do :access else :no_access end,
-        class: "icon-small",
+        size: :small,
         show_tooltip?: false,
         aria_hidden?: true
       }),

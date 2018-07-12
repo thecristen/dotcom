@@ -6,7 +6,7 @@
 
   <%= for {type, routes} <- @routes do %>
     <div class="c-location-card__description">
-      <div class="c-location-card__transit-route-icon"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: type, class: "icon-small"}) %></div>
+      <div class="c-location-card__transit-route-icon"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: type, size: :small}) %></div>
       <div class="c-location-card__transit-route-name"><%= Routes.Route.type_summary(type, routes) %></div>
     </div>
   <% end %>

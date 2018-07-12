@@ -25,7 +25,7 @@
   <%=
     for feature <- [:stop, :station] do
       content_tag(:div, [
-        svg_icon_with_circle(%SvgIconWithCircle{icon: feature, class: "icon-small"})
+        svg_icon_with_circle(%SvgIconWithCircle{icon: feature, size: :small})
       ], id: ["icon-feature-", Atom.to_string(feature)])
     end
   %>

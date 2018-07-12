@@ -2,21 +2,21 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
   alias SiteWeb.ViewHelpers, as: Helpers
   alias Routes.Route
 
-  defstruct icon:  :bus,
-            class: "",
+  defstruct icon:  nil,
+            size: :default,
             show_tooltip?: true,
             aria_hidden?: false
 
   @type t :: %__MODULE__{
     icon: Site.Components.Icons.SvgIcon.icon_arg,
-    class: String.t,
+    size: :small | :default,
     show_tooltip?: boolean,
     aria_hidden?: boolean
   }
 
   def svg_icon_with_circle(%__MODULE__{icon: %Route{}} = args) do
     args.icon
-    |> Helpers.line_icon(icon_size(args))
+    |> Helpers.line_icon(args.size)
     |> do_svg_icon_with_circle(args)
   end
   def svg_icon_with_circle(%__MODULE__{icon: :mattapan_trolley} = args) do
@@ -42,13 +42,13 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
   def svg_icon_with_circle(%__MODULE__{icon: mode} = args)
   when mode in [:subway, :bus, :commuter_rail, :ferry] do
     mode
-    |> Helpers.mode_icon(icon_size(args))
+    |> Helpers.mode_icon(args.size)
     |> do_svg_icon_with_circle(args)
   end
-  def svg_icon_with_circle(%__MODULE__{icon: icon} = args)
+  def svg_icon_with_circle(%__MODULE__{icon: icon, size: size} = args)
   when icon in [:calendar, :stop, :station, :parking_lot, :access, :no_access,
                 :the_ride, :reversal, :variant, :t_logo] do
-    "icon-#{icon_name(icon)}-#{icon_size(args)}.svg"
+    "icon-#{icon_name(icon)}-#{size}.svg"
     |> Helpers.svg()
     |> do_svg_icon_with_circle(args)
   end
@@ -85,11 +85,6 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
   @spec title_attr(__MODULE__.t) :: String.t | nil
   defp title_attr(%__MODULE__{show_tooltip?: true, icon: icon}), do: title(icon)
   defp title_attr(%__MODULE__{}), do: nil
-
-  @spec icon_size(__MODULE__.t) :: :default | :small
-  defp icon_size(%__MODULE__{class: class}) do
-    if class =~ "icon-small", do: :small, else: :default
-  end
 
   def circle_viewbox(:twitter), do: "0 0 400 400"
   def circle_viewbox(:facebook), do: "0 0 75 75"

@@ -10,7 +10,7 @@
               <%= for mode <- summary.modes do %>
                 <span class="sr-only"><%= mode_name(mode) %></span>
                 <span class="fares-mode-icon-group" aria-hidden="true">
-                  <%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-small"}) %>
+                  <%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode, size: :small}) %>
                 </span>
               <% end %>
             </span>

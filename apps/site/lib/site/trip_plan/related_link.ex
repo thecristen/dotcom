@@ -70,7 +70,7 @@ defmodule Site.TripPlan.RelatedLink do
 
   defp optional_icon(nil), do: []
   defp optional_icon(icon_name) do
-    SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{icon: icon_name, class: "icon-small"})
+    SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{icon: icon_name, size: :small})
   end
 
   defp route_links(itinerary, opts) do
