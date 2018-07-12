@@ -7,6 +7,8 @@
   padding: 0;
 }
 
+.datepicker-month-prev.disabled,
+.datepicker-month-next.disabled,
 .datepicker-month-next.enabled,
 .datepicker-month-prev.enabled,
 .datepicker-month-next.enabled:hover,
@@ -22,10 +24,20 @@
   width: $base-spacing * 1.5;
 
   .fa {
+    bottom: .05em;
     font-size: $base-spacing;
     line-height: $base-spacing * 1.5;
+    position: relative;
     text-align: center;
     width: 100%;
+  }
+
+  .fa-caret-right {
+    left: .05em;
+  }
+
+  .fa-caret-left {
+    right: .05em;
   }
 }
 
@@ -34,6 +46,10 @@
   color: $white;
   height: initial;
   padding: $base-spacing-sm;
+}
+
+.datepicker-month::after {
+  content: '';
 }
 
 .datepicker-month,
