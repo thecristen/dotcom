@@ -11,7 +11,7 @@
           <%= if icon = args.icon_map[title] do %>
             <%= icon %>
           <% end %>
-          <%= title %>
+          <span class="tab-select-btn-title"><%= title %></span>
         <% end %>
       <% end %>
     </div>

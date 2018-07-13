@@ -3,11 +3,9 @@
 @import 'helpers';
 
 .icon {
+  @include icon-size(1rem);
   display: inline-block;
   font-weight: normal;
-  height: $icon-size;
-  vertical-align: top;
-  width: $icon-size;
 
   @include hover-focus-active {
     text-decoration: none;
@@ -22,12 +20,7 @@ h3,
 .h3,
 h4,
 .h4 {
-  [class*=c-svg__icon] {
-    height: 1em;
-    margin-top: -.2375em;
-    vertical-align: middle;
-    width: 1em;
-  }
+  @include icon-size-inline(1em);
 }
 
 // Sizes
@@ -37,9 +30,12 @@ h4,
   width: $icon-size-sm;
 }
 
-.icon-large {
-  height: $icon-size-lg;
-  width: $icon-size-lg;
+.icon-small-inline {
+  @include old-style-icon-size-inline(1em);
+}
+
+.icon-large-inline {
+  @include old-style-icon-size-inline(2em);
 }
 
 // Default colors

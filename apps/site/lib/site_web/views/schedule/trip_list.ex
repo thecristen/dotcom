@@ -34,7 +34,7 @@ defmodule SiteWeb.ScheduleView.TripList do
   @doc "If alerts are given, display alert icon"
   @spec display_alerts([Alerts.Alert.t]) :: Phoenix.HTML.Safe.t
   def display_alerts([]), do: raw ""
-  def display_alerts(_alerts), do: SiteWeb.PageView.svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})
+  def display_alerts(_alerts), do: SiteWeb.PageView.svg_icon(%SvgIcon{icon: :alert, class: "icon-small-inline"})
 
   @doc """
   Returns vehicle frequency for the frequency table, either "Every X minutes" or "No service between these hours".

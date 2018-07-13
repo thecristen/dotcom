@@ -96,23 +96,18 @@
 }
 
 .trip-plan-itinerary-accessibility {
-  @include icon-size($base-spacing);
+  @include icon-size-inline(1em);
 
   [class*="c-svg__icon"] {
     margin-right: $base-spacing / 4;
-    vertical-align: text-top;
   }
 }
 
 .trip-plan-itinerary-legs {
-  @include icon-size($base-spacing * 1.5);
+  @include icon-size-inline(1.5em, .1875em);
   align-items: center;
   display: flex;
   flex: 1 1 auto;
-
-  [class*="c-svg__icon"] {
-    vertical-align: top;
-  }
 
   .fa-angle-right {
     margin-left: $base-spacing / 4;
@@ -187,7 +182,7 @@
 }
 
 .trip-plan-related-links {
-  @include icon-size($base-spacing);
+  @include icon-size-inline(1em);
 
   display: flex;
   flex-flow: wrap;

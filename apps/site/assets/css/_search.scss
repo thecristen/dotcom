@@ -408,7 +408,7 @@
 }
 
 .c-search-result__hit {
-  @include icon-size($base-spacing);
+  @include icon-size-inline(1em);
 
   border: 1px solid $gray-bordered-background;
   border-top: 0;

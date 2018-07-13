@@ -31,7 +31,7 @@
   %>
 
   <div id="icon-feature-alert">
-    <%=  svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
+    <%=  svg_icon(%SvgIcon{icon: :alert, class: "icon-small-inline"}) %>
   </div>
   <div id="powered-by-google-logo">
     <img src="<%= static_url(@conn, "/images/powered_by_google_on_white.png") %>"></img>

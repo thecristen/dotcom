@@ -8,19 +8,9 @@
 }
 
 .schedule__route-name {
-  @include icon-size($font-size-h2);
-
   display: inline-block;
   margin-bottom: $base-spacing / 2;
   text-transform: uppercase;
-
-  [class*=c-svg__icon] {
-    // For some reason, in Backstop tests these SVGs render as if their center is at the parent
-    // element's baseline. I haven't been able to reproduce this in any actual browser.
-    // However, setting vertical-align: top here seems to fix the problem and does not affect
-    // how the icons display in real browsers. -kh
-    vertical-align: top;
-  }
 }
 
 .schedule-list-group {
@@ -898,7 +888,7 @@ del .trip-list-realtime {
   // scss-lint:disable VendorPrefix
   @extend %button-primary-outline;
   @include clearfix();
-  @include icon-size($base-spacing * 2);
+  @include icon-size(2em);
   border-radius: $border-radius;
   display: block;
   -ms-flex: 1 1 0%; // specify all 3 to work around IE bug
@@ -935,7 +925,7 @@ del .trip-list-realtime {
 
 .filter-icon {
   bottom: 0;
-  height: 2rem;
+  height: 2em;
   margin: auto;
   padding-right: $base-spacing-sm;
   position: absolute;
@@ -1102,11 +1092,7 @@ del .trip-list-realtime {
 }
 
 .schedule-timetable-time-col {
-  @include icon-size($base-spacing);
-
-  .c-svg__icon-commuter-rail-default {
-    vertical-align: text-top;
-  }
+  @include icon-size-inline(1em);
 
   min-width: 5em;
   white-space: nowrap;

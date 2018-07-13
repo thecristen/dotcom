@@ -39,6 +39,10 @@
   text-align: center;
   width: 33%;
 
+  [class*="c-svg__icon"] {
+    margin-bottom: $base-spacing;
+  }
+
   @include hover-focus-active {
     background-color: $brand-primary-lightest;
     color: $gray-dark;
@@ -46,15 +50,11 @@
   }
 
   @include media-breakpoint-up(sm) {
-    @include icon-size($base-spacing * 5);
+    @include icon-size(5rem);
   }
 
   @include media-breakpoint-down(xs) {
-    @include icon-size($base-spacing * 3);
-  }
-
-  [class*=c-svg__icon] {
-    margin-bottom: $base-spacing;
+    @include icon-size(3rem);
   }
 }
 

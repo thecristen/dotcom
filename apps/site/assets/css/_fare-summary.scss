@@ -44,10 +44,13 @@
   }
 }
 
+.fare-summary-title {
+  margin-bottom: $base-spacing-sm;
+}
+
 .fare-summary-name {
   display: inline-block;
   font-weight: bold;
-  margin-bottom: $base-spacing-sm;
   padding-right: $base-spacing-sm;
 
   a & {
@@ -56,13 +59,10 @@
 }
 
 .fare-summary-mode-icons {
-  @include icon-size($base-spacing);
+  @include icon-size-inline(1.25em);
 
-  display: inline-block;
-  white-space: nowrap;
-
-  [class*=c-svg__icon] {
-    vertical-align: text-top;
+  [class*="c-svg__icon"] {
+    margin-right: $base-spacing / 4;
   }
 }
 

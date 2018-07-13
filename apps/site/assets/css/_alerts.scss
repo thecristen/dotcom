@@ -39,13 +39,14 @@
     content: '';
     left: 0;
     position: absolute;
-    top: 50%;
+    top: 60%;
     width: 100%;
   }
 }
 
 .alert-show-title {
-  @include icon-size($base-spacing * 1.5);
+  // Modified offset for the vertical bar
+  @include icon-size-inline(1.5em, .35em);
 
   background: $white;
   display: inline-block;
@@ -58,7 +59,6 @@
 
   [class*=c-svg__icon] {
     margin-right: $base-spacing / 4;
-    vertical-align: top;
   }
 }
 
@@ -231,16 +231,13 @@
 }
 
 .alert-item-icon {
-  background-color: $gray-dark;
-  border-radius: 50%;
-  color: $alert-color;
+  @include old-style-icon-size-inline(1rem);
+  color: $gray-dark;
   display: block;
   float: left;
-  height: 1.5rem;
   margin-right: $space-12;
   margin-top: -$space-2;
   padding: .125rem;
-  width: 1.5rem;
   z-index: $z-index-alert-item-icon;
 
   > .fa {
@@ -254,7 +251,6 @@
 }
 
 .alert-item-icon-notice {
-  background-color: $alert-notice-color;
   color: $gray-dark;
 
   > .fa {
@@ -267,13 +263,8 @@
 .alert-item-effect-container {
   display: block;
   float: left;
-  line-height: 1.7;
   margin-top: -.3rem;
   width: 100%;
-
-  > .alert-item-icon {
-    margin-top: .1rem;
-  }
 }
 
 .alert-item-body-container {

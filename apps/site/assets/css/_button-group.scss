@@ -1,16 +1,18 @@
 @import 'variables';
 
 .tab-select-btn-group {
-  @include icon-size($base-spacing * 1.5);
+  @include icon-size(1.5rem);
 
   border-bottom: $space-4 solid $btn-primary-bg;
   border-collapse: collapse;
   display: table;
   table-layout: fixed;
   width: 100%;
+  vertical-align: middle;
 
+  // Special case because of display: table-cell;
   [class*="c-svg__icon"] {
-    vertical-align: bottom;
+    vertical-align: middle;
   }
 
   .btn {
@@ -20,6 +22,7 @@
     display: table-cell;
     padding: $space-12;
     text-align: center;
+
 
     @include media-breakpoint-down(xs) {
       font-size: .875rem;
@@ -41,6 +44,10 @@
       background-color: $btn-primary-bg;
       color: $btn-primary-color;
     }
+  }
+
+  .tab-select-btn-title {
+    vertical-align: middle;
   }
 
   .stacked-tab-label {
@@ -79,7 +86,7 @@
     .btn {
       border-right: 0;
       display: inline-block;
-      width: 30%;
+      width: 33.33%;
 
       &:last-child {
         border-right: $tab-border;

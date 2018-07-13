@@ -26,8 +26,8 @@
   flex: 1 1 25%;
   font-weight: bold;
   justify-content: center;
-  padding-bottom: $base-spacing;
-  padding-top: $base-spacing;
+  padding-bottom: $space-12;
+  padding-top: $space-12;
 
   @include hover-focus-active {
     background-color: $brand-primary-darkest;
@@ -46,16 +46,12 @@
 }
 
 .m-secondary-nav__icon {
-  @include icon-size($base-spacing * 2);
+  @include icon-size-inline(2em);
   flex: 0 0 auto;
   margin-right: $base-spacing / 2;
 
   @include media-breakpoint-down(sm) {
     display: none;
-  }
-
-  [class*="c-svg__icon"] {
-    vertical-align: middle;
   }
 }
 

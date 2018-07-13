@@ -34,6 +34,13 @@
 }
 
 .callout-small {
+  .icon-bus {
+    height: 1em;
+    position: relative;
+    top: .05em; // Oddly proportioned icon
+    width: 1em;
+  }
+
   padding-bottom: $base-spacing-sm;
   padding-top: $base-spacing-sm;
 }

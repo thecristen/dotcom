@@ -81,14 +81,10 @@
 }
 
 .c-location-card__transit-route-icon {
-  @include icon-size($base-spacing);
+  @include icon-size-inline(1em);
 
   float: left;
   width: $space-24;
-
-  [class*="c-svg__icon"] {
-    vertical-align: text-top;
-  }
 }
 
 .c-location-card__transit-route-name {

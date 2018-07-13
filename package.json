@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "lint": "pronto run",
     "ci-install": "cd apps/site/assets && npm ci --no-optional",
     "install": "cd apps/site/assets && npm install --no-optional",
     "test": "mix test && npm run test:js && mix backstop.tests",

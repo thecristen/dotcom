@@ -6,7 +6,7 @@
       <div>
         <% route = @itinerary_row.route %>
           <div class="callout callout-small">
-            <%= svg_icon(%SvgIcon{icon: Route.type_atom(route), class: "icon-boring icon-small"}) %>
+            <%= svg_icon(%SvgIcon{icon: Route.type_atom(route), class: "icon-boring"}) %>
             Connect to the <%= transfer_route_name(route) %>
           </div>
         <span class="itinerary-instruction">

@@ -25,7 +25,7 @@
             <th scope="col" class="schedule-timetable-header-col schedule-timetable-time-col"<%= if index == @offset, do: " data-scroll-to" %>>
               <span class="hidden-sm-down">Train </span><%= schedule.trip.name %>
               <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: @date, route: @route.id, direction_id: @direction_id) != [] do %>
-                <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small icon-inverse"}) %>
+                <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small-inline icon-inverse"}) %>
               <% end %>
             </th>
           <% end %>

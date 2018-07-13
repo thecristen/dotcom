@@ -94,7 +94,7 @@
 }
 
 .stop-features-list {
-  @include icon-size($base-spacing);
+  @include icon-size-inline(1em);
 
   float: right;
 
@@ -155,7 +155,7 @@
 }
 
 .stop-list-header {
-  @include icon-size($font-size-h2);
+  @include icon-size-inline($font-size-h2);
 }
 
 .stops-view-all-btn {
@@ -198,11 +198,7 @@
 }
 
 .mode-route-name {
-  @include icon-size($base-spacing);
-
-  [class*=c-svg__icon] {
-    vertical-align: text-top;
-  }
+  @include icon-size-inline(1em);
 }
 
 .station__header {
@@ -237,6 +233,7 @@
   align-items: center;
   display: flex;
   flex: 0 0 auto;
+  font-weight: 700;
   height: 100%;
   margin-right: $base-spacing / 2;
 
@@ -246,16 +243,12 @@
 }
 
 .station__header-icon {
-  @include icon-size($base-spacing * 1.75);
+  @include icon-size-inline(1.75em, .125em);
 
   flex: 0 0 auto;
 
   .c-icon__cr-zone {
     padding: $base-spacing;
-  }
-
-  [class*=c-svg__icon] {
-    vertical-align: text-top;
   }
 }
 

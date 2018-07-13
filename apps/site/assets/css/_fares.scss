@@ -219,5 +219,5 @@ a {
 }
 
 .fares-mode-icon-group {
-  @include icon-size($base-spacing * 1.5);
+  @include icon-size-inline(1.25em);
 }

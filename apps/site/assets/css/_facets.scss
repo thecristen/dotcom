@@ -22,7 +22,7 @@
 }
 
 .c-facets__icon {
-  @include icon-size($base-spacing);
+  @include icon-size(1em);
 
   align-items: center;
   display: flex;

@@ -129,7 +129,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
 
   @spec do_alert_icon(boolean) :: Phoenix.HTML.safe | String.t
   defp do_alert_icon(false), do: ""
-  defp do_alert_icon(true), do: SiteWeb.PageView.svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})
+  defp do_alert_icon(true), do: SiteWeb.PageView.svg_icon(%SvgIcon{icon: :alert, class: "icon-small-inline"})
 
   @doc """
   Returns a link to view all routes if `include_all_link == true`. Currently only implemented for buses.
