@@ -37,6 +37,15 @@ defmodule SiteWeb.ViewHelpers do
     svg("icon-mode-#{mode}-#{size}.svg")
   end
 
+  @spec bw_circle_icon(integer, :default | :small) :: Phoenix.HTML.Safe.t
+  def bw_circle_icon(type, size) do
+    mode = type
+      |> Route.vehicle_atom()
+      |> Atom.to_string()
+      |> String.replace("_", "-")
+    svg("icon-#{mode}-circle-bw-#{size}.svg")
+  end
+
   @spec line_icon(Route.t, :default | :small) :: Phoenix.HTML.Safe.t
   def line_icon(%Route{type: type} = route, size) when type in [0, 1] do
     name =

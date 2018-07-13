@@ -356,6 +356,11 @@ $location-line-width: $space-6;
   }
 }
 
+.vehicle-bubble__green {
+  height: 1.3125 * $base-spacing;
+  width: 1.3125 * $base-spacing;
+}
+
 @include stop-bubble-mode-color(".commuter-rail", $brand-commuter-rail);
 @include stop-bubble-mode-color(".red-line", $brand-red-line);
 @include stop-bubble-mode-color(".mattapan-line", $brand-red-line);

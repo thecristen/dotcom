@@ -143,10 +143,12 @@ defmodule Routes.Route do
   end
 
   @spec vehicle_atom(0..4) :: atom
-  def vehicle_atom(2), do: :cr
+  def vehicle_atom(0), do: :trolley
+  def vehicle_atom(1), do: :subway
+  def vehicle_atom(2), do: :commuter_rail
   def vehicle_atom(3), do: :bus
   def vehicle_atom(4), do: :ferry
-  def vehicle_atom(_), do: :train
+  def vehicle_atom(_), do: :subway
 
   @spec key_route?(t) :: boolean
   def key_route?(%__MODULE__{description: :key_bus_route}), do: true

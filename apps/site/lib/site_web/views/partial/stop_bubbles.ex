@@ -11,8 +11,12 @@ defmodule SiteWeb.PartialView.StopBubbles do
         param = param
                 |> Map.from_struct()
                 |> Map.put(:add_expand_icon?, add_branch_expand_icon)
+                |> Map.put(:green_line?, green_line?(param.route_id))
         SiteWeb.PartialView.render("_stop_bubble_container.html", param)
       end
     end
   end
+
+  defp green_line?(nil), do: false
+  defp green_line?(route_id), do: String.contains?(route_id, "Green")
 end

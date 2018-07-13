@@ -7,7 +7,7 @@
     {_, :empty, _} ->
       ""
     {%VehicleTooltip{}, _, _} ->
-      SiteWeb.PartialView.render("_stop_bubble_with_vehicle.html", Map.take(assigns, [:vehicle_tooltip, :route_type]))
+      SiteWeb.PartialView.render("_stop_bubble_with_vehicle.html", Map.take(assigns, [:vehicle_tooltip, :route_type, :green_line?]))
       {_, :terminus, false} -> content_tag :div, "", class: "terminus-circle"
       {_, :terminus, true} -> content_tag :div, fa("check"), class: "terminus-circle"
       _ ->

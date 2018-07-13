@@ -290,6 +290,26 @@ defmodule SiteWeb.ViewHelpersTest do
     end
   end
 
+  test "bw_circle_icon/2" do
+    for type <- [0, 1, 2, 3, 4],
+        size <- [:default] do
+          assert {"span", [{"class", class}], _} =
+            type
+            |> bw_circle_icon(size)
+            |> safe_to_string()
+            |> Floki.parse()
+          if type == 0 do
+            assert class == "c-svg__icon-trolley-circle-bw-#{size}"
+          else
+            type = type
+                   |> Route.type_atom()
+                   |> Atom.to_string()
+                   |> String.replace("_", "-")
+            assert class == "c-svg__icon-#{type}-circle-bw-#{size}"
+          end
+    end
+  end
+
   describe "line_icon/2" do
     test "for subway routes" do
       for id <- ["Red", "Orange", "Blue"] do
