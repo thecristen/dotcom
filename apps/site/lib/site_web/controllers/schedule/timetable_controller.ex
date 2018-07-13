@@ -58,6 +58,19 @@ defmodule SiteWeb.ScheduleController.TimetableController do
       {"208", "Melrose Cedar Park"} => "Line"
     }
   end
+  defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 0) do
+    %{
+      {"221", "North Billerica"} => "Via",
+      {"221", "Lowell"} => "Haverhill",
+    }
+  end
+  defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 1) do
+    %{
+      {"208", "Lowell"} => "Via",
+      {"208", "North Billerica"} => "Haverhill",
+      {"208", "Wilmington"} => "-",
+    }
+  end
   defp trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) do
     %{
       {"790", "place-rugg"} => "Via",
