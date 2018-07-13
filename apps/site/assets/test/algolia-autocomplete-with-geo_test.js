@@ -132,7 +132,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       it("does a location search when index is \"locations\"", function(done) {
         this.ac.init(this.client);
         const result = this.ac.onHitSelected({
-          _args: [{ id: "hitId", description: "10 Park Plaza, Boston, MA" }, "locations"]
+          originalEvent: {_args: [{ id: "hitId", description: "10 Park Plaza, Boston, MA" }, "locations"]}
         });
         Promise.resolve(result).then(() => {
           expect(this.ac.showLocation.called).to.be.true;

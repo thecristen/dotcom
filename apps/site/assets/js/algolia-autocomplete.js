@@ -77,10 +77,10 @@ export class AlgoliaAutocomplete {
   }
 
   _addListeners() {
-    document.addEventListener("autocomplete:cursorchanged", this.onCursorChanged);
-    document.addEventListener("autocomplete:cursorremoved", this.onCursorRemoved);
-    document.addEventListener("autocomplete:selected", this.onHitSelected);
-    document.addEventListener("autocomplete:shown", this.onOpen);
+    window.jQuery(document).on("autocomplete:cursorchanged", "#" + this._selectors.input, this.onCursorChanged);
+    window.jQuery(document).on("autocomplete:cursorremoved", "#" + this._selectors.input, this.onCursorRemoved);
+    window.jQuery(document).on("autocomplete:selected", "#" + this._selectors.input, this.onHitSelected);
+    window.jQuery(document).on("autocomplete:shown", "#" + this._selectors.input, this.onOpen);
 
     window.jQuery(document).on("keyup", "#" + this._input.id, this.onKeyup);
 
@@ -95,10 +95,10 @@ export class AlgoliaAutocomplete {
     window.jQuery(document).on("click", ".c-search-bar__-suggestion", this.onClickSuggestion);
 
     document.addEventListener("turbolink:before-render", () => {
-      document.removeEventListener("autocomplete:cursorremoved", this.onCursorRemoved);
-      document.removeEventListener("autocomplete:cursorchanged", this.onCursorChanged);
-      document.removeEventListener("autocomplete:selected", this.onHitSelected);
-      document.removeEventListener("autocomplete:shown", this.onOpen);
+      window.jQuery(document).off("autocomplete:cursorchanged", "#" + this._selectors.input, this.onCursorChanged);
+      window.jQuery(document).off("autocomplete:cursorremoved", "#" + this._selectors.input, this.onCursorRemoved);
+      window.jQuery(document).off("autocomplete:selected", "#" + this._selectors.input, this.onHitSelected);
+      window.jQuery(document).off("autocomplete:shown", "#" + this._selectors.input, this.onOpen);
       window.removeEventListener("resize", this.onOpen);
       window.jQuery(document).off("keyup", "#" + this._input.id, this.onKeyup);
       window.jQuery(document).off("click", ".c-search-bar__-suggestion", this.onClickSuggestion);
@@ -129,7 +129,7 @@ export class AlgoliaAutocomplete {
   }
 
   onOpen() {
-    const acDialog = document.getElementsByClassName("c-search-bar__-dropdown-menu").item(0);
+    const acDialog = window.jQuery(`#${this._selectors.resultsContainer}`).find(".c-search-bar__-dropdown-menu")[0];
     if (acDialog) {
       const borderWidth = parseInt($(`#${this._selectors.container}`).css("border-left-width"));
       const padding = parseInt($(`#${this._selectors.container}`).css("padding-left"));
@@ -148,7 +148,7 @@ export class AlgoliaAutocomplete {
     }
   }
 
-  onCursorChanged({_args: [hit, index]}) {
+  onCursorChanged({originalEvent: {_args: [hit, index]}}) {
     this._highlightedHit = {
       hit: hit,
       index: index
@@ -161,7 +161,7 @@ export class AlgoliaAutocomplete {
 
   clickHighlightedOrFirstResult() {
     if (this._highlightedHit) {
-      return this.onHitSelected({_args: [this._highlightedHit.hit, this._highlightedHit.index]});
+      return this.onHitSelected({originalEvent: {_args: [this._highlightedHit.hit, this._highlightedHit.index]}});
     }
     return this.clickFirstResult();
   }
@@ -173,7 +173,7 @@ export class AlgoliaAutocomplete {
     });
     if (firstIndex) {
       return this.onHitSelected({
-        _args: [this._results[firstIndex].hits[0], firstIndex]
+        originalEvent: {_args: [this._results[firstIndex].hits[0], firstIndex]}
       });
     }
     return false;
@@ -183,7 +183,7 @@ export class AlgoliaAutocomplete {
     ev.preventDefault();
   }
 
-  onHitSelected({_args: [hit, type]}) {
+  onHitSelected({originalEvent: {_args: [hit, type]}}) {
     const params = this._parent.getParams();
     if (this._input) {
       this._input.value = "";
@@ -248,6 +248,10 @@ export class AlgoliaAutocomplete {
 
   renderResult(index) {
     return (hit) => AlgoliaResult.renderResult(hit, index)
+  }
+
+  setValue(value) {
+    this._autocomplete.autocomplete.setVal(value);
   }
 }
 

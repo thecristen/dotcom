@@ -91,7 +91,7 @@ describe("AlgoliaAutocomplete", () => {
       const hit = {
         url: "/success"
       }
-      ac.onCursorChanged({_args: [hit, indices[0]]});
+      ac.onCursorChanged({originalEvent: {_args: [hit, indices[0]]}});
       expect(ac._highlightedHit.hit).to.equal(hit);
       expect(ac._highlightedHit.index).to.equal(indices[0]);
     });

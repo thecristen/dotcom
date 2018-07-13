@@ -173,7 +173,9 @@ export function getTitle(hit, type) {
       const orig = hit.description.split("");
       hit.matched_substrings.forEach(match => {
         orig[match.offset] = "<em>" + orig[match.offset];
-        orig[match.offset + match.length] = "</em>" + orig[match.offset + match.length];
+        if (match.offset + match.length < orig.length) {
+          orig[match.offset + match.length] = "</em>" + orig[match.offset + match.length];
+        }
       });
       return orig.join("");
     case "stops":

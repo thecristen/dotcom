@@ -86,7 +86,8 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     }
   }
 
-  onHitSelected(hit) {
+  onHitSelected(ev) {
+    const hit = ev.originalEvent;
     const index = hit._args[1]
     switch (index) {
       case "locations":
@@ -94,7 +95,7 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
         this._doLocationSearch(hit._args[0].id);
         break;
       default:
-        super.onHitSelected(hit);
+        super.onHitSelected(ev);
     }
   }
 

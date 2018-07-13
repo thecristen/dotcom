@@ -246,6 +246,7 @@ import filter from './filter';
 import * as stopsSearch from "./algolia-stop-search";
 import * as homepageSearch from "./algolia-homepage-search";
 import * as globalSearch from "./algolia-global-search";
+import * as tripPlanner from "./trip-planner";
 import AlgoliaResults from "./algolia-results";
 import fullstory from './fullstory';
 import inputFocus from './input-focus';
@@ -282,6 +283,7 @@ stickyTooltip();
 globalSearch.init();
 homepageSearch.init();
 stopsSearch.init();
+tripPlanner.init();
 fullstory();
 
 document.body.className = document.body.className.replace("no-js", "js");
