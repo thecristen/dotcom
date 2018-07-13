@@ -1,19 +1,23 @@
 <div class="hidden-js hidden-no-js" aria-hidden="true">
   <%=
     for light_rail <- ["Green", "Green-B", "Green-C", "Green-D", "Green-E", "Mattapan"] do
-      content_tag(:div, [line_icon(%Routes.Route{id: light_rail, type: 0}, :small)], id: [
+      route = %Routes.Route{id: light_rail, type: 0}
+      content_tag(:div, [line_icon(route, :small)], id: [
         "icon-feature-",
-        String.downcase(light_rail),
-        "_line"
+        route
+        |> Routes.Route.icon_atom()
+        |> Atom.to_string()
       ])
     end
   %>
   <%=
     for heavy_rail <- ["Red", "Blue", "Orange"] do
-      content_tag(:div, [line_icon(%Routes.Route{id: heavy_rail, type: 1}, :small)], id: [
+      route = %Routes.Route{id: heavy_rail, type: 1}
+      content_tag(:div, [line_icon(route, :small)], id: [
         "icon-feature-",
-        String.downcase(heavy_rail),
-        "_line"
+        route
+        |> Routes.Route.icon_atom()
+        |> Atom.to_string()
       ])
     end
   %>

@@ -14,7 +14,7 @@ describe('AlgoliaResults', () => {
       <div id="icon-feature-commuter_rail">commuter-rail-icon</div>
       <div id="icon-feature-bus">bus-icon</div>
       <div id="icon-feature-orange_line">orange-line-icon</div>
-      <div id="icon-feature-Green-B">green-line-b-icon</div>
+      <div id="icon-feature-green_line_b">green-line-b-icon</div>
       <div id="search-results"></div>
     `
     window.jQuery = jsdom.rerequire("jquery");
@@ -124,8 +124,8 @@ describe('AlgoliaResults', () => {
             }
           },
           zone: 8,
-          green_line_branches: ["Green-B"],
-          features: ["bus"]
+          green_line_branches: [],
+          features: ["bus", "Green-B"]
         };
 
         const result = search._renderGroup({

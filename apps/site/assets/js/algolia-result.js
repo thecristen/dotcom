@@ -136,7 +136,11 @@ function _contentIcon(hit) {
   return TEMPLATES.fontAwesomeIcon.render({icon: icon});
 };
 
-function _subwayRouteIcon (routeId) {
+function _subwayRouteIcon(routeId) {
+  if (routeId.includes("Green-")) {
+    return routeId.toLowerCase().replace("-", "_line_");
+  }
+
   const mapper = {
     Red: "red_line",
     Orange: "orange_line",
@@ -144,7 +148,7 @@ function _subwayRouteIcon (routeId) {
     Mattapan: "mattapan_line"
   };
 
-  return mapper[routeId] || "green_line";
+  return mapper[routeId];
 };
 
 function _iconFromRoute(route) {
@@ -281,19 +285,33 @@ function _getAlertIcon(hit, type) {
  }
 
 function _featuresToIcons(features) {
-   return features.map((feature) => {
-     // temporarily needed while new icons are being rolled out;
-     // should be removed once that is finished   -kh 5/1/2018
-     feature = feature == "mattapan_trolley" ? "mattapan_line" : feature
-     const icon = document.getElementById(`icon-feature-${feature}`);
-     if (icon) {
-       return icon.innerHTML;
-     } else {
-       console.error(`Can't find feature icon: ${feature}`);
-       return "";
-     }
-   });
- }
+  return features.map((feature) => {
+    const icon = document.getElementById(`icon-feature-${_standardizeFeatureName(feature)}`);
+    if (icon) {
+      return icon.innerHTML;
+    }
+
+    return "";
+  });
+}
+
+function _standardizeFeatureName(feature) {
+  switch (feature) {
+    case "Red":
+    case "Blue":
+    case "Orange":
+    case "Green":
+    case "Green-B":
+    case "Green-C":
+    case "Green-D":
+    case "Green-E":
+    case "Mattapan":
+      return _subwayRouteIcon(feature);
+
+    default:
+      return feature;
+  }
+}
 
 function _sortFeatures(features) {
    const featuresWithoutBranches = features.filter((feature) => !feature.includes("Green-"));
@@ -331,10 +349,7 @@ function _stopIcons(hit, type) {
   const filteredFeatures = hit.features.filter((feature) => ((feature != "access") && (feature != "parking_lot")));
 
   const alertFeature = _getAlertIcon(hit, type);
-  const branchFeatures = hit.green_line_branches || [];
-  const allFeatures = alertFeature
-                        .concat(branchFeatures)
-                        .concat(filteredFeatures);
+  const allFeatures = alertFeature.concat(filteredFeatures);
   const allFeaturesSorted = _sortFeatures(allFeatures);
   const allIcons = _featuresToIcons(allFeaturesSorted);
 

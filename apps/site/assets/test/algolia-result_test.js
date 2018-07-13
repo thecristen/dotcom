@@ -306,7 +306,7 @@ describe("AlgoliaResult", () => {
       <div id="icon-feature-red_line"><span>red line icon</span></div>
       <div id="icon-feature-blue_line"><span>blue line icon</span></div>
       <div id="icon-feature-orange_line"><span>orange line icon</span></div>
-      <div id="icon-feature-green_line"><span>green line icon</span></div>
+      <div id="icon-feature-green_line_c"><span>green line C icon</span></div>
       <div id="icon-feature-mattapan_line"><span>mattapan line icon</span></div>
       <div id="icon-feature-stop"><span>stop icon</span></div>
       <div id="icon-feature-station"><span>statiostationon</span></div>
@@ -338,7 +338,7 @@ describe("AlgoliaResult", () => {
       expect(AlgoliaResult.getIcon(routeHits.redLine, "routes")).to.equal("<span>red line icon</span>");
       expect(AlgoliaResult.getIcon(routeHits.blueLine, "routes")).to.equal("<span>blue line icon</span>");
       expect(AlgoliaResult.getIcon(routeHits.orangeLine, "routes")).to.equal("<span>orange line icon</span>");
-      expect(AlgoliaResult.getIcon(routeHits.greenLineC, "routes")).to.equal("<span>green line icon</span>");
+      expect(AlgoliaResult.getIcon(routeHits.greenLineC, "routes")).to.equal("<span>green line C icon</span>");
       expect(AlgoliaResult.getIcon(routeHits.mattapan, "routes")).to.equal("<span>mattapan line icon</span>");
     });
     it("renders stop icon for stops", () => {
