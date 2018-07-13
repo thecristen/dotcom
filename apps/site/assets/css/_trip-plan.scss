@@ -1,9 +1,10 @@
 .trip-plan-body {
   @include make-col();
+  padding: 0;
   width: 100%;
 
   @include media-breakpoint-up(md) {
-    @include make-col-span(7);
+    @include make-col-span(8);
   }
 
   @media print {
@@ -161,17 +162,18 @@
   margin-top: $base-spacing;
 
   @include media-breakpoint-down(sm) {
-    height: $base-spacing * 20;
+    height: $base-spacing * 30;
   }
 }
 
 .trip-plan-initial-map {
-  height: $base-spacing * 18;
+  height: $base-spacing * 42;
   margin-bottom: $base-spacing;
   width: 100%;
 
+
   @include media-breakpoint-down(sm) {
-    height: $base-spacing * 20;
+    height: $base-spacing * 30;
   }
 }
 

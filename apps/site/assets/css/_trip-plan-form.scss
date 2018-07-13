@@ -9,9 +9,12 @@
 .m-trip-plan__sidebar {
   @include make-col();
   width: 100%;
+  padding: 0;
+  margin: 0;
 
   @include media-breakpoint-up(md) {
-    @include make-col-span(5);
+    @include make-col-span(4);
+    padding-right: .9375rem;
   }
 
   @media print {
@@ -71,6 +74,7 @@
   @include icon-size-inline(1.5em);
 
   @include media-breakpoint-up(md) {
+    height: $base-spacing * 42;
     margin-bottom: 0;
     margin-top: 0;
     position: sticky;

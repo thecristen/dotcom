@@ -31,3 +31,8 @@ $form-check-input-margin-y: .25rem !default;
   margin-left: -$form-check-input-gutter;
   margin-top: $form-check-input-margin-y;
 }
+
+.row--no-margin {
+  margin-left: 0;
+  margin-right: 0;
+}
