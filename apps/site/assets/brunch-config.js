@@ -77,7 +77,9 @@ exports.config = {
       // Do not use ES6 compiler in vendor code
       ignore: [/vendor/, /node_modules/]
     },
-
+    cleancss: {
+      level: 2
+    },
     sass: {
       mode: 'ruby',
       precision: 8,

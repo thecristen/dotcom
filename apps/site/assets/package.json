@@ -8,6 +8,7 @@
     "babel-polyfill": "^6.26.0",
     "bootstrap": "4.0.0-alpha.2",
     "brunch": "~2.10",
+    "clean-css-brunch": "~2.10.0",
     "email-validation": "^0.1.2",
     "filesize": "^3.3.0",
     "form-data": "^1.0.1",

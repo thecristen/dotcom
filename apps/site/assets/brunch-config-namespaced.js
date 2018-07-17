@@ -37,6 +37,9 @@ exports.config = {
 
   // Configure your plugins
   plugins: {
+    cleancss: {
+      level: 2
+    },
     sass: {
       mode: 'ruby',
       precision: 8,
