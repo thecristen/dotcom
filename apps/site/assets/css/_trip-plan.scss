@@ -253,3 +253,14 @@
 .trip-plan-additional-routes-list {
   margin-bottom: 0;
 }
+
+.m-trip-plan__label--to {
+  display: flex;
+  justify-content: space-between;
+}
+
+.m-trip-plan__reverse-control {
+  color: $brand-primary;
+  cursor: pointer;
+  user-select: none;
+}

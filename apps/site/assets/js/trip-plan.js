@@ -13,6 +13,7 @@ export default function tripPlan($ = window.jQuery) {
   $(document).on("click", "#depart", updateAccordionTitle("Depart at", true));
   $(document).on("click", "#arrive", updateAccordionTitle("Arrive by", true));
   $(document).on("click", "#leave-now", updateAccordionTitle("Leave now", false));
+  $(document).on("click", "#trip-plan-reverse-control", reverseTrip($));
   $("[data-planner-body]").on("hide.bs.collapse", toggleIcon);
   $("[data-planner-body]").on("show.bs.collapse", toggleIcon);
   $("[data-planner-body]").on("shown.bs.collapse", redrawMap);
@@ -331,4 +332,21 @@ function doUpdateAccordionTitle(text, showDate) {
   const accordionTitle = document.getElementById("trip-plan-accordion-title")
   accordionTitle.innerHTML = title;
   accordionTitle.setAttribute("data-prefix", text);
+}
+
+function reverseTrip($) {
+  return function(e) {
+    let from = $("#from").val();
+    let to = $("#to").val();
+    let fromLat = $("#from_latitude").val();
+    let fromLng = $("#from_longitude").val();
+    let toLat = $("#to_latitude").val();
+    let toLng = $("#to_longitude").val();
+    $("#from_latitude").val(toLat);
+    $("#from_longitude").val(toLng);
+    $("#to_latitude").val(fromLat);
+    $("#to_longitude").val(fromLng);
+    $("#from").val(to);
+    $("#to").val(from);
+  }
 }

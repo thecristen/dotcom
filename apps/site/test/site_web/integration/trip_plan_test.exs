@@ -7,6 +7,9 @@ defmodule TripPlanIntegrationTest do
   @arrive css("#arrive")
   @accordion css("#trip-plan-accordion-title")
   @datepicker css("#trip-plan-datepicker")
+  @to css("#to")
+  @from css("#from")
+  @reverse_button css("#trip-plan-reverse-control")
 
   describe "trip plan form" do
     @tag :wallaby
@@ -23,6 +26,22 @@ defmodule TripPlanIntegrationTest do
       refute visible?(session, @datepicker)
       click(session, @arrive)
       assert visible?(session, @datepicker)
+    end
+
+    @tag :wallaby
+    test "reverse button swaps to and from", %{session: session} do
+      session = session
+                |> visit("/trip-planner")
+                |> fill_in(@from, with: "A")
+                |> fill_in(@to, with: "B")
+
+      assert Browser.has_value?(session, @from, "A")
+      assert Browser.has_value?(session, @to, "B")
+
+      click(session, @reverse_button)
+
+      assert Browser.has_value?(session, @from, "B")
+      assert Browser.has_value?(session, @to, "A")
     end
 
     @tag :wallaby
