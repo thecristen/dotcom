@@ -2,6 +2,8 @@ import { doWhenGoogleMapsIsReady } from './google-maps-loaded';
 import { AlgoliaWithGeo } from './algolia-search-with-geo';
 import { AlgoliaFacets } from './algolia-facets';
 import { AlgoliaResults } from './algolia-results';
+import { animatePlaceholder } from "./animated-placeholder";
+import { placeholders } from "./search-placeholders";
 import * as QueryStringHelpers from "./query-string-helpers";
 
 export function init() {
@@ -45,6 +47,8 @@ export class AlgoliaGlobalSearch {
 
     this._resultsWidget = new AlgoliaResults(AlgoliaGlobalSearch.SELECTORS.resultsContainer, this);
     this.controller.addWidget(this._resultsWidget);
+
+    animatePlaceholder(AlgoliaGlobalSearch.SELECTORS.input, placeholders);
 
     this.addEventListeners();
     this.loadState(window.location.search);

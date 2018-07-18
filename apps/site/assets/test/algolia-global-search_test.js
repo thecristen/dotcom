@@ -13,6 +13,8 @@ describe("AlgoliaGlobalSearch", function() {
 
   beforeEach(function() {
     window.jQuery = jsdom.rerequire("jquery");
+    window.$ = window.jQuery;
+    window.requestAnimationFrame = sinon.spy(); // used by animated-placeholder.js
     document.body.innerHTML = "";
     Object.keys(AlgoliaGlobalSearch.SELECTORS).forEach(key => {
       document.body.innerHTML += `<div id="${AlgoliaGlobalSearch.SELECTORS[key]}"></div>`;

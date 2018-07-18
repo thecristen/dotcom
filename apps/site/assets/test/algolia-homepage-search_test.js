@@ -10,7 +10,9 @@ describe("AlgoliaHomepageSearch", function() {
   const selector = "autocomplete-input";
   beforeEach(() => {
     window.jQuery = jsdom.rerequire("jquery");
+    window.$ = window.jQuery;
     window.autocomplete = jsdom.rerequire("autocomplete.js");
+    window.requestAnimationFrame = sinon.spy(); // used by animated-placeholder.js
   });
 
   describe("constructor", () => {

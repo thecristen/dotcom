@@ -6,6 +6,8 @@ import * as AlgoliaResult from "./algolia-result";
 import { AlgoliaAutocompleteWithGeo } from "./algolia-autocomplete-with-geo"
 import { AlgoliaAutocomplete } from "./algolia-autocomplete"
 import { featureIcon } from "./algolia-result";
+import { animatePlaceholder } from "./animated-placeholder";
+import { placeholders } from "./search-placeholders";
 
 export function init() {
   document.addEventListener("turbolinks:load", () => {
@@ -36,6 +38,7 @@ export class AlgoliaHomepageSearch {
     this._autocomplete.renderHeaderTemplate = this._renderHeaderTemplate;
     this._autocomplete.showLocation = this._showLocation;
     this._controller.addWidget(this._autocomplete);
+    animatePlaceholder(AlgoliaHomepageSearch.SELECTORS.input, placeholders);
     this.addEventListeners();
   }
 
