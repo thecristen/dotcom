@@ -264,3 +264,24 @@
   cursor: pointer;
   user-select: none;
 }
+
+.m-trip-plan__calendar-input-label {
+  display: block;
+  max-width: 100%;
+}
+
+.m-trip-plan__calendar-input-icon {
+  padding-right: .5rem;
+
+  // Special "inside input" snowflake
+  position: absolute;
+  right: 0;
+  top: 22.5%;
+
+  [class*="c-svg__icon-calendar-default"] {
+    svg {
+      height: 1rem;
+      width: 1rem;
+    }
+  }
+}

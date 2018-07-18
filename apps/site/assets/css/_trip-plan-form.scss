@@ -52,10 +52,6 @@
   text-decoration: underline;
 }
 
-.plan-date-input {
-  display: none;
-}
-
 .plan-time-input-select {
   display: inline-block;
 }
@@ -64,15 +60,7 @@
   display: inline-block;
 }
 
-@include media-breakpoint-up(md) {
-  .plan-date {
-    display: inline-block;
-  }
-}
-
 .m-trip-plan__form-container {
-  @include icon-size-inline(1.5em);
-
   @include media-breakpoint-up(md) {
     height: $base-spacing * 42;
     margin-bottom: 0;
@@ -106,6 +94,8 @@
 }
 
 .m-trip-plan__accessible-trip {
+  @include icon-size-inline(1.5em);
+
   margin-top: $base-spacing;
 }
 

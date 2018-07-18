@@ -66,7 +66,6 @@ defmodule TripPlanIntegrationTest do
         |> visit("/trip-planner")
         |> click(@accordion)
         |> click(@arrive)
-        |> click(css("#plan-time-link"))
 
       Browser.fill_in(session, css("#plan_date_time_hour"), with: 10)
       click(session, css("#main"))

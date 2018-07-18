@@ -19,7 +19,7 @@
     <% end %>
   </div>
 </fieldset>
-<div id="trip-plan-datepicker" class="hidden-js m-trip-plan__accordion-last">
+<div id="trip-plan-datepicker" class="m-trip-plan__accordion-last">
   <%= trip_plan_datetime_select(@parent_form, @query) %>
   <div class="error-container">
     <%= if @errors[:date_time] do %>

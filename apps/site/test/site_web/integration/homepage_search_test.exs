@@ -50,7 +50,7 @@ defmodule SiteWeb.HomepageSearchTest do
       session = fill_in(session, @search_input, with: "green")
 
       assert [first, _] = find(session, css(result_selector, count: 2))
-      assert Element.text(first) =~ "Green"
+      assert Element.text(first) =~ "Green Street"
     end
 
     @tag :wallaby
