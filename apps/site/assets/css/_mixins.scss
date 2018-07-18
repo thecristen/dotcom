@@ -1,3 +1,15 @@
+@mixin base-font-size {
+  @include media-breakpoint-up(xxl) {
+    font-size: $font-size-base-xxl;
+  }
+
+  @media print {
+    // override the base font size.  Since everything (should) be defined in
+    // rems, this makes all the text bigger.
+    font-size: $font-size-base-print;
+  }
+}
+
 @mixin truncate($margin-right: 1em, $fallback-width: 95%) {
   display: inline-block;
   overflow: hidden;
@@ -45,7 +57,7 @@
 // Supporting @mixins for heading typography below //
 /////////////////////////////////////////////////////
 
-%base-heading {
+@mixin base-heading {
   font-family: $headings-font-family;
   font-weight: $headings-font-weight;
   line-height: $headings-line-height;
@@ -54,18 +66,18 @@
 }
 
 @mixin h1 {
-  @extend %base-heading;
+  @include base-heading();
   @include responsive-heading-size($font-size-h1, $font-size-h1-sm);
 }
 
 @mixin h2 {
-  @extend %base-heading;
+  @include base-heading();
   @include after-heading-space();
   @include responsive-heading-size($font-size-h2, $font-size-h2-sm);
 }
 
 @mixin h3 {
-  @extend %base-heading;
+  @include base-heading();
   @include after-heading-space();
   @include responsive-heading-size($font-size-h3);
 
@@ -76,7 +88,7 @@
 }
 
 @mixin h4 {
-  @extend %base-heading;
+  @include base-heading();
   @include after-heading-space();
   font-size: $font-size-h4;
   font-weight: 500;
@@ -88,7 +100,7 @@
 }
 
 @mixin h5 {
-  @extend %base-heading;
+  @include base-heading();
   @include after-heading-space();
   font-size: $font-size-h5;
 
@@ -138,7 +150,7 @@
 
 @mixin after-heading-space {
   // Paragraph copy directly following headlines have their own
-  // built-in spacing (combined line-heights), so we undo the global
+  // built-in spacing (line-heights, em-square), so we undo the global
   // after-heading spacing when paragraphs directly follow headings.
   + p,
   + ul,
@@ -146,31 +158,17 @@
     margin-top: -.25em;
   }
 
-  // When images are visually directly after a headline, they should
-  // get the same gap non-paragraphs get by default (undo negative margin).
+  // When images are visually directly after a headline, they should get
+  // the same gap non-paragraphs get by default (undo negative margin above).
   + p > img:first-child,
   + p > a:first-child > img:first-child {
     margin-top: .25em;
   }
 }
 
-@mixin base-font-size {
-  @include media-breakpoint-up(xxl) {
-    font-size: $font-size-base-xxl;
-  }
-
-  @media print {
-    // override the base font size.  Since everything (should) be defined in
-    // rems, this makes all the text bigger.
-    font-size: $font-size-base-print;
-  }
-}
-
-
 /////////////////////////////////////////////////////
 // Supporting @mixins for icon alignment below     //
 /////////////////////////////////////////////////////
-
 
 // Use this mixin when you just want to set a size on an icon and don't need to position it
 @mixin icon-size($width-height) {
