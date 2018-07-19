@@ -1,4 +1,5 @@
 import hogan from "hogan.js";
+import * as Icons from "./icons";
 
 export const SELECTORS = {
   result: "js-search-result"
@@ -73,7 +74,7 @@ export function getIcon(hit, type) {
 
     case "routes":
       const iconName = _iconFromRoute(hit.route);
-      return featureIcon(iconName);
+      return Icons.getFeatureIcon(iconName);
 
     case "drupal":
     case "pagesdocuments":
@@ -87,15 +88,6 @@ export function getIcon(hit, type) {
     default:
       console.error(`AlgoliaResult.getIcon not implemented for index: ${type}`);
       return ""
-  }
-};
-
-export function featureIcon(feature) {
-  const icon = document.getElementById(`icon-feature-${feature}`);
-  if (icon) {
-    return icon.innerHTML;
-  } else {
-    return "";
   }
 };
 
@@ -288,12 +280,7 @@ function _getAlertIcon(hit, type) {
 
 function _featuresToIcons(features) {
   return features.map((feature) => {
-    const icon = document.getElementById(`icon-feature-${_standardizeFeatureName(feature)}`);
-    if (icon) {
-      return icon.innerHTML;
-    }
-
-    return "";
+    return Icons.getFeatureIcon(_standardizeFeatureName(feature));
   });
 }
 
@@ -380,9 +367,9 @@ function _formatDate(date) {
 
 function _getStopOrStationIcon(hit) {
   if (hit.stop["station?"]) {
-    return featureIcon("station");
+    return Icons.getFeatureIcon("station");
   } else {
-    return featureIcon("stop");
+    return Icons.getFeatureIcon("stop");
   }
 }
 

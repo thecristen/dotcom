@@ -1,5 +1,6 @@
 import { AlgoliaAutocomplete } from "./algolia-autocomplete";
 import * as GoogleMapsHelpers from './google-maps-helpers';
+import * as Icons from './icons';
 import geolocationPromise from "./geolocation-promise";
 import * as AlgoliaResult from "./algolia-result";
 
@@ -159,13 +160,9 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
             .catch(err => console.error(err));
   }
 
-  _getFeatureIcon(feature) {
-    return document.getElementById(`icon-feature-${feature}`).innerHTML;
-  }
-
   _formatResult(hit) {
     hit.routes.map(route => {
-      route.icon = this._getFeatureIcon(route.icon);
+      route.icon = Icons.getFeatureIcon(route.icon);
     });
     hit._rankingInfo.geoDistance = (hit._rankingInfo.geoDistance / METERS_PER_MILE).toFixed(1);
   }

@@ -46,6 +46,13 @@ defmodule SiteWeb.ViewHelpers do
     svg("icon-#{mode}-circle-bw-#{size}.svg")
   end
 
+  @spec route_to_string(integer) :: String.t
+  def route_to_string(type) do
+    type
+    |> Route.vehicle_atom()
+    |> Atom.to_string()
+  end
+
   @spec line_icon(Route.t, :default | :small) :: Phoenix.HTML.Safe.t
   def line_icon(%Route{type: type} = route, size) when type in [0, 1] do
     name =

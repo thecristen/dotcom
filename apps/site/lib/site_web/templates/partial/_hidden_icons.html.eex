@@ -27,6 +27,11 @@
     end
   %>
   <%=
+    for route_type <- [0, 1, 2, 3, 4] do
+      content_tag(:div, [bw_circle_icon(route_type, :small)], id: ["icon-feature-bw-", route_to_string(route_type)])
+    end
+  %>
+  <%=
     for feature <- [:stop, :station] do
       content_tag(:div, [
         svg_icon_with_circle(%SvgIconWithCircle{icon: feature, size: :small})

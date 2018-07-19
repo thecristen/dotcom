@@ -1,4 +1,5 @@
 import {FacetBar} from './facet-bar';
+import * as Icons from "./icons";
 
 export class AlgoliaFacets {
   constructor(selectors, search, parent) {
@@ -31,25 +32,25 @@ export class AlgoliaFacets {
             id: "subway",
             name: "Subway",
             facets: ["0", "1"],
-            icon: this._getFeatureIcon("subway")
+            icon: Icons.getFeatureIcon("subway")
           },
           {
             id: "bus",
             name: "Bus",
             facets: ["3"],
-            icon: this._getFeatureIcon("bus")
+            icon: Icons.getFeatureIcon("bus")
           },
           {
             id: "commuter-rail",
             name: "Commuter Rail",
             facets: ["2"],
-            icon: this._getFeatureIcon("commuter_rail")
+            icon: Icons.getFeatureIcon("commuter_rail")
           },
           {
             id: "ferry",
             name: "Ferry",
             facets: ["4"],
-            icon: this._getFeatureIcon("ferry")
+            icon: Icons.getFeatureIcon("ferry")
           },
           ]
         }
@@ -66,13 +67,13 @@ export class AlgoliaFacets {
             id: "facet-station",
             name: "Stations",
             facets: ["true"],
-            icon: this._getFeatureIcon("station")
+            icon: Icons.getFeatureIcon("station")
           },
           {
             id: "facet-stop",
             name: "Stops",
             facets: ["false"],
-            icon: this._getFeatureIcon("stop")
+            icon: Icons.getFeatureIcon("stop")
           },
           ]
         }
@@ -140,14 +141,6 @@ export class AlgoliaFacets {
     this._facetsContainer.classList.remove("c-search__facets-container--open");
     this._closeModalBtn.classList.remove("c-search__close-modal-button--open");
     document.body.classList.remove("c-search__open-modal");
-  }
-
-  _getFeatureIcon(feature) {
-    const icon = document.getElementById(`icon-feature-${feature}`);
-    if (icon) {
-      return icon.innerHTML;
-    }
-    return "";
   }
 
   _faIcon(icon) {
