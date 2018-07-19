@@ -1,6 +1,9 @@
 {
   "scripts": {
     "lint": "pronto run",
+    "eslint": "git diff --name-only --diff-filter=dx origin/master... | grep apps/site/assets/js/.*\\.js | xargs apps/site/assets/node_modules/.bin/eslint",
+    "eslint:fix": "git diff --name-only --diff-filter=dx origin/master... | grep apps/site/assets/js/.*\\.js | xargs apps/site/assets/node_modules/.bin/eslint --fix",
+    "format": "git diff --name-only --diff-filter=dx origin/master... | grep apps/site/assets/js/.*\\.js | xargs apps/site/assets/node_modules/.bin/prettier --write",
     "ci-install": "cd apps/site/assets && npm ci --no-optional",
     "install": "cd apps/site/assets && npm install --no-optional",
     "test": "mix test && npm run test:js && mix backstop.tests",
