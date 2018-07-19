@@ -1092,7 +1092,12 @@ del .trip-list-realtime {
 }
 
 .schedule-timetable-time-col {
-  @include icon-size-inline(1em);
+  // This page makes relative positioning hard due to z-indices, settle for slightly less good vertical-align
+  @include icon-size(1em);
+
+  [class*="c-svg__icon"] {
+    vertical-align: text-top;
+  }
 
   min-width: 5em;
   white-space: nowrap;
