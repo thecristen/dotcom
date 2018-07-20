@@ -2,6 +2,9 @@
 @import 'keyframes';
 @import 'helpers';
 
+// all ".c-svg__*" icons default to 1.5rem wide/high
+@include icon-size(1.5rem);
+
 .icon {
   @include icon-size(1rem);
   display: inline-block;
