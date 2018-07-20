@@ -50,7 +50,6 @@ defmodule SiteWeb.ProjectController do
       updates: updates,
       past_events: past_events,
       upcoming_events: upcoming_events,
-      narrow_template: true
     }
   end
 
@@ -84,7 +83,6 @@ defmodule SiteWeb.ProjectController do
         render conn, SiteWeb.ProjectView, "update.html", %{
           breadcrumbs: breadcrumbs,
           update: update,
-          narrow_template: true
         }
       {:error, {:redirect, _, [to: path]}} ->
         show_project_update(conn, %{update | project_url: path})

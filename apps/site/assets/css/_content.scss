@@ -1,70 +1,23 @@
-.m-cms--with-sidebar-bottom {
-  // Only use flexbox when menu appears below content (default)
-  @include media-breakpoint-down(sm) {
-    display: flex;
-    flex-direction: column;
-  }
-}
+.c-cms__title-prefix {
+  display: none;
 
-.m-cms__sidebar,
-.m-cms__content {
-  @include make-col();
-}
-
-.m-cms__content {
-  // CMS content column should use maximum space
-  width: 100%;
-}
-
-.m-cms__sidebar {
-
-  @include media-breakpoint-only(md) {
-    @include make-col-span(4);
-  }
-
-  @include media-breakpoint-up(lg) {
-    @include make-col-span(3);
-  }
-
-  &.fixedsticky-on {
-    // We use a vendor plugin that applies position: fixed in browsers
-    // that don't support position: sticky, and this class indicates that
-    // it is active. However, it appears that position: fixed
-    // affects sidebar's width context somehow, & makes it so that 25%
-    // means 25% of the whole page, instead of the container.
-    // So when that class is applied, we define the width using pixels
-    // instead of %.  -kh
-    @each $breakpoint in md, lg, xxl {
-      @include media-breakpoint-only($breakpoint) {
-        width: map-get($container-max-widths, $breakpoint) / 4;
-      }
+  // Only show "More from <title>" prefix if:
+  // 1. We are in a stacked/single column page layout (sm-down) AND
+  // 2. The sidebar appears AFTER the content (default situation)
+  .c-cms--sidebar-after & {
+    @include media-breakpoint-down(sm) {
+      display: inline;
     }
   }
 }
 
-.m-cms__sidebar--bottom {
-  // Only use order when menu appears below content (default)
-  @include media-breakpoint-down(sm) {
-    order: 2;
-  }
-}
-
-.m-cms__sidebar--top {
-  // Disable sticky positioning when menu appears at top of page
-  @include media-breakpoint-down(sm) {
-    &.fixedsticky {
-      position: relative;
-    }
-  }
-}
-
-.m-cms__sidebar-blurb {
+.c-cms__sidebar-blurb {
   @include media-breakpoint-up(md) {
     display: none;
   }
 }
 
-.m-cms__sidebar-links {
+.c-cms__sidebar-links {
   padding-left: 0;
 
   li {
@@ -76,7 +29,7 @@
   }
 }
 
-.m-cms__sidebar-link {
+.c-cms__sidebar-link {
   border-left: $border;
   border-right: $border;
   border-top: $border;
@@ -91,36 +44,9 @@
   }
 }
 
-.m-cms__sidebar-link--is-current {
+.c-cms__sidebar-link--is-current {
   background-color: $brand-primary;
   color: $white;
-}
-
-.m-cms__content--with-sidebar {
-  @include make-col();
-
-  @include media-breakpoint-only(md) {
-    @include make-col-span(8);
-  }
-
-  @include media-breakpoint-up(lg) {
-    @include make-col-span(9);
-  }
-
-  .fixedsticky-on ~ & {
-    float: right;
-  }
-}
-
-.news-content,
-.content-page-content,
-.landing-page-content {
-  flex: 1 0 auto;
-
-  img {
-    @include img-fluid();
-    margin-bottom: $base-spacing;
-  }
 }
 
 .landing-page-hero {
@@ -185,7 +111,7 @@
     position: relative;
   }
 
-  .event-description-with-sidebar & { // FMCB livestream iframe
+  .eventview & { // FMCB livestream iframe
     @include media-breakpoint-down(sm) {
       padding-bottom: 56.25%; // 16x9 Aspect Ratio
     }

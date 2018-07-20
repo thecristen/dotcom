@@ -21,33 +21,11 @@
   margin: $base-spacing-lg 0;
 }
 
-.event-description,
-.event-description-with-sidebar,
-.event-sidebar {
-  @include make-col();
-}
-
-.event-description {
-  @include make-col-span(12);
-}
-
-.event-description-with-sidebar {
-  @include media-breakpoint-up(md) {
-    @include make-col-span(9);
-  }
-}
-
-.event-sidebar {
-  @include media-breakpoint-up(md) {
-    @include make-col-span(3);
-  }
-}
-
 .events-paged-list-header {
   background-color: $brand-primary-darkest;
   color: $white;
   line-height: 2em;
-  margin: 0;
+  margin-bottom: 0;
   text-align: center;
   text-transform: uppercase;
 
@@ -61,8 +39,4 @@
 
 .event-inline-block {
   display: inline-block;
-}
-
-.events-paged-list {
-  margin-top: 0;
 }

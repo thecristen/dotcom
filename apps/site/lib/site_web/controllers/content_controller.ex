@@ -69,7 +69,6 @@ defmodule SiteWeb.ContentController do
     conn
     |> assign(:breadcrumbs, page.breadcrumbs)
     |> assign(:page, page)
-    |> assign(:narrow_template, no_sidebar?(page))
     |> render(SiteWeb.ContentView, "page.html", conn: conn)
   end
   defp render_page(conn, %Content.LandingPage{} = page) do
@@ -87,7 +86,4 @@ defmodule SiteWeb.ContentController do
   defp render_page(conn, %Content.Redirect{link: link}) do
     redirect conn, external: link.url
   end
-
-  defp no_sidebar?(%Content.BasicPage{sidebar_menu: nil}), do: true
-  defp no_sidebar?(_), do: false
 end

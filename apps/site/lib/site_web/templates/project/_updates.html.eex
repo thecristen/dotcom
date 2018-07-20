@@ -1,4 +1,4 @@
-<div class="project-updates">
+<div class="page-section project-updates">
   <h2>Updates</h2>
   <%= for update <- @updates do %>
     <div><%= format_full_date(update.posted_on) %></div>

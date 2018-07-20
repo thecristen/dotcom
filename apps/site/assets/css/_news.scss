@@ -1,34 +1,4 @@
-.news-content {
-  padding-bottom: 1rem;
-}
-
-.news-metadata {
-  color: $gray-light;
-  font-size: $font-size-h6;
-  font-weight: bold;
-  line-height: $headings-line-height;
-  margin-bottom: 5px;
-  padding-top: $base-spacing-sm;
-}
-
-.news-metadata--below-title {
-  padding-top: 0;
-}
-
-.news-entry-body {
-  margin-top: $base-spacing-xl;
-
-  img {
-    display: block;
-    margin: 0 auto;
-    padding-bottom: 1.5rem;
-    padding-top: 1rem;
-  }
-}
-
 .recent-news {
-  padding-top: 2rem;
-
   @include media-breakpoint-up(sm) {
     .recent-news-title {
       @include make-col();

@@ -18,7 +18,7 @@ defmodule SiteWeb.ContentControllerTest do
       rendered = html_response(conn, 200)
 
       assert rendered =~ "The MBTA permits musical performances at a number of subway stations in metro Boston"
-      assert rendered =~ ~s(class="page-narrow")
+      assert rendered =~ ~s(c-cms--no-sidebar)
     end
 
     test "renders and does not redirect an unaliased basic page response", %{conn: conn} do

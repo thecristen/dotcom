@@ -13,7 +13,6 @@ defmodule SiteWeb.EventController do
     |> assign(:month, date_range.start_time_gt)
     |> assign(:events, events)
     |> assign(:breadcrumbs, [Breadcrumb.build("Events")])
-    |> assign(:narrow_template, true)
     |> render("index.html", conn: conn)
   end
 
@@ -43,7 +42,6 @@ defmodule SiteWeb.EventController do
   @spec show_event(Plug.Conn.t, Content.Event.t) :: Plug.Conn.t
   def show_event(conn, event) do
     conn
-    |> assign(:narrow_template, true)
     |> assign_breadcrumbs(event)
     |> render(SiteWeb.EventView, "show.html", event: event)
   end

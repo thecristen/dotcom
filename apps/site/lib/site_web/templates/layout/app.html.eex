@@ -56,7 +56,7 @@
       <div class="page-container <%= get_page_classes(@view_module, @view_template) %>">
         <div class="container page-inner-container">
           <%=
-            content_tag :main, render(@view_module, @view_template, assigns), id: "main", tabindex: -1, class: (if assigns[:narrow_template] do "page-narrow" else nil end)
+            content_tag :main, render(@view_module, @view_template, assigns), id: "main", tabindex: -1
           %>
         </div>
       </div> <%# /container %>

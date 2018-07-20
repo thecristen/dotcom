@@ -9,7 +9,7 @@ defmodule Content.MenuLinks do
 
   @type t :: %__MODULE__{
     title: String.t,
-    position: :bottom | :top,
+    position: :after | :before,
     blurb: Phoenix.HTML.safe,
     links: [Content.Field.Link.t]
   }
@@ -32,6 +32,6 @@ defmodule Content.MenuLinks do
   end
 
   @spec parse_position(String.t) :: atom()
-  defp parse_position("top"), do: :top
-  defp parse_position("bottom"), do: :bottom
+  defp parse_position("bottom"), do: :after
+  defp parse_position("top"), do: :before
 end

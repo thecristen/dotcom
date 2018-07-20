@@ -15,7 +15,6 @@ defmodule SiteWeb.NewsEntryController do
     |> assign(:news_entries, news_entries)
     |> assign(:upcoming_news_entries, upcoming_news_entries)
     |> assign(:page, page)
-    |> assign(:narrow_template, true)
     |> render(:index)
   end
 
@@ -37,7 +36,6 @@ defmodule SiteWeb.NewsEntryController do
   def show_news_entry(conn, %Content.NewsEntry{} = news_entry) do
     recent_news = Content.Repo.recent_news(current_id: news_entry.id)
     conn
-    |> assign(:narrow_template, true)
     |> assign(:breadcrumbs, show_breadcrumbs(conn, news_entry))
     |> render(SiteWeb.NewsEntryView, "show.html", news_entry: news_entry, recent_news: recent_news)
   end

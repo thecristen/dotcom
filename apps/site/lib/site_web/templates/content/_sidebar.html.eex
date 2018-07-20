@@ -1,16 +1,16 @@
 <%= if @page.sidebar_menu do %>
-  <div class="m-cms__sidebar m-cms__sidebar--<%= @page.sidebar_menu.position %> fixedsticky sticky-top">
-    <h2 class="h3 m-cms__sidebar-title">
-      More from <%= @page.sidebar_menu.title %>
+  <div class="c-cms__sidebar fixedsticky sticky-top">
+    <h2 class="c-cms__sidebar-title">
+      <span class="c-cms__title-prefix">More from </span><%= @page.sidebar_menu.title %>
     </h2>
-    <div class="m-cms__sidebar-blurb"><%= @page.sidebar_menu.blurb %></div>
-    <ul class="m-cms__sidebar-links">
+    <div class="c-cms__sidebar-blurb"><%= @page.sidebar_menu.blurb %></div>
+    <ul class="c-cms__sidebar-links">
       <%= for link <- @page.sidebar_menu.links do %>
         <li>
           <%= if @conn.request_path == link.url do %>
-            <span class="m-cms__sidebar-link m-cms__sidebar-link--is-current"><%= link.title %></span>
+            <span class="c-cms__sidebar-link c-cms__sidebar-link--is-current"><%= link.title %></span>
           <% else %>
-            <%= link link.title, to: cms_static_page_path(@conn, link.url), class: "m-cms__sidebar-link" %>
+            <%= link link.title, to: cms_static_page_path(@conn, link.url), class: "c-cms__sidebar-link" %>
           <% end %>
         </li>
       <% end %>

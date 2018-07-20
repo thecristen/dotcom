@@ -32,22 +32,8 @@
   font-weight: bold;
 }
 
-.project-contact,
-.project-downloads,
-.project-events,
-.project-updates,
-.project-photos {
-  margin-top: $base-spacing-lg;
-}
-
 .project-update-title {
   margin-bottom: $base-spacing-sm;
-}
-
-.project-update {
-  img {
-    @include img-fluid();
-  }
 }
 
 .project-photos {
