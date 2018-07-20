@@ -1,6 +1,7 @@
 import { assert } from "chai";
 import jsdom from "mocha-jsdom";
-import { init, TripPlan } from "../js/trip-plan";
+import { TripPlannerTimeControls } from "../js/trip-planner-time-controls";
+import { TripPlannerLocControls } from "../js/trip-planner-location-controls";
 
 describe("trip-plan", () => {
   var $;
@@ -15,33 +16,33 @@ describe("trip-plan", () => {
     it("returns a friendly string given a JavaScript date", () => {
       const date = new Date(2017, 10, 9, 8, 7);
 
-      assert.equal(TripPlan.getFriendlyTime(date), "8:07 AM")
+      assert.equal(TripPlannerTimeControls.getFriendlyTime(date), "8:07 AM")
     });
 
     it("converts times after 13:00 to PM", () => {
       const date = new Date(2017, 10, 9, 18, 19);
 
-      assert.equal(TripPlan.getFriendlyTime(date), "6:19 PM")
+      assert.equal(TripPlannerTimeControls.getFriendlyTime(date), "6:19 PM")
     });
 
     it("interprets 12:00 as 12:00 PM", () => {
       const date = new Date(2017, 10, 9, 12, 7);
 
-      assert.equal(TripPlan.getFriendlyTime(date), "12:07 PM")
+      assert.equal(TripPlannerTimeControls.getFriendlyTime(date), "12:07 PM")
     });
 
     it("interprets 0:00 as 12:00 AM", () => {
       const date = new Date(2017, 10, 9, 0, 7);
 
-      assert.equal(TripPlan.getFriendlyTime(date), "12:07 AM")
+      assert.equal(TripPlannerTimeControls.getFriendlyTime(date), "12:07 AM")
     });
   });
 
   describe("reverseTrip", () => {
     beforeEach( () => {
-      init();
-
-      $("body").append(`
+      $ = jsdom.rerequire("jquery");
+      window.jQuery = jsdom.rerequire("jquery");
+      window.jQuery("body").append(`
         <input class="location-input" data-autocomplete="true" id="from" name="plan[from]" placeholder="Ex: 10 Park Plaza" type="text" autocomplete="off">
         <input type="hidden" id="from_latitude" name="plan[from_latitude]">
         <input type="hidden" id="from_longitude" name="plan[from_longitude]">
@@ -53,6 +54,8 @@ describe("trip-plan", () => {
     });
 
     it("swaps the contents of to and from and the from/to lat/lng", () => {
+      const tripPlannerLocControls = new TripPlannerLocControls();
+      const $ = window.jQuery;
       const $from = $("#from");
       const $from_lat = $("#from_latitude");
       const $from_lng = $("#from_longitude");
