@@ -1,12 +1,9 @@
 <div class="page-section station">
   <p class="stations-address">
   <%= if @stop.address && @stop.address != "" do %>
-    <%= @stop.address %>
-    <span class="no-wrap">
-      <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>
-        Get directions <%= fa "arrow-right" %>
-      <% end %>
-    </span>
+    <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>
+      <%= @stop.address %>
+    <% end %>
   <% end %>
   </p>
 
