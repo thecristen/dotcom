@@ -93,7 +93,7 @@ defmodule Stops.Stop.ParkingLot do
   @moduledoc """
   A group of parking spots at a Stop.
   """
-  defstruct [:name, :address, :capacity, :payment, :manager, :utilization, :note]
+  defstruct [:name, :address, :capacity, :payment, :manager, :utilization, :note, :latitude, :longitude]
   @type t :: %Stops.Stop.ParkingLot{
     name: String.t,
     address: String.t,
@@ -102,6 +102,8 @@ defmodule Stops.Stop.ParkingLot do
     manager: Stops.Stop.ParkingLot.Manager.t | nil,
     utilization: Stops.Stop.ParkingLot.Utilization.t | nil,
     note: String.t | nil,
+    latitude: float | nil,
+    longitude: float | nil,
   }
 end
 

@@ -38,7 +38,7 @@ defmodule Stops.Api do
       route: route_id,
       include: "parent_station,facilities",
       direction_id: direction_id,
-      "fields[facility]": "name,type,properties",
+      "fields[facility]": "name,type,properties,latitude,longitude",
       "fields[stop]": "address,name,latitude,longitude,address,wheelchair_boarding,location_type"
     ]
 
@@ -53,7 +53,7 @@ defmodule Stops.Api do
     [
       route_type: route_type,
       include: "parent_station,facilities",
-      "fields[facility]": "name,type,properties",
+      "fields[facility]": "name,type,properties,latitude,longitude",
       "fields[stop]": "address,name,latitude,longitude,address,wheelchair_boarding,location_type"
     ]
     |> Keyword.merge(opts)
@@ -162,6 +162,8 @@ defmodule Stops.Api do
     parking_area.attributes["properties"]
     |> Enum.reduce(%{}, &property_acc/2)
     |> Map.put("name", parking_area.attributes["name"])
+    |> Map.put("latitude", parking_area.attributes["latitude"])
+    |> Map.put("longitude", parking_area.attributes["longitude"])
     |> to_parking_lot
   end
 
@@ -175,6 +177,8 @@ defmodule Stops.Api do
       utilization: Stops.Helpers.struct_or_nil(Stops.Stop.ParkingLot.Utilization.parse(props)),
       note: Map.get(props, "note"),
       manager: Stops.Helpers.struct_or_nil(Stops.Stop.ParkingLot.Manager.parse(props)),
+      latitude: Map.get(props, "latitude"),
+      longitude: Map.get(props, "longitude"),
     }
   end
 
