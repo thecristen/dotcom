@@ -2,14 +2,16 @@ import DatePickerInput from "./datepicker-input";
 
 export class TripPlannerTimeControls {
   constructor() {
-    this.hideControls();
     const { dateEl, month, day, year } = TripPlannerTimeControls.SELECTORS;
-    this.DatePicker = new DatePickerInput({
-      selectors: { dateEl, month, day, year },
-      onUpdateCallback: this.updateAccordionTitleCallback.bind(this)
-    });
-    this.timeInput();
-    this.accordionSetup();
+    if (document.getElementById(dateEl.input)) {
+      this.hideControls();
+      this.DatePicker = new DatePickerInput({
+        selectors: { dateEl, month, day, year },
+        onUpdateCallback: this.updateAccordionTitleCallback.bind(this)
+      });
+      this.timeInput();
+      this.accordionSetup();
+    }
   }
 
   accordionSetup() {
