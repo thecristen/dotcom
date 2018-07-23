@@ -70,16 +70,3 @@
 <div class="callout">
   <strong>Monthly Pass on sale now:</strong> <%= @current_pass %>
 </div>
-<h2>Resources</h2>
-<ul>
-  <li>
-    <%= link to: cms_static_page_path(@conn, "/fares/where-to-buy") do %>
-      Other places to buy MBTA tickets and passes <span class="no-wrap"><%= fa "arrow-right" %></span>
-    <% end %>
-  </li>
-  <li>
-    <%= link to: cms_static_page_path(@conn, "/fares/how-to-pay") do %>
-      Find out how to pay your fare <span class="no-wrap"><%= fa "arrow-right" %></span>
-    <% end %>
-  </li>
-</ul>
