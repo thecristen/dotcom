@@ -34,7 +34,7 @@
       <li class="m-footer__group">
         <div class="m-footer__group-title">Fares &amp; Passes</div>
         <ul class="list-unstyled">
-          <li class="m-footer__item"><%= link "Fare Information by Mode", to: fare_path(@conn, :index) %></li>
+          <li class="m-footer__item"><%= link "Fare Information by Mode", to: cms_static_page_path(@conn, "/fares") %></li>
           <li class="m-footer__item"><%= link "Reduced Fares", to: fare_path(@conn, :show, "reduced") %></li>
           <li class="m-footer__item"><%= link "Pass Programs", to: "https://passprogram.mbta.com/", target: "_blank" %></li>
           <li class="m-footer__item"><%= link "Add Value to CharlieCard", to: "https://charliecard.mbta.com", target: "_blank" %></li>

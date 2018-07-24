@@ -1,25 +1,8 @@
 defmodule SiteWeb.FareControllerTest do
   use SiteWeb.ConnCase, async: true
   import SiteWeb.FareController
-  alias Fares.{Fare, Summary}
+  alias Fares.Fare
   alias SiteWeb.FareController.Filter
-
-  describe "index" do
-    test "renders", %{conn: conn} do
-      conn = get conn, fare_path(conn, :index)
-      assert html_response(conn, 200) =~ "Fares and Passes"
-    end
-
-    test "includes 4 summarized bus/subway fares", %{conn: conn} do
-      conn = get conn, fare_path(conn, :index)
-      assert [%Summary{}, _, _, _] = conn.assigns.bus_subway
-    end
-
-    test "includes summarized Commuter Rail and Ferry fares", %{conn: conn} do
-      conn = get conn, fare_path(conn, :index)
-      assert [%Summary{}, _] = conn.assigns.commuter_and_ferry
-    end
-  end
 
   describe "show" do
     test "renders commuter rail", %{conn: conn} do

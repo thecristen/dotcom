@@ -4,7 +4,7 @@
     <h3>Common Fares and Passes</h3>
     <%= SiteWeb.FareView.summarize(@common_fare_summaries) %>
     <div class="all-fares-link">
-      <%= link to: SiteWeb.Router.Helpers.fare_path(@conn, :index), class: "homepage-link light" do
+      <%= link to: cms_static_page_path(@conn, "/fares"), class: "homepage-link light" do
       [
         content_tag(:span, "View all MBTA fares and "),
         content_tag(:span, [class: "no-wrap"], do: ["passes ", fa("arrow-right")])

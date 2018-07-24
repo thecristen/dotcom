@@ -37,7 +37,7 @@ defmodule SiteWeb.LayoutView do
 
   def nav_link_content(conn), do: [
       {"Getting Around", "Transit Services, Plan Your Journey, Riding...", static_page_path(conn, :getting_around)},
-      {"Fares", "Fares By Mode, Reduced Fares, Passes...", fare_path(conn, :index)},
+      {"Fares", "Fares By Mode, Reduced Fares, Passes...", cms_static_page_path(conn, "/fares")},
       {"Contact Us", "Phone And Online Support, T-Alerts", customer_support_path(conn, :index)},
       {"More", "About Us, Business Center, Projects...", static_page_path(conn, :about)}
     ]

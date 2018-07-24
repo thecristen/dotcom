@@ -9,7 +9,7 @@ defmodule SiteWeb.FareController.OriginDestinationFareBehavior do
   alias SiteWeb.FareController.Filter
   alias Util.Breadcrumb
   import Plug.Conn, only: [assign: 3]
-  import SiteWeb.Router.Helpers
+  import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2, mode_name: 1]
 
   defmacro __using__(_) do
     quote location: :keep do
@@ -46,8 +46,8 @@ defmodule SiteWeb.FareController.OriginDestinationFareBehavior do
 
     conn
     |> assign(:breadcrumbs, [
-          Breadcrumb.build("Fares", fare_path(conn, :index)),
-          Breadcrumb.build(SiteWeb.ViewHelpers.mode_name(module.mode))
+          Breadcrumb.build("Fares", cms_static_page_path(conn, "/fares")),
+          Breadcrumb.build(mode_name(module.mode))
         ])
     |> assign(:mode,  module.mode)
     |> assign(:route_type, module.route_type)

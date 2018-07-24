@@ -1,43 +1,20 @@
 defmodule SiteWeb.FareController do use SiteWeb, :controller
 
   alias SiteWeb.FareController.{Commuter, Ferry, Filter}
-  alias Fares.{Format, Repo, RetailLocations}
+  alias Fares.RetailLocations
+  import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   @options %{
     geocode_fn: &GoogleMaps.Geocode.geocode/1,
     nearby_fn: &Fares.RetailLocations.get_nearby/1
   }
 
-  @bus_subway_filters [[name: :subway, duration: :single_trip, reduced: nil],
-                       [name: :local_bus, duration: :single_trip, reduced: nil],
-                       [name: :subway, duration: :week, reduced: nil],
-                       [name: :subway, duration: :month, reduced: nil]]
-  @commuter_and_ferry_filters [[mode: :commuter_rail, duration: :single_trip, reduced: nil],
-                               [mode: :ferry, duration: :single_trip, reduced: nil]]
-  @the_ride_filters [[mode: :the_ride]]
-
-  @simple_subway_filter [mode: :subway, duration: :single_trip, media: [:charlie_card]]
-  @simple_bus_filter [mode: :bus, name: :local_bus, duration: :single_trip, media: [:charlie_card]]
-
-  def index(conn, _params) do
-    conn
-    |> async_assign(:simple_subway_price, fn -> simple_price(@simple_subway_filter) end)
-    |> async_assign(:simple_bus_price, fn -> simple_price(@simple_bus_filter) end)
-    |> async_assign(:bus_subway, fn -> format_filters(@bus_subway_filters, :bus_subway) end)
-    |> async_assign(:the_ride, fn -> format_filters(@the_ride_filters, :the_ride) end)
-    |> async_assign(:commuter_and_ferry, fn ->
-       format_filters(@commuter_and_ferry_filters, [:commuter_rail, :ferry]) end)
-    |> assign(:breadcrumbs, [Breadcrumb.build("Fares")])
-    |> await_assign_all()
-    |> render("index.html")
-  end
-
   def show(%Plug.Conn{assigns: %{date_time: date_time}} = conn, %{"id" => "retail-sales-locations"} = params) do
     {position, formatted} = calculate_position(params, @options.geocode_fn)
 
     conn
     |> assign(:breadcrumbs, [
-        Breadcrumb.build("Fares", fare_path(conn, :index)),
+        Breadcrumb.build("Fares", cms_static_page_path(conn, "/fares")),
         Breadcrumb.build("Retail Sales Locations")
       ])
     |> render("retail_sales_locations.html",
@@ -93,27 +70,6 @@ defmodule SiteWeb.FareController do use SiteWeb, :controller
   def fare_sales_locations(%{}, _nearby_fn) do
     []
   end
-
-  defp format_filters(filters, :the_ride) do
-    Enum.flat_map(filters, &Repo.all/1)
-  end
-  defp format_filters(filters, type) do
-    filters
-    |> Enum.flat_map(&Repo.all/1)
-    |> Format.summarize(type)
-  end
-
-  @spec simple_price(Keyword.t) :: String.t
-  defp simple_price(criteria) do
-    criteria
-    |> Fares.Repo.all()
-    |> single_fare()
-    |> Format.price()
-  end
-
-  # Intentionally fail if there is more than one result.
-  @spec single_fare([Fares.Fare.t]) :: Fares.Fare.t
-  defp single_fare([fare]), do: fare
 
   @spec render_fare_module(module, Plug.Conn.t) :: Plug.Conn.t
   defp render_fare_module(module, conn) do

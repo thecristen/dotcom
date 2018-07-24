@@ -4,7 +4,7 @@
     <div class="col-xs-12 p-a-0">
       <ul>
         <li>
-          <%= link to: fare_path(@conn, :index) do %>
+          <%= link to: cms_static_page_path(@conn, "/fares") do %>
             <%= fa "caret-right" %> Fares Overview
           <% end %>
         </li>

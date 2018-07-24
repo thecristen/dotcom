@@ -123,7 +123,7 @@ defmodule SiteWeb.Router do
     get "/customer-support/thanks", CustomerSupportController, :thanks
     post "/customer-support", CustomerSupportController, :submit
     get "/fares/commuter-rail/zone", FareController, :zone
-    resources "/fares", FareController, only: [:index, :show]
+    resources "/fares", FareController, only: [:show]
     get "/search", SearchController, :index
     post "/search/query", SearchController, :query
     post "/search/click", SearchController, :click
