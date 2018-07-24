@@ -87,8 +87,8 @@ export class TripPlannerLocControls {
     }) => {
       if (type === "stops") {
         autocomplete.setValue(hit.stop.name);
-        lat.value = hit.geoloc.lat;
-        lng.value = hit.geoloc.lng;
+        lat.value = hit._geoloc.lat;
+        lng.value = hit._geoloc.lng;
       } else if (type === "locations") {
         GoogleMapsHelpers.lookupPlace(hit.place_id)
           .then(res => {
