@@ -145,6 +145,12 @@ defmodule Site.TripPlan.Query do
       Keyword.put(opts, :wheelchair_accessible?, true)
     )
   end
+  defp opts_from_query(%{"modes" => modes} = query, opts) do
+    opts_from_query(
+      Map.delete(query, "modes"),
+      get_mode_opts(modes, opts)
+    )
+  end
   defp opts_from_query(_, opts) do
       opts
   end
@@ -153,6 +159,29 @@ defmodule Site.TripPlan.Query do
     opts_from_query(
       Map.drop(query, ["time", "date_time"]),
       Keyword.put(opts, param, date_time))
+  end
+
+  @spec get_mode_opts(map, Keyword.t) :: Keyword.t
+  def get_mode_opts(%{} = modes, opts) do
+    active_modes = Enum.reduce(modes, [], &get_active_modes/2)
+    Keyword.put(opts, :mode, active_modes)
+  end
+
+  @spec get_active_modes({String.t, String.t}, Keyword.t) :: Keyword.t
+  defp get_active_modes({"subway", "true"}, acc) do
+    ["TRAM", "SUBWAY" | acc]
+  end
+  defp get_active_modes({"commuter_rail", "true"}, acc) do
+    ["RAIL" | acc]
+  end
+  defp get_active_modes({"bus", "true"}, acc) do
+    ["BUS" | acc]
+  end
+  defp get_active_modes({"ferry", "true"}, acc) do
+    ["FERRY" | acc]
+  end
+  defp get_active_modes({_, "false"}, acc) do
+    acc
   end
 
   @doc "Determines if the given query contains any itineraries"

@@ -1,10 +1,22 @@
-<%= SiteWeb.PartialView.render("_accordion.html",
-  Map.merge(assigns, %{
+<%=
+  SiteWeb.PartialView.render("_accordion.html", Map.merge(assigns, %{
     target_id: "trip-plan-accordion",
     title_id: "trip-plan-accordion-title",
     title: "Leave Now",
     parent_view: SiteWeb.TripPlanView,
-    accordion_content: "_departure.html"})) %>
+    accordion_content: "_departure.html"
+  }))
+%>
+
+<%=
+  SiteWeb.PartialView.render("_accordion.html", Map.merge(assigns, %{
+    target_id: "trip-plan-options-accordion",
+    title: "See more options",
+    parent_view: SiteWeb.TripPlanView,
+    accordion_content: "_more_options.html",
+    form: @parent_form
+  }))
+%>
 
 <div class="form-group m-trip-plan__accessible-trip">
   <%= label @parent_form, :accessible, for: "accessible" do %>

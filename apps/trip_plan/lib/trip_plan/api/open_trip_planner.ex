@@ -13,7 +13,6 @@ defmodule TripPlan.Api.OpenTripPlanner do
          %{
            "fromPlace" => location(from),
            "toPlace" => location(to),
-           "mode" => "WALK,TRANSIT",
            "showIntermediateStops" => "true",
            "format" => "json",
            "locale" => "en"

@@ -8,12 +8,14 @@ defmodule SiteWeb.TripPlanControllerTest do
   @morning %{"year" => "2017", "month" => "1", "day" => "2", "hour" => "9", "minute" => "30", "am_pm" => "AM"}
   @afternoon %{"year" => "2017", "month" => "1", "day" => "2", "hour" => "5", "minute" => "30", "am_pm" => "PM"}
   @after_hours %{"year" => "2017", "month" => "1", "day" => "2", "hour" => "3", "minute" => "00", "am_pm" => "AM"}
+  @modes %{"subway" => "true", "commuter_rail" => "true", "bus" => "false", "ferry" => "false"}
 
   @good_params %{
     "date_time" => @system_time,
     "plan" => %{"from" => "from address",
                 "to" => "to address",
-                "date_time" => @afternoon}
+                "date_time" => @afternoon,
+                "modes" => @modes}
   }
 
   @bad_params %{
@@ -38,6 +40,11 @@ defmodule SiteWeb.TripPlanControllerTest do
     test "enables transit layer on initial map", %{conn: conn} do
       conn = get conn, trip_plan_path(conn, :index)
       assert conn.assigns.initial_map_data.layers.transit == true
+    end
+
+    test "assigns modes to empty map", %{conn: conn} do
+      conn = get conn, trip_plan_path(conn, :index)
+      assert conn.assigns.modes == %{}
     end
   end
 
@@ -64,13 +71,34 @@ defmodule SiteWeb.TripPlanControllerTest do
                     "to" => "to address",
                     "to_latitude" => "",
                     "to_longitude" => "",
-                    "date_time" => @morning
+                    "date_time" => @morning,
+                    "modes" => @modes
                    }
       }
       conn = get conn, trip_plan_path(conn, :index, params)
 
       assert html_response(conn, 200) =~ "Trip Planner"
       assert conn.assigns.requires_google_maps?
+      assert %Query{} = conn.assigns.query
+    end
+
+    test "assigns.mode is a map of parsed mode state", %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from" => "Your current location",
+                    "from_latitude" => "42.3428",
+                    "from_longitude" => "-71.0857",
+                    "to" => "to address",
+                    "to_latitude" => "",
+                    "to_longitude" => "",
+                    "date_time" => @morning,
+                    "modes" => @modes
+                   }
+      }
+      conn = get conn, trip_plan_path(conn, :index, params)
+
+      assert html_response(conn, 200) =~ "Trip Planner"
+      assert conn.assigns.modes == %{subway: true, commuter_rail: true, bus: false, ferry: false}
       assert %Query{} = conn.assigns.query
     end
 
@@ -84,7 +112,9 @@ defmodule SiteWeb.TripPlanControllerTest do
                     "to" => "to address",
                     "to_latitude" => "",
                     "to_longitude" => "",
-                    "date_time" => old_dt_format}}
+                    "date_time" => old_dt_format,
+                    "mode" => @modes
+                  }}
       conn = get conn, trip_plan_path(conn, :index, params)
       assert html_response(conn, 200)
     end

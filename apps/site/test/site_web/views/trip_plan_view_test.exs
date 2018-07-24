@@ -7,23 +7,29 @@ defmodule SiteWeb.TripPlanViewTest do
   alias TripPlan.Api.MockPlanner
   alias Routes.Route
 
-  describe "itinerary_explanation/1" do
+  describe "itinerary_explanation/2" do
     @base_explanation_query %Query{from: {:error, :unknown},
                                    to: {:error, :unknown},
                                    itineraries: {:error, :unknown}}
     @date_time DateTime.from_unix!(0)
 
     test "returns nothing for an empty query" do
-      assert @base_explanation_query |> itinerary_explanation |> IO.iodata_to_binary == ""
+      selected = %{subway: true, bus: true, commuter_rail: true, ferry: true}
+      assert @base_explanation_query
+             |> itinerary_explanation(selected)
+             |> IO.iodata_to_binary() == ""
     end
 
     test "for wheelchair accessible depart_by trips, includes that in the message" do
       query = %{@base_explanation_query |
                 time: {:depart_at, @date_time},
                 wheelchair_accessible?: true}
-      expected = "Wheelchair accessible trips shown are based on the fastest route and \
+      selected = %{subway: true, bus: true, commuter_rail: true, ferry: true}
+      expected = "Wheelchair accessible trips shown are based on your selections (all modes) and \
 closest departure to 12:00 AM, Thursday, January 1st."
-      actual = query |> itinerary_explanation |> IO.iodata_to_binary
+      actual = query
+               |> itinerary_explanation(selected)
+               |> IO.iodata_to_binary()
       assert actual == expected
     end
 
@@ -31,12 +37,27 @@ closest departure to 12:00 AM, Thursday, January 1st."
       query = %{@base_explanation_query |
                 time: {:arrive_by, @date_time},
                 wheelchair_accessible?: false}
-      expected = "Trips shown are based on the fastest route and \
+      selected = %{subway: true, bus: true, commuter_rail: true, ferry: true}
+      expected = "Trips shown are based on your selections (all modes) and \
 closest arrival to 12:00 AM, Thursday, January 1st."
-      actual = query |> itinerary_explanation |> IO.iodata_to_binary
+      actual = query
+               |> itinerary_explanation(selected)
+               |> IO.iodata_to_binary()
       assert actual == expected
     end
  end
+
+  describe "selected_modes_string/1" do
+    test "returns 'all modes' when all modes are selected" do
+      selected = %{subway: true, bus: true, commuter_rail: true, ferry: true}
+      assert selected_modes_string(selected) == "all modes"
+    end
+
+    test "returns comma separated list of modes when some modes are unselected" do
+      selected = %{subway: true, bus: false, commuter_rail: true, ferry: false}
+      assert selected_modes_string(selected) == "commuter rail, subway"
+    end
+  end
 
   describe "rendered_location_error/3" do
     test "renders an empty string if there's no query", %{conn: conn} do
@@ -336,6 +357,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     @index_assigns %{date: Util.now(),
                      date_time: Util.now(),
                      errors: [],
+                     modes: %{},
                      initial_map_data: Site.TripPlan.Map.initial_map_data(),
                      initial_map_src: Site.TripPlan.Map.initial_map_src()}
 

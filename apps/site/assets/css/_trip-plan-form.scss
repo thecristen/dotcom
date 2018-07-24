@@ -8,9 +8,9 @@
 
 .m-trip-plan__sidebar {
   @include make-col();
-  width: 100%;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  width: 100%;
 
   @include media-breakpoint-up(md) {
     @include make-col-span(4);
@@ -19,6 +19,14 @@
 
   @media print {
     width: 100%;
+  }
+
+  .c-accordion {
+    margin-top: -1px;
+
+    &:first-child {
+      margin-top: 0;
+    }
   }
 }
 
@@ -62,9 +70,9 @@
 
 .m-trip-plan__form-container {
   @include media-breakpoint-up(md) {
-    height: $base-spacing * 42;
     margin-bottom: 0;
     margin-top: 0;
+    min-height: $base-spacing * 42;
     position: sticky;
     top: 0;
     z-index: $z-index-datepicker-content; // required so that a new stacking context is defined;
@@ -103,4 +111,8 @@
   .form-group {
     margin-bottom: 0;
   }
+}
+
+.m-trip-plan__checkbox-label {
+  padding-left: $base-spacing / 4;
 }

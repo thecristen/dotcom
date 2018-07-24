@@ -7,15 +7,17 @@ defmodule SiteWeb.TripPlanView do
   alias SiteWeb.PartialView.SvgIconWithCircle
   @meters_per_mile 1609.34
 
-  @spec itinerary_explanation(Query.t()) :: iodata
-  def itinerary_explanation(%Query{time: :unknown}) do
+  @spec itinerary_explanation(Query.t(), map) :: iodata
+  def itinerary_explanation(%Query{time: :unknown}, _) do
     []
   end
 
-  def itinerary_explanation(%Query{} = q) do
+  def itinerary_explanation(%Query{} = q, modes) do
     [
       trip_explanation(q),
-      " shown are based on the fastest route and closest ",
+      " shown are based on your selections (",
+      selected_modes_string(modes),
+      ") and closest ",
       time_explanation(q),
       " to ",
       dt_explanation(q),
@@ -29,6 +31,17 @@ defmodule SiteWeb.TripPlanView do
 
   defp trip_explanation(%{wheelchair_accessible?: true}) do
     "Wheelchair accessible trips"
+  end
+
+  @spec selected_modes_string(map) :: String.t
+  def selected_modes_string(%{subway: true, commuter_rail: true, bus: true, ferry: true}) do
+    "all modes"
+  end
+  def selected_modes_string(%{} = modes) do
+    modes
+    |> Enum.filter(fn {_, selected?} -> selected? end)
+    |> Enum.map(fn {key, _} -> key |> mode_name() |> String.downcase() end)
+    |> Enum.join(", ")
   end
 
   defp time_explanation(%{time: {:arrive_by, _dt}}) do

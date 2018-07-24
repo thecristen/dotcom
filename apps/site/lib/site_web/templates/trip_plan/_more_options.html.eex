@@ -1,0 +1,13 @@
+<div class="m-trip-plan-form__more-options">
+  <%=
+    inputs_for(@form, :modes, [], fn mode_f ->
+      for mode <- [:subway, :commuter_rail, :bus, :ferry] do
+        active? = Map.get(@modes, mode, true)
+        content_tag(:div, [
+          checkbox(mode_f, mode, checked: active?),
+          label(mode_f, mode, class: "m-trip-plan__checkbox-label")
+        ])
+      end
+    end)
+  %>
+</div>

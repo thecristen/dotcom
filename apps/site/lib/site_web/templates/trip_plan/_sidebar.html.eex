@@ -17,7 +17,7 @@
     <%= render "_mobile_trip_summary.html", query: query, itineraries?: itineraries? %>
     <%= form_for @conn, @conn.request_path<>"#plan_result_focus", form_options, fn f -> %>
       <%= render "_to_from_input.html", conn: @conn, parent_form: f, query: query %>
-      <%= render "_options.html", conn: @conn, parent_form: f, errors: @errors, query: query %>
+      <%= render "_options.html", conn: @conn, parent_form: f, errors: @errors, query: query, modes: @modes %>
       <button type="submit" class="btn btn-primary hidden-print m-trip-plan__submit">Get trip suggestions</button>
     <% end %>
   </div>

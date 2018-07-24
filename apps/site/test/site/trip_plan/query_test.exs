@@ -320,4 +320,15 @@ defmodule Site.TripPlan.QueryTest do
       assert log =~ "timed out"
     end
   end
+
+  describe "get_mode_opts/2" do
+    test "adds an empty list to opts if all modes are disabled" do
+      assert get_mode_opts(%{"subway" => "false", "bus" => "false"}, []) == [mode: []]
+    end
+    test "adds a list of specific modes if any modes are enabled" do
+      assert get_mode_opts(%{"subway" => "false", "bus" => "true", "commuter_rail" => "true"}, [])
+        == [mode: ["RAIL", "BUS"]]
+      assert get_mode_opts(%{"subway" => "true", "ferry" => "true"}, []) == [mode: ["TRAM", "SUBWAY", "FERRY"]]
+    end
+  end
 end

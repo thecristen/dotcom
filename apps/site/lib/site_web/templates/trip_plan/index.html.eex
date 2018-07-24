@@ -10,7 +10,7 @@
         <%= Inflex.inflect("trip", l) %>
         for you
       </p>
-      <p class="instructions page-section"><%= itinerary_explanation(@query) %></p>
+      <p class="instructions page-section"><%= itinerary_explanation(@query, @modes) %></p>
       <%= for {i,
                routes,
                map,
