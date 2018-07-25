@@ -314,7 +314,7 @@ defmodule SiteWeb.TripPlanView do
             :div,
             svg_icon_with_circle(%SvgIconWithCircle{icon: :calendar, show_tooltip?: false}),
             class: "m-trip-plan__calendar-input-icon",
-            aria_hidden: true
+            aria_hidden: "true"
           ),
           id: "plan-date-label",
           class: "m-trip-plan__calendar-input-label",
