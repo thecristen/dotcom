@@ -76,6 +76,10 @@ export class AlgoliaAutocomplete {
     this._addListeners()
   }
 
+  resetResetButton() {
+    this._toggleResetButton(this._autocomplete.autocomplete.getVal() !== "");
+  }
+
   _addListeners() {
     window.jQuery(document).on("autocomplete:cursorchanged", "#" + this._selectors.input, this.onCursorChanged);
     window.jQuery(document).on("autocomplete:cursorremoved", "#" + this._selectors.input, this.onCursorRemoved);
@@ -125,18 +129,19 @@ export class AlgoliaAutocomplete {
   }
 
   onKeyup(ev) {
-    this._toggleResetButton(this._autocomplete.autocomplete.getVal() != "");
+    this._toggleResetButton(this._autocomplete.autocomplete.getVal() !== "");
   }
 
   onOpen() {
     const acDialog = window.jQuery(`#${this._selectors.resultsContainer}`).find(".c-search-bar__-dropdown-menu")[0];
     if (acDialog) {
       const borderWidth = parseInt($(`#${this._selectors.container}`).css("border-left-width"));
-      const padding = parseInt($(`#${this._selectors.container}`).css("padding-left"));
+      const offsetLeft = document.getElementById(`${this._selectors.input}`).offsetLeft;
+      const offsetTop = document.getElementById(`${this._selectors.input}`).offsetTop;
 
       acDialog.style.width = `${this._searchContainer.offsetWidth}px`;
-      acDialog.style.marginLeft = `${-borderWidth + -padding}px`;
-      acDialog.style.marginTop = `${(2 * borderWidth) + padding}px`;
+      acDialog.style.marginLeft = `${-borderWidth + -offsetLeft}px`;
+      acDialog.style.marginTop = `${borderWidth + offsetTop}px`;
     }
   }
 
@@ -252,6 +257,10 @@ export class AlgoliaAutocomplete {
 
   setValue(value) {
     this._autocomplete.autocomplete.setVal(value);
+  }
+
+  getValue() {
+    return this._autocomplete.autocomplete.getVal();
   }
 }
 

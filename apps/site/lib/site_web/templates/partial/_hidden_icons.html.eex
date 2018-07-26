@@ -45,4 +45,7 @@
   <div id="powered-by-google-logo">
     <img src="<%= static_url(@conn, "/images/powered_by_google_on_white.png") %>"></img>
   </div>
+  <div id="icon-feature-map-pin">
+    <%=  svg("icon-map-pin.svg") %>
+  </div>
 </div>

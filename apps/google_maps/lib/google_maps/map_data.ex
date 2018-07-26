@@ -16,7 +16,8 @@ defmodule GoogleMaps.MapData do
     zoom: nil,
     scale: 1,
     dynamic_options: @default_dynamic_options,
-    layers: %Layers{}
+    layers: %Layers{},
+    auto_init: true
   ]
 
   @type t :: %__MODULE__{
@@ -27,7 +28,8 @@ defmodule GoogleMaps.MapData do
     zoom: integer | nil,
     scale: 1 | 2,
     dynamic_options: %{atom => String.t | boolean},
-    layers: Layers.t
+    layers: Layers.t,
+    auto_init: boolean
   }
 
   @typep static_query_key :: :markers | :path | :zoom | :scale | :center | :size
@@ -57,6 +59,11 @@ defmodule GoogleMaps.MapData do
       zoom: zoom,
       scale: scale
     }
+  end
+
+  @spec auto_init?(t, boolean) :: t
+  def auto_init?(map_data, auto_init) do
+    %{map_data | auto_init: auto_init}
   end
 
   @doc """

@@ -35,6 +35,7 @@ defmodule Site.TripPlan.Map do
     |> MapData.new(14)
     |> MapData.add_marker(initial_marker())
     |> MapData.add_layers(%Layers{transit: true})
+    |> MapData.auto_init?(false)
   end
 
   @spec initial_marker() :: Marker.t

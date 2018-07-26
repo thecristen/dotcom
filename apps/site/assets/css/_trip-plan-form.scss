@@ -116,3 +116,10 @@
 .m-trip-plan__checkbox-label {
   padding-left: $base-spacing / 4;
 }
+
+.m-trip-plan__input-label {
+  color: $brand-primary;
+  font-size: $font-size-h3;
+  font-weight: bold;
+  margin-left: $base-spacing / 2;
+}

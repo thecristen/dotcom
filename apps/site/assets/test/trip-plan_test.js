@@ -5,11 +5,16 @@ import { TripPlannerLocControls } from "../js/trip-planner-location-controls";
 
 describe("trip-plan", () => {
   var $;
-  jsdom();
+  jsdom({
+    scripts: [
+      'https://maps.googleapis.com/maps/api/js?libraries=places,geometry',
+    ],
+  });
 
   beforeEach( () => {
     $ = jsdom.rerequire("jquery");
     window.jQuery = jsdom.rerequire("jquery");
+    window.autocomplete = jsdom.rerequire("autocomplete.js");
   });
 
   describe("getFriendlyTime", () => {
@@ -48,6 +53,9 @@ describe("trip-plan", () => {
         <input type="hidden" id="from_longitude" name="plan[from_longitude]">
         <input class="location-input" data-autocomplete="true" id="to" name="plan[to]" placeholder="Ex: Boston Children's Museum" type="text" autocomplete="off">
         <div id="trip-plan-reverse-control"></div>
+        <div id="trip-plan__reset--from"></div>
+        <div id="trip-plan__reset--to"></div>
+        <div id="powered-by-google-logo"></div>
         <input type="hidden" id="to_latitude" name="plan[to_latitude]">
         <input type="hidden" id="to_longitude" name="plan[to_longitude]">
       `);
@@ -59,14 +67,14 @@ describe("trip-plan", () => {
       const $from = $("#from");
       const $from_lat = $("#from_latitude");
       const $from_lng = $("#from_longitude");
-      $from.val("A");
+      tripPlannerLocControls.fromAutocomplete.setValue("A");
       $from_lat.val(1);
       $from_lng.val(2);
 
       const $to = $("#to");
       const $to_lat = $("#to_latitude");
       const $to_lng = $("#to_longitude");
-      $to.val("B");
+      tripPlannerLocControls.toAutocomplete.setValue("B");
       $to_lat.val(3);
       $to_lng.val(4);
 

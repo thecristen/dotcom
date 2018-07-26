@@ -68,7 +68,7 @@ defmodule Site.TripPlan.MapTest do
         markers: [%GoogleMaps.MapData.Marker{icon: nil,
                     latitude: 42.360718, longitude: -71.05891, size: :mid,
                     tooltip: nil, visible?: false, z_index: 0}], paths: [], scale: 1,
-                width: 630, zoom: 14}
+                width: 630, zoom: 14, auto_init: false}
       assert initial_map_data() == expected
     end
   end

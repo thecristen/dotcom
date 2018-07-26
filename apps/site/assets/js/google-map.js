@@ -4,25 +4,31 @@ import * as Icons from "./icons";
 
 export default function($) {
   $ = $ || window.jQuery;
-
-  doWhenGoogleMapsIsReady(() => {
-    document.addEventListener("turbolinks:load", () => initMap($), {passive: true});
-    initMap($);
-  });
+  document.addEventListener("turbolinks:load", () => {
+    doWhenGoogleMapsIsReady(() => {
+      maybeInitMap($);
+    });
+  }, {passive: true});
 }
 
 // These values are global to this module
-var maps = {};
+var maps = [];
+var ids = [];
 var bounds = {};
 var infoWindow = null;
 
 function resetGlobals() {
-  maps = {};
+  maps = [];
+  ids = [];
   bounds = {};
   infoWindow = null;
 }
 
-function initMap($) {
+function maybeInitMap($) {
+  initMap($, true);
+}
+
+export function initMap($, autoInit = false) {
   // Read the map data from page
   const mapDataElements = document.getElementsByClassName("map-dynamic-data");
 
@@ -38,23 +44,31 @@ function initMap($) {
     return;
   }
 
-  maybeCreateMaps(mapDataElements);
+  maybeCreateMaps(mapDataElements, autoInit);
 
   // Reconsier bounds on page resize
   window.addEventListener("resize", reevaluateMapBounds, {passive: true});
   // must be a jQuery.on since it's a synthetic event
   $(document).on("show.bs.collapse", createToggledMap);
+  return maps.map((map, index) => {
+    return {
+      id: ids[index],
+      map: map
+    };
+  });
 }
 
 
-function maybeCreateMaps(mapDataElements) {
+function maybeCreateMaps(mapDataElements, autoInit) {
   // Render all visible maps by iterating over the HTMLCollection elements
   for (var i = 0; i < mapDataElements.length; i++) {
     const el = mapDataElements[i];
-    const dynamicMap = createDynamicMap(el, i);
-    if (dynamicMap.offsetParent) {
-      var mapData = JSON.parse(el.innerHTML);
-      displayMap(dynamicMap, mapData);
+    var mapData = JSON.parse(el.innerHTML);
+    if (!autoInit || mapData.auto_init) {
+      const dynamicMap = createDynamicMap(el, i);
+      if (dynamicMap.offsetParent) {
+        displayMap(dynamicMap, mapData);
+      }
     }
   }
 }
@@ -74,6 +88,8 @@ function createDynamicMap(el, index) {
   var dynamicMap = el.nextElementSibling;
   if (!dynamicMap || dynamicMap.className !== className) {
     dynamicMap = document.createElement("div");
+    dynamicMap.id = el.id;
+    el.id = `${el.id}-source`;
     dynamicMap.className = className;
     dynamicMap.attributes["data-index"] = index;
     el.parentNode.insertBefore(dynamicMap, el.nextElementSibling);
@@ -95,6 +111,7 @@ function displayMap(el, mapData) {
   }
   // Create a map instance
   const map = maps[index] = new google.maps.Map(el, mapData.dynamic_options);
+  ids[index] = el.id;
 
   // Bounds will allow us to later zoom the map to the boundaries of the stops
   const bound = bounds[index] = new google.maps.LatLngBounds();
