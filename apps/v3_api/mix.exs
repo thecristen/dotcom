@@ -19,7 +19,10 @@ defmodule V3Api.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :httpoison, :json_api, :sentry]]
+    [
+      applications: [:logger, :httpoison, :json_api, :sentry],
+      mod: {V3Api.Application, []}
+    ]
   end
 
   # Dependencies can be Hex packages:

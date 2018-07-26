@@ -1,6 +1,6 @@
 defmodule Schedules.Repo do
   import Kernel, except: [to_string: 1]
-  use RepoCache, ttl: :timer.hours(6)
+  use RepoCache, ttl: :timer.hours(1)
 
   alias Schedules.{Schedule, HoursOfOperation}
   alias Stops.Stop

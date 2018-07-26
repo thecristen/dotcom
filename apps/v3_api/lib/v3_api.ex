@@ -2,6 +2,7 @@ defmodule V3Api do
   use HTTPoison.Base
   require Logger
   import V3Api.SentryExtra
+  alias V3Api.Cache
 
   @default_timeout Application.get_env(:v3_api, :default_timeout)
 
@@ -14,6 +15,7 @@ defmodule V3Api do
          {time, response} <- timed_get(url, params, opts),
          :ok <- log_response(url, params, time, response),
          {:ok, http_response} <- response,
+         {:ok, http_response} <- Cache.cache_response(url, params, http_response),
          {:ok, body} <- body(http_response) do
       body
       |> JsonApi.parse
@@ -29,11 +31,10 @@ defmodule V3Api do
   end
 
   defp timed_get(url, params, opts) do
+    api_key = Keyword.fetch!(opts, :api_key)
+    headers = api_key_headers(api_key) ++ Cache.cache_headers(url, params)
     url = Keyword.fetch!(opts, :base_url) <> url
     timeout = Keyword.fetch!(opts, :timeout)
-    api_key = Keyword.fetch!(opts, :api_key)
-
-    headers = api_key_headers(api_key)
 
     {time, response} = :timer.tc(fn ->
       get(url, headers,

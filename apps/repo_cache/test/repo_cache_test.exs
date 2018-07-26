@@ -75,9 +75,9 @@ defmodule RepoCacheTest do
       assert result == {:ok, :ok}, "one of the tasks failed: #{inspect result}"
     end
     # function was only called once
-    assert_received {:message, 0}
-    for i <- 1..10 do
-      refute_received {:message, ^i}
+    assert_received {:message, _}
+    for _i <- 1..10 do
+      refute_received {:message, _}
     end
   end
 

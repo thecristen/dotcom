@@ -5,6 +5,7 @@ use Mix.Config
 config :v3_api,
   base_url: {:system, "V3_URL", "https://dev.api.mbtace.com/"},
   api_key: {:system, "V3_API_KEY"},
-  default_timeout: 5_000
+  default_timeout: 5_000,
+  cache_size: 10_000
 
 import_config "#{Mix.env}.exs"
