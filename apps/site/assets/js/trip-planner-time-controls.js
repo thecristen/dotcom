@@ -1,10 +1,11 @@
 import DatePickerInput from "./datepicker-input";
+import { parseQuery } from "./query-string-helpers";
 
 export class TripPlannerTimeControls {
   constructor() {
     const { dateEl, month, day, year } = TripPlannerTimeControls.SELECTORS;
     if (document.getElementById(dateEl.input)) {
-      this.hideControls();
+      this.resetPlanType();
       this.DatePicker = new DatePickerInput({
         selectors: { dateEl, month, day, year },
         onUpdateCallback: this.updateAccordionTitleCallback.bind(this)
@@ -14,30 +15,23 @@ export class TripPlannerTimeControls {
     }
   }
 
+  resetPlanType() {
+    document
+      .getElementById(TripPlannerTimeControls.SELECTORS.title)
+      .setAttribute("data-prefix", "");
+  }
+
   accordionSetup() {
     document
       .getElementById(TripPlannerTimeControls.SELECTORS.depart)
       .addEventListener("click", () => {
-        this.showControls();
         this.updateAccordionTitle("Depart at");
       });
     document
       .getElementById(TripPlannerTimeControls.SELECTORS.arrive)
       .addEventListener("click", () => {
-        this.showControls();
         this.updateAccordionTitle("Arrive by");
       });
-    document
-      .getElementById(TripPlannerTimeControls.SELECTORS.leaveNow)
-      .addEventListener("click", () => {
-        this.hideControls();
-        this.updateAccordionTitle("Leave now", false);
-      });
-    $(`#${TripPlannerTimeControls.SELECTORS.title}`).data(
-      "prefix",
-      "Leave now"
-    );
-    this.updateAccordionTitle("Leave now", false);
   }
 
   timeInput() {
@@ -51,6 +45,26 @@ export class TripPlannerTimeControls {
       .getElementById(TripPlannerTimeControls.SELECTORS.amPm)
       .addEventListener("change", this.updateTime.bind(this));
     this.updateTime();
+  }
+
+  getStateFromQuery() {
+    return parseQuery(window.location.search);
+  }
+
+  formatQueryPlanType() {
+    const planTime = this.getStateFromQuery()["plan[time]"];
+    if (planTime === "arrive") {
+      return "Arrive by";
+    }
+    return "Depart at";
+  }
+
+  getPlanType() {
+    return (
+      document
+        .getElementById(TripPlannerTimeControls.SELECTORS.title)
+        .getAttribute("data-prefix") || this.formatQueryPlanType()
+    );
   }
 
   updateTime() {
@@ -75,26 +89,18 @@ export class TripPlannerTimeControls {
 
     timeLabel.setAttribute("data-time", friendlyTime);
     timeLabel.setAttribute("aria-label", `${friendlyTime}, ${ariaMessage}`);
-    this.updateAccordionTitle(
-      document
-        .getElementById(TripPlannerTimeControls.SELECTORS.title)
-        .getAttribute("data-prefix")
-    );
+    this.updateAccordionTitle(this.getPlanType());
   }
 
-  updateAccordionTitle(text, showDate = true) {
-    let title = text;
-    if (showDate) {
-      const timeEl = document.getElementById(
-        TripPlannerTimeControls.SELECTORS.timeEl.label
-      );
-      const time = timeEl.getAttribute("data-time");
-      const dateEl = document.getElementById(
-        TripPlannerTimeControls.SELECTORS.dateEl.label
-      );
-      const date = dateEl.getAttribute("data-date");
-      title = `${text} ${time}, ${date}`;
-    }
+  updateAccordionTitle(text) {
+    const time = document
+      .getElementById(TripPlannerTimeControls.SELECTORS.timeEl.label)
+      .getAttribute("data-time");
+    const date = document
+      .getElementById(TripPlannerTimeControls.SELECTORS.dateEl.label)
+      .getAttribute("data-date");
+    const title = `${text} ${time}, ${date}`;
+
     const accordionTitle = document.getElementById(
       TripPlannerTimeControls.SELECTORS.title
     );
@@ -103,10 +109,7 @@ export class TripPlannerTimeControls {
   }
 
   updateAccordionTitleCallback() {
-    const text = document
-      .getElementById(TripPlannerTimeControls.SELECTORS.title)
-      .getAttribute("data-prefix");
-    this.updateAccordionTitle(text);
+    this.updateAccordionTitle(this.getPlanType());
   }
 
   static getFriendlyTime(datetime) {
@@ -129,16 +132,6 @@ export class TripPlannerTimeControls {
     }
 
     return `${hour}:${minute} ${amPm}`;
-  }
-
-  hideControls() {
-    const $ = window.jQuery;
-    $(`#${TripPlannerTimeControls.SELECTORS.controls}`).hide();
-  }
-
-  showControls() {
-    const $ = window.jQuery;
-    $(`#${TripPlannerTimeControls.SELECTORS.controls}`).show();
   }
 }
 

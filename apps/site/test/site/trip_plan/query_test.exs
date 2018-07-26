@@ -85,10 +85,10 @@ defmodule Site.TripPlan.QueryTest do
       assert opts[:wheelchair_accessible?]
     end
 
-    test "leave now uses depart_at time" do
+    test "depart_at time works as expected" do
       params = %{"from" => "from address",
                   "to" => "to address",
-                  "time" => "leave-now",
+                  "time" => "depart",
                   "date_time" => @date_time,
                   "accessible" => "true"}
       actual = from_query(params)

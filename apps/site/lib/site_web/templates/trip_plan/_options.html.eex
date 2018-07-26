@@ -1,10 +1,16 @@
+<%
+  datetime = datetime_from_query(@query)
+  plan_type = format_plan_type_for_title(@query)
+%>
+
 <%=
   SiteWeb.PartialView.render("_accordion.html", Map.merge(assigns, %{
     target_id: "trip-plan-accordion",
     title_id: "trip-plan-accordion-title",
-    title: "Leave Now",
+    title: plan_type,
     parent_view: SiteWeb.TripPlanView,
-    accordion_content: "_departure.html"
+    accordion_content: "_departure.html",
+    datetime: datetime
   }))
 %>
 

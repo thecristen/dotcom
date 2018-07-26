@@ -261,16 +261,15 @@ defmodule SiteWeb.TripPlanView do
     svg_icon_with_circle(%SvgIconWithCircle{icon: route})
   end
 
-  def datetime_from_query(%Query{time: {_, datetime}}), do: datetime
+  def datetime_from_query(%Query{time: {_, dt}}), do: dt
   def datetime_from_query(nil), do: Util.now()
 
-  def trip_plan_datetime_select(form, query) do
-    query
-    |> datetime_from_query()
-    |> do_trip_plan_datetime_select(form)
-  end
+  @spec format_plan_type_for_title(Query.t()) :: Phoenix.HTML.Safe.t()
+  def format_plan_type_for_title(%{time: {:arrive_by, dt}}), do: ["Arrive by ", Timex.format!(dt, "{h12}:{m} {AM}, {M}/{D}/{YYYY}")]
+  def format_plan_type_for_title(%{time: {:depart_at, dt}}), do: ["Depart at ", Timex.format!(dt, "{h12}:{m} {AM}, {M}/{D}/{YYYY}")]
+  def format_plan_type_for_title(nil), do: ["Depart at ", Timex.format!(Util.now(), "{h12}:{m} {AM}, {M}/{D}/{YYYY}")]
 
-  defp do_trip_plan_datetime_select(datetime, form) do
+  def trip_plan_datetime_select(form, datetime) do
     time_options = [
       hour: [options: 1..12, selected: Timex.format!(datetime, "{h12}")],
       minute: [selected: datetime.minute]
@@ -295,11 +294,6 @@ defmodule SiteWeb.TripPlanView do
 
   @spec custom_date_select(Form.t(), DateTime.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
   defp custom_date_select(form, datetime, options) do
-    # the accessible-date-picker uses the label's offset to determine where to position the calendar
-    # when toggling it, and throws an error if the label is omitted. So if we don't want to show a label,
-    # we can't just set display:none because that messes up the offset. That's why the label has no text
-    # and is set to aria-hidden="true".
-
     min_date = Timex.format!(Util.now(), "{0M}/{0D}/{YYYY}")
     max_date = Timex.format!(Schedules.Repo.end_of_rating(), "{0M}/{0D}/{YYYY}")
     current_date = Timex.format!(datetime, "{WDfull}, {Mfull} {D}, {YYYY}")

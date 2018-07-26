@@ -130,9 +130,6 @@ defmodule Site.TripPlan.Query do
 
   @spec opts_from_query(%{optional(String.t) => String.t}, Keyword.t) :: Keyword.t
   defp opts_from_query(query, opts \\ [])
-  defp opts_from_query(%{"time" => "leave-now", "date_time" => _date_time} = query, opts) do
-    do_date_time(:depart_at, query, opts)
-  end
   defp opts_from_query(%{"time" => "depart", "date_time" => _date_time} = query, opts) do
     do_date_time(:depart_at, query, opts)
   end

@@ -4,18 +4,19 @@ export function parseQuery(query) {
   const queryParams = query.substring(1).split("&");
   queryParams.forEach(param => {
     const split = param.split("=");
-    params[split[0]] = window.decodeURIComponent(split[1].replace(/\+/g, " "));
+    params[window.decodeURIComponent(split[0])] = window.decodeURIComponent(
+      split[1].replace(/\+/g, " ")
+    );
   });
   return params;
 }
 
 export function parseParams(params) {
-  params = params || {};
-  if (Object.keys(params).length == 0) {
+  if (!params || Object.keys(params).length === 0) {
     return "";
   }
 
-  return "?" + Object.keys(params)
-                     .map(key => `${key}=${window.encodeURIComponent(params[key])}`)
-                     .join("&");
+  return `?${Object.keys(params)
+    .map(key => `${key}=${window.encodeURIComponent(params[key])}`)
+    .join("&")}`;
 }

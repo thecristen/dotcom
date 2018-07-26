@@ -1,26 +1,20 @@
 <fieldset>
   <legend class="sr-only">Schedule By Arrival or Departure:</legend>
   <div class="form-check">
-    <%= label @parent_form, :time, for: "leave-now", class: "form-check-label" do %>
-      <%= radio_button @parent_form, :time, "leave-now", id: "leave-now", checked: true, class: "form-check-input" %>
-      Leave now
-    <% end %>
-  </div>
-  <div class="form-check">
     <%= label @parent_form, :time, for: "depart", class: "form-check-label" do %>
-      <%= radio_button @parent_form, :time, "depart", id: "depart", class: "form-check-input" %>
-      Depart At
+      <%= radio_button @parent_form, :time, "depart", id: "depart", checked: true,  class: "form-check-input" %>
+      Depart at
     <% end %>
   </div>
   <div class="form-check">
     <%= label @parent_form, :time, for: "arrive", class: "form-check-label" do %>
       <%= radio_button @parent_form, :time, "arrive", id: "arrive", class: "form-check-input" %>
-      Arrive By
+      Arrive by
     <% end %>
   </div>
 </fieldset>
 <div id="trip-plan-datepicker" class="m-trip-plan__accordion-last">
-  <%= trip_plan_datetime_select(@parent_form, @query) %>
+  <%= trip_plan_datetime_select(@parent_form, @datetime) %>
   <div class="error-container">
     <%= if @errors[:date_time] do %>
       <span><%= @errors[:date_time] %></span>
