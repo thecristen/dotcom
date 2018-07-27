@@ -117,13 +117,15 @@ function render (id, focusId) {
   // render group of images
   const markUp = `
     <div class="c-photo-gallery__main-container">
-      <img class="c-photo-gallery__main-image"
-           id="${id + "primary"}"
-           alt="${mainImage.getAttribute("alt")}"
-           src="${mainImage.getAttribute("src")}">
+      <div class="c-photo-gallery__main-window">
+        <img class="c-photo-gallery__main-image"
+          id="${id + "primary"}"
+          alt="${mainImage.getAttribute("alt")}"
+          src="${mainImage.getAttribute("src")}">
+        </div>
       <div id="${id + "name"}" class="c-photo-gallery__main-title">${mainImage.getAttribute("alt")}</div>
     </div>
-    <div id="${id + "images"}" class="c-photo-gallery__thumbnails">
+    <div id="${id + "images"}" class="c-photo-gallery__thumbnails c-thumbnail-count--${images.length}">
       ${renderImages(images, firstImage, id)}
     </div>
     ${renderNavigation(id, pagination)}
