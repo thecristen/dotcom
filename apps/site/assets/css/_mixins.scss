@@ -149,26 +149,51 @@
 }
 
 @mixin after-heading-space {
+
+  $adjustment: .25em;
+
   // Paragraph copy directly following headlines have their own
   // built-in spacing (line-heights, em-square), so we undo the global
   // after-heading spacing when paragraphs directly follow headings.
   + p,
   + ul,
   + ol {
-    margin-top: -.25em;
+    margin-top: -$adjustment;
+  }
+
+  // If an author floats media between a heading and body copy, we lose
+  // the heading + copy relationship. Add this scenario back here:
+  @include media-breakpoint-up(sm) {
+    + .c-media--size-half + p {
+      margin-top: -$adjustment;
+    }
   }
 
   // When images are visually directly after a headline, they should get
   // the same gap non-paragraphs get by default (undo negative margin above).
   + p > img:first-child,
   + p > a:first-child > img:first-child {
-    margin-top: .25em;
+    margin-top: $adjustment;
+  }
+  // Make floated media items align with the top of adjacent wrapped text characters
+  @include media-breakpoint-up(sm) {
+    + .c-media--size-half .c-media__content {
+      margin-top: $adjustment;
+    }
   }
 }
 
-/////////////////////////////////////////////
-// Supporting @mixins for CMS layout below //
-/////////////////////////////////////////////
+/////////////////////////////////////////////////////
+// Supporting @mixins for CMS layout & media below //
+/////////////////////////////////////////////////////
+
+/// Override Bootstrap's make-col() @mixin, but with float: right.
+@mixin make-col-right($gutter: $grid-gutter-width) {
+  @include make-col();
+  @if not $enable-flex {
+    float: right;
+  }
+}
 
 /// Wrapper for Bootstrap's make-col-modifier() @mixin
 @mixin make-col-mixin($type, $size, $columns: $grid-columns) {
@@ -179,9 +204,43 @@
   }
 }
 
-/////////////////////////////////////////////////////
-// Supporting @mixins for icon alignment below     //
-/////////////////////////////////////////////////////
+/// Restores media nested in sub-columns to non-floated,
+/// non-offset, former/default appearance and layout.
+@mixin restore-media-defaults {
+  @include media-breakpoint-up(sm) {
+    .c-cms__body & {
+      // Reset row
+      &.c-media {
+        margin: 1rem 0 1.5rem; // Defaults for .c-media--size-full
+
+        &::after {
+          content: none;
+          display: none;
+        }
+      }
+      // Reset column
+      .c-media__content {
+        float: none;
+        margin: 0;
+        padding-left: 0;
+        padding-right: 0;
+        width: 100%;
+      }
+      // Reset element
+      .c-media__element {
+        background-image: none;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  }
+}
+
+/////////////////////////////////////////////////
+// Supporting @mixins for icon alignment below //
+/////////////////////////////////////////////////
 
 // Use this mixin when you just want to set a size on an icon and don't need to position it
 @mixin icon-size($width-height) {

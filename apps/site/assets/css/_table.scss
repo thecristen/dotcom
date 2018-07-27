@@ -93,7 +93,6 @@
 
 .responsive-table {
   border: $border;
-  margin-bottom: $base-spacing;
   width: 100%;
 
   @include media-breakpoint-up(sm) {

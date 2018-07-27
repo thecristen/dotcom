@@ -63,29 +63,33 @@ defmodule Site.ContentRewriterTest do
         ~s(
         <div>
           Test 1 <i aria-hidden="true" class="fa fa-test "></i>, Test 2 <i aria-hidden="true" class="fa fa-test-two "></i>
-          <table class="responsive-table">
-            <caption>The caption</caption>
-            <thead>
-              <tr>
-                <th>Head 1</th>
-                <th>Head 2</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>Head 1</th>
-                <td>Cell 1 <i aria-hidden="true" class="fa fa-cell "></i></td>
-                <th>Head 2</th>
-                <td>Cell 2 {{ unknown }} </td>
-              </tr>
-              <tr>
-                <th>Head 1</th>
-                <td>Cell 3 #{svg_bus()}</td>
-                <th>Head 2</th>
-                <td>Cell 4</td>
-              </tr>
-            </tbody>
-          </table>
+          <figure class="c-media c-media--type-table">
+            <div class="c-media__content">
+              <table class="c-media__element responsive-table">
+                <caption>The caption</caption>
+                <thead>
+                  <tr>
+                    <th>Head 1</th>
+                    <th>Head 2</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>Head 1</th>
+                    <td>Cell 1 <i aria-hidden="true" class="fa fa-cell "></i></td>
+                    <th>Head 2</th>
+                    <td>Cell 2 {{ unknown }} </td>
+                  </tr>
+                  <tr>
+                    <th>Head 1</th>
+                    <td>Cell 3 #{svg_bus()}</td>
+                    <th>Head 2</th>
+                    <td>Cell 4</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </figure>
         </div>
         )
 
@@ -143,7 +147,7 @@ defmodule Site.ContentRewriterTest do
       assert rewritten == ~s(<div class="incompatible-media"></div>)
     end
 
-    test "rebuilds CMS media embed: third-size image | w/caption | aligned right | no link", %{conn: conn} do
+    test "rebuilds CMS media embed: third-size image (deprecated: uses -half) | w/caption | aligned right | no link", %{conn: conn} do
       rewritten =
         ~s(<figure class="embedded-entity align-right">
           <div><div class="media media--type-image media--view-mode-third"><div class="media-content">
@@ -155,10 +159,10 @@ defmodule Site.ContentRewriterTest do
         |> rewrite(conn)
         |> safe_to_string()
 
-      assert rewritten =~ ~s(<figure class="c-media c-media--type-image c-media--size-third c-media--align-right">)
-      assert rewritten =~ ~s(<img class="image-style-max-650x650 c-media__media-element img-fluid" alt="My Image Alt Text")
+      assert rewritten =~ ~s(<figure class="c-media c-media--type-image c-media--size-half c-media--align-right c-media--with-caption"><div class="c-media__content">)
+      assert rewritten =~ ~s(<img class="image-style-max-650x650 c-media__element img-fluid" alt="My Image Alt Text")
       assert rewritten =~ ~s(src="/sites/default/files/styles/max_650x650/public/2018-01/hingham-ferry-dock-repair.png?itok=YwrRrgrG")
-      assert rewritten =~ ~s(<figcaption class="c-media__caption">Right aligned third</figcaption></figure>)
+      assert rewritten =~ ~s(<figcaption class="c-media__caption">Right aligned third</figcaption></div></figure>)
     end
 
     test "rebuilds CMS media embed: full-size image | w/o caption | no alignment | linked", %{conn: conn} do
@@ -172,9 +176,9 @@ defmodule Site.ContentRewriterTest do
         |> rewrite(conn)
         |> safe_to_string()
 
-      assert rewritten =~ ~s(<figure class="c-media c-media--type-image c-media--size-full c-media--align-none">)
+      assert rewritten =~ ~s(<figure class="c-media c-media--type-image c-media--size-full"><div class="c-media__content">)
       assert rewritten =~ ~s(<a class="c-media__link" href="/projects/wollaston-station-improvements" target="_blank">)
-      assert rewritten =~ ~s(<img class="image-style-max-2600x2600 c-media__media-element img-fluid")
+      assert rewritten =~ ~s(<img class="image-style-max-2600x2600 c-media__element img-fluid")
       assert rewritten =~ ~s(src="/sites/default/files/styles/max_2600x2600/public/2018-01/hingham-ferry-dock-repair.png?itok=NWs0V_7W" alt="My Image Alt Text")
       refute rewritten =~ ~s(<figcaption)
     end

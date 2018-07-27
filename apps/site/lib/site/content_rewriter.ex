@@ -32,9 +32,15 @@ defmodule Site.ContentRewriter do
 
   @spec dispatch_rewrites(Floki.html_tree | binary, Plug.Conn.t) :: Floki.html_tree | binary | nil
   defp dispatch_rewrites({"table", _, _} = element, conn) do
-    element
+    table = element
     |> ResponsiveTables.rewrite_table()
     |> rewrite_children(conn)
+
+    {"figure", [{"class", "c-media c-media--type-table"}], [
+      {"div", [{"class", "c-media__content"}], [
+        table
+      ]}
+    ]}
   end
   defp dispatch_rewrites({"a", _, _} = element, conn) do
     element

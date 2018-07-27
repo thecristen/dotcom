@@ -17,7 +17,7 @@ defmodule Site.ContentRewriters.ResponsiveTablesTest do
         |> rewrite_table
 
       assert rewritten == {
-        "table", [{"class", "responsive-table"}], [
+        "table", [{"class", "c-media__element responsive-table"}], [
           {"caption", [], ["This is the caption"]},
           {"thead", [], [
             {"tr", [], [
@@ -79,7 +79,7 @@ defmodule Site.ContentRewriters.ResponsiveTablesTest do
         |> rewrite_table
 
       assert rewritten == {
-        "table", [{"class", "responsive-table"}], [
+        "table", [{"class", "c-media__element responsive-table"}], [
           {"caption", [], [""]},
           {"thead", [], []},
           {"tbody", [], []}

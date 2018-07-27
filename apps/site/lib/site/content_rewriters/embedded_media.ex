@@ -7,7 +7,7 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
 
   defstruct [
     alignment: :none,
-    caption: nil,
+    caption: "",
     element: "",
     link_attrs: [],
     size: :full,
@@ -59,17 +59,30 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
       _ -> media.element
     end
 
+    alignment_modifier = case media.alignment do
+      :none -> ""
+      _ -> " c-media--align-#{media.alignment}"
+    end
+
+    caption_modifier = case media.caption do
+      "" -> ""
+      _ -> " c-media--with-caption"
+    end
+
     {
       "figure",
       [{
         "class", "c-media " <>
           "c-media--type-#{media.type} " <>
-          "c-media--size-#{media.size} " <>
-          "c-media--align-#{media.alignment}"
+          "c-media--size-#{media.size}" <>
+          "#{alignment_modifier}" <>
+          "#{caption_modifier}"
       }],
       [
-        media_embed,
-        media.caption
+        {"div", [{"class", "c-media__content"}], [
+          media_embed,
+          media.caption
+        ]}
       ]
     }
   end
@@ -81,13 +94,13 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
   defp get_media(wrapper_children) do
     # Isolate the actual embedded media element. Add BEM class.
     case Floki.find(wrapper_children, ".media-content > *:first-child") do
-      [media| _] -> Site.FlokiHelpers.add_class(media, ["c-media__media-element"])
+      [media| _] -> Site.FlokiHelpers.add_class(media, ["c-media__element"])
       [] -> nil
     end
   end
 
   # Determine if there is a caption and return it. Add BEM class.
-  @spec get_caption(Floki.html_tree) :: Floki.html_tree | nil
+  @spec get_caption(Floki.html_tree) :: Floki.html_tree | String.t
   defp get_caption(wrapper_children) do
     case Floki.find(wrapper_children, "figcaption") do
       [caption | _] -> Site.FlokiHelpers.add_class(caption, ["c-media__caption"])
@@ -125,7 +138,7 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
     cond do
       "media--view-mode-full" in classes -> :full
       "media--view-mode-half" in classes -> :half
-      "media--view-mode-third" in classes -> :third
+      "media--view-mode-third" in classes -> :half
       true -> :unknown
     end
   end
