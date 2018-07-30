@@ -23,8 +23,8 @@
   data-field="<%= field %>">
   <%= fa "location-arrow" %>
   <span class="location-link-text" aria-label="<%= args.aria_label %>">Use my current location</span>
-  <%= fa "cog fa-spin hidden-xs-up loading-indicator" %>
-  <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>
+  <%= fa "cog fa-spin hidden-xs-up loading-indicator js-loc-loading-indicator" %>
+  <span class="sr-only hidden-xs-up loading-indicator js-loc-loading-indicator">Retrieving location...</span>
 </button>
 <div id="<%= args.id <> "-address-error" %>" class="location-error"><%= args.address_error %></div>
 <div id="<%= args.id <> "-geolocation-error" %>" class="location-error"></div>
