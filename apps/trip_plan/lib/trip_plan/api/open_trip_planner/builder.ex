@@ -52,6 +52,12 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
     all_modes = Enum.join(modes, ",") <> ",WALK"
     do_build_params(rest, Map.put(acc, "mode", all_modes))
   end
+  defp do_build_params([{:optimize_for, :less_walking} | rest], acc) do
+    do_build_params(rest, Map.put(acc, "walkReluctance", 17))
+  end
+  defp do_build_params([{:optimize_for, :fewest_transfers} | rest], acc) do
+    do_build_params(rest, Map.put(acc, "transferPenalty", 100))
+  end
   defp do_build_params([option | _], _) do
     {:error, {:bad_param, option}}
   end

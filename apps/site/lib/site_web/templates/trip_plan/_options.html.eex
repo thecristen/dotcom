@@ -1,33 +1,27 @@
-<%
-  datetime = datetime_from_query(@query)
-  plan_type = format_plan_type_for_title(@query)
-%>
+<div class="m-trip-plan__accordions">
+  <%
+    datetime = datetime_from_query(@query)
+    plan_type = format_plan_type_for_title(@query)
+  %>
 
-<%=
-  SiteWeb.PartialView.render("_accordion.html", Map.merge(assigns, %{
-    target_id: "trip-plan-accordion",
-    title_id: "trip-plan-accordion-title",
-    title: plan_type,
-    parent_view: SiteWeb.TripPlanView,
-    accordion_content: "_departure.html",
-    datetime: datetime
-  }))
-%>
+  <%=
+    SiteWeb.PartialView.render("_accordion.html", Map.merge(assigns, %{
+      target_id: "trip-plan-accordion",
+      title_id: "trip-plan-accordion-title",
+      title: plan_type,
+      parent_view: SiteWeb.TripPlanView,
+      accordion_content: "_departure.html",
+      datetime: datetime
+    }))
+  %>
 
-<%=
-  SiteWeb.PartialView.render("_accordion.html", Map.merge(assigns, %{
-    target_id: "trip-plan-options-accordion",
-    title: "See more options",
-    parent_view: SiteWeb.TripPlanView,
-    accordion_content: "_more_options.html",
-    form: @parent_form
-  }))
-%>
-
-<div class="form-group m-trip-plan__accessible-trip">
-  <%= label @parent_form, :accessible, for: "accessible" do %>
-    <%= checkbox @parent_form, :accessible, id: "accessible" %>
-    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access}) %>
-    Wheelchair accessible trip
-  <% end %>
+  <%=
+    SiteWeb.PartialView.render("_accordion.html", Map.merge(assigns, %{
+      target_id: "trip-plan-options-accordion",
+      title: "See more options",
+      parent_view: SiteWeb.TripPlanView,
+      accordion_content: "_more_options.html",
+      form: @parent_form
+    }))
+  %>
 </div>

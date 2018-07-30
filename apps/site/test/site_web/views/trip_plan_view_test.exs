@@ -358,6 +358,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
                      date_time: Util.now(),
                      errors: [],
                      modes: %{},
+                     optimize_for: :best_route,
                      initial_map_data: Site.TripPlan.Map.initial_map_data(),
                      initial_map_src: Site.TripPlan.Map.initial_map_src()}
 

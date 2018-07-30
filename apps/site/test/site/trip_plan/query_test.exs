@@ -11,7 +11,7 @@ defmodule Site.TripPlan.QueryTest do
     test "can plan a basic trip from query params" do
       params = %{"from" => "from address",
                  "to" => "to address",
-                 "accessible" => "true"}
+                 "optimize_for" => "accessibility"}
       actual = from_query(params)
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
@@ -30,7 +30,7 @@ defmodule Site.TripPlan.QueryTest do
                  "to" => "Your current location",
                  "to_latitude" => "42.3428",
                  "to_longitude" => "-71.0857",
-                 "accessible" => "true"
+                 "optimize_for" => "accessibility"
                 }
       actual = from_query(params)
       to_position = %TripPlan.NamedPosition{latitude: 42.3428, longitude: -71.0857, name: "Your current location"}
@@ -48,7 +48,7 @@ defmodule Site.TripPlan.QueryTest do
                  "from_latitude" => "",
                  "from_longitude" => "",
                  "to" => "to address",
-                 "accessible" => "true"}
+                 "optimize_for" => "accessibility"}
       actual = from_query(params)
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
@@ -76,7 +76,7 @@ defmodule Site.TripPlan.QueryTest do
                  "time" => "arrive",
                  "date_time" => @date_time,
                  "include_car?" => "false",
-                 "accessible" => "true"}
+                 "optimize_for" => "accessibility"}
       query = from_query(params)
       assert {:arrive_by, %DateTime{}} = query.time
       assert query.wheelchair_accessible?
@@ -90,7 +90,7 @@ defmodule Site.TripPlan.QueryTest do
                   "to" => "to address",
                   "time" => "depart",
                   "date_time" => @date_time,
-                  "accessible" => "true"}
+                  "optimize_for" => "accessibility"}
       actual = from_query(params)
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
@@ -126,7 +126,7 @@ defmodule Site.TripPlan.QueryTest do
                  "time" => "depart",
                  "date_time" => @date_time,
                  "include_car?" => "false",
-                 "accessible" => "true",
+                 "optimize_for" => "accessibility",
       }
       query = from_query(params)
       assert %Query{
@@ -183,7 +183,7 @@ defmodule Site.TripPlan.QueryTest do
                  "to" => "to address",
                  "time" => "depart",
                  "date_time" => @date_time,
-                 "accessible" => "true",
+                 "optimize_for" => "accessibility",
       }
       _query = from_query(params)
       inaccessible_opts = [max_walk_distance: 805, wheelchair_accessible?: false, depart_at: @date_time]
@@ -226,6 +226,56 @@ defmodule Site.TripPlan.QueryTest do
         assert %Query{itineraries: {:error, :timeout}} = from_query(params)
       end)
       assert log =~ "timed out"
+    end
+  end
+
+  describe "opts_from_query/1" do
+    test "handles time options" do
+      assert opts_from_query(%{
+        "time" => "depart",
+        "date_time" => @date_time
+      }, []) == [
+        depart_at: @date_time
+      ]
+
+      assert opts_from_query(%{
+        "time" => "arrive",
+        "date_time" => @date_time
+      }, []) == [
+        arrive_by: @date_time
+      ]
+    end
+
+    test "handles mode options" do
+      assert opts_from_query(%{
+        "modes" => %{"subway" => "true", "bus" => "false"}
+      }, []) == [
+        mode: ["TRAM", "SUBWAY"]
+      ]
+    end
+
+    test "handles optimize_for options" do
+      assert opts_from_query(%{
+        "optimize_for" => "accessibility"
+      }, []) == [
+        wheelchair_accessible?: true
+      ]
+
+      assert opts_from_query(%{
+        "optimize_for" => "less_walking"
+      }, []) == [
+        optimize_for: :less_walking
+      ]
+
+      assert opts_from_query(%{
+        "optimize_for" => "fewest_transfers"
+      }, []) == [
+        optimize_for: :fewest_transfers
+      ]
+
+      assert opts_from_query(%{
+        "optimize_for" => "best_route"
+      }, []) == []
     end
   end
 

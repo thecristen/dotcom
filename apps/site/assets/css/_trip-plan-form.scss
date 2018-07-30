@@ -101,10 +101,19 @@
   padding-bottom: $space-8;
 }
 
-.m-trip-plan__accessible-trip {
-  @include icon-size-inline(1.5em);
+.m-trip-plan__accordions {
+  margin-bottom: $base-spacing;
+  margin-top: $base-spacing;
+}
+
+.m-trip-plan__optimize-for {
+  @include icon-size-inline(1.25em);
 
   margin-top: $base-spacing;
+
+  .c-svg__icon-accessible-default {
+    margin-left: $base-spacing / 2;
+  }
 }
 
 .m-trip-plan__accordion-last {

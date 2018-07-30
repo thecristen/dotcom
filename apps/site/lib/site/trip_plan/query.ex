@@ -129,26 +129,26 @@ defmodule Site.TripPlan.Query do
   defp optional_float(_), do: :error
 
   @spec opts_from_query(%{optional(String.t) => String.t}, Keyword.t) :: Keyword.t
-  defp opts_from_query(query, opts \\ [])
-  defp opts_from_query(%{"time" => "depart", "date_time" => _date_time} = query, opts) do
+  def opts_from_query(query, opts \\ [])
+  def opts_from_query(%{"time" => "depart", "date_time" => _date_time} = query, opts) do
     do_date_time(:depart_at, query, opts)
   end
-  defp opts_from_query(%{"time" => "arrive", "date_time" => _date_time} = query, opts) do
+  def opts_from_query(%{"time" => "arrive", "date_time" => _date_time} = query, opts) do
     do_date_time(:arrive_by, query, opts)
   end
-  defp opts_from_query(%{"accessible" => "true"} = query, opts) do
+  def opts_from_query(%{"optimize_for" => val} = query, opts) do
     opts_from_query(
-      Map.delete(query, "accessible"),
-      Keyword.put(opts, :wheelchair_accessible?, true)
+      Map.delete(query, "optimize_for"),
+      optimize_for(val, opts)
     )
   end
-  defp opts_from_query(%{"modes" => modes} = query, opts) do
+  def opts_from_query(%{"modes" => modes} = query, opts) do
     opts_from_query(
       Map.delete(query, "modes"),
       get_mode_opts(modes, opts)
     )
   end
-  defp opts_from_query(_, opts) do
+  def opts_from_query(_, opts) do
       opts
   end
 
@@ -179,6 +179,20 @@ defmodule Site.TripPlan.Query do
   end
   defp get_active_modes({_, "false"}, acc) do
     acc
+  end
+
+  @spec optimize_for(String.t, Keyword.t) :: Keyword.t
+  defp optimize_for("best_route", opts) do
+    opts
+  end
+  defp optimize_for("accessibility", opts) do
+    Keyword.put(opts, :wheelchair_accessible?, true)
+  end
+  defp optimize_for("fewest_transfers", opts) do
+    Keyword.put(opts, :optimize_for, :fewest_transfers)
+  end
+  defp optimize_for("less_walking", opts) do
+    Keyword.put(opts, :optimize_for, :less_walking)
   end
 
   @doc "Determines if the given query contains any itineraries"

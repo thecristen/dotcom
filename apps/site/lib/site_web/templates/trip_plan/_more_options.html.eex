@@ -1,4 +1,4 @@
-<div class="m-trip-plan-form__more-options">
+<div class="m-trip-plan__modes">
   <%=
     inputs_for(@form, :modes, [], fn mode_f ->
       for mode <- [:subway, :commuter_rail, :bus, :ferry] do
@@ -10,4 +10,23 @@
       end
     end)
   %>
+</div>
+
+<div class="form-group m-trip-plan__optimize-for">
+  <%
+    radio_buttons = [
+      {"best_route", "Best route"},
+      {"accessibility", ["Wheelchair accessible trip", svg_icon_with_circle(%SvgIconWithCircle{icon: :access})]},
+      {"fewest_transfers", "Fewest transfers"},
+      {"less_walking", "Less walking"}
+    ]
+  %>
+  <%= for {val, text} <- radio_buttons do %>
+    <div>
+      <label for="<%= val %>">
+        <%= radio_button @parent_form, :optimize_for, val, id: val, checked: @optimize_for === val %>
+        <%= text %>
+      </label>
+    </div>
+  <% end %>
 </div>

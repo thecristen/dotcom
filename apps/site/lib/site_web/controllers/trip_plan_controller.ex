@@ -8,6 +8,7 @@ defmodule SiteWeb.TripPlanController do
   plug :assign_initial_map
   plug :breadcrumbs
   plug :modes
+  plug :optimize_for
 
   @type route_map :: %{optional(Routes.Route.id_t) => Routes.Route.t}
   @type route_mapper :: ((Routes.Route.id_t) -> Routes.Route.t | nil)
@@ -135,6 +136,14 @@ defmodule SiteWeb.TripPlanController do
   @spec breadcrumbs(Plug.Conn.t, Keyword.t) :: Plug.Conn.t
   defp breadcrumbs(conn, _) do
     assign(conn, :breadcrumbs, [Breadcrumb.build("Trip Planner")])
+  end
+
+  @spec optimize_for(Plug.Conn.t, Keyword.t) :: Plug.Conn.t
+  def optimize_for(%Plug.Conn{params: %{"plan" => %{"optimize_for" => val}}} = conn, _) do
+    assign(conn, :optimize_for, val)
+  end
+  def optimize_for(%Plug.Conn{} = conn, _) do
+    assign(conn, :optimize_for, "best_route")
   end
 
   @spec routes_for_query([Itinerary.t]) :: route_map

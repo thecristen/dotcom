@@ -71,6 +71,25 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       assert expected == actual
     end
 
+    test "optimize_for: :less_walking sets walkReluctance value" do
+      expected = {:ok, %{
+                    "disableRemainingWeightHeuristic" => "true",
+                    "mode" => "TRANSIT,WALK",
+                    "walkReluctance" => 17
+                  }}
+      actual = build_params(optimize_for: :less_walking)
+      assert expected == actual
+    end
+
+    test "optimize_for: :fewest_transfers sets transferPenalty value" do
+      expected = {:ok, %{
+                    "disableRemainingWeightHeuristic" => "true",
+                    "mode" => "TRANSIT,WALK",
+                    "transferPenalty" => 100
+                  }}
+      actual = build_params(optimize_for: :fewest_transfers)
+      assert expected == actual
+    end
     test "bad options return an error" do
       expected = {:error, {:bad_param, {:bad, :arg}}}
       actual = build_params(bad: :arg)

@@ -12,6 +12,7 @@ defmodule TripPlan.Api do
   @type plan_opt :: {:arrive_by, DateTime.t} |
   {:depart_at, DateTime.t} |
   {:wheelchair_accessible?, boolean} |
+  {:optimize_for, :less_walking | :fewest_transfers} |
   {:max_walk_distance, float}
   @type plan_opts :: [plan_opt]
   @type t :: {:ok, [Itinerary.t]} | {:error, any}
