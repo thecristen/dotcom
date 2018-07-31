@@ -231,7 +231,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert %Plug.Conn{assigns: %{branches: [%Stops.RouteStops{stops: stops}]}} = conn
 
       # inbound order
-      assert List.first(stops).id == "Boat-Long"
+      assert List.first(stops).id in ["Boat-Long-South", "Boat-Long"]
       assert List.last(stops).id == "Boat-Charlestown"
 
       # Map
