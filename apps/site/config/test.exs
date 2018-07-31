@@ -20,9 +20,4 @@ config :wallaby,
   chrome: [
     headless: true
   ],
-  # This allows tests that throw javascript errors to be considered 'passing'
-  # We currently have some icon issues that throw JS errors. In order for
-  # system tests to pass we need this setting.
-  # This should be removed when this ticket is closed
-  # https://app.asana.com/0/555089885850811/666915490202151
-  js_errors: false
+  js_errors: true
