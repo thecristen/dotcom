@@ -1,0 +1,22 @@
+{
+  "id" : "dda4a1b4-b43a-36bf-b9da-cd8aca3ec3d1",
+  "request" : {
+    "url" : "/routes/?stop=Winchester+Center",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-7DDmF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:18:13 GMT",
+      "last-modified" : "Fri, 27 Jul 2018 15:13:51 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5j1usdsoc8nilc0002g2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "dda4a1b4-b43a-36bf-b9da-cd8aca3ec3d1"
+}

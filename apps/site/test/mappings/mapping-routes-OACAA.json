@@ -1,0 +1,22 @@
+{
+  "id" : "c497e8ac-f269-3711-b294-9a2d4b9e58b4",
+  "request" : {
+    "url" : "/routes/?stop=place-lech",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-OACAA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:18:13 GMT",
+      "last-modified" : "Thu, 26 Jul 2018 22:05:41 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5j382gp598fuvo009g0i",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c497e8ac-f269-3711-b294-9a2d4b9e58b4"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "8cf3bba5-e67a-3a5a-9637-f2a2faa25746",
+  "request" : {
+    "url" : "/stops/?route=Blue&include=parent_station%2Cfacilities&direction_id=0&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-jdHuf.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:18:12 GMT",
+      "last-modified" : "Fri, 27 Jul 2018 15:13:55 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5ivtffc70ag21o0005bh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8cf3bba5-e67a-3a5a-9637-f2a2faa25746"
+}

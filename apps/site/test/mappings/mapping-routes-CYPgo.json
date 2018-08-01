@@ -1,0 +1,22 @@
+{
+  "id" : "3fd12f7f-4236-38b0-8923-c9dea80cb06f",
+  "request" : {
+    "url" : "/routes/?stop=9980&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CYPgo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:15:45 GMT",
+      "last-modified" : "Thu, 26 Jul 2018 22:05:41 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5ae6h5jinf48p8009bdi",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3fd12f7f-4236-38b0-8923-c9dea80cb06f"
+}

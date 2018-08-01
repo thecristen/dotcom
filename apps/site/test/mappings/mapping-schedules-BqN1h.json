@@ -1,0 +1,22 @@
+{
+  "id" : "bb83f2c6-6e3d-3642-8350-f3afb29c46f1",
+  "request" : {
+    "url" : "/schedules/?trip=CR-Weekday-Spring-18-511&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&date=2018-09-01",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-BqN1h.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:20:44 GMT",
+      "last-modified" : "Thu, 26 Jul 2018 22:06:22 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5rsjn5i5d0d36g009sv2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "bb83f2c6-6e3d-3642-8350-f3afb29c46f1"
+}

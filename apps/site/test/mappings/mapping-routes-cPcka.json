@@ -1,0 +1,22 @@
+{
+  "id" : "3cc98dc9-ba45-3dec-82c2-c8cc0824ba6b",
+  "request" : {
+    "url" : "/routes/?stop=226&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-cPcka.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:15:46 GMT",
+      "last-modified" : "Thu, 26 Jul 2018 22:05:41 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5ahcb4n44eiloo00utbh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3cc98dc9-ba45-3dec-82c2-c8cc0824ba6b"
+}

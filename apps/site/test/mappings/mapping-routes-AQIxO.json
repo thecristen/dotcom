@@ -1,0 +1,22 @@
+{
+  "id" : "950dfb43-ef3f-38f3-a389-ddd9c2844489",
+  "request" : {
+    "url" : "/routes/?stop=Bradford",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-AQIxO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:18:12 GMT",
+      "last-modified" : "Fri, 27 Jul 2018 15:13:51 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5j1i285ck8nilc0005jh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "950dfb43-ef3f-38f3-a389-ddd9c2844489"
+}

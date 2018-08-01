@@ -1,0 +1,22 @@
+{
+  "id" : "14b9c38a-6720-3c80-b48a-a385887ccf78",
+  "request" : {
+    "url" : "/routes/?stop=place-state&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ETnJ7.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:15:43 GMT",
+      "last-modified" : "Thu, 26 Jul 2018 22:05:41 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5ab7etmidlpigs00ulph",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "14b9c38a-6720-3c80-b48a-a385887ccf78"
+}

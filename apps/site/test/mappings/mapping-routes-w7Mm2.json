@@ -1,0 +1,22 @@
+{
+  "id" : "89b59dc6-c8e0-353c-97c4-73c81f47ca6b",
+  "request" : {
+    "url" : "/routes/?stop=place-jfk",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-w7Mm2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:18:12 GMT",
+      "last-modified" : "Fri, 27 Jul 2018 15:13:51 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5j175g814ag21o00021i",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "89b59dc6-c8e0-353c-97c4-73c81f47ca6b"
+}

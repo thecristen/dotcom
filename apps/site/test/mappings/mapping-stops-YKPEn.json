@@ -1,0 +1,22 @@
+{
+  "id" : "bfa8c966-f4ff-3148-b548-d31c120af37a",
+  "request" : {
+    "url" : "/stops/?route=CR-Fitchburg&include=parent_station%2Cfacilities&direction_id=0&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-YKPEn.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:18:12 GMT",
+      "last-modified" : "Fri, 27 Jul 2018 15:13:55 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5ivm4po50l2na40005ah",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "bfa8c966-f4ff-3148-b548-d31c120af37a"
+}

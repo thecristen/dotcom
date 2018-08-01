@@ -1,0 +1,22 @@
+{
+  "id" : "546410b7-e4f8-3306-ae17-bd3be8dc88b6",
+  "request" : {
+    "url" : "/routes/?stop=place-rcmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-WZLxC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:15:43 GMT",
+      "last-modified" : "Thu, 26 Jul 2018 22:05:41 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5abob76khf48p800umi1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "546410b7-e4f8-3306-ae17-bd3be8dc88b6"
+}

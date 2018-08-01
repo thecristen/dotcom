@@ -1,0 +1,22 @@
+{
+  "id" : "ab2c3b6d-c540-3218-b2e7-780ccdb76aef",
+  "request" : {
+    "url" : "/routes/?stop=Franklin",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-7UtdC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:18:12 GMT",
+      "last-modified" : "Fri, 27 Jul 2018 15:13:51 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5j0s6c3nsag21o0005g1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ab2c3b6d-c540-3218-b2e7-780ccdb76aef"
+}

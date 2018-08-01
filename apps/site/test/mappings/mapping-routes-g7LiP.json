@@ -1,0 +1,22 @@
+{
+  "id" : "acaf293c-66ba-3bbf-b5a9-c402dbcd3e68",
+  "request" : {
+    "url" : "/routes/?stop=place-longw&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-g7LiP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:15:43 GMT",
+      "last-modified" : "Thu, 26 Jul 2018 22:05:41 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5abua682vhk0ls00umqh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "acaf293c-66ba-3bbf-b5a9-c402dbcd3e68"
+}

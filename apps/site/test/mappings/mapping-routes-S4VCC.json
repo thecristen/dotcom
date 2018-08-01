@@ -1,0 +1,22 @@
+{
+  "id" : "ff0f077a-cb25-3a47-9c37-388cd416b42b",
+  "request" : {
+    "url" : "/routes/?stop=place-buest",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-S4VCC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:18:13 GMT",
+      "last-modified" : "Fri, 27 Jul 2018 15:13:51 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5j2rvlehmag21o0006oh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ff0f077a-cb25-3a47-9c37-388cd416b42b"
+}

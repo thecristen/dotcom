@@ -1,0 +1,22 @@
+{
+  "id" : "874e5021-8649-34ad-bc5c-91271bb612d1",
+  "request" : {
+    "url" : "/schedules/?stop=102&direction_id=0&date=2018-09-01&route=1&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-nY3mm.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:17:04 GMT",
+      "last-modified" : "Thu, 26 Jul 2018 22:06:22 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5f1fcuauosk1fc00uugh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "874e5021-8649-34ad-bc5c-91271bb612d1"
+}

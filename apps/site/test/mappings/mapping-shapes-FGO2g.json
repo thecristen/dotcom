@@ -1,0 +1,22 @@
+{
+  "id" : "da55365e-9211-31b6-99f5-a2371ae34c8e",
+  "request" : {
+    "url" : "/shapes/?route=436&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-FGO2g.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:12:42 GMT",
+      "last-modified" : "Thu, 26 Jul 2018 22:07:20 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k4vpf7t5jar40f800uh3h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "da55365e-9211-31b6-99f5-a2371ae34c8e"
+}

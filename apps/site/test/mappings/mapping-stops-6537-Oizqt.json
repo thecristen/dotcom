@@ -1,0 +1,22 @@
+{
+  "id" : "75e30a87-5e48-3a87-90f4-e8454a1134e8",
+  "request" : {
+    "url" : "/stops/6537?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-6537-Oizqt.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Jul 2018 15:15:47 GMT",
+      "last-modified" : "Thu, 26 Jul 2018 22:05:45 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l2k5ahqlmj8ju4g5800utt1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "75e30a87-5e48-3a87-90f4-e8454a1134e8"
+}

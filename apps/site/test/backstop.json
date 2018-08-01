@@ -259,7 +259,7 @@
       "hideSelectors": [".map"],
       "removeSelectors": [".pdf-links"],
       "delay": 100,
-      "misMatchThreshold": 0.03
+      "misMatchThreshold": 0.01
     },
     {
       "label": "Retail Sales Locations",
