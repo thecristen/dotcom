@@ -20,7 +20,7 @@ export default class DatePickerInput {
       document.getElementById(this.selectors.day).value
     );
 
-    dateLabel.dataset.date = DatePickerInput.getShortDate(date);
+    dateLabel.setAttribute("data-date", DatePickerInput.getShortDate(date));
 
     $dateInput.datepicker({
       outputFormat: "EEEE, MMMM dd, yyyy",
