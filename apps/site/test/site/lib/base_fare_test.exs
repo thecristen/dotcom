@@ -172,7 +172,7 @@ defmodule BaseFareTest do
     test "returns the fare that is not discounted for the correct ferry trip" do
       route = %Route{type: 4}
       origin_id = "Boat-Charlestown"
-      destination_id = "Boat-Long"
+      destination_id = "Boat-Long-South"
 
       fare_fn = fn [reduced: nil, name: :ferry_inner_harbor] ->
         [%Fares.Fare{additional_valid_modes: [], cents: 350,
