@@ -1,7 +1,9 @@
 const track = () => {
-  window.dataLayer.push({
-    event: "pageView"
-  });
+  if (window.dataLayer) {
+    window.dataLayer.push({
+      event: "pageView"
+    });
+  }
 };
 
 export default () => {

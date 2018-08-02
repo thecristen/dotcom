@@ -171,9 +171,8 @@ export default class GoogleMap {
 
   resetZoom() {
     if (!this.defaultZoom) {
-      throw new Error(`default zoom not set for map ${this.id}`);
+      this.map.setZoom(this.defaultZoom);
     }
-    this.map.setZoom(this.defaultZoom);
   }
 
   showInfoWindow(marker, content) {
