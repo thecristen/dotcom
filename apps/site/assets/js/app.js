@@ -19,6 +19,7 @@
 
 // Imports
 import "babel-polyfill";
+import googleAnalytics from "./google-analytics";
 import objectFitImages from "object-fit-images";
 import googleMapsLoaded from "./google-maps-loaded";
 import submitOnEvents from "./submit-on-events";
@@ -269,6 +270,7 @@ if (!Array.prototype.find) {
 const breakpoints = { xs: 0, sm: 544, md: 800, lg: 1088, xxl: 1344 };
 
 submitOnEvents(["blur", "change"]);
+googleAnalytics();
 googleMapsLoaded();
 selectModal();
 headerDropdowns();
