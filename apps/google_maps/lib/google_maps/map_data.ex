@@ -8,7 +8,10 @@ defmodule GoogleMaps.MapData do
   """
   @default_dynamic_options %{gestureHandling: "cooperative"}
 
+  @type lat_lng :: %{latitude: float, longitude: float}
+
   defstruct [
+    default_center: %{latitude: 42.360718, longitude: -71.05891},
     markers: [],
     paths: [],
     width: 0,
@@ -21,6 +24,7 @@ defmodule GoogleMaps.MapData do
   ]
 
   @type t :: %__MODULE__{
+    default_center: lat_lng,
     markers: [Marker.t],
     paths: [Path.t],
     width: integer,

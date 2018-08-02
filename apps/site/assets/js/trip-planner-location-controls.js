@@ -3,8 +3,6 @@ import * as GoogleMapsHelpers from "./google-maps-helpers";
 import { Algolia } from "./algolia-search";
 import * as AlgoliaResult from "./algolia-result";
 import { AlgoliaAutocompleteWithGeo } from "./algolia-autocomplete-with-geo";
-import { initMap } from "./google-map";
-import * as Icons from "./icons";
 
 export function init() {
   document.addEventListener("turbolinks:load", () => {
@@ -35,16 +33,6 @@ export class TripPlannerLocControls {
       TripPlannerLocControls.SELECTORS.from.lng
     );
     this.controller = null;
-    const maps = initMap(window.jQuery);
-    if (maps) {
-      const initialMap = maps[0];
-      if (initialMap && initialMap.id === TripPlannerLocControls.SELECTORS.map) {
-        this.map = initialMap.map;
-      }
-    } else {
-      this.map = null;
-    }
-    this.defaultMapCenter = new google.maps.LatLng(42.360718, -71.0589099);
 
     this.markers = {
       from: null,
@@ -83,23 +71,6 @@ export class TripPlannerLocControls {
     );
     this.autocompletes = [this.toAutocomplete, this.fromAutocomplete];
 
-    const markerSvg = Icons.getSvgIcon("map-pin");
-    const iconSize = 48;
-    const markerImage = {
-      url: `data:image/svg+xml;base64, ${window.btoa(markerSvg)}`,
-      scaledSize: new google.maps.Size(iconSize, iconSize),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(iconSize / 2, iconSize),
-      labelOrigin: new google.maps.Point(iconSize / 2, iconSize / 2 - 4)
-    };
-    const markerLabels = ["A", "B"].map(label => ({
-      color: "#fff",
-      fontSize: "22px",
-      fontWeight: "bold",
-      text: label,
-      fontFamily: "Helvetica Neue, Helvetica, Arial"
-    }));
-
     this.autocompletes.forEach(ac => {
       ac.renderHeaderTemplate = () => {};
       ac.renderFooterTemplate = this.renderFooterTemplate;
@@ -108,20 +79,15 @@ export class TripPlannerLocControls {
         document.getElementById(ac._selectors.lat),
         document.getElementById(ac._selectors.lng)
       );
-      ac.marker = new google.maps.Marker({ icon: markerImage });
       ac._resetButton.addEventListener("click", () => { this.removeMarker(ac); });
       ac.showLocation = this.useMyLocation(ac);
     });
-
-    this.fromAutocomplete.marker.setLabel(markerLabels[0]);
-    this.toAutocomplete.marker.setLabel(markerLabels[1]);
 
     this.toController.addWidget(this.toAutocomplete);
     this.fromController.addWidget(this.fromAutocomplete);
     document
       .getElementById("trip-plan-reverse-control")
       .addEventListener("click", this.reverseTrip);
-    window.addEventListener("resize", () => { this.fitBounds(); });
   }
 
   bind() {
@@ -133,40 +99,22 @@ export class TripPlannerLocControls {
   }
 
   removeMarker(ac) {
-    ac.marker.setPosition(null);
-    ac.marker.setMap(null);
-    this.fitBounds();
+    const $ = window.jQuery;
+    const label = ac._input.getAttribute("data-label");
+    const detail = { label };
+    $(document).trigger("trip-plan:remove-marker", { detail });
   }
 
   updateMarker(ac, lat, lng, title) {
-    if (this.map) {
-      const { marker } = ac;
-      marker.setPosition(new google.maps.LatLng(lat, lng));
-      marker.setTitle(title);
-      marker.setMap(this.map);
+    const $ = window.jQuery;
+    const label = ac._input.getAttribute("data-label");
+    const detail = {
+      latitude: lat,
+      longitude: lng,
+      label: label,
+      title: title,
     }
-  }
-
-  fitBounds() {
-    if (this.map) {
-      const bounds = new google.maps.LatLngBounds();
-      let markerCount = 0;
-      this.autocompletes.forEach(ac => {
-        if (ac.marker.getPosition()) {
-          bounds.extend(ac.marker.getPosition());
-          markerCount += 1;
-        }
-      });
-      if (markerCount === 0) {
-        this.map.setCenter(this.defaultMapCenter);
-        this.map.setZoom(14);
-        return;
-      }
-      else if (markerCount == 1) {
-        bounds.extend(this.defaultMapCenter);
-      }
-      this.map.fitBounds(bounds);
-    }
+    $(document).trigger("trip-plan:update-marker", { detail });
   }
 
   resetResetButtons() {
@@ -177,49 +125,34 @@ export class TripPlannerLocControls {
   }
 
   swapMarkers() {
+    const $ = window.jQuery;
     const from = this.fromAutocomplete;
     const to = this.toAutocomplete;
-    const hasFrom = from && from.marker && from.marker.getPosition();
-    const hasTo = to && to.marker && to.marker.getPosition();
 
-    if (!hasFrom && !hasTo) {
-      return;
-    } else if (hasFrom && !hasTo) {
-      this.updateMarker(
-        to,
-        from.marker.getPosition().lat(),
-        from.marker.getPosition().lng(),
-        from.marker.getTitle()
-      );
-      this.removeMarker(from);
-    } else if (!hasFrom && hasTo) {
+    const fromVal = from.getValue();
+    const toVal = to.getValue();
+
+    if (fromVal) {
       this.updateMarker(
         from,
-        to.marker.getPosition().lat(),
-        to.marker.getPosition().lng(),
-        to.marker.getTitle()
+        $("#from_latitude").val(),
+        $("#from_longitude").val(),
+        fromVal
       );
-      this.removeMarker(to);
     } else {
-      const tmp = {
-        lat: to.marker.getPosition().lat(),
-        lng: to.marker.getPosition().lng(),
-        title: to.marker.getTitle()
-      }
+      this.removeMarker(from);
+    }
+
+    if (toVal) {
       this.updateMarker(
         to,
-        from.marker.getPosition().lat(),
-        from.marker.getPosition().lng(),
-        from.marker.getTitle()
+        $("#to_latitude").val(),
+        $("#to_longitude").val(),
+        to
       );
-      this.updateMarker(
-        from,
-        tmp.lat,
-        tmp.lng,
-        tmp.title
-      );
+    } else {
+      this.removeMarker(to)
     }
-    this.fitBounds();
   }
 
   useMyLocation(ac) {
@@ -227,7 +160,6 @@ export class TripPlannerLocControls {
       document.getElementById(ac._selectors.lat).value = lat;
       document.getElementById(ac._selectors.lng).value = lng;
       this.updateMarker(ac, lat, lng, address);
-      this.fitBounds();
     }
   }
 
@@ -247,7 +179,6 @@ export class TripPlannerLocControls {
           hit._geoloc.lng,
           hit.stop.name
         );
-        this.fitBounds();
       } else if (type === "locations") {
         GoogleMapsHelpers.lookupPlace(hit.place_id)
           .then(res => {
@@ -261,7 +192,6 @@ export class TripPlannerLocControls {
               res.geometry.location.lng(),
               hit.description
             );
-            this.fitBounds();
           })
           .catch(err => {
             // TODO: we should display an error here but NOT log to the console

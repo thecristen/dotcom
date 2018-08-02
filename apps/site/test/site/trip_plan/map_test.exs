@@ -62,13 +62,18 @@ defmodule Site.TripPlan.MapTest do
 
   describe "initial_map_data/0" do
     test "gives the initial map data" do
-      expected = %GoogleMaps.MapData{dynamic_options: %{gestureHandling: "cooperative"},
+      expected = %GoogleMaps.MapData{
+        default_center: %{latitude: 42.360718, longitude: -71.05891},
+        dynamic_options: %{gestureHandling: "cooperative"},
         height: 400,
         layers: %GoogleMaps.MapData.Layers{transit: true},
-        markers: [%GoogleMaps.MapData.Marker{icon: nil,
-                    latitude: 42.360718, longitude: -71.05891, size: :mid,
-                    tooltip: nil, visible?: false, z_index: 0}], paths: [], scale: 1,
-                width: 630, zoom: 14, auto_init: false}
+        markers: [],
+        paths: [],
+        scale: 1,
+        width: 630,
+        zoom: 14,
+        auto_init: false
+      }
       assert initial_map_data() == expected
     end
   end

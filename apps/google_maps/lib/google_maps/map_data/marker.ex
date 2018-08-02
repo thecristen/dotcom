@@ -9,6 +9,7 @@ defmodule GoogleMaps.MapData.Marker do
   @default_opts [icon: nil, size: :mid, visible?: true, tooltip: nil, z_index: 0]
 
   defstruct [
+    id: nil,
     latitude: 0.0,
     longitude: 0.0,
     icon: nil,
@@ -19,6 +20,7 @@ defmodule GoogleMaps.MapData.Marker do
   ]
 
   @type t :: %__MODULE__{
+    id: integer | nil,
     latitude: float,
     longitude: float,
     icon: String.t | nil,
@@ -31,6 +33,7 @@ defmodule GoogleMaps.MapData.Marker do
   def new(latitude, longitude, opts \\ []) do
     map_options = Keyword.merge(@default_opts, opts)
     %__MODULE__{
+      id: map_options[:id],
       latitude: latitude,
       longitude: longitude,
       icon: map_options[:icon],

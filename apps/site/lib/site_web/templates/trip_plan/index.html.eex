@@ -39,7 +39,9 @@
       <% _ -> %>
         <% {map_data, map_url} = {@initial_map_data , @initial_map_src} %>
         <div class="trip-plan-initial-map map">
-          <script id="trip-plan-map--initial" class="map-dynamic-data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
+          <script data-for="trip-plan-map--initial" class="js-trip-plan-map-dynamic-data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
+          <div id="trip-plan-map--initial"></div>
+
           <div class="map-static" style="background-image:url(<%= map_url %>);">
             <span class="sr-only">Map of downtown Boston"</span>
           </div>

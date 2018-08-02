@@ -32,7 +32,8 @@
   <div id="itinerary-<%= @index %>" class="trip-plan-itinerary-body collapse" data-planner-body data-offset="<%= @index - 1 %>">
     <div class="trip-plan-map map">
       <span class="sr-only">Map of itinerary described next</span>
-      <script id="itinerary-<%= @index %>-map-dynamic" class="map-dynamic-data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
+      <script data-for="itinerary-<%= @index %>-map-dynamic" class="js-trip-plan-map-dynamic-data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
+      <div id="itinerary-<%= @index %>-map-dynamic"></div>
 
       <%#
         --- Print-only and js-disabled images ---

@@ -1,0 +1,91 @@
+import * as Helpers from "./helpers";
+
+export default class Marker {
+  constructor(parent, data, index = 0) {
+    this.parent = parent;
+    this.id = data.id;
+    this.data = data;
+    this.marker = null;
+    this.infoWindow = null;
+    this.icon = null;
+    this.bind();
+
+    if (!this.id) {
+      throw new Error("marker has no id");
+    }
+
+    if (!data.latitude || !data.longitude) {
+      throw new Error("invalid lat/lng values for marker");
+    }
+
+    this.latLng = new window.google.maps.LatLng(data.latitude, data.longitude);
+
+    if (this.data.icon) {
+      this.icon = Helpers.buildIcon(this.data.icon, this.data.size);
+    }
+
+    const zIndex = this.data.z_index || 0;
+
+    // Add a marker to map
+    if (this.data["visible?"]) {
+      this.marker = new window.google.maps.Marker({
+        position: this.latLng,
+        map: this.parent.getMap(),
+        icon: this.icon,
+        zIndex: zIndex + index
+      });
+
+      if (this.data.tooltip) {
+        this.marker.addListener("mouseover", this.showInfoWindow, {
+          passive: true
+        });
+        this.marker.addListener("mouseout", this.closeInfoWindow, {
+          passive: true
+        });
+      }
+    }
+
+    if (this.data.label) {
+      this.marker.setLabel(this.data.label);
+    }
+  }
+
+  update(lat, lng) {
+    this.latLng = new window.google.maps.LatLng(lat, lng);
+
+    if (this.marker) {
+      this.marker.setPosition(this.latLng);
+    }
+  }
+
+  remove() {
+    this.closeInfoWindow();
+
+    if (this.marker) {
+      this.marker.setMap(null);
+    }
+  }
+
+  bind() {
+    this.showInfoWindow = this.showInfoWindow.bind(this);
+    this.closeInfoWindow = this.closeInfoWindow.bind(this);
+  }
+
+  getLatLng() {
+    return this.latLng;
+  }
+
+  isVisible() {
+    return !!this.data["visible?"];
+  }
+
+  showInfoWindow() {
+    if (this.data.tooltip) {
+      this.parent.showInfoWindow(this.marker, this.data.tooltip);
+    }
+  }
+
+  closeInfoWindow() {
+    this.parent.closeInfoWindow();
+  }
+}

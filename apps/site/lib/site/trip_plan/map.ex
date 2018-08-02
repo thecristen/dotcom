@@ -33,14 +33,13 @@ defmodule Site.TripPlan.Map do
   def initial_map_data do
     {630, 400}
     |> MapData.new(14)
-    |> MapData.add_marker(initial_marker())
     |> MapData.add_layers(%Layers{transit: true})
     |> MapData.auto_init?(false)
   end
 
   @spec initial_marker() :: Marker.t
   defp initial_marker do
-    Marker.new(42.360718, -71.05891, visible?: false)
+    Marker.new(42.360718, -71.05891, visible?: false, id: "default-center")
   end
 
   @doc """
@@ -56,7 +55,11 @@ defmodule Site.TripPlan.Map do
 
   @spec itinerary_map_data(Itinerary.t, Keyword.t) :: MapData.t
   defp itinerary_map_data(itinerary, opts) do
-    markers = markers_for_legs(itinerary, opts)
+    markers =
+      itinerary
+      |> markers_for_legs(opts)
+      |> Enum.with_index()
+      |> Enum.map(fn {marker, idx} -> %{marker | id: "marker-#{idx}"} end)
     paths = Enum.map(itinerary, &build_leg_path(&1, opts[:route_mapper]))
 
     {600, 600}
