@@ -1,0 +1,9 @@
+<%= SiteWeb.PartialView.render("_tabbed_ui.html",
+  Map.merge(assigns, %{
+    parent_view: SiteWeb.ContentView,
+    content_template: "_tab_content.html",
+    accordion: @paragraph.display == "accordion",
+    tabs: @paragraph.tabs |> Enum.map(fn tab -> Map.from_struct(tab) end),
+    sticky: true,
+    conn: @conn
+  })) %>

@@ -13,7 +13,7 @@
     <% end %>
   </div>
 </fieldset>
-<div id="trip-plan-datepicker" class="m-trip-plan__accordion-last">
+<div id="trip-plan-datepicker" class="m-trip-plan__departure-last">
   <%= trip_plan_datetime_select(@parent_form, @datetime) %>
   <div class="error-container">
     <%= if @errors[:date_time] do %>

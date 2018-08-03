@@ -4,7 +4,7 @@ defmodule TripPlanIntegrationTest do
 
   @depart css("#depart")
   @arrive css("#arrive")
-  @accordion css("#trip-plan-accordion-title")
+  @title css("#trip-plan-departure-title")
   @datepicker css("#trip-plan-datepicker")
   @to css("#to")
   @from css("#from")
@@ -12,14 +12,14 @@ defmodule TripPlanIntegrationTest do
 
   describe "trip plan form" do
     @tag :wallaby
-    test "datepicker starts hidden and shows when accordion is clicked", %{session: session} do
+    test "datepicker starts hidden and shows when tab title is clicked", %{session: session} do
       session =
         session
         |> visit("/trip-planner")
 
       refute visible?(session, @datepicker)
 
-      click(session, @accordion)
+      click(session, @title)
       assert visible?(session, @datepicker)
       click(session, @depart)
       assert visible?(session, @datepicker)
@@ -44,30 +44,30 @@ defmodule TripPlanIntegrationTest do
     end
 
     @tag :wallaby
-    test "departure options update accordion title", %{session: session} do
+    test "departure options update tab title", %{session: session} do
       session =
         session
         |> visit("/trip-planner")
 
-      click(session, @accordion)
-      assert Browser.text(session, @accordion) =~ "Depart at"
+      click(session, @title)
+      assert Browser.text(session, @title) =~ "Depart at"
       click(session, @depart)
-      assert Browser.text(session, @accordion) =~ "Depart at"
+      assert Browser.text(session, @title) =~ "Depart at"
       click(session, @arrive)
-      assert Browser.text(session, @accordion) =~ "Arrive by"
+      assert Browser.text(session, @title) =~ "Arrive by"
     end
 
     @tag :wallaby
-    test "departure hour updates accordion title", %{session: session} do
+    test "departure hour updates tab title", %{session: session} do
       session =
         session
         |> visit("/trip-planner")
-        |> click(@accordion)
+        |> click(@title)
         |> click(@arrive)
 
       Browser.fill_in(session, css("#plan_date_time_hour"), with: 10)
       click(session, css("#main"))
-      assert Browser.text(session, @accordion) =~ "Arrive by 10:"
+      assert Browser.text(session, @title) =~ "Arrive by 10:"
     end
   end
 end

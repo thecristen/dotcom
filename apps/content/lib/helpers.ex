@@ -88,10 +88,10 @@ defmodule Content.Helpers do
     end
   end
 
-  @spec parse_paragraphs(map) :: [Content.Paragraph.t]
-  def parse_paragraphs(data) do
+  @spec parse_paragraphs(map, String.t) :: [Content.Paragraph.t]
+  def parse_paragraphs(data, target_field \\ "field_paragraphs") do
     data
-    |> Map.get("field_paragraphs", [])
+    |> Map.get(target_field, [])
     |> Enum.filter(&para_is_published/1)
     |> Enum.map(&Content.Paragraph.from_api/1)
   end

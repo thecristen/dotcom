@@ -29,20 +29,6 @@ defmodule Content.ParagraphTest do
       assert safe_to_string(title_card1.body) =~ "<p>The body of the title card"
     end
 
-    test "parses multi column paragraph" do
-      api_data = api_paragraph("multi_column")
-
-      assert %Content.Paragraph.ColumnMulti{
-        columns: [
-          %Content.Paragraph.Column{} = column1,
-          %Content.Paragraph.Column{} = column2
-        ]
-      } = from_api(api_data)
-
-      assert safe_to_string(column1.body) =~ "<h4>Basic Format</h4><p>The multi-column"
-      assert safe_to_string(column2.body) =~ "<h4>Multi-column vs. Title card set</h4><p>We recommend"
-    end
-
     test "parses upcoming board meetings" do
       api_data = api_paragraph("upcoming_board_meetings")
 
@@ -97,6 +83,38 @@ defmodule Content.ParagraphTest do
         type: "unsupported_paragraph_type"
       } = from_api(api_data)
     end
+  end
+
+  test "parses multi column paragraph" do
+    api_data = api_paragraph("multi_column")
+
+    assert %Content.Paragraph.ColumnMulti{
+      columns: [
+        %Content.Paragraph.Column{} = column1,
+        %Content.Paragraph.Column{} = column2
+      ]
+    } = from_api(api_data)
+
+    assert safe_to_string(column1.body) =~ "<h4>Basic Format</h4><p>The multi-column"
+    assert safe_to_string(column2.body) =~ "<h4>Multi-column vs. Title card set</h4><p>We recommend"
+  end
+
+  test "parses tabbed interface paragraph (tabs)" do
+    api_data = api_paragraph("tabs")
+
+    assert %Content.Paragraph.Tabs{
+      display: "collapsible",
+      tabs: [
+        %Content.Paragraph.Tab{} = tab1,
+        %Content.Paragraph.Tab{} = tab2
+      ]
+    } = from_api(api_data)
+
+    assert tab1.title == "Accordion Tab Label 1"
+    assert tab2.title == "Accordion Tab Label 2"
+
+    assert %Content.Paragraph.CustomHTML{} = tab1.content
+    assert %Content.Paragraph.CustomHTML{} = tab2.content
   end
 
   defp api_paragraph(paragraph_type) do

@@ -1,0 +1,63 @@
+.c-tabbed-ui {
+  border: solid $border-width $brand-primary-dark;
+  border-bottom: 0;
+  margin: $base-spacing 0;
+}
+
+.c-tabbed-ui__heading {
+  &.sticky-top {
+    background-color: $white;
+  }
+}
+
+.c-tabbed-ui__trigger {
+  border-bottom: solid $border-width $brand-primary-dark;
+  color: $brand-primary;
+  // Flexbox used to keep indicator icon right
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  &[role='button'] {
+    // <a> is higher spec. than single class,
+    // so bump up the spec by using an attr.
+    text-decoration: none;
+  }
+
+  &:hover {
+    background-color: $brand-primary-lightest;
+    color: $brand-primary-darkest;
+  }
+}
+
+.c-tabbed-ui__indicator {
+  align-items: center;
+  display: flex;
+  padding-left: $base-spacing * 2;
+}
+
+.c-indicator__content {
+  &::after {
+    @include fa-icon();
+  }
+
+  &.c-indicator__content--angle::after {
+    content: $fa-var-angle-up;
+  }
+
+  .collapsed &.c-indicator__content--angle::after {
+    content: $fa-var-angle-down;
+  }
+}
+
+.c-tabbed-ui__trigger,
+.c-tabbed-ui__content {
+  // Character/line-height includes some space, so here we
+  // reduce the vertical spacing slightly to account for this
+  padding: ($base-spacing / 1.5) $base-spacing;
+}
+
+.c-tabbed-ui__target {
+  // Borders on this element are hidden while collapsed
+  border-bottom: solid $border-width $brand-primary-dark;
+}

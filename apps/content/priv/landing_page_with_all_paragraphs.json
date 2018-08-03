@@ -2909,6 +2909,576 @@
           ]
         }
       ]
+    },
+    {
+      "target_id": 2768,
+      "target_revision_id": 43237,
+      "id": [
+        {
+          "value": 2768
+        }
+      ],
+      "uuid": [
+        {
+          "value": "65aff6aa-bf21-4daa-b5fa-0db4a5829a08"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 43237
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1532109202
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_custom_html_body": [
+        {
+          "value": "<h2>Tabbed Interface</h2>\r\n\r\n<p>A tabbed interface can be an accordion, multiple expand/collapse tabs, or in the future, other types of UI. Below we show a typical interface where multiple tabs can be open at a time, but appear like an accordion. These support most types of other paragraphs as their content, but their headers are plain text.</p>\r\n",
+          "format": "full_html",
+          "processed": "<h2>Tabbed Interface</h2>\n\n<p>A tabbed interface can be an accordion, multiple expand/collapse tabs, or in the future, other types of UI. Below we show a typical interface where multiple tabs can be open at a time, but appear like an accordion. These support most types of other paragraphs as their content, but their headers are plain text.</p>\n"
+        }
+      ]
+    },
+    {
+      "target_id": 2773,
+      "target_revision_id": 43242,
+      "id": [
+        {
+          "value": 2773
+        }
+      ],
+      "uuid": [
+        {
+          "value": "a6353614-785a-47c6-af46-a8849ae388e6"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 43242
+        }
+      ],
+      "type": [
+        {
+          "target_id": "tabs",
+          "target_type": "paragraphs_type",
+          "target_uuid": "70cd88c9-2dd5-41a5-bf35-406318eaaf41"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1532109116
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_tabs": [
+        {
+          "target_id": 2770,
+          "target_revision_id": 43239,
+          "id": [
+            {
+              "value": 2770
+            }
+          ],
+          "uuid": [
+            {
+              "value": "6846c433-8599-4cbe-af81-f50b9fc7f713"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 43239
+            }
+          ],
+          "type": [
+            {
+              "target_id": "tab",
+              "target_type": "paragraphs_type",
+              "target_uuid": "9c4c1256-f4a5-4a54-aeb3-e934ece1c9c8"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1532109116
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "2773"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_tabs"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_content": [
+            {
+              "target_id": 2769,
+              "target_revision_id": 43238,
+              "id": [
+                {
+                  "value": 2769
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "004df375-5eb1-41ca-849e-fc4cbe643bde"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 43238
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "custom_html",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "uid": [
+                {
+                  "target_id": 29,
+                  "target_type": "user",
+                  "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+                  "url": "/user/29"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1532109116
+                }
+              ],
+              "revision_uid": [
+                {
+                  "target_id": 29,
+                  "target_type": "user",
+                  "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+                  "url": "/user/29"
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "2770"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": "a:0:{}"
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "moderation_state": [],
+              "field_custom_html_body": [
+                {
+                  "value": "<p>This is an example of a tab within a tabbed interface, using the \"Collapsible\" display option.</p>\r\n",
+                  "format": "full_html",
+                  "processed": "<p>This is an example of a tab within a tabbed interface, using the \"Collapsible\" display option.</p>\n"
+                }
+              ]
+            }
+          ],
+          "field_label": [
+            {
+              "value": "Accordion Tab Label 1"
+            }
+          ]
+        },
+        {
+          "target_id": 2772,
+          "target_revision_id": 43241,
+          "id": [
+            {
+              "value": 2772
+            }
+          ],
+          "uuid": [
+            {
+              "value": "b8b856da-ca7f-4b73-84cc-2e72e3dde765"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 43241
+            }
+          ],
+          "type": [
+            {
+              "target_id": "tab",
+              "target_type": "paragraphs_type",
+              "target_uuid": "9c4c1256-f4a5-4a54-aeb3-e934ece1c9c8"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1532109153
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "2773"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_tabs"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_content": [
+            {
+              "target_id": 2771,
+              "target_revision_id": 43240,
+              "id": [
+                {
+                  "value": 2771
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "8c1526c1-690a-4bff-93bd-ecfa54228483"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 43240
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "custom_html",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "uid": [
+                {
+                  "target_id": 29,
+                  "target_type": "user",
+                  "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+                  "url": "/user/29"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1532109153
+                }
+              ],
+              "revision_uid": [
+                {
+                  "target_id": 29,
+                  "target_type": "user",
+                  "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+                  "url": "/user/29"
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "2772"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": "a:0:{}"
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "moderation_state": [],
+              "field_custom_html_body": [
+                {
+                  "value": "<p>Here is alternate tab content.</p>\r\n",
+                  "format": "full_html",
+                  "processed": "<p>Here is alternate tab content.</p>\n"
+                }
+              ]
+            }
+          ],
+          "field_label": [
+            {
+              "value": "Accordion Tab Label 2"
+            }
+          ]
+        }
+      ],
+      "field_tabs_display": [
+        {
+          "value": "collapsible"
+        }
+      ]
     }
   ],
   "field_subtitle": [
@@ -2920,10 +3490,6 @@
     {
       "text": "Home",
       "uri": "/"
-    },
-    {
-      "text": "MBTA CMS Style Guide",
-      "uri": "/cms/style-guide"
     },
     {
       "text": "Paragraphs Guide",

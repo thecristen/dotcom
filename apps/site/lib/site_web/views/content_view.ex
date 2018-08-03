@@ -27,6 +27,9 @@ defmodule SiteWeb.ContentView do
   def render_paragraph(%Content.Paragraph.ColumnMulti{} = para, conn) do
     render "_column_multi.html", paragraph: para, conn: conn
   end
+  def render_paragraph(%Content.Paragraph.Tabs{} = para, conn) do
+    render "_tabs.html", paragraph: para, conn: conn
+  end
   def render_paragraph(%Content.Paragraph.Unknown{} = para, _) do
     render "_unknown.html", paragraph: para
   end

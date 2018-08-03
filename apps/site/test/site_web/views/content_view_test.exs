@@ -262,6 +262,47 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered_single =~ "<div class=\"row row-lined\">\n  \n    <div class=\"col-md-12\">\n<strong>Column 1</strong>"
     end
 
+    test "renders a Content.Paragraph.Tabs", %{conn: conn} do
+      tabs = [
+        %Paragraph.Tab{
+          title: "Tab 1",
+          prefix: "cms-10",
+          content: %Paragraph.CustomHTML{
+            body: Phoenix.HTML.raw("<strong>First tab's content</strong>")
+          },
+        },
+        %Paragraph.Tab{
+          title: "Tab 2",
+          prefix: "cms-11",
+          content: %Paragraph.CustomHTML{
+            body: Phoenix.HTML.raw("<strong>Second tab's content</strong>")
+          }
+        }
+      ]
+
+      rendered_tabs =
+        %Paragraph.Tabs{display: "accordion", tabs: tabs}
+        |> render_paragraph(conn)
+        |> Phoenix.HTML.safe_to_string()
+
+      [{_, _, [title_1]}, {_, _, [title_2]}] = Floki.find(rendered_tabs, ".c-tabbed-ui__title")
+      [{_, _, [body_1]}, {_, _, [body_2]}] = Floki.find(rendered_tabs, ".c-tabbed-ui__target > .c-tabbed-ui__content")
+      [{_, [_, {"href", href_1}, _, _, {"aria-controls", aria_controls_1}, _, {"data-parent", parent_1}], _},
+       {_, [_, {"href", href_2}, _, _, {"aria-controls", aria_controls_2}, _, {"data-parent", parent_2}], _}] =
+       Floki.find(rendered_tabs, ".c-tabbed-ui__trigger")
+
+      assert title_1 == "Tab 1"
+      assert title_2 == "Tab 2"
+      assert href_1 == "#cms-10-tab"
+      assert href_2 == "#cms-11-tab"
+      assert aria_controls_1 == "cms-10-tab"
+      assert aria_controls_2 == "cms-11-tab"
+      assert parent_1 == "#tab-group"
+      assert parent_1 == parent_2
+      assert Floki.raw_html(body_1) =~ "First tab's content"
+      assert Floki.raw_html(body_2) =~ "Second tab's content"
+    end
+
     test "renders a Paragraph.Unknown", %{conn: conn} do
       paragraph = %Paragraph.Unknown{
         type: "unsupported_paragraph_type"

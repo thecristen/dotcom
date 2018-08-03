@@ -8,10 +8,10 @@ export class TripPlannerTimeControls {
       this.resetPlanType();
       this.DatePicker = new DatePickerInput({
         selectors: { dateEl, month, day, year },
-        onUpdateCallback: this.updateAccordionTitleCallback.bind(this)
+        onUpdateCallback: this.updateControlTitleCallback.bind(this)
       });
       this.timeInput();
-      this.accordionSetup();
+      this.controlSetup();
     }
   }
 
@@ -21,16 +21,16 @@ export class TripPlannerTimeControls {
       .setAttribute("data-prefix", "");
   }
 
-  accordionSetup() {
+  controlSetup() {
     document
       .getElementById(TripPlannerTimeControls.SELECTORS.depart)
       .addEventListener("click", () => {
-        this.updateAccordionTitle("Depart at");
+        this.updateControlTitle("Depart at");
       });
     document
       .getElementById(TripPlannerTimeControls.SELECTORS.arrive)
       .addEventListener("click", () => {
-        this.updateAccordionTitle("Arrive by");
+        this.updateControlTitle("Arrive by");
       });
   }
 
@@ -89,10 +89,10 @@ export class TripPlannerTimeControls {
 
     timeLabel.setAttribute("data-time", friendlyTime);
     timeLabel.setAttribute("aria-label", `${friendlyTime}, ${ariaMessage}`);
-    this.updateAccordionTitle(this.getPlanType());
+    this.updateControlTitle(this.getPlanType());
   }
 
-  updateAccordionTitle(text) {
+  updateControlTitle(text) {
     const time = document
       .getElementById(TripPlannerTimeControls.SELECTORS.timeEl.label)
       .getAttribute("data-time");
@@ -101,15 +101,15 @@ export class TripPlannerTimeControls {
       .getAttribute("data-date");
     const title = `${text} ${time}, ${date}`;
 
-    const accordionTitle = document.getElementById(
+    const controlTitle = document.getElementById(
       TripPlannerTimeControls.SELECTORS.title
     );
-    accordionTitle.innerHTML = title;
-    accordionTitle.setAttribute("data-prefix", text);
+    controlTitle.innerHTML = title;
+    controlTitle.setAttribute("data-prefix", text);
   }
 
-  updateAccordionTitleCallback() {
-    this.updateAccordionTitle(this.getPlanType());
+  updateControlTitleCallback() {
+    this.updateControlTitle(this.getPlanType());
   }
 
   static getFriendlyTime(datetime) {
@@ -157,7 +157,7 @@ TripPlannerTimeControls.SELECTORS = {
     select: "plan-time-select",
     label: "plan-time-label"
   },
-  title: "trip-plan-accordion-title"
+  title: "trip-plan-departure-title"
 };
 
 export function init() {

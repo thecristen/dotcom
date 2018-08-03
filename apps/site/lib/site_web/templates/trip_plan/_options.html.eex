@@ -1,27 +1,20 @@
-<div class="m-trip-plan__accordions">
-  <%
-    datetime = datetime_from_query(@query)
-    plan_type = format_plan_type_for_title(@query)
-  %>
-
-  <%=
-    SiteWeb.PartialView.render("_accordion.html", Map.merge(assigns, %{
-      target_id: "trip-plan-accordion",
-      title_id: "trip-plan-accordion-title",
-      title: plan_type,
-      parent_view: SiteWeb.TripPlanView,
-      accordion_content: "_departure.html",
-      datetime: datetime
-    }))
-  %>
-
-  <%=
-    SiteWeb.PartialView.render("_accordion.html", Map.merge(assigns, %{
-      target_id: "trip-plan-options-accordion",
-      title: "See more options",
-      parent_view: SiteWeb.TripPlanView,
-      accordion_content: "_more_options.html",
-      form: @parent_form
-    }))
-  %>
-</div>
+<%=
+  SiteWeb.PartialView.render("_tabbed_ui.html", Map.merge(assigns, %{
+    parent_view: SiteWeb.TripPlanView,
+    accordion: false,
+    tabs: [
+      %{
+        content_template: "_departure.html",
+        title: format_plan_type_for_title(@query),
+        prefix: "trip-plan-departure",
+        datetime: datetime_from_query(@query)
+      },
+      %{
+        content_template: "_more_options.html",
+        title: "See more options",
+        prefix: "trip-plan-options",
+        form: @parent_form
+      }
+    ]
+  }))
+%>
