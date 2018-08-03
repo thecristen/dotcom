@@ -260,6 +260,7 @@ div {
 
 .error-container {
   background-color: $form-error-message;
+  color: $error-text;
   margin-top: .5em;
 
   span {

@@ -41,8 +41,9 @@ $brand-the-ride: #52bbc5;
 $alert-color: $brand-secondary;
 $alert-color-lighter: #fffae9;
 $alert-notice-color: #dcd3e8;
-$brand-danger: #ff1428;
-$brand-success: #428608;
+$error-text: #b3000f;
+$brand-danger: $error-text;
+$brand-success: #145a06;
 
 // style-guide --section Social Media
 $instagram: #1c1e23;
@@ -67,7 +68,6 @@ $input-color: $gray-dark;
 $list-group-link-color: $gray-dark;
 $nav-mobile-link-color: #fff;
 $form-error-message: #f2dede;
-$error-text: #b3000f;
 $form-success-message: #dff0d8;
 $white: #fff;
 $black: #000;
