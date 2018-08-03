@@ -33,6 +33,13 @@ defmodule SiteWeb.FareView.Description do
      cr_interzone_note()
     ]
   end
+  def description(%Fare{mode: :commuter_rail, duration: :month, name: {:zone, zone} = name}, _assigns) when zone in ["1A"] do
+    [
+     "Valid for 1 calendar month of unlimited travel on Commuter Rail ",
+     [valid_commuter_zones(name), "Local Bus", "subway", "Charlestown Ferry"] |> join(:and), ".",
+     cr_interzone_note()
+    ]
+  end
   def description(%Fare{mode: :commuter_rail, duration: :month, name: name}, _assigns) do
     [
      "Valid for 1 calendar month of unlimited travel on Commuter Rail ",
