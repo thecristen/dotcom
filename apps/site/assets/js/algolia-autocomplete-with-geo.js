@@ -104,7 +104,7 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     return () => {
       this._closeUseMyLocation();
       this._input.disabled = true;
-      this._input.value = "Getting your location...";
+      this.setValue("Getting your location...");
       this._loadingIndicator.style.visibility = "visible";
       geolocationPromise()
         .then(pos => this._doReverseGeocodeSearch(pos))
@@ -132,7 +132,7 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
 
   _onReverseGeocodeResults(result, latitude, longitude) {
     this._input.disabled = false;
-    this._input.value = result;
+    this.setValue(result);
     this._loadingIndicator.style.visibility = "hidden";
     this.showLocation(latitude, longitude, result);
   }

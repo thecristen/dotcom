@@ -6,6 +6,23 @@
   display: flex;
   padding: $base-spacing / 4;
   position: relative;
+
+  &.c-form__input-focused {
+    border-color: $brand-primary-light;
+  }
+}
+
+.c-form__input-container--error {
+  background: $form-error-message;
+  border-color: $error-text;
+
+  &.c-form__input-focused {
+    border-color: $brand-red-line;
+  }
+
+  .c-form__input {
+    background: $form-error-message;
+  }
 }
 
 .c-form__input {

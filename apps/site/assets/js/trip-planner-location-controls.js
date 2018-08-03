@@ -74,6 +74,7 @@ export class TripPlannerLocControls {
     this.autocompletes.forEach(ac => {
       ac.renderHeaderTemplate = () => {};
       ac.renderFooterTemplate = this.renderFooterTemplate;
+      ac.hasError = false;
       ac.onHitSelected = this.onHitSelected(
         ac,
         document.getElementById(ac._selectors.lat),
@@ -88,8 +89,8 @@ export class TripPlannerLocControls {
     document
       .getElementById("trip-plan-reverse-control")
       .addEventListener("click", this.reverseTrip);
-
     this.addExistingMarkers();
+    this.setupFormValidation();
   }
 
   bind() {
@@ -119,6 +120,50 @@ export class TripPlannerLocControls {
       this.updateMarker(toAc, toLat, toLng, to);
     }
     this.resetResetButtons();
+  }
+
+  setupFormValidation() {
+    document.getElementById("trip-plan__submit").addEventListener("click", ev => {
+      ev.preventDefault();
+      const missingFrom = document.getElementById("from").value === "";
+      const missingTo = document.getElementById("to").value === "";
+      if (missingFrom || missingTo) {
+        if (missingFrom) {
+          this.toggleError(this.fromAutocomplete, true);
+        }
+        if (missingTo) {
+          this.toggleError(this.toAutocomplete, true);
+        }
+      } else {
+        document.getElementById("planner-form").submit();
+      }
+    });
+
+    this.autocompletes.forEach(ac => {
+      document.getElementById(ac._selectors.input).addEventListener("change", this.onInputChange(ac));
+      document.getElementById(ac._selectors.input).addEventListener("input", this.onInputChange(ac));
+    });
+
+  }
+
+  onInputChange(ac) {
+    return (ev) => {
+      this.toggleError(ac, false);
+    }
+  }
+
+  toggleError(ac, hasError) {
+    const required = document.getElementById(ac._selectors.required);
+    const container = document.getElementById(ac._selectors.container);
+    if (hasError) {
+      container.classList.add("c-form__input-container--error");
+      required.classList.remove("m-trip-plan__hidden");
+      ac.hasError = true;
+    } else {
+      container.classList.remove("c-form__input-container--error");
+      required.classList.add("m-trip-plan__hidden");
+      ac.hasError = false;
+    }
   }
 
   removeMarker(ac) {
@@ -235,6 +280,8 @@ export class TripPlannerLocControls {
   reverseTrip() {
     const fromAc = this.fromAutocomplete;
     const toAc = this.toAutocomplete;
+    const fromError = fromAc.hasError;
+    const toError = toAc.hasError;
     const $ = window.jQuery;
     const from = fromAc.getValue();
     const to = toAc.getValue();
@@ -250,6 +297,8 @@ export class TripPlannerLocControls {
     toAc.setValue(from);
     this.swapMarkers();
     this.resetResetButtons();
+    this.toggleError(toAc, fromError);
+    this.toggleError(fromAc, toError);
   }
 }
 
@@ -275,7 +324,8 @@ TripPlannerLocControls.SELECTORS = {
     lng: "to_longitude",
     resetButton: "trip-plan__reset--to",
     container: "trip-plan__container--to",
-    locationLoadingIndicator: "trip-plan__loading-indicator--to"
+    locationLoadingIndicator: "trip-plan__loading-indicator--to",
+    required: "trip-plan__required--to"
   },
   from: {
     input: "from",
@@ -283,7 +333,8 @@ TripPlannerLocControls.SELECTORS = {
     lng: "from_longitude",
     resetButton: "trip-plan__reset--from",
     container: "trip-plan__container--from",
-    locationLoadingIndicator: "trip-plan__loading-indicator--from"
+    locationLoadingIndicator: "trip-plan__loading-indicator--from",
+    required: "trip-plan__required--from"
   },
   map: "trip-plan-map--initial"
 };

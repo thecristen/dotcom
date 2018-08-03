@@ -119,3 +119,17 @@
   font-weight: bold;
   margin-left: $base-spacing / 2;
 }
+
+.c-form__input-container--error {
+  .m-trip-plan__input-label {
+    color: $error-text;
+  }
+}
+
+.m-trip-plan__required {
+  color: $error-text;
+}
+
+.m-trip-plan__hidden {
+  display: none;
+}

@@ -33,7 +33,7 @@ export class AlgoliaAutocomplete {
 
   clear() {
     this._autocomplete.autocomplete.close();
-    this._autocomplete.autocomplete.setVal("");
+    this.setValue("");
     this._toggleResetButton(false);
     this._client.reset();
     this._input.focus();
@@ -257,6 +257,7 @@ export class AlgoliaAutocomplete {
 
   setValue(value) {
     this._autocomplete.autocomplete.setVal(value);
+    window.jQuery(this._input).change();
   }
 
   getValue() {

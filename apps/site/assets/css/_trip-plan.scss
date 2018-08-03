@@ -256,12 +256,13 @@
 
 .m-trip-plan__label--to {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .m-trip-plan__reverse-control {
   color: $brand-primary;
   cursor: pointer;
+  margin-left: auto;
   user-select: none;
 }
 

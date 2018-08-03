@@ -10,8 +10,8 @@
   end
 %>
 <div id="trip-plan__search--from" class="c-search-bar">
-  <label for="from" class="c-search-bar__header">
-    From
+  <label for="from" class="c-search-bar__header" id="trip-plan__label--from">
+    From <span id="trip-plan__required--from" class="m-trip-plan__required m-trip-plan__hidden">(Required)</span>
   </label>
   <div id="trip-plan__container--from" class="c-form__input-container">
     <span class="m-trip-plan__input-label">A</span>
@@ -27,8 +27,8 @@
 <div class="location-error"><%= from_error %></div>
 
 <div id="trip-plan__search--to" class="c-search-bar">
-  <label for="to" class="c-search-bar__header m-trip-plan__label--to">
-    To
+  <label for="to" class="c-search-bar__header m-trip-plan__label--to" id="trip-plan__label--to">
+    To&nbsp;<span id="trip-plan__required--to" class="m-trip-plan__required m-trip-plan__hidden">(Required)</span>
     <div id="trip-plan-reverse-control" class="m-trip-plan__reverse-control">
       <%= fa "long-arrow-down" %>
       <%= fa "long-arrow-up" %>
