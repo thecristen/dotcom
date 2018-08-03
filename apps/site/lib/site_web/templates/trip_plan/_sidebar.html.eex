@@ -13,6 +13,7 @@
 %>
 
 <div class="m-trip-plan__sidebar">
+  <%= render "_error.html", plan_error: assigns[:plan_error] %>
   <div class="m-trip-plan__form-container callout">
     <%= render "_mobile_trip_summary.html", query: query, itineraries?: itineraries? %>
     <%= form_for @conn, @conn.request_path<>"#plan_result_focus", form_options, fn f -> %>

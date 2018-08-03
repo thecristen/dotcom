@@ -33,9 +33,6 @@
             expanded: @expanded,
             conn: @conn
           end %>
-      <% %{itineraries: {:error, e}} when e != :prereq -> %>
-      <p id="plan_result_focus" class="no-trips page-section">No trips available</p>
-      <p class="instructions page-section"><%= rendered_plan_error(e) %></p>
       <% _ -> %>
         <% {map_data, map_url} = {@initial_map_data , @initial_map_src} %>
         <div class="trip-plan-initial-map map">

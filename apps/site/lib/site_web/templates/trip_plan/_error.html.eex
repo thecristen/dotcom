@@ -1,0 +1,8 @@
+<%= if @plan_error != nil do %>
+  <div class="m-trip-plan__error">
+    <p class="m-trip-plan__error--title">
+    No trips available
+    </p>
+    <%= rendered_plan_error(@plan_error) %>
+  </div>
+<% end %>

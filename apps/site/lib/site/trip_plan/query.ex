@@ -202,6 +202,17 @@ defmodule Site.TripPlan.Query do
   end
   def itineraries?(_query), do: false
 
+  @spec plan_error(t) :: [atom]
+  def plan_error(%__MODULE__{itineraries: {:error, :prereq}}) do
+    nil
+  end
+  def plan_error(%__MODULE__{itineraries: {:error, errors}}) do
+    errors
+  end
+  def plan_error(%__MODULE__{itineraries: _}) do
+    nil
+  end
+
   @spec get_itineraries(t) :: [Itinerary.t]
   def get_itineraries(%__MODULE__{itineraries: {:ok, itineraries}}) do
     itineraries

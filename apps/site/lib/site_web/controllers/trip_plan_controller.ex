@@ -35,11 +35,13 @@ defmodule SiteWeb.TripPlanController do
   defp render_plan(conn, plan) do
     query = Query.from_query(plan)
     itineraries = Query.get_itineraries(query)
+    plan_error = Query.plan_error(query)
     route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
     itinerary_row_lists = itinerary_row_lists(itineraries, route_mapper, plan)
     render conn,
       query: query,
+      plan_error: plan_error,
       routes: Enum.map(itineraries, &routes_for_itinerary(&1, route_mapper)),
       itinerary_maps: Enum.map(itineraries, &TripPlanMap.itinerary_map(&1, route_mapper: route_mapper)),
       related_links: Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1, route_by_id: route_mapper)),

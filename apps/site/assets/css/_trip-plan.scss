@@ -285,3 +285,16 @@
     }
   }
 }
+
+.m-trip-plan__error {
+  background-color: $form-error-message;
+  color: $error-text;
+  padding: $base-spacing;
+  width: 100%;
+}
+
+.m-trip-plan__error--title {
+  background-color: $form-error-message;
+  font-size: $font-size-h3;
+  font-weight: bold;
+}
