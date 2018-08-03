@@ -169,10 +169,10 @@ defmodule SiteWeb.TripPlanControllerTest do
       end
     end
 
-    test "enables transit layer on plan maps", %{conn: conn} do
+    test "does not enable transit layer on plan maps", %{conn: conn} do
       conn = get conn, trip_plan_path(conn, :index, @good_params)
       assert Enum.all?(conn.assigns.itinerary_maps, fn {map_data, _} ->
-        map_data.layers.transit == true
+        map_data.layers.transit == false
       end)
     end
 

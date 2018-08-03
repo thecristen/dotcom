@@ -170,9 +170,7 @@ export default class GoogleMap {
   }
 
   resetZoom() {
-    if (!this.defaultZoom) {
-      this.map.setZoom(this.defaultZoom);
-    }
+    this.map.setZoom(this.defaultZoom || 17);
   }
 
   showInfoWindow(marker, content) {

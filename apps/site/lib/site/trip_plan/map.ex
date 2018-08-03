@@ -66,7 +66,6 @@ defmodule Site.TripPlan.Map do
     |> MapData.new()
     |> MapData.add_markers(markers)
     |> MapData.add_paths(paths)
-    |> MapData.add_layers(%Layers{transit: true})
   end
 
   @spec build_leg_path(Leg.t, route_mapper) :: Path.t
