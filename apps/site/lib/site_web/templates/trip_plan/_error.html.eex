@@ -1,5 +1,5 @@
 <%= if @plan_error != nil do %>
-  <div class="m-trip-plan__error">
+  <div class="m-trip-plan__error" role="alert">
     <p class="m-trip-plan__error--title">
     No trips available
     </p>
@@ -7,7 +7,7 @@
   </div>
 <% else %>
   <%= if Map.get(@errors, :unable_error) != nil do %>
-    <div class="m-trip-plan__error">
+    <div class="m-trip-plan__error" role="alert">
       <p class="m-trip-plan__error--title">
       Unable to plan your trip
       </p>
