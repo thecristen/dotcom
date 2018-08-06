@@ -1,5 +1,5 @@
 <h1>Trip Planner</h1>
-<div class="row row--no-margin">
+<div class="trip-plan-container">
   <%= render "_sidebar.html", assigns %>
   <div class="trip-plan-body">
     <%= case assigns[:query] do %>

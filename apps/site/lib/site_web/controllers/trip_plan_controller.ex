@@ -13,11 +13,11 @@ defmodule SiteWeb.TripPlanController do
   @type route_map :: %{optional(Routes.Route.id_t) => Routes.Route.t}
   @type route_mapper :: ((Routes.Route.id_t) -> Routes.Route.t | nil)
 
-  def index(conn, %{"plan" => %{"date_time" => date_time} = plan}) do
-    case validate_date(date_time) do
+  def index(conn, %{"plan" => %{"date_time" => _dt, "to" => _to, "from" => _fr} = plan}) do
+    case validate_params(plan) do
       {:ok, date} ->
         conn
-        |> assign(:errors, [])
+        |> assign(:errors, %{})
         |> assign(:expanded, conn.query_params["expanded"])
         |> render_plan(%{plan | "date_time" => future_date_or_now(date, conn.assigns.date_time)})
       {_, errors} ->
@@ -28,7 +28,7 @@ defmodule SiteWeb.TripPlanController do
   end
   def index(conn, _params) do
     conn
-    |> assign(:errors, [])
+    |> assign(:errors, %{})
     |> render(:index)
   end
 
@@ -47,6 +47,23 @@ defmodule SiteWeb.TripPlanController do
       related_links: Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1, route_by_id: route_mapper)),
       itinerary_row_lists: itinerary_row_lists
   end
+
+  @spec validate_params(map) :: {:ok, NaiveDateTime.t} | {:error, map}
+  def validate_params(%{"date_time" => dt, "to" => _to, "from" => _fr} = plan) do
+    with {:ok, _} <- validate_to_from(plan),
+         {:ok, date} <- validate_date(dt) do {:ok, date}
+    else
+        {:error, error} -> {:error, error}
+        _ -> {:error, %{}}
+    end
+  end
+
+  @same_address_error {:error, %{unable_error: "You must enter two different locations."}}
+
+  @spec validate_to_from(map) :: {:ok, map} | {:error, %{required(:unable_error) => String.t}}
+  def validate_to_from(%{"to_latitude" => lat, "from_longitude" => lng, "from_latitude" => lat, "from_longitude" => lng}), do: @same_address_error
+  def validate_to_from(%{"to" => address, "from" => address}), do: @same_address_error
+  def validate_to_from(plan), do: {:ok, plan}
 
   @spec validate_date(map) :: {:ok, NaiveDateTime.t} | {:error, %{required(:date_time) => String.t}}
   defp validate_date(%{"year" => year, "month" => month, "day" => day, "hour" => hour, "minute" => minute, "am_pm" => am_pm}) do

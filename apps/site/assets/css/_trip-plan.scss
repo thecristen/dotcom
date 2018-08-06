@@ -1,3 +1,8 @@
+.trip-plan-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .trip-plan-body {
   @include make-col();
   padding: 0;
@@ -167,7 +172,7 @@
 }
 
 .trip-plan-initial-map {
-  height: $base-spacing * 42;
+  height: 100%;
   margin-bottom: $base-spacing;
   width: 100%;
 
@@ -289,13 +294,14 @@
 
 .m-trip-plan__error {
   background-color: $form-error-message;
+  border-radius: $base-spacing / 4 $base-spacing / 4 0 0;
   color: $error-text;
   padding: $base-spacing;
   width: 100%;
-}
 
-.m-trip-plan__error--title {
-  background-color: $form-error-message;
-  font-size: $font-size-h3;
-  font-weight: bold;
+  &--title {
+    background-color: $form-error-message;
+    font-size: $font-size-base;
+    font-weight: bold;
+  }
 }

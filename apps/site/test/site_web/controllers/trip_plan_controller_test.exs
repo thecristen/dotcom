@@ -212,6 +212,68 @@ defmodule SiteWeb.TripPlanControllerTest do
       assert conn.assigns.itinerary_row_lists
     end
 
+    test "renders an error if longitude and latitude from both addresses are the same", %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from_latitude" => "90",
+                    "to_latitude" => "90",
+                    "from_longitude" => "50",
+                    "to_longitude" => "50",
+                    "date_time" => %{@afternoon | "year" => "2016"},
+                    "from" => "from St",
+                    "to" => "from Street"
+                   }}
+
+      conn = get conn, trip_plan_path(conn, :index, params)
+      assert conn.assigns.errors.unable_error =~ "two different locations"
+      assert html_response(conn, 200)
+      assert html_response(conn, 200) =~ "two different locations"
+    end
+
+    test "doesn't renders an error if longitudes and latitudes are unique", %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from_latitude" => "90",
+                    "to_latitude" => "90.5",
+                    "from_longitude" => "50.5",
+                    "to_longitude" => "50",
+                    "date_time" => %{@afternoon | "year" => "2016"},
+                    "from" => "from St",
+                    "to" => "from Street"
+                   }}
+
+      conn = get conn, trip_plan_path(conn, :index, params)
+      assert conn.assigns.errors == %{}
+      assert html_response(conn, 200)
+    end
+
+    test "renders an error if to and from address are the same", %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from" => "from",
+                    "to" => "from",
+                    "date_time" => %{@afternoon | "year" => "2016"}
+                   }}
+
+      conn = get conn, trip_plan_path(conn, :index, params)
+      assert conn.assigns.errors.unable_error =~ "two different locations"
+      assert html_response(conn, 200)
+      assert html_response(conn, 200) =~ "two different locations"
+    end
+
+    test "doesn't render an error if to and from address are unique", %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from" => "from",
+                    "to" => "to",
+                    "date_time" => %{@afternoon | "year" => "2016"}
+                   }}
+
+      conn = get conn, trip_plan_path(conn, :index, params)
+      assert conn.assigns.errors == %{}
+      assert html_response(conn, 200)
+    end
+
     test "bad date input: fictional day", %{conn: conn} do
       params = %{
         "date_time" => @system_time,

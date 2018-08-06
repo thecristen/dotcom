@@ -5,4 +5,13 @@
     </p>
     <%= rendered_plan_error(@plan_error) %>
   </div>
+<% else %>
+  <%= if Map.get(@errors, :unable_error) != nil do %>
+    <div class="m-trip-plan__error">
+      <p class="m-trip-plan__error--title">
+      Unable to plan your trip
+      </p>
+      <%= @errors.unable_error %>
+    </div>
+  <% end %>
 <% end %>
