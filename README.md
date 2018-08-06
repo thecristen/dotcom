@@ -37,6 +37,8 @@ The new face of https://www.mbta.com/
      bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
      ```
 
+     If you run into problems, you might have to update the `import-release-team-keyring` script as described in this [wiki article](https://github.com/mbta/wiki/blob/master/website/asdf-nodejs.md)
+
    * Run the install:
 
      ```
