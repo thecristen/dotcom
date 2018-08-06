@@ -5,7 +5,25 @@ defmodule GoogleMaps.MapData.Marker do
   centering the map.
   """
 
-  @type size :: :tiny | :mid | :small
+  defmodule Label do
+    @type t :: %__MODULE__{
+      color: String.t | nil,
+      font_family: String.t | nil,
+      font_size: String.t | nil,
+      font_weight: String.t | nil,
+      text: String.t | nil
+    }
+
+    defstruct [
+      :color,
+      :font_family,
+      :font_size,
+      :font_weight,
+      :text
+    ]
+  end
+
+  @type size :: :tiny | :small | :mid | :large
   @default_opts [icon: nil, size: :mid, visible?: true, tooltip: nil, z_index: 0]
 
   defstruct [
@@ -16,7 +34,8 @@ defmodule GoogleMaps.MapData.Marker do
     visible?: true,
     size: :mid,
     tooltip: nil,
-    z_index: 0
+    z_index: 0,
+    label: nil
   ]
 
   @type t :: %__MODULE__{
@@ -27,7 +46,8 @@ defmodule GoogleMaps.MapData.Marker do
     visible?: boolean,
     size: size,
     tooltip: String.t | nil,
-    z_index: integer
+    z_index: integer,
+    label: Label.t | nil
   }
 
   def new(latitude, longitude, opts \\ []) do
@@ -40,7 +60,8 @@ defmodule GoogleMaps.MapData.Marker do
       visible?: map_options[:visible?],
       size: map_options[:size],
       tooltip: map_options[:tooltip],
-      z_index: map_options[:z_index]
+      z_index: map_options[:z_index],
+      label: map_options[:label]
     }
   end
 

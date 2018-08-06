@@ -2,6 +2,7 @@ defmodule Site.TripPlan.MapTest do
   use ExUnit.Case, async: true
   alias Util.Position
   alias TripPlan.Itinerary
+  alias GoogleMaps.MapData.Marker.Label
   import Site.TripPlan.Map
 
   @from TripPlan.Api.MockPlanner.random_stop(stop_id: "place-sstat")
@@ -21,6 +22,20 @@ defmodule Site.TripPlan.MapTest do
         assert marker.icon
         assert marker.tooltip
       end
+    end
+
+    test "first and last markers are pin icons and have labels", %{map_data: map_data} do
+      [first | middle_and_last] = map_data.markers
+      [last | middle] = Enum.reverse(middle_and_last)
+      for marker <- middle do
+        assert marker.icon === "000000-dot-mid"
+        assert marker.label === nil
+      end
+      for marker <- [first, last] do
+        assert marker.icon === "map-pin"
+      end
+      assert %Label{text: "A"} = first.label
+      assert %Label{text: "B"} = last.label
     end
 
     test "Markers have tooltip of stop name if it exists", %{itinerary: itinerary, map_data: map_data} do

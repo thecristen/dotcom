@@ -43,10 +43,22 @@ export default class Marker {
           passive: true
         });
       }
-    }
 
-    if (this.data.label) {
-      this.marker.setLabel(this.data.label);
+      this.addLabel();
+    }
+  }
+
+  addLabel() {
+    if (this.marker && this.data.label) {
+      const label = {
+        color: this.data.label.color,
+        fontFamily: this.data.label.font_family,
+        fontSize: this.data.label.font_size,
+        fontWeight: this.data.label.font_weight,
+        text: this.data.label.text,
+      }
+
+      this.marker.setLabel(label);
     }
   }
 

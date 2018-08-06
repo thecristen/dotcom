@@ -79,10 +79,10 @@ export class TripPlannerResults {
         icon: "map-pin",
         label: {
           color: "#fff",
-          fontSize: "22px",
-          fontWeight: "bold",
+          font_size: "22px",
+          font_weight: "bold",
           text: detail.label,
-          fontFamily: "Helvetica Neue, Helvetica, Arial"
+          font_family: "Helvetica Neue, Helvetica, Arial"
         },
         "visible?": true
       };

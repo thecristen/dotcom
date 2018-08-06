@@ -12,7 +12,7 @@ export default class GoogleMap {
     this.markers = {};
     this.polylines = [];
     this.data = data;
-    this.defaultZoom = data.zoom;
+    this.defaultZoom = data.zoom || 17;
     this.defaultCenter = null;
     this.infoWindow = null;
     this.el = document.getElementById(id);

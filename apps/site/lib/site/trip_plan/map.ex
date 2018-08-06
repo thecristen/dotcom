@@ -105,22 +105,51 @@ defmodule Site.TripPlan.Map do
   end
 
   defp build_markers_for_leg_positions(positions_with_indicies, route, stop_mapper, leg_count) do
-    icon_for_index = fn idx -> MapHelpers.map_stop_icon_path(:mid, idx in [0, 2 * leg_count - 1]) end
     for {position, index} <- positions_with_indicies do
-      build_marker_for_leg_position(position, route, stop_mapper, icon_for_index.(index))
+      build_marker_for_leg_position(position, route, stop_mapper, %{
+        start: 0,
+        current: index,
+        end: 2 * leg_count - 1
+      })
     end
   end
 
-  @spec build_marker_for_leg_position(NamedPosition.t, Route.t | nil, stop_mapper, String.t) :: Marker.t
-  defp build_marker_for_leg_position(leg_position, route, stop_mapper, icon) do
+  @spec build_marker_for_leg_position(NamedPosition.t, Route.t | nil, stop_mapper, map) :: Marker.t
+  defp build_marker_for_leg_position(leg_position, route, stop_mapper, indexes) do
+    icon_name = stop_icon_name(indexes)
+    opts = [
+      icon: icon_name,
+      size: stop_icon_size(icon_name),
+      label: stop_icon_label(indexes),
+      tooltip: tooltip_for_position(leg_position, stop_mapper),
+      z_index: z_index(route),
+    ]
+
     leg_position
-    |> Position.latitude
-    |> Marker.new(Position.longitude(leg_position),
-                  icon: icon,
-                  size: :mid,
-                  tooltip: tooltip_for_position(leg_position, stop_mapper),
-                  z_index: z_index(route))
+    |> Position.latitude()
+    |> Marker.new(Position.longitude(leg_position), opts)
   end
+
+  defp stop_icon_name(%{current: idx, start: idx}), do: "map-pin"
+  defp stop_icon_name(%{current: idx, end: idx}), do: "map-pin"
+  defp stop_icon_name(%{}), do: MapHelpers.map_stop_icon_path(:mid, false)
+
+  defp stop_icon_label(%{current: idx, start: idx}), do: do_stop_icon_label("A")
+  defp stop_icon_label(%{current: idx, end: idx}), do: do_stop_icon_label("B")
+  defp stop_icon_label(%{}), do: nil
+
+  defp do_stop_icon_label(text) do
+    %Marker.Label{
+      color: "#fff",
+      font_family: "Helvetica Neue, Helvetica, Arial",
+      font_size: "22px",
+      font_weight: "bold",
+      text: text
+    }
+  end
+
+  defp stop_icon_size("map-pin"), do: :large
+  defp stop_icon_size(_), do: :mid
 
   @spec leg_color(Leg.t, route_mapper) :: String.t
   defp leg_color(%Leg{mode: %TransitDetail{route_id: route_id}}, route_mapper) do
