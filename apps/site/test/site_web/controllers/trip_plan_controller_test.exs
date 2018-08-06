@@ -274,6 +274,24 @@ defmodule SiteWeb.TripPlanControllerTest do
       assert html_response(conn, 200)
     end
 
+    test "handles empty lat/lng", %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from" => "from",
+                    "to" => "from",
+                    "to_latitude" => "",
+                    "to_longitude" => "",
+                    "from_latitude" => "",
+                    "from_longitude" => "",
+                    "date_time" => %{@afternoon | "year" => "2016"}
+                   }}
+
+      conn = get conn, trip_plan_path(conn, :index, params)
+      assert conn.assigns.errors.unable_error =~ "two different locations"
+      assert html_response(conn, 200)
+      assert html_response(conn, 200) =~ "two different locations"
+    end
+
     test "bad date input: fictional day", %{conn: conn} do
       params = %{
         "date_time" => @system_time,

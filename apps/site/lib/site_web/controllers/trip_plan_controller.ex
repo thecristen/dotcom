@@ -61,6 +61,14 @@ defmodule SiteWeb.TripPlanController do
   @same_address_error {:error, %{unable_error: "You must enter two different locations."}}
 
   @spec validate_to_from(map) :: {:ok, map} | {:error, %{required(:unable_error) => String.t}}
+  def validate_to_from(%{"to_latitude" => "", "from_latitude" => "", "to_longitude" => "", "from_longitude" => ""} = plan) do
+    plan
+    |> Map.delete("to_latitude")
+    |> Map.delete("from_latitude")
+    |> Map.delete("to_longitude")
+    |> Map.delete("from_longitude")
+    |> validate_to_from()
+  end
   def validate_to_from(%{"to_latitude" => lat, "from_longitude" => lng, "from_latitude" => lat, "from_longitude" => lng}), do: @same_address_error
   def validate_to_from(%{"to" => address, "from" => address}), do: @same_address_error
   def validate_to_from(plan), do: {:ok, plan}
