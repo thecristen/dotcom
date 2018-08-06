@@ -157,13 +157,16 @@ export class TripPlannerLocControls {
   toggleError(ac, hasError) {
     const required = document.getElementById(ac._selectors.required);
     const container = document.getElementById(ac._selectors.container);
+    const input = document.getElementById(ac._selectors.input);
     if (hasError) {
       container.classList.add("c-form__input-container--error");
       required.classList.remove("m-trip-plan__hidden");
+      input.setAttribute("aria-invalid", "true");
       ac.hasError = true;
     } else {
       container.classList.remove("c-form__input-container--error");
       required.classList.add("m-trip-plan__hidden");
+      input.setAttribute("aria-invalid", "false");
       ac.hasError = false;
     }
   }
