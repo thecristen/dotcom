@@ -5,8 +5,8 @@ import geolocationPromise from "./geolocation-promise";
 import * as AlgoliaResult from "./algolia-result";
 
 export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
-  constructor(selectors, indices, headers, locationParams, parent) {
-    super(selectors, indices, headers, parent);
+  constructor(id, selectors, indices, headers, locationParams, parent) {
+    super(id, selectors, indices, headers, parent);
     this._loadingIndicator = document.getElementById(selectors.locationLoadingIndicator);
     this._locationParams = Object.assign(AlgoliaAutocompleteWithGeo.DEFAULT_LOCATION_PARAMS, locationParams);
     this._indices.splice(this._locationParams.position, 0, "locations");

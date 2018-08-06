@@ -55,6 +55,7 @@ export class TripPlannerLocControls {
       TripPlannerLocControls.PARAMS
     );
     this.toAutocomplete = new AlgoliaAutocompleteWithGeo(
+      "trip-planner__autocomplete--to",
       TripPlannerLocControls.SELECTORS.to,
       Object.keys(TripPlannerLocControls.INDICES.to),
       {},
@@ -63,6 +64,7 @@ export class TripPlannerLocControls {
     );
 
     this.fromAutocomplete = new AlgoliaAutocompleteWithGeo(
+      "trip-planner__autocomplete--from",
       TripPlannerLocControls.SELECTORS.from,
       Object.keys(TripPlannerLocControls.INDICES.from),
       {},

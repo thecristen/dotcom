@@ -71,7 +71,8 @@ export class AlgoliaStopSearch {
     this._input.value = "";
     this._addGoBtn();
     this._controller = new Algolia(AlgoliaStopSearch.INDICES, AlgoliaStopSearch.PARAMS);
-    this._autocomplete = new AlgoliaAutocompleteWithGeo(AlgoliaStopSearch.SELECTORS,
+    this._autocomplete = new AlgoliaAutocompleteWithGeo("stops-page-search",
+                                                        AlgoliaStopSearch.SELECTORS,
                                                         Object.keys(AlgoliaStopSearch.INDICES),
                                                         AlgoliaStopSearch.HEADERS,
                                                         {position: 1, hitLimit: 5},

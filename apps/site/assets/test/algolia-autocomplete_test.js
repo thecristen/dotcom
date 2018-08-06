@@ -47,7 +47,7 @@ describe("AlgoliaAutocomplete", () => {
     }
   });
   it("constructor does not initialize autocomplete", () => {
-    const ac = new AlgoliaAutocomplete(selectors, indices, parent);
+    const ac = new AlgoliaAutocomplete("id", selectors, indices, parent);
     expect(ac._selectors.resultsContainer).to.equal(selectors.input + "-autocomplete-results");
     expect(ac._indices).to.equal(indices);
     expect(ac._autocomplete).to.equal(null);
@@ -56,7 +56,7 @@ describe("AlgoliaAutocomplete", () => {
   describe("init", () => {
     it("initializes autocomplete if input exists", () => {
       expect(document.getElementById(selectors.input)).to.be.an.instanceOf(window.HTMLInputElement);
-      const ac = new AlgoliaAutocomplete(selectors, indices, parent);
+      const ac = new AlgoliaAutocomplete("id", selectors, indices, parent);
       const client = new Algolia(queries, queryParams);
       ac.init(client);
       expect(ac._autocomplete).to.be.an("object");
@@ -66,7 +66,7 @@ describe("AlgoliaAutocomplete", () => {
 
   describe("_onResults", () => {
     it("only returns the hits for the given index", () => {
-      const ac = new AlgoliaAutocomplete(selectors, indices, parent);
+      const ac = new AlgoliaAutocomplete("id", selectors, indices, parent);
       const callback = sinon.spy();
       const results = {
         stops: {
@@ -85,7 +85,7 @@ describe("AlgoliaAutocomplete", () => {
 
   describe("onCursorChanged", () => {
     it("sets this._highlightedHit", () => {
-      const ac = new AlgoliaAutocomplete(selectors, indices, parent);
+      const ac = new AlgoliaAutocomplete("id", selectors, indices, parent);
       ac.init({});
       expect(ac._highlightedHit).to.equal(null);
       const hit = {
@@ -99,7 +99,7 @@ describe("AlgoliaAutocomplete", () => {
 
   describe("onCursorRemoved", () => {
     it("sets this._highlightedHit to null", () => {
-      const ac = new AlgoliaAutocomplete(selectors, indices, parent);
+      const ac = new AlgoliaAutocomplete("id", selectors, indices, parent);
       ac.init({});
       ac._highlightedHit = {
         index: indices[0],
@@ -115,7 +115,7 @@ describe("AlgoliaAutocomplete", () => {
   describe("clickFirstResult", () => {
     describe("when results exist:", () => {
       it("clicks the first result of the first index with hits", () => {
-        const ac = new AlgoliaAutocomplete(selectors, ["stops", "locations"], {}, parent);
+        const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], {}, parent);
         ac.init({});
         ac._results = {
           stops: {
@@ -139,7 +139,7 @@ describe("AlgoliaAutocomplete", () => {
       });
 
       it("finds the first index with results if some are empty", () => {
-        const ac = new AlgoliaAutocomplete(selectors, ["stops", "routes"], {}, parent);
+        const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "routes"], {}, parent);
         ac.init({});
         ac._results = {
           stops: {
@@ -160,7 +160,7 @@ describe("AlgoliaAutocomplete", () => {
       });
 
       it("does nothing if results list is empty", () => {
-        const ac = new AlgoliaAutocomplete(selectors, ["stops", "locations"], parent);
+        const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], parent);
         ac.init({});
         ac._results = {
           stops: {
@@ -178,7 +178,7 @@ describe("AlgoliaAutocomplete", () => {
 
     describe("when results do not exist", () => {
       it("does nothing", () => {
-        const ac = new AlgoliaAutocomplete(selectors, ["stops", "locations"], parent);
+        const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], parent);
         ac.init({});
         expect(Object.keys(ac._results)).to.have.members([]);
         expect(window.Turbolinks.visit.called).to.be.false;
@@ -193,7 +193,7 @@ describe("AlgoliaAutocomplete", () => {
       const headers = {
         stops: "External Stops Header",
       };
-      const ac = new AlgoliaAutocomplete(selectors, indices, headers, parent);
+      const ac = new AlgoliaAutocomplete("id", selectors, indices, headers, parent);
 
       expect(ac.renderHeaderTemplate("stops")).to.contain("External Stops Header");
       expect(ac.renderHeaderTemplate("routes")).to.contain("Lines and Routes");
@@ -203,7 +203,7 @@ describe("AlgoliaAutocomplete", () => {
   describe("clickHighlightedOrFirstResult", () => {
     describe("when this._highlightedHit exists", () => {
       it("visits the highlightedHit url if higlightedHit is not null", () => {
-        const ac = new AlgoliaAutocomplete(selectors, indices, {}, parent);
+        const ac = new AlgoliaAutocomplete("id", selectors, indices, {}, parent);
         ac.init({});
         ac._highlightedHit = {
           index: indices[0],
@@ -223,7 +223,7 @@ describe("AlgoliaAutocomplete", () => {
     describe("when this._highlightedHit is null", () => {
       describe("and this._results has results", () => {
         it("visits the url of the first index's results that we get from AlgoliaResult.getUrl", () => {
-          const ac = new AlgoliaAutocomplete(selectors, ["stops", "locations"], {}, parent);
+          const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], {}, parent);
           ac.init({});
           ac._results = {
             stops: {
@@ -250,7 +250,7 @@ describe("AlgoliaAutocomplete", () => {
 
     describe("and this._results has no results", () => {
       it("does nothing", () => {
-        const ac = new AlgoliaAutocomplete(selectors, ["stops", "locations"], parent);
+        const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], parent);
         ac.init({});
         expect(Object.keys(ac._results)).to.have.members([]);
         expect(ac._highlightedHit).to.equal(null);
@@ -263,7 +263,7 @@ describe("AlgoliaAutocomplete", () => {
 
   describe("datasetSource", () => {
     it("returns a callback that performs a search", (done) => {
-      const ac = new AlgoliaAutocomplete(selectors, ["stops", "locations"], parent);
+      const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], parent);
       const client = new Algolia(queries, queryParams);
       client._sendQueries = sinon.stub();
       client._sendQueries.resolves({

@@ -29,7 +29,8 @@ export class AlgoliaHomepageSearch {
   init() {
     this._input.value = "";
     this._controller = new Algolia(AlgoliaHomepageSearch.INDICES, AlgoliaHomepageSearch.PARAMS);
-    this._autocomplete = new AlgoliaAutocompleteWithGeo(AlgoliaHomepageSearch.SELECTORS,
+    this._autocomplete = new AlgoliaAutocompleteWithGeo("homepage-autocomplete",
+                                                        AlgoliaHomepageSearch.SELECTORS,
                                                         Object.keys(AlgoliaHomepageSearch.INDICES),
                                                         {},
                                                         AlgoliaHomepageSearch.LOCATION_PARAMS,

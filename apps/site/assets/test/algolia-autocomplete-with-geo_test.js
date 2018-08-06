@@ -44,7 +44,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       position: 1,
       hitLimit: 3,
     };
-    this.ac = new AlgoliaAutocompleteWithGeo(selectors, indices, headers, locationsData, this.parent);
+    this.ac = new AlgoliaAutocompleteWithGeo("id", selectors, indices, headers, locationsData, this.parent);
     this.ac.init(this.client);
     $("#use-my-location-container").css("display", "none");
   });
