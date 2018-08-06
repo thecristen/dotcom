@@ -14,7 +14,7 @@ config :logger, level: :warn
 config :tzdata, :autoupdate, :disabled
 
 config :wallaby,
-  screenshot_on_failure: true,
+  screenshot_on_failure: false,
   driver: Wallaby.Experimental.Chrome,
   max_wait_time: 5_000,
   chrome: [

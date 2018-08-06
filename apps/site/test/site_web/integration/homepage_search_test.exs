@@ -22,7 +22,7 @@ defmodule SiteWeb.HomepageSearchTest do
 
       assert Wallaby.Browser.text(session, css(".c-search-result__header")) == "Pages and Documents"
       section = find(session, search_results_section(1))
-      assert_has(section, search_hits(7))
+      assert_has(section, css(".c-search-result__hit", minimum: 6))
       assert selected?(session, facet_checkbox("pages-parent"))
       assert selected?(session, facet_checkbox("page"))
       assert selected?(session, facet_checkbox("document"))

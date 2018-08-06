@@ -319,12 +319,12 @@ defmodule SiteWeb.GlobalSearchTest do
     end
 
     @tag :wallaby
-    test "does a search, checks off facets and loads show more", %{session: session} do
+    test "does a search, checks off facets and shows more", %{session: session} do
       session = visit(session, "/search?query=alewife&facets=pages-parent,page,document&showmore=pagesdocuments")
       assert attr(session, @search_input, "value") == "alewife"
       session = session
       |> assert_has(search_results_section(1))
-      |> assert_has(search_hits(7))
+      |> assert_has(css(".c-search-result__hit", minimum: 6))
       assert selected?(session, facet_checkbox("pages-parent"))
       assert selected?(session, facet_checkbox("page"))
       assert selected?(session, facet_checkbox("document"))
