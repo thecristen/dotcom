@@ -43,7 +43,7 @@ defmodule Fares do
     :ferry_cross_harbor
   end
   defp calculate_ferry(origin, destination)
-  when "Boat-Charlestown" in [origin, destination] and ("Boat-Long-South" in [origin, destination] or "Boat-Long" in [origin, destination]) do
+  when "Boat-Charlestown" in [origin, destination] and "Boat-Long-South" in [origin, destination] do
     :ferry_inner_harbor
   end
   defp calculate_ferry(origin, destination) when "Boat-Logan" in [origin, destination] do

@@ -45,7 +45,7 @@ defmodule FaresTest do
           expected_name = cond do
             has_logan? and has_charlestown? -> :ferry_cross_harbor
             has_long? and has_logan? -> :ferry_cross_harbor
-            (has_long_south? or has_long?) and has_charlestown? -> :ferry_inner_harbor
+            has_long_south? and has_charlestown? -> :ferry_inner_harbor
             has_logan? -> :commuter_ferry_logan
             true -> :commuter_ferry
           end

@@ -133,7 +133,7 @@ defmodule SiteWeb.StopControllerTest do
 
   test "assigns the terminal station for a ferry if there is only one possibility", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "Boat-Charlestown", tab: "info")
-    assert conn.assigns.terminal_stations[4] in ["Boat-Long-South", "Boat-Long"]
+    assert conn.assigns.terminal_stations[4] == "Boat-Long-South"
   end
 
   test "assigns an empty terminal station for a ferry if there are multiple possibilities", %{conn: conn} do
