@@ -735,6 +735,13 @@ defmodule SiteWeb.ScheduleViewTest do
     end
   end
 
+  describe "route_header_description/1" do
+    test "Uses long name for bus or Bus Route if it's missing" do
+      assert route_header_description(%Route{type: 3, name: "short", long_name: "long"}) == content_tag(:h2, "long", class: "schedule__description")
+      assert route_header_description(%Route{type: 3, name: "short", long_name: ""}) == content_tag(:h2, "Bus Route", class: "schedule__description")
+    end
+  end
+
   describe "route_header_class/1" do
     test "returns a line-specific background class for silver line and subway" do
       assert header_class(%Route{type: 3, id: "741"}) == "u-bg--silver-line"

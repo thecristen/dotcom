@@ -3,6 +3,7 @@ defmodule Routes.Route do
     id: "",
     type: 0,
     name: "",
+    long_name: "",
     direction_names: %{0 => "Outbound", 1 => "Inbound"},
     description: :unknown,
   ]
@@ -11,6 +12,7 @@ defmodule Routes.Route do
     id: id_t,
     type: 0..4,
     name: String.t,
+    long_name: String.t,
     direction_names: %{0 => String.t, 1 => String.t},
     description: gtfs_route_desc,
   }

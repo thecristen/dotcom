@@ -155,4 +155,8 @@ defmodule SiteWeb.AlertView do
   defp show_mode_icon?(%Route{name: name}) when name in ["Escalator", "Elevator", "Other"], do: false
   defp show_mode_icon?(%Route{type: type}) when type in [0, 1], do: true
   defp show_mode_icon?(_), do: false
+
+  @spec route_name(Route.t) :: String.t
+  def route_name(%Route{long_name: long_name, name: name, type: 3}), do: name <> ": " <> long_name
+  def route_name(%Route{name: name}), do: name
 end

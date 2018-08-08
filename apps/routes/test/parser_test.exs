@@ -62,6 +62,7 @@ defmodule Routes.ParserTest do
       }
       parsed = parse_route(item)
       assert parsed.name == "short"
+      assert parsed.long_name == "long"
     end
 
     test "prefers the long name for other routes" do

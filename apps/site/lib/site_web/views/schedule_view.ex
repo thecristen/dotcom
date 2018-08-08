@@ -265,7 +265,11 @@ defmodule SiteWeb.ScheduleView do
       ""
     else
       content_tag :h2, class: "schedule__description" do
-        "Bus Route"
+        if route.long_name == "" do
+          "Bus Route"
+        else
+          route.long_name
+        end
       end
     end
   end

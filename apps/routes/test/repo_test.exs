@@ -11,6 +11,7 @@ defmodule Routes.RepoTest do
         id: "Red",
         type: 1,
         name: "Red Line",
+        long_name: "Red Line",
         direction_names: %{0 => "Southbound", 1 => "Northbound"},
         description: :rapid_transit
       }
@@ -23,6 +24,7 @@ defmodule Routes.RepoTest do
         id: "Green-B",
         type: 0,
         name: "Green Line B",
+        long_name: "Green Line B",
         direction_names: %{0 => "Westbound", 1 => "Eastbound"},
         description: :rapid_transit
       }
@@ -35,6 +37,7 @@ defmodule Routes.RepoTest do
         id: "741",
         type: 3,
         name: "SL1",
+        long_name: "Silver Line SL1",
         description: :rapid_transit
       }
     end
