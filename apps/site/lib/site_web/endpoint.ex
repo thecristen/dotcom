@@ -12,7 +12,7 @@ defmodule SiteWeb.Endpoint do
     headers: %{"access-control-allow-origin" => "*"},
     cache_control_for_etags: "public, max-age=86400",
     only: ~w(css fonts images js robots.txt google778e4cfd8ca77f44.html),
-    only_matching: ~w(favicon)
+    only_matching: ~w(favicon apple-touch-icon)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
