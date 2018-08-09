@@ -45,22 +45,25 @@ describe("trip-plan", () => {
 
   describe("reverseTrip", () => {
     beforeEach( () => {
-      $ = jsdom.rerequire("jquery");
-      window.jQuery = jsdom.rerequire("jquery");
-      window.jQuery("body").append(`
-        <input class="location-input" data-autocomplete="true" id="from" name="plan[from]" placeholder="Ex: 10 Park Plaza" type="text" autocomplete="off">
-        <input type="hidden" id="from_latitude" name="plan[from_latitude]">
-        <input type="hidden" id="from_longitude" name="plan[from_longitude]">
-        <input class="location-input" data-autocomplete="true" id="to" name="plan[to]" placeholder="Ex: Boston Children's Museum" type="text" autocomplete="off">
-        <div id="trip-plan-reverse-control"></div>
-        <div id="trip-plan__required--to"></div>
-        <div id="trip-plan__required--from"></div>
-        <div id="trip-plan__reset--from"></div>
-        <div id="trip-plan__reset--to"></div>
-        <div id="powered-by-google-logo"></div>
-        <div id="trip-plan__submit"></div>
-        <input type="hidden" id="to_latitude" name="plan[to_latitude]">
-        <input type="hidden" id="to_longitude" name="plan[to_longitude]">
+      const $ = jsdom.rerequire("jquery");
+      window.$ = $
+      window.jQuery = $;
+      $("body").append(`
+        <form id="planner-form">
+          <input class="location-input" data-autocomplete="true" id="from" name="plan[from]" placeholder="Ex: 10 Park Plaza" type="text" autocomplete="off">
+          <input type="hidden" id="from_latitude" name="plan[from_latitude]">
+          <input type="hidden" id="from_longitude" name="plan[from_longitude]">
+          <input class="location-input" data-autocomplete="true" id="to" name="plan[to]" placeholder="Ex: Boston Children's Museum" type="text" autocomplete="off">
+          <div id="trip-plan-reverse-control"></div>
+          <div id="trip-plan__required--to"></div>
+          <div id="trip-plan__required--from"></div>
+          <div id="trip-plan__reset--from"></div>
+          <div id="trip-plan__reset--to"></div>
+          <div id="powered-by-google-logo"></div>
+          <div id="trip-plan__submit"></div>
+          <input type="hidden" id="to_latitude" name="plan[to_latitude]">
+          <input type="hidden" id="to_longitude" name="plan[to_longitude]">
+        </form>
       `);
     });
 

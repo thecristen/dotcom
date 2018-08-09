@@ -76,13 +76,15 @@ export class TripPlannerLocControls {
     this.autocompletes.forEach(ac => {
       ac.renderHeaderTemplate = () => {};
       ac.renderFooterTemplate = this.renderFooterTemplate;
-      ac.hasError = false;
+      ac.setError(null);
       ac.onHitSelected = this.onHitSelected(
         ac,
         document.getElementById(ac._selectors.lat),
         document.getElementById(ac._selectors.lng)
       );
-      ac._resetButton.addEventListener("click", () => { this.removeMarker(ac); });
+      ac._resetButton.addEventListener("click", () => {
+        this.removeMarker(ac);
+      });
       ac.showLocation = this.useMyLocation(ac);
     });
 
@@ -101,6 +103,10 @@ export class TripPlannerLocControls {
     this.swapMarkers = this.swapMarkers.bind(this);
     this.resetResetButtons = this.resetResetButtons.bind(this);
     this.useMyLocation = this.useMyLocation.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onInvalidAddress = this.onInvalidAddress.bind(this);
+    this.onAutocompleteShown = this.onAutocompleteShown.bind(this);
+    this.onInputReset = this.onInputReset.bind(this);
   }
 
   addExistingMarkers() {
@@ -125,57 +131,111 @@ export class TripPlannerLocControls {
   }
 
   setupFormValidation() {
-    document.getElementById("trip-plan__submit").addEventListener("click", ev => {
-      ev.preventDefault();
-      const missingFrom = document.getElementById("from").value === "";
-      const missingTo = document.getElementById("to").value === "";
-      if (missingFrom || missingTo) {
-        if (missingFrom) {
-          this.toggleError(this.fromAutocomplete, true);
-        }
-        if (missingTo) {
-          this.toggleError(this.toAutocomplete, true);
-        }
-      } else {
-        document.getElementById("planner-form").submit();
-      }
-    });
+    document
+      .getElementById("planner-form")
+      .addEventListener("submit", this.onSubmit);
 
     this.autocompletes.forEach(ac => {
-      document.getElementById(ac._selectors.input).addEventListener("change", this.onInputChange(ac));
-      document.getElementById(ac._selectors.input).addEventListener("input", this.onInputChange(ac));
+      document
+        .getElementById(ac._selectors.input)
+        .addEventListener("change", this.onInputChange(ac));
+      document
+        .getElementById(ac._selectors.input)
+        .addEventListener("input", this.onInputChange(ac));
     });
 
+    document.addEventListener("autocomplete:empty", this.onInvalidAddress);
+    document.addEventListener("autocomplete:shown", this.onAutocompleteShown);
+    window.$(document).on("autocomplete:reset", this.onInputReset);
+  }
+
+  onSubmit(ev) {
+    const missingFrom = document.getElementById("from").value === "";
+    const missingTo = document.getElementById("to").value === "";
+
+    if (
+      this.fromAutocomplete.error ||
+      this.toAutocomplete.error ||
+      missingFrom ||
+      missingTo
+    ) {
+      ev.preventDefault();
+
+      if (missingFrom) this.toggleError(this.fromAutocomplete, "missing");
+      if (missingTo) this.toggleError(this.toAutocomplete, "missing");
+
+      return false;
+    }
+    return true;
+  }
+
+  onAutocompleteShown({ srcElement }) {
+    if (srcElement && (srcElement.id === "from" || srcElement.id === "to")) {
+      const ac = this[`${srcElement.id}Autocomplete`];
+      this.toggleError(ac, null);
+    }
+  }
+
+  onInputReset(ev, { autocomplete }) {
+    if (
+      autocomplete.id === this.fromAutocomplete.id ||
+      autocomplete.id === this.toAutocomplete.id
+    ) {
+      this.toggleError(autocomplete, null);
+    }
   }
 
   onInputChange(ac) {
-    return (ev) => {
-      this.toggleError(ac, false);
+    return () => {
+      if (ac.error === "invalid") {
+        return;
+      }
+
+      this.toggleError(ac, null);
+    };
+  }
+
+  onInvalidAddress({ srcElement }) {
+    if (srcElement && (srcElement.id === "from" || srcElement.id === "to")) {
+      const ac = this[`${srcElement.id}Autocomplete`];
+      this.toggleError(ac, "invalid");
     }
   }
 
-  toggleError(ac, hasError) {
+  toggleError(ac, errorType) {
     const required = document.getElementById(ac._selectors.required);
     const container = document.getElementById(ac._selectors.container);
     const input = document.getElementById(ac._selectors.input);
-    if (hasError) {
-      container.classList.add("c-form__input-container--error");
-      required.classList.remove("m-trip-plan__hidden");
-      input.setAttribute("aria-invalid", "true");
-      ac.hasError = true;
-    } else {
-      container.classList.remove("c-form__input-container--error");
-      required.classList.add("m-trip-plan__hidden");
-      input.setAttribute("aria-invalid", "false");
-      ac.hasError = false;
+    if (required && container && input) {
+      if (errorType === "missing" || errorType === "invalid") {
+        container.classList.add("c-form__input-container--error");
+        required.classList.remove("m-trip-plan__hidden");
+        input.setAttribute("aria-invalid", "true");
+      } else if (errorType === null) {
+        container.classList.remove("c-form__input-container--error");
+        required.classList.add("m-trip-plan__hidden");
+        input.setAttribute("aria-invalid", "false");
+      } else {
+        throw new Error(`unrecognized error type: ${errorType}`);
+      }
+      ac.setError(errorType);
+      TripPlannerLocControls.updateErrorContent(ac);
     }
   }
 
-  removeMarker(ac) {
-    const $ = window.jQuery;
-    const label = ac._input.getAttribute("data-label");
-    const detail = { label };
-    $(document).trigger("trip-plan:remove-marker", { detail });
+  static updateErrorContent(ac) {
+    const errorContainer = document.getElementById(ac._selectors.locationError);
+
+    if (errorContainer) {
+      errorContainer.innerHTML = "";
+
+      if (ac.error === "invalid") {
+        const errorContent = document.createElement("span");
+        errorContent.innerHTML =
+          "We're sorry, but we couldn't find that address.";
+        errorContainer.appendChild(errorContent);
+      }
+    }
   }
 
   updateMarker(ac, lat, lng, title) {
@@ -184,10 +244,17 @@ export class TripPlannerLocControls {
     const detail = {
       latitude: lat,
       longitude: lng,
-      label: label,
-      title: title,
-    }
+      label,
+      title
+    };
     $(document).trigger("trip-plan:update-marker", { detail });
+  }
+
+  removeMarker(ac) {
+    const $ = window.jQuery;
+    const label = ac._input.getAttribute("data-label");
+    const detail = { label };
+    $(document).trigger("trip-plan:remove-marker", { detail });
   }
 
   resetResetButtons() {
@@ -224,7 +291,7 @@ export class TripPlannerLocControls {
         to
       );
     } else {
-      this.removeMarker(to)
+      this.removeMarker(to);
     }
   }
 
@@ -233,7 +300,7 @@ export class TripPlannerLocControls {
       document.getElementById(ac._selectors.lat).value = lat;
       document.getElementById(ac._selectors.lng).value = lng;
       this.updateMarker(ac, lat, lng, address);
-    }
+    };
   }
 
   onHitSelected(autocomplete, lat, lng) {
@@ -266,7 +333,7 @@ export class TripPlannerLocControls {
               hit.description
             );
           })
-          .catch(err => {
+          .catch(() => {
             // TODO: we should display an error here but NOT log to the console
           });
       }
@@ -274,7 +341,7 @@ export class TripPlannerLocControls {
   }
 
   renderFooterTemplate(indexName) {
-    if (indexName == "locations") {
+    if (indexName === "locations") {
       return AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
         logo: document.getElementById("powered-by-google-logo").innerHTML
       });
@@ -285,8 +352,8 @@ export class TripPlannerLocControls {
   reverseTrip() {
     const fromAc = this.fromAutocomplete;
     const toAc = this.toAutocomplete;
-    const fromError = fromAc.hasError;
-    const toError = toAc.hasError;
+    const fromError = fromAc.error;
+    const toError = toAc.error;
     const $ = window.jQuery;
     const from = fromAc.getValue();
     const to = toAc.getValue();
@@ -330,7 +397,8 @@ TripPlannerLocControls.SELECTORS = {
     resetButton: "trip-plan__reset--to",
     container: "trip-plan__container--to",
     locationLoadingIndicator: "trip-plan__loading-indicator--to",
-    required: "trip-plan__required--to"
+    required: "trip-plan__required--to",
+    locationError: "trip-plan__location-error--to"
   },
   from: {
     input: "from",
@@ -339,7 +407,8 @@ TripPlannerLocControls.SELECTORS = {
     resetButton: "trip-plan__reset--from",
     container: "trip-plan__container--from",
     locationLoadingIndicator: "trip-plan__loading-indicator--from",
-    required: "trip-plan__required--from"
+    required: "trip-plan__required--from",
+    locationError: "trip-plan__location-error--from"
   },
   map: "trip-plan-map--initial"
 };

@@ -69,5 +69,18 @@ defmodule TripPlanIntegrationTest do
       click(session, css("#main"))
       assert Browser.text(session, @title) =~ "Arrive by 10:"
     end
+
+    @tag :wallaby
+    test "invalid address triggers invalid address error", %{session: session} do
+      session = visit(session, "/trip-planner")
+      location_error = css("#trip-plan__location-error--from")
+      refute visible?(session, location_error)
+      Browser.fill_in(session, css("#from"), with: "adsflaiuglsdfgaflksdjf;")
+      assert visible?(session, location_error)
+
+      # resetting form hides the error
+      click(session, css("#trip-plan__reset--from"))
+      refute visible?(session, location_error)
+    end
   end
 end

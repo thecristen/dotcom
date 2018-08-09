@@ -11,9 +11,10 @@
 %>
 <div id="trip-plan__search--from" class="c-search-bar">
   <label for="from" class="c-search-bar__header" id="trip-plan__label--from">
-    From <span id="trip-plan__required--from" class="m-trip-plan__required m-trip-plan__hidden">(Required)</span>
+    From
+    <%= content_tag(:span, "(Required)", id: "trip-plan__required--from", class: "m-trip-plan__required#{if from_error === "", do: " m-trip-plan__hidden"}") %>
   </label>
-  <div id="trip-plan__container--from" class="c-form__input-container">
+  <div id="trip-plan__container--from" class="c-form__input-container<%= if from_error === "" do "" else " c-form__input-container--error" end %>">
     <span class="m-trip-plan__input-label">A</span>
     <input type="text" id="from" data-label="A" class="c-form__input m-trip-plan__location-input js-form__input" placeholder="Enter station name or location" name="plan[from]" value="<%= @parent_form.params["from"] %>"></input>
     <input id="from_latitude" name="plan[from_latitude]" type="hidden" value="<%= @parent_form.params["from_latitude"] %>">
@@ -23,18 +24,19 @@
   </div>
   <div id="trip-plan__search--from__autocomplete" class="c-search-bar__results"></div>
   <div id="trip-plan__search--from__results" class="c-search-bar__results"></div>
+  <div id="trip-plan__location-error--from" class="m-trip-plan__location-error location-error"><%= from_error %></div>
 </div>
-<div class="location-error"><%= from_error %></div>
 
 <div id="trip-plan__search--to" class="c-search-bar">
   <label for="to" class="c-search-bar__header m-trip-plan__label--to" id="trip-plan__label--to">
-    To&nbsp;<span id="trip-plan__required--to" class="m-trip-plan__required m-trip-plan__hidden">(Required)</span>
+    To&nbsp;
+    <%= content_tag(:span, "(Required)", id: "trip-plan__required--to", class: "m-trip-plan__required#{if to_error === "", do: " m-trip-plan__hidden"}") %>
     <div id="trip-plan-reverse-control" class="m-trip-plan__reverse-control">
       <%= fa "long-arrow-down" %>
       <%= fa "long-arrow-up" %>
     </div>
   </label>
-  <div id="trip-plan__container--to" class="c-form__input-container">
+  <div id="trip-plan__container--to" class="c-form__input-container<%= if to_error === "" do "" else " c-form__input-container--error" end %>">
     <span class="m-trip-plan__input-label">B</span>
     <input type="text" id="to" data-label="B" class="c-form__input m-trip-plan__location-input js-form__input" placeholder="Enter station name or location" name="plan[to]" value="<%= @parent_form.params["to"] %>"></input>
     <input id="to_latitude" name="plan[to_latitude]" type="hidden" value="<%= @parent_form.params["to_latitude"] %>">
@@ -44,8 +46,8 @@
   </div>
   <div id="trip-plan__search--to__autocomplete" class="c-search-bar__results"></div>
   <div id="trip-plan__search--to__results" class="c-search-bar__results"></div>
+  <div id="trip-plan__location-error--to" class="m-trip-plan__location-error location-error"><%= to_error %></div>
 </div>
-<div class="location-error"><%= to_error %></div>
 
 <div id="algolia-error" class="c-search__error">
   There was a problem performing your search; please try again in a few minutes.

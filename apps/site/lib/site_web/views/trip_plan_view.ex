@@ -81,7 +81,7 @@ defmodule SiteWeb.TripPlanView do
   @spec do_render_location_error(Plug.Conn.t(), :from | :to, TripPlan.Geocode.error()) ::
           Phoenix.HTML.Safe.t()
   defp do_render_location_error(_conn, _field, :no_results) do
-    "That address was not found. Please try a different address."
+    "We're sorry, but we couldn't find that address."
   end
 
   defp do_render_location_error(conn, field, {:multiple_results, results}) do

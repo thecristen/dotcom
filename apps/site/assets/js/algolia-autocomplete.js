@@ -8,6 +8,7 @@ export class AlgoliaAutocomplete {
     }
     this.id = id;
     this._parent = parent;
+    this.error = null;
     this._selectors = Object.assign(selectors, {
       resultsContainer: selectors.input + "-autocomplete-results"
     });
@@ -41,6 +42,16 @@ export class AlgoliaAutocomplete {
     this._toggleResetButton(false);
     this._client.reset();
     this._input.focus();
+
+    //
+    //  To access the autocomplete object sent with this event, use:
+    //
+    //   $(document).on("autocomplete:reset", (ev, { autocomplete }) => {})
+    //
+    // The extra data argument is not passed to
+    // listeners set by document.addEventListener.
+    //
+    window.$(document).trigger("autocomplete:reset", { autocomplete: this });
   }
 
   init(client) {
@@ -82,6 +93,10 @@ export class AlgoliaAutocomplete {
 
   resetResetButton() {
     this._toggleResetButton(this._autocomplete.autocomplete.getVal() !== "");
+  }
+
+  setError(error) {
+    this.error = error;
   }
 
   _addListeners() {
