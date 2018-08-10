@@ -37,7 +37,7 @@ defmodule Routes.RepoTest do
         id: "741",
         type: 3,
         name: "SL1",
-        long_name: "Silver Line SL1",
+        long_name: "Logan Airport - South Station",
         description: :rapid_transit
       }
     end
@@ -49,6 +49,7 @@ defmodule Routes.RepoTest do
         id: "23",
         type: 3,
         name: "23",
+        long_name: "Ashmont - Ruggles via Washington Street",
         description: :key_bus_route
       }
     end
