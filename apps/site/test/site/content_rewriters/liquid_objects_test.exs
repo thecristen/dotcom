@@ -20,10 +20,21 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
       assert replace(~s(mbta-circle-icon "bus")) == make_svg(:bus)
       assert replace(~s(mbta-circle-icon "ferry")) == make_svg(:ferry)
       assert replace(~s(mbta-circle-icon "t-logo")) == make_t_logo()
+      assert replace(~s(mbta-circle-icon "subway-red")) == make_svg(:red_line)
+      assert replace(~s(mbta-circle-icon "subway-orange")) == make_svg(:orange_line)
+      assert replace(~s(mbta-circle-icon "subway-blue")) == make_svg(:blue_line)
+      assert replace(~s(mbta-circle-icon "subway-green")) == make_svg(:green_line)
+      assert replace(~s(mbta-circle-icon "subway-green-b")) == make_svg(:green_line_b)
+      assert replace(~s(mbta-circle-icon "subway-green-c")) == make_svg(:green_line_c)
+      assert replace(~s(mbta-circle-icon "subway-green-d")) == make_svg(:green_line_d)
+      assert replace(~s(mbta-circle-icon "subway-green-e")) == make_svg(:green_line_e)
+      assert replace(~s(mbta-circle-icon "the-ride")) == make_svg(:the_ride)
+      assert replace(~s(icon:accessible)) == make_svg(:access)
+      assert replace(~s(icon:parking)) == make_svg(:parking_lot)
     end
 
     test "it handles unknown mbta icons" do
-      assert replace(~s(mbta-circle-icon "unknown")) == ~s({{ mbta-circle-icon "unknown" }})
+      assert replace(~s(mbta-circle-icon "foobar")) == ~s({{ unknown icon "foobar" }})
     end
 
     test "it replaces an app badge" do
@@ -32,7 +43,7 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
     end
 
     test "it handles unknown badges" do
-      assert replace(~s(app-badge "unknown")) == ~s({{ app-badge "unknown" }})
+      assert replace(~s(app-badge "foobar")) == ~s({{ unknown app badge "foobar" }})
     end
 
     test "it handles simple fare requests" do

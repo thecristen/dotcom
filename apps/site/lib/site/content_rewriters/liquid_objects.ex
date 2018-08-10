@@ -27,6 +27,9 @@ defmodule Site.ContentRewriters.LiquidObjects do
   def replace("mbta-circle-icon " <> icon) do
     mbta_svg_icon_replace(icon)
   end
+  def replace("icon:" <> icon) do
+    mbta_svg_icon_replace(icon)
+  end
   def replace("app-badge " <> badge) do
     app_svg_badge_replace(badge)
   end
@@ -70,14 +73,25 @@ defmodule Site.ContentRewriters.LiquidObjects do
 
   defp mbta_svg_icon("commuter-rail"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail})
   defp mbta_svg_icon("subway"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :subway})
+  defp mbta_svg_icon("subway-red"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :red_line})
+  defp mbta_svg_icon("subway-orange"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :orange_line})
+  defp mbta_svg_icon("subway-blue"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :blue_line})
+  defp mbta_svg_icon("subway-green"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :green_line})
+  defp mbta_svg_icon("subway-green-b"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :green_line_b})
+  defp mbta_svg_icon("subway-green-c"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :green_line_c})
+  defp mbta_svg_icon("subway-green-d"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :green_line_d})
+  defp mbta_svg_icon("subway-green-e"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :green_line_e})
   defp mbta_svg_icon("bus"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :bus})
+  defp mbta_svg_icon("the-ride"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :the_ride})
   defp mbta_svg_icon("ferry"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry})
+  defp mbta_svg_icon("accessible"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :access})
+  defp mbta_svg_icon("parking"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :parking_lot})
   defp mbta_svg_icon("t-logo"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :t_logo})
-  defp mbta_svg_icon(unknown), do: raw(~s({{ mbta-circle-icon "#{unknown}" }}))
+  defp mbta_svg_icon(unknown), do: raw(~s({{ unknown icon "#{unknown}" }}))
 
   defp app_svg_badge("apple"), do: SiteWeb.ViewHelpers.svg("badge-apple-store.svg")
   defp app_svg_badge("google"), do: SiteWeb.ViewHelpers.svg("badge-google-play.svg")
-  defp app_svg_badge(unknown), do: raw(~s({{ app-badge "#{unknown}" }}))
+  defp app_svg_badge(unknown), do: raw(~s({{ unknown app badge "#{unknown}" }}))
 
   defp fare_filter("subway:charlie_card"), do: [mode: :subway, includes_media: :charlie_card, duration: :single_trip]
   defp fare_filter("subway:cash"), do: [mode: :subway, includes_media: :cash, duration: :single_trip]

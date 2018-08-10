@@ -87,7 +87,8 @@ defmodule SiteWeb.PartialViewTest do
       assert title(%Routes.Route{id: "Red"}) == "Red Line"
       assert title(%Routes.Route{id: "Blue"}) == "Blue Line"
       assert title(%Routes.Route{id: "Mattapan"}) == "Mattapan Trolley"
-      assert title(%Routes.Route{id: "Green-B"}) == "Green Line"
+      assert title(%Routes.Route{id: "Green"}) == "Green Line"
+      assert title(%Routes.Route{id: "Green-B"}) == "Green Line B"
       assert title(%Routes.Route{type: 4}) == "Ferry"
     end
 
