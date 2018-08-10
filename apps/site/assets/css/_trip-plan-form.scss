@@ -13,8 +13,15 @@
   width: 100%;
 
   @include media-breakpoint-up(md) {
-    @include make-col-span(4);
     padding-right: .9375rem;
+  }
+
+  @include media-breakpoint-only(md) {
+    @include make-col-span(5);
+  }
+
+  @include media-breakpoint-up(lg) {
+    @include make-col-span(4);
   }
 
   @media print {
@@ -23,6 +30,7 @@
 }
 
 .m-trip-plan__submit {
+  font-size: inherit;
   padding: $base-spacing / 2;
   width: 100%;
 }
@@ -48,21 +56,6 @@
   }
 }
 
-.plan-datetime-link {
-  background: transparent;
-  border: 0;
-  color: $brand-primary;
-  text-decoration: underline;
-}
-
-.plan-time-input-select {
-  display: inline-block;
-}
-
-.plan-time {
-  display: inline-block;
-}
-
 .m-trip-plan__form-container {
   margin-top: 0;
   @include media-breakpoint-up(md) {
@@ -83,18 +76,56 @@
   border-top: 0;
 }
 
-.date-time-select {
-  select {
-    background-color: $white;
-    border: $border;
-    border-radius: $space-4;
-    display: inline;
+// Usually hidden by javascript
+.plan-date-select {
+  margin-top: $space-6;
+
+  .c-select {
+    border-radius: $base-spacing / 4;
+    min-width: 33%;
   }
 }
 
-.plan-date-select,
+.plan-date-input {
+  border: 1px solid $brand-primary;
+  border-radius: $base-spacing / 4;
+  font-size: inherit;
+  padding: $base-spacing / 2;
+  text-overflow: ellipsis;
+}
+
 .plan-time-select {
-  display: inline-block;
+
+  > .c-select {
+    border-radius: $base-spacing / 4;
+    margin-right: 5px;
+    min-width: 3.75rem;
+  }
+
+  > .plan-date-time-am-pm {
+    margin: 0;
+    min-width: 4.125rem;
+  }
+}
+
+.m-trip-plan__time-input-label,
+.m-trip-plan__calendar-input-label {
+  display: block;
+  max-width: 100%;
+}
+
+.m-trip-plan__calendar-input-icon {
+  padding-right: $base-spacing;
+
+  // Special "inside input" snowflake
+  position: absolute;
+  right: 0;
+  top: 27.5%;
+
+  [class*="c-svg__icon-calendar-default"] {
+    height: 1rem;
+    width: 1rem;
+  }
 }
 
 .planner-location-box-location {
@@ -127,6 +158,11 @@
   font-size: $font-size-h3;
   font-weight: bold;
   margin-left: $base-spacing / 2;
+}
+
+.m-trip-plan__label--to {
+  display: flex;
+  justify-content: flex-start;
 }
 
 .c-form__input-container--error {

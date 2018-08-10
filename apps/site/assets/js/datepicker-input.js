@@ -6,14 +6,14 @@ export default class DatePickerInput {
   }
 
   init() {
-    const $dateInput = $(`#${this.selectors.dateEl.input}`); // Must use JQuery for the datepicker plugin
+    this.dateInput = $(`#${this.selectors.dateEl.input}`); // Must use JQuery for the datepicker plugin
     const dateLabel = document.getElementById(this.selectors.dateEl.label);
     const actualMonth = parseInt(
       document.getElementById(this.selectors.month).value,
       10
     );
-    const minAllowedDate = $dateInput.data("min-date");
-    const maxAllowedDate = $dateInput.data("max-date");
+    const minAllowedDate = this.dateInput.data("min-date");
+    const maxAllowedDate = this.dateInput.data("max-date");
     const date = new Date(
       document.getElementById(this.selectors.year).value,
       actualMonth - 1,
@@ -22,8 +22,10 @@ export default class DatePickerInput {
 
     dateLabel.setAttribute("data-date", DatePickerInput.getShortDate(date));
 
-    $dateInput.datepicker({
-      outputFormat: "EEEE, MMMM dd, yyyy",
+    this.updateDateFormatToShort = this.updateDateFormatToShort.bind(this);
+    this.updateDateFormatToLong = this.updateDateFormatToLong.bind(this);
+    this.dateInput.datepicker({
+      outputFormat: DatePickerInput.getDateFormatbyMediaQuery(),
       onUpdate: this.updateDate.bind(this),
       min: minAllowedDate,
       max: maxAllowedDate
@@ -56,8 +58,53 @@ export default class DatePickerInput {
       $(`#${this.selectors.dateEl.input}`).datepicker("show"); // jQuery plugin that requires this syntax
     });
 
-    $dateInput.datepicker("setDate", date);
-    $dateInput.datepicker("update");
+    window
+      .matchMedia("(min-width: 1344px)")
+      .addListener(this.updateDateFormatToLong);
+
+    window
+      .matchMedia("(min-width: 1087px) and (max-width: 1344px)")
+      .addListener(this.updateDateFormatToShort);
+
+    window
+      .matchMedia("(min-width: 800px) and (max-width: 1087px)")
+      .addListener(this.updateDateFormatToShort);
+
+    window
+      .matchMedia("(min-width: 544px) and (max-width: 800px)")
+      .addListener(this.updateDateFormatToLong);
+
+    window
+      .matchMedia("(max-width: 544px)")
+      .addListener(this.updateDateFormatToShort);
+
+    this.dateInput.datepicker("setDate", date);
+    this.dateInput.datepicker("update");
+  }
+
+  static getDateFormatbyMediaQuery() {
+    if (window.matchMedia("(min-width: 1344px)").matches) {
+      return "EEEE, MMMM dd, yyyy";
+    }
+    if (
+      window.matchMedia("(min-width: 544px) and (max-width: 800px)").matches
+    ) {
+      return "EEEE, MMMM dd, yyyy";
+    }
+    return "EE, MMMM dd, yyyy";
+  }
+
+  updateDateFormatToShort(e) {
+    return e.matches ? this.setDatePickerFormat("EE, MMMM dd, yyyy") : false;
+  }
+
+  updateDateFormatToLong(e) {
+    return e.matches ? this.setDatePickerFormat("EEEE, MMMM dd, yyyy") : false;
+  }
+
+  setDatePickerFormat(format) {
+    this.dateInput.datepicker("outputFormat", format);
+    this.dateInput.datepicker("update");
   }
 
   updateDate(datepickerDate) {
@@ -68,7 +115,7 @@ export default class DatePickerInput {
     dateLabel.setAttribute("aria-label", `${datepickerDate}, ${ariaMessage}`);
     this.updateDateSelects(date);
 
-    $(`#${this.selectors.dateEl.input}`).datepicker("hide");
+    this.dateInput.datepicker("hide");
     this.onUpdateCallback();
   }
 

@@ -8,7 +8,11 @@
   padding: 0;
   width: 100%;
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-only(md) {
+    @include make-col-span(7);
+  }
+
+  @include media-breakpoint-up(lg) {
     @include make-col-span(8);
   }
 
@@ -259,37 +263,11 @@
   margin-bottom: 0;
 }
 
-.m-trip-plan__label--to {
-  display: flex;
-  justify-content: flex-start;
-}
-
 .m-trip-plan__reverse-control {
   color: $brand-primary;
   cursor: pointer;
   margin-left: auto;
   user-select: none;
-}
-
-.m-trip-plan__calendar-input-label {
-  display: block;
-  max-width: 100%;
-}
-
-.m-trip-plan__calendar-input-icon {
-  padding-right: .5rem;
-
-  // Special "inside input" snowflake
-  position: absolute;
-  right: 0;
-  top: 22.5%;
-
-  [class*="c-svg__icon-calendar-default"] {
-    svg {
-      height: 1rem;
-      width: 1rem;
-    }
-  }
 }
 
 .m-trip-plan__error {
@@ -301,7 +279,6 @@
 
   &--title {
     background-color: $form-error-message;
-    font-size: $font-size-base;
     font-weight: bold;
   }
 }

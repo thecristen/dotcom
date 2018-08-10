@@ -341,11 +341,11 @@ defmodule SiteWeb.TripPlanView do
       :div,
       [
         content_tag(:label, "Month", for: "plan_date_time_month", class: "sr-only"),
-        field.(:month, []),
+        field.(:month, class: "c-select"),
         content_tag(:label, "Day", for: "plan_date_time_day", class: "sr-only"),
-        field.(:day, []),
+        field.(:day,  class: "c-select"),
         content_tag(:label, "Year", for: "plan_date_time_year", class: "sr-only"),
-        field.(:year, [])
+        field.(:year,  class: "c-select")
       ],
       class: "plan-date-select hidden-js",
       id: "plan-date-select"
@@ -364,7 +364,7 @@ defmodule SiteWeb.TripPlanView do
           :label,
           [],
           id: "plan-time-label",
-          class: "plan-time-label",
+          class: "m-trip-plan__time-input-label",
           for: "plan-time-input",
           name: "Time",
           aria_label: aria_label
@@ -385,10 +385,9 @@ defmodule SiteWeb.TripPlanView do
       :div,
       [
         content_tag(:label, "Hour", for: "plan_date_time_hour", class: "sr-only"),
-        field.(:hour, []),
-        ":",
+        field.(:hour, [class: "c-select"]),
         content_tag(:label, "Minute", for: "plan_date_time_minute", class: "sr-only"),
-        field.(:minute, []),
+        field.(:minute, [class: "c-select"]),
         " ",
         content_tag(:label, "AM or PM", for: "plan_date_time_am_pm", class: "sr-only"),
         select(
@@ -397,7 +396,8 @@ defmodule SiteWeb.TripPlanView do
           [AM: "AM", PM: "PM"],
           selected: Timex.format!(datetime, "{AM}"),
           name: "plan[date_time][am_pm]",
-          id: "plan_date_time_am_pm"
+          id: "plan_date_time_am_pm",
+          class: "c-select plan-date-time-am-pm"
         )
       ],
       class: "plan-time-select",
