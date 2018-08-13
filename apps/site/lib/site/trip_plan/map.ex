@@ -130,13 +130,27 @@ defmodule Site.TripPlan.Map do
     |> Marker.new(Position.longitude(leg_position), opts)
   end
 
-  defp stop_icon_name(%{current: idx, start: idx}), do: "map-pin"
-  defp stop_icon_name(%{current: idx, end: idx}), do: "map-pin"
-  defp stop_icon_name(%{}), do: MapHelpers.map_stop_icon_path(:mid, false)
+  @type index_map :: %{
+    required(:current) => integer,
+    required(:start) => integer,
+    required(:end) => integer
+  }
 
-  defp stop_icon_label(%{current: idx, start: idx}), do: do_stop_icon_label("A")
-  defp stop_icon_label(%{current: idx, end: idx}), do: do_stop_icon_label("B")
-  defp stop_icon_label(%{}), do: nil
+  @doc """
+  Simplified name for the icon type; used by javascript to fetch the full SVG.
+  """
+  @spec stop_icon_name(index_map) ::String.t
+  def stop_icon_name(%{current: idx, start: idx}), do: "map-pin"
+  def stop_icon_name(%{current: idx, end: idx}), do: "map-pin"
+  def stop_icon_name(%{}), do: MapHelpers.map_stop_icon_path(:mid, false)
+
+  @doc """
+  Text to display inside of the icon.
+  """
+  @spec stop_icon_label(index_map) :: Marker.Label.t | nil
+  def stop_icon_label(%{current: idx, start: idx}), do: do_stop_icon_label("A")
+  def stop_icon_label(%{current: idx, end: idx}), do: do_stop_icon_label("B")
+  def stop_icon_label(%{}), do: nil
 
   defp do_stop_icon_label(text) do
     %Marker.Label{
@@ -148,8 +162,13 @@ defmodule Site.TripPlan.Map do
     }
   end
 
-  defp stop_icon_size("map-pin"), do: :large
-  defp stop_icon_size(_), do: :mid
+  @doc """
+  Atom representing the size to use for the icon.
+  Used by javascript to generate the full SVG.
+  """
+  @spec stop_icon_size(String.t) :: :mid | :large
+  def stop_icon_size("map-pin"), do: :large
+  def stop_icon_size(_), do: :mid
 
   @spec leg_color(Leg.t, route_mapper) :: String.t
   defp leg_color(%Leg{mode: %TransitDetail{route_id: route_id}}, route_mapper) do

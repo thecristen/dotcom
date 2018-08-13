@@ -1,6 +1,7 @@
 defmodule SiteWeb.TripPlanControllerTest do
   use SiteWeb.ConnCase, async: true
   alias Site.TripPlan.Query
+  alias TripPlan.NamedPosition
   import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
   doctest SiteWeb.TripPlanController
 
@@ -377,6 +378,30 @@ defmodule SiteWeb.TripPlanControllerTest do
                    }}))
                  |> html_response(200)
       assert [_itinerary1, _itinerary2, _itinerary3] = Floki.find(afternoon, ".terminus-circle .fa-check")
+    end
+  end
+
+  describe "add_initial_map_markers/2" do
+    test "adds a map marker if address has a lat/lng", %{conn: conn} do
+      query = %Query{
+        to: {:ok, %NamedPosition{
+          latitude: 42.1234,
+          longitude: -71.4567,
+          name: "To position"
+        }},
+        from: {:error, :no_results},
+        itineraries: [],
+      }
+
+      initial_data = Site.TripPlan.Map.initial_map_data()
+      assert initial_data.markers === []
+
+      assert %{assigns: %{initial_map_data: map}} =
+        conn
+        |> assign(:initial_map_data, initial_data)
+        |> SiteWeb.TripPlanController.add_initial_map_markers(query)
+
+      assert [%GoogleMaps.MapData.Marker{}] = map.markers
     end
   end
 end

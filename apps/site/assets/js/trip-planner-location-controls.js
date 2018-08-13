@@ -93,7 +93,6 @@ export class TripPlannerLocControls {
     document
       .getElementById("trip-plan-reverse-control")
       .addEventListener("click", this.reverseTrip);
-    this.addExistingMarkers();
     this.setupFormValidation();
   }
 
@@ -107,27 +106,6 @@ export class TripPlannerLocControls {
     this.onInvalidAddress = this.onInvalidAddress.bind(this);
     this.onAutocompleteShown = this.onAutocompleteShown.bind(this);
     this.onInputReset = this.onInputReset.bind(this);
-  }
-
-  addExistingMarkers() {
-    const fromAc = this.fromAutocomplete;
-    const toAc = this.toAutocomplete;
-    const $ = window.jQuery;
-    const from = fromAc.getValue();
-    const to = toAc.getValue();
-    const fromLat = $("#from_latitude").val();
-    const fromLng = $("#from_longitude").val();
-    const toLat = $("#to_latitude").val();
-    const toLng = $("#to_longitude").val();
-    fromAc.setValue(from);
-    toAc.setValue(to);
-    if (fromLat && fromLng) {
-      this.updateMarker(fromAc, fromLat, fromLng, from);
-    }
-    if (toLat && toLng) {
-      this.updateMarker(toAc, toLat, toLng, to);
-    }
-    this.resetResetButtons();
   }
 
   setupFormValidation() {

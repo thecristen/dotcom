@@ -3,6 +3,8 @@ defmodule SiteWeb.TripPlanController do
   alias Site.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap
   alias TripPlan.Itinerary
+  alias GoogleMaps.{MapData, MapData.Marker}
+  alias TripPlan.NamedPosition
 
   plug :require_google_maps
   plug :assign_initial_map
@@ -39,13 +41,16 @@ defmodule SiteWeb.TripPlanController do
     route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
     itinerary_row_lists = itinerary_row_lists(itineraries, route_mapper, plan)
-    render conn,
+    conn
+    |> add_initial_map_markers(query)
+    |> render([
       query: query,
       plan_error: plan_error,
       routes: Enum.map(itineraries, &routes_for_itinerary(&1, route_mapper)),
       itinerary_maps: Enum.map(itineraries, &TripPlanMap.itinerary_map(&1, route_mapper: route_mapper)),
       related_links: Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1, route_by_id: route_mapper)),
       itinerary_row_lists: itinerary_row_lists
+    ])
   end
 
   @spec validate_params(map) :: {:ok, NaiveDateTime.t} | {:error, map}
@@ -151,6 +156,51 @@ defmodule SiteWeb.TripPlanController do
     |> assign(:initial_map_src, TripPlanMap.initial_map_src())
     |> assign(:initial_map_data, TripPlanMap.initial_map_data())
   end
+
+  @doc """
+  Adds markers to the initial map in the case where there was an error retrieving
+  results, but at least one of the inputs resolved to an address with a lat/lng.
+  """
+  @spec add_initial_map_markers(Plug.Conn.t, Query.t) :: Plug.Conn.t
+  def add_initial_map_markers(%Plug.Conn{assigns: %{initial_map_data: map}} = conn, query) do
+    map_with_markers =
+      map
+      |> add_initial_map_marker(query, :to)
+      |> add_initial_map_marker(query, :from)
+    assign(conn, :initial_map_data, map_with_markers)
+  end
+
+  @spec add_initial_map_marker(MapData.t, Query.t, :to | :from) :: MapData.t
+  defp add_initial_map_marker(%MapData{} = map, %Query{} = query, field) when field in [:to, :from] do
+    query
+    |> Map.get(field)
+    |> do_add_initial_map_marker(map, field)
+  end
+
+  @spec do_add_initial_map_marker({:ok, NamedPosition.t} | {:error, atom}, MapData.t, :to | :from) :: MapData.t
+  defp do_add_initial_map_marker({:error, _}, %MapData{} = map, _) do
+    map
+  end
+  defp do_add_initial_map_marker({:ok, %NamedPosition{} = pos}, %MapData{} = map, field) do
+    index_map = marker_index_map(field)
+
+    icon_name = Site.TripPlan.Map.stop_icon_name(index_map)
+
+    marker = Marker.new(pos.latitude, pos.longitude, [
+      id: "marker-" <> Atom.to_string(field),
+      icon: icon_name,
+      size: Site.TripPlan.Map.stop_icon_size(icon_name),
+      label: Site.TripPlan.Map.stop_icon_label(index_map),
+      tooltip: pos.name,
+      z_index: 0,
+    ])
+
+    MapData.add_marker(map, marker)
+  end
+
+  @spec marker_index_map(:from | :to) :: Site.TripPlan.Map.index_map
+  defp marker_index_map(:from), do: %{start: 0, current: 0}
+  defp marker_index_map(:to), do: %{current: 1, end: 1}
 
   @spec modes(Plug.Conn.t, Keyword.t) :: Plug.Conn.t
   def modes(%Plug.Conn{params: %{"plan" => %{"modes" => modes}}} = conn, _) do

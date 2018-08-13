@@ -6,35 +6,48 @@ defmodule GoogleMaps.Geocode do
 
   @type t :: {:ok, nonempty_list(Address.t)} | {:error, :zero_results | :internal_error}
 
+  @bounds %{
+    east: 41.3193,
+    north: -71.9380,
+    west: 42.8266,
+    south: -69.6189
+  }
+
   @spec geocode(String.t) :: t
   def geocode(address) when is_binary(address) do
     cache address, fn address ->
       address
       |> geocode_url
-      |> GoogleMaps.signed_url
-      |> HTTPoison.get
+      |> GoogleMaps.signed_url()
+      |> HTTPoison.get()
       |> parse_google_response(address)
     end
   end
 
   defp geocode_url(address) do
-    "/maps/api/geocode/json?#{URI.encode_query([address: address])}"
+    URI.to_string(%URI{
+      path: "/maps/api/geocode/json",
+      query: URI.encode_query([
+        address: address,
+        bounds: "#{@bounds.east},#{@bounds.north}|#{@bounds.west},#{@bounds.south}"
+      ])
+    })
   end
 
   defp parse_google_response({:error, error}, input_address) do
     internal_error(input_address, "HTTP error", fn -> "error=#{inspect error}" end)
   end
   defp parse_google_response({:ok, %{status_code: 200, body: body}}, input_address) do
-      case Poison.Parser.parse(body) do
-        {:error, :invalid} ->
-          internal_error(input_address, "Error parsing to JSON",
-                         fn -> "body=#{inspect body}" end)
-        {:error, {:invalid, parse_error_message}} ->
-          internal_error(input_address, "Error parsing to JSON",
-                         fn -> "body=#{inspect body} error_message=#{inspect parse_error_message}" end)
-        {:ok, json} ->
-          parse_json(json, input_address)
-      end
+    case Poison.Parser.parse(body) do
+      {:error, :invalid} ->
+        internal_error(input_address, "Error parsing to JSON",
+                        fn -> "body=#{inspect body}" end)
+      {:error, {:invalid, parse_error_message}} ->
+        internal_error(input_address, "Error parsing to JSON",
+                        fn -> "body=#{inspect body} error_message=#{inspect parse_error_message}" end)
+      {:ok, json} ->
+        parse_json(json, input_address)
+    end
   end
   defp parse_google_response({:ok, %{status_code: code, body: body}}, input_address) do
     internal_error(input_address, "Unexpected HTTP code", fn -> "code=#{inspect code} body=#{inspect body}" end)
