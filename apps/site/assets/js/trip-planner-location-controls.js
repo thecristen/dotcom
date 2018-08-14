@@ -327,7 +327,9 @@ export class TripPlannerLocControls {
     return null;
   }
 
-  reverseTrip() {
+  reverseTrip(e) {
+    // Prevent default click behavior bc the target area overlaps with the dropdown
+    e.preventDefault();
     const fromAc = this.fromAutocomplete;
     const toAc = this.toAutocomplete;
     const fromError = fromAc.error;
