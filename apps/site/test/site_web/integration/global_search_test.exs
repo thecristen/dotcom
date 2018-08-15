@@ -282,9 +282,9 @@ defmodule SiteWeb.GlobalSearchTest do
         |> assert_has(search_results_section(:any))
         |> assert_has(css(".c-search-result__link", count: :any))
 
-      [first_link | _]  = find(session, css(".c-search-result__link", count: :any))
+      first_link = Wallaby.Query.link("Community College", count: :any, at: 0)
 
-      Wallaby.Element.click(first_link)
+      click(session, first_link)
       assert_has(session, css(".stations-address"))
 
       url = current_url(session)

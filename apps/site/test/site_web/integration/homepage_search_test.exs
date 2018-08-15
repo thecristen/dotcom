@@ -114,7 +114,7 @@ defmodule SiteWeb.HomepageSearchTest do
       |> fill_in(@search_input, with: "Alewife")
       |> assert_has(css(".c-search-bar__-dataset-stops"))
 
-    click(session, Wallaby.Query.link("Alewife"))
+    click(session, Wallaby.Query.link("Alewife", count: :any, at: 0))
 
     assert_receive :click_tracked
   end
