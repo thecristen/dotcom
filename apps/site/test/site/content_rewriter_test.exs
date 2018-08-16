@@ -114,6 +114,12 @@ defmodule Site.ContentRewriterTest do
              |> rewrite(conn) == {:safe, ~s(<img class="existing-class img-fluid" src="/image.png" alt="an image"/>)}
     end
 
+    test "strips non-button elements from a paragraph with .btn elements and wraps in a div", %{conn: conn} do
+      assert ~s(<p><a class="btn btn-primary" href="/page">Button 1</a>&nbsp; </p>)
+             |> raw()
+             |> rewrite(conn) == {:safe, ~s(<div class="c-inline-buttons"><a class="btn btn-primary" href="/page">Button 1</a></div>)}
+    end
+
     test "adds iframe classes to iframes", %{conn: conn} do
       assert ~s(<iframe src="https://www.anything.com"></iframe>)
              |> raw()

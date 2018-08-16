@@ -1,6 +1,37 @@
 @import 'variables';
 @import 'colors';
 
+// Override Bootstrap .btn:hover colors to be
+// explicit brand colors vs. darken (%) transforms.
+// Removes third, 'active' state as well (specificity).
+.btn {
+  &.btn-primary {
+    @include hover {
+      background-color: $brand-primary-darkest;
+    }
+
+    &:focus,
+    &.focus {
+      background-color: $brand-primary-darkest;
+    }
+  }
+
+  &.btn-secondary {
+    @include hover {
+      background-color: $brand-primary-lightest;
+      color: $brand-primary-darkest;
+    }
+
+    &:focus,
+    &.focus {
+      background-color: $brand-primary-lightest;
+      color: $brand-primary-darkest;
+    }
+  }
+}
+
+// ! Non-standard button styles below (not Bootstrap):
+
 .button,
 %button {
   @extend %button-focus-color;
@@ -105,6 +136,25 @@
       flex: 1;
       justify-content: space-evenly;
       width: 100%;
+    }
+  }
+}
+
+.c-inline-buttons {
+  // Don't let nested margins interrupt parent
+  // vertical rhythm of elements following this
+  &:not(:last-child) {
+    margin-bottom: -$grid-gutter-width / 2;
+  }
+
+  .btn {
+    // Where several button-styledelements appear adjacent
+    // to each other in series. This also helps with
+    // spacing when two buttons on the same line wrap.
+    margin-bottom: $grid-gutter-width / 2;
+
+    &:not(:last-child) {
+      margin-right: $grid-gutter-width / 2;
     }
   }
 }

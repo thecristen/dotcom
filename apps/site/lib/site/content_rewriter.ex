@@ -42,6 +42,14 @@ defmodule Site.ContentRewriter do
       ]}
     ]}
   end
+  defp dispatch_rewrites({"p", _, _} = element, conn) do
+    element
+    |> Floki.find("a.btn")
+    |> case do
+      [buttons] -> {"div", [{"class", "c-inline-buttons"}], buttons}
+      _ -> element end
+    |> rewrite_children(conn)
+  end
   defp dispatch_rewrites({"a", _, _} = element, conn) do
     element
     |> Links.add_target_to_redirect()

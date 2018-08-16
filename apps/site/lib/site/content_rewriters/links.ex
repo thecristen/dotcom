@@ -23,10 +23,14 @@ defmodule Site.ContentRewriters.Links do
   """
   @spec add_preview_params(Floki.html_tree, Plug.Conn.t) :: Floki.html_tree
   def add_preview_params({"a", attrs, children} = element, conn) do
-    case Floki.attribute(element, "href") do
-      [path = "/" <> _] ->
-        href = cms_static_page_path(conn, path)
-        {"a", [{"href", href} | attrs], children}
+    case Enum.into(attrs, %{}) do
+      %{"href" => "/" <> internal_path} = attr_map ->
+        processed_href = cms_static_page_path(conn, "/#{internal_path}")
+        updated_attrs = attr_map
+        |> Map.replace!("href", processed_href)
+        |> Map.to_list()
+
+        {"a", updated_attrs, children}
       _ -> element
     end
   end

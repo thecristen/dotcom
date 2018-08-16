@@ -1,6 +1,10 @@
 .modal-content,
 .modal-body {
   border-radius: $border-radius;
+
+  .btn.close {
+    border: 0;
+  }
 }
 
 .modal-backdrop {
@@ -56,6 +60,7 @@
     background-color: $white;
     color: $gray-light;
     cursor: default;
+
     @include hover-focus-active {
       background-color: $white;
       cursor: default;

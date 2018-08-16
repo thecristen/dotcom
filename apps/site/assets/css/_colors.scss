@@ -1,7 +1,7 @@
 // style-guide --section Primary Colors
 $brand-primary: #165c96;
+$brand-primary-dark: $brand-primary;
 $brand-primary-darkest: #0b2f4c;
-$brand-primary-dark: #165c96;
 $brand-primary-light: #5da9e8;
 $brand-primary-light-contrast: #a1c6ed;
 $brand-primary-lightest: #cee0f4;
@@ -76,10 +76,16 @@ $weekend-color: $gray-bordered-background;
 $today-color: $brand-primary-lightest;
 $drop-shadow-color: rgba(0, 0, 0, .2);
 
-$btn-primary-color: $white;
-$btn-primary-bg: $brand-primary;
-$btn-primary-focus-color: $gray-dark;
-$btn-primary-focus-bg: $brand-primary-lightest;
-
 $transparent-white: transparentize($white, .4);
 $transparent-gray: transparentize($gray-lighter, .5);
+
+// Button Colors
+// - Bootstrap overrides
+$btn-primary-color: $white;
+$btn-primary-bg: $brand-primary;
+$btn-secondary-color: $brand-primary;
+$btn-secondary-bg: $white;
+$btn-secondary-border: $btn-secondary-color;
+// - Custom variables
+$btn-primary-focus-color: $gray-dark;
+$btn-primary-focus-bg: $brand-primary-lightest;

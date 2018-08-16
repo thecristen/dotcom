@@ -223,7 +223,7 @@ export function renderModal($modal, selectName, data, options) {
 
 function renderCloseButton() {
   return `
-<button type="button" class="close btn btn-link pull-right p-t-0" data-dismiss="modal" aria-label="Close">
+<button type="button" class="close btn-link pull-right p-t-0" data-dismiss="modal" aria-label="Close">
   <i class="fa fa-close" aria-hidden="true"/> Close
 </button>`;
 }

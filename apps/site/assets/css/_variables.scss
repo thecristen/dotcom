@@ -95,7 +95,6 @@ $border-width: 1px;
 $border-color: $gray-lightest;
 $border: $border-width solid $border-color;
 $border-md: 2px solid $border-color;
-$border-radius: $base-spacing / 4;
 $drop-shadow: $space-4 $space-4 $space-6 $drop-shadow-color;
 
 $header-navbar-height-multiplier: 3;
@@ -108,6 +107,9 @@ $icon-size-sm: $space-16;
 $icon-size-lg: $space-16 * 3;
 $tooltip-width: 20rem;
 $tab-border: $border-width solid $btn-primary-bg;
+
+$btn-padding-x: $base-spacing * 1.6;
+$btn-padding-y: $base-spacing * .6;
 
 $z-index-desktop-menu: 14;
 $zindex-sticky: 13;

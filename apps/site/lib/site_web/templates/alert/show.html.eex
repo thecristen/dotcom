@@ -43,10 +43,10 @@
       <h2 class="h2">Try T-Alerts Beta!</h2>
       <p>Test the new and improved version of T-Alerts.<br>
       Tell us about your travel plans and receive text or email alerts about delays that are relevant to you.</p>
-      <p>
+      <div class="c-inline-buttons">
         <%= link "Learn more", to: "https://www.mbta.com/about-t-alerts-beta", class: "btn" %>
         <%= link "Become a beta tester", to: "https://beta.alerts.mbta.com/", class: "btn btn-white" %>
-      </p>
+      </div>
     </div>
   </div>
 </div>
