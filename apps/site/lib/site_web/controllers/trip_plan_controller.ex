@@ -186,12 +186,13 @@ defmodule SiteWeb.TripPlanController do
     index_map = marker_index_map(field)
 
     icon_name = Site.TripPlan.Map.stop_icon_name(index_map)
+    label = Site.TripPlan.Map.stop_icon_label(index_map)
 
     marker = Marker.new(pos.latitude, pos.longitude, [
-      id: "marker-" <> Atom.to_string(field),
+      id: "marker-" <> label.text,
       icon: icon_name,
       size: Site.TripPlan.Map.stop_icon_size(icon_name),
-      label: Site.TripPlan.Map.stop_icon_label(index_map),
+      label: label,
       tooltip: pos.name,
       z_index: 0,
     ])
