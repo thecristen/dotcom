@@ -1,4 +1,4 @@
-<div class="container page-section">
+<div class="container page-section" id="about-the-mbta">
   <h2>About the MBTA</h2>
   <div class="row">
     <%= link to: event_path(@conn, :index), class: "homepage-link" do %>
