@@ -384,11 +384,11 @@ defmodule SiteWeb.TripPlanControllerTest do
   describe "add_initial_map_markers/2" do
     test "adds a map marker if address has a lat/lng", %{conn: conn} do
       query = %Query{
-        to: {:ok, %NamedPosition{
+        to: %NamedPosition{
           latitude: 42.1234,
           longitude: -71.4567,
           name: "To position"
-        }},
+        },
         from: {:error, :no_results},
         itineraries: [],
       }

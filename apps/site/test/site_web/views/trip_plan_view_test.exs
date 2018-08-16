@@ -89,30 +89,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
   end
 
-  describe "input_class/2" do
-    test "returns trip-plan-current-location if the relevant from lat and lng are set" do
-      from_current_location = %{"from_latitude" => "42.349159", "from_longitude" => "-71.0655084"}
-      assert location_input_class(from_current_location, :from) == "trip-plan-current-location"
-      assert location_input_class(from_current_location, :to) == ""
-    end
-
-    test "returns trip-plan-current-location if the relevant to lat and lng are set" do
-      to_current_location = %{"to_latitude" => "42.349159", "to_longitude" => "-71.0655084"}
-      assert location_input_class(to_current_location, :from) == ""
-      assert location_input_class(to_current_location, :to) == "trip-plan-current-location"
-    end
-
-    test "returns the empty string if only one of latitude or longitude is set" do
-      params = %{"from_latitude" => "42.349159", "from_longitude" => ""}
-      assert location_input_class(params, :from) == ""
-    end
-
-    test "returns the empty string if both lat and lng are blank" do
-      params = %{"from_latitude" => "", "from_longitude" => ""}
-      assert location_input_class(params, :from) == ""
-    end
-  end
-
   describe "mode_class/1" do
     test "returns the icon atom if a route is present" do
       row = %ItineraryRow{route: %Route{id: "Red"}}

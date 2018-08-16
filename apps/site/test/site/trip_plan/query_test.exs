@@ -16,13 +16,12 @@ defmodule Site.TripPlan.QueryTest do
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
       assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
-      assert %Query{
-        from: {:ok, ^from_position},
-        to: {:ok, ^to_position},
-        time: {:depart_at, %DateTime{}},
-        wheelchair_accessible?: true,
-        itineraries: {:ok, ^itineraries}
-      } = actual
+      assert %Query{} = actual
+      assert actual.from == from_position
+      assert actual.to == to_position
+      assert {:depart_at, %DateTime{}} = actual.time
+      assert actual.wheelchair_accessible?
+      assert actual.itineraries == {:ok, itineraries}
     end
 
     test "can use lat/lng instead of an address" do
@@ -36,11 +35,10 @@ defmodule Site.TripPlan.QueryTest do
       to_position = %TripPlan.NamedPosition{latitude: 42.3428, longitude: -71.0857, name: "Your current location"}
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
-      assert %Query{
-        from: {:ok, ^from_position},
-        to: {:ok, ^to_position},
-        itineraries: {:ok, ^itineraries},
-      } = actual
+      assert %Query{} = actual
+      assert actual.from == from_position
+      assert actual.to == to_position
+      assert actual.itineraries == {:ok, itineraries}
     end
 
     test "ignores lat/lng that are empty strings" do
@@ -53,21 +51,19 @@ defmodule Site.TripPlan.QueryTest do
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
       assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
-      assert %Query{
-        from: {:ok, ^from_position},
-        to: {:ok, ^to_position},
-        itineraries: {:ok, ^itineraries}
-      } = actual
+      assert %Query{} = actual
+      assert actual.from == from_position
+      assert actual.to == to_position
+      assert actual.itineraries == {:ok, itineraries}
     end
 
     test "ignores params that are empty strings or missing" do
       params = %{"from" => ""}
       actual = from_query(params)
-      assert %Query{
-        from: {:error, :required},
-        to: {:error, :required},
-        itineraries: {:error, :prereq}
-      } = actual
+      assert %Query{} = actual
+      assert actual.from == {:error, :required}
+      assert actual.to == nil
+      assert actual.itineraries == nil
     end
 
     test "can include other params in the plan" do
@@ -95,13 +91,12 @@ defmodule Site.TripPlan.QueryTest do
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
       assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
-      assert %Query{
-        from: {:ok, ^from_position},
-        to: {:ok, ^to_position},
-        time: {:depart_at, @date_time},
-        wheelchair_accessible?: true,
-        itineraries: {:ok, ^itineraries}
-      } = actual
+      assert %Query{} = actual
+      assert actual.from === from_position
+      assert actual.to === to_position
+      assert actual.time === {:depart_at, @date_time}
+      assert actual.wheelchair_accessible? === true
+      assert actual.itineraries == {:ok, itineraries}
     end
 
     test "does not plan a trip if we fail to geocode" do
@@ -113,53 +108,13 @@ defmodule Site.TripPlan.QueryTest do
       refute_received {:planned_trip, _, _}
       assert {:error, :no_results} = from_result
       assert {:error, {:multiple_results, _}} = to_result
-      assert %Query{
-        from: ^from_result,
-        to: ^to_result,
-        itineraries: {:error, _}
-      } = actual
+      assert %Query{} = actual
+      assert actual.from == from_result
+      assert actual.to == to_result
+      assert actual.itineraries == nil
     end
 
-    test "sets alternate from and to locations when no trips are found" do
-      params = %{"from" => "path_not_found",
-                 "to" => "to address",
-                 "time" => "depart",
-                 "date_time" => @date_time,
-                 "include_car?" => "false",
-                 "optimize_for" => "accessibility",
-      }
-      query = from_query(params)
-      assert %Query{
-        from: {:error, {:multiple_results, froms}},
-        to: {:error, {:multiple_results, tos}},
-        itineraries: {:error, :path_not_found}
-      } = query
-      refute froms == []
-      refute tos == []
-      for from <- froms, do: assert %NamedPosition{} = from
-      for to <- tos, do: assert %NamedPosition{} = to
-    end
-
-    test "keeps original from/to if no trips are found alternate search errors" do
-      params = %{"from" => "path_not_found",
-                 "to" => "stops_nearby error",
-                 "time" => "depart",
-                 "date_time" => @date_time,
-                 "include_car?" => "false",
-                 "accessible" => "true",
-      }
-      query = from_query(params)
-      assert %Query{
-        from: {:error, {:multiple_results, froms}},
-        to: {:ok, to},
-        itineraries: {:error, :path_not_found}
-      } = query
-      assert %NamedPosition{name: "Geocoded stops_nearby error"} = to
-      refute froms == []
-      for from <- froms, do: assert %NamedPosition{} = from
-    end
-
-    test "keeps original from/to if no trips are found alternate search returns no results" do
+    test "keeps original from/to if no trips are found" do
       params = %{"from" => "path_not_found",
                  "to" => "stops_nearby no_results",
                  "time" => "depart",
@@ -168,14 +123,10 @@ defmodule Site.TripPlan.QueryTest do
                  "accessible" => "true",
       }
       query = from_query(params)
-      assert %Query{
-        from: {:error, {:multiple_results, froms}},
-        to: {:ok, to},
-        itineraries: {:error, :path_not_found}
-      } = query
-      assert %NamedPosition{name: "Geocoded stops_nearby no_results"} = to
-      refute froms == []
-      for from <- froms, do: assert %NamedPosition{} = from
+      assert %Query{} = query
+      assert %NamedPosition{name: "Geocoded path_not_found"} = query.from
+      assert %NamedPosition{name: "Geocoded stops_nearby no_results"} = query.to
+      assert query.itineraries == {:error, :path_not_found}
     end
 
     test "makes single request when accessibility is checked" do
@@ -185,7 +136,7 @@ defmodule Site.TripPlan.QueryTest do
                  "date_time" => @date_time,
                  "optimize_for" => "accessibility",
       }
-      _query = from_query(params)
+      assert %Query{} = from_query(params)
       inaccessible_opts = [max_walk_distance: 805, wheelchair_accessible?: false, depart_at: @date_time]
       refute_received {:planned_trip, {_from, _to, ^inaccessible_opts}, {:ok, _itineraries}}
       assert_received {:planned_trip, {_from, _to, opts}, {:ok, itineraries}}
@@ -279,28 +230,9 @@ defmodule Site.TripPlan.QueryTest do
     end
   end
 
-  describe "fetch_lat_lng/2" do
-    test "returns {:ok, lat, lng} when both are parseable floats in params" do
-      params = %{"from_latitude" => "42.349159", "from_longitude" => "-71.0655084"}
-
-      assert {:ok, latitude, longitude} = fetch_lat_lng(params, :from)
-      assert latitude == 42.349159
-      assert longitude == -71.0655084
-    end
-
-    test "returns :error if either is an empty string or nil" do
-      params = %{"from_latitude" => "42.349159",
-                 "from_longitude" => "",
-                 "to_longitude" => "-71.0655084"}
-
-      assert fetch_lat_lng(params, :from) == :error
-      assert fetch_lat_lng(params, :to) == :error
-    end
-  end
-
   describe "itineraries?/1" do
     test "Returns true if query has itineraries" do
-      query = %Query{itineraries: {:ok, [%{}]}, from: {:ok, nil}, to: {:ok, nil}}
+      query = %Query{itineraries: {:ok, [%{}]}, from: nil, to: nil}
       assert itineraries?(query)
     end
 
@@ -322,29 +254,29 @@ defmodule Site.TripPlan.QueryTest do
   describe "get_itineraries/1" do
     test "returns itineraries if present" do
       itineraries = [%{}, %{}]
-      query = %Query{itineraries: {:ok, itineraries}, from: {:ok, nil}, to: {:ok, nil}}
+      query = %Query{itineraries: {:ok, itineraries}, from: nil, to: nil}
       assert get_itineraries(query) == itineraries
     end
 
     test "returns empty list if no itineraries" do
-      query = %Query{itineraries: {:ok, []}, from: {:ok, nil}, to: {:ok, nil}}
+      query = %Query{itineraries: {:ok, []}, from: nil, to: nil}
       assert get_itineraries(query) == []
     end
 
     test "returns empty list on failure" do
-      query = %Query{itineraries: {:error, "message"}, from: {:ok, nil}, to: {:ok, nil}}
+      query = %Query{itineraries: {:error, "message"}, from: nil, to: nil}
       assert get_itineraries(query) == []
     end
   end
 
   describe "location_name/2" do
     test "Returns from name if one exists" do
-      query = %Query{itineraries: {:ok, []}, from: {:ok, %NamedPosition{name: "from name"}}, to: nil}
+      query = %Query{itineraries: {:ok, []}, from: %NamedPosition{name: "from name"}, to: nil}
       assert location_name(query, :from) == "from name"
     end
 
     test "Returns to name if one exists" do
-      query = %Query{itineraries: {:ok, []}, to: {:ok, %NamedPosition{name: "to name"}}, from: nil}
+      query = %Query{itineraries: {:ok, []}, to: %NamedPosition{name: "to name"}, from: nil}
       assert location_name(query, :to) == "to name"
     end
 
@@ -352,22 +284,6 @@ defmodule Site.TripPlan.QueryTest do
       query = %Query{itineraries: {:ok, []}, from: {:error, "error"}, to: nil}
       refute location_name(query, :from)
       refute location_name(query, :to)
-    end
-  end
-
-  describe "suggest_alternate_locations" do
-    test "handles timeouts" do
-      query = %Query{
-        itineraries: {:error, :path_not_found},
-        from: {:ok, %NamedPosition{name: "Timeout error"}},
-        to: {:ok, %NamedPosition{name: "to name"}}
-      }
-      log = ExUnit.CaptureLog.capture_log(fn ->
-        result = suggest_alternate_locations(query, 100)
-        assert result.from == {:ok, %NamedPosition{name: "Timeout error"}}
-        assert {:error, {:multiple_results, _}} = result.to
-      end)
-      assert log =~ "timed out"
     end
   end
 

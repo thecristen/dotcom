@@ -66,7 +66,7 @@ defmodule SiteWeb.TripPlanView do
   @spec get_input_value(Query.t | nil, map, :to | :from) :: String.t | nil
   def get_input_value(%Query{} = query, params, field) do
     case Map.get(query, field) do
-      {:ok, %TripPlan.NamedPosition{name: name}} ->
+      %TripPlan.NamedPosition{name: name} ->
         name
 
       {:error, _} ->
@@ -137,14 +137,6 @@ defmodule SiteWeb.TripPlanView do
 
   def rendered_plan_error(_) do
     "We were unable to plan your trip. Please try again later."
-  end
-
-  def location_input_class(params, key) do
-    if Query.fetch_lat_lng(params, Atom.to_string(key)) == :error do
-      ""
-    else
-      "trip-plan-current-location"
-    end
   end
 
   def mode_class(%ItineraryRow{route: %Route{} = route}), do: route_to_class(route)

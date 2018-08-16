@@ -34,6 +34,7 @@ defmodule SiteWeb.TripPlanController do
     |> render(:index)
   end
 
+  @spec render_plan(Plug.Conn.t, map) :: Plug.Conn.t
   defp render_plan(conn, plan) do
     query = Query.from_query(plan)
     itineraries = Query.get_itineraries(query)
@@ -181,7 +182,7 @@ defmodule SiteWeb.TripPlanController do
   defp do_add_initial_map_marker({:error, _}, %MapData{} = map, _) do
     map
   end
-  defp do_add_initial_map_marker({:ok, %NamedPosition{} = pos}, %MapData{} = map, field) do
+  defp do_add_initial_map_marker(%NamedPosition{} = pos, %MapData{} = map, field) do
     index_map = marker_index_map(field)
 
     icon_name = Site.TripPlan.Map.stop_icon_name(index_map)

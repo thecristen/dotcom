@@ -58,6 +58,7 @@
 
 .m-trip-plan__form-container {
   margin-top: 0;
+
   @include media-breakpoint-up(md) {
     margin-bottom: 0;
     min-height: $base-spacing * 42;
@@ -180,5 +181,9 @@
 }
 
 .m-trip-plan__location-error {
-  margin-top: $base-spacing / 2;
+  margin-left: -$base-spacing * .75;
+  margin-right: -$base-spacing * .75;
+  margin-top: $base-spacing * .75;
+  padding-bottom: $base-spacing * .75;
+  padding-top: $base-spacing * .75;
 }
