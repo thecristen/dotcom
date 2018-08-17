@@ -4,7 +4,6 @@ import hogan from "hogan.js";
 import { Algolia } from "./algolia-search";
 import * as AlgoliaResult from "./algolia-result";
 import { AlgoliaAutocompleteWithGeo } from "./algolia-autocomplete-with-geo"
-import { featureIcon } from "./algolia-result";
 
 export const TEMPLATES = {
   locationResultHeader: hogan.compile(`
@@ -36,8 +35,8 @@ export const TEMPLATES = {
         </a>
       {{/hits}}
     </div>
-  `),
-}
+  `)
+};
 
 export const METERS_PER_MILE = 1609.34;
 
@@ -127,10 +126,14 @@ export class AlgoliaStopSearch {
   }
 
   _formatLocationResult(hit) {
-    hit.routes.map(route => {
-      route.icon = featureIcon(route.icon);
+    hit.routes = hit.routes.map(route => {
+      route.icon = document.getElementById(
+        `icon-feature-${route.icon}`
+      ).innerHTML;
+      return route;
     });
     hit._rankingInfo.geoDistance = (hit._rankingInfo.geoDistance / METERS_PER_MILE).toFixed(1);
+    return hit;
   }
 
   getParams() {
