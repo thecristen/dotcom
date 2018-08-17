@@ -275,9 +275,9 @@ defmodule SiteWeb.TripPlanView do
   def datetime_from_query(nil), do: Util.now()
 
   @spec format_plan_type_for_title(Query.t()) :: Phoenix.HTML.Safe.t()
-  def format_plan_type_for_title(%{time: {:arrive_by, dt}}), do: ["Arrive by ", Timex.format!(dt, "{h12}:{m} {AM}, {M}/{D}/{YYYY}")]
-  def format_plan_type_for_title(%{time: {:depart_at, dt}}), do: ["Depart at ", Timex.format!(dt, "{h12}:{m} {AM}, {M}/{D}/{YYYY}")]
-  def format_plan_type_for_title(nil), do: ["Depart at ", Timex.format!(Util.now(), "{h12}:{m} {AM}, {M}/{D}/{YYYY}")]
+  def format_plan_type_for_title(%{time: {:arrive_by, dt}}), do: ["Arrive by ", Timex.format!(dt, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
+  def format_plan_type_for_title(%{time: {:depart_at, dt}}), do: ["Depart at ", Timex.format!(dt, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
+  def format_plan_type_for_title(nil), do: ["Depart at ", Timex.format!(Util.now(), "{h12}:{m} {AM}, {M}/{D}/{YY}")]
 
   def trip_plan_datetime_select(form, datetime) do
     time_options = [

@@ -329,6 +329,22 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
   end
 
+  describe "format_plan_type_for_title/1" do
+    @now Util.now()
+    @human_time Timex.format!(@now, "{h12}:{m} {AM}, {M}/{D}/{YY}")
+    test "for arrive by" do
+      assert format_plan_type_for_title(%{time: {:arrive_by, @now}}) == ["Arrive by ", @human_time]
+    end
+
+    test "for depart at" do
+      assert format_plan_type_for_title(%{time: {:depart_at, @now}}) == ["Depart at ", @human_time]
+    end
+
+    test "default" do
+      assert format_plan_type_for_title(nil) === ["Depart at ", @human_time]
+    end
+  end
+
   describe "index.html" do
     @index_assigns %{date: Util.now(),
                      date_time: Util.now(),

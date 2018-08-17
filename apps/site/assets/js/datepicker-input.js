@@ -149,7 +149,7 @@ export default class DatePickerInput {
 
   static getShortDate(date) {
     const options = {
-      year: "numeric",
+      year: "2-digit",
       month: "numeric",
       day: "numeric"
     };

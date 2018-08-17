@@ -1,17 +1,16 @@
-<%= if @plan_error != nil do %>
+<%
+  error = cond do
+    Map.get(@errors, :too_future) -> %{title: "Date is too far in the future", msg: @errors.too_future}
+    Map.get(@errors, :unable_error) -> %{title: "Unable to plan your trip", msg: @errors.unable_error}
+    @plan_error -> %{title: "No trips available", msg: rendered_plan_error(@plan_error)}
+    true -> nil
+  end
+%>
+<%= if error do %>
   <div class="m-trip-plan__error" role="alert">
     <p class="m-trip-plan__error--title">
-    No trips available
+    <%= error.title %>
     </p>
-    <%= rendered_plan_error(@plan_error) %>
+    <%= error.msg %>
   </div>
-<% else %>
-  <%= if Map.get(@errors, :unable_error) != nil do %>
-    <div class="m-trip-plan__error" role="alert">
-      <p class="m-trip-plan__error--title">
-      Unable to plan your trip
-      </p>
-      <%= @errors.unable_error %>
-    </div>
-  <% end %>
 <% end %>
