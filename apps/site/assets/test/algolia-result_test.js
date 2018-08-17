@@ -319,13 +319,13 @@ describe("AlgoliaResult", () => {
     it('renders correct icon for Drupal results', () => {
       assert.include(AlgoliaResult.getIcon(drupalHits.searchResult, "drupal"), "<span");
       assert.include(AlgoliaResult.getIcon(drupalHits.searchResult, "drupal"), "</span>");
-      assert.include(AlgoliaResult.getIcon(drupalHits.searchResult, "drupal"), "fa-file-o");
+      assert.include(AlgoliaResult.getIcon(drupalHits.searchResult, "drupal"), "fa-info");
       assert.include(AlgoliaResult.getIcon(drupalHits.newsEntry, "drupal"), "fa-newspaper-o");
       assert.include(AlgoliaResult.getIcon(drupalHits.event, "drupal"), "fa-calendar");
-      assert.include(AlgoliaResult.getIcon(drupalHits.page, "drupal"), "fa-file-o");
-      assert.include(AlgoliaResult.getIcon(drupalHits.landingPage, "drupal"), "fa-file-o");
+      assert.include(AlgoliaResult.getIcon(drupalHits.page, "drupal"), "fa-info");
+      assert.include(AlgoliaResult.getIcon(drupalHits.landingPage, "drupal"), "fa-info");
       assert.include(AlgoliaResult.getIcon(drupalHits.person, "drupal"), "fa-user");
-      assert.include(AlgoliaResult.getIcon(drupalHits.other, "drupal"), "fa-file-o");
+      assert.include(AlgoliaResult.getIcon(drupalHits.other, "drupal"), "fa-info");
       assert.include(AlgoliaResult.getIcon(drupalHits.pdf, "drupal"), "fa-file-pdf-o");
       assert.include(AlgoliaResult.getIcon(drupalHits.excel, "drupal"), "fa-file-excel-o");
       assert.include(AlgoliaResult.getIcon(drupalHits.powerpoint, "drupal"), "fa-file-powerpoint-o");

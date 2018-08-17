@@ -58,7 +58,7 @@ export function parseResult(hit, type) {
     hitIcon: getIcon(hit, type),
     hitUrl: getUrl(hit, type),
     hitTitle: getTitle(hit, type),
-    hasDate: (type == "events" || type == "news") ||  null,
+    hasDate: (type == "events" || type == "news" || type == "pagesdocuments") ||  null,
     hitFeatureIcons: getFeatureIcons(hit, type),
     id: hit.place_id || null
   });
@@ -97,10 +97,16 @@ function _fileIcon(hit) {
       return "fa-file-pdf-o";
 
     case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+    case "application/vnd.ms-powerpoint":
       return "fa-file-powerpoint-o";
 
+    case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
     case "application/vnd.ms-excel":
       return "fa-file-excel-o";
+
+    case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+    case "application/msword":
+      return "fa-file-word-o";
 
     default:
       return "fa-file-o";
@@ -114,15 +120,15 @@ function _contentIcon(hit) {
     icon = _fileIcon(hit);
   } else {
     const iconMapper = {
-      search_result: "fa-file-o",
+      search_result: "fa-info",
       news_entry: "fa-newspaper-o",
       event: "fa-calendar",
-      page: "fa-file-o",
-      landing_page: "fa-file-o",
+      page: "fa-info",
+      landing_page: "fa-info",
       person: "fa-user",
       locations: "fa-map-marker"
     };
-    icon = iconMapper[hit._content_type] || "fa-file-o";
+    icon = iconMapper[hit._content_type] || "fa-info";
   }
 
   return TEMPLATES.fontAwesomeIcon.render({icon: icon});
@@ -325,6 +331,8 @@ export function getFeatureIcons(hit, type) {
     case "routes":
       return _featuresToIcons(alertFeature)
 
+    case "pagesdocuments":
+      return pagesdocumentsDate(hit);
     case "events":
     case "news":
       return _contentDate(hit);
@@ -345,6 +353,14 @@ function _stopIcons(hit, type) {
   const zoneIcon = _getCommuterRailZone(hit);
 
   return allIcons.concat(zoneIcon);
+}
+
+function pagesdocumentsDate(hit) {
+  if (hit._file_created !== undefined) {
+    const date = new Date(hit._file_created * 1000);
+    return [_formatDate(date)];
+  }
+  return [];
 }
 
 function _contentDate(hit) {

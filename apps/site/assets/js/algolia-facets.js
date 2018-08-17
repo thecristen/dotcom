@@ -90,7 +90,7 @@ export class AlgoliaFacets {
             id: "page",
             name: "Pages",
             facets: ["page", "search_result", "landing_page", "person", "project", "project_update"],
-            icon: this._faIcon("fa-file-o"),
+            icon: this._faIcon("fa-info"),
           },
           {
             id: "document",
