@@ -239,11 +239,11 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "Bus data", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "66", direction_id: 1)
+      conn = get conn, line_path(conn, :show, "86", direction_id: 1)
       assert %Plug.Conn{assigns: %{branches: [%Stops.RouteStops{stops: stops}]}} = conn
-      assert html_response(conn, 200) =~ "66"
-      assert Enum.find(stops, & &1.id == "926")
-      assert List.last(stops).id == "64000"
+      assert conn.status === 200
+      assert List.first(stops).name === "Sullivan Square"
+      assert List.last(stops).name === "Reservoir"
 
       # Map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
