@@ -43,19 +43,14 @@ defmodule SiteWeb.ModeControllerTest do
       assert redirected_to(conn) == line_path(conn, :show, "741")
     end
 
-    test "index page does not redirect when given invalid route name", %{conn: conn} do
+    test "index page redirects to search when given invalid route name", %{conn: conn} do
       conn = get(conn, mode_path(conn, :bus, %{"filter" => %{"q" => "invalid_Route-name"}}))
-      assert html_response(conn, 200)
+      assert redirected_to(conn) == search_path(conn, :index, %{"query" => "invalid_Route-name", "facets" => "locations,bus,facet-stop"})
     end
 
-    test "index page does not redirect when given valid non-bus route", %{conn: conn} do
+    test "index page redirects to search when given valid non-bus route", %{conn: conn} do
       conn = get(conn, mode_path(conn, :bus, %{"filter" => %{"q" => "CR-Fitchburg"}}))
-      assert html_response(conn, 200)
-    end
-
-    test "puts search_error in flash when route is not found", %{conn: conn} do
-      conn = get(conn, mode_path(conn, :bus, %{"filter" => %{"q" => "invalid"}}))
-      assert get_flash(conn, :search_error) == "invalid"
+      assert redirected_to(conn) == search_path(conn, :index, %{"query" => "CR-Fitchburg", "facets" => "locations,bus,facet-stop"})
     end
 
     test "index page only redirects for bus", %{conn: conn} do

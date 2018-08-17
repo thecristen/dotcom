@@ -40,7 +40,6 @@ defmodule SiteWeb.Mode.HubBehavior do
 
   defp render_index(conn, mode_strategy, mode_routes) do
     conn
-    |> assign_search_error(mode_strategy.mode_name())
     |> async_assign(:fares, &mode_strategy.fares/0)
     |> async_assign(:all_alerts, fn -> alerts(mode_routes, conn.assigns.date_time) end)
     |> assign(:routes, mode_routes)
@@ -67,7 +66,7 @@ defmodule SiteWeb.Mode.HubBehavior do
   # Redirect if specific route is requested, Only for bus
   defp redirect_for_filter(%Plug.Conn{query_params: %{"filter" => %{"q" => route_name}}} = conn, "Bus", mode_routes) do
     case Enum.find(mode_routes, &String.downcase(&1.name) == String.downcase(route_name)) do
-      nil -> conn
+      nil -> redirect_to_search(conn, %{"query" => route_name, "facets" => "locations,bus,facet-stop"})
       route -> redirect_to_route(conn, route)
     end
   end
@@ -81,8 +80,10 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> halt
   end
 
-  defp assign_search_error(%Plug.Conn{query_params: %{"filter" => %{"q" => route_name}}} = conn, "Bus") do
-    put_flash(conn, :search_error, route_name)
+  @spec redirect_to_search(Plug.Conn.t(), map) :: Plug.Conn.t()
+  defp redirect_to_search(%Plug.Conn{} = conn, %{"query" => _} = query) do
+    conn
+    |> redirect(to: search_path(conn, :index, query))
+    |> halt()
   end
-  defp assign_search_error(conn, _mode), do: conn
 end

@@ -20,21 +20,10 @@
 }
 
 .route-filter-container {
-  border: $border;
-  border-color: $gray-dark;
-  border-radius: $border-radius;
-  display: flex;
-  justify-content: space-between;
-  padding: $space-2;
   width: 50%;
 
   @include media-breakpoint-down(xs) {
     width: 100%;
-  }
-
-  .form-control {
-    border: 0;
-    flex-grow: 1;
   }
 }
 
