@@ -148,11 +148,9 @@ export default class DatePickerInput {
   }
 
   static getShortDate(date) {
-    const options = {
-      year: "2-digit",
-      month: "numeric",
-      day: "numeric"
-    };
-    return date.toLocaleDateString("en-US", options);
+    return `${date.getMonth() + 1}/${date.getDate()}/${date
+      .getFullYear()
+      .toString()
+      .substr(2)}`;
   }
 }
