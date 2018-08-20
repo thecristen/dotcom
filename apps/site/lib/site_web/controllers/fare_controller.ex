@@ -1,5 +1,4 @@
 defmodule SiteWeb.FareController do use SiteWeb, :controller
-
   alias SiteWeb.FareController.{Commuter, Ferry, Filter}
   alias Fares.RetailLocations
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
@@ -37,10 +36,26 @@ defmodule SiteWeb.FareController do use SiteWeb, :controller
 
   @spec calculate_position(map(),
     (String.t -> GoogleMaps.Geocode.Address.t)) :: {GoogleMaps.Geocode.Address.t, String.t}
+  def calculate_position(%{"latitude" => lat_str, "longitude" => lng_str} = params, geocode_fn) do
+    case {Float.parse(lat_str), Float.parse(lng_str)} do
+      {{lat, ""}, {lng, ""}} ->
+        addr = %GoogleMaps.Geocode.Address{
+          latitude: lat,
+          longitude: lng,
+          formatted: lat_str <> "," <> lng_str
+        }
+        parse_geocode_response({:ok, [addr]})
+      _ ->
+        params
+        |> Map.delete("latitude")
+        |> Map.delete("longitude")
+        |> calculate_position(geocode_fn)
+    end
+  end
   def calculate_position(%{"location" => %{"address" => address}}, geocode_fn) do
     address
     |> geocode_fn.()
-    |> parse_geocode_response
+    |> parse_geocode_response()
   end
   def calculate_position(_params, _geocode_fn) do
     {%{}, ""}
