@@ -126,7 +126,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
     Keyword.put(routes, id |> Kernel.<>("_line") |> String.downcase |> String.to_atom, [route])
   end
   defp subway_reducer(%Route{name: "Green" <> _} = route, routes) do
-    Keyword.put(routes, :green_line, [route])
+    Keyword.put(routes, :green_line, [Route.to_naive(route)])
   end
   defp subway_reducer(%Route{id: "Mattapan"} = route, routes) do
     Keyword.put(routes, :mattapan_trolley, [route])
