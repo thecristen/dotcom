@@ -54,6 +54,24 @@ defmodule Site.TripPlan.LocationTest do
       assert "-71." <> _ = Float.to_string(result.from.longitude)
     end
 
+    test "handles lat/lng being set to nil" do
+      result = Location.validate(%Query{}, %{
+        "from" => "10 Park Plaza, Boston MA",
+        "from_latitude" => "42.5678",
+        "from_longitude" => "-71.2345",
+        "to" => "20 Park Plaza, Boston MA",
+        "to_latitude" => nil,
+        "to_longitude" => nil
+      })
+      assert %Query{} = result
+      assert %NamedPosition{} = result.from
+      assert "42." <> _ = Float.to_string(result.from.latitude)
+      assert "-71." <> _ = Float.to_string(result.from.longitude)
+      assert %NamedPosition{} = result.to
+      assert "42" <> _ = Float.to_string(result.to.latitude)
+      assert "-71" <> _ = Float.to_string(result.to.longitude)
+    end
+
     test "sets :to to {:error, :invalid} when geolocation returns no results" do
       result = Location.validate(%Query{}, %{"to" => "no results"})
       assert %Query{} = result

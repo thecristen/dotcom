@@ -4,16 +4,16 @@ defmodule Site.TripPlan.Location do
 
   @spec validate(Query.t, map) :: Query.t
   def validate(%Query{} = query, %{
-    "to_latitude" => _,
-    "to_longitude" => _,
+    "to_latitude" => <<_::binary>>,
+    "to_longitude" => <<_::binary>>,
     "to" => _
   } = params) do
     validate_lat_lng(:to, params, query)
   end
 
   def validate(%Query{} = query, %{
-    "from_latitude" => _,
-    "from_longitude" => _,
+    "from_latitude" => <<_::binary>>,
+    "from_longitude" => <<_::binary>>,
     "from" => _
   } = params) do
     validate_lat_lng(:from, params, query)
@@ -61,6 +61,9 @@ defmodule Site.TripPlan.Location do
   defp validate_by_name(field, %Query{} = query, params) do
     {val, params} = Map.pop(params, Atom.to_string(field))
     case val do
+      nil ->
+        do_validate_by_name({:error, :required}, field, query, params)
+
       "" ->
         do_validate_by_name({:error, :required}, field, query, params)
 
