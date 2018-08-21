@@ -48,11 +48,10 @@ export class AlgoliaGlobalSearch {
     this._resultsWidget = new AlgoliaResults(AlgoliaGlobalSearch.SELECTORS.resultsContainer, this);
     this.controller.addWidget(this._resultsWidget);
 
-    animatePlaceholder(AlgoliaGlobalSearch.SELECTORS.input, placeholders);
-
     this.addEventListeners();
     this.loadState(window.location.search);
     this.controller.search({query: this.container.value});
+    animatePlaceholder(AlgoliaGlobalSearch.SELECTORS.input, placeholders);
   }
 
   addEventListeners() {
