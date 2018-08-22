@@ -15,6 +15,7 @@ describe("AlgoliaStopSearch", function() {
       <div id="powered-by-google-logo"></div>
       <input id="${AlgoliaStopSearch.SELECTORS.input}"></input>
       <div id="${AlgoliaStopSearch.SELECTORS.resetButton}"></div>
+      <button id="${AlgoliaStopSearch.SELECTORS.goBtn}"></button>
       <div id="${AlgoliaStopSearch.SELECTORS.locationResultsBody}"></div>
       <div id="${AlgoliaStopSearch.SELECTORS.locationResultsHeader}"></div>
     `;

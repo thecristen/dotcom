@@ -418,14 +418,14 @@ defmodule SiteWeb.StopViewTest do
     end
   end
 
-  describe "_search-bar.html" do
+  describe "_search_bar.html" do
     test "renders a search bar", %{conn: conn} do
       stops = [
         %DetailedStop{stop: %Stop{name: "Alewife", id: "place-alfcl"}},
         %DetailedStop{stop: %Stop{name: "Davis", id: "place-davis"}},
         %DetailedStop{stop: %Stop{name: "Porter", id: "place-porter"}},
       ]
-      html = "_search-bar.html"
+      html = "_search_bar.html"
              |>  SiteWeb.StopView.render(stop_info: stops, conn: conn)
              |> safe_to_string()
       assert [{"div", _, _}] = Floki.find(html, ".c-search-bar")

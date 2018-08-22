@@ -1,12 +1,12 @@
 <div class="hidden-no-js">
   <div class="container homepage-search">
-    <form action="/search" method="get" id="homepage-search__container" class="c-form__input-container">
-      <input type="text" name="query" id="homepage-search__input" class="c-form__input js-form__input" aria-label="Search MBTA.com" placeholder="Search for routes, places, information, and more"></input>
-      <i aria-hidden="true" id="homepage-search__loading-indicator" class="fa fa-cog fa-spin c-search-bar__loading-indicator"></i>
-      <i id="homepage-search__reset" class="c-form__reset-icon fa fa-times-circle"></i>
-      <button id="homepage-search__input-go-btn" class="c-form__submit-btn" aria-label="search">
-        <%= svg("icon-search-reverse-default.svg") %>
-      </button>
+    <form action="/search" method="get">
+      <%= SiteWeb.PartialView.render("_search_input.html",
+        Map.merge(assigns, %{
+          placeholder: "Search for routes, places, information, and more",
+          aria_label: "Search MBTA.com",
+          prefix: "homepage"
+        })) %>
     </form>
     <div id="homepage-search__autocomplete" class="c-search-bar__results"></div>
     <div id="homepage-search__results" class="c-search-bar__results"></div>

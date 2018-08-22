@@ -3,7 +3,7 @@ defmodule SiteWeb.GlobalSearchTest do
   import Wallaby.Query
   import SiteWeb.IntegrationHelpers
 
-  @search_input css("#search-input")
+  @search_input css("#global-search__input")
 
   describe "basic search" do
     @tag :wallaby
@@ -152,7 +152,7 @@ defmodule SiteWeb.GlobalSearchTest do
 
     @tag :wallaby
     test "clear button only shows when text has been entered", %{session: session} do
-      reset_id = "#search-clear-icon"
+      reset_id = "#global-search__reset"
       session
       |> visit("/search")
       |> assert_has(css(reset_id, visible: false))

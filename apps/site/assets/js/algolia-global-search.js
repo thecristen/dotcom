@@ -32,7 +32,7 @@ export class AlgoliaGlobalSearch {
   }
 
   init() {
-    this.container = document.getElementById(AlgoliaGlobalSearch.SELECTORS.searchBar);
+    this.container = document.getElementById(AlgoliaGlobalSearch.SELECTORS.input);
     this._resetButton = document.getElementById(AlgoliaGlobalSearch.SELECTORS.resetButton);
     if (!this.container) {
       return false;
@@ -195,13 +195,12 @@ AlgoliaGlobalSearch.DEFAULT_PARAMS = {
 }
 
 AlgoliaGlobalSearch.SELECTORS = {
-  searchBar: "search-input",
   facetsContainer: "search-facets-container",
   resultsContainer: "search-results-container",
   closeModalButton: "close-facets-modal",
   showFacetsButton: "show-facets",
-  resetButton: "search-clear-icon",
-  input: "search-input",
+  resetButton: "global-search__reset",
+  input: "global-search__input"
 };
 
 AlgoliaGlobalSearch.LATLNGBOUNDS = {

@@ -68,7 +68,6 @@ export class AlgoliaStopSearch {
     this._locationResultsHeader.innerHTML = "";
     this._locationResultsBody.innerHTML = "";
     this._input.value = "";
-    this._addGoBtn();
     this._controller = new Algolia(AlgoliaStopSearch.INDICES, AlgoliaStopSearch.PARAMS);
     this._autocomplete = new AlgoliaAutocompleteWithGeo("stops-page-search",
                                                         AlgoliaStopSearch.SELECTORS,
@@ -84,17 +83,6 @@ export class AlgoliaStopSearch {
   addEventListeners() {
     this._goBtn.removeEventListener("click", this.onClickGoBtn);
     this._goBtn.addEventListener("click", this.onClickGoBtn);
-  }
-
-  _addGoBtn() {
-    if (!this._goBtn) {
-      this._goBtn = document.createElement("div");
-      this._goBtn.id = AlgoliaStopSearch.SELECTORS.goBtn;
-      this._goBtn.classList.add("c-form__submit-btn");
-      this._goBtn.innerHTML = `GO`;
-      this._input.parentNode.appendChild(this._goBtn);
-    }
-    return this._goBtn;
   }
 
   onClickGoBtn(ev) {
@@ -154,7 +142,7 @@ AlgoliaStopSearch.INDICES = {
 AlgoliaStopSearch.SELECTORS = {
   input: "stop-search__input",
   container: "stop-search__container",
-  goBtn: "stop-search__go-btn",
+  goBtn: "stop-search__input-go-btn",
   locationResultsBody: "stop-search__location-results--body",
   locationResultsHeader: "stop-search__location-results--header",
   locationLoadingIndicator: "stop-search__loading-indicator",

@@ -32,7 +32,7 @@ describe("AlgoliaGlobalSearch", function() {
   describe("init", function() {
     it("generates a new Algolia client if search element exists", function() {
       const globalSearch = new AlgoliaGlobalSearch();
-      expect(document.getElementById(AlgoliaGlobalSearch.SELECTORS.searchBar)).to.be.an.instanceOf(window.HTMLDivElement);
+      expect(document.getElementById(AlgoliaGlobalSearch.SELECTORS.input)).to.be.an.instanceOf(window.HTMLDivElement);
       globalSearch.init();
       expect(globalSearch.controller).to.be.an.instanceOf(Algolia);
     });
@@ -40,7 +40,7 @@ describe("AlgoliaGlobalSearch", function() {
     it("does not generates a new Algolia client if search element does not exist", function() {
       document.body.innerHTML = "";
       const globalSearch = new AlgoliaGlobalSearch();
-      expect(document.getElementById(AlgoliaGlobalSearch.SELECTORS.searchBar)).to.equal(null);
+      expect(document.getElementById(AlgoliaGlobalSearch.SELECTORS.input)).to.equal(null);
       globalSearch.init();
       expect(globalSearch.controller).to.equal(null);
     });
@@ -100,7 +100,7 @@ describe("AlgoliaGlobalSearch", function() {
     beforeEach(function() {
       document.body.innerHTML = "";
       Object.keys(AlgoliaGlobalSearch.SELECTORS).forEach(key => {
-        const elType = (key == "searchBar") ? "input" : "div"
+        const elType = (key == "input") ? "input" : "div"
         document.body.innerHTML += `<${elType} id="${AlgoliaGlobalSearch.SELECTORS[key]}"></${elType}>`;
       });
       document.body.innerHTML += `<div id="powered-by-google-logo"></div>`;
@@ -119,7 +119,7 @@ describe("AlgoliaGlobalSearch", function() {
     });
 
     it("query is the value in the search input", function() {
-      window.jQuery(`#${AlgoliaGlobalSearch.SELECTORS.searchBar}`).val("new value");
+      window.jQuery(`#${AlgoliaGlobalSearch.SELECTORS.input}`).val("new value");
       const params = this.globalSearch.getParams();
       expect(params.query).to.equal("new value");
     });

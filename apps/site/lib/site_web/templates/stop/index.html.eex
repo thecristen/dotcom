@@ -2,7 +2,11 @@
 <% h_level_route = if @mode == :commuter_rail, do: :h3, else: :h2 %>
 <div class="page-section">
   <h1>MBTA Stations</h1>
-  <%= render "_search-bar.html", stop_info: @stop_info, conn: @conn %>
+  <%= render "_search_bar.html" %>
+  <div id="stop-search__location-results">
+    <div id="stop-search__location-results--header"></div>
+    <div id="stop-search__location-results--body"></div>
+  </div>
   <%= mode_tab_list %ModeTabList{
     links: for mode <- [:subway, "commuter-rail", :ferry] do
       {mode, stop_path(@conn, :show, mode)}

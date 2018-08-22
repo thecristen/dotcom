@@ -68,18 +68,13 @@
 
 .c-form__animated-placeholder {
   left: 0;
-  max-width: 100%;
+  max-width: 85%;
   opacity: .6;
   overflow: hidden;
-  padding: $base-spacing / 2 $base-spacing * .75;
+  padding: $base-spacing * .75;
   pointer-events: none;
   position: absolute;
   text-overflow: ellipsis;
   top: 0;
   white-space: nowrap;
-
-  .homepage-search & {
-    max-width: 85%;
-    padding: $base-spacing * .75;
-  }
 }
