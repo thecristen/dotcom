@@ -15,7 +15,15 @@ defmodule TripPlan.Api do
   {:optimize_for, :less_walking | :fewest_transfers} |
   {:max_walk_distance, float}
   @type plan_opts :: [plan_opt]
-  @type t :: {:ok, [Itinerary.t]} | {:error, any}
+  @type error
+  :: :outside_bounds
+   | :timeout
+   | :no_transit_times
+   | :too_close
+   | :location_not_accessible
+   | :path_not_found
+   | :unknown
+  @type t :: {:ok, [Itinerary.t]} | {:error, error}
 
   @doc """
   Plans a trip between two locations.

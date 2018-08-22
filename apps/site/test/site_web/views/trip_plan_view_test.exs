@@ -59,6 +59,61 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
   end
 
+  describe "show_plan_error?/1" do
+    test "returns true if error is a general plan error" do
+      for error <- plan_errors() do
+        assert show_plan_error?([error]) === true
+      end
+    end
+
+    test "returns false if error is a field error" do
+      for error <- field_errors() do
+        assert show_plan_error?([error]) === false
+      end
+    end
+
+    test "returns false if there are no errors" do
+      assert show_plan_error?([]) === false
+    end
+
+    test "returns true if any of the errors are plan errors" do
+      [plan | _] = plan_errors()
+      [field | _] = field_errors()
+      assert show_plan_error?([plan, field]) === true
+    end
+  end
+
+  describe "plan_error_description" do
+    test "renders too_future error" do
+      end_of_rating = Schedules.Repo.end_of_rating() |> Timex.format!("{M}/{D}/{YY}")
+      error =
+        [:too_future]
+        |> plan_error_description()
+        |> IO.iodata_to_binary()
+      assert error =~ "We can only provide trip data for the current schedule"
+      assert error =~ end_of_rating
+    end
+
+    test "returns text for every plan error" do
+      for error <- Enum.reject(plan_errors(), & &1 == :too_future) do
+        result = plan_error_description([error])
+        assert is_binary(result)
+        refute result == ""
+      end
+    end
+  end
+
+  describe "date_error/1" do
+    test "returns an error if error list includes :invalid_date" do
+      assert [:invalid_date] |> date_error() |> Phoenix.HTML.safe_to_string() =~ "Date is not valid"
+    end
+
+    test "doesn't render an error if error list does not contain :invalid_date" do
+      assert date_error([:no_results]) == ""
+      assert date_error([]) == ""
+    end
+  end
+
   describe "rendered_location_error/3" do
     test "renders an empty string if there's no query", %{conn: conn} do
       assert "" == rendered_location_error(conn, nil, :from)
@@ -66,9 +121,10 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
     test "renders an empty string if the query has a good value for the field", %{conn: conn} do
       from = MockPlanner.random_stop()
-      query = %Query{from: {:ok, from}, to: {:error, :unknown}, itineraries: {:error, :unknown}}
-      assert "" == rendered_location_error(conn, query, :from)
-      refute "" == rendered_location_error(conn, query, :to)
+      query = %Query{from: {:ok, from}, to: {:error, :no_results}, itineraries: {:error, :unknown}}
+      assert rendered_location_error(conn, query, :from) == ""
+      assert rendered_location_error(conn, query, :to) ==
+        "We're sorry, but we couldn't find that address."
     end
 
     test "renders each position as a link if we have too many results", %{conn: conn} do
@@ -348,7 +404,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
   describe "index.html" do
     @index_assigns %{date: Util.now(),
                      date_time: Util.now(),
-                     errors: %{},
+                     errors: [],
                      modes: %{},
                      optimize_for: :best_route,
                      initial_map_data: Site.TripPlan.Map.initial_map_data(),

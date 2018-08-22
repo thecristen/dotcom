@@ -19,28 +19,24 @@ defmodule SiteWeb.TripPlanController do
     case validate_params(Map.put(plan, "system_date_time", conn.assigns.date_time)) do
       {:ok, date} ->
         conn
-        |> assign(:errors, %{})
         |> assign(:expanded, conn.query_params["expanded"])
         |> render_plan(%{plan | "date_time" => date})
 
-      {_, errors} ->
+      {:error, error} ->
         conn
-        |> assign(:errors, errors)
+        |> assign(:plan_error, [error])
         |> render(:index)
     end
   end
 
   def index(conn, _params) do
-    conn
-    |> assign(:errors, %{})
-    |> render(:index)
+    render(conn, :index)
   end
 
   @spec render_plan(Plug.Conn.t, map) :: Plug.Conn.t
   defp render_plan(conn, plan) do
     query = Query.from_query(plan)
     itineraries = Query.get_itineraries(query)
-    plan_error = Query.plan_error(query)
     route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
     itinerary_row_lists = itinerary_row_lists(itineraries, route_mapper, plan)
@@ -49,7 +45,7 @@ defmodule SiteWeb.TripPlanController do
     |> add_initial_map_markers(query)
     |> render(
       query: query,
-      plan_error: plan_error,
+      plan_error: MapSet.to_list(query.errors),
       routes: Enum.map(itineraries, &routes_for_itinerary(&1, route_mapper)),
       itinerary_maps:
         Enum.map(itineraries, &TripPlanMap.itinerary_map(&1, route_mapper: route_mapper)),
@@ -59,54 +55,9 @@ defmodule SiteWeb.TripPlanController do
     )
   end
 
-  @spec validate_params(map) :: {:ok, NaiveDateTime.t()} | {:error, map}
-  def validate_params(%{"date_time" => _dt, "to" => _to, "from" => _fr} = plan) do
-    with {:ok, _} <- validate_to_from(plan),
-         {:ok, date} <- validate_date(plan) do
-      {:ok, date}
-    else
-      {:error, error} -> {:error, error}
-      _ -> {:error, %{}}
-    end
-  end
-
-  @same_address_error {:error, %{unable_error: "You must enter two different locations."}}
-
-  @spec validate_to_from(map) :: {:ok, map} | {:error, %{required(:unable_error) => String.t()}}
-  def validate_to_from(
-        %{
-          "to_latitude" => "",
-          "from_latitude" => "",
-          "to_longitude" => "",
-          "from_longitude" => ""
-        } = plan
-      ) do
-    plan
-    |> Map.delete("to_latitude")
-    |> Map.delete("from_latitude")
-    |> Map.delete("to_longitude")
-    |> Map.delete("from_longitude")
-    |> validate_to_from()
-  end
-
-  def validate_to_from(%{
-        "to_latitude" => lat,
-        "from_longitude" => lng,
-        "from_latitude" => lat,
-        "from_longitude" => lng
-      }),
-      do: @same_address_error
-
-  def validate_to_from(%{"to" => address, "from" => address}), do: @same_address_error
-  def validate_to_from(plan), do: {:ok, plan}
-
-  @spec too_far_in_future_error(%Date{}) :: iodata
-  def too_far_in_future_error(date) do
-    [
-      "We can only provide trip data for the current schedule, valid until ",
-      Timex.format!(date, "{M}/{D}/{YY}"),
-      "."
-    ]
+  @spec validate_params(map) :: {:ok, NaiveDateTime.t} | {:error, :invalid_date | :too_future}
+  def validate_params(%{"date_time" => _dt} = plan) do
+    validate_date(plan)
   end
 
   @spec validate_date(map | {:ok, %{atom => NaiveDateTime.t(), atom => DateTime.t()}}) ::
@@ -123,7 +74,7 @@ defmodule SiteWeb.TripPlanController do
       %NaiveDateTime{} = naive_date ->
         validate_date({:ok, %{plan | "date_time" => naive_date}})
       _ ->
-        {:error, %{date_time: "Date is not valid."}}
+        {:error, :invalid_date}
     end
   end
 
@@ -133,14 +84,14 @@ defmodule SiteWeb.TripPlanController do
     end_date = Schedules.Repo.end_of_rating()
 
     if Date.compare(service_date, end_date) == :gt do
-      {:error, %{too_future: too_far_in_future_error(end_date)}}
+      {:error, :too_future}
     else
       {:ok, timezoned_date}
     end
   end
 
   defp validate_date(_) do
-    {:error, %{date_time: "Date is not valid."}}
+    {:error, :invalid_date}
   end
 
   @spec convert_to_date(String.t()) :: NaiveDateTime.t() | nil

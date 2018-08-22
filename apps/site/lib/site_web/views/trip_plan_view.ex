@@ -77,6 +77,69 @@ defmodule SiteWeb.TripPlanView do
     Map.get(params, Atom.to_string(field))
   end
 
+  def too_future_error do
+    end_date = Schedules.Repo.end_of_rating()
+    [
+      "We can only provide trip data for the current schedule, valid until ",
+      Timex.format!(end_date, "{M}/{D}/{YY}"),
+      "."
+    ]
+  end
+
+  @plan_errors %{
+    outside_bounds: "We can only plan trips inside the MBTA transitshed.",
+    no_transit_times: "We were unable to plan a trip at the time you selected.",
+    same_address: "You must enter two different locations.",
+    location_not_accessible: "We were unable to plan an accessible trip between those locations.",
+    path_not_found: "We were unable to plan a trip between those locations.",
+    too_close: "We were unable to plan a trip between those locations.",
+    unknown: "An unknown error occurred. Please try again, or try a different address.",
+    too_future: &__MODULE__.too_future_error/0
+  }
+
+  @field_errors %{
+    required: "This field is required.",
+    no_results: "We're sorry, but we couldn't find that address.",
+    invalid_date: "Date is not valid."
+  }
+
+  # used by tests
+  def plan_errors do
+    Map.keys(@plan_errors)
+  end
+
+  # used by tests
+  def field_errors do
+    Map.keys(@field_errors)
+  end
+
+  @spec show_plan_error?([atom]) :: boolean
+  def show_plan_error?(errors) do
+    Enum.any?(errors, & Map.has_key?(@plan_errors, &1))
+  end
+
+  @spec plan_error_title([atom]) :: String.t
+  defp plan_error_title([:path_not_found]) do
+    "No trips available"
+  end
+  defp plan_error_title([:too_future]) do
+    "Date is too far in the future"
+  end
+  defp plan_error_title(_) do
+    "Unable to plan your trip"
+  end
+
+  @spec plan_error_description([atom]) :: Phoenix.HTML.Safe.t()
+  def plan_error_description([error]) do
+    case Map.get(@plan_errors, error) do
+      <<text::binary>> -> text
+      too_future_fn when is_function(too_future_fn) -> too_future_fn.()
+    end
+  end
+  def plan_error_description(_) do
+    "We were unable to plan your trip. Please try again."
+  end
+
   @spec rendered_location_error(Plug.Conn.t(), Query.t() | nil, :from | :to) ::
           Phoenix.HTML.Safe.t()
   def rendered_location_error(conn, query_or_nil, location_field)
@@ -86,7 +149,7 @@ defmodule SiteWeb.TripPlanView do
   end
 
   def rendered_location_error(%Plug.Conn{} = conn, %Query{} = query, field)
-      when field in [:from, :to] do
+  when field in [:from, :to] do
     case Map.get(query, field) do
       {:error, error} ->
         do_render_location_error(conn, field, error)
@@ -98,45 +161,22 @@ defmodule SiteWeb.TripPlanView do
 
   @spec do_render_location_error(Plug.Conn.t(), :from | :to, TripPlan.Geocode.error()) ::
           Phoenix.HTML.Safe.t()
-  defp do_render_location_error(_conn, _field, :no_results) do
-    "We're sorry, but we couldn't find that address."
-  end
-
   defp do_render_location_error(conn, field, {:multiple_results, results}) do
     render("_error_multiple_results.html", conn: conn, field: field, results: results)
   end
 
-  defp do_render_location_error(_conn, _field, :required) do
-    "This field is required."
+  defp do_render_location_error(_conn, _field, atom) when is_atom(atom) do
+    Map.get(@field_errors, atom, "")
   end
 
-  defp do_render_location_error(_conn, _field, :unknown) do
-    "An unknown error occurred. Please try again, or try a different address."
-  end
-
-  @spec rendered_plan_error(term) :: Phoenix.HTML.Safe.t()
-  def rendered_plan_error(:prereq) do
-    ""
-  end
-
-  def rendered_plan_error(no_plan) when no_plan in [:path_not_found, :too_close] do
-    "We were unable to plan a trip between those locations."
-  end
-
-  def rendered_plan_error(:outside_bounds) do
-    "We can only plan trips inside the MBTA transitshed."
-  end
-
-  def rendered_plan_error(:no_transit_times) do
-    "We were unable to plan a trip at the time you selected."
-  end
-
-  def rendered_plan_error(:location_not_accessible) do
-    "We were unable to plan an accessible trip between those locations."
-  end
-
-  def rendered_plan_error(_) do
-    "We were unable to plan your trip. Please try again later."
+  @spec date_error([atom]) :: Phoenix.HTML.Safe.t()
+  def date_error(errors) do
+    if Enum.member?(errors, :invalid_date) do
+      {:ok, error_text} = Map.fetch(@field_errors, :invalid_date)
+      content_tag(:span, error_text)
+    else
+      ""
+    end
   end
 
   def mode_class(%ItineraryRow{route: %Route{} = route}), do: route_to_class(route)

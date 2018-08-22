@@ -226,7 +226,7 @@ defmodule SiteWeb.TripPlanControllerTest do
                    }}
 
       conn = get conn, trip_plan_path(conn, :index, params)
-      assert conn.assigns.errors.unable_error =~ "two different locations"
+      assert conn.assigns.plan_error == [:same_address]
       assert html_response(conn, 200)
       assert html_response(conn, 200) =~ "two different locations"
     end
@@ -244,7 +244,7 @@ defmodule SiteWeb.TripPlanControllerTest do
                    }}
 
       conn = get conn, trip_plan_path(conn, :index, params)
-      assert conn.assigns.errors == %{}
+      assert conn.assigns.plan_error == []
       assert html_response(conn, 200)
     end
 
@@ -257,7 +257,7 @@ defmodule SiteWeb.TripPlanControllerTest do
                    }}
 
       conn = get conn, trip_plan_path(conn, :index, params)
-      assert conn.assigns.errors.unable_error =~ "two different locations"
+      assert conn.assigns.plan_error == [:same_address]
       assert html_response(conn, 200)
       assert html_response(conn, 200) =~ "two different locations"
     end
@@ -271,7 +271,7 @@ defmodule SiteWeb.TripPlanControllerTest do
                    }}
 
       conn = get conn, trip_plan_path(conn, :index, params)
-      assert conn.assigns.errors == %{}
+      assert conn.assigns.plan_error == []
       assert html_response(conn, 200)
     end
 
@@ -288,7 +288,7 @@ defmodule SiteWeb.TripPlanControllerTest do
                    }}
 
       conn = get conn, trip_plan_path(conn, :index, params)
-      assert conn.assigns.errors.unable_error =~ "two different locations"
+      assert conn.assigns.plan_error == [:same_address]
       assert html_response(conn, 200)
       assert html_response(conn, 200) =~ "two different locations"
     end
@@ -349,8 +349,11 @@ defmodule SiteWeb.TripPlanControllerTest do
       conn = get conn, trip_plan_path(conn, :index, params)
       response = html_response(conn, 200)
       assert response =~ "Date is too far in the future"
-      end_date = Schedules.Repo.end_of_rating
-      assert response =~ IO.iodata_to_binary(SiteWeb.TripPlanController.too_far_in_future_error(end_date))
+      expected =
+        [:too_future]
+        |> SiteWeb.TripPlanView.plan_error_description()
+        |> IO.iodata_to_binary()
+      assert response =~ expected
     end
 
     test "good date input: date within service date of end of rating", %{conn: conn} do

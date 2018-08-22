@@ -8,7 +8,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   @doc """
   Parse the JSON output from the plan endpoint.
   """
-  @spec parse_json(binary) :: {:ok, [Itinerary.t]} | {:error, any}
+  @spec parse_json(binary) :: {:ok, [Itinerary.t]} | {:error, TripPlan.Api.error}
   def parse_json(json_binary) do
     with {:ok, json} <- Poison.decode(json_binary) do
       parse_map(json)
@@ -29,7 +29,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     end
   end
 
-  @spec parse_map(map) :: {:ok, [Itinerary.t]} | {:error, any}
+  @spec parse_map(map) :: {:ok, [Itinerary.t]} | {:error, TripPlan.Api.error}
   defp parse_map(%{"error" => %{"message" => error_message}, "requestParameters" => params}) do
     accessible? = params["wheelchair"] == "true"
     {:error, error_message_atom(error_message, accessible?: accessible?)}
@@ -44,6 +44,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     itineraries
   end
 
+  @spec error_message_atom(String.t, Keyword.t) :: TripPlan.Api.error
   defp error_message_atom("OUTSIDE_BOUNDS", _opts), do: :outside_bounds
   defp error_message_atom("REQUEST_TIMEOUT", _opts), do: :timeout
   defp error_message_atom("NO_TRANSIT_TIMES", _opts), do: :no_transit_times

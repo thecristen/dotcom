@@ -19,12 +19,34 @@ defmodule Site.TripPlan.Location do
     validate_lat_lng(:from, params, query)
   end
 
+  def validate(%Query{} = query, %{"to" => same, "from" => same} = params) do
+    query =
+      query
+      |> Map.put(:to, {:error, :same_address})
+      |> Map.put(:from, {:error, :same_address})
+      |> Map.put(:errors, MapSet.put(query.errors, :same_address))
+
+    params =
+      params
+      |> Map.delete("to")
+      |> Map.delete("from")
+
+    validate(query, params)
+  end
+
   def validate(%Query{} = query, %{"to" => _} = params) do
     validate_by_name(:to, query, params)
   end
 
   def validate(%Query{} = query, %{"from" => _} = params) do
     validate_by_name(:from, query, params)
+  end
+
+  def validate(%Query{
+    to: %NamedPosition{latitude: lat, longitude: lng},
+    from: %NamedPosition{latitude: lat, longitude: lng}
+  } = query, %{}) do
+    %{query | errors: MapSet.put(query.errors, :same_address)}
   end
 
   def validate(%Query{} = query, %{}) do
@@ -76,14 +98,20 @@ defmodule Site.TripPlan.Location do
   end
 
   @spec do_validate_by_name(TripPlan.Geocode.t, :to | :from, Query.t, map) :: Query.t
-  defp do_validate_by_name(result, field, query, params) do
-    value = case result do
-      {:ok, %NamedPosition{} = position} -> position
-      {:error, error} -> {:error, error}
+  defp do_validate_by_name({:ok, %NamedPosition{} = pos}, field, query, params) do
+    query
+    |> Map.put(field, pos)
+    |> validate(params)
+  end
+  defp do_validate_by_name({:error, error}, field, query, params) do
+    error_atom = case error do
+      {:multiple_results, _} -> :multiple_results
+      atom when is_atom(atom) -> atom
     end
 
     query
-    |> Map.put(field, value)
+    |> Map.put(:errors, MapSet.put(query.errors, error_atom))
+    |> Map.put(field, {:error, error})
     |> validate(params)
   end
 end

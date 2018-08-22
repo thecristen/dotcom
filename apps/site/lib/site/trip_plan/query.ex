@@ -4,15 +4,17 @@ defmodule Site.TripPlan.Query do
   defstruct [:from,
              :to,
              :itineraries,
+             errors: MapSet.new(),
              time: :unknown,
              wheelchair_accessible?: false]
 
-  @type position_error :: {:error, TripPlan.Geocode.error}
+  @type position_error :: TripPlan.Geocode.error | :same_address
   @type position :: NamedPosition.t | {:error, position_error} | nil
   @type t :: %__MODULE__{
     from: position,
     to: position,
     time: :unknown | {:depart_at | :arrive_by, DateTime.t},
+    errors: MapSet.t(atom),
     wheelchair_accessible?: boolean,
     itineraries: TripPlan.Api.t | nil
   }
@@ -28,8 +30,17 @@ defmodule Site.TripPlan.Query do
   end
 
   @spec maybe_fetch_itineraries(t, Keyword.t) :: t
-  defp maybe_fetch_itineraries(%__MODULE__{to: %NamedPosition{}, from: %NamedPosition{}} = query, opts) do
-    %{query | itineraries: fetch_itineraries(query, opts)}
+  defp maybe_fetch_itineraries(%__MODULE__{
+    to: %NamedPosition{},
+    from: %NamedPosition{}
+  } = query, opts) do
+    if Enum.empty?(query.errors) do
+      query
+      |> fetch_itineraries(opts)
+      |> parse_itinerary_result(query)
+    else
+      query
+    end
   end
   defp maybe_fetch_itineraries(%__MODULE__{} = query, _opts) do
     query
@@ -49,6 +60,16 @@ defmodule Site.TripPlan.Query do
 
       dedup_itineraries(mixed_results, accessible_results)
     end
+  end
+
+  @spec parse_itinerary_result(TripPlan.Api.t, t) :: t
+  defp parse_itinerary_result({:ok, _} = result, %__MODULE__{} = query) do
+    %{query | itineraries: result}
+  end
+  defp parse_itinerary_result({:error, error}, %__MODULE__{} = query) do
+    query
+    |> Map.put(:itineraries, {:error, error})
+    |> Map.put(:errors, MapSet.put(query.errors, error))
   end
 
   @spec dedup_itineraries(TripPlan.Api.t, TripPlan.Api.t) :: TripPlan.Api.t
@@ -98,7 +119,7 @@ defmodule Site.TripPlan.Query do
     )
   end
   def opts_from_query(_, opts) do
-      opts
+    opts
   end
 
   defp do_date_time(param, %{"date_time" => date_time} = query, opts) do
@@ -150,17 +171,6 @@ defmodule Site.TripPlan.Query do
     !Enum.empty?(itineraries)
   end
   def itineraries?(_query), do: false
-
-  @spec plan_error(t) :: [atom]
-  def plan_error(%__MODULE__{itineraries: {:error, :prereq}}) do
-    nil
-  end
-  def plan_error(%__MODULE__{itineraries: {:error, errors}}) do
-    errors
-  end
-  def plan_error(%__MODULE__{itineraries: _}) do
-    nil
-  end
 
   @spec get_itineraries(t) :: [Itinerary.t]
   def get_itineraries(%__MODULE__{itineraries: {:ok, itineraries}}) do

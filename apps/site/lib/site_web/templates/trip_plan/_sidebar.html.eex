@@ -10,15 +10,17 @@
     class: "trip-planner-form",
     id: "planner-form"
   ]
+
+  plan_error = Map.get(assigns, :plan_error, [])
 %>
 
 <div class="m-trip-plan__sidebar">
-  <%= render "_error.html", plan_error: assigns[:plan_error], errors: @errors %>
+  <%= render "_error.html", plan_error: plan_error %>
   <div class="m-trip-plan__form-container callout">
     <%= render "_mobile_trip_summary.html", query: query, itineraries?: itineraries? %>
     <%= form_for @conn, @conn.request_path<>"#plan_result_focus", form_options, fn f -> %>
       <%= render "_to_from_input.html", conn: @conn, parent_form: f, query: query %>
-      <%= render "_options.html", conn: @conn, parent_form: f, errors: @errors, query: query, modes: @modes, optimize_for: @optimize_for %>
+      <%= render "_options.html", conn: @conn, parent_form: f, errors: plan_error, query: query, modes: @modes, optimize_for: @optimize_for %>
       <button id="trip-plan__submit" type="submit" class="btn btn-primary hidden-print m-trip-plan__submit">Get trip suggestions</button>
     <% end %>
   </div>

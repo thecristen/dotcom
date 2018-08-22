@@ -76,19 +76,22 @@ defmodule Site.TripPlan.LocationTest do
       result = Location.validate(%Query{}, %{"to" => "no results"})
       assert %Query{} = result
       assert result.to == {:error, :no_results}
+      assert MapSet.member?(result.errors, :no_results)
     end
 
     test "sets :from to {:error, :invalid} when geolocation returns no results" do
       result = Location.validate(%Query{}, %{"from" => "no results"})
       assert %Query{} = result
       assert result.from == {:error, :no_results}
+      assert MapSet.member?(result.errors, :no_results)
     end
 
-    test "sets :to to {:error, :ambiguous} when geolocation returns multiple results" do
+    test "sets :to to {:error, {:multiple_results, _}} when geolocation returns multiple results" do
       result = Location.validate(%Query{}, %{"to" => "too many results"})
       assert %Query{} = result
       assert {:error, {:multiple_results, suggestions}} = result.to
       assert [%NamedPosition{} | _] = suggestions
+      assert MapSet.member?(result.errors, :multiple_results)
     end
   end
 end
