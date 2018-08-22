@@ -124,7 +124,7 @@ defmodule SiteWeb.ViewHelpersTest do
         |> mode_summaries(nil)
         |> Enum.map(fn %Fares.Summary{fares: [{text, prices}]} -> IO.iodata_to_binary([text, " ", prices]) end)
 
-      assert fares == ["All ferry routes $3.50 - $18.50", "All ferry routes $84.50 - $308.00"]
+      assert fares == ["All ferry routes $3.50 - $18.50", "All ferry routes $74.50 - $308.00"]
     end
 
     test "Ferry summmaries with a fare name return a single fare" do
@@ -133,7 +133,7 @@ defmodule SiteWeb.ViewHelpersTest do
         |> mode_summaries(:ferry_inner_harbor)
         |> Enum.map(fn %Fares.Summary{fares: [{text, prices}]} -> IO.iodata_to_binary([text, " ", prices]) end)
 
-      assert fares == ["CharlieTicket $3.50", "CharlieTicket $84.50"]
+      assert fares == ["CharlieTicket $3.50", "CharlieTicket $84.50", "mTicket App $74.50"]
     end
   end
 

@@ -323,6 +323,14 @@ defmodule Fares.FareInfo do
       },
       %Fare{
         mode: :ferry,
+        name: :ferry_inner_harbor,
+        duration: :month,
+        media: [:mticket],
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_month_price) - 1000
+      },
+      %Fare{
+        mode: :ferry,
         name: :ferry_cross_harbor,
         duration: :single_trip,
         media: [:charlie_ticket],
