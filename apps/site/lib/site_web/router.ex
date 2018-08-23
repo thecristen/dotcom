@@ -54,7 +54,6 @@ defmodule SiteWeb.Router do
     get "/fares/charlie_card", Redirector, to: "/fares/charliecard"
     get "/fares/charlie-card", Redirector, to: "/fares/charliecard"
     get "/fares/commuter_rail", Redirector, to: "/fares/commuter-rail"
-    get "/fares/commuter_rail/zone", Redirector, to: "/fares/commuter-rail/zone"
     get "/fares/retail_sales_locations", Redirector, to: "/fares/retail-sales-locations"
     get "/schedules/commuter_rail", Redirector, to: "/schedules/commuter-rail"
     get "/stops/commuter_rail", Redirector, to: "/stops/commuter-rail"
