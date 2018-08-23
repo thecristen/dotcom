@@ -19,7 +19,7 @@ defmodule SiteWeb.ModeView do
     content_tag :p do
       ["Fares for the Commuter Rail are separated into zones that depend on your origin and destination. Find your fare cost by entering your origin and destination
       or view ",
-      link("table of fare zones.", to: fare_path(SiteWeb.Endpoint, :zone))]
+      link("table of fare zones.", to: cms_static_page_path(SiteWeb.Endpoint, "/fares/commuter-rail-fares/zones"))]
     end
   end
   def fares_note(_mode) do
