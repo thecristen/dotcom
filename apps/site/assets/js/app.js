@@ -1,3 +1,5 @@
+document.body.className = document.body.className.replace("no-js", "js");
+
 // Brunch automatically concatenates all files in your
 // watched paths. Those paths can be configured at
 // config.paths.watched in "brunch-config.js".
@@ -306,5 +308,3 @@ TripPlannerTimeControls.init();
 TripPlannerResults.init();
 fullstory();
 transitNearMe();
-
-document.body.className = document.body.className.replace("no-js", "js");
