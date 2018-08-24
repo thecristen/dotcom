@@ -13,13 +13,15 @@
     <%= for %Journey{departure: departure, arrival: arrival, trip: trip} <- @journeys do %>
       <%
         %{id: departure_route_id} = PredictedSchedule.route(departure)
+        should_display_trip_info? = TripInfo.should_display_trip_info?(@trip_info)
       %>
       <%= if trip do %>
         <% is_current_trip? = TripInfo.is_current_trip?(@trip_info, trip.id) %>
         <%= alerts = trip_alerts(departure, @all_alerts, @route, @direction_id)
             class = if is_current_trip?, do: (if @trip_chosen?, do: "trip-list-row-selected", else: "trip-list-row-preselected")
             url = trip_link(@conn, @trip_info, @trip_chosen?, trip.id)
-            render "_trip_list_row.html", departure: departure,
+            render "_trip_list_row.html", should_display_trip_info?: should_display_trip_info?,
+                                          departure: departure,
                                           arrival: arrival,
                                           trip: trip,
                                           url: url,
@@ -32,7 +34,8 @@
           <%= render "_trip_info.html", forward_assigns(@conn) %>
         <% end %>
       <% else %>
-        <%= render "_trip_list_row.html", departure: departure,
+        <%= render "_trip_list_row.html", should_display_trip_info?: should_display_trip_info?,
+                                          departure: departure,
                                           arrival: arrival,
                                           alerts: [],
                                           departure_route_id: departure_route_id %>

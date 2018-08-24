@@ -23,7 +23,9 @@
                                                                      route_id: @departure_route_id,
                                                                      content: String.last(@departure_route_id))
       else
-        fa "caret-down caret hidden-md-up"
+        if @should_display_trip_info? do
+          fa "caret-down caret hidden-md-up"
+        end
       end %>
       <%= if assigns[:url] do %>
         <span class="sr-only">Click for trip information</span>
