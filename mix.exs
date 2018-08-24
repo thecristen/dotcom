@@ -5,7 +5,11 @@ defmodule DotCom.Mixfile do
     [apps_path: "apps",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     preferred_cli_env: [coveralls: :test, "coveralls.json": :test],
+     preferred_cli_env: [
+       "coveralls": :test,
+       "coveralls.json": :test,
+       "coveralls.detail": :test
+     ],
      test_coverage: [tool: ExCoveralls],
      dialyzer: [
        plt_add_apps: [:mix, :phoenix_live_reload, :laboratory],
