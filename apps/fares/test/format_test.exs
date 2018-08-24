@@ -2,6 +2,7 @@ defmodule Fares.FormatTest do
   use ExUnit.Case, async: true
   alias Fares.{Fare, Summary}
   import Fares.Format
+  import Fares.Summary
 
   test "fare price gets a string version of the price formatted nicely" do
     assert price(%Fare{cents: 925}) == "$9.25"
@@ -151,6 +152,18 @@ defmodule Fares.FormatTest do
         }
       ]
       assert actual == expected
+    end
+  end
+
+  describe "price_range/1" do
+    test "plain text of a summary price range can be extracted" do
+      summary = %Summary{
+          name: "Ferry One Way",
+          duration: :single_trip,
+          fares: [{"All ferry routes", ["$1.00", " - ", "$2.00"]}],
+          modes: [:ferry]
+        }
+      assert price_range(summary) == "$1.00 - $2.00"
     end
   end
 

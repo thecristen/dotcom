@@ -8,7 +8,7 @@ defmodule Fares.Repo do
 
   @spec all() :: [Fare.t]
   @spec all(Keyword.t) :: [Fare.t]
-  def all() do
+  def all do
     @fares
   end
   def all(opts) when is_list(opts) do

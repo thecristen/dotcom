@@ -6,12 +6,12 @@ defmodule Fares.Fare do
   """
   @type fare_name :: {atom, String.t()} | atom
   @type media :: :charlie_card
-  | :charlie_ticket
-  | :cash
-  | :commuter_ticket
-  | :mticket
-  | :student_card
-  | :senior_card
+               | :charlie_ticket
+               | :cash
+               | :commuter_ticket
+               | :mticket
+               | :student_card
+               | :senior_card
   @type reduced :: nil | :student | :senior_disabled
   @type duration :: :single_trip | :round_trip | :day | :week | :month
   @type t :: %__MODULE__{

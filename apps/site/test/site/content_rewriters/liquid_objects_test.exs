@@ -7,6 +7,7 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
   import SiteWeb.ViewHelpers, only: [fa: 1, svg: 1]
 
   alias SiteWeb.PartialView.SvgIconWithCircle
+  alias Fares.{Format, Repo}
 
   describe "replace/1" do
     test "it replaces fa- prefixed objects" do
@@ -46,19 +47,17 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
       assert replace(~s(app-badge "foobar")) == ~s({{ unknown app badge "foobar" }})
     end
 
-    test "it handles simple fare requests" do
-      price_like = ~r/\$\d+\.\d+/
-      assert replace(~s(fare:subway:charlie_card)) =~ price_like
-      assert replace(~s(fare:subway:cash)) =~ price_like
-      assert replace(~s(fare:bus:charlie_card)) =~ price_like
-      assert replace(~s(fare:bus:cash)) =~ price_like
+    test "it handles good fare requests" do
+      results = Repo.all([name: :local_bus, includes_media: :cash, reduced: nil, duration: :single_trip])
+      assert replace(~s(fare:local_bus:cash)) == results |> List.first() |> Format.price()
     end
 
-    test "non-existent fare replacement is not replaced" do
-      assert replace(~s(fare:commuter_rail:cash)) == "{{ fare:commuter_rail:cash }}"
+    test "it handles bad fare requests" do
+      assert replace(~s(fare:spaceship)) == ~s({{ fare:<span class="text-danger">spaceship</span> }})
+      assert replace(~s(fare:cash)) == ~s({{ <span class="text-danger">missing mode/name</span> fare:cash }})
     end
 
-    test "it returns liquid object when not otherwise handled" do
+    test "it returns a liquid object when not otherwise handled" do
       assert replace("something-else") == "{{ something-else }}"
     end
   end

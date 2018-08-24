@@ -25,4 +25,9 @@ defmodule Fares.Summary do
     fares: [],
     url: nil
   ]
+
+  @spec price_range(t) :: String.t
+  def price_range(%__MODULE__{fares: [{_label, amount} | _]}) do
+    IO.iodata_to_binary(amount)
+  end
 end

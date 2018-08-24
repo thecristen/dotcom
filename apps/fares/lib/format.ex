@@ -14,7 +14,7 @@ defmodule Fares.Format do
   end
 
   @doc "Formats the fare media (card, &c) as a string"
-  @spec media(Fare.t | [Fare.media] | Fare.media) :: String.t
+  @spec media(Fare.t | [Fare.media] | Fare.media) :: iodata
   def media(%Fare{media: list}), do: media(list)
   def media(list) when is_list(list) do
     list
@@ -76,6 +76,8 @@ defmodule Fares.Format do
   def name({:interzone, zone}), do: "Interzone #{zone}"
   def name(:foxboro), do: "Foxboro"
   def name(:free_fare), do: "Free Fare for SL1 Trips from Airport Stops"
+  def name(:ada_ride), do: "ADA Ride"
+  def name(:premium_ride), do: "Premium Ride"
 
   @spec full_name(Fare.t) :: String.t | iolist
   def full_name(%Fare{mode: :subway, duration: :month}), do: "Monthly LinkPass"
@@ -125,12 +127,6 @@ defmodule Fares.Format do
     end)
   end
 
-  defp price_range_summary_name(fare, :commuter_rail), do: "Commuter Rail " <> duration(fare)
-  defp price_range_summary_name(fare, :ferry), do: "Ferry " <> duration(fare)
-
-  defp price_range_label(:commuter_rail), do: "Zones 1A-10"
-  defp price_range_label(:ferry), do: "All ferry routes"
-
   @spec summarize_one(Fare.t, Keyword.t) :: Summary.t
   def summarize_one(fare, opts \\ []) do
     %Fares.Summary{
@@ -141,4 +137,10 @@ defmodule Fares.Format do
       url: Keyword.get(opts, :url)
     }
   end
+
+  defp price_range_label(:commuter_rail), do: "Zones 1A-10"
+  defp price_range_label(:ferry), do: "All ferry routes"
+
+  defp price_range_summary_name(fare, :commuter_rail), do: "Commuter Rail " <> duration(fare)
+  defp price_range_summary_name(fare, :ferry), do: "Ferry " <> duration(fare)
 end
