@@ -1,5 +1,5 @@
 <%= if @page.sidebar_menu do %>
-  <div class="c-cms__sidebar fixedsticky sticky-top">
+  <div class="c-cms__sidebar">
     <h2 class="c-cms__sidebar-title">
       <span class="c-cms__title-prefix">More from </span><%= @page.sidebar_menu.title %>
     </h2>

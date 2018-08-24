@@ -164,18 +164,6 @@ $body-columns: ();
   }
 }
 
-.c-cms__body {
-  .c-cms--sidebar-left & {
-    .fixedsticky-on ~ & {
-      float: right;
-    }
-  }
-
-  .c-cms--no-sidebar & {
-    float: none;
-  }
-}
-
 .c-cms__sidebar {
 
   // Visually align sidebar headings' baselines with the adjacent h1 baseline
@@ -214,33 +202,9 @@ $body-columns: ();
     }
   }
 
-  .c-cms--sidebar-before & {
-    // Disable sticky positioning when menu appears at top of page
-    @include media-breakpoint-down(sm) {
-      &.fixedsticky {
-        position: relative;
-      }
-    }
-  }
-
   // Provide additional buffer when in single-column layout (mobile) below content
   .c-cms--sidebar-after &,
   .c-cms--sidebar-right & {
     margin-bottom: $base-spacing;
-  }
-
-  &.fixedsticky-on {
-    // We use a vendor plugin that applies position: fixed in browsers
-    // that don't support position: sticky, and this class indicates that
-    // it is active. However, it appears that position: fixed
-    // affects sidebar's width context somehow, & makes it so that 25%
-    // means 25% of the whole page, instead of the container.
-    // So when that class is applied, we define the width using pixels
-    // instead of %.  -kh
-    @each $breakpoint in md, lg, xxl {
-      @include media-breakpoint-only($breakpoint) {
-        width: map-get($container-max-widths, $breakpoint) / 4;
-      }
-    }
   }
 }
