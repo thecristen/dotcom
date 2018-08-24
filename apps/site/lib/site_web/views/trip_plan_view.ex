@@ -311,15 +311,17 @@ defmodule SiteWeb.TripPlanView do
     svg_icon_with_circle(%SvgIconWithCircle{icon: route})
   end
 
-  def datetime_from_query(%Query{time: {_, dt}}), do: dt
+  def datetime_from_query(%Query{time: {:error, _}}), do: datetime_from_query(nil)
+  def datetime_from_query(%Query{time: {_depart_or_arrive, dt}}), do: dt
   def datetime_from_query(nil), do: Util.now()
 
-  @spec format_plan_type_for_title(Query.t()) :: Phoenix.HTML.Safe.t()
+  @spec format_plan_type_for_title(Query.t() | nil) :: Phoenix.HTML.Safe.t()
   def format_plan_type_for_title(%{time: {:arrive_by, dt}}), do: ["Arrive by ", Timex.format!(dt, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
   def format_plan_type_for_title(%{time: {:depart_at, dt}}), do: ["Depart at ", Timex.format!(dt, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
+  def format_plan_type_for_title(%{time: {:error, _}}), do: format_plan_type_for_title(nil)
   def format_plan_type_for_title(nil), do: ["Depart at ", Timex.format!(Util.now(), "{h12}:{m} {AM}, {M}/{D}/{YY}")]
 
-  def trip_plan_datetime_select(form, datetime) do
+  def trip_plan_datetime_select(form, %DateTime{} = datetime) do
     time_options = [
       hour: [options: 1..12, selected: Timex.format!(datetime, "{h12}")],
       minute: [selected: datetime.minute]
@@ -343,7 +345,7 @@ defmodule SiteWeb.TripPlanView do
   end
 
   @spec custom_date_select(Form.t(), DateTime.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
-  defp custom_date_select(form, datetime, options) do
+  defp custom_date_select(form, %DateTime{} = datetime, options) do
     min_date = Timex.format!(Util.now(), "{0M}/{0D}/{YYYY}")
     max_date = Timex.format!(Schedules.Repo.end_of_rating(), "{0M}/{0D}/{YYYY}")
     current_date = Timex.format!(datetime, "{WDfull}, {Mfull} {D}, {YYYY}")

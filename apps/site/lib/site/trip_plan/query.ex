@@ -13,17 +13,18 @@ defmodule Site.TripPlan.Query do
   @type t :: %__MODULE__{
     from: position,
     to: position,
-    time: :unknown | {:depart_at | :arrive_by, DateTime.t},
+    time: :unknown | Site.TripPlan.DateTime.date_time,
     errors: MapSet.t(atom),
     wheelchair_accessible?: boolean,
     itineraries: TripPlan.Api.t | nil
   }
 
-  @spec from_query(map) :: t
-  def from_query(params) do
+  @spec from_query(map, Keyword.t) :: t
+  def from_query(params, date_opts) do
     opts = opts_from_query(params)
 
     %__MODULE__{}
+    |> Site.TripPlan.DateTime.validate(params, date_opts)
     |> Site.TripPlan.Location.validate(params)
     |> include_options(opts)
     |> maybe_fetch_itineraries(opts)
@@ -36,7 +37,7 @@ defmodule Site.TripPlan.Query do
   } = query, opts) do
     if Enum.empty?(query.errors) do
       query
-      |> fetch_itineraries(opts)
+      |> fetch_itineraries([query.time | opts])
       |> parse_itinerary_result(query)
     else
       query
@@ -84,28 +85,11 @@ defmodule Site.TripPlan.Query do
   end
 
   defp include_options(%__MODULE__{} = query, opts) do
-    time = cond do
-      dt = opts[:arrive_by] ->
-        {:arrive_by, dt}
-      dt = opts[:depart_at] ->
-        {:depart_at, dt}
-      true ->
-        {:depart_at, Util.now()}
-    end
-    %{query |
-      time: time,
-      wheelchair_accessible?: opts[:wheelchair_accessible?] == true
-    }
+    %{query | wheelchair_accessible?: opts[:wheelchair_accessible?] == true}
   end
 
   @spec opts_from_query(map, Keyword.t) :: Keyword.t
   def opts_from_query(query, opts \\ [])
-  def opts_from_query(%{"time" => "depart", "date_time" => _date_time} = query, opts) do
-    do_date_time(:depart_at, query, opts)
-  end
-  def opts_from_query(%{"time" => "arrive", "date_time" => _date_time} = query, opts) do
-    do_date_time(:arrive_by, query, opts)
-  end
   def opts_from_query(%{"optimize_for" => val} = query, opts) do
     opts_from_query(
       Map.delete(query, "optimize_for"),
@@ -120,12 +104,6 @@ defmodule Site.TripPlan.Query do
   end
   def opts_from_query(_, opts) do
     opts
-  end
-
-  defp do_date_time(param, %{"date_time" => date_time} = query, opts) do
-    opts_from_query(
-      Map.drop(query, ["time", "date_time"]),
-      Keyword.put(opts, param, date_time))
   end
 
   @spec get_mode_opts(map, Keyword.t) :: Keyword.t

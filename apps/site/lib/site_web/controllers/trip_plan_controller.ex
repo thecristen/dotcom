@@ -16,17 +16,9 @@ defmodule SiteWeb.TripPlanController do
   @type route_mapper :: (Routes.Route.id_t() -> Routes.Route.t() | nil)
 
   def index(conn, %{"plan" => %{"date_time" => _dt, "to" => _to, "from" => _fr} = plan}) do
-    case validate_params(Map.put(plan, "system_date_time", conn.assigns.date_time)) do
-      {:ok, date} ->
-        conn
-        |> assign(:expanded, conn.query_params["expanded"])
-        |> render_plan(%{plan | "date_time" => date})
-
-      {:error, error} ->
-        conn
-        |> assign(:plan_error, [error])
-        |> render(:index)
-    end
+    conn
+    |> assign(:expanded, conn.query_params["expanded"])
+    |> render_plan(plan)
   end
 
   def index(conn, _params) do
@@ -35,7 +27,10 @@ defmodule SiteWeb.TripPlanController do
 
   @spec render_plan(Plug.Conn.t, map) :: Plug.Conn.t
   defp render_plan(conn, plan) do
-    query = Query.from_query(plan)
+    query = Query.from_query(plan, [
+      now: conn.assigns.date_time,
+      end_of_rating: Map.get(conn.assigns, :end_of_rating, Schedules.Repo.end_of_rating())
+    ])
     itineraries = Query.get_itineraries(query)
     route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
@@ -53,92 +48,6 @@ defmodule SiteWeb.TripPlanController do
         Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1, route_by_id: route_mapper)),
       itinerary_row_lists: itinerary_row_lists
     )
-  end
-
-  @spec validate_params(map) :: {:ok, NaiveDateTime.t} | {:error, :invalid_date | :too_future}
-  def validate_params(%{"date_time" => _dt} = plan) do
-    validate_date(plan)
-  end
-
-  @spec validate_date(map | {:ok, %{atom => NaiveDateTime.t(), atom => DateTime.t()}}) ::
-          {:ok, DateTime.t()} | {:error, %{atom => String.t()}}
-  defp validate_date(%{"date_time" => %{
-         "year" => year,
-         "month" => month,
-         "day" => day,
-         "hour" => hour,
-         "minute" => minute,
-         "am_pm" => am_pm
-       }} = plan) do
-    case convert_to_date("#{year}-#{month}-#{day} #{hour}:#{minute} #{am_pm}") do
-      %NaiveDateTime{} = naive_date ->
-        validate_date({:ok, %{plan | "date_time" => naive_date}})
-      _ ->
-        {:error, :invalid_date}
-    end
-  end
-
-  defp validate_date({:ok, %{"date_time" => naive_date, "system_date_time" => date_time}}) do
-    timezoned_date = future_date_or_now(naive_date, date_time)
-    service_date = Util.service_date(timezoned_date)
-    end_date = Schedules.Repo.end_of_rating()
-
-    if Date.compare(service_date, end_date) == :gt do
-      {:error, :too_future}
-    else
-      {:ok, timezoned_date}
-    end
-  end
-
-  defp validate_date(_) do
-    {:error, :invalid_date}
-  end
-
-  @spec convert_to_date(String.t()) :: NaiveDateTime.t() | nil
-  defp convert_to_date(date_string) do
-    {result, date_time} = Timex.parse(date_string, "{YYYY}-{M}-{D} {_h24}:{_m} {AM}")
-
-    case {result, Timex.is_valid?(date_time)} do
-      {:ok, true} -> date_time
-      {_, _} -> nil
-    end
-  end
-
-  @doc """
-  Converts a NaiveDateTime to another zone, and takes the later of the two times.
-
-  ## Examples
-
-      iex> import SiteWeb.TripPlanController
-      iex> in_edt = Timex.to_datetime(~N[2017-11-02T13:00:00], "America/New_York")
-      iex> future_date_or_now(~N[2017-11-02T12:00:00], in_edt)
-      #DateTime<2017-11-02 13:00:00-04:00 EDT America/New_York>
-      iex> future_date_or_now(~N[2017-11-05T01:30:00], in_edt)
-      #DateTime<2017-11-05 01:30:00-04:00 EDT America/New_York>
-      iex> future_date_or_now(~N[2017-11-05T02:00:00], in_edt)
-      #DateTime<2017-11-05 02:00:00-05:00 EST America/New_York>
-      iex> future_date_or_now(~N[2017-12-01T12:00:00], in_edt)
-      #DateTime<2017-12-01 12:00:00-05:00 EST America/New_York>
-  """
-  @spec future_date_or_now(NaiveDateTime.t(), DateTime.t()) :: DateTime.t()
-  def future_date_or_now(naive_date, system_date_time) do
-    local_date_time =
-      case Timex.to_datetime(naive_date, system_date_time.time_zone) do
-        %DateTime{} = dt ->
-          dt
-
-        %Timex.AmbiguousDateTime{before: before} ->
-          # if you select a date/time during the DST transition, the service
-          # will still be running under the previous timezone. Therefore, we
-          # pick the "before" time which is n the original zone.
-          before
-      end
-
-    if Timex.after?(local_date_time, system_date_time) do
-      local_date_time
-    else
-      system_date_time
-    end
   end
 
   def require_google_maps(conn, _) do

@@ -16,6 +16,7 @@ defmodule SiteWeb.TripPlanControllerTest do
     "plan" => %{"from" => "from address",
                 "to" => "to address",
                 "date_time" => @afternoon,
+                "time" => "depart",
                 "modes" => @modes,
                 "optimize_for" => "best_route"}
   }
@@ -26,6 +27,18 @@ defmodule SiteWeb.TripPlanControllerTest do
                 "to" => "too many results",
                 "date_time" => @afternoon}
   }
+
+  setup do
+    conn = build_conn()
+
+    end_of_rating =
+      @system_time
+      |> Timex.parse!("{ISO:Extended}")
+      |> Timex.shift(months: 3)
+      |> DateTime.to_date()
+
+    {:ok, conn: assign(conn, :end_of_rating, end_of_rating)}
+  end
 
   describe "index without params" do
     test "renders index.html", %{conn: conn} do
@@ -267,7 +280,7 @@ defmodule SiteWeb.TripPlanControllerTest do
         "date_time" => @system_time,
         "plan" => %{"from" => "from",
                     "to" => "to",
-                    "date_time" => %{@afternoon | "year" => "2016"}
+                    "date_time" => %{@afternoon | "year" => "2016"},
                    }}
 
       conn = get conn, trip_plan_path(conn, :index, params)
@@ -343,11 +356,13 @@ defmodule SiteWeb.TripPlanControllerTest do
         "date_time" => @system_time,
         "plan" => %{"from" => "from address",
                     "to" => "to address",
-                    "date_time" => end_date_as_params
+                    "date_time" => end_date_as_params,
+                    "time" => "depart"
                    }}
 
       conn = get conn, trip_plan_path(conn, :index, params)
       response = html_response(conn, 200)
+      assert Map.get(conn.assigns, :plan_error) == [:too_future]
       assert response =~ "Date is too far in the future"
       expected =
         [:too_future]
@@ -357,18 +372,30 @@ defmodule SiteWeb.TripPlanControllerTest do
     end
 
     test "good date input: date within service date of end of rating", %{conn: conn} do
-      end_date = Timex.shift(Schedules.Repo.end_of_rating, days: 1)
-      end_date_as_params = %{"month" => Integer.to_string(end_date.month), "day" => Integer.to_string(end_date.day),
-        "year" => Integer.to_string(end_date.year), "hour" => "12", "minute" => "15", "am_pm" => "AM"}
+      # after midnight but before end of service on last day of rating
+      # should still be inside of the rating
+
+      date = Timex.shift(conn.assigns.end_of_rating, days: 1)
+      date_params = %{
+        "month" => Integer.to_string(date.month),
+        "day" => Integer.to_string(date.day),
+        "year" => Integer.to_string(date.year),
+        "hour" => "12",
+        "minute" => "15",
+        "am_pm" => "AM"
+      }
+
       params = %{
         "date_time" => @system_time,
         "plan" => %{"from" => "from address",
                     "to" => "to address",
-                    "date_time" => end_date_as_params
+                    "date_time" => date_params
                    }}
 
-      conn = get conn, trip_plan_path(conn, :index, params)
+      conn = get(conn, trip_plan_path(conn, :index, params))
+
       response = html_response(conn, 200)
+      assert Map.get(conn.assigns, :plan_error) == []
       refute response =~ "Date is too far in the future"
       refute response =~ "Date is not valid"
     end
@@ -378,11 +405,13 @@ defmodule SiteWeb.TripPlanControllerTest do
         "date_time" => @system_time,
         "plan" => %{"from" => "from address",
                     "to" => "to address",
-                    "date_time" => %{@after_hours | "hour" => "1", "minute" => "1"}
+                    "date_time" => %{@after_hours | "hour" => "1", "minute" => "1"},
+                    "time" => "depart"
                    }}
 
       conn = get conn, trip_plan_path(conn, :index, params)
       response = html_response(conn, 200)
+      assert Map.get(conn.assigns, :plan_error) == []
       refute response =~ "Date is not valid"
     end
 
