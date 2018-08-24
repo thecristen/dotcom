@@ -16,8 +16,7 @@
   position: relative;
 }
 
-.c-search-bar__empty,
-.c-search-bar__results-header {
+.c-search-bar__empty {
   display: flex;
   justify-content: space-between;
   padding: $base-spacing / 2;
@@ -39,14 +38,6 @@
   z-index: $z-index-search-bar-results;
 }
 
-.c-search-bar__results-header {
-  background-color: $gray-bordered-background;
-  border-top: $border;
-  font-weight: normal;
-  margin: 0;
-  text-align: left;
-}
-
 .c-search-bar__result {
   display: block;
 }
@@ -64,7 +55,6 @@
 
 .c-search-bar--hidden,
 .c-search-bar__results--hidden,
-.c-search-bar__results-header--hidden,
 .c-search-bar__autocomplete-results--hidden,
 .c-search-bar__result--hidden {
   display: none;

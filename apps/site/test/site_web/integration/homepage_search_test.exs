@@ -2,31 +2,12 @@ defmodule SiteWeb.HomepageSearchTest do
   use SiteWeb.IntegrationCase
   alias Wallaby.Browser
   import Wallaby.Query
-  import SiteWeb.IntegrationHelpers
 
   @search_input css("#homepage-search__input")
 
   setup tags do
     %{session: %Wallaby.Session{} = session} = Map.new(tags)
     {:ok, session: visit(session, "/")}
-  end
-
-  describe "basic search" do
-    @tag :wallaby
-    test "clicking show more goes to search page with facet checked and show more populated", %{session: session} do
-      session =
-        session
-        |> fill_in(@search_input, with: "Alewife")
-        |> assert_has(css(".c-search-bar__-dataset-pagesdocuments"))
-        |> click(css("#show-more--pagesdocuments"))
-
-      assert Wallaby.Browser.text(session, css(".c-search-result__header")) == "Pages and Documents"
-      section = find(session, search_results_section(1))
-      assert_has(section, css(".c-search-result__hit", minimum: 6))
-      assert selected?(session, facet_checkbox("pages-parent"))
-      assert selected?(session, facet_checkbox("page"))
-      assert selected?(session, facet_checkbox("document"))
-    end
   end
 
   describe "reset button" do

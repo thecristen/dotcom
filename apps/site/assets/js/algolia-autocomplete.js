@@ -2,7 +2,7 @@ import * as AlgoliaResult from "./algolia-result";
 import * as QueryStringHelpers from "./query-string-helpers";
 
 export class AlgoliaAutocomplete {
-  constructor(id, selectors, indices, headers, parent) {
+  constructor(id, selectors, indices, parent) {
     if (typeof id !== "string") {
       throw new window.Error("autocomplete must have an id");
     }
@@ -17,7 +17,6 @@ export class AlgoliaAutocomplete {
     this._searchContainer = document.getElementById(this._selectors.container);
     this._resetButton = document.getElementById(this._selectors.resetButton);
     this._indices = indices;
-    this._headers = Object.assign(AlgoliaAutocomplete.DEFAULT_HEADERS, headers);
     this._datasets = [];
     this._results = {};
     this._highlightedHit = null;
@@ -227,18 +226,11 @@ export class AlgoliaAutocomplete {
       name: indexName,
       hitsPerPage: 5,
       templates: {
-        header: this.renderHeaderTemplate(indexName),
         suggestion: this.renderResult(indexName),
         footer: this.renderFooterTemplate(indexName),
       }
     });
     return acc;
-  }
-
-  renderHeaderTemplate(indexName) {
-    // Default header template simply includes the index name
-    // To render a different header template, override this method.
-    return `<p class="c-search-bar__results-header">${this._headers[indexName]}</p>`;
   }
 
   renderFooterTemplate(_indexName) {
@@ -282,15 +274,6 @@ export class AlgoliaAutocomplete {
   getValue() {
     return this._autocomplete.autocomplete.getVal();
   }
-}
-
-AlgoliaAutocomplete.DEFAULT_HEADERS = {
-  stops: "Stations and Stops",
-  routes: "Lines and Routes",
-  pagesdocuments: "Pages and Documents",
-  events: "Events",
-  news: "News",
-  locations: "Locations"
 }
 
 AlgoliaAutocomplete.DISPLAY_KEYS = {

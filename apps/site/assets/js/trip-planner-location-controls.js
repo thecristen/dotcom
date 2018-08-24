@@ -58,7 +58,6 @@ export class TripPlannerLocControls {
       "trip-planner__autocomplete--to",
       TripPlannerLocControls.SELECTORS.to,
       Object.keys(TripPlannerLocControls.INDICES.to),
-      {},
       { position: 1, hitLimit: 3 },
       this
     );
@@ -67,14 +66,12 @@ export class TripPlannerLocControls {
       "trip-planner__autocomplete--from",
       TripPlannerLocControls.SELECTORS.from,
       Object.keys(TripPlannerLocControls.INDICES.from),
-      {},
       { position: 1, hitLimit: 3 },
       this
     );
     this.autocompletes = [this.toAutocomplete, this.fromAutocomplete];
 
     this.autocompletes.forEach(ac => {
-      ac.renderHeaderTemplate = () => {};
       ac.renderFooterTemplate = this.renderFooterTemplate;
       ac.setError(null);
       ac.onHitSelected = this.onHitSelected(

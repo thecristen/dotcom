@@ -115,7 +115,7 @@ describe("AlgoliaAutocomplete", () => {
   describe("clickFirstResult", () => {
     describe("when results exist:", () => {
       it("clicks the first result of the first index with hits", () => {
-        const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], {}, parent);
+        const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], parent);
         ac.init({});
         ac._results = {
           stops: {
@@ -139,7 +139,7 @@ describe("AlgoliaAutocomplete", () => {
       });
 
       it("finds the first index with results if some are empty", () => {
-        const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "routes"], {}, parent);
+        const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "routes"], parent);
         ac.init({});
         ac._results = {
           stops: {
@@ -188,22 +188,10 @@ describe("AlgoliaAutocomplete", () => {
     });
   });
 
-  describe("renderHeaderTemplate", function() {
-    it("uses supplied headers if they exist", function() {
-      const headers = {
-        stops: "External Stops Header",
-      };
-      const ac = new AlgoliaAutocomplete("id", selectors, indices, headers, parent);
-
-      expect(ac.renderHeaderTemplate("stops")).to.contain("External Stops Header");
-      expect(ac.renderHeaderTemplate("routes")).to.contain("Lines and Routes");
-    });
-  });
-
   describe("clickHighlightedOrFirstResult", () => {
     describe("when this._highlightedHit exists", () => {
       it("visits the highlightedHit url if higlightedHit is not null", () => {
-        const ac = new AlgoliaAutocomplete("id", selectors, indices, {}, parent);
+        const ac = new AlgoliaAutocomplete("id", selectors, indices, parent);
         ac.init({});
         ac._highlightedHit = {
           index: indices[0],
@@ -223,7 +211,7 @@ describe("AlgoliaAutocomplete", () => {
     describe("when this._highlightedHit is null", () => {
       describe("and this._results has results", () => {
         it("visits the url of the first index's results that we get from AlgoliaResult.getUrl", () => {
-          const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], {}, parent);
+          const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], parent);
           ac.init({});
           ac._results = {
             stops: {

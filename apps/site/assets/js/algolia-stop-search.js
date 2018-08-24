@@ -31,7 +31,6 @@ export class AlgoliaStopSearch {
     this.autocomplete = new AlgoliaAutocompleteWithGeo("stops-page-search",
                                                         AlgoliaStopSearch.SELECTORS,
                                                         Object.keys(AlgoliaStopSearch.INDICES),
-                                                        AlgoliaStopSearch.HEADERS,
                                                         {position: 1, hitLimit: 5},
                                                         this);
     this.autocomplete.renderFooterTemplate = this.renderFooterTemplate.bind(this);
@@ -86,9 +85,4 @@ AlgoliaStopSearch.PARAMS = {
     facets: ["*"],
     facetFilters: [[]]
   }
-};
-
-AlgoliaStopSearch.HEADERS = {
-  stops: "MBTA Station Results",
-  locations: "Location Results"
-};
+}

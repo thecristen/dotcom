@@ -1,8 +1,6 @@
 import { doWhenGoogleMapsIsReady} from './google-maps-loaded';
-import * as QueryStringHelpers from "./query-string-helpers";
 import { Algolia } from "./algolia-search";
-import { AlgoliaAutocompleteWithGeo } from "./algolia-autocomplete-with-geo"
-import { AlgoliaAutocomplete } from "./algolia-autocomplete"
+import { AlgoliaAutocompleteWithGeo } from "./algolia-autocomplete-with-geo";
 import { animatePlaceholder } from "./animated-placeholder";
 import { placeholders } from "./search-placeholders";
 
@@ -29,11 +27,9 @@ export class AlgoliaHomepageSearch {
     this._autocomplete = new AlgoliaAutocompleteWithGeo("homepage-autocomplete",
                                                         AlgoliaHomepageSearch.SELECTORS,
                                                         Object.keys(AlgoliaHomepageSearch.INDICES),
-                                                        {},
                                                         AlgoliaHomepageSearch.LOCATION_PARAMS,
                                                         this);
     this._autocomplete.renderFooterTemplate = this._renderFooterTemplate;
-    this._autocomplete.renderHeaderTemplate = this._renderHeaderTemplate;
     this._controller.addWidget(this._autocomplete);
     animatePlaceholder(AlgoliaHomepageSearch.SELECTORS.input, placeholders);
     this.addEventListeners();
@@ -41,7 +37,6 @@ export class AlgoliaHomepageSearch {
 
   bind() {
     this._renderFooterTemplate = this._renderFooterTemplate.bind(this);
-    this._renderHeaderTemplate = this._renderHeaderTemplate.bind(this);
   }
 
   addEventListeners() {
@@ -58,11 +53,6 @@ export class AlgoliaHomepageSearch {
     });
   }
 
-  _renderHeaderTemplate(indexName) {
-    const showMore = this._renderShowMoreTemplate(indexName);
-    return `<div class="c-search-bar__results-header">${AlgoliaAutocomplete.DEFAULT_HEADERS[indexName]}${showMore}</div>`;
-  }
-
   _renderFooterTemplate(indexName) {
     if (indexName == "locations") {
       return '<div class="c-search-result__google">' +
@@ -70,10 +60,6 @@ export class AlgoliaHomepageSearch {
              '</div>';
     }
     return "";
-  }
-
-  _renderShowMoreTemplate(indexName) {
-    return `<span id="show-more--${indexName}" class="c-search-bar__autocomplete--show-more">Show more</span>`;
   }
 
   _onClickShowMore(indexName) {

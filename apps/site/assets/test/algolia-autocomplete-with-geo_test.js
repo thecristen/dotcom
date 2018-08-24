@@ -34,16 +34,11 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       reset: sinon.spy(),
       updateParamsByKey: sinon.spy(),
     };
-    const headers = {
-      stops: "Stops Header",
-      locations: "Locations Header"
-    };
-
     const locationsData = {
       position: 1,
       hitLimit: 3,
     };
-    this.ac = new AlgoliaAutocompleteWithGeo("id", selectors, indices, headers, locationsData, this.parent);
+    this.ac = new AlgoliaAutocompleteWithGeo("id", selectors, indices, locationsData, this.parent);
     this.ac.init(this.client);
     $("#use-my-location-container").css("display", "none");
   });
