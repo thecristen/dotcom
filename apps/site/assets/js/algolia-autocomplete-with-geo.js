@@ -1,12 +1,15 @@
 import { AlgoliaAutocomplete } from "./algolia-autocomplete";
 import * as GoogleMapsHelpers from './google-maps-helpers';
-import * as Icons from './icons';
+import * as QueryStringHelpers from "./query-string-helpers";
 import geolocationPromise from "./geolocation-promise";
 import * as AlgoliaResult from "./algolia-result";
 
 export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   constructor(id, selectors, indices, headers, locationParams, parent) {
     super(id, selectors, indices, headers, parent);
+    if(!this._parent.getParams) {
+      this._parent.getParams = () => { return {}; };
+    }
     this._loadingIndicator = document.getElementById(selectors.locationLoadingIndicator);
     this._locationParams = Object.assign(AlgoliaAutocompleteWithGeo.DEFAULT_LOCATION_PARAMS, locationParams);
     this._indices.splice(this._locationParams.position, 0, "locations");
@@ -138,33 +141,11 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   }
 
   showLocation(latitude, longitude, address) {
-    this._parent.changeLocationHeader(address);
-    return this._searchAlgoliaByGeo(latitude, longitude);
-  }
-
-  _geoSearch(placesResults) {
-    const latitude = placesResults.geometry.location.lat();
-    const longitude = placesResults.geometry.location.lng();
-    this._searchAlgoliaByGeo(latitude, longitude);
-    this._parent.changeLocationHeader(placesResults.formatted_address);
-    return placesResults;
-  }
-
-  _searchAlgoliaByGeo(latitude, longitude) {
-    this._client.reset();
-    this._client.updateParamsByKey("stops", "aroundLatLng", `${latitude}, ${longitude}`);
-    this._client.updateParamsByKey("stops", "hitsPerPage", 12);
-    this._client.updateParamsByKey("stops", "getRankingInfo", true);
-    return this._client.search({query: " "})
-            .then(results => this._parent.onLocationResults(results))
-            .catch(err => console.error(err));
-  }
-
-  _formatResult(hit) {
-    hit.routes.map(route => {
-      route.icon = Icons.getFeatureIcon(route.icon);
-    });
-    hit._rankingInfo.geoDistance = (hit._rankingInfo.geoDistance / METERS_PER_MILE).toFixed(1);
+    const params = this._parent.getParams();
+    params.latitude = latitude;
+    params.longitude = longitude;
+    params.address = address;
+    window.Turbolinks.visit("/transit-near-me" + QueryStringHelpers.parseParams(params))
   }
 }
 

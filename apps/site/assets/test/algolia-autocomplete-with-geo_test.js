@@ -28,7 +28,6 @@ describe("AlgoliaAutocompleteWithGeo", function() {
     window.jQuery = jsdom.rerequire("jquery");
     $ = window.jQuery;
     this.parent = {
-      changeLocationHeader: sinon.spy(),
       onLocationResults: sinon.spy((results) => results)
     };
     this.client = {
@@ -112,11 +111,10 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       }
       this.client.search = sinon.stub().resolves(this.locationSearchResults)
       sinon.spy(this.ac, "showLocation");
-      sinon.spy(this.ac, "_searchAlgoliaByGeo");
       sinon.stub(GoogleMapsHelpers, "lookupPlace").resolves({
         geometry: {
           location: {
-            lat: () => 42.0,
+            lat: () => 42.1,
             lng: () => -72.0
           }
         },
@@ -130,6 +128,13 @@ describe("AlgoliaAutocompleteWithGeo", function() {
 
     describe("onHitSelected", function() {
       it("does a location search when index is \"locations\"", function(done) {
+        window.Turbolinks = {
+          visit: sinon.spy()
+        };
+        window.encodeURIComponent = params => {
+          const forceString = params.toString();
+          return forceString.replace(/\s/g, "%20").replace(/\&/g, "%26");
+        }
         this.ac.init(this.client);
         const result = this.ac.onHitSelected({
           originalEvent: {_args: [{ id: "hitId", description: "10 Park Plaza, Boston, MA" }, "locations"]}
@@ -139,35 +144,13 @@ describe("AlgoliaAutocompleteWithGeo", function() {
           expect(this.ac.showLocation.args[0][2]).to.equal("10 Park Plaza, Boston, MA");
           expect($(`#${selectors.input}`).val()).to.equal("10 Park Plaza, Boston, MA");
           expect(GoogleMapsHelpers.lookupPlace.called).to.be.true;
-          Promise.resolve(this.ac.showLocation.getCall(0).returnValue).then((results) => {
-            expect(results).to.equal(this.locationSearchResults);
-            done();
-          });
+          expect(window.Turbolinks.visit.called).to.be.true;
+          expect(window.Turbolinks.visit.args[0][0]).to.contain("latitude=42.1");
+          expect(window.Turbolinks.visit.args[0][0]).to.contain("longitude=-72");
+          expect(window.Turbolinks.visit.args[0][0]).to.contain("address=10%20Park%20Plaza,%20Boston,%20MA");
+          done();
         });
       });
-    });
-
-    describe("clickHighlightedOrFirstResult", function() {
-      it("visits the highlightedHit url", function(done) {
-        this.ac.init(this.client);
-        this.ac._highlightedHit = {
-          index: "locations",
-          hit: {
-            id: "highlightedHitId",
-            url: "/success"
-          }
-        };
-        const result = this.ac.clickHighlightedOrFirstResult();
-        Promise.resolve(result).then(() => {
-          expect(this.ac.showLocation.called).to.be.true;
-          expect(this.ac.showLocation.args[0][2]).to.equal("10 Park Plaza, Boston, MA");
-          expect(GoogleMapsHelpers.lookupPlace.called).to.be.true;
-          Promise.resolve(this.ac.showLocation.getCall(0).returnValue).then((results) => {
-            expect(results).to.equal(this.locationSearchResults);
-            done();
-          });
-        });
-      });
-    });
+    })
   });
 });

@@ -21,8 +21,6 @@ describe("AlgoliaHomepageSearch", function() {
         <div id="powered-by-google-logo"></div>
         <input id="${AlgoliaHomepageSearch.SELECTORS.input}"></input>
         <i id="${AlgoliaHomepageSearch.SELECTORS.resetButton}"></i>
-        <div id="${AlgoliaHomepageSearch.SELECTORS.locationResultsBody}"></div>
-        <div id="${AlgoliaHomepageSearch.SELECTORS.locationResultsHeader}"></div>
       `;
       const ac = new AlgoliaHomepageSearch();
       expect(ac._input).to.be.an.instanceOf(window.HTMLInputElement);
@@ -42,20 +40,18 @@ describe("AlgoliaHomepageSearch", function() {
     });
   });
 
-  describe("_showLocation", () => {
+  describe("showLocation", () => {
     it("adds query parameters for analytics", () => {
       document.body.innerHTML = `
         <div id="powered-by-google-logo"></div>
         <input id="${AlgoliaHomepageSearch.SELECTORS.input}"></input>
         <i id="${AlgoliaHomepageSearch.SELECTORS.resetButton}"></i>
-        <div id="${AlgoliaHomepageSearch.SELECTORS.locationResultsBody}"></div>
-        <div id="${AlgoliaHomepageSearch.SELECTORS.locationResultsHeader}"></div>
       `;
       const ac = new AlgoliaHomepageSearch();
       window.Turbolinks = {
         visit: sinon.spy()
       };
-      window.encodeURIComponent = (str) => str.replace(/\s/g, "+");
+      window.encodeURIComponent = str => str.replace(/\s/g, "+");
       ac._autocomplete.showLocation("42.0", "-71.0", "10 Park Plaza, Boston, MA");
       expect(window.Turbolinks.visit.called).to.be.true;
       expect(window.Turbolinks.visit.args[0][0]).to.contain("from=homepage-search");

@@ -1,11 +1,8 @@
 import { doWhenGoogleMapsIsReady} from './google-maps-loaded';
 import * as QueryStringHelpers from "./query-string-helpers";
-import hogan from "hogan.js";
 import { Algolia } from "./algolia-search";
-import * as AlgoliaResult from "./algolia-result";
 import { AlgoliaAutocompleteWithGeo } from "./algolia-autocomplete-with-geo"
 import { AlgoliaAutocomplete } from "./algolia-autocomplete"
-import { featureIcon } from "./algolia-result";
 import { animatePlaceholder } from "./animated-placeholder";
 import { placeholders } from "./search-placeholders";
 
@@ -37,24 +34,14 @@ export class AlgoliaHomepageSearch {
                                                         this);
     this._autocomplete.renderFooterTemplate = this._renderFooterTemplate;
     this._autocomplete.renderHeaderTemplate = this._renderHeaderTemplate;
-    this._autocomplete.showLocation = this._showLocation;
     this._controller.addWidget(this._autocomplete);
     animatePlaceholder(AlgoliaHomepageSearch.SELECTORS.input, placeholders);
     this.addEventListeners();
   }
 
-  _showLocation(latitude, longitude, address) {
-    const params = this.getParams();
-    params.latitude = latitude;
-    params.longitude = longitude;
-    params.address = address;
-    window.Turbolinks.visit("/transit-near-me" + QueryStringHelpers.parseParams(params))
-  }
-
   bind() {
     this._renderFooterTemplate = this._renderFooterTemplate.bind(this);
     this._renderHeaderTemplate = this._renderHeaderTemplate.bind(this);
-    this._showLocation = this._showLocation.bind(this);
   }
 
   addEventListeners() {

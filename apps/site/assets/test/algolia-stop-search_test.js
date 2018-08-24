@@ -1,13 +1,12 @@
 import jsdom from "mocha-jsdom";
 import sinon from "sinon";
 import { expect } from "chai";
-import { Algolia } from "../../assets/js/algolia-search";
-import { AlgoliaStopSearch } from "../../assets/js/algolia-stop-search";
-import { AlgoliaAutocomplete } from "../../assets/js/algolia-autocomplete";
+import { Algolia } from "../js/algolia-search";
+import { AlgoliaStopSearch } from "../js/algolia-stop-search";
+import { AlgoliaAutocomplete } from "../js/algolia-autocomplete";
 
-describe("AlgoliaStopSearch", function() {
+describe("AlgoliaStopSearch", () => {
   jsdom();
-  const selector = "autocomplete-input";
   beforeEach(() => {
     window.jQuery = jsdom.rerequire("jquery");
     window.autocomplete = jsdom.rerequire("autocomplete.js");
@@ -15,28 +14,26 @@ describe("AlgoliaStopSearch", function() {
       <div id="powered-by-google-logo"></div>
       <input id="${AlgoliaStopSearch.SELECTORS.input}"></input>
       <div id="${AlgoliaStopSearch.SELECTORS.resetButton}"></div>
-      <button id="${AlgoliaStopSearch.SELECTORS.goBtn}"></button>
-      <div id="${AlgoliaStopSearch.SELECTORS.locationResultsBody}"></div>
-      <div id="${AlgoliaStopSearch.SELECTORS.locationResultsHeader}"></div>
+      <button id ="${AlgoliaStopSearch.SELECTORS.goBtn}"></button>
     `;
   });
 
   describe("constructor", () => {
     it("initializes autocomplete if input exists", () => {
       const ac = new AlgoliaStopSearch();
-      expect(ac._input).to.be.an.instanceOf(window.HTMLInputElement);
-      expect(ac._controller).to.be.an.instanceOf(Algolia);
-      expect(ac._autocomplete).to.be.an.instanceOf(AlgoliaAutocomplete);
-      expect(ac._controller.widgets).to.include(ac._autocomplete);
+      expect(ac.input).to.be.an.instanceOf(window.HTMLInputElement);
+      expect(ac.controller).to.be.an.instanceOf(Algolia);
+      expect(ac.autocomplete).to.be.an.instanceOf(AlgoliaAutocomplete);
+      expect(ac.controller.widgets).to.include(ac.autocomplete);
     });
     it("does not initialize autocomplete if input does not exist", () => {
       document.body.innerHTML = `
         <input id="stop-search-fail"></input>
       `;
       const ac = new AlgoliaStopSearch();
-      expect(ac._input).to.equal(null);
-      expect(ac._controller).to.equal(null);
-      expect(ac._autocomplete).to.equal(null);
+      expect(ac.input).to.equal(null);
+      expect(ac.controller).to.equal(null);
+      expect(ac.autocomplete).to.equal(null);
     });
   });
 
@@ -45,12 +42,28 @@ describe("AlgoliaStopSearch", function() {
       const search = new AlgoliaStopSearch();
       const $ = window.jQuery;
 
-      const $goBtn = $("#" + search._autocomplete._selectors.goBtn);
+      const $goBtn = $(`#${AlgoliaStopSearch.SELECTORS.goBtn}`);
       expect($goBtn.length).to.equal(1);
 
-      search._autocomplete.clickHighlightedOrFirstResult = sinon.spy();
+      search.autocomplete.clickHighlightedOrFirstResult = sinon.spy();
       $goBtn.click();
-      expect(search._autocomplete.clickHighlightedOrFirstResult.called).to.be.true;
+      expect(search.autocomplete.clickHighlightedOrFirstResult.called).to.be.true;
+    });
+  });
+
+  describe("showLocation", () => {
+    it("adds query parameters for analytics", () => {
+      const ac = new AlgoliaStopSearch();
+      window.Turbolinks = {
+        visit: sinon.spy()
+      };
+      window.encodeURIComponent = string => string.replace(/\s/g, "%20").replace(/\&/g, "%26");
+      ac.autocomplete.showLocation("42.0", "-71.0", "10 Park Plaza, Boston, MA");
+      expect(window.Turbolinks.visit.called).to.be.true;
+      expect(window.Turbolinks.visit.args[0][0]).to.contain("from=stop-search");
+      expect(window.Turbolinks.visit.args[0][0]).to.contain("latitude=42.0");
+      expect(window.Turbolinks.visit.args[0][0]).to.contain("longitude=-71.0");
+      expect(window.Turbolinks.visit.args[0][0]).to.contain("address=10%20Park%20Plaza,%20Boston,%20MA");
     });
   });
 });
