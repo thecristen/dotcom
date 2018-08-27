@@ -44,7 +44,6 @@ export class TripPlannerTimeControls {
     document
       .getElementById(TripPlannerTimeControls.SELECTORS.amPm)
       .addEventListener("change", this.updateTime.bind(this));
-    this.updateTime();
   }
 
   getStateFromQuery() {

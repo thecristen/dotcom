@@ -419,7 +419,8 @@ defmodule SiteWeb.TripPlanView do
           class: "m-trip-plan__time-input-label",
           for: "plan-time-input",
           name: "Time",
-          aria_label: aria_label
+          aria_label: aria_label,
+          data: [time: current_time]
         ),
         time_select(
           form,
