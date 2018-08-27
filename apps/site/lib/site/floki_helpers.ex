@@ -30,12 +30,28 @@ defmodule Site.FlokiHelpers do
   end
 
   @spec add_class(Floki.html_tree, iodata) :: Floki.html_tree
+  def add_class(html_element, []), do: html_element
   def add_class({name, attrs, children}, new_class) do
     attrs = case Enum.split_with(attrs, &match?({"class", _}, &1)) do
       {[], others} ->
         [{"class", new_class} | others]
       {[{"class", existing_class}], others} ->
         [{"class", [existing_class, " ", new_class]} | others]
+    end
+    {name, attrs, children}
+  end
+
+  @spec remove_class(Floki.html_tree, iodata) :: Floki.html_tree
+  def remove_class({name, attrs, children}, old_class) do
+    attrs = case Enum.split_with(attrs, &match?({"class", _}, &1)) do
+      {[], others} ->
+        others
+      {[{"class", existing_class}], others} ->
+        clean_class = existing_class
+        |> IO.iodata_to_binary()
+        |> String.split()
+        |> Enum.reject(& &1 == old_class)
+        [{"class", Enum.join(clean_class, " ")} | others]
     end
     {name, attrs, children}
   end

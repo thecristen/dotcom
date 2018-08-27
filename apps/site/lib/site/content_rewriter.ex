@@ -4,6 +4,7 @@ defmodule Site.ContentRewriter do
   """
 
   alias Site.ContentRewriters.{ResponsiveTables, LiquidObjects, Links, EmbeddedMedia}
+  alias Site.FlokiHelpers
 
   @doc """
   The main entry point for the various transformations we apply to CMS content
@@ -17,7 +18,7 @@ defmodule Site.ContentRewriter do
   def rewrite({:safe, content}, conn) do
     content
     |> Floki.parse
-    |> Site.FlokiHelpers.traverse(&dispatch_rewrites(&1, conn))
+    |> FlokiHelpers.traverse(&dispatch_rewrites(&1, conn))
     |> render
     |> Phoenix.HTML.raw
   end
@@ -58,8 +59,8 @@ defmodule Site.ContentRewriter do
   end
   defp dispatch_rewrites({"img", _, _} = element, conn) do
     element
-    |> Site.FlokiHelpers.remove_style_attrs()
-    |> Site.FlokiHelpers.add_class("img-fluid")
+    |> FlokiHelpers.remove_style_attrs()
+    |> FlokiHelpers.add_class("img-fluid")
     |> rewrite_children(conn)
   end
   defp dispatch_rewrites({_, [{"class", "iframe-container"}], [{"iframe", _, _}]} = element, _conn) do
@@ -71,12 +72,15 @@ defmodule Site.ContentRewriter do
     |> EmbeddedMedia.build
     |> rewrite_children(conn)
   end
-  defp dispatch_rewrites({"iframe", _, _} = element, conn) do
-    iframe = element
-             |> Site.FlokiHelpers.remove_style_attrs()
-             |> set_iframe_class()
-             |> rewrite_children(conn)
-    {"div", [{"class", "iframe-container"}], [iframe]}
+  defp dispatch_rewrites({"iframe", _, _} = element, _conn) do
+    iframe = FlokiHelpers.remove_style_attrs(element)
+    src = iframe |> Floki.attribute("src") |> List.to_string()
+
+    if EmbeddedMedia.media_iframe?(src) do
+      EmbeddedMedia.iframe(iframe)
+    else
+      {"div", [{"class", "iframe-container"}], FlokiHelpers.add_class(iframe, "iframe")}
+    end
   end
   defp dispatch_rewrites(content, _conn) when is_binary(content) do
     Regex.replace(~r/\{\{(.*)\}\}/U, content, fn(_, obj) ->
@@ -90,16 +94,6 @@ defmodule Site.ContentRewriter do
   end
 
   defp rewrite_children({name, attrs, children}, conn) do
-    {name, attrs, Site.FlokiHelpers.traverse(children, &dispatch_rewrites(&1, conn))}
-  end
-
-  @spec set_iframe_class(Floki.html_tree) :: Floki.html_tree
-  defp set_iframe_class({_, attrs, _} = element) do
-    new_class = case Enum.find(attrs, fn {key, _} -> key == "src" end) do
-      {"src", "https://www.google.com/maps" <> _} -> [" ", "iframe-full-width"]
-      {"src", "https://livestream.com" <> _} -> [" ", "iframe-full-width"]
-      _ -> []
-    end
-    Site.FlokiHelpers.add_class(element, ["iframe", new_class])
+    {name, attrs, FlokiHelpers.traverse(children, &dispatch_rewrites(&1, conn))}
   end
 end

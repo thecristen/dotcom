@@ -120,22 +120,22 @@ defmodule Site.ContentRewriterTest do
              |> rewrite(conn) == {:safe, ~s(<div class="c-inline-buttons"><a class="btn btn-primary" href="/page">Button 1</a></div>)}
     end
 
-    test "adds iframe classes to iframes", %{conn: conn} do
-      assert ~s(<iframe src="https://www.anything.com"></iframe>)
-             |> raw()
-             |> rewrite(conn) == {:safe, ~s(<div class="iframe-container"><iframe class="iframe" src="https://www.anything.com"></iframe></div>)}
+    test "wraps supported iframes as embedded media structures and sets aspect class for a supported source", %{conn: conn} do
+      rewritten = ~s(<figure class="c-media c-media--type-embed c-media--size-full">) <>
+                  ~s(<div class="c-media__content">) <>
+                  ~s(<div class="c-media__element c-media__element--fixed-aspect c-media__element--aspect-wide">) <>
+                  ~s(<iframe class="c-media__embed" src="https://www.youtu.be/abcd1234"></iframe></div></div></figure>)
+
+      assert rewritten == ~s(<iframe src="https://www.youtu.be/abcd1234"></iframe>)
+        |> raw()
+        |> rewrite(conn)
+        |> safe_to_string()
     end
 
-    test "adds iframe-full-width class to google maps and livestream iframes", %{conn: conn} do
-      assert {:safe, ~s(<div class="iframe-container"><iframe class="iframe iframe-full-width") <> _} =
-        ~s(<iframe src="https://livestream.com/anything"></iframe>)
-        |> raw()
-        |> rewrite(conn)
-
-      assert {:safe, ~s(<div class="iframe-container"><iframe class="iframe iframe-full-width") <> _} =
-        ~s(<iframe src="https://www.google.com/maps/anything"></iframe>)
-        |> raw()
-        |> rewrite(conn)
+    test "adds wrapper and iframe classes to non-media-supported iframes", %{conn: conn} do
+      assert ~s(<iframe class="something" src="https://www.anything.com"></iframe>)
+             |> raw()
+             |> rewrite(conn) == {:safe, ~s(<div class="iframe-container"><iframe class="something iframe" src="https://www.anything.com"></iframe></div>)}
     end
 
     test "removes incompatible CMS media embed and replaces with empty div", %{conn: conn} do

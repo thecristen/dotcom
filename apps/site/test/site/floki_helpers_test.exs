@@ -68,4 +68,12 @@ defmodule Site.FlokiHelpersTest do
       ]
     end
   end
+
+  describe "remove_class/2" do
+    test "classes are removed without affecting other attributes or existing classess" do
+      element = {"div", [{"href", "#anchor"}, {"class", "class-to-remove good-one"}], ["Text content"]}
+      assert {"div", [{"class", "good-one"} | _], _} = remove_class(element, "class-to-remove")
+      assert {"div", [{"class", "class-to-remove good-one"} | _], _} = remove_class(element, "class-does-not-exist")
+    end
+  end
 end

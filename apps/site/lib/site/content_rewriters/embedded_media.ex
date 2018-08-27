@@ -5,22 +5,33 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
   sanitized and scrubbed prior to being re-parsed here.
   """
 
+  alias Site.{FlokiHelpers}
+
+  @iframe_domains [
+    "google.com/maps",
+    "livestream.com",
+    "mbtace.com/shuttle-tracker",
+    "youtube.com", "youtu.be"
+  ]
+
   defstruct [
     alignment: :none,
     caption: "",
     element: "",
+    extra_classes: [],
     link_attrs: [],
     size: :full,
     type: :image
   ]
 
   @valid_sizes [:full, :half, :third]
-  @valid_types [:image]
+  @valid_types [:image, :embed]
 
   @type t :: %__MODULE__{
     alignment: :left | :right | :none,
     caption: Floki.html_tree | String.t,
     element: Floki.html_tree,
+    extra_classes: iodata(),
     link_attrs: list(),
     size: atom(),
     type: atom()
@@ -39,6 +50,7 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
       alignment: get_alignment(attributes),
       caption: get_caption(children),
       element: media_element,
+      extra_classes: [],
       link_attrs: get_link(children),
       size: get_attribute(media_classes, :size),
       type: get_attribute(media_classes, :type)
@@ -54,10 +66,12 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
   def build(%__MODULE__{type: type, size: size} = media)
   when size in @valid_sizes and type in @valid_types do
 
-    media_embed = case media.link_attrs do
+    media_embed = media.link_attrs
+    |> case do
       [_ | _] -> {"a", media.link_attrs, media.element}
       _ -> media.element
     end
+    |> FlokiHelpers.add_class(media.extra_classes)
 
     alignment_modifier = case media.alignment do
       :none -> ""
@@ -90,11 +104,34 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
     Floki.parse(~s(<div class="incompatible-media"></div>))
   end
 
+  @spec media_iframe?(String.t) :: boolean
+  def media_iframe?(src), do: String.contains?(src, @iframe_domains)
+
+  @spec iframe(Floki.html_tree) :: Floki.html_tree
+  def iframe(original) do
+    # Avoid conflicts by replacing legacy classes with media-specific class
+    iframe = original
+    |> FlokiHelpers.remove_class("iframe")
+    |> FlokiHelpers.remove_class("iframe-full-width")
+    |> FlokiHelpers.add_class("c-media__embed")
+
+    # Generate a new EmbeddedMedia struct with curated properties
+    proto_media = %__MODULE__{
+      element: {"div", [{"class", "c-media__element"}], iframe},
+      extra_classes: ["c-media__element--fixed-aspect", " ", "c-media__element--aspect-wide"],
+      size: :full,
+      type: :embed
+    }
+
+    # Return the full HTML
+    build(proto_media)
+  end
+
   @spec get_media(Floki.html_tree) :: Floki.html_tree | nil
   defp get_media(wrapper_children) do
     # Isolate the actual embedded media element. Add BEM class.
     case Floki.find(wrapper_children, ".media-content > *:first-child") do
-      [media| _] -> Site.FlokiHelpers.add_class(media, ["c-media__element"])
+      [media| _] -> FlokiHelpers.add_class(media, ["c-media__element"])
       [] -> nil
     end
   end
@@ -103,7 +140,7 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
   @spec get_caption(Floki.html_tree) :: Floki.html_tree | String.t
   defp get_caption(wrapper_children) do
     case Floki.find(wrapper_children, "figcaption") do
-      [caption | _] -> Site.FlokiHelpers.add_class(caption, ["c-media__caption"])
+      [caption | _] -> FlokiHelpers.add_class(caption, ["c-media__caption"])
       [] -> ""
     end
   end

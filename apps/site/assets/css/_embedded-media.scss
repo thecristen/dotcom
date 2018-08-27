@@ -236,8 +236,13 @@ $layout-media: (
     margin-top: 0;
   }
 
-  [class*="col-"] & {
-    @include restore-media-defaults();
+  // Unless columns are stacked, stip offset/float media styles
+  @each $breakpoint in (xs, sm, md) {
+    [class*="col-#{$breakpoint}"] & {
+      @include media-breakpoint-up($breakpoint) {
+        @include restore-media-defaults();
+      }
+    }
   }
 }
 
@@ -296,6 +301,44 @@ $layout-media: (
       margin-left: -$half-gutter;
       padding-left: $half-gutter;
     }
+  }
+}
+
+.c-media__embed {
+  border: 0;
+  display: block;
+  margin: 0;
+  min-height: 15rem;
+  padding: 0;
+  width: 100%;
+}
+
+.c-media__element--fixed-aspect {
+  background-image: none;
+  height: 0;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+
+  &.c-media__element--aspect-default {
+    padding-bottom: 100%; // 1:1
+  }
+
+  &.c-media__element--aspect-standard {
+    padding-bottom: 75%; // 4:3
+  }
+
+  &.c-media__element--aspect-wide {
+    padding-bottom: 56.25%; // 16:9
+  }
+
+  .c-media__embed {
+    height: 100%;
+    left: 0;
+    min-height: 0;
+    position: absolute;
+    top: 0;
   }
 }
 
