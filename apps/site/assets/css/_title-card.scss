@@ -58,3 +58,14 @@
   color: $link-color;
 }
 
+.c-title-card__body {
+  @include media-breakpoint-up(md) {
+    @include make-col-span(7)
+  }
+}
+
+.c-title-card--parking-alert {
+  max-width: 100%;
+  min-height: $space-24;
+  padding-bottom: $base-spacing;
+}
