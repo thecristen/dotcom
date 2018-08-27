@@ -78,29 +78,26 @@ export class AlgoliaFacets {
           ]
         }
       },
-      pagesdocuments: {
-        queryId: "pagesdocuments",
+      pages: {
+        queryId: "pages",
         facetName: "_content_type",
-        item:
-        {
-          id: "pages-parent",
-          name: "Pages and Documents",
-          items: [
-          {
+        item: {
             id: "page",
             name: "Pages",
             facets: ["page", "search_result", "landing_page", "person", "project", "project_update"],
             icon: this._faIcon("fa-info"),
-          },
-          {
+        }
+      },
+      documents: {
+        queryId: "documents",
+        facetName: "_content_type",
+        item: {
             id: "document",
             name: "Documents",
             prefix: "search_api_datasource",
             facets: ["entity:file"],
             icon: this._faIcon("fa-file-o")
-          },
-          ]
-        }
+        },
       },
       events: {
         queryId: "events",

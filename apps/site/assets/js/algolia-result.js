@@ -58,7 +58,7 @@ export function parseResult(hit, type) {
     hitIcon: getIcon(hit, type),
     hitUrl: getUrl(hit, type),
     hitTitle: getTitle(hit, type),
-    hasDate: (type == "events" || type == "news" || type == "pagesdocuments") ||  null,
+    hasDate: (type == "events" || type == "news" || type == "pages" || type == "documents") ||  null,
     hitFeatureIcons: getFeatureIcons(hit, type),
     id: hit.place_id || null
   });
@@ -77,7 +77,8 @@ export function getIcon(hit, type) {
       return Icons.getFeatureIcon(iconName);
 
     case "drupal":
-    case "pagesdocuments":
+    case "pages":
+    case "documents":
     case "events":
     case "news":
       return _contentIcon(hit);
@@ -183,7 +184,8 @@ export function getTitle(hit, type) {
       return hit._highlightResult.route.name.value;
 
     case "drupal":
-    case "pagesdocuments":
+    case "pages":
+    case "documents":
     case "events":
     case "news":
       return _contentTitle(hit);
@@ -216,7 +218,8 @@ export function getUrl(hit, type) {
       return `/schedules/${hit.route.id}/line`;
 
     case "drupal":
-    case "pagesdocuments":
+    case "pages":
+    case "documents":
     case "events":
     case "news":
       return _contentUrl(hit);
@@ -331,7 +334,8 @@ export function getFeatureIcons(hit, type) {
     case "routes":
       return _featuresToIcons(alertFeature)
 
-    case "pagesdocuments":
+    case "pages":
+    case "documents":
       return pagesdocumentsDate(hit);
     case "events":
     case "news":

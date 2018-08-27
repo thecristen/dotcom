@@ -225,7 +225,10 @@ describe('AlgoliaResults', () => {
                         routes: {
                           hits: []
                         },
-                        pagesdocuments: {
+                        pages: {
+                          hits: []
+                        },
+                        documents: {
                           hits: []
                         }
                       };
@@ -233,7 +236,7 @@ describe('AlgoliaResults', () => {
 
       const sections = document.getElementsByClassName('c-search-results__section');
       const hits = document.getElementsByClassName('c-search-result__hit');
-      assert.lengthOf(sections, 3);
+      assert.lengthOf(sections, 4);
       assert.lengthOf(hits, 0);
     });
 
@@ -282,7 +285,10 @@ describe('AlgoliaResults', () => {
                         routes: {
                           hits: []
                         },
-                        pagesdocuments: {
+                        pages: {
+                          hits: []
+                        },
+                        documents: {
                           hits: []
                         }
                       };
@@ -290,7 +296,7 @@ describe('AlgoliaResults', () => {
 
       const sections = document.getElementsByClassName('c-search-results__section');
       const hits = document.getElementsByClassName('c-search-result__hit');
-      assert.lengthOf(sections, 3);
+      assert.lengthOf(sections, 4);
       assert.lengthOf(hits, 2);
     });
 
@@ -337,7 +343,10 @@ describe('AlgoliaResults', () => {
                         stops: {
                           hits: []
                         },
-                        pagesdocuments: {
+                        pages: {
+                          hits: []
+                        },
+                        documents: {
                           hits: []
                         }
                       };
@@ -345,13 +354,13 @@ describe('AlgoliaResults', () => {
 
       const sections = document.getElementsByClassName('c-search-results__section');
       const hits = document.getElementsByClassName('c-search-result__hit');
-      assert.lengthOf(sections, 3);
+      assert.lengthOf(sections, 4);
       assert.lengthOf(hits, 2);
     });
 
     it("renders content hits", () => {
       const results = {
-                        pagesdocuments: {
+                        pages: {
                           title: "title",
                           nbHits: 2,
                           hasHits: true,

@@ -11,7 +11,7 @@ defmodule SiteWeb.GlobalSearchTest do
       session
       |> visit("/search")
       |> fill_in(@search_input, with: "Alewife")
-      |> assert_has(search_results_section(6))
+      |> assert_has(search_results_section(7))
     end
   end
 
@@ -21,7 +21,7 @@ defmodule SiteWeb.GlobalSearchTest do
       session
       |> visit("/search")
       |> fill_in(@search_input, with: "Alewife")
-      |> assert_has(search_results_section(6))
+      |> assert_has(search_results_section(7))
       |> click_facet_checkbox("locations")
       |> assert_has(search_results_section(1))
     end
@@ -31,11 +31,11 @@ defmodule SiteWeb.GlobalSearchTest do
       session
       |> visit("/search")
       |> fill_in(@search_input, with: "Alewife")
-      |> assert_has(search_results_section(6))
+      |> assert_has(search_results_section(7))
       |> click_facet_checkbox("locations")
       |> assert_has(search_results_section(1))
       |> click_facet_checkbox("locations")
-      |> assert_has(search_results_section(6))
+      |> assert_has(search_results_section(7))
     end
 
     @tag :wallaby
@@ -50,22 +50,11 @@ defmodule SiteWeb.GlobalSearchTest do
     end
 
     @tag :wallaby
-    test "pages and documents facets can be expanded", %{session: session} do
-      session
-      |> visit("/search")
-      |> assert_has(css("#checkbox-container-page", visible: false))
-      |> assert_has(css("#checkbox-container-document", visible: false))
-      |> toggle_facet_section("pages-parent")
-      |> assert_has(css("#checkbox-container-page"))
-      |> assert_has(css("#checkbox-container-document"))
-    end
-
-    @tag :wallaby
     test "clearing all facets results in a full search", %{session: session} do
       session
       |> visit("/search")
       |> fill_in(@search_input, with: "Alewife")
-      |> assert_has(search_results_section(6))
+      |> assert_has(search_results_section(7))
 
       # Select some facets within lines and routes
       |> toggle_facet_section("lines-routes")
@@ -78,7 +67,7 @@ defmodule SiteWeb.GlobalSearchTest do
       |> click_facet_checkbox("bus")
       |> click_facet_checkbox("commuter-rail")
       |> click_facet_checkbox("ferry")
-      |> assert_has(search_results_section(6))
+      |> assert_has(search_results_section(7))
     end
 
     @tag :wallaby
@@ -86,7 +75,7 @@ defmodule SiteWeb.GlobalSearchTest do
       session
       |> visit("/search")
       |> fill_in(@search_input, with: "a")
-      |> assert_has(search_results_section(6))
+      |> assert_has(search_results_section(7))
       |> click_facet_checkbox("stops")
       |> assert_has(search_results_section(1))
       |> assert_has(search_hits(5))
@@ -101,7 +90,7 @@ defmodule SiteWeb.GlobalSearchTest do
       session
       |> visit("/search")
       |> fill_in(@search_input, with: "Alewife")
-      |> assert_has(search_results_section(6))
+      |> assert_has(search_results_section(7))
       |> click_clear_search()
       |> assert_has(search_results_section(0))
     end
@@ -111,7 +100,7 @@ defmodule SiteWeb.GlobalSearchTest do
       session
       |> visit("/search")
       |> fill_in(@search_input, with: "Alewife")
-      |> assert_has(search_results_section(6))
+      |> assert_has(search_results_section(7))
       |> click_facet_checkbox("event")
       |> click_facet_checkbox("locations")
       |> assert_has(search_results_section(2))
@@ -125,7 +114,7 @@ defmodule SiteWeb.GlobalSearchTest do
       session
       |> visit("/search")
       |> fill_in(@search_input, with: "a")
-      |> assert_has(search_results_section(6))
+      |> assert_has(search_results_section(7))
       |> click_facet_checkbox("stops")
       |> assert_has(search_results_section(1))
       |> assert_has(search_hits(5))
@@ -133,7 +122,7 @@ defmodule SiteWeb.GlobalSearchTest do
       |> assert_has(search_hits(25))
       |> click_clear_search()
       |> fill_in(@search_input, with: "a")
-      |> assert_has(search_results_section(6))
+      |> assert_has(search_results_section(7))
       |> click_facet_checkbox("stops")
       |> assert_has(search_hits(5))
     end
@@ -143,9 +132,9 @@ defmodule SiteWeb.GlobalSearchTest do
       session
       |> visit("/search")
       |> fill_in(@search_input, with: "aa")
-      |> assert_has(search_results_section(6))
+      |> assert_has(search_results_section(7))
       |> send_keys([:backspace])
-      |> assert_has(search_results_section(6))
+      |> assert_has(search_results_section(7))
       |> send_keys([:backspace])
       |> assert_has(search_results_section(0))
     end
@@ -170,7 +159,7 @@ defmodule SiteWeb.GlobalSearchTest do
       |> resize_window(320, 480)
       |> visit("/search")
       |> fill_in(@search_input, with: "Alewife")
-      |> assert_has(search_results_section(6))
+      |> assert_has(search_results_section(7))
     end
 
     @tag :wallaby
@@ -179,7 +168,7 @@ defmodule SiteWeb.GlobalSearchTest do
       |> resize_window(320, 480)
       |> visit("/search")
       |> fill_in(@search_input, with: "Alewife")
-      |> assert_has(search_results_section(6))
+      |> assert_has(search_results_section(7))
       |> click(css("#show-facets"))
       |> click_facet_checkbox("locations")
       |> assert_has(search_results_section(1))
@@ -320,12 +309,11 @@ defmodule SiteWeb.GlobalSearchTest do
 
     @tag :wallaby
     test "does a search, checks off facets and shows more", %{session: session} do
-      session = visit(session, "/search?query=alewife&facets=pages-parent,page,document&showmore=pagesdocuments")
+      session = visit(session, "/search?query=alewife&facets=page,document&showmore=pages&showmore=documents")
       assert attr(session, @search_input, "value") == "alewife"
       session = session
-      |> assert_has(search_results_section(1))
-      |> assert_has(css(".c-search-result__hit", minimum: 6))
-      assert selected?(session, facet_checkbox("pages-parent"))
+      |> assert_has(search_results_section(2))
+      |> assert_has(css(".c-search-result__hit", minimum: 5))
       assert selected?(session, facet_checkbox("page"))
       assert selected?(session, facet_checkbox("document"))
     end

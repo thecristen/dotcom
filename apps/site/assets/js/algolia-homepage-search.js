@@ -32,25 +32,10 @@ export class AlgoliaHomepageSearch {
     this._autocomplete.renderFooterTemplate = this._renderFooterTemplate;
     this._controller.addWidget(this._autocomplete);
     animatePlaceholder(AlgoliaHomepageSearch.SELECTORS.input, placeholders);
-    this.addEventListeners();
   }
 
   bind() {
     this._renderFooterTemplate = this._renderFooterTemplate.bind(this);
-  }
-
-  addEventListeners() {
-    Object.keys(AlgoliaHomepageSearch.SHOWMOREPARAMS).forEach(key => {
-      window.jQuery(document).on("click", `#show-more--${key}`, () => {
-        this._onClickShowMore(key);
-      });
-    });
-
-    document.addEventListener("turbolinks:before-render", () => {
-      Object.keys(AlgoliaHomepageSearch.SHOWMOREPARAMS).forEach(key => {
-        window.jQuery(document).off("click", `#show-more--${key}`);
-      });
-    });
   }
 
   _renderFooterTemplate(indexName) {
@@ -60,10 +45,6 @@ export class AlgoliaHomepageSearch {
              '</div>';
     }
     return "";
-  }
-
-  _onClickShowMore(indexName) {
-    Turbolinks.visit(`/search?query=${this._input.value}&facets=${AlgoliaHomepageSearch.SHOWMOREPARAMS[indexName].facets}&showmore=${AlgoliaHomepageSearch.SHOWMOREPARAMS[indexName].showMore}`);
   }
 
   getParams() {
@@ -83,7 +64,7 @@ AlgoliaHomepageSearch.INDICES = {
     indexName: "stops",
     query: ""
   },
-  pagesdocuments: {
+  pages: {
     indexName: "drupal",
     query: ""
   },
@@ -94,24 +75,6 @@ AlgoliaHomepageSearch.SELECTORS = {
   container: "homepage-search__container",
   locationLoadingIndicator: "homepage-search__loading-indicator",
   resetButton: "homepage-search__reset"
-}
-
-AlgoliaHomepageSearch.SHOWMOREPARAMS = {
-  locations: {
-    facets: "locations"
-  },
-  stops: {
-    facets: "stops,facet-station,facet-stop",
-    showMore: "stops"
-  },
-  routes: {
-    facets: "lines-routes,subway,bus,commuter-rail,ferry",
-    showMore: "routes"
-  },
-  pagesdocuments: {
-    facets: "pages-parent,page,document",
-    showMore: "pagesdocuments"
-  },
 }
 
 AlgoliaHomepageSearch.PARAMS = {
@@ -125,7 +88,7 @@ AlgoliaHomepageSearch.PARAMS = {
     facets: ["*"],
     facetFilters: [[]]
   },
-  pagesdocuments: {
+  pages: {
     hitsPerPage: 2,
     facets: ["*"],
     facetFilters: [[
@@ -134,8 +97,7 @@ AlgoliaHomepageSearch.PARAMS = {
       "_content_type:landing_page",
       "_content_type:person",
       "_content_type:project",
-      "_content_type:project_update",
-      "search_api_datasource:entity:file"
+      "_content_type:project_update"
     ]]
   },
 }

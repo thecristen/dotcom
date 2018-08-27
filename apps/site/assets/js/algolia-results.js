@@ -38,7 +38,7 @@ const TEMPLATES = {
 export class AlgoliaResults {
   constructor(id, parent) {
     this._parent = parent;
-    this._groups = ["locations", "routes", "stops", "pagesdocuments", "events", "news"];
+    this._groups = ["locations", "routes", "stops", "pages", "documents", "events", "news"];
     this._container = document.getElementById(id);
     this._googleLogo = document.getElementById("powered-by-google-logo").innerHTML;
     if (!this._container) {
@@ -213,7 +213,8 @@ AlgoliaResults.indexTitles = {
   locations: "Locations",
   stops: "Stations and Stops",
   routes: "Lines and Routes",
-  pagesdocuments: "Pages and Documents",
+  pages: "Pages",
+  documents: "Documents",
   events: "Events",
   news: "News"
 }
