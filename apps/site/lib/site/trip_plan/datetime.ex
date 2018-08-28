@@ -8,7 +8,7 @@ defmodule Site.TripPlan.DateTime do
   def validate(%Query{} = query, %{"date_time" => dt} = params, opts) do
     {:ok, now} = Keyword.fetch(opts, :now)
     {:ok, end_of_rating} = Keyword.fetch(opts, :end_of_rating)
-    type = Map.get(params, "time", "depart")
+    type = get_departure_type(params)
 
     dt
     |> parse()
@@ -21,6 +21,7 @@ defmodule Site.TripPlan.DateTime do
     do_validate({:error, :invalid_date}, nil, query)
   end
 
+  @spec do_validate(DateTime.t | {:error, any}, String.t | nil, Query.t) :: Query.t
   defp do_validate({:error, {:too_future, %DateTime{} = dt}}, type, query) do
     errors = MapSet.put(query.errors, :too_future)
     do_validate(dt, type, %{query | errors: errors})
@@ -129,5 +130,13 @@ defmodule Site.TripPlan.DateTime do
   end
   def round_minute({:error, error}) do
     {:error, error}
+  end
+
+  @spec get_departure_type(map) :: String.t
+  defp get_departure_type(params) do
+    case Map.get(params, "time") do
+      "arrive" -> "arrive"
+      _ -> "depart"
+    end
   end
 end

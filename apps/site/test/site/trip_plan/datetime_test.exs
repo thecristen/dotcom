@@ -60,6 +60,17 @@ defmodule Site.TripPlan.DateTimeTest do
       assert dt.hour == 18
     end
 
+    test "sets time type to :depart_at if time param is leave-now" do
+      params = %{"date_time" => @date, "time" => "leave-now"}
+      query = Site.TripPlan.DateTime.validate(%Query{}, params, @opts)
+
+      assert %Query{} = query
+      assert {:depart_at, %DateTime{} = dt} = query.time
+      assert dt.month == 8
+      assert dt.day == 14
+      assert dt.hour == 18
+    end
+
     test "sets date to {:error, :invalid} if date is invalid" do
       params = %{"date_time" => Map.put(@date, "day", "invalid"), "time" => "depart"}
       query = Site.TripPlan.DateTime.validate(%Query{}, params, @opts)
