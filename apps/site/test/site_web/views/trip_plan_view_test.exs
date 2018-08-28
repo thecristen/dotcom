@@ -397,7 +397,11 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "default" do
-      assert format_plan_type_for_title(nil) === ["Depart at ", @human_time]
+      human_time =
+        Util.now()
+        |> Site.TripPlan.DateTime.round_minute()
+        |> Timex.format!("{h12}:{m} {AM}, {M}/{D}/{YY}")
+      assert format_plan_type_for_title(nil) === ["Depart at ", human_time]
     end
   end
 

@@ -14,6 +14,7 @@ defmodule Site.TripPlan.DateTime do
     |> parse()
     |> future_date_or_now(now)
     |> verify_inside_rating(end_of_rating)
+    |> round_minute()
     |> do_validate(type, query)
   end
   def validate(%Query{} = query, %{}, _opts) do
@@ -112,5 +113,21 @@ defmodule Site.TripPlan.DateTime do
       :gt -> {:error, {:too_future, dt}}
       _ -> dt
     end
+  end
+
+  @doc """
+  Takes a DateTime and rounds it to the next round 5 minute interval.
+  """
+  @spec round_minute(DateTime.t | {:error, any}) :: DateTime.t | {:error, any}
+  def round_minute(%DateTime{} = dt) do
+    dt.minute
+    |> Integer.mod(5)
+    |> case do
+      0 -> dt
+      mod -> Timex.shift(dt, minutes: 5 - mod)
+    end
+  end
+  def round_minute({:error, error}) do
+    {:error, error}
   end
 end

@@ -84,5 +84,23 @@ defmodule Site.TripPlan.DateTimeTest do
       assert dt.month == 8
       assert dt.day == 14
     end
+
+    test "rounds dates to the next round 5 minute interval" do
+      params = %{"date_time" => Map.put(@date, "minute", "23"), "time" => "depart"}
+      query = Site.TripPlan.DateTime.validate(%Query{}, params, @opts)
+      assert %Query{} = query
+      assert query.errors == MapSet.new()
+      assert {:depart_at, %DateTime{} = dt} = query.time
+      assert dt.year == 2018
+      assert dt.month == 8
+      assert dt.minute == 25
+    end
+  end
+
+  describe "round_minute/1" do
+    test "rounds minute of DateTime to next 5-minute interval" do
+      dt = %{@now | minute: 32}
+      assert %DateTime{minute: 35} = Site.TripPlan.DateTime.round_minute(dt)
+    end
   end
 end

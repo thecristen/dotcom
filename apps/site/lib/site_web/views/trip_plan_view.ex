@@ -313,13 +313,22 @@ defmodule SiteWeb.TripPlanView do
 
   def datetime_from_query(%Query{time: {:error, _}}), do: datetime_from_query(nil)
   def datetime_from_query(%Query{time: {_depart_or_arrive, dt}}), do: dt
-  def datetime_from_query(nil), do: Util.now()
+  def datetime_from_query(nil), do: Util.now() |> Site.TripPlan.DateTime.round_minute()
 
   @spec format_plan_type_for_title(Query.t() | nil) :: Phoenix.HTML.Safe.t()
-  def format_plan_type_for_title(%{time: {:arrive_by, dt}}), do: ["Arrive by ", Timex.format!(dt, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
-  def format_plan_type_for_title(%{time: {:depart_at, dt}}), do: ["Depart at ", Timex.format!(dt, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
-  def format_plan_type_for_title(%{time: {:error, _}}), do: format_plan_type_for_title(nil)
-  def format_plan_type_for_title(nil), do: ["Depart at ", Timex.format!(Util.now(), "{h12}:{m} {AM}, {M}/{D}/{YY}")]
+  def format_plan_type_for_title(%{time: {:arrive_by, dt}}) do
+    ["Arrive by ", Timex.format!(dt, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
+  end
+  def format_plan_type_for_title(%{time: {:depart_at, dt}}) do
+    ["Depart at ", Timex.format!(dt, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
+  end
+  def format_plan_type_for_title(%{time: {:error, _}}) do
+    format_plan_type_for_title(nil)
+  end
+  def format_plan_type_for_title(nil) do
+    time = Site.TripPlan.DateTime.round_minute(Util.now())
+    ["Depart at ", Timex.format!(time, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
+  end
 
   def trip_plan_datetime_select(form, %DateTime{} = datetime) do
     time_options = [
@@ -433,6 +442,13 @@ defmodule SiteWeb.TripPlanView do
     )
   end
 
+  @minute_options 0..55
+                  |> Enum.filter(& Integer.mod(&1, 5) == 0)
+                  |> Enum.map(fn
+                    int when int < 10 -> "0" <> Integer.to_string(int)
+                    int -> Integer.to_string(int)
+                  end)
+
   defp custom_time_select_builder(field, datetime) do
     content_tag(
       :div,
@@ -440,7 +456,7 @@ defmodule SiteWeb.TripPlanView do
         content_tag(:label, "Hour", for: "plan_date_time_hour", class: "sr-only"),
         field.(:hour, [class: "c-select"]),
         content_tag(:label, "Minute", for: "plan_date_time_minute", class: "sr-only"),
-        field.(:minute, [class: "c-select"]),
+        field.(:minute, class: "c-select", options: @minute_options),
         " ",
         content_tag(:label, "AM or PM", for: "plan_date_time_am_pm", class: "sr-only"),
         select(
