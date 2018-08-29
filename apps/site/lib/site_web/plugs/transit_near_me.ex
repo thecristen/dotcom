@@ -9,6 +9,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
   defmodule Options do
     defstruct [
       geocode_fn: &GoogleMaps.Geocode.geocode/1,
+      reverse_geocode_fn: &GoogleMaps.Geocode.reverse_geocode/2,
       nearby_fn: &Stops.Nearby.nearby/1,
       routes_by_stop_fn: &Routes.Repo.by_stop/1
     ]
@@ -32,7 +33,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
         %Geocode.Address{
           latitude: String.to_float(latitude),
           longitude: String.to_float(longitude),
-          formatted: formatted_address(conn.params)
+          formatted: formatted_address(conn.params, options)
         }
       ]
     }
@@ -65,9 +66,18 @@ defmodule SiteWeb.Plugs.TransitNearMe do
   # /transit-near-me template requires that we use a nested "locations"["address"] data structure.
   # This helper function simply looks for the address in one of those two values and falls
   # back to using the lat/lng if neither can be found.
-  defp formatted_address(%{"address" => address}), do: address
-  defp formatted_address(%{"location" => %{"address" => address}}), do: address
-  defp formatted_address(%{"latitude" => lat, "longitude" => lng}), do: lat <> "," <> lng
+  defp formatted_address(%{"address" => address}, _options), do: address
+  defp formatted_address(%{"location" => %{"address" => address}}, _options), do: address
+  defp formatted_address(%{"latitude" => lat, "longitude" => lng}, options) do
+    {parsed_lat, _} = Float.parse(lat)
+    {parsed_lng, _} = Float.parse(lng)
+    case options.reverse_geocode_fn.(parsed_lat, parsed_lng) do
+      {:ok, [first | _]} ->
+        first.formatted
+      _ ->
+        "#{lat}, #{lng}"
+    end
+  end
 
   @doc """
     Retrieves stops close to a location and parses into the correct configuration

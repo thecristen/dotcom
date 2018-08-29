@@ -43,6 +43,27 @@ defmodule GoogleMaps.GeocodeTest do
   }
 }'
 
+  describe "reverse_geocode/2" do
+    test "sets appropriate parameter and returns an error for invalid addresses" do
+      bypass = Bypass.open
+      set_domain("http://localhost:#{bypass.port}")
+
+      latitude = 0.0
+      longitude = 0.0
+
+      Bypass.expect bypass, fn conn ->
+        assert "/maps/api/geocode/json" == conn.request_path
+        conn = Plug.Conn.fetch_query_params(conn)
+        assert conn.params["latlng"] == "#{latitude},#{longitude}"
+
+        Plug.Conn.resp(conn, 200, ~s({"status": "ZERO_RESULTS", "error_message": "Message"}))
+      end
+
+      actual = reverse_geocode(latitude, longitude)
+      assert {:error, :zero_results} = actual
+    end
+  end
+
   describe "geocode/1" do
     test "returns an error for invalid addresses" do
       bypass = Bypass.open

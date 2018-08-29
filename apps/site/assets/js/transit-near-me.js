@@ -7,7 +7,7 @@ const showLoadingIndicators = (bool) => {
 export const onLocation = loc => {
   showLoadingIndicators(false);
   const { latitude, longitude } = loc.coords;
-  const qs = `?location[address]=${latitude},${longitude}`;
+  const qs = `?latitude=${latitude}&longitude=${longitude}`;
   return window.Turbolinks.visit(encodeURI(window.location.protocol + qs));
 };
 
@@ -33,7 +33,9 @@ export const onLoad = ({ data }) => {
       window.navigator &&
       window.navigator.geolocation &&
       url.includes("/transit-near-me") &&
-      url.includes("address") === false
+      url.includes("address") === false &&
+      url.includes("latitude") === false &&
+      url.includes("longitude") === false
     ) {
       showLoadingIndicators(true);
       window.navigator.geolocation.getCurrentPosition(onLocation, onError);

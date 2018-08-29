@@ -41,7 +41,7 @@ describe('TransitNearMe', () => {
   });
 
   describe('onLocation', () => {
-    it('sets address param and refreshes the page', () => {
+    it('sets lat/lng params and refreshes the page', () => {
       window.Turbolinks = {visit: sinon.spy()}
       TransitNearMe.onLocation({
         coords: {
@@ -50,7 +50,7 @@ describe('TransitNearMe', () => {
         }
       });
       expect(window.Turbolinks.visit.called).to.be.true;
-      expect(window.Turbolinks.visit.args[0][0]).to.equal("about:?location%5Baddress%5D=42,-71");
+      expect(window.Turbolinks.visit.args[0][0]).to.equal("about:?latitude=42&longitude=-71");
     });
   });
 });
