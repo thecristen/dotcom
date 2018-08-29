@@ -56,16 +56,23 @@ Font awesome icons are supported with the `{{ fa "rss" }}` syntax. Any string pr
 
 Certain MBTA svg icons are supported via `{{ mbta-circle-icon "bus" }}` syntax. The currently supported list of icons is `"bus"`, `"commuter-rail"`, `"subway"`, and `"ferry"`.
 
+**Alternate pattern syntax:** `{{ icon:green-line-e }}`
+
 ### Dynamic fares
 
-There are a few common replacement patterns available in the CMS that will expand to the current price of a fare when rendered on the front-end (print output here is only an example). The syntax must be followed exactly -- any non-matching patterns will be passed-through w/o being modified in the front-end.
+Content authors can leverage the Fares Elixir app to request current fare prices. Entered as a valid pattern in the CMS, the LiquidObjects module will expand it to the current price of a fare when rendered on the front-end (see examples below). Fare mode or name, duration, reduced type, and media type can be combined to filter all fares to the desired fare (defaults are provides for media, duration and reduced when not explicitly provided).
 
 ```js
-{{ fare:subway:charlie_card }} // prints "$2.25"
-{{ fare:subway:cash }}         // prints "$2.75" 
-{{ fare:bus:charlie_card }}    // prints "$1.70"
-{{ fare:bus:cash }}            // prints "$2.00"
+{{ fare:subway }}                       // prints "$2.25"
+{{ fare:subway:cash }}                  // prints "$2.75"
+{{ fare:local_bus:charlie_card }}       // prints "$1.70"
+{{ fare:local_bus:cash }}               // prints "$2.00"
+{{ fare:commuter_rail:month:mticket }}  // prints "$74.50 - $388.25"
 ```
+
+The syntax must be followed exactly -- any non-matching patterns or bad "tokens" will be returned as entered with a brief error message and/or highlighted, invalid tokens. Commuter Rail Zone pricing is not yet available.
+
+[Please see this Google Sheet](https://docs.google.com/spreadsheets/d/18DGY0es_12xy54oDE9lDTJwATx4jhodWkND7MuY7R6E/edit?pli=1#gid=0) to view a legend/key on what is available to use/combine when requesting fare prices, referenced by content authors.
 
 ## Fetching news/meetings from the Ektron DB
 
