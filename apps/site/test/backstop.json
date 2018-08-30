@@ -50,7 +50,7 @@
       ],
       "readyEvent": null,
       "delay": 500,
-      "misMatchThreshold": 0.03
+      "misMatchThreshold": 0.015
     },
     {
       "label": "Subway Hub",
