@@ -299,8 +299,8 @@ defmodule SiteWeb.ContentViewTest do
       assert aria_controls_2 == "cms-11-tab"
       assert parent_1 == "#tab-group"
       assert parent_1 == parent_2
-      assert Floki.raw_html(body_1) =~ "First tab's content"
-      assert Floki.raw_html(body_2) =~ "Second tab's content"
+      assert Floki.raw_html(body_1, encode: false) =~ "First tab's content"
+      assert Floki.raw_html(body_2, encode: false) =~ "Second tab's content"
     end
 
     test "renders a Paragraph.Unknown", %{conn: conn} do

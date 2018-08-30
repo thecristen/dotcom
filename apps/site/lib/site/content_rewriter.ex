@@ -29,7 +29,7 @@ defmodule Site.ContentRewriter do
   # necessary since foo |> Floki.parse |> Floki.raw_html blows up
   # if there are no HTML tags in foo.
   defp render(content) when is_binary(content), do: content
-  defp render(content), do: Floki.raw_html(content)
+  defp render(content), do: Floki.raw_html(content, encode: false)
 
   @spec dispatch_rewrites(Floki.html_tree | binary, Plug.Conn.t) :: Floki.html_tree | binary | nil
   defp dispatch_rewrites({"table", _, _} = element, conn) do

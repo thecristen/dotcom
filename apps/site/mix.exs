@@ -68,7 +68,7 @@ defmodule Site.Mixfile do
      {:dialyxir, ">= 0.3.5", only: [:test, :dev]},
      {:benchfella, "~> 0.3", only: :dev},
      {:excoveralls, "~> 0.5", only: :test},
-     {:floki, "~> 0.12.0"},
+     {:floki, "== 0.20.1"}, # * see note
      {:mock, "~> 0.2.0", only: :test},
      {:polyline, github: "ryan-mahoney/polyline_ex"},
      {:sentry, github: "mbta/sentry-elixir", tag: "6.0.0"},
@@ -91,5 +91,24 @@ defmodule Site.Mixfile do
      {:util, in_umbrella: true},
      {:predictions, in_umbrella: true},
      {:trip_plan, in_umbrella: true}]
+
+     #########################################
+     #
+     # * Note about Floki version
+     #
+     # Floki v0.20.2 introduced a change that is incompatible with our code right now.
+     # Attributes that are built as iodata lists are getting passed to a function that
+     # is expecting String.t, which causes an exception.
+     #
+     # Here's the exact line and commit:
+     # https://github.com/philss/floki/commit/c5eb4fddc143c2dd784767e3d1fa5b17acf8df01#diff-89b5940fb49d7d4e900ac542fea22545R87
+     #
+     # For now, version 0.20.1 is sufficient for our needs;
+     # however, this may need to be addressed for any future upgrades.
+     #
+     # I've posted an issue with a suggested fix on their repo:
+     # https://github.com/philss/floki/issues/188
+     #
+     # - kh 8/30/2018
   end
 end
