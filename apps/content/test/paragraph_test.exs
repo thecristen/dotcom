@@ -95,8 +95,8 @@ defmodule Content.ParagraphTest do
       ]
     } = from_api(api_data)
 
-    assert safe_to_string(column1.body) =~ "<h4>Basic Format</h4><p>The multi-column"
-    assert safe_to_string(column2.body) =~ "<h4>Multi-column vs. Title card set</h4><p>We recommend"
+    assert safe_to_string(column1.body) =~ "<h4>Basic Format</h4>\n\n<p>The multi-column"
+    assert safe_to_string(column2.body) =~ "<h4>Multi-column vs. Title card set</h4>\n\n<p>We recommend"
   end
 
   test "parses tabbed interface paragraph (tabs)" do

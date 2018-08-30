@@ -57,7 +57,7 @@ defmodule Site.Mixfile do
      {:ehmon, git: "https://github.com/heroku/ehmon.git", tag: "v4", only: :prod},
      {:distillery, "~> 1.4.1", runtime: :false},
      {:inflex, "~> 1.8.0"},
-     {:html_sanitize_ex, "~> 1.2.0"},
+     {:html_sanitize_ex, "~> 1.3.0"},
      {:logster, "~> 0.4.0"},
      {:quixir, "~> 0.9", only: :test},
      {:sizeable, "~> 0.1.5"},
@@ -69,7 +69,6 @@ defmodule Site.Mixfile do
      {:benchfella, "~> 0.3", only: :dev},
      {:excoveralls, "~> 0.5", only: :test},
      {:floki, "~> 0.12.0"},
-     {:mochiweb, "~> 2.15.0", override: true},
      {:mock, "~> 0.2.0", only: :test},
      {:polyline, github: "ryan-mahoney/polyline_ex"},
      {:sentry, github: "mbta/sentry-elixir", tag: "6.0.0"},
@@ -92,10 +91,5 @@ defmodule Site.Mixfile do
      {:util, in_umbrella: true},
      {:predictions, in_umbrella: true},
      {:trip_plan, in_umbrella: true}]
-      # NOTE: mochiweb override added to resolve dependency conflict
-      # between html_sanitize_ex (2.12.2) and floki (2.15.0). Overriding does not
-      # affect the functions we currently use html_sanitize_ex for. This should be
-      # removed as soon as html_sanitize_ex updates to ~> 2.15.0, as it's never
-      # used directly in our app.
   end
 end
