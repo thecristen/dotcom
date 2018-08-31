@@ -8,7 +8,8 @@ defmodule Fares.Application do
 
     # Define workers and child supervisors to be supervised
     children = [
-      Fares.Repo
+      Fares.Repo,
+      Fares.RetailLocations.Data
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

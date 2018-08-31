@@ -1,0 +1,22 @@
+{
+  "id" : "f6c258bf-1cb6-3fd1-bd79-05a291813ca0",
+  "request" : {
+    "url" : "/stops/70076?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70076-eKmbc.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 30 Aug 2018 17:23:42 GMT",
+      "last-modified" : "Thu, 30 Aug 2018 16:50:49 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l7rio4e4uq3acbph8001rq1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f6c258bf-1cb6-3fd1-bd79-05a291813ca0"
+}

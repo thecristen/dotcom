@@ -1,17 +1,19 @@
 defmodule Fares.RetailLocations.Location do
-  defstruct [:agent,
-             :city,
+  defstruct [:name,
+             :address,
              :latitude,
              :longitude,
-             :location,
+             :phone,
+             :payment,
             ]
 
   @type t :: %__MODULE__{
-    agent: String.t,
-    city: String.t,
+    name: String.t,
+    address: String.t,
     latitude: float,
     longitude: float,
-    location: String.t,
+    phone: String.t,
+    payment: [String.t],
   }
 
   defimpl Util.Position do

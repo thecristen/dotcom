@@ -172,12 +172,6 @@ defmodule SiteWeb.FareView do
     end
   end
 
-  @spec clean_city(String.t) :: iodata
-  defp clean_city(city) do
-    city = city |> String.split("/") |> List.first
-    [city, ", MA"]
-  end
-
   @spec cta_for_mode(Plug.Conn.t, :commuter_rail | :ferry) :: Phoenix.HTML.Safe.t
   def cta_for_mode(conn, mode) do
     name = Routes.Route.type_name(mode)

@@ -155,13 +155,6 @@ defmodule SiteWeb.StopControllerTest do
     assert conn.assigns[:stop_alerts]
   end
 
-  test "assigns nearby fare retail locations", %{conn: conn} do
-    assert %Plug.Conn{assigns: %{fare_sales_locations: locations}} = get conn, stop_path(conn, :show, "place-sstat", tab: "info")
-    assert is_list(locations)
-    assert length(locations) == 4
-    assert {%Fares.RetailLocations.Location{agent: "Patriot News"}, _} = List.first(locations)
-  end
-
   test "renders a google maps link for every fare retail location", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "place-sstat", %{"tab" => "info"})
     assert %Plug.Conn{assigns: %{fare_sales_locations: locations, stop: %{latitude: stop_lat, longitude: stop_lng}}} = conn
