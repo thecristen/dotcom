@@ -4,21 +4,18 @@
       <%= svg_icon_with_circle(%SvgIconWithCircle{aria_hidden?: true, icon: @mode_icon}) %>
       <%= @mode_name %>
     </h1>
-    <%= if @route_type == :bus do %>
-      <div class="hidden-no-js">
-        <div class="route-filter-label">Find your route:</div>
-        <%= form_for @conn, @conn.request_path, [as: :filter, method: :get, class: "route-filter-form form-inline"], fn f -> %>
-          <div class="route-filter-container c-form__input-container">
-            <%= text_input f, :q, placeholder: "Search a route to filter", class: "form-control c-form__input js-form__input", data_filter_input: "bus"%>
-            <button type="submit" id="hub-search__input-go-btn" class="c-form__submit-btn" aria-label="search" data-filter-submit=true>
-              <%= svg("icon-search-reverse-default.svg") %>
-            </button>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
+    <%=
+      term = route_term(@mode_icon)
+      content_tag(:div, [
+        SiteWeb.PartialView.render("_search_input.html",
+          Map.merge(assigns, %{
+            placeholder: "Search for a #{term}, stop, or address",
+            aria_label: "Search for a #{term}",
+            prefix: "route--#{@mode_icon}"
+        }))
+      ], class: "hidden-no-js", id: "route-#{@mode_icon}-search", class: "c-search-bar c-search-bar--embedded")
+    %>
     <h2>Line Schedules</h2>
-    <div data-filter-empty class="route-filter-empty"></div>
     <%= mode_button_list(%ModeButtonList{conn: @conn, class: "mode-group-first mode-group", routes: @routes, alerts: @all_alerts, date: @date, route_type: @route_type}) %>
     <div class="row">
       <div class="col-md-6">

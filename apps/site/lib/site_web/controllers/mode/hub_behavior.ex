@@ -29,13 +29,8 @@ defmodule SiteWeb.Mode.HubBehavior do
 
   def index(mode_strategy, conn, _params) do
     mode_routes = mode_strategy.routes()
-    conn = redirect_for_filter(conn, mode_strategy.mode_name(), mode_routes)
 
-    if conn.halted() do
-      conn
-    else
-      render_index(conn, mode_strategy, mode_routes)
-    end
+    render_index(conn, mode_strategy, mode_routes)
   end
 
   defp render_index(conn, mode_strategy, mode_routes) do
@@ -61,29 +56,5 @@ defmodule SiteWeb.Mode.HubBehavior do
     mode_routes
     |> Enum.map(& &1.id)
     |> Alerts.Repo.by_route_ids(now)
-  end
-
-  # Redirect if specific route is requested, Only for bus
-  defp redirect_for_filter(%Plug.Conn{query_params: %{"filter" => %{"q" => route_name}}} = conn, "Bus", mode_routes) do
-    case Enum.find(mode_routes, &String.downcase(&1.name) == String.downcase(route_name)) do
-      nil -> redirect_to_search(conn, %{"query" => route_name, "facets" => "locations,bus,facet-stop"})
-      route -> redirect_to_route(conn, route)
-    end
-  end
-  defp redirect_for_filter(conn, _mode, _routes) do
-    conn
-  end
-
-  defp redirect_to_route(conn, route) do
-    conn
-    |> redirect(to: line_path(conn, :show, route.id))
-    |> halt
-  end
-
-  @spec redirect_to_search(Plug.Conn.t(), map) :: Plug.Conn.t()
-  defp redirect_to_search(%Plug.Conn{} = conn, %{"query" => _} = query) do
-    conn
-    |> redirect(to: search_path(conn, :index, query))
-    |> halt()
   end
 end

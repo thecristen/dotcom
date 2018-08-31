@@ -16,6 +16,12 @@
   position: relative;
 }
 
+.c-search-bar--embedded {
+  @include media-breakpoint-up(md) {
+    width: 50%;
+  }
+}
+
 .c-search-bar__empty {
   display: flex;
   justify-content: space-between;

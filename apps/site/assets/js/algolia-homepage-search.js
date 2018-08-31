@@ -1,61 +1,10 @@
-import { doWhenGoogleMapsIsReady} from './google-maps-loaded';
-import { Algolia } from "./algolia-search";
-import { AlgoliaAutocompleteWithGeo } from "./algolia-autocomplete-with-geo";
+import { doWhenGoogleMapsIsReady} from "./google-maps-loaded";
+import { AlgoliaEmbeddedSearch } from "./algolia-embedded-search";
 import { animatePlaceholder } from "./animated-placeholder";
 import { placeholders } from "./search-placeholders";
+import * as QueryStringHelpers from "./query-string-helpers";
 
-export function init() {
-  document.addEventListener("turbolinks:load", () => {
-    doWhenGoogleMapsIsReady(() => { new AlgoliaHomepageSearch(); })
-  });
-}
-
-export class AlgoliaHomepageSearch {
-  constructor() {
-    this._input = document.getElementById(AlgoliaHomepageSearch.SELECTORS.input);
-    this._controller = null;
-    this._autocomplete = null;
-    this.bind();
-    if (this._input) {
-      this.init();
-    }
-  }
-
-  init() {
-    this._input.value = "";
-    this._controller = new Algolia(AlgoliaHomepageSearch.INDICES, AlgoliaHomepageSearch.PARAMS);
-    this._autocomplete = new AlgoliaAutocompleteWithGeo("homepage-autocomplete",
-                                                        AlgoliaHomepageSearch.SELECTORS,
-                                                        Object.keys(AlgoliaHomepageSearch.INDICES),
-                                                        AlgoliaHomepageSearch.LOCATION_PARAMS,
-                                                        this);
-    this._autocomplete.renderFooterTemplate = this._renderFooterTemplate;
-    this._controller.addWidget(this._autocomplete);
-    animatePlaceholder(AlgoliaHomepageSearch.SELECTORS.input, placeholders);
-  }
-
-  bind() {
-    this._renderFooterTemplate = this._renderFooterTemplate.bind(this);
-  }
-
-  _renderFooterTemplate(indexName) {
-    if (indexName == "locations") {
-      return '<div class="c-search-result__google">' +
-                document.getElementById("powered-by-google-logo").innerHTML +
-             '</div>';
-    }
-    return "";
-  }
-
-  getParams() {
-    return {
-      from: "homepage-search",
-      query: this._input.value
-    };
-  }
-}
-
-AlgoliaHomepageSearch.INDICES = {
+const INDICES = {
   routes: {
     indexName: "routes",
     query: ""
@@ -70,14 +19,16 @@ AlgoliaHomepageSearch.INDICES = {
   },
 }
 
-AlgoliaHomepageSearch.SELECTORS = {
-  input: "homepage-search__input",
-  container: "homepage-search__container",
-  locationLoadingIndicator: "homepage-search__loading-indicator",
-  resetButton: "homepage-search__reset"
+// exported for testing
+export const SELECTORS = {
+  input: "search-homepage__input",
+  container: "search-homepage__container",
+  goBtn: "search-homepage__input-go-btn",
+  locationLoadingIndicator: "search-homepage__loading-indicator",
+  resetButton: "search-homepage__reset"
 }
 
-AlgoliaHomepageSearch.PARAMS = {
+const PARAMS = {
   stops: {
     hitsPerPage: 2,
     facets: ["*"],
@@ -102,7 +53,35 @@ AlgoliaHomepageSearch.PARAMS = {
   },
 }
 
-AlgoliaHomepageSearch.LOCATION_PARAMS = {
+const LOCATION_PARAMS = {
   position: 3,
   hitLimit: 2
+}
+
+// exported for testing
+export const doInit = () => {
+  const search = new AlgoliaEmbeddedSearch(
+    {
+      pageId: "search-homepage",
+      indices: INDICES,
+      params: PARAMS,
+      selectors: SELECTORS,
+      locationParams: LOCATION_PARAMS,
+    }
+  );
+  search.buildSearchParams = () => {
+    return QueryStringHelpers.parseParams({
+      query: search.input.value
+    });
+  };
+
+  return search;
+};
+
+export function init() {
+  document.addEventListener("turbolinks:load", () => {
+    doWhenGoogleMapsIsReady(doInit);
+
+    animatePlaceholder(SELECTORS.input, placeholders);
+  });
 }

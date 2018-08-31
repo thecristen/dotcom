@@ -22,6 +22,6 @@ defmodule SiteWeb.IntegrationHelpers do
   end
 
   def click_clear_search(session) do
-    click(session, css("#global-search__reset"))
+    click(session, css("#search-global__reset"))
   end
 end

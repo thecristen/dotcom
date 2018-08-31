@@ -209,8 +209,8 @@ AlgoliaGlobalSearch.SELECTORS = {
   resultsContainer: "search-results-container",
   closeModalButton: "close-facets-modal",
   showFacetsButton: "show-facets",
-  resetButton: "global-search__reset",
-  input: "global-search__input"
+  resetButton: "search-global__reset",
+  input: "search-global__input"
 };
 
 AlgoliaGlobalSearch.LATLNGBOUNDS = {

@@ -2,6 +2,7 @@ defmodule SiteWeb.ModeController do
   use SiteWeb, :controller
 
   plug SiteWeb.Plug.Mticket
+  plug :require_google_maps
 
   alias SiteWeb.Mode
 
@@ -25,5 +26,9 @@ defmodule SiteWeb.ModeController do
     |> assign(:home, false)
     |> await_assign_all()
     |> render("index.html")
+  end
+
+  defp require_google_maps(conn, _) do
+    assign(conn, :requires_google_maps?, true)
   end
 end

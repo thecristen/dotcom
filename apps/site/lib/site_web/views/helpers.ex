@@ -382,4 +382,7 @@ defmodule SiteWeb.ViewHelpers do
       Timex.format!(date, format)
     end
   end
+
+  def route_term(type) when type in [:bus, :ferry], do: "route"
+  def route_term(type) when type in [:subway, :commuter_rail], do: "line"
 end

@@ -3,7 +3,7 @@ defmodule SiteWeb.HomepageSearchTest do
   alias Wallaby.Browser
   import Wallaby.Query
 
-  @search_input css("#homepage-search__input")
+  @search_input css("#search-homepage__input")
 
   setup tags do
     %{session: %Wallaby.Session{} = session} = Map.new(tags)
@@ -15,7 +15,7 @@ defmodule SiteWeb.HomepageSearchTest do
     test "resets search", %{session: session} do
       result_selector = ".c-search-bar__-dataset-stops .c-search-bar__-suggestion"
       result = css(result_selector)
-      reset_btn = css("#homepage-search__reset")
+      reset_btn = css("#search-homepage__reset")
 
       session =
         session
@@ -36,7 +36,7 @@ defmodule SiteWeb.HomepageSearchTest do
 
     @tag :wallaby
     test "only shown when input has a value", %{session: session} do
-      reset_id = "#homepage-search__reset"
+      reset_id = "#search-homepage__reset"
       session
       |> assert_has(css(reset_id, visible: false))
       |> fill_in(@search_input, with: "a")
