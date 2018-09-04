@@ -34,20 +34,6 @@
       <span class="sr-only">Map of itinerary described next</span>
       <script data-for="itinerary-<%= @index %>-map-dynamic" class="js-trip-plan-map-dynamic-data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
       <div id="itinerary-<%= @index %>-map-dynamic"></div>
-
-      <%#
-        --- Print-only and js-disabled images ---
-        In order to keep our Google Api costs manageable, we only want to download the static images when they are actually visible.
-        Normally, this would be accomplished by displaying the static image as a background-image, which will only be fetched when
-        display != none; unfortunately, Firefox does not render background images by default when printing.
-
-        To work around this, we have two separate static images, one for printing when javascript is enabled, and one that will both
-        display and be printed if javascript is disabled. We use browser sniffing to determine if the user is on Firefox, and if so,
-        an image gets added inside of this div on window.beforeprint if the itinerary is expanded. If not, we set this div's
-        background-image to `url(el.getAttribute("data-static-url"))`.
-      %>
-      <div class="map-static" id="itinerary-<%= @index %>-map-static" data-static-url="<%= map_url %>"></div>
-
       <noscript>
         <img class="map-static" style="background-image: url(<%= map_url %>)" />
       </noscript>

@@ -1,4 +1,4 @@
-<h1>Trip Planner</h1>
+<h1 class="trip-plan-title">Trip Planner</h1>
 <div class="trip-plan-container">
   <%= render "_sidebar.html", assigns %>
   <div class="trip-plan-body">

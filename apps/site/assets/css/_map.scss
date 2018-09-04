@@ -20,6 +20,7 @@
 .map {
   @media print {
     height: auto;
+    page-break-inside: avoid; // prevent maps from being split between pages when printed
   }
 }
 
@@ -40,13 +41,18 @@
 
   @media print {
     display: none;
+
+    .gmnoprint {
+      display: none;
+    }
   }
 }
 
 .map-static,
 .map-print {
+
   background-size: cover;
-  page-break-inside: avoid; // prevent maps from being split between pages when printed
+  background-repeat: no-repeat;
   position: relative;
   width: 100%;
 
