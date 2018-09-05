@@ -1,5 +1,5 @@
 defmodule SiteWeb.ProjectControllerTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
 
   describe "index" do
     test "renders the list of projects", %{conn: conn} do

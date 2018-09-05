@@ -1,5 +1,5 @@
 defmodule SiteWeb.PageControllerTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")

@@ -1,5 +1,5 @@
 defmodule SiteWeb.StopControllerTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
   import Site.PageHelpers, only: [breadcrumbs_include?: 2]
 
   alias SiteWeb.StopController

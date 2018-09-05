@@ -1,5 +1,5 @@
 defmodule SiteWeb.EventControllerTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
 
   describe "GET index" do
     test "renders a list of upcoming events", %{conn: conn} do

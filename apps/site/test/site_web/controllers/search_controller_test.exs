@@ -1,5 +1,5 @@
 defmodule SiteWeb.SearchControllerTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
   alias Alerts.Alert
   import Mock
 

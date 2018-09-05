@@ -1,5 +1,5 @@
 defmodule SiteWeb.ScheduleControllerTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
 
   @moduletag :external
 

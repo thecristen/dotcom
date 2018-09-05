@@ -1,5 +1,5 @@
 defmodule SiteWeb.OldSiteRedirectControllerTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
 
   describe "/schedules_and_maps" do
     test "redirects to mode root", %{conn: conn} do

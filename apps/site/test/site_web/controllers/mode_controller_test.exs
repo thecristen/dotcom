@@ -1,5 +1,5 @@
 defmodule SiteWeb.ModeControllerTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
 
   for mode <- ~W(index subway bus ferry commuter_rail)a do
     test_name = "renders the #{mode} mode page"

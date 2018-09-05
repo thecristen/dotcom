@@ -1,5 +1,5 @@
 defmodule SiteWeb.TripPlanControllerTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
   alias Site.TripPlan.Query
   alias TripPlan.NamedPosition
   import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]

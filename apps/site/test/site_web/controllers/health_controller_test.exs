@@ -1,6 +1,6 @@
 defmodule SiteWeb.HealthControllerTest do
   @moduledoc false
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
 
   describe "index/2" do
     test "returns 200 with no content", %{conn: conn} do

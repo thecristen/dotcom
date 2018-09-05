@@ -1,5 +1,5 @@
 defmodule SiteWeb.FareControllerTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
   import SiteWeb.FareController
   alias Fares.Fare
   alias SiteWeb.FareController.Filter

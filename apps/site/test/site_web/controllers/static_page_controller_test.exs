@@ -1,5 +1,5 @@
 defmodule SiteWeb.StaticPageControllerTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
 
   test "/getting-around", %{conn: conn} do
     assert conn

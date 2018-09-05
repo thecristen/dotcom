@@ -1,5 +1,5 @@
 defmodule SiteWeb.AlertControllerTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
 
   use Phoenix.Controller
   alias Alerts.Alert

@@ -1,5 +1,5 @@
 defmodule SiteWeb.TransitNearMeControllerTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
   alias Stops.Stop
   alias Routes.Route
 

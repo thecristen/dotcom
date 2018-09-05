@@ -1,5 +1,5 @@
 defmodule SiteWeb.OldSiteFileControllerTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
 
   describe "/uploadedfiles" do
     test "can return a file with spaces in the URL", %{conn: conn} do

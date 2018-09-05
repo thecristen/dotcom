@@ -1,6 +1,6 @@
 defmodule SiteWeb.StyleGuideControllerTest do
   use Site.Components.Register
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
 
   test "unknown top level pages return a 404", %{conn: conn} do
     conn = get conn, "style-guide/i_dont_exist"
