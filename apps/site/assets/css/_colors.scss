@@ -1,4 +1,4 @@
-// style-guide --section Primary Colors
+// Primary Colors
 $brand-primary: #165c96;
 $brand-primary-dark: $brand-primary;
 $brand-primary-darkest: #0b2f4c;
@@ -6,17 +6,17 @@ $brand-primary-light: #5da9e8;
 $brand-primary-light-contrast: #a1c6ed;
 $brand-primary-lightest: #cee0f4;
 
-// style-guide --section Secondary Colors
+// Secondary Colors
 $brand-secondary: #ffce0c;
 $brand-secondary-dark: #d8ac00;
 $brand-secondary-light: #ffe372;
 
-// style-guide --section Background Colors
+// Background Colors
 $brand-navy-dark: #071d2e;
 $gradient-color-light: #3191e1;
 $riding-the-t-bg: #34416e;
 
-// style-guide --section Grays
+// Grays
 $gray: #494f5c;
 $gray-dark: #1c1e23;
 $gray-light: #788093;
@@ -25,7 +25,7 @@ $gray-lightest: #e9eaed;
 $gray-bordered-background: #f2f3f5; // use as background color for gray elements that need a border
 $gray-image-overlay: rgba(28, 30, 35, .8);
 
-// style-guide --section Modes and Lines
+// Modes and Lines
 $brand-blue-line: #003da5;
 $brand-green-line: #00843d;
 $brand-orange-line: #ed8b00;
@@ -37,7 +37,7 @@ $brand-commuter-rail: #80276c;
 $brand-ferry: #008eaa;
 $brand-the-ride: #52bbc5;
 
-// style-guide --section Alerts
+// Alerts
 $alert-color: $brand-secondary;
 $alert-color-lighter: #fffae9;
 $alert-notice-color: #dcd3e8;
@@ -45,13 +45,13 @@ $error-text: #b3000f;
 $brand-danger: $error-text;
 $brand-success: #145a06;
 
-// style-guide --section Social Media
+// Social Media
 $instagram: #1c1e23;
 $twitter: #55acee;
 $facebook: #395185;
 $youtube: #cd201f;
 
-// style-guide --section Gradients
+// Gradients
 $whats-happening-gradient-end: #eff0f2;
 $hp-hero-gradient-start: rgba(28, 30, 35, .4);
 $hp-hero-gradient-end: rgba(28, 30, 35, .8);
@@ -60,8 +60,7 @@ $riding-the-t-gradient-start: rgba(52, 65, 110, .95);
 $riding-the-t-gradient-end: rgba(52, 65, 110, .75);
 $riding-the-t-gradient: linear-gradient(to bottom right, $riding-the-t-gradient-start, $riding-the-t-gradient-end);
 
-
-// style-guide --section General
+// General
 $homepage-bg-color: #fff;
 $footer-color: $brand-navy-dark;
 $input-color: $gray-dark;

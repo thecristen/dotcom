@@ -58,18 +58,15 @@ $base-spacing-sm: $space-8;
 $base-spacing-lg: $space-24;
 $base-spacing-xl: $space-36;
 
-// style-guide --section Typography
 $font-family-base: 'LatoLatinWeb', $font-family-sans-serif;
 $headings-font-family: 'Helvetica Neue', Helvetica, Arial, $font-family-sans-serif;
 $headings-font-weight: 700;
 
-// style-guide --section Font Sizes
 $font-size-base-xs: 14px;
 $font-size-base: 16px;
 $font-size-base-xxl: 18px;
 $font-size-base-print: 24px;
 
-// style-guide --section Heading Sizes
 $headings: 'h1', 'h2', 'h3', 'h4', 'h5', 'h6';
 
 $font-size-h1: 2.5rem;
@@ -78,19 +75,15 @@ $font-size-h3: 1.3125rem;
 $font-size-h4: 1.125rem;
 $font-size-h5: 1rem;
 
-// style-guide --section Mobile Heading Sizes
 $font-size-h1-sm: 2rem;
 $font-size-h2-sm: 1.625rem;
 
-// style-guide --section Heading Proportions
 $headings-margin-top: 1.075em;
 $headings-line-height: 1.275em;
 $headings-margin-bottom: .375em;
 
-// style-guide --section Misc Typography
 $pagination-line-height: 1.5rem;
 
-// style-guide --ignore
 $border-width: 1px;
 $border-color: $gray-lightest;
 $border: $border-width solid $border-color;
