@@ -1,0 +1,22 @@
+{
+  "id" : "1b808d40-a31d-36c0-b113-b045f82d44d0",
+  "request" : {
+    "url" : "/routes/?stop=place-bbsta&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Do0TW.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:03:32 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oov0qdfnqpbaq50000jm1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "1b808d40-a31d-36c0-b113-b045f82d44d0"
+}

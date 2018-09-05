@@ -1,0 +1,22 @@
+{
+  "id" : "ac3bcc3e-677d-3c91-8f30-d0b80221e71a",
+  "request" : {
+    "url" : "/schedules/?stop=place-sstat&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&date=2018-12-22",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-zYY0z.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:06:44 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:50:42 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8opa5l5tkpj6qsvc001d71",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ac3bcc3e-677d-3c91-8f30-d0b80221e71a"
+}

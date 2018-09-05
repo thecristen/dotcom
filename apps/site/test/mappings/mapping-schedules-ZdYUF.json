@@ -1,0 +1,22 @@
+{
+  "id" : "93c1902f-fd1d-3baf-9c4e-927f4af4f00d",
+  "request" : {
+    "url" : "/schedules/?route=1&date=2018-12-24&direction_id=0&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-ZdYUF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json",
+      "Date" : "Wed, 05 Sep 2018 16:05:42 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:50:42 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8op6iltbinpfd76k0015n1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "93c1902f-fd1d-3baf-9c4e-927f4af4f00d"
+}

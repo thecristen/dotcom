@@ -1,0 +1,22 @@
+{
+  "id" : "5f092c7f-22d9-3031-a97c-c68f8ded70c8",
+  "request" : {
+    "url" : "/stops/?route=1&include=parent_station%2Cfacilities&direction_id=1&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-CCDOx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:05:43 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8op6l8o7ot1fd76k0016s1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "5f092c7f-22d9-3031-a97c-c68f8ded70c8"
+}

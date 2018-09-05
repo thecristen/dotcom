@@ -1,0 +1,22 @@
+{
+  "id" : "b2a99267-02d7-3d40-940a-ab82b95377ba",
+  "request" : {
+    "url" : "/routes/?stop=Norwood+Depot",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-WFZx2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:02:37 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oorqtagl8grceb0000524",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b2a99267-02d7-3d40-940a-ab82b95377ba"
+}

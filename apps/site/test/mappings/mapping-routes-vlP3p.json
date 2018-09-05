@@ -1,0 +1,22 @@
+{
+  "id" : "407bffe8-21cf-3718-90b1-6344869a8da7",
+  "request" : {
+    "url" : "/routes/?stop=Lowell",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-vlP3p.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:06:57 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8opauvnkvb7ummvg000n32",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "407bffe8-21cf-3718-90b1-6344869a8da7"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "e0680774-e8af-3ff2-a348-9d4aeb3f9ab3",
+  "request" : {
+    "url" : "/routes/?stop=place-river",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-zRaW6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:06:57 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8opav99lmdsqikqo000h93",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e0680774-e8af-3ff2-a348-9d4aeb3f9ab3"
+}

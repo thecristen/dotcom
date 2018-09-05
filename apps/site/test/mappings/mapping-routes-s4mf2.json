@@ -1,0 +1,22 @@
+{
+  "id" : "b10a015e-def9-3231-8544-36460d5f4cbf",
+  "request" : {
+    "url" : "/routes/?stop=Lawrence",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-s4mf2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:06:57 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8opav3144buumvl4001ep1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b10a015e-def9-3231-8544-36460d5f4cbf"
+}

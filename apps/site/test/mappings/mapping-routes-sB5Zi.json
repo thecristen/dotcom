@@ -1,0 +1,22 @@
+{
+  "id" : "f2fe1923-cc23-3ab4-a304-17116f561328",
+  "request" : {
+    "url" : "/routes/?stop=place-north&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-sB5Zi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:03:32 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oov125arq041134000al2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f2fe1923-cc23-3ab4-a304-17116f561328"
+}

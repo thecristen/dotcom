@@ -1,0 +1,22 @@
+{
+  "id" : "ff938ebe-1be6-38c4-8a39-9c74f6bf2476",
+  "request" : {
+    "url" : "/routes/?stop=Wakefield",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-nCNaM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:06:57 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8opav7necgu88jus001f01",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ff938ebe-1be6-38c4-8a39-9c74f6bf2476"
+}

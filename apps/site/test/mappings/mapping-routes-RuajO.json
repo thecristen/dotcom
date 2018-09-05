@@ -1,0 +1,22 @@
+{
+  "id" : "59b1b44b-a02f-3913-b7f6-53ad3b972721",
+  "request" : {
+    "url" : "/routes/?stop=892&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-RuajO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:03:44 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oovmu5q99c41134000mj1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "59b1b44b-a02f-3913-b7f6-53ad3b972721"
+}

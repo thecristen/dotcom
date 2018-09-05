@@ -1,0 +1,22 @@
+{
+  "id" : "7f8216cd-9614-3799-a920-fcaa4086d82e",
+  "request" : {
+    "url" : "/routes/?stop=Montserrat",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-m9XSU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:06:58 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8opavjj4vd96qsvc000jr4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "7f8216cd-9614-3799-a920-fcaa4086d82e"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "cc784bbb-d6bc-37a9-bd0c-4ee1b4bcf8f6",
+  "request" : {
+    "url" : "/routes/?stop=2829&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-goscl.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:03:45 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oovok60r53rneas000rd1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "cc784bbb-d6bc-37a9-bd0c-4ee1b4bcf8f6"
+}

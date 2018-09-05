@@ -1,0 +1,22 @@
+{
+  "id" : "ac3fea02-d01c-3525-b99f-4241936e8973",
+  "request" : {
+    "url" : "/routes/?stop=101",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LJPrH.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:05:43 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8op6l3hc2q7fd76k0016k1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ac3fea02-d01c-3525-b99f-4241936e8973"
+}

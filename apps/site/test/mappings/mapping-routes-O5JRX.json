@@ -1,0 +1,22 @@
+{
+  "id" : "47b78224-777b-3927-9df4-de8845c2d56b",
+  "request" : {
+    "url" : "/routes/?stop=Walpole",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-O5JRX.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:02:40 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oorvu0gcf7oi9k8000554",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "47b78224-777b-3927-9df4-de8845c2d56b"
+}

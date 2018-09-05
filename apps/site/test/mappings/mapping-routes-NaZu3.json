@@ -1,0 +1,22 @@
+{
+  "id" : "1f21f72f-ad78-3604-a9d7-903a8b596e36",
+  "request" : {
+    "url" : "/routes/?stop=place-hsmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-NaZu3.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:03:33 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oov2lvh8smfulks0006h3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "1f21f72f-ad78-3604-a9d7-903a8b596e36"
+}

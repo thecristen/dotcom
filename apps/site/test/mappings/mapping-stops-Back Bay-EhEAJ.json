@@ -1,0 +1,22 @@
+{
+  "id" : "ee1da3eb-34ff-3cec-a79e-a02952ab6f23",
+  "request" : {
+    "url" : "/stops/Back%20Bay?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Back Bay-EhEAJ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:06:22 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8op8u3i4322t1e64000cn3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ee1da3eb-34ff-3cec-a79e-a02952ab6f23"
+}

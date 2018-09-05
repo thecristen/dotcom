@@ -1,0 +1,22 @@
+{
+  "id" : "4c9cedc8-6c20-384a-a851-e5dd2d11ca04",
+  "request" : {
+    "url" : "/routes/?stop=1398&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-4TPYB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:03:44 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oovnb0d174fulks000no1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4c9cedc8-6c20-384a-a851-e5dd2d11ca04"
+}

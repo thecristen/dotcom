@@ -1,0 +1,22 @@
+{
+  "id" : "67e10653-29cf-34ec-a364-9916ff271f5a",
+  "request" : {
+    "url" : "/routes/?stop=place-asmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-VYaCb.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:02:35 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oormk2mhm845cpk000692",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "67e10653-29cf-34ec-a364-9916ff271f5a"
+}

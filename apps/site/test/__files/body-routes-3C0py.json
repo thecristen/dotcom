@@ -1,0 +1,1 @@
+{"data":[{"attributes":{"color":"FFC72C","description":"Local Bus","direction_names":["Outbound","Inbound"],"long_name":"Ruggles - Downtown Boston","short_name":"43","sort_order":4300,"text_color":"000000","type":3},"id":"43","links":{"self":"/routes/43"},"type":"route"}],"jsonapi":{"version":"1.0"}}

@@ -1,0 +1,22 @@
+{
+  "id" : "45953c13-74ad-3dc1-987a-5ce9cbef7333",
+  "request" : {
+    "url" : "/routes/?stop=253&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Unlya.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:03:45 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oovpc47g3eklt74000tj1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "45953c13-74ad-3dc1-987a-5ce9cbef7333"
+}

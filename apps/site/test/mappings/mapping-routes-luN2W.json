@@ -1,0 +1,22 @@
+{
+  "id" : "dbe40563-3089-3338-8902-42a8be8743e8",
+  "request" : {
+    "url" : "/routes/?stop=place-engav",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-luN2W.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:02:36 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oorolvh75grceb0000702",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "dbe40563-3089-3338-8902-42a8be8743e8"
+}

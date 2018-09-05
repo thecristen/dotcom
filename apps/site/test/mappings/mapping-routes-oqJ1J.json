@@ -1,0 +1,22 @@
+{
+  "id" : "8f2dba37-beab-36d1-972f-2ed28916a31f",
+  "request" : {
+    "url" : "/routes/?stop=place-aqucl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-oqJ1J.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:02:35 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oormk60rfloi9k8000404",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8f2dba37-beab-36d1-972f-2ed28916a31f"
+}

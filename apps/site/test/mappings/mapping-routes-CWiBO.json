@@ -1,0 +1,22 @@
+{
+  "id" : "ad6463e4-9e1d-3b21-b556-530056e7c130",
+  "request" : {
+    "url" : "/routes/?stop=North+Billerica",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CWiBO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:06:57 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8opav0pa4vmqikqo001el1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ad6463e4-9e1d-3b21-b556-530056e7c130"
+}

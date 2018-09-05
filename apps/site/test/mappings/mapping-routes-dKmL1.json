@@ -1,0 +1,22 @@
+{
+  "id" : "a3367d2e-e37a-37b1-85e3-4788ee023aad",
+  "request" : {
+    "url" : "/routes/?stop=Worcester",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-dKmL1.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:06:57 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8opausc4rh96qsvc000jb4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a3367d2e-e37a-37b1-85e3-4788ee023aad"
+}

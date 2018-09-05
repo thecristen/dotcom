@@ -1,0 +1,22 @@
+{
+  "id" : "8860c7d8-58ba-318b-b5e4-b7f1e6d33d0f",
+  "request" : {
+    "url" : "/routes/?stop=Wyoming+Hill",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-GnQkx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:06:57 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8opav883g03ummvg001f21",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8860c7d8-58ba-318b-b5e4-b7f1e6d33d0f"
+}

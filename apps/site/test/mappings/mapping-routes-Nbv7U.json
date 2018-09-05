@@ -1,0 +1,22 @@
+{
+  "id" : "55dfca18-b9a6-3c4f-b6f7-59a8377e9191",
+  "request" : {
+    "url" : "/routes/?stop=Framingham",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Nbv7U.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:02:36 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oorof0r23k7gbv40006l2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "55dfca18-b9a6-3c4f-b6f7-59a8377e9191"
+}

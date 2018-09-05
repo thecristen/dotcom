@@ -1,0 +1,22 @@
+{
+  "id" : "355241a0-a475-33be-80f0-eb3a48a82af6",
+  "request" : {
+    "url" : "/routes/?stop=place-gover",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-wjgdX.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:02:35 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oorn7fp5jarceb00006e2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "355241a0-a475-33be-80f0-eb3a48a82af6"
+}

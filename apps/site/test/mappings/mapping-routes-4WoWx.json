@@ -1,0 +1,22 @@
+{
+  "id" : "80a062d9-ce44-3d9f-9530-46967c7ccacb",
+  "request" : {
+    "url" : "/routes/?stop=Hastings",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-4WoWx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:02:36 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8ooroj7vm907gbv40006p2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "80a062d9-ce44-3d9f-9530-46967c7ccacb"
+}

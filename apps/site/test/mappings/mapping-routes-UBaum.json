@@ -1,0 +1,22 @@
+{
+  "id" : "caadfaac-f603-3c6a-a425-6edf0b68e3ca",
+  "request" : {
+    "url" : "/routes/?stop=place-nqncy",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-UBaum.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:02:36 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oornop97d9peof8000e51",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "caadfaac-f603-3c6a-a425-6edf0b68e3ca"
+}

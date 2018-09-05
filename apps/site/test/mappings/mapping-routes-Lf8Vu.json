@@ -1,0 +1,22 @@
+{
+  "id" : "5bc86999-3a5f-3106-b7a0-b2fea787d75d",
+  "request" : {
+    "url" : "/routes/?stop=place-nuniv&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Lf8Vu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:03:32 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oov1e89qkgfulks000av2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "5bc86999-3a5f-3106-b7a0-b2fea787d75d"
+}

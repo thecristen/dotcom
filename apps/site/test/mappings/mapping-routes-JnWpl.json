@@ -1,0 +1,22 @@
+{
+  "id" : "9f4b5c0f-5ccc-3ee0-b88a-ab7c7a11396a",
+  "request" : {
+    "url" : "/routes/?stop=15094&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-JnWpl.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:03:41 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oovid4rj9i41134000ma1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "9f4b5c0f-5ccc-3ee0-b88a-ab7c7a11396a"
+}

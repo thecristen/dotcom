@@ -1,0 +1,22 @@
+{
+  "id" : "d9af5e27-b47e-3afb-813a-11980867f4d9",
+  "request" : {
+    "url" : "/routes/?stop=Montello",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-gz1ZE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:06:57 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8opav75v47bummvg001ev1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d9af5e27-b47e-3afb-813a-11980867f4d9"
+}

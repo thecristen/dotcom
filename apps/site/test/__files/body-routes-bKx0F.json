@@ -1,0 +1,1 @@
+{"data":[{"attributes":{"color":"FFC72C","description":"Local Bus","direction_names":["Outbound","Inbound"],"long_name":"City Point - Downtown Boston","short_name":"7","sort_order":700,"text_color":"000000","type":3},"id":"7","links":{"self":"/routes/7"},"type":"route"}],"jsonapi":{"version":"1.0"}}

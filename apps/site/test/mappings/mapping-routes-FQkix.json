@@ -1,0 +1,22 @@
+{
+  "id" : "ec662499-5761-3c48-8375-f1c789e585b4",
+  "request" : {
+    "url" : "/routes/?stop=place-grigg",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FQkix.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:02:40 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8oorvu1338a3h7uc000fc1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ec662499-5761-3c48-8375-f1c789e585b4"
+}

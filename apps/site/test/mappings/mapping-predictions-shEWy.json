@@ -1,0 +1,22 @@
+{
+  "id" : "97c6856c-9f07-3d80-a2dd-4ff5d1037b90",
+  "request" : {
+    "url" : "/predictions/?stop=place-sstat&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-shEWy.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:06:44 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 16:06:39 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8opa5l5tkpe1pvfg000l42",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "97c6856c-9f07-3d80-a2dd-4ff5d1037b90"
+}

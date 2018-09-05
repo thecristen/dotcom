@@ -1,0 +1,22 @@
+{
+  "id" : "813ce6a4-ebb5-35c8-a869-e29eddcf40e6",
+  "request" : {
+    "url" : "/routes/?stop=Waverley",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-teJwJ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:06:57 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8opauav7b3m0frts000mp2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "813ce6a4-ebb5-35c8-a869-e29eddcf40e6"
+}

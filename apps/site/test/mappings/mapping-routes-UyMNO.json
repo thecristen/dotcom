@@ -1,0 +1,22 @@
+{
+  "id" : "54434fd1-2a94-369a-bcd1-d71699c563d2",
+  "request" : {
+    "url" : "/routes/?stop=36541&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-UyMNO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:03:39 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8ooveg3j1e1baq50000dh2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "54434fd1-2a94-369a-bcd1-d71699c563d2"
+}

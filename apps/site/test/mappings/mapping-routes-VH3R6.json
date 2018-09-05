@@ -1,0 +1,22 @@
+{
+  "id" : "1fa6280a-5734-3e91-ab53-3eeeac4ab09d",
+  "request" : {
+    "url" : "/routes/?stop=Brockton",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-VH3R6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:06:57 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8opav1p31lcqikqo001en1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "1fa6280a-5734-3e91-ab53-3eeeac4ab09d"
+}

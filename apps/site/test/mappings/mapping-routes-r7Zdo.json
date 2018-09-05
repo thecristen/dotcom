@@ -1,0 +1,22 @@
+{
+  "id" : "666e50e9-d338-3f94-8d5a-af6ba3795919",
+  "request" : {
+    "url" : "/routes/?stop=West+Hingham",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-r7Zdo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 16:06:57 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 15:49:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8opaus0bvq9crpoo000gv3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "666e50e9-d338-3f94-8d5a-af6ba3795919"
+}
