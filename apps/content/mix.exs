@@ -59,7 +59,7 @@ defmodule Content.Mixfile do
      {:poison, ">= 0.0.0", override: true},
      {:timex, ">= 0.0.0"},
      {:plug, ">= 0.0.0"},
-     {:html_sanitize_ex, "~> 1.2.0"},
+     {:html_sanitize_ex, "~> 1.3.0"},
      {:bypass, "~> 0.8", only: :test},
      {:quixir, "~> 0.9", only: :test},
      {:excoveralls, "~> 0.5", only: :test},

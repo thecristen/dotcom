@@ -422,17 +422,19 @@ defmodule SiteWeb.TripPlanControllerTest do
                     "to" => "to address",
                     "date_time" => @morning
                    }}
-      morning = conn
-                 |> get(trip_plan_path(conn, :index, params))
-                 |> html_response(200)
-      assert [_itinerary1, _itinerary2, _itinerary3] = Floki.find(morning, ".terminus-circle .fa-check")
-      afternoon = conn
-                 |> get(trip_plan_path(conn, :index, %{params | "plan" => %{"from" => "from address",
-                    "to" => "to address",
-                    "date_time" => @afternoon
-                   }}))
-                 |> html_response(200)
-      assert [_itinerary1, _itinerary2, _itinerary3] = Floki.find(afternoon, ".terminus-circle .fa-check")
+      morning_conn = get(conn, trip_plan_path(conn, :index, params))
+      morning = html_response(morning_conn, 200)
+      assert Enum.count(morning_conn.assigns.itinerary_row_lists) == 2
+
+      assert [_itinerary1, _itinerary2] = Floki.find(morning, ".terminus-circle .fa-check")
+      afternoon_conn = get(conn, trip_plan_path(conn, :index, %{params | "plan" => %{"from" => "from address",
+                         "to" => "to address",
+                         "date_time" => @afternoon
+                       }}))
+      afternoon = html_response(afternoon_conn, 200)
+
+      assert Enum.count(afternoon_conn.assigns.itinerary_row_lists) == 2
+      assert [_itinerary1, _itinerary2] = Floki.find(afternoon, ".terminus-circle .fa-check")
     end
   end
 
