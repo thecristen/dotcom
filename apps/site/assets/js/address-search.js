@@ -80,6 +80,6 @@ function addLocationChangeCallback(ev, autocomplete) {
 
 function geolocationCallback(ev, location) {
   const path = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
-  const qs = `?location[address]=${location.coords.latitude}, ${location.coords.longitude}`;
+  const qs = `?latitude=${location.coords.latitude}&longitude=${location.coords.longitude}`;
   window.location.href = encodeURI(path + qs + '#address-search-input');
 }
