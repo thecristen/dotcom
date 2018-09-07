@@ -1,0 +1,22 @@
+{
+  "id" : "05ed0d41-282e-3558-bf16-e6c6f93bd6d0",
+  "request" : {
+    "url" : "/routes/?stop=place-stplb",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-xsh4Y.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:59:08 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp7c3of9014c5d8003vp2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "05ed0d41-282e-3558-bf16-e6c6f93bd6d0"
+}

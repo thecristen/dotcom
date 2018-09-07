@@ -1,0 +1,22 @@
+{
+  "id" : "3283575e-7613-36e7-83a6-5462d7238c73",
+  "request" : {
+    "url" : "/routes/?stop=Wachusett",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ExwSa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 21:03:37 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8ppn1t0i2u0j7r3o0048d3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3283575e-7613-36e7-83a6-5462d7238c73"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "a06f338a-271d-3a71-a71d-16a4ea925fd7",
+  "request" : {
+    "url" : "/routes/?stop=Bellevue",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-NHL6G.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 21:03:37 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8ppn2h2s5vbn6sdg004973",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a06f338a-271d-3a71-a71d-16a4ea925fd7"
+}

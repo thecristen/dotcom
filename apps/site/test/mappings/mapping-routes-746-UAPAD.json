@@ -1,0 +1,22 @@
+{
+  "id" : "4994bcb1-e61e-3288-a842-3d0922262da1",
+  "request" : {
+    "url" : "/routes/746",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-746-UAPAD.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 21:03:27 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8ppmftk3eev7jja0009a51",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4994bcb1-e61e-3288-a842-3d0922262da1"
+}

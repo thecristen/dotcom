@@ -1,0 +1,22 @@
+{
+  "id" : "c66703de-de2b-3758-8785-d11c21aefece",
+  "request" : {
+    "url" : "/routes/?stop=Belmont",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-f824y.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 21:03:37 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8ppn16bt8ih65198004833",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c66703de-de2b-3758-8785-d11c21aefece"
+}

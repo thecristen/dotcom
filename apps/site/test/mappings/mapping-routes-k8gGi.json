@@ -1,0 +1,22 @@
+{
+  "id" : "3f86da10-3b01-37b3-ad30-240064ff829e",
+  "request" : {
+    "url" : "/routes/?stop=Cohasset",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-k8gGi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 21:03:37 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8ppn1j9gjv8j7r3o009dv1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3f86da10-3b01-37b3-ad30-240064ff829e"
+}

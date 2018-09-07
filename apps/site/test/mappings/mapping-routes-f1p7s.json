@@ -1,0 +1,22 @@
+{
+  "id" : "12553b7f-926b-3df8-99af-8be0f42e3f18",
+  "request" : {
+    "url" : "/routes/?stop=South+Attleboro",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-f1p7s.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 21:03:38 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8ppn2ogp02bn6sdg004a53",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "12553b7f-926b-3df8-99af-8be0f42e3f18"
+}

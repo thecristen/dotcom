@@ -1,0 +1,22 @@
+{
+  "id" : "e81e7bf6-27b6-3bed-b628-4aa0be12dad9",
+  "request" : {
+    "url" : "/routes/?stop=place-hwsst&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-R3dX7.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:57:34 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp1ud79e0la77fk007571",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e81e7bf6-27b6-3bed-b628-4aa0be12dad9"
+}

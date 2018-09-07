@@ -1,0 +1,22 @@
+{
+  "id" : "a1cb98a3-d372-3fb4-b809-f6640075c6e1",
+  "request" : {
+    "url" : "/shapes/?route=CR-Providence&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-WNt68.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:58:05 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:12:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp3ng7m9da9va84003en3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a1cb98a3-d372-3fb4-b809-f6640075c6e1"
+}

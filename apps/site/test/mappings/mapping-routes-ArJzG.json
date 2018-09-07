@@ -1,0 +1,22 @@
+{
+  "id" : "055d5065-4fd0-3790-895b-0a59ac522229",
+  "request" : {
+    "url" : "/routes/?stop=5095&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ArJzG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:57:36 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp20u911i1u0pfc007c51",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "055d5065-4fd0-3790-895b-0a59ac522229"
+}

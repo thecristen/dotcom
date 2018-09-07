@@ -1,0 +1,22 @@
+{
+  "id" : "f79d77de-7fbe-3009-ad0b-9b4c65419d00",
+  "request" : {
+    "url" : "/trips/?route=CR-Lowell&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-mtFtP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:58:05 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:57:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp3mmemuvdrgpbk003e93",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f79d77de-7fbe-3009-ad0b-9b4c65419d00"
+}

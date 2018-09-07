@@ -1,0 +1,22 @@
+{
+  "id" : "8b53941b-5942-31df-afed-13246bfb687c",
+  "request" : {
+    "url" : "/routes/?stop=place-crtst&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-vqROe.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:57:37 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp22q3jiig1shb4007ho1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8b53941b-5942-31df-afed-13246bfb687c"
+}

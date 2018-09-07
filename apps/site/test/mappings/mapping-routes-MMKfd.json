@@ -1,0 +1,22 @@
+{
+  "id" : "d19a026a-93b4-3f8c-8933-e2fefc1e5d36",
+  "request" : {
+    "url" : "/routes/?stop=1248&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MMKfd.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:57:37 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp226oamqjvmrlc007fq1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d19a026a-93b4-3f8c-8933-e2fefc1e5d36"
+}

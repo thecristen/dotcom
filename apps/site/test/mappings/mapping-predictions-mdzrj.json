@@ -1,0 +1,22 @@
+{
+  "id" : "95d79b1d-da21-328f-95e1-30f84405cfd4",
+  "request" : {
+    "url" : "/predictions/?trip=CR-Weekday-Spring-18-517%2CCR-Weekday-Spring-18-521&stop=Worcester%2Cplace-bbsta&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-mdzrj.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 21:04:05 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 21:04:03 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8ppom38labodvia8009gs1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "95d79b1d-da21-328f-95e1-30f84405cfd4"
+}

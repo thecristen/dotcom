@@ -1,0 +1,22 @@
+{
+  "id" : "925ae97e-d261-3b75-aaed-ae8fa25bfc4f",
+  "request" : {
+    "url" : "/routes/?stop=place-valrd&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-GOMT5.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:57:35 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp1vonamd5a77fk0078u1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "925ae97e-d261-3b75-aaed-ae8fa25bfc4f"
+}

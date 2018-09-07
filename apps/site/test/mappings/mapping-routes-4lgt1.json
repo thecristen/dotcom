@@ -1,0 +1,22 @@
+{
+  "id" : "f4909331-3453-32ad-a5a9-c00906745f5a",
+  "request" : {
+    "url" : "/routes/?stop=East+Weymouth",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-4lgt1.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 21:03:37 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8ppn1kladgij7r3o009e41",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f4909331-3453-32ad-a5a9-c00906745f5a"
+}

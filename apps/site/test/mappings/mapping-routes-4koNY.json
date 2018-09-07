@@ -1,0 +1,22 @@
+{
+  "id" : "d3b0d1a8-fdcb-350c-ba69-d5f38af6a915",
+  "request" : {
+    "url" : "/routes/?stop=10011&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-4koNY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:57:36 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp21qfvejoipu60007en1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d3b0d1a8-fdcb-350c-ba69-d5f38af6a915"
+}

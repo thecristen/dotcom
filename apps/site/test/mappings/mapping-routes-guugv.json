@@ -1,0 +1,22 @@
+{
+  "id" : "b9638b7b-3ac9-3a84-86f1-4f774c36c327",
+  "request" : {
+    "url" : "/routes/?stop=Worcester",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-guugv.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 21:03:37 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8ppn1ratsq4j7r3o003fd4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b9638b7b-3ac9-3a84-86f1-4f774c36c327"
+}

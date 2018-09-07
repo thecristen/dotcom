@@ -1,0 +1,22 @@
+{
+  "id" : "caa72700-0d06-339f-b0b1-2ff30071f4bb",
+  "request" : {
+    "url" : "/routes/?stop=1230&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-TQVmJ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:57:37 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp23gk5er2ipu60007js1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "caa72700-0d06-339f-b0b1-2ff30071f4bb"
+}

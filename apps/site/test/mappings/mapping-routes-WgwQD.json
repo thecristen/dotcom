@@ -1,0 +1,22 @@
+{
+  "id" : "8efc8dd4-4464-3dc6-b6e1-a75dd82653b7",
+  "request" : {
+    "url" : "/routes/?stop=9981&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-WgwQD.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:57:36 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp20kckng09va84007bd1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8efc8dd4-4464-3dc6-b6e1-a75dd82653b7"
+}

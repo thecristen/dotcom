@@ -1,0 +1,22 @@
+{
+  "id" : "6b941935-4e65-329a-81e3-44b523d301be",
+  "request" : {
+    "url" : "/trips/?route=CR-Greenbush&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-J4u12.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:58:04 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:57:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp3m4sbphpo3ep0003jb2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "6b941935-4e65-329a-81e3-44b523d301be"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "42a98a07-9e50-398e-8504-dd5b2aa8e3bd",
+  "request" : {
+    "url" : "/alerts/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-alerts-RZ7NW.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:54:55 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:54:28 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8poolj27oopkj6jc006kc1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "42a98a07-9e50-398e-8504-dd5b2aa8e3bd"
+}

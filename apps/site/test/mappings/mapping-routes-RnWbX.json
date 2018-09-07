@@ -1,0 +1,22 @@
+{
+  "id" : "e8cd823b-9c8f-34d2-88e5-225f1311ce04",
+  "request" : {
+    "url" : "/routes/?stop=place-wlsta",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-RnWbX.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 21:03:37 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8ppn2d7c4u77jja0004sb2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e8cd823b-9c8f-34d2-88e5-225f1311ce04"
+}

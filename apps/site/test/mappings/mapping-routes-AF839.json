@@ -1,0 +1,22 @@
+{
+  "id" : "622f26b9-acd9-3ed0-bc41-d22b8f523a4b",
+  "request" : {
+    "url" : "/routes/?stop=Grafton",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-AF839.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 21:03:37 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8ppn158v9qvim5fk004q92",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "622f26b9-acd9-3ed0-bc41-d22b8f523a4b"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "19e71eef-c70c-3527-98ab-1cafb4ee502f",
+  "request" : {
+    "url" : "/schedules/?route=Green-B&date=2018-09-10&direction_id=1&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-wPDUb.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:59:07 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:11:47 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp7bciqq65k1cuk0087q1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "19e71eef-c70c-3527-98ab-1cafb4ee502f"
+}

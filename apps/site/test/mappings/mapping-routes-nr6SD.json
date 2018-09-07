@@ -1,0 +1,22 @@
+{
+  "id" : "d660765d-7999-3b9a-9e01-29d247ff8a7d",
+  "request" : {
+    "url" : "/routes/?stop=place-bcnfd&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-nr6SD.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:57:35 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp1v7ad5p1a77fk007781",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d660765d-7999-3b9a-9e01-29d247ff8a7d"
+}

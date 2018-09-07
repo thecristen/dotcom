@@ -1,0 +1,22 @@
+{
+  "id" : "fc40c1fe-aeee-3275-a551-8324c0a4c68c",
+  "request" : {
+    "url" : "/routes/?stop=107",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZIwL5.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 21:02:33 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8ppjbau9n3aknv18004hl2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "fc40c1fe-aeee-3275-a551-8324c0a4c68c"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "dd40d4f1-42ee-3d8e-b196-76f65f83ec21",
+  "request" : {
+    "url" : "/trips/?route=Boat-F4&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-2o9il.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:58:25 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:58:13 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp4t8qs3h1v0nkg003qb2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "dd40d4f1-42ee-3d8e-b196-76f65f83ec21"
+}

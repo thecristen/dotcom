@@ -1,0 +1,22 @@
+{
+  "id" : "df037920-fcc5-3ff2-98de-2f68374a807f",
+  "request" : {
+    "url" : "/routes/?stop=1252&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-qiopk.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:57:37 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp23bo0g1g7nbqo007jg1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "df037920-fcc5-3ff2-98de-2f68374a807f"
+}

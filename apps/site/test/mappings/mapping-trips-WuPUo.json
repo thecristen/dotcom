@@ -1,0 +1,22 @@
+{
+  "id" : "cb6bd440-0a59-3ba6-af3d-f508704cb936",
+  "request" : {
+    "url" : "/trips/?route=Orange&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-WuPUo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 20:58:02 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:57:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8pp3gnbt8p7n4808007mg1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "cb6bd440-0a59-3ba6-af3d-f508704cb936"
+}

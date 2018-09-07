@@ -1,0 +1,22 @@
+{
+  "id" : "e4d35b1f-54a0-3c23-a44c-e6ffd33213c0",
+  "request" : {
+    "url" : "/routes/?stop=Nantasket+Junction",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-17A0z.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 05 Sep 2018 21:03:37 GMT",
+      "last-modified" : "Wed, 05 Sep 2018 20:10:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2l8ppn1n298gcj7r3o003er4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e4d35b1f-54a0-3c23-a44c-e6ffd33213c0"
+}
