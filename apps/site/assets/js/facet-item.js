@@ -15,10 +15,12 @@ export class FacetItem {
   }
 
   get templates() {
+    const tabbable = this._children.length > 0;
+    const tabToExpand = tabbable ? `tabindex="0"` : null;
     return {
       facetItem: hogan.compile(`
         <div class="{{class}}">
-          <div id="${this.selectors.expansionContainer}" class="c-facets__flex-container--normal">
+          <div id="${this.selectors.expansionContainer}" role="button" class="c-facets__flex-container--normal" aria-expanded="false" ${tabToExpand}>
             <div class="c-facets__icon">
               {{#iconClass}}
                 {{{iconClass}}}
@@ -28,9 +30,9 @@ export class FacetItem {
           </div>
           <div id="${this.selectors.checkboxControlContainer}" class="c-facets__flex-container--wide">
             <div class="c-facets__facet-item" id="${this.selectors.counter}"></div>
-            <div class="c-facets__facet-checkbox">
-              <input id="${this.selectors.checkbox}" class="c-facets__checkbox--input" type="checkbox" name="{{text}}">
-              <label id="${this.selectors.checkboxLabel}" for="${this.selectors.checkbox}"></label>
+            <div class="c-checkbox">
+              <input id="${this.selectors.checkbox}" class="c-checkbox__input" type="checkbox" name="{{text}}" aria-labelledby="${this.selectors.textDisplay}">
+              <label id="${this.selectors.checkboxLabel}" class="c-checkbox__label" for="${this.selectors.checkbox}"></label>
             </div>
           </div>
         </div>
@@ -91,10 +93,14 @@ export class FacetItem {
 
   toggleExpansion() {
     if (this._childrenDiv.style.display == "none") {
+      document.getElementById(this.selectors.expansionContainer).setAttribute("aria-expanded", "true");
+      document.getElementById(this.selectors.expansionContainer).setAttribute("aria-controls", this._childrenDiv.id);
       this._childrenDiv.style.display = "block";
       this._icon.classList.remove("c-facets__triangle--right");
       this._icon.classList.add("c-facets__triangle--down");
     } else {
+      document.getElementById(this.selectors.expansionContainer).setAttribute("aria-expanded", "false");
+      document.getElementById(this.selectors.expansionContainer).setAttribute("aria-controls", this._childrenDiv.id);
       this._childrenDiv.style.display = "none";
       this._icon.classList.remove("c-facets__triangle--down");
       this._icon.classList.add("c-facets__triangle--right");
@@ -108,15 +114,12 @@ export class FacetItem {
     this._childrenDiv = document.getElementById(this.selectors.childrenDiv);
     this._checkboxLabel = document.getElementById(this.selectors.checkboxLabel);
     this._icon = document.getElementById(this.selectors.icon);
-    this._checkboxLabel.classList.add("c-facets__checkbox--unchecked");
     this._checkbox.checked = false;
     this.setupListeners();
   }
 
   check() {
     this._checkbox.checked = true;
-    this._checkboxLabel.classList.remove("c-facets__checkbox--unchecked");
-    this._checkboxLabel.classList.add("c-facets__checkbox--checked");
     this._children.forEach(child => {
       child.check();
     });
@@ -124,8 +127,6 @@ export class FacetItem {
 
   uncheckUI() {
     this._checkbox.checked = false;
-    this._checkboxLabel.classList.remove("c-facets__checkbox--checked");
-    this._checkboxLabel.classList.add("c-facets__checkbox--unchecked");
   }
 
   reset() {
@@ -217,16 +218,26 @@ export class FacetItem {
   setupListeners() {
     const expansionContainer = document.getElementById(this.selectors.expansionContainer);
     const checkboxControlContainer = document.getElementById(this.selectors.checkboxControlContainer);
-    checkboxControlContainer.addEventListener("click", () => {
+    const checkbox = document.getElementById(this.selectors.checkbox);
+    checkboxControlContainer.addEventListener("click", e => {
       this.toggleCheck();
     });
-    expansionContainer.addEventListener("click", () => {
-      if (this._children.length > 0) {
-        this.toggleExpansion();
-      } else {
+    checkbox.addEventListener("keydown", e => {
+      if (e.key === " " || e.key === "Spacebar" || e.keyCode === 32) {
         this.toggleCheck();
       }
     });
+    if (this._children.length > 0) {
+      expansionContainer.addEventListener("keydown", e => {
+        if (e.key === " " || e.key === "Spacebar" || e.keyCode === 32) {
+          e.preventDefault(); // Don't scroll down page on spacebar, just expand
+          this.toggleExpansion();
+        }
+      });
+      expansionContainer.addEventListener("click", () => {
+        this.toggleExpansion();
+      });
+    };
   }
 
   setupAllListeners() {

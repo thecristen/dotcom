@@ -4,9 +4,10 @@
       for mode <- [:subway, :commuter_rail, :bus, :ferry] do
         active? = Map.get(@modes, mode, true)
         content_tag(:div, [
-          checkbox(mode_f, mode, checked: active?),
-          label(mode_f, mode, class: "m-trip-plan__checkbox-label")
-        ])
+          checkbox(mode_f, mode, checked: active?, class: "c-checkbox__input"),
+          label(mode_f, mode, class: "c-checkbox__label")
+        ],
+        class: "c-checkbox")
       end
     end)
   %>

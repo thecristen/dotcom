@@ -22,10 +22,20 @@ defmodule CustomerSupportTest do
     end
 
     @tag :wallaby
-    test "Shows additional fields when 'would like a response' box is checked", %{session: session} do
+    @tag :work
+    test "Checks hidden checkbox when 'would like a response' label is clicked", %{session: session} do
       session
       |> visit("/customer-support")
-      |> click(css("#request_response"))
+      |> click(css("#request_response_label"))
+
+      assert selected?(session, css("#request_response", visible: false))
+    end
+
+    @tag :wallaby
+    test "Shows additional fields when 'would like a response' label is clicked", %{session: session} do
+      session
+      |> visit("/customer-support")
+      |> click(css("#request_response_label"))
       |> assert_has(css("#name"))
       |> assert_has(css("#email"))
     end

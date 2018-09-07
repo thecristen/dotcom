@@ -104,9 +104,9 @@ defmodule SiteWeb.GlobalSearchTest do
       |> click_facet_checkbox("event")
       |> click_facet_checkbox("locations")
       |> assert_has(search_results_section(2))
-      |> assert_has(css(".c-facets__checkbox--checked", count: 2))
+      |> assert_has(css(".c-checkbox__input:checked", count: 2, visible: false))
       |> click_clear_search()
-      |> assert_has(css(".c-facets__checkbox--checked", count: 0))
+      |> assert_has(css(".c-checkbox__input:checked", count: 0, visible: false))
     end
 
     @tag :wallaby

@@ -1,0 +1,68 @@
+.c-checkbox {
+  display: inline-flex;
+  position: relative;
+}
+
+.c-checkbox__input {
+  opacity: 0; // Still accessible by screenreaders
+  width: 0;
+
+  &:focus {
+    + .c-checkbox__label::before {
+      outline: 3px solid; // Focus for IE11, auto doesn't work the same
+      // Use webkit focus color so IE11 above works
+      outline: auto -webkit-focus-ring-color 5px; // scss-lint:disable DuplicateProperty
+      outline-color: $brand-primary-light;
+      -moz-outline-radius: $border-radius; // Less ugly focus style for FF
+    }
+  }
+}
+
+.c-checkbox__input:checked + .c-checkbox__label {
+  &::before {
+    background: $brand-primary-dark;
+  }
+
+  &::after {
+    content: '';
+    opacity: 1;
+  }
+}
+
+.c-checkbox__label {
+  display: inline-block;
+  margin-bottom: 0;
+  padding-left: $base-spacing * 2;
+  position: relative;
+
+  &::before {
+    background: $white;
+    border: 2px solid $brand-primary-dark;
+    border-radius: $border-radius;
+    content: '';
+    cursor: pointer;
+    display: inline-block;
+    height: $space-12 * 5 / 3;
+    left: $space-4;
+    position: absolute;
+    top: $space-4;
+    width: $space-12 * 5 / 3;
+  }
+
+  &::after {
+    background: transparent;
+    border: 4px solid $white;
+    border-right: 0;
+    border-top: 0;
+    content: none;
+    cursor: pointer;
+    display: inline-block;
+    height: $space-8;
+    left: .45 * $base-spacing;
+    opacity: 0;
+    position: absolute;
+    top: $space-8;
+    transform: rotate(-45deg);
+    width: $space-12;
+  }
+}

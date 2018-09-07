@@ -148,8 +148,11 @@
   }
 }
 
-.m-trip-plan__checkbox-label {
-  padding-left: $base-spacing / 4;
+.m-trip-plan__modes {
+  .c-checkbox {
+    display: flex;
+    margin-bottom: $base-spacing / 2;
+  }
 }
 
 .m-trip-plan__input-label {

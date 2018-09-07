@@ -50,6 +50,10 @@
 .upload-photo-link {
   cursor: pointer;
 
+  > .fa {
+    padding-right: $base-spacing / 2;
+  }
+
   + input {
     padding: $base-spacing / 2 0;
   }
@@ -125,12 +129,6 @@ button .waiting {
   input {
     display: inline-block;
     width: $base-spacing;
-  }
-}
-
-.support-check-container {
-  &.form-group {
-    padding-bottom: $base-spacing / 4;
   }
 }
 

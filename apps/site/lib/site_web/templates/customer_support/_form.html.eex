@@ -38,17 +38,17 @@
         <div class="col-xs-12 photo-preview-container contrast <%= unless Map.has_key?(f.params, "photo"), do: "hidden-xs-up" %>" tabindex="-1">
         </div>
         <div class="form-group col-xs-12 contrast">
-          <a class="upload-photo-link" tabindex="-1"><%= fa "camera" %> Upload Photo</a>
+          <a class="upload-photo-link" tabindex="-1"><%= fa "camera" %>Upload Photo</a>
           <%= file_input f, :photo, accept: "image/*", id: "photo" %>
         </div>
         <div class="form-group col-xs-12 support-check-container contrast">
-          <div class="form-check">
-            <label class="form-check-label">
-              <%= checkbox f, :request_response, id: "request_response", class: "form-check-input",
-                                                 checked_value: "on" %>
-              I would like a response from the Customer Support team.
-            </label>
-          </div>
+          <%= SiteWeb.PartialView.render("_checkbox.html", %{
+            form: f,
+            field: :request_response,
+            id: "request_response",
+            label_text: "I would like a response from the Customer Support team."
+          })
+          %>
         </div>
         <div class="support-form-expanded contrast col-xs-12">
           <div class="row">
@@ -87,22 +87,24 @@
               <div class="error-container support-privacy-error-container <%= class_for_error("privacy", @errors, "", "hidden-xs-up") %>" tabindex="-1">
                 <span class="support-privacy-error">You must agree to our Privacy Policy before submitting your feedback.</span>
               </div>
-              <div class="form-check">
-                <label class="form-check-label">
-                  <%= checkbox f, :privacy, id: "privacy", class: "form-check-input", required: "required",
-                                            checked_value: "on" %>
-                  I have read and agree to the <a target="_blank", href="<%= cms_static_page_path @conn, "/policies/privacy-policy" %>">Privacy Policy</a>
-                </label>
-              </div>
+            <%= SiteWeb.PartialView.render("_checkbox.html", %{
+              form: f,
+              field: :privacy,
+              id: "privacy",
+              required: "required",
+              label_text: ["I have read and agree to the ", link("Privacy Policy", target: "_blank", to: cms_static_page_path(@conn, "/policies/privacy-policy"))]
+            })
+            %>
             </div>
             <div class="col-xs-12 support-check-container">
-              <div class="form-check">
-                <label class="form-check-label">
-                  <%= checkbox f, :promotions, id: "promotions", class: "form-check-input", required: "required",
-                                               checked_value: "on" %>
-                  I would like to receive email updates on new MBTA services and promotions
-                </label>
-              </div>
+              <%= SiteWeb.PartialView.render("_checkbox.html", %{
+                form: f,
+                field: :promotions,
+                id: "promotions",
+                required: "required",
+                label_text: "I would like to receive email updates on new MBTA services and promotions"
+                })
+              %>
             </div>
           </div>
         </div>
