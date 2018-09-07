@@ -3,23 +3,86 @@ defmodule SiteWeb.Plugs.Cookies do
   A module Plug that creates a cookie with a unique ID if this cookie does not already exist.
   """
 
+  alias Plug.Conn
+
   @behaviour Plug
-  @cookie_name "mbta_id"
+  @id_cookie_name "mbta_id"
+  @route_cookie_name "mbta_visited_routes"
+
+  @id_cookie_options [
+    http_only: false,
+    max_age: 20 * 365 * 24 * 60 * 60 # 20 years
+  ]
+
+  @route_cookie_options [
+    http_only: false,
+    max_age: 30 * 24 * 60 * 60 # 30 days
+  ]
 
   @impl true
   def init([]), do: []
 
   @impl true
-  def call(%{cookies: %{@cookie_name => _mbta_id}} = conn, _) do
+  def call(conn, _) do
+    conn
+    |> set_id_cookie()
+    |> set_route_cookie()
+  end
+
+  def id_cookie_name, do: @id_cookie_name
+  def route_cookie_name, do: @route_cookie_name
+
+  @doc """
+  Sets a unique ID for every visitor. ID is never overwritten once it exists.
+  """
+  @spec set_id_cookie(Conn.t) :: Conn.t
+  def set_id_cookie(%{cookies: %{@id_cookie_name => _mbta_id}} = conn) do
     conn
   end
-  def call(conn, _) do
-    Plug.Conn.put_resp_cookie(conn, @cookie_name, unique_id(), cookie_options())
+  def set_id_cookie(conn) do
+    Conn.put_resp_cookie(conn, @id_cookie_name, unique_id(), @id_cookie_options)
   end
 
-  defp twenty_years_from_now, do: 20 * 365 * 24 * 60 * 60
+  @spec unique_id() :: String.t
+  defp unique_id do
+    {node(), System.unique_integer()}
+    |> :erlang.phash2()
+    |> to_string()
+  end
 
-  defp cookie_options, do: [http_only: false, max_age: twenty_years_from_now()]
+  @modes ["subway", "bus", "commuter-rail", "ferry"]
 
-  defp unique_id, do: to_string(:erlang.phash2({node(), System.unique_integer()}))
+  @doc """
+  Sets a cookie when user visits a schedule page. Cookie lists the 4 most recently visited
+  routes, separated by a pipe ("|"), in order of most recently visited.
+  """
+  @spec set_route_cookie(Conn.t) :: Conn.t
+  def set_route_cookie(%Conn{path_info: ["schedules", route]} = conn) when route not in @modes do
+    conn.cookies
+    |> Map.get(@route_cookie_name, "")
+    |> String.split("|")
+    |> build_route_cookie(route)
+    |> do_set_route_cookie(conn)
+  end
+  def set_route_cookie(%Conn{} = conn) do
+    conn
+  end
+
+  @spec do_set_route_cookie(String.t, Conn.t) :: Conn.t
+  defp do_set_route_cookie(cookie, conn) do
+    Conn.put_resp_cookie(conn, @route_cookie_name, cookie, @route_cookie_options)
+  end
+
+  @spec build_route_cookie([String.t], String.t) :: String.t
+  defp build_route_cookie([""], route) do
+    route
+  end
+  defp build_route_cookie(routes, route) do
+    old_routes =
+      routes
+      |> Enum.reject(& &1 == route)
+      |> Enum.take(3)
+
+    Enum.join([route | old_routes], "|")
+  end
 end
