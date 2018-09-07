@@ -71,4 +71,8 @@ defmodule Stops.ApiTest do
 
     assert {:error, _} = by_route({"1", 0, []})
   end
+
+  test "pretty payment falls back to empty string" do
+    assert pretty_payment("invalid") == ""
+  end
 end

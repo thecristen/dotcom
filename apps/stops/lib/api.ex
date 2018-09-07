@@ -201,6 +201,8 @@ defmodule Stops.Api do
   def pretty_payment("invoice"), do: "Invoice"
   def pretty_payment("mobile-app"), do: "Mobile App"
   def pretty_payment("smartcard"), do: "Smart Card"
+  def pretty_payment("tapcard"), do: "Tap Card"
+  def pretty_payment(_), do: ""
 
   @spec merge_accessibility([String.t], %{String.t => any}) :: [String.t]
   defp merge_accessibility(accessibility, stop_attributes)
