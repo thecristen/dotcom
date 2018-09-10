@@ -240,6 +240,10 @@
   &:last-child {
     margin-right: 0;
   }
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .station__header-icon {

@@ -283,9 +283,13 @@ defmodule SiteWeb.StopViewTest do
           %Route{id: "Green-E", type: 0, name: "Green Line E"}
         ]
       ]
-      rendered = SiteWeb.StopView.render_header_modes(grouped_routes, nil)
+      rendered = SiteWeb.StopView.render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
       assert [subway_io, [], [], []] = rendered
       subway = header_mode_to_string(subway_io)
+      assert Floki.attribute(subway, "href") == [
+        "/stops/stop?tab=departures#subway-schedule",
+        "/stops/stop?tab=departures#subway-schedule"
+      ]
       assert [_] = Floki.find(subway, ".c-svg__icon-red-line-default")
       assert Floki.text(subway) =~ "Red Line"
       assert [_] = Floki.find(subway, ".c-svg__icon-green-line-default")
@@ -303,11 +307,12 @@ defmodule SiteWeb.StopViewTest do
           %Route{id: "Boat-Hull", type: 4}
         ]
       ]
-      rendered = SiteWeb.StopView.render_header_modes(grouped_routes, nil)
+      rendered = SiteWeb.StopView.render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
       assert [[], ferry_io, [], []] = rendered
       ferry = header_mode_to_string(ferry_io)
       assert [_] = Floki.find(ferry, ".c-svg__icon-mode-ferry-default")
       assert [_] = Floki.find(ferry, ".station__header-description")
+      assert Floki.attribute(ferry, "href") == ["/stops/stop?tab=departures#ferry-schedule"]
     end
 
     test "renders one icon and pill for commuter rail, and renders zone" do
@@ -317,12 +322,13 @@ defmodule SiteWeb.StopViewTest do
           %Route{id: "CR-Lowell", type: 2}
         ]
       ]
-      rendered = SiteWeb.StopView.render_header_modes(grouped_routes, 2)
+      rendered = SiteWeb.StopView.render_header_modes(%Stop{id: "stop"}, grouped_routes, 2)
       assert [[], [], cr_io, []] = rendered
       cr = header_mode_to_string(cr_io)
       assert [_] = Floki.find(cr, ".c-svg__icon-mode-commuter-rail-default")
       assert [_] = Floki.find(cr, ".station__header-description")
       assert [_] = Floki.find(cr, ".c-icon__cr-zone")
+      assert Floki.attribute(cr, "href") == ["/stops/stop?tab=departures#commuter-rail-schedule"]
     end
 
     test "renders CR with no zone if zone not assigned" do
@@ -332,12 +338,13 @@ defmodule SiteWeb.StopViewTest do
           %Route{id: "CR-Lowell", type: 2}
         ]
       ]
-      rendered = SiteWeb.StopView.render_header_modes(grouped_routes, nil)
+      rendered = SiteWeb.StopView.render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
       assert [[], [], cr_io, []] = rendered
       cr = header_mode_to_string(cr_io)
       assert [_] = Floki.find(cr, ".c-svg__icon-mode-commuter-rail-default")
       assert [_] = Floki.find(cr, ".station__header-description")
       assert Floki.find(cr, ".c-icon__cr-zone") == []
+      assert Floki.attribute(cr, "href") == ["/stops/stop?tab=departures#commuter-rail-schedule"]
     end
 
     test "renders one icon with no pill for bus lines" do
@@ -347,11 +354,12 @@ defmodule SiteWeb.StopViewTest do
           %Route{id: "86", type: 3}
         ]
       ]
-      rendered = SiteWeb.StopView.render_header_modes(grouped_routes, nil)
+      rendered = SiteWeb.StopView.render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
       assert [[], [], [], bus_io] = rendered
       bus = header_mode_to_string(bus_io)
       assert [_] = Floki.find(bus, ".c-svg__icon-mode-bus-default")
       assert Floki.find(bus, ".station__header-description") == []
+      assert Floki.attribute(bus, "href") == ["/stops/stop?tab=departures#bus-schedule"]
     end
   end
 

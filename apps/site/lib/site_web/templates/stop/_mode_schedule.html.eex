@@ -1,4 +1,4 @@
-<div class="row mode-section" role="table">
+<div class="row mode-section" role="table" id="<%= @mode %>-schedule">
   <div class="col-xs-12">
     <div class="row station-schedule-header station-route-row" role="row">
       <div class="col-xs-12 col-sm-6" role="columnheader">

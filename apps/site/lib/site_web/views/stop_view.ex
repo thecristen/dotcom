@@ -283,48 +283,64 @@ defmodule SiteWeb.StopView do
   def station_name_class([{:bus, _}]), do: "station__name"
   def station_name_class(_), do: "station__name station__name--upcase"
 
-  @spec render_header_modes(Keyword.t, integer | nil) :: [Phoenix.HTML.Safe.t]
-  def render_header_modes(grouped_routes, zone_number) do
+  @spec render_header_modes(Stop.t, Keyword.t, integer | nil) :: [Phoenix.HTML.Safe.t]
+  def render_header_modes(%Stop{} = stop, grouped_routes, zone_number) do
     for mode <- [:subway, :ferry, :commuter_rail, :bus] do
-      do_render_header_modes(mode, Keyword.get(grouped_routes, mode, []), zone_number)
+      do_render_header_modes(mode, Keyword.get(grouped_routes, mode, []), zone_number, stop)
     end
   end
 
-  defp do_render_header_modes(_type, [], _zone) do
+  @spec do_render_header_modes(Route.gtfs_route_type, [Route.t], integer | nil, Stop.t) :: [Phoenix.HTML.Safe.t]
+  defp do_render_header_modes(_type, [], _zone, _stop) do
     []
   end
-  defp do_render_header_modes(type, [%Route{} | _] = routes, zone) do
+  defp do_render_header_modes(type, [%Route{} | _] = routes, zone, stop) do
     [
-      render_header_mode(type, routes),
+      render_header_mode(type, routes, stop),
       render_cr_zone(type, zone)
     ]
   end
 
-  @spec render_header_mode(Route.gtfs_route_type, [Route.t]) :: [Phoenix.HTML.Safe.t]
-  defp render_header_mode(_type, []) do
+  @spec render_header_mode(Route.gtfs_route_type, [Route.t], Stop.t) :: [Phoenix.HTML.Safe.t]
+  defp render_header_mode(_type, [], %Stop{}) do
     []
   end
-  defp render_header_mode(:subway, routes) do
+  defp render_header_mode(:subway, routes, stop) do
     for route <- aggregate_routes(routes) do
       route
       |> line_icon(:default)
-      |> do_render_header_mode(route.name, route)
+      |> do_render_header_mode(route.name, route, stop)
     end
   end
-  defp render_header_mode(type, [route | _]) do
+  defp render_header_mode(type, [route | _], stop) do
     [
       type
       |> mode_icon(:default)
-      |> do_render_header_mode(mode_name(type), route)
+      |> do_render_header_mode(mode_name(type), route, stop)
     ]
   end
 
-  @spec do_render_header_mode(Phoenix.HTML.Safe.t, String.t, Route.t) :: Phoenix.HTML.Safe.t
-  defp do_render_header_mode({:safe, _} = icon, <<text::binary>>, %Route{} = route) do
-    content_tag(:span, [
+  @spec do_render_header_mode(Phoenix.HTML.Safe.t, String.t, Route.t, Stop.t) :: Phoenix.HTML.Safe.t
+  defp do_render_header_mode({:safe, _} = icon, <<text::binary>>, %Route{} = route, %Stop{} = stop) do
+    link([
       content_tag(:span, icon, class: "station__header-icon#{unless route.type == 3 do " hidden-md-up" end}"),
       render_header_mode_name(route, text)
-    ], class: "station__header-feature")
+    ], to: stop_mode_link(stop, route), data: [scroll: true], class: "station__header-feature")
+  end
+
+  defp stop_mode_link(%Stop{} = stop, %Route{type: mode}) do
+    mode
+    |> Route.type_atom()
+    |> CSSHelpers.atom_to_class()
+    |> stop_schedule_anchor_link(stop)
+  end
+
+  defp stop_schedule_anchor_link(<<mode::binary>>, %Stop{} = stop) do
+    SiteWeb.Endpoint
+    |> stop_path(:show, stop, tab: "departures")
+    |> URI.parse()
+    |> Map.put(:fragment, mode <> "-schedule")
+    |> URI.to_string()
   end
 
   @spec render_header_mode_name(Route.t, String.t) :: [Phoenix.HTML.Safe.t]
