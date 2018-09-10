@@ -1,0 +1,19 @@
+<%= link [to: @link_path, class: "c-mode-button c-mode-button--#{mode_button_class_modifier(@route)}"] do %>
+  <div class="c-mode-button__content">
+    <%= if show_icon?(@route, @show_icon?) do %>
+      <span class="c-mode-button__icon">
+        <%= line_icon(@route, :small) %>
+      </span>
+    <% end %>
+
+    <span class="c-mode-button__name">
+      <%= mode_button_text(@route) %>
+    </span>
+
+    <span class="c-mode-button__alert">
+      <%= if @has_alert? do
+        SiteWeb.PageView.svg_icon(%SvgIcon{icon: :alert, class: "icon-small-inline"})
+      end %>
+    </span>
+  </div>
+<% end %>

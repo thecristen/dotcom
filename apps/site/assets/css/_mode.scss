@@ -1,0 +1,22 @@
+.m-mode__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.m-mode__name {
+  display: inline-block;
+  flex: 1 0 auto;
+}
+
+.m-mode__view-all {
+  display: inline-block;
+  flex: 0 0 auto;
+  font-family: $font-family-base;
+  font-size: $font-size-h5;
+  font-weight: normal;
+  text-align: right;
+}
+
+.m-mode__group {
+  margin-bottom: $base-spacing;
+}

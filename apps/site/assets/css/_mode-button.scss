@@ -1,0 +1,113 @@
+.c-mode-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  // add a negative margin to the button container so that
+  // the buttons themselves will look flush with the
+  // edges of the page container.
+  margin: $base-spacing * -.25;
+}
+
+.c-mode-button {
+  display: block;
+  flex-basis: 100%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-bottom: $space-6;
+  margin-top: $space-6;
+  padding: 0 $base-spacing * .25;
+
+  @include media-breakpoint-down(sm) {
+    flex-basis: 100%;
+  }
+}
+
+.c-mode-button__content {
+  align-items: center;
+  border: $border;
+  border-radius: $border-radius;
+  display: flex;
+  padding: $base-spacing / 2 $base-spacing * .75;
+}
+
+// Setting max-width along with flex-basis fixes an issue in IE 10 & 11
+// where width is affected by padding & borders in child elements.
+// https://github.com/philipwalton/flexbugs/issues/3
+.c-mode-button--red-line,
+.c-mode-button--green-line,
+.c-mode-button--blue-line,
+.c-mode-button--orange-line,
+.c-mode-button--mattapan-line {
+  @include media-breakpoint-only(sm) {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+
+  @include media-breakpoint-up(md) {
+    flex-basis: 33.33%;
+    max-width: 33.33%;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    flex-basis: 20%;
+    max-width: 20%;
+  }
+}
+
+.c-mode-button--bus {
+  @include media-breakpoint-up(sm) {
+    flex-basis: 20%;
+    max-width: 20%;
+  }
+
+  @include media-breakpoint-down(xs) {
+    flex-basis: 33.33%;
+    max-width: 33.33%;
+  }
+}
+
+.c-mode-button--commuter-rail {
+  @include media-breakpoint-up(md) {
+    flex-basis: 33.33%;
+    max-width: 33.33%;
+  }
+
+  @include media-breakpoint-only(sm) {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+}
+
+.c-mode-button--ferry {
+  @include media-breakpoint-up(sm) {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+}
+
+.c-mode-button__icon {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  padding-right: $base-spacing / 2;
+
+  [class*=c-svg] {
+    flex: 0 0 auto;
+  }
+}
+
+.c-mode-button__name {
+  flex: 1 1 auto;
+}
+
+.c-mode-button__alert {
+  flex: 0 0 auto;
+  justify-self: flex-end;
+  padding-right: $base-spacing / 2;
+
+  path {
+    fill: $brand-primary;
+  }
+}
