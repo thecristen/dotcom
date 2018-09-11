@@ -57,11 +57,9 @@ defmodule DetailedStopGroup do
 
   @spec build_featured_stop(Route.t, Stop.t, String.t | nil) :: DetailedStop.t
   defp build_featured_stop(route, stop, zone_name) do
-    excluded_features = [Route.icon_atom(route)]
     green_line? = route.id == "Green"
     features = Stops.Repo.stop_features(
       stop,
-      exclude: excluded_features,
       expand_branches?: green_line?)
     %DetailedStop{stop: stop, features: features, zone: zone_name, route_icon: Route.icon_atom(route)}
   end

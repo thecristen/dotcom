@@ -31,11 +31,11 @@ defmodule DetailedStopGroupTest do
       assert expected == actual
     end
 
-    test "The route icon for the current route is not included in features" do
+    test "The route icon for the current route is included in features" do
       {_orange_line, orange_stops} = :subway |> from_mode() |> Enum.find(&match?({%Route{name: "Orange Line"}, _}, &1))
       assert [_stop | _] = orange_stops # count is greater than 1
       for stop <- orange_stops do
-        refute Route.icon_atom(%Route{id: "Orange"}) in stop.features
+        assert Route.icon_atom(%Route{id: "Orange"}) in stop.features
       end
     end
 
