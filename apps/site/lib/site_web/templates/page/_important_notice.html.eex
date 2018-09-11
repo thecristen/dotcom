@@ -5,7 +5,7 @@
   <div class="important-whats-happening-text col-md-4 col-xs-12">
     <%= @important_notice.blurb %>
     <%= link to: cms_static_page_path(@conn, (@important_notice.link && @important_notice.link.url)) || "#" do %>
-      <span class="no-wrap">More <%= fa "arrow-right"%></span>
+      <span class="no-wrap">Read more.</span>
     <% end %>
   </div>
 </div>

@@ -6,9 +6,9 @@
       <span class="fare-summary-fare-price"><%= price %></span>
     </p>
   <% end %>
-  <%= link to: cms_static_page_path(@conn, "/fares/bus-fares") do %>
-    <p class="m-schedule-line__info">
-      More about fares <%= fa "arrow-right" %>
-    </p>
-  <% end %>
+  <p class="m-schedule-line__info">
+    <%= link to: cms_static_page_path(@conn, "/fares/bus-fares"), class: "c-call-to-action" do %>
+      More about fares
+    <% end %>
+  </p>
 </div>

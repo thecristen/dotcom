@@ -41,25 +41,25 @@
 
           <p>
             <strong>Lost and Found:</strong>
-            <%= link to: cms_static_page_path(@conn, "/customer-support/lost-and-found") do %>
-              View phone numbers <%= fa "arrow-right" %>
-            <% end %>
+              <%= link to: cms_static_page_path(@conn, "/customer-support/lost-and-found") do %>
+                View phone numbers
+              <% end %>
           </p>
         </div>
         <div class="col-xs-12 col-sm-6">
           <h2>Transit Police</h2>
             <p>
-              <strong>Emergency:</strong><%= tel_link "617-222-1212" %><br>
+              <strong>Emergency:</strong> <%= tel_link "617-222-1212" %><br>
               <strong>TTY:</strong> <%= tel_link "617-222-1200" %>
             </p>
           <p>
-            <%= link to: cms_static_page_path(@conn, "/transit-police") do %>
-              Contact the Transit Police <%= fa "arrow-right" %>
+            <%= link to: cms_static_page_path(@conn, "/transit-police"), class: "c-call-to-action" do %>
+              Contact the Transit Police
             <% end %>
           </p>
           <p>
-            <%= link to: cms_static_page_path(@conn, "/transit-police/see-something-say-something") do %>
-              See Something, Say Something <%= fa "arrow-right" %>
+            <%= link to: cms_static_page_path(@conn, "/transit-police/see-something-say-something"), class: "c-call-to-action" do %>
+              See Something, Say Something
             <% end %>
           </p>
         </div>
@@ -68,9 +68,9 @@
         <div class="col-xs-12 col-sm-6">
           <h2>Get Service Updates</h2>
           <p>Receive notifications of MBTA service alerts by email or text.</p>
-          <p><a href="https://beta.alerts.mbta.com" target="_blank">Sign up for T-Alerts <%= fa "arrow-right" %></a></p>
-          <p><a href="https://twitter.com/MBTA" target="_blank">Follow @MBTA on Twitter <%= fa "arrow-right" %></a></p>
-          <p><a href="https://twitter.com/MBTA_CR" target="_blank">Follow @MBTA_CR on Twitter <%= fa "arrow-right" %></a></p>
+          <p><a class="c-call-to-action" href="https://beta.alerts.mbta.com" target="_blank">Sign up for T-Alerts</a></p>
+          <p><a class="c-call-to-action" href="https://twitter.com/MBTA" target="_blank">Follow @MBTA on Twitter</a></p>
+          <p><a class="c-call-to-action" href=https://twitter.com/MBTA_CR" target="_blank">Follow @MBTA_CR on Twitter</a></p>
         </div>
         <div class="col-xs-12 col-sm-6">
           <h2>Write to Us</h2>
@@ -87,8 +87,8 @@
           <h2>Request Public Records</h2>
           <p>Members of the public have the right to request copies of MBTA documents, with certain exceptions. Fees apply and may vary depending on the request.</p>
           <p>
-            <%= link to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank" do %>
-              Submit a public records request to the MBTA <%= fa "arrow-right" %>
+            <%= link to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank", class: "c-call-to-action" do %>
+              Submit a public records request to the MBTA
             <% end %>
           </p>
         </div>
@@ -96,8 +96,8 @@
           <h2>Report Fraud, Waste, or Abuse</h2>
           <p>The Internal Special Audit Unit within the Office of the Inspector General monitors the quality, efficiency, and integrity of MassDOT programs.</p>
           <p>
-            <%= link to: "https://www.mass.gov/service-details/massdot-fraud-waste-and-abuse", target: "_blank" do %>
-              Report suspected fraud, waste, or abuse <%= fa "arrow-right" %>
+            <%= link to: "https://www.mass.gov/service-details/massdot-fraud-waste-and-abuse", target: "_blank", class: "c-call-to-action" do %>
+              Report suspected fraud, waste, or abuse
             <% end %>
           </p>
         </div>
@@ -107,13 +107,13 @@
           <h2>Join Us</h2>
           <p>Check out the exciting roles we're hiring for and find out how to start your career at the MBTA.</p>
           <p>
-            <%= link to: "/careers" do %>
-              Learn about MBTA career opportunities <%= fa "arrow-right" %>
+            <%= link to: "/careers", class: "c-call-to-action" do %>
+              Learn about MBTA career opportunities
             <% end %>
           </p>
           <p>
-            <%= link to: "https://jobs.lever.co/mbta", target: "_blank" do %>
-              View Customer Technology opportunities <%= fa "arrow-right" %>
+            <%= link to: "https://jobs.lever.co/mbta", target: "_blank", class: "c-call-to-action" do %>
+              View Customer Technology opportunities
             <% end %>
           </p>
         </div>

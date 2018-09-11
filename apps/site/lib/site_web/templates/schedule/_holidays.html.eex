@@ -8,7 +8,9 @@
       </li>
     <% end %>
   </ul>
-  <%= link to: cms_static_page_path(@conn, "/holidays") do %>
-    View holiday schedules <%= fa "arrow-right" %>
-  <% end %>
+  <p>
+    <%= link to: cms_static_page_path(@conn, "/holidays"), class: "c-call-to-action" do %>
+      View holiday schedules
+    <% end %>
+  </p>
 </div>

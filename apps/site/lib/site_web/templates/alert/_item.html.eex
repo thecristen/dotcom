@@ -9,17 +9,18 @@
   </span>
 </span>
 <div class="alert-item-body-container">
-  <div>
+  <div class="alert-item-header">
     <%= replace_urls_with_links(@alert.header) %>
   </div>
-  <span class="alert-item-body collapse" id="alert-body-<%= @alert.id %><%= extra_id %>">
-    <br />
+  <div class="alert-item-body collapse" id="alert-body-<%= @alert.id %><%= extra_id %>">
     <%= format_alert_description(@alert.description) %>
-  </span>
+  </div>
   <%= if @alert.description do %>
-    <button class="btn-link alert-body-toggle" data-toggle="collapse" data-target="#alert-body-<%= @alert.id %><%= extra_id %>" aria-expanded="false" aria-controls="alert-body-<%= @alert.id %><%= extra_id %>">
-      View Full Description <%= fa "arrow-right" %>
-    </button>
+    <p class="alert-body-toggle" data-toggle="collapse" data-target="#alert-body-<%= @alert.id %><%= extra_id %>" aria-expanded="false" aria-controls="alert-body-<%= @alert.id %><%= extra_id %>">
+      <a href="#alert-body-<%= @alert.id %><%= extra_id %>" class="c-call-to-action">
+        View Full Description
+      </a>
+    </p>
   <% end %>
 </div>
 <span class="alert-item-updated">

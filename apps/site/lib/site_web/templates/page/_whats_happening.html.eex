@@ -12,8 +12,9 @@
                   <div class="element-overlay-icon"><%= svg "link-icon.svg" %></div>
                 </div>
               </div>
-              <div class="about-title"><span class="about-description"><%= item.blurb %></span>
-                <span class="no-wrap about-link">Read <%= fa "arrow-right" %></span>
+              <div class="about-title">
+                <span class="about-description"><%= item.blurb %></span>
+                <span class="no-wrap about-link">Read more.</span>
               </div>
             <% end %>
           </div>

@@ -45,17 +45,21 @@
           <h3>Stations</h3>
         <% end %>
         <%= render("_detailed_stop_list.html", conn: @conn, detailed_stops: detailed_stops) %>
-        <%= link to: line_path(@conn, :show, route.id) do %>
-          View <%= route.name %> info <%= fa "arrow-right "%>
-        <% end %>
+        <p>
+          <%= link to: line_path(@conn, :show, route.id), class: "c-call-to-action" do %>
+            View <%= route.name %> info
+          <% end %>
+        </p>
         <%= if route.id == "Red" do %>
           <div class="page-section">
             <% {mattapan_route, mattapan_stops} = @mattapan %>
             <h3><%= mattapan_route.name %></h3>
             <%= render("_detailed_stop_list.html", conn: @conn, detailed_stops: mattapan_stops) %>
-            <%= link to: line_path(@conn, :show, mattapan_route.id) do %>
-              View <%= mattapan_route.name %> info <%= fa "arrow-right "%>
-            <% end %>
+            <p>
+              <%= link to: line_path(@conn, :show, mattapan_route.id), class: "c-call-to-action" do %>
+                View <%= mattapan_route.name %> info
+              <% end %>
+            </p>
           </div>
         <% end %>
       </div>

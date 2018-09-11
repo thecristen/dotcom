@@ -2,8 +2,10 @@
   <div>
     <h2>Paying for The RIDE</h2>
     <p>You will need funds in your account before scheduling a trip with The RIDE.</p>
-    <%= link to: "/accessibility/the-ride/ride-fares-and-adding-funds" do %>
-      Learn more about fares and adding funds to your RIDE account <%= fa "arrow-right" %>
-    <% end %>
+    <p>
+      <%= link to: "/accessibility/the-ride/ride-fares-and-adding-funds", class: "c-call-to-action" do %>
+        Learn more about fares and adding funds to your RIDE account
+      <% end %>
+    </p>
   </div>
 </div>

@@ -3,7 +3,6 @@ defmodule SiteWeb.StopView do
 
   alias Stops.Stop
   alias Routes.Route
-  alias Fares.RetailLocations.Location
   alias SiteWeb.PartialView.SvgIconWithCircle
   import SiteWeb.StopView.Parking
 
@@ -150,10 +149,9 @@ defmodule SiteWeb.StopView do
       ["accessible"] -> []
       ["unknown"] -> []
       _ ->
-        link to: customer_support_path(SiteWeb.Endpoint, :index) do
-          content_tag :p do
-            ["Problem with an elevator, escalator, or other accessibility issue? Send us a message ",
-             fa("arrow-right")]
+        content_tag :p do
+          link to: customer_support_path(SiteWeb.Endpoint, :index), class: "c-call-to-action" do
+            "Problem with an elevator, escalator, or other accessibility issue? Send us a message."
           end
         end
     end
@@ -237,13 +235,6 @@ defmodule SiteWeb.StopView do
         difference -> [difference]
       end
     end)
-  end
-
-  @doc "Returns the url for a map showing directions from a stop to a retail location."
-  @spec retail_location_directions_link(Location.t, Stop.t) :: Phoenix.HTML.Safe.t
-  def retail_location_directions_link(%Location{latitude: retail_lat, longitude: retail_lng}, %Stop{latitude: stop_lat, longitude: stop_lng}) do
-    href = GoogleMaps.direction_map_url({stop_lat, stop_lng}, {retail_lat, retail_lng})
-    content_tag :a, ["View on map ", fa("arrow-right")], href: href, class: "no-wrap"
   end
 
   @doc "Creates the name to be used for station info tab"

@@ -12,8 +12,10 @@
         <% end %>
       <% end %>
     </div>
-    <%= link to: news_entry_path(@conn, :index) do %>
-      More News <%= fa "arrow-right" %>
-    <% end %>
+    <p>
+      <%= link to: news_entry_path(@conn, :index), class: "c-call-to-action" do %>
+        More News
+      <% end %>
+    </p>
   </div>
 <% end %>

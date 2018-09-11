@@ -277,10 +277,12 @@
   }
 }
 
+.alert-item-header {
+  padding: 1.5rem 0 .5rem;
+}
+
 .alert-body-toggle {
-  color: $brand-primary-dark;
   display: block;
-  padding: 0;
 }
 
 .no-js {

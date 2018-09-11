@@ -2,8 +2,8 @@
   <div class="col-sm-12">
     <h3><%= @lot.name %></h3>
     <p>
-      <%= link to: "https://maps.google.com/?q=#{@lot.latitude},#{@lot.longitude}", target: "_blank" do %>
-        Get directions to this parking facility <%= fa "arrow-right" %>
+      <%= link to: "https://maps.google.com/?q=#{@lot.latitude},#{@lot.longitude}", target: "_blank", class: "c-call-to-action" do %>
+        Get directions to this parking facility
       <% end %>
     </p>
     <%= utilization(@lot) %>

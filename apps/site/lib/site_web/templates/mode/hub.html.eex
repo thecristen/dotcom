@@ -43,9 +43,11 @@
         <h2>Common Fares</h2>
         <%= SiteWeb.FareView.summarize(@fares, class: "") %>
         <%= fares_note(@mode_name) %>
-        <%= link to: fare_path(@conn, :show, @mode_name |> mode_atom |> fare_group) do %>
-          View <%= @mode_name %> fares <%= fa "arrow-right" %>
-        <% end %>
+        <p>
+          <%= link to: fare_path(@conn, :show, @mode_name |> mode_atom |> fare_group), class: "c-call-to-action" do %>
+            View <%= @mode_name %> fares
+          <% end %>
+        </p>
       </div>
     </div>
   </div>

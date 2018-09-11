@@ -3,14 +3,11 @@
     <h2>Riding the T</h2>
     <h3>Common Fares and Passes</h3>
     <%= SiteWeb.FareView.summarize(@common_fare_summaries) %>
-    <div class="all-fares-link">
-      <%= link to: cms_static_page_path(@conn, "/fares"), class: "homepage-link light" do
-      [
-        content_tag(:span, "View all MBTA fares and "),
-        content_tag(:span, [class: "no-wrap"], do: ["passes ", fa("arrow-right")])
-      ]
+    <p class="all-fares-link">
+      <%= link to: cms_static_page_path(@conn, "/fares"), class: "c-call-to-action c-call-to-action--light" do
+        "View all MBTA fares and passes"
       end %>
-    </div>
+    </p>
     <h3>Plan Your Journey</h3>
     <div class="row">
       <%= link to: trip_plan_path(@conn, :index), class: "homepage-link light" do %>

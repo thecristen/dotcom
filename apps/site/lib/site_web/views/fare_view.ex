@@ -180,7 +180,7 @@ defmodule SiteWeb.FareView do
           |> String.replace("_", "-")
     url = "/fares/" <> mode <> "-fares"
     content_tag :p, do: [
-      link(["Learn more about ", name, " fares ", fa("arrow-right")], to: cms_static_page_path(conn, url))
+      link(["Learn more about ", name, " fares "], to: cms_static_page_path(conn, url), class: "c-call-to-action")
     ]
   end
 end

@@ -1,8 +1,7 @@
 <%= if @paragraph.link do %>
-  <div class="call-to-action-paragraph">
-    <%= link to: cms_static_page_path(@conn, @paragraph.link.url) do %>
+  <p>
+    <%= link to: cms_static_page_path(@conn, @paragraph.link.url), class: "c-call-to-action" do %>
       <%= @paragraph.link.title %>
-      <%= fa "arrow-right" %>
     <% end %>
-  </div>
+  </p>
 <% end %>

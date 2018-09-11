@@ -93,8 +93,21 @@
   margin-bottom: $base-spacing-sm;
 }
 
-.call-to-action-paragraph {
-  margin-bottom: $base-spacing;
+.c-call-to-action {
+  border-bottom: 2px solid $brand-primary-light;
+  text-decoration: none;
+
+  &.c-call-to-action--light {
+    border-color: transparentize($white, .25);
+    color: $white;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    border-color: currentColor;
+    text-decoration: none;
+  }
 }
 
 .row-lined {

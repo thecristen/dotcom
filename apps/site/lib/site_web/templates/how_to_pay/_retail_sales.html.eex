@@ -4,8 +4,8 @@
     You can get blank CharlieCards and load any amount of money for One Way fares or a pass (1-Day, 7-Day, Monthly) at stores located throughout the Greater Boston and Providence areas.
   </p>
   <p>
-    <%= link to: fare_path(@conn, :show, "retail-sales-locations") do %>
-      Find a store near you <%= fa "arrow-right" %>
+    <%= link to: fare_path(@conn, :show, "retail-sales-locations"), class: "c-call-to-action" do %>
+      Find a store near you
     <% end %>
   </p>
 </div>

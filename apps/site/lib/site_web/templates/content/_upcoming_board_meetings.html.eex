@@ -6,10 +6,11 @@
     empty_placeholder_text: "There are no upcoming board meetings" %>
   <div class="row">
     <div class="col-xs-12">
-      <%= link to: event_path(@conn, :index) do %>
-        View all upcoming meetings
-        <%= fa "arrow-right" %>
-      <% end %>
+      <p>
+        <%= link to: event_path(@conn, :index), class: "c-call-to-action" do %>
+          View all upcoming meetings
+        <% end %>
+      </p>
     </div>
   </div>
 </div>
