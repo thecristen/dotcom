@@ -62,7 +62,7 @@ defmodule CustomerSupportTest do
       session
       |> visit("/customer-support")
       |> fill_in(css("#comments"), with: "Support Form Integration Test")
-      |> click(css("#service-Suggestion"))
+      |> click(css("label[for=\"service-Suggestion\"]"))
       |> attach_file(@photo_input, path: get_static_test_path("test_image1.png"))
       |> attach_file(@photo_input, path: get_static_test_path("test_image2.png"))
       |> click(@submit_button)

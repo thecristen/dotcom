@@ -123,13 +123,17 @@ button .waiting {
   }
 }
 
+.service-legend {
+  font-size: inherit;
+}
+
+.service-radios {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .service-radio {
   margin: 0 $base-spacing 0 0;
-
-  input {
-    display: inline-block;
-    width: $base-spacing;
-  }
 }
 
 .response-time-disclaimer {

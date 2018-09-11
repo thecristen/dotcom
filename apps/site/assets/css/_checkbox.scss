@@ -4,6 +4,7 @@
 }
 
 .c-checkbox__input {
+  -moz-appearance: none; // Firefox still renders the check without this
   opacity: 0; // Still accessible by screenreaders
   width: 0;
 
@@ -32,18 +33,18 @@
 .c-checkbox__label {
   display: inline-block;
   margin-bottom: 0;
-  padding-left: $base-spacing * 2;
+  padding-left: $base-spacing * 1.75;
   position: relative;
 
   &::before {
-    background: $white;
+    background: $input-bg;
     border: 2px solid $brand-primary-dark;
     border-radius: $border-radius;
     content: '';
     cursor: pointer;
     display: inline-block;
     height: $space-12 * 5 / 3;
-    left: $space-4;
+    left: 0;
     position: absolute;
     top: $space-4;
     width: $space-12 * 5 / 3;
@@ -58,11 +59,11 @@
     cursor: pointer;
     display: inline-block;
     height: $space-8;
-    left: .45 * $base-spacing;
+    left: $base-spacing / 4;
     opacity: 0;
     position: absolute;
     top: $space-8;
-    transform: rotate(-45deg);
+    transform: translateZ(1px) rotate(-45deg); // Translate is to fix a FF bug with white lines
     width: $space-12;
   }
 }

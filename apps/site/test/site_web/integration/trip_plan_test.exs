@@ -2,8 +2,8 @@ defmodule TripPlanIntegrationTest do
   use SiteWeb.IntegrationCase
   import Wallaby.Query
 
-  @depart css("#depart")
-  @arrive css("#arrive")
+  @depart css("label[for=\"depart\"]")
+  @arrive css("label[for=\"arrive\"]")
   @title css("#trip-plan-departure-title")
   @datepicker css("#trip-plan-datepicker")
   @to css("#to")
