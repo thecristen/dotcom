@@ -102,7 +102,7 @@ defmodule Routes.Route do
   """
   @spec to_naive(__MODULE__.t) :: __MODULE__.t
   def to_naive(%__MODULE__{id: "Green-" <> _, type: 0} = route) do
-    %{route | id: "Green", name: "Green Line"}
+    %{route | id: "Green", name: "Green Line", long_name: "Green Line"}
   end
   def to_naive(%__MODULE__{} = route) do
     route

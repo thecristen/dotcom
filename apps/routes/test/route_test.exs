@@ -176,7 +176,7 @@ defmodule Routes.RouteTest do
         assert Route.to_naive(%Routes.Route{
           id: "Green-" <> branch,
           name: "Green Line " <> branch
-        }) == %Routes.Route{id: "Green", name: "Green Line"}
+        }) == %Routes.Route{id: "Green", name: "Green Line", long_name: "Green Line"}
       end
     end
     test "does nothing for other routes" do
