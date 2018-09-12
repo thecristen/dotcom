@@ -116,31 +116,6 @@ defmodule SiteWeb.StopViewTest do
     end
   end
 
-  describe "aggregate_routes/1" do
-    test "All green line routes are aggregated" do
-      e_line = %Route{id: "Green-E"}
-      d_line = %Route{id: "Green-D"}
-      c_line = %Route{id: "Green-C"}
-      orange_line = %Route{id: "Orange"}
-      line_list = [e_line, d_line, c_line, orange_line]
-      aggregated_list = aggregate_routes(line_list)
-      green_count = Enum.count(aggregated_list, & &1.id =~ "Green")
-
-      assert green_count == 1
-      assert Enum.count(aggregate_routes(line_list)) == 2
-    end
-
-    test "Mattapan is not aggregated" do
-      orange_line = %Route{id: "Orange"}
-      red_line = %Route{id: "Red"}
-      mattapan = %Route{id: "Mattapan"}
-      routes = [orange_line, red_line, mattapan] |> aggregate_routes |> Enum.map(& &1.id)
-      assert Enum.count(routes) == 3
-      assert "Red" in routes
-      assert "Mattapan" in routes
-    end
-  end
-
   describe "location/1" do
     test "returns an encoded address if lat/lng is missing" do
       stop = %Stop{id: "place-sstat", latitude: nil, longitude: nil, address: "10 Park Plaza, Boston, MA"}
@@ -266,9 +241,16 @@ defmodule SiteWeb.StopViewTest do
     end
   end
 
+  def safe_or_list_to_string(list) when is_list(list) do
+    Enum.map(list, &safe_or_list_to_string/1)
+  end
+  def safe_or_list_to_string({:safe, _} = safe) do
+    safe_to_string(safe)
+  end
+
   def header_mode_to_string(io) do
     io
-    |> Enum.flat_map(& Enum.map(&1, fn safe -> safe_to_string(safe) end))
+    |> Enum.flat_map(&safe_or_list_to_string/1)
     |> IO.iodata_to_binary()
   end
 
@@ -288,6 +270,10 @@ defmodule SiteWeb.StopViewTest do
       subway = header_mode_to_string(subway_io)
       assert Floki.attribute(subway, "href") == [
         "/stops/stop?tab=departures#subway-schedule",
+        "/stops/stop?tab=departures#subway-schedule",
+        "/stops/stop?tab=departures#subway-schedule",
+        "/stops/stop?tab=departures#subway-schedule",
+        "/stops/stop?tab=departures#subway-schedule",
         "/stops/stop?tab=departures#subway-schedule"
       ]
       assert [_] = Floki.find(subway, ".c-svg__icon-red-line-default")
@@ -295,7 +281,7 @@ defmodule SiteWeb.StopViewTest do
       assert [_] = Floki.find(subway, ".c-svg__icon-green-line-default")
       assert Floki.text(subway) =~ "Green Line"
       for branch <- ["b", "c", "d", "e"] do
-        assert Floki.find(subway, ".c-svg__icon-green-line-#{branch}-default") == []
+        assert [_] = Floki.find(subway, ".c-svg__icon-green-line-#{branch}-default")
         refute Floki.text(subway) =~ "Green Line " <> String.upcase(branch)
       end
     end

@@ -49,14 +49,6 @@ defmodule SiteWeb.StopView do
     end
   end
 
-  @spec aggregate_routes([map()]) :: [map()]
-  @doc "Combine multiple routes on the same subway line. Combines Green Line branches into a single route."
-  def aggregate_routes(routes) do
-    routes
-    |> Enum.uniq_by(&Phoenix.Param.to_param/1)
-    |> Enum.map(&Route.to_naive/1)
-  end
-
   @spec accessibility_info(Stop.t, [Routes.Route.gtfs_route_type]) :: Phoenix.HTML.Safe.t
   @doc "Accessibility content for given stop"
   def accessibility_info(stop, route_types) do
@@ -297,11 +289,11 @@ defmodule SiteWeb.StopView do
     []
   end
   defp render_header_mode(:subway, routes, stop) do
-    for route <- aggregate_routes(routes) do
-      route
-      |> line_icon(:default)
-      |> do_render_header_mode(route.name, route, stop)
-    end
+    {green, not_green} = Enum.split_with(routes, & &1.id =~ "Green-")
+    [
+      Enum.map(not_green, &render_subway_route_icon(&1, stop)),
+      render_green_line_icons(green, stop),
+    ]
   end
   defp render_header_mode(type, [route | _], stop) do
     [
@@ -311,12 +303,38 @@ defmodule SiteWeb.StopView do
     ]
   end
 
+  @spec render_subway_route_icon(Route.t, Stop.t) :: Phoenix.HTML.Safe.t
+  defp render_subway_route_icon(%Route{} = route, stop) do
+    route
+    |> line_icon(:default)
+    |> do_render_header_mode(route.name, route, stop)
+  end
+
+  # green line is handled differently from other subway lines (of course).
+  # md-up breakpoints show a generic "Green Line" pill followed by an icon
+  # for each branch. sm & xs only show branch icons.
+  @spec render_green_line_icons([Route.t], Stop.t) :: [Phoenix.HTML.Safe.t]
+  defp render_green_line_icons([], _stop) do
+    []
+  end
+  defp render_green_line_icons([%Route{} | _] = branches, stop) do
+    main_pill =
+      branches
+      |> List.first()
+      |> Route.to_naive()
+      |> render_subway_route_icon(stop)
+    [
+      main_pill,
+      Enum.map(branches, & render_subway_route_icon(&1, stop))
+    ]
+  end
+
   @spec do_render_header_mode(Phoenix.HTML.Safe.t, String.t, Route.t, Stop.t) :: Phoenix.HTML.Safe.t
   defp do_render_header_mode({:safe, _} = icon, <<text::binary>>, %Route{} = route, %Stop{} = stop) do
     link([
-      content_tag(:span, icon, class: "station__header-icon#{unless route.type == 3 do " hidden-md-up" end}"),
+      content_tag(:span, icon, class: "station__header-icon#{unless route.type == 3 or route.id =~ "Green-" do " hidden-md-up" end}"),
       render_header_mode_name(route, text)
-    ], to: stop_mode_link(stop, route), data: [scroll: true], class: "station__header-feature")
+    ], to: stop_mode_link(stop, route), data: [scroll: true], class: "station__header-feature #{if route.id === "Green" do "hidden-sm-down" end}")
   end
 
   defp stop_mode_link(%Stop{} = stop, %Route{type: mode}) do
@@ -336,6 +354,9 @@ defmodule SiteWeb.StopView do
 
   @spec render_header_mode_name(Route.t, String.t) :: [Phoenix.HTML.Safe.t]
   defp render_header_mode_name(%Route{type: 3}, _) do
+    []
+  end
+  defp render_header_mode_name(%Route{id: "Green-" <> _}, _) do
     []
   end
   defp render_header_mode_name(%Route{} = route, text) do
