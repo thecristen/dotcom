@@ -1,7 +1,7 @@
 defmodule TimeGroup do
   alias Schedules.Schedule
 
-  @type time_block :: :am_rush | :midday | :pm_rush | :evening | :late_night
+  @type time_block :: :early_morning | :am_rush | :midday | :pm_rush | :evening | :night | :late_night
 
   @doc """
   Given a list of schedules, returns those schedules grouped by the hour of day.
@@ -17,11 +17,13 @@ defmodule TimeGroup do
 
   @doc """
   Given a list of schedules, returns those schedules grouped into subway schedule periods:
-  * AM Rush Hour: OPEN - 9:00A (:am_rush)
-  * Midday: 9:00A - 3:30P (:midday)
-  * PM Rush Hour: 3:30P - 6:30P (:pm_rush)
-  * Evening: 6:30P - 8:00P (:evening)
-  * Late Night: 8:00P - CLOSE (:late_night)
+  * OPEN - 6:30 AM (:early_morning)
+  * 6:30 AM - 9:30 AM (:am_rush)
+  * 9:30 AM - 3:30 PM (:midday)
+  * 3:30 PM - 6:30 PM (:pm_rush)
+  * 6:30 PM - 9:00 PM (:evening)
+  * 9:00 PM - 12:00 AM (:night)
+  * 12:00 AM - CLOSE (:late_night)
 
   Returns a keyword list, and expects that the schedules are already sorted.
   """
@@ -71,7 +73,7 @@ defmodule TimeGroup do
 
   @spec frequency_by_time_block([Schedule.t]) :: [Schedules.Frequency.t]
   def frequency_by_time_block(schedules) do
-    Enum.map([:am_rush, :midday, :pm_rush, :evening, :late_night],
+    Enum.map([:early_morning, :am_rush, :midday, :pm_rush, :evening, :night, :late_night],
              &frequency_for_time(schedules, &1))
   end
 
@@ -105,15 +107,19 @@ defmodule TimeGroup do
   end
 
   @start {4, 0}
-  @am_rush_end {9, 0}
+  @early_morning_end {6, 30}
+  @am_rush_end {9, 30}
   @midday_end {15, 30}
   @pm_rush_end {18, 30}
-  @evening_end {20, 0}
+  @evening_end {21, 0}
+  @night_end {24, 0}
   def subway_period(time) do
     tup = {time.hour, time.minute}
     cond do
       tup < @start ->
         :late_night
+      tup <= @early_morning_end ->
+        :early_morning
       tup <= @am_rush_end ->
         :am_rush
       tup <= @midday_end ->
@@ -122,6 +128,8 @@ defmodule TimeGroup do
         :pm_rush
       tup <= @evening_end ->
         :evening
+      tup <= @night_end ->
+        :night
       true ->
         :late_night
     end

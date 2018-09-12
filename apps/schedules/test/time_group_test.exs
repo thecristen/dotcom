@@ -42,17 +42,21 @@ defmodule TimeGroupTest do
     end
   end
 
-  test "by_subway_period groups schedules into 5 groups" do
-    # @schedule is am_rush
+  test "by_subway_period groups schedules into 7 groups" do
+    # @schedule is early_morning
+    am_rush = %Schedule{time: Timex.to_datetime({{2016, 1, 1}, {8, 0, 0}})}
     midday = %Schedule{time: Timex.to_datetime({{2016, 1, 1}, {11, 0, 0}})}
     pm_rush = %Schedule{time: Timex.to_datetime({{2016, 1, 1}, {16, 0, 0}})}
     evening = %Schedule{time: Timex.to_datetime({{2016, 1, 1}, {19, 0, 0}})}
+    night = %Schedule{time: Timex.to_datetime({{2016, 1, 1}, {23, 0, 0}})}
     late = %Schedule{time: Timex.to_datetime({{2016, 1, 2}, {1, 0, 0}})}
-    assert TimeGroup.by_subway_period([@schedule, midday, pm_rush, evening, late]) == [
-      am_rush: [@schedule],
+    assert TimeGroup.by_subway_period([@schedule, am_rush, midday, pm_rush, evening, night, late]) == [
+      early_morning: [@schedule],
+      am_rush: [am_rush],
       midday: [midday],
       pm_rush: [pm_rush],
       evening: [evening],
+      night: [night],
       late_night: [late]
     ]
   end
@@ -82,14 +86,15 @@ defmodule TimeGroupTest do
   end
 
   describe "frequency_for_time/2" do
-    test "gets a range of wait times for a stop during the am_rush" do
+    test "gets a range of wait times for a stop during the early_morning" do
       first_time = Timex.to_datetime({{2016, 1, 1}, {5, 25, 1}})
       first_schedule = %Schedule{time: first_time}
       second_time = Timex.to_datetime({{2016, 1, 1}, {5, 36, 1}})
       second_schedule = %Schedule{time: second_time}
       schedules = [@schedule, first_schedule, second_schedule]
 
-      assert TimeGroup.frequency_for_time(schedules, :am_rush) == %Schedules.Frequency{time_block: :am_rush, min_headway: 9, max_headway: 11}
+      assert TimeGroup.frequency_for_time(schedules, :early_morning) ==
+        %Schedules.Frequency{time_block: :early_morning, min_headway: 9, max_headway: 11}
     end
 
     test "gets an infinite frequency when there are no times during the given time" do
@@ -109,22 +114,24 @@ defmodule TimeGroupTest do
 
   describe "frequency_by_time_block/1" do
     test "returns a list of frequency objects which cover the time ranges included in the schedules" do
-      am_rush_time = Timex.to_datetime({{2016, 1, 1}, {5, 25, 1}})
-      am_rush_schedule = %Schedule{time: am_rush_time}
-      am_rush_time_2 = Timex.to_datetime({{2016, 1, 1}, {5, 36, 1}})
-      am_rush_schedule_2 = %Schedule{time: am_rush_time_2}
+      early_morning_time = Timex.to_datetime({{2016, 1, 1}, {5, 25, 1}})
+      early_morning_schedule = %Schedule{time: early_morning_time}
+      early_morning_time_2 = Timex.to_datetime({{2016, 1, 1}, {5, 36, 1}})
+      early_morning_schedule_2 = %Schedule{time: early_morning_time_2}
       midday_time = Timex.to_datetime({{2016, 1, 1}, {9, 36, 1}})
       midday_schedule = %Schedule{time: midday_time}
       midday_time_2 = Timex.to_datetime({{2016, 1, 1}, {10, 36, 1}})
       midday_schedule_2 = %Schedule{time: midday_time_2}
 
-      schedules = [am_rush_schedule, am_rush_schedule_2, midday_schedule, midday_schedule_2]
+      schedules = [early_morning_schedule, early_morning_schedule_2, midday_schedule, midday_schedule_2]
 
       assert TimeGroup.frequency_by_time_block(schedules) == [
-        %Schedules.Frequency{time_block: :am_rush, min_headway: 11, max_headway: 11},
+        %Schedules.Frequency{time_block: :early_morning, min_headway: 11, max_headway: 11},
+        %Schedules.Frequency{time_block: :am_rush},
         %Schedules.Frequency{time_block: :midday, min_headway: 60, max_headway: 60},
         %Schedules.Frequency{time_block: :pm_rush},
         %Schedules.Frequency{time_block: :evening},
+        %Schedules.Frequency{time_block: :night},
         %Schedules.Frequency{time_block: :late_night}
       ]
     end

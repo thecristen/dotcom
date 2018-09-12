@@ -55,31 +55,18 @@ defmodule SiteWeb.ScheduleView.TripList do
     end
   end
 
-  @spec frequency_block_name(Schedules.Frequency.t) :: String.t
-  def frequency_block_name(%Schedules.Frequency{time_block: :am_rush}), do: "OPEN - 9:00A"
-  def frequency_block_name(%Schedules.Frequency{time_block: :midday}), do: "9:00A - 3:30P"
-  def frequency_block_name(%Schedules.Frequency{time_block: :pm_rush}), do: "3:30P - 6:30P"
-  def frequency_block_name(%Schedules.Frequency{time_block: :evening}), do: "6:30P - 8:00P"
-  def frequency_block_name(%Schedules.Frequency{time_block: :late_night}), do: "8:00P - CLOSE"
-
-  @doc """
-  The first departure will be shown if it is the AM rush timeblock
-  The last departure will be shown if it is the Late Night time block
-  Otherwise, nothing is shown
-  """
-  @spec display_frequency_departure(TimeGroup.time_block, Schedules.Departures.t | :no_service) :: Phoenix.HTML.Safe.t
-  def display_frequency_departure(time_block, departure)
-  def display_frequency_departure(:am_rush, %Schedules.Departures{} = departure) do
-    content_tag :div, class: "schedule-frequency-time" do
-      "First Departure at #{ViewHelpers.format_schedule_time(departure.first_departure)}"
-    end
+  @spec frequency_block_name(Schedules.Frequency.t, Schedules.Departures.t | :no_service) :: String.t
+  def frequency_block_name(%Schedules.Frequency{time_block: :early_morning}, %Schedules.Departures{} = departure) do
+    "#{ViewHelpers.format_schedule_time(departure.first_departure)} - 6:30A"
   end
-  def display_frequency_departure(:late_night, %Schedules.Departures{} = departure) do
-    content_tag :div, class: "schedule-frequency-time" do
-      "Last Departure at #{ViewHelpers.format_schedule_time(departure.last_departure)}"
-    end
+  def frequency_block_name(%Schedules.Frequency{time_block: :am_rush}, _), do: "6:30A - 9:30A"
+  def frequency_block_name(%Schedules.Frequency{time_block: :midday}, _), do: "9:30A - 3:30P"
+  def frequency_block_name(%Schedules.Frequency{time_block: :pm_rush}, _), do: "3:30P - 6:30P"
+  def frequency_block_name(%Schedules.Frequency{time_block: :evening}, _), do: "6:30P - 9:00P"
+  def frequency_block_name(%Schedules.Frequency{time_block: :night}, _), do: "9:00P - 12:00A"
+  def frequency_block_name(%Schedules.Frequency{time_block: :late_night}, %Schedules.Departures{} = departure) do
+    "12:00A - #{ViewHelpers.format_schedule_time(departure.last_departure)}"
   end
-  def display_frequency_departure(_time_block, _departure), do: nil
 
   @spec stop_name_link_with_alerts(String.t, String.t, [Alerts.Alert.t]) :: Phoenix.HTML.Safe.t
   def stop_name_link_with_alerts(name, url, []) do
