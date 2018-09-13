@@ -1,10 +1,10 @@
-<div class="c-mode-buttons">
+<div class="c-grid-buttons">
   <%= for route <- @routes do %>
-    <%= render "_mode_button.html",
+    <%= render "_grid_button.html",
           conn: @conn,
           route: route,
           show_icon?: @show_icons?,
-          link_path: mode_button_path(route, @conn),
+          link_path: grid_button_path(route, @conn),
           has_alert?: has_alert?(route, @all_alerts, @date_time)
     %>
   <% end %>

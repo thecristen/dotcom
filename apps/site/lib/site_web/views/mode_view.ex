@@ -64,22 +64,22 @@ defmodule SiteWeb.ModeView do
     []
   end
 
-  @spec mode_button_path(atom, Plug.Conn.t) :: String.t
-  def mode_button_path(:the_ride, %Plug.Conn{} = conn) do
+  @spec grid_button_path(atom, Plug.Conn.t) :: String.t
+  def grid_button_path(:the_ride, %Plug.Conn{} = conn) do
     cms_static_page_path(conn, "/accessibility/the-ride")
   end
-  def mode_button_path(%Route{} = route, %Plug.Conn{} = conn) do
+  def grid_button_path(%Route{} = route, %Plug.Conn{} = conn) do
     schedule_path(conn, :show, route)
   end
 
   @doc """
-  Returns the value to add as a modifier for the .c-mode-button class.
+  Returns the value to add as a modifier for the .c-grid-button class.
   """
-  @spec mode_button_class_modifier(atom | Route.t) :: String.t
-  def mode_button_class_modifier(:the_ride) do
+  @spec grid_button_class_modifier(atom | Route.t) :: String.t
+  def grid_button_class_modifier(:the_ride) do
     "the-ride"
   end
-  def mode_button_class_modifier(%Route{} = route) do
+  def grid_button_class_modifier(%Route{} = route) do
     route_to_class(route)
   end
 
@@ -99,11 +99,11 @@ defmodule SiteWeb.ModeView do
     bool
   end
 
-  @spec mode_button_text(atom | Route.t) :: String.t
-  def mode_button_text(:the_ride) do
+  @spec grid_button_text(atom | Route.t) :: String.t
+  def grid_button_text(:the_ride) do
     "MBTA Paratransit Program"
   end
-  def mode_button_text(%Route{name: name}) do
+  def grid_button_text(%Route{name: name}) do
     name
   end
 

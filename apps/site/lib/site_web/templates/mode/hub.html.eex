@@ -16,7 +16,7 @@
       ], class: "hidden-no-js", id: "route-#{@mode_icon}-search", class: "c-search-bar c-search-bar--embedded")
     %>
     <h2>Line Schedules</h2>
-    <%= render "_mode_buttons.html", Map.put(assigns, :show_icons?, false) %>
+    <%= render "_grid_buttons.html", Map.put(assigns, :show_icons?, false) %>
     <div class="row">
       <div class="col-md-6">
         <h2>System Map</h2>

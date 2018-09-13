@@ -1,4 +1,4 @@
-.c-mode-buttons {
+.c-grid-buttons {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -9,7 +9,7 @@
   margin: $base-spacing * -.25;
 }
 
-.c-mode-button {
+.c-grid-button {
   display: block;
   flex-basis: 100%;
   flex-grow: 0;
@@ -23,7 +23,7 @@
   }
 }
 
-.c-mode-button__content {
+.c-grid-button__content {
   align-items: center;
   border: $border;
   border-radius: $border-radius;
@@ -34,11 +34,12 @@
 // Setting max-width along with flex-basis fixes an issue in IE 10 & 11
 // where width is affected by padding & borders in child elements.
 // https://github.com/philipwalton/flexbugs/issues/3
-.c-mode-button--red-line,
-.c-mode-button--green-line,
-.c-mode-button--blue-line,
-.c-mode-button--orange-line,
-.c-mode-button--mattapan-line {
+.c-grid-button--red-line,
+.c-grid-button--green-line,
+.c-grid-button--blue-line,
+.c-grid-button--orange-line,
+.c-grid-button--mattapan-line,
+.c-grid-button--static-page {
   @include media-breakpoint-only(sm) {
     flex-basis: 50%;
     max-width: 50%;
@@ -55,7 +56,7 @@
   }
 }
 
-.c-mode-button--bus {
+.c-grid-button--bus {
   @include media-breakpoint-up(sm) {
     flex-basis: 20%;
     max-width: 20%;
@@ -67,7 +68,7 @@
   }
 }
 
-.c-mode-button--commuter-rail {
+.c-grid-button--commuter-rail {
   @include media-breakpoint-up(md) {
     flex-basis: 33.33%;
     max-width: 33.33%;
@@ -79,14 +80,14 @@
   }
 }
 
-.c-mode-button--ferry {
+.c-grid-button--ferry {
   @include media-breakpoint-up(sm) {
     flex-basis: 50%;
     max-width: 50%;
   }
 }
 
-.c-mode-button__icon {
+.c-grid-button__icon {
   align-items: center;
   display: flex;
   flex: 0 0 auto;
@@ -98,11 +99,11 @@
   }
 }
 
-.c-mode-button__name {
+.c-grid-button__name {
   flex: 1 1 auto;
 }
 
-.c-mode-button__alert {
+.c-grid-button__alert {
   flex: 0 0 auto;
   justify-self: flex-end;
   padding-right: $base-spacing / 2;

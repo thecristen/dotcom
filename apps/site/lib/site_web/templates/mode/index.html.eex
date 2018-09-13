@@ -19,7 +19,7 @@
     <div class="m-mode__group <%= CSSHelpers.atom_to_class(route_type) %>" id="<%= route_type %>">
       <%= mode_group_header(route_type, mode_page, @home) %>
       <%=
-        render "_mode_buttons.html", routes: Keyword.get(@grouped_routes, route_type, [:the_ride]),
+        render "_grid_buttons.html", routes: Keyword.get(@grouped_routes, route_type, [:the_ride]),
                                       show_icons?: false,
                                       conn: @conn,
                                       date_time: @date_time,

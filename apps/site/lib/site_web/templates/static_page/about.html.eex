@@ -2,7 +2,7 @@
   <h1>MBTA Web Directory</h1>
 
   <h2>About Us</h2>
-  <div class="button-group">
+  <div class="c-grid-buttons">
     <%= render "_link.html", text: "Overview", href: cms_static_page_path(@conn, "/mbta-at-a-glance"), class: "col-xs-12 col-sm-4" %>
     <%= render "_link.html", text: "Leadership", href: cms_static_page_path(@conn, "/leadership"), class: "col-xs-12 col-sm-4" %>
     <%= render "_link.html", text: "FMCB", href: cms_static_page_path(@conn, "/leadership/fmcb"), class: "col-xs-12 col-sm-4" %>
@@ -15,7 +15,7 @@
     <%= render "_link.html", text: "Gifts", href: "http://www.mbtagifts.com/", class: "col-xs-12 col-sm-4", target: "_blank" %>
   </div>
   <h2>Business Center</h2>
-  <div class="button-group">
+  <div class="c-grid-buttons">
     <%= render "_link.html", text: "Business Opportunities", href: cms_static_page_path(@conn, "/business"), class: "col-xs-12 col-sm-4" %>
     <%= render "_link.html", text: "Careers", href: cms_static_page_path(@conn, "/careers"), class: "col-xs-12 col-sm-4" %>
     <%= render "_link.html", text: "Developers", href: cms_static_page_path(@conn, "/developers"), class: "col-xs-12 col-sm-4" %>
@@ -23,7 +23,7 @@
     <%= render "_link.html", text: "Innovation", href: cms_static_page_path(@conn, "/innovation"), class: "col-xs-12 col-sm-4" %>
   </div>
   <h2>Improvements & Projects</h2>
-  <div class="button-group">
+  <div class="c-grid-buttons">
     <%= render "_link.html", text: "Commuter Rail Positive Train Control", href: project_path(@conn, :show , "commuter-rail-positive-train-control-ptc"), class: "col-xs-12 col-sm-4" %>
     <%= render "_link.html", text: "Automated Fare Collection 2.0", href: cms_static_page_path(@conn, "/afc2"), class: "col-xs-12 col-sm-4" %>
     <%= render "_link.html", text: "Green Line Extension", href: "http://greenlineextension.eot.state.ma.us/", class: "col-xs-12 col-sm-4", target: "_blank" %>

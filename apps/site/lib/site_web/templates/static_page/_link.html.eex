@@ -1,5 +1,7 @@
-<div class="button-container">
-  <%= link to: @href, class: "btn button", target: assigns[:target] do %>
-    <%= @text %>
-  <% end %>
-</div>
+<%= link to: @href, class: "c-grid-button c-grid-button--static-page", target: assigns[:target] do %>
+  <div class="c-grid-button__content">
+    <span class="c-grid-button__name">
+      <%= @text %>
+    </span>
+  </div>
+<% end %>
