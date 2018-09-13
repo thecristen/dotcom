@@ -2,7 +2,7 @@
   <div class="c-grid-button__content">
     <%= if show_icon?(@route, @show_icon?) do %>
       <span class="c-grid-button__icon">
-        <%= line_icon(@route, :small) %>
+        <%= line_icon(@route, :default) %>
       </span>
     <% end %>
 

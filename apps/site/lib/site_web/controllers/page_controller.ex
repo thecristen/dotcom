@@ -4,6 +4,7 @@ defmodule SiteWeb.PageController do
   import Util.AsyncAssign
 
   plug SiteWeb.Plugs.TransitNearMe
+  plug SiteWeb.Plugs.RecommendedRoutes
 
   def index(conn, _params) do
     conn
@@ -13,7 +14,6 @@ defmodule SiteWeb.PageController do
     |> async_assign_default(:all_alerts, fn -> Alerts.Repo.all(conn.assigns.date_time) end)
     |> assign(:pre_container_template, "_pre_container.html")
     |> assign(:post_container_template, "_post_container.html")
-    |> assign(:grouped_routes, filtered_grouped_routes([:bus]))
     |> await_assign_all_default()
     |> render("index.html")
   end

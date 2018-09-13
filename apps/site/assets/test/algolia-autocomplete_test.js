@@ -156,7 +156,7 @@ describe("AlgoliaAutocomplete", () => {
         expect(window.Turbolinks.visit.called).to.be.false;
         ac.clickFirstResult();
         expect(window.Turbolinks.visit.called).to.be.true;
-        expect(window.Turbolinks.visit.args[0][0]).to.equal("/schedules/123/line?from=stop-search&query=");
+        expect(window.Turbolinks.visit.args[0][0]).to.equal("/schedules/123?from=stop-search&query=");
       });
 
       it("does nothing if results list is empty", () => {

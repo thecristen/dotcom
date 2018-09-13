@@ -104,7 +104,7 @@ defmodule SiteWeb.ModeView do
     "MBTA Paratransit Program"
   end
   def grid_button_text(%Route{name: name}) do
-    name
+    break_text_at_slash(name)
   end
 
   # Returns true if there is a non-notice alert for the given route on `date`

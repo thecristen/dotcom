@@ -21,4 +21,33 @@ defmodule SiteWeb.PageControllerTest do
       |> Floki.attribute("class")
     assert body_class == "no-js"
   end
+
+  test "renders recommended routes if route cookie has a value", %{conn: conn} do
+    cookie_name = SiteWeb.Plugs.Cookies.route_cookie_name()
+    conn =
+      conn
+      |> Plug.Test.put_req_cookie(cookie_name, "Red|1|CR-Lowell|Boat-F4")
+      |> get(page_path(conn, :index))
+
+    assert Enum.count(conn.assigns.recommended_routes) == 4
+
+    assert [routes_div] =
+      conn
+      |> html_response(200)
+      |> Floki.find(".m-homepage__recommended-routes")
+
+    assert Floki.text(routes_div) =~ "Recently Visited"
+
+    assert [_] = Floki.find(routes_div, ".c-svg__icon-red-line-default")
+    assert [_] = Floki.find(routes_div, ".c-svg__icon-mode-bus-default")
+    assert [_] = Floki.find(routes_div, ".c-svg__icon-mode-commuter-rail-default")
+    assert [_] = Floki.find(routes_div, ".c-svg__icon-mode-ferry-default")
+  end
+
+  test "does not render recommended routes if route cookie has no value", %{conn: conn} do
+    conn = get(conn, page_path(conn, :index))
+
+    assert Map.get(conn.assigns, :recommended_routes) == nil
+    refute html_response(conn, 200) =~ "Recently Visited"
+  end
 end

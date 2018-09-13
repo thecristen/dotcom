@@ -215,7 +215,7 @@ export function getUrl(hit, type) {
       return `/stops/${hit.stop.id}`;
 
     case "routes":
-      return `/schedules/${hit.route.id}/line`;
+      return `/schedules/${hit.route.id}`;
 
     case "drupal":
     case "pages":

@@ -390,8 +390,8 @@ describe("AlgoliaResult", () => {
 
   describe("getUrl returns correct URL", () => {
     it("for routes", () => {
-      expect(AlgoliaResult.getUrl(routeHits.redLine, "routes")).to.equal("/schedules/Red/line");
-      expect(AlgoliaResult.getUrl(routeHits.greenLineC, "routes")).to.equal("/schedules/Green-C/line");
+      expect(AlgoliaResult.getUrl(routeHits.redLine, "routes")).to.equal("/schedules/Red");
+      expect(AlgoliaResult.getUrl(routeHits.greenLineC, "routes")).to.equal("/schedules/Green-C");
     });
     it("for stops", () => {
       expect(AlgoliaResult.getUrl(stopHits.northStation, "stops")).to.equal("/stops/place-north");

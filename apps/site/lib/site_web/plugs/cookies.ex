@@ -50,7 +50,7 @@ defmodule SiteWeb.Plugs.Cookies do
     |> to_string()
   end
 
-  @modes ["subway", "bus", "commuter-rail", "ferry"]
+  @modes ["subway", "bus", "commuter-rail", "commuter_rail", "ferry"]
 
   @doc """
   Sets a cookie when user visits a schedule page. Cookie lists the 4 most recently visited
