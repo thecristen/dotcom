@@ -45,7 +45,7 @@ defmodule CustomerSupportTest do
       session
       |> visit("/customer-support")
       |> attach_file(@photo_input, path: get_static_test_path("test_file.txt"))
-      |> assert_has(css(".support-upload-error-container"))
+      |> assert_has(css("#support-upload-error-container"))
     end
 
     @tag :wallaby

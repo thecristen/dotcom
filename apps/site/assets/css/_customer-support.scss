@@ -10,10 +10,6 @@
   .error-container {
     margin: 0 0 .5em;
   }
-
-  .support-upload-error-container {
-    margin: 0 0 $base-spacing * .25 $base-spacing * .75;
-  }
 }
 
 .support-success {
@@ -26,6 +22,8 @@
 }
 
 .photo-preview-container {
+  margin-bottom: $base-spacing / 2;
+
   .photo-preview {
     display: inline-block;
     margin-left: $base-spacing / 2;
@@ -91,8 +89,22 @@ body {
   margin-left: 1rem;
 }
 
+.support-form-text-input {
+  border: 2px solid $brand-primary;
+
+  &--small {
+    @include media-breakpoint-down(xs) {
+      width: 100%;
+    }
+
+    @include media-breakpoint-up(sm) {
+      width: 50%;
+    }
+  }
+}
+
 .support-form-control {
-  border-color: $gray-light;
+  border-color: $brand-primary;
 }
 
 .has-success .support-form-control + span::before {
@@ -107,6 +119,10 @@ body {
 
 .submit-button {
   margin-top: $base-spacing / 2;
+
+  @include media-breakpoint-down(xs) {
+    width: 100%;
+  }
 }
 
 button .waiting {
@@ -115,7 +131,6 @@ button .waiting {
 
 .contrast {
   background-color: $gray-bordered-background;
-  margin-left: $base-spacing * .75;
 
   &.form-group {
     margin-bottom: $base-spacing / 8;

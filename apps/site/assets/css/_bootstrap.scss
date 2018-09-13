@@ -57,7 +57,7 @@
 
 // Overrides
 .c-select {
-  border-color: $brand-primary;
+  border: 2px solid $brand-primary;
   cursor: pointer;
   padding: $base-spacing-sm;
   text-align: left;

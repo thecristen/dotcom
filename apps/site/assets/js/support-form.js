@@ -24,7 +24,7 @@ export default function($ = window.jQuery) {
 
 // Set a few things since we know we don't need the no-JS fallbacks
 export function clearFallbacks($) {
-  const $photoLink = $('.upload-photo-link'),
+  const $photoLink = $('#upload-photo-link'),
         $photoInput = $('#photo');
   // Remove tabindex manipulation for screenreaders
   $photoLink.removeAttr('tabindex');
@@ -51,7 +51,7 @@ export function resizeAndHandleUploadedFile($, file, $container, toUpload) {
       .then(newFile => {
         newFile.name = file.name;
         handleUploadedPhoto($, newFile, $container, toUpload);
-        $(`.support-upload-error-container`).addClass('hidden-xs-up');
+        $('#support-upload-error-container').addClass('hidden-xs-up');
       })
       .catch(err => {
         displayError($, '#upload');

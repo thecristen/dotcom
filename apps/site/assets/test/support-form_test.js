@@ -25,7 +25,7 @@ describe('support form', () => {
   describe('clearFallbacks', () => {
     beforeEach(() => {
       $('#test').html(`
-        <a class="upload-photo-link" tabindex="-1">Upload Photo</a>
+        <a id="upload-photo-link" tabindex="-1">Upload Photo</a>
         <input type="file" id="photo" name="photo" />
         <div class="support-form-expanded"></div>
       `);
@@ -33,12 +33,12 @@ describe('support form', () => {
     });
 
     it('resets tabindex attributes in the photo section to their defaults', () => {
-      assert.equal($('.upload-photo-link').prop('tabindex'), -1);
+      assert.equal($('#upload-photo-link').prop('tabindex'), -1);
     });
 
     it('forwards a click on the link to the input', (done) => {
       $('#photo').click(() => done());
-      $('.upload-photo-link').click();
+      $('#upload-photo-link').click();
     });
   });
 
