@@ -2,7 +2,6 @@
 <% h_level_route = if @mode == :commuter_rail, do: :h3, else: :h2 %>
 <div class="page-section">
   <h1>MBTA Stations</h1>
-  <%= render "_new_parking_card.html", conn: @conn %>
   <%= render "_search_bar.html" %>
   <div id="stop-search__location-results">
     <div id="stop-search__location-results--header"></div>

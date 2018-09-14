@@ -1,9 +1,0 @@
-<a class="c-title-card c-title-card--link c-title-card--parking-alert" href="<%= cms_static_page_path(@conn, "/parkingprices") %>")>
-  <div class="c-title-card__title c-title-card--link__title">
-    NEW | 2018 Parking Prices
-  </div>
-  <div class="c-title-card__body">
-    Parking rates at MBTA lots and garages are changing on <b>September 1, 2018</b>. Learn more about the new prices at your preferred lot or garage.
-  </div>
-</a>
-
