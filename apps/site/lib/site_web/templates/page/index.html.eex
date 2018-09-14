@@ -9,7 +9,10 @@
       render SiteWeb.PageView, "_important_notice.html", conn: @conn, important_notice: assigns[:important_notice]
     end
   %>
-  <%= if assigns[:recommended_routes] do
-    render("_recommended_routes.html", conn: @conn, routes: @recommended_routes, all_alerts: @all_alerts, date_time: @date_time)
+  <%= case assigns[:recommended_routes] do
+    [%Routes.Route{} | _] = routes ->
+      render("_recommended_routes.html", conn: @conn, routes: routes, all_alerts: @all_alerts, date_time: @date_time)
+    _ ->
+      ""
   end %>
 </div>
