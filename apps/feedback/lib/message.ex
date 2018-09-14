@@ -7,7 +7,7 @@ defmodule Feedback.Message do
     {"Complaint", "Complaint"},
     {"Comment", "Suggestion"},
     {"Question", "Inquiry"},
-    {"Request", "Request"}
+    {"Request", "Inquiry"}
   ]
 
   @enforce_keys [:comments, :service, :request_response]
