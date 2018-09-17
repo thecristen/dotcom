@@ -123,3 +123,73 @@
   // to follow our new class naming style.
   padding-bottom: 0;
 }
+
+.m-homepage__about-links {
+  align-items: stretch;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.m-homepage__about-link {
+  align-items: stretch;
+  display: flex;
+  flex: 0 0 25%;
+  max-width: 25%;
+  padding: $base-spacing / 4;
+
+  @include media-breakpoint-down(md) {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+
+  &:hover {
+    color: $white;
+    text-decoration: none;
+  }
+}
+
+.m-homepage__about-link-content {
+  background: $brand-primary;
+  border-radius: $border-radius;
+  color: $white;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 100%; // fixes a spacing issue in IE where title causes element
+                   // to be wider than parent at small breakpoints
+  padding: $base-spacing;
+
+  &:hover {
+    background: $brand-primary-darkest;
+  }
+}
+
+.m-homepage__about-title {
+  flex: 1 1 auto;
+  font-weight: bold;
+  margin-bottom: $base-spacing;
+
+  @include media-breakpoint-up(sm) {
+    font-size: $font-size-h3;
+    line-height: $font-size-h3;
+    margin-bottom: $base-spacing * 2;
+  }
+
+  @include media-breakpoint-up(md) {
+    font-size: $font-size-h2;
+    line-height: $font-size-h2;
+  }
+}
+
+.m-homepage__about-icon {
+  flex: 0 0 auto;
+
+  .fa,
+  svg {
+    fill: $white;
+    font-size: 1.5rem;
+    height: $base-spacing * 1.5;
+    width: $base-spacing * 1.5;
+  }
+}
