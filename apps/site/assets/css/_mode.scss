@@ -1,4 +1,5 @@
 .m-mode__header {
+  align-items: baseline;
   display: flex;
   justify-content: space-between;
 }
@@ -9,12 +10,16 @@
 }
 
 .m-mode__view-all {
+  @include base-font-size();
+
   display: inline-block;
   flex: 0 0 auto;
   font-family: $font-family-base;
-  font-size: $font-size-h5;
+  font-size: $font-size-base;
   font-weight: normal;
+  line-height: 1em;
   text-align: right;
+  white-space: nowrap;
 }
 
 .m-mode__group {

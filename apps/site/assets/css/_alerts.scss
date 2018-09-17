@@ -322,13 +322,3 @@
     display: none;
   }
 }
-
-.alert-modal-container {
-  @include media-breakpoint-down(xs) {
-    font-size: .875rem;
-
-    .alert-item-icon > .fa {
-      margin: .1rem .2rem;
-    }
-  }
-}

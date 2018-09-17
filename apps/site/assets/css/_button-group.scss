@@ -23,12 +23,6 @@
     padding: $space-12;
     text-align: center;
 
-
-    @include media-breakpoint-down(xs) {
-      font-size: .875rem;
-      padding: $base-spacing-sm $space-6;
-    }
-
     @include hover-focus-active {
       background-color: $btn-primary-focus-bg;
       color: $btn-primary-focus-color;
@@ -64,7 +58,6 @@
 
     .btn {
       display: inline-block;
-      font-size: 1rem;
       padding: $space-12;
       text-align: left;
       width: 100%;

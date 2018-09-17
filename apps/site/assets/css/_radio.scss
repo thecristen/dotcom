@@ -63,12 +63,10 @@
       width: 22px;
     }
 
-    // TODO: uncomment this once the new mobile 14px font size is deployed
-    // https://github.com/mbta/dotcom/pull/2455
-    // @include media-breakpoint-down(xs) {
-    //   height: 18px;
-    //   margin-bottom: -18px;
-    //   width: 18px;
-    // }
+    @include media-breakpoint-down(sm) {
+      height: 18px;
+      margin-bottom: -18px;
+      width: 18px;
+    }
   }
 }

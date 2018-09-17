@@ -60,7 +60,7 @@
   text-align: center;
 
   @include media-breakpoint-down(sm) {
-    font-size: $font-size-base-xs;
+    font-size: $font-size-base-sm;
     line-height: $base-spacing;
   }
 }

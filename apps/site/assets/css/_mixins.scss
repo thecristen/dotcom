@@ -3,6 +3,10 @@
     font-size: $font-size-base-xxl;
   }
 
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-base-sm;
+  }
+
   @media print {
     // override the base font size.  Since everything (should) be defined in
     // rems, this makes all the text bigger.
@@ -67,19 +71,27 @@
 
 @mixin h1 {
   @include base-heading();
-  @include responsive-heading-size($font-size-h1, $font-size-h1-sm);
+  font-size: $font-size-h1;
+
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-h1-sm;
+  }
 }
 
 @mixin h2 {
   @include base-heading();
   @include after-heading-space();
-  @include responsive-heading-size($font-size-h2, $font-size-h2-sm);
+  font-size: $font-size-h2;
+
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-h2-sm;
+  }
 }
 
 @mixin h3 {
   @include base-heading();
   @include after-heading-space();
-  @include responsive-heading-size($font-size-h3);
+  font-size: $font-size-h3;
 
   + h4,
   + .h4 {
@@ -113,24 +125,6 @@
 @mixin h6 {
   @include h5();
   font-weight: 500;
-}
-
-// Temporary mixin that selectively shifts all headings
-// down to a base font-size of 14px on sm-down breakpoints.
-// NOTE: h4 through h6 excluded to prevent smaller-than-body
-// heading font sizes (this mixin would reduce it below 16px).
-@mixin responsive-heading-size($normal-font-size, $mobile-font-size: $normal-font-size) {
-  font-size: $normal-font-size;
-
-  // Our curve from h1 through h6 leaves h1 a little too large
-  // on mobile screens, resulting in overset type on many station
-  // and line pages (MIDDLEBOROUGH). By passing an alternate "mobile
-  // size as the second parameter in this function, we can override
-  // the mobile font-size for the given heading element(2). Otherwise,
-  // the standard curve and default font-sizes will apply normally.
-  @include media-breakpoint-down(sm) {
-    font-size: $mobile-font-size * .875; // 16px --> 14px ratio
-  }
 }
 
 @mixin reduce-adjacent-heading-space {

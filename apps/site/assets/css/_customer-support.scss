@@ -91,6 +91,7 @@ body {
 
 .support-form-text-input {
   border: 2px solid $brand-primary;
+  font-size: inherit; // Bootstrap override
 
   &--small {
     @include media-breakpoint-down(xs) {

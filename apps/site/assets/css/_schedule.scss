@@ -487,49 +487,6 @@ a {
   margin-top: $base-spacing;
 }
 
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-///// XS size margin and padding adjustments -- may be temporary pending
-///// introduction of sidewide base-font size reduction
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-
-.scheduleview {
-  @include media-breakpoint-down(xs) {
-    font-size: $font-size-base-xs;
-
-    .alert-modal-container,
-    .date-filter,
-    .direction-filter,
-    .schedule-route-note,
-    .line-map-container,
-    .route-hours,
-    .schedule-route-name,
-    .shape-filter,
-    .stop-filters,
-    .trip-filters,
-    .trip-list {
-      margin-bottom: $space-4;
-    }
-
-    .page-section {
-      margin-top: $space-12;
-    }
-
-    .route-stop-list {
-      margin-bottom: 0;
-    }
-
-    .select-modal-label {
-      padding: $base-spacing-sm 0;
-    }
-
-    .trip-list-row {
-      padding: $space-6 $space-12;
-    }
-  }
-}
-
 .route-stop-heading,
 .route-map-heading {
   margin-top: 0;
@@ -723,7 +680,7 @@ del .trip-list-realtime {
 ////////////////////////////////////////////////////////////////////////
 
 .schedule-frequency-time {
-  font-size: $font-size-sm;
+  font-size: $font-size-base-sm;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1009,12 +966,16 @@ del .trip-list-realtime {
 
 .schedule-timetable-container {
   border-bottom: $base-spacing-lg solid $brand-primary-darkest;
-  font-size: $font-size-sm;
+  font-size: $font-size-base;
   margin-bottom: $base-spacing;
   max-width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
   width: 100%;
+
+  @include media-breakpoint-down(md) {
+    font-size: $font-size-base-sm;
+  }
 }
 
 .schedule-timetable-hide-earlier .schedule-timetable-more-col-earlier,
@@ -1092,18 +1053,19 @@ del .trip-list-realtime {
 }
 
 .schedule-timetable-time-col {
-  // This page makes relative positioning hard due to z-indices, settle for slightly less good vertical-align
+  // This page makes relative positioning hard due to z-indices,
+  // settle for slightly less good vertical-align
   @include icon-size(1em);
-
-  [class*="c-svg__icon"] {
-    vertical-align: text-top;
-  }
 
   min-width: 5em;
   white-space: nowrap;
 
   @include media-breakpoint-up(md) {
     min-width: 8em;
+  }
+
+  [class*="c-svg__icon"] {
+    vertical-align: text-top;
   }
 }
 
@@ -1112,7 +1074,7 @@ del .trip-list-realtime {
   margin-right: $base-spacing-sm; // left scroll warning
 
   @include media-breakpoint-up(xs) {
-    min-width: $base-spacing * 6;
+    min-width: $base-spacing * 7;
   }
 
   @include media-breakpoint-up(md) {

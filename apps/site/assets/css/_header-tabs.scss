@@ -24,8 +24,7 @@
   }
 
   @include media-breakpoint-down(xs) {
-    font-size: .875rem;
-    padding: $base-spacing-sm $space-6;
+    padding: $space-8;
   }
 
   @include hover-focus-active {
