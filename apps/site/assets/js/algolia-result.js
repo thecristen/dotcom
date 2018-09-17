@@ -166,6 +166,16 @@ function _iconFromRoute(route) {
     }
 };
 
+function getRouteTitle(hit) {
+  const name = hit._highlightResult.route.name.value;
+  switch (hit.route.type) {
+    case 3:
+      return `${name} <span class="c-search-result__long-name">${hit._highlightResult.route.long_name.value}</span>`;
+    default:
+      return name
+  }
+}
+
 export function getTitle(hit, type) {
   switch(type){
     case "locations":
@@ -181,7 +191,7 @@ export function getTitle(hit, type) {
       return hit._highlightResult.stop.name.value;
 
     case "routes":
-      return hit._highlightResult.route.name.value;
+      return getRouteTitle(hit);
 
     case "drupal":
     case "pages":

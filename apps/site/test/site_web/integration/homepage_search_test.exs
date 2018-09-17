@@ -76,7 +76,7 @@ defmodule SiteWeb.HomepageSearchTest do
     Bypass.expect(bypass, fn conn ->
       {:ok, body, _} = Plug.Conn.read_body(conn)
       case Poison.decode(body) do
-        {:ok, %{"objectID" => "stop-place-" <> _, "queryID" => <<_::binary>>, "position" => 1}} ->
+        {:ok, %{"objectID" => "route-" <> _, "queryID" => <<_::binary>>, "position" => 2}} ->
           send parent, :click_tracked
         decoded ->
           send parent, {:bad_click_request, decoded}

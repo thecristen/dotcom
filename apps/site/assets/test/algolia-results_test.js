@@ -318,6 +318,9 @@ describe('AlgoliaResults', () => {
                                       route: {
                                         name: {
                                           value: "name1"
+                                        },
+                                        long_name: {
+                                          value: "long_name1"
                                         }
                                       }
                                     },
@@ -334,6 +337,9 @@ describe('AlgoliaResults', () => {
                                       route: {
                                         name: {
                                           value: "name2"
+                                        },
+                                        long_name: {
+                                          value: "long_name1"
                                         }
                                       }
                                     },
