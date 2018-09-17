@@ -205,10 +205,8 @@ export class TripPlannerLocControls {
       errorContainer.innerHTML = "";
 
       if (ac.error === "invalid") {
-        const errorContent = document.createElement("span");
-        errorContent.innerHTML =
+        errorContainer.innerHTML =
           "We're sorry, but we couldn't find that address.";
-        errorContainer.appendChild(errorContent);
       }
     }
   }

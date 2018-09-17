@@ -30,7 +30,7 @@
   </div>
   <div id="trip-plan__search--from__autocomplete" class="c-search-bar__results"></div>
   <div id="trip-plan__search--from__results" class="c-search-bar__results"></div>
-  <div id="trip-plan__location-error--from" class="m-trip-plan__location-error location-error"><%= from_error %></div>
+  <div id="trip-plan__location-error--from" role="alert" tabindex="0" class="m-trip-plan__location-error location-error"><%= from_error %></div>
 </div>
 
 <div id="trip-plan__search--to" class="c-search-bar">
@@ -58,7 +58,7 @@
   </div>
   <div id="trip-plan__search--to__autocomplete" class="c-search-bar__results"></div>
   <div id="trip-plan__search--to__results" class="c-search-bar__results"></div>
-  <div id="trip-plan__location-error--to" class="m-trip-plan__location-error location-error"><%= to_error %></div>
+  <div id="trip-plan__location-error--to" role="alert" tabindex="0" class="m-trip-plan__location-error location-error"><%= to_error %></div>
 </div>
 
 <div id="algolia-error" class="c-search__error">
