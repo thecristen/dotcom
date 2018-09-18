@@ -15,6 +15,16 @@ defmodule Algolia.MockStopsRepo do
     [get("place-ferry")]
   end
 
+  def all do
+    [
+      get("place-greenline"),
+      get("place-subway"),
+      get("place-commuter-rail"),
+      get("place-bus"),
+      get("place-ferry")
+    ]
+  end
+
   def by_route({"CR-Commuterrail", 0, []}) do
     [get("place-greenline"), get("place-subway"), get("place-commuter-rail")]
   end

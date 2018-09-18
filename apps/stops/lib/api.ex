@@ -19,8 +19,13 @@ defmodule Stops.Api do
   def by_gtfs_id(gtfs_id) do
     gtfs_id
     |> V3Api.Stops.by_gtfs_id
-    |> extract_v3_response
-    |> parse_v3_response
+    |> extract_v3_response()
+    |> parse_v3_response()
+  end
+
+  def all do
+    V3Api.Stops.all()
+    |> parse_v3_multiple()
   end
 
   @spec by_route({Routes.Route.id_t, 0 | 1, Keyword.t}) :: [Stop.t]
@@ -44,8 +49,8 @@ defmodule Stops.Api do
 
     params
     |> Keyword.merge(opts)
-    |> V3Api.Stops.all
-    |> parse_v3_multiple
+    |> V3Api.Stops.all()
+    |> parse_v3_multiple()
   end
 
   @spec by_route_type({0..4, Keyword.t}) :: [Stop.t]
@@ -57,8 +62,8 @@ defmodule Stops.Api do
       "fields[stop]": "address,name,latitude,longitude,address,wheelchair_boarding,location_type"
     ]
     |> Keyword.merge(opts)
-    |> V3Api.Stops.all
-    |> parse_v3_multiple
+    |> V3Api.Stops.all()
+    |> parse_v3_multiple()
   end
 
   @spec parse_v3_multiple(JsonApi.t | {:error, any}) :: [Stops.Stop.t] | {:error, any}
@@ -78,6 +83,10 @@ defmodule Stops.Api do
   defp v3_id(item) do
     item.id
   end
+
+  @spec is_child?(JsonApi.Item.t) :: boolean
+  defp is_child?(%JsonApi.Item{relationships: %{"parent_station" => [%JsonApi.Item{}]}}), do: true
+  defp is_child?(_), do: false
 
   @spec v3_name(JsonApi.Item.t) :: String.t
   defp v3_name(%JsonApi.Item{relationships: %{"parent_station" => [%JsonApi.Item{attributes: %{"name" => parent_name}}]}}) do
@@ -107,6 +116,7 @@ defmodule Stops.Api do
       address: item.attributes["address"],
       accessibility: merge_accessibility(v3_accessibility(item), item.attributes),
       parking_lots: v3_parking(item),
+      is_child?: is_child?(item),
       station?: is_station?(item),
       has_fare_machine?: Enum.member?(Stop.vending_machine_stations, item.id),
       has_charlie_card_vendor?: Enum.member?(Stop.charlie_card_stations, item.id),

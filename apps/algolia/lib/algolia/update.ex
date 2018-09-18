@@ -19,10 +19,22 @@ defmodule Algolia.Update do
   @spec update_index(atom, String.t) :: success | error
   def update_index(index_module, base_url) do
     index_module.all()
+    |> Enum.filter(&has_routes?/1)
     |> Enum.map(&build_data_object/1)
     |> build_request_object()
     |> send_update(base_url, index_module)
   end
+
+  @spec has_routes?(map) :: boolean
+  defp has_routes?(data) do
+    data
+    |> Algolia.Object.data()
+    |> do_has_routes?(data)
+  end
+
+  @spec do_has_routes?(map, Stops.Stop.t | Routes.Route.t | map) :: boolean
+  defp do_has_routes?(%{routes: []}, %Stops.Stop{}), do: false
+  defp do_has_routes?(_, _), do: true
 
   @spec send_update({:ok, Poison.Parser.t} | {:error, :invalid} | {:error, {:invalid, String.t}},
                     String.t, atom) :: success | error
