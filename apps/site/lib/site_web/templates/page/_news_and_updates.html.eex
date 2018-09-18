@@ -1,18 +1,8 @@
 <%= if !Enum.empty?(@news) do %>
-  <div class="container page-section news-section" id="news-and-updates">
-    <h2>News &amp; Updates</h2>
-    <div class="l-title-cards">
-      <%= for news_entry <- @news do %>
-        <%= link to: news_entry_path(@conn, :show, news_entry), class: "c-title-card c-title-card--link" do %>
-          <div class="c-title-card__title c-title-card--link__title"><%= news_entry.title %></div>
-          <p class="news-metadata news-metadata--below-title">
-            <%= SiteWeb.TimeHelpers.format_date(news_entry.posted_on) %>
-          </p>
-          <p><%= news_entry.teaser |> safe_to_string |> Content.Blurb.blurb(90) |> raw %></p>
-        <% end %>
-      <% end %>
-    </div>
-    <p>
+  <div class="container page-section m-homepage__news" id="news-and-updates">
+    <h2 class="col-sm-offset-1 col-md-offset-0">News</h2>
+    <%= render_news_entries(@conn) %>
+    <p class="col-sm-offset-1 col-md-offset-0">
       <%= link to: news_entry_path(@conn, :index), class: "c-call-to-action" do %>
         More News
       <% end %>

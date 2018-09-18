@@ -19,7 +19,9 @@ defmodule SiteWeb.PageController do
   end
 
   defp news do
-    Enum.take(Content.Repo.news(limit: 4), 4)
+    [limit: 7]
+    |> Content.Repo.news()
+    |> Enum.take(7)
   end
 
   defp whats_happening_items do

@@ -79,4 +79,51 @@ defmodule SiteWeb.PageView do
   def whats_happening_image(%Content.WhatsHappeningItem{thumb: thumb, thumb_2x: thumb_2x}) do
     img_tag(thumb.url, alt: thumb.alt, sizes: "(max-width: 543px) 100vw, 33vw", srcset: "#{thumb.url} 304w, #{thumb_2x.url} 608w")
   end
+
+  @spec render_news_entries(Plug.Conn.t) :: Phoenix.HTML.Safe.t
+  def render_news_entries(conn) do
+    content_tag(:div,
+      conn.assigns
+      |> Map.get(:news)
+      |> Enum.split(3)
+      |> Tuple.to_list()
+      |> Enum.with_index()
+      |> Enum.map(&do_render_news_entries(&1, conn)),
+    class: "row")
+  end
+
+  @spec do_render_news_entries({[Content.NewsEntry.t], 0 | 1}, Plug.Conn.t) :: Phoenix.HTML.Safe.t
+  defp do_render_news_entries({entries, idx}, conn) when idx in [0, 1] do
+    size = if idx == 0, do: :large, else: :small
+
+    content_tag(
+      :div,
+      Enum.map(entries, & render_news_entry(&1, size, conn)),
+      class: "col-md-6 col-sm-10 col-sm-offset-1 col-md-offset-0"
+    )
+  end
+
+  @spec render_news_entry(Content.NewsEntry.t, :large | :small, Plug.Conn.t) :: Phoenix.HTML.Safe.t
+  defp render_news_entry(entry, size, conn) do
+    link([
+      render_news_date(entry, size),
+      content_tag(:div, entry.title, class: "m-news-entry__title m-news-entry__title--#{size}")
+    ], to: news_entry_path(conn, :show, entry), class: "m-news-entry m-news-entry--#{size}")
+  end
+
+  @spec render_news_date(Content.NewsEntry.t, :large | :small) :: Phoenix.HTML.Safe.t
+  defp render_news_date(entry, size) do
+    content_tag(:div, [
+      content_tag(
+        :span,
+        Timex.format!(entry.posted_on, "{Mshort}"),
+        class: "m-news-entry__month m-news-entry__month--#{size}"
+      ),
+      content_tag(
+        :span,
+        Timex.format!(entry.posted_on, "{0D}"),
+        class: "m-news-entry__day--#{size}"
+      )
+    ], class: "m-news-entry__date m-news-entry__date--#{size} u-small-caps")
+  end
 end
