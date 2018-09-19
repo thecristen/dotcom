@@ -12,7 +12,7 @@ export class TripPlannerResults {
     $("[data-planner-body]").on("hide.bs.collapse", this.toggleIcon);
     $("[data-planner-body]").on("show.bs.collapse", this.toggleIcon);
     $("[data-planner-body]").on("shown.bs.collapse", this.resetMapBounds);
-    $(".itinerary-alert-toggle").on("click", this.toggleAlertDropdownText);
+    $(".js-trip-plan-alert-toggle").on("click", this.toggleAlertDropdownText);
   }
 
   bind() {
@@ -101,7 +101,7 @@ export class TripPlannerResults {
 
   toggleAlertDropdownText(e) {
     const target = $(e.target);
-    if (target.text() === "(view alert)") {
+    if (target.text().trim() === "(view alert)") {
       target.text("(hide alert)");
     } else {
       target.text("(view alert)");
@@ -133,8 +133,8 @@ export class TripPlannerResults {
 export function init() {
   const $ = window.jQuery;
   $(document).on("turbolinks:load", () => {
-    $(".itinerary-alert-toggle").show();
-    $(".itinerary-alert-toggle").trigger("click");
+    $(".js-trip-plan-alert-toggle").show();
+    $(".js-trip-plan-alert-toggle").trigger("click");
     doWhenGoogleMapsIsReady(() => new TripPlannerResults());
   });
 }

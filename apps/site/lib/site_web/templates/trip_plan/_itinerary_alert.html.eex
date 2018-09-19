@@ -1,14 +1,14 @@
 <%= unless Enum.empty?(@alerts) do %>
   <%= fa "exclamation-triangle", [{:"data-toggle", "tooltip"}, {:title, "Service alert or delay"}] %>
   <a
-    class="itinerary-alert-toggle"
+    class="m-trip-plan__alert-toggle js-trip-plan-alert-toggle"
     data-toggle="collapse"
     data-target="#itinerary-alert-<%= @itinerary_idx %>-<%= @row_idx %>-<%= @stop_id %>"
-    aria-expanded="true"
+    aria-expanded="false"
     aria-controls="itinerary-alert-<%= @itinerary_idx %>-<%= @row_idx %>-<%= @stop_id %>"
     style="display: none"
     >
-    (hide alert)
+    (view alert)
   </a>
   <div class="collapse in" id="itinerary-alert-<%= @itinerary_idx %>-<%= @row_idx %>-<%= @stop_id %>">
     <%= for alert <- @alerts do %>

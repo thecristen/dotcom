@@ -294,7 +294,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary()
 
-      assert Enum.count(Floki.find(html, ".itinerary-alert-toggle")) == 2
+      assert Enum.count(Floki.find(html, ".m-trip-plan__alert-toggle")) == 2
     end
 
     test "renders the provided subset of {step, bubbles}" do
