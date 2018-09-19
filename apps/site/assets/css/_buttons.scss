@@ -43,7 +43,7 @@
   border-radius: 0;
   border-style: solid;
   border-width: 1px;
-  padding: $grid-gutter-width / 2;
+  padding: $half-gutter;
 
   > .icon-alert {
     margin-left: $base-spacing / 2;
@@ -105,7 +105,7 @@
 %button-group {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 auto $grid-gutter-width / 2;
+  margin: 0 auto $half-gutter;
   width: 100%;
 
   .button-container {
@@ -140,20 +140,13 @@
 }
 
 .c-inline-buttons {
-  // Don't let nested margins interrupt parent
-  // vertical rhythm of elements following this
-  &:not(:last-child) {
-    margin-bottom: -$grid-gutter-width / 2;
-  }
+  margin: -1em -#{$half-gutter / 2} 1em;
 
   .btn {
-    // Where several button-styledelements appear adjacent
-    // to each other in series. This also helps with
-    // spacing when two buttons on the same line wrap.
-    margin-bottom: $grid-gutter-width / 2;
+    margin: 1em $half-gutter / 2 0;
 
-    &:not(:last-child) {
-      margin-right: $grid-gutter-width / 2;
+    @include media-breakpoint-down(sm) {
+      white-space: normal;
     }
   }
 }

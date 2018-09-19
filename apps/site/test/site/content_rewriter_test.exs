@@ -114,10 +114,16 @@ defmodule Site.ContentRewriterTest do
              |> rewrite(conn) == {:safe, ~s(<img class="existing-class img-fluid" src="/image.png" alt="an image"/>)}
     end
 
-    test "strips non-button elements from a paragraph with .btn elements and wraps in a div", %{conn: conn} do
+    test "strips non-button elements from a paragraph with one .btn element and wraps it in a div", %{conn: conn} do
       assert ~s(<p><a class="btn btn-primary" href="/page">Button 1</a>&nbsp; </p>)
              |> raw()
              |> rewrite(conn) == {:safe, ~s(<div class="c-inline-buttons"><a class="btn btn-primary" href="/page">Button 1</a></div>)}
+    end
+
+    test "strips non-button elements from a paragraph with two or more .btn elements and wraps them in a div", %{conn: conn} do
+      assert ~s(<p><a class="btn btn-primary" href="/page1">Button 1</a>&nbsp;<a class="btn btn-secondary" href="/page2">Button 2</a></p>)
+             |> raw()
+             |> rewrite(conn) == {:safe, ~s(<div class="c-inline-buttons"><a class="btn btn-primary" href="/page1">Button 1</a><a class="btn btn-secondary" href="/page2">Button 2</a></div>)}
     end
 
     test "wraps supported iframes as embedded media structures and sets aspect class for a supported source", %{conn: conn} do

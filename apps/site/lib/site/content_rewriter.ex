@@ -47,8 +47,8 @@ defmodule Site.ContentRewriter do
     element
     |> Floki.find("a.btn")
     |> case do
-      [buttons] -> {"div", [{"class", "c-inline-buttons"}], buttons}
-      _ -> element end
+      [] -> element
+      buttons -> {"div", [{"class", "c-inline-buttons"}], buttons} end
     |> rewrite_children(conn)
   end
   defp dispatch_rewrites({"a", _, _} = element, conn) do
