@@ -47,16 +47,3 @@
 .l-footer {
   align-self: flex-end;
 }
-
-@each $breakpoint, $width in $container-max-widths {
-  @include media-breakpoint-only($breakpoint) {
-    .container,
-    .page-container {
-      max-width: $width;
-    }
-
-    .page-container {
-      width: $width;
-    }
-  }
-}

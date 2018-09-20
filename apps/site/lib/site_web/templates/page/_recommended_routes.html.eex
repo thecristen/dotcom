@@ -1,4 +1,4 @@
-<div class="m-homepage__recommended-routes">
+<div class="m-homepage__recommended-routes container">
   <h2 class="h3">
     <%= fa "star" %>
     Recently Visited

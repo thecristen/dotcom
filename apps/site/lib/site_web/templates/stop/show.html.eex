@@ -1,11 +1,13 @@
-<div class="page-section station">
-  <p class="stations-address">
-  <%= if @stop.address && @stop.address != "" do %>
-    <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>
-      <%= @stop.address %>
+<div class="container">
+  <div class="page-section station">
+    <p class="stations-address">
+    <%= if @stop.address && @stop.address != "" do %>
+      <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>
+        <%= @stop.address %>
+      <% end %>
     <% end %>
-  <% end %>
-  </p>
+    </p>
 
-  <%= render template_for_tab(@tab), forward_assigns(@conn) %>
+    <%= render template_for_tab(@tab), forward_assigns(@conn) %>
+  </div>
 </div>

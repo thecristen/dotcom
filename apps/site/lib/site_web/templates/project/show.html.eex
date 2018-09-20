@@ -1,52 +1,54 @@
-<div class="c-cms c-cms--no-sidebar">
+<div class="container">
+  <div class="c-cms c-cms--no-sidebar">
 
-  <div class="c-cms__header">
-    <div class="c-cms__title">
-      <h1 class="c-cms__title-text"><%= @project.title %></h1>
-      <h2 class="c-cms__meta">Updated on <%= format_full_date(@project.updated_on) %></h2>
+    <div class="c-cms__header">
+      <div class="c-cms__title">
+        <h1 class="c-cms__title-text"><%= @project.title %></h1>
+        <h2 class="c-cms__meta">Updated on <%= format_full_date(@project.updated_on) %></h2>
+      </div>
     </div>
-  </div>
 
-  <div class="c-cms__content">
-    <div class="c-cms__body">
-      <div class="page-section project-hero-image">
-        <%= if @project.featured_image do %>
-          <figure class="c-media c-media--type-image c-media--size-full">
-            <div class="c-media__content">
-              <%= img_tag @project.featured_image.url, alt: @project.featured_image.alt, class: "c-media__element img-fluid" %>
-            </div>
-          </figure>
-        <% end %>
-      </div>
-
-      <div class="page-section project-summary">
-        <h2>About the Project</h2>
-        <div>
-          <strong>Timeline:</strong> <%= @project.start_year %><%= if @project.end_year, do: "-#{@project.end_year}" %>
+    <div class="c-cms__content">
+      <div class="c-cms__body">
+        <div class="page-section project-hero-image">
+          <%= if @project.featured_image do %>
+            <figure class="c-media c-media--type-image c-media--size-full">
+              <div class="c-media__content">
+                <%= img_tag @project.featured_image.url, alt: @project.featured_image.alt, class: "c-media__element img-fluid" %>
+              </div>
+            </figure>
+          <% end %>
         </div>
-        <div>
-          <strong>Status:</strong> <%= @project.status %>
+
+        <div class="page-section project-summary">
+          <h2>About the Project</h2>
+          <div>
+            <strong>Timeline:</strong> <%= @project.start_year %><%= if @project.end_year, do: "-#{@project.end_year}" %>
+          </div>
+          <div>
+            <strong>Status:</strong> <%= @project.status %>
+          </div>
         </div>
+
+        <div class="page-section project-body">
+          <%= Site.ContentRewriter.rewrite(@project.body, @conn) %>
+        </div>
+
+        <%= if !Enum.empty?(@project.photo_gallery), do: render "_photos.html", photos: @project.photo_gallery %>
+
+        <%= if !Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates %>
+
+        <%= if Content.Project.contact?(@project), do: render "_contact.html", project: @project %>
+
+        <%= if !Enum.empty?(@upcoming_events), do: SiteWeb.EventView.render "_event_list.html",
+          events: @upcoming_events, title: "Upcoming Meetings", conn: @conn%>
+
+        <%= if !Enum.empty?(@past_events), do: SiteWeb.EventView.render "_event_list.html",
+          events: @past_events, title: "Past Meetings", conn: @conn %>
+
+        <%= if !Enum.empty?(@project.files), do: render "_downloads.html", files: @project.files %>
+
       </div>
-
-      <div class="page-section project-body">
-        <%= Site.ContentRewriter.rewrite(@project.body, @conn) %>
-      </div>
-
-      <%= if !Enum.empty?(@project.photo_gallery), do: render "_photos.html", photos: @project.photo_gallery %>
-
-      <%= if !Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates %>
-
-      <%= if Content.Project.contact?(@project), do: render "_contact.html", project: @project %>
-
-      <%= if !Enum.empty?(@upcoming_events), do: SiteWeb.EventView.render "_event_list.html",
-        events: @upcoming_events, title: "Upcoming Meetings", conn: @conn%>
-
-      <%= if !Enum.empty?(@past_events), do: SiteWeb.EventView.render "_event_list.html",
-        events: @past_events, title: "Past Meetings", conn: @conn %>
-
-      <%= if !Enum.empty?(@project.files), do: render "_downloads.html", files: @project.files %>
-
     </div>
   </div>
 </div>

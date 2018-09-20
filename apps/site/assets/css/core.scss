@@ -166,6 +166,7 @@ small {
 .station__header,
 .schedule__header,
 .pre-container-wrapper,
+.page-container,
 .post-container-wrapper {
   max-width: 100%;
   width: 100%;
@@ -178,7 +179,6 @@ small {
 
 .page-container {
   align-self: center;
-  margin: 0 auto;
   padding: 0 0 $base-spacing * 2;
 }
 

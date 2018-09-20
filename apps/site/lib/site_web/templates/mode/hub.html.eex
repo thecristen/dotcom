@@ -1,53 +1,55 @@
-<div class="page-section">
-  <div class="mode-hub">
-    <h1>
-      <%= svg_icon_with_circle(%SvgIconWithCircle{aria_hidden?: true, icon: @mode_icon}) %>
-      <%= @mode_name %>
-    </h1>
-    <%=
-      term = route_term(@mode_icon)
-      content_tag(:div, [
-        SiteWeb.PartialView.render("_search_input.html",
-          Map.merge(assigns, %{
-            placeholder: "Search for a #{term}, stop, or address",
-            aria_label: "Search for a #{term}",
-            prefix: "route--#{@mode_icon}"
-        }))
-      ], class: "hidden-no-js", id: "route-#{@mode_icon}-search", class: "c-search-bar c-search-bar--embedded")
-    %>
-    <h2>Line Schedules</h2>
-    <%= render "_grid_buttons.html", Map.put(assigns, :show_icons?, false) %>
-    <div class="row">
-      <div class="col-md-6">
-        <h2>System Map</h2>
-        <div class="system-map">
-          <% mode_downcase = @mode_name |> String.downcase %>
-          <% mode_class = mode_downcase |> String.replace(" ", "-") %>
-          <a class="hub-system-map has-element-overlay" href="<%= @map_pdf_url %>" target="_blank" aria-label="View <%= @mode_name %> map as PDF.">
-            <img src="<%= @map_image_url %>" class="system-map <%= mode_class %>" alt="<%= @mode_name %> Map" title="<%= @mode_name %> Map (click to expand)" aria-hidden="true">
-            <div class="element-overlay">
-              <div class="element-overlay-icon">
-                <%= svg "zoom-in.svg" %>
+<div class="container">
+  <div class="page-section">
+    <div class="mode-hub">
+      <h1>
+        <%= svg_icon_with_circle(%SvgIconWithCircle{aria_hidden?: true, icon: @mode_icon}) %>
+        <%= @mode_name %>
+      </h1>
+      <%=
+        term = route_term(@mode_icon)
+        content_tag(:div, [
+          SiteWeb.PartialView.render("_search_input.html",
+            Map.merge(assigns, %{
+              placeholder: "Search for a #{term}, stop, or address",
+              aria_label: "Search for a #{term}",
+              prefix: "route--#{@mode_icon}"
+          }))
+        ], class: "hidden-no-js", id: "route-#{@mode_icon}-search", class: "c-search-bar c-search-bar--embedded")
+      %>
+      <h2>Line Schedules</h2>
+      <%= render "_grid_buttons.html", Map.put(assigns, :show_icons?, false) %>
+      <div class="row">
+        <div class="col-md-6">
+          <h2>System Map</h2>
+          <div class="system-map">
+            <% mode_downcase = @mode_name |> String.downcase %>
+            <% mode_class = mode_downcase |> String.replace(" ", "-") %>
+            <a class="hub-system-map has-element-overlay" href="<%= @map_pdf_url %>" target="_blank" aria-label="View <%= @mode_name %> map as PDF.">
+              <img src="<%= @map_image_url %>" class="system-map <%= mode_class %>" alt="<%= @mode_name %> Map" title="<%= @mode_name %> Map (click to expand)" aria-hidden="true">
+              <div class="element-overlay">
+                <div class="element-overlay-icon">
+                  <%= svg "zoom-in.svg" %>
+                </div>
               </div>
-            </div>
-          </a>
-          <p>
-            <a href="<%= @map_pdf_url %>" target="_blank">
-              <%= fa "search-plus" %>
-              View <%= mode_downcase %> map as a PDF
             </a>
+            <p>
+              <a href="<%= @map_pdf_url %>" target="_blank">
+                <%= fa "search-plus" %>
+                View <%= mode_downcase %> map as a PDF
+              </a>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h2>Common Fares</h2>
+          <%= SiteWeb.FareView.summarize(@fares, class: "") %>
+          <%= fares_note(@mode_name) %>
+          <p>
+            <%= link to: fare_path(@conn, :show, @mode_name |> mode_atom |> fare_group), class: "c-call-to-action" do %>
+              View <%= @mode_name %> fares
+            <% end %>
           </p>
         </div>
-      </div>
-      <div class="col-md-6">
-        <h2>Common Fares</h2>
-        <%= SiteWeb.FareView.summarize(@fares, class: "") %>
-        <%= fares_note(@mode_name) %>
-        <p>
-          <%= link to: fare_path(@conn, :show, @mode_name |> mode_atom |> fare_group), class: "c-call-to-action" do %>
-            View <%= @mode_name %> fares
-          <% end %>
-        </p>
       </div>
     </div>
   </div>

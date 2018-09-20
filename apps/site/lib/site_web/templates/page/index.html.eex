@@ -2,7 +2,9 @@
   <h1 class="sr-only">MBTA Homepage</h1>
   <div class="m-homepage__search-wrapper">
     <%= render "_search_bar.html", conn: @conn  %>
-    <%= shortcut_icons() %>
+    <div class="container">
+      <%= shortcut_icons() %>
+    </div>
   </div>
   <%=
     if assigns[:important_notice] do

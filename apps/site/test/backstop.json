@@ -44,7 +44,7 @@
       ],
       "selectors": [
         "header",
-        ".page-inner-container",
+        "main",
         ".post-container-wrapper",
         "footer"
       ],
