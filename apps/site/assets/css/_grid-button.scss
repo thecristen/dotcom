@@ -29,7 +29,8 @@
   border-radius: $border-radius;
   display: flex;
   height: 100%;
-  padding: $base-spacing / 2 $base-spacing * .75;
+  line-height: 1;
+  padding: $base-spacing * .75;
 }
 
 // Setting max-width along with flex-basis fixes an issue in IE 10 & 11
