@@ -1,4 +1,4 @@
-<div role="table" class="row mode-section" id="<%= CSSHelpers.atom_to_class(@mode) %>-schedule">
+<div role="table" class="row mode-section" id="<%= CSSHelpers.atom_to_class(@mode) %>-schedule" tabindex="0">
   <div role="row" class="col-xs-12">
     <div class="row station-schedule-header station-route-row">
       <div class="col-sm-4 col-xs-12" role="columnheader">

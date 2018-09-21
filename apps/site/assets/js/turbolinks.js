@@ -121,9 +121,15 @@ function getCurrentUrl() {
 
 function focusAndExpand(el, $) {
   const nodeName = el.nodeName;
-  // if we're focusing a link, then focus it directly. otherwise, find
+  // if tabindex has been explicitly set, or if we're focusing a
+  // link, select, or input, then focus it directly. otherwise, find
   // the first child link and focus that.
-  if (nodeName === "A" || nodeName === "SELECT" || nodeName === "INPUT") {
+  if (
+      el.getAttribute("tabindex") === "0" ||
+      nodeName === "A" ||
+      nodeName === "SELECT" ||
+      nodeName === "INPUT"
+  ) {
     el.focus();
   } else {
     const a = el.querySelector("a");
