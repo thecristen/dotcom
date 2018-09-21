@@ -108,7 +108,7 @@ defmodule SiteWeb.TripPlanController do
       size: Site.TripPlan.Map.stop_icon_size(icon_name),
       label: label,
       tooltip: pos.name,
-      z_index: 0,
+      z_index: Site.TripPlan.Map.z_index(index_map),
     ])
 
     MapData.add_marker(map, marker)

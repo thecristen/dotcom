@@ -45,11 +45,11 @@ defmodule Site.TripPlan.MapTest do
       assert Enum.all?(stops, & &1.name in map_tooltips)
     end
 
-    test "z index is 1 if leg has a route", %{itinerary: itinerary, map_data: map_data} do
+    test "z index is 100 for A/B markers, 0 for all others", %{itinerary: itinerary, map_data: map_data} do
       assert Enum.count(itinerary) == 2
-      assert [_route_id] = Itinerary.route_ids(itinerary)
+      assert Enum.count(map_data.markers) == 4
       assert markers_with_z_index(0, map_data.markers) == 2
-      assert markers_with_z_index(1, map_data.markers) == 2
+      assert markers_with_z_index(100, map_data.markers) == 2
     end
 
     test "prepends the 'from' and appends the 'to' locations to the polyline",

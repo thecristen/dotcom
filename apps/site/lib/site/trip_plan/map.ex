@@ -99,14 +99,13 @@ defmodule Site.TripPlan.Map do
 
   @spec build_marker_for_leg({Leg.t, non_neg_integer}, Keyword.t, non_neg_integer) :: [Marker.t]
   defp build_marker_for_leg({leg, idx}, opts, leg_count) do
-    route = route_for_leg(leg, opts[:route_mapper])
     leg_positions = [{leg.from, idx}, {leg.to, idx + 1}]
-    build_markers_for_leg_positions(leg_positions, route, opts[:stop_mapper], leg_count)
+    build_markers_for_leg_positions(leg_positions, opts[:stop_mapper], leg_count)
   end
 
-  defp build_markers_for_leg_positions(positions_with_indicies, route, stop_mapper, leg_count) do
+  defp build_markers_for_leg_positions(positions_with_indicies, stop_mapper, leg_count) do
     for {position, index} <- positions_with_indicies do
-      build_marker_for_leg_position(position, route, stop_mapper, %{
+      build_marker_for_leg_position(position, stop_mapper, %{
         start: 0,
         current: index,
         end: 2 * leg_count - 1
@@ -114,15 +113,15 @@ defmodule Site.TripPlan.Map do
     end
   end
 
-  @spec build_marker_for_leg_position(NamedPosition.t, Route.t | nil, stop_mapper, map) :: Marker.t
-  defp build_marker_for_leg_position(leg_position, route, stop_mapper, indexes) do
+  @spec build_marker_for_leg_position(NamedPosition.t, stop_mapper, map) :: Marker.t
+  defp build_marker_for_leg_position(leg_position, stop_mapper, indexes) do
     icon_name = stop_icon_name(indexes)
     opts = [
       icon: icon_name,
       size: stop_icon_size(icon_name),
       label: stop_icon_label(indexes),
       tooltip: tooltip_for_position(leg_position, stop_mapper),
-      z_index: z_index(route),
+      z_index: z_index(indexes),
     ]
 
     leg_position
@@ -180,14 +179,6 @@ defmodule Site.TripPlan.Map do
     "000000"
   end
 
-  @spec route_for_leg(Leg.t, route_mapper) :: Route.t | nil
-  defp route_for_leg(leg, route_mapper) do
-    case Leg.route_id(leg) do
-      :error -> nil
-      {:ok, route_id} -> route_mapper.(route_id)
-    end
-  end
-
   @spec tooltip_for_position(NamedPosition.t, stop_mapper) :: String.t
   defp tooltip_for_position(%NamedPosition{stop_id: nil, name: name}, _stop_mapper) do
     name
@@ -199,7 +190,8 @@ defmodule Site.TripPlan.Map do
     end
   end
 
-  @spec z_index(Route.t | nil) :: 0 | 1
-  defp z_index(nil), do: 0
-  defp z_index(_), do: 1
+  @spec z_index(map) :: 0 | 1
+  def z_index(%{current: idx, start: idx}), do: 100
+  def z_index(%{current: idx, end: idx}), do: 100
+  def z_index(%{}), do: 0
 end
