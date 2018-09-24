@@ -58,15 +58,6 @@
   }
 }
 
-.homepage-search {
-  @include media-breakpoint-down(sm) {
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
-
 .m-homepage__search-wrapper {
   margin-left: auto;
   margin-right: auto;
