@@ -4,7 +4,7 @@ defmodule Content.WhatsHappeningItem do
   defstruct [blurb: "", link: nil, thumb: nil, thumb_2x: nil]
 
   @type t :: %__MODULE__{
-    blurb: String.t,
+    blurb: String.t | nil,
     link: Content.Field.Link.t | nil,
     thumb: Content.Field.Image.t,
     thumb_2x: Content.Field.Image.t | nil

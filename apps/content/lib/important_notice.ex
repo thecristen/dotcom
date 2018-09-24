@@ -13,15 +13,15 @@ defmodule Content.ImportantNotice do
   defstruct [blurb: "", link: %Link{}, thumb: nil]
 
   @type t :: %__MODULE__{
-    blurb: String.t,
+    blurb: String.t | nil,
     link: Link.t | nil,
-    thumb: Image.t | nil,
+    thumb: Image.t | nil
   }
 
   @spec from_api(map) :: t
   def from_api(%{} = data) do
     %__MODULE__{
-      blurb: field_value(data, "field_in_blurb"),
+      blurb: field_value(data, "field_in_blurb") || field_value(data, "title"),
       link: parse_link(data, "field_in_link"),
       thumb: parse_image(data["field_image"]) || parse_image(data["field_in_thumb"]),
     }

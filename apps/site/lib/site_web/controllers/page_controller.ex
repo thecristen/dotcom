@@ -26,7 +26,7 @@ defmodule SiteWeb.PageController do
 
   defp whats_happening_items do
     case Content.Repo.whats_happening() do
-      [_, _, _] = items -> items
+      [_, _, _ | _] = items -> Enum.take(items, 3)
       _ -> nil
     end
   end

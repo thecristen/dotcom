@@ -288,6 +288,148 @@
   {
     "nid": [
       {
+        "value": 3516
+      }
+    ],
+    "uuid": [
+      {
+        "value": "1a3dabd0-3e7d-4040-921e-5068e98aac7a"
+      }
+    ],
+    "vid": [
+      {
+        "value": 10038
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "what_s_happening_item",
+        "target_type": "node_type",
+        "target_uuid": "c80a5c1a-7478-48e3-a10d-a6158ad39703"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522266410
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Silver Line 3"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1522264834
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522266410
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [],
+    "path": [
+      {
+        "alias": null,
+        "pid": null,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "field_wh_blurb": [],
+    "field_wh_link": [
+      {
+        "uri": "/SL3",
+        "title": "",
+        "options": []
+      }
+    ],
+    "field_image": [
+      {
+        "alt": "New, media-based image",
+        "url": "https://mbta.kbox.site/sites/default/files/media-image.jpg"
+      }
+    ],
+    "field_wh_thumb": [
+      {
+        "target_id": 3360,
+        "alt": "The newly built Chelsea Station.",
+        "title": "",
+        "width": 304,
+        "height": 192,
+        "target_type": "file",
+        "target_uuid": "a6423861-c199-48e4-8c1f-e6089db929b2",
+        "url": "https://mbta.kbox.site/sites/default/files/projects/silverline3/sl3-chelsea-station-whats-happening-small.jpg",
+        "mime_type": "image/jpeg"
+      }
+    ],
+    "field_wh_thumb_2x": [
+      {
+        "target_id": 3359,
+        "alt": "",
+        "title": "",
+        "width": 608,
+        "height": 384,
+        "target_type": "file",
+        "target_uuid": "01591cce-1ee3-4bd0-a7bb-3fb5037451d9",
+        "url": "https://mbta.kbox.site/sites/default/files/projects/silverline3/sl3-chelsea-station-whats-happening-large.jpg",
+        "mime_type": "image/jpeg"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
         "value": 3241
       }
     ],
