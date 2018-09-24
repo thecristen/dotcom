@@ -20,8 +20,17 @@ defmodule SiteWeb.Plugs.CookiesTest do
     end
 
     test "adds route to cookie if user visits a schedule page", %{conn: conn} do
-      conn = get conn, schedule_path(conn, :show, %Routes.Route{id: "Red"})
-      assert Map.get(conn.cookies, route_cookie_name()) == "Red"
+      with_cookie = get conn, schedule_path(conn, :show, %Routes.Route{id: "Red"})
+      assert Map.get(with_cookie.cookies, route_cookie_name()) == "Red"
+
+      timetable_path =
+        conn
+        |> schedule_path(:show, %Routes.Route{id: "CR-Lowell"})
+        |> Path.join("timetable")
+      assert timetable_path == "/schedules/CR-Lowell/timetable"
+
+      with_cookie = get conn, timetable_path
+      assert Map.get(with_cookie.cookies, route_cookie_name()) == "CR-Lowell"
     end
 
     test "appends new route to cookie if user visits another schedule page", %{conn: conn} do
