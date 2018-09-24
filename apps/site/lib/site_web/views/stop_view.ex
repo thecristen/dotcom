@@ -280,7 +280,7 @@ defmodule SiteWeb.StopView do
   defp do_render_header_modes(type, [%Route{} | _] = routes, zone, stop) do
     [
       render_header_mode(type, routes, stop),
-      render_cr_zone(type, zone)
+      render_cr_zone(type, zone, stop)
     ]
   end
 
@@ -363,17 +363,32 @@ defmodule SiteWeb.StopView do
     [content_tag(:span, text, class: "station__header-description #{header_mode_bg_class(route)}")]
   end
 
-  @spec render_cr_zone(Route.gtfs_route_type, integer | nil) :: [Phoenix.HTML.Safe.t]
-  defp render_cr_zone(:commuter_rail, nil) do
+  @spec render_cr_zone(Route.gtfs_route_type, integer | nil, Stop.t) :: [Phoenix.HTML.Safe.t]
+  defp render_cr_zone(:commuter_rail, nil, %Stop{}) do
     []
   end
-  defp render_cr_zone(:commuter_rail, zone) do
-    [content_tag(:span, [
-      content_tag(:span, "Zone #{zone}", class: "station__header-icon c-icon__cr-zone")
-    ], class: "station__header-feature")]
+  defp render_cr_zone(:commuter_rail, zone, %Stop{} = stop) do
+    [
+      link([
+        content_tag(:span, "Zone #{zone}", class: "station__header-icon c-icon__cr-zone")
+      ], [
+        to: header_anchor_path(stop, "commuter-fares"),
+        data: [scroll: true],
+        class: "station__header-feature"
+      ])
+    ]
   end
-  defp render_cr_zone(_, _) do
+  defp render_cr_zone(_, _, %Stop{}) do
     []
+  end
+
+  @spec header_anchor_path(Stop.t, String.t) :: String.t
+  defp header_anchor_path(%Stop{} = stop, <<anchor::binary>>) do
+    SiteWeb.Endpoint
+    |> stop_path(:show, stop, tab: "info")
+    |> URI.parse()
+    |> Map.put(:fragment, anchor)
+    |> URI.to_string()
   end
 
   @spec header_mode_bg_class(Route.t) :: String.t

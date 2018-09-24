@@ -3,7 +3,7 @@
   <%= render "_map.html", forward_assigns(@conn) %>
 </div>
 <div id="station-info" class="page-section">
-  <h2>Parking</h2>
+  <h2 id="parking">Parking</h2>
   <%= if !Enum.empty?(@stop.parking_lots) do %>
     <%= for lot <- @stop.parking_lots do %>
       <%= SiteWeb.StopView.Parking.parking_lot(lot) %>
@@ -18,7 +18,7 @@
   </p>
 
   <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>
-  <h2>Accessibility</h2>
+  <h2 id="accessibility">Accessibility</h2>
   <%= accessibility_info(@stop, types) %>
   <p>
     <%= link to: cms_static_page_path(@conn, "/accessibility"), class: "c-call-to-action" do %>

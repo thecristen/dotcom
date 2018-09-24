@@ -314,7 +314,10 @@ defmodule SiteWeb.StopViewTest do
       assert [_] = Floki.find(cr, ".c-svg__icon-mode-commuter-rail-default")
       assert [_] = Floki.find(cr, ".station__header-description")
       assert [_] = Floki.find(cr, ".c-icon__cr-zone")
-      assert Floki.attribute(cr, "href") == ["/stops/stop?tab=departures#commuter-rail-schedule"]
+      assert Floki.attribute(cr, "href") == [
+        "/stops/stop?tab=departures#commuter-rail-schedule",
+        "/stops/stop?tab=info#commuter-fares"
+      ]
     end
 
     test "renders CR with no zone if zone not assigned" do

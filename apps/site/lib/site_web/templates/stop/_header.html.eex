@@ -4,18 +4,18 @@
     <div class="h6 station__header-features">
       <%= render_header_modes(@stop, @grouped_routes, Map.get(assigns, :zone_number)) %>
       <%= if Stop.accessible?(@stop) do %>
-        <span class="station__header-feature">
+        <a href="<%= header_anchor_path(@stop, "accessibility")%>" class="station__header-feature" data-scroll="true">
           <span class="station__header-icon">
             <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access}) %>
           </span>
-        </span>
+        </a>
       <% end %>
       <%= if !Enum.empty?(@stop.parking_lots) do %>
-        <span class="station__header-feature">
+        <a href="<%= header_anchor_path(@stop, "parking") %>" class="station__header-feature" data-scroll="true">
           <span class="station__header-icon">
             <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :parking_lot}) %>
           </span>
-        </span>
+        </a>
       <% end %>
     </div>
     <%= SiteWeb.PartialView.HeaderTabs.render_tabs([
