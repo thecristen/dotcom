@@ -35,7 +35,6 @@
     {
       "label": "Homepage",
       "url": "http://localhost:8082/?date=2018-12-22",
-      "hideSelectors": [],
       "removeSelectors": [
         ".whats-happening-section",
         ".news-section",
@@ -43,13 +42,54 @@
         "#google_translate_element"
       ],
       "selectors": [
-        "header",
-        "main",
-        ".post-container-wrapper",
+        "header"
+      ],
+      "delay": 100,
+      "misMatchThreshold": 0.015
+    },
+    {
+      "label": "Homepage",
+      "url": "http://localhost:8082/?date=2018-12-22",
+      "removeSelectors": [
+        ".whats-happening-section",
+        ".news-section",
+        ".title-card",
+        "#google_translate_element"
+      ],
+      "selectors": [
         "footer"
       ],
-      "readyEvent": null,
-      "delay": 500,
+      "delay": 100,
+      "misMatchThreshold": 0.015
+    },
+    {
+      "label": "Homepage",
+      "url": "http://localhost:8082/?date=2018-12-22",
+      "removeSelectors": [
+        ".whats-happening-section",
+        ".news-section",
+        ".title-card",
+        "#google_translate_element"
+      ],
+      "selectors": [
+        "main"
+      ],
+      "delay": 100,
+      "misMatchThreshold": 0.015
+    },
+    {
+      "label": "Homepage",
+      "url": "http://localhost:8082/?date=2018-12-22",
+      "removeSelectors": [
+        ".whats-happening-section",
+        ".news-section",
+        ".title-card",
+        "#google_translate_element"
+      ],
+      "selectors": [
+        ".post-container-wrapper"
+      ],
+      "delay": 100,
       "misMatchThreshold": 0.015
     },
     {
@@ -60,7 +100,20 @@
       ],
       "removeSelectors": [],
       "selectors": [
-        "main",
+        "main"
+      ],
+      "readyEvent": null,
+      "delay": 100,
+      "misMatchThreshold": 0.03
+    },
+    {
+      "label": "Subway Hub",
+      "url": "http://localhost:8082/schedules/subway?date=2018-12-22",
+      "hideSelectors": [
+        ".hub-system-map"
+      ],
+      "removeSelectors": [],
+      "selectors": [
         ".breadcrumb-container"
       ],
       "readyEvent": null,
@@ -73,7 +126,18 @@
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
-        "#schedules",
+        "main"
+      ],
+      "readyEvent": null,
+      "delay": 100,
+      "misMatchThreshold": 0.03
+    },
+    {
+      "label": "All Schedules",
+      "url": "http://localhost:8082/schedules?date=2018-12-22",
+      "hideSelectors": [],
+      "removeSelectors": [],
+      "selectors": [
         ".breadcrumb-container"
       ],
       "readyEvent": null,
@@ -143,8 +207,17 @@
       "url": "http://localhost:8082/stops/place-sstat?date=2018-12-22&tab=info",
       "hideSelectors": [".map"],
       "selectors": [
-        ".station__header",
-        "#station-info"
+        ".station__header"
+      ],
+      "delay": 100,
+      "misMatchThreshold": 0.03
+    },
+    {
+      "label": "Station Info Tab South Station",
+      "url": "http://localhost:8082/stops/place-sstat?date=2018-12-22&tab=info",
+      "hideSelectors": [".map"],
+      "selectors": [
+        "main"
       ],
       "delay": 100,
       "misMatchThreshold": 0.03
@@ -163,7 +236,17 @@
       "hideSelectors": [".animate"],
       "removeSelectors": [".pdf-links"],
       "selectors": [
-        "main",
+        "main"
+      ],
+      "delay": 100,
+      "misMatchThreshold": 0.03
+    },
+    {
+      "label": "Bus Schedule",
+      "url": "http://localhost:8082/schedules/1/schedule?date=2018-12-22&direction_id=0&trip=&origin=102",
+      "hideSelectors": [".animate"],
+      "removeSelectors": [".pdf-links"],
+      "selectors": [
         ".schedule__header"
       ],
       "delay": 100,
@@ -183,7 +266,16 @@
       "url": "http://localhost:8082/schedules/Red/schedule?date=2018-12-22&direction_id=1&origin=place-sstat&trip=",
       "removeSelectors": [".pdf-links"],
       "selectors": [
-        "main",
+        "main"
+      ],
+      "delay": 100,
+      "misMatchThreshold": 0.03
+    },
+    {
+      "label": "Subway Schedule",
+      "url": "http://localhost:8082/schedules/Red/schedule?date=2018-12-22&direction_id=1&origin=place-sstat&trip=",
+      "removeSelectors": [".pdf-links"],
+      "selectors": [
         ".schedule__header"
       ],
       "delay": 100,
@@ -204,7 +296,16 @@
       "url": "http://localhost:8082/schedules/CR-Providence/timetable?date=2018-12-22&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
       "removeSelectors": [".pdf-links"],
       "selectors": [
-        ".schedule__header",
+        ".schedule__header"
+      ],
+      "delay": 100,
+      "misMatchThreshold": 0.03
+    },
+    {
+      "label": "Commuter Rail Schedule",
+      "url": "http://localhost:8082/schedules/CR-Providence/timetable?date=2018-12-22&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
+      "removeSelectors": [".pdf-links"],
+      "selectors": [
         "main"
       ],
       "delay": 100,
@@ -218,12 +319,25 @@
         ".animate"
       ],
       "selectors": [
-        ".station__header",
+        ".station__header"
+      ],
+      "delay": 100,
+      "misMatchThreshold": 0.03
+    },
+    {
+      "label": "Station Info Framingham",
+      "url": "http://localhost:8082/stops/Framingham?tab=departures&date=2018-12-22&date_time=2018-12-22T18%3A01%3A52.397960-05%3A00",
+      "hideSelectors": [
+        ".map",
+        ".animate"
+      ],
+      "selectors": [
         "main"
       ],
       "delay": 100,
       "misMatchThreshold": 0.03
     },
+
     {
       "label": "Station Info South Station",
       "url": "http://localhost:8082/stops/place-sstat?tab=departures&date=2018-12-22&date_time=2018-12-22T18%3A01%3A52.397960-05%3A00",
@@ -253,7 +367,17 @@
       "label": "Commuter Rail Maps and Info Worcester",
       "url": "http://localhost:8082/schedules/CR-Worcester/line?direction_id=0&date=2018-12-22&date_time=2018-12-22T13:00:00-05:00",
       "selectors": [
-        ".schedule__header",
+        ".schedule__header"
+      ],
+      "hideSelectors": [".map"],
+      "removeSelectors": [".pdf-links"],
+      "delay": 100,
+      "misMatchThreshold": 0.01
+    },
+    {
+      "label": "Commuter Rail Maps and Info Worcester",
+      "url": "http://localhost:8082/schedules/CR-Worcester/line?direction_id=0&date=2018-12-22&date_time=2018-12-22T13:00:00-05:00",
+      "selectors": [
         "main"
       ],
       "hideSelectors": [".map"],
@@ -282,9 +406,11 @@
       "label": "Trip Planner Results",
       "url": "http://localhost:8082/trip-planner?_utf8=%E2%9C%93&plan%5Bfrom%5D=Boston+Children%27s+Museum%2C+Congress+Street%2C+Boston%2C+MA%2C+USA&plan%5Bfrom_latitude%5D=&plan%5Bfrom_longitude%5D=&plan%5Bto%5D=Government+Center&plan%5Bto_latitude%5D=&plan%5Bto_longitude%5D=&plan%5Btime%5D=depart&plan%5Bdate_time%5D%5Bhour%5D=11&plan%5Bdate_time%5D%5Bminute%5D=35&plan%5Bdate_time%5D%5Bam_pm%5D=AM&plan%5Bdate_time%5D%5Bmonth%5D=12&plan%5Bdate_time%5D%5Bday%5D=22&plan%5Bdate_time%5D%5Byear%5D=2018&plan%5Bmodes%5D%5Bsubway%5D=false&plan%5Bmodes%5D%5Bsubway%5D=true&plan%5Bmodes%5D%5Bcommuter_rail%5D=false&plan%5Bmodes%5D%5Bcommuter_rail%5D=true&plan%5Bmodes%5D%5Bbus%5D=false&plan%5Bmodes%5D%5Bbus%5D=true&plan%5Bmodes%5D%5Bferry%5D=false&plan%5Bmodes%5D%5Bferry%5D=true&plan%5Boptimize_for%5D=best_route",
       "hideSelectors": [".map", "footer"],
+      "selectors": ["document"],
       "readyEvent": null,
       "onReadyScript": "trip-planner-results.js",
       "delay": 1000,
+      "requireSameDimensions": false,
       "misMatchThreshold": 0.03
     }
   ],
@@ -292,14 +418,16 @@
     "bitmaps_reference": "apps/site/test/backstop_data/bitmaps_reference",
     "bitmaps_test": "apps/site/test/backstop_data/bitmaps_test",
     "compare_data": "apps/site/test/backstop_data/bitmaps_test/compare.json",
-    "engine_scripts": "apps/site/test/backstop_data/casper_scripts",
+    "engine_scripts": "apps/site/test/backstop_data/puppet_scripts",
     "html_report": "apps/site/test/backstop_data/html_report"
   },
   "id": "MBTA_Backstop",
   "fileNameTemplate": "{scenarioLabel}_{selectorLabel}_{viewportIndex}_{viewportLabel}",
-  "engine": "phantomjs",
+  "engine": "puppet",
   "report": ["browser"],
-  "casperFlags": [],
   "debug": false,
-  "port": 3001
+  "port": 3001,
+  "engineOptions": {
+    "args": ["--no-sandbox"]
+  }
 }
