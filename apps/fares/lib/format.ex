@@ -115,7 +115,7 @@ defmodule Fares.Format do
         name:  price_range_summary_name(base, mode),
         duration: base.duration,
         modes: [base.mode | base.additional_valid_modes],
-        fares: [{price_range_label, [Fares.Format.price(min_price), " - ",
+        fares: [{price_range_label, [Fares.Format.price(min_price), " – ",
                                      Fares.Format.price(max_price)]}],
         url: url}
     end

@@ -103,7 +103,7 @@ defmodule Fares.FormatTest do
         %Summary{
           name: "Commuter Rail One Way",
           duration: :single_trip,
-          fares: [{"Zones 1A-10", ["$1.00", " - ", "$2.00"]}],
+          fares: [{"Zones 1A-10", ["$1.00", " – ", "$2.00"]}],
           modes: [:commuter_rail]
         }
       ]
@@ -124,13 +124,13 @@ defmodule Fares.FormatTest do
         %Summary{
           name: "Commuter Rail One Way",
           duration: :single_trip,
-          fares: [{"Zones 1A-10", ["$1.00", " - ", "$2.00"]}],
+          fares: [{"Zones 1A-10", ["$1.00", " – ", "$2.00"]}],
           modes: [:commuter_rail]
         },
         %Summary{
           name: "Ferry One Way",
           duration: :single_trip,
-          fares: [{"All ferry routes", ["$1.00", " - ", "$2.00"]}],
+          fares: [{"All ferry routes", ["$1.00", " – ", "$2.00"]}],
           modes: [:ferry]
         }
       ]
@@ -147,7 +147,7 @@ defmodule Fares.FormatTest do
         %Summary{
           name: "Ferry One Way",
           duration: :single_trip,
-          fares: [{"All ferry routes", ["$1.00", " - ", "$2.00"]}],
+          fares: [{"All ferry routes", ["$1.00", " – ", "$2.00"]}],
           modes: [:ferry]
         }
       ]
@@ -160,10 +160,10 @@ defmodule Fares.FormatTest do
       summary = %Summary{
           name: "Ferry One Way",
           duration: :single_trip,
-          fares: [{"All ferry routes", ["$1.00", " - ", "$2.00"]}],
+          fares: [{"All ferry routes", ["$1.00", " – ", "$2.00"]}],
           modes: [:ferry]
         }
-      assert price_range(summary) == "$1.00 - $2.00"
+      assert price_range(summary) == "$1.00 – $2.00"
     end
   end
 

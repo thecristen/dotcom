@@ -67,7 +67,7 @@ Content authors can leverage the Fares Elixir app to request current fare prices
 {{ fare:subway:cash }}                  // prints "$2.75"
 {{ fare:local_bus:charlie_card }}       // prints "$1.70"
 {{ fare:local_bus:cash }}               // prints "$2.00"
-{{ fare:commuter_rail:month:mticket }}  // prints "$74.50 - $388.25"
+{{ fare:commuter_rail:month:mticket }}  // prints "$74.50 – $388.25"
 ```
 
 The syntax must be followed exactly -- any non-matching patterns or bad "tokens" will be returned as entered with a brief error message and/or highlighted, invalid tokens. Commuter Rail Zone pricing is not yet available.
