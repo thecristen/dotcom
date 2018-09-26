@@ -1,6 +1,7 @@
 defmodule Content.HelpersTest do
   use ExUnit.Case, async: true
   import Content.Helpers
+  doctest Content.Helpers
 
   describe "rewrite_url/1" do
     test "rewrites when the URL has query params" do

@@ -12,8 +12,8 @@ defmodule Content.CMS.Static do
     parse_json("cms/news.json")
   end
 
-  def important_notices_response do
-    parse_json("cms/important-notices.json")
+  def banners_response do
+    parse_json("cms/banners.json")
   end
 
   def projects_response do
@@ -199,7 +199,7 @@ defmodule Content.CMS.Static do
     {:ok, whats_happening_response()}
   end
   def view("/cms/important-notices", _) do
-    {:ok, important_notices_response()}
+    {:ok, banners_response()}
   end
   def view("/landing_page_with_all_paragraphs", _) do
     {:ok, all_paragraphs_response()}

@@ -131,4 +131,61 @@ defmodule Content.Helpers do
       _ -> nil
     end
   end
+
+  @type category :: :business
+                  | :careers
+                  | :destinations
+                  | :events
+                  | :guides
+                  | :leadership
+                  | :news
+                  | :projects
+                  | :winter
+                  | :unknown
+
+  @doc """
+  Retrieves category from CMS data. If "field_category"
+  field is empty, an unexpected value, or not found,
+  category is :unknown.
+
+  iex> category(%{"field_category" => [%{"value" => "business"}]})
+  :business
+  iex> category(%{"field_category" => [%{"value" => "careers"}]})
+  :careers
+  iex> category(%{"field_category" => [%{"value" => "destinations"}]})
+  :destinations
+  iex> category(%{"field_category" => [%{"value" => "events"}]})
+  :events
+  iex> category(%{"field_category" => [%{"value" => "guides"}]})
+  :guides
+  iex> category(%{"field_category" => [%{"value" => "leadership"}]})
+  :leadership
+  iex> category(%{"field_category" => [%{"value" => "news"}]})
+  :news
+  iex> category(%{"field_category" => [%{"value" => "projects"}]})
+  :projects
+  iex> category(%{"field_category" => [%{"value" => "winter"}]})
+  :winter
+  iex> category(%{"field_cateogry" => [%{"value" => "invalid"}]})
+  :unknown
+  iex> category(%{"field_cateogry" => []})
+  :unknown
+  iex> category(%{})
+  :unknown
+  iex> category(nil)
+  :unknown
+  """
+  @spec category(map) :: category
+  def category(data) do
+    data
+    |> field_value("field_category")
+    |> parse_category()
+  end
+
+  @spec parse_category(String.t | nil) :: category
+  for category <- ~w(business careers destinations events guides leadership news projects winter) do
+    atom = String.to_atom(category)
+    defp parse_category(unquote(category)), do: unquote(atom)
+  end
+  defp parse_category(_), do: :unknown
 end

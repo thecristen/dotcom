@@ -2,17 +2,17 @@
   {
     "nid": [
       {
-        "value": 3067
+        "value": 3797
       }
     ],
     "uuid": [
       {
-        "value": "d92324cd-9d08-43ba-a861-05228c25da96"
+        "value": "5a490f96-5b64-4393-8ec0-2a04736e107b"
       }
     ],
     "vid": [
       {
-        "value": 10120
+        "value": 14582
       }
     ],
     "langcode": [
@@ -29,15 +29,15 @@
     ],
     "revision_timestamp": [
       {
-        "value": 1522682740
+        "value": 1537893605
       }
     ],
     "revision_uid": [
       {
-        "target_id": 24,
+        "target_id": 29,
         "target_type": "user",
-        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
-        "url": "/user/24"
+        "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+        "url": "/user/29"
       }
     ],
     "revision_log": [],
@@ -48,30 +48,30 @@
     ],
     "title": [
       {
-        "value": "FMCB live stream"
+        "value": "Headline goes here"
       }
     ],
     "uid": [
       {
-        "target_id": 24,
+        "target_id": 29,
         "target_type": "user",
-        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
-        "url": "/user/24"
+        "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+        "url": "/user/29"
       }
     ],
     "created": [
       {
-        "value": 1508778359
+        "value": 1537893536
       }
     ],
     "changed": [
       {
-        "value": 1522682740
+        "value": 1537893605
       }
     ],
     "promote": [
       {
-        "value": true
+        "value": false
       }
     ],
     "sticky": [
@@ -89,7 +89,11 @@
         "value": true
       }
     ],
-    "moderation_state": [],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
     "path": [
       {
         "alias": null,
@@ -100,47 +104,57 @@
     "publish_on": [],
     "unpublish_on": [],
     "menu_link": [],
-    "field_in_blurb": [
+    "field_banner_type": [
       {
-        "value": "Watch a live stream of today's FMCB meeting at 12PM."
+        "value": "important"
       }
     ],
+    "field_category": [
+      {
+        "value": "careers"
+      }
+    ],
+    "field_image": [
+      {
+        "url": "https://test-mbta.pantheonsite.io/sites/default/files/styles/important_notice/public/media/2018-09/MiscellaneousBus-.jpg?itok=m0yjUcCD",
+        "alt": "An MBTA bus drives down a Boston street."
+      }
+    ],
+    "field_in_blurb": [],
     "field_in_link": [
       {
-        "uri": "/events/2018-04-02/fiscal-management-control-board-meeting",
+        "uri": "/",
         "title": "",
         "options": []
       }
     ],
-    "field_image": [],
-    "field_in_thumb": [
+    "field_in_thumb": [],
+    "field_mode": [
       {
-        "target_id": 1815,
-        "alt": "Fiscal & Management Control Board Live Streaming Meeting",
-        "title": "",
-        "width": 800,
-        "height": 315,
-        "target_type": "file",
-        "target_uuid": "34e307e7-3a42-4e48-9829-35b606e46af8",
-        "url": "https://mbta.kbox.site/sites/default/files/fmcb-meeting-docs/livestream-homepage-banner.png",
-        "mime_type": "image/png"
+        "value": "commuter_rail"
+      }
+    ],
+    "field_text_position": [],
+    "field_updated_on": [
+      {
+        "value": "2018-09-25"
       }
     ]
   },
   {
     "nid": [
       {
-        "value": 9998
+        "value": 3798
       }
     ],
     "uuid": [
       {
-        "value": "d92324cd-9d08-43ba-a861-05228c25da96"
+        "value": "f1e0ad68-35a9-497d-a91a-a60fe5d66651"
       }
     ],
     "vid": [
       {
-        "value": 10120
+        "value": 14584
       }
     ],
     "langcode": [
@@ -157,15 +171,15 @@
     ],
     "revision_timestamp": [
       {
-        "value": 1522682740
+        "value": 1537908077
       }
     ],
     "revision_uid": [
       {
-        "target_id": 24,
+        "target_id": 41,
         "target_type": "user",
-        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
-        "url": "/user/24"
+        "target_uuid": "3842fbe7-1cc4-41a7-bdc6-e57b78d29e7e",
+        "url": "/user/41"
       }
     ],
     "revision_log": [],
@@ -176,30 +190,30 @@
     ],
     "title": [
       {
-        "value": "FMCB live stream"
+        "value": "Commuter Rail Guide"
       }
     ],
     "uid": [
       {
-        "target_id": 24,
+        "target_id": 41,
         "target_type": "user",
-        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
-        "url": "/user/24"
+        "target_uuid": "3842fbe7-1cc4-41a7-bdc6-e57b78d29e7e",
+        "url": "/user/41"
       }
     ],
     "created": [
       {
-        "value": 1508778359
+        "value": 1537907724
       }
     ],
     "changed": [
       {
-        "value": 1522682740
+        "value": 1537908077
       }
     ],
     "promote": [
       {
-        "value": true
+        "value": false
       }
     ],
     "sticky": [
@@ -217,7 +231,11 @@
         "value": true
       }
     ],
-    "moderation_state": [],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
     "path": [
       {
         "alias": null,
@@ -228,35 +246,48 @@
     "publish_on": [],
     "unpublish_on": [],
     "menu_link": [],
-    "field_in_blurb": [
+    "field_banner_type": [
       {
-        "value": "Watch a live stream of today's FMCB meeting at 12PM."
+        "value": "default"
       }
     ],
-    "field_in_link": [
+    "field_category": [
       {
-        "uri": "/events/2018-04-02/fiscal-management-control-board-meeting",
-        "title": "",
-        "options": []
+        "value": "guides"
       }
     ],
     "field_image": [
       {
-        "alt": "New, media-based image",
-        "url": "https://mbta.kbox.site/sites/default/files/media-image.jpg"
+        "url": "https://test-mbta.pantheonsite.io/sites/default/files/styles/important_notice/public/media/2018-09/P519%20Ashland_retouch.jpg?itok=5NKSY_ts",
+        "alt": "Commuter Rail train crossing a bridge in Ashland"
       }
     ],
-    "field_in_thumb": [
+    "field_in_blurb": [
       {
-        "target_id": 1815,
-        "alt": "Fiscal & Management Control Board Live Streaming Meeting",
-        "title": "",
-        "width": 800,
-        "height": 315,
-        "target_type": "file",
-        "target_uuid": "34e307e7-3a42-4e48-9829-35b606e46af8",
-        "url": "https://mbta.kbox.site/sites/default/files/fmcb-meeting-docs/livestream-homepage-banner.png",
-        "mime_type": "image/png"
+        "value": "This is the description of the commuter rail guide"
+      }
+    ],
+    "field_in_link": [
+      {
+        "uri": "/node/3791",
+        "title": "Read the guide",
+        "options": []
+      }
+    ],
+    "field_in_thumb": [],
+    "field_mode": [
+      {
+        "value": "commuter_rail"
+      }
+    ],
+    "field_text_position": [
+      {
+        "value": "right"
+      }
+    ],
+    "field_updated_on": [
+      {
+        "value": "2018-10-01"
       }
     ]
   }

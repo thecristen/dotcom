@@ -35,13 +35,13 @@ defmodule SiteWeb.PageViewTest do
   end
 
   describe "important notices" do
-    test "renders _important_notice.html", %{conn: conn} do
-      notice = %Content.ImportantNotice{
+    test "renders _banner.html", %{conn: conn} do
+      banner = %Content.Banner{
         blurb: "Uh oh, this is very important!",
         link: %Content.Field.Link{url: "http://example.com/important"},
         thumb: %Content.Field.Image{}
       }
-      rendered = render_to_string(SiteWeb.PageView, "_important_notice.html", important_notice: notice, conn: conn)
+      rendered = render_to_string(SiteWeb.PageView, "_banner.html", banner: banner, conn: conn)
       assert rendered =~ "Uh oh, this is very important!"
     end
   end

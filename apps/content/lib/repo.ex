@@ -107,11 +107,12 @@ defmodule Content.Repo do
     end
   end
 
-  @spec important_notice() :: Content.ImportantNotice.t | nil
-  def important_notice do
+  @spec banner() :: Content.Banner.t | nil
+  def banner do
     cached_value = cache [], fn _ ->
+      # Banners were previously called Important Notices
       case @cms_api.view("/cms/important-notices", []) do
-        {:ok, [api_data | _]} -> Content.ImportantNotice.from_api(api_data)
+        {:ok, [api_data | _]} -> Content.Banner.from_api(api_data)
         {:ok, _} -> :empty
         {:error, _} -> :error
       end

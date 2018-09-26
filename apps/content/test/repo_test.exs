@@ -156,17 +156,17 @@ defmodule Content.RepoTest do
         blurb: blurb
       } | _] = Content.Repo.whats_happening()
 
-      assert blurb =~ "Bus shuttles replace Commuter Rail service on the Franklin Line"
+      assert blurb =~ "Visiting Boston? Find your way around with our new Visitor's Guide to the T."
     end
   end
 
-  describe "important_notice" do
-    test "returns a Content.ImportantNotice" do
-      assert %Content.ImportantNotice{
+  describe "banner" do
+    test "returns a Content.Banner" do
+      assert %Content.Banner{
         blurb: blurb
-      } = Content.Repo.important_notice()
+      } = Content.Repo.banner()
 
-      assert blurb == "Watch a live stream of today's FMCB meeting at 12PM."
+      assert blurb == "Headline goes here"
     end
   end
 

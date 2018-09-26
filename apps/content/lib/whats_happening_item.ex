@@ -1,10 +1,17 @@
 defmodule Content.WhatsHappeningItem do
-  import Content.Helpers, only: [field_value: 2, parse_link: 2]
+  import Content.Helpers, only: [field_value: 2, parse_link: 2, category: 1]
 
-  defstruct [blurb: "", link: nil, thumb: nil, thumb_2x: nil]
+  defstruct [
+    blurb: "",
+    category: :unknown,
+    link: nil,
+    thumb: nil,
+    thumb_2x: nil
+  ]
 
   @type t :: %__MODULE__{
     blurb: String.t | nil,
+    category: Content.Helpers.category,
     link: Content.Field.Link.t | nil,
     thumb: Content.Field.Image.t,
     thumb_2x: Content.Field.Image.t | nil
@@ -20,6 +27,7 @@ defmodule Content.WhatsHappeningItem do
 
     %__MODULE__{
       blurb: field_value(data, "field_wh_blurb"),
+      category: category(data),
       link: parse_link(data, "field_wh_link"),
       thumb: thumb,
       thumb_2x: thumb_2x

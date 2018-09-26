@@ -7,8 +7,8 @@
     </div>
   </div>
   <%=
-    if assigns[:important_notice] do
-      render SiteWeb.PageView, "_important_notice.html", conn: @conn, important_notice: assigns[:important_notice]
+    if assigns[:banner] do
+      render SiteWeb.PageView, "_banner.html", conn: @conn, banner: assigns[:banner]
     end
   %>
   <%= case assigns[:recommended_routes] do
