@@ -20,7 +20,7 @@
     "phoenix_html": "file:../../../deps/phoenix_html",
     "places.js": "^1.6.0",
     "pleeease-brunch": "^3.0.0",
-    "sass-brunch": "^2.6.3",
+    "sass-brunch": "2.10.5",
     "sifter": "^0.5.1",
     "spostcss-brunch": "^1.0.1",
     "svgo": "^0.6.6",
