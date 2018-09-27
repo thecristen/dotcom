@@ -59,6 +59,7 @@ export class TripPlannerLocControls {
       TripPlannerLocControls.SELECTORS.to,
       Object.keys(TripPlannerLocControls.INDICES.to),
       { position: 1, hitLimit: 3 },
+      TripPlannerLocControls.POPULAR,
       this
     );
 
@@ -67,6 +68,7 @@ export class TripPlannerLocControls {
       TripPlannerLocControls.SELECTORS.from,
       Object.keys(TripPlannerLocControls.INDICES.from),
       { position: 1, hitLimit: 3 },
+      TripPlannerLocControls.POPULAR,
       this
     );
     this.autocompletes = [this.toAutocomplete, this.fromAutocomplete];
@@ -276,41 +278,50 @@ export class TripPlannerLocControls {
     };
   }
 
-  onHitSelected(autocomplete, lat, lng) {
+  onHitSelected(ac, lat, lng) {
     return ({
       originalEvent: {
         _args: [hit, type]
       }
     }) => {
-      if (type === "stops") {
-        autocomplete.setValue(hit.stop.name);
-        lat.value = hit._geoloc.lat;
-        lng.value = hit._geoloc.lng;
-        this.updateMarker(
-          autocomplete,
-          hit._geoloc.lat,
-          hit._geoloc.lng,
-          hit.stop.name
-        );
-      } else if (type === "locations") {
-        GoogleMapsHelpers.lookupPlace(hit.place_id)
-          .then(res => {
-            autocomplete.setValue(hit.description);
-            lat.value = res.geometry.location.lat();
-            lng.value = res.geometry.location.lng();
-            autocomplete._input.blur();
-            this.updateMarker(
-              autocomplete,
-              res.geometry.location.lat(),
-              res.geometry.location.lng(),
-              hit.description
-            );
-          })
+      switch (type) {
+        case "stops":
+          this.setAutocompleteValue(ac, hit.stop.name, lat, lng, hit._geoloc.lat, hit._geoloc.lng);
+          break;
+        case "locations":
+          GoogleMapsHelpers.lookupPlace(hit.place_id)
+            .then(res => {
+              const geo = res.geometry.location;
+              this.setAutocompleteValue(ac, hit.description, lat, lng, geo.lat(), geo.lng());
+              ac._input.blur();
+            })
           .catch(() => {
             // TODO: we should display an error here but NOT log to the console
           });
+          break;
+        case "usemylocation":
+          ac.useMyLocationSearch();
+          break;
+        case "popular":
+          this.setAutocompleteValue(ac, hit.name, lat, lng, hit.latitude, hit.longitude);
+          break;
+        default:
+          console.error(`onHitSelected not implemented for ${type}.`);
       }
-    };
+    }
+  }
+
+  setAutocompleteValue(ac, name, latEl, lngEl, lat, lng) {
+    ac.setValue(name);
+    latEl.value = lat;
+    lngEl.value = lng;
+    this.updateMarker(
+      ac,
+      lat,
+      lng,
+      name
+    );
+    this.resetResetButtons();
   }
 
   renderFooterTemplate(indexName) {
@@ -354,13 +365,13 @@ TripPlannerLocControls.INDICES = {
     stops: {
       indexName: "stops",
       query: ""
-    }
+    },
   },
   from: {
     stops: {
       indexName: "stops",
       query: ""
-    }
+    },
   }
 };
 
@@ -393,5 +404,32 @@ TripPlannerLocControls.PARAMS = {
     hitsPerPage: 3,
     facets: ["*"],
     facetFilters: [[]]
-  }
+  },
 };
+
+TripPlannerLocControls.POPULAR = [
+  {
+    icon: "airplane",
+    name: "Boston Logan Airport",
+    features: [],
+    latitude: 42.374262,
+    longitude: -71.030395,
+    url: "#"
+  },
+  {
+    icon: "station",
+    name: "South Station",
+    features: ["red_line", "bus", "commuter_rail", "access"],
+    latitude: 42.352271,
+    longitude: -71.055242,
+    url: "#"
+  },
+  {
+    icon: "station",
+    name: "North Station",
+    features: ["orange_line", "green-line-c", "green-line-e", "bus", "commuter_rail", "access"],
+    latitude: 42.365577,
+    longitude: -71.06129,
+    url: "#"
+  }
+];

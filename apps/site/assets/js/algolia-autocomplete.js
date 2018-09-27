@@ -78,7 +78,7 @@ export class AlgoliaAutocomplete {
       autoselectOnBlur: false,
       openOnFocus: true,
       hint: false,
-      minLength: 1,
+      minLength: 0,
       cssClasses: {
         root: "c-search-bar__autocomplete",
         prefix: "c-search-bar__"
@@ -225,12 +225,22 @@ export class AlgoliaAutocomplete {
       displayKey: AlgoliaAutocomplete.DISPLAY_KEYS[indexName],
       name: indexName,
       hitsPerPage: 5,
+      minLength: this.minLength(indexName),
+      maxLength: this.maxLength(indexName),
       templates: {
         suggestion: this.renderResult(indexName),
         footer: this.renderFooterTemplate(indexName),
       }
     });
     return acc;
+  }
+
+  minLength(indexName) {
+    return 1;
+  }
+
+  maxLength(indexName) {
+    return null;
   }
 
   renderFooterTemplate(_indexName) {

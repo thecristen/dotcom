@@ -35,6 +35,7 @@ export class AlgoliaEmbeddedSearch {
       this.selectors,
       Object.keys(this.indices),
       this.locationParams,
+      [],
       this
     );
     this.autocomplete.renderFooterTemplate =

@@ -38,42 +38,21 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       position: 1,
       hitLimit: 3,
     };
-    this.ac = new AlgoliaAutocompleteWithGeo("id", selectors, indices, locationsData, this.parent);
+    this.popular = [
+    {
+      name: "test"
+    }
+    ]
+    this.ac = new AlgoliaAutocompleteWithGeo("id", selectors, indices, locationsData, this.popular, this.parent);
     this.ac.init(this.client);
-    $("#use-my-location-container").css("display", "none");
-  });
-
-  afterEach(function() {
-    $("#use-my-location-container").css("display", "none");
   });
 
   describe("constructor", function() {
     it("adds locations to indices at the proper position", function() {
-      expect(this.ac._indices).to.have.members(["stops", "locations", "routes"]);
+      expect(this.ac._indices).to.have.members(["stops", "locations", "routes", "usemylocation", "popular"]);
       expect(this.ac._indices[1]).to.equal("locations");
       expect(this.ac._loadingIndicator).to.be.an.instanceOf(window.HTMLDivElement);
       expect(this.ac._parent).to.equal(this.parent);
-    });
-  });
-
-  describe("init", function() {
-    it("creates the use my location div and hides it", function() {
-      expect($("#use-my-location-container").css("display")).to.equal("none");
-    });
-  });
-
-  describe("focus/change behavior", function() {
-    it("shows use my locations on focus", function() {
-      expect($("#use-my-location-container").css("display")).to.equal("none");
-      this.ac.onInputFocused();
-      expect($("#use-my-location-container").css("display")).to.equal("block");
-    });
-
-    it("hides use my locations when the input is not empty", function() {
-      $("#use-my-location-container").css("display", "block");
-      $(`#${selectors.input}`).val("query");
-      this.ac.onInputFocused();
-      expect($("#use-my-location-container").css("display")).to.equal("none");
     });
   });
 
@@ -96,6 +75,22 @@ describe("AlgoliaAutocompleteWithGeo", function() {
         GoogleMapsHelpers.autocomplete.restore()
         done();
       });
+    });
+
+    it("returns a callback that returns the popular array that was provided", function() {
+      const source = this.ac._datasetSource("popular");
+      const callback = sinon.spy();
+      const result = source("popular", callback);
+      expect(callback.called).to.be.true;
+      expect(callback.args[0][0]).to.equal(this.popular);
+    });
+
+    it("returns a callback that returns a blank usemylocation result", function() {
+      const source = this.ac._datasetSource("usemylocation");
+      const callback = sinon.spy();
+      const result = source("usemylocation", callback);
+      expect(callback.called).to.be.true;
+      expect(JSON.stringify(callback.args[0][0])).to.equal(JSON.stringify([{}]));
     });
   });
 

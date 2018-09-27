@@ -5,72 +5,27 @@ import geolocationPromise from "./geolocation-promise";
 import * as AlgoliaResult from "./algolia-result";
 
 export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
-  constructor(id, selectors, indices, locationParams, parent) {
+  constructor(id, selectors, indices, locationParams, popular, parent) {
     super(id, selectors, indices, parent);
     if(!this._parent.getParams) {
       this._parent.getParams = () => { return {}; };
     }
+    this._popular = popular;
     this._loadingIndicator = document.getElementById(selectors.locationLoadingIndicator);
     this._locationParams = Object.assign(AlgoliaAutocompleteWithGeo.DEFAULT_LOCATION_PARAMS, locationParams);
     this._indices.splice(this._locationParams.position, 0, "locations");
-  }
-
-  init(client) {
-    super.init(client);
-    this._addUseMyLocation();
-    this._addInputListeners();
-  }
-
-  bind() {
-    super.bind();
-    this.onInputFocused = this.onInputFocused.bind(this);
-    this._closeUseMyLocation = this._closeUseMyLocation.bind(this);
-  }
-
-  onInputFocused() {
-    if (this._input.value.length == 0) {
-      this._useMyLocation.style.display = "block";
-
-      const $ = window.jQuery;
-      const borderWidth = parseInt($(`#${this._selectors.container}`).css("border-left-width"));
-      this._useMyLocation.style.left = `${-borderWidth}px`;
-      this._useMyLocation.style.top = `${this._searchContainer.offsetHeight - borderWidth}px`;
-      this._useMyLocation.style.width = `${this._searchContainer.offsetWidth}px`;
-    } else {
-      this._closeUseMyLocation();
-    }
-  }
-
-  _closeUseMyLocation() {
-    this._useMyLocation.style.display = "none";
-  }
-
-  _addInputListeners() {
-    this._input.removeEventListener("focusin", this.onInputFocused);
-    this._input.addEventListener("focusin", this.onInputFocused);
-
-    this._input.removeEventListener("input", this.onInputFocused);
-    this._input.addEventListener("input", this.onInputFocused);
-
-    this._input.removeEventListener("blur", this._closeUseMyLocation);
-    this._input.addEventListener("blur", this._closeUseMyLocation);
-  }
-
-  _addUseMyLocation() {
-    this._useMyLocation = document.createElement("div");
-    this._useMyLocation.id = "use-my-location-container";
-    this._useMyLocation.classList.add("c-search-bar__my-location-container");
-    this._useMyLocation.classList.add("c-search-bar__-suggestion");
-    this._useMyLocation.innerHTML = AlgoliaResult.renderResult({}, "usemylocation");
-    this._useMyLocation.style.display = "none";
-    this._input.parentNode.insertBefore(this._useMyLocation, this._input.nextSibling);
-    this._useMyLocation.addEventListener("mousedown", this._useMyLocationSearch());
+    this._indices.push("usemylocation");
+    this._indices.push("popular");
   }
 
   _datasetSource(index) {
     switch (index) {
       case "locations":
         return this._locationSource("locations");
+      case "usemylocation":
+        return this._useMyLocationSource();
+      case "popular":
+        return this._popularSource();
       default:
         return super._datasetSource(index);
     }
@@ -85,34 +40,67 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
         south: -69.6189
       };
       return GoogleMapsHelpers.autocomplete(query, bounds, this._locationParams.hitLimit)
-              .then(results => this._onResults(callback, index, results))
-              .catch(err => console.error(err));
+              .then(results => this._onResults(callback, index, results)) .catch(err => console.error(err));
+    }
+  }
+
+  _popularSource() {
+    return (query, callback) => {
+      const results = { popular: {hits: this._popular }}
+      return this._onResults(callback, "popular", results);
+    }
+  }
+
+  _useMyLocationSource() {
+    return (query, callback) => {
+      const results = { usemylocation: { hits: [{}] }}
+      return this._onResults(callback, "usemylocation", results);
+    }
+  }
+
+  minLength(index) {
+    switch(index) {
+      case "usemylocation":
+      case "popular":
+        return 0;
+      default:
+        return 1;
+    }
+  }
+
+  maxLength(index) {
+    switch(index) {
+      case "usemylocation":
+      case "popular":
+        return 0;
+      default:
+        return null;
     }
   }
 
   onHitSelected(ev) {
     const hit = ev.originalEvent;
-    const index = hit._args[1]
+    const index = hit._args[1];
     switch (index) {
       case "locations":
         this._input.value = hit._args[0].description;
         this._doLocationSearch(hit._args[0].id);
+        break;
+      case "usemylocation":
+        this.useMyLocationSearch();
         break;
       default:
         super.onHitSelected(ev);
     }
   }
 
-  _useMyLocationSearch() {
-    return () => {
-      this._closeUseMyLocation();
-      this._input.disabled = true;
-      this.setValue("Getting your location...");
-      this._loadingIndicator.style.visibility = "visible";
-      geolocationPromise()
-        .then(pos => this._doReverseGeocodeSearch(pos))
-        .catch(err => console.error(err));
-    }
+  useMyLocationSearch() {
+    this._input.disabled = true;
+    this.setValue("Getting your location...");
+    this._loadingIndicator.style.visibility = "visible";
+    geolocationPromise()
+      .then(pos => this._doReverseGeocodeSearch(pos))
+      .catch(err => console.error(err));
   }
 
   _doLocationSearch(placeId) {

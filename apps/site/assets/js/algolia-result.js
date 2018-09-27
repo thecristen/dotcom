@@ -10,7 +10,7 @@ export const TEMPLATES = {
   fontAwesomeIcon: hogan.compile(`<span aria-hidden="true" class="c-search-result__content-icon fa {{icon}}"></span>`),
   formattedDate: hogan.compile(`<span class="c-search-result__event-date">{{date}}</span>`),
   locations: hogan.compile(`
-    <a id="hit-{{id}}" class="c-search-result__link" url={{hitUrl}}>
+    <a id="hit-{{id}}" class="c-search-result__link u-no-underline" url={{hitUrl}}>
       <span>{{{hitIcon}}}</span>
       <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
     </a>
@@ -30,7 +30,7 @@ export const TEMPLATES = {
     <a id="hit-{{id}}" class="${SELECTORS.result} c-search-result__link" href="{{hitUrl}}">
     {{/id}}
     {{^id}}
-    <a class="${SELECTORS.result} c-search-result__link" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
+    <a class="${SELECTORS.result} c-search-result__link u-no-underline" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
     {{/id}}
       <span>{{{hitIcon}}}</span>
       <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
@@ -76,6 +76,9 @@ export function getIcon(hit, type) {
       const iconName = _iconFromRoute(hit.route);
       return Icons.getFeatureIcon(iconName);
 
+    case "popular":
+      return getPopularIcon(hit.icon);
+
     case "drupal":
     case "pages":
     case "documents":
@@ -91,6 +94,15 @@ export function getIcon(hit, type) {
       return ""
   }
 };
+
+function getPopularIcon(icon) {
+  switch(icon) {
+    case "airplane":
+      return TEMPLATES.fontAwesomeIcon.render({icon: "fa-plane"});
+    default:
+      return Icons.getFeatureIcon(icon);
+  }
+}
 
 function _fileIcon(hit) {
   switch (hit._file_type) {
@@ -193,6 +205,9 @@ export function getTitle(hit, type) {
     case "routes":
       return getRouteTitle(hit);
 
+    case "popular":
+      return hit.name;
+
     case "drupal":
     case "pages":
     case "documents":
@@ -226,6 +241,9 @@ export function getUrl(hit, type) {
 
     case "routes":
       return `/schedules/${hit.route.id}`;
+
+    case "popular":
+      return hit.url;
 
     case "drupal":
     case "pages":
@@ -338,6 +356,7 @@ function _sortFeatures(features) {
 export function getFeatureIcons(hit, type) {
   const alertFeature = _getAlertIcon(hit, type);
   switch(type) {
+    case "popular":
     case "stops":
       return _stopIcons(hit, type);
 
