@@ -3,11 +3,13 @@ defmodule Feedback.Message do
   Information for a customer support message.
   """
 
+  # The integration with HEAT only accepts certain values for the message type
+  # Only "Complaint", "Suggestion" and "Inquiry" are supported
+  # Other values will cause HEAT to throw an error and reject the ticket
   @service_options [
     {"Complaint", "Complaint"},
     {"Comment", "Suggestion"},
-    {"Question", "Inquiry"},
-    {"Request", "Inquiry"}
+    {"Question", "Inquiry"}
   ]
 
   @enforce_keys [:comments, :service, :request_response]
