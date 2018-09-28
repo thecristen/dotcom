@@ -5,6 +5,7 @@ use Mix.Config
 config :v3_api,
   base_url: {:system, "V3_URL", "https://dev.api.mbtace.com/"},
   api_key: {:system, "V3_API_KEY"},
+  wiremock_proxy: {:system, "WIREMOCK_PROXY", "false"},
   default_timeout: 5_000,
   cache_size: 10_000
 

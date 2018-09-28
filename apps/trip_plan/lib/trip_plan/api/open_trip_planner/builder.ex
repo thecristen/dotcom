@@ -58,6 +58,10 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
   defp do_build_params([{:optimize_for, :fewest_transfers} | rest], acc) do
     do_build_params(rest, Map.put(acc, "transferPenalty", 100))
   end
+  defp do_build_params([{:root_url, url} | rest], acc) do
+    acc = Map.put(acc, "root_url", url)
+    do_build_params(rest, acc)
+  end
   defp do_build_params([option | _], _) do
     {:error, {:bad_param, option}}
   end

@@ -17,7 +17,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
            "format" => "json",
            "locale" => "en"
          }),
-           root_url = config(:root_url),
+         root_url =  params["root_url"] || config(:root_url),
          full_url = "#{root_url}/otp/routers/default/plan"
     do
       send_request(full_url, params, &parse_json/1)
@@ -57,12 +57,23 @@ defmodule TripPlan.Api.OpenTripPlanner do
   end
 
   defp log_response(url, params) do
-    {duration, response} = :timer.tc(HTTPoison, :get, [url, [], [params: params, recv_timeout: 10_000]])
+    {duration, response} = :timer.tc(HTTPoison,
+                                     :get,
+                                     [url,
+                                      build_headers(config(:wiremock_proxy)),
+                                      [params: params, recv_timeout: 10_000]
+                                     ])
     _ = Logger.info(fn ->
       "#{__MODULE__}.plan_response url=#{url} params=#{inspect params} #{status_text(response)} duration=#{duration / :timer.seconds(1)}"
     end)
     response
   end
+
+  defp build_headers("true") do
+    {_, _, proxy_url} = Application.get_env(:trip_plan, OpenTripPlanner)[:root_url]
+    [{"X-WM-Proxy-Url", proxy_url}]
+  end
+  defp build_headers(_), do: []
 
   defp status_text({:ok, %{status_code: code, body: body}}) do
     "status=#{code} content_length=#{byte_size(body)}"

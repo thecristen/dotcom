@@ -19,6 +19,24 @@ defmodule V3ApiTest do
       refute response.data == %{}
     end
 
+    test "does not add headers normally", %{bypass: bypass, url: url} do
+      Bypass.expect bypass, fn conn ->
+        assert List.keyfind(conn.req_headers, "x-wm-proxy-url", 0) == nil
+        send_resp conn, 200, ~s({"data": []})
+      end
+      V3Api.get_json("/normal_response", [], base_url: url)
+    end
+
+    test "adds headers when WIREMOCK_PROXY=true", %{bypass: bypass, url: url} do
+      System.put_env("WIREMOCK_PROXY", "true")
+      Bypass.expect bypass, fn conn ->
+        assert List.keyfind(conn.req_headers, "x-wm-proxy-url", 0) != nil
+        send_resp conn, 200, ~s({"data": []})
+      end
+      V3Api.get_json("/normal_response", [], base_url: url)
+      System.delete_env("WIREMOCK_PROXY")
+    end
+
     test "missing endpoints return an error", %{bypass: bypass, url: url} do
       Bypass.expect bypass, fn conn ->
         assert conn.request_path == "/missing"

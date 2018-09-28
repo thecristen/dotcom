@@ -32,8 +32,11 @@ defmodule V3Api do
 
   defp timed_get(url, params, opts) do
     api_key = Keyword.fetch!(opts, :api_key)
-    headers = api_key_headers(api_key) ++ Cache.cache_headers(url, params)
-    url = Keyword.fetch!(opts, :base_url) <> url
+    base_url = Keyword.fetch!(opts, :base_url)
+    headers = api_key_headers(api_key) ++
+              Cache.cache_headers(url, params) ++
+              build_headers(config(:wiremock_proxy))
+    url = base_url <> url
     timeout = Keyword.fetch!(opts, :timeout)
 
     {time, response} = :timer.tc(fn ->
@@ -108,6 +111,12 @@ defmodule V3Api do
 
   defp api_key_headers(nil), do: []
   defp api_key_headers(api_key), do: [{"x-api-key", api_key}]
+
+  defp build_headers("true") do
+    {_, _, proxy_url} = Application.get_env(:v3_api, :base_url)
+    [{"X-WM-Proxy-Url", proxy_url}]
+  end
+  defp build_headers(_), do: []
 
   defp default_options do
     [

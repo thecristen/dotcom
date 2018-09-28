@@ -36,6 +36,7 @@ config :trip_plan, Geocode,
 
 config :trip_plan, OpenTripPlanner,
   timezone: {:system, "OPEN_TRIP_PLANNER_TIMEZONE", "America/New_York"},
-  root_url: {:system, "OPEN_TRIP_PLANNER_URL", "http://mbta-otp-dev.us-east-1.elasticbeanstalk.com"}
+  root_url: {:system, "OPEN_TRIP_PLANNER_URL", "http://mbta-otp-dev.us-east-1.elasticbeanstalk.com"},
+  wiremock_proxy: {:system, "WIREMOCK_PROXY", "false"}
 
 import_config "#{Mix.env}.exs"

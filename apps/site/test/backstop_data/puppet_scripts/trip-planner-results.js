@@ -11,10 +11,11 @@ module.exports = async (page, scenario, vp) => {
       await page.click(".trip-planner-edit-btn");
       await delay(1000);
     }
-    await page.click("#trip-plan-options-title");
-    await page.click(".c-tabbed-ui__heading");
+    await page.click("[aria-controls='trip-plan-departure-tab']");
+    await delay(1000);
+    await page.click("[aria-controls='trip-plan-options-tab']");
+    await delay(1000);
     await page.waitForSelector(".in");
     await page.click(".trip-plan-title");
-    await delay(1000);
   }
 }
