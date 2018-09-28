@@ -59,7 +59,7 @@ defmodule SiteWeb.ModeViewTest do
 
         if mode === :bus do
           assert Floki.attribute(view_all, "href") == [href]
-          assert Floki.text(view_all) == "View all bus routes "
+          assert Floki.text(view_all) == "View all bus routes"
         else
           assert view_all == []
         end

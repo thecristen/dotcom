@@ -57,7 +57,7 @@ defmodule SiteWeb.ModeView do
   @spec view_all_link(atom, String.t) :: [Phoenix.HTML.Safe.t]
   defp view_all_link(:bus, href) do
     [
-      link(["View all bus routes ", fa("arrow-right")], to: href, class: "m-mode__view-all")
+      link("View all bus routes", to: href, class: ["c-call-to-action", " ", "m-mode__view-all"])
     ]
   end
   defp view_all_link(_, _) do
