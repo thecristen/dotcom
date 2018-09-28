@@ -58,6 +58,7 @@ import AlgoliaResults from "./algolia-results";
 import fullstory from "./fullstory";
 import inputFocus from "./input-focus";
 import transitNearMe from "./transit-near-me";
+import routeMap from "./route-map";
 
 window.$ = window.jQuery;
 
@@ -306,3 +307,4 @@ TripPlannerTimeControls.init();
 TripPlannerResults.init();
 fullstory();
 transitNearMe();
+routeMap();

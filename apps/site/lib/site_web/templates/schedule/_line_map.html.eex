@@ -1,5 +1,6 @@
 <div class="line-map map hidden-no-js">
-  <script class="map-dynamic-data" type="text/plain"><%= @encoded_data %></script>
+  <script data-for="route-map-<%= @map_id %>" class="js-route-map-dynamic-data" type="text/plain"><%= @encoded_data %></script>
+  <div id="route-map-<%= @map_id %>"></div>
 </div>
 <div class="line-map map m-schedule-line__map-static hidden-js">
   <img class="map-static map-static-img" srcset="<%= @map_img_src %>"></img>

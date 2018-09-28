@@ -19,7 +19,7 @@
                                        active_shape: @active_shape,
                                        show_variant_selector: assigns[:show_variant_selector] %>
       <div class="line-map-container">
-        <%= render "_line_map.html", encoded_data: encoded_map_data, map_img_src: @map_img_src %>
+        <%= render "_line_map.html", encoded_data: encoded_map_data, map_img_src: @map_img_src, map_id: "bus" %>
       </div>
       <%= render "_stop_list.html", assigns %>
     </div>

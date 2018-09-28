@@ -32,15 +32,21 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     Enum.map(route_stops, &build_stop_marker(&1, icon, floor_position?))
   end
 
+  @spec build_stop_marker(RouteStop.t, String.t, boolean) :: Marker.t
   defp build_stop_marker(route_stop, icon, true) do
     floored_lat = route_stop |> Position.latitude() |> floor_position()
     floored_lng = route_stop |> Position.longitude() |> floor_position()
-    Marker.new(floored_lat, floored_lng, icon: icon, tooltip: route_stop.name, size: :tiny)
+    do_build_stop_marker(floored_lat, floored_lng, route_stop, icon)
   end
   defp build_stop_marker(route_stop, icon, false) do
     latitude = Position.latitude(route_stop)
     longitude = Position.longitude(route_stop)
-    Marker.new(latitude, longitude, icon: icon, tooltip: route_stop.name, size: :tiny)
+    do_build_stop_marker(latitude, longitude, route_stop, icon)
+  end
+
+  @spec do_build_stop_marker(float, float, RouteStop.t, String.t) :: Marker.t
+  defp do_build_stop_marker(lat, lng, route_stop, icon) do
+    Marker.new(lat, lng, id: "stop-" <> route_stop.id, icon: icon, tooltip: route_stop.name, size: :tiny)
   end
 
   @spec floor_position(float) :: float
@@ -72,21 +78,23 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     route_paths ++ vehicle_paths
   end
 
+  @spec build_vehicle_markers([{float, float, String.t, String.t}], String.t) :: [Marker.t]
   defp build_vehicle_markers(vehicles, icon) do
     Enum.map(vehicles, &build_vehicle_marker(&1, icon))
   end
 
-  defp build_vehicle_marker({lat, lng, tooltip_content}, icon) do
+  @spec build_vehicle_marker({float, float, String.t, String.t}, String.t) :: Marker.t
+  defp build_vehicle_marker({lat, lng, tooltip_content, vehicle_id}, icon) do
     floored_lat = floor_position(lat)
     floored_lng = floor_position(lng)
-    Marker.new(floored_lat, floored_lng, icon: icon, tooltip: tooltip_content)
+    Marker.new(floored_lat, floored_lng, id: "vehicle-" <> vehicle_id, icon: icon, tooltip: tooltip_content)
   end
 
   @spec dynamic_stop_icon(boolean) :: String.t
   defp dynamic_stop_icon(true), do: "000000-dot-filled"
   defp dynamic_stop_icon(false), do: "000000-dot"
 
-  @spec get_vehicles(nil | map()) :: [{float, float, String.t}]
+  @spec get_vehicles(nil | map()) :: [{float, float, String.t, String.t}]
   defp get_vehicles(nil), do: []
   defp get_vehicles(vehicle_tooltips) do
     vehicle_tooltips
@@ -95,7 +103,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   end
 
   defp do_get_vehicles({_, %VehicleTooltip{vehicle: vehicle} = tooltip}) do
-    {vehicle.latitude, vehicle.longitude, VehicleHelpers.tooltip(tooltip)}
+    {vehicle.latitude, vehicle.longitude, VehicleHelpers.tooltip(tooltip), vehicle.id}
   end
 
   @doc """

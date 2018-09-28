@@ -12,7 +12,7 @@
           View map as a PDF
         </a>
       <% else %>
-        <%= render "_line_map.html", encoded_data: encoded_map_data, map_img_src: @map_img_src %>
+        <%= render "_line_map.html", encoded_data: encoded_map_data, map_img_src: @map_img_src, map_id: "mobile" %>
       <% end %>
     </div>
   </div>
@@ -34,7 +34,7 @@
             View map as a PDF
           </a>
         <% else %>
-          <%= render "_line_map.html", encoded_data: encoded_map_data, map_img_src: @map_img_src %>
+          <%= render "_line_map.html", encoded_data: encoded_map_data, map_img_src: @map_img_src, map_id: "desktop" %>
         <% end %>
       </div>
       <%= render "_hours_of_op.html", assigns %>
