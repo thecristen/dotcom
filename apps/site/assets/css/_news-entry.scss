@@ -29,7 +29,6 @@
 
 .m-news-entry__month {
   margin-right: $base-spacing / 4;
-  text-transform: uppercase;
 
   &--large {
     @include media-breakpoint-up(md) {

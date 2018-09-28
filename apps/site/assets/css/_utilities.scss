@@ -1,41 +1,64 @@
+@mixin bg-text($color) {
+  color: $color;
+
+  a {
+    color: $color;
+  }
+}
+
 .u-bg--orange-line {
+  @include bg-text($white);
   background-color: $brand-orange-line;
 }
 
 .u-bg--green-line {
+  @include bg-text($white);
   background-color: $brand-green-line;
 }
 
 .u-bg--red-line {
+  @include bg-text($white);
   background-color: $brand-red-line;
 }
 
 .u-bg--blue-line {
+  @include bg-text($white);
   background-color: $brand-blue-line;
 }
 
 .u-bg--silver-line {
+  @include bg-text($white);
   background-color: $brand-silver-line;
 }
 
 .u-bg--mattapan-line {
+  @include bg-text($white);
   background-color: $brand-red-line;
 }
 
 .u-bg--commuter-rail {
+  @include bg-text($white);
   background-color: $brand-commuter-rail;
 }
 
 .u-bg--bus {
+  @include bg-text($black);
   background-color: $brand-bus;
 }
 
 .u-bg--ferry {
+  @include bg-text($white);
   background-color: $brand-ferry;
 }
 
 .u-bg--subway {
+  @include bg-text($white);
   background-color: $brand-subway;
+}
+
+.u-bg--the-ride {
+  @include bg-text($black);
+  background-color: $brand-the-ride;
 }
 
 .u-nowrap {
@@ -44,6 +67,7 @@
 
 .u-small-caps {
   font-size: $font-size-small-caps;
+  text-transform: uppercase;
 }
 
 .u-no-underline {

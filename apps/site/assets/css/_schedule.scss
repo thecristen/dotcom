@@ -205,7 +205,7 @@ a {
   padding-left: .625rem;
   position: relative;
 
-  &:before {
+  &::before {
     border-left: $space-4 solid $brand-primary-dark;
     content: '';
     height: 100%;
@@ -214,11 +214,11 @@ a {
     width: $space-1;
   }
 
-  &:first-child:before {
+  &:first-child::before {
     top: $space-6;
   }
 
-  &:last-child:before {
+  &:last-child::before {
     height: $space-6;
   }
 }
@@ -1241,7 +1241,6 @@ del .trip-list-realtime {
 }
 
 .schedule__description {
-  color: $black;
   display: inline-block;
   margin-bottom: $base-spacing / 2;
 }
@@ -1258,6 +1257,13 @@ del .trip-list-realtime {
   @include media-breakpoint-down(sm) {
     padding-left: $grid-gutter-width / 2;
     padding-right: $grid-gutter-width / 2;
+  }
+}
+
+.schedule__header-tabs {
+  .header-tab {
+    // override color set by .u-bg class
+    color: $black;
   }
 }
 
