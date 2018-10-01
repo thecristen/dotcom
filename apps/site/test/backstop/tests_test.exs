@@ -90,25 +90,11 @@ defmodule Mix.Tasks.Backstop.TestsTest do
   end
 
   describe "build_backstop_config/1" do
-    test "builds a map of config data without changing scenario urls when --dev not in args" do
-      assert %{scenarios: scenarios, viewports: _} = Tests.build_backstop_config(%{})
-      assert is_list scenarios
-      assert Enum.all?(scenarios, & &1.url =~ "http://localhost:8082")
-    end
-
     test "updates scenario urls to PORT when --dev in args and PORT env exists" do
       port = System.get_env("PORT")
       System.put_env("PORT", "1234")
       assert %{scenarios: scenarios} = Tests.build_backstop_config(%{dev: true})
       Enum.each(scenarios, & assert &1.url =~ "http://localhost:1234")
-      if port, do: System.put_env("PORT", port), else: System.delete_env("PORT")
-    end
-
-    test "all scenario urls are 8082 when PORT == 8082" do
-      port = System.get_env("PORT")
-      System.put_env("PORT", "8082")
-      assert %{scenarios: scenarios} = Tests.build_backstop_config(%{dev: true})
-      assert Enum.all?(scenarios, & &1.url =~ "http://localhost:8082")
       if port, do: System.put_env("PORT", port), else: System.delete_env("PORT")
     end
 

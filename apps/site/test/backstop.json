@@ -34,12 +34,16 @@
   "scenarios": [
     {
       "label": "Homepage",
-      "url": "http://localhost:8082/?date=2018-12-22",
+      "url": "http://host.docker.internal:8082/?date=2018-12-22",
       "removeSelectors": [
         ".whats-happening-section",
         ".news-section",
         ".title-card",
+        "#animated-input-placeholder",
         "#google_translate_element"
+      ],
+      "hideSelectors": [
+        "#animated-input-placeholder"
       ],
       "selectors": [
         "header"
@@ -49,12 +53,16 @@
     },
     {
       "label": "Homepage",
-      "url": "http://localhost:8082/?date=2018-12-22",
+      "url": "http://host.docker.internal:8082/?date=2018-12-22",
       "removeSelectors": [
         ".whats-happening-section",
         ".news-section",
         ".title-card",
+        "#animated-input-placeholder",
         "#google_translate_element"
+      ],
+      "hideSelectors": [
+        "#animated-input-placeholder"
       ],
       "selectors": [
         "footer"
@@ -64,12 +72,16 @@
     },
     {
       "label": "Homepage",
-      "url": "http://localhost:8082/?date=2018-12-22",
+      "url": "http://host.docker.internal:8082/?date=2018-12-22",
       "removeSelectors": [
         ".whats-happening-section",
         ".news-section",
         ".title-card",
+        "#animated-input-placeholder",
         "#google_translate_element"
+      ],
+      "hideSelectors": [
+        "#animated-input-placeholder"
       ],
       "selectors": [
         "main"
@@ -79,12 +91,16 @@
     },
     {
       "label": "Homepage",
-      "url": "http://localhost:8082/?date=2018-12-22",
+      "url": "http://host.docker.internal:8082/?date=2018-12-22",
       "removeSelectors": [
         ".whats-happening-section",
         ".news-section",
         ".title-card",
+        "#animated-input-placeholder",
         "#google_translate_element"
+      ],
+      "hideSelectors": [
+        "#animated-input-placeholder"
       ],
       "selectors": [
         ".post-container-wrapper"
@@ -94,7 +110,7 @@
     },
     {
       "label": "Subway Hub",
-      "url": "http://localhost:8082/schedules/subway?date=2018-12-22",
+      "url": "http://host.docker.internal:8082/schedules/subway?date=2018-12-22",
       "hideSelectors": [
         ".hub-system-map"
       ],
@@ -108,7 +124,7 @@
     },
     {
       "label": "Subway Hub",
-      "url": "http://localhost:8082/schedules/subway?date=2018-12-22",
+      "url": "http://host.docker.internal:8082/schedules/subway?date=2018-12-22",
       "hideSelectors": [
         ".hub-system-map"
       ],
@@ -122,7 +138,7 @@
     },
     {
       "label": "All Schedules",
-      "url": "http://localhost:8082/schedules?date=2018-12-22",
+      "url": "http://host.docker.internal:8082/schedules?date=2018-12-22",
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
@@ -134,7 +150,7 @@
     },
     {
       "label": "All Schedules",
-      "url": "http://localhost:8082/schedules?date=2018-12-22",
+      "url": "http://host.docker.internal:8082/schedules?date=2018-12-22",
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
@@ -146,21 +162,21 @@
     },
     {
       "label": "Alerts",
-      "url": "http://localhost:8082/alerts/subway?date=2018-12-22&date_time=2018-12-22T16:00:31-00:00#alerts-Orange",
+      "url": "http://host.docker.internal:8082/alerts/subway?date=2018-12-22&date_time=2018-12-22T16:00:31-00:00#alerts-Orange",
       "selectors": ["main"],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Getting Around",
-      "url": "http://localhost:8082/getting-around",
+      "url": "http://host.docker.internal:8082/getting-around",
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Transit Near Me",
-      "url": "http://localhost:8082/transit-near-me?_utf8=✓&latitude=42.351310&longitude=-71.066159&location[client_width]=0",
+      "url": "http://host.docker.internal:8082/transit-near-me?_utf8=✓&latitude=42.351310&longitude=-71.066159&location[client_width]=0",
       "selectors": ["main"],
       "hideSelectors": ["#address-search-input"],
       "delay": 100,
@@ -168,7 +184,7 @@
     },
     {
       "label": "Header Getting Around",
-      "url": "http://localhost:8082/?date=2018-12-22",
+      "url": "http://host.docker.internal:8082/?date=2018-12-22",
       "selectors": ["#gettingAround"],
       "readyEvent": null,
       "delay": 100,
@@ -177,7 +193,7 @@
     },
     {
       "label": "Header Fares",
-      "url": "http://localhost:8082/?date=2018-12-22",
+      "url": "http://host.docker.internal:8082/?date=2018-12-22",
       "selectors": ["#fares"],
       "readyEvent": null,
       "delay": 100,
@@ -186,7 +202,7 @@
     },
     {
       "label": "Header Contact Us",
-      "url": "http://localhost:8082/?date=2018-12-22",
+      "url": "http://host.docker.internal:8082/?date=2018-12-22",
       "selectors": ["#contactUs"],
       "readyEvent": null,
       "delay": 100,
@@ -195,7 +211,7 @@
     },
     {
       "label": "Header More",
-      "url": "http://localhost:8082/?date=2018-12-22",
+      "url": "http://host.docker.internal:8082/?date=2018-12-22",
       "selectors": ["#more"],
       "readyEvent": null,
       "delay": 100,
@@ -204,7 +220,7 @@
     },
     {
       "label": "Station Info Tab South Station",
-      "url": "http://localhost:8082/stops/place-sstat?date=2018-12-22&tab=info",
+      "url": "http://host.docker.internal:8082/stops/place-sstat?date=2018-12-22&tab=info",
       "hideSelectors": [".map"],
       "selectors": [
         ".station__header"
@@ -214,7 +230,7 @@
     },
     {
       "label": "Station Info Tab South Station",
-      "url": "http://localhost:8082/stops/place-sstat?date=2018-12-22&tab=info",
+      "url": "http://host.docker.internal:8082/stops/place-sstat?date=2018-12-22&tab=info",
       "hideSelectors": [".map"],
       "selectors": [
         "main"
@@ -224,7 +240,7 @@
     },
     {
       "label": "Commuter Rail Fares",
-      "url": "http://localhost:8082/fares/commuter-rail?destination=Framingham&fare_type=adult&origin=place-sstat",
+      "url": "http://host.docker.internal:8082/fares/commuter-rail?destination=Framingham&fare_type=adult&origin=place-sstat",
       "selectors": ["main"],
       "hideSelectors": ["iframe.commuter-rail-photo-video"],
       "delay": 100,
@@ -232,7 +248,7 @@
     },
     {
       "label": "Bus Schedule",
-      "url": "http://localhost:8082/schedules/1/schedule?date=2018-12-22&direction_id=0&trip=&origin=102",
+      "url": "http://host.docker.internal:8082/schedules/1/schedule?date=2018-12-22&direction_id=0&trip=&origin=102",
       "hideSelectors": [".animate"],
       "removeSelectors": [".pdf-links"],
       "selectors": [
@@ -243,7 +259,7 @@
     },
     {
       "label": "Bus Schedule",
-      "url": "http://localhost:8082/schedules/1/schedule?date=2018-12-22&direction_id=0&trip=&origin=102",
+      "url": "http://host.docker.internal:8082/schedules/1/schedule?date=2018-12-22&direction_id=0&trip=&origin=102",
       "hideSelectors": [".animate"],
       "removeSelectors": [".pdf-links"],
       "selectors": [
@@ -254,7 +270,7 @@
     },
     {
       "label": "Bus Map & Info",
-      "url": "http://localhost:8082/schedules/1/line?date=2018-12-22&direction_id=0&trip=",
+      "url": "http://host.docker.internal:8082/schedules/1/line?date=2018-12-22&direction_id=0&trip=",
       "hideSelectors": [".map"],
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
@@ -263,7 +279,7 @@
     },
     {
       "label": "Subway Schedule",
-      "url": "http://localhost:8082/schedules/Red/schedule?date=2018-12-22&direction_id=1&origin=place-sstat&trip=",
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?date=2018-12-22&direction_id=1&origin=place-sstat&trip=",
       "removeSelectors": [".pdf-links"],
       "selectors": [
         "main"
@@ -273,7 +289,7 @@
     },
     {
       "label": "Subway Schedule",
-      "url": "http://localhost:8082/schedules/Red/schedule?date=2018-12-22&direction_id=1&origin=place-sstat&trip=",
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?date=2018-12-22&direction_id=1&origin=place-sstat&trip=",
       "removeSelectors": [".pdf-links"],
       "selectors": [
         ".schedule__header"
@@ -283,7 +299,7 @@
     },
     {
       "label": "Subway Schedule Stop List",
-      "url": "http://localhost:8082/schedules/Red/schedule?date=2018-12-22&direction_id=1&origin=place-sstat&trip=",
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?date=2018-12-22&direction_id=1&origin=place-sstat&trip=",
       "selectors": [".modal-body"],
       "removeSelectors": [".pdf-links"],
       "readyEvent": null,
@@ -293,7 +309,7 @@
     },
     {
       "label": "Commuter Rail Schedule",
-      "url": "http://localhost:8082/schedules/CR-Providence/timetable?date=2018-12-22&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
+      "url": "http://host.docker.internal:8082/schedules/CR-Providence/timetable?date=2018-12-22&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
       "removeSelectors": [".pdf-links"],
       "selectors": [
         ".schedule__header"
@@ -303,7 +319,7 @@
     },
     {
       "label": "Commuter Rail Schedule",
-      "url": "http://localhost:8082/schedules/CR-Providence/timetable?date=2018-12-22&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
+      "url": "http://host.docker.internal:8082/schedules/CR-Providence/timetable?date=2018-12-22&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
       "removeSelectors": [".pdf-links"],
       "selectors": [
         "main"
@@ -313,7 +329,7 @@
     },
     {
       "label": "Station Info Framingham",
-      "url": "http://localhost:8082/stops/Framingham?tab=departures&date=2018-12-22&date_time=2018-12-22T18%3A01%3A52.397960-05%3A00",
+      "url": "http://host.docker.internal:8082/stops/Framingham?tab=departures&date=2018-12-22&date_time=2018-12-22T18%3A01%3A52.397960-05%3A00",
       "hideSelectors": [
         ".map",
         ".animate"
@@ -326,7 +342,7 @@
     },
     {
       "label": "Station Info Framingham",
-      "url": "http://localhost:8082/stops/Framingham?tab=departures&date=2018-12-22&date_time=2018-12-22T18%3A01%3A52.397960-05%3A00",
+      "url": "http://host.docker.internal:8082/stops/Framingham?tab=departures&date=2018-12-22&date_time=2018-12-22T18%3A01%3A52.397960-05%3A00",
       "hideSelectors": [
         ".map",
         ".animate"
@@ -340,7 +356,7 @@
 
     {
       "label": "Station Info South Station",
-      "url": "http://localhost:8082/stops/place-sstat?tab=departures&date=2018-12-22&date_time=2018-12-22T18%3A01%3A52.397960-05%3A00",
+      "url": "http://host.docker.internal:8082/stops/place-sstat?tab=departures&date=2018-12-22&date_time=2018-12-22T18%3A01%3A52.397960-05%3A00",
       "hideSelectors": [
         ".station-info-map",
         ".animate"
@@ -351,21 +367,21 @@
     },
     {
       "label": "Stops List Subway",
-      "url": "http://localhost:8082/stops/subway",
+      "url": "http://host.docker.internal:8082/stops/subway",
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Stops List Commuter Rail",
-      "url": "http://localhost:8082/stops/commuter-rail",
+      "url": "http://host.docker.internal:8082/stops/commuter-rail",
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Commuter Rail Maps and Info Worcester",
-      "url": "http://localhost:8082/schedules/CR-Worcester/line?direction_id=0&date=2018-12-22&date_time=2018-12-22T13:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/CR-Worcester/line?direction_id=0&date=2018-12-22&date_time=2018-12-22T13:00:00-05:00",
       "selectors": [
         ".schedule__header"
       ],
@@ -376,7 +392,7 @@
     },
     {
       "label": "Commuter Rail Maps and Info Worcester",
-      "url": "http://localhost:8082/schedules/CR-Worcester/line?direction_id=0&date=2018-12-22&date_time=2018-12-22T13:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/CR-Worcester/line?direction_id=0&date=2018-12-22&date_time=2018-12-22T13:00:00-05:00",
       "selectors": [
         "main"
       ],
@@ -387,7 +403,7 @@
     },
     {
       "label": "Retail Sales Locations",
-      "url": "http://localhost:8082/fares/retail-sales-locations?latitude=42.3491637&longitude=-71.0663166&date_time=2018-12-22T13:00:00-05:00",
+      "url": "http://host.docker.internal:8082/fares/retail-sales-locations?latitude=42.3491637&longitude=-71.0663166&date_time=2018-12-22T13:00:00-05:00",
       "selectors": ["main"],
       "hideSelectors": ["#address-search-input"],
       "delay": 100,
@@ -395,8 +411,8 @@
     },
     {
       "label": "Search",
-      "url": "http://localhost:8082/search?date=2018-12-22&date_time=2018-12-22T16:00:31-00:00",
-      "hideSelectors": ["footer"],
+      "url": "http://host.docker.internal:8082/search?date=2018-12-22&date_time=2018-12-22T16:00:31-00:00",
+      "hideSelectors": ["footer", "#animated-input-placeholder"],
       "readyEvent": null,
       "onReadyScript": "toggle-search-facets.js",
       "delay": 1000,
@@ -404,7 +420,7 @@
     },
     {
       "label": "Trip Planner Results",
-      "url": "http://localhost:8082/trip-planner?_utf8=%E2%9C%93&plan%5Bfrom%5D=Boston+Children%27s+Museum%2C+Congress+Street%2C+Boston%2C+MA%2C+USA&plan%5Bfrom_latitude%5D=42.3518682&plan%5Bfrom_longitude%5D=-71.04999250000003&plan%5Bto%5D=Government+Center&plan%5Bto_latitude%5D=42.359705&plan%5Bto_longitude%5D=-71.059215&plan%5Btime%5D=depart&plan%5Bdate_time%5D%5Bhour%5D=11&plan%5Bdate_time%5D%5Bminute%5D=35&plan%5Bdate_time%5D%5Bam_pm%5D=AM&plan%5Bdate_time%5D%5Bmonth%5D=12&plan%5Bdate_time%5D%5Bday%5D=22&plan%5Bdate_time%5D%5Byear%5D=2018&plan%5Bmodes%5D%5Bsubway%5D=false&plan%5Bmodes%5D%5Bsubway%5D=true&plan%5Bmodes%5D%5Bcommuter_rail%5D=false&plan%5Bmodes%5D%5Bcommuter_rail%5D=true&plan%5Bmodes%5D%5Bbus%5D=false&plan%5Bmodes%5D%5Bbus%5D=true&plan%5Bmodes%5D%5Bferry%5D=false&plan%5Bmodes%5D%5Bferry%5D=true&plan%5Boptimize_for%5D=best_route#plan_result_focus",
+      "url": "http://host.docker.internal:8082/trip-planner?_utf8=%E2%9C%93&plan%5Bfrom%5D=Boston+Children%27s+Museum%2C+Congress+Street%2C+Boston%2C+MA%2C+USA&plan%5Bfrom_latitude%5D=42.3518682&plan%5Bfrom_longitude%5D=-71.04999250000003&plan%5Bto%5D=Government+Center&plan%5Bto_latitude%5D=42.359705&plan%5Bto_longitude%5D=-71.059215&plan%5Btime%5D=depart&plan%5Bdate_time%5D%5Bhour%5D=11&plan%5Bdate_time%5D%5Bminute%5D=35&plan%5Bdate_time%5D%5Bam_pm%5D=AM&plan%5Bdate_time%5D%5Bmonth%5D=12&plan%5Bdate_time%5D%5Bday%5D=22&plan%5Bdate_time%5D%5Byear%5D=2018&plan%5Bmodes%5D%5Bsubway%5D=false&plan%5Bmodes%5D%5Bsubway%5D=true&plan%5Bmodes%5D%5Bcommuter_rail%5D=false&plan%5Bmodes%5D%5Bcommuter_rail%5D=true&plan%5Bmodes%5D%5Bbus%5D=false&plan%5Bmodes%5D%5Bbus%5D=true&plan%5Bmodes%5D%5Bferry%5D=false&plan%5Bmodes%5D%5Bferry%5D=true&plan%5Boptimize_for%5D=best_route#plan_result_focus",
       "hideSelectors": [".map", "footer"],
       "selectors": ["document"],
       "readyEvent": null,
@@ -415,11 +431,11 @@
     }
   ],
   "paths": {
-    "bitmaps_reference": "apps/site/test/backstop_data/bitmaps_reference",
-    "bitmaps_test": "apps/site/test/backstop_data/bitmaps_test",
-    "compare_data": "apps/site/test/backstop_data/bitmaps_test/compare.json",
-    "engine_scripts": "apps/site/test/backstop_data/puppet_scripts",
-    "html_report": "apps/site/test/backstop_data/html_report"
+    "bitmaps_reference": "backstop_data/bitmaps_reference",
+    "bitmaps_test": "backstop_data/bitmaps_test",
+    "compare_data": "backstop_data/bitmaps_test/compare.json",
+    "engine_scripts": "backstop_data/puppet_scripts",
+    "html_report": "backstop_data/html_report"
   },
   "id": "MBTA_Backstop",
   "fileNameTemplate": "{scenarioLabel}_{selectorLabel}_{viewportIndex}_{viewportLabel}",
