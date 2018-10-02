@@ -63,18 +63,20 @@ defmodule SiteWeb.TripPlanView do
   Fetches value to show in input field, preferring to use the geocoded
   Query value if one is available.
   """
-  @spec get_input_value(Query.t | nil, map, :to | :from) :: String.t | nil
+  @spec get_input_value(Query.t | nil, map, :to | :from) :: TripPlan.NamedPosition.t
   def get_input_value(%Query{} = query, params, field) do
     case Map.get(query, field) do
-      %TripPlan.NamedPosition{name: name} ->
-        name
+      pos = %TripPlan.NamedPosition{} ->
+        pos
 
       {:error, _} ->
         get_input_value(nil, params, field)
     end
   end
   def get_input_value(nil, params, field) do
-    Map.get(params, Atom.to_string(field))
+    %TripPlan.NamedPosition{
+      name: Map.get(params, Atom.to_string(field)),
+    }
   end
 
   def too_future_error do

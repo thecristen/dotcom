@@ -97,6 +97,32 @@ defmodule SiteWeb.TripPlanControllerTest do
       assert %Query{} = conn.assigns.query
     end
 
+    test "sets hidden inputs for lat/lng", %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from" => "from address",
+                    "from_latitude" => "1",
+                    "from_longitude" => "2",
+                    "to" => "to address",
+                    "to_latitude" => "3",
+                    "to_longitude" => "4",
+                    "date_time" => @morning,
+                    "modes" => @modes
+                   }
+      }
+      conn = get conn, trip_plan_path(conn, :index, params)
+
+      resp = html_response(conn, 200)
+      assert from_latitude = Floki.find(resp, "#from_latitude")
+      assert from_longitude = Floki.find(resp, "#from_longitude")
+      assert to_latitude = Floki.find(resp, "#to_latitude")
+      assert to_longitude = Floki.find(resp, "#to_longitude")
+      assert List.first(Floki.attribute(from_latitude, "value")) == "1.0"
+      assert List.first(Floki.attribute(from_longitude, "value")) == "2.0"
+      assert List.first(Floki.attribute(to_latitude, "value")) == "3.0"
+      assert List.first(Floki.attribute(to_longitude, "value")) == "4.0"
+    end
+
     test "assigns.mode is a map of parsed mode state", %{conn: conn} do
       params = %{
         "date_time" => @system_time,

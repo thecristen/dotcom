@@ -22,6 +22,7 @@
       <%= render "_to_from_input.html", conn: @conn, parent_form: f, query: query %>
       <%= render "_options.html", conn: @conn, parent_form: f, errors: plan_error, query: query, modes: @modes, optimize_for: @optimize_for %>
       <button id="trip-plan__submit" type="submit" class="btn btn-primary hidden-print m-trip-plan__submit">Get trip suggestions</button>
+      <a href="/trip-planner" id="trip-plan__submit" type="submit" class="hidden-js btn btn-secondary hidden-print m-trip-plan__reset">Reset form</a>
     <% end %>
   </div>
 </div>
