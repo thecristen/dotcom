@@ -34,37 +34,15 @@ defmodule SiteWeb.PageViewTest do
     end
   end
 
-  describe "banners" do
-    test "renders _banner.html for important banners" do
+  describe "important notices" do
+    test "renders _banner.html", %{conn: conn} do
       banner = %Content.Banner{
-        title: "Important Banner Title",
         blurb: "Uh oh, this is very important!",
-        link: %Content.Field.Link{url: "http://example.com/important", title: "Call to Action"},
-        thumb: %Content.Field.Image{},
-        banner_type: :important,
-        updated_on: "September 27, 2018"
+        link: %Content.Field.Link{url: "http://example.com/important"},
+        thumb: %Content.Field.Image{}
       }
-      rendered = render_to_string(SiteWeb.PageView, "_banner.html", banner: banner)
-      assert rendered =~ "Important Banner Title"
+      rendered = render_to_string(SiteWeb.PageView, "_banner.html", banner: banner, conn: conn)
       assert rendered =~ "Uh oh, this is very important!"
-      assert rendered =~ "Call to Action"
-      refute rendered =~ "September 27, 2018"
-    end
-
-    test "renders _banner.html for default banners" do
-      banner = %Content.Banner{
-        title: "Default Banner Title",
-        blurb: "This is not as important.",
-        link: %Content.Field.Link{url: "http://example.com/default", title: "Call to Action"},
-        thumb: %Content.Field.Image{},
-        banner_type: :default,
-        updated_on: "September 27, 2018"
-      }
-      rendered = render_to_string(SiteWeb.PageView, "_banner.html", banner: banner)
-      assert rendered =~ "Default Banner Title"
-      refute rendered =~ "This is not as important."
-      refute rendered =~ "Call to Action"
-      assert rendered =~ "September 27, 2018"
     end
   end
 
