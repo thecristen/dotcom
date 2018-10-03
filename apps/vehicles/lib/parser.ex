@@ -13,6 +13,7 @@ defmodule Vehicles.Parser do
       status: status(attributes["current_status"]),
       longitude: attributes["longitude"],
       latitude: attributes["latitude"],
+      bearing: attributes["bearing"] || 0
     }
   end
 

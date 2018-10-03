@@ -7,7 +7,8 @@ defmodule Vehicles.ParserTest do
       "current_status" => "STOPPED_AT",
       "direction_id" => 1,
       "longitude" => 1.1,
-      "latitude" => 2.2
+      "latitude" => 2.2,
+      "bearing" => 140
     },
     id: "y1799",
     relationships: %{
@@ -32,7 +33,8 @@ defmodule Vehicles.ParserTest do
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,
-        longitude: 1.1
+        longitude: 1.1,
+        bearing: 140
       }
 
       assert Parser.parse(@item) == expected
@@ -49,7 +51,8 @@ defmodule Vehicles.ParserTest do
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,
-        longitude: 1.1
+        longitude: 1.1,
+        bearing: 140
       }
       assert Parser.parse(item) == expected
     end
@@ -66,7 +69,8 @@ defmodule Vehicles.ParserTest do
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,
-        longitude: 1.1
+        longitude: 1.1,
+        bearing: 140
       }
       assert Parser.parse(item) == expected
     end
@@ -84,7 +88,8 @@ defmodule Vehicles.ParserTest do
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,
-        longitude: 1.1
+        longitude: 1.1,
+        bearing: 140
       }
       assert Parser.parse(item) == expected
     end
@@ -116,7 +121,8 @@ defmodule Vehicles.ParserTest do
         direction_id: 0,
         status: :in_transit,
         latitude: 2.2,
-        longitude: 1.1
+        longitude: 1.1,
+        bearing: 0
       }
 
       assert Parser.parse(item) == expected

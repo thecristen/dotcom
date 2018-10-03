@@ -21,6 +21,13 @@ defmodule Vehicles.RepoTest do
       end
     end
 
+    test "includes vehicle bearing" do
+      vehicles = Repo.route("CR-Lowell", direction_id: 1)
+      for vehicle <- vehicles do
+        assert vehicle.bearing > 0
+      end
+    end
+
     test "returns an empty list when the API errors" do
       bypass = Bypass.open()
       v3_url = Application.get_env(:v3_api, :base_url)

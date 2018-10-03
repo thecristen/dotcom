@@ -1,5 +1,5 @@
 defmodule Vehicles.Vehicle do
-  defstruct [:id, :route_id, :trip_id, :shape_id, :stop_id, :direction_id, :longitude, :latitude, :status]
+  defstruct [:id, :route_id, :trip_id, :shape_id, :stop_id, :direction_id, :longitude, :latitude, :status, bearing: 0]
 
   @type status :: :in_transit | :stopped | :incoming
 
@@ -12,6 +12,7 @@ defmodule Vehicles.Vehicle do
     direction_id: 0 | 1,
     longitude: float,
     latitude: float,
+    bearing: non_neg_integer,
     status: status
   }
 end
