@@ -1,5 +1,6 @@
 defmodule SiteWeb.PageView do
   import Phoenix.HTML.Tag
+  alias Content.Banner
 
   use SiteWeb, :view
 
@@ -125,5 +126,35 @@ defmodule SiteWeb.PageView do
         class: "m-news-entry__day--#{size}"
       )
     ], class: "m-news-entry__date m-news-entry__date--#{size} u-small-caps")
+  end
+
+  @spec banner_title(Banner.t) :: Phoenix.HTML.Safe.t
+  defp banner_title(%Banner{banner_type: :important, title: title}) do
+    title
+  end
+  defp banner_title(%Banner{banner_type: :default, title: title, link: %{url: url}}) do
+    link(title, to: url)
+  end
+
+  @spec banner_content_class(Banner.t) :: String.t
+  defp banner_content_class(%Banner{} = banner) do
+    Enum.join([
+      "m-banner__content",
+      "m-banner__content--" <> CSSHelpers.atom_to_class(banner.banner_type),
+      "m-banner__content--" <> CSSHelpers.atom_to_class(banner.text_position)
+      | banner_bg_class(banner)
+    ], " ")
+  end
+
+  @spec banner_bg_class(Banner.t) :: [String.t]
+  defp banner_bg_class(%Banner{banner_type: :important}), do: []
+  defp banner_bg_class(%Banner{mode: mode}), do: ["u-bg--" <> CSSHelpers.atom_to_class(mode)]
+
+  @spec banner_cta(Banner.t) :: Phoenix.HTML.Safe.t
+  defp banner_cta(%Banner{banner_type: :important, link: %{url: url, title: title}}) do
+    link title, to: cms_static_page_path(SiteWeb.Endpoint, url), class: "m-banner__cta"
+  end
+  defp banner_cta(%Banner{}) do
+    ""
   end
 end

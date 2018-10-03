@@ -6,15 +6,15 @@
       <%= shortcut_icons() %>
     </div>
   </div>
-  <%=
-    if assigns[:banner] do
-      render SiteWeb.PageView, "_banner.html", conn: @conn, banner: assigns[:banner]
-    end
-  %>
   <%= case assigns[:recommended_routes] do
     [%Routes.Route{} | _] = routes ->
       render("_recommended_routes.html", conn: @conn, routes: routes, all_alerts: @all_alerts, date_time: @date_time)
     _ ->
       ""
   end %>
+  <%=
+    if assigns[:banner] do
+      render SiteWeb.PageView, "_banner.html", conn: @conn, banner: assigns[:banner]
+    end
+  %>
 </div>
