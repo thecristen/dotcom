@@ -1,20 +1,19 @@
 defmodule SiteWeb.PageControllerTest do
   use SiteWeb.ConnCase
+  import SiteWeb.PageController
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")
     assert html_response(conn, 200) =~ "Massachusetts Bay Transportation Authority"
     assert response_content_type(conn, :html) =~ "charset=utf-8"
   end
-
   test "assigns post_container_template", %{conn: conn} do
     conn = get conn, "/"
     assert conn.assigns.post_container_template == "_post_container.html"
   end
 
   test "body gets assigned a js class", %{conn: conn} do
-    [body_class] =
-      build_conn()
+    [body_class] = build_conn()
       |> get(page_path(conn, :index))
       |> html_response(200)
       |> Floki.find("body")
@@ -49,5 +48,13 @@ defmodule SiteWeb.PageControllerTest do
 
     assert Map.get(conn.assigns, :recommended_routes) == nil
     refute html_response(conn, 200) =~ "Recently Visited"
+  end
+
+  test "split_whats_happening/1 returns first two if 2+ or 5+" do
+    assert split_whats_happening([1, 2]) == {[1, 2], []}
+    assert split_whats_happening([1, 2, 3, 4]) == {[1, 2], []}
+    assert split_whats_happening([1, 2, 3, 4, 5]) == {[1, 2], [3, 4, 5]}
+    assert split_whats_happening([1, 2, 3, 4, 5, 6]) == {[1, 2], [3, 4, 5]}
+    assert split_whats_happening([1]) == {nil, nil}
   end
 end

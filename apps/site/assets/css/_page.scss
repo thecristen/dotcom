@@ -115,13 +115,15 @@
   }
 }
 
-.whats-happening-section {
-  background: $gray-lightest;
-  padding: $base-spacing 0;
-  width: 100%;
+.important-whats-happening {
+  background-color: $gray-lightest;
+  margin: $space-24 0;
 
-  @include media-breakpoint-up(sm) {
-    background: linear-gradient(130deg, $whats-happening-gradient-end 0%, $whats-happening-gradient-end 10%, $gray-lightest 10%, $gray-lightest 90%, $whats-happening-gradient-end 90%, $whats-happening-gradient-end 100%);
+  @include media-breakpoint-up(md) {
+    // scss-lint:disable PropertySortOrder
+    align-items: center;
+    background-image: url('/images/banner-squares.png');
+    background-position: right bottom;
   }
 
   @include media-breakpoint-down(xs) {
@@ -146,7 +148,6 @@
   }
 
   .about-title {
-    margin-bottom: 1rem;
     padding: $space-12 0;
   }
 
@@ -161,29 +162,4 @@
   border-radius: 4px;
   padding: 1.5rem;
   text-align: center;
-}
-
-.whats-happening-image {
-  position: relative;
-
-  img {
-    max-height: 100%;
-    max-width: 100%;
-  }
-}
-
-.whats-happening-item {
-  a {
-    text-decoration: none;
-
-    @include hover-focus-active {
-      .about-link {
-        text-decoration: inherit;
-      }
-    }
-  }
-
-  .about-description {
-    color: $gray-dark;
-  }
 }
