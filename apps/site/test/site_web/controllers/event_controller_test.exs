@@ -71,7 +71,7 @@ defmodule SiteWeb.EventControllerTest do
 
       assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]
       assert Plug.Conn.get_resp_header(conn, "content-disposition") == [
-        "attachment; filename='fiscal_&_management_control_board_meeting.ics'"
+        "attachment; filename=fiscal_&_management_control_board_meeting.ics"
       ]
     end
 
@@ -84,7 +84,7 @@ defmodule SiteWeb.EventControllerTest do
 
       assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]
       assert Plug.Conn.get_resp_header(conn, "content-disposition") == [
-        "attachment; filename='senior_charliecard_event.ics'"
+        "attachment; filename=senior_charliecard_event.ics"
       ]
     end
 
@@ -96,7 +96,7 @@ defmodule SiteWeb.EventControllerTest do
 
       assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]
       assert Plug.Conn.get_resp_header(conn, "content-disposition") == [
-        "attachment; filename='senior_charliecard_event.ics'"
+        "attachment; filename=senior_charliecard_event.ics"
       ]
     end
 
@@ -113,7 +113,7 @@ defmodule SiteWeb.EventControllerTest do
       assert conn.status == 200
       assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]
       assert Plug.Conn.get_resp_header(conn, "content-disposition") == [
-        "attachment; filename='senior_charliecard_event.ics'"
+        "attachment; filename=senior_charliecard_event.ics"
       ]
     end
 

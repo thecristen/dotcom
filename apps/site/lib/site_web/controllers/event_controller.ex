@@ -67,7 +67,7 @@ defmodule SiteWeb.EventController do
   defp do_icalendar(%Content.Event{} = event, conn) do
     conn
     |> put_resp_content_type("text/calendar")
-    |> put_resp_header("content-disposition", "attachment; filename='#{filename(event.title)}.ics'")
+    |> put_resp_header("content-disposition", "attachment; filename=#{filename(event.title)}.ics")
     |> send_resp(200, IcalendarGenerator.to_ical(conn, event))
   end
   defp do_icalendar({:error, {:redirect, _status, [to: path]}}, conn) do
