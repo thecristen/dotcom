@@ -7,11 +7,6 @@ defmodule SiteWeb.OldSiteFileControllerTest do
       assert conn.status == 200
     end
 
-    test "can return file from s3", %{conn: conn} do
-      conn = head conn, "/uploadedfiles/feed_info.txt"
-      assert conn.status == 200
-    end
-
     test "can return file from /uploadedimages", %{conn: conn} do
       conn = head conn, "/uploadedimages/About_the_T/Art_Collection/Map%20Runner%20Up%2015%20lg.jpg"
       assert conn.status == 200
