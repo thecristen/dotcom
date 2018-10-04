@@ -14,6 +14,7 @@ defmodule Site.Application do
       # Start the endpoint when the application starts
       supervisor(SiteWeb.Endpoint, []),
       supervisor(Site.GreenLine.Supervisor, []),
+      supervisor(Site.Stream.Vehicles, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

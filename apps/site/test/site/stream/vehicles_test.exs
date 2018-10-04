@@ -1,0 +1,33 @@
+defmodule Site.Stream.VehiclesTest do
+  use SiteWeb.ChannelCase, async: true
+  alias Vehicles.Vehicle
+
+  def fetch([]) do
+    [
+      %Vehicle{route_id: "Red", direction_id: 0},
+      %Vehicle{route_id: "CR-Lowell", direction_id: 1},
+      %Vehicle{route_id: "Blue", direction_id: nil},
+    ]
+  end
+
+  test "broadcasts vehicles by route and direction id" do
+    SiteWeb.Endpoint.subscribe("vehicles:Red:0")
+    SiteWeb.Endpoint.subscribe("vehicles:CR-Lowell:1")
+    SiteWeb.Endpoint.subscribe("vehicles:Blue:0")
+    SiteWeb.Endpoint.subscribe("vehicles:Blue:1")
+
+    assert {:ok, _} = GenServer.start_link(Site.Stream.Vehicles, [repo: __MODULE__])
+
+    assert_broadcast "vehicles", %{data: [
+      %Vehicle{route_id: "Red", direction_id: 0}
+    ]}
+
+    assert_broadcast "vehicles", %{data: [
+      %Vehicle{route_id: "CR-Lowell", direction_id: 1}
+    ]}
+
+    refute_broadcast "vehicles", %{data: [
+      %Vehicle{route_id: "Blue", direction_id: nil}
+    ]}
+  end
+end

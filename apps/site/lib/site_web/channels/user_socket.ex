@@ -2,7 +2,7 @@ defmodule SiteWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "rooms:*", Site.RoomChannel
+  channel "vehicles:*", SiteWeb.VehicleChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
