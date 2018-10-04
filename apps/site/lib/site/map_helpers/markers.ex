@@ -1,0 +1,48 @@
+defmodule Site.MapHelpers.Markers do
+  alias GoogleMaps.MapData.Marker
+  alias Vehicles.Vehicle
+  alias Routes.Route
+  alias Stops.Stop
+
+  @z_index %{
+    vehicle: 1_000
+  }
+
+  @doc """
+  Builds marker data for a vehicle that will be displayed in a Google Map.
+  """
+  @spec vehicle(VehicleTooltip.t) :: Marker.t
+  def vehicle(%VehicleTooltip{vehicle: %Vehicle{}} = data) do
+    Marker.new(
+      data.vehicle.latitude,
+      data.vehicle.longitude,
+      id: "vehicle-" <> data.vehicle.id,
+      icon: vehicle_icon(data.route),
+      tooltip: VehicleHelpers.tooltip(data),
+      z_index: @z_index.vehicle
+    )
+  end
+
+  @spec vehicle_icon(Route.t) :: String.t
+  defp vehicle_icon(%Route{type: type}) when is_integer(type) do
+    type
+    |> Route.vehicle_atom()
+    |> Atom.to_string()
+    |> Kernel.<>("-vehicle")
+  end
+
+  @doc """
+  Builds marker data for a stop that will be displayed in a Google Map.
+  """
+  @spec stop(Stop.t, boolean) :: Marker.t
+  def stop(%Stop{} = stop, is_terminus?) when is_boolean(is_terminus?) do
+    Marker.new(
+      stop.latitude,
+      stop.longitude,
+      id: "stop-" <> stop.id,
+      icon: Site.MapHelpers.map_stop_icon_path(:tiny, is_terminus?),
+      tooltip: stop.name,
+      size: :tiny
+    )
+  end
+end

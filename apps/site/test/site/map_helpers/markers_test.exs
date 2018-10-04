@@ -1,0 +1,108 @@
+defmodule Site.MapHelpers.MarkersTest do
+  use ExUnit.Case, async: true
+  alias GoogleMaps.MapData.Marker
+
+  @route %Routes.Route{
+    description: :rapid_transit,
+    direction_names: %{0 => "Southbound", 1 => "Northbound"},
+    id: "Red",
+    long_name: "Red Line",
+    name: "Red Line",
+    type: 1
+  }
+
+  @stop %Stops.Stop{
+    accessibility: ["accessible"],
+    address: nil,
+    closed_stop_info: nil,
+    has_charlie_card_vendor?: false,
+    has_fare_machine?: false,
+    id: "place-sstat",
+    is_child?: true,
+    latitude: 42.352271,
+    longitude: -71.055242,
+    name: "South Station",
+    note: nil,
+    parking_lots: [],
+    station?: false
+  }
+
+  @trip %Schedules.Trip{
+    direction_id: 1,
+    headsign: "Alewife",
+    id: "ADDED-1538504683",
+    name: "",
+    shape_id: nil
+  }
+
+  @prediction %Predictions.Prediction{
+    departing?: true,
+    direction_id: 1,
+    id: "prediction-ADDED-1538504683-70080-130",
+    route: @route,
+    schedule_relationship: :added,
+    status: nil,
+    stop: @stop,
+    stop_sequence: 130,
+    track: nil,
+    trip: @trip
+  }
+
+  @vehicle %Vehicles.Vehicle{
+    direction_id: 1,
+    id: "R-54588CCE",
+    latitude: 42.343658447265625,
+    longitude: -71.05690002441406,
+    route_id: "Red",
+    shape_id: nil,
+    status: :in_transit,
+    stop_id: "place-sstat",
+    trip_id: "ADDED-1538504683"
+  }
+
+  describe "vehicle/1" do
+    test "builds data for a vehicle marker" do
+      vt = %VehicleTooltip{
+        prediction: @prediction,
+        trip: @trip,
+        route: @route,
+        stop_name: @stop.name,
+        vehicle: @vehicle,
+      }
+
+      assert %Marker{
+        icon: "subway-vehicle",
+        id: id,
+        latitude: latitude,
+        longitude: longitude,
+        tooltip: tooltip,
+        z_index: 1_000
+      } = Site.MapHelpers.Markers.vehicle(vt)
+      assert id == "vehicle-" <> @vehicle.id
+      assert latitude == @vehicle.latitude
+      assert longitude == @vehicle.longitude
+      assert tooltip =~ "Alewife train has left South Station"
+    end
+  end
+
+  describe "stop/2" do
+    test "builds data for a stop icon" do
+      assert %Marker{
+        latitude: latitude,
+        longitude: longitude,
+        id: id,
+        size: :tiny,
+        icon: "000000-dot",
+        tooltip: tooltip
+      } = Site.MapHelpers.Markers.stop(@stop, false)
+      assert latitude == @stop.latitude
+      assert longitude == @stop.longitude
+      assert id == "stop-" <> @stop.id
+      assert tooltip == @stop.name
+
+      assert %Marker{
+        icon: "000000-dot-filled"
+      } = Site.MapHelpers.Markers.stop(@stop, true)
+    end
+  end
+end

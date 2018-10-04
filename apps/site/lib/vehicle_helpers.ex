@@ -5,6 +5,7 @@ defmodule VehicleHelpers do
   alias Vehicles.Vehicle
   alias Predictions.Prediction
   alias Routes.{Route, Shape}
+  alias Stops.Stop
   alias Schedules.Trip
   alias SiteWeb.ScheduleController.VehicleLocations
 
@@ -13,13 +14,18 @@ defmodule VehicleHelpers do
   import Phoenix.HTML, only: [safe_to_string: 1]
   import SiteWeb.ViewHelpers, only: [format_schedule_time: 1]
 
+  @type tooltip_index_key :: {Trip.id_t | nil, Stop.id_t} | Stop.id_t
+  @type tooltip_index :: %{
+    optional({Trip.id_t | nil, Stop.id_t}) => VehicleTooltip.t,
+    optional(Stop.id_t) => VehicleTooltip.t
+  }
+
   @doc """
   There are multiple places where vehicle tooltips are used. This function is called from the controller to
   construct a convenient map that can be used in views / templates to determine if a tooltip is available
   and to fetch all of the required data
   """
-  @spec build_tooltip_index(Route.t, VehicleLocations.t, [Prediction.t]) ::
-    %{optional({String.t | nil, String.t}) => VehicleTooltip.t, optional(String.t) => VehicleTooltip.t}
+  @spec build_tooltip_index(Route.t, VehicleLocations.t, [Prediction.t]) :: tooltip_index
   def build_tooltip_index(route, vehicle_locations, vehicle_predictions) do
     indexed_predictions = index_vehicle_predictions(vehicle_predictions)
 

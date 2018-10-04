@@ -2,11 +2,9 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   alias GoogleMaps.MapData
   alias GoogleMaps.MapData.{Path, Marker}
   alias Stops.{RouteStops, RouteStop}
-  alias Routes.{Route, Shape}
+  alias Routes.{Shape, Route}
   alias Site.MapHelpers
-  alias Util.Position
   import SiteWeb.Router.Helpers
-  import Routes.Route, only: [vehicle_atom: 1]
 
   @moduledoc """
   Handles Map information for the line controller
@@ -16,8 +14,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     static_url(SiteWeb.Endpoint, "/images/map_thumbnails/Ferry_Map.png")
   end
   def map_img_src({route_stops, _shapes}, polylines, _route, path_color) do
-    icon = MapHelpers.map_stop_icon_path(:tiny)
-    markers = build_stop_markers(route_stops, icon, true)
+    markers = Enum.map(route_stops, &build_stop_marker/1)
     paths = Enum.map(polylines, &Path.new(&1, color: path_color))
 
     {600, 600}
@@ -27,36 +24,27 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     |> GoogleMaps.static_map_url()
   end
 
-  # Floors the lat/lng when given an (optional) true boolean
-  defp build_stop_markers(route_stops, icon, floor_position?) do
-    Enum.map(route_stops, &build_stop_marker(&1, icon, floor_position?))
+  @spec build_stop_marker(RouteStop.t) :: Marker.t
+  defp build_stop_marker(stop)
+  defp build_stop_marker(%RouteStop{} = stop) do
+    stop.id
+    |> Stops.Repo.get()
+    |> MapHelpers.Markers.stop(stop.is_terminus?)
   end
 
-  @spec build_stop_marker(RouteStop.t, String.t, boolean) :: Marker.t
-  defp build_stop_marker(route_stop, icon, true) do
-    floored_lat = route_stop |> Position.latitude() |> floor_position()
-    floored_lng = route_stop |> Position.longitude() |> floor_position()
-    do_build_stop_marker(floored_lat, floored_lng, route_stop, icon)
-  end
-  defp build_stop_marker(route_stop, icon, false) do
-    latitude = Position.latitude(route_stop)
-    longitude = Position.longitude(route_stop)
-    do_build_stop_marker(latitude, longitude, route_stop, icon)
-  end
-
-  @spec do_build_stop_marker(float, float, RouteStop.t, String.t) :: Marker.t
-  defp do_build_stop_marker(lat, lng, route_stop, icon) do
-    Marker.new(lat, lng, id: "stop-" <> route_stop.id, icon: icon, tooltip: route_stop.name, size: :tiny)
-  end
-
-  @spec floor_position(float) :: float
-  defp floor_position(position) do
-    Float.floor(position, 4)
-  end
-
-  @spec dynamic_map_data(String.t, [String.t], {[RouteStop.t], any}, {[String.t], map(), String.t}) :: MapData.t
-  def dynamic_map_data(color, map_polylines, {route_stops, _shapes}, {vehicle_polylines, vehicle_tooltips, vehicle_icon}) do
-    markers = dynamic_markers(route_stops, vehicle_tooltips, vehicle_icon)
+  @spec dynamic_map_data(
+    String.t,
+    [String.t],
+    {[RouteStop.t], any},
+    {[String.t], VehicleHelpers.tooltip_index}
+  ) :: MapData.t
+  def dynamic_map_data(
+    color,
+    map_polylines,
+    {route_stops, _shapes},
+    {vehicle_polylines, vehicle_tooltips}
+  ) do
+    markers = dynamic_markers(route_stops, vehicle_tooltips)
     paths = dynamic_paths(color, map_polylines, vehicle_polylines)
 
     {600, 600}
@@ -66,44 +54,27 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     |> MapData.disable_map_type_controls
   end
 
-  defp dynamic_markers(route_stops, vehicle_tooltips, vehicle_icon) do
-    vehicle_markers = vehicle_tooltips |> get_vehicles |> build_vehicle_markers(vehicle_icon)
-    stop_markers = Enum.map(route_stops, &build_stop_marker(&1, dynamic_stop_icon(&1.is_terminus?), false))
+  @spec dynamic_markers([RouteStop.t], VehicleHelpers.tooltip_index) :: [Marker.t]
+  defp dynamic_markers(route_stops, tooltip_index) do
+    vehicle_markers = build_vehicle_markers(tooltip_index)
+    stop_markers = Enum.map(route_stops, &build_stop_marker/1)
     stop_markers ++ vehicle_markers
+  end
+
+  @spec build_vehicle_markers(VehicleHelpers.tooltip_index) :: [Marker.t]
+  defp build_vehicle_markers(tooltip_index) do
+    # the tooltip index uses two different key formats, so
+    # the Enum.reject call here is essentially just
+    # deduplicating the index
+    tooltip_index
+    |> Enum.reject(&match?({{_trip, _id}, _tooltip}, &1))
+    |> Enum.map(fn {_, vt} -> MapHelpers.Markers.vehicle(vt) end)
   end
 
   defp dynamic_paths(color, route_polylines, vehicle_polylines) do
     route_paths = Enum.map(route_polylines, &Path.new(&1, color: color, weight: 4))
     vehicle_paths = Enum.map(vehicle_polylines, &Path.new(&1, color: color, weight: 2))
     route_paths ++ vehicle_paths
-  end
-
-  @spec build_vehicle_markers([{float, float, String.t, String.t}], String.t) :: [Marker.t]
-  defp build_vehicle_markers(vehicles, icon) do
-    Enum.map(vehicles, &build_vehicle_marker(&1, icon))
-  end
-
-  @spec build_vehicle_marker({float, float, String.t, String.t}, String.t) :: Marker.t
-  defp build_vehicle_marker({lat, lng, tooltip_content, vehicle_id}, icon) do
-    floored_lat = floor_position(lat)
-    floored_lng = floor_position(lng)
-    Marker.new(floored_lat, floored_lng, id: "vehicle-" <> vehicle_id, icon: icon, tooltip: tooltip_content)
-  end
-
-  @spec dynamic_stop_icon(boolean) :: String.t
-  defp dynamic_stop_icon(true), do: "000000-dot-filled"
-  defp dynamic_stop_icon(false), do: "000000-dot"
-
-  @spec get_vehicles(nil | map()) :: [{float, float, String.t, String.t}]
-  defp get_vehicles(nil), do: []
-  defp get_vehicles(vehicle_tooltips) do
-    vehicle_tooltips
-    |> Enum.reject(&match?({{_trip, _id}, _tooltip}, &1))
-    |> Enum.map(&do_get_vehicles/1)
-  end
-
-  defp do_get_vehicles({_, %VehicleTooltip{vehicle: vehicle} = tooltip}) do
-    {vehicle.latitude, vehicle.longitude, VehicleHelpers.tooltip(tooltip), vehicle.id}
   end
 
   @doc """
@@ -115,8 +86,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     color = MapHelpers.route_map_color(route)
     map_polylines = map_polylines(map_route_stops, route)
     static_data = map_img_src(map_route_stops, map_polylines, route, color)
-    vehicle_icon = "#{vehicle_atom(route.type)}-vehicle"
-    vehicle_data = {vehicle_polylines, vehicle_tooltips, vehicle_icon}
+    vehicle_data = {vehicle_polylines, vehicle_tooltips}
     dynamic_data = dynamic_map_data(color, map_polylines, map_route_stops, vehicle_data)
     {static_data, dynamic_data}
   end

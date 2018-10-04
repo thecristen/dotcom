@@ -23,9 +23,9 @@ defmodule Stops.Stop do
   @type t :: %Stop{
     id: id_t,
     name: String.t,
-    note: String.t,
+    note: String.t | nil,
     accessibility: [String.t],
-    address: String.t,
+    address: String.t | nil,
     parking_lots: [Stop.ParkingLot.t],
     latitude: float,
     longitude: float,
