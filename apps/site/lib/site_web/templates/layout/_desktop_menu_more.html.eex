@@ -5,27 +5,27 @@
       <ul>
         <li>
           <%= link to: cms_static_page_path(@conn, "/mbta-at-a-glance") do %>
-            <%= fa "caret-right" %> Overview
+            Overview
           <% end %>
         </li>
         <li>
           <%= link to: cms_static_page_path(@conn, "/leadership") do %>
-            <%= fa "caret-right" %> Leadership
+            Leadership
           <% end %>
         </li>
         <li>
           <%= link to: cms_static_page_path(@conn, "/leadership/fmcb") do %>
-            <%= fa "caret-right" %> FMCB
+            FMCB
           <% end %>
         </li>
         <li>
           <%= link to: news_entry_path(@conn, :index) do %>
-            <%= fa "caret-right" %> News &amp; Updates
+            News &amp; Updates
           <% end %>
         </li>
         <li>
           <%= link to: event_path(@conn, :index) do %>
-            <%= fa "caret-right" %> Events
+            Events
           <% end %>
         </li>
       </ul>
@@ -34,27 +34,27 @@
       <ul>
         <li>
           <%= link to: cms_static_page_path(@conn, "/policies/title-vi") do %>
-            <%= fa "caret-right" %> Civil Rights
+            Civil Rights
           <% end %>
         </li>
         <li>
           <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" do %>
-            <span class="no-wrap"><%= fa "caret-right" %> Performance</span>
+            <span class="no-wrap">Performance</span>
           <% end %>
         </li>
         <li>
           <%= link to: cms_static_page_path(@conn, "/sustainability") do %>
-            <span class="no-wrap"><%= fa "caret-right" %> Sustainability</span>
+            <span class="no-wrap">Sustainability</span>
           <% end %>
         </li>
         <li>
           <%= link to: cms_static_page_path(@conn, "/history") do %>
-            <%= fa "caret-right" %> History
+            History
           <% end %>
         </li>
         <li>
           <%= link to: "http://www.mbtagifts.com/", target: "_blank" do %>
-            <%= fa "caret-right" %> Gifts
+            Gifts
           <% end %>
         </li>
       </ul>
@@ -66,27 +66,27 @@
       <ul>
         <li>
           <%= link to: cms_static_page_path(@conn, "/business") do %>
-            <%= fa "caret-right" %> Business Opportunities
+            Business Opportunities
           <% end %>
         </li>
         <li>
           <%= link to: cms_static_page_path(@conn, "/careers") do %>
-            <%= fa "caret-right" %> Careers
+            Careers
           <% end %>
         </li>
         <li>
           <%= link to: cms_static_page_path(@conn, "/developers") do %>
-            <%= fa "caret-right" %> Developers
+            Developers
           <% end %>
         </li>
         <li>
           <%= link to: cms_static_page_path(@conn, "/financials") do %>
-            <%= fa "caret-right" %> Financials
+            Financials
           <% end %>
         </li>
         <li>
           <%= link to: cms_static_page_path(@conn, "/innovation") do %>
-            <%= fa "caret-right" %> Innovation
+            Innovation
           <% end %>
         </li>
       </ul>
@@ -98,26 +98,26 @@
       <ul>
         <li>
           <%= link to: project_path(@conn, :show, "commuter-rail-positive-train-control-ptc") do %>
-            <%= fa "caret-right" %> Commuter Rail Positive Train Control
+            Commuter Rail Positive Train Control
           <% end %>
         </li>
           <%= link to: cms_static_page_path(@conn, "/afc2") do %>
-            <%= fa "caret-right" %> Automated Fare Collection 2.0
+            Automated Fare Collection 2.0
           <% end %>
         </li>
         <li>
           <%= link to: "http://greenlineextension.eot.state.ma.us/", target: "_blank" do %>
-            <%= fa "caret-right" %> Green Line Extension
+            Green Line Extension
           <% end %>
         </li>
         <li>
           <%= link to: cms_static_page_path(@conn, "/wollaston") do %>
-            <%= fa "caret-right" %> Wollaston Station
+            Wollaston Station
           <% end %>
         </li>
         <li>
           <%= link to: project_path(@conn, :index) do %>
-            <%= fa "caret-right" %> See All Projects
+            See All Projects
           <% end %>
       </ul>
     </div>

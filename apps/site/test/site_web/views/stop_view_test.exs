@@ -51,7 +51,7 @@ defmodule SiteWeb.StopViewTest do
     end
 
     test "Contact link only appears for stops with accessibility features" do
-      text = "Problem with an elevator"
+      text = "Report an elevator, escalator, or other accessibility issue."
       has_text? accessibility_info(@many_feature, []), text
       has_text? accessibility_info(@no_accessible_with_feature, []), text
       no_text? accessibility_info(@only_accessible_feature, []), text

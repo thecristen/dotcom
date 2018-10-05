@@ -5,22 +5,22 @@
       <ul>
         <li>
           <%= link to: cms_static_page_path(@conn, "/fares") do %>
-            <%= fa "caret-right" %> Fares Overview
+            Fares Overview
           <% end %>
         </li>
         <li>
           <%= link to: "https://charliecard.mbta.com", target: "_blank" do %>
-            <%= fa "caret-right" %> Add Value to CharlieCard
+            Add Value to CharlieCard
           <% end %>
         </li>
         <li>
           <%= link to: "https://commerce.mbta.com", target: "_blank" do %>
-            <%= fa "caret-right" %> Order Monthly Passes
+            Order Monthly Passes
           <% end %>
         </li>
         <li>
           <%= link to: fare_path(@conn, :show, "reduced") do %>
-            <%= fa "caret-right" %> Reduced Fares
+            Reduced Fares
           <% end %>
         </li>
       </ul>

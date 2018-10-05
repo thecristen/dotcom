@@ -143,7 +143,7 @@ defmodule SiteWeb.StopView do
       _ ->
         content_tag :p do
           link to: customer_support_path(SiteWeb.Endpoint, :index), class: "c-call-to-action" do
-            "Problem with an elevator, escalator, or other accessibility issue? Send us a message."
+            "Report an elevator, escalator, or other accessibility issue."
           end
         end
     end

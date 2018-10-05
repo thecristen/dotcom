@@ -11,12 +11,12 @@
     <ul>
       <li>
         <%= link to: customer_support_path(@conn, :index) do %>
-          <%= fa "caret-right" %> Send us your comments or questions
+          Send us your comments or questions
         <% end %>
       </li>
       <li>
         <%= link to: customer_support_path(@conn, :index)<>"#customer_support" do %>
-          <%= fa "caret-right" %> View all contact numbers
+          View all contact numbers
         <% end %>
       </li>
     </ul>
@@ -30,12 +30,12 @@
     <ul>
       <li>
         <%= link to: cms_static_page_path(@conn, "/transit-police") do %>
-          <%= fa "caret-right" %> Contact the Transit Police
+          Contact the Transit Police
         <% end %>
       </li>
       <li>
         <%= link to: cms_static_page_path(@conn, "/transit-police/see-something-say-something") do %>
-          <%= fa "caret-right" %> See Something, Say Something
+          See Something, Say Something
         <% end %>
       </li>
     </ul>
@@ -46,17 +46,17 @@
     <ul>
       <li>
         <%= link to: cms_static_page_path(@conn, "/about-t-alerts") do %>
-          <%= fa "caret-right" %> About T-Alerts
+          About T-Alerts
         <% end %>
       </li>
       <li>
         <%= link to: "https://beta.alerts.mbta.com", target: "_blank" do %>
-          <%= fa "caret-right" %> Sign Up for T-Alerts
+          Sign Up for T-Alerts
         <% end %>
       </li>
       <li>
         <%= link to: "https://twitter.com/MBTA", target: "_blank" do %>
-          <%= fa "caret-right" %> @MBTA Twitter Updates
+          @MBTA Twitter Updates
         <% end %>
       </li>
     </ul>
