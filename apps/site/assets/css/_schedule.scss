@@ -1242,7 +1242,8 @@ del .trip-list-realtime {
 
 .schedule__description {
   display: inline-block;
-  margin-bottom: $base-spacing / 2;
+  margin-bottom: $base-spacing * 1.5;
+  margin-top: 0;
 }
 
 .schedule__header {
