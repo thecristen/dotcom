@@ -17,6 +17,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   plug SiteWeb.ScheduleController.VehicleTooltips
   plug SiteWeb.ScheduleController.Line
   plug :require_map
+  plug :channel_id
 
   def show(conn, _) do
     render(conn, SiteWeb.ScheduleView, "show.html", [])
@@ -27,4 +28,8 @@ defmodule SiteWeb.ScheduleController.LineController do
   defp all_alerts(conn, _), do: assign_all_alerts(conn, [])
 
   defp require_map(conn, _), do: assign(conn, :requires_google_maps?, true)
+
+  defp channel_id(conn, _) do
+    assign(conn, :channel, "vehicles:#{conn.assigns.route.id}:#{conn.assigns.direction_id}")
+  end
 end

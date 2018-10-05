@@ -10,6 +10,7 @@ describe("Map", () => {
 
   beforeEach(() => {
     window.google = google;
+    window.$ = jsdom.rerequire("jquery");
     document.body.innerHTML = `
       <script id="map-data" data-for="map-id" type="text/javascript">
         {

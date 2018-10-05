@@ -32,7 +32,7 @@
               View map as a PDF
             </a>
           <% else %>
-            <%= render "_line_map.html", encoded_data: encoded_map_data, map_img_src: @map_img_src, map_id: "desktop" %>
+            <%= render "_line_map.html", encoded_data: encoded_map_data, channel: @channel, map_img_src: @map_img_src, map_id: "desktop" %>
           <% end %>
         </div>
 

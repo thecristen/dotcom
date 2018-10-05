@@ -20,7 +20,8 @@ defmodule GoogleMaps.MapData do
     scale: 1,
     dynamic_options: @default_dynamic_options,
     layers: %Layers{},
-    auto_init: true
+    auto_init: true,
+    reset_bounds_on_update: false
   ]
 
   @type t :: %__MODULE__{
@@ -33,7 +34,8 @@ defmodule GoogleMaps.MapData do
     scale: 1 | 2,
     dynamic_options: %{atom => String.t | boolean},
     layers: Layers.t,
-    auto_init: boolean
+    auto_init: boolean,
+    reset_bounds_on_update: boolean
   }
 
   @typep static_query_key :: :markers | :path | :zoom | :scale | :center | :size
@@ -68,6 +70,15 @@ defmodule GoogleMaps.MapData do
   @spec auto_init?(t, boolean) :: t
   def auto_init?(map_data, auto_init) do
     %{map_data | auto_init: auto_init}
+  end
+
+  @doc """
+  Controls whether the map should change its visible bounds
+  when a marker is added or removed. Defaults to false.
+  """
+  @spec reset_bounds_on_update?(t, boolean) :: t
+  def reset_bounds_on_update?(map_data, reset) do
+    %{map_data | reset_bounds_on_update: reset}
   end
 
   @doc """

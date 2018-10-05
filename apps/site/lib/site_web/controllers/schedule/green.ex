@@ -26,6 +26,7 @@ defmodule SiteWeb.ScheduleController.Green do
   plug SiteWeb.ScheduleController.RouteBreadcrumbs
   plug :require_map
   plug :route_pdfs
+  plug :channels
 
   @task_timeout 10_000
 
@@ -217,5 +218,9 @@ defmodule SiteWeb.ScheduleController.Green do
   defp route_pdfs(%{assigns: %{date: date}} = conn, _) do
     pdfs = Site.RoutePdfs.fetch_and_choose_pdfs("Green", date)
     assign(conn, :route_pdfs, pdfs)
+  end
+
+  defp channels(conn, _) do
+    assign(conn, :channel, "vehicles:Green:#{conn.assigns.direction_id}")
   end
 end

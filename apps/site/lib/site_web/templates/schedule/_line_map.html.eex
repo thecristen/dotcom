@@ -1,5 +1,10 @@
 <div class="line-map map hidden-no-js">
-  <script data-for="route-map-<%= @map_id %>" class="js-route-map-dynamic-data" type="text/plain"><%= @encoded_data %></script>
+  <script class="js-route-map-dynamic-data"
+          data-for="route-map-<%= @map_id %>"
+          data-channel="<%= @channel %>"
+          type="text/plain">
+    <%= @encoded_data %>
+  </script>
   <div id="route-map-<%= @map_id %>"></div>
 </div>
 <div class="line-map map m-schedule-line__map-static hidden-js">

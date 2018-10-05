@@ -62,8 +62,9 @@ export default class Marker {
     }
   }
 
-  update(lat, lng) {
-    this.latLng = new window.google.maps.LatLng(lat, lng);
+  update(data) {
+    this.data = data;
+    this.latLng = new window.google.maps.LatLng(data.latitude, data.longitude);
 
     if (this.marker) {
       this.marker.setPosition(this.latLng);
