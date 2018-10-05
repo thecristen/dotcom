@@ -1,6 +1,6 @@
 defmodule Site.MapHelpers.MarkersTest do
   use ExUnit.Case, async: true
-  alias GoogleMaps.MapData.Marker
+  alias GoogleMaps.MapData.{Marker, Symbol}
 
   @route %Routes.Route{
     description: :rapid_transit,
@@ -57,7 +57,8 @@ defmodule Site.MapHelpers.MarkersTest do
     shape_id: nil,
     status: :in_transit,
     stop_id: "place-sstat",
-    trip_id: "ADDED-1538504683"
+    trip_id: "ADDED-1538504683",
+    bearing: 130
   }
 
   describe "vehicle/1" do
@@ -71,7 +72,7 @@ defmodule Site.MapHelpers.MarkersTest do
       }
 
       assert %Marker{
-        icon: "subway-vehicle",
+        icon: icon,
         id: id,
         latitude: latitude,
         longitude: longitude,
@@ -81,7 +82,15 @@ defmodule Site.MapHelpers.MarkersTest do
       assert id == "vehicle-" <> @vehicle.id
       assert latitude == @vehicle.latitude
       assert longitude == @vehicle.longitude
-      assert tooltip =~ "Alewife train has left South Station"
+      assert tooltip == nil
+      assert icon == %Symbol{
+        fill_color: "#FF1428",
+        fill_opacity: 1,
+        path: :forward_closed_arrow,
+        rotation: 130,
+        scale: 3,
+        stroke_weight: 1
+      }
     end
   end
 

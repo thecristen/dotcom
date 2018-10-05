@@ -1,6 +1,6 @@
 defmodule SiteWeb.ScheduleController.Line.Maps do
   alias GoogleMaps.MapData
-  alias GoogleMaps.MapData.{Path, Marker}
+  alias GoogleMaps.MapData.{Path, Marker, Padding}
   alias Stops.{RouteStops, RouteStop}
   alias Routes.{Shape, Route}
   alias Site.MapHelpers
@@ -48,10 +48,12 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     paths = dynamic_paths(color, map_polylines, vehicle_polylines)
 
     {600, 600}
-    |> MapData.new
+    |> MapData.new()
     |> MapData.add_markers(markers)
     |> MapData.add_paths(paths)
-    |> MapData.disable_map_type_controls
+    |> MapData.disable_map_type_controls()
+    |> MapData.bound_padding(%Padding{})
+    |> MapData.default_center(nil)
   end
 
   @spec dynamic_markers([RouteStop.t], VehicleHelpers.tooltip_index) :: [Marker.t]

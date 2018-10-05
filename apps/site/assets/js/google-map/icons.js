@@ -1,5 +1,46 @@
 import { getSvgIcon } from "../icons";
 
+const getPoint = coords => new window.google.maps.Point(coords.x, coords.y);
+
+const getPath = path => {
+  const symbol = window.google.maps.SymbolPath[path.toUpperCase()];
+  if (symbol) {
+    return symbol;
+  }
+  return path;
+};
+
+export const parseObject = data => {
+  const icon = {};
+
+  const {
+    anchor,
+    fill_color: fillColor,
+    fill_opacity: fillOpacity,
+    label_origin: labelOrigin,
+    path,
+    rotation,
+    scale,
+    stroke_color: strokeColor,
+    stroke_opacity: strokeOpacity,
+    stroke_weight: strokeWeight
+  } = data;
+
+  if (fillColor) icon.fillColor = fillColor;
+  if (scale) icon.scale = scale;
+  if (strokeColor) icon.strokeColor = strokeColor;
+
+  if (typeof fillOpacity === "number") icon.fillOpacity = fillOpacity;
+  if (typeof rotation === "number") icon.rotation = rotation;
+  if (typeof strokeOpacity === "number") icon.strokeOpacity = strokeOpacity;
+  if (typeof strokeWeight === "number") icon.strokeWeight = strokeWeight;
+  if (labelOrigin && typeof labelOrigin === "object") icon.labelOrigin = getPoint(labelOrigin);
+  if (anchor && typeof anchor === "object") icon.anchor = getPoint(anchor);
+  if (typeof path === "string") icon.path = getPath(path);
+
+  return icon;
+};
+
 export const iconVehicle = type => getSvgIcon(`bw-${type}`);
 
 export const iconMode = mode => getSvgIcon(`${mode}`);

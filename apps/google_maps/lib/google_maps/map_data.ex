@@ -3,6 +3,24 @@ defmodule GoogleMaps.MapData do
   alias GoogleMaps.MapData.Marker
   alias GoogleMaps.MapData.Layers
 
+  defmodule Point do
+    defstruct [x: 0, y: 0]
+    @type t :: %__MODULE__{
+      x: integer,
+      y: integer
+    }
+  end
+
+  defmodule Padding do
+    defstruct [left: 0, right: 0, top: 0, bottom: 0]
+    @type t :: %__MODULE__{
+      left: integer,
+      right: integer,
+      top: integer,
+      bottom: integer
+    }
+  end
+
   @moduledoc """
   Represents the data required to build a a google map.
   """
@@ -21,7 +39,8 @@ defmodule GoogleMaps.MapData do
     dynamic_options: @default_dynamic_options,
     layers: %Layers{},
     auto_init: true,
-    reset_bounds_on_update: false
+    reset_bounds_on_update: false,
+    bound_padding: nil
   ]
 
   @type t :: %__MODULE__{
@@ -35,7 +54,8 @@ defmodule GoogleMaps.MapData do
     dynamic_options: %{atom => String.t | boolean},
     layers: Layers.t,
     auto_init: boolean,
-    reset_bounds_on_update: boolean
+    reset_bounds_on_update: boolean,
+    bound_padding: Padding.t | nil
   }
 
   @typep static_query_key :: :markers | :path | :zoom | :scale | :center | :size
@@ -79,6 +99,26 @@ defmodule GoogleMaps.MapData do
   @spec reset_bounds_on_update?(t, boolean) :: t
   def reset_bounds_on_update?(map_data, reset) do
     %{map_data | reset_bounds_on_update: reset}
+  end
+
+  @doc """
+  Controls the padding added to the map.fitBounds() call
+  when the map's bounds are reset. Defaults to nil.
+  see https://developers.google.com/maps/documentation/javascript/reference/map
+  for more info.
+  """
+  @spec bound_padding(t, Padding.t) :: t
+  def bound_padding(map_data, %Padding{} = padding) do
+    %{map_data | bound_padding: padding}
+  end
+
+  @doc """
+  Update the default center value for the map. Center defaults to
+  roughly Government Center area.
+  """
+  @spec default_center(t, %{required(:latitude) => float, required(:longitude) => float} | nil) :: t
+  def default_center(map_data, center) do
+    %{map_data | default_center: center}
   end
 
   @doc """
