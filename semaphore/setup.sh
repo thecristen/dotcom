@@ -42,9 +42,6 @@ nvm use 8.7.0
 npm install -g npm@6.1.0 # TODO: Maybe use "backported" last release of 5 at 5.10 instead?
 echo npm version is `npm -v`
 
-# drop phantomjs/backstop/casper from the deps to install
-sed -r -e 's/.*"(phantomjs-prebuilt|backstopjs|casperjs)".*//' -i'' apps/site/assets/package.json
-
 # set cache dir for node
 npm config set cache $SEMAPHORE_CACHE_DIR/npm
 NODEJS_ORG_MIRROR=$NVM_NODEJS_ORG_MIRROR npm run ci-install --no-optional
