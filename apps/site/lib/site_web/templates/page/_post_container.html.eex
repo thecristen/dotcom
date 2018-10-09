@@ -4,5 +4,5 @@
   <%= render SiteWeb.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @whats_happening_items %>
 
   <%= render SiteWeb.PageView, "_news_and_updates.html", conn: @conn, news: @news %>
-  <%= render SiteWeb.PageView, "_about_the_mbta.html", conn: @conn %>
+  <%= render SiteWeb.PageView, "_important_links.html", conn: @conn %>
 </div>
