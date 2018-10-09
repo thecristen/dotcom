@@ -35,6 +35,8 @@
         </div>
       </div>
     <% end %>
+  
+    <div id="custom-language-selector" class="nav-item u-pointer"></div>
 
     <div class="nav-item">
       <%=

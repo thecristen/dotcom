@@ -16,8 +16,10 @@
           </span>
         </span>
       </button>
+      <span id="custom-language-button-mobile"></span>
       <%= render "_nav_desktop.html", assigns %>
     </div>
+    <div id="custom-language-menu-mobile"></div>
     <%= render "_nav_mobile.html", assigns %>
   </div>
 </header>
