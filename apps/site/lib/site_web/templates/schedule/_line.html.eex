@@ -1,44 +1,47 @@
-<%= SiteWeb.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
 <% encoded_map_data = raw Poison.encode!(@dynamic_map_data) %>
-<%= render "_line_filters.html", conn: @conn, headsigns: @headsigns, direction_id: @direction_id, route: @route, origin: assigns[:origin], destination: assigns[:destination], show_date_select?: @show_date_select?, force_six_column: true, route_shapes: @route_shapes, active_shape: @active_shape, show_variant_selector: assigns[:show_variant_selector] %>
-<div class="page-section container">
-  <div class="hidden-md-up line-map-container">
-    <div class="row">
-      <h2 class="route-map-heading">Route Map</h2>
-      <%= if display_map_link?(@route.type) do %>
-        <img src="<%= @map_img_src %>" class="img-fluid">
-        <a href="<%= Site.MapHelpers.map_pdf_url(@route.type) %>" target="_blank">
-          <%= fa "search-plus" %>
-          View map as a PDF
-        </a>
-      <% else %>
-        <%= render "_line_map.html", encoded_data: encoded_map_data, map_img_src: @map_img_src, map_id: "mobile" %>
-      <% end %>
-    </div>
-  </div>
-  <%= if Enum.empty?(@branches) do %>
-    <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
-  <% else %>
+<div class="page-section m-schedule-line">
   <div class="row">
-    <div class="page-section col-md-7">
-      <h2 class="route-stop-heading">Stops</h2>
-      <%= render "_stop_list.html", assigns %>
+    <div class="col-md-12">
+    <%= SiteWeb.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
     </div>
-    <div class="page-section route-hours col-md-4 col-md-offset-1">
-      <div class="hidden-sm-down line-map-container">
-        <h2 class="route-map-heading">Route Map</h2>
-        <%= if display_map_link?(@route.type) do %>
-          <img src="<%= @map_img_src %>" class="img-fluid">
-          <a href="<%= MapHelpers.map_pdf_url(@route.type) %>" target="_blank">
-            <%= fa "search-plus" %>
-            View map as a PDF
-          </a>
-        <% else %>
-          <%= render "_line_map.html", encoded_data: encoded_map_data, map_img_src: @map_img_src, map_id: "desktop" %>
-        <% end %>
-      </div>
+    <div class="col-xs-12 col-md-7">
+    <%= if Enum.empty?(@branches) do %>
+      <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
+    <% else %>
+        <h2>Stops</h2>
+        <%= render "_line_filters.html",
+          conn: @conn,
+          headsigns: @headsigns,
+          direction_id: @direction_id,
+          route: @route,
+          origin: assigns[:origin],
+          destination: assigns[:destination],
+          show_date_select?: @show_date_select?,
+          force_six_column: true,
+          route_shapes: @route_shapes,
+          active_shape: @active_shape,
+          show_variant_selector: assigns[:show_variant_selector]
+        %>
+
+        <div class="line-map-container">
+          <%= if display_map_link?(@route.type) do %>
+            <img src="<%= @map_img_src %>" class="img-fluid">
+            <a href="<%= MapHelpers.map_pdf_url(@route.type) %>" target="_blank">
+              <%= fa "search-plus" %>
+              View map as a PDF
+            </a>
+          <% else %>
+            <%= render "_line_map.html", encoded_data: encoded_map_data, map_img_src: @map_img_src, map_id: "desktop" %>
+          <% end %>
+        </div>
+
+        <%= render "_stop_list.html", assigns %>
+    </div>
+    <% end %>
+    <div class="col-xs-12 col-md-4 col-md-offset-1">
+      <%= render "_fares.html", assigns %>
+      <%= render "_line_connections.html", assigns %>
       <%= render "_hours_of_op.html", assigns %>
     </div>
   </div>
-  <% end %>
 </div>

@@ -1,8 +1,7 @@
-<% connections = SiteWeb.ScheduleView.route_connections(@all_stops) %>
-<%= unless Enum.empty?(connections) do %>
+<%= unless Enum.empty?(@connections) do %>
   <h2>Connections</h2>
   <div>
-    <%= for route <- connections do %>
+    <%= for route <- sort_connections(@connections) do %>
       <%= link to: line_path(@conn, :show, route.id), class: "m-schedule-line__info m-schedule-line__connection-line" do %>
         <span class="m-schedule-line__connection-icon"><%= SiteWeb.ViewHelpers.line_icon(route, :small) %></span>
         <span class="m-schedule-line__connection-name"><%= route.long_name %></span>

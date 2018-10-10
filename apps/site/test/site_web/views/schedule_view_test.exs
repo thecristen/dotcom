@@ -67,16 +67,21 @@ defmodule SiteWeb.ScheduleViewTest do
     end
   end
 
-  describe "template_for_tab/2" do
-    test "returns the template corresponding to a tab value regardless of route for trip view and timetable" do
-      assert template_for_tab("trip-view", %Routes.Route{}) == "_trip_view.html"
-      assert template_for_tab("timetable", %Routes.Route{}) == "_timetable.html"
+  describe "template_for_tab/1" do
+    test "returns the template corresponding to a tab value" do
+      assert template_for_tab("trip-view") == "_trip_view.html"
+      assert template_for_tab("timetable") == "_timetable.html"
+      assert template_for_tab("line") == "_line.html"
     end
+  end
 
-    test "returns bus_line.html for line tab on bus routes" do
-      assert template_for_tab("line", %Routes.Route{type: 3}) == "_line_bus.html"
-      assert template_for_tab("line", %Routes.Route{type: 1}) == "_line.html"
-      assert template_for_tab("line", %Routes.Route{type: 2}) == "_line.html"
+  describe "route_fare_link/1" do
+    test "returns proper link to different fares pages" do
+      assert route_fare_link(%Routes.Route{type: 0}) == "/fares/subway-fares"
+      assert route_fare_link(%Routes.Route{type: 1}) == "/fares/subway-fares"
+      assert route_fare_link(%Routes.Route{type: 2}) == "/fares/commuter-rail-fares"
+      assert route_fare_link(%Routes.Route{type: 3}) == "/fares/bus-fares"
+      assert route_fare_link(%Routes.Route{type: 4}) == "/fares/ferry-fares"
     end
   end
 
@@ -394,8 +399,8 @@ defmodule SiteWeb.ScheduleViewTest do
     }
 
     test "Bus line with variant filter", %{conn: conn} do
-      route_stop_1 = %RouteStop{id: "stop 1", name: "Stop 1", zone: "1", stop_features: []}
-      route_stop_2 = %RouteStop{id: "stop 2", name: "Stop 2", zone: "2", stop_features: []}
+      route_stop_1 = %RouteStop{id: "stop 1", name: "Stop 1", zone: "1", stop_features: [], connections: []}
+      route_stop_2 = %RouteStop{id: "stop 2", name: "Stop 2", zone: "2", stop_features: [], connections: []}
       output = SiteWeb.ScheduleView.render(
               "_line.html",
               conn: Plug.Conn.fetch_query_params(conn),
@@ -405,6 +410,7 @@ defmodule SiteWeb.ScheduleViewTest do
               route_shapes: [@shape, @shape],
               active_shape: @shape,
               alerts: [],
+              connections: [],
               upcoming_alerts: [],
               expanded: nil,
               show_variant_selector: true,
@@ -429,8 +435,8 @@ defmodule SiteWeb.ScheduleViewTest do
     end
 
     test "Bus line without variant filter", %{conn: conn} do
-      route_stop_1 = %RouteStop{id: "stop 1", name: "Stop 1", zone: "1", stop_features: []}
-      route_stop_2 = %RouteStop{id: "stop 2", name: "Stop 2", zone: "2", stop_features: []}
+      route_stop_1 = %RouteStop{id: "stop 1", name: "Stop 1", zone: "1", stop_features: [], connections: []}
+      route_stop_2 = %RouteStop{id: "stop 2", name: "Stop 2", zone: "2", stop_features: [], connections: []}
       output = SiteWeb.ScheduleView.render(
               "_line.html",
               conn: Plug.Conn.fetch_query_params(conn),
@@ -439,6 +445,7 @@ defmodule SiteWeb.ScheduleViewTest do
                           {[{nil, :terminus}], route_stop_2}],
               route_shapes: [@shape],
               alerts: [],
+              connections: [],
               upcoming_alerts: [],
               expanded: nil,
               active_shape: nil,
@@ -459,7 +466,6 @@ defmodule SiteWeb.ScheduleViewTest do
               headsigns: %{0 => [], 1 => []},
               vehicle_tooltips: %{},
               dynamic_map_data: %{})
-
       refute safe_to_string(output) =~ "shape-filter"
     end
 
@@ -470,6 +476,7 @@ defmodule SiteWeb.ScheduleViewTest do
               stop_list_template: "_stop_list.html",
               all_stops: [],
               alerts: [],
+              connections: [],
               upcoming_alerts: [],
               route_shapes: [],
               expanded: nil,
@@ -497,6 +504,7 @@ defmodule SiteWeb.ScheduleViewTest do
               stop_list_template: "_stop_list.html",
               all_stops: [],
               alerts: [],
+              connections: [],
               upcoming_alerts: [],
               route_shapes: [],
               expanded: nil,
@@ -520,7 +528,7 @@ defmodule SiteWeb.ScheduleViewTest do
     test "Doesn't link to last stop if it's excluded", %{conn: conn} do
       route = %Routes.Route{id: "route", type: 3}
       route_stop = %RouteStop{id: "last", name: "last", zone: "1",
-                              route: route,
+                              route: route, connections: [],
                               stop_features: [], is_terminus?: true, is_beginning?: false}
       output = SiteWeb.ScheduleView.render(
               "_line.html",
@@ -528,6 +536,7 @@ defmodule SiteWeb.ScheduleViewTest do
               stop_list_template: "_stop_list.html",
               all_stops: [{[{nil, :terminus}], route_stop}],
               alerts: [],
+              connections: [],
               upcoming_alerts: [],
               route_shapes: [@shape],
               expanded: nil,
@@ -775,17 +784,7 @@ defmodule SiteWeb.ScheduleViewTest do
     end
   end
 
-  describe "route_connections/1" do
-    test "returns connecting routes from RouteStops" do
-      connections =
-        [{nil, %Stops.RouteStop{connections: [%Route{id: "Red"}, %Route{id: "CR-Fitchburg"}]}}]
-        |> route_connections()
-        |> Enum.map(& &1.id)
-      assert connections == ["Red", "CR-Fitchburg"]
-    end
-  end
-
-  describe "sort_routes/1" do
+  describe "sort_connnections/1" do
     test "sorts subway in the correct order, followed by commuter rail alphabetical" do
       routes = [
         %Route{id: "Green-E"},
@@ -811,7 +810,7 @@ defmodule SiteWeb.ScheduleViewTest do
         %Route{type: 2, name: "Fitchburg"},
         %Route{type: 2, name: "Worcester"}
       ]
-      assert sort_routes(routes) == sorted_routes
+      assert sort_connections(routes) == sorted_routes
     end
   end
 end

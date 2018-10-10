@@ -55,6 +55,7 @@ defmodule SiteWeb.ScheduleController.Line do
     |> assign(:dynamic_map_data, dynamic_map_data)
     |> assign(:expanded, expanded)
     |> assign(:reverse_direction_all_stops, reverse_direction_all_stops(route.id, direction_id))
+    |> assign(:connections, connections(branches))
   end
 
   @spec active_shape(shapes :: [Shape.t], route_type :: 0..4) :: Shape.t | nil
@@ -430,5 +431,26 @@ defmodule SiteWeb.ScheduleController.Line do
       {:error, _} -> []
       stops -> stops
     end
+  end
+
+  def connections(route_stops) do
+    route_stops
+    |> Enum.reduce(MapSet.new(), &get_connections/2)
+    |> MapSet.to_list()
+  end
+
+  defp get_connections(%RouteStops{stops: stops}, acc) do
+    Enum.reduce(stops, acc, &do_get_connections/2)
+  end
+
+  defp do_get_connections(%RouteStop{connections: connections}, acc) do
+    Enum.reduce(connections, acc, &add_connection/2)
+  end
+
+  defp add_connection(%Route{type: type} = route, acc) when type in [0, 1, 2] do
+    MapSet.put(acc, route)
+  end
+  defp add_connection(%Route{}, acc) do
+    acc
   end
 end

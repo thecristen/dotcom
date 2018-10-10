@@ -351,4 +351,13 @@ defmodule SiteWeb.ScheduleController.LineTest do
       assert first == {[{nil, :terminus}], %RouteStop{id: "first", is_terminus?: true}}
     end
   end
+
+  describe "connections" do
+    test "only shows subway and CR connections", %{conn: conn} do
+      conn = get conn, line_path(conn, :show, "Red")
+      refute Enum.empty?(conn.assigns.connections)
+      assert Enum.all?(conn.assigns.connections, & Enum.member?([0, 1, 2], &1.type))
+
+    end
+  end
 end

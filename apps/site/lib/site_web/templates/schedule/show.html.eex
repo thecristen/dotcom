@@ -1,5 +1,5 @@
 <div class="container">
   <div class="page-section">
-    <%= render template_for_tab(@tab, @route), forward_assigns(@conn) %>
+    <%= render template_for_tab(@tab), forward_assigns(@conn) %>
   </div>
 </div>

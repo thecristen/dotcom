@@ -7,7 +7,7 @@
     </p>
   <% end %>
   <p class="m-schedule-line__info">
-    <%= link to: cms_static_page_path(@conn, "/fares/bus-fares"), class: "c-call-to-action" do %>
+    <%= link to: cms_static_page_path(@conn, SiteWeb.ScheduleView.route_fare_link(@route)), class: "c-call-to-action" do %>
       More about fares
     <% end %>
   </p>

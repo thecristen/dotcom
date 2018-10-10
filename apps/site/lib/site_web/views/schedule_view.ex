@@ -45,13 +45,12 @@ defmodule SiteWeb.ScheduleView do
   end
   defp do_display_direction([]), do: ""
 
-  @spec template_for_tab(String.t, Route.t) :: String.t
+  @spec template_for_tab(String.t) :: String.t
   @doc "Returns the template for the selected tab."
-  def template_for_tab(tab_name, route)
-  def template_for_tab("trip-view", _), do: "_trip_view.html"
-  def template_for_tab("timetable", _), do: "_timetable.html"
-  def template_for_tab("line", %Route{type: 3}), do: "_line_bus.html"
-  def template_for_tab("line", %Route{}), do: "_line.html"
+  def template_for_tab(tab_name)
+  def template_for_tab("trip-view"), do: "_trip_view.html"
+  def template_for_tab("timetable"), do: "_timetable.html"
+  def template_for_tab("line"), do: "_line.html"
 
   @spec reverse_direction_opts(Stops.Stop.t | nil, Stops.Stop.t | nil, 0..1) :: Keyword.t
   def reverse_direction_opts(origin, destination, direction_id) do
@@ -300,6 +299,16 @@ defmodule SiteWeb.ScheduleView do
   end
   defp route_tab_class(_), do: ""
 
+  @spec route_fare_link(Route.t) :: String.t
+  def route_fare_link(route) do
+    route_type =
+      route
+      |> Routes.Route.type_atom()
+      |> Atom.to_string()
+      |> String.replace("_", "-")
+    "/fares/" <> route_type <> "-fares"
+  end
+
   @spec single_trip_fares(Route.t) :: [{String.t, String.t | iolist}]
   def single_trip_fares(route) do
     summary = route
@@ -320,21 +329,8 @@ defmodule SiteWeb.ScheduleView do
   end
   def to_fare_atom(route), do: Routes.Route.type_atom(route)
 
-  @spec route_connections([Stops.RouteStop.t]) :: [Route.t]
-  def route_connections(all_stops) do
-    routes = for {_, route_stop} <- all_stops do
-      route_stop.connections
-    end
-    sort_routes(routes)
-  end
-
-  @spec sort_routes([Route.t]) :: [Route.t]
-  def sort_routes(routes) do
-    routes =
-      routes
-      |> List.flatten
-      |> Enum.filter(& &1.type in [0, 1, 2])
-      |> Enum.uniq
+  @spec sort_connections([Route.t]) :: [Route.t]
+  def sort_connections(routes) do
     {cr, subway} = Enum.split_with(routes, & &1.type == 2)
     Enum.sort(subway, &sort_subway/2) ++ Enum.sort(cr, & &1.name < &2.name)
   end
