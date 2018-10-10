@@ -29,6 +29,28 @@ defmodule Content.HelpersTest do
     end
   end
 
+  describe "parse_body/1" do
+    test "it parses the body when present" do
+      data = %{
+        "body" => [
+          %{
+            "value" => "<h1>body <script>value</script></h1>\n",
+            "format" => "full_html",
+            "processed" => "<h1>body <script>processed</script></h1>\n",
+            "summary" => ""
+          }
+        ]
+      }
+
+      assert parse_body(data) == {:safe, "<h1>body processed</h1>\n"}
+    end
+
+    test "returns nil if no body element present" do
+      data = %{"something" => "else"}
+      assert parse_body(data) == {:safe, ""}
+    end
+  end
+
   describe "parse_path_alias/1" do
     test "it parses a path alias when present" do
       data = %{
