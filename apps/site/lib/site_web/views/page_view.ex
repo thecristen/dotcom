@@ -29,7 +29,7 @@ defmodule SiteWeb.PageView do
   defp shortcut_text(:stations) do
     [
       "Stations",
-      content_tag(:span, [" &", tag(:br), "Stops"], class: "hidden-sm-down")
+      content_tag(:span, [" &", tag(:br), "Stops"], class: "hidden-md-down")
     ]
   end
   defp shortcut_text(:the_ride) do
@@ -38,29 +38,29 @@ defmodule SiteWeb.PageView do
         content_tag(:span, [
           "The",
           tag(:br),
-        ], class: "hidden-sm-down"),
+        ], class: "hidden-md-down"),
         "RIDE"
       ]),
     ]
   end
   defp shortcut_text(:commuter_rail) do
     [
-      content_tag(:span, "Commuter ", class: "hidden-sm-down"),
-      tag(:br, class: "hidden-sm-down"),
+      content_tag(:span, "Commuter ", class: "hidden-md-down"),
+      tag(:br, class: "hidden-md-down"),
       "Rail",
-      content_tag(:span, [" Lines"], class: "hidden-sm-down")
+      content_tag(:span, [raw("&nbsp;"), "Lines"], class: "hidden-md-down")
     ]
   end
   defp shortcut_text(:subway) do
     [
       "Subway",
-      content_tag(:span, [tag(:br), "Lines"], class: "hidden-sm-down")
+      content_tag(:span, [tag(:br), "Lines"], class: "hidden-md-down")
     ]
   end
   defp shortcut_text(mode) do
     [
       mode_name(mode),
-      content_tag(:span, [tag(:br), "Routes"], class: "hidden-sm-down")
+      content_tag(:span, [tag(:br), "Routes"], class: "hidden-md-down")
     ]
   end
 
@@ -100,7 +100,7 @@ defmodule SiteWeb.PageView do
     content_tag(
       :div,
       Enum.map(entries, & render_news_entry(&1, size, conn)),
-      class: "col-md-6 col-sm-10 col-sm-offset-1 col-md-offset-0"
+      class: "col-md-6"
     )
   end
 

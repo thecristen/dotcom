@@ -1,5 +1,5 @@
 <div class="hidden-no-js">
-  <div class="container homepage-search">
+  <div class="homepage-search">
     <form action="/search" method="get">
       <%= SiteWeb.PartialView.render("_search_input.html",
         Map.merge(assigns, %{

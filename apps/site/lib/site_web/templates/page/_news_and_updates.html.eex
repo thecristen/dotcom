@@ -1,11 +1,13 @@
 <%= if !Enum.empty?(@news) do %>
   <div class="container page-section m-homepage__news" id="news-and-updates">
-    <h2 class="col-sm-offset-1 col-md-offset-0">News</h2>
-    <%= render_news_entries(@conn) %>
-    <p class="col-sm-offset-1 col-md-offset-0">
-      <%= link to: news_entry_path(@conn, :index), class: "c-call-to-action" do %>
-        More News
-      <% end %>
-    </p>
+    <div class="m-homepage--10-col-sm-only">
+      <h2>News</h2>
+      <%= render_news_entries(@conn) %>
+      <p>
+        <%= link to: news_entry_path(@conn, :index), class: "c-call-to-action" do %>
+          More News
+        <% end %>
+      </p>
+    </div>
   </div>
 <% end %>

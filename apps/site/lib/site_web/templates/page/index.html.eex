@@ -1,17 +1,19 @@
 <div class="index">
   <h1 class="sr-only">MBTA Homepage</h1>
-  <div class="m-homepage__search-wrapper">
-    <%= render "_search_bar.html", conn: @conn  %>
-    <div class="container">
+  <div class="container">
+    <div class="m-homepage--10-col-sm-only">
       <%= shortcut_icons() %>
     </div>
+    <div class="m-homepage--10-col-sm-only m-homepage__search-wrapper">
+      <%= render "_search_bar.html", conn: @conn  %>
+      <%= case assigns[:recommended_routes] do
+        [%Routes.Route{} | _] = routes ->
+          render("_recommended_routes.html", conn: @conn, routes: routes, all_alerts: @all_alerts, date_time: @date_time)
+        _ ->
+          ""
+      end %>
+    </div>
   </div>
-  <%= case assigns[:recommended_routes] do
-    [%Routes.Route{} | _] = routes ->
-      render("_recommended_routes.html", conn: @conn, routes: routes, all_alerts: @all_alerts, date_time: @date_time)
-    _ ->
-      ""
-  end %>
   <%=
     if assigns[:banner] do
       render SiteWeb.PageView, "_banner.html", conn: @conn, banner: assigns[:banner]
