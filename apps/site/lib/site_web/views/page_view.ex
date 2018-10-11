@@ -1,5 +1,6 @@
 defmodule SiteWeb.PageView do
   import Phoenix.HTML.Tag
+  alias Content.Banner
 
   use SiteWeb, :view
 
@@ -28,7 +29,7 @@ defmodule SiteWeb.PageView do
   defp shortcut_text(:stations) do
     [
       "Stations",
-      content_tag(:span, [" &", tag(:br), "Stops"], class: "hidden-sm-down")
+      content_tag(:span, [" &", tag(:br), "Stops"], class: "hidden-md-down")
     ]
   end
   defp shortcut_text(:the_ride) do
@@ -37,29 +38,29 @@ defmodule SiteWeb.PageView do
         content_tag(:span, [
           "The",
           tag(:br),
-        ], class: "hidden-sm-down"),
+        ], class: "hidden-md-down"),
         "RIDE"
       ]),
     ]
   end
   defp shortcut_text(:commuter_rail) do
     [
-      content_tag(:span, "Commuter ", class: "hidden-sm-down"),
-      tag(:br, class: "hidden-sm-down"),
+      content_tag(:span, "Commuter ", class: "hidden-md-down"),
+      tag(:br, class: "hidden-md-down"),
       "Rail",
-      content_tag(:span, [" Lines"], class: "hidden-sm-down")
+      content_tag(:span, [raw("&nbsp;"), "Lines"], class: "hidden-md-down")
     ]
   end
   defp shortcut_text(:subway) do
     [
       "Subway",
-      content_tag(:span, [tag(:br), "Lines"], class: "hidden-sm-down")
+      content_tag(:span, [tag(:br), "Lines"], class: "hidden-md-down")
     ]
   end
   defp shortcut_text(mode) do
     [
       mode_name(mode),
-      content_tag(:span, [tag(:br), "Routes"], class: "hidden-sm-down")
+      content_tag(:span, [tag(:br), "Routes"], class: "hidden-md-down")
     ]
   end
 
@@ -99,7 +100,7 @@ defmodule SiteWeb.PageView do
     content_tag(
       :div,
       Enum.map(entries, & render_news_entry(&1, size, conn)),
-      class: "col-md-6 col-sm-10 col-sm-offset-1 col-md-offset-0"
+      class: "col-md-6"
     )
   end
 
@@ -125,5 +126,35 @@ defmodule SiteWeb.PageView do
         class: "m-news-entry__day--#{size}"
       )
     ], class: "m-news-entry__date m-news-entry__date--#{size} u-small-caps")
+  end
+
+  @spec banner_title(Banner.t) :: Phoenix.HTML.Safe.t
+  defp banner_title(%Banner{banner_type: :important, title: title}) do
+    title
+  end
+  defp banner_title(%Banner{banner_type: :default, title: title, link: %{url: url}}) do
+    link(title, to: url)
+  end
+
+  @spec banner_content_class(Banner.t) :: String.t
+  defp banner_content_class(%Banner{} = banner) do
+    Enum.join([
+      "m-banner__content",
+      "m-banner__content--" <> CSSHelpers.atom_to_class(banner.banner_type),
+      "m-banner__content--" <> CSSHelpers.atom_to_class(banner.text_position)
+      | banner_bg_class(banner)
+    ], " ")
+  end
+
+  @spec banner_bg_class(Banner.t) :: [String.t]
+  defp banner_bg_class(%Banner{banner_type: :important}), do: []
+  defp banner_bg_class(%Banner{mode: mode}), do: ["u-bg--" <> CSSHelpers.atom_to_class(mode)]
+
+  @spec banner_cta(Banner.t) :: Phoenix.HTML.Safe.t
+  defp banner_cta(%Banner{banner_type: :important, link: %{url: url, title: title}}) do
+    link title, to: cms_static_page_path(SiteWeb.Endpoint, url), class: "m-banner__cta"
+  end
+  defp banner_cta(%Banner{}) do
+    ""
   end
 end

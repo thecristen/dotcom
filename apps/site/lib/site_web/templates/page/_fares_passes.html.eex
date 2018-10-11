@@ -1,11 +1,13 @@
 <div class="fares-passes page-section">
   <div class="container">
-    <h2>Fares and Passes</h2>
-    <%= SiteWeb.FareView.summarize(@common_fare_summaries) %>
-    <div class="all-fares-link">
-      <%= link to: cms_static_page_path(@conn, "/fares"), class: "btn btn-primary" do
-        "See fares overview"
-      end %>
+    <div class="m-homepage--10-col-sm-only">
+      <h2>Fares and Passes</h2>
+      <%= SiteWeb.FareView.summarize(@common_fare_summaries) %>
+      <div class="all-fares-link">
+        <%= link to: cms_static_page_path(@conn, "/fares"), class: "btn btn-primary" do
+          "See fares overview"
+        end %>
+      </div>
     </div>
   </div>
 </div>

@@ -36,7 +36,7 @@
       "label": "Homepage",
       "url": "http://host.docker.internal:8082/?date=2018-12-22",
       "removeSelectors": [
-        ".whats-happening-section",
+        "m-whats-happening__section",
         ".news-section",
         ".title-card",
         "#animated-input-placeholder",
@@ -55,7 +55,7 @@
       "label": "Homepage",
       "url": "http://host.docker.internal:8082/?date=2018-12-22",
       "removeSelectors": [
-        ".whats-happening-section",
+        "m-whats-happening__section",
         ".news-section",
         ".title-card",
         "#animated-input-placeholder",
@@ -74,7 +74,7 @@
       "label": "Homepage",
       "url": "http://host.docker.internal:8082/?date=2018-12-22",
       "removeSelectors": [
-        ".whats-happening-section",
+        "m-whats-happening__section",
         ".news-section",
         ".title-card",
         "#animated-input-placeholder",
@@ -93,7 +93,7 @@
       "label": "Homepage",
       "url": "http://host.docker.internal:8082/?date=2018-12-22",
       "removeSelectors": [
-        ".whats-happening-section",
+        "m-whats-happening__section",
         ".news-section",
         ".title-card",
         "#animated-input-placeholder",

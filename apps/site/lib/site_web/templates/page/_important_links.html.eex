@@ -1,69 +1,71 @@
 <div class="container page-section" id="important-links">
-  <h2>Important Links</h2>
-  <div class="m-homepage__important-links">
-    <%= link to: cms_static_page_path(@conn, "/accessibility"), class: "m-homepage__important-link" do %>
-      <div class="m-homepage__important-link-content">
-        <div class="m-homepage__important-link-title">Accessibility</div>
-        <div class="m-homepage__important-link-icon">
-          <%= svg  "accessibility.svg" %>
+  <div class="m-homepage--10-col-sm-only">
+    <h2>Important Links</h2>
+    <div class="m-homepage__important-links">
+      <%= link to: cms_static_page_path(@conn, "/accessibility"), class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Accessibility</div>
+          <div class="m-homepage__important-link-icon">
+            <%= svg  "accessibility.svg" %>
+          </div>
         </div>
-      </div>
-    <% end %>
-    <%= link to: event_path(@conn, :index), class: "m-homepage__important-link" do %>
-      <div class="m-homepage__important-link-content">
-        <div class="m-homepage__important-link-title">Events</div>
-        <div class="m-homepage__important-link-icon">
-          <%= fa "calendar" %>
+      <% end %>
+      <%= link to: event_path(@conn, :index), class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Events</div>
+          <div class="m-homepage__important-link-icon">
+            <%= fa "calendar" %>
+          </div>
         </div>
-      </div>
-    <% end %>
-    <%= link to: cms_static_page_path(@conn, "/leadership/fmcb"), class: "m-homepage__important-link" do %>
-      <div class="m-homepage__important-link-content">
-        <div class="m-homepage__important-link-title">Leadership</div>
-        <div class="m-homepage__important-link-icon">
-          (FMCB)
+      <% end %>
+      <%= link to: cms_static_page_path(@conn, "/leadership/fmcb"), class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Leadership</div>
+          <div class="m-homepage__important-link-icon">
+            (FMCB)
+          </div>
         </div>
-      </div>
-    <% end %>
-    <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home/", class: "m-homepage__important-link" do %>
-      <div class="m-homepage__important-link-content">
-        <div class="m-homepage__important-link-title">Performance</div>
-        <div class="m-homepage__important-link-icon">
-          <%= fa "signal" %>
+      <% end %>
+      <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home/", class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Performance</div>
+          <div class="m-homepage__important-link-icon">
+            <%= fa "signal" %>
+          </div>
         </div>
-      </div>
-    <% end %>
-    <%= link to: cms_static_page_path(@conn, "/careers"), class: "m-homepage__important-link" do %>
-      <div class="m-homepage__important-link-content">
-        <div class="m-homepage__important-link-title">Careers</div>
-        <div class="m-homepage__important-link-icon">
-          <%= fa "users" %>
+      <% end %>
+      <%= link to: cms_static_page_path(@conn, "/careers"), class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Careers</div>
+          <div class="m-homepage__important-link-icon">
+            <%= fa "users" %>
+          </div>
         </div>
-      </div>
-    <% end %>
-    <%= link to: cms_static_page_path(@conn, "/sustainability"), class: "m-homepage__important-link" do %>
-      <div class="m-homepage__important-link-content">
-        <div class="m-homepage__important-link-title">Sustainability</div>
-        <div class="m-homepage__important-link-icon">
-          <%= fa "recycle" %>
+      <% end %>
+      <%= link to: cms_static_page_path(@conn, "/sustainability"), class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Sustainability</div>
+          <div class="m-homepage__important-link-icon">
+            <%= fa "recycle" %>
+          </div>
         </div>
-      </div>
-    <% end %>
-    <%= link to: cms_static_page_path(@conn, "/business"), class: "m-homepage__important-link" do %>
-      <div class="m-homepage__important-link-content">
-        <div class="m-homepage__important-link-title">Business</div>
-        <div class="m-homepage__important-link-icon">
-          <%= fa "briefcase" %>
+      <% end %>
+      <%= link to: cms_static_page_path(@conn, "/business"), class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Business</div>
+          <div class="m-homepage__important-link-icon">
+            <%= fa "briefcase" %>
+          </div>
         </div>
-      </div>
-    <% end %>
-    <%= link to: "http://transitapp.com", class: "m-homepage__important-link" do %>
-      <div class="m-homepage__important-link-content">
-        <div class="m-homepage__important-link-title">Transit App</div>
-        <div class="m-homepage__important-link-icon">
-          <%= svg "transit-app.svg" %>
+      <% end %>
+      <%= link to: "http://transitapp.com", class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Transit App</div>
+          <div class="m-homepage__important-link-icon">
+            <%= svg "transit-app.svg" %>
+          </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
