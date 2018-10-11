@@ -10,14 +10,6 @@
           </div>
         </div>
       <% end %>
-      <%= link to: event_path(@conn, :index), class: "m-homepage__important-link" do %>
-        <div class="m-homepage__important-link-content">
-          <div class="m-homepage__important-link-title">Events</div>
-          <div class="m-homepage__important-link-icon">
-            <%= fa "calendar" %>
-          </div>
-        </div>
-      <% end %>
       <%= link to: cms_static_page_path(@conn, "/leadership/fmcb"), class: "m-homepage__important-link" do %>
         <div class="m-homepage__important-link-content">
           <div class="m-homepage__important-link-title">Leadership</div>
@@ -39,6 +31,14 @@
           <div class="m-homepage__important-link-title">Careers</div>
           <div class="m-homepage__important-link-icon">
             <%= fa "users" %>
+          </div>
+        </div>
+      <% end %>
+      <%= link to: cms_static_page_path(@conn, "/titlevi"), class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Civil Rights</div>
+          <div class="m-homepage__important-link-icon">
+            <%= fa "calendar" %>
           </div>
         </div>
       <% end %>
