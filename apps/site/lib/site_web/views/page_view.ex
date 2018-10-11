@@ -85,7 +85,7 @@ defmodule SiteWeb.PageView do
     content_tag(:div,
       conn.assigns
       |> Map.get(:news)
-      |> Enum.split(3)
+      |> Enum.split(2)
       |> Tuple.to_list()
       |> Enum.with_index()
       |> Enum.map(&do_render_news_entries(&1, conn)),

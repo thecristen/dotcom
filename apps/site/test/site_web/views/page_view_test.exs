@@ -57,7 +57,7 @@ defmodule SiteWeb.PageViewTest do
   describe "render_news_entries/1" do
     test "renders news entries", %{conn: conn} do
       now = Util.now()
-      entries = for idx <- 1..7 do
+      entries = for idx <- 1..5 do
         %Content.NewsEntry{
           title: "News Entry #{idx}",
           posted_on: Timex.shift(now, hours: -idx),
@@ -68,9 +68,9 @@ defmodule SiteWeb.PageViewTest do
         |> assign(:news, entries)
         |> SiteWeb.PageView.render_news_entries()
         |> Phoenix.HTML.safe_to_string()
-      assert rendered |> Floki.find(".m-news-entry") |> Enum.count() == 7
-      assert rendered |> Floki.find(".m-news-entry--large") |> Enum.count() == 3
-      assert rendered |> Floki.find(".m-news-entry--small") |> Enum.count() == 4
+      assert rendered |> Floki.find(".m-news-entry") |> Enum.count() == 5
+      assert rendered |> Floki.find(".m-news-entry--large") |> Enum.count() == 2
+      assert rendered |> Floki.find(".m-news-entry--small") |> Enum.count() == 3
     end
   end
 end
