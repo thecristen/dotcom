@@ -4,9 +4,10 @@
       <h2>News</h2>
       <%= render_news_entries(@conn) %>
       <p>
-        <%= link to: news_entry_path(@conn, :index), class: "c-call-to-action" do %>
-          More News
-        <% end %>
+        <%= link "More News", to: news_entry_path(@conn, :index), class: "c-call-to-action" %>
+      </p>
+      <p>
+        <%= link "See Upcoming Events", to: event_path(@conn, :index), class: "c-call-to-action" %>
       </p>
     </div>
   </div>
