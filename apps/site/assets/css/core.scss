@@ -155,8 +155,6 @@ small {
   stroke-width: initial;
 }
 
-.pre-container-wrapper,
-.post-container-wrapper,
 .page-container {
   flex-basis: auto;
   flex-grow: 1;
@@ -165,15 +163,9 @@ small {
 
 .station__header,
 .schedule__header,
-.pre-container-wrapper,
-.page-container,
-.post-container-wrapper {
+.page-container {
   max-width: 100%;
   width: 100%;
-}
-
-.post-container-wrapper {
-  padding-bottom: $base-spacing;
 }
 
 .page-container {
