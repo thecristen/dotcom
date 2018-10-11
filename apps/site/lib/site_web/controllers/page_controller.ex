@@ -14,8 +14,6 @@ defmodule SiteWeb.PageController do
     |> async_assign_default(:promoted_items, fn -> promoted end)
     |> async_assign_default(:whats_happening_items, fn -> remainder end)
     |> async_assign_default(:all_alerts, fn -> Alerts.Repo.all(conn.assigns.date_time) end)
-    |> assign(:pre_container_template, "_pre_container.html")
-    |> assign(:post_container_template, "_post_container.html")
     |> await_assign_all_default()
     |> render("index.html")
   end

@@ -75,8 +75,7 @@ defmodule SiteWeb.ContentController do
     conn
     |> assign(:breadcrumbs, page.breadcrumbs)
     |> assign(:page, page)
-    |> assign(:pre_container_template, "landing_page.html")
-    |> render(SiteWeb.ContentView, "empty.html", [])
+    |> render("landing_page.html")
   end
   defp render_page(conn, %Content.Person{} = person) do
     conn
