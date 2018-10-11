@@ -121,9 +121,19 @@ defmodule Site.ContentRewriterTest do
     end
 
     test "strips non-button elements from a paragraph with two or more .btn elements and wraps them in a div", %{conn: conn} do
-      assert ~s(<p><a class="btn btn-primary" href="/page1">Button 1</a>&nbsp;<a class="btn btn-secondary" href="/page2">Button 2</a></p>)
+      assert ~s(<p data-paragraph-order="1" class="rainbow"><a class="btn btn-primary" href="/page1">Button 1</a>&nbsp;<a class="btn btn-secondary" href="/page2">Button 2</a></p>)
              |> raw()
              |> rewrite(conn) == {:safe, ~s(<div class="c-inline-buttons"><a class="btn btn-primary" href="/page1">Button 1</a><a class="btn btn-secondary" href="/page2">Button 2</a></div>)}
+    end
+
+    test "replaces liquid object tags", %{conn: conn} do
+      input = ~s(<p>Before <a href="#">{{ icon:subway-green }} link</a> after</p>)
+
+      {:safe, output} = input |> raw() |> rewrite(conn)
+
+      assert output =~ ~r/^<p>Before <a href=\"#\"><span data-toggle=\"tooltip\" title=\"Green Line\">/
+      assert output =~ ~r/<span class=\"c-svg__icon-green-line-small\"><svg/
+      assert output =~ ~r/<\/svg><\/span><\/span> link<\/a> after<\/p>$/
     end
 
     test "wraps supported iframes as embedded media structures and sets aspect class for a supported source", %{conn: conn} do
