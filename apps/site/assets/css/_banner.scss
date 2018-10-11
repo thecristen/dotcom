@@ -37,16 +37,12 @@
     width: $col-width * 5;
   }
 
-  @include media-breakpoint-only(lg) {
+  @include media-breakpoint-up(lg) {
     width: $col-width * 4;
   }
 
-  @include media-breakpoint-only(sm) {
+  @include media-breakpoint-up(sm) {
     min-height: $base-spacing * 20;
-  }
-
-  @include media-breakpoint-up(md) {
-    min-height: $base-spacing * 25;
   }
 }
 
@@ -91,4 +87,10 @@
   border-radius: $border-radius;
   display: block;
   padding: $base-spacing * .75;
+
+  &:hover {
+    background: $brand-primary-lightest;
+    text-decoration: none;
+  }
+
 }
