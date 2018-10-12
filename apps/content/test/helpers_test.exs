@@ -3,38 +3,70 @@ defmodule Content.HelpersTest do
   import Content.Helpers
   doctest Content.Helpers
 
-  describe "rewrite_url/1" do
-    test "rewrites when the URL has query params" do
-      assert %URI{} = uri =
-        "http://test-mbta.pantheonsite.io/foo/bar?baz=quux"
-        |> Content.Helpers.rewrite_url()
-        |> URI.parse()
-      assert uri.scheme == "http"
-      assert uri.host == "localhost"
-      assert uri.path == "/foo/bar"
-      assert uri.query == "baz=quux"
+  describe "handle_html/1" do
+    test "removes unsafe html tags from safe content" do
+      html = "<h1>hello!<script>code</script></h1>"
+      assert handle_html(html) == {:safe, "<h1>hello!code</h1>"}
     end
 
-    test "rewrites when the URL has no query params" do
-      assert %URI{} = uri =
-        "http://test-mbta.pantheonsite.io/foo/bar"
-        |> Content.Helpers.rewrite_url()
-        |> URI.parse()
-      assert uri.scheme == "http"
-      assert uri.host == "localhost"
-      assert uri.path == "/foo/bar"
-      assert uri.query == nil
+    test "allows valid HTML5 tags" do
+      html = "<p>Content</p>"
+      assert handle_html(html) == {:safe, "<p>Content</p>"}
     end
 
-    test "rewrites the URL for https" do
-      assert %URI{} = uri =
-        "https://example.com/foo/bar"
-        |> Content.Helpers.rewrite_url()
-        |> URI.parse()
-      assert uri.scheme == "http"
-      assert uri.host == "localhost"
-      assert uri.path == "/foo/bar"
-      assert uri.query == nil
+    test "rewrites static file links" do
+      {:ok, endpoint} = Application.get_env(:util, :endpoint)
+      html = "<img src=\"/sites/default/files/converted.jpg\">"
+      assert handle_html(html) == {:safe, "<img src=\"#{endpoint.url()}/sites/default/files/converted.jpg\" />"}
+    end
+
+    test "allows an empty string" do
+      assert handle_html("") == {:safe, ""}
+    end
+
+    test "allows nil" do
+      assert handle_html(nil) == {:safe, ""}
+    end
+  end
+
+  describe "parse_body/1" do
+    test "it parses the body when present" do
+      data = %{
+        "body" => [
+          %{
+            "value" => "<h1>body <script>value</script></h1>\n",
+            "format" => "full_html",
+            "processed" => "<h1>body <script>processed</script></h1>\n",
+            "summary" => ""
+          }
+        ]
+      }
+
+      assert parse_body(data) == {:safe, "<h1>body processed</h1>\n"}
+    end
+
+    test "returns nil if no body element present" do
+      data = %{"something" => "else"}
+      assert parse_body(data) == {:safe, ""}
+    end
+  end
+
+  describe "parse_path_alias/1" do
+    test "it parses a path alias when present" do
+      data = %{
+        "path" => [
+          %{
+            "alias" => "/pretty/url/alias"
+          }
+        ]
+      }
+
+      assert "/pretty/url/alias" == parse_path_alias(data)
+    end
+
+    test "returns nil if no path alias present" do
+      data = %{"something" => "else"}
+      assert nil == parse_path_alias(data)
     end
   end
 
@@ -92,22 +124,20 @@ defmodule Content.HelpersTest do
     end
   end
 
-  describe "parse_path_alias/1" do
-    test "it parses a path alias when present" do
-      data = %{
-        "path" => [
-          %{
-            "alias" => "/pretty/url/alias"
-          }
-        ]
-      }
+  describe "parse_date/2" do
+    test "parses a date string to a date" do
+      map = %{"posted_on" => [%{"value" => "2017-01-01"}]}
 
-      assert "/pretty/url/alias" == parse_path_alias(data)
+      assert parse_date(map, "posted_on") == ~D[2017-01-01]
     end
 
-    test "returns nil if no path alias present" do
-      data = %{"something" => "else"}
-      assert nil == parse_path_alias(data)
+    test "when the date string cannot be converted to a date" do
+      map = %{"posted_on" => [%{"value" => ""}]}
+      assert parse_date(map, "posted_on") == nil
+    end
+
+    test "when the field is missing" do
+      assert parse_date(%{}, "posted_on") == nil
     end
   end
 
@@ -134,64 +164,6 @@ defmodule Content.HelpersTest do
       }
 
       assert parse_link(data, "field_my_link") == nil
-    end
-  end
-
-  describe "parse_date/2" do
-    test "parses a date string to a date" do
-      map = %{"posted_on" => [%{"value" => "2017-01-01"}]}
-
-      assert parse_date(map, "posted_on") == ~D[2017-01-01]
-    end
-
-    test "when the date string cannot be converted to a date" do
-      map = %{"posted_on" => [%{"value" => ""}]}
-      assert parse_date(map, "posted_on") == nil
-    end
-
-    test "when the field is missing" do
-      assert parse_date(%{}, "posted_on") == nil
-    end
-  end
-
-  describe "int_or_string_to_int/1" do
-    test "converts appropriately or leaves alone" do
-      assert int_or_string_to_int(5) == 5
-      assert int_or_string_to_int("5") == 5
-    end
-
-    test "handles invalid string" do
-      assert int_or_string_to_int("foo") == nil
-    end
-
-    test "handles nil" do
-      assert int_or_string_to_int(nil) == nil
-    end
-  end
-
-  describe "handle_html/1" do
-    test "removes unsafe html tags from safe content" do
-      html = "<h1>hello!<script>code</script></h1>"
-      assert handle_html(html) == {:safe, "<h1>hello!code</h1>"}
-    end
-
-    test "allows valid HTML5 tags" do
-      html = "<p>Content</p>"
-      assert handle_html(html) == {:safe, "<p>Content</p>"}
-    end
-
-    test "rewrites static file links" do
-      {:ok, endpoint} = Application.get_env(:util, :endpoint)
-      html = "<img src=\"/sites/default/files/converted.jpg\">"
-      assert handle_html(html) == {:safe, "<img src=\"#{endpoint.url()}/sites/default/files/converted.jpg\" />"}
-    end
-
-    test "allows an empty string" do
-      assert handle_html("") == {:safe, ""}
-    end
-
-    test "allows nil" do
-      assert handle_html(nil) == {:safe, ""}
     end
   end
 
@@ -273,6 +245,56 @@ defmodule Content.HelpersTest do
           }]
         }
       ]
+    end
+  end
+
+  describe "rewrite_url/1" do
+    test "rewrites when the URL has query params" do
+      assert %URI{} = uri =
+        "http://test-mbta.pantheonsite.io/foo/bar?baz=quux"
+        |> Content.Helpers.rewrite_url()
+        |> URI.parse()
+      assert uri.scheme == "http"
+      assert uri.host == "localhost"
+      assert uri.path == "/foo/bar"
+      assert uri.query == "baz=quux"
+    end
+
+    test "rewrites when the URL has no query params" do
+      assert %URI{} = uri =
+        "http://test-mbta.pantheonsite.io/foo/bar"
+        |> Content.Helpers.rewrite_url()
+        |> URI.parse()
+      assert uri.scheme == "http"
+      assert uri.host == "localhost"
+      assert uri.path == "/foo/bar"
+      assert uri.query == nil
+    end
+
+    test "rewrites the URL for https" do
+      assert %URI{} = uri =
+        "https://example.com/foo/bar"
+        |> Content.Helpers.rewrite_url()
+        |> URI.parse()
+      assert uri.scheme == "http"
+      assert uri.host == "localhost"
+      assert uri.path == "/foo/bar"
+      assert uri.query == nil
+    end
+  end
+
+  describe "int_or_string_to_int/1" do
+    test "converts appropriately or leaves alone" do
+      assert int_or_string_to_int(5) == 5
+      assert int_or_string_to_int("5") == 5
+    end
+
+    test "handles invalid string" do
+      assert int_or_string_to_int("foo") == nil
+    end
+
+    test "handles nil" do
+      assert int_or_string_to_int(nil) == nil
     end
   end
 end
