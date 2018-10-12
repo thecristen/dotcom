@@ -90,25 +90,6 @@
       "misMatchThreshold": 0.015
     },
     {
-      "label": "Homepage",
-      "url": "http://host.docker.internal:8082/?date=2018-12-22",
-      "removeSelectors": [
-        "m-whats-happening__section",
-        ".news-section",
-        ".title-card",
-        "#animated-input-placeholder",
-        "#google_translate_element"
-      ],
-      "hideSelectors": [
-        "#animated-input-placeholder"
-      ],
-      "selectors": [
-        ".post-container-wrapper"
-      ],
-      "delay": 100,
-      "misMatchThreshold": 0.015
-    },
-    {
       "label": "Subway Hub",
       "url": "http://host.docker.internal:8082/schedules/subway?date=2018-12-22",
       "hideSelectors": [

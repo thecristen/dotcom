@@ -50,17 +50,11 @@
       <%= if assigns[:search_header?] do %>
         <%= render "_searchbar.html", assigns %>
       <% end %>
-      <%= if assigns[:pre_container_template] do %>
-        <%= render_existing @view_module, assigns[:pre_container_template], assigns %>
-      <% end %>
       <div class="page-container <%= get_page_classes(@view_module, @view_template) %>">
         <%=
           content_tag :main, render(@view_module, @view_template, assigns), id: "main", tabindex: -1
         %>
       </div> <%# /container %>
-      <%= if assigns[:post_container_template] do %>
-        <%= render_existing @view_module, assigns[:post_container_template], assigns %>
-      <% end %>
       <%= render __MODULE__, "_footer.html", conn: @conn %>
     </div>
     <script src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-eval="false"></script>

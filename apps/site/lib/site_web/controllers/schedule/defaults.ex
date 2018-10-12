@@ -15,11 +15,6 @@ defmodule SiteWeb.ScheduleController.Defaults do
   plug :assign_show_date_select
   plug :assign_tab_params
   plug :assign_trip_chosen
-  plug :assign_header_template
-
-  def assign_header_template(conn, _) do
-    assign(conn, :pre_container_template, "_line_header.html")
-  end
 
   def assign_headsigns(%Conn{assigns: %{route: %Route{id: route_id}}} = conn, _) do
     assign(conn, :headsigns, Routes.Repo.headsigns(route_id))

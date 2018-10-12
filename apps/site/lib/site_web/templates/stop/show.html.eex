@@ -1,3 +1,4 @@
+<%= render "_header.html", assigns %>
 <div class="container">
   <div class="page-section station">
     <p class="stations-address">

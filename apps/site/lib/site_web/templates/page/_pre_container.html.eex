@@ -1,1 +1,0 @@
-<%= render "_secondary_nav.html", conn: @conn %>

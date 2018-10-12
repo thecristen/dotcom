@@ -204,6 +204,11 @@
 .station__header {
   background: $gray-bordered-background;
   border-bottom: 0;
+
+  // required to prevent h2 margin-top from creating space between
+  // header and breadcrumbs
+  // https://stackoverflow.com/questions/13573653
+  overflow: auto;
 }
 
 .station__header-container {
