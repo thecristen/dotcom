@@ -146,12 +146,18 @@
 
   $adjustment: .25em;
 
-  // Paragraph copy directly following headlines have their own
-  // built-in spacing (line-heights, em-square), so we undo the global
-  // after-heading spacing when paragraphs directly follow headings.
+  // Paragraph copy directly following headlines (even if nested in divs) have
+  // their own built-in spacing (line-heights, em-square), so we undo the
+  // global after-heading spacing when paragraphs directly follow headings.
   + p,
+  + div > p:first-child,
+  + div > div > p:first-child,
   + ul,
-  + ol {
+  + div > ul:first-child,
+  + div > div > ul:first-child,
+  + ol,
+  + div > ol:first-child,
+  + div > div > ol:first-child {
     margin-top: -$adjustment;
   }
 
