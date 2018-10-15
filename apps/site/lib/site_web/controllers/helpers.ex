@@ -106,6 +106,8 @@ defmodule SiteWeb.ControllerHelpers do
 
   @spec check_cms_or_404(Conn.t) :: Conn.t
   def check_cms_or_404(conn) do
-    SiteWeb.ContentController.page(conn, %{})
+    conn
+    |> Phoenix.Controller.put_view(SiteWeb.ContentView)
+    |> SiteWeb.ContentController.page(%{})
   end
 end
