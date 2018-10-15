@@ -360,7 +360,7 @@ defmodule SiteWeb.StopListViewTest do
       names =
         html
         |> Floki.find(".route-branch-stop-name")
-        |> Enum.map(fn {_elem, _attrs, [name]} -> String.trim(name) end)
+        |> Enum.map(fn {_elem, _attrs, [{_e, _a, [name]}]} -> String.trim(name) end)
 
       assert names == ["Broadway", "Andrew", "JFK/​Umass"]
     end
@@ -404,7 +404,7 @@ defmodule SiteWeb.StopListViewTest do
       names =
         html
         |> Floki.find(".route-branch-stop-name")
-        |> Enum.map(fn {_elem, _attrs, [name]} -> String.trim(name) end)
+        |> Enum.map(fn {_elem, _attrs, [{_e, _a, [name]}]} -> String.trim(name) end)
 
       assert names == ["Quincy Center", "North Quincy", "Wollaston"]
     end
@@ -426,7 +426,7 @@ defmodule SiteWeb.StopListViewTest do
       names =
         html
         |> Floki.find(".route-branch-stop-name")
-        |> Enum.map(fn {_elem, _attrs, [name]} -> String.trim(name) end)
+        |> Enum.map(fn {_elem, _attrs, [{_e, _a, [name]}]} -> String.trim(name) end)
 
       assert names == ["North Quincy", "Wollaston"]
     end

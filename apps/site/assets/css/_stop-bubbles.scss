@@ -99,10 +99,10 @@ $location-line-width: $space-6;
   }
 
   svg {
+    height: 1.5rem;
     overflow: visible;
     position: relative;
     transform: translate(.5px, 1px);
-    height: 1.5rem;
     vertical-align: top;
     width: 1.5rem;
   }
@@ -276,6 +276,10 @@ $location-line-width: $space-6;
   float: right; // for non-flex browsers
 }
 
+.route-branch-stop-name {
+  font-weight: bold;
+}
+
 .route-branch-stop-name-icons,
 .route-branch-stop-links {
   display: flex;
@@ -316,12 +320,6 @@ $location-line-width: $space-6;
 
 .route-branch-stop-link {
   display: inline-block;
-}
-
-@include media-breakpoint-only(xs) {
-  .stop-info-link {
-    float: right;
-  }
 }
 
 .route-branch-stop-zone {

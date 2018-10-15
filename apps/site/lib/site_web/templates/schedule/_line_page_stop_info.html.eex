@@ -1,7 +1,7 @@
 <%= if @stop.closed_stop_info do %>
   <%= render "_line_page_stop_closed_text_icons.html", stop: @stop %>
 <% else %>
-  <%= render "_line_page_stop_text_icons.html", stop: @stop %>
+  <%= render "_line_page_stop_text_icons.html", stop: @stop, conn: @conn %>
   <%= if @stop.zone do %>
     <div>
       <div class="commuter-rail-zone route-branch-stop-zone">
@@ -18,9 +18,6 @@
       <% end %>
     <% else %>
       <div class="route-branch-stop-link"></div>
-    <% end %>
-    <%= link class: "route-branch-stop-link stop-info-link", to: stop_path(@conn, :show, @stop.id) do %>
-      Stop Info
     <% end %>
   </div>
 <% end %>
