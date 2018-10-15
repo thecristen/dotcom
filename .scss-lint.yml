@@ -1,5 +1,7 @@
 scss_files: 'apps/site/assets/css/**/*.scss'
 
+exclude: 'apps/site/assets/css/_google-translate.scss'
+
 linters:
   SelectorFormat:
     enabled: true
