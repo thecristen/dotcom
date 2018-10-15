@@ -1,4 +1,4 @@
-<%=
+<%
   pdfs = case Map.get(assigns, :route_pdfs, []) do
     {:error, _} -> []
     pdfs when is_list(pdfs) -> pdfs
