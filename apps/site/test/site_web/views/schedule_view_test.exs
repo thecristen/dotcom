@@ -703,20 +703,6 @@ defmodule SiteWeb.ScheduleViewTest do
     end
   end
 
-  describe "get expected column width in each use case" do
-    test "forced 6 column" do
-      assert direction_select_column_width(true, 40) == 6
-    end
-
-    test "long headsign column" do
-      assert direction_select_column_width(nil, 40) == 8
-    end
-
-    test "short headsign column" do
-      assert direction_select_column_width(false, 10) == 4
-    end
-  end
-
   describe "fare_params/2" do
     @origin %Stop{id: "place-north"}
     @destination %Stop{id: "Fitchburg"}

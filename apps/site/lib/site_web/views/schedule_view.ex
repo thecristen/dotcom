@@ -171,11 +171,6 @@ defmodule SiteWeb.ScheduleView do
     route_prefix <> route_name
   end
 
-  @spec direction_select_column_width(nil | boolean, integer) :: 0..12
-  def direction_select_column_width(true, _headsign_length), do: 6
-  def direction_select_column_width(_, headsign_length) when headsign_length > 20, do: 8
-  def direction_select_column_width(_, _headsign_length), do: 4
-
   @spec fare_params(Stop.t, Stop.t) :: %{optional(:origin) => Stop.id_t, optional(:destination) => Stop.id_t}
   def fare_params(origin, destination) do
     case {origin, destination} do
