@@ -18,12 +18,6 @@ defmodule Holiday.RepoTest do
         [%Holiday{date: date, name: "Christmas Day"}]
     end
 
-    test "returns Veterans Day (Observed) on 2018-11-12" do
-      date = ~D[2018-11-12]
-      assert Holiday.Repo.by_date(date) ==
-        [%Holiday{date: date, name: "Veterans’ Day (Observed)"}]
-    end
-
     test "returns nothing for 2018-11-01" do
       date = ~D[2018-11-01]
       assert Holiday.Repo.by_date(date) == []

@@ -72,8 +72,6 @@ defmodule Holiday.Repo do
     {"Memorial Day", [{5, 29}, {5, 28}, {5, 27}]},
     {"Independence Day", [{7, 4}, {7, 4}, {7, 4}]},
     {"Labor Day", [{9, 4}, {9, 3}, {9, 2}]},
-    {"Columbus Day", [{10, 9}, {10, 8}, {10, 14}]},
-    {"Veterans’ Day", [{11, 11}, {11, 11}, {11, 11}]},
     {"Thanksgiving Day", [{11, 23}, {11, 22}, {11, 28}]},
     {"Christmas Day", [{12, 25}, {12, 25}, {12, 25}]}]
   |> Enum.flat_map(&make_holiday(&1, @start_year))
