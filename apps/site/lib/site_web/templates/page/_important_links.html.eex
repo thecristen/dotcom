@@ -38,7 +38,7 @@
         <div class="m-homepage__important-link-content">
           <div class="m-homepage__important-link-title">Civil Rights</div>
           <div class="m-homepage__important-link-icon">
-            <%= fa "calendar" %>
+            <%= fa "balance-scale" %>
           </div>
         </div>
       <% end %>
