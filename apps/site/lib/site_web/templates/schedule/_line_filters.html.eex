@@ -21,4 +21,3 @@
     <%= render "_variant_select.html", conn: @conn, shapes: @route_shapes, active_shape: @active_shape %>
   <% end %>
 </div>
-<%= render "_route_disclaimer.html", route: @route %>
