@@ -42,13 +42,11 @@ defmodule SiteWeb.PageViewTest do
         link: %Content.Field.Link{url: "http://example.com/important", title: "Call to Action"},
         thumb: %Content.Field.Image{},
         banner_type: :important,
-        updated_on: "September 27, 2018"
       }
       rendered = render_to_string(SiteWeb.PageView, "_banner.html", banner: banner)
       assert rendered =~ "Important Banner Title"
       assert rendered =~ "Uh oh, this is very important!"
       assert rendered =~ "Call to Action"
-      refute rendered =~ "September 27, 2018"
     end
 
     test "renders _banner.html for default banners" do
@@ -58,13 +56,11 @@ defmodule SiteWeb.PageViewTest do
         link: %Content.Field.Link{url: "http://example.com/default", title: "Call to Action"},
         thumb: %Content.Field.Image{},
         banner_type: :default,
-        updated_on: "September 27, 2018"
       }
       rendered = render_to_string(SiteWeb.PageView, "_banner.html", banner: banner)
       assert rendered =~ "Default Banner Title"
       refute rendered =~ "This is not as important."
       refute rendered =~ "Call to Action"
-      assert rendered =~ "September 27, 2018"
     end
   end
 

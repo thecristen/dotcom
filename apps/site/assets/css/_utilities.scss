@@ -1,8 +1,16 @@
 @mixin bg-text($color) {
   color: $color;
 
+  &:hover {
+    color: $color;
+  }
+
   a {
     color: $color;
+
+    &:hover {
+      color: $color;
+    }
   }
 }
 

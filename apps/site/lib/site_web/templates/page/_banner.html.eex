@@ -1,4 +1,4 @@
-<div class="m-banner m-banner--<%= @banner.banner_type %>">
+<a href="<%= @banner.link.url%>" class="m-banner m-banner--<%= @banner.banner_type %>">
   <div class="m-banner__image m-banner__image--<%= @banner.banner_type %>" style="background-image: url(<%= @banner.thumb.url %>)">
     <div class="sr-only">
       <%= @banner.thumb.alt %>
@@ -11,4 +11,4 @@
     <%# mobile banner design requires a different div structure %>
     <%= render "_banner_content.html", banner: @banner %>
   </div>
-</div>
+</a>

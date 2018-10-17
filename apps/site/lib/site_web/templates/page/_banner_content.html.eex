@@ -6,7 +6,7 @@
       </div>
     <% end %>
     <h2 class="h2 m-banner__title m-banner__title--<%= @banner.banner_type %>">
-      <%= banner_title(@banner) %>
+      <%= @banner.title %>
     </h2>
     <%= if @banner.banner_type == :important do %>
       <p><%= @banner.blurb %></p>
@@ -14,9 +14,6 @@
   </div>
 
   <div class="m-banner__bottom">
-    <%= if @banner.banner_type == :default do %>
-      updated <%= @banner.updated_on %>
-    <% end %>
     <%= banner_cta(@banner) %>
   </div>
 </div>

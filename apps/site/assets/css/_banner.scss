@@ -1,5 +1,20 @@
 .m-banner {
+  color: inherit;
+  display: block;
   margin-top: $base-spacing * 3;
+
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+
+    .m-banner__title--default {
+      text-decoration: underline;
+    }
+
+    .m-banner__cta {
+      background: $brand-primary-lightest;
+    }
+  }
 }
 
 .m-banner__image {
