@@ -233,19 +233,19 @@ defmodule SiteWeb.ScheduleController.LineTest do
     #   assert stop_id(List.last(another_one)) == "Wickford Junction"
     # end
 
-    test "CR-Providence inbound" do
-      route_stops = get_route_stops("CR-Providence", 1, @deps.stops_by_route_fn)
-      stops =
-        "CR-Providence"
-        |> get_route_shapes(1)
-        |> get_branches(route_stops, %Routes.Route{id: "CR-Providence"}, 1)
-        |> build_stop_list(1)
-        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+    # test "CR-Providence inbound" do
+    #   route_stops = get_route_stops("CR-Providence", 1, @deps.stops_by_route_fn)
+    #   stops =
+    #     "CR-Providence"
+    #     |> get_route_shapes(1)
+    #     |> get_branches(route_stops, %Routes.Route{id: "CR-Providence"}, 1)
+    #     |> build_stop_list(1)
+    #     |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      for {id, idx} <- [{"place-sstat", 14}, {"Canton Junction", 9}, {"Stoughton", 7}, {"Wickford Junction", 0}] do
-        assert stops |> Enum.at(idx) |> elem(1) == id
-      end
-    end
+    #   for {id, idx} <- [{"place-sstat", 14}, {"Canton Junction", 9}, {"Stoughton", 7}, {"Wickford Junction", 0}] do
+    #     assert stops |> Enum.at(idx) |> elem(1) == id
+    #   end
+    # end
 
     # test "CR-Providence inboung has correct number of bubbles" do
     #   route_stops = get_route_stops("CR-Providence", 1, @deps.stops_by_route_fn)
