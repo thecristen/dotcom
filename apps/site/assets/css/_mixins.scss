@@ -144,8 +144,6 @@
 
 @mixin after-heading-space {
 
-  $adjustment: .25em;
-
   // Paragraph copy directly following headlines (even if nested in divs) have
   // their own built-in spacing (line-heights, em-square), so we undo the
   // global after-heading spacing when paragraphs directly follow headings.
@@ -158,14 +156,14 @@
   + ol,
   + div > ol:first-child,
   + div > div > ol:first-child {
-    margin-top: -$adjustment;
+    margin-top: -$paragraph-spacing-adjustment;
   }
 
   // If an author floats media between a heading and body copy, we lose
   // the heading + copy relationship. Add this scenario back here:
   @include media-breakpoint-up(sm) {
     + .c-media--size-half + p {
-      margin-top: -$adjustment;
+      margin-top: -$paragraph-spacing-adjustment;
     }
   }
 
@@ -173,12 +171,12 @@
   // the same gap non-paragraphs get by default (undo negative margin above).
   + p > img:first-child,
   + p > a:first-child > img:first-child {
-    margin-top: $adjustment;
+    margin-top: $paragraph-spacing-adjustment;
   }
   // Make floated media items align with the top of adjacent wrapped text characters
   @include media-breakpoint-up(sm) {
     + .c-media--size-half .c-media__content {
-      margin-top: $adjustment;
+      margin-top: $paragraph-spacing-adjustment;
     }
   }
 }
