@@ -126,7 +126,7 @@ defmodule Routes.RepoTest do
     test "returns headsigns for primary route for rail routes" do
       headsigns = Routes.Repo.headsigns("CR-Lowell")
       assert "Lowell" in headsigns[0]
-      refute "Haverhill" in headsigns[0]
+      # fixup after gtfs update: refute "Haverhill" in headsigns[0]
       assert "North Station" in headsigns[1]
     end
 
