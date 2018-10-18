@@ -94,6 +94,11 @@
         "value": "published"
       }
     ],
+    "sidebar": [
+      {
+        "value": true
+      }
+    ],
     "path": [],
     "publish_on": [],
     "unpublish_on": [],
@@ -132,11 +137,13 @@
         "value": "<p>For more information, contact us</p>"
       }
     ],
+    "field_page_type": [],
     "field_posted_on": [
       {
         "value": "2018-03-29"
       }
     ],
+    "field_related_transit": [],
     "field_teaser": [
       {
         "value": "The MBTA will begin a one-year early morning bus service pilot on its busiest key bus routes serving neighborhoods within the immediate Boston core traveling to downtown Boston, the Seaport, and key stops in between beginning as early as 3:20 AM."
@@ -238,6 +245,11 @@
         "value": "published"
       }
     ],
+    "sidebar": [
+      {
+        "value": true
+      }
+    ],
     "path": [
       {
         "alias": "/news/date/title",
@@ -274,11 +286,13 @@
     ],
     "field_migration_id": [],
     "field_more_information": [],
+    "field_page_type": [],
     "field_posted_on": [
       {
         "value": "2018-03-29"
       }
     ],
+    "field_related_transit": [],
     "field_teaser": [
       {
         "value": "Weekend bus shuttles will run from April 7 to May 27 to accommodate the installation of federally mandated Positive Train Control (PTC) infrastructure."
@@ -380,6 +394,11 @@
         "value": "published"
       }
     ],
+    "sidebar": [
+      {
+        "value": true
+      }
+    ],
     "path": [
       {
         "alias": "/news/2018-03-23/art-boston-area-teens-premiere-mbta-stations-monday-march-26",
@@ -412,11 +431,13 @@
     ],
     "field_migration_id": [],
     "field_more_information": [],
+    "field_page_type": [],
     "field_posted_on": [
       {
         "value": "2018-03-23"
       }
     ],
+    "field_related_transit": [],
     "field_teaser": [
       {
         "value": "Created in collaboration with the Institute of Contemporary Art/Boston, these innovative video works share the creative voices of young people in our city."
@@ -518,6 +539,11 @@
         "value": "published"
       }
     ],
+    "sidebar": [
+      {
+        "value": true
+      }
+    ],
     "path": [
       {
         "alias": "/news/2018-03-23/extra-transit-service-saturday-march-24-the-boston-march-our-lives",
@@ -550,11 +576,13 @@
     ],
     "field_migration_id": [],
     "field_more_information": [],
+    "field_page_type": [],
     "field_posted_on": [
       {
         "value": "2018-03-23"
       }
     ],
+    "field_related_transit": [],
     "field_teaser": [
       {
         "value": "The MBTA will provide extra service on the Red, Orange, Green, and Blue Lines. Expect a heavy volume of passengers in the downtown area and on the Orange Line. It may be necessary to temporarily close Park Street and/or Boylston Street Stations."
@@ -656,6 +684,11 @@
         "value": "published"
       }
     ],
+    "sidebar": [
+      {
+        "value": true
+      }
+    ],
     "path": [
       {
         "alias": "/news/2018-03-20/afc-20-support-faster-trips-buses-and-green-line-trains",
@@ -688,11 +721,13 @@
     ],
     "field_migration_id": [],
     "field_more_information": [],
+    "field_page_type": [],
     "field_posted_on": [
       {
         "value": "2018-03-20"
       }
     ],
+    "field_related_transit": [],
     "field_teaser": [
       {
         "value": "AFC 2.0 benefits include convenient payment options, all-door boarding, tap on for all modes, and accessibility improvements."
