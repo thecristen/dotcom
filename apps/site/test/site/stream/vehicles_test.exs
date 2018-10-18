@@ -12,6 +12,10 @@ defmodule Site.Stream.VehiclesTest do
     ]
   end
 
+  test "start_link/1" do
+    assert {:ok, _} = Site.Stream.Vehicles.start_link(name: __MODULE__)
+  end
+
   test "broadcasts vehicles by route and direction id" do
     SiteWeb.Endpoint.subscribe("vehicles:Red:0")
     SiteWeb.Endpoint.subscribe("vehicles:CR-Lowell:1")

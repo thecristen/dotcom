@@ -2,8 +2,9 @@ defmodule Site.Stream.Vehicles do
   use GenServer
   alias Vehicles.Vehicle
 
-  def start_link do
-    GenServer.start_link(__MODULE__, [repo: Vehicles.Repo], name: __MODULE__)
+  def start_link(opts \\ []) do
+    name = Keyword.get(opts, :name, __MODULE__)
+    GenServer.start_link(__MODULE__, [repo: Vehicles.Repo], name: name)
   end
 
   def init(opts) do
