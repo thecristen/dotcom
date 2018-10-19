@@ -159,6 +159,18 @@
     margin-top: -$paragraph-spacing-adjustment;
   }
 
+  // When columns break and are ordered vertically only the first should get
+  // the updated spacing
+  @include media-breakpoint-down(sm) {
+    + div > div > p:first-child {
+      margin-top: 0;
+    }
+
+    + div > div:first-child > p:first-child {
+      margin-top: -$paragraph-spacing-adjustment;
+    }
+  }
+
   // If an author floats media between a heading and body copy, we lose
   // the heading + copy relationship. Add this scenario back here:
   @include media-breakpoint-up(sm) {
