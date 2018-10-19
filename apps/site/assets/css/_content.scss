@@ -116,6 +116,16 @@
   }
 }
 
+// Retain paragraph vertical spacing from after-heading-space mixin
+h1 + .row-lined,
+h2 + .row-lined,
+h3 + .row-lined,
+h4 + .row-lined,
+h5 + .row-lined,
+h6 + .row-lined {
+  @include paragraph-space-for-breakpoint(md);
+}
+
 .iframe-container {
   @include media-breakpoint-down(sm) {
     height: 0;
