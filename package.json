@@ -8,7 +8,7 @@
     "install": "cd apps/site/assets && npm install --no-optional",
     "test": "mix test && npm run test:js && mix backstop.tests",
     "backstop:test": "cd apps/site/test && ../assets/node_modules/.bin/backstop test --docker",
-    "backstop:reference": "apps/site/assets/node_modules/.bin/backstop reference --config=apps/site/test/backstop.json",
+    "backstop:reference": "cd apps/site/test && ../assets/node_modules/.bin/backstop reference --docker",
     "test:js": "cd apps/site/assets && npm run test",
     "brunch:build:namespaced": "cd apps/site/assets && node_modules/brunch/bin/brunch b -c brunch-config-namespaced.js",
     "brunch:build": "cd apps/site/assets && node_modules/brunch/bin/brunch b -p",

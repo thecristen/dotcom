@@ -164,11 +164,17 @@ The tests are run against a live application, built in production mode. To make 
 work consistently and do not depend on a specific schedule or realtime vehicle locations, we use
 [WireMock](http://wiremock.org/) to record and playback the V3 API responses.
 
-To run the tests, use the following command:
+To run the tests, do the following:
 
-```
-mix backstop.tests
-```
+* Make sure docker is [installed](https://docs.docker.com/docker-for-mac/install/) and running: we run the tests in docker to ensure we get consistent images across platforms.
+* Start wiremock
+`npm run wiremock`
+* Start a mocked server ready for docker:
+`npm run server:mocked`
+* Run backstop tests in docker:
+`npm run backstop:test`
+
+Note: If you are not running on OSX or Windows, you'll need to modify the `STATIC_HOST=host.docker.internal` in the commands.
 
 For more information about the initial setup, running the tests, and adding new ones please see this wiki [article](https://github.com/mbta/wiki/blob/master/website/testing/backstop.md).
 
@@ -177,8 +183,6 @@ For more information about the initial setup, running the tests, and adding new 
 All run from the main folder:
 
 * `npm run backstop:reference` — create new backstop reference images
-* `npm run backstop:bless` — allow backstop tests to run after changing the
-  backstop.json file without creating new reference images
 * `npm run brunch:build` — builds the static files
 * `semaphore/smoke_test.sh` - tries to hit all the URLs on your server.
   Requires wget (installable with `brew install wget`)
@@ -202,7 +206,7 @@ This will ensure any part of the site that uses Google's API will not get rate l
     * Click on "GET STARTED", create a personal project (e.g. "mbtadotcom") and exit this flow before entering any billing information (it's not necessary!)
     * Go to [the Google developer credentials page](https://console.developers.google.com/apis/credentials)
     * Use the "Select Project" button at the top of the page to choose your project and then hit "Create Credentials" -> "API Key"
-1. Enable specific APIs:
+2. Enable specific APIs:
     * Go to the API library for your project (e.g. https://console.developers.google.com/apis/library?project=mbtadotcom)
     * Using the search box at the top of the page, find 'Google Maps Geolocation API'
     * Click "Enable"
