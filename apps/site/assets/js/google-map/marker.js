@@ -20,9 +20,7 @@ export default class Marker {
 
     this.latLng = new window.google.maps.LatLng(data.latitude, data.longitude);
 
-    if (this.data.icon) {
-      this.icon = Helpers.buildIcon(this.data.icon, this.data.size);
-    }
+    this.buildIcon();
 
     const zIndex = this.data.z_index || 0;
 
@@ -48,6 +46,12 @@ export default class Marker {
     }
   }
 
+  buildIcon() {
+    if (this.data.icon) {
+      this.icon = Helpers.buildIcon(this.data.icon, this.data.size);
+    }
+  }
+
   addLabel() {
     if (this.marker && this.data.label) {
       const label = {
@@ -62,10 +66,13 @@ export default class Marker {
     }
   }
 
-  update(lat, lng) {
-    this.latLng = new window.google.maps.LatLng(lat, lng);
+  update(data) {
+    this.data = data;
+    this.latLng = new window.google.maps.LatLng(data.latitude, data.longitude);
 
     if (this.marker) {
+      this.buildIcon();
+      this.marker.setIcon(this.icon);
       this.marker.setPosition(this.latLng);
     }
   }

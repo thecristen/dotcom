@@ -87,7 +87,8 @@ defmodule Site.TripPlan.MapTest do
         scale: 1,
         width: 630,
         zoom: 14,
-        auto_init: false
+        auto_init: false,
+        reset_bounds_on_update: true
       }
       assert initial_map_data() == expected
     end

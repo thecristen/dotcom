@@ -20,7 +20,7 @@ defmodule VehicleTooltip do
     vehicle: Vehicle.t,
     prediction: Prediction.t | nil,
     trip: Trip.t | nil,
-    route: Route.t,
+    route: Route.t | nil,
     stop_name: String.t
   }
 end

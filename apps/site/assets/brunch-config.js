@@ -120,7 +120,8 @@ exports.config = {
       modal: "bootstrap/dist/js/umd/modal",
       tooltip: "bootstrap/dist/js/umd/tooltip",
       Turbolinks: "turbolinks",
-      autocomplete: "autocomplete.js"
+      autocomplete: "autocomplete.js",
+      phoenix: "phoenix"
     }
   },
 
@@ -130,8 +131,3 @@ exports.config = {
     }
   }
 };
-
-if (process.env["MIX_ENV"] != "prod") {
-  // dev-only dep for now
-  exports.config.npm.globals["phoenix"] = "phoenix";
-}

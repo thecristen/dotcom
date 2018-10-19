@@ -5,6 +5,8 @@ defmodule GoogleMaps.MapData.Marker do
   centering the map.
   """
 
+  alias GoogleMaps.MapData.Symbol
+
   defmodule Label do
     @type t :: %__MODULE__{
       color: String.t | nil,
@@ -42,7 +44,7 @@ defmodule GoogleMaps.MapData.Marker do
     id: integer | nil,
     latitude: float,
     longitude: float,
-    icon: String.t | nil,
+    icon: String.t | Symbol.t | nil,
     visible?: boolean,
     size: size,
     tooltip: String.t | nil,

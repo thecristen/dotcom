@@ -1,5 +1,5 @@
 defmodule Site.MapHelpers.Markers do
-  alias GoogleMaps.MapData.Marker
+  alias GoogleMaps.MapData.{Marker, Symbol}
   alias Vehicles.Vehicle
   alias Routes.Route
   alias Stops.Stop
@@ -17,18 +17,21 @@ defmodule Site.MapHelpers.Markers do
       data.vehicle.latitude,
       data.vehicle.longitude,
       id: "vehicle-" <> data.vehicle.id,
-      icon: vehicle_icon(data.route),
-      tooltip: VehicleHelpers.tooltip(data),
+      icon: vehicle_icon(data.vehicle, data.route),
       z_index: @z_index.vehicle
     )
   end
 
-  @spec vehicle_icon(Route.t) :: String.t
-  defp vehicle_icon(%Route{type: type}) when is_integer(type) do
-    type
-    |> Route.vehicle_atom()
-    |> Atom.to_string()
-    |> Kernel.<>("-vehicle")
+  @spec vehicle_icon(Vehicle.t, Route.t) :: Symbol.t
+  defp vehicle_icon(%Vehicle{} = vehicle, %Route{} = route) do
+    Symbol.new(
+      fill_color: "#" <> Site.MapHelpers.route_map_color(route),
+      fill_opacity: 1,
+      rotation: vehicle.bearing,
+      path: :forward_closed_arrow,
+      size: :tiny,
+      stroke_weight: 1
+    )
   end
 
   @doc """

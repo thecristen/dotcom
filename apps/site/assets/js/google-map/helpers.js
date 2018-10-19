@@ -78,7 +78,7 @@ const iconAnchor = (icon, size) => {
   return new window.google.maps.Point(size / 2, size / 2);
 }
 
-export const buildIcon = (iconData, size) => {
+const buildIconFromString = (iconData, size) => {
   const sizeInt = iconSize(size);
 
   const encoded = window.btoa(iconSvg(iconData));
@@ -91,3 +91,11 @@ export const buildIcon = (iconData, size) => {
     labelOrigin: labelOrigin(iconData, sizeInt)
   };
 };
+
+export const buildIcon = (iconData, size) => {
+  if (typeof iconData === "string") {
+    return buildIconFromString(iconData, size);
+  } else {
+    return MapIcons.parseObject(iconData);
+  }
+}

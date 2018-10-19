@@ -24,11 +24,11 @@ defmodule Vehicles.Repo do
   end
 
   @spec fetch(keyword(String.t)) :: [Vehicle.t]
-  defp fetch(params) do
+  def fetch(params) do
     @default_params
     |> Keyword.merge(params)
-    |> V3Api.Vehicles.all
-    |> get_data
+    |> V3Api.Vehicles.all()
+    |> get_data()
     |> Enum.map(&Parser.parse/1)
   end
 

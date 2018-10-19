@@ -21,11 +21,17 @@ config :site, SiteWeb.Endpoint,
       max_header_value_length: 16_384,
       max_request_line_length: 16_384
     ],
-    # don't dispatch on URL, to avoid parsing invalid URLs
+    # dispatch websockets but don't dispatch any other URLs, to avoid parsing invalid URLs
+    # see https://hexdocs.pm/phoenix/Phoenix.Endpoint.CowboyHandler.html
     dispatch: [
       {:_, [
-          {:_, Plug.Adapters.Cowboy.Handler, {SiteWeb.Endpoint, []}}
-        ]}
+        {"/socket/websocket", Phoenix.Endpoint.CowboyWebSocket,
+          {Phoenix.Transports.WebSocket, {SiteWeb.Endpoint, SiteWeb.UserSocket, :websocket}}
+        },
+        {:_, Plug.Adapters.Cowboy.Handler,
+          {SiteWeb.Endpoint, []}
+        }
+      ]}
     ],
   ],
   url: [host: {:system, "HOST"}, port: 80],

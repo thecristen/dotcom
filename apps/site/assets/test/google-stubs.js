@@ -61,6 +61,10 @@ class Marker {
   getPosition() {
     return this.position;
   }
+
+  setIcon() {
+    return this;
+  }
 }
 
 export default {

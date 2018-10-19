@@ -56,7 +56,10 @@ describe("Marker", () => {
         "visible?": true,
       });
       expect(marker.latLng.lat).to.equal(42);
-      marker.update(60, 40);
+      marker.update({
+        latitude: 60,
+        longitude: 40
+      });
       expect(marker.latLng.lat).to.equal(60);
     });
 
@@ -68,7 +71,10 @@ describe("Marker", () => {
         longitude: -71,
         "visible?": true,
       });
-      marker.update(60, 40);
+      marker.update({
+        latitude: 60,
+        longitude: 40
+      });
       expect(marker.marker.getPosition().lat).to.equal(60);
     });
   });

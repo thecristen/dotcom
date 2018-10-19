@@ -15,6 +15,8 @@ export default class GoogleMap {
     this.defaultZoom = data.zoom || 17;
     this.defaultCenter = null;
     this.infoWindow = null;
+    this.boundPadding = null;
+    this.resetBoundsOnUpdate = data["reset_bounds_on_update?"];
     this.el = document.getElementById(id);
 
     if (!this.el) {
@@ -37,7 +39,11 @@ export default class GoogleMap {
     this.el.classList.add("js-google-map");
     this.map = new window.google.maps.Map(this.el, this.data.dynamic_options);
 
-    this.setDefaultCenter()
+    if (this.data.bound_padding) {
+      this.boundPadding = this.data.bound_padding;
+    }
+
+    this.setDefaultCenter();
     this.data.paths.forEach(this.addPolyline);
     this.data.markers.forEach(this.addMarker);
     this.addLayers();
@@ -68,7 +74,7 @@ export default class GoogleMap {
         latitude: this.data.default_center.latitude,
         longitude: this.data.default_center.longitude,
         "visible?": false
-      }
+      };
       this.addCenterToBounds();
     }
   }
@@ -96,12 +102,14 @@ export default class GoogleMap {
   addOrUpdateMarker(data) {
     const marker = this.markers[data.id];
     if (marker) {
-      marker.update(data.latitude, data.longitude);
+      marker.update(data);
     } else {
       this.addMarker(data, 0);
     }
 
-    this.resetBounds();
+    if (this.resetBoundsOnUpdate) {
+      this.resetBounds();
+    }
   }
 
   addMarker(markerData, index = 0) {
@@ -124,7 +132,10 @@ export default class GoogleMap {
       marker.remove();
       this.markers[id] = null;
     }
-    this.resetBounds();
+
+    if (this.resetBoundsOnUpdate) {
+      this.resetBounds();
+    }
   }
 
   addLayers() {
@@ -164,7 +175,7 @@ export default class GoogleMap {
       this.map.setCenter(ne);
     } else {
       // otherwise, pan to the bounds
-      this.map.fitBounds(this.bound);
+      this.map.fitBounds(this.bound, this.boundPadding);
       this.map.panToBounds(this.bound);
     }
   }
