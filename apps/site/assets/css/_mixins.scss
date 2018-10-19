@@ -103,7 +103,7 @@
   @include base-heading();
   @include after-heading-space();
   font-size: $font-size-h4;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 
   + h5,
   + .h5 {
@@ -124,7 +124,7 @@
 
 @mixin h6 {
   @include h5();
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 }
 
 @mixin reduce-adjacent-heading-space {

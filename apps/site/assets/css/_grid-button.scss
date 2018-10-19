@@ -28,6 +28,7 @@
   border: $border;
   border-radius: $border-radius;
   display: flex;
+  font-variant-numeric: tabular-nums;
   height: 100%;
   line-height: 1;
   padding: $base-spacing * .75;

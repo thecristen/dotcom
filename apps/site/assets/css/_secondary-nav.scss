@@ -24,7 +24,7 @@
   color: $white;
   display: flex;
   flex: 1 1 25%;
-  font-weight: bold;
+  font-weight: $font-weight-medium;
   justify-content: center;
   padding-bottom: $space-12;
   padding-top: $space-12;
@@ -56,7 +56,6 @@
 }
 
 .m-secondary-nav__icon-text {
-  font-weight: bold;
   text-align: center;
 
   @include media-breakpoint-down(sm) {

@@ -590,6 +590,10 @@ a {
   }
 }
 
+.trip-list-cr-name {
+  font-variant-numeric: tabular-nums;
+}
+
 .trip-list {
   margin-bottom: $base-spacing;
 }
@@ -619,6 +623,7 @@ a {
 
 .trip-list-departure {
   @include make-col-span(4);
+  font-variant-numeric: tabular-nums;
 }
 
 .trip-list-headsign {
@@ -1057,6 +1062,7 @@ del .trip-list-realtime {
   // settle for slightly less good vertical-align
   @include icon-size(1em);
 
+  font-variant-numeric: tabular-nums;
   min-width: 5em;
   white-space: nowrap;
 

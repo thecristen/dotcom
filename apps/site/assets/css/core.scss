@@ -2,7 +2,7 @@
 @import 'bootstrap';
 @import 'bootstrap-extra';
 @import 'mixins';
-@import 'lato';
+@import 'inter_ui';
 @import 'footer';
 @import 'header';
 @import 'header-desktop-menu';
@@ -123,6 +123,10 @@ h5 {
 
 h6 {
   @include h6();
+}
+
+p a {
+  font-weight: $font-weight-medium;
 }
 
 // "Snap" <small> elements to next smallest font-size to

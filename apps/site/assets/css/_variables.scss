@@ -59,7 +59,7 @@ $base-spacing-sm: $space-8;
 $base-spacing-lg: $space-24;
 $base-spacing-xl: $space-36;
 
-$font-family-base: 'LatoLatinWeb', $font-family-sans-serif;
+$font-family-base: 'Inter UI', $font-family-sans-serif;
 $headings-font-family: 'Helvetica Neue', Helvetica, Arial, $font-family-sans-serif;
 $headings-font-weight: 700;
 
@@ -80,6 +80,8 @@ $font-size-small-caps: .875rem;
 
 $font-size-h1-sm: 2rem;
 $font-size-h2-sm: 1.625rem;
+
+$font-weight-medium: 500;
 
 $headings-margin-top: 1.075em;
 $headings-line-height: 1.275em;

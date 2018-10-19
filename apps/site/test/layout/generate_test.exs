@@ -24,7 +24,7 @@ defmodule Layout.GenerateTest do
       assert Enum.member?(files, "layout.css")
 
       assert {:ok, font_files} = File.ls(Path.join(output_folder, "fonts"))
-      assert length(font_files) == 11
+      assert length(font_files) == 23
     end
   end
 

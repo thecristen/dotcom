@@ -48,7 +48,7 @@
   color: $gray-dark;
   display: inline-block;
   font-size: $font-size-h4;
-  font-weight: bold;
+  font-weight: 700;
   line-height: $headings-line-height;
   padding: $base-spacing;
   text-align: center;
@@ -174,7 +174,7 @@
 
 .m-homepage__important-link-title {
   flex: 1 1 auto;
-  font-weight: bold;
+  font-weight: $font-weight-medium;
   margin-bottom: $base-spacing;
 
   @include media-breakpoint-up(sm) {
@@ -186,6 +186,7 @@
 
 .m-homepage__important-link-icon {
   flex: 0 0 auto;
+  font-weight: $font-weight-medium;
 
   .fa,
   svg {
