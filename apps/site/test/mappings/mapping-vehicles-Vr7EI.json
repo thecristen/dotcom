@@ -1,0 +1,22 @@
+{
+  "id" : "8e6627d2-6102-3fdd-b362-8f6599dac989",
+  "request" : {
+    "url" : "/vehicles/?fields%5Bvehicle%5D=direction_id%2Ccurrent_status%2Clongitude%2Clatitude%2Cbearing&fields%5Bstop%5D=&include=stop%2Ctrip",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-vehicles-Vr7EI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 15:46:34 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 15:46:27 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lfvhle39u2t03uj1s03db61",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8e6627d2-6102-3fdd-b362-8f6599dac989"
+}
