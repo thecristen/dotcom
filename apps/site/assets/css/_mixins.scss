@@ -156,7 +156,7 @@
   + ol,
   + div > ol:first-child,
   + div > div > ol:first-child {
-    margin-top: -$paragraph-spacing-adjustment;
+    margin-top: -$after-heading-adjustment;
   }
 
   // When columns break and are ordered vertically only the first should get
@@ -167,7 +167,7 @@
     }
 
     + div > div:first-child > p:first-child {
-      margin-top: -$paragraph-spacing-adjustment;
+      margin-top: -$after-heading-adjustment;
     }
   }
 
@@ -175,7 +175,7 @@
   // the heading + copy relationship. Add this scenario back here:
   @include media-breakpoint-up(sm) {
     + .c-media--size-half + p {
-      margin-top: -$paragraph-spacing-adjustment;
+      margin-top: -$after-heading-adjustment;
     }
   }
 
@@ -183,19 +183,19 @@
   // the same gap non-paragraphs get by default (undo negative margin above).
   + p > img:first-child,
   + p > a:first-child > img:first-child {
-    margin-top: $paragraph-spacing-adjustment;
+    margin-top: $after-heading-adjustment;
   }
   // Make floated media items align with the top of adjacent wrapped text characters
   @include media-breakpoint-up(sm) {
     + .c-media--size-half .c-media__content {
-      margin-top: $paragraph-spacing-adjustment;
+      margin-top: $after-heading-adjustment;
     }
   }
 }
 
 @mixin paragraph-space-for-breakpoint($breakpoint) {
   > [class*="col-#{$breakpoint}-"] > p:first-child {
-    margin-top: -$paragraph-spacing-adjustment;
+    margin-top: -$after-heading-adjustment;
   }
 }
 
