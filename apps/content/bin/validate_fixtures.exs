@@ -22,6 +22,10 @@ defmodule Drupal do
   defp data(route) do
     with {:ok, data} <- Content.CMS.HTTPClient.view(route, []) do
       data
+    else
+      _ ->
+        IO.puts("Error requesting data for #{route}!")
+        %{}
     end
   end
 end
