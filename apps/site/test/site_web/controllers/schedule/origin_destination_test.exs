@@ -10,6 +10,7 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
     |> SiteWeb.Plugs.Route.call([])
     |> assign(:date_time, Util.now())
     |> assign(:date, service_date)
+    |> assign(:date_in_rating?, true)
     |> fetch_query_params()
     |> SiteWeb.ScheduleController.Defaults.call([])
     |> SiteWeb.ScheduleController.AllStops.call([])

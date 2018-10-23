@@ -104,14 +104,6 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert "North Billerica" in Map.keys(zone_map)
       assert zone_map["North Billerica"] == "5"
     end
-
-    test "redirects if we get no_service back from the API", %{conn: conn} do
-      conn = conn
-      |> assign(:all_stops, {:error, [%JsonApi.Error{code: "no_service", meta: %{"version" => "Spring"}}]})
-      |> get(timetable_path(conn, :show, "CR-Lowell", date: "2016-01-01"))
-
-      assert redirected_to(conn, 302) == timetable_path(conn, :show, "CR-Lowell")
-    end
   end
 
   describe "subway" do
@@ -352,22 +344,6 @@ defmodule SiteWeb.ScheduleControllerTest do
       refute Enum.empty?(stops)
       assert Floki.find(stops, ".fa-check") == []
     end
-
-    test "redirects if we get no_service back from the API", %{conn: conn} do
-      conn = conn
-      |> assign(:all_stops, {:error, [%JsonApi.Error{code: "no_service", meta: %{"version" => "Spring"}}]})
-      |> get(line_path(conn, :show, "171", date: "2016-01-01", direction_id: 1))
-
-      assert redirected_to(conn, 302) == line_path(conn, :show, "171", direction_id: 1)
-    end
-  end
-
-  test "redirects if we get no_service back from the API", %{conn: conn} do
-    conn = conn
-    |> assign(:all_stops, {:error, [%JsonApi.Error{code: "no_service", meta: %{"version" => "Spring"}}]})
-    |> get(trip_view_path(conn, :show, "1", date: "2016-01-01"))
-
-    assert redirected_to(conn, 302) == trip_view_path(conn, :show, "1")
   end
 
   describe "tab redirects" do

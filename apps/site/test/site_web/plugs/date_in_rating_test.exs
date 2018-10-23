@@ -17,40 +17,41 @@ defmodule SiteWeb.Plugs.DateInRatingTest do
   end
 
   describe "call/2" do
-    test "with no params, does nothing", %{conn: conn} do
+    test "with no params, assigns :date_in_rating? to true", %{conn: conn} do
       conn = %{conn | query_params: %{}}
       conn_with_params = call(conn, dates_fn: &dates_fn/0)
 
-      assert conn_with_params == conn
+      assert conn_with_params.assigns.date_in_rating? == true
     end
 
-    test "with a valid date param, returns the conn", %{conn: conn} do
+    test "with a valid date param, assigns :date_in_rating? to true", %{conn: conn} do
       for date <- [@start_date, ~D[2016-12-12], @end_date] do
         date_str = Date.to_iso8601(date)
         conn = %{conn | assigns: %{date: date}, query_params: %{"date" => date_str}}
         conn_with_date = call(conn, dates_fn: &dates_fn/0)
 
-        assert conn_with_date == conn
+        assert conn_with_date.assigns.date_in_rating? === true
       end
     end
 
-    test "if the server returns an error, returns the conn", %{conn: conn} do
+    test "if the server returns an error, assigns :date_in_rating? to true", %{conn: conn} do
       conn = %{conn | assigns: %{date: @start_date}, query_params: %{"date" => "2016-06-01"}}
-      assert call(conn, dates_fn: fn -> :error end) == conn
+      assert call(conn, dates_fn: fn -> :error end) == assign(conn, :date_in_rating?, true)
     end
 
-    test "with a date in the past or future, redirects the date parameter off", %{conn: conn} do
+    test "with a date in the past or future, assigns :date_in_rating? to false", %{conn: conn} do
       for date <- [~D[2016-05-31], ~D[2017-01-02]] do
         date_str = Date.to_iso8601(date)
         params = %{
           "date" => date_str,
           "other_param" => "value"
         }
-        conn_with_date = %{conn | assigns: %{date: date}, query_params: params, request_path: "/path"}
-        |> call(dates_fn: &dates_fn/0)
 
-        assert redirected_to(conn_with_date, 302) == "/path?other_param=value"
-        assert conn_with_date.halted
+        conn_with_date =
+          %{conn | assigns: %{date: date}, query_params: params}
+          |> call(dates_fn: &dates_fn/0)
+
+        assert conn_with_date.assigns.date_in_rating? === false
       end
     end
   end

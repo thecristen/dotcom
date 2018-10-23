@@ -5,6 +5,7 @@ defmodule SiteWeb.ScheduleController.Green do
   alias Schedules.Schedule
 
   plug :route
+  plug SiteWeb.Plugs.DateInRating
   plug SiteWeb.ScheduleController.DatePicker
   plug :alerts
   plug SiteWeb.Plugs.UpcomingAlerts
@@ -24,6 +25,7 @@ defmodule SiteWeb.ScheduleController.Green do
   plug :hide_destination_selector
   plug SiteWeb.ScheduleController.TripInfo
   plug SiteWeb.ScheduleController.RouteBreadcrumbs
+  plug SiteWeb.ScheduleController.ScheduleError
   plug :require_map
   plug :route_pdfs
   plug :channels
@@ -58,10 +60,8 @@ defmodule SiteWeb.ScheduleController.Green do
 
   def all_stops(%Plug.Conn{assigns: %{stops_on_routes: stops_on_routes}} = conn, _params) do
     case GreenLine.all_stops(stops_on_routes) do
-      {:error, e} ->
-        conn
-        |> assign(:all_stops, [])
-        |> assign(:schedule_error, e)
+      {:error, _} ->
+        assign(conn, :all_stops, [])
       stops ->
         assign(conn, :all_stops, stops)
     end

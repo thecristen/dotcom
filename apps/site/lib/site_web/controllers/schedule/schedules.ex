@@ -27,7 +27,11 @@ defmodule SiteWeb.ScheduleController.Schedules do
     |> assign_frequency_table(schedules)
   end
 
+  @spec schedules(Plug.Conn.t, any) :: [Schedules.Schedule.t]
   def schedules(conn, lookup_fn \\ &Schedules.Repo.origin_destination/3)
+  def schedules(%{assigns: %{date_in_rating?: false}}, _) do
+    []
+  end
   def schedules(%{assigns: %{
                      date: date,
                      route: %Routes.Route{id: route_id},

@@ -7,6 +7,7 @@ defmodule SiteWeb.ScheduleController.ExcludedStopsTest do
   defp conn_with_route(conn, route_id, opts) do
     conn = conn
     |> assign(:date, Util.service_date())
+    |> assign(:date_in_rating?, true)
     |> assign(:route, %Routes.Route{id: route_id})
 
     conn =  Enum.reduce(opts, conn, fn {key, value}, conn -> assign(conn, key, value) end)

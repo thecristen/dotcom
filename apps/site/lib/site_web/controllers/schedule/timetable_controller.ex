@@ -10,6 +10,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   plug SiteWeb.ScheduleController.Core
   plug :assign_trip_schedules
   plug SiteWeb.ScheduleController.Offset
+  plug SiteWeb.ScheduleController.ScheduleError
 
   defdelegate direction_id(conn, params), to: SiteWeb.ScheduleController.Defaults, as: :assign_direction_id
 

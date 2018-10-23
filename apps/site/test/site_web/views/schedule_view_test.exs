@@ -112,6 +112,7 @@ defmodule SiteWeb.ScheduleViewTest do
       |> assign(:alerts, [])
       |> assign(:upcoming_alerts, [])
       |> assign(:date, ~D[2017-01-01])
+      |> assign(:date_in_rating?, true)
       |> assign(:destination, nil)
       |> assign(:origin, nil)
       |> assign(:route, %Routes.Route{})
@@ -568,9 +569,13 @@ defmodule SiteWeb.ScheduleViewTest do
 
   describe "no_trips_message/5" do
     test "when a no service error is provided" do
-      error = [%JsonApi.Error{code: "no_service", meta: %{"version" => "Spring 2017 version 3D"}}]
-      result = no_trips_message(error, nil, nil, nil, ~D[2017-01-01])
-      assert IO.iodata_to_binary(result) == "January 1, 2017 is not part of the Spring schedule."
+      error = %JsonApi.Error{code: "no_service", meta: %{"version" => "Spring 2017 version 3D", "end_date" => "2018-05-31"}}
+      result =
+        error
+        |> no_trips_message(nil, nil, nil, ~D[2017-01-01])
+        |> Enum.map(&safe_to_string/1)
+        |> IO.iodata_to_binary()
+      assert result =~ "We can only provide trip data for the Spring schedule, valid until May 31, 2018"
     end
     test "when a starting and ending stop are provided" do
       result = no_trips_message(nil, %Stops.Stop{name: "The Start"}, %Stops.Stop{name: "The End"}, nil, ~D[2017-03-05])

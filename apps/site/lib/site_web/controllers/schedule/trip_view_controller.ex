@@ -13,6 +13,7 @@ defmodule SiteWeb.ScheduleController.TripViewController do
   plug SiteWeb.ScheduleController.Schedules
   plug SiteWeb.ScheduleController.Journeys
   plug SiteWeb.ScheduleController.TripInfo
+  plug SiteWeb.ScheduleController.ScheduleError
   plug :zone_map
 
   def show(conn, _) do

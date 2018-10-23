@@ -67,13 +67,26 @@ defmodule SiteWeb.ScheduleView do
   The message to show when there are no trips for the given parameters.
   Expects either an error, two stops, or a direction.
   """
-  @spec no_trips_message(any, Stops.Stop.t | nil, Stops.Stop.t | nil, String.t | nil, Date.t) :: iodata
-  def no_trips_message([%{code: "no_service"} = error| _], _, _, _, date) do
+  @spec no_trips_message(
+    JsonApi.Error.t | nil,
+    Stops.Stop.t | nil,
+    Stops.Stop.t | nil,
+    String.t | nil,
+    Date.t
+  ) :: iodata
+  def no_trips_message(%{code: "no_service"} = error, _, _, _, date) do
     [
-      format_full_date(date),
-      " is not part of the ",
-      rating_name(error),
-      " schedule."
+      content_tag(:div, [
+        format_full_date(date),
+        " is too far in the future."
+      ]),
+      content_tag(:div, [
+        "We can only provide trip data for the ",
+        rating_name(error),
+        " schedule, valid until ",
+        rating_end_date(error),
+        "."
+      ])
     ]
   end
   def no_trips_message(_, %Stops.Stop{name: origin_name}, %Stops.Stop{name: destination_name}, _, date) do
@@ -108,7 +121,13 @@ defmodule SiteWeb.ScheduleView do
   defp rating_name(%{meta: %{"version" => version}}) do
     version
     |> String.split(" ", parts: 2)
-    |> List.first
+    |> List.first()
+  end
+
+  defp rating_end_date(%{meta: %{"end_date" => end_date}}) do
+    end_date
+    |> Timex.parse!("{ISOdate}")
+    |> Timex.format!("{Mfull} {D}, {YYYY}")
   end
 
   for direction <- ["Outbound", "Inbound",
