@@ -127,12 +127,6 @@ defmodule V3Api do
   end
 
   defp config(key) do
-    case Application.get_env(:v3_api, key) do
-      {:system, envvar, default} ->
-        System.get_env(envvar) || default
-      {:system, envvar} ->
-        System.get_env(envvar)
-      value -> value
-    end
+    Util.config(:v3_api, key)
   end
 end

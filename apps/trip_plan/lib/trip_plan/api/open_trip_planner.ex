@@ -36,12 +36,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
   end
 
   def config(key) do
-    case Application.fetch_env!(:trip_plan, OpenTripPlanner)[key] do
-      {:system, var, default} ->
-        System.get_env(var) || default
-      value ->
-        value
-    end
+    Util.config(:trip_plan, OpenTripPlanner, key)
   end
 
   defp send_request(url, params, parser) do

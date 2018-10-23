@@ -282,4 +282,30 @@ defmodule UtilTest do
       refute log =~ "Returning: :short_default"
     end
   end
+
+  test "config/2 returns config values" do
+    Application.put_env(:util, :config_test, {:system, "CONFIG_TEST", "default"})
+    assert Util.config(:util, :config_test) == "default"
+    System.put_env("CONFIG_TEST", "env")
+    assert Util.config(:util, :config_test) == "env"
+    System.delete_env("CONFIG_TEST")
+    Application.delete_env(:util, :config_test)
+  end
+
+  test "config/2 doesn't raise if config isn't found" do
+    assert Util.config(:util, :config_test) == nil
+  end
+
+  test "config/3 returns nested config values" do
+    Application.put_env(:util, :config_test, nested: {:system, "CONFIG_TEST", "default"})
+    assert Util.config(:util, :config_test, :nested) == "default"
+    System.put_env("CONFIG_TEST", "env")
+    assert Util.config(:util, :config_test, :nested) == "env"
+    System.delete_env("CONFIG_TEST")
+    Application.delete_env(:util, :config_test)
+  end
+
+  test "config/3 raises if config isn't found" do
+    assert_raise ArgumentError, fn -> Util.config(:util, :config_test, :nested) end
+  end
 end

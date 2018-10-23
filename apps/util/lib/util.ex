@@ -182,4 +182,33 @@ defmodule Util do
   def site_path(helper_fn, opts) when is_list(opts) do
     apply(@route_helper_module, helper_fn, [@endpoint | opts])
   end
+
+  @doc """
+  Fetches config values, handling system env and default values.
+  """
+  @spec config(atom, atom, atom) :: any
+  def config(app, key, subkey) do
+    {:ok, val} =
+      app
+      |> Application.fetch_env!(key)
+      |> Access.fetch(subkey)
+    do_config(val)
+  end
+
+  @spec config(atom, atom) :: any
+  def config(app, key) do
+    app
+    |> Application.get_env(key)
+    |> do_config()
+  end
+
+  defp do_config(val) do
+    case val do
+      {:system, envvar, default} ->
+        System.get_env(envvar) || default
+      {:system, envvar} ->
+        System.get_env(envvar)
+      value -> value
+    end
+  end
 end
