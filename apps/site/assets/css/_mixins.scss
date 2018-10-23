@@ -162,16 +162,10 @@
   // When columns break and are ordered vertically only the first should get
   // the updated spacing
   @include media-breakpoint-down(sm) {
-    + div > div > p:first-child,
-    + div > div > ul:first-child,
-    + div > div > ol:first-child {
+    + div > div ~ div > p:first-child,
+    + div > div ~ div > ul:first-child,
+    + div > div ~ div > ol:first-child {
       margin-top: 0;
-    }
-
-    + div > div:first-child > p:first-child,
-    + div > div:first-child > ul:first-child,
-    + div > div:first-child > ol:first-child {
-      margin-top: -$after-heading-adjustment;
     }
   }
 
