@@ -3,6 +3,8 @@
 # """
 # Compare the attributes in our fixture files to production Drupal API endpoints to see if any are missing.
 #
+# See the project README for information on setting the `DRUPAL_ROOT` environment variable.
+#
 # Run like:
 #
     # mix run apps/content/bin/validate_fixtures.exs
