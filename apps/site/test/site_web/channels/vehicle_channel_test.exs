@@ -4,12 +4,14 @@ defmodule SiteWeb.VehicleChannelTest do
   alias SiteWeb.VehicleChannel
 
   test "sends vehicles and marker data" do
+    # subscribes to a random channel name to
+    # avoid receiving real data in assert_push
     assert {:ok, _, socket} =
       ""
       |> socket(%{some: :assign})
-      |> subscribe_and_join(VehicleChannel, "vehicles:Red:0")
+      |> subscribe_and_join(VehicleChannel, "vehicles:VehicleChannelTest")
 
-    assert [vehicle | _] = Vehicles.Repo.route("Red")
+    assert [vehicle | _] = Vehicles.Repo.fetch([])
 
     assert {:noreply, %Phoenix.Socket{}} =
       SiteWeb.VehicleChannel.handle_out("data", %{data: [vehicle]}, socket)
@@ -21,6 +23,5 @@ defmodule SiteWeb.VehicleChannelTest do
       data: ^vehicle,
       marker: %GoogleMaps.MapData.Marker{}
     } = vehicle_with_marker
-
   end
 end
