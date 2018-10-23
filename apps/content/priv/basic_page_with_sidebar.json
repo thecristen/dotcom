@@ -98,6 +98,7 @@
       "value": "published"
     }
   ],
+  "sidebar": [],
   "path": [
     {
       "alias": "/destinations/fenway-park",
@@ -117,6 +118,7 @@
     }
   ],
   "field_downloads": [],
+  "field_image": [],
   "field_keywords": [],
   "field_page_type": [
     {
@@ -944,6 +946,7 @@
       ]
     }
   ],
+  "field_related_transit": [],
   "field_sidebar_menu": [
     {
       "nid": [

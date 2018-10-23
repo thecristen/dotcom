@@ -94,6 +94,7 @@
         "value": "published"
       }
     ],
+    "sidebar": [],
     "path": [],
     "publish_on": [],
     "unpublish_on": [],
@@ -149,7 +150,9 @@
       }
     ],
     "field_other_files": [],
+    "field_page_type": [],
     "field_project": [],
+    "field_related_transit": [],
     "field_start_time": [
       {
         "value": "2018-04-02T16:00:00"
@@ -266,6 +269,7 @@
         "value": "published"
       }
     ],
+    "sidebar": [],
     "path": [
       {
         "alias": "/events/date/title",
@@ -308,7 +312,9 @@
     "field_minutes_file": [],
     "field_notes": [],
     "field_other_files": [],
+    "field_page_type": [],
     "field_project": [],
+    "field_related_transit": [],
     "field_start_time": [
       {
         "value": "2018-04-03T17:00:00"
@@ -425,6 +431,7 @@
         "value": "published"
       }
     ],
+    "sidebar": [],
     "path": [
       {
         "alias": "/events/2018-04-05/public-meeting-sullivan-square-station-lower-busway-and-parking-lot",
@@ -479,6 +486,7 @@
         "mime_type": "application/pdf"
       }
     ],
+    "field_page_type": [],
     "field_project": [
       {
         "target_id": 3464,
@@ -487,6 +495,7 @@
         "url": "/projects/sullivan-square-lower-busway-and-parking-lot-reconstruction"
       }
     ],
+    "field_related_transit": [],
     "field_start_time": [
       {
         "value": "2018-04-05T22:00:00"
@@ -603,6 +612,7 @@
         "value": "published"
       }
     ],
+    "sidebar": [],
     "path": [
       {
         "alias": "/events/2018-04-09/senior-charliecard-event",
@@ -645,7 +655,9 @@
     "field_minutes_file": [],
     "field_notes": [],
     "field_other_files": [],
+    "field_page_type": [],
     "field_project": [],
+    "field_related_transit": [],
     "field_start_time": [
       {
         "value": "2018-04-09T13:00:00"
@@ -762,6 +774,7 @@
         "value": "published"
       }
     ],
+    "sidebar": [],
     "path": [
       {
         "alias": "/events/2018-06-27/access-advisory-committee-the-mbta-board-directors-meeting",
@@ -811,7 +824,9 @@
     "field_minutes_file": [],
     "field_notes": [],
     "field_other_files": [],
+    "field_page_type": [],
     "field_project": [],
+    "field_related_transit": [],
     "field_start_time": [
       {
         "value": "2018-06-27T16:00:00"

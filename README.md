@@ -186,6 +186,7 @@ All run from the main folder:
 * `npm run brunch:build` — builds the static files
 * `semaphore/smoke_test.sh` - tries to hit all the URLs on your server.
   Requires wget (installable with `brew install wget`)
+* `mix run apps/content/bin/validate_fixtures.exs` - compares the attributes in our fixture files to production Drupal API endpoints to see if any are missing. Note that rather than using this script, it is better to update these fixture attributes at the time you are making API changes.
 
 
 ## Environment Variables
