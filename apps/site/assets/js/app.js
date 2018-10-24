@@ -60,7 +60,6 @@ import fullstory from "./fullstory";
 import inputFocus from "./input-focus";
 import transitNearMe from "./transit-near-me";
 import routeMap from "./route-map";
-import channels from "./channels";
 
 window.$ = window.jQuery;
 
@@ -311,4 +310,3 @@ TripPlannerResults.init();
 fullstory();
 transitNearMe();
 routeMap();
-channels();
