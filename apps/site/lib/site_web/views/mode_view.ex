@@ -68,8 +68,8 @@ defmodule SiteWeb.ModeView do
   def grid_button_path(:the_ride, %Plug.Conn{} = conn) do
     cms_static_page_path(conn, "/accessibility/the-ride")
   end
-  def grid_button_path(%Route{} = route, %Plug.Conn{} = conn) do
-    schedule_path(conn, :show, route)
+  def grid_button_path(%Route{id: route_id}, %Plug.Conn{} = conn) do
+    schedule_path(conn, :show, route_id)
   end
 
   @doc """

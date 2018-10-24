@@ -5,7 +5,7 @@ defmodule SiteWeb.Plugs.RecommendedRoutesTest do
 
   describe "call/2" do
     test "assigns list of routes to :recommended_routes if cookie has multiple values", %{conn: conn} do
-      cookies = Map.put(%{}, Cookies.route_cookie_name(), "Red|Green|Blue")
+      cookies = Map.put(%{}, Cookies.route_cookie_name(), "Red|Green|Green-B|Blue")
       conn =
         conn
         |> Map.put(:cookies, cookies)
@@ -14,11 +14,13 @@ defmodule SiteWeb.Plugs.RecommendedRoutesTest do
       assert [
         %Route{} = red,
         %Route{} = green,
+        %Route{} = green_b,
         %Route{} = blue
       ] = conn.assigns.recommended_routes
 
       assert red.id == "Red"
       assert green.id == "Green"
+      assert green_b.id == "Green-B"
       assert blue.id == "Blue"
     end
 

@@ -33,6 +33,13 @@ defmodule SiteWeb.Plugs.CookiesTest do
       assert Map.get(with_cookie.cookies, route_cookie_name()) == "CR-Lowell"
     end
 
+    test "sets green line branch cookies correctly", %{conn: conn} do
+      green_b_path = schedule_path(conn, :show, "Green-B")
+      assert green_b_path == "/schedules/Green-B"
+      with_cookie = get conn, green_b_path
+      assert Map.get(with_cookie.cookies, route_cookie_name()) == "Green-B"
+    end
+
     test "appends new route to cookie if user visits another schedule page", %{conn: conn} do
       conn =
         conn
