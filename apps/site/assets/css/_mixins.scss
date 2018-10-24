@@ -144,22 +144,36 @@
 
 @mixin after-heading-space {
 
-  $adjustment: .25em;
-
-  // Paragraph copy directly following headlines have their own
-  // built-in spacing (line-heights, em-square), so we undo the global
-  // after-heading spacing when paragraphs directly follow headings.
+  // Paragraph copy directly following headlines (even if nested in divs) have
+  // their own built-in spacing (line-heights, em-square), so we undo the
+  // global after-heading spacing when paragraphs directly follow headings.
   + p,
+  + div > p:first-child,
+  + div > div > p:first-child,
   + ul,
-  + ol {
-    margin-top: -$adjustment;
+  + div > ul:first-child,
+  + div > div > ul:first-child,
+  + ol,
+  + div > ol:first-child,
+  + div > div > ol:first-child {
+    margin-top: -$after-heading-adjustment;
+  }
+
+  // When columns break and are ordered vertically only the first should get
+  // the updated spacing
+  @include media-breakpoint-down(sm) {
+    + div > div ~ div > p:first-child,
+    + div > div ~ div > ul:first-child,
+    + div > div ~ div > ol:first-child {
+      margin-top: 0;
+    }
   }
 
   // If an author floats media between a heading and body copy, we lose
   // the heading + copy relationship. Add this scenario back here:
   @include media-breakpoint-up(sm) {
     + .c-media--size-half + p {
-      margin-top: -$adjustment;
+      margin-top: -$after-heading-adjustment;
     }
   }
 
@@ -167,13 +181,19 @@
   // the same gap non-paragraphs get by default (undo negative margin above).
   + p > img:first-child,
   + p > a:first-child > img:first-child {
-    margin-top: $adjustment;
+    margin-top: $after-heading-adjustment;
   }
   // Make floated media items align with the top of adjacent wrapped text characters
   @include media-breakpoint-up(sm) {
     + .c-media--size-half .c-media__content {
-      margin-top: $adjustment;
+      margin-top: $after-heading-adjustment;
     }
+  }
+}
+
+@mixin paragraph-space-for-breakpoint($breakpoint) {
+  > [class*="col-#{$breakpoint}-"] > p:first-child {
+    margin-top: -$after-heading-adjustment;
   }
 }
 
