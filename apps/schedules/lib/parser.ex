@@ -6,6 +6,7 @@ defmodule Schedules.Parser do
       stop_id(item),
       time(item),
       flag?(item),
+      early_departure?(item),
       item.attributes["stop_sequence"] || 0,
       pickup_type(item)
     }
@@ -85,6 +86,14 @@ defmodule Schedules.Parser do
     # * 3: Must coordinate with driver to arrange drop off
     # Flag trips are those which need coordination.
     pickup_type == 3 || drop_off_type == 3
+  end
+
+  defp early_departure?(%JsonApi.Item{attributes: %{"pickup_type" => pickup_type,
+                                                    "drop_off_type" => drop_off_type,
+                                                    "timepoint" => timepoint}}) do
+    # early departure is pickup_type and drop_off_type are non-terminus, not 1 and 0 (respectively)
+    # and the timepoint is false
+    timepoint == false && pickup_type != 1 && drop_off_type != 0
   end
 
   defp pickup_type(%JsonApi.Item{attributes: %{"pickup_type" => pickup_type}}) do

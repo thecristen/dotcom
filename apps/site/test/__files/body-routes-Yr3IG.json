@@ -1,1 +1,0 @@
-{"data":[{"attributes":{"color":"DA291C","description":"Rapid Transit","direction_names":["Outbound","Inbound"],"long_name":"Mattapan Trolley","short_name":"","sort_order":8,"text_color":"FFFFFF","type":0},"id":"Mattapan","links":{"self":"/routes/Mattapan"},"type":"route"}],"jsonapi":{"version":"1.0"}}

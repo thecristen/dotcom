@@ -1,0 +1,22 @@
+{
+  "id" : "0c896ed7-1d45-3b79-92e7-6db0f38a9f25",
+  "request" : {
+    "url" : "/routes/?stop=64",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-XPHyI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:58:42 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jni3ruv2l7tu6s00h4b1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0c896ed7-1d45-3b79-92e7-6db0f38a9f25"
+}

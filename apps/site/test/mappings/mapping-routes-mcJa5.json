@@ -1,0 +1,22 @@
+{
+  "id" : "a85e0ac4-4df9-35d3-b92f-203b12bebccc",
+  "request" : {
+    "url" : "/routes/?stop=15094&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-mcJa5.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:57:14 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jiegmfs1aor2lo003ee2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a85e0ac4-4df9-35d3-b92f-203b12bebccc"
+}

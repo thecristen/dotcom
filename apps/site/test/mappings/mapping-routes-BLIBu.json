@@ -1,0 +1,22 @@
+{
+  "id" : "4bdda951-9379-34fb-a533-6c9d5f45afd7",
+  "request" : {
+    "url" : "/routes/?stop=place-bucen",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BLIBu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:59:52 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jrk53m1i7mo2jg00heb1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4bdda951-9379-34fb-a533-6c9d5f45afd7"
+}

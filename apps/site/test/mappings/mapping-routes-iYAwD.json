@@ -1,0 +1,22 @@
+{
+  "id" : "e413ae93-204b-3eea-9eb1-043671cd3161",
+  "request" : {
+    "url" : "/routes/?stop=Bradford",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-iYAwD.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:59:52 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jrk25daftoq6n400he11",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e413ae93-204b-3eea-9eb1-043671cd3161"
+}

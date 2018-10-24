@@ -1,0 +1,22 @@
+{
+  "id" : "c85d5ad4-4d4c-374b-abb2-04d7acdc22e5",
+  "request" : {
+    "url" : "/routes/?stop=145&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-eDaAg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:57:14 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jictie89kel6bc003d82",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c85d5ad4-4d4c-374b-abb2-04d7acdc22e5"
+}

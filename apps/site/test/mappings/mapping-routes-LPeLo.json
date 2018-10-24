@@ -1,0 +1,22 @@
+{
+  "id" : "8a9bd326-9edf-3876-9345-010b8e9ad19a",
+  "request" : {
+    "url" : "/routes/?stop=Newburyport",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LPeLo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:59:53 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jrl3t0pspii86g00hhh1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8a9bd326-9edf-3876-9345-010b8e9ad19a"
+}

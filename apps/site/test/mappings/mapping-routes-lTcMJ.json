@@ -1,0 +1,22 @@
+{
+  "id" : "303c7b3e-4b7f-36aa-932f-127cd4c6b275",
+  "request" : {
+    "url" : "/routes/?stop=Haverhill",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-lTcMJ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:59:52 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jrk80pk8dmo2jg00hek1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "303c7b3e-4b7f-36aa-932f-127cd4c6b275"
+}

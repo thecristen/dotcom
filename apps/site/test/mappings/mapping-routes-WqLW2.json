@@ -1,0 +1,22 @@
+{
+  "id" : "4859d9ee-270c-367c-9698-8ce8eb32a2ce",
+  "request" : {
+    "url" : "/routes/?stop=place-brico&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-WqLW2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:57:12 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jia7vfvh1mn1jc00gbb1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4859d9ee-270c-367c-9698-8ce8eb32a2ce"
+}

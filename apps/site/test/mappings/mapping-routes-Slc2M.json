@@ -1,0 +1,22 @@
+{
+  "id" : "0fe8fea5-ac4b-34ce-ac79-808dff4a6ffb",
+  "request" : {
+    "url" : "/routes/?stop=87",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Slc2M.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:58:42 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jni783hfj7tu6s00h4f1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0fe8fea5-ac4b-34ce-ac79-808dff4a6ffb"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "6ce4e67d-f61a-39ab-9e30-8999bcc4929f",
+  "request" : {
+    "url" : "/stops/70080?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70080-p6FbM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:58:50 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jo08udjlr7tu6s00h6s1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "6ce4e67d-f61a-39ab-9e30-8999bcc4929f"
+}

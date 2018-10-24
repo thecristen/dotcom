@@ -1,0 +1,22 @@
+{
+  "id" : "4042d8b9-ab32-36a4-a4f1-7f0eb95327fe",
+  "request" : {
+    "url" : "/schedules/?route=1&date=2018-12-24&direction_id=0&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-nhlWe.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json",
+      "Date" : "Mon, 22 Oct 2018 20:58:42 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:07:48 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jnhpp3f4h42ppo002cb3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4042d8b9-ab32-36a4-a4f1-7f0eb95327fe"
+}

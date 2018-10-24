@@ -1,0 +1,22 @@
+{
+  "id" : "bf17217f-32ab-3c05-b49a-5c191b844974",
+  "request" : {
+    "url" : "/routes/?stop=Ipswich",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-hYsHg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:59:53 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jrl1fvia7ii86g00hh81",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "bf17217f-32ab-3c05-b49a-5c191b844974"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "d1a991b2-ee07-3d1d-b585-024876657113",
+  "request" : {
+    "url" : "/routes/?stop=Boat-Hull",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-voYA5.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:59:51 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jriv5454nrolpo003mo2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d1a991b2-ee07-3d1d-b585-024876657113"
+}

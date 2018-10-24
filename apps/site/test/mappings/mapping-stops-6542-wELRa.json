@@ -1,0 +1,22 @@
+{
+  "id" : "054c95bf-7820-3404-803d-ae763f4bee31",
+  "request" : {
+    "url" : "/stops/6542?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-6542-wELRa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:57:17 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jiis4n3supf68s00gg01",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "054c95bf-7820-3404-803d-ae763f4bee31"
+}

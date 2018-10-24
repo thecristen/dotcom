@@ -1,1 +1,0 @@
-{"data":[{"attributes":{"color":"00843D","description":"Rapid Transit","direction_names":["Westbound","Eastbound"],"long_name":"Green Line B","short_name":"B","sort_order":3,"text_color":"FFFFFF","type":0},"id":"Green-B","links":{"self":"/routes/Green-B"},"type":"route"}],"jsonapi":{"version":"1.0"}}

@@ -1,0 +1,22 @@
+{
+  "id" : "a9ab03ee-17ac-32b2-afb8-8af50d774c81",
+  "request" : {
+    "url" : "/trips/?route=CR-Middleborough&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-u8UAQ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:54:19 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 20:54:18 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0j874jbeh8bnppk000u14",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a9ab03ee-17ac-32b2-afb8-8af50d774c81"
+}

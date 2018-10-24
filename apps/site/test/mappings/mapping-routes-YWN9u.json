@@ -1,0 +1,22 @@
+{
+  "id" : "9dafdfa9-ec45-38fc-b1d1-cb9c00bcfa26",
+  "request" : {
+    "url" : "/routes/?stop=North+Scituate",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-YWN9u.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:59:52 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jrju5q3cpoq6n400hdl1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "9dafdfa9-ec45-38fc-b1d1-cb9c00bcfa26"
+}

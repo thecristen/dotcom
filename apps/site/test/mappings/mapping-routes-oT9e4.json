@@ -1,0 +1,22 @@
+{
+  "id" : "ce0a0de0-dfda-355e-95a2-f443cd5e5eb0",
+  "request" : {
+    "url" : "/routes/?stop=West+Concord",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-oT9e4.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:59:52 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jrk5ima93mo2jg00hec1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ce0a0de0-dfda-355e-95a2-f443cd5e5eb0"
+}

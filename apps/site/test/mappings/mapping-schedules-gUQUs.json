@@ -1,0 +1,22 @@
+{
+  "id" : "779338ca-488e-38bd-86de-778c8978f728",
+  "request" : {
+    "url" : "/schedules/?stop=Framingham&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&date=2018-12-22",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-gUQUs.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:59:31 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:07:48 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jqcsplgn550ea000had1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "779338ca-488e-38bd-86de-778c8978f728"
+}

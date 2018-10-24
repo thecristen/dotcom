@@ -1,0 +1,22 @@
+{
+  "id" : "edfdc8a3-0c3a-3c46-b6a3-f6b87c8c381a",
+  "request" : {
+    "url" : "/trips/38096225",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-38096225-apaCD.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 21:01:27 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 21:01:24 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0k148v94gu0tt6000hpg1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "edfdc8a3-0c3a-3c46-b6a3-f6b87c8c381a"
+}

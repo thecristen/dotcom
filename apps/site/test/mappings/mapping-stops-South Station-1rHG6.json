@@ -1,0 +1,22 @@
+{
+  "id" : "9e3fc7c7-7f9d-31ad-bf23-2cd90725d1c3",
+  "request" : {
+    "url" : "/stops/South%20Station?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-South Station-1rHG6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:59:19 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:56 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jpm4rm1787ms6c00h9g1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "9e3fc7c7-7f9d-31ad-bf23-2cd90725d1c3"
+}

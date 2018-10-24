@@ -1,0 +1,22 @@
+{
+  "id" : "dffc4d1a-1878-3b6e-8b6c-cf2d51b252ed",
+  "request" : {
+    "url" : "/schedules/?route=Red&date=1970-01-01",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-6NA0X.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json",
+      "Date" : "Mon, 22 Oct 2018 20:54:12 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:07:48 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0j7qc0gf9jsvfpo00fjl1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "dffc4d1a-1878-3b6e-8b6c-cf2d51b252ed"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "9f56a7b2-e007-3a0b-926d-cc7a82cf05de",
+  "request" : {
+    "url" : "/routes/?stop=Chelsea",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-NbkKi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:59:52 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jrksca3q1oq6n400hgp1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "9f56a7b2-e007-3a0b-926d-cc7a82cf05de"
+}

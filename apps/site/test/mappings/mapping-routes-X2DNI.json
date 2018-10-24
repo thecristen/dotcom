@@ -1,0 +1,22 @@
+{
+  "id" : "bada4955-c9e9-3838-a0da-433dd5c5b9a4",
+  "request" : {
+    "url" : "/routes/?stop=2",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-X2DNI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:58:42 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jni3tk0pg879ak002cf3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "bada4955-c9e9-3838-a0da-433dd5c5b9a4"
+}

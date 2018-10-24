@@ -1,0 +1,22 @@
+{
+  "id" : "d4bd3bff-0c78-3591-9a94-4a8f7619b479",
+  "request" : {
+    "url" : "/routes/?stop=104",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-9riMy.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:58:42 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jnifnamid7tu6s00h4m1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d4bd3bff-0c78-3591-9a94-4a8f7619b479"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "1c0bb5c3-8b65-3010-82fa-d610e6e28641",
+  "request" : {
+    "url" : "/routes/?stop=place-bckhl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-JEmow.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:57:12 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0ji9vp44m36c1n80016d4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "1c0bb5c3-8b65-3010-82fa-d610e6e28641"
+}

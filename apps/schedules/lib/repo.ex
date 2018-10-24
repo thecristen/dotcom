@@ -11,7 +11,7 @@ defmodule Schedules.Repo do
   @default_timeout 10_000
   @default_params [
     include: "trip",
-    "fields[schedule]": "departure_time,drop_off_type,pickup_type,stop_sequence",
+    "fields[schedule]": "departure_time,drop_off_type,pickup_type,stop_sequence,timepoint",
     "fields[trip]": "name,headsign,direction_id",
   ]
 
@@ -169,15 +169,18 @@ defmodule Schedules.Repo do
   end
   defp load_from_other_repos(schedules) do
     schedules
-    |> Task.async_stream(fn {route_id, trip_id, stop_id, time, flag?, stop_sequence, pickup_type} ->
+    |> Task.async_stream(fn {route_id, trip_id, stop_id, time, flag?, early_departure?,
+                             stop_sequence, pickup_type} ->
       %Schedules.Schedule{
         route: Routes.Repo.get(route_id),
         trip: trip(trip_id),
         stop: Stops.Repo.get(stop_id),
         time: time,
         flag?: flag?,
+        early_departure?: early_departure?,
         stop_sequence: stop_sequence,
-        pickup_type: pickup_type}
+        pickup_type: pickup_type
+      }
     end)
     |> Enum.map(fn {:ok, schedule} -> schedule end)
   end

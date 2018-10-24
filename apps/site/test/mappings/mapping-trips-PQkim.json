@@ -1,0 +1,22 @@
+{
+  "id" : "608a99ad-9c88-342c-9297-d5cda3774e6b",
+  "request" : {
+    "url" : "/trips/?route=210&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-PQkim.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:54:41 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 20:54:37 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0j9fqmq3rv7d9ks0031t2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "608a99ad-9c88-342c-9297-d5cda3774e6b"
+}

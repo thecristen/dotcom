@@ -1,0 +1,22 @@
+{
+  "id" : "8794a6cc-f601-3bf7-bb8f-153b8be3c433",
+  "request" : {
+    "url" : "/routes/?stop=place-hsmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-SuOxO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:57:12 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jia1637k9mn1jc0016f4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8794a6cc-f601-3bf7-bb8f-153b8be3c433"
+}

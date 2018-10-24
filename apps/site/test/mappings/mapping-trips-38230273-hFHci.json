@@ -1,0 +1,22 @@
+{
+  "id" : "469ff2fd-bd0c-3b44-89b5-1dd6bb93f8e7",
+  "request" : {
+    "url" : "/trips/38230273",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-38230273-hFHci.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:58:51 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 20:58:47 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jo33ihj057tu6s00h741",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "469ff2fd-bd0c-3b44-89b5-1dd6bb93f8e7"
+}

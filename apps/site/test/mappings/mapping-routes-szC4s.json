@@ -1,0 +1,22 @@
+{
+  "id" : "01215923-f940-3894-a793-155e611be033",
+  "request" : {
+    "url" : "/routes/?stop=place-sthld&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-szC4s.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:57:13 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jib1dn563mn1jc0025d3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "01215923-f940-3894-a793-155e611be033"
+}

@@ -6,7 +6,8 @@ defmodule Schedules.ParserTest do
       attributes: %{
         "departure_time" => "2016-06-08T05:35:00+04:00",
         "pickup_type" => 3,
-        "drop_off_type" => 0
+        "drop_off_type" => 1,
+        "timepoint" => false
       },
       id: "31174458-CR_MAY2016-hxl16011-Weekday-01-Lowell-schedule",
       relationships: %{
@@ -51,6 +52,7 @@ defmodule Schedules.ParserTest do
       "Lowell",
       Timex.to_datetime({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4"),
       true,
+      true,
       0,
       3} == actual
   end
@@ -84,7 +86,8 @@ defmodule Schedules.ParserTest do
         attributes: %{
           "departure_time" => "2016-06-08T05:35:00+04:00",
           "pickup_type" => 3,
-          "drop_off_type" => 0
+          "drop_off_type" => 0,
+          "timepoint" => false
         },
         id: "31174458-CR_MAY2016-hxl16011-Weekday-01-Lowell-schedule",
         relationships: %{

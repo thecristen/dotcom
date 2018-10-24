@@ -1,0 +1,22 @@
+{
+  "id" : "8704281b-fbcc-391b-a8aa-d2846d73b319",
+  "request" : {
+    "url" : "/routes/?stop=Ashland",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-r5XxS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:59:52 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jrj48uh8noq6n4003mq2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8704281b-fbcc-391b-a8aa-d2846d73b319"
+}

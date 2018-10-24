@@ -1,0 +1,22 @@
+{
+  "id" : "14cb2b1d-41bf-3dd3-8b28-213f0586bbcd",
+  "request" : {
+    "url" : "/shapes/?route=449&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-slTax.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:54:47 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:08:44 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0j9so13675ul1pk001un3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "14cb2b1d-41bf-3dd3-8b28-213f0586bbcd"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "e7539256-9254-30db-b5d4-e03845187277",
+  "request" : {
+    "url" : "/routes/?stop=Attleboro",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-pLMWK.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 22 Oct 2018 20:59:53 GMT",
+      "last-modified" : "Mon, 22 Oct 2018 19:06:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lg0jrkts5elvii86g00hgs1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e7539256-9254-30db-b5d4-e03845187277"
+}
