@@ -5,7 +5,8 @@ defmodule SiteWeb.UserSocket do
   channel "vehicles:*", SiteWeb.VehicleChannel
 
   ## Transports
-  transport :websocket, Phoenix.Transports.WebSocket
+  transport :websocket, Phoenix.Transports.WebSocket,
+    check_origin: Application.get_env(:site, :websocket_check_origin, false)
   # transport :longpoll, Phoenix.Transports.LongPoll
 
   # Socket params are passed from the client and can

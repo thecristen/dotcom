@@ -42,6 +42,11 @@ config :site, SiteWeb.Endpoint,
   ],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
+config :site, :websocket_check_origin, [
+  "https://*.mbta.com",
+  "https://*.mbtace.com",
+]
+
 # Do not print debug messages in production
 config :logger,
   level: :info,
