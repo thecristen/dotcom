@@ -50,7 +50,7 @@
         <% end %>
       </li>
       <li>
-        <%= link to: "https://beta.alerts.mbta.com", target: "_blank" do %>
+        <%= link to: "https://alerts.mbta.com", target: "_blank" do %>
           Sign Up for T-Alerts
         <% end %>
       </li>

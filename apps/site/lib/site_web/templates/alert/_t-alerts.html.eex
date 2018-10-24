@@ -1,3 +1,3 @@
 <div class="t-alerts-container">
-  <a href="https://beta.alerts.mbta.com" target="_blank">Sign up for T-Alerts <%= fa "mobile" %> <%= fa "envelope" %></a>
+  <a href="https://alerts.mbta.com" target="_blank">Sign up for T-Alerts <%= fa "mobile" %> <%= fa "envelope" %></a>
 </div>
