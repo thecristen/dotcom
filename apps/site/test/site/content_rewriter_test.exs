@@ -62,7 +62,7 @@ defmodule Site.ContentRewriterTest do
       expected =
         ~s(
         <div>
-          Test 1 <i aria-hidden="true" class="fa fa-test "></i>, Test 2 <i aria-hidden="true" class="fa fa-test-two "></i>
+          Test 1 <i aria-hidden="true" class=" notranslate fa fa-test "></i>, Test 2 <i aria-hidden="true" class=" notranslate fa fa-test-two "></i>
           <figure class="c-media c-media--type-table">
             <div class="c-media__content">
               <table class="c-media__element responsive-table">
@@ -76,7 +76,7 @@ defmodule Site.ContentRewriterTest do
                 <tbody>
                   <tr>
                     <th>Head 1</th>
-                    <td>Cell 1 <i aria-hidden="true" class="fa fa-cell "></i></td>
+                    <td>Cell 1 <i aria-hidden="true" class=" notranslate fa fa-cell "></i></td>
                     <th>Head 2</th>
                     <td>Cell 2 {{ unknown }} </td>
                   </tr>
@@ -132,7 +132,7 @@ defmodule Site.ContentRewriterTest do
       {:safe, output} = input |> raw() |> rewrite(conn)
 
       assert output =~ ~r/^<p>Before <a href=\"#\"><span data-toggle=\"tooltip\" title=\"Green Line\">/
-      assert output =~ ~r/<span class=\"c-svg__icon-green-line-small\"><svg/
+      assert output =~ ~r/<span class=\"notranslate c-svg__icon-green-line-small\"><svg/
       assert output =~ ~r/<\/svg><\/span><\/span> link<\/a> after<\/p>$/
     end
 

@@ -19,7 +19,7 @@ defmodule SiteWeb.ViewHelpers do
     |> raw
 
     def svg(unquote(name)) do
-      content_tag :span, [unquote(contents)], class: ["c-svg", "__", Path.rootname(unquote(name))]
+      content_tag :span, [unquote(contents)], class: ["notranslate c-svg", "__", Path.rootname(unquote(name))]
     end
   end
   def svg(unknown) do
@@ -95,7 +95,7 @@ defmodule SiteWeb.ViewHelpers do
   @doc "HTML for a FontAwesome icon, with optional attributes"
   def fa(name, attributes \\ []) when is_list(attributes) do
     content_tag :i, [], [{:"aria-hidden", "true"},
-                         {:class, "fa fa-#{name} " <> Keyword.get(attributes, :class, "")} |
+                         {:class, "notranslate fa fa-#{name} " <> Keyword.get(attributes, :class, "")} |
                          Keyword.delete(attributes, :class)]
   end
 

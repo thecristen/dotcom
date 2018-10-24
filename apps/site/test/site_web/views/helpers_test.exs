@@ -200,7 +200,7 @@ defmodule SiteWeb.ViewHelpersTest do
 
   describe "fa/2" do
     test "creates the HTML for a FontAwesome icon" do
-      expected = ~s(<i aria-hidden="true" class="fa fa-arrow-right "></i>)
+      expected = ~s(<i aria-hidden="true" class="notranslate fa fa-arrow-right "></i>)
 
       result = fa("arrow-right")
 
@@ -208,7 +208,7 @@ defmodule SiteWeb.ViewHelpersTest do
     end
 
     test "when optional attributes are included" do
-      expected = ~s(<i aria-hidden="true" class="fa fa-arrow-right foo" title="title"></i>)
+      expected = ~s(<i aria-hidden="true" class="notranslate fa fa-arrow-right foo" title="title"></i>)
 
       result = fa("arrow-right", class: "foo", title: "title")
 
@@ -283,9 +283,9 @@ defmodule SiteWeb.ViewHelpersTest do
             |> safe_to_string()
             |> Floki.parse()
           if type == :commuter_rail do
-            assert class == "c-svg__icon-mode-commuter-rail-#{size}"
+            assert class == "notranslate c-svg__icon-mode-commuter-rail-#{size}"
           else
-            assert class == "c-svg__icon-mode-#{type}-#{size}"
+            assert class == "notranslate c-svg__icon-mode-#{type}-#{size}"
           end
     end
   end
@@ -299,13 +299,13 @@ defmodule SiteWeb.ViewHelpersTest do
             |> safe_to_string()
             |> Floki.parse()
           if type == 0 do
-            assert class == "c-svg__icon-trolley-circle-bw-#{size}"
+            assert class == "notranslate c-svg__icon-trolley-circle-bw-#{size}"
           else
             type = type
                    |> Route.type_atom()
                    |> Atom.to_string()
                    |> String.replace("_", "-")
-            assert class == "c-svg__icon-#{type}-circle-bw-#{size}"
+            assert class == "notranslate c-svg__icon-#{type}-circle-bw-#{size}"
           end
     end
   end

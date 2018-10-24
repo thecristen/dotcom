@@ -56,7 +56,14 @@
 }
 
 .m-secondary-nav__icon-text {
+  color: $white;
   text-align: center;
+
+  @include hover-focus-active {
+    background-color: $brand-primary-darkest;
+    color: $white;
+    text-decoration: none;
+  }
 
   @include media-breakpoint-down(sm) {
     font-size: $font-size-base-sm;
