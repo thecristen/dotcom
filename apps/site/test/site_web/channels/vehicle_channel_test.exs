@@ -11,7 +11,10 @@ defmodule SiteWeb.VehicleChannelTest do
       |> socket(%{some: :assign})
       |> subscribe_and_join(VehicleChannel, "vehicles:VehicleChannelTest")
 
-    assert [vehicle | _] = Vehicles.Repo.fetch([])
+    assert [vehicle | _] =
+      []
+      |> Vehicles.Repo.fetch()
+      |> Enum.reject(& &1.route_id == nil)
 
     assert {:noreply, %Phoenix.Socket{}} =
       SiteWeb.VehicleChannel.handle_out("data", %{data: [vehicle]}, socket)

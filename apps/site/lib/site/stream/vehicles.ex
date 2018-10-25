@@ -18,6 +18,8 @@ defmodule Site.Stream.Vehicles do
       []
       |> repo.fetch()
       |> Enum.group_by(& {&1.route_id, &1.direction_id})
+      |> Enum.reject(fn {route_id, _} -> route_id == nil end)
+      |> Map.new()
 
     _ = send_green_line(by_route)
 

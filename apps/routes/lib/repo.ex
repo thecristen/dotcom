@@ -29,7 +29,7 @@ defmodule Routes.Repo do
 
   """
   @spec get(String.t) :: Routes.Route.t | nil
-  def get(id) do
+  def get(id) when is_binary(id) do
     case cache id, fn id ->
       with %{data: [route]} <- V3Api.Routes.get(id) do
         {:ok, parse_route(route)}
