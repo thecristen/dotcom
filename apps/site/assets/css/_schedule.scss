@@ -1271,6 +1271,10 @@ del .trip-list-realtime {
   .header-tab {
     // override color set by .u-bg class
     color: $black;
+
+    &:hover {
+      color: $black;
+    }
   }
 }
 
