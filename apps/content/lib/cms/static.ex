@@ -40,6 +40,10 @@ defmodule Content.CMS.Static do
     parse_json("cms/route-pdfs.json")
   end
 
+  def teasers_response do
+    parse_json("cms/teasers.json")
+  end
+
   # Core (entity:node) responses
 
   def all_paragraphs_response do
@@ -261,6 +265,18 @@ defmodule Content.CMS.Static do
   def view("/cms/route-pdfs/" <> _route_id, _) do
     {:ok, []}
   end
+  def view("/cms/teasers/" <> route_id, params) when route_id != "NotFound" do
+    filtered =
+      teasers_response()
+      |> filter_teasers(params)
+
+    case Map.fetch(params, :items_per_page) do
+      {:ok, count} ->
+        {:ok, Enum.take(filtered, count)}
+      :error ->
+        {:ok, filtered}
+    end
+  end
   def view("/redirected-url", params) do
     redirect("/different-url", params, 302)
   end
@@ -338,4 +354,16 @@ defmodule Content.CMS.Static do
 
   def redirect(path, params, code) when params == %{}, do: {:error, {:redirect, code, [to: path]}}
   def redirect(path, params, code), do: redirect(path <> "?" <> URI.encode_query(params), %{}, code)
+
+  defp filter_teasers(teasers, %{type: type, type_op: "not in"}) do
+    Enum.reject(teasers, &filter_teaser?(&1, type))
+  end
+  defp filter_teasers(teasers, %{type: type}) do
+    Enum.filter(teasers, &filter_teaser?(&1, type))
+  end
+  defp filter_teasers(teasers, %{}) do
+    teasers
+  end
+
+  defp filter_teaser?(%{"type" => type}, type_atom), do: Atom.to_string(type_atom) === type
 end

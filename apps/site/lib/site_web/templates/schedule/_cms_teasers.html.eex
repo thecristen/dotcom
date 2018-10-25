@@ -1,0 +1,19 @@
+<%= if @featured_content do %>
+  <%=
+    link [
+      img_tag(@featured_content.image_path, class: "c-content-teaser__image"),
+      content_tag(:div, @featured_content.topic, class: "u-small-caps"),
+      content_tag(:h3, raw(@featured_content.title), class: "h3 c-content-teaser__title"),
+      content_tag(:div, raw(@featured_content.text))
+    ], to: @featured_content.path, class: "c-content-teaser"
+  %>
+<% end %>
+<%= unless Enum.empty?(@news) do content_tag(:h2, "News", class: "h2") end %>
+<%= for news_item <- @news do %>
+  <div class="u-small-caps">
+    <%= Timex.format!(news_item.date, "{Mshort} {D}") %>
+  </div>
+  <p>
+    <%= news_item.title |> raw() |> link(to: news_item.path) %>
+  </p>
+<% end %>

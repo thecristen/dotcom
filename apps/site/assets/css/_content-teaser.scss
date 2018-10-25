@@ -1,0 +1,32 @@
+.c-content-teaser {
+  color: inherit;
+  display: block;
+  text-decoration: none;
+
+  @include media-breakpoint-up(md) {
+    margin-top: $base-spacing * 2;
+  }
+
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+
+    .c-content-teaser__title {
+      color: $brand-primary;
+    }
+  }
+}
+
+.u-small-caps {
+  font-weight: bold;
+}
+
+.c-content-teaser__title {
+  margin-top: 0;
+}
+
+.c-content-teaser__image {
+  margin-bottom: $base-spacing / 2;
+  width: 100%;
+}
+

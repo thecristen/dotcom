@@ -90,9 +90,9 @@ defmodule SiteWeb.PageViewTest do
         |> assign(:news, entries)
         |> SiteWeb.PageView.render_news_entries()
         |> Phoenix.HTML.safe_to_string()
-      assert rendered |> Floki.find(".m-news-entry") |> Enum.count() == 5
-      assert rendered |> Floki.find(".m-news-entry--large") |> Enum.count() == 2
-      assert rendered |> Floki.find(".m-news-entry--small") |> Enum.count() == 3
+      assert rendered |> Floki.find(".c-news-entry") |> Enum.count() == 5
+      assert rendered |> Floki.find(".c-news-entry--large") |> Enum.count() == 2
+      assert rendered |> Floki.find(".c-news-entry--small") |> Enum.count() == 3
     end
   end
 end

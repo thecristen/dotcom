@@ -1,4 +1,4 @@
-.m-news-entry {
+.c-news-entry {
   align-items: flex-start;
   border-left: $base-spacing / 2 solid $brand-primary;
   color: $black;
@@ -13,7 +13,7 @@
   }
 }
 
-.m-news-entry__date {
+.c-news-entry__date {
   flex: 0 0 20%;
   font-family: $headings-font-family;
   max-width: 20%;
@@ -27,7 +27,7 @@
   }
 }
 
-.m-news-entry__month {
+.c-news-entry__month {
   margin-right: $base-spacing / 4;
 
   &--large {
@@ -37,15 +37,15 @@
   }
 }
 
-.m-news-entry__day--large {
+.c-news-entry__day--large {
   @include media-breakpoint-up(md) {
     font-size: $font-size-h2;
     line-height: $font-size-h2;
   }
 }
 
-.m-news-entry__month--large,
-.m-news-entry__day--large {
+.c-news-entry__month--large,
+.c-news-entry__day--large {
   @include media-breakpoint-up(md) {
     display: block;
     margin-right: 0;
@@ -53,7 +53,7 @@
   }
 }
 
-.m-news-entry__title {
+.c-news-entry__title {
   flex: 0 0 80%;
   font-weight: $font-weight-medium;
   padding-left: $base-spacing / 2;

@@ -15,12 +15,6 @@
   margin-bottom: 0;
 }
 
-.m-schedule-line__fares--title {
-  @include media-breakpoint-down(sm) {
-    margin-top: 0;
-  }
-}
-
 .m-schedule-line__info:last-child {
   margin-bottom: $base-spacing;
 }

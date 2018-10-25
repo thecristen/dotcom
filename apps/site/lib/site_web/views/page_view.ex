@@ -108,8 +108,8 @@ defmodule SiteWeb.PageView do
   defp render_news_entry(%{utm_url: utm_url} = entry, size, conn) do
     link([
       render_news_date(entry, size),
-      content_tag(:div, entry.title, class: "m-news-entry__title m-news-entry__title--#{size}")
-    ], to: cms_static_page_path(conn, utm_url), class: "m-news-entry m-news-entry--#{size}")
+      content_tag(:div, entry.title, class: "c-news-entry__title c-news-entry__title--#{size}")
+    ], to: cms_static_page_path(conn, utm_url), class: "c-news-entry c-news-entry--#{size}")
   end
 
   @spec render_news_date(Content.NewsEntry.t, :large | :small) :: Phoenix.HTML.Safe.t
@@ -118,14 +118,14 @@ defmodule SiteWeb.PageView do
       content_tag(
         :span,
         Timex.format!(entry.posted_on, "{Mshort}"),
-        class: "m-news-entry__month m-news-entry__month--#{size}"
+        class: "c-news-entry__month c-news-entry__month--#{size}"
       ),
       content_tag(
         :span,
         Timex.format!(entry.posted_on, "{0D}"),
-        class: "m-news-entry__day--#{size}"
+        class: "c-news-entry__day--#{size}"
       )
-    ], class: "m-news-entry__date m-news-entry__date--#{size} u-small-caps")
+    ], class: "c-news-entry__date c-news-entry__date--#{size} u-small-caps")
   end
 
   @spec banner_content_class(Banner.t) :: String.t

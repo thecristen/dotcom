@@ -431,6 +431,8 @@ defmodule SiteWeb.ScheduleViewTest do
               show_date_select?: false,
               headsigns: %{0 => [], 1 => []},
               vehicle_tooltips: %{},
+              featured_content: nil,
+              news: [],
               dynamic_map_data: %{})
 
       assert safe_to_string(output) =~ "shape-filter"
@@ -468,6 +470,8 @@ defmodule SiteWeb.ScheduleViewTest do
               show_date_select?: false,
               headsigns: %{0 => [], 1 => []},
               vehicle_tooltips: %{},
+              featured_content: nil,
+              news: [],
               dynamic_map_data: %{})
       refute safe_to_string(output) =~ "shape-filter"
     end
@@ -497,6 +501,8 @@ defmodule SiteWeb.ScheduleViewTest do
               show_date_select?: false,
               headsigns: %{0 => [], 1 => []},
               vehicle_tooltips: %{},
+              featured_content: nil,
+              news: [],
               dynamic_map_data: %{})
       refute safe_to_string(output) =~ "Hours of Operation"
     end
@@ -526,6 +532,8 @@ defmodule SiteWeb.ScheduleViewTest do
               show_date_select?: false,
               headsigns: %{0 => [], 1 => []},
               vehicle_tooltips: %{},
+              featured_content: nil,
+              news: [],
               dynamic_map_data: %{})
       assert safe_to_string(output) =~ "There are no scheduled"
     end
@@ -562,6 +570,8 @@ defmodule SiteWeb.ScheduleViewTest do
               show_date_select?: false,
               headsigns: %{0 => [], 1 => []},
               vehicle_tooltips: %{},
+              featured_content: nil,
+              news: [],
               dynamic_map_data: %{})
       refute safe_to_string(output) =~ trip_view_path(SiteWeb.Endpoint, :show, "route", origin: "last", direction_id: 0)
     end

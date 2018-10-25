@@ -198,4 +198,43 @@ defmodule Content.RepoTest do
       assert [] = Content.Repo.get_route_pdfs("doesntexist")
     end
   end
+
+  describe "teasers/2" do
+
+    test "returns all teasers for a route" do
+      types =
+        "Red"
+        |> Content.Repo.teasers()
+        |> MapSet.new(& &1.type)
+        |> MapSet.to_list()
+      assert types == [:event, :news_entry, :project]
+    end
+
+    test "takes a :type option" do
+      teasers = Content.Repo.teasers("Red", type: :project)
+      assert Enum.all?(teasers, & &1.type == :project)
+    end
+
+    test "takes a :type_op option" do
+      all_teasers = Content.Repo.teasers("Red")
+      assert Enum.any?(all_teasers, & &1.type == :project)
+
+      filtered = Content.Repo.teasers("Red", type: :project, type_op: "not in")
+      refute Enum.empty?(filtered)
+      refute Enum.any?(filtered, & &1.type == :project)
+    end
+
+    test "takes an :items_per_page option" do
+      all_teasers = Content.Repo.teasers("Red")
+      assert Enum.count(all_teasers) > 1
+      assert [%Content.Teaser{}] = Content.Repo.teasers("Red", items_per_page: 1)
+    end
+
+    test "returns an empty list and logs a warning if there is an error" do
+      log = ExUnit.CaptureLog.capture_log(fn ->
+        assert Content.Repo.teasers("NotFound") == []
+      end)
+      assert log =~ "error=:not_found"
+    end
+  end
 end

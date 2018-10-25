@@ -21,6 +21,7 @@ defmodule SiteWeb.ScheduleController.Green do
   plug SiteWeb.ScheduleController.VehicleTooltips
   plug SiteWeb.ScheduleController.ExcludedStops
   plug SiteWeb.ScheduleController.Journeys
+  plug SiteWeb.ScheduleController.CMS
   plug :validate_journeys
   plug :hide_destination_selector
   plug SiteWeb.ScheduleController.TripInfo

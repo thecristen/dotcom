@@ -16,6 +16,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   plug SiteWeb.ScheduleController.Predictions
   plug SiteWeb.ScheduleController.VehicleTooltips
   plug SiteWeb.ScheduleController.Line
+  plug SiteWeb.ScheduleController.CMS
   plug :require_map
   plug :channel_id
 

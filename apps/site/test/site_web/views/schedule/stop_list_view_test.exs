@@ -508,4 +508,36 @@ defmodule SiteWeb.StopListViewTest do
       assert step_bubble_attributes(["Step 1", "Step 2"], "target", true) == [id: "target", class: "collapse stop-list in"]
     end
   end
+
+  describe "_cms_teasers.html" do
+    test "renders featured content and news" do
+      assert {news, [featured | _]} =
+        "Red"
+        |> Content.Repo.teasers()
+        |> Enum.split_with(& &1.type === :news_entry)
+
+      refute Enum.empty?(news)
+
+      rendered =
+        "_cms_teasers.html"
+        |> SiteWeb.ScheduleView.render(featured_content: featured, news: news)
+        |> safe_to_string()
+
+      assert rendered =~ featured.image_path
+      assert rendered =~ featured.title
+
+      for item <- news do
+        assert rendered =~ item.title
+        assert rendered =~ Timex.format!(item.date, "{Mshort} {D}")
+      end
+    end
+
+    test "renders nothing when there is no content" do
+      rendered =
+        "_cms_teasers.html"
+        |> SiteWeb.ScheduleView.render(featured_content: nil, news: [])
+        |> safe_to_string()
+      assert rendered == "\n"
+    end
+  end
 end

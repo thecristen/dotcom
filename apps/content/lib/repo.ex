@@ -213,4 +213,63 @@ defmodule Content.Repo do
       end
     end
   end
+
+  @doc """
+  Returns a list of teaser items related to a route.
+
+  Opts can include :type, which can be one of:
+    :news_entry
+    :event
+    :project
+    :page
+    :project_update
+
+  To fetch all items that are NOT of a specific type,
+  use [type: _type, type_op: "not in"]
+
+  Opts can also include :items_per_page, which sets
+  the number of items to return. Default is 5 items.
+  The number can only be 1-10, 20, or 50, otherwise
+  it will be ignored.
+  """
+  @spec teasers(Routes.Route.id_t, Keyword.t) :: [Content.Teaser.t]
+  def teasers(<<route_id::binary>>, opts \\ []) when is_list(opts) do
+    "/cms/teasers"
+    |> Path.join(route_id)
+    |> @cms_api.view(teaser_params(opts))
+    |> do_teasers(route_id, opts)
+  end
+
+  @default_teaser_params %{
+    sidebar: 1
+  }
+
+  @spec teaser_params(Keyword.t) :: %{
+    required(:sidebar) => integer,
+    optional(:type) => atom,
+    optional(:type_op) => String.t,
+    optional(:items_per_page) => 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 20 | 50
+  }
+  defp teaser_params(opts) do
+    Map.merge(@default_teaser_params, Map.new(opts))
+  end
+
+  @spec do_teasers({:ok, [map]} | {:error, any}, String.t, Keyword.t) :: [Content.Teaser.t]
+  defp do_teasers({:ok, teasers}, _, _) do
+    Enum.map(teasers, &Content.Teaser.from_api/1)
+  end
+
+  defp do_teasers({:error, error}, route_id, opts) do
+    _ = [
+      "module=#{__MODULE__}",
+      "method=teasers",
+      "error=" <> inspect(error),
+      "route_id=" <> route_id,
+      "opts=#{inspect(opts)}"
+    ]
+    |> Enum.join(" ")
+    |> Logger.warn()
+
+    []
+  end
 end

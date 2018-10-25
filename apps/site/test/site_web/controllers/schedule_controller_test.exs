@@ -373,4 +373,13 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert redirected_to(conn, 302) == line_path(conn, :show, "Red")
     end
   end
+
+  test "assigns CMS content for line page", %{conn: conn} do
+    conn = get(conn, line_path(conn, :show, "Red"))
+    assert conn.status == 200
+    assert %Content.Teaser{} = conn.assigns.featured_content
+    refute conn.assigns.featured_content.type == :news_entry
+    assert [%Content.Teaser{} | _] = conn.assigns.news
+    assert Enum.all?(conn.assigns.news, & &1.type === :news_entry)
+  end
 end
