@@ -74,6 +74,9 @@ defmodule SiteWeb.PageView do
   end
 
   @spec whats_happening_image(Content.WhatsHappeningItem.t) :: Phoenix.HTML.safe
+  def whats_happening_image(%Content.WhatsHappeningItem{thumb: nil}) do
+    ""
+  end
   def whats_happening_image(%Content.WhatsHappeningItem{thumb: thumb, thumb_2x: nil}) do
     img_tag(thumb.url, alt: thumb.alt)
   end

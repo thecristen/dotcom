@@ -33,6 +33,10 @@ defmodule SiteWeb.PageViewTest do
 
       assert rendered == ~s(<img alt="This is an image" src="/foo_1">)
     end
+
+    test "returns empty string if image doesn't exist" do
+      assert SiteWeb.PageView.whats_happening_image(%Content.WhatsHappeningItem{}) == ""
+    end
   end
 
   describe "banners" do
