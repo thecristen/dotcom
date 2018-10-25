@@ -4,11 +4,11 @@ defmodule SiteWeb.CmsRouterHelpers do
   This allows us to use either a path_alias if it exists
   to fetch from the CMS. If no path_alias exists, we will
   fetch using "/type/:id" In the case where we are using the
-  id, we delegate to the Phoeniox helpers from RouterHelpers.
+  id, we delegate to the Phoenix helpers from RouterHelpers.
   """
   alias SiteWeb.Router.Helpers, as: RouterHelpers
 
-  @spec news_entry_path(Plug.Conn.t, atom, Keyword.t | Content.NewsEntry.t | String.t) :: String.t
+  @spec news_entry_path(Plug.Conn.t | nil, atom, Keyword.t | Content.NewsEntry.t | String.t) :: String.t
   def news_entry_path(conn, verb, opts \\ [])
   def news_entry_path(conn, :index, opts) do
     RouterHelpers.news_entry_path(conn, :index, opts)

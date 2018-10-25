@@ -25,7 +25,7 @@ defmodule SiteWeb.NewsEntryControllerTest do
   describe "GET show" do
     test "renders and does not rewrite an unaliased news entry response", %{conn: conn} do
       news_entry = news_entry_factory(0, path_alias: nil)
-      assert news_entry.title == {:safe, "New Early Morning Bus Routes Begin April 1"}
+      assert news_entry.title == "New Early Morning Bus Routes Begin April 1"
       path = news_entry_path(conn, :show, news_entry)
       assert path == "/node/3519"
 
@@ -44,13 +44,13 @@ defmodule SiteWeb.NewsEntryControllerTest do
 
       assert news_entry.path_alias == "/news/date/title"
 
-      news_entry_title = Phoenix.HTML.safe_to_string(news_entry.title)
+      news_entry_title = news_entry.title
       conn = get conn, news_entry_path(conn, :show, news_entry)
 
       {:safe, rewritten_news_body} = Site.ContentRewriter.rewrite(news_entry.body, conn)
 
       response = html_response(conn, 200)
-      assert response =~ Phoenix.HTML.safe_to_string(news_entry.title)
+      assert response =~ news_entry.title
       assert response =~ rewritten_news_body
       assert response =~ Phoenix.HTML.safe_to_string(news_entry.more_information)
       assert breadcrumbs_include?(response, ["News", news_entry_title])

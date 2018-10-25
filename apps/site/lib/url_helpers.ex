@@ -1,4 +1,6 @@
 defmodule UrlHelpers do
+  import URI, only: [encode_query: 1]
+
   @spec update_url(Plug.Conn.t, Enum.t) :: String.t
   def update_url(conn, query) do
     conn.query_params
@@ -31,7 +33,7 @@ defmodule UrlHelpers do
 
   defp ensure_string_keys(map) do
     for {key, value} <- map, into: %{} do
-      {to_string(key), value}
+      {Kernel.to_string(key), value}
     end
   end
 
@@ -45,4 +47,33 @@ defmodule UrlHelpers do
 
   defp empty_value?({_, nil}), do: true
   defp empty_value?({_, _}), do: false
+
+  def build_utm_params(type, item, source, campaign \\ "curated-content") do
+    %{utm_medium: type,
+      utm_source: source,
+      utm_campaign: campaign,
+      utm_term: utm_term(item),
+      utm_content: utm_content(item)}
+  end
+
+  defp utm_term(%{mode: mode}) do
+    mode
+  end
+  defp utm_term(_) do
+    "null"
+  end
+
+  defp utm_content(%{title: title}) do
+    title
+  end
+  defp utm_content(%{id: id}) do
+    id
+  end
+
+  def build_utm_url(url, params) do
+    url
+      |> URI.parse()
+      |> Map.put(:query, encode_query(params))
+      |> URI.to_string()
+  end
 end

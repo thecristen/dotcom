@@ -105,11 +105,11 @@ defmodule SiteWeb.PageView do
   end
 
   @spec render_news_entry(Content.NewsEntry.t, :large | :small, Plug.Conn.t) :: Phoenix.HTML.Safe.t
-  defp render_news_entry(entry, size, conn) do
+  defp render_news_entry(%{utm_url: utm_url} = entry, size, conn) do
     link([
       render_news_date(entry, size),
       content_tag(:div, entry.title, class: "m-news-entry__title m-news-entry__title--#{size}")
-    ], to: news_entry_path(conn, :show, entry), class: "m-news-entry m-news-entry--#{size}")
+    ], to: cms_static_page_path(conn, utm_url), class: "m-news-entry m-news-entry--#{size}")
   end
 
   @spec render_news_date(Content.NewsEntry.t, :large | :small) :: Phoenix.HTML.Safe.t

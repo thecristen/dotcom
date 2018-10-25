@@ -23,7 +23,7 @@ defmodule Content.NewsEntryTest do
       } = Content.NewsEntry.from_api(api_page)
 
       assert id == 3519
-      assert Phoenix.HTML.safe_to_string(title) == "New Early Morning Bus Routes Begin April 1"
+      assert title == "New Early Morning Bus Routes Begin April 1"
       assert Phoenix.HTML.safe_to_string(body) =~ "<p>Beginning Sunday, April 1, the MBTA will begin"
       assert media_contact == "MassDOT Press Office"
       assert media_email == "Lisa.Battiston@dot.state.ma.us"

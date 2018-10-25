@@ -1,4 +1,4 @@
-<a href="<%= @banner.link.url%>" class="m-banner m-banner--<%= @banner.banner_type %>">
+<a href="<%= cms_static_page_path(@conn, @banner.utm_url) %>" class="m-banner m-banner--<%= @banner.banner_type %>">
   <div class="m-banner__image m-banner__image--<%= @banner.banner_type %>" style="background-image: url(<%= @banner.thumb.url %>)">
     <div class="sr-only">
       <%= @banner.thumb.alt %>

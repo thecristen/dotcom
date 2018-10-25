@@ -7,7 +7,8 @@ defmodule Content.WhatsHappeningItem do
     category: :unknown,
     link: nil,
     thumb: nil,
-    thumb_2x: nil
+    thumb_2x: nil,
+    utm_url: nil
   ]
 
   @type t :: %__MODULE__{
@@ -16,7 +17,8 @@ defmodule Content.WhatsHappeningItem do
     category: Content.Helpers.category,
     link: Content.Field.Link.t | nil,
     thumb: Content.Field.Image.t,
-    thumb_2x: Content.Field.Image.t | nil
+    thumb_2x: Content.Field.Image.t | nil,
+    utm_url: String.t | nil
   }
 
   @spec from_api(map) :: t
@@ -33,7 +35,8 @@ defmodule Content.WhatsHappeningItem do
       category: category(data),
       link: parse_link(data, "field_wh_link"),
       thumb: thumb,
-      thumb_2x: thumb_2x
+      thumb_2x: thumb_2x,
+      utm_url: nil
     }
   end
 

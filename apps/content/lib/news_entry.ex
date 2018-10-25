@@ -24,7 +24,8 @@ defmodule Content.NewsEntry do
     posted_on: nil,
     teaser: Phoenix.HTML.raw(""),
     migration_id: nil,
-    path_alias: nil
+    path_alias: nil,
+    utm_url: nil
   ]
 
   @type t :: %__MODULE__{
@@ -38,14 +39,15 @@ defmodule Content.NewsEntry do
     posted_on: Date.t | nil,
     teaser: Phoenix.HTML.safe,
     migration_id: String.t | nil,
-    path_alias: String.t | nil
+    path_alias: String.t | nil,
+    utm_url: String.t | nil
   }
 
   @spec from_api(map) :: t
   def from_api(%{} = data) do
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
-      title: handle_html(field_value(data, "title")),
+      title: field_value(data, "title"),
       body: parse_body(data),
       media_contact: field_value(data, "field_media_contact"),
       media_email: field_value(data, "field_media_email"),

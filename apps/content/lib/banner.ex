@@ -20,6 +20,7 @@ defmodule Content.Banner do
     mode: :unknown,
     updated_on: "",
     title: "",
+    utm_url: nil
   ]
 
   @type mode :: :subway
@@ -42,7 +43,8 @@ defmodule Content.Banner do
     category: Content.Helpers.category,
     mode: mode | :unknown,
     title: String.t,
-    updated_on: String.t
+    updated_on: String.t,
+    utm_url: String.t | nil
   }
 
   @spec from_api(map) :: t
@@ -56,7 +58,8 @@ defmodule Content.Banner do
       category: category(data),
       mode: data |> field_value("field_mode") |> mode(),
       updated_on: data |> field_value("field_updated_on") |> updated_on(),
-      title: field_value(data, "title") || ""
+      title: field_value(data, "title") || "",
+      utm_url: nil
     }
   end
 

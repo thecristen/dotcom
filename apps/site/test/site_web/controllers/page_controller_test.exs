@@ -53,4 +53,19 @@ defmodule SiteWeb.PageControllerTest do
     assert split_whats_happening([1, 2, 3, 4, 5, 6]) == {[1, 2], [3, 4, 5]}
     assert split_whats_happening([1]) == {nil, nil}
   end
+
+  test "adds utm params to url for news entries" do
+    with_utm = add_utm_url("news", %Content.NewsEntry{path_alias: "/path", title: "title"}, "homepage")
+    assert %{utm_url: "/path?utm_campaign=curated-content&utm_content=title&utm_medium=news&utm_source=homepage&utm_term=null"} = with_utm
+  end
+
+  test "adds utm params to url for what's happening" do
+    with_utm = add_utm_url("whats-happening", %{link: %{url: "/path"}, title: "title"}, "homepage")
+    assert %{utm_url: "/path?utm_campaign=curated-content&utm_content=title&utm_medium=whats-happening&utm_source=homepage&utm_term=null"} = with_utm
+  end
+
+  test "adds utm params to url for banner" do
+    with_utm = add_utm_url("banner", %{link: %{url: "/path"}, title: "title", mode: "green_line"}, "homepage")
+    assert %{utm_url: "/path?utm_campaign=curated-content&utm_content=title&utm_medium=banner&utm_source=homepage&utm_term=green_line"} = with_utm
+  end
 end
