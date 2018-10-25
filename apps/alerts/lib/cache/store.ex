@@ -40,18 +40,18 @@ defmodule Alerts.Cache.Store do
   """
   @spec alert_ids_for_routes([String.t]) :: [String.t]
   def alert_ids_for_routes(route_ids) do
-    keys = Enum.map(route_ids, &{{&1, :"_", :"$1"}, [], [:"$1"]})
+    keys = Enum.map(route_ids, &{{&1, :_, :"$1"}, [], [:"$1"]})
     :ets.select(:route_id_and_type_to_alert_ids, keys)
   end
 
   @spec alert_ids_for_route_types(Enumerable.t) :: [String.t]
   def alert_ids_for_route_types(types) do
-    keys = Enum.map(types, &{{:"_", &1, :"$1"}, [], [:"$1"]})
+    keys = Enum.map(types, &{{:_, &1, :"$1"}, [], [:"$1"]})
     :ets.select(:route_id_and_type_to_alert_ids, keys)
   end
 
   def alert_ids_for_route_id_and_type(route_id, route_type) do
-    keys = [{{route_id, :"_", :"$1"}, [], [:"$1"]}, {{nil, route_type, :"$1"}, [], [:"$1"]}]
+    keys = [{{route_id, :_, :"$1"}, [], [:"$1"]}, {{nil, route_type, :"$1"}, [], [:"$1"]}]
     :ets.select(:route_id_and_type_to_alert_ids, keys)
   end
 

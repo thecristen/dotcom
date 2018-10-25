@@ -76,7 +76,8 @@ defmodule RepoCache.Log do
     {:noreply, state, :hibernate}
   end
   def handle_info(msg, state) do
-    super(msg, state)
+    _ = Logger.error("module=#{__MODULE__} error=unexpected_message message=#{inspect(msg)}")
+    {:noreply, state}
   end
 
   def reset_table(values) do

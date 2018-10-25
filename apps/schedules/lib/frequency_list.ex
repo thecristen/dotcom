@@ -37,4 +37,8 @@ defimpl Enumerable, for: Schedules.FrequencyList do
   def reduce(%{frequencies: frequencies}, acc, fun) do
     Enumerable.reduce(frequencies, acc, fun)
   end
+
+  def slice(_journey_list) do
+    {:error, __MODULE__}
+  end
 end

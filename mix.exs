@@ -6,7 +6,7 @@ defmodule DotCom.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      preferred_cli_env: [
-       "coveralls": :test,
+       coveralls: :test,
        "coveralls.json": :test,
        "coveralls.detail": :test
      ],

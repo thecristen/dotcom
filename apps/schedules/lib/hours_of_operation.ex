@@ -140,6 +140,10 @@ defmodule Schedules.HoursOfOperation do
       |> Enum.reject(&elem(&1, 1) == {:no_service, :no_service})
       |> Enumerable.reduce(acc, fun)
     end
+
+    def slice(_hours) do
+      {:error, __MODULE__}
+    end
   end
 
   defp merge(%__MODULE__{} = first, %__MODULE__{} = second) do

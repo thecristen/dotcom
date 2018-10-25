@@ -21,7 +21,7 @@ defmodule Routes.Group do
     routes
     |> Enum.uniq_by(fn
       %{id: "Green" <> _} -> "Green"
-      %{"id": id} -> id
+      %{id: id} -> id
     end)
     |> Enum.map(&set_green_line_name/1)
   end

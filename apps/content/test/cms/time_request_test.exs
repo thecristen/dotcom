@@ -37,7 +37,7 @@ defmodule Content.CMS.TimeRequestTest do
         send_resp(conn, 200, "ok")
       end
 
-      params = [params: [param: "value", "_format": "json"]]
+      params = [params: [param: "value", _format: "json"]]
 
       log = capture_log(fn ->
         setup_log_level()
@@ -66,7 +66,7 @@ defmodule Content.CMS.TimeRequestTest do
 
   defp params_without__format(params) do
     params
-    |> Keyword.delete(:"_format")
+    |> Keyword.delete(:_format)
     |> (fn params -> "options=#{inspect params}" end).()
   end
 end

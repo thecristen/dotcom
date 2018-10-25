@@ -19,7 +19,7 @@ defmodule SiteWeb.ScheduleController.OriginDestination do
       route.id,
       conn.assigns.all_stops
     )
-    if origin && not origin.id in excluded_stops do
+    if origin && origin.id not in excluded_stops do
       assign(conn, :origin, origin)
     else
       conn
@@ -56,7 +56,7 @@ defmodule SiteWeb.ScheduleController.OriginDestination do
       conn.assigns.route.id,
       conn.assigns.origin && conn.assigns.origin.id
     )
-    if destination && not destination.id in excluded_stops do
+    if destination && destination.id not in excluded_stops do
       assign(conn, :destination, destination)
     else
       reset_destination(conn)

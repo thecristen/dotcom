@@ -30,7 +30,7 @@ defmodule Routes.PopulateCaches do
     Process.send_after(self(), :populate_all, @repeat_after)
     {:noreply, repo_mod}
   end
-  def handle_info(msg, state) do
-    super(msg, state)
+  def handle_info(_msg, state) do
+    {:noreply, state}
   end
 end

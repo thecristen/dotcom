@@ -97,4 +97,8 @@ defimpl Enumerable, for: Site.TripPlan.ItineraryRowList do
   def reduce(%{rows: rows}, acc, fun) do
     Enumerable.reduce(rows, acc, fun)
   end
+
+  def slice(_itinerary_row_list) do
+    {:error, __MODULE__}
+  end
 end

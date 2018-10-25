@@ -118,4 +118,8 @@ defimpl Enumerable, for: TripPlan.Itinerary do
   def reduce(%{legs: legs}, acc, fun) do
     Enumerable.reduce(legs, acc, fun)
   end
+
+  def slice(_itinerary) do
+    {:error, __MODULE__}
+  end
 end

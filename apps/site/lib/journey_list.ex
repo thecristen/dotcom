@@ -218,4 +218,8 @@ defimpl Enumerable, for: JourneyList do
   def reduce(%{journeys: journeys}, acc, fun) do
     Enumerable.reduce(journeys, acc, fun)
   end
+
+  def slice(_journey_list) do
+    {:error, __MODULE__}
+  end
 end

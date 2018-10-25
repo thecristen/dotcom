@@ -179,7 +179,7 @@ defmodule JsonApiTest do
         },
         type: "facility"
       }],
-      jsonapi: %{"version": "1.0"}
+      jsonapi: %{version: "1.0"}
     })
     assert JsonApi.parse(body) == %JsonApi{
       links: %{},

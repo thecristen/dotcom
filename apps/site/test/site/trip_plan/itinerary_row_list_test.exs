@@ -255,28 +255,28 @@ defmodule Site.TripPlan.ItineraryRowListTest do
         effect: :access_issue,
         active_period: [{nil, nil}],
         informed_entity: [%Alerts.InformedEntity{stop: "place-pktrm",
-                                                 activities: MapSet.new([:board, :exit])}],
+                                                 activities: MapSet.new([:board, :exit])}]
       ),
       Alerts.Alert.new(
         id: 2,
         effect: :access_issue,
         active_period: [{nil, nil}],
         informed_entity: [%Alerts.InformedEntity{stop: "place-kencl",
-                                                 activities: MapSet.new([:board, :exit])}],
+                                                 activities: MapSet.new([:board, :exit])}]
       ),
       Alerts.Alert.new(
         id: 3,
         effect: :access_issue,
         active_period: [{nil, nil}],
         informed_entity: [%Alerts.InformedEntity{stop: "place-dwnxg",
-                                                 activities: MapSet.new([:ride])}],
+                                                 activities: MapSet.new([:ride])}]
       ),
       Alerts.Alert.new(
         id: 4,
         effect: :access_issue,
         active_period: [{nil, nil}],
         informed_entity: [%Alerts.InformedEntity{stop: "place-dwnxg",
-                                                 activities: MapSet.new([:park_car])}],
+                                                 activities: MapSet.new([:park_car])}]
       )
     ]
   end

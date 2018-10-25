@@ -34,7 +34,7 @@ defmodule Content.CmsMigration.NewsEntryPayload do
       field_media_email: cms_format(news_entry.media_email),
       field_posted_on: cms_format(news_entry.posted_on),
       field_migration_id: cms_format(news_entry.migration_id),
-      type: [%{"target_id": "news_entry"}]
+      type: [%{target_id: "news_entry"}]
     }
   end
 
@@ -69,10 +69,10 @@ defmodule Content.CmsMigration.NewsEntryPayload do
   defp migration_id(%{"id" => id}), do: id
 
   defp cms_format(value) do
-    [%{"value": value}]
+    [%{value: value}]
   end
 
   defp cms_format_body(value) do
-    [%{"value": value, "format": "basic_html"}]
+    [%{value: value, format: "basic_html"}]
   end
 end

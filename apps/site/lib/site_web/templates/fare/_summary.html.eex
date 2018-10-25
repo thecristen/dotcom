@@ -1,5 +1,5 @@
 <div class="fare-summary-container <%= @class || "fare-summary-container-table-multi-col" %>">
-  <%= for chunk <- Enum.chunk(@summaries, 2, 2, []) do %>
+  <%= for chunk <- Enum.chunk_every(@summaries, 2, 2, []) do %>
     <div class="fare-summary-row">
       <%= for summary <- chunk do %>
         <%= link to: summary_url(summary), class: "fare-summary-entry" do %>

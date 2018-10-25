@@ -29,7 +29,7 @@ defmodule BuildCalendar do
 
     @doc "Breaks the days of a Calendar into 1-week chunks."
     def weeks(%Calendar{days: days}) do
-      Enum.chunk(days, 7)
+      Enum.chunk_every(days, 7)
     end
   end
 

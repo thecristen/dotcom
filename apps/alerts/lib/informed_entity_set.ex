@@ -99,4 +99,8 @@ defimpl Enumerable, for: Alerts.InformedEntitySet do
   def reduce(%{entities: entities}, acc, fun) do
     Enumerable.reduce(entities, acc, fun)
   end
+
+  def slice(_set) do
+    {:error, __MODULE__}
+  end
 end

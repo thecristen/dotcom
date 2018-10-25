@@ -10,7 +10,7 @@
     %>
   <% end %>
 <div class="fares-box">
-  <%= for pairs <- @selected_filter.fares |> Enum.chunk_by(&{&1.name, &1.duration, &1.additional_valid_modes}) |> Enum.chunk(2, 2, []) do %>
+  <%= for pairs <- @selected_filter.fares |> Enum.chunk_by(&{&1.name, &1.duration, &1.additional_valid_modes}) |> Enum.chunk_every(2, 2, []) do %>
     <div class="fares-row">
       <%= for fares <- pairs do %>
         <%= render "_trip_type.html", conn: @conn, fares: fares %>

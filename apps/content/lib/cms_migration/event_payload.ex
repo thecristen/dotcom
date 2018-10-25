@@ -32,7 +32,7 @@ defmodule Content.CmsMigration.EventPayload do
       field_end_time: cms_format_date_time(event.end_time),
       field_who: cms_format(event.who),
       title: cms_format(event.title),
-      type: [%{"target_id": "event"}]
+      type: [%{target_id: "event"}]
     }
   end
 
@@ -70,11 +70,11 @@ defmodule Content.CmsMigration.EventPayload do
   end
 
   defp cms_format(value) do
-    [%{"value": value}]
+    [%{value: value}]
   end
 
   defp cms_format_body(value) do
-    [%{"value": value, "format": "basic_html"}]
+    [%{value: value, format: "basic_html"}]
   end
 
   defp cms_format_date_time(nil) do
