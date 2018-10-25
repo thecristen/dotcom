@@ -101,6 +101,17 @@ defmodule SiteWeb.StopView.Parking do
   defp manager_phone(nil), do: nil
   defp manager_phone(phone), do: tel_link phone
 
+  @spec note(String.t | nil) :: Phoenix.HTML.Safe.t | nil
+  def note(nil), do: nil
+  def note(note) do
+    content_tag :div, class: "callout" do
+      [
+        content_tag(:strong, "Note: "),
+        HtmlSanitizeEx.strip_tags(note)
+      ]
+    end
+  end
+
   @spec list_item(String.t, any) :: Phoenix.HTML.Safe.t
   def list_item(_title, nil), do: ""
   def list_item(title, item) do

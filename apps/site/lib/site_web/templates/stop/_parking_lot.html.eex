@@ -21,3 +21,4 @@
     <%= manager(@lot.manager) %>
   </div>
 </div>
+<%= note(@lot.note) %>

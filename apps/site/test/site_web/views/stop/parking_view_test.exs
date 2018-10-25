@@ -33,6 +33,7 @@ defmodule SiteWeb.Stop.ParkingViewTest do
       phone: "a phone number",
       url: "manager url"
     },
+    note: "Special instructions about parking"
   }
 
   describe "list_item/2" do
@@ -127,5 +128,17 @@ defmodule SiteWeb.Stop.ParkingViewTest do
   test "doesn't print phone if no phone" do
     out = safe_to_string(manager(%{@lot.manager | phone: nil}))
     refute out =~ "Contact phone:"
+  end
+
+  describe "note/1" do
+    test "prints out parking note if there is one" do
+      out = safe_to_string(note(@lot.note))
+      assert out =~ "Special instructions"
+    end
+
+    test "doesn't print out a note if there isn't one" do
+      out = note(%ParkingLot{note: nil}.note)
+      assert out == nil
+    end
   end
 end

@@ -105,7 +105,7 @@ defmodule Stops.Stop.ParkingLot do
     utilization: Stops.Stop.ParkingLot.Utilization.t | nil,
     note: String.t | nil,
     latitude: float | nil,
-    longitude: float | nil,
+    longitude: float | nil
   }
 end
 
