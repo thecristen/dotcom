@@ -1,5 +1,5 @@
 defmodule SiteWeb.ErrorViewTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase, async: false
 
   import Phoenix.View, only: [render_to_string: 3]
   import Phoenix.Controller

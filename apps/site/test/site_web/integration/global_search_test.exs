@@ -118,8 +118,6 @@ defmodule SiteWeb.GlobalSearchTest do
       |> click_facet_checkbox("stops")
       |> assert_has(search_results_section(1))
       |> assert_has(search_hits(5))
-      |> click(css("#show-more--stops"))
-      |> assert_has(search_hits(25))
       |> click_clear_search()
       |> fill_in(@search_input, with: "a")
       |> assert_has(search_results_section(7))
