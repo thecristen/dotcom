@@ -1,3 +1,4 @@
+import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import GoogleMap from "./google-map-class";
 
 export class RouteMap {
@@ -34,8 +35,10 @@ export class RouteMap {
 }
 
 function init() {
-  const maps = document.getElementsByClassName("js-route-map-dynamic-data");
-  Array.from(maps).forEach(dataEl => new RouteMap(dataEl));
+  doWhenGoogleMapsIsReady(() => {
+    const maps = document.getElementsByClassName("js-route-map-dynamic-data");
+    Array.from(maps).forEach(dataEl => new RouteMap(dataEl));
+  });
 }
 
 export default function() {
