@@ -21,9 +21,19 @@ defmodule SiteWeb.Plugs.Date do
     date_fn.()
   end
   defp date(str, date_fn) when is_binary(str) do
-    case Timex.parse(str, "{ISOdate}") do
-      {:ok, value} -> Timex.to_date(value)
-      _ -> date_fn.()
+    str
+    |> Timex.parse("{ISOdate}")
+    |> do_date(date_fn)
+  end
+
+  defp do_date({:ok, value}, date_fn) do
+    if Timex.is_valid?(value) do
+      Timex.to_date(value)
+    else
+      date_fn.()
     end
+  end
+  defp do_date(_, date_fn) do
+    date_fn.()
   end
 end

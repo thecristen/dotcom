@@ -36,5 +36,12 @@ defmodule SiteWeb.Plugs.DateTest do
 
       assert conn.assigns.date == @date
     end
+
+    test "with an imaginary date_time param, returns the result of date_fn", %{conn: conn} do
+      conn = %{conn | params: %{"date" => "2018-09-31"}}
+      |> call(date_fn: &date_fn/0)
+
+      assert conn.assigns.date == @date
+    end
   end
 end
