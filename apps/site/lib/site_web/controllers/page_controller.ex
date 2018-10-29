@@ -21,7 +21,10 @@ defmodule SiteWeb.PageController do
   end
 
   defp banner do
-    add_utm_url("banner", Content.Repo.banner(), "homepage")
+    case Content.Repo.banner() do
+      nil -> nil
+      banner -> add_utm_url("banner", banner, "homepage")
+    end
   end
 
   defp news do
