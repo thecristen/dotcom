@@ -183,7 +183,7 @@ export class FacetItem {
       count = 0;
     }
     this._count = count;
-    this._counter.innerHTML = count ? count : ""
+    this._counter.innerHTML = count ? count : "";
     this._parent.updateCount(this._parent.sumChildren());
   }
 
@@ -223,14 +223,19 @@ export class FacetItem {
       this.toggleCheck();
     });
     checkbox.addEventListener("keydown", e => {
-      if (e.key === " " || e.key === "Spacebar" || e.keyCode === 32) {
+      const key = e.key || e.keyCode;
+      if (key === " " || key === "Spacebar" || key === 32) {
         this.toggleCheck();
       }
     });
     if (this._children.length > 0) {
       expansionContainer.addEventListener("keydown", e => {
-        if (e.key === " " || e.key === "Spacebar" || e.keyCode === 32) {
+        const key = e.key || e.keyCode;
+        if (key === " " || key === "Spacebar" || key === 32) {
           e.preventDefault(); // Don't scroll down page on spacebar, just expand
+          this.toggleExpansion();
+        }
+        if (key === "Enter" || key === "Enter" || key === 13) {
           this.toggleExpansion();
         }
       });
