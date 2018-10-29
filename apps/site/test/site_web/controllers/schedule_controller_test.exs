@@ -81,7 +81,7 @@ defmodule SiteWeb.ScheduleControllerTest do
             {"CR-Lowell", 1, 3},
             {"CR-Haverhill", 0, 3},
             {"CR-Haverhill", 1, 3},
-            {"CR-Franklin", 1, 4}
+            {"CR-Franklin", 1, 2}
           ] do
           path = timetable_path(conn, :show, route_id, direction_id: direction_id)
           conn = get(conn, path)

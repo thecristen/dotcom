@@ -75,9 +75,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   defp trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) do
     %{
       {"790", "place-rugg"} => "Via",
-      {"790", "place-bbsta"} => "Fairmount",
-      {"746", "place-rugg"} => "Via",
-      {"746", "place-bbsta"} => "Fairmount"
+      {"790", "place-bbsta"} => "Fairmount"
     }
   end
   defp trip_messages(_, _) do
