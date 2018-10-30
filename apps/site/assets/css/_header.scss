@@ -71,6 +71,10 @@
 
 .nav-link-arrows {
   width: $base-spacing;
+
+  @include media-breakpoint-only(md) {
+    width: $base-spacing * .875;
+  }
 }
 
 .nav-search-icon {
