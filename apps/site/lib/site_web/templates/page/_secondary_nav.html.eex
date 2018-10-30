@@ -1,28 +1,28 @@
 <div class="m-secondary-nav">
   <div class="m-secondary-nav__items">
-    <div class="m-secondary-nav__item">
-      <a href="/schedules" class="m-secondary-nav__icon notranslate">
+    <a href="/schedules" class="m-secondary-nav__item">
+      <span class="m-secondary-nav__icon notranslate">
         <%= svg("icon-map-default.svg") %>
-      </a>
-      <a href="/schedules" class="m-secondary-nav__icon-text">Schedules <span class="hidden-xs-down">&amp; Maps</span></a>
-    </div>
-    <div class="m-secondary-nav__item">
-      <a href="/alerts" class="m-secondary-nav__icon notranslate">
+      </span>
+      <span class="m-secondary-nav__icon-text">Schedules <span class="hidden-xs-down">&amp; Maps</span></span>
+    </a>
+    <a href="/alerts" class="m-secondary-nav__item">
+      <span class="m-secondary-nav__icon notranslate">
         <%= svg("icon-alerts-default.svg") %>
-      </a>
-      <a href="/alerts" class="m-secondary-nav__icon-text">Alerts</a>
-    </div>
-    <div class="m-secondary-nav__item">
-      <a href="/trip-planner" class="m-secondary-nav__icon notranslate">
+      </span>
+      <span class="m-secondary-nav__icon-text">Alerts</span>
+    </a>
+    <a href="/trip-planner" class="m-secondary-nav__item">
+      <span class="m-secondary-nav__icon notranslate">
         <%= svg("icon-trip-planner-default.svg") %>
-      </a>
-      <a href="/trip-planner" class="m-secondary-nav__icon-text">Trip Planner</a>
-    </div>
-    <div class="m-secondary-nav__item">
-      <a href="/customer-support" class="m-secondary-nav__icon notranslate">
+      </span>
+      <span class="m-secondary-nav__icon-text">Trip Planner</span>
+    </a>
+    <a href="/customer-support" class="m-secondary-nav__item">
+      <span class="m-secondary-nav__icon notranslate">
         <%= svg("icon-support-default.svg") %>
-      </a>
-      <a href="/customer-support" class="m-secondary-nav__icon-text">Support</a>
-    </div>
+      </span>
+      <span class="m-secondary-nav__icon-text">Support</a>
+    </a>
   </div>
 </div>
