@@ -16,11 +16,11 @@ export class FacetItem {
 
   get templates() {
     const tabbable = this._children.length > 0;
-    const tabToExpand = tabbable ? `tabindex="0"` : null;
+    const tabToExpand = tabbable ? `role="button" aria-expanded="false" tabindex="0"` : "";
     return {
       facetItem: hogan.compile(`
         <div class="{{class}}">
-          <div id="${this.selectors.expansionContainer}" role="button" class="c-facets__flex-container--normal" aria-expanded="false" ${tabToExpand}>
+          <div id="${this.selectors.expansionContainer}" class="c-facets__flex-container--normal" ${tabToExpand}>
             <div class="c-facets__icon">
               {{#iconClass}}
                 {{{iconClass}}}
