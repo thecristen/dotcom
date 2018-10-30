@@ -48,7 +48,7 @@
       "selectors": [
         "header"
       ],
-      "delay": 100,
+      "delay": 1000,
       "misMatchThreshold": 0.015
     },
     {
@@ -119,7 +119,7 @@
     },
     {
       "label": "All Schedules",
-      "url": "http://host.docker.internal:8082/schedules?date=2018-12-22",
+      "url": "http://host.docker.internal:8082/schedules?date_time=2018-12-22T18%3A01%3A52.397960-05%3A00",
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
