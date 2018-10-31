@@ -1,5 +1,7 @@
 defmodule SiteWeb.ScheduleController.LineController do
   use SiteWeb, :controller
+  alias Routes.Route
+  alias SiteWeb.ScheduleView
 
   plug SiteWeb.Plugs.Route
   plug SiteWeb.Plugs.DateInRating
@@ -21,7 +23,9 @@ defmodule SiteWeb.ScheduleController.LineController do
   plug :channel_id
 
   def show(conn, _) do
-    render(conn, SiteWeb.ScheduleView, "show.html", [])
+    conn
+    |> assign(:meta_description, route_description(conn.assigns.route))
+    |> render(ScheduleView, "show.html", [])
   end
 
   defp tab_name(conn, _), do: assign(conn, :tab, "line")
@@ -32,5 +36,36 @@ defmodule SiteWeb.ScheduleController.LineController do
 
   defp channel_id(conn, _) do
     assign(conn, :channel, "vehicles:#{conn.assigns.route.id}:#{conn.assigns.direction_id}")
+  end
+
+  defp route_description(route) do
+    case Route.type_atom(route) do
+      :bus ->
+        bus_description(route)
+      :subway ->
+        line_description(route)
+      _ ->
+        "MBTA #{ScheduleView.route_header_text(route)} stops and schedules, including maps, " <>
+        "parking and accessibility information, and fares."
+    end
+  end
+
+  defp bus_description(%{id: route_number} = route) do
+    "MBTA #{bus_type(route)} route #{route_number} stops and schedules, including maps, real-time updates, " <>
+    "parking and accessibility information, and connections."
+  end
+
+  defp line_description(route) do
+    "MBTA #{route.name} #{route_type(route)} stations and schedules, including maps, real-time updates, " <>
+    "parking and accessibility information, and connections."
+  end
+
+  defp bus_type(route),
+    do: if(Route.silver_line_rapid_transit?(route), do: "Silver Line", else: "bus")
+
+  defp route_type(route) do
+    route
+    |> Route.type_atom()
+    |> Route.type_name()
   end
 end

@@ -1,7 +1,10 @@
-defmodule SiteWeb.FareController do use SiteWeb, :controller
+defmodule SiteWeb.FareController do
+  use SiteWeb, :controller
   alias SiteWeb.FareController.{Commuter, Ferry, Filter}
   alias Fares.RetailLocations
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
+
+  plug :meta_description
 
   @options %{
     geocode_fn: &GoogleMaps.Geocode.geocode/1,
@@ -13,16 +16,17 @@ defmodule SiteWeb.FareController do use SiteWeb, :controller
 
     conn
     |> assign(:breadcrumbs, [
-        Breadcrumb.build("Fares", cms_static_page_path(conn, "/fares")),
-        Breadcrumb.build("Retail Sales Locations")
-      ])
-    |> render("retail_sales_locations.html",
-         current_pass: current_pass(date_time),
-         requires_google_maps?: true,
-         fare_sales_locations: fare_sales_locations(position, @options.nearby_fn),
-         address: formatted,
-         search_position: position
-       )
+      Breadcrumb.build("Fares", cms_static_page_path(conn, "/fares")),
+      Breadcrumb.build("Retail Sales Locations")
+    ])
+    |> render(
+      "retail_sales_locations.html",
+      current_pass: current_pass(date_time),
+      requires_google_maps?: true,
+      fare_sales_locations: fare_sales_locations(position, @options.nearby_fn),
+      address: formatted,
+      search_position: position
+    )
   end
   def show(conn, %{"id" => "commuter-rail"}) do
     render_fare_module(Commuter, conn)
@@ -99,8 +103,8 @@ defmodule SiteWeb.FareController do use SiteWeb, :controller
     filters = module.filters(fares)
     selected_filter = selected_filter(filters, conn.params["filter"])
 
-    conn
-    |> render(
+    render(
+      conn,
       "show.html",
       fare_template: apply(module, :template, []),
       selected_filter: selected_filter,
@@ -131,5 +135,14 @@ defmodule SiteWeb.FareController do use SiteWeb, :controller
       nil -> selected_filter(filters, nil)
       found -> found
     end
+  end
+
+  defp meta_description(conn, _) do
+    conn
+    |> assign(
+      :meta_description,
+      "View common fare information for the MBTA bus, subway, Commuter Rail, ferry, and The RIDE. " <>
+      "Find online CharlieCard services and learn about bulk ordering programs."
+    )
   end
 end

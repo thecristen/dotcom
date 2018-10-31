@@ -11,6 +11,7 @@ defmodule SiteWeb.TripPlanController do
   plug(:breadcrumbs)
   plug(:modes)
   plug(:optimize_for)
+  plug(:meta_description)
 
   @type route_map :: %{optional(Routes.Route.id_t()) => Routes.Route.t()}
   @type route_mapper :: (Routes.Route.id_t() -> Routes.Route.t() | nil)
@@ -172,5 +173,14 @@ defmodule SiteWeb.TripPlanController do
     else
       ids
     end
+  end
+
+  defp meta_description(conn, _) do
+    conn
+    |> assign(
+      :meta_description,
+      "Plan a trip on public transit in the Greater Boston region with directions " <>
+      "and suggestions based on real-time data."
+    )
   end
 end

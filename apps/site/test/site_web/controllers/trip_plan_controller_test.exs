@@ -61,6 +61,11 @@ defmodule SiteWeb.TripPlanControllerTest do
       conn = get conn, trip_plan_path(conn, :index)
       assert conn.assigns.modes == %{}
     end
+
+    test "sets a custom meta description", %{conn: conn} do
+      conn = get conn, trip_plan_path(conn, :index)
+      assert conn.assigns.meta_description
+    end
   end
 
   describe "index with params" do

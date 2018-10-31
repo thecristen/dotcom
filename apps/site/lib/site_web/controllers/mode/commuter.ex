@@ -1,5 +1,9 @@
 defmodule SiteWeb.Mode.CommuterRailController do
-  use SiteWeb.Mode.HubBehavior
+  use SiteWeb.Mode.HubBehavior,
+    meta_description:
+      "Schedule information for MBTA Commuter Rail lines in the Greater Boston region, " <>
+      "including real-time updates and arrival predictions."
+
   import Phoenix.HTML.Link, only: [link: 2]
 
   def route_type, do: 2

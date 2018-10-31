@@ -45,6 +45,11 @@ defmodule SiteWeb.ScheduleController.Green do
   def line(conn, _params) do
     conn
     |> assign(:tab, "line")
+    |> assign(
+      :meta_description,
+      "MBTA Green Line trolley stations and schedules, including maps, real-time updates, " <>
+      "parking and accessibility information, and connections."
+    )
     |> call_plug(SiteWeb.ScheduleController.HoursOfOperation)
     |> call_plug(SiteWeb.ScheduleController.Holidays)
     |> call_plug(SiteWeb.ScheduleController.Line)

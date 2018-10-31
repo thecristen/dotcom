@@ -13,6 +13,11 @@ defmodule SiteWeb.StaticPageControllerTest do
            |> html_response(200) =~ "About"
   end
 
+  test "sets a custom meta description", %{conn: conn} do
+    conn = get(conn, "/about")
+    assert conn.assigns.meta_description
+  end
+
   describe "build_breadcrumb/1" do
     test "builds a breadcrumb from an atom" do
       assert SiteWeb.StaticPageController.build_breadcrumb(:getting_around) ==

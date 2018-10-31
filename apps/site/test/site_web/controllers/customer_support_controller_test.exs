@@ -20,6 +20,12 @@ defmodule SiteWeb.CustomerSupportControllerTest do
 
       assert conn.assigns.service_options == Feedback.Message.service_options
     end
+
+    test "sets a custom meta description", %{conn: conn} do
+      conn = get conn, customer_support_path(conn, :index)
+
+      assert conn.assigns.meta_description
+    end
   end
 
   describe "POST" do
@@ -39,6 +45,12 @@ defmodule SiteWeb.CustomerSupportControllerTest do
       assert redirected_to(conn) == customer_support_path(conn, :thanks)
       wait_for_ticket_task(conn)
       assert String.contains?(Feedback.Test.latest_message["text"], ~s(<MBTASOURCE>Auto Ticket 2</MBTASOURCE>))
+    end
+
+    test "sets a custom meta description", %{conn: conn} do
+      conn = post conn, customer_support_path(conn, :submit), %{"support" => valid_request_response_data()}
+
+      assert conn.assigns.meta_description
     end
 
     test "validates presence of comments", %{conn: conn} do

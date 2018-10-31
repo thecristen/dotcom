@@ -7,6 +7,7 @@ defmodule SiteWeb.StopController do
   alias Stops.Stop
   alias Routes.Route
   alias SiteWeb.StopController.StopMap
+  alias Util.AndOr
 
   @type grouped_stations :: {Route.t, [Stop.t]}
 
@@ -45,6 +46,7 @@ defmodule SiteWeb.StopController do
       |> assign(:breadcrumbs, breadcrumbs(stop, routes))
       |> assign(:tab, tab_value(query_params["tab"]))
       |> tab_assigns(stop, routes)
+      |> meta_description(stop, routes)
       |> await_assign_all()
       |> render("show.html", stop: stop)
     else
@@ -219,6 +221,26 @@ defmodule SiteWeb.StopController do
     case Enum.find(stop_info, fn {route, _stops} -> route.id == "Mattapan" end) do
       nil -> {nil, stop_info}
       mattapan -> {mattapan, List.delete(stop_info, mattapan)}
+    end
+  end
+
+  defp meta_description(conn, stop, routes) do
+    conn
+    |> assign(:meta_description, "Station serving MBTA #{lines(routes)} lines#{location(stop)}.")
+  end
+
+  defp lines(routes) do
+    routes
+    |> Enum.map(&(&1.type |> Route.type_atom() |> Route.type_name()))
+    |> Enum.uniq()
+    |> AndOr.join(:and)
+  end
+
+  defp location(stop) do
+    if stop.address && stop.address != "" do
+      " at #{stop.address}"
+    else
+      ""
     end
   end
 end

@@ -63,6 +63,11 @@ defmodule SiteWeb.ScheduleController.GreenTest do
     assert conn.assigns.destination.id == "place-boyls"
   end
 
+  test "sets a custom meta description", %{conn: conn} do
+    conn = get(conn, schedule_path(conn, :show, "Green"))
+    assert conn.assigns.meta_description
+  end
+
   test "trip view :all_stops is a list of %Stop{} for all stops on all branches", %{conn: conn} do
     conn = get(conn, green_path(conn, :trip_view, %{direction_id: 0}))
 

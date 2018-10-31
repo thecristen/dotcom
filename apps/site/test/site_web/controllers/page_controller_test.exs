@@ -8,6 +8,11 @@ defmodule SiteWeb.PageControllerTest do
     assert response_content_type(conn, :html) =~ "charset=utf-8"
   end
 
+  test "sets a custom meta description", %{conn: conn} do
+    conn = get(conn, "/")
+    assert conn.assigns.meta_description
+  end
+
   test "body gets assigned a js class", %{conn: conn} do
     [body_class] = build_conn()
       |> get(page_path(conn, :index))

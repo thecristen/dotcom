@@ -1,5 +1,6 @@
 defmodule SiteWeb.ScheduleController.TimetableController do
   use SiteWeb, :controller
+  alias SiteWeb.ScheduleView
 
   plug SiteWeb.Plugs.Route
   plug SiteWeb.Plugs.DateInRating
@@ -15,7 +16,14 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   defdelegate direction_id(conn, params), to: SiteWeb.ScheduleController.Defaults, as: :assign_direction_id
 
   def show(conn, _) do
-    render(conn, SiteWeb.ScheduleView, "show.html", [])
+    conn
+    |> assign(
+      :meta_description,
+      "MBTA #{ScheduleView.route_header_text(conn.assigns.route)} Line Commuter Rail stations and " <>
+      "schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, " <>
+      "and connections."
+    )
+    |> render(ScheduleView, "show.html", [])
   end
 
   # Plug that assigns trip schedule to the connection

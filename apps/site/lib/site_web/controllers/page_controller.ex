@@ -11,6 +11,11 @@ defmodule SiteWeb.PageController do
     {promoted, remainder} = whats_happening_items()
     banner = banner()
     conn
+    |> assign(
+      :meta_description,
+      "Public transit in the Greater Boston region. Routes, schedules, trip planner, fares, " <>
+      "service alerts, real-time updates, and general information."
+    )
     |> async_assign_default(:news, &news/0, [])
     |> async_assign_default(:banner, fn -> banner end)
     |> async_assign_default(:promoted_items, fn -> promoted end)

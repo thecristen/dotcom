@@ -1,5 +1,7 @@
 defmodule SiteWeb.Mode.FerryController do
-  use SiteWeb.Mode.HubBehavior
+  use SiteWeb.Mode.HubBehavior,
+    meta_description:
+      "Schedule information for MBTA ferry routes operating in Massachusetts Bay, including downloadable PDFs."
 
   def route_type, do: 4
 

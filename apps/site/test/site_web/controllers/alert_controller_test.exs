@@ -35,6 +35,11 @@ defmodule SiteWeb.AlertControllerTest do
       conn = get(conn, alert_path(conn, :show, :bicycle))
       refute conn.assigns[:all_alerts]
     end
+
+    test "sets a custom meta description", %{conn: conn} do
+      conn = get(conn, alert_path(conn, :show, :bus))
+      assert conn.assigns.meta_description
+    end
   end
 
   describe "mode icons" do

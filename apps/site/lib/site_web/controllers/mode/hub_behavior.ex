@@ -11,14 +11,14 @@ defmodule SiteWeb.Mode.HubBehavior do
 
   use SiteWeb, :controller
 
-  defmacro __using__(_) do
+  defmacro __using__(opts) do
     quote location: :keep do
       @behaviour unquote(__MODULE__)
 
       use SiteWeb, :controller
 
       def index(conn, params) do
-        unquote(__MODULE__).index(__MODULE__, conn, params)
+        unquote(__MODULE__).index(__MODULE__, conn, Map.merge(params, Map.new(unquote(opts))))
       end
 
       def routes, do: Routes.Repo.by_type(route_type())
@@ -27,13 +27,13 @@ defmodule SiteWeb.Mode.HubBehavior do
     end
   end
 
-  def index(mode_strategy, conn, _params) do
+  def index(mode_strategy, conn, params) do
     mode_routes = mode_strategy.routes()
 
-    render_index(conn, mode_strategy, mode_routes)
+    render_index(conn, mode_strategy, mode_routes, params)
   end
 
-  defp render_index(conn, mode_strategy, mode_routes) do
+  defp render_index(conn, mode_strategy, mode_routes, params) do
     conn
     |> async_assign(:fares, &mode_strategy.fares/0)
     |> async_assign(:all_alerts, fn -> alerts(mode_routes, conn.assigns.date_time) end)
@@ -45,9 +45,10 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> assign(:map_pdf_url, MapHelpers.map_pdf_url(mode_strategy.route_type))
     |> assign(:map_image_url, MapHelpers.map_image_url(mode_strategy.route_type))
     |> assign(:breadcrumbs, [
-        Breadcrumb.build("Schedules & Maps", mode_path(conn, :index)),
-        Breadcrumb.build(mode_strategy.mode_name())
-       ])
+      Breadcrumb.build("Schedules & Maps", mode_path(conn, :index)),
+      Breadcrumb.build(mode_strategy.mode_name())
+    ])
+    |> meta_description(params)
     |> await_assign_all()
     |> render("hub.html")
   end
@@ -57,4 +58,10 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> Enum.map(& &1.id)
     |> Alerts.Repo.by_route_ids(now)
   end
+
+  defp meta_description(conn, %{meta_description: meta_description}) do
+    conn
+    |> assign(:meta_description, meta_description)
+  end
+  defp meta_description(conn, _), do: conn
 end

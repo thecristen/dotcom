@@ -1,5 +1,7 @@
 defmodule SiteWeb.Mode.SubwayController do
-  use SiteWeb.Mode.HubBehavior
+  use SiteWeb.Mode.HubBehavior,
+    meta_description: "Schedule information for MBTA subway lines in Greater Boston, " <>
+    "including real-time updates and arrival predictions."
 
   def route_type, do: 1
 

@@ -5,16 +5,18 @@ defmodule SiteWeb.CustomerSupportController do
   plug Turbolinks.Plug.NoCache
   plug :set_service_options
   plug :assign_ip
+  plug :meta_description
 
   def index(conn, _params) do
     render_form conn, []
   end
 
   def thanks(conn, _params) do
-    render conn,
+    render(conn,
       "index.html",
       breadcrumbs: [Breadcrumb.build("Customer Support")],
       show_form: false
+    )
   end
 
   def submit(conn, %{"support" => data}) do
@@ -44,11 +46,13 @@ defmodule SiteWeb.CustomerSupportController do
   end
 
   defp render_form(conn, errors) do
-    render conn,
+    render(
+      conn,
       "index.html",
       breadcrumbs: [Breadcrumb.build("Customer Support")],
       errors: errors,
       show_form: true
+    )
   end
 
   @spec do_validation(map) :: [String.t]
@@ -129,5 +133,14 @@ defmodule SiteWeb.CustomerSupportController do
   end
   defp do_get_ip(_, %Plug.Conn{}) do
     :error
+  end
+
+  defp meta_description(conn, _) do
+    conn
+    |> assign(
+      :meta_description,
+      "Contact the MBTA customer support team and view additional contact numbers for the Transit Police, " <>
+      "lost and found, and accessibility."
+    )
   end
 end

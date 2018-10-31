@@ -76,6 +76,11 @@ defmodule SiteWeb.StopControllerTest do
     assert breadcrumbs_include?(body, "E Broadway @ H St")
   end
 
+  test "sets a custom meta description for stops", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "22")
+    assert conn.assigns.meta_description
+  end
+
   test "can show stations with spaces", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "Anderson/ Woburn")
     assert html_response(conn, 200) =~ "Anderson/Woburn"

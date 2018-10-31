@@ -1,5 +1,8 @@
 defmodule SiteWeb.Mode.BusController do
-  use SiteWeb.Mode.HubBehavior
+  use SiteWeb.Mode.HubBehavior,
+    meta_description: "Schedule information for MBTA bus routes in the Greater Boston region, " <>
+    "including real-time updates and arrival predictions."
+
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
 

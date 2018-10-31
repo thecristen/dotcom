@@ -34,6 +34,11 @@ defmodule SiteWeb.FareControllerTest do
       conn = get conn, fare_path(conn, :show, :doesnotexist)
       assert html_response(conn, 404) =~ "Your stop cannot be found."
     end
+
+    test "sets a custom meta description", %{conn: conn} do
+      conn = get conn, fare_path(conn, :show, "commuter-rail", origin: "place-sstat", destination: "Readville")
+      assert conn.assigns.meta_description
+    end
   end
 
   describe "fare_sales_locations/2" do

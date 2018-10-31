@@ -30,14 +30,17 @@ defmodule SiteWeb.AlertController do
   end
 
   def render_route_alerts(%{params: %{"id" => id}} = conn, route_alerts) do
-    route_alerts = route_alerts
-    |> Enum.reject(&match?({_, []}, &1))
-
     conn
-    |> render("show.html",
-    id: id_to_atom(id),
-    route_alerts: route_alerts,
-    breadcrumbs: [Breadcrumb.build("Alerts")]
+    |> assign(
+      :meta_description,
+      "Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. " <>
+      "Updates on delays, construction, elevator outages, and more."
+    )
+    |> render(
+      "show.html",
+      id: id_to_atom(id),
+      route_alerts: route_alerts |> Enum.reject(&match?({_, []}, &1)),
+      breadcrumbs: [Breadcrumb.build("Alerts")]
     )
   end
 

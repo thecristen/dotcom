@@ -24,6 +24,11 @@ defmodule SiteWeb.ModeController do
     |> assign(:grouped_routes, grouped_routes)
     |> assign(:breadcrumbs, [Breadcrumb.build("Schedules & Maps")])
     |> assign(:home, false)
+    |> assign(
+      :meta_description,
+      "Schedule information for MBTA subway, bus, Commuter Rail, and ferry in the Greater Boston region, " <>
+      "including real-time updates and arrival predictions."
+    )
     |> await_assign_all()
     |> render("index.html")
   end

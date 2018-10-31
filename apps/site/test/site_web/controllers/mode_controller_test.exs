@@ -10,6 +10,11 @@ defmodule SiteWeb.ModeControllerTest do
     end
   end
 
+  test "sets a custom meta description", %{conn: conn} do
+    conn = get(conn, mode_path(conn, :bus))
+    assert conn.assigns.meta_description
+  end
+
   test "test mode redirect route_id", %{conn: conn} do
     assert conn
     |> get(mode_path(conn, :index, route: "CR-Fitchburg"))
