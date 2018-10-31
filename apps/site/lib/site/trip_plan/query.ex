@@ -91,10 +91,16 @@ defmodule Site.TripPlan.Query do
   @spec opts_from_query(map, Keyword.t) :: Keyword.t
   def opts_from_query(query, opts \\ [])
   def opts_from_query(%{"optimize_for" => val} = query, opts) do
-    opts_from_query(
-      Map.delete(query, "optimize_for"),
-      optimize_for(val, opts)
-    )
+    # We have seen some rare sentry errors where the page anchor can
+    # get appended to the optimize_for value, so we preemptively
+    # strip it here.
+    val =
+      val
+      |> String.split("#")
+      |> List.first()
+      |> optimize_for(opts)
+
+    opts_from_query(Map.delete(query, "optimize_for"), val)
   end
   def opts_from_query(%{"modes" => modes} = query, opts) do
     opts_from_query(
