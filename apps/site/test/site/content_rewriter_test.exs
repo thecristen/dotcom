@@ -1,5 +1,5 @@
 defmodule Site.ContentRewriterTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase, async: false
 
   import Site.ContentRewriter
   import Mock
