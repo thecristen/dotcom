@@ -1,5 +1,5 @@
 defmodule SiteWeb.Plugs.TransitNearMeTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase
 
   import SiteWeb.Plugs.TransitNearMe
 
@@ -25,7 +25,10 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
     end
 
     test "assigns address and stops with routes", %{conn: conn} do
-      options = init(nearby_fn: &mock_response/1)
+      options = init(
+        nearby_fn: &mock_response/1,
+        geocode_fn: &geocode_fn/1
+      )
 
       conn = conn
       |> bypass_through(SiteWeb.Router, :browser)
@@ -39,7 +42,10 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
     end
 
     test "assigns address and stops with routes when address param is not nested", %{conn: conn} do
-      options = init(nearby_fn: &mock_response/1)
+      options = init(
+        nearby_fn: &mock_response/1,
+        geocode_fn: &geocode_fn/1
+      )
 
       conn = conn
       |> bypass_through(SiteWeb.Router, :browser)
@@ -53,7 +59,10 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
     end
 
     test "assigns address and stops with routes when address param is nested and lat/lng is provided", %{conn: conn} do
-      options = init(nearby_fn: &mock_response/1)
+      options = init(
+        nearby_fn: &mock_response/1,
+        geocode_fn: &geocode_fn/1
+      )
 
       conn = conn
       |> bypass_through(SiteWeb.Router, :browser)
@@ -97,7 +106,10 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
     end
 
     test "can take a lat/long as query parameters", %{conn: conn} do
-      options = init(nearby_fn: &mock_response/1)
+      options = init(
+        nearby_fn: &mock_response/1,
+        geocode_fn: &geocode_fn/1
+      )
       lat = 42.3515322
       lng = -71.0668452
 
@@ -237,12 +249,25 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
     |> Enum.map(&Stops.Repo.get/1)
   end
 
+  def geocode_fn("10 park plaza, boston ma") do
+    {:ok, [
+      %Geocode.Address{
+        latitude: 42.351818,
+        longitude: -71.067006,
+        formatted: "10 Park Plaza, Boston, MA"
+      }
+    ]}
+  end
+
   def search_near_office(conn) do
     search_near_address(conn, @tnm_address)
   end
 
   def search_near_address(conn, address) do
-    options = init(nearby_fn: &mock_response/1)
+    options = init(
+      geocode_fn: &geocode_fn/1,
+      nearby_fn: &mock_response/1
+    )
 
     conn
     |> assign_query_params(%{"location" => %{"address" => address}})
