@@ -136,6 +136,17 @@ defmodule Site.ContentRewriterTest do
       assert output =~ ~r/<\/svg><\/span><\/span> link<\/a> after<\/p>$/
     end
 
+    test "generates small icons inside of ul and ol elements", %{conn: conn} do
+      ul_input = ~s(<ul><li>Before <a href="#">{{ icon:subway-green }} link</a> after</li></ul>)
+      ol_input = ~s(<ol><li>Before <a href="#">{{ icon:subway-green }} link</a> after</li></ol>)
+
+      {:safe, ul_output} = ul_input |> raw() |> rewrite(conn)
+      {:safe, ol_output} = ol_input |> raw() |> rewrite(conn)
+
+      assert ul_output =~ ~r/c-svg__icon-green-line-small/
+      assert ol_output =~ ~r/c-svg__icon-green-line-small/
+    end
+
     test "wraps supported iframes as embedded media structures and sets aspect class for a supported source", %{conn: conn} do
       rewritten = ~s(<figure class="c-media c-media--type-embed c-media--size-full">) <>
                   ~s(<div class="c-media__content">) <>

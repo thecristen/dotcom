@@ -54,6 +54,12 @@ defmodule Site.ContentRewriter do
       buttons -> {"div", [{"class", "c-inline-buttons"}], buttons} end
     |> rewrite_children(conn, element)
   end
+  defp dispatch_rewrites({"ul", _, _} = element, conn, _context) do
+    rewrite_children(element, conn, element)
+  end
+  defp dispatch_rewrites({"ol", _, _} = element, conn, _context) do
+    rewrite_children(element, conn, element)
+  end
   defp dispatch_rewrites({"a", _, _} = element, conn, context) do
     element
     |> Links.add_target_to_redirect()
@@ -89,7 +95,7 @@ defmodule Site.ContentRewriter do
     Regex.replace(~r/\{\{(.*)\}\}/U, content, fn(_, obj) ->
       obj
       |> String.trim
-      |> LiquidObjects.replace(use_small_icon?: decends_from_a_paragraph?(context))
+      |> LiquidObjects.replace(use_small_icon?: decends_from_a_paragraph_like_element?(context))
     end)
   end
   defp dispatch_rewrites(_node, _conn, _context) do
@@ -100,7 +106,8 @@ defmodule Site.ContentRewriter do
     {name, attrs, FlokiHelpers.traverse(children, &dispatch_rewrites(&1, conn, context))}
   end
 
-  @spec decends_from_a_paragraph?(tree_or_binary) :: boolean
-  defp decends_from_a_paragraph?({"p", _attrs, _children}), do: true
-  defp decends_from_a_paragraph?(_), do: false
+  # Paragraph-like elements include p, ul, and ol
+  @spec decends_from_a_paragraph_like_element?(tree_or_binary) :: boolean
+  defp decends_from_a_paragraph_like_element?({el, _attrs, _children}) when el in ["p", "ul", "ol"], do: true
+  defp decends_from_a_paragraph_like_element?(_), do: false
 end
