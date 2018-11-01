@@ -191,12 +191,6 @@
   }
 }
 
-@mixin paragraph-space-for-breakpoint($breakpoint) {
-  > [class*="col-#{$breakpoint}-"] > p:first-child {
-    margin-top: -$after-heading-adjustment;
-  }
-}
-
 /////////////////////////////////////////////////////
 // Supporting @mixins for CMS layout & media below //
 /////////////////////////////////////////////////////

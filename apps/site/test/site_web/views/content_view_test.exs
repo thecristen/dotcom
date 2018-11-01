@@ -262,7 +262,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered_halves =~ "<div class=\"col-md-6\">\n<strong>Column 1</strong>"
       assert rendered_halves =~ "<div class=\"col-md-6\">\n<strong>Column 2</strong>"
 
-      assert rendered_single =~ "<div class=\"row row-lined\">\n  \n    <div class=\"col-md-12\">\n<strong>Column 1</strong>"
+      assert rendered_single =~ "<div class=\"row\">\n  \n    <div class=\"col-md-12\">\n<strong>Column 1</strong>"
     end
 
     test "renders a Content.Paragraph.Tabs", %{conn: conn} do
