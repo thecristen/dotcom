@@ -125,8 +125,10 @@ h6 {
   @include h6();
 }
 
-p a {
-  font-weight: $font-weight-medium;
+p a,
+ul a,
+ol a {
+  font-weight: $font-weight-semi-bold;
 }
 
 // "Snap" <small> elements to next smallest font-size to
