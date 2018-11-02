@@ -1,7 +1,0 @@
-<%= if @paragraph.link do %>
-  <p>
-    <%= link to: cms_static_page_path(@conn, @paragraph.link.url), class: "c-call-to-action" do %>
-      <%= @paragraph.link.title %>
-    <% end %>
-  </p>
-<% end %>

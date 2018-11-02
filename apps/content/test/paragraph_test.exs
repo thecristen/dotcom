@@ -63,17 +63,6 @@ defmodule Content.ParagraphTest do
       } = from_api(api_data)
     end
 
-    test "parses the call to action paragraph" do
-      api_data = api_paragraph("call_to_action")
-
-      assert %Content.Paragraph.CallToAction{
-        link: %Content.Field.Link{
-          url: "http://www.google.com",
-          title: "Continue reading..."
-        }
-      } = from_api(api_data)
-    end
-
     test "parses an unknown paragraph type" do
       api_data = %{
         "type" => [%{"target_id" => "unsupported_paragraph_type"}]

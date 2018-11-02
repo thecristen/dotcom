@@ -21,9 +21,6 @@ defmodule SiteWeb.ContentView do
   def render_paragraph(%Content.Paragraph.FilesGrid{} = para, _) do
     render "_files_grid.html", paragraph: para
   end
-  def render_paragraph(%Content.Paragraph.CallToAction{} = para, conn) do
-    render "_call_to_action.html", paragraph: para, conn: conn
-  end
   def render_paragraph(%Content.Paragraph.ColumnMulti{} = para, conn) do
     render "_column_multi.html", paragraph: para, conn: conn
   end

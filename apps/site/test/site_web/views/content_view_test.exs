@@ -194,26 +194,6 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ paragraph.title
     end
 
-    test "renders a Paragraph.CallToAction", %{conn: conn} do
-      paragraph = %Paragraph.CallToAction{
-        link: %Content.Field.Link{
-          url: "www.example.com",
-          title: "See example"
-        }
-      }
-
-      rendered =
-        paragraph
-        |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string()
-        |> Floki.parse()
-
-      assert {"p", [], [{"a", [{"class", class}, {"href", link}], [title]}]} = rendered
-      assert class == "c-call-to-action"
-      assert link == "www.example.com"
-      assert title =~ "See example"
-    end
-
     test "renders a Content.Paragraph.ColumnMulti", %{conn: conn} do
       cols = [
         %Paragraph.Column{
