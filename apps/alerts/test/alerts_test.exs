@@ -179,7 +179,7 @@ defmodule AlertsTest do
         alert = %Alert{effect: type,
                        severity: 7,
                        updated_at: Timex.shift(now(), days: -7, hours: -1),
-                       active_period: [{Timex.shift(now(), days: -6, hours: -23), nil}]
+                       active_period: [{Timex.shift(now(), days: -6, hours: -20), nil}]
                       }
         assert {type, is_notice?(alert, now())} == {type, false}
       end
@@ -221,7 +221,7 @@ defmodule AlertsTest do
     test "severe alerts not within a week of start or end date are an alert if updated in the last week" do
       for type <- types_which_can_be_notices() do
         alert = %Alert{effect: type, severity: 7,
-                       updated_at: Timex.shift(now(), days: -6, hours: -23),
+                       updated_at: Timex.shift(now(), days: -6, hours: -20),
                        active_period: [{Timex.shift(now(), days: -7, hours: -1),
                                         Timex.shift(now(), days: 7, hours: 1)}]}
         assert {type, is_notice?(alert, now())} == {type, false}
