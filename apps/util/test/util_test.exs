@@ -39,6 +39,12 @@ defmodule UtilTest do
       |> DateTime.from_naive!("Etc/UTC")
       |> Util.to_local_time()
     end
+
+    test "handles Timex.AmbiguousDateTime.t" do
+      before_date = Util.to_local_time(~N[2018-11-04T05:00:00])
+      after_date = Util.to_local_time(~N[2018-11-04T06:00:00])
+      assert before_date == Util.to_local_time(%Timex.AmbiguousDateTime{after: after_date, before: before_date})
+    end
   end
 
   describe "service_date/0" do

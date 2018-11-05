@@ -25,7 +25,7 @@ defmodule Util do
   end
 
   @doc "Converts a DateTime.t into the America/New_York zone, handling ambiguities"
-  @spec to_local_time(DateTime.t | NaiveDateTime.t) :: DateTime.t | {:error, any}
+  @spec to_local_time(DateTime.t | NaiveDateTime.t | Timex.AmbiguousDateTime.t) :: DateTime.t | {:error, any}
   def to_local_time(%DateTime{zone_abbr: zone} = time) when zone in ["EDT", "EST", "-04", "-05"] do
     time
   end
@@ -39,6 +39,7 @@ defmodule Util do
     |> DateTime.from_naive!("Etc/UTC")
     |> to_local_time()
   end
+  def to_local_time(%Timex.AmbiguousDateTime{} = time), do: handle_ambiguous_time(time)
 
   @spec handle_ambiguous_time(Timex.AmbiguousDateTime.t | DateTime.t | {:error, any}) :: DateTime.t | {:error, any}
   defp handle_ambiguous_time(%Timex.AmbiguousDateTime{before: before}) do
