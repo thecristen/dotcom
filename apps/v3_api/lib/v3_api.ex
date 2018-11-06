@@ -103,7 +103,8 @@ defmodule V3Api do
     other
   end
 
-  defp process_request_headers(headers) do
+  @impl HTTPoison.Base
+  def process_request_headers(headers) do
     [{"accept-encoding", "gzip"},
      {"accept", "application/vnd.api+json"}
      | headers]
