@@ -86,3 +86,9 @@
 .u-pointer {
   cursor: pointer;
 }
+
+.u-error {
+  background-color: $form-error-message;
+  color: $error-text;
+  padding: $base-spacing / 2;
+}

@@ -17,6 +17,7 @@ function setup(idx) {
     <div id="powered-by-google-logo"></div>
     <input id="${selectors.input}"></input>
     <div id="${selectors.resetButton}"></div>
+    <div id="${selectors.container}"></div>
     <button id ="${selectors.goBtn}"></button>
   `;
 

@@ -12,10 +12,22 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     }
     this._popular = popular;
     this._loadingIndicator = document.getElementById(selectors.locationLoadingIndicator);
+    this.addUseMyLocationErrorEl();
     this._locationParams = Object.assign(AlgoliaAutocompleteWithGeo.DEFAULT_LOCATION_PARAMS, locationParams);
     this._indices.splice(this._locationParams.position, 0, "locations");
     this._indices.push("usemylocation");
     this._indices.push("popular");
+  }
+
+  addUseMyLocationErrorEl() {
+    const container = document.getElementById(this._selectors.container);
+    this.useMyLocationErrorEl = document.createElement("div");
+    this.useMyLocationErrorEl.classList.add("u-error");
+    this.useMyLocationErrorEl.style.display = "none";
+    this.useMyLocationErrorEl.innerHTML =
+      `${window.location.host} needs permission to use your location.
+      Please update your browser's settings or refresh the page and try again.`;
+    container.parentNode.appendChild(this.useMyLocationErrorEl);
   }
 
   _datasetSource(index) {
@@ -95,12 +107,22 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   }
 
   useMyLocationSearch() {
+    this.useMyLocationErrorEl.style.display = "none";
     this._input.disabled = true;
     this.setValue("Getting your location...");
     this._loadingIndicator.style.visibility = "visible";
-    geolocationPromise()
-      .then(pos => this._doReverseGeocodeSearch(pos))
-      .catch(err => console.error(err));
+    return geolocationPromise()
+      .then(pos => this.onUseMyLocationResults(pos))
+      .catch(err => this.onGeolocationError(err));
+  }
+
+  onGeolocationError(err) {
+    this._input.disabled = false;
+    this.setValue("");
+    this._loadingIndicator.style.visibility = "hidden";
+    if (err.code && err.code === 1) {
+      this.useMyLocationErrorEl.style.display = "block";
+    }
   }
 
   _doLocationSearch(placeId) {
@@ -115,13 +137,13 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
                               result.formatted_address)
   }
 
-  _doReverseGeocodeSearch({coords: {latitude, longitude}}) {
+  onUseMyLocationResults({coords: {latitude, longitude}}) {
     return GoogleMapsHelpers.reverseGeocode(parseFloat(latitude), parseFloat(longitude))
-             .then(result => this._onReverseGeocodeResults(result, latitude, longitude))
+             .then(result => this.onReverseGeocodeResults(result, latitude, longitude))
              .catch(err => console.error(err));
   }
 
-  _onReverseGeocodeResults(result, latitude, longitude) {
+  onReverseGeocodeResults(result, latitude, longitude) {
     this._input.disabled = false;
     this.setValue(result);
     this._loadingIndicator.style.visibility = "hidden";

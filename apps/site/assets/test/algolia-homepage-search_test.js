@@ -18,6 +18,7 @@ describe("HomepageSearch", () => {
 
     document.body.innerHTML = `
       <div id="powered-by-google-logo"></div>
+      <div id="${SELECTORS.container}"></div>
       <input id="${SELECTORS.input}"></input>
       <div id="${SELECTORS.resetButton}"></div>
       <button id ="${SELECTORS.goBtn}"></button>

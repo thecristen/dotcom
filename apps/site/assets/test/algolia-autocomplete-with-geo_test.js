@@ -94,6 +94,41 @@ describe("AlgoliaAutocompleteWithGeo", function() {
     });
   });
 
+  describe("useMyLocationSearch", function() {
+    it("redirects to Transit Near Me if geocode succeeds", function(done) {
+      window.Turbolinks = {
+        visit: sinon.spy()
+      };
+      window.navigator.geolocation = {
+        getCurrentPosition: (resolve, reject) => {
+          resolve({coords: {latitude: 42.0, longitude: -71.0}});
+        }
+      }
+      window.encodeURIComponent = (str) => str;
+      sinon.stub(GoogleMapsHelpers, "reverseGeocode").resolves("10 Park Plaza, Boston MA");
+      const result = this.ac.useMyLocationSearch();
+      Promise.resolve(result).then(() => {
+        expect(window.Turbolinks.visit.called).to.be.true;
+        expect(window.Turbolinks.visit.args[0][0])
+          .to.equal("/transit-near-me?latitude=42&longitude=-71&address=10 Park Plaza, Boston MA");
+        done();
+      });
+    });
+    it("resets search if geolocation fails", function(done) {
+      window.navigator.geolocation = {
+        getCurrentPosition: (resolve, reject) => {
+          reject({code: 1, message: "User denied Geolocation"})
+        }
+      }
+      const result = this.ac.useMyLocationSearch();
+      Promise.resolve(result).then(() => {
+        expect(this.ac._input.value).to.equal("");
+        expect(this.ac._input.disabled).to.be.false;
+        done();
+      });
+    });
+  });
+
   describe("location searches", function() {
     beforeEach(function() {
       this.locationSearchResults = {

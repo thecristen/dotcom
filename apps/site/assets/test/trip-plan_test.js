@@ -55,6 +55,8 @@ describe("trip-plan", () => {
           <input type="hidden" id="from_longitude" name="plan[from_longitude]">
           <input class="location-input" data-autocomplete="true" id="to" name="plan[to]" placeholder="Ex: Boston Children's Museum" type="text" autocomplete="off">
           <div id="trip-plan-reverse-control"></div>
+          <div id="trip-plan__container--to"></div>
+          <div id="trip-plan__container--from"></div>
           <div id="trip-plan__required--to"></div>
           <div id="trip-plan__required--from"></div>
           <div id="trip-plan__reset--from"></div>
