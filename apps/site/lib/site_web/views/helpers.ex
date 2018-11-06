@@ -211,6 +211,11 @@ defmodule SiteWeb.ViewHelpers do
     |> String.replace_suffix("M", "") # remove the M from the end
   end
 
+  @spec format_schedule_time_for_screenreader(DateTime.t) :: String.t
+  def format_schedule_time_for_screenreader(time) do
+    Timex.format!(time, "{0h12}:{m} {AM}")
+  end
+
   @spec format_full_date(Date.t) :: String.t
   def format_full_date(date), do: Timex.format!(date, "{Mfull} {D}, {YYYY}")
 
