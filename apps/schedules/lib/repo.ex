@@ -120,12 +120,30 @@ defmodule Schedules.Repo do
 
   defp all_from_params(params) do
     with %JsonApi{data: data} <- V3Api.Schedules.all(params) do
+      data = Enum.filter(data, &valid?/1)
       insert_trips_into_cache(data)
 
       data
       |> Stream.map(&Schedules.Parser.parse/1)
+      |> Enum.filter(&has_trip?/1)
       |> Enum.sort_by(&DateTime.to_unix(elem(&1, 3)))
     end
+  end
+
+  def has_trip?({_, trip_id, _, _, _, _, _, _}) when is_nil(trip_id) do
+    false
+  end
+  def has_trip?(_) do
+    true
+  end
+
+  def valid?(%JsonApi.Item{
+    relationships: %{
+      "trip" => [%JsonApi.Item{id: id} | _]}}) when not is_nil(id) do
+    true
+  end
+  def valid?(_) do
+    false
   end
 
   defp add_optional_param(params, opts, key, param_name \\ nil) do

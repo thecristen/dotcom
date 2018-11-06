@@ -235,4 +235,24 @@ defmodule Schedules.RepoTest do
       assert ConCache.get(Schedules.Repo, {:trip, trip_id}) == {:ok, nil}
     end
   end
+
+  describe "valid?/1" do
+    test "trips with an id are valid" do
+      assert valid?(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: "1"}]}})
+    end
+
+    test "trips without an id are invalid" do
+      refute valid?(%JsonApi.Item{relationships: %{"trip" => []}})
+    end
+  end
+
+  describe "has_trip?/1" do
+    test "keeps parsed schedules with trips" do
+      assert has_trip?({"CR-Lowell", "CR-Weekday-Fall-18-348", "Lowell", "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5", false, false, 1, 0})
+    end
+
+    test "filters out parsed schedules that returned without trips" do
+      refute has_trip?({"CR-Lowell", nil, "Lowell", "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5", false, false, 1, 0})
+    end
+  end
 end

@@ -31,9 +31,22 @@ defmodule Predictions.Repo do
     case V3Api.Predictions.all(params) do
       {:error, error} -> warn_error(params, error)
       %JsonApi{data: data} ->
-        Schedules.Repo.insert_trips_into_cache(data)
+        cache_trips(data)
         Enum.flat_map(data, &parse/1)
     end
+  end
+
+  defp cache_trips(data) do
+    data
+    |> Enum.filter(&has_trip?/1)
+    |> Schedules.Repo.insert_trips_into_cache()
+  end
+
+  def has_trip?(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: id} | _]}}) when not is_nil(id) do
+    true
+  end
+  def has_trip?(%JsonApi.Item{}) do
+    false
   end
 
   defp parse(item) do

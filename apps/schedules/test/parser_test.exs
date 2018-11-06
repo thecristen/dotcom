@@ -170,7 +170,7 @@ defmodule Schedules.ParserTest do
             }
           ]
         },
-        type: "prediction"
+        type: "schedule"
       }
       assert Schedules.Parser.trip(api_item) == nil
     end
@@ -186,7 +186,7 @@ defmodule Schedules.ParserTest do
           "stop_sequence" => nil,
           "track" => nil
         },
-        id: "prediction-3690-3864-place-pktrm-",
+        id: "schedule-3690-3864-place-pktrm-",
         relationships: %{
           "route" => [
             %JsonApi.Item{
@@ -207,7 +207,7 @@ defmodule Schedules.ParserTest do
           ],
           "trip" => []
         },
-        type: "prediction"
+        type: "schedule"
       }
       assert Schedules.Parser.trip(api_item) == nil
     end

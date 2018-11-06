@@ -3,6 +3,7 @@ defmodule Predictions.RepoTest do
   alias Predictions.Repo
   alias Stops.Stop
   alias Routes.Route
+  alias Plug.Conn
 
   describe "all/1" do
     test "returns a list" do
@@ -57,7 +58,7 @@ defmodule Predictions.RepoTest do
 
       Bypass.expect bypass, fn %{request_path: "/predictions/"} = conn ->
         # return a Prediction with a valid stop, and one with an invalid stop
-        Plug.Conn.resp(conn, 200, ~s(
+        Conn.resp(conn, 200, ~s(
               {
                 "included": [
                   {"type": "route", "id": "Red", "attributes": {"type": 1, "long_name": "Red Line", "direction_names": ["Southbound", "Northbound"], "description": "Rapid Transit"}, "relationships": {}},
@@ -97,6 +98,57 @@ defmodule Predictions.RepoTest do
     end
 
     @tag :capture_log
+    test "caches trips that are retrieved" do
+
+      bypass = Bypass.open
+      v3_url = Application.get_env(:v3_api, :base_url)
+      on_exit fn ->
+        Application.put_env(:v3_api, :base_url, v3_url)
+      end
+
+      Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
+
+      Bypass.expect bypass, fn %{request_path: "/predictions/"} = conn ->
+        # return a Prediction with a valid stop, and one with an invalid stop
+        Conn.resp(conn, 200, ~s(
+              {
+                "included": [
+                  {"type": "route", "id": "Red", "attributes": {"type": 1, "long_name": "Red Line", "direction_names": ["Southbound", "Northbound"], "description": "Rapid Transit"}, "relationships": {}},
+                  {"type": "trip", "id": "trip", "attributes": {"headsign": "headsign", "name": "name", "direction_id": "1"}, "relationships": {}},
+                  {"type": "stop", "id": "stop", "attributes": {"platform_code": null}, "relationships": {}}
+                ],
+                "data": [
+                  {
+                    "type": "prediction",
+                    "id": "1",
+                    "attributes": {
+                      "arrival_time": "2016-01-01T00:00:00-05:00"
+                    },
+                    "relationships": {
+                      "route": {"data": {"type": "route", "id": "Red"}},
+                      "stop": null
+                    }
+                  },
+                  {
+                    "type": "prediction",
+                    "id": "2",
+                    "attributes": {
+                      "arrival_time": "2016-01-01T00:00:00-05:00"
+                    },
+                    "relationships": {
+                      "route": {"data": {"type": "route", "id": "Red"}},
+                      "trip": {"data": {"type": "trip", "id": "trip", "headsign": "Headsign"}},
+                      "stop": {"data": {"type": "stop", "id": "place-pktrm"}}
+                    }
+                  }
+                ]
+              }))
+      end
+      refute Repo.all(route: "Red", trip: "trip") == []
+      assert {:ok, %Schedules.Trip{id: "trip"}} = ConCache.get(Schedules.Repo, {:trip, "trip"})
+    end
+
+    @tag :capture_log
     test "returns an empty list if the API returns an error" do
       _ = Stops.Repo.get("place-pktrm") # make sure it's cached
 
@@ -110,10 +162,22 @@ defmodule Predictions.RepoTest do
 
       Bypass.expect bypass, fn %{request_path: "/predictions/"} = conn ->
         # return a Prediction with a valid stop, and one with an invalid stop
-        Plug.Conn.resp(conn, 500, "")
+        Conn.resp(conn, 500, "")
       end
 
       assert Repo.all(route: "Red", trip: "has_an_error") == []
+    end
+  end
+
+  describe "has_trip?/1" do
+    test "returns false for items without trips" do
+      no_trip = %JsonApi.Item{id: "2"}
+      assert Predictions.Repo.has_trip?(no_trip) == false
+    end
+
+    test "returns true for items with trips" do
+      trip = %JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: "1"}]}}
+      assert Predictions.Repo.has_trip?(trip) == true
     end
   end
 
