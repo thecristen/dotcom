@@ -33,9 +33,12 @@ defmodule V3Api do
   defp timed_get(url, params, opts) do
     api_key = Keyword.fetch!(opts, :api_key)
     base_url = Keyword.fetch!(opts, :base_url)
-    headers = api_key_headers(api_key) ++
-              Cache.cache_headers(url, params) ++
-              build_headers(config(:wiremock_proxy))
+    headers = V3Api.Headers.build(
+      api_key,
+      params: params,
+      url: url,
+      use_cache?: true
+    )
     url = base_url <> url
     timeout = Keyword.fetch!(opts, :timeout)
 
@@ -109,15 +112,6 @@ defmodule V3Api do
      {"accept", "application/vnd.api+json"}
      | headers]
   end
-
-  defp api_key_headers(nil), do: []
-  defp api_key_headers(api_key), do: [{"x-api-key", api_key}]
-
-  defp build_headers("true") do
-    {_, _, proxy_url} = Application.get_env(:v3_api, :base_url)
-    [{"X-WM-Proxy-Url", proxy_url}]
-  end
-  defp build_headers(_), do: []
 
   defp default_options do
     [
