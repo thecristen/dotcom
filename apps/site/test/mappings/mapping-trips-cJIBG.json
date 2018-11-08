@@ -1,0 +1,22 @@
+{
+  "id" : "3573924d-9dc0-37be-be97-cf357506d3af",
+  "request" : {
+    "url" : "/trips/?route=CR-Needham&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-cJIBG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:26:14 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 17:25:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lief3obd3g42k2deg001ef3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3573924d-9dc0-37be-be97-cf357506d3af"
+}

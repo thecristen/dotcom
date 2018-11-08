@@ -1,0 +1,22 @@
+{
+  "id" : "c4e2c559-aabf-335a-864a-add8fb0210e3",
+  "request" : {
+    "url" : "/routes/?stop=290&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-RelmO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:28:34 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefbtup91313i1tk007r41",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c4e2c559-aabf-335a-864a-add8fb0210e3"
+}

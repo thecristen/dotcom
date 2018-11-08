@@ -1,0 +1,22 @@
+{
+  "id" : "5203e980-9a41-3488-b82b-3849bf610c45",
+  "request" : {
+    "url" : "/shapes/?route=326&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-PaUTV.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:26:39 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:18:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lief58ikrguq5v8b00020j2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "5203e980-9a41-3488-b82b-3849bf610c45"
+}

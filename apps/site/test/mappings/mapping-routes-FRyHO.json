@@ -1,0 +1,22 @@
+{
+  "id" : "4d78a0da-2121-3da5-b25d-2aa9286a2660",
+  "request" : {
+    "url" : "/routes/?stop=Norwood+Central",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FRyHO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:31:53 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefng9p3aq4c42ic0089b1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4d78a0da-2121-3da5-b25d-2aa9286a2660"
+}

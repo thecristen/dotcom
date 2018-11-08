@@ -1,0 +1,22 @@
+{
+  "id" : "df2c91a9-645d-3866-8218-f428131240ba",
+  "request" : {
+    "url" : "/shapes/?route=104&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-kYjbe.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:26:32 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:18:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lief4r4pl4hm5v8b0007281",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "df2c91a9-645d-3866-8218-f428131240ba"
+}

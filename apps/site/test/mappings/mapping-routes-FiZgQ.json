@@ -1,0 +1,22 @@
+{
+  "id" : "35bb61d6-c6f4-3a8d-986b-cd0e7de1c9e9",
+  "request" : {
+    "url" : "/routes/?stop=Haverhill",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FiZgQ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:31:53 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefngufqr22c42ic002hc2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "35bb61d6-c6f4-3a8d-986b-cd0e7de1c9e9"
+}

@@ -12,7 +12,7 @@ defmodule Schedules.Repo do
   @default_params [
     include: "trip",
     "fields[schedule]": "departure_time,drop_off_type,pickup_type,stop_sequence,timepoint",
-    "fields[trip]": "name,headsign,direction_id",
+    "fields[trip]": "name,headsign,direction_id,bikes_allowed",
   ]
 
   @spec by_route_ids([Route.id_t], Keyword.t) :: [Schedule.t] | {:error, any}

@@ -1,0 +1,22 @@
+{
+  "id" : "c3cea2c2-acb4-3311-8870-2b5241fbb852",
+  "request" : {
+    "url" : "/routes/?stop=Reading",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-GfuXl.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:31:53 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefnh8o14k6dp894008a91",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c3cea2c2-acb4-3311-8870-2b5241fbb852"
+}

@@ -30,7 +30,7 @@ defmodule Schedules.Parser do
           "trip" => [%JsonApi.Item{id: id,
                                    attributes: %{"name" => name,
                                                  "headsign" => headsign,
-                                                 "direction_id" => direction_id},
+                                                 "direction_id" => direction_id} = attributes,
                                    relationships: relationships} | _]
         }}) do
     %Schedules.Trip{
@@ -38,6 +38,7 @@ defmodule Schedules.Parser do
       headsign: headsign,
       name: name,
       direction_id: direction_id,
+      bikes_allowed?: bikes_allowed?(attributes),
       shape_id: shape_id(relationships)
     }
   end
@@ -46,7 +47,8 @@ defmodule Schedules.Parser do
                   id: id, attributes: %{
                     "headsign" => headsign,
                     "name" => name,
-                    "direction_id" => direction_id},
+                    "direction_id" => direction_id,
+                  } = attributes,
                   relationships: relationships}]
            }) do
     %Schedules.Trip{
@@ -54,7 +56,8 @@ defmodule Schedules.Parser do
       headsign: headsign,
       name: name,
       direction_id: direction_id,
-      shape_id: shape_id(relationships)
+      shape_id: shape_id(relationships),
+      bikes_allowed?: bikes_allowed?(attributes)
     }
   end
   def trip(%JsonApi.Item{
@@ -103,4 +106,8 @@ defmodule Schedules.Parser do
   @spec shape_id(any) :: String.t | nil
   defp shape_id(%{"shape" => [%JsonApi.Item{id: id}]}), do: id
   defp shape_id(_), do: nil
+
+  @spec bikes_allowed?(map) :: boolean
+  defp bikes_allowed?(%{"bikes_allowed" => 1}), do: true
+  defp bikes_allowed?(_), do: false
 end

@@ -1,0 +1,22 @@
+{
+  "id" : "349f67ff-a00a-348e-a625-977ef088108b",
+  "request" : {
+    "url" : "/trips/?route=CR-Haverhill&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-7ABvy.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:26:13 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 17:25:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lief3n26aitsk2deg001ri2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "349f67ff-a00a-348e-a625-977ef088108b"
+}

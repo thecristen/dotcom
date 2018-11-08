@@ -1,0 +1,22 @@
+{
+  "id" : "9bea6544-e137-3f66-b75c-0a0cd7fa9745",
+  "request" : {
+    "url" : "/routes/?stop=Fairmount",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-OSiRZ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:31:52 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefnfih0nk5epgkk008921",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "9bea6544-e137-3f66-b75c-0a0cd7fa9745"
+}

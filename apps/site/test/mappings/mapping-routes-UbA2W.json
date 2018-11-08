@@ -1,0 +1,22 @@
+{
+  "id" : "d8454cf1-e5cc-30c7-b9f0-7f365824c998",
+  "request" : {
+    "url" : "/routes/?stop=place-wimnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-UbA2W.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:28:29 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefbjrv269vbraqg0029n2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d8454cf1-e5cc-30c7-b9f0-7f365824c998"
+}

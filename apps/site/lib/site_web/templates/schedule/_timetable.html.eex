@@ -27,7 +27,7 @@
           </th>
           <td class="schedule-timetable-name-col-spacer hidden-no-js"></td>
           <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
-            <th scope="col" class="schedule-timetable-header-col schedule-timetable-time-col"<%= if index == @offset, do: " data-scroll-to" %>>
+            <th scope="col" class="schedule-timetable-header-col"<%= if index == @offset, do: " data-scroll-to" %>>
               <span class="sr-only">Train <%= schedule.trip.name %></span>
               <span aria-hidden="true"><%= schedule.trip.name %></span>
               <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: @date, route: @route.id, direction_id: @direction_id) != [] do %>
@@ -36,8 +36,32 @@
             </th>
           <% end %>
         </tr>
+        <tr>
+          <th scope="row" class="schedule-timetable-name-col schedule-timetable-name-col-header schedule-timetable-name-col-header-stops schedule-timetable-hat-stops schedule-timetable-bicycles-header" data-absolute>
+            <span class="sr-only">Bicycles Allowed?</span>
+            <%=
+              # this icon is set to visibility: hidden by CSS;
+              # it's needed to keep the absolutely positioned
+              # header cell height consistent with the cells
+              # that have icons in them.
+              svg("icon-bikes-default.svg")
+            %>
+          </th>
+          <td class="schedule-timetable-name-col-spacer hidden-no-js"></td>
+          <%= for schedule <- @header_schedules do %>
+            <td class="schedule-timetable-header-col">
+              <%= if schedule.trip.bikes_allowed? do %>
+                <%= content_tag(:span, svg("icon-bikes-default.svg"), [data: [toggle: "tooltip"], title: "Bicycles allowed"]) %>
+                <div class="sr-only">Bicycles allowed</div>
+              <% else %>
+                <div class="sr-only">Bicycles not allowed</div>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+        <% [first_stop | _] = @all_stops %>
         <%= for stop <- @all_stops do %>
-          <tr class="schedule-timetable-row js-tt-row">
+          <tr class="schedule-timetable-row js-tt-row<%= if stop.id == first_stop.id do " schedule-timetable-first-row" end %>">
             <th scope="row" class="js-tt-stop-name schedule-timetable-name-col schedule-timetable-name-col-header" data-absolute>
               <div class="schedule-timetable-name">
                 <%= link break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id) %>

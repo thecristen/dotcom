@@ -1,0 +1,22 @@
+{
+  "id" : "280cc0a5-74b7-3ba0-9f7a-1fe3fe7440ed",
+  "request" : {
+    "url" : "/stops/?route=Mattapan&include=parent_station%2Cfacilities&direction_id=0&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-lE7vs.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:31:52 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:03 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefnelr68bodp8940088m1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "280cc0a5-74b7-3ba0-9f7a-1fe3fe7440ed"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "db1e1a03-b999-34bc-8eac-64155bac0a4a",
+  "request" : {
+    "url" : "/routes/?stop=152&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-i7GxM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:28:32 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefbr3t7qbd3i1tk007oj1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "db1e1a03-b999-34bc-8eac-64155bac0a4a"
+}

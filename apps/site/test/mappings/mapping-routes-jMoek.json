@@ -1,0 +1,22 @@
+{
+  "id" : "90e7a647-2a3c-3f3c-9be6-f77f87478f96",
+  "request" : {
+    "url" : "/routes/?stop=place-spmnl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-jMoek.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:28:28 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefbhvsp010ofo8g001s53",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "90e7a647-2a3c-3f3c-9be6-f77f87478f96"
+}

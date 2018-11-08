@@ -1,0 +1,22 @@
+{
+  "id" : "87665d5d-8cc2-33a1-82e1-e4c9fc5a4daa",
+  "request" : {
+    "url" : "/routes/?stop=Dedham+Corp+Center",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-a0WC9.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:31:53 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefnfs02o2jepgkk002gc2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "87665d5d-8cc2-33a1-82e1-e4c9fc5a4daa"
+}

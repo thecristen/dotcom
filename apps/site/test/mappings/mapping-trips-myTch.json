@@ -1,0 +1,22 @@
+{
+  "id" : "170adffc-d72a-31aa-9ac1-b134afe0e7ad",
+  "request" : {
+    "url" : "/trips/?route=Green-D&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-myTch.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:26:09 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 17:25:58 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lief3ee6sl77969qk001dh3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "170adffc-d72a-31aa-9ac1-b134afe0e7ad"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "53dc8203-b431-3e65-af07-dc90245aca58",
+  "request" : {
+    "url" : "/routes/?stop=place-matt&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-lgNDx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:28:30 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefbm3khujth20oc002ag2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "53dc8203-b431-3e65-af07-dc90245aca58"
+}

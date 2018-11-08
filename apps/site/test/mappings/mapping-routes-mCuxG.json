@@ -1,0 +1,22 @@
+{
+  "id" : "598aa7f3-7eac-3e0b-b81f-0258654643b5",
+  "request" : {
+    "url" : "/routes/?stop=place-mfa&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-mCuxG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:28:28 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefbigbdi1hgsvls001sm3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "598aa7f3-7eac-3e0b-b81f-0258654643b5"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "e89600d9-9206-3b49-b474-5cfa2585115b",
+  "request" : {
+    "url" : "/routes/?stop=place-forhl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-H2QNz.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:31:53 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefnha1gbrio92cc002i92",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e89600d9-9206-3b49-b474-5cfa2585115b"
+}

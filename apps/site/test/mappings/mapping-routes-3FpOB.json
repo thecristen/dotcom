@@ -1,0 +1,22 @@
+{
+  "id" : "a34a06d3-0e7b-33cf-9840-b7ecd0a25111",
+  "request" : {
+    "url" : "/routes/?stop=place-spmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-3FpOB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:31:54 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefniqt02vco92cc002le2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a34a06d3-0e7b-33cf-9840-b7ecd0a25111"
+}

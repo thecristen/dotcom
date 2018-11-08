@@ -1,0 +1,22 @@
+{
+  "id" : "405d97e6-6563-34dd-9be4-a2a707cff8af",
+  "request" : {
+    "url" : "/routes/?stop=place-harvd&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-aM4VG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:28:29 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefbk9vif7jbraqg007ig1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "405d97e6-6563-34dd-9be4-a2a707cff8af"
+}

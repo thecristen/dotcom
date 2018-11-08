@@ -1,0 +1,22 @@
+{
+  "id" : "0cfd833b-c0e0-3ad6-8f3c-0b2e9aa46747",
+  "request" : {
+    "url" : "/schedules/?route=1&date=2018-12-24&direction_id=1&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-8YAll.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json",
+      "Date" : "Wed, 07 Nov 2018 17:30:15 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:55 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefhphekj89f1jo40081u1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0cfd833b-c0e0-3ad6-8f3c-0b2e9aa46747"
+}

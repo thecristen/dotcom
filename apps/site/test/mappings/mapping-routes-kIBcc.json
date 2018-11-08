@@ -1,0 +1,22 @@
+{
+  "id" : "79413e8f-6fc5-3ce1-9f56-00d93bf216e0",
+  "request" : {
+    "url" : "/routes/?stop=5089&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-kIBcc.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:28:34 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefbta86h5lh20oc007qh1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "79413e8f-6fc5-3ce1-9f56-00d93bf216e0"
+}

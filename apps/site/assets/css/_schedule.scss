@@ -1093,7 +1093,7 @@ del .trip-list-realtime {
   }
 }
 
-.schedule-timetable-row:nth-child(2) {
+.schedule-timetable-first-row {
   border-top: 1px solid $gray-lighter;
 }
 
@@ -1104,7 +1104,6 @@ del .trip-list-realtime {
 }
 
 .schedule-timetable-name-col-header-stops {
-  padding: .5em;
   text-align: left;
 }
 
@@ -1129,7 +1128,14 @@ del .trip-list-realtime {
   background-color: $brand-primary-lightest;
   border-right: 1px solid $brand-primary-lightest;
   font-weight: bold;
-  padding: .5em;
+  padding-left: .5em;
+  padding-right: .5em;
+}
+
+.schedule-timetable-bicycles-header {
+  .c-svg__icon-bikes-default {
+    visibility: hidden;
+  }
 }
 
 .schedule-timetable-time-col {

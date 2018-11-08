@@ -1,0 +1,22 @@
+{
+  "id" : "dc2631ec-6915-309e-aa5a-95ac654748c6",
+  "request" : {
+    "url" : "/routes/?stop=12891&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-tuiFA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:28:32 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefbpj5h1g1braqg002cv2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "dc2631ec-6915-309e-aa5a-95ac654748c6"
+}

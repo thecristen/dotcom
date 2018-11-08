@@ -1,0 +1,22 @@
+{
+  "id" : "0a99e0ca-4ad3-302e-abbe-bd327c93b6d6",
+  "request" : {
+    "url" : "/routes/?stop=place-capst",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-fKHLN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:31:53 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefnh03toa6o92cc008a21",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0a99e0ca-4ad3-302e-abbe-bd327c93b6d6"
+}

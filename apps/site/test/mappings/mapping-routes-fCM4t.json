@@ -1,0 +1,22 @@
+{
+  "id" : "fba21f29-b8ec-3d9c-9e8b-b7f8c91f9e1e",
+  "request" : {
+    "url" : "/routes/?stop=5&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-fCM4t.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:28:34 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefbtulp4vcfnjh8007r31",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "fba21f29-b8ec-3d9c-9e8b-b7f8c91f9e1e"
+}

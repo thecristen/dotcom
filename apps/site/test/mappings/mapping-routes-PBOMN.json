@@ -1,0 +1,22 @@
+{
+  "id" : "a7aa557f-5ddc-3876-ace1-b22a3670fd01",
+  "request" : {
+    "url" : "/routes/?stop=place-andrw&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-PBOMN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:28:28 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefbib385dhgsvls001sg3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a7aa557f-5ddc-3876-ace1-b22a3670fd01"
+}

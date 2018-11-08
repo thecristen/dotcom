@@ -1,0 +1,22 @@
+{
+  "id" : "a9104f21-eba8-303c-845c-7cf4633739b2",
+  "request" : {
+    "url" : "/routes/?stop=Boat-Logan",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-etaaU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:31:52 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefnfeb6qntepgkk0088u1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a9104f21-eba8-303c-845c-7cf4633739b2"
+}

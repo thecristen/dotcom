@@ -61,7 +61,7 @@ defmodule Schedules.ParserTest do
     test "parses a trip from the API" do
       api_item = %JsonApi{
         data: [%JsonApi.Item{
-                  attributes: %{"direction_id" => 1,
+                  attributes: %{"direction_id" => 1, "bikes_allowed" => 1,
                                 "headsign" => "Alewife", "name" => "", "wheelchair_accessible" => 1},
                   id: "31562821",
                   relationships: %{
@@ -77,7 +77,8 @@ defmodule Schedules.ParserTest do
         direction_id: 1,
         headsign: "Alewife",
         id: "31562821",
-        name: ""
+        name: "",
+        bikes_allowed?: true
       }
     end
 
@@ -106,6 +107,7 @@ defmodule Schedules.ParserTest do
                 "headsign" => "North Station",
                 "name" => "300",
                 "direction_id" => 1,
+                "bikes_allowed" => 1
               },
               id: "31174458-CR_MAY2016-hxl16011-Weekday-01",
               relationships: %{
@@ -127,7 +129,8 @@ defmodule Schedules.ParserTest do
         direction_id: 1,
         headsign: "North Station",
         id: "31174458-CR_MAY2016-hxl16011-Weekday-01",
-        name: "300"
+        name: "300",
+        bikes_allowed?: true
       }
     end
 

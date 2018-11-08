@@ -1,0 +1,22 @@
+{
+  "id" : "40385eb9-ba41-3930-aaa4-e133bfca7a8c",
+  "request" : {
+    "url" : "/routes/?stop=place-brdwy",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-veIJ3.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:31:53 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefnh6sa474dp894008a71",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "40385eb9-ba41-3930-aaa4-e133bfca7a8c"
+}

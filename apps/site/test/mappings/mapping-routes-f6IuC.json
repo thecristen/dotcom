@@ -1,0 +1,22 @@
+{
+  "id" : "3d5991b0-7ae7-3785-984d-54c4a5d56245",
+  "request" : {
+    "url" : "/routes/?stop=place-plsgr&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-f6IuC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:28:28 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefbjf13rbdgsvls007hk1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3d5991b0-7ae7-3785-984d-54c4a5d56245"
+}

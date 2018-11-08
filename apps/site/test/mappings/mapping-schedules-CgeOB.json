@@ -1,0 +1,22 @@
+{
+  "id" : "58fad456-e6ea-3d6b-9897-47f3847c5d1e",
+  "request" : {
+    "url" : "/schedules/?stop=102&direction_id=0&date=2018-12-22&route=1&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id%2Cbikes_allowed",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-CgeOB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:29:42 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:55 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lieffsernls6qeask008051",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "58fad456-e6ea-3d6b-9897-47f3847c5d1e"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "10f093a0-c19b-3151-bafb-1b0ad7b5df19",
+  "request" : {
+    "url" : "/schedules/?route=CR-Worcester&date=2018-12-22&direction_id=1&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-Sb2oC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:32:23 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:55 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefp863il6mj7thk008cl1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "10f093a0-c19b-3151-bafb-1b0ad7b5df19"
+}

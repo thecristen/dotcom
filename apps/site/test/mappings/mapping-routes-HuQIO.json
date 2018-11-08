@@ -1,0 +1,22 @@
+{
+  "id" : "e3af1f39-8fe8-3ab9-8efc-bb37f75f3bd4",
+  "request" : {
+    "url" : "/routes/?stop=place-sumav&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-HuQIO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Nov 2018 17:28:29 GMT",
+      "last-modified" : "Wed, 07 Nov 2018 16:17:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2liefbk4s7k6lbraqg007ia1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e3af1f39-8fe8-3ab9-8efc-bb37f75f3bd4"
+}
