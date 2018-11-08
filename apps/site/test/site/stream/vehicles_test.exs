@@ -2,7 +2,7 @@ defmodule Site.Stream.VehiclesTest do
   use SiteWeb.ChannelCase, async: true
   alias Vehicles.Vehicle
 
-  def fetch([]) do
+  def all do
     [
       %Vehicle{route_id: "Red", direction_id: 0},
       %Vehicle{route_id: "CR-Lowell", direction_id: 1},

@@ -44,6 +44,8 @@ defmodule V3Api.Mixfile do
      {:hackney, "~> 1.8.0"},
      {:excoveralls, "~> 0.5", only: :test},
      {:bypass, "~> 0.8", only: :test},
+     {:server_sent_event_stage, "~> 0.3"},
+     {:gen_stage, "~> 0.13"},
      {:json_api, in_umbrella: true},
      {:util, in_umbrella: true},
      {:sentry, github: "mbta/sentry-elixir", tag: "6.0.0"}]

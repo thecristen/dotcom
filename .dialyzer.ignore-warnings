@@ -18,3 +18,5 @@ Unknown function 'Elixir.Algolia.Object.PID':'__impl__'/1
 Unknown function 'Elixir.Algolia.Object.Port':'__impl__'/1
 Unknown function 'Elixir.Algolia.Object.Reference':'__impl__'/1
 Unknown function 'Elixir.Algolia.Object.Tuple':'__impl__'/1
+Unknown function 'Elixir.ServerSentEventStage':start_link/1
+Unknown type 'Elixir.ServerSentEventStage.Event':t/0

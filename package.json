@@ -13,7 +13,7 @@
     "brunch:build:namespaced": "cd apps/site/assets && node_modules/brunch/bin/brunch b -c brunch-config-namespaced.js",
     "brunch:build": "cd apps/site/assets && node_modules/brunch/bin/brunch b -p",
     "brunch:watch": "cd apps/site/assets && node_modules/brunch/bin/brunch w",
-    "server:mocked": "WIREMOCK_PROXY=true MIX_ENV=prod PORT=8082 STATIC_SCHEME=http STATIC_HOST=host.docker.internal STATIC_PORT=8082 V3_URL=http://localhost:8080 OPEN_TRIP_PLANNER_URL=http://localhost:8080 DRUPAL_ROOT=http://www.cms.example mix do deps.compile --force, compile --no-deps-check --force, phx.server",
+    "server:mocked": "USE_SERVER_SENT_EVENTS=false WIREMOCK_PROXY=true MIX_ENV=prod PORT=8082 STATIC_SCHEME=http STATIC_HOST=host.docker.internal STATIC_PORT=8082 V3_URL=http://localhost:8080 OPEN_TRIP_PLANNER_URL=http://localhost:8080 DRUPAL_ROOT=http://www.cms.example mix do deps.compile --force, compile --no-deps-check --force, phx.server",
     "server:mocked:nocompile": "WIREMOCK_PROXY=true MIX_ENV=prod PORT=8082 STATIC_SCHEME=http STATIC_HOST=host.docker.internal STATIC_PORT=8082 V3_URL=http://localhost:8080 OPEN_TRIP_PLANNER_URL=http://localhost:8080 DRUPAL_ROOT=http://www.cms.example mix phx.server",
     "wiremock": "cd apps/site && java -jar ${WIREMOCK_PATH:-../../bin/wiremock-standalone-2.14.0.jar} --root-dir=test --global-response-templating",
     "wiremock:record": "npm run wiremock -- --record-mappings",

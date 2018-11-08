@@ -15,8 +15,7 @@ defmodule Site.Stream.Vehicles do
 
   def handle_info(:heartbeat, %{repo: repo} = state) do
     by_route =
-      []
-      |> repo.fetch()
+      repo.all()
       |> Enum.group_by(& {&1.route_id, &1.direction_id})
       |> Enum.reject(fn {route_id, _} -> route_id == nil end)
       |> Map.new()

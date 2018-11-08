@@ -2,6 +2,7 @@ defmodule SiteWeb.VehicleChannelTest do
   use SiteWeb.ChannelCase
 
   alias SiteWeb.VehicleChannel
+  alias Vehicles.Repo
 
   test "sends vehicles and marker data" do
     # subscribes to a random channel name to
@@ -12,8 +13,7 @@ defmodule SiteWeb.VehicleChannelTest do
       |> subscribe_and_join(VehicleChannel, "vehicles:VehicleChannelTest")
 
     assert [vehicle | _] =
-      []
-      |> Vehicles.Repo.fetch()
+      Repo.all()
       |> Enum.reject(& &1.route_id == nil)
 
     assert {:noreply, %Phoenix.Socket{}} =

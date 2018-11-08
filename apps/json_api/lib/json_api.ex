@@ -76,6 +76,14 @@ defmodule JsonApi do
   defp parse_data(%{"errors" => errors}) do
     {:error, errors}
   end
+  defp parse_data(data) when is_list(data) do
+    # V3Api.Stream receives :reset data as a list of items
+    parse_data(%{"data" => data})
+  end
+  defp parse_data(%{"id" => _} = data) do
+    # V3Api.Stream receives :add, :update, and :remove data as single items
+    parse_data(%{"data" => data})
+  end
   defp parse_data(%{}) do
     {:error, :invalid}
   end

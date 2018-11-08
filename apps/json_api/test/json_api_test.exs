@@ -231,4 +231,16 @@ defmodule JsonApiTest do
             "other" => []
           }}]}
   end
+
+  test ".parse handles ServerSentEventStream data format" do
+    list = ~s([{"type":"stop","links":{},"id":"20761","attributes":{}}])
+    assert JsonApi.parse(list) == %JsonApi{
+      data: [%JsonApi.Item{id: "20761", type: "stop", attributes: %{}, relationships: %{}}]
+    }
+
+    item = ~s({"type":"stop","links":{},"id":"20761","attributes":{}})
+    assert JsonApi.parse(item) == %JsonApi{
+      data: [%JsonApi.Item{id: "20761", type: "stop", attributes: %{}, relationships: %{}}]
+    }
+  end
 end

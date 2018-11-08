@@ -2,23 +2,43 @@ defmodule Vehicles.RepoTest do
   use ExUnit.Case
   alias Vehicles.{Repo, Vehicle}
 
+  @vehicles [
+    %Vehicle{id: "86-0", route_id: "86", direction_id: 0, trip_id: "trip-1"},
+    %Vehicle{id: "86-1", route_id: "86", direction_id: 1, trip_id: "trip-2"},
+    %Vehicle{id: "CR-Lowell-0", route_id: "CR-Lowell", direction_id: 0, trip_id: "trip-3"},
+    %Vehicle{id: "CR_Lowell-1", route_id: "CR-Lowell", direction_id: 1, trip_id: "trip-4"},
+  ]
+
+  setup do
+    num = Enum.random(1..1000)
+    name = String.to_atom("VehiclesRepo#{num}")
+    {:ok, _pid} = Repo.start_link(
+      name: name,
+      pubsub_fn: &pubsub_fn/2
+    )
+    send name, {:reset, @vehicles}
+    {:ok, name: name}
+  end
+
+  def pubsub_fn(Vehicles.PubSub, "vehicles"), do: :ok
+
   describe "route/1" do
-    test "given a route ID, finds vehicle statuses for that route" do
-      vehicles = Repo.route("86")
-      for vehicle <- vehicles do
-        assert match?(%Vehicle{route_id: "86"}, vehicle)
-      end
+    test "given a route ID, finds vehicle statuses for that route", %{name: name} do
+      expected = Enum.filter(@vehicles, & &1.route_id == "86")
+      refute Enum.empty?(expected)
+      assert Repo.route("86", name: name) == expected
     end
 
-    test "if there are no vehicles on the route, returns the empty list" do
-      assert Repo.route("bogus") == []
+    test "if there are no vehicles on the route, returns the empty list", %{name: name} do
+      assert Repo.route("bogus", name: name) == []
     end
 
-    test "optionally takes a direction_id parameter" do
-      vehicles = Repo.route("CR-Lowell", direction_id: 1)
-      for vehicle <- vehicles do
-        assert match?(%Vehicle{direction_id: 1}, vehicle)
-      end
+    test "optionally takes a direction_id parameter", %{name: name} do
+      all_lowell = Enum.filter(@vehicles, & &1.route_id == "CR-Lowell")
+      expected = Enum.filter(all_lowell, & &1.direction_id == 1)
+      refute Enum.empty?(expected)
+      refute expected == all_lowell
+      assert Repo.route("CR-Lowell", direction_id: 1, name: name) == expected
     end
 
     test "includes vehicle bearing" do
@@ -27,97 +47,53 @@ defmodule Vehicles.RepoTest do
         assert vehicle.bearing > 0
       end
     end
-
-    test "returns an empty list when the API errors" do
-      bypass = Bypass.open()
-      v3_url = Application.get_env(:v3_api, :base_url)
-      on_exit fn ->
-        Application.put_env(:v3_api, :base_url, v3_url)
-      end
-
-      Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
-
-      Bypass.expect bypass, fn conn ->
-        Plug.Conn.resp(conn, 500, "Whops!")
-      end
-
-      assert Repo.route("not-a-route") == []
-    end
   end
 
   describe "trip/1" do
-    test "if there is no vehicle status for a trip, returns nil" do
-      assert Repo.trip("bogus") == nil
+    test "if there is no vehicle status for a trip, returns nil", %{name: name} do
+      assert Repo.trip("bogus", name: name) == nil
     end
 
-    test "returns the status for a single trip if it is available" do
-      bypass = Bypass.open()
-      v3_url = Application.get_env(:v3_api, :base_url)
-      on_exit fn ->
-        Application.put_env(:v3_api, :base_url, v3_url)
+    test "returns the status for a single trip if it is available", %{name: name} do
+      trip_id = "trip-2"
+      expected = Enum.find(@vehicles, & &1.trip_id == trip_id)
+      assert %Vehicle{} = expected
+
+      assert Repo.trip(trip_id, name: name) == expected
+    end
+  end
+
+  describe "all/0" do
+    test "returns all vehicles", %{name: name} do
+      all = Repo.all(name: name)
+      for vehicle <- @vehicles do
+        assert vehicle in all
       end
+    end
+  end
 
-      Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
+  describe "stream events" do
+    test "adds vehicles to repo", %{name: name} do
+      send name, {:add, [%Vehicle{id: "CR-Middleborough"}]}
+      all = Repo.all(name: name)
+      assert %Vehicle{} = Enum.find(all, & &1.id == "CR-Middleborough")
+    end
 
-      trip_id = "32884079"
-      vehicle_id = "y0319"
-      stop_id = "22549"
-      route_id = "86"
+    test "updates vehicles in repo", %{name: name} do
+      old = Enum.find(@vehicles, & &1.id == "86-0")
+      send name, {:update, [%Vehicle{id: "86-0"}]}
+      updated =
+        [name: name]
+        |> Repo.all()
+        |> Enum.find(& &1.id == "86-0")
+      refute updated == old
+      assert updated == %Vehicle{id: "86-0"}
+    end
 
-      Bypass.expect bypass, fn conn ->
-        Plug.Conn.resp(conn, 200, ~s(
-              {
-                "jsonapi": {
-                  "version": "1.0"
-                },
-                "data": [
-                  {
-                    "type": "vehicle",
-                    "relationships": {
-                      "trip": {
-                        "data": {
-                          "type": "trip",
-                          "id": "#{trip_id}"
-                        }
-                      },
-                      "stop": {
-                        "data": {
-                          "type": "stop",
-                          "id": "#{stop_id}"
-                        }
-                      },
-                      "route": {
-                        "data": {
-                          "type": "route",
-                          "id": "#{route_id}"
-                        }
-                      }
-                    },
-                    "links": {
-                      "self": "/vehicles/#{vehicle_id}"
-                    },
-                    "id": "#{vehicle_id}",
-                    "attributes": {
-                      "direction_id": 1,
-                      "current_status": "INCOMING_AT"
-                    }
-                  }
-                ]
-              }
-            )
-        )
-      end
-
-      expected = %Vehicle{
-        id: vehicle_id,
-        route_id: route_id,
-        stop_id: stop_id,
-        trip_id: trip_id,
-        direction_id: 1,
-        status: :incoming
-      }
-
-      assert Repo.trip(trip_id) == expected
+    test "removes vehicles from repo", %{name: name} do
+      assert %Vehicle{} = [name: name] |> Repo.all() |> Enum.find(& &1.id == "86-0")
+      send name, {:remove, ["86-0"]}
+      assert [name: name] |> Repo.all() |> Enum.find(& &1.id == "86-0") == nil
     end
   end
 end
