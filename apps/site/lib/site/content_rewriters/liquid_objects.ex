@@ -81,6 +81,9 @@ defmodule Site.ContentRewriters.LiquidObjects do
   defp mbta_svg_icon("accessible", opts), do: mbta_svg_icon_sized(:access, icon_size(opts))
   defp mbta_svg_icon("parking", opts), do: mbta_svg_icon_sized(:parking_lot, icon_size(opts))
   defp mbta_svg_icon("t-logo", opts), do: mbta_svg_icon_sized(:t_logo, icon_size(opts))
+  defp mbta_svg_icon("service-regular", opts), do: mbta_svg_icon_sized(:service_regular, icon_size(opts))
+  defp mbta_svg_icon("service-storm", opts), do: mbta_svg_icon_sized(:service_storm, icon_size(opts))
+  defp mbta_svg_icon("service-none", opts), do: mbta_svg_icon_sized(:service_none, icon_size(opts))
   defp mbta_svg_icon(unknown, _opts), do: raw(~s({{ unknown icon "#{unknown}" }}))
 
   @spec mbta_svg_icon_sized(atom, atom) :: Phoenix.HTML.Safe.t

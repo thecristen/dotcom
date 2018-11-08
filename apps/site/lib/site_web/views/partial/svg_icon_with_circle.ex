@@ -47,7 +47,7 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
   end
   def svg_icon_with_circle(%__MODULE__{icon: icon, size: size} = args)
   when icon in [:calendar, :stop, :station, :parking_lot, :access, :no_access,
-                :the_ride, :reversal, :variant, :t_logo] do
+                :the_ride, :reversal, :variant, :t_logo, :service_regular, :service_storm, :service_none] do
     "icon-#{icon_name(icon)}-#{size}.svg"
     |> Helpers.svg()
     |> do_svg_icon_with_circle(args)
@@ -72,6 +72,9 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
   defp icon_name(:parking_lot), do: "parking"
   defp icon_name(:station), do: "circle-t"
   defp icon_name(:t_logo), do: "circle-t"
+  defp icon_name(:service_regular), do: "service-regular"
+  defp icon_name(:service_storm), do: "service-storm"
+  defp icon_name(:service_none), do: "service-none"
   defp icon_name(icon), do: Atom.to_string(icon)
 
   @spec aria_attrs(__MODULE__.t) :: Keyword.t
@@ -140,6 +143,15 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
   end
   def title(:parking_lot) do
     "Parking"
+  end
+  def title(:service_regular) do
+    "Service: Regular"
+  end
+  def title(:service_storm) do
+    "Service: Storm"
+  end
+  def title(:service_none) do
+    "Service: None"
   end
   def title(icon) when icon in [
     :bus, :subway, :ferry, :commuter_rail, :the_ride,

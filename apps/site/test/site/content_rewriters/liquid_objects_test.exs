@@ -32,6 +32,9 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
       assert replace(~s(mbta-circle-icon "the-ride")) == make_svg(:the_ride)
       assert replace(~s(icon:accessible)) == make_svg(:access)
       assert replace(~s(icon:parking)) == make_svg(:parking_lot)
+      assert replace(~s(icon:service-regular)) == make_svg(:service_regular)
+      assert replace(~s(icon:service-storm)) == make_svg(:service_storm)
+      assert replace(~s(icon:service-none)) == make_svg(:service_none)
     end
 
     test "it handles unknown mbta icons" do
