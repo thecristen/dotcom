@@ -10,7 +10,9 @@
             aria-controls="<%= tab.prefix %>-tab"
             data-toggle="collapse"
             <%= if @accordion do %>data-parent="#tab-group"<% end %>>
-          <span class="c-tabbed-ui__title" id="<%= tab.prefix %>-title"><%= tab.title %></span>
+          <span class="c-tabbed-ui__title" id="<%= tab.prefix %>-title">
+            <%= tab.title |> Site.ContentRewriter.rewrite(@conn) |> raw() %>
+          </span>
           <div class="c-tabbed-ui__indicator">
             <span class="c-indicator__content c-indicator__content--angle"></span>
           </div>

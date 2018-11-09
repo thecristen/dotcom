@@ -11,6 +11,7 @@
 }
 
 .c-tabbed-ui__trigger {
+  @include icon-size-inline(1.5em);
   border-bottom: solid $border-width $brand-primary-dark;
   color: $brand-primary;
   // Flexbox used to keep indicator icon right

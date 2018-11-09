@@ -27,6 +27,9 @@ defmodule Site.ContentRewriter do
   def rewrite(content, conn) when is_binary(content) do
     dispatch_rewrites(content, conn)
   end
+  def rewrite(content, conn) when is_list(content) do
+    rewrite(Enum.join(content), conn)
+  end
 
   # necessary since foo |> Floki.parse |> Floki.raw_html blows up
   # if there are no HTML tags in foo.

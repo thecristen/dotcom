@@ -248,7 +248,7 @@ defmodule SiteWeb.ContentViewTest do
     test "renders a Content.Paragraph.Tabs", %{conn: conn} do
       tabs = [
         %Paragraph.Tab{
-          title: "Tab 1",
+          title: "{{ icon:subway-red }} Tab 1",
           prefix: "cms-10",
           content: %Paragraph.CustomHTML{
             body: Phoenix.HTML.raw("<strong>First tab's content</strong>")
@@ -268,14 +268,15 @@ defmodule SiteWeb.ContentViewTest do
         |> render_paragraph(conn)
         |> Phoenix.HTML.safe_to_string()
 
-      [{_, _, [title_1]}, {_, _, [title_2]}] = Floki.find(rendered_tabs, ".c-tabbed-ui__title")
+      [{_, _, [icon_1 | [title_1]]}, {_, _, [title_2]}] = Floki.find(rendered_tabs, ".c-tabbed-ui__title")
       [{_, _, [body_1]}, {_, _, [body_2]}] = Floki.find(rendered_tabs, ".c-tabbed-ui__target > .c-tabbed-ui__content")
       [{_, [_, {"href", href_1}, _, _, {"aria-controls", aria_controls_1}, _, {"data-parent", parent_1}], _},
        {_, [_, {"href", href_2}, _, _, {"aria-controls", aria_controls_2}, _, {"data-parent", parent_2}], _}] =
        Floki.find(rendered_tabs, ".c-tabbed-ui__trigger")
 
-      assert title_1 == "Tab 1"
-      assert title_2 == "Tab 2"
+      assert {"span", [{"data-toggle", "tooltip"}, {"title", "Red Line"}], [{"span", [{"class", "notranslate c-svg__icon-red-line-default"}], _}]} = icon_1
+      assert title_1 =~ ~r/\s*Tab 1\s*/
+      assert title_2 =~ ~r/\s*Tab 2\s*/
       assert href_1 == "#cms-10-tab"
       assert href_2 == "#cms-11-tab"
       assert aria_controls_1 == "cms-10-tab"
