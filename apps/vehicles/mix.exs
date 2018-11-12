@@ -42,6 +42,7 @@ defmodule Vehicles.Mixfile do
      {:routes, in_umbrella: true},
      {:bypass, "~> 0.8", only: :test},
      {:phoenix_pubsub, "~> 1.0"},
+     {:server_sent_event_stage, "~> 0.3"},
      {:gen_stage, "~> 0.13"}]
   end
 end
