@@ -22,6 +22,7 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
       assert replace(~s(mbta-circle-icon "ferry")) == make_svg(:ferry)
       assert replace(~s(mbta-circle-icon "t-logo")) == make_t_logo()
       assert replace(~s(mbta-circle-icon "subway-red")) == make_svg(:red_line)
+      assert replace(~s(icon:subway-mattapan)) == make_svg(:mattapan_line)
       assert replace(~s(mbta-circle-icon "subway-orange")) == make_svg(:orange_line)
       assert replace(~s(mbta-circle-icon "subway-blue")) == make_svg(:blue_line)
       assert replace(~s(mbta-circle-icon "subway-green")) == make_svg(:green_line)

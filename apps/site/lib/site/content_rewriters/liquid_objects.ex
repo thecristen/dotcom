@@ -68,6 +68,7 @@ defmodule Site.ContentRewriters.LiquidObjects do
   defp mbta_svg_icon("commuter-rail", opts), do: mbta_svg_icon_sized(:commuter_rail, icon_size(opts))
   defp mbta_svg_icon("subway", opts), do: mbta_svg_icon_sized(:subway, icon_size(opts))
   defp mbta_svg_icon("subway-red", opts), do: mbta_svg_icon_sized(:red_line, icon_size(opts))
+  defp mbta_svg_icon("subway-mattapan", opts), do: mbta_svg_icon_sized(:mattapan_line, icon_size(opts))
   defp mbta_svg_icon("subway-orange", opts), do: mbta_svg_icon_sized(:orange_line, icon_size(opts))
   defp mbta_svg_icon("subway-blue", opts), do: mbta_svg_icon_sized(:blue_line, icon_size(opts))
   defp mbta_svg_icon("subway-green", opts), do: mbta_svg_icon_sized(:green_line, icon_size(opts))
