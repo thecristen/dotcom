@@ -1,4 +1,4 @@
-defmodule SiteWeb.Plugs.RecommendedRoutes do
+defmodule SiteWeb.Plugs.RecentlyVisited do
   @moduledoc """
   A module Plug that reads the mbta_visited_routes cookie and
   assigns recommended routes based on the saved values.
@@ -18,12 +18,12 @@ defmodule SiteWeb.Plugs.RecommendedRoutes do
     case Map.get(cookies, Cookies.route_cookie_name()) do
       "" -> conn
       nil -> conn
-      <<routes::binary>> -> assign_recommended_routes(conn, routes)
+      <<routes::binary>> -> assign_recently_visited(conn, routes)
     end
   end
 
-  @spec assign_recommended_routes(Conn.t, String.t) :: Conn.t
-  defp assign_recommended_routes(conn, routes) do
+  @spec assign_recently_visited(Conn.t, String.t) :: Conn.t
+  defp assign_recently_visited(conn, routes) do
     route_list =
       routes
       |> String.split("|")
@@ -31,7 +31,7 @@ defmodule SiteWeb.Plugs.RecommendedRoutes do
       |> Enum.reduce([], &parse_route_response/2)
       |> Enum.reverse()
 
-    Conn.assign(conn, :recommended_routes, route_list)
+    Conn.assign(conn, :recently_visited, route_list)
   end
 
   @spec get_route(String.t) :: Route.t | nil

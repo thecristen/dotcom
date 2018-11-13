@@ -5,7 +5,7 @@ defmodule SiteWeb.PageController do
   import UrlHelpers, only: [build_utm_params: 3, build_utm_url: 2]
 
   plug SiteWeb.Plugs.TransitNearMe
-  plug SiteWeb.Plugs.RecommendedRoutes
+  plug SiteWeb.Plugs.RecentlyVisited
 
   def index(conn, _params) do
     {promoted, remainder} = whats_happening_items()

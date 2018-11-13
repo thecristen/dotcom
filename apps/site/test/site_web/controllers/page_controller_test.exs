@@ -29,12 +29,12 @@ defmodule SiteWeb.PageControllerTest do
       |> Plug.Test.put_req_cookie(cookie_name, "Red|1|CR-Lowell|Boat-F4")
       |> get(page_path(conn, :index))
 
-    assert Enum.count(conn.assigns.recommended_routes) == 4
+    assert Enum.count(conn.assigns.recently_visited) == 4
 
     assert [routes_div] =
       conn
       |> html_response(200)
-      |> Floki.find(".m-homepage__recommended-routes")
+      |> Floki.find(".c-recently-visited")
 
     assert Floki.text(routes_div) =~ "Recently Visited"
 

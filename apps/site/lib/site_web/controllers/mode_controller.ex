@@ -1,6 +1,7 @@
 defmodule SiteWeb.ModeController do
   use SiteWeb, :controller
 
+  plug SiteWeb.Plugs.RecentlyVisited
   plug SiteWeb.Plug.Mticket
   plug :require_google_maps
 

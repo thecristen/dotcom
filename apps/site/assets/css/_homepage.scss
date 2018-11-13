@@ -100,27 +100,6 @@
   flex: 0 0 auto;
 }
 
-.m-homepage__recommended-routes {
-  .fa-star {
-    color: $brand-primary;
-  }
-
-  .c-grid-button {
-    flex-basis: 25%;
-    max-width: 25%;
-
-    @include media-breakpoint-down(md) {
-      flex-basis: 50%;
-      max-width: 50%;
-    }
-
-    @include media-breakpoint-down(xs) {
-      flex-basis: 100%;
-      max-width: 100%;
-    }
-  }
-}
-
 .pageview.index-template {
   // Override 2rem padding-bottom on .page-container class.
   // Putting this here until the template classes are refactored

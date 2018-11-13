@@ -1,22 +1,22 @@
-defmodule SiteWeb.Plugs.RecommendedRoutesTest do
+defmodule SiteWeb.Plugs.RecentlyVisitedTest do
   use SiteWeb.ConnCase, async: true
-  alias SiteWeb.Plugs.{RecommendedRoutes, Cookies}
+  alias SiteWeb.Plugs.{RecentlyVisited, Cookies}
   alias Routes.Route
 
   describe "call/2" do
-    test "assigns list of routes to :recommended_routes if cookie has multiple values", %{conn: conn} do
+    test "assigns list of routes to :recently_visited if cookie has multiple values", %{conn: conn} do
       cookies = Map.put(%{}, Cookies.route_cookie_name(), "Red|Green|Green-B|Blue")
       conn =
         conn
         |> Map.put(:cookies, cookies)
-        |> RecommendedRoutes.call([])
+        |> RecentlyVisited.call([])
 
       assert [
         %Route{} = red,
         %Route{} = green,
         %Route{} = green_b,
         %Route{} = blue
-      ] = conn.assigns.recommended_routes
+      ] = conn.assigns.recently_visited
 
       assert red.id == "Red"
       assert green.id == "Green"
@@ -29,29 +29,29 @@ defmodule SiteWeb.Plugs.RecommendedRoutesTest do
       conn =
         conn
         |> Map.put(:cookies, cookies)
-        |> RecommendedRoutes.call([])
+        |> RecentlyVisited.call([])
 
-      assert [%Route{id: "Red"}] = conn.assigns.recommended_routes
+      assert [%Route{id: "Red"}] = conn.assigns.recently_visited
     end
 
-    test "does not assign :recommended_routes if cookie doesn't exist", %{conn: conn} do
+    test "does not assign :recently_visited if cookie doesn't exist", %{conn: conn} do
       conn =
         conn
         |> Map.put(:cookies, %{})
-        |> RecommendedRoutes.call([])
+        |> RecentlyVisited.call([])
 
-      assert Map.fetch(conn.assigns, :recommended_routes) == :error
+      assert Map.fetch(conn.assigns, :recently_visited) == :error
     end
 
-    test "does not assign :recommended_routes if cookie is empty", %{conn: conn} do
+    test "does not assign :recently_visited if cookie is empty", %{conn: conn} do
       cookies = Map.put(%{}, Cookies.route_cookie_name(), "")
 
       conn =
         conn
         |> Map.put(:cookies, cookies)
-        |> RecommendedRoutes.call([])
+        |> RecentlyVisited.call([])
 
-      assert Map.fetch(conn.assigns, :recommended_routes) == :error
+      assert Map.fetch(conn.assigns, :recently_visited) == :error
     end
 
     test "does not crash if cookie includes an invalid route id", %{conn: conn} do
@@ -60,9 +60,9 @@ defmodule SiteWeb.Plugs.RecommendedRoutesTest do
       conn =
         conn
         |> Map.put(:cookies, cookies)
-        |> RecommendedRoutes.call([])
+        |> RecentlyVisited.call([])
 
-      assert {:ok, [%Route{id: "Red"}]} = Map.fetch(conn.assigns, :recommended_routes)
+      assert {:ok, [%Route{id: "Red"}]} = Map.fetch(conn.assigns, :recently_visited)
     end
   end
 end
