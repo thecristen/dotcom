@@ -1,7 +1,7 @@
 <%= SiteWeb.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
 <%= render "_trip_view_filters.html", assigns %>
 
-<div class="calendar-covered">
+<div class="calendar-covered schedule-timetable-breakout">
   <%= content_tag(:div, "", [class: "calendar-cover", hidden: !@show_date_select?]) %>
   <%= if Enum.empty?(@header_schedules) do %>
     <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: @origin, destination: @destination, conn: @conn, error: assigns[:schedule_error] %>
@@ -64,37 +64,45 @@
           <tr class="schedule-timetable-row js-tt-row<%= if stop.id == first_stop.id do " schedule-timetable-first-row" end %>">
             <th scope="row" class="js-tt-stop-name schedule-timetable-name-col schedule-timetable-name-col-header" data-absolute>
               <div class="schedule-timetable-name">
-                <%= link break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id) %>
-                &nbsp;
-                <%=
-                  if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date, direction_id: @direction_id) != [] do
-                    fa "exclamation-triangle", [{:"data-toggle", "tooltip"}, {:title, "Service alert or delay"}]
-                  end
-                %>
+                <div class="schedule-timetable-name--left">
+                  <%= link to: stop_path(@conn, :show, stop.id) do %>
+                    <%= break_text_at_slash(stop.name) %>
+                  <% end %>
+                  <%= if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date, direction_id: @direction_id) != [] do %>
+                    <%= fa "exclamation-triangle", [{:"data-toggle", "tooltip"}, {:title, "Service alert or delay"}] %>
+                  <% end %>
+                </div>
+                <%= if Stops.Stop.accessible?(stop) do %>
+                  <%= content_tag(:span, svg("icon-accessibility.svg"), [aria_hidden: "true", class: "schedule-timetable-access-icon", data: [toggle: "tooltip"], title: "Accessible"]) %>
+                  <%= content_tag(:span, "Accessible", [class: "sr-only"]) %>
+                <% else %>
+                  <%= if Stops.Stop.accessibility_known?(stop) do %>
+                    <%= content_tag(:span, "Not accessible", [class: "sr-only"]) %>
+                  <% else %>
+                    <%= content_tag(:span, "May not be accessible", [class: "sr-only"]) %>
+                  <% end %>
+                <% end %>
               </div>
             </th>
             <td class="schedule-timetable-name-col-header js-tt-cell hidden-no-js"><div class="schedule-timetable-name-col-header"></div></td>
             <%= for schedule <- @header_schedules do %>
-              <td class="schedule-timetable-time-col js-tt-cell">
-                <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
-                  <% formatted_time = format_schedule_time(trip_schedule.time) %>
-                  <% formatted_time_sr = format_schedule_time_for_screenreader(trip_schedule.time) %>
-                  <span class="sr-only"><%= formatted_time_sr %></span>
-                  <span aria-hidden="true"><%= formatted_time %></span>
-                <% else %>
-                  <span class="sr-only">Does not stop at <%= stop.name %></span>
-                <% end %>
-                <%= if Map.has_key?(@vehicle_tooltips, {schedule.trip.id, stop.id}) do %>
-                  <% vehicle = @vehicle_locations[{schedule.trip.id, stop.id}] %>
-                  <span data-html=true data-toggle="tooltip"
-                    title="<%= VehicleHelpers.tooltip(@vehicle_tooltips[{schedule.trip.id, stop.id}]) %>">
-                    <%= timetable_location_display(vehicle) %>
-                  </span>
-                <% end %>
+              <%
+                trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}]
+                early_departure? = Map.get(trip_schedule || %{}, :early_departure?, false)
+                flag_stop? = Map.get(trip_schedule || %{}, :flag?, false)
+                tooltip = timetable_tooltip(@vehicle_tooltips, {schedule.trip.id, stop.id}, early_departure?, flag_stop?)
+              %>
+              <td class="schedule-timetable-time-col js-tt-cell" <%=
+                if tooltip do
+                  raw "data-html=\"true\" data-toggle=\"tooltip\" title=\"#{tooltip}\""
+                end
+              %>>
                 <%= if trip_message = @trip_messages[{schedule.trip.name, stop.id}] do %>
                   <span class="schedule-timetable-trip-message">
                     <%= trip_message %>
                   </span>
+                <% else %>
+                  <%= render "_timetable_schedule.html", Map.merge(assigns, %{trip_schedule: trip_schedule, schedule: schedule, stop: stop}) %>
                 <% end %>
               </td>
             <% end %>
@@ -103,5 +111,8 @@
       </table>
     </div>
   <% end %>
+</div>
+<div class="schedule-timetable-content-below">
+  <%= render "_timetable_icon_key.html", assigns %>
   <%= render "_pdf_schedules.html", assigns %>
 </div>

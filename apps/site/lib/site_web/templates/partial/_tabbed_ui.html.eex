@@ -1,6 +1,5 @@
 <div class="c-tabbed-ui" id="tab-group" role="tablist"<%= if not @accordion do %> aria-multiselectable="true"<% end %>>
   <%= for tab <- @tabs do %>
-    <% template = if (assigns[:content_template]), do: @content_template, else: tab.content_template %>
     <div class="c-tabbed-ui__tab panel">
       <div class="c-tabbed-ui__heading<%= if assigns[:sticky] do %> fixedsticky sticky-top<% end %>" role="tab">
         <a class="c-tabbed-ui__trigger collapsed"
@@ -23,7 +22,12 @@
           role="tabpanel"
           aria-labelledby="<%= tab.prefix %>-title">
         <div class="c-tabbed-ui__content">
-          <%= render(@parent_view, template, Map.merge(assigns, tab)) %>
+          <%= if assigns[:parent_view] do %>
+            <% template = if (assigns[:content_template]), do: @content_template, else: tab.content_template %>
+            <%= render(@parent_view, template, Map.merge(assigns, tab)) %>
+          <% else %>
+            <%= tab.content %>
+          <% end %>
         </div>
       </div>
     </div>

@@ -6,7 +6,7 @@
         <div class="m-homepage__important-link-content">
           <div class="m-homepage__important-link-title">Accessibility</div>
           <div class="m-homepage__important-link-icon">
-            <%= svg  "accessibility.svg" %>
+            <%= svg "icon-accessibility.svg" %>
           </div>
         </div>
       <% end %>

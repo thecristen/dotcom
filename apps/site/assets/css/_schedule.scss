@@ -974,6 +974,13 @@ del .trip-list-realtime {
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
+.schedule-timetable-breakout {
+  @include media-breakpoint-down(sm) {
+    margin-left: -$half-gutter;
+    margin-right: -$half-gutter;
+  }
+}
+
 .schedule-timetable-hat {
   background-color: $brand-primary-lightest;
   border: 1px solid $gray-lighter;
@@ -984,11 +991,11 @@ del .trip-list-realtime {
 
 .schedule-timetable-hat-stops {
   background: $gray-bordered-background;
-  border-right: 2px solid $gray-lighter;
+  border-right: 1px solid $gray-lighter;
   width: $base-spacing * 12;
 
   @include media-breakpoint-down(xs) {
-    width: $base-spacing * 10;
+    width: $base-spacing * 9;
   }
 }
 
@@ -1099,8 +1106,44 @@ del .trip-list-realtime {
 
 .schedule-timetable-time-col,
 .schedule-timetable-name-col {
-  border-right: 2px solid $gray-lighter;
+  border-right: 1px solid $gray-lighter;
   padding: .25em .5em; // em, not rem, so that it changes with the smaller mobile font size
+
+  @include media-breakpoint-down(sm) {
+    padding: .25em;
+  }
+}
+
+.schedule-timetable-time-col-data {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  padding: 0 $base-spacing / 2;
+
+  @include media-breakpoint-down(sm) {
+    padding: 0 $base-spacing / 4;
+  }
+
+  > span {
+    &:first-child,
+    &:last-child {
+      width: $base-spacing;
+    }
+
+    &:nth-child(2) {
+      width: $base-spacing * 3.25;
+    }
+  }
+}
+
+.schedule-timetable-data-flag-stop {
+  color: $brand-commuter-rail;
+  font-weight: $font-weight-medium;
+}
+
+.schedule-timetable-data-early-departure {
+  color: $brand-primary;
+  font-weight: $font-weight-medium;
 }
 
 .schedule-timetable-name-col-header-stops {
@@ -1111,13 +1154,17 @@ del .trip-list-realtime {
   width: $base-spacing * 12;
 
   @include media-breakpoint-down(xs) {
-    width: $base-spacing * 10;
+    width: $base-spacing * 9;
   }
 }
 
 .schedule-timetable-time-col,
 .schedule-timetable-header-col {
   text-align: center;
+}
+
+.schedule-timetable-access-icon {
+  @include icon-size-inline(1em);
 }
 
 .schedule-timetable-filler {
@@ -1144,12 +1191,7 @@ del .trip-list-realtime {
   @include icon-size(1em);
 
   font-variant-numeric: tabular-nums;
-  min-width: 5em;
   white-space: nowrap;
-
-  @include media-breakpoint-up(md) {
-    min-width: 8em;
-  }
 
   &:last-child {
     border-right: 0;
@@ -1158,19 +1200,35 @@ del .trip-list-realtime {
   [class*="c-svg__icon"] {
     vertical-align: text-top;
   }
+
+  [class*="c-svg__icon-commuter-rail"] {
+    margin-left: .25em;
+  }
 }
 
 .schedule-timetable-name {
+  align-items: center;
+  display: inline-flex;
   font-weight: bold;
+  justify-content: space-between;
   min-width: $base-spacing * 11;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(xs) {
     font-weight: normal;
-    min-width: $base-spacing * 9;
+    min-width: $base-spacing * 8.4;
   }
 
-  > i {
-    display: inline;
+  i {
+    @include media-breakpoint-down(sm) {
+      font-size: 12px;
+    }
+  }
+
+  .schedule-timetable-access-icon {
+    margin-left: .1em; // Forces word split of Stops at small breakpoints
+    @include media-breakpoint-down(sm) {
+      @include icon-size(12px)
+    }
   }
 }
 
@@ -1263,6 +1321,25 @@ del .trip-list-realtime {
   }
 }
 
+.schedule-timetable-content-below {
+  display: flex;
+
+  @include media-breakpoint-down(xs) {
+    flex-direction: column;
+  }
+
+  @include media-breakpoint-up(sm) {
+    .m-schedule-icon-key-container {
+      width: 50%;
+    }
+
+    .pdf-schedules-container {
+      margin-left: $base-spacing * 2;
+      width: 50%;
+    }
+  }
+}
+
 .route-green-bubble {
   display: inline-block;
   width: $icon-size * 1.5;
@@ -1278,10 +1355,6 @@ del .trip-list-realtime {
   margin-top: $base-spacing;
 }
 
-.pdf-schedules-container {
-  margin-top: $base-spacing;
-}
-
 .schedule-timetable-trip-message {
   color: $brand-commuter-rail;
   font-weight: bold;
@@ -1291,6 +1364,19 @@ del .trip-list-realtime {
   margin: 0;
   padding: 0;
   text-align: left;
+}
+
+.tooltip-divider {
+  background-color: $gray-light;
+  margin: $base-spacing / 2 0;
+  padding: 0;
+  width: 100%;
+}
+
+.stop-tooltip {
+  margin: 0;
+  padding: 0;
+  text-align: center;
 }
 
 [data-sticky-container] {

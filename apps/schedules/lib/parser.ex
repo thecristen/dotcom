@@ -92,11 +92,9 @@ defmodule Schedules.Parser do
   end
 
   defp early_departure?(%JsonApi.Item{attributes: %{"pickup_type" => pickup_type,
-                                                    "drop_off_type" => drop_off_type,
                                                     "timepoint" => timepoint}}) do
-    # early departure is pickup_type and drop_off_type are non-terminus, not 1 and 0 (respectively)
-    # and the timepoint is false
-    timepoint == false && pickup_type != 1 && drop_off_type != 0
+    # early departure when the timepoint is false and the pickup_type is not 1
+    timepoint == false && pickup_type != 1
   end
 
   defp pickup_type(%JsonApi.Item{attributes: %{"pickup_type" => pickup_type}}) do

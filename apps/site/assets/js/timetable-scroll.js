@@ -3,7 +3,8 @@ export default $ => {
 
   const scroll = direction => {
     // determine the scrolling increment based on the width of an existing column
-    const offset = $(".schedule-timetable-header-col.schedule-timetable-time-col").eq(0).outerWidth() * direction;
+    // get the second column (the first is a header) and add 1 for the border
+    const offset = ([...document.querySelectorAll(".js-tt-cell")].slice(1, 2)[0].clientWidth + 1) * direction;
 
     // find the container element that will be scrolled
     const $el = $("[data-sticky-container]");

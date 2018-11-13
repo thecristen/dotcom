@@ -1,4 +1,7 @@
 defmodule Site.Components.Icons.SvgIcon do
+  @moduledoc """
+  Deprecated, please add new svgs to the image directory in assets and use the site_web/views/helpers.ex "svg" method
+  """
   defstruct [icon: :bus, class: "", show_tooltip?: true]
 
   @type t :: %__MODULE__{icon: icon_arg, class: String.t, show_tooltip?: boolean}

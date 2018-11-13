@@ -1,0 +1,38 @@
+<%= if @trip_schedule do %>
+  <% 
+    time_class = cond do
+      @trip_schedule.early_departure? == true -> "schedule-timetable-data-early-departure"
+      @trip_schedule.flag? == true -> "schedule-timetable-data-flag-stop"
+      true -> nil
+    end
+  %>
+  <span class="schedule-timetable-time-col-data">
+    <span class="timetable-data-icon">
+      <%= if @trip_schedule.flag? do %>
+        <%= content_tag(:span, svg("icon-flag-stop-default.svg"), [aria_hidden: "true", class: "schedule-timetable-icon"]) %>
+        <%= content_tag(:span, "Flag Stop", [class: "sr-only"]) %>
+      <% else %>
+        <%= if @trip_schedule.early_departure? do %>
+          <%= content_tag(:span, svg("icon-early-departure-stop-default.svg"), [aria_hidden: "true", class: "schedule-timetable-icon"]) %>
+          <%= content_tag(:span, "Early Departure", [class: "sr-only"]) %>
+        <% else %>
+          &nbsp;
+        <% end %>
+      <% end %>
+    </span>
+    <span class="timetable-data-time <%= if time_class, do: time_class %>">        
+      <span class="sr-only"><%= format_schedule_time_for_screenreader(@trip_schedule.time) %></span>
+      <span aria-hidden="true"><%= format_schedule_time(@trip_schedule.time) %></span>
+    </span>
+    <span class="timetable-data-icon">
+      <%= if Map.has_key?(@vehicle_locations, {@schedule.trip.id, @stop.id}) do %>
+        <% vehicle = @vehicle_locations[{@schedule.trip.id, @stop.id}] %>
+        <%= timetable_location_display(vehicle) %>
+      <% else %>
+        &nbsp;
+      <% end %>
+    </span>
+  </span>
+<% else %>
+  <span class="sr-only">Does not stop at <%= @stop.name %></span>
+<% end %>
