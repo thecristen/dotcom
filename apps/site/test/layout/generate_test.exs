@@ -25,6 +25,26 @@ defmodule Layout.GenerateTest do
 
       assert {:ok, font_files} = File.ls(Path.join(output_folder, "fonts"))
       assert length(font_files) == 17
+
+      path = Generate.beautify_file_path()
+      assert path =~ "apps/site/assets/namespaced_header_footer/node_modules/.bin/js-beautify"
+      assert File.exists?(path)
+    end
+
+    test "js_file_path points to the correct JS file" do
+      path = Generate.js_file_path()
+      assert path =~ "apps/site/assets/namespaced_header_footer/compiled/layout.js"
+    end
+
+    test "css_file_path points to the correct css file" do
+      path = Generate.css_file_path()
+      assert path =~ "apps/site/assets/namespaced_header_footer/compiled/layout.css"
+    end
+
+    test "assets_path points to the correct assets path" do
+      path = Generate.assets_path()
+      assert path =~ "apps/site/assets"
+      assert File.exists?(path)
     end
   end
 
@@ -74,27 +94,5 @@ defmodule Layout.GenerateTest do
 
       assert actual == expected
     end
-  end
-
-  test "js_file_path points to the correct JS file" do
-    path = Generate.js_file_path()
-    assert path =~ "apps/site/priv/static/js/layout.js"
-  end
-
-  test "css_file_path points to the correct css file" do
-    path = Generate.css_file_path()
-    assert path =~ "apps/site/priv/static/css/layout.css"
-  end
-
-  test "assets_path points to the correct assets path" do
-    path = Generate.assets_path()
-    assert path =~ "apps/site/assets"
-    assert File.exists?(path)
-  end
-
-  test "beautify_file_path points to the beautify binary" do
-    path = Generate.beautify_file_path()
-    assert path =~ "apps/site/assets/node_modules/.bin/js-beautify"
-    assert File.exists?(path)
   end
 end

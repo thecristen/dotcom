@@ -47,7 +47,6 @@
     "sinon": "^4.4.8"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-register test/**/*.js",
-    "brunch:build:namespaced": "node_modules/brunch/bin/brunch b -c brunch-config-namespaced.js"
+    "test": "mocha --compilers js:babel-register test/**/*.js"
   }
 }

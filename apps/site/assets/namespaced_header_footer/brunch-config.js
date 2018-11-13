@@ -4,12 +4,10 @@ exports.config = {
   // See http://brunch.io/#documentation for docs.
   files: {
     javascripts: {
-      joinTo: "js/layout.js",
+      joinTo: "layout.js"
     },
     stylesheets: {
-      joinTo: {
-        'css/layout.css': /^css\/layout/,
-      }
+      joinTo: "layout.css"
     }
   },
 
@@ -24,12 +22,12 @@ exports.config = {
   paths: {
     // Dependencies and current project directories to watch
     watched: [
-      "css/layout.scss",
-      "vendor/collapse.js",
+      "../css/layout.scss",
+      "../vendor/collapse.js",
     ],
 
     // Where to compile files to
-    public: "../priv/static"
+    public: "compiled/"
   },
 
   // Turn off brunch source maps in favor of inline postcss maps
@@ -44,7 +42,7 @@ exports.config = {
       mode: 'ruby',
       precision: 8,
       allowCache: true,
-      includePaths: ['css'],
+      includePaths: ['../css'],
     },
     postcss: {
       modules: {
@@ -59,11 +57,6 @@ exports.config = {
     },
     on: ['uglify-js-brunch'] // instead of optimize, to prevent pleeeease from running
   },
-  modules: {
-    autoRequire: {
-      "js/app.js": ["js/app"]
-    },
-  },
 
   npm: {
     // Whitelist the npm deps to be pulled in as front-end assets.
@@ -72,15 +65,5 @@ exports.config = {
       jQuery: "jquery/dist/jquery.min",
       Util: "bootstrap/dist/js/umd/util"
     }
-  },
-  hooks: {
-    onCompile: function() {
-      exec("node_modules/svgo/bin/svgo -f priv/static/images --config svgo.yml");
-    }
   }
 };
-
-if (process.env["MIX_ENV"] != "prod") {
-  // dev-only dep for now
-  exports.config.npm.globals["phoenix"] = "phoenix";
-}

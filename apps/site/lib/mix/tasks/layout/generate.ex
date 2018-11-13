@@ -19,6 +19,8 @@ defmodule Mix.Tasks.Layout.Generate do
 
     {:ok, _} = Application.ensure_all_started(:site)
 
+    {_, 0} = System.cmd("npm", ["install"], cd: assets_path())
+
     [:ok, :ok] =
       files
       |> Enum.map(&generate_html/1)
@@ -109,13 +111,13 @@ defmodule Mix.Tasks.Layout.Generate do
     |> Path.expand()
   end
 
-  def assets_path(path \\ ""), do: relative_file_path("apps/site/assets/#{path}")
+  def assets_path(path \\ ""), do: relative_file_path("apps/site/assets/namespaced_header_footer/#{path}")
 
   def beautify_file_path, do: assets_path("node_modules/.bin/js-beautify")
 
-  def js_file_path, do: relative_file_path("apps/site/priv/static/js/layout.js")
+  def js_file_path, do: assets_path("compiled/layout.js")
 
-  def css_file_path, do: relative_file_path("apps/site/priv/static/css/layout.css")
+  def css_file_path, do: assets_path("compiled/layout.css")
 
   def fonts_path, do: relative_file_path("apps/site/priv/static/fonts")
 end
