@@ -1,5 +1,6 @@
 defmodule Site.GreenLine.CacheSupervisorTest do
   use ExUnit.Case
+  alias Site.GreenLine.DateAgent
 
   import Site.GreenLine.CacheSupervisor
 
@@ -9,9 +10,11 @@ defmodule Site.GreenLine.CacheSupervisorTest do
   end
 
   test "can start a child and retrieve it" do
-    date = Util.service_date
-    pid = lookup(date)
-    Site.GreenLine.DateAgent.stop(pid)
+    date = Util.service_date()
+    case lookup(date) do
+      nil -> :ok
+      pid -> DateAgent.stop(pid)
+    end
     assert lookup(date) == nil
 
     assert {:ok, pid} = start_child(date)
