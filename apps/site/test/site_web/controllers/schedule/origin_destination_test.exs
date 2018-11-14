@@ -13,7 +13,7 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
     |> assign(:date_in_rating?, true)
     |> fetch_query_params()
     |> SiteWeb.ScheduleController.Defaults.call([])
-    |> SiteWeb.ScheduleController.AllStops.call([])
+    |> SiteWeb.ScheduleController.AllStops.call([repo_fn: &stops_by_route/3])
     |> OriginDestination.call([])
   end
 
@@ -170,5 +170,69 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
 
       assert redirected_to(conn, 302) == schedule_path(conn, :show, "CR-Lowell", direction_id: "0", origin: "West Medford")
     end
+  end
+
+  def stops_by_route("Red", 0, [date: %Date{}]) do
+    ["place-alfcl", "place-davis", "place-portr", "place-harsq", "place-cntsq",
+      "place-knncl", "place-chmnl", "place-pktrm", "place-dwnxg", "place-sstat",
+      "place-brdwy", "place-andrw", "place-jfk", "place-shmnl", "place-fldcr",
+      "place-smmnl", "place-asmnl", "place-nqncy", "place-qnctr", "place-qamnl",
+      "place-brntn"]
+     |> Enum.map(& %Stop{id: &1})
+  end
+
+  def stops_by_route("1", 1, [date: %Date{}]) do
+    ["110", "2168", "2166", "2167", "66", "67", "68", "69", "71", "72", "73", "74",
+     "75", "77", "place-hymnl", "80", "82", "place-masta", "83", "84", "59", "854",
+     "856", "10100", "10101", "62", "63", "64"]
+     |> Enum.map(& %Stop{id: &1})
+  end
+
+  def stops_by_route("1", 0, [date: %Date{}]) do
+    ["64", "1", "2", "6", "10003", "57", "58", "10590", "87", "88", "place-masta",
+     "89", "91", "place-hymnl", "95", "97", "99", "101", "102", "104", "106", "107",
+     "108", "109", "110"]
+     |> Enum.map(& %Stop{id: &1})
+  end
+
+  def stops_by_route("741", 0, date: %Date{}) do
+    ["place-sstat", "place-crtst", "place-wtcst", "74624", "17091"]
+    |> Enum.map(& %Stop{id: &1})
+  end
+
+  def stops_by_route("CR-Lowell", 0, date: %Date{}) do
+    ["place-north", "West Medford", "Wedgemere", "Winchester Center", "Mishawum",
+     "Anderson/ Woburn", "Wilmington", "North Billerica", "Lowell"]
+    |> Enum.map(& %Stop{id: &1})
+  end
+
+  def stops_by_route("CR-Lowell", 1, date: %Date{}) do
+    ["Lowell", "North Billerica", "Wilmington", "Anderson/ Woburn", "Mishawum",
+     "Winchester Center", "Wedgemere", "West Medford", "place-north"]
+    |> Enum.map(& %Stop{id: &1})
+  end
+
+  def stops_by_route("Green-E", 0, date: %Date{}) do
+    ["place-lech", "place-spmnl", "place-north", "place-haecl", "place-gover",
+     "place-pktrm", "place-boyls", "place-armnl", "place-coecl", "place-prmnl",
+     "place-symcl", "place-nuniv", "place-mfa", "place-lngmd", "place-brmnl",
+     "place-fenwd", "place-mispk", "place-rvrwy", "place-bckhl", "place-hsmnl"]
+    |> Enum.map(& %Stop{id: &1})
+  end
+
+  def stops_by_route("Green-E", 1, date: %Date{}) do
+    ["place-hsmnl", "place-bckhl", "place-rvrwy", "place-mispk", "place-fenwd",
+     "place-brmnl", "place-lngmd", "place-mfa", "place-nuniv", "place-symcl",
+     "place-prmnl", "place-coecl", "place-armnl", "place-boyls", "place-pktrm",
+     "place-gover", "place-haecl", "place-north", "place-spmnl", "place-lech"]
+    |> Enum.map(& %Stop{id: &1})
+  end
+
+  def stops_by_route("Orange", 1, date: %Date{}) do
+    ["place-forhl", "place-grnst", "place-sbmnl", "place-jaksn", "place-rcmnl",
+     "place-rugg", "place-masta", "place-bbsta", "place-tumnl", "place-chncl",
+     "place-dwnxg", "place-state", "place-haecl", "place-north", "place-ccmnl",
+     "place-sull", "place-astao", "place-welln", "place-mlmnl", "place-ogmnl"]
+    |> Enum.map(& %Stop{id: &1})
   end
 end
