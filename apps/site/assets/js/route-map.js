@@ -13,34 +13,51 @@ export class RouteMap {
 
   bind() {
     this.onVehicles = this.onVehicles.bind(this);
+    this.onRemoveVehicles = this.onRemoveVehicles.bind(this);
   }
 
   addEventListeners() {
     window.$(document).on(this.channelId, this.onVehicles);
+    window.$(document).on("vehicles:remove", this.onRemoveVehicles);
   }
 
-  onVehicles(ev, { data }) {
-    const newHash = {};
-    data.forEach(({ marker }) => {
-      newHash[marker.id] = true;
-    });
+  removeEventListeners() {
+    window.$(document).off(this.channelId, this.onVehicles);
+    window.$(document).off("vehicles:remove", this.onRemoveVehicles);
+  }
+
+  clearMap() {
     this.map
       .activeMarkers()
-      .filter(m => m.id.includes("vehicle-"))
-      .forEach(marker => {
-        if (!newHash[marker.id]) this.map.removeMarker(marker.id);
-      });
+      .forEach(marker => this.map.removeMarker(marker.id));
+  }
+
+  onVehicles(ev, { data, event }) {
+    if (event === "reset") this.clearMap()
     data.forEach(({ marker }) => this.map.addOrUpdateMarker(marker));
+  }
+
+  onRemoveVehicles(ev, { data, event }) {
+    data.forEach(id => this.map.removeMarker(id));
   }
 }
 
+const maps = [];
+
 function init() {
   doWhenGoogleMapsIsReady(() => {
-    const maps = document.getElementsByClassName("js-route-map-dynamic-data");
-    Array.from(maps).forEach(dataEl => new RouteMap(dataEl));
+    const dataEls = document.getElementsByClassName("js-route-map-dynamic-data");
+    Array.from(dataEls)
+      .forEach(dataEl => maps.push(new RouteMap(dataEl)));
   });
+}
+
+function teardown() {
+  maps.forEach(map => map.removeEventListeners());
+  while (maps.length > 0) maps.pop();
 }
 
 export default function() {
   document.addEventListener("turbolinks:load", init, { passive: true });
+  document.addEventListener("turbolinks:before-render", teardown, { passive: true});
 }

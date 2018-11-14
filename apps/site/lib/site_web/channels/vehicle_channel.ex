@@ -1,22 +1,31 @@
 defmodule SiteWeb.VehicleChannel do
   use SiteWeb, :channel
+  alias Site.MapHelpers.Markers
+  alias Vehicles.Vehicle
 
-  intercept ["data"]
+  intercept ["reset", "add", "update", "remove"]
 
   @impl Phoenix.Channel
   def join("vehicles:" <> _params, %{}, socket) do
     {:ok, socket}
   end
 
-  @spec handle_out(String.t, %{required(:data) => [Vehicles.Vehicle.t]}, Phoenix.Socket.t)
+  @spec handle_out(String.t, %{required(:data) => [Vehicle.t]}, Phoenix.Socket.t)
   :: {:noreply, Phoenix.Socket.t}
-  def handle_out("data", %{data: vehicles}, socket) do
-    push socket, "data", %{data: Enum.map(vehicles, &build_marker/1)}
+  def handle_out(event, %{data: vehicles}, socket) when event in ["reset", "add", "update"] do
+    push socket, "data", %{event: event, data: Enum.map(vehicles, &build_marker/1)}
+    {:noreply, socket}
+  end
+  def handle_out("remove", %{data: ids}, socket) do
+    push socket, "data", %{
+      event: "remove",
+      data: Enum.map(ids, &Markers.vehicle_marker_id/1)
+    }
     {:noreply, socket}
   end
 
   @type data_map :: %{
-    required(:data) => Vehicles.Vehicle.t,
+    required(:data) => Vehicle.t,
     required(:marker) => GoogleMaps.MapData.Marker.t
   }
   @spec build_marker(Vehicles.Vehicle.t) :: data_map
@@ -24,7 +33,7 @@ defmodule SiteWeb.VehicleChannel do
     route = Routes.Repo.get(vehicle.route_id)
     stop_name = get_stop_name(vehicle.stop_id)
     trip = Schedules.Repo.trip(vehicle.trip_id)
-    marker = Site.MapHelpers.Markers.vehicle(
+    marker = Markers.vehicle(
       %VehicleTooltip{
         prediction: nil,
         vehicle: vehicle,

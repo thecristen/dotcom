@@ -8,8 +8,7 @@ function onData(channelId) {
   };
 }
 
-function initChannel(el, socket) {
-  const channelId = el.getAttribute("data-channel");
+function initChannel(channelId, socket) {
   if (!channels[channelId]) {
     const channel = socket.channel(channelId, {});
     channels[channelId] = channel;
@@ -26,7 +25,13 @@ function initChannel(el, socket) {
 }
 
 function initAll(socket) {
-  document.querySelectorAll("[data-channel]").forEach(el => initChannel(el, socket));
+  document.querySelectorAll("[data-channel]").forEach(el => {
+    const channelId = el.getAttribute("data-channel");
+    initChannel(channelId, socket);
+    if (channelId.includes("vehicles:")) {
+      initChannel("vehicles:remove", socket);
+    }
+  });
 }
 
 function teardown() {

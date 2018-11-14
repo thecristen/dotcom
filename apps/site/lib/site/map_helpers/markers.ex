@@ -16,10 +16,14 @@ defmodule Site.MapHelpers.Markers do
     Marker.new(
       data.vehicle.latitude,
       data.vehicle.longitude,
-      id: "vehicle-" <> data.vehicle.id,
+      id: vehicle_marker_id(data.vehicle.id),
       icon: vehicle_icon(data.vehicle, data.route),
       z_index: @z_index.vehicle
     )
+  end
+
+  def vehicle_marker_id(vehicle_id) when is_binary(vehicle_id) do
+    "vehicle-" <> vehicle_id
   end
 
   @spec vehicle_icon(Vehicle.t, Route.t) :: Symbol.t
