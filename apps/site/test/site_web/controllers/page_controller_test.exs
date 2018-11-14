@@ -1,6 +1,7 @@
 defmodule SiteWeb.PageControllerTest do
   use SiteWeb.ConnCase
   import SiteWeb.PageController
+  alias Content.{Banner, Field.Link, NewsEntry, WhatsHappeningItem}
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")
@@ -60,17 +61,20 @@ defmodule SiteWeb.PageControllerTest do
   end
 
   test "adds utm params to url for news entries" do
-    with_utm = add_utm_url("news", %Content.NewsEntry{path_alias: "/path", title: "title"}, "homepage")
+    with_utm = add_utm_url(%NewsEntry{path_alias: "/path", title: "title"})
     assert %{utm_url: "/path?utm_campaign=curated-content&utm_content=title&utm_medium=news&utm_source=homepage&utm_term=null"} = with_utm
   end
 
   test "adds utm params to url for what's happening" do
-    with_utm = add_utm_url("whats-happening", %{link: %{url: "/path"}, title: "title"}, "homepage")
-    assert %{utm_url: "/path?utm_campaign=curated-content&utm_content=title&utm_medium=whats-happening&utm_source=homepage&utm_term=null"} = with_utm
+    promoted_with_utm = add_utm_url(%WhatsHappeningItem{link: %Link{url: "/path"}, title: "title"}, true)
+    assert %{utm_url: "/path?utm_campaign=curated-content&utm_content=title&utm_medium=whats-happening&utm_source=homepage&utm_term=null"} = promoted_with_utm
+
+    with_utm = add_utm_url(%WhatsHappeningItem{link: %Link{url: "/path"}, title: "title"}, false)
+    assert %{utm_url: "/path?utm_campaign=curated-content&utm_content=title&utm_medium=whats-happening-secondary&utm_source=homepage&utm_term=null"} = with_utm
   end
 
   test "adds utm params to url for banner" do
-    with_utm = add_utm_url("banner", %{link: %{url: "/path"}, title: "title", mode: "green_line"}, "homepage")
+    with_utm = add_utm_url(%Banner{link: %Link{url: "/path"}, title: "title", mode: "green_line"})
     assert %{utm_url: "/path?utm_campaign=curated-content&utm_content=title&utm_medium=banner&utm_source=homepage&utm_term=green_line"} = with_utm
   end
 end

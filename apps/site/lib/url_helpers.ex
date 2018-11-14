@@ -1,5 +1,6 @@
 defmodule UrlHelpers do
-  import URI, only: [encode_query: 1]
+  alias Content.{Field.Link, NewsEntry}
+  alias SiteWeb.CmsRouterHelpers
 
   @spec update_url(Plug.Conn.t, Enum.t) :: String.t
   def update_url(conn, query) do
@@ -48,19 +49,37 @@ defmodule UrlHelpers do
   defp empty_value?({_, nil}), do: true
   defp empty_value?({_, _}), do: false
 
-  def build_utm_params(type, item, source, campaign \\ "curated-content") do
-    %{utm_medium: type,
-      utm_source: source,
-      utm_campaign: campaign,
-      utm_term: utm_term(item),
-      utm_content: utm_content(item)}
+  def build_utm_url(%NewsEntry{} = item, opts) do
+    nil
+    |> CmsRouterHelpers.news_entry_path(:show, item)
+    |> do_build_utm_url(item, opts)
   end
 
-  defp utm_term(%{mode: mode}) do
-    mode
+  def build_utm_url(%{link: %Link{}} = item, opts) do
+    do_build_utm_url(item.link.url, item, opts)
   end
-  defp utm_term(_) do
-    "null"
+
+  def build_utm_url(%{path: path} = item, opts) do
+    do_build_utm_url(path, item, opts)
+  end
+
+  defp do_build_utm_url(url, item, opts) do
+    url
+    |> URI.parse()
+    |> Map.put(:query, build_utm_params(item, opts))
+    |> URI.to_string()
+  end
+
+  defp build_utm_params(item, opts) when is_list(opts) do
+    URI.encode_query(
+      %{
+        utm_medium: Keyword.fetch!(opts, :type),
+        utm_source: Keyword.fetch!(opts, :source),
+        utm_term: Keyword.get(opts, :term, "null"),
+        utm_campaign: Keyword.get(opts, :campaign, "curated-content"),
+        utm_content: utm_content(item)
+      }
+    )
   end
 
   defp utm_content(%{title: title}) do
@@ -68,12 +87,5 @@ defmodule UrlHelpers do
   end
   defp utm_content(%{id: id}) do
     id
-  end
-
-  def build_utm_url(url, params) do
-    url
-      |> URI.parse()
-      |> Map.put(:query, encode_query(params))
-      |> URI.to_string()
   end
 end

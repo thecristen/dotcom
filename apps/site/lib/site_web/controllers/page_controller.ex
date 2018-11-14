@@ -2,7 +2,7 @@ defmodule SiteWeb.PageController do
   use SiteWeb, :controller
 
   import Util.AsyncAssign
-  import UrlHelpers, only: [build_utm_params: 3, build_utm_url: 2]
+  alias Content.{Banner, NewsEntry, WhatsHappeningItem}
 
   plug SiteWeb.Plugs.TransitNearMe
   plug SiteWeb.Plugs.RecentlyVisited
@@ -28,7 +28,7 @@ defmodule SiteWeb.PageController do
   defp banner do
     case Content.Repo.banner() do
       nil -> nil
-      banner -> add_utm_url("banner", banner, "homepage")
+      banner -> add_utm_url(banner)
     end
   end
 
@@ -36,7 +36,7 @@ defmodule SiteWeb.PageController do
     [limit: 5]
     |> Content.Repo.news()
     |> Enum.take(5)
-    |> Enum.map(&add_utm_url("news", &1, "homepage"))
+    |> Enum.map(&add_utm_url/1)
   end
 
   defp whats_happening_items do
@@ -59,15 +59,27 @@ defmodule SiteWeb.PageController do
     {nil, nil}
   end
   defp split_add_utm_url({promoted, rest}) do
-    promoted = Enum.map(promoted, &add_utm_url("whats-happening", &1, "homepage"))
-    rest = Enum.map(rest, &add_utm_url("whats-happening-secondary", &1, "homepage"))
-    {promoted, rest}
+    {
+      Enum.map(promoted, &add_utm_url(&1, true)),
+      Enum.map(rest, &add_utm_url/1)
+    }
   end
 
-  def add_utm_url("news", %Content.NewsEntry{} = item, source) do
-    Map.put(item, :utm_url, build_utm_url(news_entry_path(nil, :show, item), build_utm_params("news", item, source)))
+  def add_utm_url(%{} = item, promoted? \\ false) do
+    url = UrlHelpers.build_utm_url(
+      item,
+      type: utm_type(item, promoted?),
+      term: utm_term(item),
+      source: "homepage"
+    )
+    %{item | utm_url: url}
   end
-  def add_utm_url(type, item, source) do
-    Map.put(item, :utm_url, build_utm_url(item.link.url, build_utm_params(type, item, source)))
-  end
+
+  defp utm_type(%Banner{}, _), do: "banner"
+  defp utm_type(%NewsEntry{}, _), do: "news"
+  defp utm_type(%WhatsHappeningItem{}, true), do: "whats-happening"
+  defp utm_type(%WhatsHappeningItem{}, false), do: "whats-happening-secondary"
+
+  defp utm_term(%{mode: mode}), do: mode
+  defp utm_term(_), do: "null"
 end

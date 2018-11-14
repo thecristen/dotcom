@@ -6,6 +6,7 @@ defmodule SiteWeb.ScheduleController.CMS do
   @behaviour Plug
 
   alias Routes.Route
+  alias Content.{Repo, Teaser}
 
   import Plug.Conn, only: [assign: 3]
 
@@ -27,15 +28,32 @@ defmodule SiteWeb.ScheduleController.CMS do
     items_per_page: 1
   ]
 
-  @spec get_sidebar_content(Route.t) :: {[Content.Teaser.t], [Content.Teaser.t]}
-  defp get_sidebar_content(%Route{id: id}) do
+  @spec get_sidebar_content(Route.t) :: {Teaser.t, [Teaser.t]}
+  defp get_sidebar_content(%Route{} = route) do
     featured =
-      id
-      |> Content.Repo.teasers(@featured_opts)
+      route.id
+      |> Repo.teasers(@featured_opts)
       |> List.first()
+      |> set_utm_params(route)
 
-    news = Content.Repo.teasers(id, type: :news_entry)
+    news =
+      route.id
+      |> Repo.teasers(type: :news_entry)
+      |> Enum.map(&set_utm_params(&1, route))
 
     {featured, news}
   end
+
+  defp set_utm_params(%Teaser{} = teaser, %Route{} = route) do
+    url = UrlHelpers.build_utm_url(
+      teaser,
+      source: "schedule",
+      type: utm_type(teaser.type),
+      term: Route.type_atom(route)
+    )
+    %{teaser | path: url}
+  end
+
+  defp utm_type(:news_entry), do: :news
+  defp utm_type(type), do: type
 end
