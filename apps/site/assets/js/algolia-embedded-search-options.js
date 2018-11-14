@@ -32,7 +32,8 @@ export const buildOptions = pageId => {
     container: `${pageId}__container`,
     goBtn: `${pageId}__input-go-btn`,
     locationLoadingIndicator: `${pageId}__loading-indicator`,
-    resetButton: `${pageId}__reset`
+    resetButton: `${pageId}__reset`,
+    announcer: `${pageId}__announcer`
   };
 
   const params = {};

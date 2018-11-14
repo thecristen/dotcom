@@ -9,7 +9,8 @@
           Map.merge(assigns, %{
             placeholder: "Search for routes, places, information, and more",
             aria_label: "Search MBTA.com",
-            prefix: "global"
+            prefix: "global",
+            autocomplete?: false
           })) %>
         <button id="show-facets" class="btn btn-primary c-search__filter-button">
           Filter by type

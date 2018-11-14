@@ -16,6 +16,7 @@ export class AlgoliaAutocomplete {
     this._resultsContainer = document.getElementById(this._selectors.resultsContainer);
     this._searchContainer = document.getElementById(this._selectors.container);
     this._resetButton = document.getElementById(this._selectors.resetButton);
+    this.announcer = document.getElementById(this._selectors.announcer);
     this._indices = indices;
     this._datasets = [];
     this._results = {};
@@ -153,14 +154,28 @@ export class AlgoliaAutocomplete {
   onOpen() {
     const acDialog = window.jQuery(`#${this._selectors.resultsContainer}`).find(".c-search-bar__-dropdown-menu")[0];
     if (acDialog) {
-      const borderWidth = parseInt($(`#${this._selectors.container}`).css("border-left-width"));
-      const offsetLeft = document.getElementById(`${this._selectors.input}`).offsetLeft;
-      const offsetTop = document.getElementById(`${this._selectors.input}`).offsetTop;
-
-      acDialog.style.width = `${this._searchContainer.offsetWidth}px`;
-      acDialog.style.marginLeft = `${-borderWidth + -offsetLeft}px`;
-      acDialog.style.marginTop = `${borderWidth + offsetTop}px`;
+      this.positionDropdown(acDialog);
+      this.announceResults(acDialog);
     }
+  }
+
+  positionDropdown(acDialog) {
+    const borderWidth = parseInt($(`#${this._selectors.container}`).css("border-left-width"));
+    const offsetLeft = document.getElementById(`${this._selectors.input}`).offsetLeft;
+    const offsetTop = document.getElementById(`${this._selectors.input}`).offsetTop;
+
+    acDialog.style.width = `${this._searchContainer.offsetWidth}px`;
+    acDialog.style.marginLeft = `${-borderWidth + -offsetLeft}px`;
+    acDialog.style.marginTop = `${borderWidth + offsetTop}px`;
+  }
+
+  announceResults(dialog) {
+    const count =
+      Array.from(
+        dialog.querySelectorAll("a")
+      ).reduce((acc, $el) => acc + 1, 0);
+    const s = (count === 1) ? "" : "s";
+    this.announcer.innerHTML = `${count} result${s}`;
   }
 
   _addResultsContainer() {

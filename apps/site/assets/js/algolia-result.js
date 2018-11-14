@@ -16,11 +16,11 @@ export const TEMPLATES = {
     </a>
   `),
   usemylocation: hogan.compile(`
-    <span id="search-bar__my-location" class="c-search-bar__my-location">
+    <a id="search-bar__my-location" class="c-search-bar__my-location">
       <i aria-hidden="true" class="fa fa-location-arrow "></i>
       Use my location
       <i aria-hidden="true" id="search-result__loading-indicator" class="fa fa-cog fa-spin c-search-result__loading-indicator"></i>
-    </span>
+    </a>
   `),
   default: hogan.compile(`
     {{#hasDate}}

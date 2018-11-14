@@ -384,7 +384,8 @@ TripPlannerLocControls.SELECTORS = {
     container: "trip-plan__container--to",
     locationLoadingIndicator: "trip-plan__loading-indicator--to",
     required: "trip-plan__required--to",
-    locationError: "trip-plan__location-error--to"
+    locationError: "trip-plan__location-error--to",
+    announcer: "trip-plan__announcer--to"
   },
   from: {
     input: "from",
@@ -394,7 +395,8 @@ TripPlannerLocControls.SELECTORS = {
     container: "trip-plan__container--from",
     locationLoadingIndicator: "trip-plan__loading-indicator--from",
     required: "trip-plan__required--from",
-    locationError: "trip-plan__location-error--from"
+    locationError: "trip-plan__location-error--from",
+    announcer: "trip-plan__announcer--from"
   },
   map: "trip-plan-map--initial"
 };

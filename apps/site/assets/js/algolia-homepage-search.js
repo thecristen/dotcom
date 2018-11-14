@@ -25,7 +25,8 @@ export const SELECTORS = {
   container: "search-homepage__container",
   goBtn: "search-homepage__input-go-btn",
   locationLoadingIndicator: "search-homepage__loading-indicator",
-  resetButton: "search-homepage__reset"
+  resetButton: "search-homepage__reset",
+  announcer: "search-homepage__announcer"
 }
 
 const PARAMS = {
