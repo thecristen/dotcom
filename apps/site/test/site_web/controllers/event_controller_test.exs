@@ -11,6 +11,12 @@ defmodule SiteWeb.EventControllerTest do
       conn = get conn, event_path(conn, :index, %{month: "2018-06-01"})
       refute html_response(conn, 200) =~ "Fiscal & Management Control Board Meeting"
     end
+
+    test "does not include an unavailable_after x-robots-tag HTTP header", %{conn: conn} do
+      conn = get conn, event_path(conn, :index)
+
+      refute Enum.find(conn.resp_headers, fn {key, _value} -> key == "x-robots-tag" end)
+    end
   end
 
   describe "GET show" do
@@ -48,6 +54,15 @@ defmodule SiteWeb.EventControllerTest do
       conn = get conn, event_path(conn, :show, "redirected-url") <> "?preview&vid=999"
       assert conn.status == 301
       assert Plug.Conn.get_resp_header(conn, "location") == ["/events/date/title?preview=&vid=999"]
+    end
+
+    test "includes an unavailable_after x-robots-tag HTTP header", %{conn: conn} do
+      event = event_factory(0, path_alias: nil)
+      path = event_path(conn, :show, event)
+
+      conn = get(conn, path)
+
+      assert Enum.find(conn.resp_headers, fn {key, _value} -> key == "x-robots-tag" end)
     end
 
     test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do

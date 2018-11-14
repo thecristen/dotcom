@@ -1,6 +1,7 @@
 defmodule SiteWeb.ControllerHelpers do
   alias Plug.Conn
   alias Routes.Route
+  alias Timex.Format.DateTime.Formatters.Strftime
   import Plug.Conn, only: [put_status: 2, halt: 1]
   import Phoenix.Controller, only: [render: 4]
 
@@ -110,4 +111,21 @@ defmodule SiteWeb.ControllerHelpers do
     |> Phoenix.Controller.put_view(SiteWeb.ContentView)
     |> SiteWeb.ContentController.page(%{})
   end
+
+  @spec unavailable_after_one_year(Conn.t, Date.t | DateTime.t) :: Conn.t
+  def unavailable_after_one_year(conn, nil) do
+    conn
+  end
+  def unavailable_after_one_year(conn, posted_on) do
+    Conn.put_resp_header(conn, "x-robots-tag", "unavailable_after: #{one_year_after(posted_on)}")
+  end
+
+  # Formats the date using RFC-850 style: "25 Jun 2010 00:00:00 EST"
+  # See https://developers.google.com/search/reference/robots_meta_tag for reference
+  defp one_year_after(posted_on) do
+    one_year_after = posted_on |> Date.add(365)
+
+    "#{Strftime.format!(one_year_after, "%d %b %Y")} 00:00:00 EST"
+  end
+
 end

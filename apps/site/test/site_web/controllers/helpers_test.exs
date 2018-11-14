@@ -238,4 +238,22 @@ defmodule SiteWeb.ControllerHelpersTest do
       assert rendered =~ "Your stop cannot be found."
     end
   end
+
+  describe "unavailable_after_one_year/1" do
+    test "sets an unavailable_after x-robots-tag HTTP header for one year after the given date" do
+      conn = build_conn(:get, "/basic_page_no_sidebar", nil)
+
+      transformed_conn = unavailable_after_one_year(conn, ~D[2018-11-13])
+
+      assert {"x-robots-tag", "unavailable_after: 13 Nov 2019 00:00:00 EST"} in transformed_conn.resp_headers
+    end
+
+    test "does not set an unavailable_after x-robots-tag HTTP header if no date given" do
+      conn = build_conn(:get, "/basic_page_no_sidebar", nil)
+
+      transformed_conn = unavailable_after_one_year(conn, nil)
+
+      refute {"x-robots-tag", "unavailable_after: 13 Nov 2019 00:00:00 EST"} in transformed_conn.resp_headers
+    end
+  end
 end
