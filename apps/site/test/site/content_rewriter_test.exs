@@ -221,8 +221,8 @@ defmodule Site.ContentRewriterTest do
   defp remove_whitespace(str), do: String.replace(str, ~r/[ \n]/, "")
 
   defp svg_bus do
-    %SvgIconWithCircle{icon: :bus}
-    |> svg_icon_with_circle
+    %SvgIconWithCircle{icon: :bus, size: :small}
+    |> svg_icon_with_circle()
     |> safe_to_string
   end
 end
