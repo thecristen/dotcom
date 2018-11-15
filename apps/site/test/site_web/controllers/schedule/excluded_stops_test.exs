@@ -12,7 +12,7 @@ defmodule SiteWeb.ScheduleController.ExcludedStopsTest do
 
     conn =  Enum.reduce(opts, conn, fn {key, value}, conn -> assign(conn, key, value) end)
 
-    AllStops.call(conn, [])
+    AllStops.call(conn, [repo_fn: &stops_by_route/3])
   end
 
   test "exclusions use normal lines on non-red lines", %{conn: conn} do
@@ -63,5 +63,38 @@ defmodule SiteWeb.ScheduleController.ExcludedStopsTest do
 
     assert result.excluded_origin_stops == []
     assert result.excluded_destination_stops == []
+  end
+
+  def stops_by_route("Green-B", 0, date: %Date{}) do
+    ["place-pktrm", "place-boyls", "place-armnl", "place-coecl", "place-hymnl",
+     "place-kencl", "place-bland", "place-buest", "place-bucen", "place-buwst",
+     "place-stplb", "place-plsgr", "place-babck", "place-brico", "place-harvd",
+     "place-grigg", "place-alsgr", "place-wrnst", "place-wascm", "place-sthld",
+     "place-chswk", "place-chill", "place-sougr", "place-lake"]
+    |> Enum.map(& %Stop{id: &1})
+  end
+  def stops_by_route("Green-B", 1, date: %Date{}) do
+    ["place-lake", "place-sougr", "place-chill", "place-chswk", "place-sthld",
+     "place-wascm", "place-wrnst", "place-alsgr", "place-grigg", "place-harvd",
+     "place-brico", "place-babck", "place-plsgr", "place-stplb", "place-buwst",
+     "place-bucen", "place-buest", "place-bland", "place-kencl", "place-hymnl",
+     "place-coecl", "place-armnl", "place-boyls", "place-pktrm"]
+    |> Enum.map(& %Stop{id: &1})
+  end
+  def stops_by_route("Red", 0, date: %Date{}) do
+    ["place-alfcl", "place-davis", "place-portr", "place-harsq", "place-cntsq",
+     "place-knncl", "place-chmnl", "place-pktrm", "place-dwnxg", "place-sstat",
+     "place-brdwy", "place-andrw", "place-jfk", "place-shmnl", "place-fldcr",
+     "place-smmnl", "place-asmnl", "place-nqncy", "place-qnctr", "place-qamnl",
+     "place-brntn"]
+    |> Enum.map(& %Stop{id: &1})
+  end
+  def stops_by_route("Red", 1, date: %Date{}) do
+    ["place-brntn", "place-qamnl", "place-qnctr", "place-nqncy", "place-asmnl",
+     "place-smmnl", "place-fldcr", "place-shmnl", "place-jfk", "place-andrw",
+     "place-brdwy", "place-sstat", "place-dwnxg", "place-pktrm", "place-chmnl",
+     "place-knncl", "place-cntsq", "place-harsq", "place-portr", "place-davis",
+     "place-alfcl"]
+    |> Enum.map(& %Stop{id: &1})
   end
 end
