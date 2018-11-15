@@ -63,9 +63,6 @@ defmodule Site.ContentRewriter do
   defp dispatch_rewrites({"ol", _, _} = element, conn, _context) do
     rewrite_children(element, conn, element)
   end
-  defp dispatch_rewrites({"td", _, _} = element, conn, _context) do
-    rewrite_children(element, conn, element)
-  end
   defp dispatch_rewrites({"a", _, _} = element, conn, context) do
     element
     |> Links.add_target_to_redirect()
@@ -114,6 +111,6 @@ defmodule Site.ContentRewriter do
 
   # Paragraph-like elements include p, ul, and ol
   @spec decends_from_a_paragraph_like_element?(tree_or_binary) :: boolean
-  defp decends_from_a_paragraph_like_element?({el, _attrs, _children}) when el in ["p", "ul", "ol", "td"], do: true
+  defp decends_from_a_paragraph_like_element?({el, _attrs, _children}) when el in ["p", "ul", "ol"], do: true
   defp decends_from_a_paragraph_like_element?(_), do: false
 end
