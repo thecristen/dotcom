@@ -44,6 +44,9 @@ defmodule SiteWeb.ScheduleController.CMS do
     {featured, news}
   end
 
+  defp set_utm_params(nil, %Route{}) do
+    nil
+  end
   defp set_utm_params(%Teaser{} = teaser, %Route{} = route) do
     url = UrlHelpers.build_utm_url(
       teaser,
