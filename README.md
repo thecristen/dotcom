@@ -87,7 +87,7 @@ The new face of https://www.mbta.com/
 
 1. Build the assets:
     ```
-    npm run brunch:build
+    npm run webpack:build
     ```
 
 1. Set up the following environment variables (see [Environment Variables](#environment-variables) section):
@@ -183,7 +183,8 @@ For more information about the initial setup, running the tests, and adding new 
 All run from the main folder:
 
 * `npm run backstop:reference` — create new backstop reference images
-* `npm run brunch:build` — builds the static files
+* `npm run webpack:watch` — run webpack-dev-server for local development
+* `npm run webpack:build` — builds the static files for production
 * `semaphore/smoke_test.sh` - tries to hit all the URLs on your server.
   Requires wget (installable with `brew install wget`)
 * `mix run apps/content/bin/validate_fixtures.exs` - compares the attributes in our fixture files to production Drupal API endpoints to see if any are missing. Note that rather than using this script, it is better to update these fixture attributes at the time you are making API changes.

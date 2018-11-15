@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import jsdom from 'mocha-jsdom';
-import { default as turbolinks, samePathWithQueryString, samePathWithAnchor } from '../../assets/js/turbolinks';
+import { default as turbolinks, samePathWithQueryString, samePathWithAnchor } from '../../assets/js/turbolinks-mods';
 
 describe('turbolinks', () => {
   describe('on turbolinks:render', () => {

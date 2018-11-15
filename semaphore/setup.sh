@@ -39,7 +39,7 @@ until [ $n -ge 3 ]; do
 done
 
 nvm use 8.7.0
-npm install -g npm@6.1.0 # TODO: Maybe use "backported" last release of 5 at 5.10 instead?
+npm install -g npm@6.1.0
 echo npm version is `npm -v`
 
 # set cache dir for node
@@ -52,6 +52,6 @@ rbenv local 2.4.1
 GEM_SPEC=$SEMAPHORE_CACHE_DIR/gems
 gem install sass -v 3.4.23
 
-npm run brunch:build
+npm run webpack:build
 
 MIX_ENV=test mix compile --warnings-as-errors --force

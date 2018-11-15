@@ -8,6 +8,7 @@
     "autoprefixer": "^7.1.2",
     "brunch": "~2.10",
     "clean-css-brunch": "~2.10.0",
+    "csswring": "^6.0.3",
     "js-beautify": "^1.7.5",
     "sass-brunch": "2.10.5",
     "spostcss-brunch": "^1.0.1",

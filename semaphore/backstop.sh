@@ -8,7 +8,7 @@ echo "Replacing host.docker.internal with $DOCKER_INTERNAL_IP"
 
 sudo service docker start
 
-npm run brunch:build
+npm run webpack:build
 
 (mkdir -p bin && cd bin && curl -O http://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.14.0/wiremock-standalone-2.14.0.jar)
 

@@ -49,6 +49,8 @@ config :site, :websocket_check_origin, [
   "https://*.mbta.com",
   "https://*.mbtace.com",
 ]
+config :site,
+  dev_server?: false
 
 # Do not print debug messages in production
 config :logger,

@@ -1,26 +1,12 @@
 document.body.className = document.body.className.replace("no-js", "js");
 
-// Brunch automatically concatenates all files in your
-// watched paths. Those paths can be configured at
-// config.paths.watched in "brunch-config.js".
-//
-// However, those files will only be executed if
-// explicitly imported. The only exception are files
-// in vendor, which are never wrapped in imports and
-// therefore are always executed.
-
-// Import dependencies
-//
-// If you no longer want to use a dependency, remember
-// to also remove its path from "config.paths.watched".
-
-// Import local files
-//
-// Local files can be imported directly using relative
-// paths "./socket" or full ones "assets/js/socket".
-
-// Imports
-import "babel-polyfill";
+import "@babel/polyfill";
+import "../css/app.scss";
+import "../vendor/fixedsticky";
+import "../vendor/accessible-date-picker";
+import "bootstrap/dist/js/umd/collapse";
+import "bootstrap/dist/js/umd/modal";
+import "bootstrap/dist/js/umd/tooltip";
 import googleAnalytics from "./google-analytics";
 import objectFitImages from "object-fit-images";
 import googleMapsLoaded from "./google-maps-loaded";
@@ -29,14 +15,14 @@ import selectModal from "./select-modal";
 import collapse from "./collapse";
 import headerDropdowns from "./header-dropdowns";
 import modal from "./modal";
-import turbolinks from "./turbolinks";
+import turbolinksMods from "./turbolinks-mods";
 import supportForm from "./support-form";
 import fixedsticky from "./fixedsticky";
 import menuCtrlClick from "./menu-ctrl-click";
 import carousel from "./carousel";
 import geoLocation from "./geolocation";
 import addressSearch from "./address-search";
-import autocomplete from "./autocomplete";
+import autocompleteSetup from "./autocomplete-setup";
 import googleMap from "./google-map";
 import googleTranslate from "./google-translate";
 import scrollTo from "./scroll-to";
@@ -62,7 +48,13 @@ import transitNearMe from "./transit-near-me";
 import routeMap from "./route-map";
 import channels from "./channels";
 
-window.$ = window.jQuery;
+// Extra steps for non-modular javascript
+Turbolinks.start();
+// Won't work as ProvidePlugin due to above
+window.Turbolinks = Turbolinks;
+
+// Doesn't work with ProvidePlugin due to window.zepto dep
+window.autocomplete = autocomplete;
 
 // Polyfills
 window.nextTick = function nextTick(f) {
@@ -280,7 +272,7 @@ selectModal();
 headerDropdowns();
 collapse();
 modal();
-turbolinks();
+turbolinksMods();
 supportForm();
 fixedsticky();
 objectFitImages(); // Polyfill for IE object-fit support
@@ -289,7 +281,7 @@ carousel();
 inputFocus();
 geoLocation();
 addressSearch();
-autocomplete();
+autocompleteSetup();
 googleMap();
 googleTranslate();
 scrollTo();

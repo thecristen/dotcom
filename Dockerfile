@@ -12,8 +12,7 @@ RUN mix local.hex --force && \
 # Install node/npm
 # Instructions from https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install -g brunch
+    apt-get install -y nodejs
 
 # Install Sass
 RUN apt-get install -y rubygems ruby2.3-dev && \
@@ -30,8 +29,7 @@ WORKDIR /root/apps/site/
 RUN mix do deps.get, deps.compile
 
 WORKDIR /root/apps/site/assets/
-RUN npm install --only=production --no-optional && \
-    brunch build --production
+RUN npm install && npm run webpack:build
 
 WORKDIR /root/apps/site/
 RUN mix phx.digest

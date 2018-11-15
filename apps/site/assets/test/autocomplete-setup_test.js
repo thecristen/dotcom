@@ -1,6 +1,6 @@
 import { assert } from "chai";
 import jsdom from "mocha-jsdom";
-import { addLatLngListeners } from "../../assets/js/autocomplete.js";
+import { addLatLngListeners } from "../js/autocomplete-setup";
 
 describe("trip-plan", () => {
   var $;
