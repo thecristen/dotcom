@@ -1206,6 +1206,11 @@ del .trip-list-realtime {
   }
 }
 
+.schedule-timetable-time-col [class*="c-svg__icon"],
+.schedule-timetable-header-col [class*="c-svg__icon"] {
+  position: static;
+}
+
 .schedule-timetable-name {
   align-items: center;
   display: inline-flex;

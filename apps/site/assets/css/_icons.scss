@@ -28,7 +28,8 @@ h4,
 
 p,
 ul,
-ol {
+ol,
+td {
   @include icon-size-inline(1.125em, .21em);
 }
 
