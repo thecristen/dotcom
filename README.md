@@ -76,6 +76,11 @@ The new face of https://www.mbta.com/
     mix deps.get
     ```
 
+1. Install npm globally
+   ```
+   npm install -g npm@6.4.1
+   ```
+
 1. Install our Node dependencies. From the root of this repo:
     ```
     npm run install
