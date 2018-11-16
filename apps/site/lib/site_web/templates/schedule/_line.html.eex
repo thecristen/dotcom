@@ -27,7 +27,7 @@
         <div class="line-map-container">
           <%= if display_map_link?(@route.type) do %>
             <img src="<%= @map_img_src %>" class="img-fluid">
-            <a href="<%= MapHelpers.map_pdf_url(@route.type) %>" target="_blank">
+            <a href="<%= @route.type |> Routes.Route.type_atom() |> MapHelpers.map_pdf_url() %>" target="_blank">
               <%= fa "search-plus" %>
               View map as a PDF
             </a>

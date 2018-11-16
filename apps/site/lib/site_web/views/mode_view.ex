@@ -1,5 +1,6 @@
 defmodule SiteWeb.ModeView do
   use SiteWeb, :view
+  alias Site.MapHelpers
   alias SiteWeb.PartialView.SvgIconWithCircle
   alias Routes.Route
 
@@ -119,4 +120,24 @@ defmodule SiteWeb.ModeView do
                                   Alerts.Match.match([alert], entity, date) == [alert]
                       end)
   end
+
+  def map_buttons(types) do
+    content_tag(:div, Enum.map(types, &map_button/1), class: "m-mode-hub__map-btns")
+  end
+
+  def map_button(type) do
+    content_tag(:div, [
+      link([
+        type |> MapHelpers.thumbnail() |> img_tag(class: "m-mode-hub__map-btn-thumbnail"),
+        content_tag(:span, map_button_text(type), class: "m-mode-hub__map-btn-text"),
+        fa("angle-right", class: "m-mode-hub__map-btn-caret")
+      ], to: MapHelpers.map_pdf_url(type), class: "m-mode-hub__map-btn")
+    ], class: "m-mode-hub__map-btn-wrapper")
+  end
+
+  def map_button_text(:commuter_rail_zones), do: "Commuter Rail Zones Map"
+  def map_button_text(:commuter_rail), do: "Commuter Rail Map"
+  def map_button_text(:subway), do: "Subway Map"
+  def map_button_text(:bus), do: "Bus Map"
+  def map_button_text(:ferry), do: "Ferry Map"
 end

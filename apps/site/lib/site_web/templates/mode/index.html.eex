@@ -36,5 +36,7 @@
         %>
       </div>
     <% end %>
+    <h2 class="h2">Maps</h2>
+    <%= map_buttons([:subway, :bus, :commuter_rail, :commuter_rail_zones, :ferry]) %>
   </div>
 </div>

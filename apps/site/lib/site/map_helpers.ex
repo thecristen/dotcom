@@ -4,12 +4,7 @@ defmodule Site.MapHelpers do
 
   import SiteWeb.Router.Helpers, only: [static_url: 2]
 
-  @spec map_pdf_url(integer | atom) :: String.t | nil
-  def map_pdf_url(mode_number) when mode_number in 0..4 do
-    mode_number
-    |> Route.type_atom
-    |> map_pdf_url
-  end
+  @spec map_pdf_url(atom) :: String.t
   def map_pdf_url(:subway) do
     static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-04-map-rapid-transit-key-bus-v31a.pdf")
   end
@@ -22,30 +17,25 @@ defmodule Site.MapHelpers do
   def map_pdf_url(:ferry) do
     static_url(SiteWeb.Endpoint, "/sites/default/files/maps/Ferry_Map.pdf")
   end
-  def map_pdf_url(_) do
-    nil
+  def map_pdf_url(:commuter_rail_zones) do
+    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-commuter-rail-zones-spider-bw.pdf")
   end
 
-  @spec map_image_url(integer | atom) :: String.t | nil
-  def map_image_url(mode_number) when mode_number in 0..4 do
-    mode_number
-    |> Route.type_atom
-    |> map_image_url
+  @spec thumbnail(atom) :: String.t
+  def thumbnail(:subway) do
+    static_url(SiteWeb.Endpoint, "/images/map-thumbnail-subway.jpg")
   end
-  def map_image_url(:subway) do
-    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-04-map-thumbnail-rapid-transit-key-bus-v31a.jpg")
+  def thumbnail(:commuter_rail) do
+    static_url(SiteWeb.Endpoint, "/images/map-thumbnail-commuter-rail.jpg")
   end
-  def map_image_url(:bus) do
-    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-04-map-thumbnail-system.jpg")
+  def thumbnail(:commuter_rail_zones) do
+    static_url(SiteWeb.Endpoint, "/images/map-thumbnail-fare-zones.jpg")
   end
-  def map_image_url(:commuter_rail) do
-    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2017-05-map-thumbnail-commuter-rail-v30.jpg")
+  def thumbnail(:bus) do
+    static_url(SiteWeb.Endpoint, "/images/map-thumbnail-bus-system.jpg")
   end
-  def map_image_url(:ferry) do
-    static_url(SiteWeb.Endpoint, "/images/map_thumbnails/Ferry_Map.png")
-  end
-  def map_image_url(_) do
-    nil
+  def thumbnail(:ferry) do
+    static_url(SiteWeb.Endpoint, "/images/map-thumbnail-ferry.jpg")
   end
 
   @doc "Returns the map color that should be used for the given route"

@@ -1,6 +1,5 @@
 defmodule SiteWeb.Mode.HubBehavior do
   alias Fares.Summary
-  alias Site.MapHelpers
   @moduledoc "Behavior for mode hub pages."
 
   @callback routes() :: [Routes.Route.t]
@@ -42,8 +41,7 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> assign(:mode_name, mode_strategy.mode_name())
     |> assign(:mode_icon, mode_strategy.mode_icon())
     |> assign(:fare_description, mode_strategy.fare_description())
-    |> assign(:map_pdf_url, MapHelpers.map_pdf_url(mode_strategy.route_type))
-    |> assign(:map_image_url, MapHelpers.map_image_url(mode_strategy.route_type))
+    |> assign(:maps, mode_strategy.mode_icon() |> maps())
     |> assign(:breadcrumbs, [
       Breadcrumb.build("Schedules & Maps", mode_path(conn, :index)),
       Breadcrumb.build(mode_strategy.mode_name())
@@ -64,4 +62,7 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> assign(:meta_description, meta_description)
   end
   defp meta_description(conn, _), do: conn
+
+  def maps(:commuter_rail), do: [:commuter_rail, :commuter_rail_zones]
+  def maps(type), do: [type]
 end
