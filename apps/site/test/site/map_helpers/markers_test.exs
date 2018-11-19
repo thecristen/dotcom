@@ -82,7 +82,7 @@ defmodule Site.MapHelpers.MarkersTest do
       assert id == "vehicle-" <> @vehicle.id
       assert latitude == @vehicle.latitude
       assert longitude == @vehicle.longitude
-      assert tooltip == nil
+      assert tooltip =~ "Alewife train has left South Station"
       assert icon == %Symbol{
         fill_color: "#FF1428",
         fill_opacity: 1,

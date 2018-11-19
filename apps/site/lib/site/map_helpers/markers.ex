@@ -18,6 +18,7 @@ defmodule Site.MapHelpers.Markers do
       data.vehicle.longitude,
       id: vehicle_marker_id(data.vehicle.id),
       icon: vehicle_icon(data.vehicle, data.route),
+      tooltip: VehicleHelpers.tooltip(data),
       z_index: @z_index.vehicle
     )
   end
