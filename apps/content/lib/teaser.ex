@@ -46,7 +46,7 @@ defmodule Content.Teaser do
   end
 
   @spec date(map) :: Date.t | nil
-  defp date(%{"type" => "news_entry", "field_posted_on" => date}) do
+  defp date(%{"type" => "news_entry", "posted" => date}) do
     do_date(date)
   end
   defp date(%{"changed" => date}) do

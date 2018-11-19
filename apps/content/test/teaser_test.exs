@@ -29,7 +29,7 @@ defmodule Content.TeaserTest do
       |> List.first()
       |> Map.put("type", "news_entry")
       |> Map.put("changed", "2018-10-18")
-      |> Map.put("field_posted_on", "2018-10-25")
+      |> Map.put("posted", "2018-10-25")
 
     teaser = Content.Teaser.from_api(raw)
     assert teaser.date.day == 25
