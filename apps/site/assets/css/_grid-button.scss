@@ -21,6 +21,10 @@
   @include media-breakpoint-down(sm) {
     flex-basis: 100%;
   }
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .c-grid-button__content {
@@ -32,6 +36,11 @@
   height: 100%;
   line-height: 1;
   padding: $base-spacing * .75;
+
+  &:hover {
+    background: $brand-primary-lightest;
+    border-color: $brand-primary;
+  }
 }
 
 // Setting max-width along with flex-basis fixes an issue in IE 10 & 11
