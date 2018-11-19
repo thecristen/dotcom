@@ -2,14 +2,14 @@ defmodule TripPlan.NamedPosition do
   defstruct [
     name: "",
     stop_id: nil,
-    latitude: 0,
-    longitude: 0
+    latitude: nil,
+    longitude: nil
   ]
   @type t :: %__MODULE__{
     name: String.t,
     stop_id: Stops.Stop.id_t | nil,
-    latitude: float,
-    longitude: float
+    latitude: float | nil,
+    longitude: float | nil
   }
 
   defimpl Util.Position do
