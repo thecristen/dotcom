@@ -1,8 +1,19 @@
+<% grid = div(12, Enum.count(@paragraph.columns)) %>
+
+<%= if @paragraph.header do %>
+  <%= ContentRewriter.rewrite(@paragraph.header.text, @conn) %>
+<% end %>
+
 <div class="row">
-  <% grid = div(12, Enum.count(@paragraph.columns)) %>
   <%= for column <- @paragraph.columns do %>
     <div class="col-md-<%= grid %>">
+
       <%= ContentRewriter.rewrite(column.body, @conn) %>
+
+      <%= for paragraph <- column.paragraphs do %>
+        <%= SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
+      <% end %>
+
     </div>
   <% end %>
 </div>

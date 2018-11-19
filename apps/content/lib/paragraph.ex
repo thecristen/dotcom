@@ -20,36 +20,41 @@ defmodule Content.Paragraph do
     on the live CMS
   """
 
-  alias Content.Paragraph
+  alias Content.Paragraph.{ColumnMulti, CustomHTML, FilesGrid, PeopleGrid,
+    Tabs, TitleCardSet, Unknown, UpcomingBoardMeetings}
 
-  @type t :: Paragraph.CustomHTML.t | Paragraph.FilesGrid.t |
-             Paragraph.PeopleGrid.t | Paragraph.TitleCardSet.t |
-             Paragraph.Unknown.t | Paragraph.UpcomingBoardMeetings.t |
-             Paragraph.ColumnMulti.t | Paragraph.Tabs.t
+  @type t :: ColumnMulti.t |
+             CustomHTML.t |
+             FilesGrid.t |
+             PeopleGrid.t |
+             Tabs.t |
+             TitleCardSet.t |
+             Unknown.t |
+             UpcomingBoardMeetings.t
 
   @spec from_api(map) :: t
   def from_api(%{"type" => [%{"target_id" => "custom_html"}]} = para) do
-    Paragraph.CustomHTML.from_api(para)
-  end
-  def from_api(%{"type" => [%{"target_id" => "title_card_set"}]} = para) do
-    Paragraph.TitleCardSet.from_api(para)
-  end
-  def from_api(%{"type" => [%{"target_id" => "upcoming_board_meetings"}]} = para) do
-    Paragraph.UpcomingBoardMeetings.from_api(para)
-  end
-  def from_api(%{"type" => [%{"target_id" => "people_grid"}]} = para) do
-    Paragraph.PeopleGrid.from_api(para)
+    CustomHTML.from_api(para)
   end
   def from_api(%{"type" => [%{"target_id" => "files_grid"}]} = para) do
-    Paragraph.FilesGrid.from_api(para)
+    FilesGrid.from_api(para)
   end
   def from_api(%{"type" => [%{"target_id" => "multi_column"}]} = para) do
-    Paragraph.ColumnMulti.from_api(para)
+    ColumnMulti.from_api(para)
+  end
+  def from_api(%{"type" => [%{"target_id" => "people_grid"}]} = para) do
+    PeopleGrid.from_api(para)
   end
   def from_api(%{"type" => [%{"target_id" => "tabs"}]} = para) do
-    Paragraph.Tabs.from_api(para)
+    Tabs.from_api(para)
+  end
+  def from_api(%{"type" => [%{"target_id" => "title_card_set"}]} = para) do
+    TitleCardSet.from_api(para)
+  end
+  def from_api(%{"type" => [%{"target_id" => "upcoming_board_meetings"}]} = para) do
+    UpcomingBoardMeetings.from_api(para)
   end
   def from_api(unknown_paragraph_type) do
-    Paragraph.Unknown.from_api(unknown_paragraph_type)
+    Unknown.from_api(unknown_paragraph_type)
   end
 end

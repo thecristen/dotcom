@@ -4,11 +4,16 @@ defmodule SiteWeb.ContentViewTest do
   import Content.Factory, only: [event_factory: 1, person_factory: 0]
   import SiteWeb.ContentView
 
-  alias Content.Paragraph
+  alias Content.BasicPage
+  alias Content.CMS.Static
+  alias Content.Field.{File, Link}
+  alias Content.Paragraph.{Column, ColumnMulti, CustomHTML, FilesGrid,
+    PeopleGrid, Tab, Tabs, TitleCard, TitleCardSet, Unknown, UpcomingBoardMeetings}
+  alias Phoenix.HTML
 
   describe "Basic Page" do
     setup do
-      basic_page = Content.BasicPage.from_api(Content.CMS.Static.basic_page_with_sidebar_response())
+      basic_page = BasicPage.from_api(Static.basic_page_with_sidebar_response())
       %{basic_page: basic_page}
     end
 
@@ -18,7 +23,7 @@ defmodule SiteWeb.ContentViewTest do
       rendered =
         "page.html"
         |> render(page: basic_page, conn: fake_conn)
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.safe_to_string
 
       assert rendered =~ ~s(c-cms--with-sidebar)
       assert rendered =~ ~s(c-cms--sidebar-left)
@@ -35,7 +40,7 @@ defmodule SiteWeb.ContentViewTest do
       rendered =
         "page.html"
         |> render(page: basic_page, conn: fake_conn)
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.safe_to_string
 
       assert rendered =~ ~s(c-cms--no-sidebar)
       assert rendered =~ "Fenway Park"
@@ -45,40 +50,40 @@ defmodule SiteWeb.ContentViewTest do
 
   describe "render_paragraph/2" do
     test "renders a Content.Paragraph.CustomHTML", %{conn: conn} do
-      paragraph = %Paragraph.CustomHTML{body: Phoenix.HTML.raw("<p>Hello</p>")}
+      paragraph = %CustomHTML{body: HTML.raw("<p>Hello</p>")}
 
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.safe_to_string
 
       assert rendered == "<p>Hello</p>"
     end
 
     test "renders a Content.Paragraph.CustomHTML with rewritten body", %{conn: conn} do
       html = "<div><span>Foo</span><table>Foo</table></div>"
-      paragraph = %Paragraph.CustomHTML{body: Phoenix.HTML.raw(html)}
+      paragraph = %CustomHTML{body: HTML.raw(html)}
 
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.safe_to_string
 
       assert rendered =~ "responsive-table"
     end
 
     test "renders a Content.Paragraph.TitleCardSet", %{conn: conn} do
-      paragraph = %Paragraph.TitleCardSet{
+      paragraph = %TitleCardSet{
         title_cards: [
-          %Paragraph.TitleCard{
+          %TitleCard{
             title: "Card 1",
-            body: Phoenix.HTML.raw("<strong>Body 1</strong>"),
-            link: %Content.Field.Link{url: "/relative/link"},
+            body: HTML.raw("<strong>Body 1</strong>"),
+            link: %Link{url: "/relative/link"},
           },
-          %Paragraph.TitleCard{
+          %TitleCard{
             title: "Card 2",
-            body: Phoenix.HTML.raw("<strong>Body 2</strong>"),
-            link: %Content.Field.Link{url: "https://www.example.com/another/link"},
+            body: HTML.raw("<strong>Body 2</strong>"),
+            link: %Link{url: "https://www.example.com/another/link"},
           }
         ]
       }
@@ -86,7 +91,7 @@ defmodule SiteWeb.ContentViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.safe_to_string
 
       assert rendered =~ ~s(<div class="c-title-card__title c-title-card--link__title">Card 1</div>)
       assert rendered =~ "<strong>Body 1</strong>"
@@ -98,12 +103,12 @@ defmodule SiteWeb.ContentViewTest do
     end
 
     test "renders a Content.Paragraph.TitleCardSet with content rewritten", %{conn: conn} do
-      paragraph = %Paragraph.TitleCardSet{
+      paragraph = %TitleCardSet{
         title_cards: [
-          %Paragraph.TitleCard{
+          %TitleCard{
             title: ~s({{mbta-circle-icon "bus"}}),
-            body: Phoenix.HTML.raw("<div><span>Foo</span><table>Foo</table></div>"),
-            link: %Content.Field.Link{url: "/relative/link"},
+            body: HTML.raw("<div><span>Foo</span><table>Foo</table></div>"),
+            link: %Link{url: "/relative/link"},
           }
         ]
       }
@@ -111,7 +116,7 @@ defmodule SiteWeb.ContentViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.safe_to_string
 
       assert rendered =~ "responsive-table"
       refute rendered =~ "mbta-circle-icon"
@@ -119,30 +124,30 @@ defmodule SiteWeb.ContentViewTest do
 
     test "renders a Content.Paragraph.UpcomingBoardMeetings", %{conn: conn} do
       event = event_factory(0)
-      paragraph = %Paragraph.UpcomingBoardMeetings{
+      paragraph = %UpcomingBoardMeetings{
         events: [event]
       }
 
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.safe_to_string
 
       rendered_title =
         event.title
-        |> Phoenix.HTML.html_escape
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.html_escape
+        |> HTML.safe_to_string
 
       assert rendered =~ rendered_title
       assert rendered =~ "View all upcoming meetings"
     end
 
     test "renders a TitleCardSet when it doesn't have a link", %{conn: conn} do
-      paragraph = %Paragraph.TitleCardSet{
+      paragraph = %TitleCardSet{
         title_cards: [
-          %Paragraph.TitleCard{
+          %TitleCard{
             title: "Title Card",
-            body: Phoenix.HTML.raw("This is a title card"),
+            body: HTML.raw("This is a title card"),
             link: nil,
           }
         ]
@@ -151,7 +156,7 @@ defmodule SiteWeb.ContentViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.safe_to_string
 
       assert rendered =~ "This is a title card"
     end
@@ -159,114 +164,180 @@ defmodule SiteWeb.ContentViewTest do
     test "renders a Paragraph.PeopleGrid", %{conn: conn} do
       person = person_factory()
 
-      paragraph = %Paragraph.PeopleGrid{
+      paragraph = %PeopleGrid{
         people: [person]
       }
 
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.safe_to_string
 
       assert rendered =~ person.name
       assert rendered =~ person.position
     end
 
     test "renders a Paragraph.FilesGrid without a title", %{conn: conn} do
-      paragraph = %Paragraph.FilesGrid{title: nil, files: [%Content.Field.File{url: "/link", description: "link description"}]}
+      paragraph = %FilesGrid{title: nil, files: [%File{url: "/link", description: "link description"}]}
 
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.safe_to_string
 
       assert rendered =~ "link description"
     end
 
     test "renders a Paragraph.FilesGrid with a title", %{conn: conn} do
-      paragraph = %Paragraph.FilesGrid{files: [%Content.Field.File{}], title: "Some files"}
+      paragraph = %FilesGrid{files: [%File{}], title: "Some files"}
 
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.safe_to_string
 
       assert rendered =~ paragraph.title
     end
 
-    test "renders a Content.Paragraph.ColumnMulti", %{conn: conn} do
+    test "renders a Content.Paragraph.ColumnMulti with body data (deprecated)", %{conn: conn} do
       cols = [
-        %Paragraph.Column{
-          body: Phoenix.HTML.raw("<strong>Column 1</strong>"),
+        %Column{
+          body: HTML.raw("<strong>Column 1</strong>"),
         },
-        %Paragraph.Column{
-          body: Phoenix.HTML.raw("<strong>Column 2</strong>"),
+        %Column{
+          body: HTML.raw("<strong>Column 2</strong>"),
         },
-        %Paragraph.Column{
-          body: Phoenix.HTML.raw("<strong>Column 3</strong>"),
+        %Column{
+          body: HTML.raw("<strong>Column 3</strong>"),
         },
-        %Paragraph.Column{
-          body: Phoenix.HTML.raw("<strong>Column 4</strong>"),
+        %Column{
+          body: HTML.raw("<strong>Column 4</strong>"),
         }
       ]
 
       rendered_quarters =
-        %Paragraph.ColumnMulti{columns: cols}
+        %ColumnMulti{columns: cols}
         |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.safe_to_string
 
       rendered_thirds =
-        %Paragraph.ColumnMulti{columns: Enum.take(cols, 3)}
+        %ColumnMulti{columns: Enum.take(cols, 3)}
         |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.safe_to_string
 
       rendered_halves =
-        %Paragraph.ColumnMulti{columns: Enum.take(cols, 2)}
+        %ColumnMulti{columns: Enum.take(cols, 2)}
         |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.safe_to_string
 
       rendered_single =
-        %Paragraph.ColumnMulti{columns: Enum.take(cols, 1)}
+        %ColumnMulti{columns: Enum.take(cols, 1)}
         |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string
+        |> HTML.safe_to_string
 
-      assert rendered_quarters =~ "<div class=\"col-md-3\">\n<strong>Column 1</strong>"
-      assert rendered_quarters =~ "<div class=\"col-md-3\">\n<strong>Column 2</strong>"
-      assert rendered_quarters =~ "<div class=\"col-md-3\">\n<strong>Column 3</strong>"
-      assert rendered_quarters =~ "<div class=\"col-md-3\">\n<strong>Column 4</strong>"
+      assert rendered_quarters =~ ~r/<div class=\"col-md-3\">\s*<strong>Column 1<\/strong>/
+      assert rendered_quarters =~ ~r/<div class=\"col-md-3\">\s*<strong>Column 2<\/strong>/
+      assert rendered_quarters =~ ~r/<div class=\"col-md-3\">\s*<strong>Column 3<\/strong>/
+      assert rendered_quarters =~ ~r/<div class=\"col-md-3\">\s*<strong>Column 4<\/strong>/
 
-      assert rendered_thirds =~ "<div class=\"col-md-4\">\n<strong>Column 1</strong>"
-      assert rendered_thirds =~ "<div class=\"col-md-4\">\n<strong>Column 2</strong>"
-      assert rendered_thirds =~ "<div class=\"col-md-4\">\n<strong>Column 3</strong>"
+      assert rendered_thirds =~ ~r/<div class=\"col-md-4\">\s*<strong>Column 1<\/strong>/
+      assert rendered_thirds =~ ~r/<div class=\"col-md-4\">\s*<strong>Column 2<\/strong>/
+      assert rendered_thirds =~ ~r/<div class=\"col-md-4\">\s*<strong>Column 3<\/strong>/
 
-      assert rendered_halves =~ "<div class=\"col-md-6\">\n<strong>Column 1</strong>"
-      assert rendered_halves =~ "<div class=\"col-md-6\">\n<strong>Column 2</strong>"
+      assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
+      assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 2<\/strong>/
 
-      assert rendered_single =~ "<div class=\"row\">\n  \n    <div class=\"col-md-12\">\n<strong>Column 1</strong>"
+      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-12\">\s*<strong>Column 1<\/strong>/
+    end
+
+    test "renders a Content.Paragraph.ColumnMulti with nested paragraphs", %{conn: conn} do
+      header = %Content.Paragraph.ColumnMultiHeader{
+        text: HTML.raw("<h4>This is a multi-column header</h4>")
+      }
+      cols = [
+        %Column{
+          paragraphs: [
+            %CustomHTML{body: HTML.raw("<strong>Column 1</strong>")}
+          ]
+        },
+        %Column{
+          paragraphs: [
+            %CustomHTML{body: HTML.raw("<strong>Column 2</strong>")}
+          ]
+        },
+        %Column{
+          paragraphs: [
+            %CustomHTML{body: HTML.raw("<strong>Column 3</strong>")}
+          ]
+        },
+        %Column{
+          paragraphs: [
+            %CustomHTML{body: HTML.raw("<strong>Column 4</strong>")}
+          ]
+        }
+      ]
+
+      rendered_quarters =
+        %ColumnMulti{header: header, columns: cols}
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string
+
+      rendered_thirds =
+        %ColumnMulti{header: header, columns: Enum.take(cols, 3)}
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string
+
+      rendered_halves =
+        %ColumnMulti{header: header, columns: Enum.take(cols, 2)}
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string
+
+      rendered_single =
+        %ColumnMulti{header: header, columns: Enum.take(cols, 1)}
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string
+
+      assert rendered_quarters =~ "<h4>This is a multi-column header</h4>"
+      assert rendered_quarters =~ ~r/<div class=\"col-md-3\">\s*<strong>Column 1<\/strong>/
+      assert rendered_quarters =~ ~r/<div class=\"col-md-3\">\s*<strong>Column 2<\/strong>/
+      assert rendered_quarters =~ ~r/<div class=\"col-md-3\">\s*<strong>Column 3<\/strong>/
+      assert rendered_quarters =~ ~r/<div class=\"col-md-3\">\s*<strong>Column 4<\/strong>/
+
+      assert rendered_thirds =~ "<h4>This is a multi-column header</h4>"
+      assert rendered_thirds =~ ~r/<div class=\"col-md-4\">\s*<strong>Column 1<\/strong>/
+      assert rendered_thirds =~ ~r/<div class=\"col-md-4\">\s*<strong>Column 2<\/strong>/
+      assert rendered_thirds =~ ~r/<div class=\"col-md-4\">\s*<strong>Column 3<\/strong>/
+
+      assert rendered_halves =~ "<h4>This is a multi-column header</h4>"
+      assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
+      assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 2<\/strong>/
+
+      assert rendered_single =~ "<h4>This is a multi-column header</h4>"
+      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-12\">\s*<strong>Column 1<\/strong>/
     end
 
     test "renders a Content.Paragraph.Tabs", %{conn: conn} do
       tabs = [
-        %Paragraph.Tab{
+        %Tab{
           title: "{{ icon:subway-red }} Tab 1",
           prefix: "cms-10",
-          content: %Paragraph.CustomHTML{
-            body: Phoenix.HTML.raw("<strong>First tab's content</strong>")
+          content: %CustomHTML{
+            body: HTML.raw("<strong>First tab's content</strong>")
           },
         },
-        %Paragraph.Tab{
+        %Tab{
           title: "Tab 2",
           prefix: "cms-11",
-          content: %Paragraph.CustomHTML{
-            body: Phoenix.HTML.raw("<strong>Second tab's content</strong>")
+          content: %CustomHTML{
+            body: HTML.raw("<strong>Second tab's content</strong>")
           }
         }
       ]
 
       rendered_tabs =
-        %Paragraph.Tabs{display: "accordion", tabs: tabs}
+        %Tabs{display: "accordion", tabs: tabs}
         |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string()
+        |> HTML.safe_to_string()
 
       [{_, _, [icon_1 | [title_1]]}, {_, _, [title_2]}] = Floki.find(rendered_tabs, ".c-tabbed-ui__title")
       [{_, _, [body_1]}, {_, _, [body_2]}] = Floki.find(rendered_tabs, ".c-tabbed-ui__target > .c-tabbed-ui__content")
@@ -288,14 +359,14 @@ defmodule SiteWeb.ContentViewTest do
     end
 
     test "renders a Paragraph.Unknown", %{conn: conn} do
-      paragraph = %Paragraph.Unknown{
+      paragraph = %Unknown{
         type: "unsupported_paragraph_type"
       }
 
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> Phoenix.HTML.safe_to_string()
+        |> HTML.safe_to_string()
 
       assert rendered =~ paragraph.type
     end
@@ -303,17 +374,17 @@ defmodule SiteWeb.ContentViewTest do
 
   describe "file_description/1" do
     test "returns URL decoded file name if description is nil" do
-      file = %Content.Field.File{url: "/some/path/This%20File%20Is%20Great.pdf", description: nil}
+      file = %File{url: "/some/path/This%20File%20Is%20Great.pdf", description: nil}
       assert file_description(file) == "This File Is Great.pdf"
     end
 
     test "returns the URL decoded file name if description is an empty string" do
-      file = %Content.Field.File{url: "/some/path/This%20File%20Is%20Great.pdf", description: ""}
+      file = %File{url: "/some/path/This%20File%20Is%20Great.pdf", description: ""}
       assert file_description(file) == "This File Is Great.pdf"
     end
 
     test "returns the description if present" do
-      file = %Content.Field.File{url: "/some/path/This%20File%20Is%20Great.pdf", description: "Download Now"}
+      file = %File{url: "/some/path/This%20File%20Is%20Great.pdf", description: "Download Now"}
       assert file_description(file) == "Download Now"
     end
   end
