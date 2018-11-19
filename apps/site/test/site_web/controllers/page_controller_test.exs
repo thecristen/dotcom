@@ -39,6 +39,10 @@ defmodule SiteWeb.PageControllerTest do
 
     assert Floki.text(routes_div) =~ "Recently Visited"
 
+    for idx <- 0..3 do
+      assert Floki.find(routes_div, "#recently-visited--#{idx}")
+    end
+
     assert [_] = Floki.find(routes_div, ".c-svg__icon-red-line-default")
     assert [_] = Floki.find(routes_div, ".c-svg__icon-mode-bus-default")
     assert [_] = Floki.find(routes_div, ".c-svg__icon-mode-commuter-rail-default")

@@ -140,4 +140,12 @@ defmodule SiteWeb.ModeView do
   def map_button_text(:subway), do: "Subway Map"
   def map_button_text(:bus), do: "Bus Map"
   def map_button_text(:ferry), do: "Ferry Map"
+
+  @spec grid_button_id(map) :: String.t | nil
+  defp grid_button_id(%{id_prefix: <<prefix::binary>>, index: idx}) do
+    prefix <> "--" <> Integer.to_string(idx)
+  end
+  defp grid_button_id(_) do
+    nil
+  end
 end

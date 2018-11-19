@@ -5,6 +5,7 @@
         routes: @routes,
         all_alerts: @all_alerts,
         date_time: @date_time,
+        id_prefix: "recently-visited",
         show_icons?: true
   %>
 </div>
