@@ -278,13 +278,6 @@
   margin-bottom: 0;
 }
 
-.m-trip-plan__reverse-control {
-  color: $brand-primary;
-  cursor: pointer;
-  margin-left: auto;
-  user-select: none;
-}
-
 .m-trip-plan__error {
   background-color: $form-error-message;
   border-radius: $base-spacing / 4 $base-spacing / 4 0 0;

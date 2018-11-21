@@ -4,6 +4,19 @@
       display: block;
     }
   }
+
+  .c-trip-plan-widget__inputs {
+    flex: none;
+    flex-direction: column;
+
+    .c-trip-plan-widget__from {
+      margin-right: 0;
+    }
+  }
+
+  .c-trip-plan-widget__submit {
+    width: 100%;
+  }
 }
 
 .m-trip-plan__sidebar {
@@ -29,17 +42,9 @@
   }
 }
 
-.m-trip-plan__submit {
-  width: 100%;
-}
-
 .m-trip-plan__reset {
   margin-top: $base-spacing;
   width: 100%;
-}
-
-.m-trip-plan__location-input {
-  width: 80%;
 }
 
 .plan-date-container {
@@ -169,36 +174,10 @@
   }
 }
 
-.m-trip-plan__input-label {
-  color: $brand-primary;
-  font-size: $font-size-h3;
-  font-weight: bold;
-  margin-left: $base-spacing / 2;
-}
-
-.m-trip-plan__label--to {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.c-form__input-container--error {
-  .m-trip-plan__input-label {
-    color: $error-text;
-  }
-}
-
 .m-trip-plan__required {
   color: $error-text;
 }
 
 .m-trip-plan__hidden {
   display: none;
-}
-
-.m-trip-plan__location-error {
-  margin-left: -$base-spacing * .75;
-  margin-right: -$base-spacing * .75;
-  margin-top: $base-spacing * .75;
-  padding-bottom: $base-spacing * .75;
-  padding-top: $base-spacing * .75;
 }

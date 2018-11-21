@@ -17,8 +17,9 @@ defmodule Site.TripPlan.DateTime do
     |> round_minute()
     |> do_validate(type, query)
   end
-  def validate(%Query{} = query, %{}, _opts) do
-    do_validate({:error, :invalid_date}, nil, query)
+  def validate(%Query{} = query, params, opts) do
+    {:ok, now} = Keyword.fetch(opts, :now)
+    validate(query, Map.put(params, "date_time", now), opts)
   end
 
   @spec do_validate(DateTime.t | {:error, any}, String.t | nil, Query.t) :: Query.t
@@ -67,6 +68,9 @@ defmodule Site.TripPlan.DateTime do
   }) do
     "#{year}-#{month}-#{day} #{hour}:#{minute} #{am_pm}"
   end
+  defp date_to_string(%DateTime{} = date) do
+    date
+  end
   defp date_to_string(%{}) do
     {:error, :invalid_date}
   end
@@ -75,6 +79,10 @@ defmodule Site.TripPlan.DateTime do
   :: date_time
   defp future_date_or_now({:error, :invalid_date}, %DateTime{}) do
     {:error, :invalid_date}
+  end
+  defp future_date_or_now(%DateTime{} = now, %DateTime{} = system_dt) do
+    now
+    |> do_future_date_or_now(system_dt)
   end
   defp future_date_or_now(%NaiveDateTime{} = naive_dt, %DateTime{} = system_dt) do
     naive_dt

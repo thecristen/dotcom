@@ -16,7 +16,7 @@ defmodule SiteWeb.TripPlanController do
   @type route_map :: %{optional(Routes.Route.id_t()) => Routes.Route.t()}
   @type route_mapper :: (Routes.Route.id_t() -> Routes.Route.t() | nil)
 
-  def index(conn, %{"plan" => %{"date_time" => _dt, "to" => _to, "from" => _fr} = plan}) do
+  def index(conn, %{"plan" => %{"to" => _to, "from" => _fr} = plan}) do
     conn
     |> assign(:expanded, conn.query_params["expanded"])
     |> render_plan(plan)

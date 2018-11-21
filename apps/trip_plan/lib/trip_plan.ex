@@ -12,9 +12,9 @@ defmodule TripPlan do
   @doc """
   Tries to describe how to get between two places.
   """
-  @spec plan(Position.t, Position.t, TripPlan.Api.plan_opts) :: TripPlan.Api.t
-  def plan(from, to, opts) do
-    apply(module(Api), :plan, [from, to, Keyword.merge(@default_opts, opts)])
+  @spec plan(Position.t, Position.t, TripPlan.Api.plan_opts, pid()) :: TripPlan.Api.t
+  def plan(from, to, opts, parent \\ self()) do
+    apply(module(Api), :plan, [from, to, Keyword.merge(@default_opts, opts), parent])
   end
 
   @doc """

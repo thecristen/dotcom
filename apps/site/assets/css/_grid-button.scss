@@ -34,7 +34,7 @@
   display: flex;
   font-variant-numeric: tabular-nums;
   height: 100%;
-  line-height: 1;
+  line-height: 1.25;
   padding: $base-spacing * .75;
 
   &:hover {
@@ -61,11 +61,6 @@
     flex-basis: 33.33%;
     max-width: 33.33%;
   }
-
-  @include media-breakpoint-up(xxl) {
-    flex-basis: 20%;
-    max-width: 20%;
-  }
 }
 
 .c-grid-button--bus {
@@ -81,14 +76,14 @@
 }
 
 .c-grid-button--commuter-rail {
-  @include media-breakpoint-up(md) {
-    flex-basis: 33.33%;
-    max-width: 33.33%;
-  }
-
-  @include media-breakpoint-only(sm) {
+  @include media-breakpoint-up(sm) {
     flex-basis: 50%;
     max-width: 50%;
+  }
+
+  @include media-breakpoint-only(md) {
+    flex-basis: 33.33%;
+    max-width: 33.33%;
   }
 }
 

@@ -21,13 +21,21 @@ defmodule Site.TripPlan.Query do
 
   @spec from_query(map, Keyword.t) :: t
   def from_query(params, date_opts) do
-    opts = opts_from_query(params)
+    opts = get_query_options(params)
 
     %__MODULE__{}
     |> Site.TripPlan.DateTime.validate(params, date_opts)
     |> Site.TripPlan.Location.validate(params)
     |> include_options(opts)
     |> maybe_fetch_itineraries(opts)
+  end
+
+  @spec get_query_options(map) ::  keyword()
+  def get_query_options(params) do
+    %{}
+    |> set_default_options
+    |> Map.merge(params)
+    |> opts_from_query
   end
 
   @spec maybe_fetch_itineraries(t, Keyword.t) :: t
@@ -49,14 +57,15 @@ defmodule Site.TripPlan.Query do
 
   @spec fetch_itineraries(t, Keyword.t) :: TripPlan.Api.t
   defp fetch_itineraries(%__MODULE__{from: %NamedPosition{} = from, to: %NamedPosition{} = to}, opts) do
+    pid = self()
     if Keyword.get(opts, :wheelchair_accessible?) do
       TripPlan.plan(from, to, opts)
     else
       accessible_opts = Keyword.put(opts, :wheelchair_accessible?, true)
 
       [mixed_results, accessible_results] = Util.async_with_timeout([
-        fn -> TripPlan.plan(from, to, opts) end,
-        fn -> TripPlan.plan(from, to, accessible_opts) end,
+        fn -> TripPlan.plan(from, to, opts, pid) end,
+        fn -> TripPlan.plan(from, to, accessible_opts, pid) end,
       ], {:error, :timeout})
 
       dedup_itineraries(mixed_results, accessible_results)
@@ -82,6 +91,25 @@ defmodule Site.TripPlan.Query do
       accessible,
       unknown)
     {:ok, merged}
+  end
+
+  defp set_default_options(params) do
+    params
+    |> default_optimize_for
+    |> default_mode
+  end
+
+  def default_optimize_for(params) do
+    Map.put(params, "optimize_for", "best_route")
+  end
+
+  def default_mode(params) do
+    Map.put(params, "modes", %{
+      "bus" => "true",
+      "commuter_rail" => "true",
+      "ferry" => "true",
+      "subway" => "true"
+    })
   end
 
   defp include_options(%__MODULE__{} = query, opts) do

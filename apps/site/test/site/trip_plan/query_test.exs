@@ -23,6 +23,24 @@ defmodule Site.TripPlan.QueryTest do
   ]
 
   describe "from_query/1" do
+    test "can plan a basic trip with defaults from query params" do
+      params = %{"from" => "from address",
+                 "to" => "to address"
+                }
+      actual = from_query(params, @date_opts)
+      assert_received {:geocoded_address, "from address", {:ok, from_position}}
+      assert_received {:geocoded_address, "to address", {:ok, to_position}}
+      assert_received {:planned_trip, {^from_position, ^to_position, first_opts}, {:ok, accessible_itineraries}}
+      assert_received {:planned_trip, {^from_position, ^to_position, second_opts}, {:ok, nonaccessible_itineraries}}
+      assert length(Enum.filter([first_opts, second_opts], &Keyword.get(&1, :wheelchair_accessible?))) == 1
+      assert %Query{} = actual
+      assert actual.from == from_position
+      assert actual.to == to_position
+      assert {:depart_at, %DateTime{}} = actual.time
+      assert {:ok, actual_itineraries} = actual.itineraries
+      assert Enum.sort(actual_itineraries) == Enum.sort(accessible_itineraries ++ nonaccessible_itineraries)
+    end
+
     test "can plan a basic trip from query params" do
       params = %{"from" => "from address",
                  "to" => "to address",
@@ -301,6 +319,40 @@ defmodule Site.TripPlan.QueryTest do
       assert get_mode_opts(%{"subway" => "false", "bus" => "true", "commuter_rail" => "true"}, [])
         == [mode: ["RAIL", "BUS"]]
       assert get_mode_opts(%{"subway" => "true", "ferry" => "true"}, []) == [mode: ["TRAM", "SUBWAY", "FERRY"]]
+    end
+  end
+
+  describe "default_optimize_for/1" do
+    test "adds a default of best route for optimize" do
+      opts = %{"modes" => %{"bus" => "true"}}
+      assert Map.merge(opts, %{"optimize_for" => "best_route"}) == default_optimize_for(opts)
+    end
+  end
+
+  describe "default_mode/1" do
+    test "adds a default of modes" do
+      opts = %{"optimize_for" => "best_route"}
+      assert Map.merge(opts, %{"modes" => %{
+        "bus" => "true",
+        "commuter_rail" => "true",
+        "ferry" => "true",
+        "subway" => "true"
+      }}) == default_mode(opts)
+    end
+  end
+
+  describe "get_query_options/1" do
+    test "keeps optimize_for if provided" do
+      opts = %{"optimize_for" => "accessibility"}
+      assert [
+        mode: ["TRAM", "SUBWAY", "FERRY", "RAIL", "BUS"],
+        wheelchair_accessible?: true
+      ] == get_query_options(opts)
+    end
+
+    test "keeps mode if provided" do
+      opts = %{"modes" => %{"bus" => "true"}}
+      assert [mode: ["BUS"]] == get_query_options(opts)
     end
   end
 end

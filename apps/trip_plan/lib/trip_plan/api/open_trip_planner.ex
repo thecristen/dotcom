@@ -6,6 +6,10 @@ defmodule TripPlan.Api.OpenTripPlanner do
   alias TripPlan.NamedPosition
   alias Util.Position
 
+  def plan(from, to, opts, _parent) do
+    plan(from, to, opts)
+  end
+
   @impl true
   def plan(from, to, opts) do
     with {:ok, params} <- build_params(opts),

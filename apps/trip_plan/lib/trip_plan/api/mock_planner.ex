@@ -7,27 +7,30 @@ defmodule TripPlan.Api.MockPlanner do
   @max_duration 30 * 60
 
   @impl true
-  def plan(%NamedPosition{name: "Geocoded path_not_found"}, _to, _opts) do
+  def plan(from, to, opts) do
+    plan(from, to, opts, self())
+  end
+  def plan(%NamedPosition{name: "Geocoded path_not_found"}, _to, _opts, _) do
     {:error, :path_not_found}
   end
-  def plan(%NamedPosition{name: "Geocoded Accessible error"} = from, to, opts) do
+  def plan(%NamedPosition{name: "Geocoded Accessible error"} = from, to, opts, p) do
     if Keyword.get(opts, :wheelchair_accessible?) do
       {:error, :not_accessible}
     else
-      plan(%{from | name: "Accessible error"}, to, opts)
+      plan(%{from | name: "Accessible error"}, to, opts, p)
     end
   end
-  def plan(%NamedPosition{name: "Geocoded Inaccessible error"} = from, to, opts) do
+  def plan(%NamedPosition{name: "Geocoded Inaccessible error"} = from, to, opts, p) do
     if Keyword.get(opts, :wheelchair_accessible?) do
-      plan(%{from | name: "Inaccessible error"}, to, opts)
+      plan(%{from | name: "Inaccessible error"}, to, opts, p)
     else
       {:error, :not_accessible}
     end
   end
-  def plan(%NamedPosition{name: "Timeout error"}, _, _) do
+  def plan(%NamedPosition{name: "Timeout error"}, _, _, _) do
     :timer.sleep(:infinity)
   end
-  def plan(from, to, opts) do
+  def plan(from, to, opts, parent) do
     start = DateTime.utc_now()
     duration = :rand.uniform(@max_duration)
     stop = Timex.shift(start, seconds: duration)
@@ -44,7 +47,7 @@ defmodule TripPlan.Api.MockPlanner do
       accessible?: Keyword.get(opts, :wheelchair_accessible?, false)
       }
     ]
-    send self(), {:planned_trip, {from, to, opts}, {:ok, itineraries}}
+    send parent, {:planned_trip, {from, to, opts}, {:ok, itineraries}}
     {:ok, itineraries}
   end
 
