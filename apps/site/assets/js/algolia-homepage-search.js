@@ -1,4 +1,4 @@
-import { doWhenGoogleMapsIsReady} from "./google-maps-loaded";
+import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import { AlgoliaEmbeddedSearch } from "./algolia-embedded-search";
 import { animatePlaceholder } from "./animated-placeholder";
 import { placeholders } from "./search-placeholders";
@@ -16,8 +16,8 @@ const INDICES = {
   pages: {
     indexName: "drupal",
     query: ""
-  },
-}
+  }
+};
 
 // exported for testing
 export const SELECTORS = {
@@ -27,7 +27,7 @@ export const SELECTORS = {
   locationLoadingIndicator: "search-homepage__loading-indicator",
   resetButton: "search-homepage__reset",
   announcer: "search-homepage__announcer"
-}
+};
 
 const PARAMS = {
   stops: {
@@ -43,33 +43,33 @@ const PARAMS = {
   pages: {
     hitsPerPage: 2,
     facets: ["*"],
-    facetFilters: [[
-      "_content_type:page",
-      "_content_type:search_result",
-      "_content_type:landing_page",
-      "_content_type:person",
-      "_content_type:project",
-      "_content_type:project_update"
-    ]]
-  },
-}
+    facetFilters: [
+      [
+        "_content_type:page",
+        "_content_type:search_result",
+        "_content_type:landing_page",
+        "_content_type:person",
+        "_content_type:project",
+        "_content_type:project_update"
+      ]
+    ]
+  }
+};
 
 const LOCATION_PARAMS = {
   position: 3,
   hitLimit: 2
-}
+};
 
 // exported for testing
 export const doInit = () => {
-  const search = new AlgoliaEmbeddedSearch(
-    {
-      pageId: "search-homepage",
-      indices: INDICES,
-      params: PARAMS,
-      selectors: SELECTORS,
-      locationParams: LOCATION_PARAMS,
-    }
-  );
+  const search = new AlgoliaEmbeddedSearch({
+    pageId: "search-homepage",
+    indices: INDICES,
+    params: PARAMS,
+    selectors: SELECTORS,
+    locationParams: LOCATION_PARAMS
+  });
   search.buildSearchParams = () => {
     return QueryStringHelpers.parseParams({
       query: search.input.value

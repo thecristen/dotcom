@@ -1,8 +1,8 @@
-import hogan from 'hogan.js';
-import {FacetGroup} from "./facet-group"
-import {FacetLocationGroup} from "./facet-location-group"
+import hogan from "hogan.js";
+import { FacetGroup } from "./facet-group";
+import { FacetLocationGroup } from "./facet-location-group";
 
-const facetGroupClasses = {FacetGroup, FacetLocationGroup};
+const facetGroupClasses = { FacetGroup, FacetLocationGroup };
 
 export class FacetBar {
   constructor(container, search, facets, parent) {
@@ -41,7 +41,7 @@ export class FacetBar {
     for (let item in items) {
       items[item].reset();
     }
-    this._resetQueries()
+    this._resetQueries();
   }
 
   _resetQueries() {
@@ -62,14 +62,14 @@ export class FacetBar {
   }
 
   selectedFacetNames() {
-    return Object.keys(this._items)
-                 .reduce((acc, key) => this._selectedFacetsReducer(key, acc), []);
+    return Object.keys(this._items).reduce(
+      (acc, key) => this._selectedFacetsReducer(key, acc),
+      []
+    );
   }
 
   _selectedFacetsReducer(key, acc) {
-    this._items[key]
-      .selectedFacetNames()
-      .forEach(name => acc.push(name))
+    this._items[key].selectedFacetNames().forEach(name => acc.push(name));
     return acc;
   }
 

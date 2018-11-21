@@ -148,11 +148,14 @@ brew install cmake
 brew install pkg-config
 gem install pronto
 gem install pronto-scss
-gem install pronto-eslint
 gem install pronto-credo
 ```
 
 Run it by calling `pronto run` in the `mbta/dotcom` directory. If there is no output, that means it passed.
+
+### Javascript formatting
+
+Our javascript is linted by eslint and formatted by prettier. At this time, only prettier formatting is enforced in CI. You can auto-format your javascript via `npm run format`, or set it up to autoformat on save in your editor of choice.
 
 ### Backstop Tests
 

@@ -1,16 +1,15 @@
 export default () => {
   document.addEventListener("turbolinks:load", scrollTo, { passive: true });
-}
+};
 
 const scrollTo = () => {
-  window.requestAnimationFrame(
-    () => {
-      const initialElToScrollTo = document.querySelector("[data-scroll-to]");
-      if (initialElToScrollTo) {
-        doScrollTo(initialElToScrollTo);
-      }
-    });
-}
+  window.requestAnimationFrame(() => {
+    const initialElToScrollTo = document.querySelector("[data-scroll-to]");
+    if (initialElToScrollTo) {
+      doScrollTo(initialElToScrollTo);
+    }
+  });
+};
 
 const doScrollTo = el => {
   const childLeft = el.offsetLeft;
@@ -25,7 +24,7 @@ const doScrollTo = el => {
     table = table.parentNode;
   }
   table.parentNode.scrollLeft = scrollLeft;
-}
+};
 
 const firstSibling = element => {
   const sibling = element.parentNode.firstChild;
@@ -36,4 +35,4 @@ const firstSibling = element => {
   } else {
     return null;
   }
-}
+};

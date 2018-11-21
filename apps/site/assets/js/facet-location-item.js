@@ -1,8 +1,7 @@
-import {FacetItem} from "./facet-item"
+import { FacetItem } from "./facet-item";
 
 export class FacetLocationItem extends FacetItem {
-
   constructor(data, cls) {
-    super(data,cls);
+    super(data, cls);
   }
 }

@@ -45,7 +45,9 @@ export const run = (id, placeholders, idx, timeout) => {
       .fadeOut(1000, () => run(id, placeholders, nextIdx, timeout));
   }
 
-  return window.requestAnimationFrame(() => run(id, placeholders, idx, timeout));
+  return window.requestAnimationFrame(() =>
+    run(id, placeholders, idx, timeout)
+  );
 };
 
 export const teardown = () => {

@@ -4,7 +4,11 @@ import * as AlgoliaResult from "./algolia-result";
 import { AlgoliaAutocompleteWithGeo } from "./algolia-autocomplete-with-geo";
 import * as QueryStringHelpers from "./query-string-helpers";
 
-import { PAGE_IDS, FACET_MAP, buildOptions } from "./algolia-embedded-search-options";
+import {
+  PAGE_IDS,
+  FACET_MAP,
+  buildOptions
+} from "./algolia-embedded-search-options";
 
 export class AlgoliaEmbeddedSearch {
   constructor({ pageId, selectors, params, indices, locationParams }) {
@@ -12,7 +16,10 @@ export class AlgoliaEmbeddedSearch {
     this.selectors = selectors;
     this.params = params;
     this.indices = indices;
-    this.locationParams = locationParams || { position: Object.keys(indices).length, hitLimit: 3 }
+    this.locationParams = locationParams || {
+      position: Object.keys(indices).length,
+      hitLimit: 3
+    };
     this.input = document.getElementById(selectors.input);
     this.controller = null;
     this.autocomplete = null;

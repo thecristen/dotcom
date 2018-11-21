@@ -1,49 +1,52 @@
-import email from 'email-validation';
+import email from "email-validation";
 
 export default function($ = window.jQuery) {
-  document.addEventListener('turbolinks:load', () => {
+  document.addEventListener(
+    "turbolinks:load",
+    () => {
+      // TODO: create a way to run page-specific JS so that this hack isn't needed.
+      if (!document.getElementById("support-form")) {
+        return;
+      }
 
-    // TODO: create a way to run page-specific JS so that this hack isn't needed.
-    if (!document.getElementById('support-form')) {
-      return;
-    }
+      window.nextTick(() => {
+        clearFallbacks($);
 
-    window.nextTick(() => {
-      clearFallbacks($);
+        const toUpload = [];
+        setupPhotoPreviews($, toUpload);
+        setupTextArea();
+        setupRequestResponse($);
+        setupValidation($);
 
-      const toUpload = [];
-      setupPhotoPreviews($, toUpload);
-      setupTextArea();
-      setupRequestResponse($);
-      setupValidation($);
-
-      handleSubmitClick($, toUpload);
-    });
-  }, {passive: true});
-};
+        handleSubmitClick($, toUpload);
+      });
+    },
+    { passive: true }
+  );
+}
 
 // Set a few things since we know we don't need the no-JS fallbacks
 export function clearFallbacks($) {
-  const $photoLink = $('#upload-photo-link'),
-        $photoInput = $('#photo');
+  const $photoLink = $("#upload-photo-link"),
+    $photoInput = $("#photo");
   // Remove tabindex manipulation for screenreaders
-  $photoLink.removeAttr('tabindex');
+  $photoLink.removeAttr("tabindex");
   // Forward clicks from the button to the input
-  $photoLink.click(function (event) {
+  $photoLink.click(function(event) {
     event.preventDefault();
     $photoInput.click();
   });
-};
+}
 
 // Adds the uploaded photo previews
 function setupPhotoPreviews($, toUpload) {
-  const $container = $('.photo-preview-container');
-  $('#photo').change(function () {
+  const $container = $(".photo-preview-container");
+  $("#photo").change(function() {
     if (this.files.length >= 1) {
       resizeAndHandleUploadedFile($, this.files[0], $container, toUpload);
     }
   });
-};
+}
 
 export function resizeAndHandleUploadedFile($, file, $container, toUpload) {
   if (/image\//.test(file.type)) {
@@ -51,15 +54,19 @@ export function resizeAndHandleUploadedFile($, file, $container, toUpload) {
       .then(newFile => {
         newFile.name = file.name;
         handleUploadedPhoto($, newFile, $container, toUpload);
-        $('#support-upload-error-container').addClass('hidden-xs-up');
+        $("#support-upload-error-container").addClass("hidden-xs-up");
       })
       .catch(err => {
-        displayError($, '#upload');
-        $('#upload-photo-error').html("Sorry. We had trouble uploading your image. Please try again.");
+        displayError($, "#upload");
+        $("#upload-photo-error").html(
+          "Sorry. We had trouble uploading your image. Please try again."
+        );
       });
   } else {
-    displayError($, '#upload');
-    $('#upload-photo-error').html("We couldn't upload your file. Please make sure it's an image and try again.");
+    displayError($, "#upload");
+    $("#upload-photo-error").html(
+      "We couldn't upload your file. Please make sure it's an image and try again."
+    );
   }
   $container.focus();
 }
@@ -78,7 +85,7 @@ export function handleUploadedPhoto($, file, $container, toUpload) {
 
 export function resizeImage(file) {
   return new Promise((resolve, reject) => {
-    const fr = new FileReader;
+    const fr = new FileReader();
     fr.onerror = () => {
       fr.abort();
       reject(new DOMException("Error parsing file."));
@@ -86,7 +93,7 @@ export function resizeImage(file) {
     fr.onload = function() {
       const img = new Image();
       img.onload = function() {
-        const dim = rescale({width: img.width, height: img.height});
+        const dim = rescale({ width: img.width, height: img.height });
         const canvas = document.createElement("canvas");
         canvas.width = dim.width;
         canvas.height = dim.height;
@@ -97,7 +104,7 @@ export function resizeImage(file) {
         }, "image/jpeg");
       };
       img.src = fr.result;
-    }
+    };
     fr.readAsDataURL(file);
   });
 }
@@ -122,18 +129,20 @@ export function rescale(dim) {
 function hideOrShowPreviews($container, toUpload) {
   if (toUpload.length > 0) {
     $container.removeClass("hidden-xs-up");
-  } else{
+  } else {
     $container.addClass("hidden-xs-up");
   }
 }
 
-function PhotoPreview ($, file) {
-  const filesize = require('filesize');
+function PhotoPreview($, file) {
+  const filesize = require("filesize");
 
   let $div = $(`
     <div class="photo-preview">
       <div class="clear-upload-container">
-        <img height="64" class="m-r-1" alt="Uploaded image ${file.name} preview"></img>
+        <img height="64" class="m-r-1" alt="Uploaded image ${
+          file.name
+        } preview"></img>
         <div class="clear-photo">
           <i class="fa fa-circle fa-stack-1x" style="color: white" aria-hidden="true"></i>
           <i class="fa fa-times-circle fa-stack-1x" aria-hidden="true"></i>
@@ -144,11 +153,13 @@ function PhotoPreview ($, file) {
   `);
 
   let reader = new FileReader();
-  reader.onloadend = () => { $div.find("img")[0].src = reader.result; };
+  reader.onloadend = () => {
+    $div.find("img")[0].src = reader.result;
+  };
   reader.readAsDataURL(file);
 
-  this.addClickHandler = function ($container, toUpload) {
-    $div.find('.clear-photo').click((event) => {
+  this.addClickHandler = function($container, toUpload) {
+    $div.find(".clear-photo").click(event => {
       event.preventDefault();
 
       let index = toUpload.indexOf(file);
@@ -158,30 +169,33 @@ function PhotoPreview ($, file) {
       hideOrShowPreviews($container, toUpload);
     });
     return this;
-  }
+  };
 
-  this.div = function () {
+  this.div = function() {
     return $div;
-  }
+  };
 }
 
 export function setupTextArea() {
   // Track the number of characters in the main <textarea>
   const commentsNode = document.getElementById("comments"),
-        formTextNode = findSiblingWithClass(commentsNode, 'form-text');
-  commentsNode.addEventListener('keyup', (ev) => {
-    const commentLength = commentsNode.textLength;
-    formTextNode.innerHTML = commentLength + '/3000 characters';
-    if (commentLength > 0) {
-      formTextNode.className += ' support-comment-success';
-      formTextNode.parentNode.className += ' has-success';
-    }
-    else {
-      removeClass(formTextNode, 'support-comment-success');
-      removeClass(formTextNode.parentNode, 'has-success');
-    }
-  }, {passive: true});
-};
+    formTextNode = findSiblingWithClass(commentsNode, "form-text");
+  commentsNode.addEventListener(
+    "keyup",
+    ev => {
+      const commentLength = commentsNode.textLength;
+      formTextNode.innerHTML = commentLength + "/3000 characters";
+      if (commentLength > 0) {
+        formTextNode.className += " support-comment-success";
+        formTextNode.parentNode.className += " has-success";
+      } else {
+        removeClass(formTextNode, "support-comment-success");
+        removeClass(formTextNode.parentNode, "has-success");
+      }
+    },
+    { passive: true }
+  );
+}
 
 function findSiblingWithClass(node, className) {
   node = node.nextElementSibling;
@@ -195,7 +209,7 @@ function removeClass(node, className) {
 }
 
 export function setupRequestResponse($) {
-  $('#request_response').click(function() {
+  $("#request_response").click(function() {
     if ($(this).is(":checked")) {
       showExpandedForm($);
     } else {
@@ -205,40 +219,40 @@ export function setupRequestResponse($) {
 }
 
 const validators = {
-  comments: function ($) {
-    return $('#comments').val().length !== 0;
+  comments: function($) {
+    return $("#comments").val().length !== 0;
   },
-  service: function ($) {
+  service: function($) {
     return !!$("[name='support[service]']:checked").val();
   },
-  name: function ($) {
+  name: function($) {
     if (responseRequested($)) {
-      return $('#name').val().length !== 0;
+      return $("#name").val().length !== 0;
     }
     return true;
   },
-  email: function ($) {
+  email: function($) {
     if (responseRequested($)) {
-      return email.valid($('#email').val());
+      return email.valid($("#email").val());
     }
     return true;
   },
-  privacy: function ($) {
+  privacy: function($) {
     if (responseRequested($)) {
-      return $('#privacy').prop('checked');
+      return $("#privacy").prop("checked");
     }
     return true;
   }
 };
 
 function responseRequested($) {
-  return $('#request_response')[0].checked;
+  return $("#request_response")[0].checked;
 }
 
 function setupValidation($) {
-  ['#privacy', '#comments', '#email', '#name'].forEach((selector) => {
+  ["#privacy", "#comments", "#email", "#name"].forEach(selector => {
     const $selector = $(selector);
-    $selector.on('keyup blur input change', () => {
+    $selector.on("keyup blur input change", () => {
       if (validators[selector.slice(1)]($)) {
         displaySuccess($, selector);
       }
@@ -248,22 +262,28 @@ function setupValidation($) {
 
 function displayError($, selector) {
   const rootSelector = selector.slice(1);
-  $(`.support-${rootSelector}-error-container`).removeClass('hidden-xs-up');
-  $(selector).parent().addClass('has-danger').removeClass('has-success');
+  $(`.support-${rootSelector}-error-container`).removeClass("hidden-xs-up");
+  $(selector)
+    .parent()
+    .addClass("has-danger")
+    .removeClass("has-success");
 }
 
 function displaySuccess($, selector) {
-  $(`.support-${selector.slice(1)}-error-container`).addClass('hidden-xs-up');
-  $(selector).parent().removeClass('has-danger').addClass('has-success');
+  $(`.support-${selector.slice(1)}-error-container`).addClass("hidden-xs-up");
+  $(selector)
+    .parent()
+    .removeClass("has-danger")
+    .addClass("has-success");
 }
 
 function validateForm($) {
-  const privacy = '#privacy',
-        comments = '#comments',
-        service = "#service",
-        email = "#email",
-        name = '#name',
-        errors = [];
+  const privacy = "#privacy",
+    comments = "#comments",
+    service = "#service",
+    email = "#email",
+    name = "#name",
+    errors = [];
   // Service
   if (!validators.service($)) {
     displayError($, service);
@@ -310,48 +330,54 @@ function focusError($, errors) {
 }
 
 function deactivateSubmitButton($) {
-  $('#support-submit').prop("disabled", true);
-  $('.waiting').removeAttr("hidden");
-  $('#support-submit').trigger('waiting:start');
+  $("#support-submit").prop("disabled", true);
+  $(".waiting").removeAttr("hidden");
+  $("#support-submit").trigger("waiting:start");
 }
 
 function reactivateSubmitButton($) {
-  $('#support-submit').prop("disabled", false);
-  $('.waiting').attr("hidden", "hidden");
-  $('#support-submit').trigger('waiting:end');
+  $("#support-submit").prop("disabled", false);
+  $(".waiting").attr("hidden", "hidden");
+  $("#support-submit").trigger("waiting:end");
 }
 
 export function handleSubmitClick($, toUpload) {
-  $('#support-submit').click(function (event) {
+  $("#support-submit").click(function(event) {
     // Use an npm-installed library for testing
-    const FormData = window.FormData ? window.FormData : require('form-data'),
-          valid = validateForm($);
+    const FormData = window.FormData ? window.FormData : require("form-data"),
+      valid = validateForm($);
     event.preventDefault();
     if (!valid) {
       return;
     }
     deactivateSubmitButton($);
     const formData = new FormData();
-    $('#support-form').serializeArray().forEach(({name: name, value: value}) => {
-      formData.append(name, value);
-    });
-    toUpload.forEach((photo) => {
+    $("#support-form")
+      .serializeArray()
+      .forEach(({ name: name, value: value }) => {
+        formData.append(name, value);
+      });
+    toUpload.forEach(photo => {
       formData.append("support[photos][]", photo, photo.name);
     });
     $.ajax({
-      url: $('#support-form').attr('action'),
+      url: $("#support-form").attr("action"),
       method: "POST",
       processData: false,
       data: formData,
       contentType: false,
       success: () => {
-        $('#support-form').parent().remove();
-        $('.support-thank-you').removeClass('hidden-xs-up');
-        $('.support-success').focus();
-        $('.support-form-error').addClass('hidden-xs-up');
+        $("#support-form")
+          .parent()
+          .remove();
+        $(".support-thank-you").removeClass("hidden-xs-up");
+        $(".support-success").focus();
+        $(".support-form-error").addClass("hidden-xs-up");
       },
       error: () => {
-        $('.support-form-error').removeClass('hidden-xs-up').focus();
+        $(".support-form-error")
+          .removeClass("hidden-xs-up")
+          .focus();
         reactivateSubmitButton($);
       }
     });
@@ -359,9 +385,9 @@ export function handleSubmitClick($, toUpload) {
 }
 
 function showExpandedForm($) {
-  $('.support-form-expanded').show();
+  $(".support-form-expanded").show();
 }
 
 function hideExpandedForm($) {
-  $('.support-form-expanded').hide();
+  $(".support-form-expanded").hide();
 }

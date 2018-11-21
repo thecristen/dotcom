@@ -1,14 +1,18 @@
-import { doWhenGoogleMapsIsReady } from './google-maps-loaded';
-import styles from './google-map/styles';
+import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
+import styles from "./google-map/styles";
 import * as Icons from "./icons";
 
 export default function($) {
   $ = $ || window.jQuery;
-  document.addEventListener("turbolinks:load", () => {
-    doWhenGoogleMapsIsReady(() => {
-      maybeInitMap($);
-    });
-  }, {passive: true});
+  document.addEventListener(
+    "turbolinks:load",
+    () => {
+      doWhenGoogleMapsIsReady(() => {
+        maybeInitMap($);
+      });
+    },
+    { passive: true }
+  );
 }
 
 // These values are global to this module
@@ -47,7 +51,7 @@ export function initMap($, autoInit = false) {
   maybeCreateMaps(mapDataElements, autoInit);
 
   // Reconsier bounds on page resize
-  window.addEventListener("resize", reevaluateMapBounds, {passive: true});
+  window.addEventListener("resize", reevaluateMapBounds, { passive: true });
   // must be a jQuery.on since it's a synthetic event
   $(document).on("show.bs.collapse", createToggledMap);
   return maps.map((map, index) => {
@@ -57,7 +61,6 @@ export function initMap($, autoInit = false) {
     };
   });
 }
-
 
 function maybeCreateMaps(mapDataElements, autoInit) {
   // Render all visible maps by iterating over the HTMLCollection elements
@@ -110,11 +113,11 @@ function displayMap(el, mapData) {
     return;
   }
   // Create a map instance
-  const map = maps[index] = new google.maps.Map(el, mapData.dynamic_options);
+  const map = (maps[index] = new google.maps.Map(el, mapData.dynamic_options));
   ids[index] = el.id;
 
   // Bounds will allow us to later zoom the map to the boundaries of the stops
-  const bound = bounds[index] = new google.maps.LatLngBounds();
+  const bound = (bounds[index] = new google.maps.LatLngBounds());
 
   // If there are stops, show them
   if (mapData.markers) {
@@ -139,24 +142,24 @@ function displayMap(el, mapData) {
     google.maps.event.addListenerOnce(map, "zoom_changed", () => {
       setReasonableZoom(map, map.getZoom());
     });
-  } else if(mapData.zoom) {
+  } else if (mapData.zoom) {
     map.setZoom(mapData.zoom);
   } else {
     setReasonableZoom(map, zoom);
   }
 
   // set basemap styles
-  map.setOptions({styles: styles});
+  map.setOptions({ styles: styles });
 }
 
-function renderPolylines (el, polylines) {
+function renderPolylines(el, polylines) {
   const map = cachedMapFor(el);
-  polylines.forEach((path) => {
+  polylines.forEach(path => {
     polylineForPath(path).setMap(map);
   });
 }
 
-function polylineForPath (path) {
+function polylineForPath(path) {
   if (path["dotted?"]) {
     const lineSymbol = {
       path: `M 0,-${path.weight} 0,${path.weight}`,
@@ -164,11 +167,13 @@ function polylineForPath (path) {
       scale: 2
     };
     return new google.maps.Polyline({
-      icons: [{
-        icon: lineSymbol,
-        index: '0',
-        repeat: '10px'
-      }],
+      icons: [
+        {
+          icon: lineSymbol,
+          index: "0",
+          repeat: "10px"
+        }
+      ],
       path: google.maps.geometry.encoding.decodePath(path.polyline),
       geodesic: true,
       strokeOpacity: 0
@@ -204,7 +209,7 @@ function renderMarkerFunction(el, bound) {
     // Add a marker to map
     if (markerData["visible?"]) {
       const marker = new google.maps.Marker({
-        position: {lat: lat, lng: lng},
+        position: { lat: lat, lng: lng },
         map: map,
         icon: icon,
         zIndex: markerData.z_index + index
@@ -213,7 +218,9 @@ function renderMarkerFunction(el, bound) {
       // Display information about
       if (content) {
         marker.addListener("mouseover", showInfoWindow(map, marker, content));
-        marker.addListener("mouseout", () => { closeInfoWindow(); });
+        marker.addListener("mouseout", () => {
+          closeInfoWindow();
+        });
       }
     }
 
@@ -238,12 +245,12 @@ function setReasonableZoom(map, zoom) {
 
 // Return a callback that can open an info window with specific content
 function showInfoWindow(map, marker, content) {
-  return (input) => {
+  return input => {
     // If another info window is displayed, close it
     if (infoWindow) {
       closeInfoWindow();
     }
-    infoWindow = new google.maps.InfoWindow({content: content});
+    infoWindow = new google.maps.InfoWindow({ content: content });
     infoWindow.open(map, marker);
   };
 }
@@ -304,9 +311,9 @@ function getIconSize(size) {
 }
 
 export function iconSvg(marker) {
-  const parts = marker.split('-');
+  const parts = marker.split("-");
   const id = parts.shift();
-  const type = parts.join('-');
+  const type = parts.join("-");
 
   switch (type) {
     case "dot":

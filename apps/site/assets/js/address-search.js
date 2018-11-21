@@ -1,31 +1,41 @@
 export default function() {
   function setupLocationInput() {
-    const transitNearMeInput = document.getElementById('address-search-input');
+    const transitNearMeInput = document.getElementById("address-search-input");
 
     // only load on pages that are using the location input
     if (!transitNearMeInput) {
       return;
     }
 
-    transitNearMeInput.form.addEventListener('submit', (ev) => validateLocationForm(ev, window.location,
-                                                                                    transitNearMeInput));
+    transitNearMeInput.form.addEventListener("submit", ev =>
+      validateLocationForm(ev, window.location, transitNearMeInput)
+    );
   }
 
-  document.addEventListener('turbolinks:load', setupLocationInput, {passive: true});
-  $(document).on('autocomplete:added', '#address-search-input', addLocationChangeCallback);
-  $(document).on('geolocation:complete', '#address-search-input', geolocationCallback);
+  document.addEventListener("turbolinks:load", setupLocationInput, {
+    passive: true
+  });
+  $(document).on(
+    "autocomplete:added",
+    "#address-search-input",
+    addLocationChangeCallback
+  );
+  $(document).on(
+    "geolocation:complete",
+    "#address-search-input",
+    geolocationCallback
+  );
 }
 
 // Functions exported for testing //
 
 export function getUrlParameter(sParam, search_string) {
   const sPageURL = decodeURIComponent(search_string.substring(1)),
-        sURLVariables = sPageURL.split('&');
-  var sParameterName,
-      i;
+    sURLVariables = sPageURL.split("&");
+  var sParameterName, i;
 
   for (i = 0; i < sURLVariables.length; i++) {
-    sParameterName = sURLVariables[i].split('=');
+    sParameterName = sURLVariables[i].split("=");
 
     if (sParameterName[0] === sParam) {
       return sParameterName[1] === undefined ? true : sParameterName[1];
@@ -53,13 +63,23 @@ export function constructUrl(place, input) {
   const name = input.getAttribute("name");
   var query_str;
   const loc = window.location,
-        location_url = loc.protocol + "//" + loc.host + loc.pathname,
-        addr = input.value;
+    location_url = loc.protocol + "//" + loc.host + loc.pathname,
+    addr = input.value;
 
   if (place.geometry) {
     const lat = place.geometry.location.lat();
     const lng = place.geometry.location.lng();
-    query_str = "?latitude=" + lat + "&longitude=" + lng + "&" + name + "=" + addr +  "#" + id;
+    query_str =
+      "?latitude=" +
+      lat +
+      "&longitude=" +
+      lng +
+      "&" +
+      name +
+      "=" +
+      addr +
+      "#" +
+      id;
   } else {
     query_str = "?" + name + "=" + place.name + "#" + id;
   }
@@ -71,7 +91,7 @@ export function addLocationChangedEventListener(autocomplete, input) {
     const locationUrl = constructUrl(autocomplete.getPlace(), input);
     window.location.href = encodeURI(locationUrl);
   }
-  google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+  google.maps.event.addListener(autocomplete, "place_changed", onPlaceChanged);
 }
 
 function addLocationChangeCallback(ev, autocomplete) {
@@ -79,7 +99,11 @@ function addLocationChangeCallback(ev, autocomplete) {
 }
 
 function geolocationCallback(ev, location) {
-  const path = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
-  const qs = `?latitude=${location.coords.latitude}&longitude=${location.coords.longitude}`;
-  window.location.href = encodeURI(path + qs + '#address-search-input');
+  const path = `${window.location.protocol}//${window.location.host}${
+    window.location.pathname
+  }`;
+  const qs = `?latitude=${location.coords.latitude}&longitude=${
+    location.coords.longitude
+  }`;
+  window.location.href = encodeURI(path + qs + "#address-search-input");
 }

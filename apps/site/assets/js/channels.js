@@ -18,10 +18,8 @@ function initChannel(channelId, socket) {
       .receive("error", ({ reason }) =>
         console.error(`failed to join ${channelId}`, reason)
       )
-      .receive("timeout", () =>
-        console.error(`timeout joining ${channelId}`)
-      );
-  };
+      .receive("timeout", () => console.error(`timeout joining ${channelId}`));
+  }
 }
 
 function initAll(socket) {

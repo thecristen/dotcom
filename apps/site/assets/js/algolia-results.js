@@ -1,4 +1,4 @@
-import hogan from 'hogan.js';
+import hogan from "hogan.js";
 import * as AlgoliaResult from "./algolia-result";
 import * as GoogleMapsHelpers from "./google-maps-helpers";
 import * as QueryStringHelpers from "./query-string-helpers";
@@ -32,15 +32,25 @@ const TEMPLATES = {
         </div>
       {{/hasHits}}
     </div>
- `),
+ `)
 };
 
 export class AlgoliaResults {
   constructor(id, parent) {
     this._parent = parent;
-    this._groups = ["locations", "routes", "stops", "pages", "documents", "events", "news"];
+    this._groups = [
+      "locations",
+      "routes",
+      "stops",
+      "pages",
+      "documents",
+      "events",
+      "news"
+    ];
     this._container = document.getElementById(id);
-    this._googleLogo = document.getElementById("powered-by-google-logo").innerHTML;
+    this._googleLogo = document.getElementById(
+      "powered-by-google-logo"
+    ).innerHTML;
     if (!this._container) {
       console.error(`could not find results container with id: ${id}`);
     }
@@ -63,23 +73,28 @@ export class AlgoliaResults {
           elem.addEventListener("click", this._locationSearch(hit.place_id));
         }
       });
-      const useLocation = document.getElementById("search-result__use-my-location")
-      if(useLocation){
+      const useLocation = document.getElementById(
+        "search-result__use-my-location"
+      );
+      if (useLocation) {
         useLocation.addEventListener("click", () => {
           this._useMyLocation()
-          .then(pos => {
-            this._locationSearchByGeo(pos.coords.latitude, pos.coords.longitude);
-          })
-          .catch(err => {
-            console.error(err);
-          });
+            .then(pos => {
+              this._locationSearchByGeo(
+                pos.coords.latitude,
+                pos.coords.longitude
+              );
+            })
+            .catch(err => {
+              console.error(err);
+            });
         });
       }
     }
   }
 
   _addShowMoreListener(groupName) {
-    const el = document.getElementById("show-more--" + groupName)
+    const el = document.getElementById("show-more--" + groupName);
     if (el) {
       el.removeEventListener("click", this.onClickShowMore);
       el.addEventListener("click", this.onClickShowMore);
@@ -90,19 +105,25 @@ export class AlgoliaResults {
     if (ev.currentTarget.href) {
       ev.preventDefault();
 
-      window.jQuery.post("/search/click", {
-        queryID: ev.currentTarget.getAttribute("data-queryid"),
-        position: ev.currentTarget.getAttribute("data-hit-position"),
-        objectID: ev.currentTarget.getAttribute("data-objectid")
-      }, this.onClickResultCallback(ev.currentTarget.href));
+      window.jQuery.post(
+        "/search/click",
+        {
+          queryID: ev.currentTarget.getAttribute("data-queryid"),
+          position: ev.currentTarget.getAttribute("data-hit-position"),
+          objectID: ev.currentTarget.getAttribute("data-objectid")
+        },
+        this.onClickResultCallback(ev.currentTarget.href)
+      );
     }
   }
 
   onClickResultCallback(href) {
-    return (response) => {
+    return response => {
       this.reset();
-      window.Turbolinks.visit(href + QueryStringHelpers.parseParams(this._parent.getParams()));
-    }
+      window.Turbolinks.visit(
+        href + QueryStringHelpers.parseParams(this._parent.getParams())
+      );
+    };
   }
 
   onClickShowMore(ev) {
@@ -114,32 +135,49 @@ export class AlgoliaResults {
     params.latitude = latitude;
     params.longitude = longitude;
     params.address = address;
-    window.Turbolinks.visit("/transit-near-me" + QueryStringHelpers.parseParams(params))
+    window.Turbolinks.visit(
+      "/transit-near-me" + QueryStringHelpers.parseParams(params)
+    );
   }
 
   _locationSearchByGeo(latitude, longitude) {
-    GoogleMapsHelpers.reverseGeocode(parseFloat(latitude), parseFloat(longitude))
+    GoogleMapsHelpers.reverseGeocode(
+      parseFloat(latitude),
+      parseFloat(longitude)
+    )
       .then(result => {
-        document.getElementById("search-result__loading-indicator").style.display = "none";
+        document.getElementById(
+          "search-result__loading-indicator"
+        ).style.display =
+          "none";
         this._showLocation(latitude, longitude, result);
       })
-    .catch(err => {console.error("Problem with retrieving location using the Google Maps API.");});
+      .catch(err => {
+        console.error(
+          "Problem with retrieving location using the Google Maps API."
+        );
+      });
   }
 
   _locationSearch(placeId) {
     return () => {
       GoogleMapsHelpers.lookupPlace(placeId)
         .then(result => {
-          this._showLocation(result.geometry.location.lat(),
-                             result.geometry.location.lng(),
-                             result.formatted_address);
+          this._showLocation(
+            result.geometry.location.lat(),
+            result.geometry.location.lng(),
+            result.formatted_address
+          );
         })
-        .catch(err => {console.error(err);});
-    }
+        .catch(err => {
+          console.error(err);
+        });
+    };
   }
 
   _useMyLocation() {
-    document.getElementById("search-result__loading-indicator").style.display = "inline-block";
+    document.getElementById("search-result__loading-indicator").style.display =
+      "inline-block";
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         pos => {
@@ -152,21 +190,21 @@ export class AlgoliaResults {
     });
   }
 
-  init() { }
+  init() {}
 
   reset() {
     this.render({});
   }
 
-  render(results)  {
+  render(results) {
     if (this._container) {
-      this._container.innerHTML =
-        this._groups
-            .map(group => this._renderGroup(results, group))
-            .join("");
+      this._container.innerHTML = this._groups
+        .map(group => this._renderGroup(results, group))
+        .join("");
 
-      Array.from(document.getElementsByClassName(AlgoliaResult.SELECTORS.result))
-           .forEach(this.addResultClickHandler)
+      Array.from(
+        document.getElementsByClassName(AlgoliaResult.SELECTORS.result)
+      ).forEach(this.addResultClickHandler);
 
       this._groups.forEach(group => this._addShowMoreListener(group));
       this._addLocationListeners(results);
@@ -186,10 +224,9 @@ export class AlgoliaResults {
       showMore: results[group].hits.length < results[group].nbHits,
       group: group,
       googleLogo: AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
-        logo: document.getElementById("powered-by-google-logo").innerHTML,
+        logo: document.getElementById("powered-by-google-logo").innerHTML
       }),
-      hits: results[group].hits
-                          .map(this.renderResult(group, results[group]))
+      hits: results[group].hits.map(this.renderResult(group, results[group]))
     });
   }
 
@@ -200,7 +237,7 @@ export class AlgoliaResults {
           ${AlgoliaResult.renderResult(hit, index)}
         </div>
       `;
-    }
+    };
   }
 
   addResultClickHandler(el) {
@@ -217,4 +254,4 @@ AlgoliaResults.indexTitles = {
   documents: "Documents",
   events: "Events",
   news: "News"
-}
+};

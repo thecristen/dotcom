@@ -1,4 +1,4 @@
-import {FacetBar} from './facet-bar';
+import { FacetBar } from "./facet-bar";
 import * as Icons from "./icons";
 
 export class AlgoliaFacets {
@@ -12,8 +12,7 @@ export class AlgoliaFacets {
     const facets = {
       locations: {
         queryId: "locations",
-        item:
-        {
+        item: {
           id: "locations",
           name: "Locations",
           cls: "FacetLocationGroup",
@@ -23,58 +22,56 @@ export class AlgoliaFacets {
       routes: {
         queryId: "routes",
         facetName: "route.type",
-        item:
-        {
+        item: {
           id: "lines-routes",
           name: "Lines and Routes",
           items: [
-          {
-            id: "subway",
-            name: "Subway",
-            facets: ["0", "1"],
-            icon: Icons.getFeatureIcon("subway")
-          },
-          {
-            id: "bus",
-            name: "Bus",
-            facets: ["3"],
-            icon: Icons.getFeatureIcon("bus")
-          },
-          {
-            id: "commuter-rail",
-            name: "Commuter Rail",
-            facets: ["2"],
-            icon: Icons.getFeatureIcon("commuter_rail")
-          },
-          {
-            id: "ferry",
-            name: "Ferry",
-            facets: ["4"],
-            icon: Icons.getFeatureIcon("ferry")
-          },
+            {
+              id: "subway",
+              name: "Subway",
+              facets: ["0", "1"],
+              icon: Icons.getFeatureIcon("subway")
+            },
+            {
+              id: "bus",
+              name: "Bus",
+              facets: ["3"],
+              icon: Icons.getFeatureIcon("bus")
+            },
+            {
+              id: "commuter-rail",
+              name: "Commuter Rail",
+              facets: ["2"],
+              icon: Icons.getFeatureIcon("commuter_rail")
+            },
+            {
+              id: "ferry",
+              name: "Ferry",
+              facets: ["4"],
+              icon: Icons.getFeatureIcon("ferry")
+            }
           ]
         }
       },
       stops: {
         queryId: "stops",
         facetName: "stop.station?",
-        item:
-        {
+        item: {
           id: "stops",
           name: "Stations and Stops",
           items: [
-          {
-            id: "facet-station",
-            name: "Stations",
-            facets: ["true"],
-            icon: Icons.getFeatureIcon("station")
-          },
-          {
-            id: "facet-stop",
-            name: "Stops",
-            facets: ["false"],
-            icon: Icons.getFeatureIcon("stop")
-          },
+            {
+              id: "facet-station",
+              name: "Stations",
+              facets: ["true"],
+              icon: Icons.getFeatureIcon("station")
+            },
+            {
+              id: "facet-stop",
+              name: "Stops",
+              facets: ["false"],
+              icon: Icons.getFeatureIcon("stop")
+            }
           ]
         }
       },
@@ -82,22 +79,29 @@ export class AlgoliaFacets {
         queryId: "pages",
         facetName: "_content_type",
         item: {
-            id: "page",
-            name: "Pages",
-            facets: ["page", "search_result", "landing_page", "person", "project", "project_update"],
-            icon: this._faIcon("fa-info"),
+          id: "page",
+          name: "Pages",
+          facets: [
+            "page",
+            "search_result",
+            "landing_page",
+            "person",
+            "project",
+            "project_update"
+          ],
+          icon: this._faIcon("fa-info")
         }
       },
       documents: {
         queryId: "documents",
         facetName: "_content_type",
         item: {
-            id: "document",
-            name: "Documents",
-            prefix: "search_api_datasource",
-            facets: ["entity:file"],
-            icon: this._faIcon("fa-file-o")
-        },
+          id: "document",
+          name: "Documents",
+          prefix: "search_api_datasource",
+          facets: ["entity:file"],
+          icon: this._faIcon("fa-file-o")
+        }
       },
       events: {
         queryId: "events",
@@ -106,7 +110,7 @@ export class AlgoliaFacets {
           id: "event",
           name: "Events",
           icon: this._faIcon("fa-calendar"),
-          facets: ["event"],
+          facets: ["event"]
         }
       },
       news: {
@@ -116,7 +120,7 @@ export class AlgoliaFacets {
           id: "news",
           name: "News",
           icon: this._faIcon("fa-newspaper-o"),
-          facets: ["news_entry"],
+          facets: ["news_entry"]
         }
       }
     };
@@ -145,17 +149,23 @@ export class AlgoliaFacets {
   }
 
   init() {
-    this._closeModalBtn = document.getElementById(this.selectors.closeModalButton);
-    this._showFacetsBtn = document.getElementById(this.selectors.showFacetsButton);
-    this._facetsContainer = document.getElementById(this.selectors.facetsContainer);
+    this._closeModalBtn = document.getElementById(
+      this.selectors.closeModalButton
+    );
+    this._showFacetsBtn = document.getElementById(
+      this.selectors.showFacetsButton
+    );
+    this._facetsContainer = document.getElementById(
+      this.selectors.facetsContainer
+    );
     if (this._closeModalBtn && this._showFacetsBtn && this._facetsContainer) {
       this.addEventListeners();
     }
   }
 
   addEventListeners() {
-    this._closeModalBtn.removeEventListener("click", this.onClickCloseModalBtn)
-    this._closeModalBtn.addEventListener("click", this.onClickCloseModalBtn)
+    this._closeModalBtn.removeEventListener("click", this.onClickCloseModalBtn);
+    this._closeModalBtn.addEventListener("click", this.onClickCloseModalBtn);
 
     this._showFacetsBtn.removeEventListener("click", this.onClickShowFacetsBtn);
     this._showFacetsBtn.addEventListener("click", this.onClickShowFacetsBtn);
@@ -171,13 +181,13 @@ export class AlgoliaFacets {
       if (key.startsWith("facets-")) {
         const facets = results[key].facets;
         Object.keys(facets).forEach(prefix => {
-          const values = facets[prefix]
+          const values = facets[prefix];
           Object.keys(values).forEach(facet => {
             facetResults[`${prefix}:${facet}`] = values[facet];
           });
         });
       } else if (key == "locations") {
-        facetResults["locations"]  = results["locations"].hits.length;
+        facetResults["locations"] = results["locations"].hits.length;
       }
     });
 

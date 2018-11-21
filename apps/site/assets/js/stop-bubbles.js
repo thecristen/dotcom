@@ -1,5 +1,5 @@
 export default function stopBubbles($) {
-  $  = $ || window.jQuery;
+  $ = $ || window.jQuery;
 
   function toggleStopList(e) {
     const targetId = $(e.target).attr("id");
@@ -19,5 +19,9 @@ export default function stopBubbles($) {
     link.parents(".route-branch-stop").toggleClass("expanded");
   }
 
-  $(document).on("hide.bs.collapse show.bs.collapse", ".collapse.stop-list", toggleStopList);
+  $(document).on(
+    "hide.bs.collapse show.bs.collapse",
+    ".collapse.stop-list",
+    toggleStopList
+  );
 }

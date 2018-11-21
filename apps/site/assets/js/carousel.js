@@ -5,7 +5,7 @@ export default function($) {
     $(".carousel").each((_index, carousel) => {
       $(carousel)
         .on("click", ".carousel-item", activateCarouselItem)
-        .on("keydown", ".carousel-item", (ev) => {
+        .on("keydown", ".carousel-item", ev => {
           if (ev.keyCode === 13 || ev.keyCode === 32) {
             activateCarouselItem(ev);
           }
@@ -23,7 +23,8 @@ export default function($) {
   }
 
   document.addEventListener(
-    'turbolinks:load',
+    "turbolinks:load",
     () => window.nextTick(setupCarousel),
-    {passive: true});
-};
+    { passive: true }
+  );
+}

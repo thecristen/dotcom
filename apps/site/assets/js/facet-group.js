@@ -1,4 +1,4 @@
-import {FacetItem} from "./facet-item"
+import { FacetItem } from "./facet-item";
 
 export class FacetGroup {
   constructor(facetData, parent) {
@@ -59,7 +59,7 @@ export class FacetGroup {
   }
 
   reset() {
-    this._item.reset()
+    this._item.reset();
   }
 
   selectedFacetNames() {

@@ -3,12 +3,18 @@ import * as Icons from "./icons";
 
 export const SELECTORS = {
   result: "js-search-result"
-}
+};
 
 export const TEMPLATES = {
-  poweredByGoogleLogo: hogan.compile(`<div class="c-search-result__hit c-search-result__google">{{{logo}}}</div>`),
-  fontAwesomeIcon: hogan.compile(`<span aria-hidden="true" class="c-search-result__content-icon fa {{icon}}"></span>`),
-  formattedDate: hogan.compile(`<span class="c-search-result__event-date">{{date}}</span>`),
+  poweredByGoogleLogo: hogan.compile(
+    `<div class="c-search-result__hit c-search-result__google">{{{logo}}}</div>`
+  ),
+  fontAwesomeIcon: hogan.compile(
+    `<span aria-hidden="true" class="c-search-result__content-icon fa {{icon}}"></span>`
+  ),
+  formattedDate: hogan.compile(
+    `<span class="c-search-result__event-date">{{date}}</span>`
+  ),
   locations: hogan.compile(`
     <a id="hit-{{id}}" class="c-search-result__link u-no-underline" url={{hitUrl}}>
       <span>{{{hitIcon}}}</span>
@@ -27,10 +33,14 @@ export const TEMPLATES = {
     <div class="c-search-result__hit--vertical">
     {{/hasDate}}
     {{#id}}
-    <a id="hit-{{id}}" class="${SELECTORS.result} c-search-result__link" href="{{hitUrl}}">
+    <a id="hit-{{id}}" class="${
+      SELECTORS.result
+    } c-search-result__link" href="{{hitUrl}}">
     {{/id}}
     {{^id}}
-    <a class="${SELECTORS.result} c-search-result__link u-no-underline" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
+    <a class="${
+      SELECTORS.result
+    } c-search-result__link u-no-underline" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
     {{/id}}
       <span>{{{hitIcon}}}</span>
       <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
@@ -58,14 +68,19 @@ export function parseResult(hit, type) {
     hitIcon: getIcon(hit, type),
     hitUrl: getUrl(hit, type),
     hitTitle: getTitle(hit, type),
-    hasDate: (type == "events" || type == "news" || type == "pages" || type == "documents") ||  null,
+    hasDate:
+      type == "events" ||
+      type == "news" ||
+      type == "pages" ||
+      type == "documents" ||
+      null,
     hitFeatureIcons: getFeatureIcons(hit, type),
     id: hit.place_id || null
   });
 }
 
 export function getIcon(hit, type) {
-  switch(type) {
+  switch (type) {
     case "locations":
       hit._content_type = "locations";
       return _contentIcon(hit);
@@ -91,14 +106,14 @@ export function getIcon(hit, type) {
 
     default:
       console.error(`AlgoliaResult.getIcon not implemented for index: ${type}`);
-      return ""
+      return "";
   }
-};
+}
 
 function getPopularIcon(icon) {
-  switch(icon) {
+  switch (icon) {
     case "airplane":
-      return TEMPLATES.fontAwesomeIcon.render({icon: "fa-plane"});
+      return TEMPLATES.fontAwesomeIcon.render({ icon: "fa-plane" });
     default:
       return Icons.getFeatureIcon(icon);
   }
@@ -124,7 +139,7 @@ function _fileIcon(hit) {
     default:
       return "fa-file-o";
   }
-};
+}
 
 function _contentIcon(hit) {
   let icon;
@@ -144,8 +159,8 @@ function _contentIcon(hit) {
     icon = iconMapper[hit._content_type] || "fa-info";
   }
 
-  return TEMPLATES.fontAwesomeIcon.render({icon: icon});
-};
+  return TEMPLATES.fontAwesomeIcon.render({ icon: icon });
+}
 
 function _subwayRouteIcon(routeId) {
   if (routeId.includes("Green-")) {
@@ -160,7 +175,7 @@ function _subwayRouteIcon(routeId) {
   };
 
   return mapper[routeId];
-};
+}
 
 function _iconFromRoute(route) {
   switch (route.type) {
@@ -175,27 +190,30 @@ function _iconFromRoute(route) {
 
     default:
       return _subwayRouteIcon(route.id);
-    }
-};
+  }
+}
 
 function getRouteTitle(hit) {
   const name = hit._highlightResult.route.name.value;
   switch (hit.route.type) {
     case 3:
-      return `${name} <span class="c-search-result__long-name">${hit._highlightResult.route.long_name.value}</span>`;
+      return `${name} <span class="c-search-result__long-name">${
+        hit._highlightResult.route.long_name.value
+      }</span>`;
     default:
-      return name
+      return name;
   }
 }
 
 export function getTitle(hit, type) {
-  switch(type){
+  switch (type) {
     case "locations":
       const orig = hit.description.split("");
       hit.matched_substrings.forEach(match => {
         orig[match.offset] = "<em>" + orig[match.offset];
         if (match.offset + match.length < orig.length) {
-          orig[match.offset + match.length] = "</em>" + orig[match.offset + match.length];
+          orig[match.offset + match.length] =
+            "</em>" + orig[match.offset + match.length];
         }
       });
       return orig.join("");
@@ -219,10 +237,12 @@ export function getTitle(hit, type) {
       return "";
 
     default:
-      console.error(`AlgoliaResult.getTitle not implemented for index: ${type}`);
-      return ""
+      console.error(
+        `AlgoliaResult.getTitle not implemented for index: ${type}`
+      );
+      return "";
   }
-};
+}
 
 function _contentTitle(hit) {
   if (hit._content_type === "search_result") {
@@ -232,10 +252,10 @@ function _contentTitle(hit) {
   } else {
     return hit._highlightResult.content_title.value;
   }
-};
+}
 
 export function getUrl(hit, type) {
-  switch(type) {
+  switch (type) {
     case "stops":
       return `/stops/${hit.stop.id}`;
 
@@ -259,27 +279,27 @@ export function getUrl(hit, type) {
 
     default:
       console.error(`AlgoliaResult.getUrl not implemented for index: ${type}`);
-      return "#"
+      return "#";
   }
 }
 
 function _contentUrl(hit) {
   if (hit.search_api_datasource === "entity:file") {
-    return  "/sites/default/files/" + hit._file_uri.replace(/public:\/\//, "");
+    return "/sites/default/files/" + hit._file_uri.replace(/public:\/\//, "");
   } else if (hit._content_type == "search_result") {
     return hit._search_result_url.replace(/internal:/, "");
   } else {
     return hit._content_url;
   }
-};
+}
 
 function _getCommuterRailZone(hit) {
-   if (hit.zone) {
-     return [`<span class="c-icon__cr-zone">Zone ${hit.zone}</span>`];
-   } else {
-     return [];
-   }
- }
+  if (hit.zone) {
+    return [`<span class="c-icon__cr-zone">Zone ${hit.zone}</span>`];
+  } else {
+    return [];
+  }
+}
 
 function _stopsWithAlerts() {
   const stopsWithAlertsDiv = document.getElementById("stops-with-alerts");
@@ -287,7 +307,7 @@ function _stopsWithAlerts() {
   if (stopsWithAlertsDiv) {
     stopsWithAlerts = stopsWithAlertsDiv.dataset.stopsWithAlerts;
   }
-  return stopsWithAlerts
+  return stopsWithAlerts;
 }
 
 function _routesWithAlerts() {
@@ -301,22 +321,22 @@ function _routesWithAlerts() {
 }
 
 function _getAlertIcon(hit, type) {
-   let hasAlert = false;
-   switch(type) {
-     case "stops":
-       hasAlert = _stopsWithAlerts().includes(hit.stop.id);
-       break;
+  let hasAlert = false;
+  switch (type) {
+    case "stops":
+      hasAlert = _stopsWithAlerts().includes(hit.stop.id);
+      break;
 
-     case "routes":
-       hasAlert = _routesWithAlerts().includes(hit.route.id);
-       break;
-   }
+    case "routes":
+      hasAlert = _routesWithAlerts().includes(hit.route.id);
+      break;
+  }
 
-   return hasAlert ? ["alert"] : [];
- }
+  return hasAlert ? ["alert"] : [];
+}
 
 function _featuresToIcons(features) {
-  return features.map((feature) => {
+  return features.map(feature => {
     return Icons.getFeatureIcon(_standardizeFeatureName(feature));
   });
 }
@@ -340,28 +360,31 @@ function _standardizeFeatureName(feature) {
 }
 
 function _sortFeatures(features) {
-   const featuresWithoutBranches = features.filter((feature) => !feature.includes("Green-"));
-   const branches = features.filter((feature) => feature.includes("Green-"));
-   if (branches.length > 0) {
-     const greenLinePosition = featuresWithoutBranches.findIndex((feature) => feature === "green_line");
+  const featuresWithoutBranches = features.filter(
+    feature => !feature.includes("Green-")
+  );
+  const branches = features.filter(feature => feature.includes("Green-"));
+  if (branches.length > 0) {
+    const greenLinePosition = featuresWithoutBranches.findIndex(
+      feature => feature === "green_line"
+    );
 
-     featuresWithoutBranches.splice(greenLinePosition + 1, 0, ...branches);
-     return featuresWithoutBranches;
-
-   } else {
-     return features;
-   }
- }
+    featuresWithoutBranches.splice(greenLinePosition + 1, 0, ...branches);
+    return featuresWithoutBranches;
+  } else {
+    return features;
+  }
+}
 
 export function getFeatureIcons(hit, type) {
   const alertFeature = _getAlertIcon(hit, type);
-  switch(type) {
+  switch (type) {
     case "popular":
     case "stops":
       return _stopIcons(hit, type);
 
     case "routes":
-      return _featuresToIcons(alertFeature)
+      return _featuresToIcons(alertFeature);
 
     case "pages":
     case "documents":
@@ -376,7 +399,9 @@ export function getFeatureIcons(hit, type) {
 }
 
 function _stopIcons(hit, type) {
-  const filteredFeatures = hit.features.filter((feature) => ((feature != "access") && (feature != "parking_lot")));
+  const filteredFeatures = hit.features.filter(
+    feature => feature != "access" && feature != "parking_lot"
+  );
 
   const alertFeature = _getAlertIcon(hit, type);
   const allFeatures = alertFeature.concat(filteredFeatures);
@@ -397,21 +422,26 @@ function pagesdocumentsDate(hit) {
 }
 
 function _contentDate(hit) {
-  const dateString = hit._content_url.split("/")[2]
+  const dateString = hit._content_url.split("/")[2];
   try {
     const dateStringWithTime = `${dateString}T01:00:00`;
     const date = new Date(dateStringWithTime);
     return [_formatDate(date)];
-  }
-  catch(err) {
-    console.error(`Invalid date detected in AlgoliaResult.getFeatureIcons (${dateString})`);
-    return []
+  } catch (err) {
+    console.error(
+      `Invalid date detected in AlgoliaResult.getFeatureIcons (${dateString})`
+    );
+    return [];
   }
 }
 
 function _formatDate(date) {
-  const formattedDate = date.toLocaleDateString("en-US", {year: 'numeric', month: 'short', day: 'numeric'});
-  return TEMPLATES.formattedDate.render({date: formattedDate});
+  const formattedDate = date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  });
+  return TEMPLATES.formattedDate.render({ date: formattedDate });
 }
 
 function _getStopOrStationIcon(hit) {
@@ -421,4 +451,3 @@ function _getStopOrStationIcon(hit) {
     return Icons.getFeatureIcon("stop");
   }
 }
-

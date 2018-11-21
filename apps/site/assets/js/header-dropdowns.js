@@ -1,24 +1,25 @@
 export default function addCarets() {
-  document.addEventListener("turbolinks:load", () => { initCarets() });
+  document.addEventListener("turbolinks:load", () => {
+    initCarets();
+  });
 }
 
 export function initCarets() {
-  Array.from(document.getElementsByClassName("js-header-link"))
-       .forEach(init);
+  Array.from(document.getElementsByClassName("js-header-link")).forEach(init);
 
   function init(el) {
     el.classList.add("navbar-toggle", "toggle-up-down");
     el.setAttribute("data-toggle", "collapse");
     el.setAttribute("aria-expanded", "false");
     Array.from(el.children)
-         .filter(child => child.classList.contains("js-header-link__content"))
-         .forEach(addCarets)
+      .filter(child => child.classList.contains("js-header-link__content"))
+      .forEach(addCarets);
   }
 
   function addCarets(el) {
     Array.from(el.children)
-         .filter(child => child.classList.contains("js-header-link__carets"))
-         .forEach(doAddCarets);
+      .filter(child => child.classList.contains("js-header-link__carets"))
+      .forEach(doAddCarets);
   }
 
   function doAddCarets(el) {

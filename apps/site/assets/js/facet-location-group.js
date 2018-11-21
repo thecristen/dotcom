@@ -1,6 +1,6 @@
-import {FacetGroup} from "./facet-group"
+import { FacetGroup } from "./facet-group";
 
-export class FacetLocationGroup extends FacetGroup{
+export class FacetLocationGroup extends FacetGroup {
   constructor(data, parent) {
     super(data, parent);
   }

@@ -22,13 +22,19 @@ export class Algolia {
   }
 
   resetDefaultParams() {
-    return (queryId) => {
+    return queryId => {
       if (this._defaultParams[queryId]) {
-        this._queries[queryId].params = JSON.parse(JSON.stringify(this._defaultParams[queryId]));
+        this._queries[queryId].params = JSON.parse(
+          JSON.stringify(this._defaultParams[queryId])
+        );
       } else {
-        console.error("default params not set for queryId", queryId, this._defaultParams);
+        console.error(
+          "default params not set for queryId",
+          queryId,
+          this._defaultParams
+        );
       }
-    }
+    };
   }
 
   addPage(group) {
@@ -40,7 +46,9 @@ export class Algolia {
   search(opts = {}) {
     this.toggleError(false);
 
-    if (!(typeof opts.query == "string")) { opts.query = this._lastQuery; }
+    if (!(typeof opts.query == "string")) {
+      opts.query = this._lastQuery;
+    }
 
     if (opts.query.length > 0) {
       const allQueries = this._buildAllQueries(opts);
@@ -59,12 +67,12 @@ export class Algolia {
 
   _doSearch(allQueries) {
     return this._sendQueries(allQueries)
-               .then(this._processAlgoliaResults())
-               .then(results => {
-                 this.updateWidgets(results);
-                 return results;
-               })
-               .catch(err => console.log(err));
+      .then(this._processAlgoliaResults())
+      .then(results => {
+        this.updateWidgets(results);
+        return results;
+      })
+      .catch(err => console.log(err));
   }
 
   _addAnalyticsData(result) {
@@ -73,33 +81,37 @@ export class Algolia {
         queryID: result.queryID,
         position: result.hitsPerPage * result.page + i + 1,
         objectID: hit.objectID
-      }
+      };
     });
   }
 
   _sendQueries(queries) {
-    const body = {requests: queries}
+    const body = { requests: queries };
     return new Promise((resolve, reject) => {
-      window.jQuery.ajax({
-        type: "POST",
-        url: "/search/query",
-        data: JSON.stringify(body),
-        dataType: "json",
-        contentType: "application/json"
-      })
-      .done(resolve)
-      .fail(reject)
+      window.jQuery
+        .ajax({
+          type: "POST",
+          url: "/search/query",
+          data: JSON.stringify(body),
+          dataType: "json",
+          contentType: "application/json"
+        })
+        .done(resolve)
+        .fail(reject);
     });
   }
 
   _buildAllQueries(opts) {
-    const requestedQueryIds = this._activeQueryIds.length > 0 ? this._activeQueryIds : Object.keys(this._queries);
+    const requestedQueryIds =
+      this._activeQueryIds.length > 0
+        ? this._activeQueryIds
+        : Object.keys(this._queries);
     const queries = [];
     requestedQueryIds.forEach(queryId => {
-      queries.push(this._buildQuery(queryId, opts))
+      queries.push(this._buildQuery(queryId, opts));
     });
     Object.keys(this._queries).forEach(queryId => {
-      queries.push(this._buildFacetQuery(queryId, opts))
+      queries.push(this._buildFacetQuery(queryId, opts));
     });
     return queries;
   }
@@ -112,7 +124,7 @@ export class Algolia {
         hitsPerPage: 0,
         facets: ["*"]
       }
-    }
+    };
   }
 
   _buildQuery(queryId, { query }) {
@@ -124,7 +136,9 @@ export class Algolia {
   }
 
   updateAllParams(key, value) {
-    Object.keys(this._queries).forEach(key => this._queries[key].params[key] = value);
+    Object.keys(this._queries).forEach(
+      key => (this._queries[key].params[key] = value)
+    );
   }
 
   updateActiveQueries(queryIds) {
@@ -149,7 +163,9 @@ export class Algolia {
   }
 
   addFacetFilter(queryId, filter) {
-    if (this._queries[queryId].params["facetFilters"][0].indexOf(filter) == -1) {
+    if (
+      this._queries[queryId].params["facetFilters"][0].indexOf(filter) == -1
+    ) {
       this._queries[queryId].params["facetFilters"][0].push(filter);
     }
   }
@@ -199,7 +215,7 @@ export class Algolia {
   }
 
   _processAlgoliaResults() {
-    return (response) => {
+    return response => {
       if (response["error"]) {
         return Promise.resolve(response);
       } else {
@@ -209,8 +225,11 @@ export class Algolia {
         }
         const facetLength = Object.keys(this._queries).length;
         const searchResults = response.results.slice(0, searchedQueries.length);
-        const facetResults = response.results.slice(searchedQueries.length, searchedQueries.length + facetLength);
-        const results = {}
+        const facetResults = response.results.slice(
+          searchedQueries.length,
+          searchedQueries.length + facetLength
+        );
+        const results = {};
         searchResults.forEach((result, i) => {
           this._addAnalyticsData(result);
           results[searchedQueries[i]] = result;
@@ -220,7 +239,7 @@ export class Algolia {
         });
         return Promise.resolve(results);
       }
-    }
+    };
   }
 
   toggleError(hasError) {

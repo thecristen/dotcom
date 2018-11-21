@@ -286,41 +286,57 @@ export class TripPlannerLocControls {
     }) => {
       switch (type) {
         case "stops":
-          this.setAutocompleteValue(ac, hit.stop.name, lat, lng, hit._geoloc.lat, hit._geoloc.lng);
+          this.setAutocompleteValue(
+            ac,
+            hit.stop.name,
+            lat,
+            lng,
+            hit._geoloc.lat,
+            hit._geoloc.lng
+          );
           break;
         case "locations":
           GoogleMapsHelpers.lookupPlace(hit.place_id)
             .then(res => {
               const geo = res.geometry.location;
-              this.setAutocompleteValue(ac, hit.description, lat, lng, geo.lat(), geo.lng());
+              this.setAutocompleteValue(
+                ac,
+                hit.description,
+                lat,
+                lng,
+                geo.lat(),
+                geo.lng()
+              );
               ac._input.blur();
             })
-          .catch(() => {
-            // TODO: we should display an error here but NOT log to the console
-          });
+            .catch(() => {
+              // TODO: we should display an error here but NOT log to the console
+            });
           break;
         case "usemylocation":
           ac.useMyLocationSearch();
           break;
         case "popular":
-          this.setAutocompleteValue(ac, hit.name, lat, lng, hit.latitude, hit.longitude);
+          this.setAutocompleteValue(
+            ac,
+            hit.name,
+            lat,
+            lng,
+            hit.latitude,
+            hit.longitude
+          );
           break;
         default:
           console.error(`onHitSelected not implemented for ${type}.`);
       }
-    }
+    };
   }
 
   setAutocompleteValue(ac, name, latEl, lngEl, lat, lng) {
     ac.setValue(name);
     latEl.value = lat;
     lngEl.value = lng;
-    this.updateMarker(
-      ac,
-      lat,
-      lng,
-      name
-    );
+    this.updateMarker(ac, lat, lng, name);
     this.resetResetButtons();
   }
 
@@ -365,13 +381,13 @@ TripPlannerLocControls.INDICES = {
     stops: {
       indexName: "stops",
       query: ""
-    },
+    }
   },
   from: {
     stops: {
       indexName: "stops",
       query: ""
-    },
+    }
   }
 };
 
@@ -406,7 +422,7 @@ TripPlannerLocControls.PARAMS = {
     hitsPerPage: 3,
     facets: ["*"],
     facetFilters: [[]]
-  },
+  }
 };
 
 TripPlannerLocControls.POPULAR = [
@@ -429,7 +445,14 @@ TripPlannerLocControls.POPULAR = [
   {
     icon: "station",
     name: "North Station",
-    features: ["orange_line", "green-line-c", "green-line-e", "bus", "commuter_rail", "access"],
+    features: [
+      "orange_line",
+      "green-line-c",
+      "green-line-e",
+      "bus",
+      "commuter_rail",
+      "access"
+    ],
     latitude: 42.365577,
     longitude: -71.06129,
     url: "#"

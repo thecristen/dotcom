@@ -1,5 +1,5 @@
-import { Algolia } from './algolia-search';
-import * as GoogleMapsHelpers from './google-maps-helpers'
+import { Algolia } from "./algolia-search";
+import * as GoogleMapsHelpers from "./google-maps-helpers";
 
 export class AlgoliaWithGeo extends Algolia {
   constructor(indices, defaultParams, bounds, hitLimit) {
@@ -25,20 +25,27 @@ export class AlgoliaWithGeo extends Algolia {
     let googleResults = {};
     if (!(this._locationEnabled && this._activeQueryIds.length == 0)) {
       algoliaResults = this._sendQueries(allQueries)
-                           .then(this._processAlgoliaResults())
-                           .catch(err => console.error(err));
+        .then(this._processAlgoliaResults())
+        .catch(err => console.error(err));
     }
 
     if (!(!this._locationEnabled && this._activeQueryIds.length > 0)) {
-      googleResults = GoogleMapsHelpers.autocomplete(this._lastQuery, this._bounds, this._hitLimit)
-                          .catch(() => console.error("Error while contacting google places API."));
+      googleResults = GoogleMapsHelpers.autocomplete(
+        this._lastQuery,
+        this._bounds,
+        this._hitLimit
+      ).catch(() => console.error("Error while contacting google places API."));
     }
 
-    return Promise.all([algoliaResults, googleResults]).then(resultsList => {
-      this.updateWidgets(resultsList.reduce((acc, res) => {
-        return Object.assign(acc, res);
-      }));
-    }).catch(err => console.error(err));
+    return Promise.all([algoliaResults, googleResults])
+      .then(resultsList => {
+        this.updateWidgets(
+          resultsList.reduce((acc, res) => {
+            return Object.assign(acc, res);
+          })
+        );
+      })
+      .catch(err => console.error(err));
   }
 
   reset() {

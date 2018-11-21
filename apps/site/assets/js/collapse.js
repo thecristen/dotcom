@@ -5,14 +5,14 @@ export default function($) {
     return function(ev) {
       ev.preventDefault();
       ev.stopPropagation();
-      const selector = $(ev.currentTarget).data('target');
+      const selector = $(ev.currentTarget).data("target");
       $(selector)
-        .addClass('collapse')
+        .addClass("collapse")
         .addClass(extraClass)
-        .collapse({toggle: false})
+        .collapse({ toggle: false })
         .collapse(collapseEvent);
     };
   }
-  $(document).on('click', '[data-hide=collapse]', handler('in', 'hide'));
-  $(document).on('click', '[data-show=collapse]', handler('', 'show'));
-};
+  $(document).on("click", "[data-hide=collapse]", handler("in", "hide"));
+  $(document).on("click", "[data-show=collapse]", handler("", "show"));
+}

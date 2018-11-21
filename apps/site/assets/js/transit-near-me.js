@@ -1,8 +1,12 @@
-const showLoadingIndicators = (bool) => {
+const showLoadingIndicators = bool => {
   const method = bool ? "remove" : "add";
-  const loadingIndicators = document.getElementsByClassName("js-loc-loading-indicator");
-  return Array.from(loadingIndicators).forEach(icon => icon.classList[method]("hidden-xs-up"));
-}
+  const loadingIndicators = document.getElementsByClassName(
+    "js-loc-loading-indicator"
+  );
+  return Array.from(loadingIndicators).forEach(icon =>
+    icon.classList[method]("hidden-xs-up")
+  );
+};
 
 export const onLocation = loc => {
   showLoadingIndicators(false);

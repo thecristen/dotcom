@@ -26,7 +26,6 @@ const FACET_FILTER_MAP = {
 };
 
 export const buildOptions = pageId => {
-
   const selectors = {
     input: `${pageId}__input`,
     container: `${pageId}__container`,
@@ -57,5 +56,5 @@ export const buildOptions = pageId => {
     selectors,
     params,
     indices
-  }
-}
+  };
+};

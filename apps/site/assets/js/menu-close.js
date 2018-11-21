@@ -2,7 +2,7 @@ export default function($) {
   $ = $ || window.jQuery;
 
   function checkMenuCollapse(canBeSimulated) {
-    return (ev) => {
+    return ev => {
       if (!canBeSimulated && ev.isSimulated) {
         // ignore fake click events
         return;
@@ -18,6 +18,6 @@ export default function($) {
     };
   }
 
-  $(document).on('focusin', 'body', checkMenuCollapse(true));
-  $(document).on('click', 'body', checkMenuCollapse());
+  $(document).on("focusin", "body", checkMenuCollapse(true));
+  $(document).on("click", "body", checkMenuCollapse());
 }

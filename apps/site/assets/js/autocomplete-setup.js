@@ -1,8 +1,10 @@
-import { doWhenGoogleMapsIsReady } from './google-maps-loaded';
+import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 
 export default function() {
   doWhenGoogleMapsIsReady(() => {
-    document.addEventListener('turbolinks:load', setupAutocomplete, {passive: true});
+    document.addEventListener("turbolinks:load", setupAutocomplete, {
+      passive: true
+    });
     setupAutocomplete();
   });
 }
@@ -17,7 +19,7 @@ function setupAutocomplete() {
 
   // these are the same bounds we use for OpenTripPlanner
   const mbtaWatershedBounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(41.3193, -71.9380),
+    new google.maps.LatLng(41.3193, -71.938),
     new google.maps.LatLng(42.8266, -69.6189)
   );
   const options = {
@@ -38,19 +40,23 @@ export function addLatLngListeners($, event, autocomplete, id) {
   const $lngInput = $(`#${id}_longitude`);
 
   if ($latInput.length && $lngInput.length) {
-    const onPlaceChanged = placeChangedCallback(autocomplete, $latInput, $lngInput);
+    const onPlaceChanged = placeChangedCallback(
+      autocomplete,
+      $latInput,
+      $lngInput
+    );
 
-    event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+    event.addListener(autocomplete, "place_changed", onPlaceChanged);
   }
 }
 
 function placeChangedCallback(autocomplete, $latInput, $lngInput) {
-  return function () {
+  return function() {
     const place = autocomplete.getPlace();
 
     if (place.geometry) {
-      const lat = place.geometry.location.lat()
-      const lng = place.geometry.location.lng()
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
 
       $latInput.val(lat);
       $lngInput.val(lng);
@@ -58,5 +64,5 @@ function placeChangedCallback(autocomplete, $latInput, $lngInput) {
       $latInput.val("");
       $lngInput.val("");
     }
-  }
+  };
 }

@@ -1,5 +1,5 @@
 import { AlgoliaAutocomplete } from "./algolia-autocomplete";
-import * as GoogleMapsHelpers from './google-maps-helpers';
+import * as GoogleMapsHelpers from "./google-maps-helpers";
 import * as QueryStringHelpers from "./query-string-helpers";
 import geolocationPromise from "./geolocation-promise";
 import * as AlgoliaResult from "./algolia-result";
@@ -7,13 +7,20 @@ import * as AlgoliaResult from "./algolia-result";
 export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   constructor(id, selectors, indices, locationParams, popular, parent) {
     super(id, selectors, indices, parent);
-    if(!this._parent.getParams) {
-      this._parent.getParams = () => { return {}; };
+    if (!this._parent.getParams) {
+      this._parent.getParams = () => {
+        return {};
+      };
     }
     this._popular = popular;
-    this._loadingIndicator = document.getElementById(selectors.locationLoadingIndicator);
+    this._loadingIndicator = document.getElementById(
+      selectors.locationLoadingIndicator
+    );
     this.addUseMyLocationErrorEl();
-    this._locationParams = Object.assign(AlgoliaAutocompleteWithGeo.DEFAULT_LOCATION_PARAMS, locationParams);
+    this._locationParams = Object.assign(
+      AlgoliaAutocompleteWithGeo.DEFAULT_LOCATION_PARAMS,
+      locationParams
+    );
     this._indices.splice(this._locationParams.position, 0, "locations");
     this._indices.push("usemylocation");
     this._indices.push("popular");
@@ -24,8 +31,9 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     this.useMyLocationErrorEl = document.createElement("div");
     this.useMyLocationErrorEl.classList.add("u-error");
     this.useMyLocationErrorEl.style.display = "none";
-    this.useMyLocationErrorEl.innerHTML =
-      `${window.location.host} needs permission to use your location.
+    this.useMyLocationErrorEl.innerHTML = `${
+      window.location.host
+    } needs permission to use your location.
       Please update your browser's settings or refresh the page and try again.`;
     container.parentNode.appendChild(this.useMyLocationErrorEl);
   }
@@ -47,31 +55,36 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     return (query, callback) => {
       const bounds = {
         west: 41.3193,
-        north: -71.9380,
+        north: -71.938,
         east: 42.8266,
         south: -69.6189
       };
-      return GoogleMapsHelpers.autocomplete(query, bounds, this._locationParams.hitLimit)
-              .then(results => this._onResults(callback, index, results)) .catch(err => console.error(err));
-    }
+      return GoogleMapsHelpers.autocomplete(
+        query,
+        bounds,
+        this._locationParams.hitLimit
+      )
+        .then(results => this._onResults(callback, index, results))
+        .catch(err => console.error(err));
+    };
   }
 
   _popularSource() {
     return (query, callback) => {
-      const results = { popular: {hits: this._popular }}
+      const results = { popular: { hits: this._popular } };
       return this._onResults(callback, "popular", results);
-    }
+    };
   }
 
   _useMyLocationSource() {
     return (query, callback) => {
-      const results = { usemylocation: { hits: [{}] }}
+      const results = { usemylocation: { hits: [{}] } };
       return this._onResults(callback, "usemylocation", results);
-    }
+    };
   }
 
   minLength(index) {
-    switch(index) {
+    switch (index) {
       case "usemylocation":
       case "popular":
         return 0;
@@ -81,7 +94,7 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   }
 
   maxLength(index) {
-    switch(index) {
+    switch (index) {
       case "usemylocation":
       case "popular":
         return 0;
@@ -127,20 +140,27 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
 
   _doLocationSearch(placeId) {
     return GoogleMapsHelpers.lookupPlace(placeId)
-            .then(result => this._onLocationSearchResult(result))
-            .catch(err => console.error("Error looking up place_id from Google Maps.", err));
+      .then(result => this._onLocationSearchResult(result))
+      .catch(err =>
+        console.error("Error looking up place_id from Google Maps.", err)
+      );
   }
 
   _onLocationSearchResult(result) {
-    return this.showLocation(result.geometry.location.lat(),
-                              result.geometry.location.lng(),
-                              result.formatted_address)
+    return this.showLocation(
+      result.geometry.location.lat(),
+      result.geometry.location.lng(),
+      result.formatted_address
+    );
   }
 
-  onUseMyLocationResults({coords: {latitude, longitude}}) {
-    return GoogleMapsHelpers.reverseGeocode(parseFloat(latitude), parseFloat(longitude))
-             .then(result => this.onReverseGeocodeResults(result, latitude, longitude))
-             .catch(err => console.error(err));
+  onUseMyLocationResults({ coords: { latitude, longitude } }) {
+    return GoogleMapsHelpers.reverseGeocode(
+      parseFloat(latitude),
+      parseFloat(longitude)
+    )
+      .then(result => this.onReverseGeocodeResults(result, latitude, longitude))
+      .catch(err => console.error(err));
   }
 
   onReverseGeocodeResults(result, latitude, longitude) {
@@ -155,11 +175,13 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     params.latitude = latitude;
     params.longitude = longitude;
     params.address = address;
-    window.Turbolinks.visit("/transit-near-me" + QueryStringHelpers.parseParams(params))
+    window.Turbolinks.visit(
+      "/transit-near-me" + QueryStringHelpers.parseParams(params)
+    );
   }
 }
 
 AlgoliaAutocompleteWithGeo.DEFAULT_LOCATION_PARAMS = {
   position: 0,
   hitLimit: 5
-}
+};

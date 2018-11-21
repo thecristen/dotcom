@@ -33,7 +33,7 @@ export class RouteMap {
   }
 
   onVehicles(ev, { data, event }) {
-    if (event === "reset") this.clearMap()
+    if (event === "reset") this.clearMap();
     data.forEach(({ marker }) => this.map.addOrUpdateMarker(marker));
   }
 
@@ -46,9 +46,10 @@ const maps = [];
 
 function init() {
   doWhenGoogleMapsIsReady(() => {
-    const dataEls = document.getElementsByClassName("js-route-map-dynamic-data");
-    Array.from(dataEls)
-      .forEach(dataEl => maps.push(new RouteMap(dataEl)));
+    const dataEls = document.getElementsByClassName(
+      "js-route-map-dynamic-data"
+    );
+    Array.from(dataEls).forEach(dataEl => maps.push(new RouteMap(dataEl)));
   });
 }
 
@@ -59,5 +60,7 @@ function teardown() {
 
 export default function() {
   document.addEventListener("turbolinks:load", init, { passive: true });
-  document.addEventListener("turbolinks:before-render", teardown, { passive: true});
+  document.addEventListener("turbolinks:before-render", teardown, {
+    passive: true
+  });
 }
