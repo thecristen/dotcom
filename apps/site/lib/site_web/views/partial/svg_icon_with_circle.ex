@@ -46,7 +46,7 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
     |> do_svg_icon_with_circle(args)
   end
   def svg_icon_with_circle(%__MODULE__{icon: icon, size: size} = args)
-  when icon in [:calendar, :stop, :station, :parking_lot, :access, :no_access,
+  when icon in [:calendar, :stop, :station, :parking_lot, :access, :no_access, :silver_line,
                 :the_ride, :reversal, :variant, :t_logo, :service_regular, :service_storm, :service_none] do
     "icon-#{icon_name(icon)}-#{size}.svg"
     |> Helpers.svg()
@@ -72,6 +72,7 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
   defp icon_name(:parking_lot), do: "parking"
   defp icon_name(:station), do: "circle-t"
   defp icon_name(:t_logo), do: "circle-t"
+  defp icon_name(:silver_line), do: "silver-line"
   defp icon_name(:service_regular), do: "service-regular"
   defp icon_name(:service_storm), do: "service-storm"
   defp icon_name(:service_none), do: "service-none"
@@ -156,7 +157,7 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
   def title(icon) when icon in [
     :bus, :subway, :ferry, :commuter_rail, :the_ride,
     :orange_line, :green_line, :red_line, :blue_line,
-    :mattapan_trolley, :mattapan_line
+    :mattapan_trolley, :mattapan_line, :silver_line
   ] do
     SiteWeb.ViewHelpers.mode_name(icon)
   end
