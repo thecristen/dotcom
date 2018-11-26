@@ -14,6 +14,6 @@
     <%= Timex.format!(news_item.date, "{Mshort} {D}") %>
   </div>
   <p>
-    <%= news_item.title |> raw() |> link(to: news_item.path) %>
+    <%= news_item.title |> raw() |> link(to: news_item.path, id: "cms_teaser_news_item_#{news_item.id}") %>
   </p>
 <% end %>

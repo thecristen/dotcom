@@ -5,6 +5,7 @@ defmodule Content.Teaser do
     :text,
     :title,
     :topic,
+    :id,
     :type,
     :date
   ]
@@ -21,6 +22,7 @@ defmodule Content.Teaser do
     text: String.t,
     title: String.t,
     topic: String.t,
+    id: String.t,
     type: type,
     date: Date.t | nil
   }
@@ -32,7 +34,8 @@ defmodule Content.Teaser do
     "text" => text,
     "title" => title,
     "type" => type,
-    "topic" => topic
+    "topic" => topic,
+    "nid" => id
   } = data) do
     %__MODULE__{
       image_path: image_path,
@@ -40,6 +43,7 @@ defmodule Content.Teaser do
       text: text,
       title: title,
       topic: topic,
+      id: id,
       type: type(type),
       date: date(data)
     }
