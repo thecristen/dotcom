@@ -148,4 +148,22 @@ defmodule SiteWeb.ModeView do
   defp grid_button_id(_) do
     nil
   end
+
+  @spec bus_filter_atom(atom) :: (Route.t -> boolean)
+  def bus_filter_atom(:sl), do: fn route -> route.name =~ "SL" end
+  def bus_filter_atom(:ct), do: fn route -> route.name =~ "CT" end
+
+  @spec bus_filter_range(integer, integer) :: (Route.t -> boolean)
+  def bus_filter_range(start, stop) do
+    fn route ->
+      case Integer.parse(route.name) do
+        :error -> false
+        {value, _} -> in_range?(start, stop, value)
+      end
+    end
+  end
+
+  @spec in_range?(integer, integer, integer) :: boolean
+  defp in_range?(first, last, value) when value >= first and value <= last, do: true
+  defp in_range?(_, _, _), do: false
 end

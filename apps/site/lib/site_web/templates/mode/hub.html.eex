@@ -1,3 +1,5 @@
+<% mode = mode_atom(@mode_name) %>
+<% grid_template = if mode == :bus, do: "_grid_buttons_bus.html", else: "_grid_buttons.html" %>
 <div class="container">
   <div class="page-section">
     <div class="row">
@@ -20,14 +22,14 @@
           %>
         </div>
         <h2>Line Schedules</h2>
-        <%= render "_grid_buttons.html", Map.put(assigns, :show_icons?, false) %>
+        <%= render grid_template, Map.put(assigns, :show_icons?, false) %>
         <h2 class="h2">Maps</h2>
         <%= map_buttons(@maps) %>
         <h2>Common Fares</h2>
         <%= SiteWeb.FareView.summarize(@fares, class: "") %>
         <%= fares_note(@mode_name) %>
         <p>
-          <%= link to: fare_path(@conn, :show, @mode_name |> mode_atom |> fare_group), class: "c-call-to-action" do %>
+          <%= link to: fare_path(@conn, :show, fare_group(mode)), class: "c-call-to-action" do %>
           View
           <%= @mode_name %> fares
           <% end %>

@@ -98,4 +98,18 @@ defmodule SiteWeb.ModeViewTest do
 
       assert ModeView.has_alert?(%Route{id: "Pink", type: 0}, [alert], now) == false
   end
+
+  describe "bus_filter_atom/1 and bus_filter_range/2" do
+    @bus_routes [%Route{name: "SL1"}, %Route{name: "CT1"}, %Route{name: "99"}]
+
+    test "Silver Line and Cross Town" do
+      assert [%Route{name: "SL1"}] == Enum.filter(@bus_routes, ModeView.bus_filter_atom(:sl))
+      assert [%Route{name: "CT1"}] == Enum.filter(@bus_routes, ModeView.bus_filter_atom(:ct))
+    end
+
+    test "Numeric bus route" do
+      assert [%Route{name: "99"}] == Enum.filter(@bus_routes, ModeView.bus_filter_range(1, 100))
+      assert [] == Enum.filter(@bus_routes, ModeView.bus_filter_range(200, 299))
+    end
+  end
 end
