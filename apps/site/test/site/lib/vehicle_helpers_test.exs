@@ -163,9 +163,9 @@ defmodule Site.VehicleHelpersTest do
       tooltip2 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :stopped}}
       tooltip3 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :in_transit}}
 
-      assert tooltip(tooltip1) =~ "Worcester train 515 is on the way to"
+      assert tooltip(tooltip1) =~ "Worcester train 515 is arriving at"
       assert tooltip(tooltip2) =~ "Worcester train 515 has arrived"
-      assert tooltip(tooltip3) =~ "Worcester train 515 has left"
+      assert tooltip(tooltip3) =~ "Worcester train 515 is on the way to"
     end
 
     test "displays the route when there isn't a trip" do

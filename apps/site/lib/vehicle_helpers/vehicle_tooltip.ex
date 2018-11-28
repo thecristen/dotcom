@@ -13,7 +13,7 @@ defmodule VehicleTooltip do
     prediction: %Prediction{},
     trip: %Trip{},
     route: %Route{},
-    stop_name: "",
+    stop_name: ""
   ]
 
   @type t :: %VehicleTooltip{

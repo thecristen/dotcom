@@ -1,5 +1,5 @@
 defmodule V3Api.StreamTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
   alias Plug.Conn
 
   describe "build_options" do
