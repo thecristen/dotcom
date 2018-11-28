@@ -22,7 +22,13 @@
           %>
         </div>
         <h2>Line Schedules</h2>
-        <%= render grid_template, Map.put(assigns, :show_icons?, false) %>
+        <%
+          sub_routes = if mode == :subway, do: @green_routes, else: []
+          grid_template_assigns = assigns
+            |> Map.put(:show_icons?, false)
+            |> Map.put(:sub_routes, sub_routes)
+        %>
+        <%= render grid_template, grid_template_assigns %>
         <h2 class="h2">Maps</h2>
         <%= if mode == :subway || mode == :ferry do %>
           <%= map_image(mode) %>

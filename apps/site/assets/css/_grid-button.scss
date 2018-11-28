@@ -51,15 +51,12 @@
 .c-grid-button--blue-line,
 .c-grid-button--orange-line,
 .c-grid-button--mattapan-line,
-.c-grid-button--static-page {
-  @include media-breakpoint-only(sm) {
+.c-grid-button--static-page,
+.c-grid-buttons__condensed
+ {
+  @include media-breakpoint-up(sm) {
     flex-basis: 50%;
     max-width: 50%;
-  }
-
-  @include media-breakpoint-up(md) {
-    flex-basis: 33.33%;
-    max-width: 33.33%;
   }
 }
 
@@ -106,6 +103,12 @@
   }
 }
 
+.c-grid-button__icon--condensed {
+  margin: auto;
+  padding-right: 0;
+  position: relative;
+}
+
 .c-grid-button__name {
   flex: 1 1 auto;
 }
@@ -117,5 +120,30 @@
 
   path {
     fill: $brand-primary;
+  }
+}
+
+.c-grid-button__alert--condensed {
+  position: absolute;
+  right: -.5rem;
+  top: -.5rem;
+
+  path {
+    fill: $brand-primary;
+  }
+}
+
+.c-grid-buttons__condensed {
+  display: flex;
+  justify-content: space-between;
+}
+
+.c-grid-button__condensed {
+  flex-basis: 25%;
+  padding-right: $base-spacing / 2;
+  width: 25%;
+
+  &:last-child {
+    padding-right: 0;
   }
 }

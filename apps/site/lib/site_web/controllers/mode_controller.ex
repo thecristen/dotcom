@@ -22,6 +22,7 @@ defmodule SiteWeb.ModeController do
     grouped_routes = filtered_grouped_routes([:bus])
     conn
     |> async_assign(:all_alerts, fn -> Alerts.Repo.all(conn.assigns.date_time) end)
+    |> assign(:green_routes, green_routes())
     |> assign(:grouped_routes, grouped_routes)
     |> assign(:breadcrumbs, [Breadcrumb.build("Schedules & Maps")])
     |> assign(:home, false)

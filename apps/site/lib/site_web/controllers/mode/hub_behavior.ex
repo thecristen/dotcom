@@ -36,6 +36,7 @@ defmodule SiteWeb.Mode.HubBehavior do
     conn
     |> async_assign(:fares, &mode_strategy.fares/0)
     |> async_assign(:all_alerts, fn -> alerts(mode_routes, conn.assigns.date_time) end)
+    |> assign(:green_routes, green_routes())
     |> assign(:routes, mode_routes)
     |> assign(:route_type, mode_strategy.route_type |> Routes.Route.type_atom())
     |> assign(:mode_name, mode_strategy.mode_name())

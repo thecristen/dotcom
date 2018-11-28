@@ -62,6 +62,9 @@ defmodule SiteWeb.ControllerHelpers do
     |> Enum.map(& &1.id)
   end
 
+  @spec green_routes() :: [Route.t]
+  def green_routes, do: Enum.map(GreenLine.branch_ids(), & Routes.Repo.get(&1))
+
   @spec assign_all_alerts(Conn.t, []) :: Conn.t
   def assign_all_alerts(%{assigns: %{route: %Routes.Route{id: route_id, type: route_type}}} = conn, _opts) do
     informed_entity_matchers = [

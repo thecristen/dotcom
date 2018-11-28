@@ -256,4 +256,41 @@ defmodule SiteWeb.ControllerHelpersTest do
       refute {"x-robots-tag", "unavailable_after: 13 Nov 2019 00:00:00 EST"} in transformed_conn.resp_headers
     end
   end
+
+  describe "green_routes/0" do
+    assert green_routes() == [
+      %Routes.Route{
+        description: :rapid_transit,
+        direction_names: %{0 => "Westbound", 1 => "Eastbound"},
+        id: "Green-B",
+        long_name: "Green Line B",
+        name: "Green Line B",
+        type: 0
+      },
+      %Routes.Route{
+        description: :rapid_transit,
+        direction_names: %{0 => "Westbound", 1 => "Eastbound"},
+        id: "Green-C",
+        long_name: "Green Line C",
+        name: "Green Line C",
+        type: 0
+      },
+      %Routes.Route{
+        description: :rapid_transit,
+        direction_names: %{0 => "Westbound", 1 => "Eastbound"},
+        id: "Green-D",
+        long_name: "Green Line D",
+        name: "Green Line D",
+        type: 0
+      },
+      %Routes.Route{
+        description: :rapid_transit,
+        direction_names: %{0 => "Westbound", 1 => "Eastbound"},
+        id: "Green-E",
+        long_name: "Green Line E",
+        name: "Green Line E",
+        type: 0
+      }
+    ]
+  end
 end

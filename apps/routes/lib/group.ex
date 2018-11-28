@@ -4,7 +4,7 @@ defmodule Routes.Group do
   Groups a list of Route structures into a keyword dict based on their type: Commuter Rail, Bus, or Subway
 
   """
-  alias Routes.Route
+  alias Routes.{Repo, Route}
 
   @type t :: {Routes.Route.route_type, Routes.Route.t}
 
@@ -18,19 +18,10 @@ defmodule Routes.Group do
 
   @spec combine_green_line_into_single_route([Route.t]) :: [Route.t]
   defp combine_green_line_into_single_route(routes) do
-    routes
-    |> Enum.uniq_by(fn
-      %{id: "Green" <> _} -> "Green"
-      %{id: id} -> id
-    end)
-    |> Enum.map(&set_green_line_name/1)
-  end
-
-  defp set_green_line_name(%Route{type: 0, id: "Green" <> _} = route) do
-    %{route | name: "Green Line", id: "Green"}
-  end
-  defp set_green_line_name(item) do
-    item
+    Enum.filter(routes, fn
+      %{id: "Green" <> _} -> false
+      _ -> true
+    end) ++ [Repo.green_line()]
   end
 
   defp group_items_by_route_type(routes) do
