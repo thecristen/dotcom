@@ -135,6 +135,14 @@ defmodule SiteWeb.ModeView do
     ], class: "m-mode-hub__map-btn-wrapper")
   end
 
+  def map_image(type) do
+    content_tag(:div, [
+      link([
+        type |> MapHelpers.image() |> img_tag(class: "m-mode-hub__map-image")
+      ], to: MapHelpers.map_pdf_url(type))
+    ])
+  end
+
   def map_button_text(:commuter_rail_zones), do: "Commuter Rail Zones Map"
   def map_button_text(:commuter_rail), do: "Commuter Rail Map"
   def map_button_text(:subway), do: "Subway Map"

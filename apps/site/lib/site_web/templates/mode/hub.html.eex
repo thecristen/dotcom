@@ -24,6 +24,9 @@
         <h2>Line Schedules</h2>
         <%= render grid_template, Map.put(assigns, :show_icons?, false) %>
         <h2 class="h2">Maps</h2>
+        <%= if mode == :subway || mode == :ferry do %>
+          <%= map_image(mode) %>
+        <% end %>
         <%= map_buttons(@maps) %>
         <h2>Common Fares</h2>
         <%= SiteWeb.FareView.summarize(@fares, class: "") %>

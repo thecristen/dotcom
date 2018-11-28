@@ -54,3 +54,9 @@
   font-size: 2em;
   margin-left: $base-spacing;
 }
+
+.m-mode-hub__map-image {
+  margin-bottom: $base-spacing;
+  object-fit: contain;
+  width: 100%;
+}
