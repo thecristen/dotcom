@@ -3,7 +3,9 @@ defmodule SiteWeb.PartialViewTest do
 
   import SiteWeb.PartialView
   import SiteWeb.PartialView.SvgIconWithCircle
+  alias SiteWeb.PartialView
   alias SiteWeb.PartialView.SvgIconWithCircle
+  alias Content.{Repo, Teaser}
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   describe "stop_selector_suffix/2" do
@@ -106,4 +108,26 @@ defmodule SiteWeb.PartialViewTest do
     end
   end
 
+  describe "teaser/1" do
+    test "renders the title and description for non-guide teasers" do
+      assert [teaser | _] = Repo.teasers("Red")
+      assert %Teaser{topic: ""} = teaser
+      rendered = teaser |> PartialView.teaser() |> safe_to_string()
+      assert rendered =~ teaser.image_path
+      assert rendered =~ teaser.title
+      assert rendered =~ teaser.text
+    end
+
+    test "only shows image for guide teasers" do
+      assert [teaser | _] = Repo.teasers("guides")
+      assert teaser.topic == "Guides"
+      rendered =
+        teaser
+        |> PartialView.teaser()
+        |> safe_to_string()
+      assert rendered =~ teaser.image_path
+      assert Floki.find(rendered, ".sr-only") == [{"span", [{"class", "sr-only"}], [teaser.title]}]
+      refute rendered =~ teaser.text
+    end
+  end
 end

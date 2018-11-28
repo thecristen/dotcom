@@ -44,6 +44,10 @@ defmodule Content.CMS.Static do
     parse_json("cms/teasers.json")
   end
 
+  def guides_response do
+    parse_json("cms/guides.json")
+  end
+
   # Core (entity:node) responses
 
   def all_paragraphs_response do
@@ -264,6 +268,9 @@ defmodule Content.CMS.Static do
   end
   def view("/cms/route-pdfs/" <> _route_id, _) do
     {:ok, []}
+  end
+  def view("/cms/teasers/guides", _) do
+    {:ok, guides_response()}
   end
   def view("/cms/teasers/" <> route_id, params) when route_id != "NotFound" do
     filtered =

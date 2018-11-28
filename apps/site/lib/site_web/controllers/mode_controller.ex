@@ -1,5 +1,6 @@
 defmodule SiteWeb.ModeController do
   use SiteWeb, :controller
+  alias Content.Teaser
 
   plug SiteWeb.Plugs.RecentlyVisited
   plug SiteWeb.Plug.Mticket
@@ -26,6 +27,7 @@ defmodule SiteWeb.ModeController do
     |> assign(:grouped_routes, grouped_routes)
     |> assign(:breadcrumbs, [Breadcrumb.build("Schedules & Maps")])
     |> assign(:home, false)
+    |> assign(:guides, guides())
     |> assign(
       :meta_description,
       "Schedule information for MBTA subway, bus, Commuter Rail, and ferry in the Greater Boston region, " <>
@@ -37,5 +39,18 @@ defmodule SiteWeb.ModeController do
 
   defp require_google_maps(conn, _) do
     assign(conn, :requires_google_maps?, true)
+  end
+
+  @spec guides :: [Teaser.t]
+  defp guides do
+    "guides"
+    |> Content.Repo.teasers()
+    |> Enum.map(&utm_url/1)
+  end
+
+  @spec utm_url(Teaser.t) :: Teaser.t
+  defp utm_url(%Teaser{} = teaser) do
+    url = UrlHelpers.build_utm_url(teaser, source: "all-hub", type: "sidebar")
+    %{teaser | path: url}
   end
 end

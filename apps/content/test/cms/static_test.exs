@@ -29,6 +29,14 @@ defmodule Content.CMS.StaticTest do
       assert {:error, {:redirect, 301, _}} = view("/node/3480", %{})
       assert {:error, {:redirect, 301, _}} = view("/node/3174", %{})
     end
+
+    test "/cms/teasers/guides" do
+      assert {:ok, guides} = view("/cms/teasers/guides", %{})
+      refute Enum.empty?(guides)
+      for guide <- guides do
+        assert Map.fetch(guide, "topic") == {:ok, "Guides"}
+      end
+    end
   end
 
   describe "redirect/3" do

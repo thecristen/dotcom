@@ -1,5 +1,7 @@
 defmodule SiteWeb.Mode.HubBehavior do
+  alias Content.Teaser
   alias Fares.Summary
+
   @moduledoc "Behavior for mode hub pages."
 
   @callback routes() :: [Routes.Route.t]
@@ -43,6 +45,7 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> assign(:mode_icon, mode_strategy.mode_icon())
     |> assign(:fare_description, mode_strategy.fare_description())
     |> assign(:maps, mode_strategy.mode_icon() |> maps())
+    |> assign(:guides, mode_strategy.mode_name() |> guides())
     |> assign(:breadcrumbs, [
       Breadcrumb.build("Schedules & Maps", mode_path(conn, :index)),
       Breadcrumb.build(mode_strategy.mode_name())
@@ -66,4 +69,18 @@ defmodule SiteWeb.Mode.HubBehavior do
 
   def maps(:commuter_rail), do: [:commuter_rail, :commuter_rail_zones]
   def maps(type), do: [type]
+
+  @spec guides(String.t) :: [Teaser.t]
+  defp guides(mode) do
+    "/guides"
+    |> Path.join(mode_to_param(mode))
+    |> Content.Repo.teasers()
+  end
+
+  @spec mode_to_param(String.t) :: String.t
+  defp mode_to_param(mode) do
+    mode
+    |> String.downcase()
+    |> String.replace(" ", "-")
+  end
 end

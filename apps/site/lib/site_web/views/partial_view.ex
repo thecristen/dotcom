@@ -1,8 +1,10 @@
 defmodule SiteWeb.PartialView do
   use SiteWeb, :view
+  alias Content.Teaser
   alias Plug.Conn
   alias SiteWeb.PartialView.SvgIconWithCircle
   import SiteWeb.ContentView, only: [file_description: 1]
+
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 
   @spec clear_selector_link(map()) :: Phoenix.HTML.Safe.t
@@ -59,4 +61,48 @@ defmodule SiteWeb.PartialView do
   @spec display_branch_name(Routes.Route.id_t) :: String.t | nil
   def display_branch_name(<<"Green-", branch :: binary>>), do: branch
   def display_branch_name(_), do: nil
+
+  @doc """
+  Renders a CMS content teaser, typically shown on a page's sidebar.
+  Guides only show their image; other content types display the
+  content's title.
+  """
+  @spec teaser(Teaser.t) :: Phoenix.HTML.Safe.t
+  def teaser(%Teaser{} = teaser, opts \\ []) do
+    link [
+      img_tag(teaser.image_path, class: teaser_image_class(teaser)),
+      teaser_content(teaser)
+    ], to: teaser.path, class: teaser_class(opts)
+  end
+
+  @spec teaser_class(Keyword.t) :: String.t
+  defp teaser_class(opts) do
+    Enum.join([
+      Keyword.get(opts, :class, ""),
+      "c-content-teaser"
+    ], " ")
+  end
+
+  @spec teaser_image_class(Teaser.t) :: String.t
+  defp teaser_image_class(teaser) do
+    Enum.join([
+      "c-content-teaser__image",
+      "c-content-teaser__image--" <> String.downcase(teaser.topic)
+    ], " ")
+  end
+
+  @spec teaser_content(Teaser.t) :: [Phoenix.HTML.Safe.t]
+  defp teaser_content(%Teaser{topic: "Guides", title: title}) do
+    [
+      content_tag(:span, [title], class: "sr-only")
+    ]
+  end
+
+  defp teaser_content(teaser) do
+    [
+      content_tag(:div, [teaser.topic], class: "u-small-caps"),
+      content_tag(:h3, [raw(teaser.title)], class: "h3 c-content-teaser__title"),
+      content_tag(:div, [raw(teaser.text)], class: "c-content-teaser__text")
+    ]
+  end
 end

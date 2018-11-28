@@ -32,3 +32,9 @@
     height: 600px;
   }
 }
+
+.m-schedule-line__teaser {
+  @include media-breakpoint-up(md) {
+    margin-top: $base-spacing * 2;
+  }
+}
