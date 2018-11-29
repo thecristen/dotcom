@@ -1,6 +1,6 @@
 defmodule SiteWeb.PartialView do
   use SiteWeb, :view
-  alias Content.Teaser
+  alias Content.{NewsEntry, Teaser}
   alias Plug.Conn
   alias SiteWeb.PartialView.SvgIconWithCircle
   import SiteWeb.ContentView, only: [file_description: 1]
@@ -104,5 +104,64 @@ defmodule SiteWeb.PartialView do
       content_tag(:h3, [raw(teaser.title)], class: "h3 c-content-teaser__title"),
       content_tag(:div, [raw(teaser.text)], class: "c-content-teaser__text")
     ]
+  end
+
+  @doc """
+  Renders a news entry. Take two options:
+    size: :large | :small
+    class: class to apply to the link
+  """
+  @spec news_entry(NewsEntry.t | Teaser.t, Conn.t, Keyword.t) :: Phoenix.HTML.Safe.t
+  def news_entry(entry, %Conn{} = conn, opts \\ []) do
+    size = Keyword.get(opts, :size, :small)
+    link([
+      news_date(entry, size),
+      content_tag(:div, raw(entry.title), class: "c-news-entry__title c-news-entry__title--#{size}")
+    ], to: news_path(entry, conn), class: news_entry_class(opts), id: entry.id)
+  end
+
+  @spec news_path(NewsEntry.t | Teaser.t, Conn.t) :: String.t
+  defp news_path(%NewsEntry{utm_url: url}, conn) do
+    cms_static_page_path(conn, url)
+  end
+
+  defp news_path(%Teaser{path: url}, conn) do
+    cms_static_page_path(conn, url)
+  end
+
+  @spec news_date(NewsEntry.t, :large | :small) :: Phoenix.HTML.Safe.t
+  defp news_date(%NewsEntry{posted_on: date}, size) do
+    do_news_date(date, size)
+  end
+
+  defp news_date(%Teaser{date: date}, size) do
+    do_news_date(date, size)
+  end
+
+  @spec do_news_date(Date.t, :large | :small) :: Phoenix.HTML.Safe.t
+  defp do_news_date(date, size) do
+    content_tag(:div, [
+      content_tag(
+        :span,
+        Timex.format!(date, "{Mshort}"),
+        class: "c-news-entry__month c-news-entry__month--#{size}"
+      ),
+      content_tag(
+        :span,
+        Timex.format!(date, "{0D}"),
+        class: "c-news-entry__day--#{size}"
+      )
+    ], class: "c-news-entry__date c-news-entry__date--#{size} u-small-caps")
+  end
+
+  @spec news_entry_class(Keyword.t) :: String.t
+  defp news_entry_class(opts) do
+    size = Keyword.get(opts, :size, :small)
+    class = Keyword.get(opts, :class, "")
+    Enum.join([
+      "c-news-entry",
+      "c-news-entry--#{size}",
+      class
+    ], " ")
   end
 end

@@ -5,7 +5,7 @@ defmodule SiteWeb.PartialViewTest do
   import SiteWeb.PartialView.SvgIconWithCircle
   alias SiteWeb.PartialView
   alias SiteWeb.PartialView.SvgIconWithCircle
-  alias Content.{Repo, Teaser}
+  alias Content.{NewsEntry, Repo, Teaser}
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   describe "stop_selector_suffix/2" do
@@ -128,6 +128,49 @@ defmodule SiteWeb.PartialViewTest do
       assert rendered =~ teaser.image_path
       assert Floki.find(rendered, ".sr-only") == [{"span", [{"class", "sr-only"}], [teaser.title]}]
       refute rendered =~ teaser.text
+    end
+  end
+
+  describe "news_entry/3" do
+    test "takes a NewsEntry struct", %{conn: conn} do
+      assert {:ok, date} = Date.new(2018, 11, 30)
+
+      news = %NewsEntry{
+        id: "id",
+        posted_on: date,
+        title: "title",
+        utm_url: "/url"
+      }
+
+      rendered =
+        news
+        |> news_entry(conn)
+        |> safe_to_string()
+
+      assert rendered =~ "title"
+      assert rendered =~ "Nov"
+      assert rendered =~ "30"
+      assert rendered =~ ~s(href="/url")
+    end
+
+    test "takes a Teaser struct", %{conn: conn} do
+      assert {:ok, date} = Date.new(2018, 11, 30)
+      news = %Teaser{
+        id: "id",
+        date: date,
+        title: "title",
+        path: "/url"
+      }
+
+      rendered =
+        news
+        |> news_entry(conn)
+        |> safe_to_string()
+
+      assert rendered =~ "title"
+      assert rendered =~ "Nov"
+      assert rendered =~ "30"
+      assert rendered =~ ~s(href="/url")
     end
   end
 end

@@ -49,6 +49,10 @@
         <div class="m-mode__guides">
           <%= for guide <- @guides do SiteWeb.PartialView.teaser(guide, class: "m-mode-hub__guide") end %>
         </div>
+        <%= unless Enum.empty?(@news) do %>
+          <h3 class="h3">News</h3>
+          <%= for item <- @news do SiteWeb.PartialView.news_entry(item, @conn, class: "m-mode-hub__news") end %>
+        <% end %>
       </div>
     </div>
   </div>

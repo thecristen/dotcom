@@ -1,10 +1,3 @@
 <%= if @featured_content do SiteWeb.PartialView.teaser(@featured_content, class: "m-schedule-line__teaser") end %>
 <%= unless Enum.empty?(@news) do content_tag(:h2, "News", class: "h2") end %>
-<%= for news_item <- @news do %>
-  <div class="u-small-caps">
-    <%= Timex.format!(news_item.date, "{Mshort} {D}") %>
-  </div>
-  <p>
-    <%= news_item.title |> raw() |> link(to: news_item.path, id: "cms_teaser_news_item_#{news_item.id}") %>
-  </p>
-<% end %>
+<%= for news_item <- @news do SiteWeb.PartialView.news_entry(news_item, @conn, class: "m-schedule-line__news") end %>

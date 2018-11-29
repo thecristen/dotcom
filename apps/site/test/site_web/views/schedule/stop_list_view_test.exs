@@ -7,6 +7,7 @@ defmodule SiteWeb.StopListViewTest do
   alias Routes.Route
   alias Schedules.Departures
   alias Site.StopBubble
+  alias SiteWeb.ScheduleView
 
   @trip %Schedules.Trip{name: "101", headsign: "Headsign", direction_id: 0, id: "1"}
   @stop %Stops.Stop{id: "stop-id", name: "Stop Name"}
@@ -510,7 +511,7 @@ defmodule SiteWeb.StopListViewTest do
   end
 
   describe "_cms_teasers.html" do
-    test "renders featured content and news" do
+    test "renders featured content and news", %{conn: conn} do
       assert {news, [featured | _]} =
         "Red"
         |> Content.Repo.teasers()
@@ -520,7 +521,7 @@ defmodule SiteWeb.StopListViewTest do
 
       rendered =
         "_cms_teasers.html"
-        |> SiteWeb.ScheduleView.render(featured_content: featured, news: news)
+        |> ScheduleView.render(featured_content: featured, news: news, conn: conn)
         |> safe_to_string()
 
       assert rendered =~ featured.image_path
@@ -528,7 +529,7 @@ defmodule SiteWeb.StopListViewTest do
 
       for item <- news do
         assert rendered =~ item.title
-        assert rendered =~ Timex.format!(item.date, "{Mshort} {D}")
+        assert rendered =~ Timex.format!(item.date, "{Mshort}")
       end
     end
 

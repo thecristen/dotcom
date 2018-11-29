@@ -1,6 +1,7 @@
 defmodule SiteWeb.PageView do
   import Phoenix.HTML.Tag
   alias Content.Banner
+  alias SiteWeb.PartialView
 
   use SiteWeb, :view
 
@@ -102,33 +103,9 @@ defmodule SiteWeb.PageView do
 
     content_tag(
       :div,
-      Enum.map(entries, & render_news_entry(&1, size, conn)),
+      Enum.map(entries, & PartialView.news_entry(&1, conn, size: size, class: "m-homepage__news-item")),
       class: "col-md-6"
     )
-  end
-
-  @spec render_news_entry(Content.NewsEntry.t, :large | :small, Plug.Conn.t) :: Phoenix.HTML.Safe.t
-  defp render_news_entry(%{utm_url: utm_url} = entry, size, conn) do
-    link([
-      render_news_date(entry, size),
-      content_tag(:div, entry.title, class: "c-news-entry__title c-news-entry__title--#{size}")
-    ], to: cms_static_page_path(conn, utm_url), class: "c-news-entry c-news-entry--#{size}")
-  end
-
-  @spec render_news_date(Content.NewsEntry.t, :large | :small) :: Phoenix.HTML.Safe.t
-  defp render_news_date(entry, size) do
-    content_tag(:div, [
-      content_tag(
-        :span,
-        Timex.format!(entry.posted_on, "{Mshort}"),
-        class: "c-news-entry__month c-news-entry__month--#{size}"
-      ),
-      content_tag(
-        :span,
-        Timex.format!(entry.posted_on, "{0D}"),
-        class: "c-news-entry__day--#{size}"
-      )
-    ], class: "c-news-entry__date c-news-entry__date--#{size} u-small-caps")
   end
 
   @spec banner_content_class(Banner.t) :: String.t

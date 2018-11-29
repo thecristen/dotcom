@@ -46,6 +46,7 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> assign(:fare_description, mode_strategy.fare_description())
     |> assign(:maps, mode_strategy.mode_icon() |> maps())
     |> assign(:guides, mode_strategy.mode_name() |> guides())
+    |> assign(:news, mode_strategy.mode_name() |> news())
     |> assign(:breadcrumbs, [
       Breadcrumb.build("Schedules & Maps", mode_path(conn, :index)),
       Breadcrumb.build(mode_strategy.mode_name())
@@ -82,5 +83,25 @@ defmodule SiteWeb.Mode.HubBehavior do
     mode
     |> String.downcase()
     |> String.replace(" ", "-")
+  end
+
+  @spec news(String.t) :: [Teaser.t]
+  defp news(mode) do
+    mode
+    |> mode_to_param()
+    |> do_news()
+  end
+
+  @spec do_news(String.t) :: [Teaser.t]
+  defp do_news(mode) do
+    mode
+    |> Content.Repo.teasers([type: :news_entry])
+    |> Enum.map(& news_url(&1, mode))
+  end
+
+  @spec news_url(Teaser.t, String.t) :: Teaser.t
+  defp news_url(%Teaser{} = news, mode) do
+    url = UrlHelpers.build_utm_url(news, source: "hub", term: mode, type: "sidebar")
+    %{news | path: url}
   end
 end

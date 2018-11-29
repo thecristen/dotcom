@@ -38,3 +38,9 @@
     margin-top: $base-spacing * 2;
   }
 }
+
+.m-schedule-line__news {
+  border-left-width: 0;
+  flex-direction: column;
+  padding-left: 0;
+}
