@@ -1,4 +1,4 @@
-<% grid = div(12, Enum.count(@paragraph.columns)) %>
+<% grid = div(12,  max(Enum.count(@paragraph.columns), 2)) %>
 
 <%= if @paragraph.header do %>
   <%= ContentRewriter.rewrite(@paragraph.header.text, @conn) %>

@@ -247,7 +247,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
       assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 2<\/strong>/
 
-      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-12\">\s*<strong>Column 1<\/strong>/
+      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
     end
 
     test "renders a Content.Paragraph.ColumnMulti with nested paragraphs", %{conn: conn} do
@@ -313,7 +313,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 2<\/strong>/
 
       assert rendered_single =~ "<h4>This is a multi-column header</h4>"
-      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-12\">\s*<strong>Column 1<\/strong>/
+      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
     end
 
     test "renders a Content.Paragraph.Tabs", %{conn: conn} do
