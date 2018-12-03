@@ -43,7 +43,7 @@ defmodule SiteWeb.ModeController do
 
   @spec guides :: [Teaser.t]
   defp guides do
-    "guides"
+    [topic: "guides"]
     |> Content.Repo.teasers()
     |> Enum.map(&utm_url/1)
   end

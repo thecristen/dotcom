@@ -215,7 +215,7 @@ defmodule Content.Repo do
   end
 
   @doc """
-  Returns a list of teaser items related to a route.
+  Returns a list of teaser items.
 
   Opts can include :type, which can be one of:
     :news_entry
@@ -223,6 +223,9 @@ defmodule Content.Repo do
     :project
     :page
     :project_update
+
+  To filter by a route include :route_id, for example:
+    "/guides/subway" or just "subway"
 
   To fetch all items that are NOT of a specific type,
   use [type: _type, type_op: "not in"]
@@ -232,12 +235,24 @@ defmodule Content.Repo do
   The number can only be 1-10, 20, or 50, otherwise
   it will be ignored.
   """
-  @spec teasers(Routes.Route.id_t, Keyword.t) :: [Content.Teaser.t]
-  def teasers(<<route_id::binary>>, opts \\ []) when is_list(opts) do
-    "/cms/teasers"
-    |> Path.join(route_id)
+  @spec teasers(Keyword.t) :: [Content.Teaser.t]
+  def teasers(opts \\ []) when is_list(opts) do
+    opts
+    |> teaser_path()
     |> @cms_api.view(teaser_params(opts))
-    |> do_teasers(route_id, opts)
+    |> do_teasers(opts)
+  end
+
+  @spec teaser_path(Keyword.t) :: String.t
+  defp teaser_path(opts) do
+    path = case Enum.into(opts, %{}) do
+      %{route_id: route_id, topic: topic} -> "/#{topic}/#{route_id}"
+      %{mode: mode, topic: topic} -> "/#{topic}/#{mode}"
+      %{topic: topic} -> "/#{topic}"
+      %{mode: mode} -> "/#{mode}"
+      %{route_id: route_id} -> "/#{route_id}"
+    end
+    "/cms/teasers#{path}"
   end
 
   @default_teaser_params %{
@@ -254,17 +269,16 @@ defmodule Content.Repo do
     Map.merge(@default_teaser_params, Map.new(opts))
   end
 
-  @spec do_teasers({:ok, [map]} | {:error, any}, String.t, Keyword.t) :: [Content.Teaser.t]
-  defp do_teasers({:ok, teasers}, _, _) do
+  @spec do_teasers({:ok, [map]} | {:error, any}, Keyword.t) :: [Content.Teaser.t]
+  defp do_teasers({:ok, teasers}, _) do
     Enum.map(teasers, &Content.Teaser.from_api/1)
   end
 
-  defp do_teasers({:error, error}, route_id, opts) do
+  defp do_teasers({:error, error}, opts) do
     _ = [
       "module=#{__MODULE__}",
       "method=teasers",
       "error=" <> inspect(error),
-      "route_id=" <> route_id,
       "opts=#{inspect(opts)}"
     ]
     |> Enum.join(" ")

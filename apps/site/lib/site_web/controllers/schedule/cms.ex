@@ -31,14 +31,15 @@ defmodule SiteWeb.ScheduleController.CMS do
   @spec get_sidebar_content(Route.t) :: {Teaser.t, [Teaser.t]}
   defp get_sidebar_content(%Route{} = route) do
     featured =
-      route.id
-      |> Repo.teasers(@featured_opts)
+      @featured_opts
+      |> Keyword.put(:route_id, route.id)
+      |> Repo.teasers()
       |> List.first()
       |> set_utm_params(route)
 
     news =
-      route.id
-      |> Repo.teasers(type: :news_entry)
+      [route_id: route.id, type: :news_entry]
+      |> Repo.teasers()
       |> Enum.map(&set_utm_params(&1, route))
 
     {featured, news}

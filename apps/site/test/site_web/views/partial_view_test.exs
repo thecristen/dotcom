@@ -110,7 +110,7 @@ defmodule SiteWeb.PartialViewTest do
 
   describe "teaser/1" do
     test "renders the title and description for non-guide teasers" do
-      assert [teaser | _] = Repo.teasers("Red")
+      assert [teaser | _] = Repo.teasers([route_id: "Red"])
       assert %Teaser{topic: ""} = teaser
       rendered = teaser |> PartialView.teaser() |> safe_to_string()
       assert rendered =~ teaser.image_path
@@ -119,7 +119,7 @@ defmodule SiteWeb.PartialViewTest do
     end
 
     test "only shows image for guide teasers" do
-      assert [teaser | _] = Repo.teasers("guides")
+      assert [teaser | _] = Repo.teasers([topic: "guides"])
       assert teaser.topic == "Guides"
       rendered =
         teaser
