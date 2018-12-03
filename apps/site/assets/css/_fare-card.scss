@@ -1,0 +1,63 @@
+.c-fare-card {
+  border: 2px solid;
+  line-height: normal;
+  margin-top: 1.375rem;
+  padding: 1.375rem 1rem 1rem;
+  position: relative;
+  text-align: center;
+  width: 100%;
+
+  @include media-breakpoint-down(sm) {
+    max-width: 20rem;
+  }
+
+  &--subway {
+    border-color: $brand-subway;
+  }
+
+  &--bus {
+    border-color: $brand-bus;
+  }
+
+  &--commuter-rail {
+    border-color: $brand-commuter-rail;
+  }
+
+  &--ferry {
+    border-color: $brand-ferry;
+  }
+
+  &--the-ride {
+    border-color: $brand-the-ride;
+  }
+}
+
+.c-fare-card__icon {
+  @include icon-size(2.75rem);
+  left: 50%;
+  margin-left: -1.375rem;
+  position: absolute;
+  top: -1.375rem;
+
+  span {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.c-fare-card__name {
+  margin-top: .6rem;
+
+  span {
+    white-space: nowrap;
+  }
+}
+
+.c-fare-card__fare {
+  margin-top: .8rem;
+}
+
+.c-fare-card__note {
+  font-size: .875rem;
+  min-height: 2.4em;
+}

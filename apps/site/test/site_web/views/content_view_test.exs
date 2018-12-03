@@ -7,7 +7,7 @@ defmodule SiteWeb.ContentViewTest do
   alias Content.BasicPage
   alias Content.CMS.Static
   alias Content.Field.{File, Link}
-  alias Content.Paragraph.{Column, ColumnMulti, CustomHTML, FilesGrid,
+  alias Content.Paragraph.{Column, ColumnMulti, CustomHTML, FareCard, FilesGrid,
     PeopleGrid, Tab, Tabs, TitleCard, TitleCardSet, Unknown, UpcomingBoardMeetings}
   alias Phoenix.HTML
 
@@ -177,6 +177,48 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ person.position
     end
 
+    test "renders a FareCard", %{conn: conn} do
+      paragraph = %ColumnMulti{
+        columns: [
+          %Column{
+            paragraphs: [
+              %FareCard{
+                fare_token: "subway:charlie_card",
+                note: %CustomHTML{
+                  body: {:safe, "<p>{{ fare:subway:cash }} with CharlieTicket</p>\n"}
+                }
+              }
+            ]
+          },
+          %Column{
+            paragraphs: [
+              %FareCard{
+                fare_token: "local_bus:charlie_card",
+                note: %CustomHTML{
+                  body: {:safe,
+                   "<p>{{ fare:local_bus:cash }} with CharlieTicket</p>\n"}
+                }
+              }
+            ]
+          }
+        ]
+      }
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "Subway"
+      assert rendered =~ "One Way"
+      assert rendered =~ "$2.25"
+      assert rendered =~ "with a CharlieCard"
+      assert rendered =~ "$2.75 with CharlieTicket"
+      assert rendered =~ "Local Bus"
+      assert rendered =~ "$1.70"
+      assert rendered =~ "$2.00 with CharlieTicket"
+    end
+
     test "renders a Paragraph.FilesGrid without a title", %{conn: conn} do
       paragraph = %FilesGrid{title: nil, files: [%File{url: "/link", description: "link description"}]}
 
@@ -247,7 +289,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
       assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 2<\/strong>/
 
-      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
+      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-12\">\s*<strong>Column 1<\/strong>/
     end
 
     test "renders a Content.Paragraph.ColumnMulti with nested paragraphs", %{conn: conn} do
@@ -313,7 +355,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 2<\/strong>/
 
       assert rendered_single =~ "<h4>This is a multi-column header</h4>"
-      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
+      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-12\">\s*<strong>Column 1<\/strong>/
     end
 
     test "renders a Content.Paragraph.Tabs", %{conn: conn} do
@@ -415,6 +457,32 @@ defmodule SiteWeb.ContentViewTest do
       # could also be November 6th, 1:00 AM (test daylight savings)
       expected = "November 5, 2016 1:00am - November 6, 2016 2:00am"
       assert expected == actual
+    end
+  end
+
+  test "grid/1 returns the size of our grid based on the number of columns" do
+    column_multi_2 = %ColumnMulti{
+      columns: [
+        %Column{body: HTML.raw("<strong>Column 1</strong>")},
+        %Column{body: HTML.raw("<strong>Column 2</strong>")}
+      ]
+    }
+
+    assert grid(column_multi_2) == 6
+  end
+
+  describe "extend_width_if/2" do
+    test "wraps content with media divs if the condition is true" do
+      rendered = extend_width_if(true, do: "foo") |> HTML.safe_to_string
+
+      assert rendered =~ "c-media c-media--type-table"
+      assert rendered =~ "c-media__content"
+      assert rendered =~ "c-media__element"
+      assert rendered =~ "foo"
+    end
+
+    test "wraps content with nothing if the condition is false" do
+      assert extend_width_if(false, do: "foo") == "foo"
     end
   end
 end

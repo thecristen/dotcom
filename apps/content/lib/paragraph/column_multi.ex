@@ -2,7 +2,7 @@ defmodule Content.Paragraph.ColumnMulti do
   @moduledoc """
   A set of columns to organize layout on the page.
   """
-  alias Content.Paragraph.{Column, ColumnMultiHeader}
+  alias Content.Paragraph.{Column, ColumnMultiHeader, FareCard}
 
   defstruct [
     header: nil,
@@ -33,5 +33,15 @@ defmodule Content.Paragraph.ColumnMulti do
       columns: columns
     }
   end
+
+  @spec includes_fare_cards?(__MODULE__.t) :: boolean
+  def includes_fare_cards?(%__MODULE__{columns: columns}) do
+    columns
+    |> Enum.flat_map(&(&1.paragraphs))
+    |> Enum.any?(&is_a_fare_card?/1)
+  end
+
+  defp is_a_fare_card?(%FareCard{}), do: true
+  defp is_a_fare_card?(_), do: false
 
 end

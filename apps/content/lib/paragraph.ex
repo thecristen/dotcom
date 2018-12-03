@@ -20,11 +20,12 @@ defmodule Content.Paragraph do
     on the live CMS
   """
 
-  alias Content.Paragraph.{ColumnMulti, CustomHTML, FilesGrid, PeopleGrid,
+  alias Content.Paragraph.{ColumnMulti, CustomHTML, FareCard, FilesGrid, PeopleGrid,
     Tabs, TitleCardSet, Unknown, UpcomingBoardMeetings}
 
   @type t :: ColumnMulti.t |
              CustomHTML.t |
+             FareCard.t |
              FilesGrid.t |
              PeopleGrid.t |
              Tabs.t |
@@ -35,6 +36,9 @@ defmodule Content.Paragraph do
   @spec from_api(map) :: t
   def from_api(%{"type" => [%{"target_id" => "custom_html"}]} = para) do
     CustomHTML.from_api(para)
+  end
+  def from_api(%{"type" => [%{"target_id" => "fare_card"}]} = para) do
+    FareCard.from_api(para)
   end
   def from_api(%{"type" => [%{"target_id" => "files_grid"}]} = para) do
     FilesGrid.from_api(para)

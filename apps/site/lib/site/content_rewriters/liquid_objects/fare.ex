@@ -84,6 +84,27 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
     |> process_results()
   end
 
+  @spec fare_object_request(String.t) :: Fares.Fare.t | Summary.t
+  def fare_object_request(string) do
+    tokens = string
+    |> String.split(":", trim: true)
+    |> parse_tokens()
+
+    case tokens do
+      {:ok, _} ->
+        tokens
+        |> compose_args()
+        |> request_fares()
+        |> List.first()
+      _ ->
+        %Fare{
+          name: :invalid,
+          mode: :subway,
+          duration: :invalid
+        }
+    end
+  end
+
   @spec parse_tokens([String.t]) :: {:ok, [repo_arg]} | request_error
   defp parse_tokens(new), do: parse_tokens(new, [], [])
 

@@ -6,12 +6,8 @@ defmodule Fares.Format do
   @doc "Formats the price of a fare as a traditional $dollar.cents value"
   @spec price(Fare.t | non_neg_integer | nil) :: String.t
   def price(nil), do: ""
-  def price(%Fare{cents: cents}) do
-    price(cents)
-  end
-  def price(cents) do
-    "$#{:erlang.float_to_binary(cents / 100, decimals: 2)}"
-  end
+  def price(%Fare{cents: cents}), do: price(cents)
+  def price(cents), do: "$#{:erlang.float_to_binary(cents / 100, decimals: 2)}"
 
   @doc "Formats the fare media (card, &c) as a string"
   @spec media(Fare.t | [Fare.media] | Fare.media) :: iodata
@@ -37,28 +33,31 @@ defmodule Fares.Format do
   def customers(nil), do: "Standard Fares"
 
   @doc "Formats the duration of the Fare"
-  @spec duration(Fare.t) :: String.t
-  def duration(%Fare{duration: :single_trip}) do
+  @spec duration(Fare.t | Summary.t) :: String.t
+  def duration(%{duration: :single_trip}) do
     "One Way"
   end
-  def duration(%Fare{duration: :round_trip}) do
+  def duration(%{duration: :round_trip}) do
     "Round Trip"
   end
-  def duration(%Fare{name: :ferry_inner_harbor, duration: :day}) do
+  def duration(%{name: :ferry_inner_harbor, duration: :day}) do
     "One-Day Pass"
   end
-  def duration(%Fare{duration: :day}) do
+  def duration(%{duration: :day}) do
     "Day Pass"
   end
-  def duration(%Fare{duration: :week}) do
+  def duration(%{duration: :week}) do
     "7-Day Pass"
   end
-  def duration(%Fare{duration: :month, media: media}) do
+  def duration(%{duration: :month, media: media}) do
     if :mticket in media do
       "Monthly Pass on mTicket App"
     else
       "Monthly Pass"
     end
+  end
+  def duration(%{duration: :invalid}) do
+    "Invalid Duration"
   end
 
   @doc "Friendly name for the given Fare"
@@ -78,6 +77,7 @@ defmodule Fares.Format do
   def name(:free_fare), do: "Free Fare for SL1 Trips from Airport Stops"
   def name(:ada_ride), do: "ADA Ride"
   def name(:premium_ride), do: "Premium Ride"
+  def name(:invalid), do: "Invalid Fare"
 
   @spec full_name(Fare.t) :: String.t | iolist
   def full_name(%Fare{mode: :subway, duration: :month}), do: "Monthly LinkPass"

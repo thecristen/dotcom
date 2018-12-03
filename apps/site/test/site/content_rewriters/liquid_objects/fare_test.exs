@@ -3,9 +3,9 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
 
   import Site.ContentRewriters.LiquidObjects.Fare
 
-  alias Fares.{Format, Repo, Summary}
+  alias Fares.{Fare, Format, Repo, Summary}
 
-  describe "replace/1" do
+  describe "fare_request/1" do
     test "it handles fare requests for a given mode name and media" do
       results = Repo.all([name: :local_bus, includes_media: :cash, reduced: nil, duration: :single_trip])
       assert fare_request("local_bus:cash") == {:ok, fare_result(results)}
@@ -60,6 +60,22 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
 
     test "it handles an incomplete request (required key values are missing)" do
       assert fare_request("cash") == {:error, {:incomplete, "missing mode/name"}}
+    end
+  end
+
+  describe "fare_object_request" do
+    test "it handles fare requests for a given mode name and media" do
+      result = Repo.all([name: :local_bus, includes_media: :cash, reduced: nil, duration: :single_trip]) |> List.first
+      assert fare_object_request("local_bus:cash") == result
+    end
+
+    test "it returns an 'invalid' fare when a token is invalid" do
+      invalid_fare = %Fare{
+        name: :invalid,
+        mode: :subway,
+        duration: :invalid
+      }
+      assert fare_object_request("local_bus:token") == invalid_fare
     end
   end
 

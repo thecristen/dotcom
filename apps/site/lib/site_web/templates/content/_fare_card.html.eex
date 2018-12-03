@@ -1,0 +1,64 @@
+<%
+  fare = Site.ContentRewriters.LiquidObjects.Fare.fare_object_request(@fare_card.fare_token)
+  mode = case fare do
+    %Fares.Summary{} ->
+      List.first(fare.modes)
+    _ ->
+      fare.mode
+  end
+  name = case fare do
+    %Fares.Summary{} ->
+      fare.name
+    _ ->
+      Fares.Format.name(fare)
+  end
+  display_duration? = case fare do
+    %Fares.Summary{} ->
+      false
+    _ ->
+      true
+  end
+  price = case fare do
+    %Fares.Summary{} ->
+      Fares.Summary.price_range(fare)
+    _ ->
+      Fares.Format.price(fare)
+  end
+  media = case fare do
+    %Fares.Summary{} ->
+      "CharlieTicket or mTicket"
+    _ ->
+      Fares.Format.media(fare)
+  end
+%>
+
+<div class="c-fare-card c-fare-card--<%= CSSHelpers.atom_to_class(mode) %>">
+  <div class="c-fare-card__icon">
+    <%= mode_icon(mode, :default) %>
+  </div>
+
+  <h3 class="c-fare-card__name">
+    <span class="c-fare-card__name_mode">
+      <%= name %>
+    </span>
+    <%= if display_duration? do %>
+      <span class="c-fare-card__name_duration">
+        <%= Fares.Format.duration(fare) %>
+      </span>
+    <% end %>
+  </h3>
+
+  <div class="c-fare-card__fare h2">
+    <%= price %>
+  </div>
+
+  <p class="c-fare-card__media">
+    with a <%= media %>
+  </p>
+
+  <%= if @fare_card.note do %>
+    <div class="c-fare-card__note">
+      <%= SiteWeb.ContentView.render_paragraph(@fare_card.note, @conn) %>
+    </div>
+  <% end %>
+</div>

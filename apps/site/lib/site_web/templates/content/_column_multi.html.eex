@@ -1,19 +1,19 @@
-<% grid = div(12,  max(Enum.count(@paragraph.columns), 2)) %>
-
 <%= if @paragraph.header do %>
   <%= ContentRewriter.rewrite(@paragraph.header.text, @conn) %>
 <% end %>
 
-<div class="row">
-  <%= for column <- @paragraph.columns do %>
-    <div class="col-md-<%= grid %>">
+<%= extend_width_if Content.Paragraph.ColumnMulti.includes_fare_cards?(@paragraph) do %>
+  <div class="row">
+    <%= for column <- @paragraph.columns do %>
+      <div class="col-md-<%= grid(@paragraph) %>">
 
-      <%= ContentRewriter.rewrite(column.body, @conn) %>
+        <%= ContentRewriter.rewrite(column.body, @conn) %>
 
-      <%= for paragraph <- column.paragraphs do %>
-        <%= SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
-      <% end %>
+        <%= for paragraph <- column.paragraphs do %>
+          <%= SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
+        <% end %>
 
-    </div>
-  <% end %>
-</div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

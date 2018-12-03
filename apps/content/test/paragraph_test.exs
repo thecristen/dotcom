@@ -7,7 +7,7 @@ defmodule Content.ParagraphTest do
   alias Content.CMS.Static
   alias Content.Event
   alias Content.Field.File
-  alias Content.Paragraph.{Column, ColumnMulti, ColumnMultiHeader, CustomHTML, FilesGrid,
+  alias Content.Paragraph.{Column, ColumnMulti, ColumnMultiHeader, CustomHTML, FareCard, FilesGrid,
     PeopleGrid, Tab, Tabs, TitleCard, TitleCardSet, Unknown, UpcomingBoardMeetings}
   alias Content.Person
 
@@ -20,6 +20,36 @@ defmodule Content.ParagraphTest do
       } = from_api(api_data)
 
       assert safe_to_string(body) =~ ~s(This page demonstrates all the "paragraphs" available)
+    end
+
+    test "parses a fare card paragraph" do
+      api_data = api_paragraph_by_id(4192)
+
+      assert %ColumnMulti{
+        columns: [
+          %Column{
+            paragraphs: [
+              %FareCard{
+                fare_token: "subway:charlie_card",
+                note: %CustomHTML{
+                  body: {:safe, "<p>{{ fare:subway:cash }} with CharlieTicket</p>\n"}
+                }
+              }
+            ]
+          },
+          %Column{
+            paragraphs: [
+              %FareCard{
+                fare_token: "local_bus:charlie_card",
+                note: %CustomHTML{
+                  body: {:safe,
+                   "<p>{{ fare:local_bus:cash }} with CharlieTicket</p>\n"}
+                }
+              }
+            ]
+          }
+        ]
+      } = from_api(api_data)
     end
 
     test "parses a files grid paragraph" do
@@ -127,5 +157,11 @@ defmodule Content.ParagraphTest do
     Static.all_paragraphs_response()
     |> Map.get("field_paragraphs")
     |> Enum.find(& match?(%{"type" => [%{"target_id" => ^paragraph_type}]}, &1))
+  end
+
+  defp api_paragraph_by_id(id) do
+    Static.all_paragraphs_response()
+    |> Map.get("field_paragraphs")
+    |> Enum.find(& match?(%{"id" => [%{"value" => ^id}]}, &1))
   end
 end

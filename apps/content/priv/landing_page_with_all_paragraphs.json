@@ -2801,12 +2801,8 @@
                   "value": true
                 }
               ],
-              "revision_translation_affected": [
-
-              ],
-              "moderation_state": [
-
-              ],
+              "revision_translation_affected": [],
+              "moderation_state": [],
               "field_custom_html_body": [
                 {
                   "value": "<p>This is a Custom HTML paragraph inside the Column paragraph, in a new Column field called \"field_content\"</p>\r\n",
@@ -3579,6 +3575,760 @@
       "field_tabs_display": [
         {
           "value": "collapsible"
+        }
+      ]
+    },
+    {
+      "target_id": 4192,
+      "target_revision_id": 69962,
+      "id": [
+        {
+          "value": 4192
+        }
+      ],
+      "uuid": [
+        {
+          "value": "b81b4893-f50c-4d1e-9833-1b6ffb713461"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 69962
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 102,
+          "target_type": "user",
+          "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+          "url": "/user/102"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1542228805
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 102,
+          "target_type": "user",
+          "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+          "url": "/user/102"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "3897"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_column": [
+        {
+          "target_id": 4187,
+          "target_revision_id": 69957,
+          "id": [
+            {
+              "value": 4187
+            }
+          ],
+          "uuid": [
+            {
+              "value": "acea82e5-e3c0-444e-8ca3-83f81b4efff9"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 69957
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1542228814
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "4192"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_column_body": [],
+          "field_content": [
+            {
+              "target_id": 4186,
+              "target_revision_id": 69956,
+              "id": [
+                {
+                  "value": 4186
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "48c988d2-f587-4e90-80f3-c48ee3a1c0a5"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 69956
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "fare_card",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "c95ab763-42bc-4269-a804-d766091bbf49"
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1542228825
+                }
+              ],
+              "revision_uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "4187"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": "a:0:{}"
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "moderation_state": [],
+              "field_fare_notes": [
+                {
+                  "target_id": 4185,
+                  "target_revision_id": 69955,
+                  "id": [
+                    {
+                      "value": 4185
+                    }
+                  ],
+                  "uuid": [
+                    {
+                      "value": "d2b86628-5cc7-4e3a-b000-de8b08a62be3"
+                    }
+                  ],
+                  "revision_id": [
+                    {
+                      "value": 69955
+                    }
+                  ],
+                  "type": [
+                    {
+                      "target_id": "custom_html",
+                      "target_type": "paragraphs_type",
+                      "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                    }
+                  ],
+                  "langcode": [
+                    {
+                      "value": "en"
+                    }
+                  ],
+                  "uid": [
+                    {
+                      "target_id": 102,
+                      "target_type": "user",
+                      "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                      "url": "/user/102"
+                    }
+                  ],
+                  "status": [
+                    {
+                      "value": true
+                    }
+                  ],
+                  "created": [
+                    {
+                      "value": 1542228939
+                    }
+                  ],
+                  "revision_uid": [
+                    {
+                      "target_id": 102,
+                      "target_type": "user",
+                      "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                      "url": "/user/102"
+                    }
+                  ],
+                  "parent_id": [
+                    {
+                      "value": "4186"
+                    }
+                  ],
+                  "parent_type": [
+                    {
+                      "value": "paragraph"
+                    }
+                  ],
+                  "parent_field_name": [
+                    {
+                      "value": "field_fare_notes"
+                    }
+                  ],
+                  "behavior_settings": [
+                    {
+                      "value": "a:0:{}"
+                    }
+                  ],
+                  "default_langcode": [
+                    {
+                      "value": true
+                    }
+                  ],
+                  "revision_translation_affected": [
+                    {
+                      "value": true
+                    }
+                  ],
+                  "moderation_state": [],
+                  "field_custom_html_body": [
+                    {
+                      "value": "<p>{{ fare:subway:cash&nbsp;}} with CharlieTicket</p>\r\n",
+                      "format": "full_html",
+                      "processed": "<p>{{ fare:subway:cash }} with CharlieTicket</p>\n"
+                    }
+                  ]
+                }
+              ],
+              "field_fare_request": [
+                {
+                  "value": "{{ fare:subway:charlie_card }}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "target_id": 4190,
+          "target_revision_id": 69960,
+          "id": [
+            {
+              "value": 4190
+            }
+          ],
+          "uuid": [
+            {
+              "value": "d188ead9-b3e0-4896-8405-64be88d7c610"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 69960
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1542228816
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "4192"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_column_body": [],
+          "field_content": [
+            {
+              "target_id": 4189,
+              "target_revision_id": 69959,
+              "id": [
+                {
+                  "value": 4189
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "c81e5a2a-a24d-4ce8-bc7e-898d281ccf2b"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 69959
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "fare_card",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "c95ab763-42bc-4269-a804-d766091bbf49"
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1542228859
+                }
+              ],
+              "revision_uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "4190"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": "a:0:{}"
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "moderation_state": [],
+              "field_fare_notes": [
+                {
+                  "target_id": 4188,
+                  "target_revision_id": 69958,
+                  "id": [
+                    {
+                      "value": 4188
+                    }
+                  ],
+                  "uuid": [
+                    {
+                      "value": "cada32db-185f-480f-9929-814bd47b96c1"
+                    }
+                  ],
+                  "revision_id": [
+                    {
+                      "value": 69958
+                    }
+                  ],
+                  "type": [
+                    {
+                      "target_id": "custom_html",
+                      "target_type": "paragraphs_type",
+                      "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                    }
+                  ],
+                  "langcode": [
+                    {
+                      "value": "en"
+                    }
+                  ],
+                  "uid": [
+                    {
+                      "target_id": 102,
+                      "target_type": "user",
+                      "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                      "url": "/user/102"
+                    }
+                  ],
+                  "status": [
+                    {
+                      "value": true
+                    }
+                  ],
+                  "created": [
+                    {
+                      "value": 1542228917
+                    }
+                  ],
+                  "revision_uid": [
+                    {
+                      "target_id": 102,
+                      "target_type": "user",
+                      "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                      "url": "/user/102"
+                    }
+                  ],
+                  "parent_id": [
+                    {
+                      "value": "4189"
+                    }
+                  ],
+                  "parent_type": [
+                    {
+                      "value": "paragraph"
+                    }
+                  ],
+                  "parent_field_name": [
+                    {
+                      "value": "field_fare_notes"
+                    }
+                  ],
+                  "behavior_settings": [
+                    {
+                      "value": "a:0:{}"
+                    }
+                  ],
+                  "default_langcode": [
+                    {
+                      "value": true
+                    }
+                  ],
+                  "revision_translation_affected": [
+                    {
+                      "value": true
+                    }
+                  ],
+                  "moderation_state": [],
+                  "field_custom_html_body": [
+                    {
+                      "value": "<p>{{ fare:local_bus:cash }} with CharlieTicket</p>\r\n",
+                      "format": "full_html",
+                      "processed": "<p>{{ fare:local_bus:cash }} with CharlieTicket</p>\n"
+                    }
+                  ]
+                }
+              ],
+              "field_fare_request": [
+                {
+                  "value": "{{ fare:local_bus:charlie_card }}"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "field_display_options": [
+        {
+          "value": "default"
+        }
+      ],
+      "field_multi_column_header": [
+        {
+          "target_id": 4191,
+          "target_revision_id": 69961,
+          "id": [
+            {
+              "value": 4191
+            }
+          ],
+          "uuid": [
+            {
+              "value": "8917893d-2aba-48bd-be4d-c4befb5fcf74"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 69961
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1542228807
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "4189"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_header_text": [
+            {
+              "value": "<h2>Standard One-Way</h2>\r\n",
+              "format": "full_html",
+              "processed": "<h2>Standard One-Way</h2>\n"
+            }
+          ]
         }
       ]
     }
