@@ -25,11 +25,15 @@ defmodule Routes.Parser do
   defp parse_gtfs_desc("Commuter Rail"), do: :commuter_rail
   defp parse_gtfs_desc("Rapid Transit"), do: :rapid_transit
   defp parse_gtfs_desc("Local Bus"), do: :local_bus
-  defp parse_gtfs_desc("Key Bus Route (Frequent Service)"), do: :key_bus_route
-  defp parse_gtfs_desc("Limited Service"), do: :limited_service
-  defp parse_gtfs_desc("Express Bus"), do: :express_bus
   defp parse_gtfs_desc("Ferry"), do: :ferry
   defp parse_gtfs_desc("Rail Replacement Bus"), do: :rail_replacement_bus
+  defp parse_gtfs_desc("Key Bus"), do: :key_bus_route
+  defp parse_gtfs_desc("Supplemental Bus"), do: :supplemental_bus
+  defp parse_gtfs_desc("Commuter Bus"), do: :commuter_bus
+  defp parse_gtfs_desc("Community Bus"), do: :community_bus
+  defp parse_gtfs_desc("Limited Service"), do: :limited_service
+  defp parse_gtfs_desc("Express Bus"), do: :express_bus
+  defp parse_gtfs_desc("Key Bus Route (Frequent Service)"), do: :key_bus_route
   defp parse_gtfs_desc(_), do: :unknown
 
   @spec parse_shape(JsonApi.Item.t) :: [Routes.Shape.t]

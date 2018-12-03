@@ -21,10 +21,14 @@ defmodule Routes.Route do
                            :commuter_rail |
                            :rapid_transit |
                            :local_bus |
-                           :key_bus_route |
-                           :limited_service |
                            :ferry |
                            :rail_replacement_bus |
+                           :key_bus_route |
+                           :supplemental_bus |
+                           :commuter_bus |
+                           :community_bus |
+                           :limited_service |
+                           :express_bus |
                            :unknown
   @type route_type :: gtfs_route_type | :the_ride
   @type type_int :: 0..4
