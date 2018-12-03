@@ -92,6 +92,7 @@
                 Submit a public records request to the MBTA
               <% end %>
             </p>
+            <p>You can also email <a class="c-call-to-action" href="mailto:mbta.rao@mbta.com">mbta.rao@mbta.com</a> with your request.</p>
           </div>
           <div class="col-xs-12 col-sm-6">
             <h2>Report Fraud, Waste, or Abuse</h2>
