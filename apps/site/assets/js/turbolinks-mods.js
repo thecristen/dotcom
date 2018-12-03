@@ -49,7 +49,7 @@ const turbolinks = ($, w = window, doc = document) => {
         default:
           if (samePathWithQueryString(ev.data.url, currentUrl)) {
             scrollBehavior = "remember";
-          } else if (samePathWithAnchor(ev.data.url, currentUrl)) {
+          } else if (withAnchor(ev.data.url)) {
             scrollBehavior = "scroll";
           } else {
             scrollBehavior = "top";
@@ -130,6 +130,10 @@ function samePath(first, second, suffix_char) {
     first.slice(0, second.length) === second &&
     (first.length == second.length || first[second.length] === suffix_char)
   );
+}
+
+function withAnchor(urlString) {
+  return urlString.includes("#");
 }
 
 function getCurrentUrl() {
