@@ -141,25 +141,16 @@ defmodule SiteWeb.FareView do
   end
 
   @doc "Summary copy for describing origin-destination modes."
-  @spec origin_destination_description(Plug.Conn.t, :commuter_rail | :ferry) :: Phoenix.HTML.Safe.t
-  def origin_destination_description(conn, :commuter_rail) do
-    [
-      content_tag :p do
-        [
-          "Learn about ",
-          link("$10 summer weekends on Commuter Rail", to: cms_static_page_path(conn, "/weekendrail")),
-          "."
-        ]
-      end,
-      content_tag :p do
-        [
-          "Select your origin and destination stations from the drop-down lists below to find your Commuter Rail fare."
-        ]
-      end
-    ]
+  @spec origin_destination_description(:commuter_rail | :ferry) :: Phoenix.HTML.Safe.t
+  def origin_destination_description(:commuter_rail) do
+    content_tag(:p, [
+      "Select your origin and destination stations from the drop-down lists below to find your Commuter Rail fare."
+    ])
   end
-  def origin_destination_description(_, :ferry) do
-    content_tag :p, do: "Select your origin and destination stops from the drop-down lists below to find your ferry fare."
+  def origin_destination_description(:ferry) do
+    content_tag(:p, [
+      "Select your origin and destination stops from the drop-down lists below to find your ferry fare."
+    ])
   end
 
   def charlie_card_store_link(conn) do

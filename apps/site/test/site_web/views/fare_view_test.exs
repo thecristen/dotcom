@@ -134,13 +134,13 @@ defmodule SiteWeb.FareViewTest do
 
   describe "origin_destination_description/2" do
     test "links to the zone fares page for CR" do
-      content = build_conn() |> origin_destination_description(:commuter_rail) |> html_escape() |> safe_to_string()
+      content = :commuter_rail |> origin_destination_description() |> html_escape() |> safe_to_string()
       assert content =~ "Select your origin and destination"
       assert content =~ "your Commuter Rail fare"
     end
 
     test "for ferry" do
-      content =  build_conn() |> origin_destination_description(:ferry) |> html_escape() |> safe_to_string()
+      content =  :ferry |> origin_destination_description() |> html_escape() |> safe_to_string()
       assert content =~ "Select your origin and destination"
       assert content =~ "ferry fare"
     end

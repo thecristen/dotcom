@@ -1,6 +1,6 @@
 <h1>Find Your Fare</h1>
 <h2><%= mode_name(@mode) %></h2>
-<%= origin_destination_description(@conn, @mode) %>
+<%= origin_destination_description(@mode) %>
 <div class="callout">
   <div class="row">
     <div class="col-xs-12 col-md-6 fare-selector-container">
