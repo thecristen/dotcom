@@ -1,11 +1,11 @@
-.schedule-timetable-breakout {
+.m-timetable {
   @include media-breakpoint-down(sm) {
     margin-left: -$half-gutter;
     margin-right: -$half-gutter;
   }
 }
 
-.schedule-timetable-hat {
+.m-timetable__header {
   background-color: $brand-primary-lightest;
   border: 1px solid $gray-lighter;
   border-bottom: 0;
@@ -13,17 +13,40 @@
   width: 100%;
 }
 
-.schedule-timetable-hat-stops {
-  background: $gray-bordered-background;
-  border-right: 1px solid $gray-lighter;
-  width: $base-spacing * 12;
+.m-timetable__row-header {
+  text-align: left;
+  width: $base-spacing * 11.5;
 
   @include media-breakpoint-down(xs) {
-    width: $base-spacing * 9;
+    width: $base-spacing * 8.5;
+  }
+
+  &--empty {
+    // This is a dirty hack to get around the fact that the
+    // calculated element width is slightly different (~2px)
+    // on an empty div vs. a td with content,
+    // at some (but not all!) breakpoints.
+    //
+    // A better solution probably exists, but this works.
+    // -kh
+
+    width: $base-spacing * 12.45;
+
+    @include media-breakpoint-only(lg) {
+      width: $base-spacing * 12.55;
+    }
+
+    @include media-breakpoint-only(sm) {
+      width: $base-spacing * 12.05;
+    }
+
+    @include media-breakpoint-down(xs) {
+      width: $base-spacing * 9.05;
+    }
   }
 }
 
-.schedule-timetable-hat-trains {
+.m-timetable__col-headers {
   display: flex;
   flex: 1 1 auto;
   font-weight: bold;
@@ -36,12 +59,12 @@
   }
 }
 
-.schedule-timetable-hat-label {
+.m-timetable__trains-label {
   align-self: center;
   order: 2;
 }
 
-.schedule-timetable-hat-btn {
+.m-timetable__scroll-btn {
   background: $white;
   border: solid $border-width $brand-primary-dark;
   border-radius: $border-radius;
@@ -55,14 +78,6 @@
     display: none;
   }
 
-  &:first-child {
-    order: 1;
-  }
-
-  &:last-child {
-    order: 3;
-  }
-
   &:hover {
     border-color: $brand-primary-darkest;
     color: $brand-primary-darkest;
@@ -73,14 +88,28 @@
     border-color: $gray-light;
     color: $gray-light;
   }
+
+  &--left {
+    order: 1;
+  }
+
+  &--right {
+    order: 3;
+  }
 }
 
-.schedule-timetable-hat-btn-arrow {
+.m-timetable__scroll-btn-arrow {
   font-size: $font-size-base-xxl;
   font-weight: bold;
 }
 
-.schedule-timetable-container {
+.m-timetable__bike-icon-spacer {
+  .c-svg__icon-bikes-default {
+    visibility: hidden;
+  }
+}
+
+.m-timetable__table-container {
   border: 1px solid $gray-lighter;
   font-size: $font-size-base;
   margin-bottom: $base-spacing;
@@ -94,128 +123,78 @@
   }
 }
 
-.schedule-timetable-hide-earlier .schedule-timetable-more-col-earlier,
-.schedule-timetable-hide-later .schedule-timetable-more-col-later {
-  color: $gray-light;
-  cursor: auto;
-
-  .schedule-timetable-more-text {
-    color: $gray-light;
-
-    @include hover-focus() {
-      color: $gray-light;
-      text-decoration: none;
-    }
+.m-timetable__table {
+  [class*="c-svg__icon"] {
+    position: static;
   }
 }
 
-.schedule-timetable-row:nth-child(even) {
-  > * {
-    background-color: $gray-bordered-background;
-    border-left: $space-1 $gray-bordered-background;
+.m-timetable__stop-name {
+  @include icon-size-inline(1em);
+  align-items: center;
+  display: inline-flex;
+  font-weight: bold;
+
+  @include media-breakpoint-down(xs) {
+    font-weight: normal;
   }
 }
 
-.schedule-timetable-row:nth-child(odd) {
-  .schedule-timetable-time-col,
-  .schedule-timetable-name-col:not(.schedule-timetable-header-col) {
-    background-color: $white;
-    border-left: $space-1 $white;
+.m-timetable__stop-link {
+  display: block;
+  flex: 1 1 75%;
+  max-width: 80%;
+  white-space: initial;
+}
+
+.m-timetable__stop-icons {
+  flex: 0 0 25%;
+  text-align: right;
+}
+
+.m-timetable__stop-alert,
+.m-timetable__access-icon {
+  @include media-breakpoint-down(sm) {
+    font-size: 12px;
   }
 }
 
-.schedule-timetable-first-row {
+.m-timetable__access-icon {
+  margin-left: .1em; // Forces word split of Stops at small breakpoints
+  @include media-breakpoint-down(sm) {
+    @include icon-size(12px)
+  }
+}
+
+
+.m-timetable__row,
+.m-timetable__cell {
+  &--gray {
+    background: $gray-bordered-background;
+  }
+
+  &--white {
+    background: $white;
+  }
+}
+
+.m-timetable__row--first {
   border-top: 1px solid $gray-lighter;
 }
 
-.schedule-timetable-time-col,
-.schedule-timetable-name-col {
-  border-right: 1px solid $gray-lighter;
-  padding: .25em .5em; // em, not rem, so that it changes with the smaller mobile font size
-
-  @include media-breakpoint-down(sm) {
-    padding: .25em;
-  }
-}
-
-.schedule-timetable-time-col-data {
-  align-items: center;
-  display: inline-flex;
-  justify-content: center;
-  padding: 0 $base-spacing / 2;
-
-  @include media-breakpoint-down(sm) {
-    padding: 0 $base-spacing / 4;
-  }
-
-  > span {
-    &:first-child,
-    &:last-child {
-      width: $base-spacing;
-    }
-
-    &:nth-child(2) {
-      width: $base-spacing * 3.25;
-    }
-  }
-}
-
-.schedule-timetable-data-flag-stop {
-  color: $brand-commuter-rail;
-  font-weight: $font-weight-medium;
-}
-
-.schedule-timetable-data-early-departure {
-  color: $brand-primary;
-  font-weight: $font-weight-medium;
-}
-
-.schedule-timetable-name-col-header-stops {
-  text-align: left;
-}
-
-.schedule-timetable-name-col-header {
-  width: $base-spacing * 12;
-
-  @include media-breakpoint-down(xs) {
-    width: $base-spacing * 9;
-  }
-}
-
-.schedule-timetable-time-col,
-.schedule-timetable-header-col {
-  text-align: center;
-}
-
-.schedule-timetable-access-icon {
-  @include icon-size-inline(1em);
-}
-
-.schedule-timetable-filler {
-  width: 100%;
-}
-
-.schedule-timetable-header-col {
-  background-color: $brand-primary-lightest;
-  border-right: 1px solid $brand-primary-lightest;
-  font-weight: bold;
-  padding-left: .5em;
-  padding-right: .5em;
-}
-
-.schedule-timetable-bicycles-header {
-  .c-svg__icon-bikes-default {
-    visibility: hidden;
-  }
-}
-
-.schedule-timetable-time-col {
+.m-timetable__cell {
   // This page makes relative positioning hard due to z-indices,
   // settle for slightly less good vertical-align
   @include icon-size(1em);
 
+  border-right: 1px solid $gray-lighter;
   font-variant-numeric: tabular-nums;
+  padding: .25em .5em; // em, not rem, so that it changes with the smaller mobile font size
   white-space: nowrap;
+
+  @include media-breakpoint-down(sm) {
+    padding: .25em;
+  }
 
   &:last-child {
     border-right: 0;
@@ -228,122 +207,53 @@
   [class*="c-svg__icon-commuter-rail"] {
     margin-left: .25em;
   }
+
+  &--via {
+    color: $brand-commuter-rail;
+    font-weight: bold;
+  }
+
+  &--flag-stop {
+    color: $brand-commuter-rail;
+    font-weight: $font-weight-medium;
+  }
+
+  &--early-departure {
+    color: $brand-primary;
+    font-weight: $font-weight-medium;
+  }
 }
 
-.schedule-timetable-time-col [class*="c-svg__icon"],
-.schedule-timetable-header-col [class*="c-svg__icon"] {
-  position: static;
+.m-timetable__cell,
+.m-timetable__header-cell {
+  text-align: center;
 }
 
-.schedule-timetable-name {
+.m-timetable__header-cell {
+  background: $brand-primary-lightest;
+}
+
+.m-timetable__schedule {
   align-items: center;
   display: inline-flex;
-  font-weight: bold;
-  justify-content: space-between;
-  min-width: $base-spacing * 11;
+  justify-content: center;
+  padding: 0 $base-spacing / 2;
 
-  @include media-breakpoint-down(xs) {
-    font-weight: normal;
-    min-width: $base-spacing * 8.4;
-  }
-
-  i {
-    @include media-breakpoint-down(sm) {
-      font-size: 12px;
-    }
-  }
-
-  .schedule-timetable-access-icon {
-    margin-left: .1em; // Forces word split of Stops at small breakpoints
-    @include media-breakpoint-down(sm) {
-      @include icon-size(12px)
-    }
+  @include media-breakpoint-down(sm) {
+    padding: 0 $base-spacing / 4;
   }
 }
 
-.no-js {
-  .schedule-timetable-more-col {
-    display: none;
-  }
+.m-timetable__vehicle-icon,
+.m-timetable__flag-icon {
+  width: $base-spacing;
 }
 
-.schedule-timetable-more-col {
-  color: $gray-dark;
-  cursor: pointer;
-  min-width: $base-spacing-sm;
-  padding: $base-spacing-sm 0 0;
-  text-align: center;
-
-  @include media-breakpoint-up(md) {
-    min-width: $base-spacing * 3;
-  }
-
-  &:not(.schedule-timetable-header-col) {
-    background-color: $white;
-    border-left: $border;
-    border-right: $border;
-  }
-
-  > .fa-angle-right,
-  > .fa-angle-left {
-    color: $white;
-  }
-
+.m-timetable__time {
+  width: $base-spacing * 3.25;
 }
 
-// hides the extra "Earlier/Later Trains" text when we duplicate the element
-// for being stuck to a side.
-[data-sticky] .schedule-timetable-more-text {
-  display: none;
-}
-
-.schedule-timetable-more-col-earlier {
-  height: 100%;
-  position: absolute;
-  right: 0;
-  top: 0;
-
-  .schedule-timetable-more-text {
-    transform: rotate(180deg);
-  }
-}
-
-.schedule-timetable-more-text {
-  // scss-lint:disable DuplicateProperty
-  color: $link-color;
-  cursor: pointer;
-  display: none;
-  font-size: 1.25rem;
-  font-weight: bold;
-  left: 25%;
-  overflow: visible;
-  position: absolute;
-  right: 25%;
-  text-orientation: sideways;
-  top: 10vh;
-  user-select: none;
-  white-space: nowrap;
-  writing-mode: tb-lr; // for IE
-  writing-mode: vertical-lr; // for everything else
-  z-index: $z-index-schedule-timetable-more-text;
-
-  @include hover-focus() {
-    color: $link-hover-color;
-    text-decoration: $link-hover-decoration;
-  }
-
-  @include media-breakpoint-up(md) {
-    display: block;
-  }
-
-  .fa {
-    font-weight: bold;
-    padding-bottom: $base-spacing-sm;
-    padding-top: $base-spacing-sm;
-  }
-}
-
-.schedule-timetable-content-below {
+.m-timetable__key-and-pdfs {
   display: flex;
 
   @include media-breakpoint-down(xs) {
@@ -360,11 +270,6 @@
       width: 50%;
     }
   }
-}
-
-.schedule-timetable-trip-message {
-  color: $brand-commuter-rail;
-  font-weight: bold;
 }
 
 .prediction-tooltip {

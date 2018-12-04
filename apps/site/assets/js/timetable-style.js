@@ -9,9 +9,7 @@ export default () => {
 
 const adjustTimetableStyle = () => {
   // return if there is no timetable available
-  const timetableContainerEl = document.querySelector(
-    ".schedule-timetable-container"
-  );
+  const timetableContainerEl = document.getElementById("timetable");
   if (!timetableContainerEl) {
     return;
   }

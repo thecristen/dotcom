@@ -1,5 +1,7 @@
 defmodule SiteWeb.ScheduleView.Timetable do
+  alias Schedules.Schedule
   alias SiteWeb.ViewHelpers, as: Helpers
+  alias Stops.Stop
 
   import Phoenix.HTML.Tag, only: [tag: 2, content_tag: 2, content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
@@ -57,4 +59,57 @@ defmodule SiteWeb.ScheduleView.Timetable do
 
   defp flag_stop(true), do: content_tag(:p, "Flag Stop", class: "stop-tooltip")
   defp flag_stop(false), do: []
+
+  @spec stop_accessibility_icon(Stop.t) :: [Phoenix.HTML.Safe.t]
+  def stop_accessibility_icon(stop) do
+    cond do
+      Stop.accessible?(stop) ->
+        [
+          content_tag(
+            :span,
+            Helpers.svg("icon-accessibility.svg"),
+            aria: [hidden: "true"],
+            class: "m-timetable__access-icon",
+            data: [toggle: "tooltip"],
+            title: "Accessible"
+          ),
+          content_tag(:span, "Accessible", [class: "sr-only"])
+        ]
+      Stop.accessibility_known?(stop) ->
+        [
+          content_tag(:span, "Not accessible", [class: "sr-only"])
+        ]
+      true ->
+        [
+          content_tag(:span, "May not be accessible", [class: "sr-only"])
+        ]
+    end
+  end
+
+  @spec stop_row_class(integer) :: String.t
+  def stop_row_class(idx) do
+    ["js-tt-row", "m-timetable__row"]
+    |> do_stop_row_class(idx)
+    |> Enum.join(" ")
+  end
+
+  @spec do_stop_row_class([String.t], integer) :: [String.t]
+  defp do_stop_row_class(class_list, 0) do
+    ["m-timetable__row--first" | class_list]
+  end
+  defp do_stop_row_class(class_list, idx) when rem(idx, 2) == 1 do
+    ["m-timetable__row--gray" | class_list]
+  end
+  defp do_stop_row_class(class_list, _) do
+    class_list
+  end
+
+  @spec cell_flag_class(Schedule.t) :: String.t
+  def cell_flag_class(%Schedule{flag?: true}), do: " m-timetable__cell--flag-stop"
+  def cell_flag_class(%Schedule{early_departure?: true}), do: " m-timetable__cell--early-departure"
+  def cell_flag_class(_), do: ""
+
+  @spec cell_via_class(String.t | nil) :: String.t
+  def cell_via_class(nil), do: ""
+  def cell_via_class(<<_::binary>>), do: " m-timetable__cell--via"
 end
