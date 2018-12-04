@@ -21,6 +21,12 @@
             ], class: "hidden-no-js", id: "route-#{@mode_icon}-search", class: "c-search-bar c-search-bar--embedded")
           %>
         </div>
+        <div class="m-mode__recently-visited">
+          <%= render(SiteWeb.PartialView, "_recently_visited.html", conn: @conn,
+                                                                    routes: @recently_visited,
+                                                                    all_alerts: @all_alerts,
+                                                                    date_time: @date_time) %>
+        </div>
         <h2>Line Schedules</h2>
         <%
           sub_routes = if mode == :subway, do: @green_routes, else: []

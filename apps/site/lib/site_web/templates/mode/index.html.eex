@@ -21,14 +21,10 @@
             %>
         </div>
         <div class="m-mode__recently-visited">
-        <%=
-            case assigns[:recently_visited] do
-              [%Routes.Route{} | _] = routes ->
-                render(SiteWeb.PartialView, "_recently_visited.html", conn: @conn, routes: routes, all_alerts: @all_alerts, date_time: @date_time)
-              _ ->
-                ""
-            end
-          %>
+          <%= render(SiteWeb.PartialView, "_recently_visited.html", conn: @conn,
+                                                                    routes: Map.get(assigns, :recently_visited, []),
+                                                                    all_alerts: @all_alerts,
+                                                                    date_time: @date_time) %>
         </div>
         <%= for {route_type, mode_page} <- route_types ++ the_ride do %>
         <div class="m-mode__group <%= CSSHelpers.atom_to_class(route_type) %>" id="<%= route_type %>">

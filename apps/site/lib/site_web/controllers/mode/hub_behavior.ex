@@ -18,6 +18,8 @@ defmodule SiteWeb.Mode.HubBehavior do
 
       use SiteWeb, :controller
 
+      plug SiteWeb.Plugs.RecentlyVisited
+
       def index(conn, params) do
         unquote(__MODULE__).index(__MODULE__, conn, Map.merge(params, Map.new(unquote(opts))))
       end
@@ -36,6 +38,7 @@ defmodule SiteWeb.Mode.HubBehavior do
 
   defp render_index(conn, mode_strategy, mode_routes, params) do
     conn
+    |> filter_recently_visited(mode_strategy.route_type)
     |> async_assign(:fares, &mode_strategy.fares/0)
     |> async_assign(:all_alerts, fn -> alerts(mode_routes, conn.assigns.date_time) end)
     |> assign(:green_routes, green_routes())
@@ -54,6 +57,15 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> meta_description(params)
     |> await_assign_all()
     |> render("hub.html")
+  end
+
+  defp filter_recently_visited(%{assigns: %{recently_visited: recently_visited}} = conn, route_type)
+  when route_type in [2, 3] do
+    filtered = Enum.filter(recently_visited, & &1.type == route_type)
+    assign(conn, :recently_visited, filtered)
+  end
+  defp filter_recently_visited(conn, _route_type) do
+    assign(conn, :recently_visited, [])
   end
 
   defp alerts(mode_routes, now) do
