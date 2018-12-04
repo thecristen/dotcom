@@ -85,6 +85,18 @@ defmodule Content.ParagraphTest do
       assert safe_to_string(column2.body) =~ "<h4>Multi-column vs. Title card set</h4>\n\n<p>We recommend"
     end
 
+    test "parses a multi-column paragraph with display options" do
+      api_data = api_paragraph_by_id(4472)
+
+      assert %ColumnMulti{
+        columns: [
+          %Column{paragraphs: [%FareCard{}]},
+          %Column{paragraphs: [%FareCard{}]}
+        ],
+        display_options: "grouped"
+      } = from_api(api_data)
+    end
+
     test "returns the correct struct when given a people grid paragraph" do
       api_data = api_paragraph("people_grid")
 

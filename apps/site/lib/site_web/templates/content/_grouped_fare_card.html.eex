@@ -1,0 +1,54 @@
+<%= extend_width_if true do %>
+  <div class="c-fare-card c-fare-card--grouped c-fare-card--<%= @first_fare.mode %>">
+
+    <div class="c-fare-card__header">
+      <div class="c-fare-card__icon">
+        <%= mode_icon(@first_fare.mode, :default) %>
+      </div>
+
+      <h3 class="c-fare-card__name">
+        <span class="c-fare-card__name_mode">
+          <%= Fares.Format.name(@first_fare) %>
+        </span>
+        <span class="c-fare-card__name_duration">
+          <%= Fares.Format.duration(@first_fare) %>
+        </span>
+      </h3>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="c-fare-card__fare h2">
+          <%= Fares.Format.price(@first_fare) %>
+        </div>
+
+        <p class="c-fare-card__media">
+          with a <%= Fares.Format.media(@first_fare) %>
+        </p>
+
+        <%= if @first_note do %>
+          <div class="c-fare-card__note">
+            <%= SiteWeb.ContentView.render_paragraph(@first_note, @conn) %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="col-md-6">
+        <div class="c-fare-card__fare h2">
+          <%= Fares.Format.price(@second_fare) %>
+        </div>
+
+        <p class="c-fare-card__media">
+          with a <%= Fares.Format.media(@second_fare) %>
+        </p>
+
+        <%= if @second_note do %>
+          <div class="c-fare-card__note">
+            <%= SiteWeb.ContentView.render_paragraph(@second_note, @conn) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+<% end %>

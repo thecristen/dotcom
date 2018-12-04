@@ -8,6 +8,7 @@ defmodule SiteWeb.ContentView do
     PeopleGrid, Tabs, TitleCardSet, Unknown, UpcomingBoardMeetings}
   alias Phoenix.HTML.Tag
   alias Site.ContentRewriter
+  alias Site.ContentRewriters.LiquidObjects.Fare
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 
@@ -31,7 +32,27 @@ defmodule SiteWeb.ContentView do
     render "_files_grid.html", paragraph: para
   end
   def render_paragraph(%ColumnMulti{} = para, conn) do
-    render "_column_multi.html", paragraph: para, conn: conn
+    if ColumnMulti.is_grouped?(para) do
+      paragraphs =
+        para.columns
+        |> Enum.flat_map(&(&1.paragraphs))
+      [first_note | [second_note | _]] = Enum.map(paragraphs, &(Map.get(&1, :note)))
+      [first_fare | [second_fare | _]] =
+        paragraphs
+        |> Enum.map(&(Map.get(&1, :fare_token)))
+        |> Enum.map(&(Fare.fare_object_request(&1)))
+
+      render(
+        "_grouped_fare_card.html",
+        first_fare: first_fare,
+        second_fare: second_fare,
+        first_note: first_note,
+        second_note: second_note,
+        conn: conn
+      )
+    else
+      render "_column_multi.html", paragraph: para, conn: conn
+    end
   end
   def render_paragraph(%Tabs{} = para, conn) do
     render "_tabs.html", paragraph: para, conn: conn

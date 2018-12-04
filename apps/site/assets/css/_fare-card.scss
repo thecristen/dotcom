@@ -1,7 +1,7 @@
 .c-fare-card {
   border: 2px solid;
   line-height: normal;
-  margin-top: 1.375rem;
+  margin: 1.375rem 0 2rem;
   padding: 1.375rem 1rem 1rem;
   position: relative;
   text-align: center;
@@ -60,4 +60,60 @@
 .c-fare-card__note {
   font-size: .875rem;
   min-height: 2.4em;
+}
+
+.c-fare-card--grouped {
+  padding: 0;
+
+  .c-fare-card__header {
+    border-bottom: 2px solid;
+    padding-top: 1.375rem;
+  }
+
+  .row {
+    margin: 0;
+    width: 100%;
+  }
+
+  .col-md-6 {
+    padding: 1.375rem 1rem 1rem;
+
+    &:first-child {
+      border-right: 2px solid;
+
+      @include media-breakpoint-down(sm) {
+        border-bottom: 2px solid;
+        border-right: 0;
+      }
+    }
+  }
+
+  &.c-fare-card--subway .c-fare-card__header,
+  &.c-fare-card--subway .row .col-md-6 {
+    border-color: $brand-subway;
+  }
+
+  &.c-fare-card--bus .c-fare-card__header,
+  &.c-fare-card--bus .row .col-md-6 {
+    border-color: $brand-bus;
+  }
+
+  &.c-fare-card--commuter-rail .c-fare-card__header,
+  &.c-fare-card--commuter-rail .row .col-md-6 {
+    border-color: $brand-commuter-rail;
+  }
+
+  &.c-fare-card--ferry .c-fare-card__header,
+  &.c-fare-card--ferry .row .col-md-6 {
+    border-color: $brand-ferry;
+  }
+
+  &.c-fare-card--the-ride .c-fare-card__header,
+  &.c-fare-card--the-ride .row .col-md-6 {
+    border-color: $brand-the-ride;
+  }
+
+  .c-fare-card__fare {
+    margin-top: 0;
+  }
 }

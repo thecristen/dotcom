@@ -2,16 +2,19 @@ defmodule Content.Paragraph.ColumnMulti do
   @moduledoc """
   A set of columns to organize layout on the page.
   """
+  alias Content.Helpers
   alias Content.Paragraph.{Column, ColumnMultiHeader, FareCard}
 
   defstruct [
     header: nil,
-    columns: []
+    columns: [],
+    display_options: nil
   ]
 
   @type t :: %__MODULE__{
     header: ColumnMultiHeader.t,
-    columns: [Column.t]
+    columns: [Column.t],
+    display_options: String.t
   }
 
   @spec from_api(map) :: t
@@ -28,11 +31,18 @@ defmodule Content.Paragraph.ColumnMulti do
       |> Map.get("field_column", [])
       |> Enum.map(&Column.from_api/1)
 
+    display_options = Helpers.field_value(data, "field_display_options")
+
     %__MODULE__{
       header: header,
-      columns: columns
+      columns: columns,
+      display_options: display_options
     }
   end
+
+  @spec is_grouped?(__MODULE__.t) :: boolean
+  def is_grouped?(%__MODULE__{display_options: "grouped"}), do: true
+  def is_grouped?(_), do: false
 
   @spec includes_fare_cards?(__MODULE__.t) :: boolean
   def includes_fare_cards?(%__MODULE__{columns: columns}) do

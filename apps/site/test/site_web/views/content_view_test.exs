@@ -219,6 +219,50 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "$2.00 with CharlieTicket"
     end
 
+    test "renders a grouped FareCard", %{conn: conn} do
+      paragraph = %ColumnMulti{
+        columns: [
+          %Column{
+            paragraphs: [
+              %FareCard{
+                fare_token: "local_bus:charlie_card",
+                note: %CustomHTML{
+                  body: {:safe, "<p>1 free transfer to Local Bus within 2 hours</p>\n"}
+                }
+              }
+            ]
+          },
+          %Column{
+            paragraphs: [
+              %FareCard{
+                fare_token: "local_bus:cash",
+                note: %CustomHTML{
+                  body: {:safe,
+                   "<p>a href='/schedules/bus'>Limited transfers</a></p>\n"}
+                }
+              }
+            ]
+          }
+        ],
+        display_options: "grouped"
+      }
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "fare-card--grouped"
+      assert rendered =~ "Local Bus"
+      assert rendered =~ "One Way"
+      assert rendered =~ "$1.70"
+      assert rendered =~ "with a CharlieCard"
+      assert rendered =~ "1 free transfer"
+      assert rendered =~ "$2.00"
+      assert rendered =~ "with a CharlieTicket or Cash"
+      assert rendered =~ "Limited transfers"
+    end
+
     test "renders a Paragraph.FilesGrid without a title", %{conn: conn} do
       paragraph = %FilesGrid{title: nil, files: [%File{url: "/link", description: "link description"}]}
 

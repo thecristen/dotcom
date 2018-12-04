@@ -4331,6 +4331,755 @@
           ]
         }
       ]
+    },
+    {
+      "target_id": 4466,
+      "target_revision_id": 73011,
+      "id": [
+        {
+          "value": 4466
+        }
+      ],
+      "uuid": [
+        {
+          "value": "7baa6c17-437f-4493-8521-7a4815e15e00"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 73011
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 102,
+          "target_type": "user",
+          "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+          "url": "/user/102"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1543246568
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 102,
+          "target_type": "user",
+          "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+          "url": "/user/102"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "3897"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_custom_html_body": [
+        {
+          "value": "<h3>Fare cards with a grouped header</h3>\r\n",
+          "format": "full_html",
+          "processed": "<h3>Fare cards with a grouped header</h3>\n"
+        }
+      ]
+    },
+    {
+      "target_id": 4472,
+      "target_revision_id": 73033,
+      "id": [
+        {
+          "value": 4472
+        }
+      ],
+      "uuid": [
+        {
+          "value": "ebf8879e-7415-4718-9aa9-f45f15d09dc3"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 73033
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 102,
+          "target_type": "user",
+          "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+          "url": "/user/102"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1543246597
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 102,
+          "target_type": "user",
+          "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+          "url": "/user/102"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "3897"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_column": [
+        {
+          "target_id": 4471,
+          "target_revision_id": 73029,
+          "id": [
+            {
+              "value": 4471
+            }
+          ],
+          "uuid": [
+            {
+              "value": "7564842b-677f-49d3-8469-69c350c7322c"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 73029
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1543246645
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "4472"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_column_body": [],
+          "field_content": [
+            {
+              "target_id": 4468,
+              "target_revision_id": 73028,
+              "id": [
+                {
+                  "value": 4468
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "df75221e-491e-4cee-809b-7b9f9588a678"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 73028
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "fare_card",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "c95ab763-42bc-4269-a804-d766091bbf49"
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1543246651
+                }
+              ],
+              "revision_uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "4471"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": "a:0:{}"
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "moderation_state": [],
+              "field_fare_notes": [
+                {
+                  "target_id": 4467,
+                  "target_revision_id": 73027,
+                  "id": [
+                    {
+                      "value": 4467
+                    }
+                  ],
+                  "uuid": [
+                    {
+                      "value": "0e169581-aa67-4a21-8bcd-f79eb100686a"
+                    }
+                  ],
+                  "revision_id": [
+                    {
+                      "value": 73027
+                    }
+                  ],
+                  "type": [
+                    {
+                      "target_id": "custom_html",
+                      "target_type": "paragraphs_type",
+                      "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                    }
+                  ],
+                  "langcode": [
+                    {
+                      "value": "en"
+                    }
+                  ],
+                  "uid": [
+                    {
+                      "target_id": 102,
+                      "target_type": "user",
+                      "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                      "url": "/user/102"
+                    }
+                  ],
+                  "status": [
+                    {
+                      "value": true
+                    }
+                  ],
+                  "created": [
+                    {
+                      "value": 1543246725
+                    }
+                  ],
+                  "revision_uid": [
+                    {
+                      "target_id": 102,
+                      "target_type": "user",
+                      "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                      "url": "/user/102"
+                    }
+                  ],
+                  "parent_id": [
+                    {
+                      "value": "4468"
+                    }
+                  ],
+                  "parent_type": [
+                    {
+                      "value": "paragraph"
+                    }
+                  ],
+                  "parent_field_name": [
+                    {
+                      "value": "field_fare_notes"
+                    }
+                  ],
+                  "behavior_settings": [
+                    {
+                      "value": "a:0:{}"
+                    }
+                  ],
+                  "default_langcode": [
+                    {
+                      "value": true
+                    }
+                  ],
+                  "revision_translation_affected": [],
+                  "moderation_state": [],
+                  "field_custom_html_body": [
+                    {
+                      "value": "<p>1 free transfer to Local Bus within 2 hours</p>\r\n",
+                      "format": "full_html",
+                      "processed": "<p>1 free transfer to Local Bus within 2 hours</p>\n"
+                    }
+                  ]
+                }
+              ],
+              "field_fare_request": [
+                {
+                  "value": "{{ fare:local_bus:charlie_card }}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "target_id": 4475,
+          "target_revision_id": 73032,
+          "id": [
+            {
+              "value": 4475
+            }
+          ],
+          "uuid": [
+            {
+              "value": "41768354-f53a-4484-a6f7-640e68d9bea3"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 73032
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1543248035
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "4472"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_column_body": [],
+          "field_content": [
+            {
+              "target_id": 4474,
+              "target_revision_id": 73031,
+              "id": [
+                {
+                  "value": 4474
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "d3d34e06-cffe-4e73-93f4-47e3174459e7"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 73031
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "fare_card",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "c95ab763-42bc-4269-a804-d766091bbf49"
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1543248040
+                }
+              ],
+              "revision_uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "4475"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": "a:0:{}"
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "moderation_state": [],
+              "field_fare_notes": [
+                {
+                  "target_id": 4473,
+                  "target_revision_id": 73030,
+                  "id": [
+                    {
+                      "value": 4473
+                    }
+                  ],
+                  "uuid": [
+                    {
+                      "value": "e67e3326-376c-470d-a212-21bf1f6ef958"
+                    }
+                  ],
+                  "revision_id": [
+                    {
+                      "value": 73030
+                    }
+                  ],
+                  "type": [
+                    {
+                      "target_id": "custom_html",
+                      "target_type": "paragraphs_type",
+                      "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                    }
+                  ],
+                  "langcode": [
+                    {
+                      "value": "en"
+                    }
+                  ],
+                  "uid": [
+                    {
+                      "target_id": 102,
+                      "target_type": "user",
+                      "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                      "url": "/user/102"
+                    }
+                  ],
+                  "status": [
+                    {
+                      "value": true
+                    }
+                  ],
+                  "created": [
+                    {
+                      "value": 1543248055
+                    }
+                  ],
+                  "revision_uid": [
+                    {
+                      "target_id": 102,
+                      "target_type": "user",
+                      "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                      "url": "/user/102"
+                    }
+                  ],
+                  "parent_id": [
+                    {
+                      "value": "4474"
+                    }
+                  ],
+                  "parent_type": [
+                    {
+                      "value": "paragraph"
+                    }
+                  ],
+                  "parent_field_name": [
+                    {
+                      "value": "field_fare_notes"
+                    }
+                  ],
+                  "behavior_settings": [
+                    {
+                      "value": "a:0:{}"
+                    }
+                  ],
+                  "default_langcode": [
+                    {
+                      "value": true
+                    }
+                  ],
+                  "revision_translation_affected": [
+                    {
+                      "value": true
+                    }
+                  ],
+                  "moderation_state": [],
+                  "field_custom_html_body": [
+                    {
+                      "value": "<p><a href=\"/schedules/bus\">Limited transfers</a></p>\r\n",
+                      "format": "full_html",
+                      "processed": "<p><a href=\"/schedules/bus\">Limited transfers</a></p>\n"
+                    }
+                  ]
+                }
+              ],
+              "field_fare_request": [
+                {
+                  "value": "{{ fare:local_bus:cash }}"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "field_display_options": [
+        {
+          "value": "grouped"
+        }
+      ],
+      "field_multi_column_header": []
     }
   ],
   "field_subtitle": [
