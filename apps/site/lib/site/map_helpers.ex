@@ -15,7 +15,7 @@ defmodule Site.MapHelpers do
     static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2017-05-map-commuter-rail-v30.pdf")
   end
   def map_pdf_url(:ferry) do
-    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/Ferry_Map.pdf")
+    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-08-ferry-map.pdf")
   end
   def map_pdf_url(:commuter_rail_zones) do
     static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-commuter-rail-zones-spider-bw.pdf")
@@ -43,7 +43,7 @@ defmodule Site.MapHelpers do
     static_url(SiteWeb.Endpoint, "/images/map-medium-rapidtransit.png")
   end
   def image(:ferry) do
-    static_url(SiteWeb.Endpoint, "/images/map-medium-ferry.png")
+    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-08-ferry-map.png")
   end
 
   @doc "Returns the map color that should be used for the given route"
