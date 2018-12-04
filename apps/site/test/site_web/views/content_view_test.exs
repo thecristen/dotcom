@@ -285,57 +285,6 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ paragraph.title
     end
 
-    test "renders a Content.Paragraph.ColumnMulti with body data (deprecated)", %{conn: conn} do
-      cols = [
-        %Column{
-          body: HTML.raw("<strong>Column 1</strong>"),
-        },
-        %Column{
-          body: HTML.raw("<strong>Column 2</strong>"),
-        },
-        %Column{
-          body: HTML.raw("<strong>Column 3</strong>"),
-        },
-        %Column{
-          body: HTML.raw("<strong>Column 4</strong>"),
-        }
-      ]
-
-      rendered_quarters =
-        %ColumnMulti{columns: cols}
-        |> render_paragraph(conn)
-        |> HTML.safe_to_string
-
-      rendered_thirds =
-        %ColumnMulti{columns: Enum.take(cols, 3)}
-        |> render_paragraph(conn)
-        |> HTML.safe_to_string
-
-      rendered_halves =
-        %ColumnMulti{columns: Enum.take(cols, 2)}
-        |> render_paragraph(conn)
-        |> HTML.safe_to_string
-
-      rendered_single =
-        %ColumnMulti{columns: Enum.take(cols, 1)}
-        |> render_paragraph(conn)
-        |> HTML.safe_to_string
-
-      assert rendered_quarters =~ ~r/<div class=\"col-md-3\">\s*<strong>Column 1<\/strong>/
-      assert rendered_quarters =~ ~r/<div class=\"col-md-3\">\s*<strong>Column 2<\/strong>/
-      assert rendered_quarters =~ ~r/<div class=\"col-md-3\">\s*<strong>Column 3<\/strong>/
-      assert rendered_quarters =~ ~r/<div class=\"col-md-3\">\s*<strong>Column 4<\/strong>/
-
-      assert rendered_thirds =~ ~r/<div class=\"col-md-4\">\s*<strong>Column 1<\/strong>/
-      assert rendered_thirds =~ ~r/<div class=\"col-md-4\">\s*<strong>Column 2<\/strong>/
-      assert rendered_thirds =~ ~r/<div class=\"col-md-4\">\s*<strong>Column 3<\/strong>/
-
-      assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
-      assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 2<\/strong>/
-
-      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
-    end
-
     test "renders a Content.Paragraph.ColumnMulti with nested paragraphs", %{conn: conn} do
       header = %Content.Paragraph.ColumnMultiHeader{
         text: HTML.raw("<h4>This is a multi-column header</h4>")
@@ -508,8 +457,16 @@ defmodule SiteWeb.ContentViewTest do
     test "returns the size of our grid based on the number of columns" do
       column_multi_2 = %ColumnMulti{
         columns: [
-          %Column{body: HTML.raw("<strong>Column 1</strong>")},
-          %Column{body: HTML.raw("<strong>Column 2</strong>")}
+          %Column{
+            paragraphs: [
+              %CustomHTML{body: HTML.raw("<strong>Column 1</strong>")}
+            ]
+          },
+          %Column{
+            paragraphs: [
+              %CustomHTML{body: HTML.raw("<strong>Column 2</strong>")}
+            ]
+          }
         ]
       }
 
@@ -519,7 +476,9 @@ defmodule SiteWeb.ContentViewTest do
     test "limits to a max size of 6" do
       column_multi_1 = %ColumnMulti{
         columns: [
-          %Column{body: HTML.raw("<strong>Column 1</strong>")}
+          paragraphs: [
+            %CustomHTML{body: HTML.raw("<strong>Column 1</strong>")}
+          ]
         ]
       }
 

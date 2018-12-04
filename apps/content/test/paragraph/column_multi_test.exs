@@ -31,7 +31,11 @@ defmodule Content.Paragraph.ColumnMultiTest do
     }
     column_multi_without_fare_card = %ColumnMulti{
       columns: [
-        %Column{body: HTML.raw("<strong>Column 1</strong>")}
+        %Column{
+          paragraphs: [
+            %CustomHTML{body: HTML.raw("<strong>Column 1</strong>")}
+          ]
+        }
       ]
     }
 

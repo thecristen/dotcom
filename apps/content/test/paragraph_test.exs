@@ -66,15 +66,16 @@ defmodule Content.ParagraphTest do
 
       assert %ColumnMulti{
         columns: [
-          # Column using the newer system: custom HTML paragraph content
           %Column{
-            body: {:safe, ""},
             paragraphs: [
               %Content.Paragraph.CustomHTML{} = column1_paragraph1
             ]
           },
-          # Column using the older system: a body field
-          %Column{} = column2
+          %Column{
+            paragraphs: [
+              %Content.Paragraph.CustomHTML{} = column2_paragraph1
+            ]
+          }
         ],
         header: header
       } = multi_column
@@ -82,7 +83,7 @@ defmodule Content.ParagraphTest do
       assert %ColumnMultiHeader{} = header
       assert safe_to_string(header.text) =~ "<h4>This is a new paragraph type's sub field.</h4>"
       assert safe_to_string(column1_paragraph1.body) =~ "<p>This is a Custom HTML paragraph inside the Column paragraph"
-      assert safe_to_string(column2.body) =~ "<h4>Multi-column vs. Title card set</h4>\n\n<p>We recommend"
+      assert safe_to_string(column2_paragraph1.body) =~ "<h4>Multi-column vs. Title card set</h4>\n\n<p>We recommend"
     end
 
     test "parses a multi-column paragraph with display options" do

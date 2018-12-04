@@ -2814,21 +2814,21 @@
           ]
         },
         {
-          "target_id": 1524,
-          "target_revision_id": 16481,
+          "target_id": 1523,
+          "target_revision_id": 16480,
           "id": [
             {
-              "value": 1524
+              "value": 1523
             }
           ],
           "uuid": [
             {
-              "value": "2f325346-4c0d-4c45-8657-ae8e16af4717"
+              "value": "7224a247-4ab7-45e1-9fd4-2a6534af2940"
             }
           ],
           "revision_id": [
             {
-              "value": 16481
+              "value": 16480
             }
           ],
           "type": [
@@ -2858,7 +2858,7 @@
           ],
           "created": [
             {
-              "value": 1514530448
+              "value": 1514530265
             }
           ],
           "revision_uid": [
@@ -2896,11 +2896,98 @@
           ],
           "revision_translation_affected": [],
           "moderation_state": [],
-          "field_column_body": [
+          "field_column_body": [],
+          "field_content": [
             {
-              "value": "<h4>Multi-column vs. Title card set</h4>\r\n\r\n<p>We recommend using the \"title card\" paragraph type to list out links to related sub-pages on a landing or hub page, like these examples:</p>\r\n\r\n<ul>\r\n\t<li><a href=\"/accessibility\">Accessibility landing page</a></li>\r\n\t<li><a href=\"/fares/fare-fair\">Fare Is Fair page</a></li>\r\n</ul>\r\n\r\n<p>Use the \"multi-column\" paragraph type to display more detailed&nbsp;information neatly, like on these pages:</p>\r\n\r\n<ul>\r\n\t<li><a href=\"/winter\">Winter Weather landing page</a></li>\r\n\t<li><a href=\"/fares/charliecard\">CharlieCard page</a></li>\r\n</ul>\r\n",
-              "format": "basic_html",
-              "processed": "<h4>Multi-column vs. Title card set</h4>\n\n<p>We recommend using the \"title card\" paragraph type to list out links to related sub-pages on a landing or hub page, like these examples:</p>\n\n<ul><li><a href=\"/accessibility\">Accessibility landing page</a></li>\n\t<li><a href=\"/fares/fare-fair\">Fare Is Fair page</a></li>\n</ul><p>Use the \"multi-column\" paragraph type to display more detailed information neatly, like on these pages:</p>\n\n<ul><li><a href=\"/winter\">Winter Weather landing page</a></li>\n\t<li><a href=\"/fares/charliecard\">CharlieCard page</a></li>\n</ul>"
+              "target_id": 4159,
+              "target_revision_id": 67112,
+              "id": [
+                {
+                  "value": 4159
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "ba983303-1274-4235-825e-7d7323104c85"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 67112
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "custom_html",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "uid": [
+                {
+                  "target_id": 29,
+                  "target_type": "user",
+                  "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+                  "url": "/user/29"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1541638849
+                }
+              ],
+              "revision_uid": [
+                {
+                  "target_id": 29,
+                  "target_type": "user",
+                  "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+                  "url": "/user/29"
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "1523"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": "a:0:{}"
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [],
+              "moderation_state": [],
+              "field_custom_html_body": [
+                {
+                  "value": "<h4>Multi-column vs. Title card set</h4>\r\n\r\n<p>We recommend using the \"title card\" paragraph type to list out links to related sub-pages on a landing or hub page, like these examples:</p>\r\n\r\n<ul>\r\n\t<li><a href=\"/accessibility\">Accessibility landing page</a></li>\r\n\t<li><a href=\"/fares/fare-fair\">Fare Is Fair page</a></li>\r\n</ul>\r\n\r\n<p>Use the \"multi-column\" paragraph type to display more detailed&nbsp;information neatly, like on these pages:</p>\r\n\r\n<ul>\r\n\t<li><a href=\"/winter\">Winter Weather landing page</a></li>\r\n\t<li><a href=\"/fares/charliecard\">CharlieCard page</a></li>\r\n</ul>\r\n",
+                  "format": "full_html",
+                  "processed": "<h4>Multi-column vs. Title card set</h4>\n\n<p>We recommend using the \"title card\" paragraph type to list out links to related sub-pages on a landing or hub page, like these examples:</p>\n\n<ul><li><a href=\"/accessibility\">Accessibility landing page</a></li>\n\t<li><a href=\"/fares/fare-fair\">Fare Is Fair page</a></li>\n</ul><p>Use the \"multi-column\" paragraph type to display more detailed information neatly, like on these pages:</p>\n\n<ul><li><a href=\"/winter\">Winter Weather landing page</a></li>\n\t<li><a href=\"/fares/charliecard\">CharlieCard page</a></li>\n</ul>"
+                }
+              ]
             }
           ]
         }

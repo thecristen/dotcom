@@ -7,8 +7,6 @@
     <%= for column <- @paragraph.columns do %>
       <div class="col-md-<%= grid(@paragraph) %>">
 
-        <%= ContentRewriter.rewrite(column.body, @conn) %>
-
         <%= for paragraph <- column.paragraphs do %>
           <%= SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
         <% end %>
