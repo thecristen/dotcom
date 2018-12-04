@@ -289,7 +289,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
       assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 2<\/strong>/
 
-      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-12\">\s*<strong>Column 1<\/strong>/
+      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
     end
 
     test "renders a Content.Paragraph.ColumnMulti with nested paragraphs", %{conn: conn} do
@@ -355,7 +355,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 2<\/strong>/
 
       assert rendered_single =~ "<h4>This is a multi-column header</h4>"
-      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-12\">\s*<strong>Column 1<\/strong>/
+      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
     end
 
     test "renders a Content.Paragraph.Tabs", %{conn: conn} do
@@ -460,15 +460,27 @@ defmodule SiteWeb.ContentViewTest do
     end
   end
 
-  test "grid/1 returns the size of our grid based on the number of columns" do
-    column_multi_2 = %ColumnMulti{
-      columns: [
-        %Column{body: HTML.raw("<strong>Column 1</strong>")},
-        %Column{body: HTML.raw("<strong>Column 2</strong>")}
-      ]
-    }
+  describe "grid/1" do
+    test "returns the size of our grid based on the number of columns" do
+      column_multi_2 = %ColumnMulti{
+        columns: [
+          %Column{body: HTML.raw("<strong>Column 1</strong>")},
+          %Column{body: HTML.raw("<strong>Column 2</strong>")}
+        ]
+      }
 
-    assert grid(column_multi_2) == 6
+      assert grid(column_multi_2) == 6
+    end
+
+    test "limits to a max size of 6" do
+      column_multi_1 = %ColumnMulti{
+        columns: [
+          %Column{body: HTML.raw("<strong>Column 1</strong>")}
+        ]
+      }
+
+      assert grid(column_multi_1) == 6
+    end
   end
 
   describe "extend_width_if/2" do

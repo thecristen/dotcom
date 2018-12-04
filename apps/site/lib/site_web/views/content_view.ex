@@ -62,7 +62,7 @@ defmodule SiteWeb.ContentView do
   end
 
   def grid(%ColumnMulti{columns: columns}) do
-    div(12, Enum.count(columns))
+    div(12,  max(Enum.count(columns), 2))
   end
 
   @spec extend_width_if(boolean, Keyword.t) :: Phoenix.HTML.safe
