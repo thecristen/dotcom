@@ -8,7 +8,7 @@
 $layout-cms: (
   sm: (
     c-cms: (
-      title:    (span: 11, offset: 1),
+      title:    (span: 10, offset: 1),
       body:     (span: 10, offset: 1),
       sidebar:  (span: 10, offset: 1)
     )
@@ -42,8 +42,7 @@ $layout-cms: (
       title:    (span: 8, pull: 1)
     ),
     sidebar-right: (
-      title:    (span: 10, offset: 1),
-      body:     (offset: 1),
+      title:    (span: 10),
       sidebar:  (offset: 1)
     )
   ),
@@ -60,9 +59,8 @@ $layout-cms: (
       title:    (span: 7, pull: 2)
     ),
     sidebar-right: (
-      title:    (span: 9, offset: 1),
-      body:     (offset: 1),
-      sidebar:  (span: 4, offset: 1)
+      title:    (span: 9),
+      sidebar:  (span: 4, offset: 2)
     )
   )
 );

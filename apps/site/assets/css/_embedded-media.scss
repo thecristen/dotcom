@@ -4,8 +4,8 @@
 // # of master-grid columns different types of media occupy,
 // depending on sidebar layout and on current breakpoint.
 //
-// full:     visual media (images, iframes, videos)
-// text:     text-based media (tables, quotes)
+// full:     visual media - extends on both sides (images, iframes, videos)
+// text:     text-based media - extends on right side only (tables, quotes, fare card multi-columns)
 // left:     graphic media floated left
 // right:    graphic media floated right
 
@@ -44,8 +44,8 @@ $layout-media: (
       left:     (span: 3)
     ),
     sidebar-right: (
-      full:     (span: 9, offset: -1),
-      left:     (span: 4, offset: -1)
+      full:     (span: 8),
+      left:     (span: 3)
     )
   ),
   xxl: (
@@ -62,8 +62,8 @@ $layout-media: (
       left:     (span: 3)
     ),
     sidebar-right: (
-      full:     (span: 8, offset: -1),
-      left:     (span: 4, offset: -1)
+      full:     (span: 7),
+      left:     (span: 3)
     )
   )
 );
