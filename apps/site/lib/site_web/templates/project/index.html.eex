@@ -6,15 +6,15 @@
 
     <p>Take a look at what we're working on to make the MBTA better.</p>
 
-    <%= if !Enum.empty?(@featured_projects) do %>
+    <%= if !Enum.empty?(@featured_project_teasers) do %>
       <h2 class="featured-project-subheader">Featured Projects</h2>
     <% end %>
 
-    <%= for project <- @featured_projects do %>
+    <%= for project <- @featured_project_teasers do %>
       <%= render "_featured_project.html", project: project, conn: @conn %>
       <hr>
     <% end %>
 
-    <%= render "_all_projects.html", projects: @projects, conn: @conn %>
+    <%= render "_all_projects.html", projects: @project_teasers, conn: @conn %>
   </div>
 </div>

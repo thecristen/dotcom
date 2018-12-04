@@ -53,6 +53,12 @@ defmodule Content.Teaser do
   defp date(%{"type" => "news_entry", "posted" => date}) do
     do_date(date)
   end
+  defp date(%{"type" => "project", "updated" => updated, "changed" => changed}) do
+    case updated do
+      "" -> do_date(changed)
+      _ -> do_date(updated)
+    end
+  end
   defp date(%{"changed" => date}) do
     do_date(date)
   end

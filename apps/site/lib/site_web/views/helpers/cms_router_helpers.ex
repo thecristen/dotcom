@@ -55,10 +55,13 @@ defmodule SiteWeb.CmsRouterHelpers do
     check_preview(conn, Path.join(["/", route, "icalendar" | path]))
   end
 
-  @spec project_path(Plug.Conn.t, atom, Keyword.t | Content.Project.t | String.t) :: String.t
+  @spec project_path(Plug.Conn.t, atom, Keyword.t | Content.Project.t | Content.Teaser.t | String.t) :: String.t
   def project_path(conn, verb, opts \\ [])
   def project_path(conn, :index, opts) do
     RouterHelpers.project_path(conn, :index, opts)
+  end
+  def project_path(conn, :show, %Content.Teaser{} = project) do
+    check_preview(conn, "/node/#{project.id}")
   end
   def project_path(conn, :show, %Content.Project{path_alias: nil} = project) do
     check_preview(conn, "/node/#{project.id}")

@@ -251,22 +251,19 @@ defmodule Content.Repo do
       %{topic: topic} -> "/#{topic}"
       %{mode: mode} -> "/#{mode}"
       %{route_id: route_id} -> "/#{route_id}"
+      _ -> nil
     end
     "/cms/teasers#{path}"
   end
 
-  @default_teaser_params %{
-    sidebar: 1
-  }
-
   @spec teaser_params(Keyword.t) :: %{
-    required(:sidebar) => integer,
+    optional(:sidebar) => integer,
     optional(:type) => atom,
     optional(:type_op) => String.t,
     optional(:items_per_page) => 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 20 | 50
   }
   defp teaser_params(opts) do
-    Map.merge(@default_teaser_params, Map.new(opts))
+    Map.new(opts)
   end
 
   @spec do_teasers({:ok, [map]} | {:error, any}, Keyword.t) :: [Content.Teaser.t]

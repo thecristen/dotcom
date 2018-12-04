@@ -25,7 +25,8 @@ defmodule SiteWeb.ScheduleController.CMS do
   @featured_opts [
     type: :news_entry,
     type_op: "not in",
-    items_per_page: 1
+    items_per_page: 1,
+    sidebar: 1
   ]
 
   @spec get_sidebar_content(Route.t) :: {Teaser.t, [Teaser.t]}
@@ -38,7 +39,7 @@ defmodule SiteWeb.ScheduleController.CMS do
       |> set_utm_params(route)
 
     news =
-      [route_id: route.id, type: :news_entry]
+      [route_id: route.id, type: :news_entry, sidebar: 1]
       |> Repo.teasers()
       |> Enum.map(&set_utm_params(&1, route))
 

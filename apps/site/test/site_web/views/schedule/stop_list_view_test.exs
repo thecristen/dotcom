@@ -513,7 +513,7 @@ defmodule SiteWeb.StopListViewTest do
   describe "_cms_teasers.html" do
     test "renders featured content and news", %{conn: conn} do
       assert {news, [featured | _]} =
-        [route_id: "Red"]
+        [route_id: "Red", sidebar: 1]
         |> Content.Repo.teasers()
         |> Enum.split_with(& &1.type === :news_entry)
 

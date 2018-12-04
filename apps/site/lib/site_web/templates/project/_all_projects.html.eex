@@ -14,7 +14,7 @@
         <th>Name</th>
         <td><%= link project.title, to: project_path(@conn, :show, project) %></td>
         <th>Last Updated</th>
-        <td><%= project.updated_on && format_full_date(project.updated_on) %></td>
+        <td><%= format_full_date(project.date) %></td>
       </tr>
     <% end %>
   </tbody>

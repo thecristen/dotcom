@@ -202,9 +202,27 @@ defmodule Content.RepoTest do
 
   describe "teasers/1" do
 
+    test "returns only teasers for a project type" do
+      types =
+        [type: "project"]
+        |> Repo.teasers()
+        |> MapSet.new(& &1.type)
+        |> MapSet.to_list()
+
+      assert types == [:project]
+    end
+
+    test "returns all teasers for a type that are sticky" do
+      teasers =
+        [type: "project", sticky: 1]
+        |> Repo.teasers()
+
+      assert [%Content.Teaser{}, %Content.Teaser{}, %Content.Teaser{}] = teasers
+    end
+
     test "returns all teasers for a route" do
       types =
-        [route_id: "Red"]
+        [route_id: "Red", sidebar: 1]
         |> Repo.teasers()
         |> MapSet.new(& &1.type)
         |> MapSet.to_list()
@@ -213,7 +231,7 @@ defmodule Content.RepoTest do
 
     test "returns all teasers for a topic" do
       types =
-        [topic: "Guides"]
+        [topic: "Guides", sidebar: 1]
         |> Repo.teasers()
         |> MapSet.new(& &1.type)
         |> MapSet.to_list()
@@ -223,7 +241,7 @@ defmodule Content.RepoTest do
 
     test "returns all teasers for a mode" do
       types =
-        [mode: "subway"]
+        [mode: "subway", sidebar: 1]
         |> Repo.teasers()
         |> MapSet.new(& &1.type)
         |> MapSet.to_list()
@@ -233,7 +251,7 @@ defmodule Content.RepoTest do
 
     test "returns all teasers for a mode and topic combined" do
       types =
-        [mode: "subway", topic: "Guides"]
+        [mode: "subway", topic: "Guides", sidebar: 1]
         |> Repo.teasers()
         |> MapSet.new(& &1.type)
         |> MapSet.to_list()
@@ -243,7 +261,7 @@ defmodule Content.RepoTest do
 
     test "returns all teasers for a route_id and topic combined" do
       types =
-        [route_id: "Red", topic: "Guides"]
+        [route_id: "Red", topic: "Guides", sidebar: 1]
         |> Repo.teasers()
         |> MapSet.new(& &1.type)
         |> MapSet.to_list()
@@ -252,28 +270,28 @@ defmodule Content.RepoTest do
     end
 
     test "takes a :type option" do
-      teasers = Repo.teasers(route_id: "Red", type: :project)
+      teasers = Repo.teasers(route_id: "Red", type: :project, sidebar: 1)
       assert Enum.all?(teasers, & &1.type == :project)
     end
 
     test "takes a :type_op option" do
-      all_teasers = Repo.teasers(route_id: "Red")
+      all_teasers = Repo.teasers(route_id: "Red", sidebar: 1)
       assert Enum.any?(all_teasers, & &1.type == :project)
 
-      filtered = Repo.teasers(route_id: "Red", type: :project, type_op: "not in")
+      filtered = Repo.teasers(route_id: "Red", type: :project, type_op: "not in", sidebar: 1)
       refute Enum.empty?(filtered)
       refute Enum.any?(filtered, & &1.type == :project)
     end
 
     test "takes an :items_per_page option" do
-      all_teasers = Repo.teasers(route_id: "Red")
+      all_teasers = Repo.teasers(route_id: "Red", sidebar: 1)
       assert Enum.count(all_teasers) > 1
       assert [%Content.Teaser{}] = Repo.teasers(route_id: "Red", items_per_page: 1)
     end
 
     test "returns an empty list and logs a warning if there is an error" do
       log = ExUnit.CaptureLog.capture_log(fn ->
-        assert Repo.teasers(route_id: "NotFound") == []
+        assert Repo.teasers(route_id: "NotFound", sidebar: 1) == []
       end)
       assert log =~ "error=:not_found"
     end

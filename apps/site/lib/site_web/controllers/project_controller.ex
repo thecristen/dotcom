@@ -1,22 +1,35 @@
 defmodule SiteWeb.ProjectController do
   use SiteWeb, :controller
   @breadcrumb_base "Transforming the T"
+  alias Content.Repo
   alias Plug.Conn
 
   def index(conn, _) do
-    projects = Content.Repo.projects()
-    featured_projects = Enum.filter(projects, & &1.featured)
+    project_teasers = [type: "project", items_per_page: 50]
+      |> Repo.teasers()
+      |> sort_by_date()
+
+    featured_project_teasers = [type: "project", sticky: 1, items_per_page: 5]
+      |> Repo.teasers()
+      |> sort_by_date()
 
     render conn, "index.html", %{
       breadcrumbs: [Breadcrumb.build(@breadcrumb_base)],
-      projects: projects,
-      featured_projects: featured_projects,
+      project_teasers: project_teasers,
+      featured_project_teasers: featured_project_teasers,
     }
+  end
+
+  @spec sort_by_date([Content.Teaser.t]) :: [Content.Teaser.t]
+  defp sort_by_date(teasers) do
+    Enum.sort(teasers, fn (%{date: d1}, %{date: d2}) ->
+      {d1.year, d1.month, d1.day} >= {d2.year, d2.month, d2.day}
+    end)
   end
 
   def show(%Plug.Conn{} = conn, _) do
     conn.request_path
-    |> Content.Repo.get_page(conn.query_params)
+    |> Repo.get_page(conn.query_params)
     |> do_show(conn)
   end
 
@@ -55,7 +68,7 @@ defmodule SiteWeb.ProjectController do
 
   def project_update(%Plug.Conn{} = conn, _params) do
     conn.request_path
-    |> Content.Repo.get_page(conn.query_params)
+    |> Repo.get_page(conn.query_params)
     |> do_project_update(conn)
   end
 
@@ -73,7 +86,7 @@ defmodule SiteWeb.ProjectController do
 
   @spec show_project_update(Conn.t, Content.ProjectUpdate.t) :: Conn.t
   def show_project_update(%Conn{} = conn, %Content.ProjectUpdate{} = update) do
-    case Content.Repo.get_page(update.project_url) do
+    case Repo.get_page(update.project_url) do
       %Content.Project{} = project ->
         breadcrumbs = [
           Breadcrumb.build(@breadcrumb_base, project_path(conn, :index, [])),
@@ -93,8 +106,8 @@ defmodule SiteWeb.ProjectController do
   end
 
   @spec get_events_async(integer) :: (() -> [Content.Event.t])
-  def get_events_async(id), do: fn -> Content.Repo.events(project_id: id) end
+  def get_events_async(id), do: fn -> Repo.events(project_id: id) end
 
   @spec get_updates_async(integer) :: (() -> [Content.Project.t])
-  def get_updates_async(id), do: fn -> Content.Repo.project_updates(project_id: id) end
+  def get_updates_async(id), do: fn -> Repo.project_updates(project_id: id) end
 end
