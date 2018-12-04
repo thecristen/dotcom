@@ -69,6 +69,11 @@
   background-color: $brand-the-ride;
 }
 
+.u-bg--unknown {
+  @include bg-text($white);
+  background-color: $brand-primary;
+}
+
 .u-nowrap {
   white-space: nowrap;
 }
