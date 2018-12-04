@@ -210,7 +210,7 @@ defmodule SiteWeb.ContentViewTest do
         |> HTML.safe_to_string()
 
       assert rendered =~ "Subway"
-      assert rendered =~ "One Way"
+      assert rendered =~ "One-Way"
       assert rendered =~ "$2.25"
       assert rendered =~ "with a CharlieCard"
       assert rendered =~ "$2.75 with CharlieTicket"
@@ -254,7 +254,7 @@ defmodule SiteWeb.ContentViewTest do
 
       assert rendered =~ "fare-card--grouped"
       assert rendered =~ "Local Bus"
-      assert rendered =~ "One Way"
+      assert rendered =~ "One-Way"
       assert rendered =~ "$1.70"
       assert rendered =~ "with a CharlieCard"
       assert rendered =~ "1 free transfer"

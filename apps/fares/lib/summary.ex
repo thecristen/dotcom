@@ -3,7 +3,7 @@ defmodule Fares.Summary do
 
   Represents a summarization of fares to display on the index page.
 
-  * name: the name of the fare. Something like "Subway One Way" or "Monthly Pass"
+  * name: the name of the fare. Something like "Subway One-Way" or "Monthly Pass"
   * modes: the list of mode atoms this fare is valid on
   * fares: a list of tuples: {"media name", "price value"}
   * url: a specific url to link the summary to, if desired. otherwise falls back to heuristics.

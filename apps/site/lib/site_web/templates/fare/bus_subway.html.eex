@@ -17,14 +17,14 @@
   <div class="col-sm-6 col-xs-12">
     <h3>Fare Vending Machine</h3>
     <p>
-      Load any amount of money for One Way fares or a pass (1-Day, 7-Day, Monthly) onto a CharlieCard or CharlieTicket at fare vending machines found at all Subway stations and the following Commuter Rail stations:
+      Load any amount of money for One-Way fares or a pass (1-Day, 7-Day, Monthly) onto a CharlieCard or CharlieTicket at fare vending machines found at all Subway stations and the following Commuter Rail stations:
     </p>
     <p><%= vending_machine_stations() %></p>
   </div>
 
   <div class="col-sm-6 col-xs-12">
     <h3>Select Bus and Subway Stations</h3>
-    <p>To take advantage of discounted One Way fares, you can get a blank CharlieCard from an MBTA Customer Service agent working at the following stations: </p>
+    <p>To take advantage of discounted One-Way fares, you can get a blank CharlieCard from an MBTA Customer Service agent working at the following stations: </p>
     <p><%= charlie_card_stations() %></p>
   </div>
 </div>
@@ -33,7 +33,7 @@
   <div class="col-sm-6 col-xs-12">
     <h3>Retail Sales Locations</h3>
     <p>
-      Get a free, blank CharlieCard and load any amount of money for One Way fares or a pass (1-Day, 7-Day, Monthly) onto it at stores located throughout the Greater Boston and Providence areas.
+      Get a free, blank CharlieCard and load any amount of money for One-Way fares or a pass (1-Day, 7-Day, Monthly) onto it at stores located throughout the Greater Boston and Providence areas.
     </p>
     <p>
       <%= link to: fare_path(@conn, :show, "retail-sales-locations"), class: "c-call-to-action" do %>
@@ -44,7 +44,7 @@
   <div class="col-sm-6 col-xs-12">
     <h3>On-Board</h3>
     <p>
-      You may pay for a One Way trip using cash when on-board the Bus, above-ground stops on the Green line, and Mattapan trolley on the Red line. If you do not pay with exact change, the remaining value will be stored on your CharlieCard or a CharlieTicket for later use.
+      You may pay for a One-Way trip using cash when on-board the Bus, above-ground stops on the Green line, and Mattapan trolley on the Red line. If you do not pay with exact change, the remaining value will be stored on your CharlieCard or a CharlieTicket for later use.
     </p>
   </div>
 </div>

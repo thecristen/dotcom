@@ -18,7 +18,7 @@ defmodule BaseFareTest do
                       media: [:charlie_ticket, :cash], mode: :subway, name: :subway, reduced: nil}
                   ]
 
-    test "returns the lowest one way trip fare that is not discounted" do
+    test "returns the lowest one-way trip fare that is not discounted" do
       fare_fn = fn [reduced: nil, mode: :subway] ->
         @subway_fares
       end
@@ -43,7 +43,7 @@ defmodule BaseFareTest do
                   media: [:charlie_ticket, :cash], mode: :bus, name: :outer_express_bus,
                   reduced: nil}]
 
-    test "returns the lowest one way trip fare that is not discounted for the local bus" do
+    test "returns the lowest one-way trip fare that is not discounted for the local bus" do
       local_route = %Route{type: 3, id: "1"}
 
       fare_fn = fn [reduced: nil, name: :local_bus] ->
@@ -53,7 +53,7 @@ defmodule BaseFareTest do
       assert %Fares.Fare{cents: 170} = base_fare(local_route, nil, nil, fare_fn)
     end
 
-    test "returns the lowest one way trip fare that is not discounted for the inner express bus" do
+    test "returns the lowest one-way trip fare that is not discounted for the inner express bus" do
       inner_express_route = %Route{type: 3, id: "170"}
 
       fare_fn = fn [reduced: nil, name: :inner_express_bus] ->
@@ -63,7 +63,7 @@ defmodule BaseFareTest do
       assert %Fares.Fare{cents: 400} = base_fare(inner_express_route, nil, nil, fare_fn)
     end
 
-    test "returns the lowerst one way trip fare that is not discounted for the outer express bus" do
+    test "returns the lowerst one-way trip fare that is not discounted for the outer express bus" do
       outer_express_route = %Route{type: 3, id: "352"}
 
       fare_fn = fn [reduced: nil, name: :outer_express_bus] ->
@@ -115,7 +115,7 @@ defmodule BaseFareTest do
   end
 
   describe "commuter rail" do
-    test "returns the one way fare that is not discounted for a trip originating in Zone 1A" do
+    test "returns the one-way fare that is not discounted for a trip originating in Zone 1A" do
       route = %Route{type: 2}
       origin_id = "place-north"
       destination_id = "Haverhill"
@@ -129,7 +129,7 @@ defmodule BaseFareTest do
       assert %Fares.Fare{cents: 1050} = base_fare(route, origin_id, destination_id, fare_fn)
     end
 
-    test "returns the lowest one way fare that is not discounted for a trip terminating in Zone 1A" do
+    test "returns the lowest one-way fare that is not discounted for a trip terminating in Zone 1A" do
       route = %Route{type: 2}
       origin_id = "Ballardvale"
       destination_id = "place-north"

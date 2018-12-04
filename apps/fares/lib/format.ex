@@ -35,7 +35,7 @@ defmodule Fares.Format do
   @doc "Formats the duration of the Fare"
   @spec duration(Fare.t | Summary.t) :: String.t
   def duration(%{duration: :single_trip}) do
-    "One Way"
+    "One-Way"
   end
   def duration(%{duration: :round_trip}) do
     "Round Trip"

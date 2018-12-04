@@ -53,12 +53,12 @@ defmodule Fares.FormatTest do
   end
 
   test "duration/1" do
-    assert duration(%Fare{duration: :single_trip}) == "One Way"
+    assert duration(%Fare{duration: :single_trip}) == "One-Way"
     assert duration(%Fare{duration: :round_trip}) == "Round Trip"
     assert duration(%Fare{duration: :month}) == "Monthly Pass"
     assert duration(%Fare{duration: :month, media: [:mticket]}) == "Monthly Pass on mTicket App"
-    assert duration(%Fare{mode: :subway, duration: :single_trip}) == "One Way"
-    assert duration(%Fare{mode: :bus, duration: :single_trip}) == "One Way"
+    assert duration(%Fare{mode: :subway, duration: :single_trip}) == "One-Way"
+    assert duration(%Fare{mode: :bus, duration: :single_trip}) == "One-Way"
     assert duration(%Fare{name: :ferry_inner_harbor, duration: :day}) == "One-Day Pass"
   end
 
@@ -73,7 +73,7 @@ defmodule Fares.FormatTest do
       actual = summarize([single_trip_cash, single_trip_charlie_card, week_pass, month_pass], :bus_subway)
       expected = [
         %Summary{
-          name: ["Subway", " ", "One Way"],
+          name: ["Subway", " ", "One-Way"],
           duration: :single_trip,
           fares: [{"Cash", "$1.00"}, {"CharlieCard", "$2.00"}],
           modes: [:subway]
@@ -102,7 +102,7 @@ defmodule Fares.FormatTest do
       actual = summarize([cheap, expensive], :commuter_rail)
       expected = [
         %Summary{
-          name: "Commuter Rail One Way",
+          name: "Commuter Rail One-Way",
           duration: :single_trip,
           fares: [{"Zones 1A-10", ["$1.00", " – ", "$2.00"]}],
           modes: [:commuter_rail]
@@ -123,13 +123,13 @@ defmodule Fares.FormatTest do
       actual = summarize([c_cheap, c_expensive, f_cheap, f_expensive], [:commuter_rail, :ferry])
       expected = [
         %Summary{
-          name: "Commuter Rail One Way",
+          name: "Commuter Rail One-Way",
           duration: :single_trip,
           fares: [{"Zones 1A-10", ["$1.00", " – ", "$2.00"]}],
           modes: [:commuter_rail]
         },
         %Summary{
-          name: "Ferry One Way",
+          name: "Ferry One-Way",
           duration: :single_trip,
           fares: [{"All ferry routes", ["$1.00", " – ", "$2.00"]}],
           modes: [:ferry]
@@ -146,7 +146,7 @@ defmodule Fares.FormatTest do
       actual = summarize([cheap, expensive], :ferry)
       expected = [
         %Summary{
-          name: "Ferry One Way",
+          name: "Ferry One-Way",
           duration: :single_trip,
           fares: [{"All ferry routes", ["$1.00", " – ", "$2.00"]}],
           modes: [:ferry]
@@ -162,7 +162,7 @@ defmodule Fares.FormatTest do
       summarized = summarize_one(fare, url: "/link_here?please=yes")
       expected = %Summary{
         fares: [{"Cash", "$12.50"}],
-        name: ["Zone 6", " ", "One Way"],
+        name: ["Zone 6", " ", "One-Way"],
         url: "/link_here?please=yes",
         modes: [:commuter_rail],
         duration: :single_trip

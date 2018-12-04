@@ -8,8 +8,8 @@ defmodule Site.ContentRewriters.ResponsiveTables do
     <thead>
       <tr>
         <th scope="col">Zone</th>
-        <th scope="col">One Way</th>
-        <th scope="col">Reduced One Way</th>
+        <th scope="col">One-Way</th>
+        <th scope="col">Reduced One-Way</th>
         <th scope="col">Monthly Pass</th>
       </tr>
     </thead>
@@ -36,8 +36,8 @@ defmodule Site.ContentRewriters.ResponsiveTables do
     <thead>
       <tr>
         <th scope="col">Zone</th>
-        <th scope="col">One Way</th>
-        <th scope="col">Reduced One Way</th>
+        <th scope="col">One-Way</th>
+        <th scope="col">Reduced One-Way</th>
         <th scope="col">Monthly Pass</th>
       </tr>
     </thead>
@@ -45,9 +45,9 @@ defmodule Site.ContentRewriters.ResponsiveTables do
       <tr>
         <th>Zone</th>
         <td>Zone 1A</td>
-        <th>One Way</th>
+        <th>One-Way</th>
         <td>$2.25</td>
-        <th>Reduced One Way</th>
+        <th>Reduced One-Way</th>
         <td>$1.10</td>
         <th>Monthly Pass</th>
         <td>$84.50</td>
@@ -55,9 +55,9 @@ defmodule Site.ContentRewriters.ResponsiveTables do
       <tr>
         <th>Zone</th>
         <td>Zone 1</td>
-        <th>One Way</th>
+        <th>One-Way</th>
         <td>$6.25</td>
-        <th>Reduced One Way</th>
+        <th>Reduced One-Way</th>
         <td>$3.10</td>
         <th>Monthly Pass</th>
         <td>$200.25</td>

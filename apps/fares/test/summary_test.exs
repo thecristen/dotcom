@@ -5,7 +5,7 @@ defmodule Fares.SummaryTest do
   describe "price_range/1" do
     test "plain text of a summary price range can be extracted" do
       summary = %Summary{
-          name: "Ferry One Way",
+          name: "Ferry One-Way",
           duration: :single_trip,
           fares: [{"All ferry routes", ["$1.00", " – ", "$2.00"]}],
           modes: [:ferry]

@@ -378,8 +378,8 @@ defmodule SiteWeb.StopViewTest do
                                           fare_sales_locations: [],
                                           terminal_stations: %{4 => ""},
                                           conn: conn)
-      assert safe_to_string(output) =~ "Local Bus One Way"
-      assert safe_to_string(output) =~ "Subway One Way"
+      assert safe_to_string(output) =~ "Local Bus One-Way"
+      assert safe_to_string(output) =~ "Subway One-Way"
     end
 
     test "Does not render fares unless they are in fare_types assign", %{conn: conn} do
@@ -393,8 +393,8 @@ defmodule SiteWeb.StopViewTest do
                                           fare_sales_locations: [],
                                           terminal_stations: %{4 => ""},
                                           conn: conn)
-      refute safe_to_string(output) =~ "Local Bus One Way"
-      assert safe_to_string(output) =~ "Subway One Way"
+      refute safe_to_string(output) =~ "Local Bus One-Way"
+      assert safe_to_string(output) =~ "Subway One-Way"
     end
   end
 

@@ -12,7 +12,7 @@ defmodule Fares.FareInfoTest do
   end
 
   describe "mapper/1" do
-    test "maps the fares for a zone into one way and round trip tickets, and monthly ticket and mticket prices" do
+    test "maps the fares for a zone into one-way and round trip tickets, and monthly ticket and mticket prices" do
       assert mapper(["commuter", "zone_1a","2.25","1.10","84.50"]) == [
         %Fare{
           name: {:zone, "1A"},
