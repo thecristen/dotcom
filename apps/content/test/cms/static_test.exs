@@ -37,6 +37,14 @@ defmodule Content.CMS.StaticTest do
         assert Map.fetch(guide, "topic") == {:ok, "Guides"}
       end
     end
+
+    test "/cms/teasers?type=news_entry" do
+      assert {:ok, news_entries} = view("/cms/teasers", %{type: "news_entry"})
+      refute Enum.empty?(news_entries)
+      for news_entry <- news_entries do
+        assert Map.fetch(news_entry, "type") == {:ok, "news_entry"}
+      end
+    end
   end
 
   describe "redirect/3" do

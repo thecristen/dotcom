@@ -6,7 +6,7 @@ defmodule SiteWeb.NewsEntryViewTest do
 
   describe "index.html" do
     test "does not display a Next link when additional content is not available", %{conn: conn} do
-      news_entry = news_entry_factory(0)
+      news_entry = news_entry_teaser_factory(0)
 
       body =
         SiteWeb.NewsEntryView
@@ -23,7 +23,7 @@ defmodule SiteWeb.NewsEntryViewTest do
    end
 
     test "does not display a Previous link on the first page", %{conn: conn} do
-      news_entry = news_entry_factory(0)
+      news_entry = news_entry_teaser_factory(0)
 
       body =
         SiteWeb.NewsEntryView

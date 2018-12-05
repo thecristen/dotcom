@@ -8,10 +8,17 @@ defmodule SiteWeb.CmsRouterHelpers do
   """
   alias SiteWeb.Router.Helpers, as: RouterHelpers
 
-  @spec news_entry_path(Plug.Conn.t | nil, atom, Keyword.t | Content.NewsEntry.t | String.t) :: String.t
+  @spec news_entry_path(
+          Plug.Conn.t | nil,
+          atom,
+          Keyword.t | Content.NewsEntry.t | Content.Teaser.t | String.t
+        ) :: String.t
   def news_entry_path(conn, verb, opts \\ [])
   def news_entry_path(conn, :index, opts) do
     RouterHelpers.news_entry_path(conn, :index, opts)
+  end
+  def news_entry_path(conn, :show, %Content.Teaser{} = news_entry) do
+    check_preview(conn, news_entry.path)
   end
   def news_entry_path(conn, :show, %Content.NewsEntry{path_alias: nil} = news_entry) do
     check_preview(conn, "/node/#{news_entry.id}")
@@ -61,7 +68,7 @@ defmodule SiteWeb.CmsRouterHelpers do
     RouterHelpers.project_path(conn, :index, opts)
   end
   def project_path(conn, :show, %Content.Teaser{} = project) do
-    check_preview(conn, "/node/#{project.id}")
+    check_preview(conn, project.path)
   end
   def project_path(conn, :show, %Content.Project{path_alias: nil} = project) do
     check_preview(conn, "/node/#{project.id}")

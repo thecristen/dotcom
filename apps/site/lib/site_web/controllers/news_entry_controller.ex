@@ -9,16 +9,28 @@ defmodule SiteWeb.NewsEntryController do
 
   def index(conn, params) do
     page = current_page(params)
+    items_per_page = 10
     zero_based_current_page = page - 1
     zero_based_next_page = page
 
-    news_entries = Repo.news(page: zero_based_current_page)
-    upcoming_news_entries = Repo.news(page: zero_based_next_page)
+    news_entry_teasers =
+      Repo.teasers(
+        type: "news_entry",
+        items_per_page: items_per_page,
+        offset: items_per_page * zero_based_current_page
+      )
+
+    upcoming_news_entry_teasers =
+      Repo.teasers(
+        type: "news_entry",
+        items_per_page: items_per_page,
+        offset: items_per_page * zero_based_next_page
+      )
 
     conn
     |> assign(:breadcrumbs, index_breadcrumbs())
-    |> assign(:news_entries, news_entries)
-    |> assign(:upcoming_news_entries, upcoming_news_entries)
+    |> assign(:news_entries, news_entry_teasers)
+    |> assign(:upcoming_news_entries, upcoming_news_entry_teasers)
     |> assign(:page, page)
     |> render(:index)
   end

@@ -12,6 +12,10 @@ defmodule Content.CMS.Static do
     parse_json("cms/news.json")
   end
 
+  def news_teaser_response do
+    parse_json("cms/teasers_news_entry.json")
+  end
+
   def banners_response do
     parse_json("cms/banners.json")
   end
@@ -285,6 +289,9 @@ defmodule Content.CMS.Static do
   end
   def view("/cms/teasers", %{type: "project"}) do
     {:ok, teaser_projects_response()}
+  end
+  def view("/cms/teasers", %{type: "news_entry"}) do
+    {:ok, news_teaser_response()}
   end
   def view("/cms/teasers/" <> route_id, params) when route_id != "NotFound" do
     filtered =
