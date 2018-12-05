@@ -1,4 +1,5 @@
 defmodule Site.TripPlan.Location do
+  alias Phoenix.HTML
   alias Site.TripPlan.Query
   alias TripPlan.NamedPosition
 
@@ -67,7 +68,7 @@ defmodule Site.TripPlan.Location do
       position = %NamedPosition{
         latitude: lat,
         longitude: lng,
-        name: name
+        name: name |> HTML.html_escape() |> HTML.safe_to_string()
       }
 
       query
