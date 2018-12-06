@@ -61,7 +61,7 @@ defmodule Predictions.RepoTest do
         Conn.resp(conn, 200, ~s(
               {
                 "included": [
-                  {"type": "route", "id": "Red", "attributes": {"type": 1, "long_name": "Red Line", "direction_names": ["Southbound", "Northbound"], "description": "Rapid Transit"}, "relationships": {}},
+                  {"type": "route", "id": "Red", "attributes": {"type": 1, "long_name": "Red Line", "direction_names": ["South", "North"], "description": "Rapid Transit"}, "relationships": {}},
                   {"type": "trip", "id": "trip", "attributes": {"headsign": "headsign", "name": "name", "direction_id": "1"}, "relationships": {}},
                   {"type": "stop", "id": "stop", "attributes": {"platform_code": null}, "relationships": {}}
                 ],
@@ -113,7 +113,7 @@ defmodule Predictions.RepoTest do
         Conn.resp(conn, 200, ~s(
               {
                 "included": [
-                  {"type": "route", "id": "Red", "attributes": {"type": 1, "long_name": "Red Line", "direction_names": ["Southbound", "Northbound"], "description": "Rapid Transit"}, "relationships": {}},
+                  {"type": "route", "id": "Red", "attributes": {"type": 1, "long_name": "Red Line", "direction_names": ["South", "North"], "description": "Rapid Transit"}, "relationships": {}},
                   {"type": "trip", "id": "trip", "attributes": {"headsign": "headsign", "name": "name", "direction_id": "1"}, "relationships": {}},
                   {"type": "stop", "id": "stop", "attributes": {"platform_code": null}, "relationships": {}}
                 ],

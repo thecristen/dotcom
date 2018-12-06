@@ -131,8 +131,8 @@ defmodule SiteWeb.ScheduleView do
   end
 
   for direction <- ["Outbound", "Inbound",
-                    "Westbound", "Eastbound",
-                    "Northbound", "Southbound"] do
+                    "West", "East",
+                    "North", "South"] do
       defp downcase_direction(unquote(direction)), do: unquote(String.downcase(direction))
   end
   defp downcase_direction(direction) do

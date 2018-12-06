@@ -4,7 +4,7 @@ defmodule Site.MapHelpers.MarkersTest do
 
   @route %Routes.Route{
     description: :rapid_transit,
-    direction_names: %{0 => "Southbound", 1 => "Northbound"},
+    direction_names: %{0 => "South", 1 => "North"},
     id: "Red",
     long_name: "Red Line",
     name: "Red Line",

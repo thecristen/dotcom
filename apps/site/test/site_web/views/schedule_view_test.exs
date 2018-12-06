@@ -39,7 +39,7 @@ defmodule SiteWeb.ScheduleViewTest do
     end
 
     test "given a non-empty list of predicted_schedules, displays the direction of the first one's route" do
-      route = %Routes.Route{direction_names: %{1 => "Northbound"}}
+      route = %Routes.Route{direction_names: %{1 => "North"}}
       trip = %Trip{direction_id: 1}
       journeys = JourneyList.build(
         [%Schedules.Schedule{route: route, trip: trip, stop: %Stop{id: "stop"}}],
@@ -49,11 +49,11 @@ defmodule SiteWeb.ScheduleViewTest do
         origin_id: "stop",
         current_time: ~N[2017-01-01T06:30:00]
       )
-      assert journeys |> display_direction |> IO.iodata_to_binary == "Northbound to"
+      assert journeys |> display_direction |> IO.iodata_to_binary == "North to"
     end
 
     test "uses predictions if no schedule are available (as on subways)" do
-      route = %Routes.Route{direction_names: %{1 => "Northbound"}, id: "1"}
+      route = %Routes.Route{direction_names: %{1 => "North"}, id: "1"}
       stop = %Stop{id: "stop"}
       now = Timex.now
       journeys = JourneyList.build_predictions_only(
@@ -63,7 +63,7 @@ defmodule SiteWeb.ScheduleViewTest do
         stop.id,
         nil
       )
-      assert journeys |> display_direction |> IO.iodata_to_binary == "Northbound to"
+      assert journeys |> display_direction |> IO.iodata_to_binary == "North to"
     end
   end
 

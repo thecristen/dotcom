@@ -19,7 +19,7 @@ defmodule Predictions.ParserTest do
         relationships: %{
           "route" => [%Item{id: "route_id", attributes: %{
                                "long_name" => "Route",
-                               "direction_names" => ["Eastbound", "Westbound"],
+                               "direction_names" => ["East", "West"],
                                "type" => 5
                             }},
                       %Item{id: "wrong"}],
@@ -65,7 +65,7 @@ defmodule Predictions.ParserTest do
         relationships: %{
           "route" => [%Item{id: "route_id", attributes: %{
                                "long_name" => "Route",
-                               "direction_names" => ["Eastbound", "Westbound"],
+                               "direction_names" => ["East", "West"],
                                "type" => 5
                             }},
                       %Item{id: "wrong"}],
@@ -100,7 +100,7 @@ defmodule Predictions.ParserTest do
         relationships: %{
           "route" => [%Item{id: "route_id", attributes: %{
                                "long_name" => "Route",
-                               "direction_names" => ["Eastbound", "Westbound"],
+                               "direction_names" => ["East", "West"],
                                "type" => 5
                             }},
                       %Item{id: "wrong"}],
@@ -134,7 +134,7 @@ defmodule Predictions.ParserTest do
         relationships: %{
           "route" => [%Item{id: "route_id", attributes: %{
                                "long_name" => "Route",
-                               "direction_names" => ["Eastbound", "Westbound"],
+                               "direction_names" => ["East", "West"],
                                "type" => 5
                             }},
                       %Item{id: "wrong"}],
@@ -168,7 +168,7 @@ defmodule Predictions.ParserTest do
         relationships: %{
           "route" => [%Item{id: "route_id", attributes: %{
                                "long_name" => "Route",
-                               "direction_names" => ["Eastbound", "Westbound"],
+                               "direction_names" => ["East", "West"],
                                "type" => 5
                             }},
                       %Item{id: "wrong"}],
@@ -214,7 +214,7 @@ defmodule Predictions.ParserTest do
         relationships: %{
           "route" => [%Item{id: "route_id", attributes: %{
                                "long_name" => "Route",
-                               "direction_names" => ["Eastbound", "Westbound"],
+                               "direction_names" => ["East", "West"],
                                "type" => 5
                             }}],
           "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}],
@@ -237,7 +237,7 @@ defmodule Predictions.ParserTest do
         relationships: %{
           "route" => [%Item{id: "route_id", attributes: %{
                                "long_name" => "Route",
-                               "direction_names" => ["Eastbound", "Westbound"],
+                               "direction_names" => ["East", "West"],
                                "type" => 1
                             }}],
           "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}],

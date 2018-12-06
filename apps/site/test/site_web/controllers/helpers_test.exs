@@ -12,7 +12,7 @@ defmodule SiteWeb.ControllerHelpersTest do
   describe "filter_modes/2" do
     test "filters the key routes of all modes that are passed" do
       routes = [
-        {:subway, [%Routes.Route{direction_names: %{0 => "Southbound", 1 => "Northbound"},
+        {:subway, [%Routes.Route{direction_names: %{0 => "South", 1 => "North"},
          id: "Red", description: :rapid_transit, name: "Red Line", type: 1},
         %Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
          id: "Mattapan", description: :rapid_transit, name: "Mattapan Trolley", type: 0}]},
@@ -25,7 +25,7 @@ defmodule SiteWeb.ControllerHelpersTest do
       }]
 
       assert filter_routes(routes, [:subway, :bus]) ==
-        [{:subway, [%Routes.Route{direction_names: %{0 => "Southbound", 1 => "Northbound"},
+        [{:subway, [%Routes.Route{direction_names: %{0 => "South", 1 => "North"},
           id: "Red", description: :rapid_transit, name: "Red Line", type: 1},
         %Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
          id: "Mattapan", description: :rapid_transit, name: "Mattapan Trolley", type: 0}]},
@@ -261,7 +261,7 @@ defmodule SiteWeb.ControllerHelpersTest do
     assert green_routes() == [
       %Routes.Route{
         description: :rapid_transit,
-        direction_names: %{0 => "Westbound", 1 => "Eastbound"},
+        direction_names: %{0 => "West", 1 => "East"},
         id: "Green-B",
         long_name: "Green Line B",
         name: "Green Line B",
@@ -269,7 +269,7 @@ defmodule SiteWeb.ControllerHelpersTest do
       },
       %Routes.Route{
         description: :rapid_transit,
-        direction_names: %{0 => "Westbound", 1 => "Eastbound"},
+        direction_names: %{0 => "West", 1 => "East"},
         id: "Green-C",
         long_name: "Green Line C",
         name: "Green Line C",
@@ -277,7 +277,7 @@ defmodule SiteWeb.ControllerHelpersTest do
       },
       %Routes.Route{
         description: :rapid_transit,
-        direction_names: %{0 => "Westbound", 1 => "Eastbound"},
+        direction_names: %{0 => "West", 1 => "East"},
         id: "Green-D",
         long_name: "Green Line D",
         name: "Green Line D",
@@ -285,7 +285,7 @@ defmodule SiteWeb.ControllerHelpersTest do
       },
       %Routes.Route{
         description: :rapid_transit,
-        direction_names: %{0 => "Westbound", 1 => "Eastbound"},
+        direction_names: %{0 => "West", 1 => "East"},
         id: "Green-E",
         long_name: "Green Line E",
         name: "Green Line E",
