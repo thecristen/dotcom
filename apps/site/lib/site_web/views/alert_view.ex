@@ -3,6 +3,8 @@ defmodule SiteWeb.AlertView do
   alias Routes.Route
   alias SiteWeb.PartialView.SvgIconWithCircle
   import SiteWeb.ViewHelpers
+  import Phoenix.HTML.Tag, only: [content_tag: 3]
+  import SiteWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
 
   @doc """
 
@@ -153,10 +155,18 @@ defmodule SiteWeb.AlertView do
 
   @spec show_mode_icon?(Route.t) :: boolean
   defp show_mode_icon?(%Route{name: name}) when name in ["Escalator", "Elevator", "Other"], do: false
-  defp show_mode_icon?(%Route{type: type}) when type in [0, 1], do: true
-  defp show_mode_icon?(_), do: false
+  defp show_mode_icon?(_), do: true
 
-  @spec route_name(Route.t) :: String.t
-  def route_name(%Route{long_name: long_name, name: name, type: 3}), do: name <> ": " <> long_name
+  @spec route_name(Route.t) :: Phoenix.HTML.Safe.t
+  def route_name(%Route{long_name: long_name, name: name, type: 3}),
+    do: [name, content_tag(:span, long_name, class: "h3 m-alerts-header__long-name")]
   def route_name(%Route{name: name}), do: name
+
+  @spec route_icon(Route.t) :: Phoenix.HTML.Safe.t
+  def route_icon(%{type: 3, description: :rapid_transit}) do
+    svg_icon_with_circle(%SvgIconWithCircle{icon: :silver_line, aria_hidden?: true})
+  end
+  def route_icon(route) do
+    svg_icon_with_circle(%SvgIconWithCircle{icon: Route.icon_atom(route), aria_hidden?: true})
+  end
 end

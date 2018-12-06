@@ -14,13 +14,14 @@
     </div>
     <div>
       <%= for {route, alerts} <- @route_alerts do %>
-        <div class="alert-show-row">
-          <%= link to: alert_line_show_path(@conn, route.id) do %>
-            <div class="alert-show-title-container">
-              <span class="alert-show-title alert-show-title-<%= @id %>">
-                <%= if show_mode_icon?(route), do: svg_icon_with_circle(%SvgIconWithCircle{icon: Route.icon_atom(route), aria_hidden?: true}) %><%= route_name(route) %>
-              </span>
-            </div>
+        <div class="m-alerts-header">
+          <%= link to: alert_line_show_path(@conn, route.id), class: "m-alerts-header__link" do %>
+            <h2 class="m-alerts-header__name"><%= route_name(route) %></h2>
+          <% end %>
+          <%= if show_mode_icon?(route) do %>
+            <%= link to: alert_line_show_path(@conn, route.id), class: "m-alerts-header__icon" do %>
+              <%= route_icon(route) %>
+            <% end %>
           <% end %>
           <div class="alert-show-body">
             <%= if alerts == [] do %>
@@ -39,7 +40,7 @@
         There are no current service alerts for <%= mode_name(@id) %>.
       </div>
     <% end %>
-    <div class="alert-show-row">
+    <div class="m-alerts-header">
       <div class="t-alert-container-big">
         <h2 class="h2">Sign-up for T-Alerts!</h2>
         <p>Test the new and improved version of T-Alerts.<br>
