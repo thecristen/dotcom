@@ -104,10 +104,8 @@
     "publish_on": [],
     "unpublish_on": [],
     "menu_link": [],
-    "field_category": [
-      {
-        "value": "guide"
-      }
+    "field_page_type": [
+      { "data": null, "id": 248, "name": "Guides", "vocab": "page_type" }
     ],
     "field_image": [
       {
@@ -235,7 +233,7 @@
     "publish_on": [],
     "unpublish_on": [],
     "menu_link": [],
-    "field_category": [],
+    "field_page_type": [],
     "field_image": [
       {
         "url": "https://test-mbta.pantheonsite.io/sites/default/files/styles/whats_happening/public/projects/late-night-bus/night-bus-by-osman-rana-unsplash.jpg?itok=K3LGpv53",
@@ -362,7 +360,7 @@
     "publish_on": [],
     "unpublish_on": [],
     "menu_link": [],
-    "field_category": [],
+    "field_page_type": [],
     "field_image": [
       {
         "url": "https://test-mbta.pantheonsite.io/sites/default/files/styles/whats_happening/public/projects/parking-prices/wonderland-garage-3x2.jpg?itok=EIp8rbO6",

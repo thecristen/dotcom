@@ -132,60 +132,25 @@ defmodule Content.Helpers do
     end
   end
 
-  @type category :: :business
-                  | :careers
-                  | :destinations
-                  | :events
-                  | :guides
-                  | :leadership
-                  | :news
-                  | :projects
-                  | :winter
-                  | :unknown
-
   @doc """
-  Retrieves category from CMS data. If "field_category"
-  field is empty, an unexpected value, or not found,
-  category is :unknown.
+  Retrieves category from CMS data. If "field_page_type" field is
+  empty or not found, the returned category is an empty string.
 
-  iex> category(%{"field_category" => [%{"value" => "business"}]})
-  :business
-  iex> category(%{"field_category" => [%{"value" => "careers"}]})
-  :careers
-  iex> category(%{"field_category" => [%{"value" => "destinations"}]})
-  :destinations
-  iex> category(%{"field_category" => [%{"value" => "events"}]})
-  :events
-  iex> category(%{"field_category" => [%{"value" => "guides"}]})
-  :guides
-  iex> category(%{"field_category" => [%{"value" => "leadership"}]})
-  :leadership
-  iex> category(%{"field_category" => [%{"value" => "news"}]})
-  :news
-  iex> category(%{"field_category" => [%{"value" => "projects"}]})
-  :projects
-  iex> category(%{"field_category" => [%{"value" => "winter"}]})
-  :winter
-  iex> category(%{"field_cateogry" => [%{"value" => "invalid"}]})
-  :unknown
-  iex> category(%{"field_cateogry" => []})
-  :unknown
+  iex> category(%{"field_page_type" => [%{"name" => "Guides"}]})
+  "Guides"
+  iex> category(%{"field_page_type" => []})
+  ""
   iex> category(%{})
-  :unknown
+  ""
   iex> category(nil)
-  :unknown
+  ""
   """
-  @spec category(map) :: category
+  @spec category(map | nil) :: String.t
+  def category(nil), do: ""
   def category(data) do
     data
-    |> field_value("field_category")
-    |> parse_category()
+    |> Map.get("field_page_type", [%{}])
+    |> Enum.at(0, %{})
+    |> Map.get("name", "")
   end
-
-  @spec parse_category(String.t | nil) :: category
-  for category <- ~w(business careers destinations events guides leadership news projects winter) do
-    atom = String.to_atom(category)
-    defp parse_category(unquote(category)), do: unquote(atom)
-  end
-  defp parse_category(_), do: :unknown
 end

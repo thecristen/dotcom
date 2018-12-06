@@ -7,7 +7,7 @@ defmodule Content.WhatsHappeningItemTest do
   end
 
   test "parses an api response into a Content.WhatsHappeningItem", %{api_items: [item | _]} do
-    assert Map.get(item, "field_category") == [%{"value" => "guide"}]
+    assert Map.get(item, "field_page_type") == [%{"data" => nil, "id" => 248, "name" => "Guides", "vocab" => "page_type"}]
     assert %Content.WhatsHappeningItem{
       blurb: blurb,
       category: category,
@@ -17,7 +17,7 @@ defmodule Content.WhatsHappeningItemTest do
     } = Content.WhatsHappeningItem.from_api(item)
 
     assert blurb =~ "Visiting Boston? Find your way around with our new Visitor's Guide to the T."
-    assert category == :unknown
+    assert category == "Guides"
     assert url == "/guides/boston-visitor-guide"
   end
 

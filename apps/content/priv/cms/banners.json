@@ -109,10 +109,8 @@
         "value": "important"
       }
     ],
-    "field_category": [
-      {
-        "value": "careers"
-      }
+    "field_page_type": [
+      { "data": null, "id": 248, "name": "Careers", "vocab": "page_type" }
     ],
     "field_image": [
       {
@@ -255,6 +253,9 @@
       {
         "value": "guides"
       }
+    ],
+    "field_page_type": [
+      { "data": null, "id": 248, "name": "Guides", "vocab": "page_type" }
     ],
     "field_image": [
       {

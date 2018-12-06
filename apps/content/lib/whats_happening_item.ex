@@ -4,7 +4,7 @@ defmodule Content.WhatsHappeningItem do
   defstruct [
     blurb: "",
     title: "",
-    category: :unknown,
+    category: "",
     link: nil,
     thumb: nil,
     thumb_2x: nil,
@@ -14,7 +14,7 @@ defmodule Content.WhatsHappeningItem do
   @type t :: %__MODULE__{
     blurb: String.t | nil,
     title: String.t | nil,
-    category: Content.Helpers.category,
+    category: String.t,
     link: Content.Field.Link.t | nil,
     thumb: Content.Field.Image.t,
     thumb_2x: Content.Field.Image.t | nil,

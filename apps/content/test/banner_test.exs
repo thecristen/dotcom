@@ -9,10 +9,11 @@ defmodule Content.BannerTest do
   test "it parses the API response into a Content.Banner struct", %{api_notices: [raw | _]} do
     assert Map.get(raw, "field_text_position") == []
     assert Map.get(raw, "field_banner_type") == [%{"value" => "important"}]
-    assert Map.get(raw, "field_category") == [%{"value" => "careers"}]
+    assert Map.get(raw, "field_page_type") == [%{"data" => nil, "id" => 248, "name" => "Careers", "vocab" => "page_type"}]
     assert Map.get(raw, "field_mode") == [%{"value" => "commuter_rail"}]
     assert Map.get(raw, "field_updated_on") == [%{"value" => "2018-09-25"}]
     assert Map.get(raw, "title") == [%{"value" => "Headline goes here"}]
+
     assert %Content.Banner{
       blurb: blurb,
       link: %Content.Field.Link{url: url},
@@ -29,7 +30,7 @@ defmodule Content.BannerTest do
     assert url == "/"
     assert text_position == :left
     assert banner_type == :important
-    assert category == :careers
+    assert category == "Careers"
     assert mode == :commuter_rail
     assert updated_on == "September 25, 2018"
     assert title == "Headline goes here"
@@ -38,7 +39,7 @@ defmodule Content.BannerTest do
   test "it parses fields for a default banner", %{api_notices: [_, raw]} do
     assert Map.get(raw, "field_text_position") == [%{"value" => "right"}]
     assert Map.get(raw, "field_banner_type") == [%{"value" => "default"}]
-    assert Map.get(raw, "field_category") == [%{"value" => "guides"}]
+    assert Map.get(raw, "field_page_type") == [%{"data" => nil, "id" => 248, "name" => "Guides", "vocab" => "page_type"}]
     assert Map.get(raw, "field_mode") == [%{"value" => "commuter_rail"}]
     assert Map.get(raw, "field_updated_on") == [%{"value" => "2018-10-01"}]
     assert Map.get(raw, "title") == [%{"value" => "Commuter Rail Guide"}]
@@ -58,7 +59,7 @@ defmodule Content.BannerTest do
     assert url == "/node/3791"
     assert text_position == :right
     assert banner_type == :default
-    assert category == :guides
+    assert category == "Guides"
     assert mode == :commuter_rail
     assert updated_on == "October 1, 2018"
     assert title == "Commuter Rail Guide"
@@ -79,7 +80,7 @@ defmodule Content.BannerTest do
     assert blurb == ""
     assert text_position == :left
     assert banner_type == :default
-    assert category == :unknown
+    assert category == ""
     assert mode == :unknown
     assert updated_on == ""
     assert title == ""
