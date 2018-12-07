@@ -3,6 +3,13 @@
   display: block;
   margin-top: $base-spacing * 3;
 
+  @include media-breakpoint-only(xxl) {
+    // banner content is not full width at xxl,
+    // so prevent container from being 100% at that breakpoint.
+    margin: $base-spacing * 3 auto 0;
+    width: map-get($container-max-widths, xxl);
+  }
+
   &:hover {
     color: inherit;
     text-decoration: none;
