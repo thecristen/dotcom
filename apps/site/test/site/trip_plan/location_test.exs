@@ -23,13 +23,13 @@ defmodule Site.TripPlan.LocationTest do
       params = %{
         "to_latitude" => "42.5678",
         "to_longitude" => "-71.2345",
-        "to" => "To Location<script>alert(1)</script>"
+        "to" => "To Location's &<script>alert(1)</script>"
       }
       assert Location.validate(%Query{}, params) == %Query{
         to: %NamedPosition{
           latitude: 42.5678,
           longitude: -71.2345,
-          name: "To Location&lt;script&gt;alert(1)&lt;/script&gt;"
+          name: "To Location's &&lt;script&gt;alert(1)&lt;/script&gt;"
         }
       }
     end

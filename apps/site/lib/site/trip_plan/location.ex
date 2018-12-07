@@ -68,7 +68,7 @@ defmodule Site.TripPlan.Location do
       position = %NamedPosition{
         latitude: lat,
         longitude: lng,
-        name: name |> HTML.html_escape() |> HTML.safe_to_string()
+        name: encode_name(name)
       }
 
       query
@@ -78,6 +78,15 @@ defmodule Site.TripPlan.Location do
       :error ->
         validate(query, params)
     end
+  end
+
+  @spec encode_name(String.t) :: String.t
+  defp encode_name(name) do
+    name
+    |> HTML.html_escape()
+    |> HTML.safe_to_string()
+    |> String.replace("&#39;", "'")
+    |> String.replace("&amp;", "&")
   end
 
   @spec validate_by_name(:to | :from, Query.t, map) :: Query.t
