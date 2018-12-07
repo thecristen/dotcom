@@ -5167,6 +5167,577 @@
         }
       ],
       "field_multi_column_header": []
+    },
+    {
+      "target_id": 4536,
+      "target_revision_id": 74173,
+      "id": [
+        {
+          "value": 4536
+        }
+      ],
+      "uuid": [
+        {
+          "value": "dcb7a636-b8fb-41b3-89b2-05179984709e"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 74173
+        }
+      ],
+      "type": [
+        {
+          "target_id": "description_list",
+          "target_type": "paragraphs_type",
+          "target_uuid": "d7e2789b-a6c4-4cc1-bb1d-182dac03bca1"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 102,
+          "target_type": "user",
+          "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+          "url": "/user/102"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1543856848
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 102,
+          "target_type": "user",
+          "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+          "url": "/user/102"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "3897"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_definition": [
+        {
+          "target_id": 4532,
+          "target_revision_id": 74169,
+          "id": [
+            {
+              "value": 4532
+            }
+          ],
+          "uuid": [
+            {
+              "value": "6ea4cbbe-4b72-4e1a-9289-4705dc4dc594"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 74169
+            }
+          ],
+          "type": [
+            {
+              "target_id": "definition",
+              "target_type": "paragraphs_type",
+              "target_uuid": "a9c6dab2-e319-4cc8-bab8-a2757b1b584b"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1543856913
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "4536"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_definition"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_custom_html_body": [
+            {
+              "value": "<p>1-Day Pass</p>\r\n",
+              "format": "full_html",
+              "processed": "<p>1-Day Pass</p>\n"
+            }
+          ],
+          "field_term_description": [
+            {
+              "target_id": 4531,
+              "target_revision_id": 74168,
+              "id": [
+                {
+                  "value": 4531
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "7e5a836f-2e27-480b-9573-795c7f85b21e"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 74168
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "custom_html",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1543856913
+                }
+              ],
+              "revision_uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "4532"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_term_description"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": "a:0:{}"
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "moderation_state": [],
+              "field_custom_html_body": [
+                {
+                  "value": "<h3>{{&nbsp;fare:subway:day }}</h3>\r\n\r\n<p>Unlimited travel for 24 hours on Local Bus and subway.</p>\r\n",
+                  "format": "full_html",
+                  "processed": "<h3>{{ fare:subway:day }}</h3>\n\n<p>Unlimited travel for 24 hours on Local Bus and subway.</p>\n"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "target_id": 4534,
+          "target_revision_id": 74171,
+          "id": [
+            {
+              "value": 4534
+            }
+          ],
+          "uuid": [
+            {
+              "value": "2ee3282d-0ec7-4c4a-a272-3ea050197983"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 74171
+            }
+          ],
+          "type": [
+            {
+              "target_id": "definition",
+              "target_type": "paragraphs_type",
+              "target_uuid": "a9c6dab2-e319-4cc8-bab8-a2757b1b584b"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1543857085
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "4536"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_definition"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_custom_html_body": [
+            {
+              "value": "<p>7-Day Pass</p>\r\n",
+              "format": "full_html",
+              "processed": "<p>7-Day Pass</p>\n"
+            }
+          ],
+          "field_term_description": [
+            {
+              "target_id": 4533,
+              "target_revision_id": 74170,
+              "id": [
+                {
+                  "value": 4533
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "654b56a4-f7d3-47b9-85c3-3d58317ca52b"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 74170
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "custom_html",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1543857085
+                }
+              ],
+              "revision_uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "4534"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_term_description"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": "a:0:{}"
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "moderation_state": [],
+              "field_custom_html_body": [
+                {
+                  "value": "<h3>{{&nbsp;fare:subway:week }}</h3>\r\n\r\n<p>Unlimited travel for 7 days on Local Bus and subway.</p>\r\n",
+                  "format": "full_html",
+                  "processed": "<h3>{{ fare:subway:week }}</h3>\n\n<p>Unlimited travel for 7 days on Local Bus and subway.</p>\n"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "field_multi_column_header": [
+        {
+          "target_id": 4535,
+          "target_revision_id": 74172,
+          "id": [
+            {
+              "value": 4535
+            }
+          ],
+          "uuid": [
+            {
+              "value": "e6610310-00eb-4bcc-a473-a2bc22ff6550"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 74172
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1543856890
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "4536"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_header_text": [
+            {
+              "value": "<p>1-day and 7-day passes purchased on CharlieTickets are valid from the date and time of purchase. Those purchased on CharlieCards are valid from when their first tap into a subway station.</p>\r\n",
+              "format": "full_html",
+              "processed": "<p>1-day and 7-day passes purchased on CharlieTickets are valid from the date and time of purchase. Those purchased on CharlieCards are valid from when their first tap into a subway station.</p>\n"
+            }
+          ]
+        }
+      ]
     }
   ],
   "field_subtitle": [

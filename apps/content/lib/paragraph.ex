@@ -23,6 +23,7 @@ defmodule Content.Paragraph do
   alias Content.Paragraph.{
     ColumnMulti,
     CustomHTML,
+    DescriptionList,
     FareCard,
     FilesGrid,
     PeopleGrid,
@@ -35,6 +36,7 @@ defmodule Content.Paragraph do
   @type t ::
           ColumnMulti.t()
           | CustomHTML.t()
+          | DescriptionList.t()
           | FareCard.t()
           | FilesGrid.t()
           | PeopleGrid.t()
@@ -46,6 +48,10 @@ defmodule Content.Paragraph do
   @spec from_api(map) :: t
   def from_api(%{"type" => [%{"target_id" => "custom_html"}]} = para) do
     CustomHTML.from_api(para)
+  end
+
+  def from_api(%{"type" => [%{"target_id" => "description_list"}]} = para) do
+    DescriptionList.from_api(para)
   end
 
   def from_api(%{"type" => [%{"target_id" => "fare_card"}]} = para) do

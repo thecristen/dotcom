@@ -8,6 +8,7 @@ defmodule SiteWeb.ContentView do
   alias Content.Paragraph.{
     ColumnMulti,
     CustomHTML,
+    DescriptionList,
     FareCard,
     FilesGrid,
     PeopleGrid,
@@ -38,6 +39,10 @@ defmodule SiteWeb.ContentView do
 
   def render_paragraph(%PeopleGrid{} = para, conn) do
     render("_people_grid.html", paragraph: para, conn: conn)
+  end
+
+  def render_paragraph(%DescriptionList{} = description_list, conn) do
+    render("_description_list.html", description_list: description_list, conn: conn)
   end
 
   def render_paragraph(%FareCard{} = fare_card, conn) do

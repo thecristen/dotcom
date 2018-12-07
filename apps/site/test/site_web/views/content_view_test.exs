@@ -11,7 +11,10 @@ defmodule SiteWeb.ContentViewTest do
   alias Content.Paragraph.{
     Column,
     ColumnMulti,
+    ColumnMultiHeader,
     CustomHTML,
+    Description,
+    DescriptionList,
     FareCard,
     FilesGrid,
     PeopleGrid,
@@ -199,6 +202,31 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ person.position
     end
 
+    test "renders a DescriptionList", %{conn: conn} do
+      paragraph = %DescriptionList{
+        descriptions: [
+          %Description{
+            details: HTML.raw("<h3>{{ fare:subway:day }}</h3>\n\n<p>Day pass.</p>\n")
+          },
+          %Description{
+            details: HTML.raw("<h3>{{ fare:subway:week }}</h3>\n\n<p>Week pass.</p>\n")
+          }
+        ],
+        header: %ColumnMultiHeader{
+          text: HTML.raw("<p>Header copy.</p>\n")
+        }
+      }
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "Header copy"
+      assert rendered =~ "Day pass"
+      assert rendered =~ "Week pass"
+    end
+
     test "renders a FareCard", %{conn: conn} do
       paragraph = %ColumnMulti{
         columns: [
@@ -309,7 +337,7 @@ defmodule SiteWeb.ContentViewTest do
     end
 
     test "renders a Content.Paragraph.ColumnMulti with nested paragraphs", %{conn: conn} do
-      header = %Content.Paragraph.ColumnMultiHeader{
+      header = %ColumnMultiHeader{
         text: HTML.raw("<h4>This is a multi-column header</h4>")
       }
 

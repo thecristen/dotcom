@@ -13,6 +13,8 @@ defmodule Content.ParagraphTest do
     ColumnMulti,
     ColumnMultiHeader,
     CustomHTML,
+    Description,
+    DescriptionList,
     FareCard,
     FilesGrid,
     PeopleGrid,
@@ -35,6 +37,34 @@ defmodule Content.ParagraphTest do
              } = from_api(api_data)
 
       assert safe_to_string(body) =~ ~s(This page demonstrates all the "paragraphs" available)
+    end
+
+    test "parses a description list paragraph" do
+      description_list_data = api_paragraph("description_list")
+
+      assert %DescriptionList{
+               header: header,
+               descriptions: [
+                 %Description{
+                   term: term1,
+                   details: details1
+                 },
+                 %Description{
+                   term: term2,
+                   details: details2
+                 }
+               ]
+             } = from_api(description_list_data)
+
+      assert %ColumnMultiHeader{} = header
+
+      assert safe_to_string(header.text) =~
+               "<p>1-day and 7-day passes purchased on CharlieTickets"
+
+      assert safe_to_string(term1) =~ "<p>1-Day Pass</p>"
+      assert safe_to_string(details1) =~ "Unlimited travel for 24 hours"
+      assert safe_to_string(term2) =~ "<p>7-Day Pass</p>"
+      assert safe_to_string(details2) =~ "Unlimited travel for 7 days"
     end
 
     test "parses a fare card paragraph" do
