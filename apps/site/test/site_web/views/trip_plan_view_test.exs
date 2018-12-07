@@ -367,7 +367,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     test "Correctly formats Green Line route" do
       route = %Route{name: "Green Line B", id: "Green-B", direction_names: %{1 => "East"}}
       actual = route |> format_additional_route(1) |> IO.iodata_to_binary()
-      assert actual == "Green Line (B) East towards Park Street"
+      assert actual == "Green Line (B) Eastbound towards Park Street"
     end
   end
 

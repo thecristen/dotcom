@@ -57,7 +57,7 @@ defmodule SiteWeb.ScheduleViewTest do
           current_time: ~N[2017-01-01T06:30:00]
         )
 
-      assert journeys |> display_direction |> IO.iodata_to_binary() == "North to"
+      assert journeys |> display_direction |> IO.iodata_to_binary() == "Northbound to"
     end
 
     test "uses predictions if no schedule are available (as on subways)" do
@@ -81,7 +81,7 @@ defmodule SiteWeb.ScheduleViewTest do
           nil
         )
 
-      assert journeys |> display_direction |> IO.iodata_to_binary() == "North to"
+      assert journeys |> display_direction |> IO.iodata_to_binary() == "Northbound to"
     end
   end
 

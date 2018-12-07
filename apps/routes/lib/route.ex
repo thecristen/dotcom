@@ -140,8 +140,17 @@ defmodule Routes.Route do
   @spec direction_name(t, 0 | 1) :: String.t()
   def direction_name(%__MODULE__{direction_names: names}, direction_id)
       when direction_id in [0, 1] do
-    Map.get(names, direction_id)
+    names
+    |> Map.get(direction_id)
+    |> add_direction_suffix()
   end
+
+  @spec add_direction_suffix(String.t()) :: String.t()
+  defp add_direction_suffix("North"), do: "Northbound"
+  defp add_direction_suffix("South"), do: "Southbound"
+  defp add_direction_suffix("East"), do: "Eastbound"
+  defp add_direction_suffix("West"), do: "Westbound"
+  defp add_direction_suffix(direction), do: direction
 
   @spec vehicle_name(t) :: String.t()
   def vehicle_name(%__MODULE__{type: type}) when type in [0, 1, 2] do

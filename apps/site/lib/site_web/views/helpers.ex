@@ -124,7 +124,7 @@ defmodule SiteWeb.ViewHelpers do
 
   def direction_with_headsign(route, direction_id, headsign) do
     [
-      Routes.Route.direction_name(route, direction_id),
+      Route.direction_name(route, direction_id),
       " ",
       fa("arrow-right"),
       content_tag(:span, "to", class: "sr-only"),
