@@ -17,7 +17,9 @@ defmodule Content.HelpersTest do
     test "rewrites static file links" do
       {:ok, endpoint} = Application.get_env(:util, :endpoint)
       html = "<img src=\"/sites/default/files/converted.jpg\">"
-      assert handle_html(html) == {:safe, "<img src=\"#{endpoint.url()}/sites/default/files/converted.jpg\" />"}
+
+      assert handle_html(html) ==
+               {:safe, "<img src=\"#{endpoint.url()}/sites/default/files/converted.jpg\" />"}
     end
 
     test "allows an empty string" do
@@ -73,16 +75,18 @@ defmodule Content.HelpersTest do
   describe "parse_image/2" do
     test "parses the image data" do
       data = %{
-        "field_my_image" => [%{
-          "alt" => "Picture of a barn",
-          "url" => "http://cms/files/barn.jpg",
-        }]
+        "field_my_image" => [
+          %{
+            "alt" => "Picture of a barn",
+            "url" => "http://cms/files/barn.jpg"
+          }
+        ]
       }
 
       assert parse_image(data, "field_my_image") == %Content.Field.Image{
-        alt: "Picture of a barn",
-        url: Util.site_path(:static_url, ["/files/barn.jpg"])
-      }
+               alt: "Picture of a barn",
+               url: Util.site_path(:static_url, ["/files/barn.jpg"])
+             }
     end
 
     test "when the specified field is not present" do
@@ -96,11 +100,11 @@ defmodule Content.HelpersTest do
         "field_with_images" => [
           %{
             "alt" => "Picture of a barn",
-            "url" => "/files/barn.jpg",
+            "url" => "/files/barn.jpg"
           },
           %{
             "alt" => "Picture of a horse",
-            "url" => "/files/horse.jpg",
+            "url" => "/files/horse.jpg"
           }
         ]
       }
@@ -144,16 +148,18 @@ defmodule Content.HelpersTest do
   describe "parse_link/2" do
     test "it parses a link field into a Link" do
       data = %{
-        "field_my_link" => [%{
-          "title" => "This is the link text",
-          "uri" => "internal:/this/is/the/link/url"
-        }]
+        "field_my_link" => [
+          %{
+            "title" => "This is the link text",
+            "uri" => "internal:/this/is/the/link/url"
+          }
+        ]
       }
 
       assert %Content.Field.Link{
-        title: "This is the link text",
-        url: "/this/is/the/link/url"
-      } = parse_link(data, "field_my_link")
+               title: "This is the link text",
+               url: "/this/is/the/link/url"
+             } = parse_link(data, "field_my_link")
     end
 
     test "it returns nil if unexpected format" do
@@ -169,91 +175,107 @@ defmodule Content.HelpersTest do
 
   describe "parse_paragraphs/1" do
     test "it parses different kinds of paragraphs" do
-      api_data = %{"field_paragraphs" => [
-        %{
-          "type" => [%{"target_id" => "custom_html"}],
-          "status" => [%{"value" => true}],
-          "field_custom_html_body" => [%{"value" => "some HTML"}]
-        },
-        %{
-          "type" => [%{"target_id" => "title_card_set"}],
-          "status" => [%{"value" => true}],
-          "field_title_cards" => [%{
-            "type" => [%{"target_id" => "title_card"}],
-            "field_title_card_body" => [%{"value" => "body"}],
-            "field_title_card_link" => [%{"uri" => "internal:/foo/bar"}],
-            "field_title_card_title" => [%{"value" => "title"}]
-          }],
-        }
-      ]}
+      api_data = %{
+        "field_paragraphs" => [
+          %{
+            "type" => [%{"target_id" => "custom_html"}],
+            "status" => [%{"value" => true}],
+            "field_custom_html_body" => [%{"value" => "some HTML"}]
+          },
+          %{
+            "type" => [%{"target_id" => "title_card_set"}],
+            "status" => [%{"value" => true}],
+            "field_title_cards" => [
+              %{
+                "type" => [%{"target_id" => "title_card"}],
+                "field_title_card_body" => [%{"value" => "body"}],
+                "field_title_card_link" => [%{"uri" => "internal:/foo/bar"}],
+                "field_title_card_title" => [%{"value" => "title"}]
+              }
+            ]
+          }
+        ]
+      }
 
       parsed = parse_paragraphs(api_data)
 
       assert parsed == [
-        %Content.Paragraph.CustomHTML{body: Phoenix.HTML.raw("some HTML")},
-        %Content.Paragraph.TitleCardSet{
-          title_cards: [%Content.Paragraph.TitleCard{
-            body: Phoenix.HTML.raw("body"),
-            title: "title",
-            link: %Content.Field.Link{
-              url: "/foo/bar",
-            }
-          }]
-        }
-      ]
+               %Content.Paragraph.CustomHTML{body: Phoenix.HTML.raw("some HTML")},
+               %Content.Paragraph.TitleCardSet{
+                 title_cards: [
+                   %Content.Paragraph.TitleCard{
+                     body: Phoenix.HTML.raw("body"),
+                     title: "title",
+                     link: %Content.Field.Link{
+                       url: "/foo/bar"
+                     }
+                   }
+                 ]
+               }
+             ]
     end
 
     test "it skips paragraphs that are unpublished" do
-      map_data = %{"field_paragraphs" => [
-        %{
-          "type" => [%{"target_id" => "custom_html"}],
-          "status" =>  [%{"value" => true}],
-          "field_custom_html_body" => [%{"value" => "I am published"}]
-        },
-        %{
-          "type" => [%{"target_id" => "custom_html"}],
-          "status" =>  [%{"value" => false}],
-          "field_custom_html_body" => [%{"value" => "I am NOT published"}]
-        },
-        %{
-          "type" => [%{"target_id" => "title_card_set"}],
-          "status" =>  [%{"value" => true}],
-          "field_title_cards" => [%{
-            "type" => [%{"target_id" => "title_card"}],
-            "field_title_card_body" => [%{"value" => "I am published"}]
-          }]
-        },
-        %{
-          "type" => [%{"target_id" => "title_card_set"}],
-          "status" =>  [%{"value" => false}],
-          "field_title_cards" => [%{
-            "type" => [%{"target_id" => "title_card"}],
-            "field_title_card_body" => [%{"value" => "I am NOT published"}]
-          }]
-        }
-      ]}
+      map_data = %{
+        "field_paragraphs" => [
+          %{
+            "type" => [%{"target_id" => "custom_html"}],
+            "status" => [%{"value" => true}],
+            "field_custom_html_body" => [%{"value" => "I am published"}]
+          },
+          %{
+            "type" => [%{"target_id" => "custom_html"}],
+            "status" => [%{"value" => false}],
+            "field_custom_html_body" => [%{"value" => "I am NOT published"}]
+          },
+          %{
+            "type" => [%{"target_id" => "title_card_set"}],
+            "status" => [%{"value" => true}],
+            "field_title_cards" => [
+              %{
+                "type" => [%{"target_id" => "title_card"}],
+                "field_title_card_body" => [%{"value" => "I am published"}]
+              }
+            ]
+          },
+          %{
+            "type" => [%{"target_id" => "title_card_set"}],
+            "status" => [%{"value" => false}],
+            "field_title_cards" => [
+              %{
+                "type" => [%{"target_id" => "title_card"}],
+                "field_title_card_body" => [%{"value" => "I am NOT published"}]
+              }
+            ]
+          }
+        ]
+      }
 
       parsed_map = parse_paragraphs(map_data)
 
       assert parsed_map == [
-        %Content.Paragraph.CustomHTML{body: Phoenix.HTML.raw("I am published")},
-        %Content.Paragraph.TitleCardSet{
-          title_cards: [%Content.Paragraph.TitleCard{
-            body: Phoenix.HTML.raw("I am published"),
-            title: nil,
-            link: nil
-          }]
-        }
-      ]
+               %Content.Paragraph.CustomHTML{body: Phoenix.HTML.raw("I am published")},
+               %Content.Paragraph.TitleCardSet{
+                 title_cards: [
+                   %Content.Paragraph.TitleCard{
+                     body: Phoenix.HTML.raw("I am published"),
+                     title: nil,
+                     link: nil
+                   }
+                 ]
+               }
+             ]
     end
   end
 
   describe "rewrite_url/1" do
     test "rewrites when the URL has query params" do
-      assert %URI{} = uri =
-        "http://test-mbta.pantheonsite.io/foo/bar?baz=quux"
-        |> Content.Helpers.rewrite_url()
-        |> URI.parse()
+      assert %URI{} =
+               uri =
+               "http://test-mbta.pantheonsite.io/foo/bar?baz=quux"
+               |> Content.Helpers.rewrite_url()
+               |> URI.parse()
+
       assert uri.scheme == "http"
       assert uri.host == "localhost"
       assert uri.path == "/foo/bar"
@@ -261,10 +283,12 @@ defmodule Content.HelpersTest do
     end
 
     test "rewrites when the URL has no query params" do
-      assert %URI{} = uri =
-        "http://test-mbta.pantheonsite.io/foo/bar"
-        |> Content.Helpers.rewrite_url()
-        |> URI.parse()
+      assert %URI{} =
+               uri =
+               "http://test-mbta.pantheonsite.io/foo/bar"
+               |> Content.Helpers.rewrite_url()
+               |> URI.parse()
+
       assert uri.scheme == "http"
       assert uri.host == "localhost"
       assert uri.path == "/foo/bar"
@@ -272,10 +296,12 @@ defmodule Content.HelpersTest do
     end
 
     test "rewrites the URL for https" do
-      assert %URI{} = uri =
-        "https://example.com/foo/bar"
-        |> Content.Helpers.rewrite_url()
-        |> URI.parse()
+      assert %URI{} =
+               uri =
+               "https://example.com/foo/bar"
+               |> Content.Helpers.rewrite_url()
+               |> URI.parse()
+
       assert uri.scheme == "http"
       assert uri.host == "localhost"
       assert uri.path == "/foo/bar"

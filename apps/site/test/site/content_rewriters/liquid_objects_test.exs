@@ -53,13 +53,18 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
     end
 
     test "it handles good fare requests" do
-      results = Repo.all([name: :local_bus, includes_media: :cash, reduced: nil, duration: :single_trip])
+      results =
+        Repo.all(name: :local_bus, includes_media: :cash, reduced: nil, duration: :single_trip)
+
       assert replace(~s(fare:local_bus:cash)) == results |> List.first() |> Format.price()
     end
 
     test "it handles bad fare requests" do
-      assert replace(~s(fare:spaceship)) == ~s({{ fare:<span class="text-danger">spaceship</span> }})
-      assert replace(~s(fare:cash)) == ~s({{ <span class="text-danger">missing mode/name</span> fare:cash }})
+      assert replace(~s(fare:spaceship)) ==
+               ~s({{ fare:<span class="text-danger">spaceship</span> }})
+
+      assert replace(~s(fare:cash)) ==
+               ~s({{ <span class="text-danger">missing mode/name</span> fare:cash }})
     end
 
     test "it returns a liquid object when not otherwise handled" do

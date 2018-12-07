@@ -11,12 +11,14 @@ defmodule SiteWeb.Plugs.Cookies do
 
   @id_cookie_options [
     http_only: false,
-    max_age: 20 * 365 * 24 * 60 * 60 # 20 years
+    # 20 years
+    max_age: 20 * 365 * 24 * 60 * 60
   ]
 
   @route_cookie_options [
     http_only: false,
-    max_age: 30 * 24 * 60 * 60 # 30 days
+    # 30 days
+    max_age: 30 * 24 * 60 * 60
   ]
 
   @impl true
@@ -35,15 +37,16 @@ defmodule SiteWeb.Plugs.Cookies do
   @doc """
   Sets a unique ID for every visitor. ID is never overwritten once it exists.
   """
-  @spec set_id_cookie(Conn.t) :: Conn.t
+  @spec set_id_cookie(Conn.t()) :: Conn.t()
   def set_id_cookie(%{cookies: %{@id_cookie_name => _mbta_id}} = conn) do
     conn
   end
+
   def set_id_cookie(conn) do
     Conn.put_resp_cookie(conn, @id_cookie_name, unique_id(), @id_cookie_options)
   end
 
-  @spec unique_id() :: String.t
+  @spec unique_id() :: String.t()
   defp unique_id do
     {node(), System.unique_integer()}
     |> :erlang.phash2()
@@ -56,31 +59,34 @@ defmodule SiteWeb.Plugs.Cookies do
   Sets a cookie when user visits a schedule page. Cookie lists the 4 most recently visited
   routes, separated by a pipe ("|"), in order of most recently visited.
   """
-  @spec set_route_cookie(Conn.t) :: Conn.t
-  def set_route_cookie(%Conn{path_info: ["schedules", route | _]} = conn) when route not in @modes do
+  @spec set_route_cookie(Conn.t()) :: Conn.t()
+  def set_route_cookie(%Conn{path_info: ["schedules", route | _]} = conn)
+      when route not in @modes do
     conn.cookies
     |> Map.get(@route_cookie_name, "")
     |> String.split("|")
     |> build_route_cookie(route)
     |> do_set_route_cookie(conn)
   end
+
   def set_route_cookie(%Conn{} = conn) do
     conn
   end
 
-  @spec do_set_route_cookie(String.t, Conn.t) :: Conn.t
+  @spec do_set_route_cookie(String.t(), Conn.t()) :: Conn.t()
   defp do_set_route_cookie(cookie, conn) do
     Conn.put_resp_cookie(conn, @route_cookie_name, cookie, @route_cookie_options)
   end
 
-  @spec build_route_cookie([String.t], String.t) :: String.t
+  @spec build_route_cookie([String.t()], String.t()) :: String.t()
   defp build_route_cookie([""], route) do
     route
   end
+
   defp build_route_cookie(routes, route) do
     old_routes =
       routes
-      |> Enum.reject(& &1 == route)
+      |> Enum.reject(&(&1 == route))
       |> Enum.take(3)
 
     Enum.join([route | old_routes], "|")

@@ -29,7 +29,7 @@ defmodule SiteWeb.ScheduleController.CMS do
     sidebar: 1
   ]
 
-  @spec get_sidebar_content(Route.t) :: {Teaser.t, [Teaser.t]}
+  @spec get_sidebar_content(Route.t()) :: {Teaser.t(), [Teaser.t()]}
   defp get_sidebar_content(%Route{} = route) do
     featured =
       @featured_opts
@@ -49,13 +49,16 @@ defmodule SiteWeb.ScheduleController.CMS do
   defp set_utm_params(nil, %Route{}) do
     nil
   end
+
   defp set_utm_params(%Teaser{} = teaser, %Route{} = route) do
-    url = UrlHelpers.build_utm_url(
-      teaser,
-      source: "schedule",
-      type: utm_type(teaser.type),
-      term: Route.type_atom(route)
-    )
+    url =
+      UrlHelpers.build_utm_url(
+        teaser,
+        source: "schedule",
+        type: utm_type(teaser.type),
+        term: Route.type_atom(route)
+      )
+
     %{teaser | path: url}
   end
 

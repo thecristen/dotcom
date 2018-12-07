@@ -14,10 +14,14 @@ defmodule Vehicles.ParserTest do
     relationships: %{
       "route" => [%JsonApi.Item{id: "1"}],
       "stop" => [%JsonApi.Item{id: "72"}],
-      "trip" => [%JsonApi.Item{id: "32893540",
-                               relationships: %{
-                                "shape" => [%{id: "12345"}]
-                               }}]
+      "trip" => [
+        %JsonApi.Item{
+          id: "32893540",
+          relationships: %{
+            "shape" => [%{id: "12345"}]
+          }
+        }
+      ]
     },
     type: "vehicle"
   }
@@ -41,7 +45,7 @@ defmodule Vehicles.ParserTest do
     end
 
     test "can handle a missing trip" do
-      item = put_in @item.relationships["trip"], []
+      item = put_in(@item.relationships["trip"], [])
 
       expected = %Vehicle{
         id: "y1799",
@@ -54,11 +58,12 @@ defmodule Vehicles.ParserTest do
         longitude: 1.1,
         bearing: 140
       }
+
       assert Parser.parse(item) == expected
     end
 
     test "can handle a missing stop" do
-      item = put_in @item.relationships["stop"], []
+      item = put_in(@item.relationships["stop"], [])
 
       expected = %Vehicle{
         id: "y1799",
@@ -72,13 +77,14 @@ defmodule Vehicles.ParserTest do
         longitude: 1.1,
         bearing: 140
       }
+
       assert Parser.parse(item) == expected
     end
 
     test "can handle a missing route" do
-      item = put_in @item.relationships["route"], []
+      item = put_in(@item.relationships["route"], [])
       # if we don't have a route, we definitely don't have a trip
-      item = put_in item.relationships["trip"], []
+      item = put_in(item.relationships["trip"], [])
 
       expected = %Vehicle{
         id: "y1799",
@@ -91,6 +97,7 @@ defmodule Vehicles.ParserTest do
         longitude: 1.1,
         bearing: 140
       }
+
       assert Parser.parse(item) == expected
     end
 
@@ -105,9 +112,14 @@ defmodule Vehicles.ParserTest do
         id: "544B1E1A",
         relationships: %{
           "route" => [%JsonApi.Item{id: "Red"}],
-          "stop" => [%JsonApi.Item{id: "70068", relationships: %{
-                                      "parent_station" => [%JsonApi.Item{id: "place-harsq"}]
-                                   }}],
+          "stop" => [
+            %JsonApi.Item{
+              id: "70068",
+              relationships: %{
+                "parent_station" => [%JsonApi.Item{id: "place-harsq"}]
+              }
+            }
+          ],
           "trip" => [%JsonApi.Item{id: "32542428"}]
         },
         type: "vehicle"

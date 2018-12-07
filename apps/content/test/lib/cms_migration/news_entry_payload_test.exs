@@ -45,7 +45,8 @@ defmodule Content.CmsMigration.NewsEntryPayloadTest do
 
       %{body: [%{value: value}]} = build(news_entry_data)
 
-      assert value =~ "<a href=\"#{@former_mbta_site_host}/uploadedfiles/Flyer.pdf\">Click for details</a>"
+      assert value =~
+               "<a href=\"#{@former_mbta_site_host}/uploadedfiles/Flyer.pdf\">Click for details</a>"
     end
 
     test "relative images are updated to include the former mbta site host" do
@@ -58,13 +59,14 @@ defmodule Content.CmsMigration.NewsEntryPayloadTest do
 
       %{body: [%{value: value}]} = build(news_entry_data)
 
-      assert value =~ "<img alt=\"AACT\" src=\"#{@former_mbta_site_host}/uploadedimages/Press_Releases/AACT.jpg\" />"
+      assert value =~
+               "<img alt=\"AACT\" src=\"#{@former_mbta_site_host}/uploadedimages/Press_Releases/AACT.jpg\" />"
     end
 
     test "removes style information in the body field" do
       body_with_style_info =
-      ~s(<style type=\"text/css\">table td{vertical-align:top;}</style>) <>
-      ~s(<p><span style="FONT-FAMILY: 'Arial', 'sans-serif'\">News Content</span></p>)
+        ~s(<style type=\"text/css\">table td{vertical-align:top;}</style>) <>
+          ~s(<p><span style="FONT-FAMILY: 'Arial', 'sans-serif'\">News Content</span></p>)
 
       news_entry_data =
         @news_entry_json

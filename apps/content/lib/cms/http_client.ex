@@ -4,21 +4,26 @@ defmodule Content.CMS.HTTPClient do
   @impl true
   def preview(node_id) do
     path = ~s(/cms/revisions/#{node_id})
-    Content.ExternalRequest.process(:get, path, "", [
+
+    Content.ExternalRequest.process(
+      :get,
+      path,
+      "",
       params: [_format: "json"],
       # More time needed (receives 1 - 50 JSON node entities)
       timeout: 30_000,
       recv_timeout: 30_000
-    ])
+    )
   end
 
   @impl true
   def view(path, params) do
-    params = [{"_format", "json"} | Enum.map(params, fn {key, val} -> {to_string(key), to_string(val)} end)]
+    params = [
+      {"_format", "json"}
+      | Enum.map(params, fn {key, val} -> {to_string(key), to_string(val)} end)
+    ]
 
-    Content.ExternalRequest.process(:get, path, "", [
-      params: params
-    ])
+    Content.ExternalRequest.process(:get, path, "", params: params)
   end
 
   @impl true

@@ -12,6 +12,7 @@ defmodule Stops.ApiTest do
       assert stop.station?
       assert stop.accessibility != []
       assert stop.parking_lots != []
+
       for parking_lot <- stop.parking_lots do
         assert %Stop.ParkingLot{} = parking_lot
         assert parking_lot.capacity.total != nil
@@ -40,50 +41,53 @@ defmodule Stops.ApiTest do
     end
 
     test "returns an error if the API returns an error" do
-      bypass = Bypass.open
+      bypass = Bypass.open()
       v3_url = Application.get_env(:v3_api, :base_url)
-      on_exit fn ->
+
+      on_exit(fn ->
         Application.put_env(:v3_api, :base_url, v3_url)
-      end
+      end)
 
       Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
 
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         Plug.Conn.resp(conn, 200, "")
-      end
+      end)
 
       assert {:error, _} = by_gtfs_id("error stop")
     end
   end
 
   test "all/0 returns error if API returns error" do
-    bypass = Bypass.open
+    bypass = Bypass.open()
     v3_url = Application.get_env(:v3_api, :base_url)
-    on_exit fn ->
+
+    on_exit(fn ->
       Application.put_env(:v3_api, :base_url, v3_url)
-    end
+    end)
 
     Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
 
-    Bypass.expect bypass, fn conn ->
+    Bypass.expect(bypass, fn conn ->
       Plug.Conn.resp(conn, 200, "")
-    end
+    end)
 
     assert {:error, _} = all()
   end
 
   test "by_route returns an error tuple if the V3 API returns an error" do
-    bypass = Bypass.open
+    bypass = Bypass.open()
     v3_url = Application.get_env(:v3_api, :base_url)
-    on_exit fn ->
+
+    on_exit(fn ->
       Application.put_env(:v3_api, :base_url, v3_url)
-    end
+    end)
 
     Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
 
-    Bypass.expect bypass, fn conn ->
+    Bypass.expect(bypass, fn conn ->
       Plug.Conn.resp(conn, 200, "")
-    end
+    end)
 
     assert {:error, _} = by_route({"1", 0, []})
   end

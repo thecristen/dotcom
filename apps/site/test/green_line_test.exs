@@ -42,12 +42,15 @@ defmodule GreenListTest do
     for stop_id <- ["place-lake", "place-pktrm"] do
       assert terminus?(stop_id, "Green-B")
     end
+
     for stop_id <- ["place-north", "place-clmnl"] do
       assert terminus?(stop_id, "Green-C")
     end
+
     for stop_id <- ["place-river", "place-gover"] do
       assert terminus?(stop_id, "Green-D")
     end
+
     for stop_id <- ["place-lech", "place-hsmnl"] do
       assert terminus?(stop_id, "Green-E")
     end
@@ -63,7 +66,7 @@ defmodule GreenListTest do
   describe "route_for_stops/1" do
     @stops_on_routes %{
       "Green-B" => ["shared_stop1", "shared_stop2", "b_stop1", "b_stop2"],
-      "Green-C" => ["shared_stop1", "shared_stop2", "c_stop1", "c_stop2"],
+      "Green-C" => ["shared_stop1", "shared_stop2", "c_stop1", "c_stop2"]
     }
 
     test "Returns a map of stop ids associated with the green line routes that stop at that stop" do
@@ -81,10 +84,11 @@ defmodule GreenListTest do
     end
 
     test "returns the list of all stops on a branch in reverse order" do
-      stops = "Green-B"
-      |> Stops.Repo.by_route(0, [])
-      |> filter_lines("Green-B")
-      |> Enum.map(fn %Stops.Stop{id: id} -> id end)
+      stops =
+        "Green-B"
+        |> Stops.Repo.by_route(0, [])
+        |> filter_lines("Green-B")
+        |> Enum.map(fn %Stops.Stop{id: id} -> id end)
 
       assert List.first(stops) == "place-pktrm"
       assert List.last(stops) == "place-lake"

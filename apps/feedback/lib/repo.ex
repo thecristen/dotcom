@@ -1,6 +1,5 @@
 defmodule Feedback.Repo do
-
-  @spec send_ticket(Feedback.Message.t) :: {:ok, any} | {:error, any}
+  @spec send_ticket(Feedback.Message.t()) :: {:ok, any} | {:error, any}
   def send_ticket(message) do
     message
     |> Feedback.Mailer.send_heat_ticket(photo_attachment(message.photos))
@@ -11,5 +10,6 @@ defmodule Feedback.Repo do
       %{path: path, filename: filename}
     end)
   end
+
   def photo_attachment(nil), do: nil
 end

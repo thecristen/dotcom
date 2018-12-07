@@ -4,13 +4,13 @@ defmodule Fares.RetailLocationsDataTest do
 
   describe "Fares.RetailLocationsData" do
     test "get/1 retrieves an array of retail locations data" do
-      data = Data.get
-      assert is_list data
+      data = Data.get()
+      assert is_list(data)
       refute data == []
     end
 
     test "all locations have latitude & longitude values" do
-      for %Location{latitude: lat, longitude: lng} <- Data.get do
+      for %Location{latitude: lat, longitude: lng} <- Data.get() do
         assert lat > 41
         assert lat < 43
         assert is_float(lat) == true
@@ -22,11 +22,11 @@ defmodule Fares.RetailLocationsDataTest do
 
     test "build_r_tree returns a tree with all location data" do
       tree = Data.build_r_tree()
-      for %Location{name: name} = location <- Data.get do
+
+      for %Location{name: name} = location <- Data.get() do
         assert [%Location{name: ^name}] = Data.k_nearest_neighbors(tree, location, 1)
       end
     end
-
   end
 
   describe "parse_v3_facility" do
@@ -46,15 +46,16 @@ defmodule Fares.RetailLocationsDataTest do
       }
 
       {:ok, loc} = Data.parse_v3_facility(item)
+
       assert loc ==
-        %Location{
-          name: "facility_name",
-          latitude: 32.0,
-          longitude: -41.0,
-          address: "facility address",
-          phone: "1800facility",
-          payment: ["Cash", "Invoice"]
-        }
+               %Location{
+                 name: "facility_name",
+                 latitude: 32.0,
+                 longitude: -41.0,
+                 address: "facility address",
+                 phone: "1800facility",
+                 payment: ["Cash", "Invoice"]
+               }
     end
 
     test "parses error" do
@@ -88,12 +89,15 @@ defmodule Fares.RetailLocationsDataTest do
     test "parses a single property" do
       item = %JsonApi.Item{
         attributes: %{
-          "properties" => [%{
-            "name" => "prop_name",
-            "value" => "prop_value"
-          }]
+          "properties" => [
+            %{
+              "name" => "prop_name",
+              "value" => "prop_value"
+            }
+          ]
         }
       }
+
       assert Data.v3_property(item, "prop_name") == "prop_value"
     end
   end
@@ -109,6 +113,7 @@ defmodule Fares.RetailLocationsDataTest do
           ]
         }
       }
+
       assert Data.v3_property_multiple(item, "prop_name") == ["1", "3"]
     end
   end

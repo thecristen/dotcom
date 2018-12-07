@@ -1,5 +1,4 @@
 defmodule Alerts.Trip do
-
   @doc """
 
   Given a trip_id (or a list of IDs), returns the list of alerts which apply
@@ -15,16 +14,18 @@ defmodule Alerts.Trip do
 
   """
   def match(alerts, trip_ids, options \\ [])
+
   def match(alerts, trip_ids, options) when is_list(trip_ids) do
     trip_entities = trip_entities(trip_ids)
     delay_entities = delay_entities(trip_ids, options)
     time = options[:time]
 
     for alert <- alerts,
-      trip_alert?(alert, trip_entities, time) or delay_alert?(alert, delay_entities, time) do
-        alert
+        trip_alert?(alert, trip_entities, time) or delay_alert?(alert, delay_entities, time) do
+      alert
     end
   end
+
   def match(alerts, trip_id, options) do
     match(alerts, [trip_id], options)
   end
@@ -49,6 +50,7 @@ defmodule Alerts.Trip do
 
   defp delay_entities(trip_ids, options) do
     entity = Alerts.InformedEntity.from_keywords(options)
+
     for trip_id <- trip_ids do
       %{entity | trip: trip_id}
     end

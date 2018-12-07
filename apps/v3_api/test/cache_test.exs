@@ -67,7 +67,9 @@ defmodule V3Api.CacheTest do
   end
 
   describe "expire!/0" do
-    test "removes the least-recently-used items to get the cache down to the right size", %{name: name} do
+    test "removes the least-recently-used items to get the cache down to the right size", %{
+      name: name
+    } do
       _ = cache_response(name, "one", @params, @response)
       _ = cache_response(name, "expire", @params, @response)
       _ = cache_response(name, "also expire", @params, @response)

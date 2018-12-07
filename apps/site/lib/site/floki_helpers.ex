@@ -3,7 +3,7 @@ defmodule Site.FlokiHelpers do
   Helpers for working with Floki and the parsed HTML it returns.
   """
 
-  @typep tree_or_binary :: Floki.html_tree | binary
+  @typep tree_or_binary :: Floki.html_tree() | binary
   @typep visitor :: (tree_or_binary -> tree_or_binary | nil)
 
   @doc """
@@ -22,46 +22,57 @@ defmodule Site.FlokiHelpers do
   def traverse(str, visit_fn) when is_binary(str) do
     visit_fn.(str) || str
   end
+
   def traverse(html_list, visit_fn) when is_list(html_list) do
     Enum.map(html_list, fn html -> traverse(html, visit_fn) end)
   end
+
   def traverse({element, attrs, children} = html, visit_fn) do
     visit_fn.(html) || {element, attrs, traverse(children, visit_fn)}
   end
 
-  @spec add_class(Floki.html_tree, iodata) :: Floki.html_tree
+  @spec add_class(Floki.html_tree(), iodata) :: Floki.html_tree()
   def add_class(html_element, []), do: html_element
+
   def add_class({name, attrs, children}, new_class) do
-    attrs = case Enum.split_with(attrs, &match?({"class", _}, &1)) do
-      {[], others} ->
-        [{"class", new_class} | others]
-      {[{"class", existing_class}], others} ->
-        [{"class", [existing_class, " ", new_class]} | others]
-    end
+    attrs =
+      case Enum.split_with(attrs, &match?({"class", _}, &1)) do
+        {[], others} ->
+          [{"class", new_class} | others]
+
+        {[{"class", existing_class}], others} ->
+          [{"class", [existing_class, " ", new_class]} | others]
+      end
+
     {name, attrs, children}
   end
 
-  @spec remove_class(Floki.html_tree, iodata) :: Floki.html_tree
+  @spec remove_class(Floki.html_tree(), iodata) :: Floki.html_tree()
   def remove_class({name, attrs, children}, old_class) do
-    attrs = case Enum.split_with(attrs, &match?({"class", _}, &1)) do
-      {[], others} ->
-        others
-      {[{"class", existing_class}], others} ->
-        clean_class = existing_class
-        |> IO.iodata_to_binary()
-        |> String.split()
-        |> Enum.reject(& &1 == old_class)
-        [{"class", Enum.join(clean_class, " ")} | others]
-    end
+    attrs =
+      case Enum.split_with(attrs, &match?({"class", _}, &1)) do
+        {[], others} ->
+          others
+
+        {[{"class", existing_class}], others} ->
+          clean_class =
+            existing_class
+            |> IO.iodata_to_binary()
+            |> String.split()
+            |> Enum.reject(&(&1 == old_class))
+
+          [{"class", Enum.join(clean_class, " ")} | others]
+      end
+
     {name, attrs, children}
   end
 
-  @spec remove_style_attrs(Floki.html_tree) :: Floki.html_tree
+  @spec remove_style_attrs(Floki.html_tree()) :: Floki.html_tree()
   def remove_style_attrs({name, attrs, children}) do
     {name, Enum.reject(attrs, &remove_attr?(&1, name)), children}
   end
 
-  @spec remove_attr?({String.t, String.t}, String.t) :: boolean
+  @spec remove_attr?({String.t(), String.t()}, String.t()) :: boolean
   defp remove_attr?({"height", _}, _), do: true
   defp remove_attr?({"width", _}, _), do: true
   defp remove_attr?({"style", _}, "iframe"), do: true

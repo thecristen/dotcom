@@ -7,29 +7,32 @@ defmodule Algolia.UpdateTest do
 
       proc = self()
 
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
-        send proc, {conn.request_path, conn.req_headers, body}
+        send(proc, {conn.request_path, conn.req_headers, body})
         Plug.Conn.send_resp(conn, 200, "ok")
-      end
+      end)
 
       assert %{Algolia.MockObjects => result} =
-        Algolia.Update.update("http://localhost:#{bypass.port}")
+               Algolia.Update.update("http://localhost:#{bypass.port}")
+
       assert result == :ok
       assert_receive {"/1/indexes/objects/batch", headers, body}
 
       for header <- ["x-algolia-api-key", "x-algolia-application-id"] do
-        assert {^header, val} = Enum.find(headers, & elem(&1, 0) == header)
+        assert {^header, val} = Enum.find(headers, &(elem(&1, 0) == header))
         assert is_binary(val)
       end
 
-      assert {:ok, %{requests: [%{action: "addObject", body: obj}]}} = Poison.decode(body, keys: :atoms!)
+      assert {:ok, %{requests: [%{action: "addObject", body: obj}]}} =
+               Poison.decode(body, keys: :atoms!)
+
       assert obj == %{
-        data: %{id: "test"},
-        url: "/object/test",
-        objectID: "object-test",
-        rank: 1
-      }
+               data: %{id: "test"},
+               url: "/object/test",
+               objectID: "object-test",
+               rank: 1
+             }
     end
   end
 

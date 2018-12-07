@@ -12,9 +12,11 @@ defmodule HubStopsTest do
     ]
 
     test "Returns all commuter hub stops" do
-      hub_ids = :commuter_rail
-      |> mode_hubs([{%Route{id: "cr-1"}, @commuter_stops}])
-      |> Enum.map(fn %HubStop{detailed_stop: detailed_stop} -> detailed_stop.stop.id end)
+      hub_ids =
+        :commuter_rail
+        |> mode_hubs([{%Route{id: "cr-1"}, @commuter_stops}])
+        |> Enum.map(fn %HubStop{detailed_stop: detailed_stop} -> detailed_stop.stop.id end)
+
       assert hub_ids == ["place-sstat", "place-north", "place-bbsta"]
     end
 

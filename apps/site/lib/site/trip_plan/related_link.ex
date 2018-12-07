@@ -3,17 +3,15 @@ defmodule Site.TripPlan.RelatedLink do
   A link related to a particular itinerary.
   """
   @type t :: %__MODULE__{
-    text: iodata,
-    url: String.t,
-    icon_name: icon_name
-  }
-  @type icon_name :: Routes.Route.gtfs_route_type | Routes.Route.subway_lines_type | nil
+          text: iodata,
+          url: String.t(),
+          icon_name: icon_name
+        }
+  @type icon_name :: Routes.Route.gtfs_route_type() | Routes.Route.subway_lines_type() | nil
 
-  defstruct [
-    text: "",
-    url: "",
-    icon_name: nil
-  ]
+  defstruct text: "",
+            url: "",
+            icon_name: nil
 
   @default_opts [route_by_id: &Routes.Repo.get/1, stop_by_id: &Stops.Repo.get/1]
 
@@ -26,8 +24,9 @@ defmodule Site.TripPlan.RelatedLink do
   alias SiteWeb.PartialView.SvgIconWithCircle
 
   @doc "Returns a new RelatedLink"
-  @spec new(text, url, icon_name) :: t when text: iodata, url: String.t
-  def new(text, url, icon_name \\ nil) when is_binary(url) and (is_binary(text) or is_list(text)) do
+  @spec new(text, url, icon_name) :: t when text: iodata, url: String.t()
+  def new(text, url, icon_name \\ nil)
+      when is_binary(url) and (is_binary(text) or is_list(text)) do
     %__MODULE__{
       text: text,
       url: url,
@@ -42,13 +41,13 @@ defmodule Site.TripPlan.RelatedLink do
   end
 
   @doc "Returns the URL of the link"
-  @spec url(t) :: String.t
+  @spec url(t) :: String.t()
   def url(%__MODULE__{url: url}) do
     url
   end
 
   @doc "Returns the HTML link for the RelatedLink"
-  @spec as_html(t) :: Phoenix.HTML.Safe.t
+  @spec as_html(t) :: Phoenix.HTML.Safe.t()
   def as_html(%__MODULE__{} = rl) do
     link to: rl.url do
       [
@@ -59,22 +58,25 @@ defmodule Site.TripPlan.RelatedLink do
   end
 
   @doc "Builds a list of related links for an Itinerary"
-  @spec links_for_itinerary(Itinerary.t, Keyword.t) :: [t]
+  @spec links_for_itinerary(Itinerary.t(), Keyword.t()) :: [t]
   def links_for_itinerary(itinerary, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
+
     for func <- [&route_links/2, &fare_links/2],
-      link <- func.(itinerary, opts) do
-        link
+        link <- func.(itinerary, opts) do
+      link
     end
   end
 
   defp optional_icon(nil), do: []
+
   defp optional_icon(icon_name) do
     SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{icon: icon_name, size: :small})
   end
 
   defp route_links(itinerary, opts) do
     route_by_id = Keyword.get(opts, :route_by_id)
+
     for {route_id, trip_id} <- Itinerary.route_trip_ids(itinerary),
         %Route{} = route <- [route_by_id.(route_id)] do
       route_link(route, trip_id, itinerary)
@@ -83,11 +85,14 @@ defmodule Site.TripPlan.RelatedLink do
 
   defp route_link(route, trip_id, itinerary) do
     icon_name = Route.icon_atom(route)
-    base_text = if Route.type_atom(route) == :bus do
-      ["Route ", route.name]
-    else
-      route.name
-    end
+
+    base_text =
+      if Route.type_atom(route) == :bus do
+        ["Route ", route.name]
+      else
+        route.name
+      end
+
     text = [base_text, " schedules"]
     date = Timex.format!(itinerary.start, "{ISOdate}")
     url = schedule_path(SiteWeb.Endpoint, :show, route, date: date, trip: trip_id)
@@ -96,12 +101,13 @@ defmodule Site.TripPlan.RelatedLink do
 
   defp fare_links(itinerary, opts) do
     route_by_id = Keyword.get(opts, :route_by_id)
+
     for leg <- itinerary,
         {:ok, route_id} <- [Leg.route_id(leg)],
         %Route{} = route <- [route_by_id.(route_id)] do
       fare_link(route, leg, opts)
     end
-    |> Enum.uniq
+    |> Enum.uniq()
     |> simplify_fare_text
   end
 
@@ -116,23 +122,29 @@ defmodule Site.TripPlan.RelatedLink do
   defp fare_link_text(:commuter_rail) do
     "commuter rail"
   end
+
   defp fare_link_text(:ferry) do
     "ferry"
   end
+
   defp fare_link_text(_) do
     "bus/subway"
   end
 
   defp fare_link_url_opts(type, leg, opts) when type in [:commuter_rail, :ferry] do
     stop_by_id = Keyword.get(opts, :stop_by_id)
-    link_opts = for {key, stop_id} <- [origin: leg.from.stop_id, destination: leg.to.stop_id],
-      is_binary(stop_id) do
-      # fetch a parent stop ID
-      stop_id = stop_by_id.(stop_id).id
-      {key, stop_id}
-    end
+
+    link_opts =
+      for {key, stop_id} <- [origin: leg.from.stop_id, destination: leg.to.stop_id],
+          is_binary(stop_id) do
+        # fetch a parent stop ID
+        stop_id = stop_by_id.(stop_id).id
+        {key, stop_id}
+      end
+
     {type, link_opts}
   end
+
   defp fare_link_url_opts(type, _leg, _opts) when type in [:bus, :subway] do
     {:bus_subway, []}
   end
@@ -141,6 +153,7 @@ defmodule Site.TripPlan.RelatedLink do
     # if there's only one fare link, change the text to "View fare information"
     [%{fare_link | text: "View fare information"}]
   end
+
   defp simplify_fare_text(fare_links) do
     fare_links
   end
@@ -151,7 +164,7 @@ defimpl Phoenix.HTML.Safe, for: Site.TripPlan.RelatedLink do
 
   def to_iodata(rl) do
     rl
-    |> RelatedLink.as_html
-    |> Phoenix.HTML.Safe.to_iodata
+    |> RelatedLink.as_html()
+    |> Phoenix.HTML.Safe.to_iodata()
   end
 end

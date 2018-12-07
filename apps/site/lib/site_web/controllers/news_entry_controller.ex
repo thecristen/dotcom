@@ -42,21 +42,28 @@ defmodule SiteWeb.NewsEntryController do
   end
 
   defp do_show(%NewsEntry{} = news_entry, conn), do: show_news_entry(conn, news_entry)
+
   defp do_show({:error, {:redirect, status, opts}}, conn) do
     conn
     |> put_status(status)
     |> redirect(opts)
   end
+
   defp do_show(_404_or_mismatch, conn), do: render_404(conn)
 
-  @spec show_news_entry(Conn.t, NewsEntry.t) :: Conn.t
+  @spec show_news_entry(Conn.t(), NewsEntry.t()) :: Conn.t()
   def show_news_entry(conn, %NewsEntry{posted_on: posted_on} = news_entry) do
     recent_news = Repo.recent_news(current_id: news_entry.id)
 
     conn
     |> ControllerHelpers.unavailable_after_one_year(posted_on)
     |> assign(:breadcrumbs, show_breadcrumbs(conn, news_entry))
-    |> render(SiteWeb.NewsEntryView, "show.html", news_entry: news_entry, recent_news: recent_news)
+    |> render(
+      SiteWeb.NewsEntryView,
+      "show.html",
+      news_entry: news_entry,
+      recent_news: recent_news
+    )
   end
 
   defp current_page(params) do
@@ -75,5 +82,4 @@ defmodule SiteWeb.NewsEntryController do
       Breadcrumb.build(news_entry.title)
     ]
   end
-
 end

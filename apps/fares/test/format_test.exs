@@ -66,11 +66,30 @@ defmodule Fares.FormatTest do
     test "bus subway groups them by name/duration/modes" do
       base = %Fare{name: :subway, mode: :subway}
       single_trip_cash = %{base | duration: :single_trip, media: [:cash], cents: 100}
-      single_trip_charlie_card = %{base | duration: :single_trip, media: [:charlie_card], cents: 200}
-      week_pass = %{base | duration: :week, media: [:charlie_card], cents: 300, additional_valid_modes: [:bus]}
+
+      single_trip_charlie_card = %{
+        base
+        | duration: :single_trip,
+          media: [:charlie_card],
+          cents: 200
+      }
+
+      week_pass = %{
+        base
+        | duration: :week,
+          media: [:charlie_card],
+          cents: 300,
+          additional_valid_modes: [:bus]
+      }
+
       month_pass = %{base | duration: :month, media: [:charlie_card, :charlie_ticket], cents: 400}
 
-      actual = summarize([single_trip_cash, single_trip_charlie_card, week_pass, month_pass], :bus_subway)
+      actual =
+        summarize(
+          [single_trip_cash, single_trip_charlie_card, week_pass, month_pass],
+          :bus_subway
+        )
+
       expected = [
         %Summary{
           name: ["Subway", " ", "One-Way"],
@@ -91,6 +110,7 @@ defmodule Fares.FormatTest do
           modes: [:subway]
         }
       ]
+
       assert actual == expected
     end
 
@@ -100,6 +120,7 @@ defmodule Fares.FormatTest do
       expensive = %{base | name: {:zone, "10"}, cents: 200}
 
       actual = summarize([cheap, expensive], :commuter_rail)
+
       expected = [
         %Summary{
           name: "Commuter Rail One-Way",
@@ -108,6 +129,7 @@ defmodule Fares.FormatTest do
           modes: [:commuter_rail]
         }
       ]
+
       assert actual == expected
     end
 
@@ -121,6 +143,7 @@ defmodule Fares.FormatTest do
       f_expensive = %{f_base | cents: 200}
 
       actual = summarize([c_cheap, c_expensive, f_cheap, f_expensive], [:commuter_rail, :ferry])
+
       expected = [
         %Summary{
           name: "Commuter Rail One-Way",
@@ -135,6 +158,7 @@ defmodule Fares.FormatTest do
           modes: [:ferry]
         }
       ]
+
       assert actual == expected
     end
 
@@ -144,6 +168,7 @@ defmodule Fares.FormatTest do
       expensive = %{base | cents: 200}
 
       actual = summarize([cheap, expensive], :ferry)
+
       expected = [
         %Summary{
           name: "Ferry One-Way",
@@ -152,14 +177,23 @@ defmodule Fares.FormatTest do
           modes: [:ferry]
         }
       ]
+
       assert actual == expected
     end
   end
 
   describe "summarize_one/3" do
     test "single fare is summarized correctly" do
-      fare = %Fare{name: {:zone, "6"}, mode: :commuter_rail, duration: :single_trip, cents: 1250, media: :cash}
+      fare = %Fare{
+        name: {:zone, "6"},
+        mode: :commuter_rail,
+        duration: :single_trip,
+        cents: 1250,
+        media: :cash
+      }
+
       summarized = summarize_one(fare, url: "/link_here?please=yes")
+
       expected = %Summary{
         fares: [{"Cash", "$12.50"}],
         name: ["Zone 6", " ", "One-Way"],
@@ -167,6 +201,7 @@ defmodule Fares.FormatTest do
         modes: [:commuter_rail],
         duration: :single_trip
       }
+
       assert summarized == expected
     end
   end

@@ -1,6 +1,9 @@
 [
   inputs: [
-    # files/folders should be added to this list as we
-    # run mix.format incrementally on legacy files.
+    "mix.exs",
+    "apps/*/mix.exs",
+    "apps/*/{config,lib,test}/**/*.{ex,exs}",
+    "config/**/*.{ex,exs}",
+    "rel/**/*.{ex,exs}"
   ]
 ]

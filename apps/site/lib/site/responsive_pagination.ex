@@ -4,27 +4,31 @@ defmodule Site.ResponsivePagination do
   """
   @desktop_max_length 5
   @mobile_max_length 3
-  @type stats :: %{offset: integer, per_page: integer, total: integer, showing_from: integer, showing_to: integer}
+  @type stats :: %{
+          offset: integer,
+          per_page: integer,
+          total: integer,
+          showing_from: integer,
+          showing_to: integer
+        }
 
-  defstruct [
-    range: [],
-    mobile_range: [],
-    current: nil,
-    previous: nil,
-    next: nil,
-    prefix: [],
-    suffix: []
-  ]
+  defstruct range: [],
+            mobile_range: [],
+            current: nil,
+            previous: nil,
+            next: nil,
+            prefix: [],
+            suffix: []
 
   @type t :: %__MODULE__{
-    range: [integer],
-    mobile_range: [integer],
-    current: integer | nil,
-    previous: integer | nil,
-    next: integer | nil,
-    prefix: [integer | String.t],
-    suffix: [integer | String.t]
-  }
+          range: [integer],
+          mobile_range: [integer],
+          current: integer | nil,
+          previous: integer | nil,
+          next: integer | nil,
+          prefix: [integer | String.t()],
+          suffix: [integer | String.t()]
+        }
 
   @spec build(stats) :: t
   def build(stats) do
@@ -54,6 +58,7 @@ defmodule Site.ResponsivePagination do
   @spec calculate_last_page(integer, integer) :: integer
   defp calculate_last_page(0, _), do: 0
   defp calculate_last_page(_, 0), do: 0
+
   defp calculate_last_page(total, per_page) do
     total
     |> Kernel./(per_page)
@@ -62,17 +67,17 @@ defmodule Site.ResponsivePagination do
     |> max(1)
   end
 
-  @spec prefix(integer | nil) :: [1 | String.t]
+  @spec prefix(integer | nil) :: [1 | String.t()]
   defp prefix(nil), do: []
   defp prefix(1), do: []
   defp prefix(page), do: [1 | ellipsis(page, 2)]
 
-  @spec suffix(integer | nil, integer) :: [String.t | integer]
+  @spec suffix(integer | nil, integer) :: [String.t() | integer]
   defp suffix(nil, _), do: []
   defp suffix(page, last_page) when page == last_page, do: []
   defp suffix(page, last_page), do: ellipsis(page, last_page - 1) ++ [last_page]
 
-  @spec ellipsis(integer, integer) :: [String.t]
+  @spec ellipsis(integer, integer) :: [String.t()]
   defp ellipsis(first, second) when first == second, do: []
   defp ellipsis(_, _), do: ["…"]
 
@@ -88,6 +93,7 @@ defmodule Site.ResponsivePagination do
 
   @spec modify_range([integer | nil], integer, integer | nil, integer, fun) :: [integer]
   defp modify_range([nil], _, _, _, _), do: []
+
   defp modify_range(range, last_page, current, maximum, operation) do
     range = operation.(range, last_page, current)
     done? = length(range) == min(last_page, maximum)
@@ -98,6 +104,7 @@ defmodule Site.ResponsivePagination do
   defp expand_range(range, last_page, _current) do
     first = List.first(range)
     last = List.last(range)
+
     range
     |> add(first - 1, first > 1, 1)
     |> add(last + 1, last < last_page, -1)
@@ -105,6 +112,7 @@ defmodule Site.ResponsivePagination do
 
   @spec add([integer], integer, boolean, 1 | -1) :: [integer]
   defp add(range, _, false, _), do: range
+
   defp add(range, page, true, side) do
     if length(range) < @desktop_max_length, do: do_add(range, page, side), else: range
   end
@@ -122,5 +130,7 @@ defmodule Site.ResponsivePagination do
 
   @spec drop([integer], boolean, 1 | -1) :: [integer]
   defp drop(range, false, _), do: range
-  defp drop(range, true, side), do: if length(range) > @mobile_max_length, do: Enum.drop(range, side), else: range
+
+  defp drop(range, true, side),
+    do: if(length(range) > @mobile_max_length, do: Enum.drop(range, side), else: range)
 end

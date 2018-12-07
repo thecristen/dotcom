@@ -11,6 +11,6 @@ defmodule Zones.RepoTest do
   end
 
   test "it finds the zones for all stops" do
-    assert length(Map.keys(Repo.all)) == length(Map.values(Repo.all))
+    assert length(Map.keys(Repo.all())) == length(Map.values(Repo.all()))
   end
 end

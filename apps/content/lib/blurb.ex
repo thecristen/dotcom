@@ -19,16 +19,18 @@ defmodule Content.Blurb do
     |> reject_paragraphs_with_byline_information
     |> remove_trailing_p_tags
     |> remove_empty_p_tags
-    |> List.first
+    |> List.first()
     |> build_blurb(max_length)
   end
+
   defp build_blurb(nil, _max_length) do
     ""
   end
+
   defp build_blurb(text, max_length) do
     text
     |> String.replace(~R(<br.*?>), " ")
-    |> HtmlSanitizeEx.strip_tags
+    |> HtmlSanitizeEx.strip_tags()
     |> maybe_add_suffix(max_length)
   end
 
@@ -44,7 +46,7 @@ defmodule Content.Blurb do
 
   defp remove_trailing_p_tags(text) do
     Enum.map(text, fn paragraph ->
-      paragraph |> String.split("</p") |> List.first
+      paragraph |> String.split("</p") |> List.first()
     end)
   end
 
@@ -57,8 +59,9 @@ defmodule Content.Blurb do
   defp maybe_add_suffix(text, max_length) do
     if String.length(text) > max_length do
       blurb_length = max_length - String.length(suffix())
+
       text
-      |> String.trim
+      |> String.trim()
       |> String.slice(Range.new(0, blurb_length - 1))
       |> Kernel.<>(suffix())
     else

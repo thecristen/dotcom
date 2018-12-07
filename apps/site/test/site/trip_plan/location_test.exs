@@ -10,13 +10,14 @@ defmodule Site.TripPlan.LocationTest do
         "to_longitude" => "-71.2345",
         "to" => "To Location"
       }
+
       assert Location.validate(%Query{}, params) == %Query{
-        to: %NamedPosition{
-          latitude: 42.5678,
-          longitude: -71.2345,
-          name: "To Location"
-        }
-      }
+               to: %NamedPosition{
+                 latitude: 42.5678,
+                 longitude: -71.2345,
+                 name: "To Location"
+               }
+             }
     end
 
     test "encodes name of a NamedPosition when lat/lng are valid floats" do
@@ -25,23 +26,25 @@ defmodule Site.TripPlan.LocationTest do
         "to_longitude" => "-71.2345",
         "to" => "To Location's &<script>alert(1)</script>"
       }
+
       assert Location.validate(%Query{}, params) == %Query{
-        to: %NamedPosition{
-          latitude: 42.5678,
-          longitude: -71.2345,
-          name: "To Location's &&lt;script&gt;alert(1)&lt;/script&gt;"
-        }
-      }
+               to: %NamedPosition{
+                 latitude: 42.5678,
+                 longitude: -71.2345,
+                 name: "To Location's &&lt;script&gt;alert(1)&lt;/script&gt;"
+               }
+             }
     end
 
     test "sets :to to a NamedPosition when lat/lng are missing but address is valid" do
       assert %Query{
-        to: %NamedPosition{
-          latitude: lat,
-          longitude: lng,
-          name: "Geocoded 10 Park Plaza, Boston MA"
-        }
-      } = Location.validate(%Query{}, %{"to" => "10 Park Plaza, Boston MA"})
+               to: %NamedPosition{
+                 latitude: lat,
+                 longitude: lng,
+                 name: "Geocoded 10 Park Plaza, Boston MA"
+               }
+             } = Location.validate(%Query{}, %{"to" => "10 Park Plaza, Boston MA"})
+
       assert "42." <> _ = Float.to_string(lat)
       assert "-71." <> _ = Float.to_string(lng)
     end
@@ -52,13 +55,14 @@ defmodule Site.TripPlan.LocationTest do
         "from_longitude" => "-71.2345",
         "from" => "From Location"
       }
+
       assert Location.validate(%Query{}, params) == %Query{
-        from: %NamedPosition{
-          latitude: 42.5678,
-          longitude: -71.2345,
-          name: "From Location"
-        }
-      }
+               from: %NamedPosition{
+                 latitude: 42.5678,
+                 longitude: -71.2345,
+                 name: "From Location"
+               }
+             }
     end
 
     test "sets :from to a NamedPosition when lat/lng are missing but address is valid" do
@@ -70,14 +74,16 @@ defmodule Site.TripPlan.LocationTest do
     end
 
     test "handles lat/lng being set to nil" do
-      result = Location.validate(%Query{}, %{
-        "from" => "10 Park Plaza, Boston MA",
-        "from_latitude" => "42.5678",
-        "from_longitude" => "-71.2345",
-        "to" => "20 Park Plaza, Boston MA",
-        "to_latitude" => nil,
-        "to_longitude" => nil
-      })
+      result =
+        Location.validate(%Query{}, %{
+          "from" => "10 Park Plaza, Boston MA",
+          "from_latitude" => "42.5678",
+          "from_longitude" => "-71.2345",
+          "to" => "20 Park Plaza, Boston MA",
+          "to_latitude" => nil,
+          "to_longitude" => nil
+        })
+
       assert %Query{} = result
       assert %NamedPosition{} = result.from
       assert "42." <> _ = Float.to_string(result.from.latitude)

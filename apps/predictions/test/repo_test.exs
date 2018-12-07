@@ -13,6 +13,7 @@ defmodule Predictions.RepoTest do
 
     test "can filter by route / stop" do
       stops = Repo.all(route: "Red", stop: "place-sstat")
+
       for stop <- stops do
         assert %{route: %Routes.Route{id: "Red"}, stop: %Stop{id: "place-sstat"}} = stop
       end
@@ -20,6 +21,7 @@ defmodule Predictions.RepoTest do
 
     test "can filter by stop / direction" do
       directions = Repo.all(stop: "place-sstat", direction_id: 1)
+
       for direction <- directions do
         assert %{stop: %Stop{id: "place-sstat"}, direction_id: 1} = direction
       end
@@ -27,6 +29,7 @@ defmodule Predictions.RepoTest do
 
     test "can filter by trip" do
       trips = Repo.all(trip: "32542509")
+
       for prediction <- trips do
         assert prediction.trip.id == "32542509"
       end
@@ -35,9 +38,10 @@ defmodule Predictions.RepoTest do
     @tag :capture_log
     test "returns a list even if the server is down" do
       v3_url = Application.get_env(:v3_api, :base_url)
-      on_exit fn ->
+
+      on_exit(fn ->
         Application.put_env(:v3_api, :base_url, v3_url)
-      end
+      end)
 
       Application.put_env(:v3_api, :base_url, "http://localhost:0/")
 
@@ -46,17 +50,19 @@ defmodule Predictions.RepoTest do
 
     @tag :capture_log
     test "returns valid entries even if some don't parse" do
-      _ = Stops.Repo.get("place-pktrm") # make sure it's cached
+      # make sure it's cached
+      _ = Stops.Repo.get("place-pktrm")
 
-      bypass = Bypass.open
+      bypass = Bypass.open()
       v3_url = Application.get_env(:v3_api, :base_url)
-      on_exit fn ->
+
+      on_exit(fn ->
         Application.put_env(:v3_api, :base_url, v3_url)
-      end
+      end)
 
       Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
 
-      Bypass.expect bypass, fn %{request_path: "/predictions/"} = conn ->
+      Bypass.expect(bypass, fn %{request_path: "/predictions/"} = conn ->
         # return a Prediction with a valid stop, and one with an invalid stop
         Conn.resp(conn, 200, ~s(
               {
@@ -92,23 +98,23 @@ defmodule Predictions.RepoTest do
                   }
                 ]
               }))
-      end
+      end)
 
       refute Repo.all(route: "Red", trip: "made_up_trip") == []
     end
 
     @tag :capture_log
     test "caches trips that are retrieved" do
-
-      bypass = Bypass.open
+      bypass = Bypass.open()
       v3_url = Application.get_env(:v3_api, :base_url)
-      on_exit fn ->
+
+      on_exit(fn ->
         Application.put_env(:v3_api, :base_url, v3_url)
-      end
+      end)
 
       Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
 
-      Bypass.expect bypass, fn %{request_path: "/predictions/"} = conn ->
+      Bypass.expect(bypass, fn %{request_path: "/predictions/"} = conn ->
         # return a Prediction with a valid stop, and one with an invalid stop
         Conn.resp(conn, 200, ~s(
               {
@@ -143,27 +149,30 @@ defmodule Predictions.RepoTest do
                   }
                 ]
               }))
-      end
+      end)
+
       refute Repo.all(route: "Red", trip: "trip") == []
       assert {:ok, %Schedules.Trip{id: "trip"}} = ConCache.get(Schedules.Repo, {:trip, "trip"})
     end
 
     @tag :capture_log
     test "returns an empty list if the API returns an error" do
-      _ = Stops.Repo.get("place-pktrm") # make sure it's cached
+      # make sure it's cached
+      _ = Stops.Repo.get("place-pktrm")
 
-      bypass = Bypass.open
+      bypass = Bypass.open()
       v3_url = Application.get_env(:v3_api, :base_url)
-      on_exit fn ->
+
+      on_exit(fn ->
         Application.put_env(:v3_api, :base_url, v3_url)
-      end
+      end)
 
       Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
 
-      Bypass.expect bypass, fn %{request_path: "/predictions/"} = conn ->
+      Bypass.expect(bypass, fn %{request_path: "/predictions/"} = conn ->
         # return a Prediction with a valid stop, and one with an invalid stop
         Conn.resp(conn, 500, "")
-      end
+      end)
 
       assert Repo.all(route: "Red", trip: "has_an_error") == []
     end
@@ -197,21 +206,24 @@ defmodule Predictions.RepoTest do
         false
       }
 
-      assert [%Predictions.Prediction{
-        id: "prediction_id",
-        trip: nil,
-        stop: %Stop{id: "place-sstat"},
-        route: %Route{id: "Red"},
-        direction_id: 0,
-        time: %DateTime{},
-        stop_sequence: :stop_sequence,
-        schedule_relationship: :schedule_relationship,
-        track: 1,
-        status: :on_time,
-        departing?: false
-      }] = Predictions.Repo.load_from_other_repos([prediction])
+      assert [
+               %Predictions.Prediction{
+                 id: "prediction_id",
+                 trip: nil,
+                 stop: %Stop{id: "place-sstat"},
+                 route: %Route{id: "Red"},
+                 direction_id: 0,
+                 time: %DateTime{},
+                 stop_sequence: :stop_sequence,
+                 schedule_relationship: :schedule_relationship,
+                 track: 1,
+                 status: :on_time,
+                 departing?: false
+               }
+             ] = Predictions.Repo.load_from_other_repos([prediction])
     end
   end
+
   test "drops prediction if stop_id is nil" do
     prediction = {
       "prediction_id",
@@ -226,6 +238,7 @@ defmodule Predictions.RepoTest do
       :on_time,
       false
     }
+
     assert Predictions.Repo.load_from_other_repos([prediction]) == []
   end
 
@@ -244,9 +257,10 @@ defmodule Predictions.RepoTest do
       false
     }
 
-    log = ExUnit.CaptureLog.capture_log(fn ->
-      assert Predictions.Repo.load_from_other_repos([prediction]) == []
-    end)
+    log =
+      ExUnit.CaptureLog.capture_log(fn ->
+        assert Predictions.Repo.load_from_other_repos([prediction]) == []
+      end)
 
     assert log =~ "Discarding prediction"
   end

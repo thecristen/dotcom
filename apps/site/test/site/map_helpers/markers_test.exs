@@ -81,80 +81,86 @@ defmodule Site.MapHelpers.MarkersTest do
         trip: @trip,
         route: @route,
         stop_name: @stop.name,
-        vehicle: @vehicle,
+        vehicle: @vehicle
       }
 
       assert %Marker{
-        icon: icon,
-        id: id,
-        latitude: latitude,
-        longitude: longitude,
-        tooltip: tooltip,
-        z_index: 1_000
-      } = Site.MapHelpers.Markers.vehicle(vt)
+               icon: icon,
+               id: id,
+               latitude: latitude,
+               longitude: longitude,
+               tooltip: tooltip,
+               z_index: 1_000
+             } = Site.MapHelpers.Markers.vehicle(vt)
+
       assert id == "vehicle-" <> @vehicle.id
       assert latitude == @vehicle.latitude
       assert longitude == @vehicle.longitude
       assert tooltip =~ "Alewife train is on the way to South Station"
+
       assert icon == %Symbol{
-        fill_color: "#FF1428",
-        fill_opacity: 1,
-        path: :forward_closed_arrow,
-        rotation: 130,
-        scale: 3,
-        stroke_weight: 1
-      }
+               fill_color: "#FF1428",
+               fill_opacity: 1,
+               path: :forward_closed_arrow,
+               rotation: 130,
+               scale: 3,
+               stroke_weight: 1
+             }
     end
+
     test "builds data for a vehicle marker with a vehicle without a valid stop" do
       vt = %VehicleTooltip{
         prediction: @prediction,
         trip: @trip,
         route: @route,
         stop_name: @stop.name,
-        vehicle: @bad_stop_vehicle,
+        vehicle: @bad_stop_vehicle
       }
 
       assert %Marker{
-        icon: icon,
-        id: id,
-        latitude: latitude,
-        longitude: longitude,
-        tooltip: tooltip,
-        z_index: 1_000
-      } = Site.MapHelpers.Markers.vehicle(vt)
+               icon: icon,
+               id: id,
+               latitude: latitude,
+               longitude: longitude,
+               tooltip: tooltip,
+               z_index: 1_000
+             } = Site.MapHelpers.Markers.vehicle(vt)
+
       assert id == "vehicle-" <> @vehicle.id
       assert latitude == @vehicle.latitude
       assert longitude == @vehicle.longitude
       assert tooltip =~ "Alewife train is on the way to South Station"
+
       assert icon == %Symbol{
-        fill_color: "#FF1428",
-        fill_opacity: 1,
-        path: :forward_closed_arrow,
-        rotation: 130,
-        scale: 3,
-        stroke_weight: 1
-      }
+               fill_color: "#FF1428",
+               fill_opacity: 1,
+               path: :forward_closed_arrow,
+               rotation: 130,
+               scale: 3,
+               stroke_weight: 1
+             }
     end
   end
 
   describe "stop/2" do
     test "builds data for a stop icon" do
       assert %Marker{
-        latitude: latitude,
-        longitude: longitude,
-        id: id,
-        size: :tiny,
-        icon: "000000-dot",
-        tooltip: tooltip
-      } = Site.MapHelpers.Markers.stop(@stop, false)
+               latitude: latitude,
+               longitude: longitude,
+               id: id,
+               size: :tiny,
+               icon: "000000-dot",
+               tooltip: tooltip
+             } = Site.MapHelpers.Markers.stop(@stop, false)
+
       assert latitude == @stop.latitude
       assert longitude == @stop.longitude
       assert id == "stop-" <> @stop.id
       assert tooltip == @stop.name
 
       assert %Marker{
-        icon: "000000-dot-filled"
-      } = Site.MapHelpers.Markers.stop(@stop, true)
+               icon: "000000-dot-filled"
+             } = Site.MapHelpers.Markers.stop(@stop, true)
     end
   end
 end

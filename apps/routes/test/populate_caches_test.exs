@@ -16,15 +16,20 @@ defmodule Routes.PopulateCachesTest do
     end
 
     def headsigns(id) do
-      Agent.update(__MODULE__,
-        fn set -> MapSet.put(set, {:headsigns, id}) end)
+      Agent.update(
+        __MODULE__,
+        fn set -> MapSet.put(set, {:headsigns, id}) end
+      )
     end
 
     def get_shapes(id, direction_id) do
-      Agent.update(__MODULE__,
-        fn set -> MapSet.put(set, {:get_shapes, id, direction_id}) end)
+      Agent.update(
+        __MODULE__,
+        fn set -> MapSet.put(set, {:get_shapes, id, direction_id}) end
+      )
     end
   end
+
   alias __MODULE__.FakeRepo
 
   setup do
@@ -48,7 +53,7 @@ defmodule Routes.PopulateCachesTest do
       assert {:noreply, FakeRepo} = handle_info(:populate_all, FakeRepo)
 
       # get the calls that were made
-      set = Agent.get(FakeRepo, & & 1)
+      set = Agent.get(FakeRepo, & &1)
       assert MapSet.member?(set, {:headsigns, "1"})
       assert MapSet.member?(set, {:get_shapes, "1", 0})
       assert MapSet.member?(set, {:get_shapes, "1", 1})

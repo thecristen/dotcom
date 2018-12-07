@@ -78,7 +78,7 @@ defmodule Site.ContentRewriters.ResponsiveTables do
   is a valid HTML5 tag. As such, it seems likely in the future the bug will be fixed
   and the tag may no longer be stripped.
   """
-  @spec rewrite_table(Floki.html_tree) :: Floki.html_tree
+  @spec rewrite_table(Floki.html_tree()) :: Floki.html_tree()
   def rewrite_table({"table", _attrs, _children} = table_element) do
     caption = table_caption(table_element)
     {thead, tbody} = table_sections(table_element)
@@ -93,14 +93,17 @@ defmodule Site.ContentRewriters.ResponsiveTables do
       |> Floki.find("tr")
       |> Enum.map(fn {"tr", _, tds} -> {"tr", [], Util.interleave(headers, tds)} end)
 
-    {"table", [{"class", "c-media__element responsive-table"}], [
-      {"caption", [], [caption]},
-      thead,
-      {"tbody", [], trs}
-    ]}
+    {"table", [{"class", "c-media__element responsive-table"}],
+     [
+       {"caption", [], [caption]},
+       thead,
+       {"tbody", [], trs}
+     ]}
   end
 
-  defp table_caption({"table", _attrs, [caption | _]}) when is_binary(caption), do: String.trim(caption)
+  defp table_caption({"table", _attrs, [caption | _]}) when is_binary(caption),
+    do: String.trim(caption)
+
   defp table_caption({"table", _attrs, [{"caption", _, caption} | _]}), do: Floki.text(caption)
   defp table_caption(_), do: ""
 

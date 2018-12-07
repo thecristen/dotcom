@@ -3,15 +3,15 @@ defmodule V3Api.FacilitiesTest do
 
   describe "all" do
     test "hits /facilities" do
-      bypass = Bypass.open
+      bypass = Bypass.open()
 
       url = "http://localhost:#{bypass.port}"
 
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         assert conn.request_path == "/facilities/"
         conn = Plug.Conn.fetch_query_params(conn)
         Plug.Conn.resp(conn, 200, ~s({"data": []}))
-      end
+      end)
 
       assert %JsonApi{} = V3Api.Facilities.all([], base_url: url)
     end
@@ -19,25 +19,26 @@ defmodule V3Api.FacilitiesTest do
 
   describe "filter_by/2" do
     test "hits /facilities" do
-      bypass = Bypass.open
+      bypass = Bypass.open()
 
       url = "http://localhost:#{bypass.port}"
 
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         assert conn.request_path == "/facilities/"
         conn = Plug.Conn.fetch_query_params(conn)
 
         assert conn.params["filter"] == %{"stop" => "place-alfcl", "type" => "ELEVATOR"}
         Plug.Conn.resp(conn, 200, ~s({"data": []}))
-      end
+      end)
 
-      assert %JsonApi{} = V3Api.Facilities.filter_by(
-        [
-          {"stop", "place-alfcl"},
-          {"type", "ELEVATOR"}
-        ],
-        base_url: url
-      )
+      assert %JsonApi{} =
+               V3Api.Facilities.filter_by(
+                 [
+                   {"stop", "place-alfcl"},
+                   {"type", "ELEVATOR"}
+                 ],
+                 base_url: url
+               )
     end
   end
 end

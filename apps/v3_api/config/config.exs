@@ -9,4 +9,4 @@ config :v3_api,
   default_timeout: 5_000,
   cache_size: 10_000
 
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"

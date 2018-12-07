@@ -12,27 +12,27 @@ defmodule Schedules.ParserTest do
       id: "31174458-CR_MAY2016-hxl16011-Weekday-01-Lowell-schedule",
       relationships: %{
         "stop" => [
-        %JsonApi.Item{
-          attributes: %{
-            "name" => "Lowell"
-          },
-          id: "Lowell",
-          relationships: %{
-            "parent_station" => []},
-          type: "stop"}],
+          %JsonApi.Item{
+            attributes: %{
+              "name" => "Lowell"
+            },
+            id: "Lowell",
+            relationships: %{"parent_station" => []},
+            type: "stop"
+          }
+        ],
         "trip" => [
           %JsonApi.Item{
             attributes: %{
               "headsign" => "North Station",
               "name" => "300",
-              "direction_id" => 1,
+              "direction_id" => 1
             },
             id: "31174458-CR_MAY2016-hxl16011-Weekday-01",
-            relationships: %{
-              "predictions" => [],
-              "service" => [],
-              "vehicle" => []},
-            type: "trip"}],
+            relationships: %{"predictions" => [], "service" => [], "vehicle" => []},
+            type: "trip"
+          }
+        ],
         "route" => [
           %JsonApi.Item{
             attributes: %{
@@ -42,44 +42,61 @@ defmodule Schedules.ParserTest do
             },
             id: "CR-Lowell",
             relationships: %{},
-            type: "route"}]},
-      type: "schedule"}
+            type: "route"
+          }
+        ]
+      },
+      type: "schedule"
+    }
 
     actual = Schedules.Parser.parse(api_item)
-    assert {
-      "CR-Lowell",
-      "31174458-CR_MAY2016-hxl16011-Weekday-01",
-      "Lowell",
-      Timex.to_datetime({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4"),
-      true,
-      true,
-      0,
-      3} == actual
+
+    assert {"CR-Lowell", "31174458-CR_MAY2016-hxl16011-Weekday-01", "Lowell",
+            Timex.to_datetime({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4"), true, true, 0,
+            3} == actual
   end
 
   describe "trip/1" do
     test "parses a trip from the API" do
       api_item = %JsonApi{
-        data: [%JsonApi.Item{
-                  attributes: %{"direction_id" => 1, "bikes_allowed" => 1,
-                                "headsign" => "Alewife", "name" => "", "wheelchair_accessible" => 1},
-                  id: "31562821",
-                  relationships: %{
-                    "predictions" => [],
-                    "route" => [%JsonApi.Item{attributes: nil, id: "Red", relationships: nil,
-                                              type: "route"}],
-                    "service" => [%JsonApi.Item{attributes: nil,
-                                                id: "RTL42016-hms46016-Saturday-01", relationships: nil,
-                                                type: "service"}], "vehicle" => []}, type: "trip"}],
+        data: [
+          %JsonApi.Item{
+            attributes: %{
+              "direction_id" => 1,
+              "bikes_allowed" => 1,
+              "headsign" => "Alewife",
+              "name" => "",
+              "wheelchair_accessible" => 1
+            },
+            id: "31562821",
+            relationships: %{
+              "predictions" => [],
+              "route" => [
+                %JsonApi.Item{attributes: nil, id: "Red", relationships: nil, type: "route"}
+              ],
+              "service" => [
+                %JsonApi.Item{
+                  attributes: nil,
+                  id: "RTL42016-hms46016-Saturday-01",
+                  relationships: nil,
+                  type: "service"
+                }
+              ],
+              "vehicle" => []
+            },
+            type: "trip"
+          }
+        ],
         links: %{}
       }
+
       assert Schedules.Parser.trip(api_item) == %Schedules.Trip{
-        direction_id: 1,
-        headsign: "Alewife",
-        id: "31562821",
-        name: "",
-        bikes_allowed?: true
-      }
+               direction_id: 1,
+               headsign: "Alewife",
+               id: "31562821",
+               name: "",
+               bikes_allowed?: true
+             }
     end
 
     test "parses a trip as part of a schedule" do
@@ -93,14 +110,15 @@ defmodule Schedules.ParserTest do
         id: "31174458-CR_MAY2016-hxl16011-Weekday-01-Lowell-schedule",
         relationships: %{
           "stop" => [
-          %JsonApi.Item{
-            attributes: %{
-              "name" => "Lowell"
-            },
-            id: "Lowell",
-            relationships: %{
-              "parent_station" => []},
-            type: "stop"}],
+            %JsonApi.Item{
+              attributes: %{
+                "name" => "Lowell"
+              },
+              id: "Lowell",
+              relationships: %{"parent_station" => []},
+              type: "stop"
+            }
+          ],
           "trip" => [
             %JsonApi.Item{
               attributes: %{
@@ -120,18 +138,26 @@ defmodule Schedules.ParserTest do
                     },
                     id: "CR-Lowell",
                     relationships: %{},
-                    type: "route"}],
+                    type: "route"
+                  }
+                ],
                 "service" => [],
-                "vehicle" => []},
-              type: "trip"}]},
-        type: "schedule"}
-      assert Schedules.Parser.trip(api_item) == %Schedules.Trip{
-        direction_id: 1,
-        headsign: "North Station",
-        id: "31174458-CR_MAY2016-hxl16011-Weekday-01",
-        name: "300",
-        bikes_allowed?: true
+                "vehicle" => []
+              },
+              type: "trip"
+            }
+          ]
+        },
+        type: "schedule"
       }
+
+      assert Schedules.Parser.trip(api_item) == %Schedules.Trip{
+               direction_id: 1,
+               headsign: "North Station",
+               id: "31174458-CR_MAY2016-hxl16011-Weekday-01",
+               name: "300",
+               bikes_allowed?: true
+             }
     end
 
     test "interprets a trip with relationships with no attributes as nil" do
@@ -175,6 +201,7 @@ defmodule Schedules.ParserTest do
         },
         type: "schedule"
       }
+
       assert Schedules.Parser.trip(api_item) == nil
     end
 
@@ -212,6 +239,7 @@ defmodule Schedules.ParserTest do
         },
         type: "schedule"
       }
+
       assert Schedules.Parser.trip(api_item) == nil
     end
   end

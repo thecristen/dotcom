@@ -30,7 +30,12 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "finds a trip list with origin and destination", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "1", origin: "2167", destination: "82", direction_id: "1"))
+      conn =
+        get(
+          conn,
+          trip_view_path(conn, :show, "1", origin: "2167", destination: "82", direction_id: "1")
+        )
+
       html_response(conn, 200)
       assert conn.assigns.origin.id == "2167"
       assert conn.assigns.destination.id == "82"
@@ -46,9 +51,20 @@ defmodule SiteWeb.ScheduleControllerTest do
 
     test "uses a direction id to determine which stops to show", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "1", direction_id: 0))
-      assert conn.assigns.branches |> List.first() |> Map.get(:stops) |> Enum.map(& &1.id) |> Enum.member?("109")
+
+      assert conn.assigns.branches
+             |> List.first()
+             |> Map.get(:stops)
+             |> Enum.map(& &1.id)
+             |> Enum.member?("109")
+
       conn = get(conn, line_path(conn, :show, "1", direction_id: 1))
-      refute conn.assigns.branches |> List.first() |> Map.get(:stops) |> Enum.map(& &1.id) |> Enum.member?("109")
+
+      refute conn.assigns.branches
+             |> List.first()
+             |> Map.get(:stops)
+             |> Enum.map(& &1.id)
+             |> Enum.member?("109")
     end
   end
 
@@ -83,18 +99,19 @@ defmodule SiteWeb.ScheduleControllerTest do
             {"CR-Haverhill", 1, 3},
             {"CR-Franklin", 1, 2}
           ] do
-          path = timetable_path(conn, :show, route_id, direction_id: direction_id)
-          conn = get(conn, path)
-          assert map_size(conn.assigns.trip_messages) == expected_size
+        path = timetable_path(conn, :show, route_id, direction_id: direction_id)
+        conn = get(conn, path)
+        assert map_size(conn.assigns.trip_messages) == expected_size
       end
     end
 
     test "header schedules are sorted correctly", %{conn: conn} do
       conn = get(conn, timetable_path(conn, :show, "CR-Lowell"))
 
-      assert conn.assigns.header_schedules == conn.assigns.timetable_schedules
-      |> Schedules.Sort.sort_by_first_times
-      |> Enum.map(&List.first/1)
+      assert conn.assigns.header_schedules ==
+               conn.assigns.timetable_schedules
+               |> Schedules.Sort.sort_by_first_times()
+               |> Enum.map(&List.first/1)
     end
 
     test "assigns a map of stop ID to zone", %{conn: conn} do
@@ -108,7 +125,19 @@ defmodule SiteWeb.ScheduleControllerTest do
 
   describe "subway" do
     test "assigns schedules, frequency table, origin, and destination", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "Red", origin: "place-sstat", destination: "place-brdwy", direction_id: 0))
+      conn =
+        get(
+          conn,
+          trip_view_path(
+            conn,
+            :show,
+            "Red",
+            origin: "place-sstat",
+            destination: "place-brdwy",
+            direction_id: 0
+          )
+        )
+
       assert conn.assigns.schedules
       refute conn.assigns.schedules == []
       assert conn.assigns.journeys
@@ -126,7 +155,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       refute conn.assigns.destination
     end
 
-   test "frequency table not assigned when no origin is selected", %{conn: conn} do
+    test "frequency table not assigned when no origin is selected", %{conn: conn} do
       conn = get(conn, trip_view_path(conn, :show, "Red"))
       refute :frequency_table in Map.keys(conn.assigns)
       refute conn.assigns.origin
@@ -134,7 +163,12 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "frequency table does not have negative values for Green Line", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "Green", origin: "place-north", vehicle_tooltips: %{}))
+      conn =
+        get(
+          conn,
+          trip_view_path(conn, :show, "Green", origin: "place-north", vehicle_tooltips: %{})
+        )
+
       for frequency <- conn.assigns.frequency_table do
         assert frequency.min_headway > 0
         assert frequency.max_headway > 0
@@ -151,8 +185,19 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "assigns schedules, frequency table, origin, destination for green line", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "Green-B", origin: "place-bland", destination: "place-pktrm",
-                                      direction_id: "1"))
+      conn =
+        get(
+          conn,
+          trip_view_path(
+            conn,
+            :show,
+            "Green-B",
+            origin: "place-bland",
+            destination: "place-pktrm",
+            direction_id: "1"
+          )
+        )
+
       assert conn.assigns.schedules
       refute conn.assigns.schedules == []
       assert conn.assigns.journeys.journeys
@@ -162,7 +207,12 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "assigns trip info and journeys for mattapan line", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "Mattapan", origin: "place-butlr", direction_id: "1"))
+      conn =
+        get(
+          conn,
+          trip_view_path(conn, :show, "Mattapan", origin: "place-butlr", direction_id: "1")
+        )
+
       assert conn.assigns.trip_info
       refute Enum.empty?(conn.assigns.journeys)
     end
@@ -175,9 +225,10 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "shows a checkmark next to the last stop", %{conn: conn} do
-      conn = get conn, trip_view_path(conn, :show, "Red", origin: "place-pktrm")
+      conn = get(conn, trip_view_path(conn, :show, "Red", origin: "place-pktrm"))
       response = html_response(conn, 200)
       actual = Floki.find(response, ".terminus-circle .fa-check")
+
       if conn.assigns.trip_info do
         assert [_checkmark] = actual
       else
@@ -188,7 +239,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
   describe "line tabs" do
     test "Commuter Rail data", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "CR-Needham", direction_id: 1)
+      conn = get(conn, line_path(conn, :show, "CR-Needham", direction_id: 1))
       assert html_response(conn, 200) =~ "Needham Line"
       assert [%Stops.RouteStops{stops: stops}] = conn.assigns.branches
 
@@ -203,12 +254,12 @@ defmodule SiteWeb.ScheduleControllerTest do
 
       # includes the stop features
       assert List.last(stops).stop_features == [
-        :red_line,
-        :bus,
-        :commuter_rail,
-        :access,
-        :parking_lot
-      ]
+               :red_line,
+               :bus,
+               :commuter_rail,
+               :access,
+               :parking_lot
+             ]
 
       # builds a map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
@@ -218,7 +269,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "Ferry data", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "Boat-F4", direction_id: 0)
+      conn = get(conn, line_path(conn, :show, "Boat-F4", direction_id: 0))
       assert html_response(conn, 200) =~ "Charlestown Ferry"
       assert %Plug.Conn{assigns: %{branches: [%Stops.RouteStops{stops: stops}]}} = conn
 
@@ -231,7 +282,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "Bus data", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "86", direction_id: 1)
+      conn = get(conn, line_path(conn, :show, "86", direction_id: 1))
       assert %Plug.Conn{assigns: %{branches: [%Stops.RouteStops{stops: stops}]}} = conn
       assert conn.status === 200
       assert List.first(stops).name === "Sullivan Square"
@@ -242,13 +293,15 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "Red Line data", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "Red", direction_id: 0)
+      conn = get(conn, line_path(conn, :show, "Red", direction_id: 0))
       assert %Plug.Conn{assigns: %{branches: branches}} = conn
       assert html_response(conn, 200) =~ "Red Line"
 
-      assert [%Stops.RouteStops{branch: nil, stops: unbranched_stops},
-              %Stops.RouteStops{branch: "Braintree", stops: braintree},
-              %Stops.RouteStops{branch: "Ashmont", stops: ashmont}] = branches
+      assert [
+               %Stops.RouteStops{branch: nil, stops: unbranched_stops},
+               %Stops.RouteStops{branch: "Braintree", stops: braintree},
+               %Stops.RouteStops{branch: "Ashmont", stops: ashmont}
+             ] = branches
 
       # stops are in southbound order
       assert List.first(unbranched_stops).id == "place-alfcl"
@@ -259,14 +312,18 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert List.last(braintree).id == "place-brntn"
 
       # includes the stop features
-      assert unbranched_stops |> List.first() |> Map.get(:stop_features) == [:bus, :access, :parking_lot]
+      assert unbranched_stops |> List.first() |> Map.get(:stop_features) == [
+               :bus,
+               :access,
+               :parking_lot
+             ]
 
       # spider map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
     end
 
     test "Green Line data", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "Green", direction_id: 0)
+      conn = get(conn, line_path(conn, :show, "Green", direction_id: 0))
       assert html_response(conn, 200) =~ "Green Line"
 
       # stops are in West order, Lechmere -> Boston College (last stop on B)
@@ -283,63 +340,81 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     defp stop_ids(conn) do
-      Enum.flat_map(conn.assigns.branches, fn %Stops.RouteStops{stops: stops} -> Enum.map(stops, & &1.id) end)
+      Enum.flat_map(conn.assigns.branches, fn %Stops.RouteStops{stops: stops} ->
+        Enum.map(stops, & &1.id)
+      end)
     end
 
     test "Green line shows all branches", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "Green")
+      conn = get(conn, line_path(conn, :show, "Green"))
       assert conn.status == 200
       stop_ids = stop_ids(conn)
 
       assert "place-symcl" in stop_ids
-      assert "place-sougr" in stop_ids # Green-B
-      assert "place-kntst" in stop_ids # Green-C
-      assert "place-rsmnl" in stop_ids # Green-D
-      assert "place-nuniv" in stop_ids # Green-E
+      # Green-B
+      assert "place-sougr" in stop_ids
+      # Green-C
+      assert "place-kntst" in stop_ids
+      # Green-D
+      assert "place-rsmnl" in stop_ids
+      # Green-E
+      assert "place-nuniv" in stop_ids
     end
 
     test "assigns 3 holidays", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "CR-Fitchburg")
+      conn = get(conn, line_path(conn, :show, "CR-Fitchburg"))
 
       assert Enum.count(conn.assigns.holidays) == 3
     end
 
     test "Bus line with variant", %{conn: conn} do
       variant = List.last(Routes.Repo.get_shapes("9", 1)).id
-      conn = get conn, line_path(conn, :show, "9", direction_id: 1, variant: variant)
+      conn = get(conn, line_path(conn, :show, "9", direction_id: 1, variant: variant))
 
       # during the summer, the 9 only has 2 shapes. It has three when school
       # is in session.
       assert Enum.count(conn.assigns.route_shapes) >= 2
-      assert %Routes.Shape{stop_ids: [_ | _] = stop_ids} = Enum.find(conn.assigns.route_shapes, & &1.id == variant)
+
+      assert %Routes.Shape{stop_ids: [_ | _] = stop_ids} =
+               Enum.find(conn.assigns.route_shapes, &(&1.id == variant))
+
       assert "place-brdwy" in stop_ids
       assert variant == conn.assigns.active_shape.id
     end
 
     test "Bus line with correct default shape", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "9", direction_id: 1)
+      conn = get(conn, line_path(conn, :show, "9", direction_id: 1))
       default_shape_id = List.first(Routes.Repo.get_shapes("9", 1)).id
       assert conn.assigns.active_shape.id == default_shape_id
     end
 
-    test "sets schedule link to current direction for last stop and opposite for all other stops on non-bus lines", %{conn: conn} do
-      response = conn
-      |> get(line_path(conn, :show, "CR-Fitchburg", direction_id: 0))
-      |> html_response(200)
+    test "sets schedule link to current direction for last stop and opposite for all other stops on non-bus lines",
+         %{conn: conn} do
+      response =
+        conn
+        |> get(line_path(conn, :show, "CR-Fitchburg", direction_id: 0))
+        |> html_response(200)
 
-      [last_stop | others] = response
-      |> Floki.find(".schedule-link")
-      |> Enum.reverse()
+      [last_stop | others] =
+        response
+        |> Floki.find(".schedule-link")
+        |> Enum.reverse()
 
       assert last_stop |> Floki.attribute("href") |> List.first() =~ "direction_id=1"
-      refute others |> List.last |> Floki.attribute("href") |> List.first =~ "direction_id=1"
-      Enum.each(others, & assert &1 |> Floki.attribute("href") |> List.first() =~ "direction_id=0")
+      refute others |> List.last() |> Floki.attribute("href") |> List.first() =~ "direction_id=1"
+
+      Enum.each(
+        others,
+        &assert(&1 |> Floki.attribute("href") |> List.first() =~ "direction_id=0")
+      )
     end
 
     test "does not show a checkmark next to any stops", %{conn: conn} do
-      response = conn
-                 |> get(line_path(conn, :show, "Red"))
-                 |> html_response(200)
+      response =
+        conn
+        |> get(line_path(conn, :show, "Red"))
+        |> html_response(200)
+
       stops = Floki.find(response, ".route-branch-stop-list")
       refute Enum.empty?(stops)
       assert Floki.find(stops, ".fa-check") == []
@@ -348,7 +423,12 @@ defmodule SiteWeb.ScheduleControllerTest do
 
   describe "tab redirects" do
     test "timetable tab", %{conn: conn} do
-      conn = get(conn, schedule_path(conn, :show, "CR-Worcester", tab: "timetable", origin: "place-sstat"))
+      conn =
+        get(
+          conn,
+          schedule_path(conn, :show, "CR-Worcester", tab: "timetable", origin: "place-sstat")
+        )
+
       path = redirected_to(conn, 302)
       path =~ timetable_path(conn, :show, "CR-Worcester")
       path =~ "origin=place-sstat"
@@ -356,7 +436,12 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "trip_view tab", %{conn: conn} do
-      conn = get(conn, schedule_path(conn, :show, "1", tab: "trip-view", origin: "64", destination: "6"))
+      conn =
+        get(
+          conn,
+          schedule_path(conn, :show, "1", tab: "trip-view", origin: "64", destination: "6")
+        )
+
       path = redirected_to(conn, 302)
       path =~ trip_view_path(conn, :show, "1")
       path =~ "origin=64"
@@ -380,6 +465,6 @@ defmodule SiteWeb.ScheduleControllerTest do
     assert %Content.Teaser{} = conn.assigns.featured_content
     refute conn.assigns.featured_content.type == :news_entry
     assert [%Content.Teaser{} | _] = conn.assigns.news
-    assert Enum.all?(conn.assigns.news, & &1.type === :news_entry)
+    assert Enum.all?(conn.assigns.news, &(&1.type === :news_entry))
   end
 end

@@ -24,12 +24,12 @@ defmodule SiteWeb.ViewHelpersTest do
   describe "tel_link/1" do
     test "renders formattable numbers as a link" do
       assert tel_link("617-222-3200") ==
-        content_tag(:a, "617-222-3200", href: "tel:+1-617-222-3200")
+               content_tag(:a, "617-222-3200", href: "tel:+1-617-222-3200")
     end
 
     test "non-formattable numbers don't get processed and don't become links" do
       assert tel_link("0118 999 881 999 119 7253") ==
-        content_tag(:span, "0118 999 881 999 119 7253", [])
+               content_tag(:span, "0118 999 881 999 119 7253", [])
     end
   end
 
@@ -37,8 +37,10 @@ defmodule SiteWeb.ViewHelpersTest do
     test "creates a hidden tag for each query parameter", %{conn: conn} do
       actual = hidden_query_params(%{conn | query_params: %{"one" => "value", "two" => "other"}})
 
-      expected = [tag(:input, type: "hidden", name: "one", value: "value"),
-                  tag(:input, type: "hidden", name: "two", value: "other")]
+      expected = [
+        tag(:input, type: "hidden", name: "one", value: "value"),
+        tag(:input, type: "hidden", name: "two", value: "other")
+      ]
 
       assert expected == actual
     end
@@ -46,6 +48,7 @@ defmodule SiteWeb.ViewHelpersTest do
     test "can handle nested params", %{conn: conn} do
       query_params = %{"location" => %{"address" => "value"}}
       actual = hidden_query_params(%{conn | query_params: query_params})
+
       expected = [
         tag(:input, type: "hidden", name: "location[address]", value: "value")
       ]
@@ -56,6 +59,7 @@ defmodule SiteWeb.ViewHelpersTest do
     test "can handle lists of params", %{conn: conn} do
       query_params = %{"address" => ["one", "two"]}
       actual = hidden_query_params(%{conn | query_params: query_params})
+
       expected = [
         tag(:input, type: "hidden", name: "address[]", value: "one"),
         tag(:input, type: "hidden", name: "address[]", value: "two")
@@ -67,16 +71,20 @@ defmodule SiteWeb.ViewHelpersTest do
 
   describe "stop_link/1" do
     test "given a stop, returns a link to that stop" do
-      link = %Stops.Stop{id: "place-sstat", name: "South Station"}
-      |> stop_link
-      |> safe_to_string
+      link =
+        %Stops.Stop{id: "place-sstat", name: "South Station"}
+        |> stop_link
+        |> safe_to_string
+
       assert link == ~s(<a href="/stops/place-sstat">South Station</a>)
     end
 
     test "given a stop ID, returns a link to that stop" do
-      link = "place-sstat"
-      |> stop_link
-      |> safe_to_string
+      link =
+        "place-sstat"
+        |> stop_link
+        |> safe_to_string
+
       assert link == ~s(<a href="/stops/place-sstat">South Station</a>)
     end
   end
@@ -102,7 +110,7 @@ defmodule SiteWeb.ViewHelpersTest do
   describe "mode_summaries/2" do
     test "commuter rail summaries only include commuter_rail mode" do
       summaries = mode_summaries(:commuter_rail, {:zone, "7"})
-      assert Enum.all?(summaries, fn(summary) -> :commuter_rail in summary.modes end)
+      assert Enum.all?(summaries, fn summary -> :commuter_rail in summary.modes end)
     end
 
     test "Bus summaries return bus single trip information with subway passes" do
@@ -114,15 +122,19 @@ defmodule SiteWeb.ViewHelpersTest do
 
     test "Bus_subway summaries return both bus and subway information" do
       summaries = mode_summaries(:bus_subway)
-      mode_present = fn(summary, mode) -> mode in summary.modes end
-      assert Enum.any?(summaries, &(mode_present.(&1, :bus))) && Enum.any?(summaries, &(mode_present.(&1, :subway)))
+      mode_present = fn summary, mode -> mode in summary.modes end
+
+      assert Enum.any?(summaries, &mode_present.(&1, :bus)) &&
+               Enum.any?(summaries, &mode_present.(&1, :subway))
     end
 
     test "Ferry summaries with nil fare name return range of fares" do
       fares =
         :ferry
         |> mode_summaries(nil)
-        |> Enum.map(fn %Fares.Summary{fares: [{text, prices}]} -> IO.iodata_to_binary([text, " ", prices]) end)
+        |> Enum.map(fn %Fares.Summary{fares: [{text, prices}]} ->
+          IO.iodata_to_binary([text, " ", prices])
+        end)
 
       assert fares == ["All ferry routes $3.50 – $18.50", "All ferry routes $74.50 – $308.00"]
     end
@@ -131,7 +143,9 @@ defmodule SiteWeb.ViewHelpersTest do
       fares =
         :ferry
         |> mode_summaries(:ferry_inner_harbor)
-        |> Enum.map(fn %Fares.Summary{fares: [{text, prices}]} -> IO.iodata_to_binary([text, " ", prices]) end)
+        |> Enum.map(fn %Fares.Summary{fares: [{text, prices}]} ->
+          IO.iodata_to_binary([text, " ", prices])
+        end)
 
       assert fares == ["CharlieTicket $3.50", "CharlieTicket $84.50", "mTicket App $74.50"]
     end
@@ -157,16 +171,22 @@ defmodule SiteWeb.ViewHelpersTest do
     end
 
     test "external links should not be processed", %{conn: conn} do
-      path = conn
-      |> Map.put(:query_params, %{"preview" => nil, "vid" => "latest"})
-      |> cms_static_page_path("https://www.google.com")
+      path =
+        conn
+        |> Map.put(:query_params, %{"preview" => nil, "vid" => "latest"})
+        |> cms_static_page_path("https://www.google.com")
+
       assert path == "https://www.google.com"
     end
 
-    test "returns the given path as-is, even with preview params (chained-preview disabled)", %{conn: conn} do
-      path = conn
-      |> Map.put(:query_params, %{"preview" => nil, "vid" => "112", "nid" => "6"})
-      |> cms_static_page_path("/cms/path")
+    test "returns the given path as-is, even with preview params (chained-preview disabled)", %{
+      conn: conn
+    } do
+      path =
+        conn
+        |> Map.put(:query_params, %{"preview" => nil, "vid" => "112", "nid" => "6"})
+        |> cms_static_page_path("/cms/path")
+
       assert path == "/cms/path"
     end
   end
@@ -208,7 +228,8 @@ defmodule SiteWeb.ViewHelpersTest do
     end
 
     test "when optional attributes are included" do
-      expected = ~s(<i aria-hidden="true" class="notranslate fa fa-arrow-right foo" title="title"></i>)
+      expected =
+        ~s(<i aria-hidden="true" class="notranslate fa fa-arrow-right foo" title="title"></i>)
 
       result = fa("arrow-right", class: "foo", title: "title")
 
@@ -236,7 +257,7 @@ defmodule SiteWeb.ViewHelpersTest do
 
   describe "pretty_date/2" do
     test "it is today when the date given is todays date" do
-      assert pretty_date(Util.service_date) == "today"
+      assert pretty_date(Util.service_date()) == "today"
     end
 
     test "it abbreviates the month when the date is not today" do
@@ -277,36 +298,40 @@ defmodule SiteWeb.ViewHelpersTest do
   test "mode_icon/2" do
     for type <- [:subway, :commuter_rail, :bus, :ferry, :trolley],
         size <- [:default, :small] do
-          assert {"span", [{"class", class}], _} =
-            type
-            |> mode_icon(size)
-            |> safe_to_string()
-            |> Floki.parse()
-          if type == :commuter_rail do
-            assert class == "notranslate c-svg__icon-mode-commuter-rail-#{size}"
-          else
-            assert class == "notranslate c-svg__icon-mode-#{type}-#{size}"
-          end
+      assert {"span", [{"class", class}], _} =
+               type
+               |> mode_icon(size)
+               |> safe_to_string()
+               |> Floki.parse()
+
+      if type == :commuter_rail do
+        assert class == "notranslate c-svg__icon-mode-commuter-rail-#{size}"
+      else
+        assert class == "notranslate c-svg__icon-mode-#{type}-#{size}"
+      end
     end
   end
 
   test "bw_circle_icon/2" do
     for type <- [0, 1, 2, 3, 4],
         size <- [:default] do
-          assert {"span", [{"class", class}], _} =
-            type
-            |> bw_circle_icon(size)
-            |> safe_to_string()
-            |> Floki.parse()
-          if type == 0 do
-            assert class == "notranslate c-svg__icon-trolley-circle-bw-#{size}"
-          else
-            type = type
-                   |> Route.type_atom()
-                   |> Atom.to_string()
-                   |> String.replace("_", "-")
-            assert class == "notranslate c-svg__icon-#{type}-circle-bw-#{size}"
-          end
+      assert {"span", [{"class", class}], _} =
+               type
+               |> bw_circle_icon(size)
+               |> safe_to_string()
+               |> Floki.parse()
+
+      if type == 0 do
+        assert class == "notranslate c-svg__icon-trolley-circle-bw-#{size}"
+      else
+        type =
+          type
+          |> Route.type_atom()
+          |> Atom.to_string()
+          |> String.replace("_", "-")
+
+        assert class == "notranslate c-svg__icon-#{type}-circle-bw-#{size}"
+      end
     end
   end
 
@@ -317,6 +342,7 @@ defmodule SiteWeb.ViewHelpersTest do
           %Routes.Route{id: id, type: 1}
           |> line_icon(:default)
           |> safe_to_string()
+
         assert icon =~ "c-svg__icon-#{String.downcase(id)}-line-default"
       end
     end
@@ -327,6 +353,7 @@ defmodule SiteWeb.ViewHelpersTest do
           %Routes.Route{id: "Green-" <> branch, type: 0}
           |> line_icon(:default)
           |> safe_to_string()
+
         assert icon =~ "c-svg__icon-green-line-#{String.downcase(branch)}-default"
       end
 
@@ -334,6 +361,7 @@ defmodule SiteWeb.ViewHelpersTest do
         %Routes.Route{id: "Green", type: 0}
         |> line_icon(:default)
         |> safe_to_string()
+
       assert icon =~ "c-svg__icon-green-line-default"
     end
 
@@ -342,6 +370,7 @@ defmodule SiteWeb.ViewHelpersTest do
         %Routes.Route{id: "Mattapan", type: 0}
         |> line_icon(:default)
         |> safe_to_string()
+
       assert icon =~ "c-svg__icon-mattapan-line-default"
     end
   end

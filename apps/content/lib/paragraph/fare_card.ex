@@ -9,15 +9,14 @@ defmodule Content.Paragraph.FareCard do
   defstruct [:fare_token, :note]
 
   @type t :: %__MODULE__{
-    fare_token: String.t,
-    note: CustomHTML.t
-  }
+          fare_token: String.t(),
+          note: CustomHTML.t()
+        }
 
   @spec from_api(map) :: t
   def from_api(data) do
     with fare_token <- fare_token(data),
-         note <- note(data)
-    do
+         note <- note(data) do
       %__MODULE__{
         fare_token: fare_token,
         note: note
@@ -42,7 +41,7 @@ defmodule Content.Paragraph.FareCard do
   # Parse the liquid object syntax and remove the "fare:" prefix to get the
   # token in the format expected by `Site.ContentRewriters.LiquidObjects.Fare`
   defp parse_token(input) do
-    Regex.replace(~r/\{\{(.*)\}\}/U, input, fn(_, str) ->
+    Regex.replace(~r/\{\{(.*)\}\}/U, input, fn _, str ->
       str
       |> String.trim()
       |> String.replace_leading("fare:", "")

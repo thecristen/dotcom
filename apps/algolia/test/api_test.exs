@@ -7,11 +7,14 @@ defmodule Algolia.ApiTest do
   describe "post" do
     test "sends a post request to /1/indexes/$INDEX/$ACTION" do
       bypass = Bypass.open()
+
       Bypass.expect(bypass, "POST", "/1/indexes/*/queries", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
+
         case Poison.decode(body) do
           {:ok, %{"requests" => [%{"indexName" => "index"}]}} ->
             Plug.Conn.send_resp(conn, 200, @success_response)
+
           _ ->
             Plug.Conn.send_resp(conn, 400, ~s({"error" : "bad request"}))
         end
@@ -38,9 +41,11 @@ defmodule Algolia.ApiTest do
         body: @request
       }
 
-      log = ExUnit.CaptureLog.capture_log(fn ->
-        assert Algolia.Api.post(opts, %Algolia.Config{}) == {:error, :bad_config}
-      end)
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          assert Algolia.Api.post(opts, %Algolia.Config{}) == {:error, :bad_config}
+        end)
+
       assert log =~ "missing Algolia config keys"
     end
   end

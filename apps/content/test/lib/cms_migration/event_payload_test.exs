@@ -13,7 +13,11 @@ defmodule Content.CmsMigration.EventPayloadTest do
 
       assert event_payload[:type] == [%{target_id: "event"}]
       assert event_payload[:title] == [%{value: "Fare Increase Proposal"}]
-      assert event_payload[:body] == [%{value: "Discuss fare increase proposal.", format: "basic_html"}]
+
+      assert event_payload[:body] == [
+               %{value: "Discuss fare increase proposal.", format: "basic_html"}
+             ]
+
       assert event_payload[:field_who] == [%{value: "Staff"}]
       assert event_payload[:field_imported_address] == [%{value: "Dudley Square Branch Library"}]
       assert event_payload[:field_start_time] == [%{value: "2006-08-30T14:00:00"}]
@@ -29,9 +33,11 @@ defmodule Content.CmsMigration.EventPayloadTest do
 
       event_payload = from_meeting(meeting)
 
-      assert event_payload[:field_imported_address] == [%{
-        value: "Address with html tags."
-      }]
+      assert event_payload[:field_imported_address] == [
+               %{
+                 value: "Address with html tags."
+               }
+             ]
     end
 
     test "removes all html tags from the title field" do
@@ -42,15 +48,17 @@ defmodule Content.CmsMigration.EventPayloadTest do
 
       event_payload = from_meeting(meeting)
 
-      assert event_payload[:title] == [%{
-        value: "2007 Upcoming AACT Meetings"
-      }]
+      assert event_payload[:title] == [
+               %{
+                 value: "2007 Upcoming AACT Meetings"
+               }
+             ]
     end
 
     test "removes style information in the body field" do
       body_with_style_info =
-      ~s(<style type=\"text/css\">table td{vertical-align:top;}</style>) <>
-      ~s(<a href=\"www.mbta.com\" style=\"text-align: center;\" target=\"_blank\">Example</a>)
+        ~s(<style type=\"text/css\">table td{vertical-align:top;}</style>) <>
+          ~s(<a href=\"www.mbta.com\" style=\"text-align: center;\" target=\"_blank\">Example</a>)
 
       meeting =
         @meeting
@@ -74,7 +82,8 @@ defmodule Content.CmsMigration.EventPayloadTest do
 
       %{body: [%{value: value}]} = from_meeting(meeting)
 
-      assert value =~ "<a href=\"#{former_mbta_site_host}/uploadedfiles/Flyer.pdf\">Click for details</a>"
+      assert value =~
+               "<a href=\"#{former_mbta_site_host}/uploadedfiles/Flyer.pdf\">Click for details</a>"
     end
   end
 end

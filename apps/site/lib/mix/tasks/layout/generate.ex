@@ -111,7 +111,8 @@ defmodule Mix.Tasks.Layout.Generate do
     |> Path.expand()
   end
 
-  def assets_path(path \\ ""), do: relative_file_path("apps/site/assets/namespaced_header_footer/#{path}")
+  def assets_path(path \\ ""),
+    do: relative_file_path("apps/site/assets/namespaced_header_footer/#{path}")
 
   def beautify_file_path, do: assets_path("node_modules/.bin/js-beautify")
 

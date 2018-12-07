@@ -6,16 +6,16 @@ defmodule Schedules.Repo do
   alias Stops.Stop
   alias Routes.Route
 
-  @type schedule_pair :: {Schedule.t, Schedule.t}
+  @type schedule_pair :: {Schedule.t(), Schedule.t()}
 
   @default_timeout 10_000
   @default_params [
     include: "trip",
     "fields[schedule]": "departure_time,drop_off_type,pickup_type,stop_sequence,timepoint",
-    "fields[trip]": "name,headsign,direction_id,bikes_allowed",
+    "fields[trip]": "name,headsign,direction_id,bikes_allowed"
   ]
 
-  @spec by_route_ids([Route.id_t], Keyword.t) :: [Schedule.t] | {:error, any}
+  @spec by_route_ids([Route.id_t()], Keyword.t()) :: [Schedule.t()] | {:error, any}
   def by_route_ids(route_ids, opts \\ []) when is_list(route_ids) do
     @default_params
     |> Keyword.put(:route, Enum.join(route_ids, ","))
@@ -27,12 +27,14 @@ defmodule Schedules.Repo do
     |> load_from_other_repos
   end
 
-  @spec schedule_for_trip(Schedules.Trip.id_t, Keyword.t) :: [Schedule.t] | {:error, any}
+  @spec schedule_for_trip(Schedules.Trip.id_t(), Keyword.t()) :: [Schedule.t()] | {:error, any}
   def schedule_for_trip(trip_id, opts \\ [])
+
   def schedule_for_trip("", _) do
     # shortcut a known invalid trip ID
     []
   end
+
   def schedule_for_trip(trip_id, opts) do
     @default_params
     |> Keyword.merge(opts)
@@ -42,15 +44,21 @@ defmodule Schedules.Repo do
     |> load_from_other_repos
   end
 
-  @spec origin_destination(Stop.id_t, Stop.id_t, Keyword.t) :: [schedule_pair] | {:error, :timeout}
+  @spec origin_destination(Stop.id_t(), Stop.id_t(), Keyword.t()) ::
+          [schedule_pair] | {:error, :timeout}
   def origin_destination(origin_stop, dest_stop, opts \\ []) do
     origin_task = Task.async(__MODULE__, :schedule_for_stop, [origin_stop, opts])
     dest_task = Task.async(__MODULE__, :schedule_for_stop, [dest_stop, opts])
 
-    result = Util.yield_or_default_many(%{
-      origin_task => {:origin, {:error, :timeout}},
-      dest_task => {:dest, {:error, :timeout}}
-    }, @default_timeout)
+    result =
+      Util.yield_or_default_many(
+        %{
+          origin_task => {:origin, {:error, :timeout}},
+          dest_task => {:dest, {:error, :timeout}}
+        },
+        @default_timeout
+      )
+
     with %{origin: origin, dest: dest} when is_list(origin) and is_list(dest) <- result do
       join_schedules(origin, dest)
     else
@@ -58,7 +66,7 @@ defmodule Schedules.Repo do
     end
   end
 
-  @spec schedule_for_stop(Stop.id_t, Keyword.t) :: [Schedule.t] | {:error, any}
+  @spec schedule_for_stop(Stop.id_t(), Keyword.t()) :: [Schedule.t()] | {:error, any}
   def schedule_for_stop(stop_id, opts) do
     @default_params
     |> Keyword.merge(opts)
@@ -67,30 +75,33 @@ defmodule Schedules.Repo do
     |> load_from_other_repos
   end
 
-  @spec trip(String.t, trip_by_id_fn) :: Schedules.Trip.t | nil
-  when trip_by_id_fn: ((String.t) -> JsonApi.t | {:error, any})
+  @spec trip(String.t(), trip_by_id_fn) :: Schedules.Trip.t() | nil
+        when trip_by_id_fn: (String.t() -> JsonApi.t() | {:error, any})
   def trip(trip_id, trip_by_id_fn \\ &V3Api.Trips.by_id/1)
+
   def trip("", _trip_fn) do
     # short circuit an known invalid trip ID
     nil
   end
+
   def trip(trip_id, trip_by_id_fn) do
-    case cache trip_id, fn trip_id ->
-      with %JsonApi{} = response <- trip_by_id_fn.(trip_id) do
-        {:ok, Schedules.Parser.trip(response)}
-      else
-        {:error, [%JsonApi.Error{code: "not_found"} | _]} ->
-          {:ok, nil}
-        error ->
-          error
-      end
-    end do
+    case cache(trip_id, fn trip_id ->
+           with %JsonApi{} = response <- trip_by_id_fn.(trip_id) do
+             {:ok, Schedules.Parser.trip(response)}
+           else
+             {:error, [%JsonApi.Error{code: "not_found"} | _]} ->
+               {:ok, nil}
+
+             error ->
+               error
+           end
+         end) do
       {:ok, value} -> value
       {:error, _} -> nil
     end
   end
 
-  @spec end_of_rating() :: Date.t | nil
+  @spec end_of_rating() :: Date.t() | nil
   def end_of_rating(all_fn \\ &V3Api.Schedules.all/1) do
     case rating_dates(all_fn) do
       {_start_date, end_date} -> end_date
@@ -98,9 +109,9 @@ defmodule Schedules.Repo do
     end
   end
 
-  @spec rating_dates() :: {Date.t, Date.t} | :error
+  @spec rating_dates() :: {Date.t(), Date.t()} | :error
   def rating_dates(all_fn \\ &V3Api.Schedules.all/1) do
-    cache all_fn, fn all_fn ->
+    cache(all_fn, fn all_fn ->
       with {:error, [%{code: "no_service"} = error]} <- all_fn.(route: "Red", date: "1970-01-01"),
            {:ok, start_date} <- Date.from_iso8601(error.meta["start_date"]),
            {:ok, end_date} <- Date.from_iso8601(error.meta["end_date"]) do
@@ -108,10 +119,11 @@ defmodule Schedules.Repo do
       else
         _ -> :error
       end
-    end
+    end)
   end
 
-  @spec hours_of_operation(Routes.Route.id_t | [Routes.Route.id_t], Date.t) :: HoursOfOperation.t
+  @spec hours_of_operation(Routes.Route.id_t() | [Routes.Route.id_t()], Date.t()) ::
+          HoursOfOperation.t()
   def hours_of_operation(route_id_or_ids, date \\ Util.service_date()) do
     route_id_or_ids
     |> cache(&HoursOfOperation.hours_of_operation(&1, date))
@@ -133,24 +145,27 @@ defmodule Schedules.Repo do
   def has_trip?({_, trip_id, _, _, _, _, _, _}) when is_nil(trip_id) do
     false
   end
+
   def has_trip?(_) do
     true
   end
 
-  def valid?(%JsonApi.Item{
-    relationships: %{
-      "trip" => [%JsonApi.Item{id: id} | _]}}) when not is_nil(id) do
+  def valid?(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: id} | _]}})
+      when not is_nil(id) do
     true
   end
+
   def valid?(_) do
     false
   end
 
   defp add_optional_param(params, opts, key, param_name \\ nil) do
     param_name = param_name || key
+
     case Keyword.fetch(opts, key) do
       {:ok, value} ->
         Keyword.put(params, param_name, to_string(value))
+
       :error ->
         params
     end
@@ -160,17 +175,21 @@ defmodule Schedules.Repo do
     date
     |> Timex.format!("{ISOdate}")
   end
+
   defp to_string(str) when is_binary(str) do
     str
   end
+
   defp to_string(atom) when is_atom(atom) do
     Atom.to_string(atom)
   end
+
   defp to_string(list) when is_list(list) do
     list
     |> Enum.map(&to_string/1)
     |> Enum.join(",")
   end
+
   defp to_string(int) when is_integer(int) do
     Integer.to_string(int)
   end
@@ -185,6 +204,7 @@ defmodule Schedules.Repo do
   defp load_from_other_repos({:error, _} = error) do
     error
   end
+
   defp load_from_other_repos(schedules) do
     schedules
     |> Task.async_stream(fn {route_id, trip_id, stop_id, time, flag?, early_departure?,
@@ -203,7 +223,7 @@ defmodule Schedules.Repo do
     |> Enum.map(fn {:ok, schedule} -> schedule end)
   end
 
-  @spec insert_trips_into_cache([JsonApi.Item.t]) :: :ok
+  @spec insert_trips_into_cache([JsonApi.Item.t()]) :: :ok
   def insert_trips_into_cache(data) do
     # Since we fetched all the trips along with the schedules, we can insert
     # them into the cache directly. That way, they'll be available when we
@@ -216,7 +236,7 @@ defmodule Schedules.Repo do
     end)
   end
 
-  @spec id_and_trip(JsonApi.Item.t) :: {Schedules.Trip.id_t, Schedules.Trip.t | nil}
+  @spec id_and_trip(JsonApi.Item.t()) :: {Schedules.Trip.id_t(), Schedules.Trip.t() | nil}
   defp id_and_trip(%JsonApi.Item{} = item) do
     [%JsonApi.Item{id: trip_id} | _] = item.relationships["trip"]
     trip = Schedules.Parser.trip(item)

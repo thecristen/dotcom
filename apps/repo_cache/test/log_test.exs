@@ -8,18 +8,20 @@ defmodule RepoCache.LogTest do
     use RepoCache, ttl: :timer.seconds(1)
 
     def always(value) do
-      cache value, & &1
+      cache(value, & &1)
     end
   end
+
   alias __MODULE__.Repo
 
   def log(state) do
-    old_level = Logger.level
-    on_exit fn ->
-      Logger.configure level: old_level
-    end
+    old_level = Logger.level()
 
-    Logger.configure level: :info
+    on_exit(fn ->
+      Logger.configure(level: old_level)
+    end)
+
+    Logger.configure(level: :info)
     {:ok, _} = start_link([])
     reset_table(all())
     {:ok, state}
@@ -29,10 +31,12 @@ defmodule RepoCache.LogTest do
     case Repo.start_link() do
       {:ok, _} ->
         :ok
+
       {:error, {:already_started, _}} ->
         # previous test is still spinning down, try again
         repo(state)
     end
+
     Repo.always(5)
     reset_table(all())
     {:ok, state}
@@ -50,27 +54,37 @@ defmodule RepoCache.LogTest do
 
     test ":output_log logs data" do
       state = []
-      log = capture_log fn ->
-        assert {:noreply, ^state, :hibernate} = handle_info(:output_log, state)
-      end
+
+      log =
+        capture_log(fn ->
+          assert {:noreply, ^state, :hibernate} = handle_info(:output_log, state)
+        end)
+
       refute log == ""
     end
 
     test ":output_log resets the count after the log" do
       state = []
-      _ = capture_log fn ->
-        handle_info(:output_log, state)
-      end
-      log = capture_log fn ->
-        handle_info(:output_log, state)
-      end
+
+      _ =
+        capture_log(fn ->
+          handle_info(:output_log, state)
+        end)
+
+      log =
+        capture_log(fn ->
+          handle_info(:output_log, state)
+        end)
+
       assert log =~ "total=0"
     end
 
     test "other message logs an error but does nothing" do
-      log = capture_log [level: :error], fn ->
-        assert handle_info(:unknown, :state) == {:noreply, :state}
-      end
+      log =
+        capture_log([level: :error], fn ->
+          assert handle_info(:unknown, :state) == {:noreply, :state}
+        end)
+
       refute log == ""
     end
   end
@@ -89,9 +103,10 @@ defmodule RepoCache.LogTest do
     setup [:log, :repo]
 
     test "defaults to a hit/miss/total/rate of 0" do
-      line = capture_log fn ->
-        output_cache_hit_rates(all())
-      end
+      line =
+        capture_log(fn ->
+          output_cache_hit_rates(all())
+        end)
 
       assert line =~ "hit=0"
       assert line =~ "miss=0"
@@ -100,11 +115,15 @@ defmodule RepoCache.LogTest do
     end
 
     test "logs hit/miss count and ratio" do
-      Repo.always(5) # hit
-      Repo.always(6) # miss
-      line = capture_log fn ->
-        output_cache_hit_rates(all())
-      end
+      # hit
+      Repo.always(5)
+      # miss
+      Repo.always(6)
+
+      line =
+        capture_log(fn ->
+          output_cache_hit_rates(all())
+        end)
 
       assert line =~ "hit=1"
       assert line =~ "miss=1"
@@ -117,9 +136,10 @@ defmodule RepoCache.LogTest do
     setup [:log, :repo]
 
     test "logs the number of items in the cache as well as the memory usage" do
-      line = capture_log fn ->
-        output_sizes(all())
-      end
+      line =
+        capture_log(fn ->
+          output_sizes(all())
+        end)
 
       assert line =~ "size=1"
       assert line =~ "memory="

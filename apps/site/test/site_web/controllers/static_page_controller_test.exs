@@ -3,8 +3,8 @@ defmodule SiteWeb.StaticPageControllerTest do
 
   test "/getting-around", %{conn: conn} do
     assert conn
-            |> get("/getting-around")
-            |> html_response(200) =~ "Getting Around"
+           |> get("/getting-around")
+           |> html_response(200) =~ "Getting Around"
   end
 
   test "/about", %{conn: conn} do
@@ -21,7 +21,7 @@ defmodule SiteWeb.StaticPageControllerTest do
   describe "build_breadcrumb/1" do
     test "builds a breadcrumb from an atom" do
       assert SiteWeb.StaticPageController.build_breadcrumb(:getting_around) ==
-        [%Util.Breadcrumb{text: "Getting Around", url: ""}]
+               [%Util.Breadcrumb{text: "Getting Around", url: ""}]
     end
   end
 end

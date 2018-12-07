@@ -23,7 +23,9 @@ defmodule CustomerSupportTest do
 
     @tag :wallaby
     @tag :work
-    test "Checks hidden checkbox when 'would like a response' label is clicked", %{session: session} do
+    test "Checks hidden checkbox when 'would like a response' label is clicked", %{
+      session: session
+    } do
       session
       |> visit("/customer-support")
       |> click(css("#request_response_label"))
@@ -32,7 +34,9 @@ defmodule CustomerSupportTest do
     end
 
     @tag :wallaby
-    test "Shows additional fields when 'would like a response' label is clicked", %{session: session} do
+    test "Shows additional fields when 'would like a response' label is clicked", %{
+      session: session
+    } do
       session
       |> visit("/customer-support")
       |> click(css("#request_response_label"))

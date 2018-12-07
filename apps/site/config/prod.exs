@@ -24,18 +24,15 @@ config :site, SiteWeb.Endpoint,
     # dispatch websockets but don't dispatch any other URLs, to avoid parsing invalid URLs
     # see https://hexdocs.pm/phoenix/Phoenix.Endpoint.CowboyHandler.html
     dispatch: [
-      {:_, [
-        {"/socket/websocket", Phoenix.Endpoint.CowboyWebSocket,
-          {Phoenix.Transports.WebSocket, {SiteWeb.Endpoint, SiteWeb.UserSocket, :websocket}}
-        },
-        {"/socket/longpoll", Plug.Adapters.Cowboy.Handler,
-          {Phoenix.Transports.LongPoll, {SiteWeb.Endpoint, SiteWeb.UserSocket, :longpoll}}
-        },
-        {:_, Plug.Adapters.Cowboy.Handler,
-          {SiteWeb.Endpoint, []}
-        }
-      ]}
-    ],
+      {:_,
+       [
+         {"/socket/websocket", Phoenix.Endpoint.CowboyWebSocket,
+          {Phoenix.Transports.WebSocket, {SiteWeb.Endpoint, SiteWeb.UserSocket, :websocket}}},
+         {"/socket/longpoll", Plug.Adapters.Cowboy.Handler,
+          {Phoenix.Transports.LongPoll, {SiteWeb.Endpoint, SiteWeb.UserSocket, :longpoll}}},
+         {:_, Plug.Adapters.Cowboy.Handler, {SiteWeb.Endpoint, []}}
+       ]}
+    ]
   ],
   url: [host: {:system, "HOST"}, port: 80],
   static_url: [
@@ -47,8 +44,9 @@ config :site, SiteWeb.Endpoint,
 
 config :site, :websocket_check_origin, [
   "https://*.mbta.com",
-  "https://*.mbtace.com",
+  "https://*.mbtace.com"
 ]
+
 config :site,
   dev_server?: false
 
@@ -63,7 +61,7 @@ config :logger, :console,
   format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
   metadata: [:request_id, :ip]
 
-  # ## SSL Support
+# ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
 # to the previous section and set your `:url` port to 443:
@@ -87,8 +85,7 @@ config :logger, :console,
 # running the Backstop tests.  It should still be included in the production
 # build.
 unless System.get_env("PORT") do
-  config :site, SiteWeb.Endpoint,
-    url: [scheme: "https", port: 443]
+  config :site, SiteWeb.Endpoint, url: [scheme: "https", port: 443]
 
   # configured separately so that we can have the health check not require
   # SSL
@@ -117,8 +114,7 @@ config :phoenix, :serve_endpoints, true
 # for the new static assets to be served after a hot upgrade:
 #
 
-config :site, SiteWeb.ViewHelpers,
-  google_tag_manager_id: "${GOOGLE_TAG_MANAGER_ID}"
+config :site, SiteWeb.ViewHelpers, google_tag_manager_id: "${GOOGLE_TAG_MANAGER_ID}"
 
 config :ehmon, :report_mf, {:ehmon, :info_report}
 

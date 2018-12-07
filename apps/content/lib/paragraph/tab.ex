@@ -9,22 +9,21 @@ defmodule Content.Paragraph.Tab do
 
   """
 
-  import Content.Helpers, only: [
-    field_value: 2,
-    parse_paragraphs: 2
-  ]
+  import Content.Helpers,
+    only: [
+      field_value: 2,
+      parse_paragraphs: 2
+    ]
 
-  defstruct [
-    title: "",
-    prefix: "",
-    content: %{}
-  ]
+  defstruct title: "",
+            prefix: "",
+            content: %{}
 
   @type t :: %__MODULE__{
-    title: String.t,
-    prefix: String.t,
-    content: Content.Paragraph.t
-  }
+          title: String.t(),
+          prefix: String.t(),
+          content: Content.Paragraph.t()
+        }
 
   @spec from_api(map) :: t
   def from_api(%{} = data) do

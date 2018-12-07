@@ -12,9 +12,7 @@ defmodule Backstop.UpdateTest do
   end
 
   describe "filter_file_list/2" do
-    @list [
-      "not_failed.png",
-      "failed_diff_original.png"]
+    @list ["not_failed.png", "failed_diff_original.png"]
 
     test "given a list of filenames, returns only the matching names" do
       expected = ["not_failed.png"]
@@ -31,9 +29,11 @@ defmodule Backstop.UpdateTest do
 
   describe "destination_path/1" do
     test "finds the path for the file in the reference directory" do
-      expected = "#{File.cwd!}/apps/site/test/backstop_data/bitmaps_reference/filename.png"
-      actual = destination_path(
-        "apps/site/test/backstop_data/bitmaps_test/20170626-110918/filename.png")
+      expected = "#{File.cwd!()}/apps/site/test/backstop_data/bitmaps_reference/filename.png"
+
+      actual =
+        destination_path("apps/site/test/backstop_data/bitmaps_test/20170626-110918/filename.png")
+
       assert actual == expected
     end
   end

@@ -11,7 +11,7 @@ defmodule Site.MapHelpers.Markers do
   @doc """
   Builds marker data for a vehicle that will be displayed in a Google Map.
   """
-  @spec vehicle(VehicleTooltip.t) :: Marker.t
+  @spec vehicle(VehicleTooltip.t()) :: Marker.t()
   def vehicle(%VehicleTooltip{vehicle: %Vehicle{}} = data) do
     Marker.new(
       data.vehicle.latitude,
@@ -27,7 +27,7 @@ defmodule Site.MapHelpers.Markers do
     "vehicle-" <> vehicle_id
   end
 
-  @spec vehicle_icon(Vehicle.t, Route.t) :: Symbol.t
+  @spec vehicle_icon(Vehicle.t(), Route.t()) :: Symbol.t()
   defp vehicle_icon(%Vehicle{} = vehicle, %Route{} = route) do
     Symbol.new(
       fill_color: "#" <> Site.MapHelpers.route_map_color(route),
@@ -42,7 +42,7 @@ defmodule Site.MapHelpers.Markers do
   @doc """
   Builds marker data for a stop that will be displayed in a Google Map.
   """
-  @spec stop(Stop.t, boolean) :: Marker.t
+  @spec stop(Stop.t(), boolean) :: Marker.t()
   def stop(%Stop{} = stop, is_terminus?) when is_boolean(is_terminus?) do
     Marker.new(
       stop.latitude,

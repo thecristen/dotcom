@@ -10,11 +10,14 @@ defmodule SiteWeb.ScheduleController.VehicleTooltips do
 
   @impl true
   def call(conn, []) do
-    assign(conn, :vehicle_tooltips, VehicleHelpers.build_tooltip_index(
-      conn.assigns.route,
-      conn.assigns.vehicle_locations,
-      conn.assigns.vehicle_predictions
-    ))
+    assign(
+      conn,
+      :vehicle_tooltips,
+      VehicleHelpers.build_tooltip_index(
+        conn.assigns.route,
+        conn.assigns.vehicle_locations,
+        conn.assigns.vehicle_predictions
+      )
+    )
   end
-
 end

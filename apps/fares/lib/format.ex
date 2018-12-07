@@ -4,19 +4,21 @@ defmodule Fares.Format do
   @type mode_type :: :bus_subway | :commuter_rail | :ferry
 
   @doc "Formats the price of a fare as a traditional $dollar.cents value"
-  @spec price(Fare.t | non_neg_integer | nil) :: String.t
+  @spec price(Fare.t() | non_neg_integer | nil) :: String.t()
   def price(nil), do: ""
   def price(%Fare{cents: cents}), do: price(cents)
   def price(cents), do: "$#{:erlang.float_to_binary(cents / 100, decimals: 2)}"
 
   @doc "Formats the fare media (card, &c) as a string"
-  @spec media(Fare.t | [Fare.media] | Fare.media) :: iodata
+  @spec media(Fare.t() | [Fare.media()] | Fare.media()) :: iodata
   def media(%Fare{media: list}), do: media(list)
+
   def media(list) when is_list(list) do
     list
     |> Enum.map(&media/1)
     |> Util.AndOr.join(:or)
   end
+
   def media(:charlie_card), do: "CharlieCard"
   def media(:charlie_ticket), do: "CharlieTicket"
   def media(:commuter_ticket), do: "CharlieTicket"
@@ -26,29 +28,34 @@ defmodule Fares.Format do
   def media(:student_card), do: "Student CharlieCard"
 
   @doc "Formats the customers that are served by the given fare: Standard / Student / Senior"
-  @spec customers(Fare.t | Fare.reduced) :: String.t
+  @spec customers(Fare.t() | Fare.reduced()) :: String.t()
   def customers(%Fare{reduced: reduced}), do: customers(reduced)
   def customers(:student), do: "Student Fares"
   def customers(:senior_disabled), do: "Reduced Fares"
   def customers(nil), do: "Standard Fares"
 
   @doc "Formats the duration of the Fare"
-  @spec duration(Fare.t | Summary.t) :: String.t
+  @spec duration(Fare.t() | Summary.t()) :: String.t()
   def duration(%{duration: :single_trip}) do
     "One-Way"
   end
+
   def duration(%{duration: :round_trip}) do
     "Round Trip"
   end
+
   def duration(%{name: :ferry_inner_harbor, duration: :day}) do
     "One-Day Pass"
   end
+
   def duration(%{duration: :day}) do
     "Day Pass"
   end
+
   def duration(%{duration: :week}) do
     "7-Day Pass"
   end
+
   def duration(%{duration: :month, media: media}) do
     if :mticket in media do
       "Monthly Pass on mTicket App"
@@ -56,12 +63,13 @@ defmodule Fares.Format do
       "Monthly Pass"
     end
   end
+
   def duration(%{duration: :invalid}) do
     "Invalid Duration"
   end
 
   @doc "Friendly name for the given Fare"
-  @spec name(Fare.t | Fare.fare_name) :: String.t
+  @spec name(Fare.t() | Fare.fare_name()) :: String.t()
   def name(%Fare{name: name}), do: name(name)
   def name(:subway), do: "Subway"
   def name(:local_bus), do: "Local Bus"
@@ -79,23 +87,23 @@ defmodule Fares.Format do
   def name(:premium_ride), do: "Premium Ride"
   def name(:invalid), do: "Invalid Fare"
 
-  @spec full_name(Fare.t) :: String.t | iolist
+  @spec full_name(Fare.t()) :: String.t() | iolist
   def full_name(%Fare{mode: :subway, duration: :month}), do: "Monthly LinkPass"
   def full_name(%Fare{duration: :week}), do: "7-Day Pass"
   def full_name(%Fare{duration: :day}), do: "1-Day Pass"
   def full_name(%Fare{name: :ada_ride}), do: "ADA Ride Fare"
   def full_name(%Fare{name: :premium_ride}), do: "Premium Ride Fare"
+
   def full_name(fare) do
-    [name(fare),
-     " ",
-     duration(fare)
-    ]
+    [name(fare), " ", duration(fare)]
   end
 
-  @spec summarize([Fare.t], mode_type | [mode_type], String.t | nil) :: [Summary.t]
+  @spec summarize([Fare.t()], mode_type | [mode_type], String.t() | nil) :: [Summary.t()]
   def summarize(fares, mode, url \\ nil)
+
   def summarize(fares, :bus_subway, url) do
-    for [base|_] = chunk <- Enum.chunk_by(fares, &{&1.name, &1.duration, &1.additional_valid_modes}) do
+    for [base | _] = chunk <-
+          Enum.chunk_by(fares, &{&1.name, &1.duration, &1.additional_valid_modes}) do
       %Summary{
         name: Fares.Format.full_name(base),
         duration: base.duration,
@@ -105,29 +113,35 @@ defmodule Fares.Format do
       }
     end
   end
+
   def summarize(fares, mode, url) when mode in [:commuter_rail, :ferry] do
-    for [base|_] = chunk <- Enum.chunk_by(fares, &match?(%{duration: :single_trip}, &1)) do
+    for [base | _] = chunk <- Enum.chunk_by(fares, &match?(%{duration: :single_trip}, &1)) do
       price_range_label = price_range_label(mode)
-      min_price = Enum.min_by(chunk, &(&1.cents))
-      max_price = Enum.max_by(chunk, &(&1.cents))
+      min_price = Enum.min_by(chunk, & &1.cents)
+      max_price = Enum.max_by(chunk, & &1.cents)
 
       %Summary{
-        name:  price_range_summary_name(base, mode),
+        name: price_range_summary_name(base, mode),
         duration: base.duration,
         modes: [base.mode | base.additional_valid_modes],
-        fares: [{price_range_label, [Fares.Format.price(min_price), " – ",
-                                     Fares.Format.price(max_price)]}],
-        url: url}
+        fares: [
+          {price_range_label,
+           [Fares.Format.price(min_price), " – ", Fares.Format.price(max_price)]}
+        ],
+        url: url
+      }
     end
   end
+
   def summarize(fares, modes, url) when is_list(modes) do
-    Enum.flat_map(modes, fn mode -> fares
+    Enum.flat_map(modes, fn mode ->
+      fares
       |> Enum.filter(fn fare -> fare.mode == mode end)
       |> summarize(mode, url)
     end)
   end
 
-  @spec summarize_one(Fare.t, Keyword.t) :: Summary.t
+  @spec summarize_one(Fare.t(), Keyword.t()) :: Summary.t()
   def summarize_one(fare, opts \\ []) do
     %Fares.Summary{
       name: Fares.Format.full_name(fare),

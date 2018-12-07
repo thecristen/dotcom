@@ -21,17 +21,16 @@ defmodule Stops.Nearby do
   alias Util.Position
 
   defmodule Options do
-    defstruct [
-      api_fn: &Stops.Nearby.api_around/2,
-      keys_fn: &Stops.Nearby.keys/1,
-      fetch_fn: &Stops.Repo.get/1
-    ]
+    defstruct api_fn: &Stops.Nearby.api_around/2,
+              keys_fn: &Stops.Nearby.keys/1,
+              fetch_fn: &Stops.Repo.get/1
   end
 
-  @spec nearby(Position.t) :: [Stops.Stop.t]
+  @spec nearby(Position.t()) :: [Stops.Stop.t()]
   def nearby(position, opts \\ []) do
-    opts = %Options{}
-    |> Map.merge(Map.new(opts))
+    opts =
+      %Options{}
+      |> Map.merge(Map.new(opts))
 
     commuter_rail_stops = api_task(position, opts, radius: @mile_in_degrees * 50, route_type: 2)
     subway_stops = api_task(position, opts, radius: @mile_in_degrees * 30, route_type: "0,1")
@@ -40,8 +39,9 @@ defmodule Stops.Nearby do
     position
     |> gather_stops(
       Task.await(commuter_rail_stops),
-      subway_stops |> Task.await |> sort(position) |> no_more_than(1, opts.keys_fn),
-      bus_stops |> Task.await |> sort(position) |> no_more_than(2, opts.keys_fn))
+      subway_stops |> Task.await() |> sort(position) |> no_more_than(1, opts.keys_fn),
+      bus_stops |> Task.await() |> sort(position) |> no_more_than(2, opts.keys_fn)
+    )
     |> Task.async_stream(&opts.fetch_fn.(&1.id))
     |> Enum.map(fn {:ok, result} -> result end)
   end
@@ -52,24 +52,27 @@ defmodule Stops.Nearby do
 
   def api_around(position, opts) do
     opts
-    |> Keyword.merge([
+    |> Keyword.merge(
       latitude: Position.latitude(position),
       longitude: Position.longitude(position),
       include: "parent_station"
-    ])
+    )
     |> Keyword.put(:"fields[stop]", "latitude,longitude")
     |> Keyword.put(:"fields[parent_station]", "latitude,longitude")
-    |> V3Api.Stops.all
+    |> V3Api.Stops.all()
     |> Map.get(:data)
     |> Enum.map(&item_to_position/1)
-    |> Enum.uniq
+    |> Enum.uniq()
   end
 
   defp item_to_position(%JsonApi.Item{relationships: %{"parent_station" => [station]}}) do
     item_to_position(station)
   end
-  defp item_to_position(%JsonApi.Item{id: id, attributes: %{"latitude" => latitude,
-                                                            "longitude" => longitude}}) do
+
+  defp item_to_position(%JsonApi.Item{
+         id: id,
+         attributes: %{"latitude" => latitude, "longitude" => longitude}
+       }) do
     %{
       id: id,
       latitude: latitude,
@@ -92,17 +95,20 @@ defmodule Stops.Nearby do
   according to the algorithm.
 
   """
-  @spec gather_stops(Position.t, [Position.t], [Position.t], [Position.t]) :: [Position.t]
+  @spec gather_stops(Position.t(), [Position.t()], [Position.t()], [Position.t()]) :: [
+          Position.t()
+        ]
   def gather_stops(_, [], [], []) do
     []
   end
+
   def gather_stops(position, commuter_rail, subway, bus) do
     main_stops = gather_main_stops(position, commuter_rail, subway)
     bus = gather_non_duplicates(position, bus, main_stops)
     subway = gather_non_duplicates(position, subway, bus ++ main_stops)
 
     [main_stops, bus, subway]
-    |> Enum.concat
+    |> Enum.concat()
     |> sort(position)
   end
 
@@ -110,12 +116,13 @@ defmodule Stops.Nearby do
     {first_cr, sorted_commuter_rail} = closest_and_rest(commuter_rail, position)
     {first_subway, sorted_subway} = closest_and_rest(subway, position)
 
-    initial = (first_cr ++ first_subway) |> Enum.uniq
-    rest = (sorted_commuter_rail ++ sorted_subway) |> Enum.uniq
+    initial = (first_cr ++ first_subway) |> Enum.uniq()
+    rest = (sorted_commuter_rail ++ sorted_subway) |> Enum.uniq()
 
-    next_four = position
-    |> gather_non_duplicates(rest, initial)
-    |> Enum.take(4 - length(initial))
+    next_four =
+      position
+      |> gather_non_duplicates(rest, initial)
+      |> Enum.take(4 - length(initial))
 
     initial ++ next_four
   end
@@ -129,10 +136,11 @@ defmodule Stops.Nearby do
   # Returns the closest item (in a list) as well as the rest of the list.  In
   # the case of an empty initial list, returns a tuple of two empty lists.
   # The first list represents a kind of Maybe: [item] :: Just item and [] :: Nothing
-  @spec closest_and_rest([Position.t], Position.t) :: {[Position.t], [Position.t]}
+  @spec closest_and_rest([Position.t()], Position.t()) :: {[Position.t()], [Position.t()]}
   defp closest_and_rest([], _) do
     {[], []}
   end
+
   defp closest_and_rest(items, position) do
     [first | rest] = sort(items, position)
 
@@ -153,24 +161,26 @@ defmodule Stops.Nearby do
   iex> Stops.Nearby.no_more_than([1, 2, 3, 4, 5], 1, fn i -> [rem(i, 2)] end)
   [1, 2]
   """
-  @spec no_more_than(Enum.t, pos_integer, ((any) -> [any])) :: Enum.t
+  @spec no_more_than(Enum.t(), pos_integer, (any -> [any])) :: Enum.t()
   def no_more_than(enum, max_count, keys_fn) do
-    {items, _} = enum
-    |> Task.async_stream(fn item -> {item, keys_fn.(item)} end)
-    |> Enum.reduce({[], %{}}, fn {:ok, {item, keys}}, {existing, all_keys} ->
-      still_valid_keys =
-        Enum.reject(keys, &(Map.get(all_keys, &1) == max_count))
+    {items, _} =
+      enum
+      |> Task.async_stream(fn item -> {item, keys_fn.(item)} end)
+      |> Enum.reduce({[], %{}}, fn {:ok, {item, keys}}, {existing, all_keys} ->
+        still_valid_keys = Enum.reject(keys, &(Map.get(all_keys, &1) == max_count))
 
-      if still_valid_keys == [] do
-        {existing, all_keys}
-      else
-        updated_keys = still_valid_keys
-        |> Enum.reduce(all_keys, fn key, keys ->
-          Map.update(keys, key, 1, &(&1 + 1))
-        end)
-        {[item | existing], updated_keys}
-      end
-    end)
+        if still_valid_keys == [] do
+          {existing, all_keys}
+        else
+          updated_keys =
+            still_valid_keys
+            |> Enum.reduce(all_keys, fn key, keys ->
+              Map.update(keys, key, 1, &(&1 + 1))
+            end)
+
+          {[item | existing], updated_keys}
+        end
+      end)
 
     Enum.reverse(items)
   end

@@ -5,12 +5,12 @@ defmodule Content.Paragraph.FilesGrid do
 
   import Content.Helpers, only: [field_value: 2]
 
-  defstruct [files: [], title: nil]
+  defstruct files: [], title: nil
 
   @type t :: %__MODULE__{
-    files: [Content.Field.File.t],
-    title: String.t | nil,
-  }
+          files: [Content.Field.File.t()],
+          title: String.t() | nil
+        }
 
   @spec from_api(map) :: t
   def from_api(data) do

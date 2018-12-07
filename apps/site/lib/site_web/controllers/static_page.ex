@@ -7,13 +7,15 @@ defmodule SiteWeb.StaticPage do
   @static_pages [
     %{
       key: :about,
-      meta_description: "Information about the Massachusetts Bay Transportation Authority (MBTA), " <>
-        "including leadership, business opportunities, projects and initiatives, and financials."
+      meta_description:
+        "Information about the Massachusetts Bay Transportation Authority (MBTA), " <>
+          "including leadership, business opportunities, projects and initiatives, and financials."
     },
     %{
       key: :getting_around,
-      meta_description: "Navigate public transit in the Greater Boston region. Routes, schedules, " <>
-        "trip planner, service alerts, real-time updates, and general information."
+      meta_description:
+        "Navigate public transit in the Greater Boston region. Routes, schedules, " <>
+          "trip planner, service alerts, real-time updates, and general information."
     }
   ]
 

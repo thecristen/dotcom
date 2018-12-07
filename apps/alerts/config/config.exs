@@ -30,4 +30,4 @@ use Mix.Config
 
 config :alerts, api_mfa: {V3Api.Alerts, :all, []}
 
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"

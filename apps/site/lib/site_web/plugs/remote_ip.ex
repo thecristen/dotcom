@@ -19,7 +19,7 @@ defmodule SiteWeb.Plugs.RemoteIp do
   @impl true
   def call(conn, _opts) do
     with [ips] when is_binary(ips) <- Plug.Conn.get_req_header(conn, @forward_header),
-      {:ok, ip} <- remote_ip(ips) do
+         {:ok, ip} <- remote_ip(ips) do
       Logger.metadata(ip: format(ip))
       %{conn | remote_ip: ip}
     else
@@ -27,17 +27,17 @@ defmodule SiteWeb.Plugs.RemoteIp do
     end
   end
 
-  @spec remote_ip(String.t) :: {:ok, {0..255, 0..255, 0..255, 0..255}} | {:error, :einval}
+  @spec remote_ip(String.t()) :: {:ok, {0..255, 0..255, 0..255, 0..255}} | {:error, :einval}
   defp remote_ip(ips) do
     ips
     |> String.split(",", trim: true)
-    |> List.last
-    |> String.trim
+    |> List.last()
+    |> String.trim()
     |> to_charlist
-    |> :inet.parse_address
+    |> :inet.parse_address()
   end
 
-  @spec format({0..255, 0..255, 0..255, 0..255}) :: String.t
+  @spec format({0..255, 0..255, 0..255, 0..255}) :: String.t()
   def format(ip) do
     "#{elem(ip, 0)}.#{elem(ip, 1)}.#{elem(ip, 2)}.#{elem(ip, 3)}"
   end

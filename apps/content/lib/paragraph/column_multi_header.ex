@@ -5,13 +5,11 @@ defmodule Content.Paragraph.ColumnMultiHeader do
   alias Content.Helpers
   alias Phoenix.HTML
 
-  defstruct [
-    text: HTML.raw("")
-  ]
+  defstruct text: HTML.raw("")
 
   @type t :: %__MODULE__{
-    text: HTML.safe
-  }
+          text: HTML.safe()
+        }
 
   @spec from_api(map) :: t
   def from_api(data) do
@@ -19,5 +17,4 @@ defmodule Content.Paragraph.ColumnMultiHeader do
       text: data |> Helpers.field_value("field_header_text") |> Helpers.handle_html()
     }
   end
-
 end

@@ -28,15 +28,14 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 
-config :trip_plan, Api,
-  module: TripPlan.Api.OpenTripPlanner
+config :trip_plan, Api, module: TripPlan.Api.OpenTripPlanner
 
-config :trip_plan, Geocode,
-  module: TripPlan.Geocode.GoogleGeocode
+config :trip_plan, Geocode, module: TripPlan.Geocode.GoogleGeocode
 
 config :trip_plan, OpenTripPlanner,
   timezone: {:system, "OPEN_TRIP_PLANNER_TIMEZONE", "America/New_York"},
-  root_url: {:system, "OPEN_TRIP_PLANNER_URL", "http://mbta-otp-dev.us-east-1.elasticbeanstalk.com"},
+  root_url:
+    {:system, "OPEN_TRIP_PLANNER_URL", "http://mbta-otp-dev.us-east-1.elasticbeanstalk.com"},
   wiremock_proxy: {:system, "WIREMOCK_PROXY", "false"}
 
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"

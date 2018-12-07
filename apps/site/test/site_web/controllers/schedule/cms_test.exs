@@ -12,26 +12,29 @@ defmodule SiteWeb.ScheduleController.CMSTest do
         conn
         |> Conn.assign(:route, %Route{id: "Red", type: 1})
         |> CMS.call([])
+
       assert %Teaser{} = conn.assigns.featured_content
       assert %URI{query: query} = URI.parse(conn.assigns.featured_content.path)
+
       assert URI.decode_query(query) == %{
-        "utm_campaign" => "curated-content",
-        "utm_content" => "Green Line D Track and Signal Replacement",
-        "utm_medium" => "project",
-        "utm_source" => "schedule",
-        "utm_term" => "subway"
-      }
+               "utm_campaign" => "curated-content",
+               "utm_content" => "Green Line D Track and Signal Replacement",
+               "utm_medium" => "project",
+               "utm_source" => "schedule",
+               "utm_term" => "subway"
+             }
 
       assert [news | _] = conn.assigns.news
       assert %Teaser{} = news
       assert %URI{query: query} = URI.parse(news.path)
+
       assert URI.decode_query(query) == %{
-        "utm_campaign" => "curated-content",
-        "utm_content" => "MBTA Awards Signal Upgrade Contract for Red and Orange Lines",
-        "utm_medium" => "news",
-        "utm_source" => "schedule",
-        "utm_term" => "subway"
-      }
+               "utm_campaign" => "curated-content",
+               "utm_content" => "MBTA Awards Signal Upgrade Contract for Red and Orange Lines",
+               "utm_medium" => "news",
+               "utm_source" => "schedule",
+               "utm_term" => "subway"
+             }
     end
   end
 end

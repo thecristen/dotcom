@@ -6,8 +6,8 @@ defmodule Fares.RetailLocationsTest do
   describe "Fares.RetailLocations.get_nearby/1" do
     @tag fare_retail_locations: true
     test "returns retail locations near a stop" do
-      locations = Fares.RetailLocations.get_nearby @with_nearby
-      assert is_list locations
+      locations = Fares.RetailLocations.get_nearby(@with_nearby)
+      assert is_list(locations)
       assert length(locations) > 0
     end
 
@@ -16,18 +16,18 @@ defmodule Fares.RetailLocationsTest do
     end
 
     test "returns the closest locations possible" do
-      {_, top_distance} = @with_nearby |> Fares.RetailLocations.get_nearby() |> List.first
+      {_, top_distance} = @with_nearby |> Fares.RetailLocations.get_nearby() |> List.first()
 
-      assert Fares.RetailLocations.Data.get
-      |> Enum.map(&Map.from_struct/1)
-      |> Enum.map(&(Util.Distance.haversine(&1, @with_nearby)))
-      |> Enum.sort
-      |> List.first == top_distance
+      assert Fares.RetailLocations.Data.get()
+             |> Enum.map(&Map.from_struct/1)
+             |> Enum.map(&Util.Distance.haversine(&1, @with_nearby))
+             |> Enum.sort()
+             |> List.first() == top_distance
     end
 
     test "returns nearby sales locations given a lat and a long" do
       locations = Fares.RetailLocations.get_nearby(%{latitude: 42.352271, longitude: -71.055242})
-      assert is_list locations
+      assert is_list(locations)
       assert length(locations) > 0
     end
   end

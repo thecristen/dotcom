@@ -11,9 +11,11 @@ defmodule V3Api.Facilities do
   end
 
   def filter_by(filters, opts \\ []) do
-    params = Enum.map(filters, fn {k, v} ->
-      {"filter[#{k}]", v}
-    end)
+    params =
+      Enum.map(filters, fn {k, v} ->
+        {"filter[#{k}]", v}
+      end)
+
     get_json("/facilities/", params, opts)
   end
 end

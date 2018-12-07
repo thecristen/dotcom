@@ -2,17 +2,19 @@ defmodule TripPlan.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :trip_plan,
-     version: "0.1.0",
-     build_path: "../../_build",
-     config_path: "../../config/config.exs",
-     deps_path: "../../deps",
-     lockfile: "../../mix.lock",
-     elixir: "~> 1.4",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     test_coverage: [tool: ExCoveralls],
-     deps: deps()]
+    [
+      app: :trip_plan,
+      version: "0.1.0",
+      build_path: "../../_build",
+      config_path: "../../config/config.exs",
+      deps_path: "../../deps",
+      lockfile: "../../mix.lock",
+      elixir: "~> 1.4",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      test_coverage: [tool: ExCoveralls],
+      deps: deps()
+    ]
   end
 
   # Configuration for the OTP application
@@ -37,14 +39,15 @@ defmodule TripPlan.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:stops, in_umbrella: true},
-     {:routes, in_umbrella: true},
-     {:schedules, in_umbrella: true},
-     {:poison, "~> 2.2", override: true},
-     {:google_maps, in_umbrella: true},
-     {:excoveralls, "~> 0.5", only: :test},
-     {:bypass, "~> 0.8", only: :test},
-     {:mock, "~> 0.2.0", only: :test}
+    [
+      {:stops, in_umbrella: true},
+      {:routes, in_umbrella: true},
+      {:schedules, in_umbrella: true},
+      {:poison, "~> 2.2", override: true},
+      {:google_maps, in_umbrella: true},
+      {:excoveralls, "~> 0.5", only: :test},
+      {:bypass, "~> 0.8", only: :test},
+      {:mock, "~> 0.2.0", only: :test}
     ]
   end
 end

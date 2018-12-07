@@ -1,7 +1,7 @@
 defmodule Alerts.RepoTest do
   use ExUnit.Case
 
-  @now Timex.parse!"2017-06-08T10:00:00-05:00", ("{ISO:Extended}")
+  @now Timex.parse!("2017-06-08T10:00:00-05:00", "{ISO:Extended}")
 
   describe "all/0" do
     test "returns the list of alerts from the store" do
@@ -46,7 +46,11 @@ defmodule Alerts.RepoTest do
     @subway_entity %Alerts.InformedEntity{route_type: 0}
 
     test "returns the list of alerts from the store with the given types" do
-      commuter_rail_alert = %Alerts.Alert{id: "commuter_rail_alert", informed_entity: [@commuter_rail_entity]}
+      commuter_rail_alert = %Alerts.Alert{
+        id: "commuter_rail_alert",
+        informed_entity: [@commuter_rail_entity]
+      }
+
       bus_alert = %Alerts.Alert{id: "bus_alert", informed_entity: [@bus_entity]}
       subway_alert = %Alerts.Alert{id: "subway_alert", informed_entity: [@subway_entity]}
       Alerts.Cache.Store.update([commuter_rail_alert, bus_alert, subway_alert], nil)
@@ -69,7 +73,12 @@ defmodule Alerts.RepoTest do
       cr_alert1 = %Alerts.Alert{id: "cr1", informed_entity: [@cr_entity1]}
       cr_alert2 = %Alerts.Alert{id: "cr2", informed_entity: [@cr_entity2]}
       bus_alert = %Alerts.Alert{id: "bus", informed_entity: [@bus_entity]}
-      subway_alert = %Alerts.Alert{id: "subway", informed_entity: [@subway_entity, @subway_entity2]}
+
+      subway_alert = %Alerts.Alert{
+        id: "subway",
+        informed_entity: [@subway_entity, @subway_entity2]
+      }
+
       Alerts.Cache.Store.update([cr_alert1, cr_alert2, bus_alert, subway_alert], nil)
 
       assert Alerts.Repo.by_route_id_and_type("CR-Worcester", 2, @now) == [cr_alert1, cr_alert2]

@@ -7,21 +7,29 @@ defmodule SiteWeb.ViewHelpers do
   alias Routes.Route
 
   # precompile the SVGs, rather than hitting the filesystem every time
-  for path <- :site
-  |> Application.app_dir
-  |> Kernel.<>("/priv/static/**/*.svg")
-  |> Path.wildcard do
+  for path <-
+        :site
+        |> Application.app_dir()
+        |> Kernel.<>("/priv/static/**/*.svg")
+        |> Path.wildcard() do
     name = Path.basename(path)
-    contents = path
-    |> File.read!
-    |> String.split("\n")
-    |> Enum.join("")
-    |> raw
+
+    contents =
+      path
+      |> File.read!()
+      |> String.split("\n")
+      |> Enum.join("")
+      |> raw
 
     def svg(unquote(name)) do
-      content_tag :span, [unquote(contents)], class: ["notranslate c-svg", "__", Path.rootname(unquote(name))]
+      content_tag(
+        :span,
+        [unquote(contents)],
+        class: ["notranslate c-svg", "__", Path.rootname(unquote(name))]
+      )
     end
   end
+
   def svg(unknown) do
     raise ArgumentError, message: "unknown SVG #{unknown}"
   end
@@ -30,30 +38,34 @@ defmodule SiteWeb.ViewHelpers do
     redirect_path(conn, :show, []) <> path
   end
 
-  @spec mode_icon(atom, :default | :small) :: Phoenix.HTML.Safe.t
+  @spec mode_icon(atom, :default | :small) :: Phoenix.HTML.Safe.t()
   def mode_icon(:commuter_rail, size), do: mode_icon(:"commuter-rail", size)
-  def mode_icon(mode, size) when mode in [:subway, :bus, :"commuter-rail", :ferry, :trolley]
-  and size in [:default, :small] do
+
+  def mode_icon(mode, size)
+      when mode in [:subway, :bus, :"commuter-rail", :ferry, :trolley] and
+             size in [:default, :small] do
     svg("icon-mode-#{mode}-#{size}.svg")
   end
 
-  @spec bw_circle_icon(integer, :default | :small) :: Phoenix.HTML.Safe.t
+  @spec bw_circle_icon(integer, :default | :small) :: Phoenix.HTML.Safe.t()
   def bw_circle_icon(type, size) do
-    mode = type
+    mode =
+      type
       |> Route.vehicle_atom()
       |> Atom.to_string()
       |> String.replace("_", "-")
+
     svg("icon-#{mode}-circle-bw-#{size}.svg")
   end
 
-  @spec route_to_string(integer) :: String.t
+  @spec route_to_string(integer) :: String.t()
   def route_to_string(type) do
     type
     |> Route.vehicle_atom()
     |> Atom.to_string()
   end
 
-  @spec line_icon(Route.t, :default | :small) :: Phoenix.HTML.Safe.t
+  @spec line_icon(Route.t(), :default | :small) :: Phoenix.HTML.Safe.t()
   def line_icon(%Route{type: type} = route, size) when type in [0, 1] do
     name =
       route
@@ -63,6 +75,7 @@ defmodule SiteWeb.ViewHelpers do
 
     svg("icon-#{name}-#{size}.svg")
   end
+
   def line_icon(%Route{} = route, size) do
     route
     |> Route.icon_atom()
@@ -74,7 +87,7 @@ defmodule SiteWeb.ViewHelpers do
   but at least earmarks them for easy identification or if we need to change our
   frontend<->CMS linking strategy in the future.
   """
-  @spec cms_static_page_path(module | Plug.Conn.t, String.t) :: String.t
+  @spec cms_static_page_path(module | Plug.Conn.t(), String.t()) :: String.t()
   def cms_static_page_path(_conn, path), do: path
 
   def google_tag_manager_id do
@@ -94,17 +107,21 @@ defmodule SiteWeb.ViewHelpers do
 
   @doc "HTML for a FontAwesome icon, with optional attributes"
   def fa(name, attributes \\ []) when is_list(attributes) do
-    content_tag :i, [], [{:"aria-hidden", "true"},
-                         {:class, "notranslate fa fa-#{name} " <> Keyword.get(attributes, :class, "")} |
-                         Keyword.delete(attributes, :class)]
+    content_tag(:i, [], [
+      {:"aria-hidden", "true"},
+      {:class, "notranslate fa fa-#{name} " <> Keyword.get(attributes, :class, "")}
+      | Keyword.delete(attributes, :class)
+    ])
   end
 
   @doc "The direction with an optional headsign"
-  @spec direction_with_headsign(Routes.Route.t, 0 | 1, iodata) :: Phoenix.HTML.Safe.t
+  @spec direction_with_headsign(Routes.Route.t(), 0 | 1, iodata) :: Phoenix.HTML.Safe.t()
   def direction_with_headsign(route, direction_id, headsign)
-  def direction_with_headsign(route, direction_id, empty) when empty in ["", []]do
+
+  def direction_with_headsign(route, direction_id, empty) when empty in ["", []] do
     Routes.Route.direction_name(route, direction_id)
   end
+
   def direction_with_headsign(route, direction_id, headsign) do
     [
       Routes.Route.direction_name(route, direction_id),
@@ -116,7 +133,8 @@ defmodule SiteWeb.ViewHelpers do
     ]
   end
 
-  @spec mode_name(0..4 | Routes.Route.route_type | Routes.Route.subway_lines_type | :access) :: String.t
+  @spec mode_name(0..4 | Routes.Route.route_type() | Routes.Route.subway_lines_type() | :access) ::
+          String.t()
   @doc "Textual version of a mode ID or type"
   def mode_name(type) when type in [0, 1, :subway], do: "Subway"
   def mode_name(type) when type in [2, :commuter_rail], do: "Commuter Rail"
@@ -126,33 +144,35 @@ defmodule SiteWeb.ViewHelpers do
   def mode_name(:the_ride), do: "The Ride"
   def mode_name(:mattapan_trolley), do: "Mattapan Trolley"
   def mode_name(:mattapan_line), do: "Mattapan Trolley"
-  def mode_name(mode_atom) when mode_atom in [:red_line, :blue_line, :orange_line, :green_line, :silver_line] do
+
+  def mode_name(mode_atom)
+      when mode_atom in [:red_line, :blue_line, :orange_line, :green_line, :silver_line] do
     mode_atom
-    |> Atom.to_string
+    |> Atom.to_string()
     |> String.split("_")
     |> Enum.map(&String.capitalize/1)
     |> Enum.join(" ")
   end
 
-  @spec mode_atom(String.t) :: atom
+  @spec mode_atom(String.t()) :: atom
   def mode_atom(type_string) do
     type_string
-    |> String.downcase
+    |> String.downcase()
     |> String.replace(" ", "_")
-    |> String.to_existing_atom
+    |> String.to_existing_atom()
   end
 
   @doc "Returns a css class: a string with hyphens."
-  @spec route_to_class(Routes.Route.t) :: String.t
+  @spec route_to_class(Routes.Route.t()) :: String.t()
   def route_to_class(route) do
     route
     |> Routes.Route.to_naive()
-    |> Routes.Route.icon_atom
-    |> CSSHelpers.atom_to_class
+    |> Routes.Route.icon_atom()
+    |> CSSHelpers.atom_to_class()
   end
 
   @doc "Clean up a GTFS route name for better presentation"
-  @spec clean_route_name(String.t) :: String.t
+  @spec clean_route_name(String.t()) :: String.t()
   def clean_route_name(name) do
     name
     |> String.replace_suffix(" Line", "")
@@ -166,7 +186,7 @@ defmodule SiteWeb.ViewHelpers do
   visually the same, but allows browsers to break the text into multiple lines.
 
   """
-  @spec break_text_at_slash(String.t) :: String.t
+  @spec break_text_at_slash(String.t()) :: String.t()
   def break_text_at_slash(name) do
     name
     |> String.replace("/", "/​")
@@ -185,43 +205,47 @@ defmodule SiteWeb.ViewHelpers do
     end
   end
 
-  @spec tel_link(String.t | nil) :: Phoenix.HTML.Safe.t
+  @spec tel_link(String.t() | nil) :: Phoenix.HTML.Safe.t()
   def tel_link(number) do
     pretty_formatted = Site.PhoneNumber.pretty_format(number)
+
     case Site.PhoneNumber.machine_format(number) do
       nil ->
-        content_tag :span, pretty_formatted, []
+        content_tag(:span, pretty_formatted, [])
+
       machine_formatted ->
-        content_tag :a, pretty_formatted, href: "tel:#{machine_formatted}"
+        content_tag(:a, pretty_formatted, href: "tel:#{machine_formatted}")
     end
   end
 
   def atom_to_string(atom) do
     atom
-    |> Atom.to_string
+    |> Atom.to_string()
     |> String.split("_")
-    |> Enum.map(&(String.capitalize(&1)))
+    |> Enum.map(&String.capitalize(&1))
     |> Enum.join(" ")
   end
 
-  @spec format_schedule_time(DateTime.t) :: String.t
+  @spec format_schedule_time(DateTime.t()) :: String.t()
   def format_schedule_time(time) do
     time
     |> Timex.format!("{0h12}:{m}{AM}")
-    |> String.replace_suffix("M", "") # remove the M from the end
+    # remove the M from the end
+    |> String.replace_suffix("M", "")
   end
 
-  @spec format_schedule_time_for_screenreader(DateTime.t) :: String.t
+  @spec format_schedule_time_for_screenreader(DateTime.t()) :: String.t()
   def format_schedule_time_for_screenreader(time) do
     Timex.format!(time, "{0h12}:{m} {AM}")
   end
 
-  @spec format_full_date(Date.t) :: String.t
+  @spec format_full_date(Date.t()) :: String.t()
   def format_full_date(date), do: Timex.format!(date, "{Mfull} {D}, {YYYY}")
 
   def hidden_query_params(conn, opts \\ []) do
     exclude = Keyword.get(opts, :exclude, [])
     include = Keyword.get(opts, :include, %{})
+
     conn.query_params
     |> Map.merge(include)
     |> Enum.reject(fn {key, _} -> key in exclude end)
@@ -230,12 +254,13 @@ defmodule SiteWeb.ViewHelpers do
   end
 
   @doc "Specify the mode each type is associated with"
-  @spec fare_group(atom | integer) :: String.t
+  @spec fare_group(atom | integer) :: String.t()
   def fare_group(type) when is_integer(type) and type in 0..4 do
     type
-      |> Routes.Route.type_atom
-      |> fare_group
+    |> Routes.Route.type_atom()
+    |> fare_group
   end
+
   def fare_group(:bus), do: "bus_subway"
   def fare_group(:subway), do: "bus_subway"
   def fare_group(type), do: Atom.to_string(type)
@@ -245,12 +270,14 @@ defmodule SiteWeb.ViewHelpers do
       hidden_tag({"#{key}[]", sub_value})
     end)
   end
+
   defp hidden_tag({key, %{} = value}) do
     # nested key
     Enum.flat_map(value, fn {sub_key, sub_value} ->
       hidden_tag({"#{key}[#{sub_key}]", sub_value})
     end)
   end
+
   defp hidden_tag({key, value}) do
     [tag(:input, type: "hidden", name: key, value: value)]
   end
@@ -264,23 +291,24 @@ defmodule SiteWeb.ViewHelpers do
   end
 
   @doc "Link a stop's name to its page."
-  @spec stop_link(Stops.Stop.t | String.t) :: Phoenix.HTML.Safe.t
+  @spec stop_link(Stops.Stop.t() | String.t()) :: Phoenix.HTML.Safe.t()
   def stop_link(%Stops.Stop{} = stop) do
-    link stop.name, to: stop_path(SiteWeb.Endpoint, :show, stop.id)
+    link(stop.name, to: stop_path(SiteWeb.Endpoint, :show, stop.id))
   end
+
   def stop_link(stop_id) do
     stop_id
-    |> Stops.Repo.get
+    |> Stops.Repo.get()
     |> stop_link
   end
 
-  @spec external_link(String.t) :: String.t
+  @spec external_link(String.t()) :: String.t()
   @doc "Adds protocol if one is needed"
   def external_link(<<"http://", _::binary>> = href), do: href
   def external_link(<<"https://", _::binary>> = href), do: href
   def external_link(href), do: "http://" <> href
 
-  @spec round_distance(float) :: String.t
+  @spec round_distance(float) :: String.t()
   def round_distance(distance) when distance < 0.1 do
     distance
     |> Kernel.*(5820)
@@ -288,56 +316,69 @@ defmodule SiteWeb.ViewHelpers do
     |> :erlang.integer_to_binary()
     |> Kernel.<>(" ft")
   end
+
   def round_distance(distance) do
     distance
     |> :erlang.float_to_binary(decimals: 1)
     |> Kernel.<>(" mi")
   end
 
-  @spec mode_summaries(atom, {atom, String.t} | nil, String.t | nil) :: [Fares.Summary.t]
+  @spec mode_summaries(atom, {atom, String.t()} | nil, String.t() | nil) :: [Fares.Summary.t()]
   @doc "Return the fare summaries for the given mode"
   def mode_summaries(mode_atom, name \\ nil, url \\ nil)
+
   def mode_summaries(mode, nil, _url) when mode in [:commuter_rail, :ferry] do
     mode
     |> mode_filters(nil)
     |> summaries_for_filters(mode)
   end
+
   def mode_summaries(mode, name, url) when mode in [:commuter_rail, :ferry] do
     mode
     |> mode_filters(name)
     |> get_fares
-    |> Enum.map(&(Fares.Format.summarize_one(&1, url: url)))
+    |> Enum.map(&Fares.Format.summarize_one(&1, url: url))
   end
+
   def mode_summaries(:bus, name, _url) do
     :local_bus
     |> mode_filters(name)
     |> summaries_for_filters(:bus_subway)
   end
+
   def mode_summaries(mode, name, _url) do
     mode
     |> mode_filters(name)
     |> summaries_for_filters(:bus_subway)
   end
 
-  @spec mode_filters(atom, {atom, String.t} | nil) :: [keyword()]
+  @spec mode_filters(atom, {atom, String.t()} | nil) :: [keyword()]
   defp mode_filters(:ferry, nil) do
-    [[mode: :ferry, duration: :single_trip, reduced: nil],
-     [mode: :ferry, duration: :month, reduced: nil]]
+    [
+      [mode: :ferry, duration: :single_trip, reduced: nil],
+      [mode: :ferry, duration: :month, reduced: nil]
+    ]
   end
+
   defp mode_filters(:ferry, name) do
     :ferry
     |> mode_filters(nil)
-    |> Enum.map(&(Keyword.put(&1, :name, name)))
+    |> Enum.map(&Keyword.put(&1, :name, name))
   end
+
   defp mode_filters(:commuter_rail, nil) do
-    [[mode: :commuter_rail, duration: :single_trip, reduced: nil, includes_media: :cash],
-     [mode: :commuter_rail, duration: :month, reduced: nil, includes_media: :commuter_ticket]]
+    [
+      [mode: :commuter_rail, duration: :single_trip, reduced: nil, includes_media: :cash],
+      [mode: :commuter_rail, duration: :month, reduced: nil, includes_media: :commuter_ticket]
+    ]
   end
+
   defp mode_filters(:commuter_rail, name) do
     :commuter_rail
     |> mode_filters(nil)
-    |> Enum.map(&(Keyword.put(&1, :name, name)))
+    |> Enum.map(&Keyword.put(&1, :name, name))
   end
+
   defp mode_filters(:local_bus, _name) do
     [
       [name: :local_bus, duration: :single_trip, reduced: nil],
@@ -345,20 +386,24 @@ defmodule SiteWeb.ViewHelpers do
       [name: :subway, duration: :month, reduced: nil]
     ]
   end
+
   defp mode_filters(:bus_subway, name) do
     [[name: :local_bus, duration: :single_trip, reduced: nil] | mode_filters(:subway, name)]
   end
+
   defp mode_filters(mode, _name) do
-    [[name: mode, duration: :single_trip, reduced: nil],
-     [name: mode, duration: :week, reduced: nil],
-     [name: mode, duration: :month, reduced: nil]]
+    [
+      [name: mode, duration: :single_trip, reduced: nil],
+      [name: mode, duration: :week, reduced: nil],
+      [name: mode, duration: :month, reduced: nil]
+    ]
   end
 
   defp get_fares(filters) do
     filters |> Enum.flat_map(&Fares.Repo.all/1)
   end
 
-  @spec summaries_for_filters([keyword()], atom, String.t | nil) :: [Fares.Summary.t]
+  @spec summaries_for_filters([keyword()], atom, String.t() | nil) :: [Fares.Summary.t()]
   defp summaries_for_filters(filters, mode, url \\ nil) do
     filters |> get_fares |> Fares.Format.summarize(mode, url)
   end
@@ -366,7 +411,7 @@ defmodule SiteWeb.ViewHelpers do
   @doc """
   Turns a word or phrase with spaces or underscores into a camelcased string.
   """
-  @spec to_camelcase(String.t) :: String.t
+  @spec to_camelcase(String.t()) :: String.t()
   def to_camelcase(phrase) do
     phrase
     |> String.replace("_", " ")
@@ -375,13 +420,14 @@ defmodule SiteWeb.ViewHelpers do
   end
 
   defp do_to_camelcase([word]), do: String.downcase(word)
+
   defp do_to_camelcase([first | rest]) do
     [String.downcase(first) | Enum.map(rest, &String.capitalize/1)]
     |> IO.iodata_to_binary()
   end
 
   def pretty_date(date, format \\ "{Mshort} {D}") do
-    if date == Util.service_date do
+    if date == Util.service_date() do
       "today"
     else
       Timex.format!(date, format)

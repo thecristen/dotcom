@@ -14,8 +14,21 @@ defmodule Stops.RouteStopsTest do
       assert %Stops.RouteStops{branch: "Braintree", stops: braintree_stops} = braintree
       assert %Stops.RouteStops{branch: "Ashmont", stops: ashmont_stops} = ashmont
 
-      assert unbranched_stops |> Enum.map(& &1.name) == ["Alewife", "Davis", "Porter", "Harvard", "Central",
-        "Kendall/MIT", "Charles/MGH", "Park Street", "Downtown Crossing", "South Station", "Broadway", "Andrew", "JFK/UMass"]
+      assert unbranched_stops |> Enum.map(& &1.name) == [
+               "Alewife",
+               "Davis",
+               "Porter",
+               "Harvard",
+               "Central",
+               "Kendall/MIT",
+               "Charles/MGH",
+               "Park Street",
+               "Downtown Crossing",
+               "South Station",
+               "Broadway",
+               "Andrew",
+               "JFK/UMass"
+             ]
 
       [alewife | _] = unbranched_stops
       assert alewife.is_terminus? == true
@@ -29,7 +42,7 @@ defmodule Stops.RouteStopsTest do
       assert jfk.stop_features == [:bus, :commuter_rail, :access]
       assert jfk.is_terminus? == false
 
-      assert [savin|_] = ashmont_stops
+      assert [savin | _] = ashmont_stops
       assert savin.name == "Savin Hill"
       assert savin.branch == "Ashmont"
       assert savin.stop_features == [:access, :parking_lot]
@@ -41,7 +54,7 @@ defmodule Stops.RouteStopsTest do
       assert ashmont.stop_features == [:mattapan_line, :bus, :access]
       assert ashmont.is_terminus? == true
 
-      [north_quincy|_] = braintree_stops
+      [north_quincy | _] = braintree_stops
       assert north_quincy.name == "North Quincy"
       assert north_quincy.branch == "Braintree"
       assert north_quincy.stop_features == [:bus, :access, :parking_lot]
@@ -64,7 +77,7 @@ defmodule Stops.RouteStopsTest do
       assert %Stops.RouteStops{branch: "Braintree", stops: braintree_stops} = braintree
       assert %Stops.RouteStops{branch: nil, stops: _unbranched_stops} = core
 
-      [ashmont|_] = ashmont_stops
+      [ashmont | _] = ashmont_stops
       assert ashmont.name == "Ashmont"
       assert ashmont.branch == "Ashmont"
       assert ashmont.is_terminus? == true
@@ -74,7 +87,7 @@ defmodule Stops.RouteStopsTest do
       assert savin.branch == "Ashmont"
       assert savin.is_terminus? == false
 
-      [braintree|_] = braintree_stops
+      [braintree | _] = braintree_stops
       assert braintree.name == "Braintree"
       assert braintree.branch == "Braintree"
       assert braintree.stop_features == [:bus, :commuter_rail, :access, :parking_lot]
@@ -92,7 +105,11 @@ defmodule Stops.RouteStopsTest do
       stops = Stops.Repo.by_route("Green-E", 0)
       stops = RouteStops.by_direction(stops, shapes, route, 0)
 
-      assert [%Stops.RouteStops{stops: [%Stops.RouteStop{id: "place-lech", is_terminus?: true}|_]}] = stops
+      assert [
+               %Stops.RouteStops{
+                 stops: [%Stops.RouteStop{id: "place-lech", is_terminus?: true} | _]
+               }
+             ] = stops
     end
 
     test "works for green non-E line" do
@@ -101,7 +118,12 @@ defmodule Stops.RouteStopsTest do
       stops = Stops.Repo.by_route("Green-B", 0)
       stops = RouteStops.by_direction(stops, shapes, route, 0)
 
-      assert [%Stops.RouteStops{stops: [%Stops.RouteStop{id: "place-pktrm", is_terminus?: true}|_] = b_stops}] = stops
+      assert [
+               %Stops.RouteStops{
+                 stops: [%Stops.RouteStop{id: "place-pktrm", is_terminus?: true} | _] = b_stops
+               }
+             ] = stops
+
       assert %Stops.RouteStop{id: "place-lake", is_terminus?: true} = List.last(b_stops)
     end
 
@@ -113,9 +135,17 @@ defmodule Stops.RouteStopsTest do
 
       case route_stops do
         [core, plymouth, kingston] ->
-          assert %Stops.RouteStops{branch: nil, stops: [%Stops.RouteStop{id: "place-sstat"} | _unbranched_stops]} = core
-          assert %Stops.RouteStops{branch: "Plymouth", stops: [%Stops.RouteStop{id: "Plymouth"}]} = plymouth
-          assert %Stops.RouteStops{branch: "Kingston", stops: [%Stops.RouteStop{id: "Kingston"}]} = kingston
+          assert %Stops.RouteStops{
+                   branch: nil,
+                   stops: [%Stops.RouteStop{id: "place-sstat"} | _unbranched_stops]
+                 } = core
+
+          assert %Stops.RouteStops{branch: "Plymouth", stops: [%Stops.RouteStop{id: "Plymouth"}]} =
+                   plymouth
+
+          assert %Stops.RouteStops{branch: "Kingston", stops: [%Stops.RouteStop{id: "Kingston"}]} =
+                   kingston
+
         [shape] ->
           assert %Stops.RouteStops{stops: [%Stops.RouteStop{id: "place-sstat"} | _]} = shape
       end
@@ -148,18 +178,23 @@ defmodule Stops.RouteStopsTest do
       stops = Stops.Repo.by_route("1", 0)
       shapes = Routes.Repo.get_shapes("1", 0)
       route = %Routes.Route{id: "1", type: 3}
-      [%Stops.RouteStops{branch: "Harvard", stops: outbound}] = RouteStops.by_direction(stops, shapes, route, 0)
+
+      [%Stops.RouteStops{branch: "Harvard", stops: outbound}] =
+        RouteStops.by_direction(stops, shapes, route, 0)
+
       assert is_list(outbound)
-      assert Enum.all?(outbound, & &1.branch == "Harvard")
+      assert Enum.all?(outbound, &(&1.branch == "Harvard"))
       assert outbound |> List.first() |> Map.get(:is_terminus?) == true
-      assert outbound |> Enum.slice(1..-2) |> Enum.all?(& &1.is_terminus? == false)
+      assert outbound |> Enum.slice(1..-2) |> Enum.all?(&(&1.is_terminus? == false))
 
       stops = Stops.Repo.by_route("1", 1)
       shapes = Routes.Repo.get_shapes("1", 1)
       route = %Routes.Route{id: "1", type: 3}
 
-      [%Stops.RouteStops{branch: "Dudley", stops: inbound}] = RouteStops.by_direction(stops, shapes, route, 1)
-      assert Enum.all?(inbound, & &1.branch == "Dudley")
+      [%Stops.RouteStops{branch: "Dudley", stops: inbound}] =
+        RouteStops.by_direction(stops, shapes, route, 1)
+
+      assert Enum.all?(inbound, &(&1.branch == "Dudley"))
       assert inbound |> List.first() |> Map.get(:is_terminus?) == true
     end
 
@@ -167,20 +202,22 @@ defmodule Stops.RouteStopsTest do
       stops = Stops.Repo.by_route("Boat-F4", 0)
       shapes = Routes.Repo.get_shapes("Boat-F4", 0)
       route = %Routes.Route{id: "Boat-F4", type: 4}
-      [%Stops.RouteStops{branch: branch, stops: stops}] = RouteStops.by_direction(stops, shapes, route, 0)
+
+      [%Stops.RouteStops{branch: branch, stops: stops}] =
+        RouteStops.by_direction(stops, shapes, route, 0)
 
       assert branch =~ "Charlestown"
-      assert Enum.all?(stops, & &1.__struct__ == Stops.RouteStop)
+      assert Enum.all?(stops, &(&1.__struct__ == Stops.RouteStop))
     end
 
     test "doesn't crash if we didn't have stops and/or shapes" do
       direction_id = 0
       good_stops = Stops.Repo.by_route("Red", direction_id)
       good_shapes = Routes.Repo.get_shapes("Red", direction_id)
-      for stops <- [[], good_stops], shapes <- [[], good_shapes],
-        stops == [] or shapes == [] do
-          actual = RouteStops.by_direction(stops, shapes, @red, direction_id)
-          assert is_list(actual)
+
+      for stops <- [[], good_stops], shapes <- [[], good_shapes], stops == [] or shapes == [] do
+        actual = RouteStops.by_direction(stops, shapes, @red, direction_id)
+        assert is_list(actual)
       end
     end
   end

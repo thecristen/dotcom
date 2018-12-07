@@ -24,9 +24,8 @@ defmodule SiteWeb.ScheduleController.Offset do
 
   defp last_stop_schedules(timetable_schedules) do
     timetable_schedules
-    |> Enum.reverse
+    |> Enum.reverse()
     |> Enum.uniq_by(& &1.trip)
-    |> Enum.reverse
+    |> Enum.reverse()
   end
-
 end

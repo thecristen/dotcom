@@ -2,27 +2,29 @@ defmodule DotCom.Mixfile do
   use Mix.Project
 
   def project do
-    [apps_path: "apps",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     preferred_cli_env: [
-       coveralls: :test,
-       "coveralls.json": :test,
-       "coveralls.detail": :test
-     ],
-     test_coverage: [tool: ExCoveralls],
-     dialyzer: [
-       plt_add_apps: [:mix, :phoenix_live_reload, :laboratory],
-       flags: [:race_conditions, :unmatched_returns],
-       ignore_warnings: ".dialyzer.ignore-warnings"],
-     deps: deps(),
+    [
+      apps_path: "apps",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.json": :test,
+        "coveralls.detail": :test
+      ],
+      test_coverage: [tool: ExCoveralls],
+      dialyzer: [
+        plt_add_apps: [:mix, :phoenix_live_reload, :laboratory],
+        flags: [:race_conditions, :unmatched_returns],
+        ignore_warnings: ".dialyzer.ignore-warnings"
+      ],
+      deps: deps(),
 
-     #docs
-     name: "MBTA Website",
-     source_url: "https://github.com/mbta/dotcom",
-     homepage_url: "https://beta.mbta.com/",
-     docs: [main: "Site", # The main page in the docs
-            logo: "apps/site/assets/assets/images/mbta-logo-t.png"]
+      # docs
+      name: "MBTA Website",
+      source_url: "https://github.com/mbta/dotcom",
+      homepage_url: "https://beta.mbta.com/",
+      # The main page in the docs
+      docs: [main: "Site", logo: "apps/site/assets/assets/images/mbta-logo-t.png"]
     ]
   end
 
@@ -39,8 +41,10 @@ defmodule DotCom.Mixfile do
   # Dependencies listed here are available only for this project
   # and cannot be accessed from applications inside the apps folder
   defp deps do
-    [{:credo, "~> 0.10.0", only: [:dev, :test]},
-     {:excoveralls, "~> 0.5", only: :test},
-     {:ex_doc, "~> 0.18", only: :dev}]
+    [
+      {:credo, "~> 0.10.0", only: [:dev, :test]},
+      {:excoveralls, "~> 0.5", only: :test},
+      {:ex_doc, "~> 0.18", only: :dev}
+    ]
   end
 end

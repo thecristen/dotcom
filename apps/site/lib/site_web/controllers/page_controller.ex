@@ -4,17 +4,18 @@ defmodule SiteWeb.PageController do
   import Util.AsyncAssign
   alias Content.{Banner, NewsEntry, WhatsHappeningItem}
 
-  plug SiteWeb.Plugs.TransitNearMe
-  plug SiteWeb.Plugs.RecentlyVisited
+  plug(SiteWeb.Plugs.TransitNearMe)
+  plug(SiteWeb.Plugs.RecentlyVisited)
 
   def index(conn, _params) do
     {promoted, remainder} = whats_happening_items()
     banner = banner()
+
     conn
     |> assign(
       :meta_description,
       "Public transit in the Greater Boston region. Routes, schedules, trip planner, fares, " <>
-      "service alerts, real-time updates, and general information."
+        "service alerts, real-time updates, and general information."
     )
     |> async_assign_default(:news, &news/0, [])
     |> async_assign_default(:banner, fn -> banner end)
@@ -50,14 +51,19 @@ defmodule SiteWeb.PageController do
       [_, _, _, _, _ | _] = items ->
         {first_two, rest} = Enum.split(items, 2)
         {first_two, Enum.take(rest, 3)}
-      [_, _ | _] = items -> {Enum.take(items, 2), []}
-      _ -> {nil, nil}
+
+      [_, _ | _] = items ->
+        {Enum.take(items, 2), []}
+
+      _ ->
+        {nil, nil}
     end
   end
 
   defp split_add_utm_url({nil, nil}) do
     {nil, nil}
   end
+
   defp split_add_utm_url({promoted, rest}) do
     {
       Enum.map(promoted, &add_utm_url(&1, true)),
@@ -66,12 +72,14 @@ defmodule SiteWeb.PageController do
   end
 
   def add_utm_url(%{} = item, promoted? \\ false) do
-    url = UrlHelpers.build_utm_url(
-      item,
-      type: utm_type(item, promoted?),
-      term: utm_term(item),
-      source: "homepage"
-    )
+    url =
+      UrlHelpers.build_utm_url(
+        item,
+        type: utm_type(item, promoted?),
+        term: utm_term(item),
+        source: "homepage"
+      )
+
     %{item | utm_url: url}
   end
 

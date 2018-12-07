@@ -14,9 +14,11 @@ defmodule AlertsTest do
 
     test "with params, sets values (include informed_entity)" do
       entities = [%Alerts.InformedEntity{}]
+
       assert new(effect: :detour, informed_entity: entities) == %Alert{
-        effect: :detour,
-        informed_entity: Alerts.InformedEntitySet.new(entities)}
+               effect: :detour,
+               informed_entity: Alerts.InformedEntitySet.new(entities)
+             }
     end
   end
 
@@ -101,8 +103,13 @@ defmodule AlertsTest do
 
     test "severe alert with no active period is always urgent regardless of update time" do
       for type <- all_types() do
-        result = {type, is_urgent_alert?(%Alert{effect: type, severity: 7,
-                                                updated_at: Timex.shift(@now, days: -30)}, @now)}
+        result =
+          {type,
+           is_urgent_alert?(
+             %Alert{effect: type, severity: 7, updated_at: Timex.shift(@now, days: -30)},
+             @now
+           )}
+
         assert result == {type, true}
       end
     end
@@ -124,12 +131,12 @@ defmodule AlertsTest do
 
     test "Delay alerts are not notices" do
       delay = %Alert{effect: :delay}
-      refute is_notice? delay, @now
+      refute is_notice?(delay, @now)
     end
 
     test "Suspension alerts are not notices" do
       suspension = %Alert{effect: :suspension}
-      refute is_notice? suspension, @now
+      refute is_notice?(suspension, @now)
     end
 
     test "severe alerts updated within the last week are always an alert" do
@@ -137,14 +144,22 @@ defmodule AlertsTest do
       period_start = Timex.shift(@now, days: -8)
       period_end = Timex.shift(@now, days: 8)
       assert within_one_week(@now, updated) == true
+
       for type <- types_which_can_be_notices() do
-        alert = %Alert{effect: type,
-                       severity: 7,
-                       updated_at: updated,
-                       active_period: [{period_start, period_end}]}
+        alert = %Alert{
+          effect: type,
+          severity: 7,
+          updated_at: updated,
+          active_period: [{period_start, period_end}]
+        }
+
         assert {type, is_notice?(alert, @now)} == {type, false}
-        assert {type, is_notice?(%{alert | active_period: [{nil, period_end}]}, @now)} == {type, false}
-        assert {type, is_notice?(%{alert | active_period: [{period_start, nil}]}, @now)} == {type, false}
+
+        assert {type, is_notice?(%{alert | active_period: [{nil, period_end}]}, @now)} ==
+                 {type, false}
+
+        assert {type, is_notice?(%{alert | active_period: [{period_start, nil}]}, @now)} ==
+                 {type, false}
       end
     end
 
@@ -152,11 +167,15 @@ defmodule AlertsTest do
       updated = Timex.shift(@now, days: -10)
       period_start = Timex.shift(@now, days: -5)
       period_end = Timex.shift(@now, days: 15)
+
       for type <- types_which_can_be_notices() do
-        alert = %Alert{effect: type,
-                       severity: 7,
-                       updated_at: updated,
-                       active_period: [{period_start, period_end}]}
+        alert = %Alert{
+          effect: type,
+          severity: 7,
+          updated_at: updated,
+          active_period: [{period_start, period_end}]
+        }
+
         assert {type, is_notice?(alert, @now)} == {type, false}
       end
     end
@@ -165,162 +184,211 @@ defmodule AlertsTest do
       updated = Timex.shift(@now, days: -8)
       period_start = Timex.shift(@now, days: -20)
       period_end = Timex.shift(@now, days: 6)
+
       for type <- types_which_can_be_notices() do
-        alert = %Alert{effect: type,
-                       severity: 7,
-                       updated_at: updated,
-                       active_period: [{period_start, period_end}]}
+        alert = %Alert{
+          effect: type,
+          severity: 7,
+          updated_at: updated,
+          active_period: [{period_start, period_end}]
+        }
+
         assert {type, is_notice?(alert, @now)} == {type, false}
       end
     end
 
     test "severe alerts are an alert if within first week of active period (nil alert end date)" do
       for type <- types_which_can_be_notices() do
-        alert = %Alert{effect: type,
-                       severity: 7,
-                       updated_at: Timex.shift(now(), days: -7, hours: -1),
-                       active_period: [{Timex.shift(now(), days: -6, hours: -20), nil}]
-                      }
+        alert = %Alert{
+          effect: type,
+          severity: 7,
+          updated_at: Timex.shift(now(), days: -7, hours: -1),
+          active_period: [{Timex.shift(now(), days: -6, hours: -20), nil}]
+        }
+
         assert {type, is_notice?(alert, now())} == {type, false}
       end
     end
 
     test "severe alerts are an alert if within last week of active period" do
       for type <- types_which_can_be_notices() do
-        alert = %Alert{effect: type,
-                       severity: 7,
-                       updated_at: Timex.shift(now(), days: -7, hours: -1),
-                       active_period: [{Timex.shift(now(), days: -14), Timex.shift(now(), days: 6, hours: 23)}]
-                      }
+        alert = %Alert{
+          effect: type,
+          severity: 7,
+          updated_at: Timex.shift(now(), days: -7, hours: -1),
+          active_period: [{Timex.shift(now(), days: -14), Timex.shift(now(), days: 6, hours: 23)}]
+        }
+
         assert {type, is_notice?(alert, now())} == {type, false}
       end
     end
 
     test "severe alerts are an alert if within last week of active period (nil alert start date)" do
       for type <- types_which_can_be_notices() do
-        alert = %Alert{effect: type,
-                       severity: 7,
-                       updated_at: Timex.shift(now(), days: -7, hours: -1),
-                       active_period: [{nil, Timex.shift(now(), days: 6, hours: 23)}]
-                      }
+        alert = %Alert{
+          effect: type,
+          severity: 7,
+          updated_at: Timex.shift(now(), days: -7, hours: -1),
+          active_period: [{nil, Timex.shift(now(), days: 6, hours: 23)}]
+        }
+
         assert {type, is_notice?(alert, now())} == {type, false}
       end
     end
 
     test "severe alerts not within a week of start or end date are a notice" do
       for type <- types_which_can_be_notices() do
-        alert = %Alert{effect: type,
-                       severity: 7,
-                       updated_at: Timex.shift(now(), days: -7, hours: -1),
-                       active_period: [{Timex.shift(now(), days: -7, hours: -1), Timex.shift(now(), days: 7, hours: 1)}]
-                      }
+        alert = %Alert{
+          effect: type,
+          severity: 7,
+          updated_at: Timex.shift(now(), days: -7, hours: -1),
+          active_period: [
+            {Timex.shift(now(), days: -7, hours: -1), Timex.shift(now(), days: 7, hours: 1)}
+          ]
+        }
+
         assert {type, is_notice?(alert, now())} == {type, true}
       end
     end
 
     test "severe alerts not within a week of start or end date are an alert if updated in the last week" do
       for type <- types_which_can_be_notices() do
-        alert = %Alert{effect: type, severity: 7,
-                       updated_at: Timex.shift(now(), days: -6, hours: -20),
-                       active_period: [{Timex.shift(now(), days: -7, hours: -1),
-                                        Timex.shift(now(), days: 7, hours: 1)}]}
+        alert = %Alert{
+          effect: type,
+          severity: 7,
+          updated_at: Timex.shift(now(), days: -6, hours: -20),
+          active_period: [
+            {Timex.shift(now(), days: -7, hours: -1), Timex.shift(now(), days: 7, hours: 1)}
+          ]
+        }
+
         assert {type, is_notice?(alert, now())} == {type, false}
       end
     end
 
     test "one active_period meeting criteria for making it not a notice will result in not a notice" do
       for type <- types_which_can_be_notices() do
-        alert = %Alert{effect: type, severity: 7,
-                       updated_at: Timex.shift(now(), days: -6, hours: -1),
-                       active_period: [{Timex.shift(now(), days: -7, hours: -1),
-                                        Timex.shift(now(), days: 7, hours: 1)},
-                                       {Timex.shift(now(), days: -6, hours: -23),
-                                        Timex.shift(now(), days: 6, hours: 23)}]}
+        alert = %Alert{
+          effect: type,
+          severity: 7,
+          updated_at: Timex.shift(now(), days: -6, hours: -1),
+          active_period: [
+            {Timex.shift(now(), days: -7, hours: -1), Timex.shift(now(), days: 7, hours: 1)},
+            {Timex.shift(now(), days: -6, hours: -23), Timex.shift(now(), days: 6, hours: 23)}
+          ]
+        }
+
         assert {type, is_notice?(alert, now())} == {type, false}
       end
     end
 
     test "all active_periods meeting criteria for making it a notice will result in a notice" do
       for type <- types_which_can_be_notices() do
-        alert = %Alert{effect: type, severity: 7,
-                       updated_at: Timex.shift(now(), days: -7, hours: -1),
-                       active_period: [{Timex.shift(now(), days: -7, hours: -1),
-                                        Timex.shift(now(), days: 7, hours: 1)},
-                                       {Timex.shift(now(), days: -10, hours: -23),
-                                        Timex.shift(now(), days: 10, hours: 23)}]}
+        alert = %Alert{
+          effect: type,
+          severity: 7,
+          updated_at: Timex.shift(now(), days: -7, hours: -1),
+          active_period: [
+            {Timex.shift(now(), days: -7, hours: -1), Timex.shift(now(), days: 7, hours: 1)},
+            {Timex.shift(now(), days: -10, hours: -23), Timex.shift(now(), days: 10, hours: 23)}
+          ]
+        }
+
         assert {type, is_notice?(alert, now())} == {type, true}
       end
     end
 
     test "Track Change is a notice" do
       change = %Alert{effect: :track_change}
-      assert is_notice? change, now()
+      assert is_notice?(change, now())
     end
 
     test "Minor Service Change is a notice" do
       change = %Alert{effect: :service_change, severity: 3}
-      assert is_notice? change, now()
+      assert is_notice?(change, now())
     end
 
     test "Current non-minor Service Change is an alert" do
-      change = %Alert{effect: :service_change, active_period: [{Timex.shift(now(), days: -1), nil}]}
-      refute is_notice? change, now()
+      change = %Alert{
+        effect: :service_change,
+        active_period: [{Timex.shift(now(), days: -1), nil}]
+      }
+
+      refute is_notice?(change, now())
     end
 
     test "Future non-minor Service Change is a notice" do
-      change = %Alert{effect: :service_change, active_period: [{Timex.shift(now(), days: 5), nil}]}
-      assert is_notice? change, now()
+      change = %Alert{
+        effect: :service_change,
+        active_period: [{Timex.shift(now(), days: 5), nil}]
+      }
+
+      assert is_notice?(change, now())
     end
 
     test "Shuttle is an alert if it's active and not Ongoing" do
       today = Timex.now("America/New_York")
-      shuttle = %Alert{effect: :shuttle,
-                       active_period: [{Timex.shift(today, days: -1), nil}],
-                       lifecycle: :new}
+
+      shuttle = %Alert{
+        effect: :shuttle,
+        active_period: [{Timex.shift(today, days: -1), nil}],
+        lifecycle: :new
+      }
+
       refute is_notice?(shuttle, today)
       assert is_notice?(shuttle, Timex.shift(today, days: -2))
     end
 
     test "Shuttle is a notice if it's Ongoing" do
       today = Timex.now("America/New_York")
-      shuttle = %Alert{effect: :shuttle,
-                       active_period: [{Timex.shift(today, days: -1), nil}],
-                       lifecycle: :ongoing}
-      assert is_notice? shuttle, now()
+
+      shuttle = %Alert{
+        effect: :shuttle,
+        active_period: [{Timex.shift(today, days: -1), nil}],
+        lifecycle: :ongoing
+      }
+
+      assert is_notice?(shuttle, now())
     end
 
     test "Non on-going alerts are notices if they arent happening now" do
       today = ~N[2017-01-01T12:00:00]
       tomorrow = Timex.shift(today, days: 1)
-      shuttle = %Alert{effect: :shuttle,
-                       active_period: [{tomorrow, nil}],
-                       lifecycle: :upcoming}
-      assert is_notice? shuttle, today
+      shuttle = %Alert{effect: :shuttle, active_period: [{tomorrow, nil}], lifecycle: :upcoming}
+      assert is_notice?(shuttle, today)
     end
 
     test "Cancellation is an alert if it's today" do
       # NOTE: this will fail around 11:55pm, since future will switch to a different day
       future = Timex.shift(now(), minutes: 5)
-      cancellation = %Alert{effect: :cancellation,
-                            active_period: [{future, future}],
-                            lifecycle: :new}
-      today = future |> DateTime.to_date
-      yesterday = future |> Timex.shift(days: -1) |> DateTime.to_date
-      refute is_notice? cancellation, today
-      assert is_notice? cancellation, yesterday
+
+      cancellation = %Alert{
+        effect: :cancellation,
+        active_period: [{future, future}],
+        lifecycle: :new
+      }
+
+      today = future |> DateTime.to_date()
+      yesterday = future |> Timex.shift(days: -1) |> DateTime.to_date()
+      refute is_notice?(cancellation, today)
+      assert is_notice?(cancellation, yesterday)
     end
 
     test "Cancellation with multiple periods are notices if today is within on of the periods" do
       # NOTE: this will fail around 11:55pm, since future will switch to a different day
       future = Timex.shift(now(), minutes: 5)
-      today = future |> DateTime.to_date
-      yesterday = future |> Timex.shift(days: -1) |> DateTime.to_date
-      tomorrow = future |> Timex.shift(days: 1) |> DateTime.to_date
-      cancellation = %Alert{effect: :cancellation,
-                            active_period: [{future, future}, {tomorrow, tomorrow}],
-                            lifecycle: :new}
-      refute is_notice? cancellation, today
-      assert is_notice? cancellation, yesterday
+      today = future |> DateTime.to_date()
+      yesterday = future |> Timex.shift(days: -1) |> DateTime.to_date()
+      tomorrow = future |> Timex.shift(days: 1) |> DateTime.to_date()
+
+      cancellation = %Alert{
+        effect: :cancellation,
+        active_period: [{future, future}, {tomorrow, tomorrow}],
+        lifecycle: :new
+      }
+
+      refute is_notice?(cancellation, today)
+      assert is_notice?(cancellation, yesterday)
     end
   end
 

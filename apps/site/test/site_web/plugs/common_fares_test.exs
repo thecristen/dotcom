@@ -8,23 +8,23 @@ defmodule SiteWeb.Plugs.CommonFaresTest do
   describe "init/1" do
     test "returns 4 summaries: subway, bus, subway monthly, CR" do
       assert [
-        %Summary{
-          duration: :single_trip,
-          modes: [:subway | _]
-        },
-        %Summary{
-          duration: :single_trip,
-          modes: [:bus | _]
-        },
-        %Summary{
-          duration: :month,
-          modes: [:subway | _]
-        },
-        %Summary{
-          duration: :single_trip,
-          modes: [:commuter_rail | _]
-        }
-      ] = @opts
+               %Summary{
+                 duration: :single_trip,
+                 modes: [:subway | _]
+               },
+               %Summary{
+                 duration: :single_trip,
+                 modes: [:bus | _]
+               },
+               %Summary{
+                 duration: :month,
+                 modes: [:subway | _]
+               },
+               %Summary{
+                 duration: :single_trip,
+                 modes: [:commuter_rail | _]
+               }
+             ] = @opts
     end
   end
 

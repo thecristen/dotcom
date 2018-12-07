@@ -15,13 +15,15 @@ defmodule Util.EnumHelpersTest do
     test "puts a true for the first and last items" do
       ptest l: list(int()) do
         actual = with_first_last(l)
+
         case l do
           [] ->
             assert actual == []
+
           _ ->
             assert List.first(actual) == {List.first(l), true}
             assert List.last(actual) == {List.last(l), true}
-            assert Enum.all?(Enum.slice(actual, 1..-2), &elem(&1, 1) == false)
+            assert Enum.all?(Enum.slice(actual, 1..-2), &(elem(&1, 1) == false))
         end
       end
     end

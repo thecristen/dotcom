@@ -1,13 +1,14 @@
 defmodule SiteWeb.Mode.SubwayController do
   use SiteWeb.Mode.HubBehavior,
-    meta_description: "Schedule information for MBTA subway lines in Greater Boston, " <>
-    "including real-time updates and arrival predictions."
+    meta_description:
+      "Schedule information for MBTA subway lines in Greater Boston, " <>
+        "including real-time updates and arrival predictions."
 
   def route_type, do: 1
 
   def routes do
-    Routes.Repo.all
-    |> Routes.Group.group
+    Routes.Repo.all()
+    |> Routes.Group.group()
     |> Keyword.get(:subway, [])
   end
 
@@ -19,5 +20,6 @@ defmodule SiteWeb.Mode.SubwayController do
 
   def mode_icon, do: :subway
 
-  def fare_description, do: "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
+  def fare_description,
+    do: "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
 end

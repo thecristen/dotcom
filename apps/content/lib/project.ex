@@ -3,16 +3,17 @@ defmodule Content.Project do
   Represents the Project content type in the CMS.
   """
 
-  import Content.Helpers, only: [
-    field_value: 2,
-    int_or_string_to_int: 1,
-    parse_body: 1,
-    parse_date: 2,
-    parse_files: 2,
-    parse_image: 2,
-    parse_images: 2,
-    path_alias: 1
-  ]
+  import Content.Helpers,
+    only: [
+      field_value: 2,
+      int_or_string_to_int: 1,
+      parse_body: 1,
+      parse_date: 2,
+      parse_files: 2,
+      parse_image: 2,
+      parse_images: 2,
+      path_alias: 1
+    ]
 
   @enforce_keys [:id]
   defstruct [
@@ -36,23 +37,23 @@ defmodule Content.Project do
   ]
 
   @type t :: %__MODULE__{
-    id: integer,
-    body: Phoenix.HTML.safe,
-    contact_information: String.t | nil,
-    end_year: String.t | nil,
-    featured: boolean,
-    featured_image: Content.Field.Image.t | nil,
-    files: [Content.Field.File.t] | [],
-    media_email: String.t | nil,
-    media_phone: String.t | nil,
-    photo_gallery: [Content.Field.Image.t] | [],
-    start_year: String.t,
-    status: String.t,
-    teaser: String.t,
-    title: String.t,
-    updated_on: Date.t | nil,
-    path_alias: String.t | nil
-  }
+          id: integer,
+          body: Phoenix.HTML.safe(),
+          contact_information: String.t() | nil,
+          end_year: String.t() | nil,
+          featured: boolean,
+          featured_image: Content.Field.Image.t() | nil,
+          files: [Content.Field.File.t()] | [],
+          media_email: String.t() | nil,
+          media_phone: String.t() | nil,
+          photo_gallery: [Content.Field.Image.t()] | [],
+          start_year: String.t(),
+          status: String.t(),
+          teaser: String.t(),
+          title: String.t(),
+          updated_on: Date.t() | nil,
+          path_alias: String.t() | nil
+        }
 
   @spec from_api(map) :: t
   def from_api(%{} = data) do

@@ -17,7 +17,9 @@ defmodule Alerts.Cache.FetcherTest do
     _ = await_updated()
 
     updates = Agent.get(fake_store, & &1)
-    assert [{[%Alerts.Alert{}], nil}, {[%Alerts.Alert{}], nil}, {[%Alerts.Alert{}], nil}] = updates
+
+    assert [{[%Alerts.Alert{}], nil}, {[%Alerts.Alert{}], nil}, {[%Alerts.Alert{}], nil}] =
+             updates
   end
 
   test "It handles a failed API response and does not update the store" do
@@ -52,36 +54,38 @@ defmodule Alerts.Cache.FetcherTest do
   end
 
   def valid_data do
-    %JsonApi{data: [
-      %JsonApi.Item{
-        attributes: %{
-          "active_period" => [%{"end" => nil, "start" => "2017-05-01T04:30:00-04:00"}],
-          "banner" => nil,
-          "cause" => "CONSTRUCTION",
-          "created_at" => "2016-10-21T13:45:28-04:00",
-          "description" => "The Description",
-          "effect" => "UNKNOWN_EFFECT",
-          "effect_name" => "Service Change",
-          "header" => "The header.",
-          "informed_entity" => [
-            %{"route" => "CR-Fitchburg", "route_type" => 2, "activities" => ["BOARD"]},
-            %{"route" => "CR-Haverhill", "route_type" => 2, "activities" => ["BOARD"]},
-            %{"route" => "CR-Lowell", "route_type" => 2, "activities" => ["BOARD"]},
-            %{"route" => "CR-Newburyport", "route_type" => 2, "activities" => ["BOARD"]}
-          ],
-          "lifecycle" => "New",
-          "service_effect" => "Commuter Rail notice",
-          "severity" => "Minor",
-          "short_header" => "Short header",
-          "timeframe" => nil,
-          "updated_at" => "2017-04-25T21:30:28-04:00",
-          "url" => nil
-        },
-        id: "152291",
-        relationships: %{},
-        type: "alert"
-      }
-    ]}
+    %JsonApi{
+      data: [
+        %JsonApi.Item{
+          attributes: %{
+            "active_period" => [%{"end" => nil, "start" => "2017-05-01T04:30:00-04:00"}],
+            "banner" => nil,
+            "cause" => "CONSTRUCTION",
+            "created_at" => "2016-10-21T13:45:28-04:00",
+            "description" => "The Description",
+            "effect" => "UNKNOWN_EFFECT",
+            "effect_name" => "Service Change",
+            "header" => "The header.",
+            "informed_entity" => [
+              %{"route" => "CR-Fitchburg", "route_type" => 2, "activities" => ["BOARD"]},
+              %{"route" => "CR-Haverhill", "route_type" => 2, "activities" => ["BOARD"]},
+              %{"route" => "CR-Lowell", "route_type" => 2, "activities" => ["BOARD"]},
+              %{"route" => "CR-Newburyport", "route_type" => 2, "activities" => ["BOARD"]}
+            ],
+            "lifecycle" => "New",
+            "service_effect" => "Commuter Rail notice",
+            "severity" => "Minor",
+            "short_header" => "Short header",
+            "timeframe" => nil,
+            "updated_at" => "2017-04-25T21:30:28-04:00",
+            "url" => nil
+          },
+          id: "152291",
+          relationships: %{},
+          type: "alert"
+        }
+      ]
+    }
   end
 
   def error(e) do
@@ -89,7 +93,7 @@ defmodule Alerts.Cache.FetcherTest do
   end
 
   defp make_update_fn(agent, pid) do
-    fn(alerts, banner) ->
+    fn alerts, banner ->
       Agent.update(agent, fn updates -> [{alerts, banner} | updates] end)
       send(pid, :updated)
     end

@@ -15,7 +15,7 @@ defmodule Alerts.Cache.Fetcher do
   @default_opts [
     api_mfa: {V3Api.Alerts, :all, []},
     repeat_ms: 60_000,
-    update_fn: &Cache.Store.update/2,
+    update_fn: &Cache.Store.update/2
   ]
 
   # Client
@@ -46,17 +46,19 @@ defmodule Alerts.Cache.Fetcher do
         banner =
           data
           |> Enum.flat_map(&Parser.Banner.parse/1)
-          |> List.first
+          |> List.first()
 
         update_fn.(alerts, banner)
+
       {:error, msg} ->
-        _ = Logger.info("#{__MODULE__} error fetching alerts: #{inspect msg}")
+        _ = Logger.info("#{__MODULE__} error fetching alerts: #{inspect(msg)}")
     end
 
     schedule_fetch(repeat_ms)
 
     {:noreply, state, :hibernate}
   end
+
   def handle_info(_, state) do
     {:noreply, state}
   end

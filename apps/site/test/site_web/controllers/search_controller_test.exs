@@ -7,7 +7,7 @@ defmodule SiteWeb.SearchControllerTest do
 
   describe "index with js" do
     test "index", %{conn: conn} do
-      conn = get conn, search_path(conn, :index)
+      conn = get(conn, search_path(conn, :index))
       response = html_response(conn, 200)
       assert response =~ "Filter by type"
     end
@@ -19,18 +19,20 @@ defmodule SiteWeb.SearchControllerTest do
       bypass = Bypass.open()
 
       Bypass.expect(bypass, fn conn ->
-        {status, resp} = case Plug.Conn.read_body(conn) do
-          {:ok, ~s({"requests":[]}), %Plug.Conn{}} -> {200, ~s({"results": []})}
-          {:ok, body, %Plug.Conn{}} -> {500, body}
-        end
+        {status, resp} =
+          case Plug.Conn.read_body(conn) do
+            {:ok, ~s({"requests":[]}), %Plug.Conn{}} -> {200, ~s({"results": []})}
+            {:ok, body, %Plug.Conn{}} -> {500, body}
+          end
+
         Plug.Conn.send_resp(conn, status, resp)
       end)
 
       assert %{"results" => []} =
-        conn
-        |> assign(:algolia_host, "http://localhost:#{bypass.port}")
-        |> post(search_path(conn, :query), %{requests: []})
-        |> json_response(200)
+               conn
+               |> assign(:algolia_host, "http://localhost:#{bypass.port}")
+               |> post(search_path(conn, :query), %{requests: []})
+               |> json_response(200)
     end
 
     @tag :capture_log
@@ -63,20 +65,27 @@ defmodule SiteWeb.SearchControllerTest do
 
   describe "log_error/1" do
     test "logs a bad HTTP response" do
-      log = ExUnit.CaptureLog.capture_log(fn ->
-        assert SiteWeb.SearchController.log_error({:ok, %HTTPoison.Response{}}) == :ok
-      end)
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          assert SiteWeb.SearchController.log_error({:ok, %HTTPoison.Response{}}) == :ok
+        end)
+
       assert log =~ "bad response"
 
-      log = ExUnit.CaptureLog.capture_log(fn ->
-        assert SiteWeb.SearchController.log_error({:error, %HTTPoison.Error{}}) == :ok
-      end)
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          assert SiteWeb.SearchController.log_error({:error, %HTTPoison.Error{}}) == :ok
+        end)
+
       assert log =~ "bad response"
     end
+
     test "does not log other types of errors" do
-      log = ExUnit.CaptureLog.capture_log(fn ->
-        assert SiteWeb.SearchController.log_error({:error, :bad_config}) == :ok
-      end)
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          assert SiteWeb.SearchController.log_error({:error, :bad_config}) == :ok
+        end)
+
       assert log == ""
     end
   end
@@ -91,10 +100,10 @@ defmodule SiteWeb.SearchControllerTest do
       Application.put_env(:algolia, :click_analytics_url, "http://localhost:#{bypass.port}")
       Application.put_env(:algolia, :track_clicks?, true)
 
-      on_exit fn ->
+      on_exit(fn ->
         Application.put_env(:algolia, :click_analytics_url, url)
         Application.put_env(:algolia, :track_clicks?, track?)
-      end
+      end)
 
       {:ok, bypass: bypass}
     end
@@ -102,7 +111,13 @@ defmodule SiteWeb.SearchControllerTest do
     test "logs a click", %{conn: conn, bypass: bypass} do
       Bypass.expect(bypass, fn conn -> Plug.Conn.send_resp(conn, 200, "success") end)
 
-      conn = post conn, search_path(conn, :click), %{objectID: "objectID", position: "1", queryID: "queryID"}
+      conn =
+        post(conn, search_path(conn, :click), %{
+          objectID: "objectID",
+          position: "1",
+          queryID: "queryID"
+        })
+
       assert json_response(conn, 200) == %{"message" => "success"}
     end
 
@@ -110,15 +125,31 @@ defmodule SiteWeb.SearchControllerTest do
     test "returns error info if Algolia returns a bad response", %{conn: conn, bypass: bypass} do
       Bypass.expect(bypass, fn conn -> Plug.Conn.send_resp(conn, 401, "Feature not available") end)
 
-      conn = post conn, search_path(conn, :click), %{objectID: "objectID", position: "1", queryID: "queryID"}
-      assert json_response(conn, 200) == %{"message" => "bad_response", "body" => "Feature not available", "status_code" => 401}
+      conn =
+        post(conn, search_path(conn, :click), %{
+          objectID: "objectID",
+          position: "1",
+          queryID: "queryID"
+        })
+
+      assert json_response(conn, 200) == %{
+               "message" => "bad_response",
+               "body" => "Feature not available",
+               "status_code" => 401
+             }
     end
 
     @tag :capture_log
     test "returns error info if Algolia is down", %{conn: conn, bypass: bypass} do
       Bypass.down(bypass)
 
-      conn = post conn, search_path(conn, :click), %{objectID: "objectID", position: "1", queryID: "queryID"}
+      conn =
+        post(conn, search_path(conn, :click), %{
+          objectID: "objectID",
+          position: "1",
+          queryID: "queryID"
+        })
+
       assert json_response(conn, 200) == %{"message" => "error", "reason" => "econnrefused"}
     end
   end
@@ -130,20 +161,24 @@ defmodule SiteWeb.SearchControllerTest do
       route_entity = Alerts.InformedEntity.from_keywords(route: "route_with_alert")
       stop_entity = Alerts.InformedEntity.from_keywords(stop: "stop_with_alert")
 
-      stop_alert = Alert.new(
-        effect: :station_closure,
-        severity: 9,
-        updated_at: Timex.shift(dt, hours: -2),
-        informed_entity: [stop_entity, route_entity]
-      )
+      stop_alert =
+        Alert.new(
+          effect: :station_closure,
+          severity: 9,
+          updated_at: Timex.shift(dt, hours: -2),
+          informed_entity: [stop_entity, route_entity]
+        )
+
       refute Alert.is_notice?(stop_alert, dt)
 
-      route_alert = Alert.new(
-        effect: :suspension,
-        severity: 9,
-        updated_at: Timex.shift(dt, hours: -1),
-        informed_entity: [route_entity]
-      )
+      route_alert =
+        Alert.new(
+          effect: :suspension,
+          severity: 9,
+          updated_at: Timex.shift(dt, hours: -1),
+          informed_entity: [route_entity]
+        )
+
       refute Alert.is_notice?(route_alert, dt)
 
       alerts_repo_fn = fn %DateTime{} ->
@@ -154,16 +189,17 @@ defmodule SiteWeb.SearchControllerTest do
       end
 
       result = SiteWeb.SearchController.get_alert_ids(dt, alerts_repo_fn)
+
       assert result == %{
-        stop: MapSet.new(["stop_with_alert"]),
-        route: MapSet.new(["route_with_alert"])
-      }
+               stop: MapSet.new(["stop_with_alert"]),
+               route: MapSet.new(["route_with_alert"])
+             }
     end
   end
 
   describe "index with params nojs" do
     test "search param", %{conn: conn} do
-      conn = get conn, search_path(conn, :index, @params)
+      conn = get(conn, search_path(conn, :index, @params))
       response = html_response(conn, 200)
       # check pagination
       assert response =~ "Showing results 1-10 of 2083"
@@ -182,7 +218,7 @@ defmodule SiteWeb.SearchControllerTest do
 
     test "include offset", %{conn: conn} do
       params = %{@params | "search" => Map.put(@params["search"], "offset", "3")}
-      conn = get conn, search_path(conn, :index, params)
+      conn = get(conn, search_path(conn, :index, params))
       response = html_response(conn, 200)
       assert response =~ "Showing results 31-40 of 2083"
     end
@@ -190,26 +226,30 @@ defmodule SiteWeb.SearchControllerTest do
     test "include filter", %{conn: conn} do
       content_type = %{"event" => "true"}
       params = %{@params | "search" => Map.put(@params["search"], "content_type", content_type)}
-      conn = get conn, search_path(conn, :index, params)
+      conn = get(conn, search_path(conn, :index, params))
       response = html_response(conn, 200)
-      assert response =~ "<input checked=\"checked\" id=\"content_type_event\" name=\"search[content_type][event]\" type=\"checkbox\" value=\"true\">"
+
+      assert response =~
+               "<input checked=\"checked\" id=\"content_type_event\" name=\"search[content_type][event]\" type=\"checkbox\" value=\"true\">"
     end
 
     test "no matches", %{conn: conn} do
-      conn = get conn, search_path(conn, :index, %{"search" => %{"query" => "empty", "nojs" => true}})
+      conn =
+        get(conn, search_path(conn, :index, %{"search" => %{"query" => "empty", "nojs" => true}}))
+
       response = html_response(conn, 200)
       assert response =~ "There are no results matching"
     end
 
     test "empty search query", %{conn: conn} do
-      conn = get conn, search_path(conn, :index, %{"search" => %{"query" => "", "nojs" => true}})
+      conn = get(conn, search_path(conn, :index, %{"search" => %{"query" => "", "nojs" => true}}))
       response = html_response(conn, 200)
       assert response =~ "empty-search-page"
     end
 
     test "search server is returning an error", %{conn: conn} do
-      with_mock Content.Repo, [search: fn(_, _, _) -> {:error, :error} end] do
-        conn = get conn, search_path(conn, :index, @params)
+      with_mock Content.Repo, search: fn _, _, _ -> {:error, :error} end do
+        conn = get(conn, search_path(conn, :index, @params))
         response = html_response(conn, 200)
         assert response =~ "Whoops"
       end

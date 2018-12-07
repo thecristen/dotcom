@@ -1,5 +1,4 @@
 defmodule SiteWeb.IntegrationCase do
-
   use ExUnit.CaseTemplate
 
   using do

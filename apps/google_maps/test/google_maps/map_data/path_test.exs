@@ -3,7 +3,7 @@ defmodule GoogleMaps.MapData.PathTest do
   import GoogleMaps.MapData.Path
   alias GoogleMaps.MapData.Path
 
-  @path %Path {
+  @path %Path{
     weight: 4,
     color: "fff",
     polyline: "Polyline"
@@ -11,18 +11,18 @@ defmodule GoogleMaps.MapData.PathTest do
 
   describe "new/1" do
     test "creates path with given polyline and default params" do
-      path =  new("polyline")
+      path = new("polyline")
       assert path.polyline == "polyline"
     end
 
     test "creates path with given weight and color" do
-      path =  new("polyline", color: "blue", weight: 8)
+      path = new("polyline", color: "blue", weight: 8)
       assert path.color == "blue"
       assert path.weight == 8
     end
 
     test "creates path with given dotted value" do
-      path =  new("polyline", color: "blue", weight: 8, dotted?: true)
+      path = new("polyline", color: "blue", weight: 8, dotted?: true)
       assert path.dotted?
     end
 

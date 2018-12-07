@@ -8,19 +8,17 @@ defmodule VehicleTooltip do
   alias Routes.Route
   alias Schedules.Trip
 
-  defstruct [
-    vehicle: %Vehicle{},
-    prediction: %Prediction{},
-    trip: %Trip{},
-    route: %Route{},
-    stop_name: ""
-  ]
+  defstruct vehicle: %Vehicle{},
+            prediction: %Prediction{},
+            trip: %Trip{},
+            route: %Route{},
+            stop_name: ""
 
   @type t :: %VehicleTooltip{
-    vehicle: Vehicle.t,
-    prediction: Prediction.t | nil,
-    trip: Trip.t | nil,
-    route: Route.t | nil,
-    stop_name: String.t
-  }
+          vehicle: Vehicle.t(),
+          prediction: Prediction.t() | nil,
+          trip: Trip.t() | nil,
+          route: Route.t() | nil,
+          stop_name: String.t()
+        }
 end

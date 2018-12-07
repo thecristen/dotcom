@@ -6,13 +6,13 @@ defmodule Content.Field.File do
   in other drupal content types, like Content.ProjectUpdate.
   """
 
-  defstruct [description: "", url: "", type: ""]
+  defstruct description: "", url: "", type: ""
 
   @type t :: %__MODULE__{
-    description: String.t,
-    url: String.t,
-    type: String.t
-  }
+          description: String.t(),
+          url: String.t(),
+          type: String.t()
+        }
 
   @spec from_api(map) :: t
   def from_api(%{"description" => description, "url" => url, "mime_type" => type}) do

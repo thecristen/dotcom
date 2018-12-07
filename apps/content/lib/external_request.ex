@@ -8,7 +8,7 @@ defmodule Content.ExternalRequest do
     issue a request.
   """
 
-  @spec process(atom, String.t, String.t, Keyword.t) :: Content.CMS.response
+  @spec process(atom, String.t(), String.t(), Keyword.t()) :: Content.CMS.response()
   def process(method, path, body \\ "", opts \\ []) do
     request_path = full_url(path)
     request_headers = build_headers(method)
@@ -17,35 +17,52 @@ defmodule Content.ExternalRequest do
     handle_response(response, parse_headers(response), request_path)
   end
 
-  @spec handle_response({:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t}, map(), String.t)
-  :: Content.CMS.response
-  defp handle_response({:ok, %HTTPoison.Response{} = response}, %{"content-type" => "application/json"}, path) do
+  @spec handle_response(
+          {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()},
+          map(),
+          String.t()
+        ) :: Content.CMS.response()
+  defp handle_response(
+         {:ok, %HTTPoison.Response{} = response},
+         %{"content-type" => "application/json"},
+         path
+       ) do
     case response do
       %{status_code: code, body: body} when code in [200, 201] ->
         decode_body(body)
+
       %{status_code: code} when code in [301, 302] ->
         get_redirect(response)
+
       %{status_code: code} when code in [400, 401, 403, 404, 406] ->
-        {:error, :not_found} # drive handled errors to the 404 page
+        # drive handled errors to the 404 page
+        {:error, :not_found}
+
       error ->
         _ = log_bad_response(error, path)
-        {:error, :invalid_response} # unusual/unhandled status codes (will throw 500)
+        # unusual/unhandled status codes (will throw 500)
+        {:error, :invalid_response}
     end
   end
+
   defp handle_response({:ok, %HTTPoison.Response{}}, _header_map, _path) do
-    {:error, :not_found} # a response that isn't returned in JSON format
+    # a response that isn't returned in JSON format
+    {:error, :not_found}
   end
+
   defp handle_response({:error, %HTTPoison.Error{reason: :timeout}}, _header_map, path) do
-    _ = [
-      "module=#{inspect(__MODULE__)}",
-      "path=#{path}",
-      "CMS request timed out"
-    ]
-    |> Enum.join(" ")
-    |> Logger.warn()
+    _ =
+      [
+        "module=#{inspect(__MODULE__)}",
+        "path=#{path}",
+        "CMS request timed out"
+      ]
+      |> Enum.join(" ")
+      |> Logger.warn()
 
     {:error, :timeout}
   end
+
   defp handle_response({:error, %HTTPoison.Error{} = error}, _header_map, path) do
     _ = log_bad_response(error, path)
     {:error, :invalid_response}
@@ -61,32 +78,37 @@ defmodule Content.ExternalRequest do
     |> Logger.warn()
   end
 
-  @spec decode_body(String.t) :: Content.CMS.response
+  @spec decode_body(String.t()) :: Content.CMS.response()
   defp decode_body(body) do
     case Poison.decode(body) do
       {:ok, decoded} ->
         {:ok, decoded}
+
       {:error, error} ->
-        _ = [
-          "module=#{inspect(__MODULE__)}",
-          "Error parsing json received from CMS:",
-          "#{inspect(error)}"
-        ]
-        |> Enum.join(" ")
-        |> Logger.warn()
-        {:error, :invalid_response} # a malformed JSON response
+        _ =
+          [
+            "module=#{inspect(__MODULE__)}",
+            "Error parsing json received from CMS:",
+            "#{inspect(error)}"
+          ]
+          |> Enum.join(" ")
+          |> Logger.warn()
+
+        # a malformed JSON response
+        {:error, :invalid_response}
     end
   end
 
-  @spec get_redirect(HTTPoison.Response.t) :: {:error, Content.CMS.error}
+  @spec get_redirect(HTTPoison.Response.t()) :: {:error, Content.CMS.error()}
   defp get_redirect(%HTTPoison.Response{headers: headers, status_code: status}) do
     headers
     |> Enum.find(fn {key, _} -> String.downcase(key) == "location" end)
     |> do_get_redirect(status)
   end
 
-  @spec do_get_redirect({String.t, String.t} | nil, integer) :: {:error, Content.CMS.error}
+  @spec do_get_redirect({String.t(), String.t()} | nil, integer) :: {:error, Content.CMS.error()}
   defp do_get_redirect(nil, _), do: {:error, :invalid_response}
+
   defp do_get_redirect({_key, url}, status_code) do
     opts = set_redirect_options(URI.parse(url))
     {:error, {:redirect, status_code, opts}}
@@ -97,10 +119,11 @@ defmodule Content.ExternalRequest do
   # as internal (originally entered as a /relative/path) or external
   # (entered into Drupal with a URI scheme). Sets :opts for redirect/2.
 
-  @spec set_redirect_options(URI.t) :: Keyword.t
+  @spec set_redirect_options(URI.t()) :: Keyword.t()
   defp set_redirect_options(%URI{host: host} = uri) when is_nil(host) do
     [to: uri |> internal_uri() |> parse_redirect_query()]
   end
+
   defp set_redirect_options(%URI{host: host} = uri) do
     case String.contains?(Content.Config.root(), host) do
       true -> [to: uri |> internal_uri() |> parse_redirect_query()]
@@ -108,19 +131,19 @@ defmodule Content.ExternalRequest do
     end
   end
 
-  @spec parse_redirect_query(URI.t) :: String.t
+  @spec parse_redirect_query(URI.t()) :: String.t()
   defp parse_redirect_query(%URI{} = uri) do
     uri
     |> Map.update!(:query, &update_query/1)
     |> URI.to_string()
   end
 
-  @spec update_query(String.t | nil) :: String.t
+  @spec update_query(String.t() | nil) :: String.t()
   defp update_query(query) when query in ["_format=json", nil] do
     nil
   end
-  defp update_query(query) do
 
+  defp update_query(query) do
     # If the redirect path happens to include query params,
     # Drupal will append the request query parameters to the redirect params.
 
@@ -130,7 +153,7 @@ defmodule Content.ExternalRequest do
     |> URI.encode_query()
   end
 
-  @spec internal_uri(URI.t) :: URI.t
+  @spec internal_uri(URI.t()) :: URI.t()
   defp internal_uri(%URI{} = uri) do
     %URI{uri | scheme: nil, authority: nil, host: nil}
   end
@@ -139,10 +162,11 @@ defmodule Content.ExternalRequest do
     Content.Config.url(path)
   end
 
-  @spec parse_headers({:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t}) :: map()
+  @spec parse_headers({:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()}) :: map()
   defp parse_headers({:ok, %HTTPoison.Response{headers: header_list}}) do
     Map.new(header_list, fn {key, value} -> {String.downcase(key), value} end)
   end
+
   defp parse_headers({:error, %HTTPoison.Error{}}) do
     %{}
   end
@@ -155,7 +179,7 @@ defmodule Content.ExternalRequest do
   end
 
   defp auth_headers do
-    Keyword.merge(headers(), ["Authorization": "Basic #{encoded_auth_credentials()}"])
+    Keyword.merge(headers(), Authorization: "Basic #{encoded_auth_credentials()}")
   end
 
   defp encoded_auth_credentials, do: Base.encode64("#{username()}:#{password()}")

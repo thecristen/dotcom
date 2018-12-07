@@ -20,7 +20,12 @@ defmodule Algolia.ObjectTest do
       data = Algolia.Object.data(route)
       assert data.stop_names == ["Green Line Stop", "Subway Station", "Commuter Rail Stop"]
       assert data.headsigns == ["CR Terminus 1", "CR Terminus 2"]
-      assert data.route == %{route | direction_names: [route.direction_names[0], route.direction_names[1]]}
+
+      assert data.route == %{
+               route
+               | direction_names: [route.direction_names[0], route.direction_names[1]]
+             }
+
       refute Map.has_key?(data, :_geoloc)
     end
 
@@ -30,7 +35,12 @@ defmodule Algolia.ObjectTest do
       # Should not include bus stop
       assert data.stop_names == ["Green Line Stop", "Commuter Rail Stop"]
       assert data.headsigns == ["Terminus 1", "Terminus 2"]
-      assert data.route == %{route | direction_names: [route.direction_names[0], route.direction_names[1]]}
+
+      assert data.route == %{
+               route
+               | direction_names: [route.direction_names[0], route.direction_names[1]]
+             }
+
       refute Map.has_key?(data, :_geoloc)
     end
   end
@@ -38,14 +48,14 @@ defmodule Algolia.ObjectTest do
   describe "Algolia.Object.url" do
     test "for Stops.Stop", %{stops: repo} do
       assert "place-commuter-rail"
-      |> repo.get()
-      |> Algolia.Object.url() == "/stops/place-commuter-rail"
+             |> repo.get()
+             |> Algolia.Object.url() == "/stops/place-commuter-rail"
     end
 
     test "for Routes.Route", %{routes: repo} do
       assert "CR-Commuterrail"
-      |> repo.get()
-      |> Algolia.Object.url() == "/schedules/CR-Commuterrail"
+             |> repo.get()
+             |> Algolia.Object.url() == "/schedules/CR-Commuterrail"
     end
   end
 end

@@ -13,19 +13,21 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   def map_img_src(_, _, %Routes.Route{type: 4}, _path_color) do
     static_url(SiteWeb.Endpoint, "/images/map_thumbnails/Ferry_Map.png")
   end
+
   def map_img_src({route_stops, _shapes}, polylines, _route, path_color) do
     markers = Enum.map(route_stops, &build_stop_marker/1)
     paths = Enum.map(polylines, &Path.new(&1, color: path_color))
 
     {600, 600}
-    |> MapData.new
+    |> MapData.new()
     |> MapData.add_markers(markers)
     |> MapData.add_paths(paths)
     |> GoogleMaps.static_map_url()
   end
 
-  @spec build_stop_marker(RouteStop.t) :: Marker.t
+  @spec build_stop_marker(RouteStop.t()) :: Marker.t()
   defp build_stop_marker(stop)
+
   defp build_stop_marker(%RouteStop{} = stop) do
     stop.id
     |> Stops.Repo.get()
@@ -33,17 +35,17 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   end
 
   @spec dynamic_map_data(
-    String.t,
-    [String.t],
-    {[RouteStop.t], any},
-    {[String.t], VehicleHelpers.tooltip_index}
-  ) :: MapData.t
+          String.t(),
+          [String.t()],
+          {[RouteStop.t()], any},
+          {[String.t()], VehicleHelpers.tooltip_index()}
+        ) :: MapData.t()
   def dynamic_map_data(
-    color,
-    map_polylines,
-    {route_stops, _shapes},
-    {vehicle_polylines, vehicle_tooltips}
-  ) do
+        color,
+        map_polylines,
+        {route_stops, _shapes},
+        {vehicle_polylines, vehicle_tooltips}
+      ) do
     markers = dynamic_markers(route_stops, vehicle_tooltips)
     paths = dynamic_paths(color, map_polylines, vehicle_polylines)
 
@@ -56,14 +58,14 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     |> MapData.default_center(nil)
   end
 
-  @spec dynamic_markers([RouteStop.t], VehicleHelpers.tooltip_index) :: [Marker.t]
+  @spec dynamic_markers([RouteStop.t()], VehicleHelpers.tooltip_index()) :: [Marker.t()]
   defp dynamic_markers(route_stops, tooltip_index) do
     vehicle_markers = build_vehicle_markers(tooltip_index)
     stop_markers = Enum.map(route_stops, &build_stop_marker/1)
     stop_markers ++ vehicle_markers
   end
 
-  @spec build_vehicle_markers(VehicleHelpers.tooltip_index) :: [Marker.t]
+  @spec build_vehicle_markers(VehicleHelpers.tooltip_index()) :: [Marker.t()]
   defp build_vehicle_markers(tooltip_index) do
     # the tooltip index uses two different key formats, so
     # the Enum.reject call here is essentially just
@@ -93,23 +95,26 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     {static_data, dynamic_data}
   end
 
-  @spec map_polylines({any, [Routes.Shape.t]}, Route.t) :: [String.t]
+  @spec map_polylines({any, [Routes.Shape.t()]}, Route.t()) :: [String.t()]
   defp map_polylines(_, %Routes.Route{type: 4}), do: []
+
   defp map_polylines({_stops, shapes}, _) do
     shapes
-    |> Enum.flat_map(& PolylineHelpers.condense([&1.polyline]))
+    |> Enum.flat_map(&PolylineHelpers.condense([&1.polyline]))
   end
 
   @doc "Returns the stops that should be displayed on the map"
-  @spec map_stops([RouteStops.t], {[Shape.t], [Shape.t]}, Route.id_t) :: {[Stops.Stop.t], [Shape.t]}
+  @spec map_stops([RouteStops.t()], {[Shape.t()], [Shape.t()]}, Route.id_t()) ::
+          {[Stops.Stop.t()], [Shape.t()]}
   def map_stops(branches, {route_shapes, _active_shapes}, "Green") do
     {do_map_stops(branches), route_shapes}
   end
+
   def map_stops(branches, {_route_shapes, active_shapes}, _route_id) do
     {do_map_stops(branches), active_shapes}
   end
 
-  @spec do_map_stops([RouteStops.t]) :: [RouteStop.t]
+  @spec do_map_stops([RouteStops.t()]) :: [RouteStop.t()]
   defp do_map_stops(branches) do
     branches
     |> Enum.flat_map(& &1.stops)

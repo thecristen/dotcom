@@ -4,10 +4,11 @@ defmodule SiteWeb.ModeControllerTest do
 
   for mode <- ~W(index subway bus ferry commuter_rail)a do
     test_name = "renders the #{mode} mode page"
+
     test test_name, %{conn: conn} do
       assert conn
-      |> get(mode_path(conn, unquote(mode)))
-      |> html_response(200)
+             |> get(mode_path(conn, unquote(mode)))
+             |> html_response(200)
     end
   end
 
@@ -24,7 +25,10 @@ defmodule SiteWeb.ModeControllerTest do
     test "/commuter-rail only shows CR routes", %{conn: conn} do
       conn =
         conn
-        |> assign(:recently_visited, [%Route{id: "Red", type: 1}, %Route{id: "CR-Fitchburg", type: 2}])
+        |> assign(:recently_visited, [
+          %Route{id: "Red", type: 1},
+          %Route{id: "CR-Fitchburg", type: 2}
+        ])
         |> get(mode_path(conn, :commuter_rail))
 
       assert conn.assigns.recently_visited == [%Route{id: "CR-Fitchburg", type: 2}]
@@ -33,7 +37,10 @@ defmodule SiteWeb.ModeControllerTest do
     test "/bus only shows bus routes", %{conn: conn} do
       conn =
         conn
-        |> assign(:recently_visited, [%Route{id: "1", type: 3}, %Route{id: "CR-Fitchburg", type: 2}])
+        |> assign(:recently_visited, [
+          %Route{id: "1", type: 3},
+          %Route{id: "CR-Fitchburg", type: 2}
+        ])
         |> get(mode_path(conn, :bus))
 
       assert conn.assigns.recently_visited == [%Route{id: "1", type: 3}]
@@ -56,16 +63,17 @@ defmodule SiteWeb.ModeControllerTest do
 
   test "test mode redirect route_id", %{conn: conn} do
     assert conn
-    |> get(mode_path(conn, :index, route: "CR-Fitchburg"))
-    |> redirected_to() == "/schedules/CR-Fitchburg"
+           |> get(mode_path(conn, :index, route: "CR-Fitchburg"))
+           |> redirected_to() == "/schedules/CR-Fitchburg"
   end
 
   describe "mTicket detection" do
     test "mTicket matched", %{conn: conn} do
-      response = conn
-      |> put_req_header("user-agent", "Java/1.8.0_91")
-      |> get(mode_path(conn, :commuter_rail))
-      |> html_response(200)
+      response =
+        conn
+        |> put_req_header("user-agent", "Java/1.8.0_91")
+        |> get(mode_path(conn, :commuter_rail))
+        |> html_response(200)
 
       assert response =~ "mticket-notice"
       assert response =~ "access schedules:"
@@ -73,9 +81,10 @@ defmodule SiteWeb.ModeControllerTest do
     end
 
     test "mTicket not matched", %{conn: conn} do
-      response = conn
-      |> get(mode_path(conn, :commuter_rail))
-      |> html_response(200)
+      response =
+        conn
+        |> get(mode_path(conn, :commuter_rail))
+        |> html_response(200)
 
       refute response =~ "mticket-notice"
     end

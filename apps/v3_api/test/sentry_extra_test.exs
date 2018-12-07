@@ -7,7 +7,7 @@ defmodule V3Api.SentryExtraTest do
   import Plug.Conn, only: [send_resp: 3]
 
   setup _ do
-    bypass = Bypass.open
+    bypass = Bypass.open()
     {:ok, %{bypass: bypass, url: "http://localhost:#{bypass.port}"}}
   end
 
@@ -34,26 +34,30 @@ defmodule V3Api.SentryExtraTest do
   describe "check conditions through V3Api.get_json/3" do
     test "bad json response", %{bypass: bypass, url: url} do
       expects = "V3Api.get_json_response url=\"/bad_json\" params={} response={data: garbage}"
-      Bypass.expect bypass, fn conn ->
+
+      Bypass.expect(bypass, fn conn ->
         assert conn.request_path == "/bad_json"
-        send_resp conn, 200, ~s({data: garbage})
-      end
+        send_resp(conn, 200, ~s({data: garbage}))
+      end)
+
       V3Api.get_json("/bad_json", [], base_url: url)
       assert expects == Process.get(@process_dictionary_key).extra["api-response-error-2"]
     end
 
     test "bad server response", %{bypass: bypass, url: url} do
       expects = "V3Api.get_json_response url=\"/bad_response\" params={} response="
-      Bypass.expect bypass, fn conn ->
+
+      Bypass.expect(bypass, fn conn ->
         assert conn.request_path == "/bad_response"
-        send_resp conn, 500, ""
-      end
+        send_resp(conn, 500, "")
+      end)
+
       V3Api.get_json("/bad_response", [], base_url: url)
       assert expects == Process.get(@process_dictionary_key).extra["api-response-error-2"]
     end
 
     test "can't connect returns an error", %{bypass: bypass, url: url} do
-      Bypass.down bypass
+      Bypass.down(bypass)
       V3Api.get_json("/cant_connect", [], base_url: url)
       assert Process.get(@process_dictionary_key).extra["api-response-1"] =~ "econnrefused"
     end

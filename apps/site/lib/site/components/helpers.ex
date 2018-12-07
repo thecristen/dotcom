@@ -1,14 +1,13 @@
 defmodule Site.Components.Helpers do
-
   @doc """
     Takes a string, capitalizes each word between underscores, and removes the underscores
   """
-  @spec alias_name(atom) :: String.t
+  @spec alias_name(atom) :: String.t()
   def alias_name(atom) do
     atom
-    |> Kernel.to_string
+    |> Kernel.to_string()
     |> String.split("_")
-    |> Enum.map(&(String.capitalize(&1)))
+    |> Enum.map(&String.capitalize(&1))
     |> Enum.join("")
   end
 
@@ -16,11 +15,11 @@ defmodule Site.Components.Helpers do
     A helper function to ensure that the correct path is returned no
     matter where this module is called from (i.e. using mix test or iex)
   """
-  @spec components_folder_path :: String.t
+  @spec components_folder_path :: String.t()
   def components_folder_path do
-    File.cwd!
+    File.cwd!()
     |> String.split("/apps/site")
-    |> List.first
+    |> List.first()
     |> Path.join("/apps/site/lib/site/components/")
   end
 
@@ -45,5 +44,4 @@ defmodule Site.Components.Helpers do
     |> Module.concat(alias_name(section))
     |> Module.concat(alias_name(component))
   end
-
 end

@@ -15,45 +15,35 @@ defmodule Stops.NearbyTest do
       commuter = random_stops(5)
       subway = random_stops(5)
       bus = random_stops(5)
+
       route_type_map = %{
         "0,1" => subway,
         2 => commuter,
         3 => bus
       }
+
       api_fn = fn _, opts -> route_type_map[opts[:route_type]] end
       keys_fn = fn %{id: id} -> [id] end
       fetch_fn = fn id -> {:fetch, id} end
 
       actual = nearby(@position, api_fn: api_fn, keys_fn: keys_fn, fetch_fn: fetch_fn)
-      expected = @position
-      |> gather_stops(commuter, subway, bus)
-      |> Enum.map(&{:fetch, &1.id}) # verifies calling fetch
+
+      expected =
+        @position
+        |> gather_stops(commuter, subway, bus)
+        # verifies calling fetch
+        |> Enum.map(&{:fetch, &1.id})
 
       assert expected == actual
     end
 
     test "does not include more than two bus stops with a given key" do
       bus = [
-        %{id: 1,
-          latitude: @latitude,
-          longitude: @longitude,
-          keys: [1, 2]
-         },
-        %{id: 2,
-          latitude: @latitude,
-          longitude: @longitude,
-          keys: [1]
-        },
-        %{id: 3,
-          latitude: @latitude,
-          longitude: @longitude,
-          keys: [1],
-        },
-        %{id: 4,
-          latitude: @latitude,
-          longitude: @latitude,
-          keys: [2]
-        }]
+        %{id: 1, latitude: @latitude, longitude: @longitude, keys: [1, 2]},
+        %{id: 2, latitude: @latitude, longitude: @longitude, keys: [1]},
+        %{id: 3, latitude: @latitude, longitude: @longitude, keys: [1]},
+        %{id: 4, latitude: @latitude, longitude: @latitude, keys: [2]}
+      ]
 
       api_fn = fn _, opts -> if opts[:route_type] == 3, do: bus, else: [] end
       keys_fn = fn %{keys: keys} -> keys end
@@ -67,21 +57,10 @@ defmodule Stops.NearbyTest do
 
     test "does not include more than one subway stop with a given key" do
       subway = [
-        %{id: 1,
-          latitude: @latitude,
-          longitude: @longitude,
-          keys: [1, 2]
-         },
-        %{id: 2,
-          latitude: @latitude,
-          longitude: @longitude,
-          keys: [1]
-        },
-        %{id: 3,
-          latitude: @latitude,
-          longitude: @latitude,
-          keys: [2]
-        }]
+        %{id: 1, latitude: @latitude, longitude: @longitude, keys: [1, 2]},
+        %{id: 2, latitude: @latitude, longitude: @longitude, keys: [1]},
+        %{id: 3, latitude: @latitude, longitude: @latitude, keys: [2]}
+      ]
 
       api_fn = fn _, opts -> if opts[:route_type] == "0,1", do: subway, else: [] end
       keys_fn = fn %{keys: keys} -> keys end
@@ -97,10 +76,13 @@ defmodule Stops.NearbyTest do
   describe "api_around/2" do
     test "returns positions around a lat/long" do
       actual = @position |> api_around(radius: 0.06) |> distance_sort
+
       expected = [
         %{id: "North Billerica", latitude: 42.593248, longitude: -71.280995},
         %{id: "Wilmington", latitude: 42.546624, longitude: -71.174334},
-        %{id: "6902", latitude: 42.519675, longitude: -71.21163}]
+        %{id: "6902", latitude: 42.519675, longitude: -71.21163}
+      ]
+
       assert expected == actual
     end
 
@@ -114,14 +96,24 @@ defmodule Stops.NearbyTest do
 
   describe "keys/1" do
     test "returns a list of {route_id, direction_id} tuples" do
-      actual = %{id: "place-brdwy"} |> keys |> Enum.sort
-      expected = [{"11", 0}, {"11", 1}, {"47", 0}, {"47", 1}, {"9", 0}, {"9", 1}, {"Red", 0}, {"Red", 1}]
+      actual = %{id: "place-brdwy"} |> keys |> Enum.sort()
+
+      expected = [
+        {"11", 0},
+        {"11", 1},
+        {"47", 0},
+        {"47", 1},
+        {"9", 0},
+        {"9", 1},
+        {"Red", 0},
+        {"Red", 1}
+      ]
 
       assert expected == actual
     end
 
     test "returns one direction of stops if that's all there is" do
-      actual = %{id: "46"} |> keys |> Enum.sort
+      actual = %{id: "46"} |> keys |> Enum.sort()
       expected = [{"10", 1}, {"5", 1}]
 
       assert expected == actual
@@ -143,7 +135,7 @@ defmodule Stops.NearbyTest do
       [first_subway | subway_sorted] = subway |> distance_sort
       assert first_commuter in actual
       assert first_subway in actual
-      assert ((commuter_sorted ++ subway_sorted) |> distance_sort |> List.first) in actual
+      assert ((commuter_sorted ++ subway_sorted) |> distance_sort |> List.first()) in actual
       assert ((commuter_sorted ++ subway_sorted) |> distance_sort |> Enum.at(1)) in actual
     end
 
@@ -196,8 +188,8 @@ defmodule Stops.NearbyTest do
         assert stop in actual
       end
 
-      assert (commuter |> Distance.closest(@position, 1) |> List.first) in actual
-      assert (subway |> Distance.closest(@position, 1) |> List.first) in actual
+      assert (commuter |> Distance.closest(@position, 1) |> List.first()) in actual
+      assert (subway |> Distance.closest(@position, 1) |> List.first()) in actual
     end
 
     test "without enough bus stops, fill with subway" do
@@ -221,11 +213,12 @@ defmodule Stops.NearbyTest do
         actual = gather_stops(@position, commuter, subway, bus)
 
         # returns results if there are inputs
-        if [] == (commuter ++ subway ++ bus) do
+        if [] == commuter ++ subway ++ bus do
           assert actual == []
         else
           refute actual == []
         end
+
         # globally sorted
         assert Distance.sort(actual, @position) == actual
         # no duplicates
@@ -241,7 +234,8 @@ defmodule Stops.NearbyTest do
   end
 
   defp random_stop do
-    id = System.unique_integer |> Integer.to_string
+    id = System.unique_integer() |> Integer.to_string()
+
     %Stop{
       id: id,
       name: "Stop #{id}",
@@ -252,7 +246,7 @@ defmodule Stops.NearbyTest do
 
   defp random_around(float, range \\ 10_000) do
     integer = :rand.uniform(range * 2) - range
-    float + (integer / range)
+    float + integer / range
   end
 
   defp distance_sort(stops) do

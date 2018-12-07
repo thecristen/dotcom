@@ -16,23 +16,29 @@ defmodule Site.ContentRewriters.LiquidObjects do
 
   alias SiteWeb.PartialView.SvgIconWithCircle
 
-  @spec replace(String.t, Keyword.t) :: String.t
+  @spec replace(String.t(), Keyword.t()) :: String.t()
   def replace(content, opts \\ [])
+
   def replace("fa " <> icon, _opts) do
     font_awesome_replace(icon)
   end
+
   def replace("mbta-circle-icon " <> icon, opts) do
     mbta_svg_icon_replace(icon, opts)
   end
+
   def replace("icon:" <> icon, opts) do
     mbta_svg_icon_replace(icon, opts)
   end
+
   def replace("app-badge " <> badge, _opts) do
     app_svg_badge_replace(badge)
   end
+
   def replace("fare:" <> tokens, _opts) do
     tokens |> fare_request() |> fare_replace(tokens)
   end
+
   def replace(unmatched, _opts) do
     "{{ #{unmatched} }}"
   end
@@ -40,7 +46,7 @@ defmodule Site.ContentRewriters.LiquidObjects do
   defp font_awesome_replace(icon) do
     icon
     |> get_arg
-    |> SiteWeb.ViewHelpers.fa
+    |> SiteWeb.ViewHelpers.fa()
     |> safe_to_string
   end
 
@@ -61,21 +67,37 @@ defmodule Site.ContentRewriters.LiquidObjects do
   defp get_arg(str) do
     str
     |> String.replace("\"", "")
-    |> String.trim
+    |> String.trim()
   end
 
-  @spec mbta_svg_icon(String.t, Keyword.t) :: Phoenix.HTML.Safe.t
-  defp mbta_svg_icon("commuter-rail", opts), do: mbta_svg_icon_sized(:commuter_rail, icon_size(opts))
+  @spec mbta_svg_icon(String.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
+  defp mbta_svg_icon("commuter-rail", opts),
+    do: mbta_svg_icon_sized(:commuter_rail, icon_size(opts))
+
   defp mbta_svg_icon("subway", opts), do: mbta_svg_icon_sized(:subway, icon_size(opts))
   defp mbta_svg_icon("subway-red", opts), do: mbta_svg_icon_sized(:red_line, icon_size(opts))
-  defp mbta_svg_icon("subway-mattapan", opts), do: mbta_svg_icon_sized(:mattapan_line, icon_size(opts))
-  defp mbta_svg_icon("subway-orange", opts), do: mbta_svg_icon_sized(:orange_line, icon_size(opts))
+
+  defp mbta_svg_icon("subway-mattapan", opts),
+    do: mbta_svg_icon_sized(:mattapan_line, icon_size(opts))
+
+  defp mbta_svg_icon("subway-orange", opts),
+    do: mbta_svg_icon_sized(:orange_line, icon_size(opts))
+
   defp mbta_svg_icon("subway-blue", opts), do: mbta_svg_icon_sized(:blue_line, icon_size(opts))
   defp mbta_svg_icon("subway-green", opts), do: mbta_svg_icon_sized(:green_line, icon_size(opts))
-  defp mbta_svg_icon("subway-green-b", opts), do: mbta_svg_icon_sized(:green_line_b, icon_size(opts))
-  defp mbta_svg_icon("subway-green-c", opts), do: mbta_svg_icon_sized(:green_line_c, icon_size(opts))
-  defp mbta_svg_icon("subway-green-d", opts), do: mbta_svg_icon_sized(:green_line_d, icon_size(opts))
-  defp mbta_svg_icon("subway-green-e", opts), do: mbta_svg_icon_sized(:green_line_e, icon_size(opts))
+
+  defp mbta_svg_icon("subway-green-b", opts),
+    do: mbta_svg_icon_sized(:green_line_b, icon_size(opts))
+
+  defp mbta_svg_icon("subway-green-c", opts),
+    do: mbta_svg_icon_sized(:green_line_c, icon_size(opts))
+
+  defp mbta_svg_icon("subway-green-d", opts),
+    do: mbta_svg_icon_sized(:green_line_d, icon_size(opts))
+
+  defp mbta_svg_icon("subway-green-e", opts),
+    do: mbta_svg_icon_sized(:green_line_e, icon_size(opts))
+
   defp mbta_svg_icon("silver-line", opts), do: mbta_svg_icon_sized(:silver_line, icon_size(opts))
   defp mbta_svg_icon("bus", opts), do: mbta_svg_icon_sized(:bus, icon_size(opts))
   defp mbta_svg_icon("the-ride", opts), do: mbta_svg_icon_sized(:the_ride, icon_size(opts))
@@ -83,26 +105,40 @@ defmodule Site.ContentRewriters.LiquidObjects do
   defp mbta_svg_icon("accessible", opts), do: mbta_svg_icon_sized(:access, icon_size(opts))
   defp mbta_svg_icon("parking", opts), do: mbta_svg_icon_sized(:parking_lot, icon_size(opts))
   defp mbta_svg_icon("t-logo", opts), do: mbta_svg_icon_sized(:t_logo, icon_size(opts))
-  defp mbta_svg_icon("service-regular", opts), do: mbta_svg_icon_sized(:service_regular, icon_size(opts))
-  defp mbta_svg_icon("service-storm", opts), do: mbta_svg_icon_sized(:service_storm, icon_size(opts))
-  defp mbta_svg_icon("service-none", opts), do: mbta_svg_icon_sized(:service_none, icon_size(opts))
+
+  defp mbta_svg_icon("service-regular", opts),
+    do: mbta_svg_icon_sized(:service_regular, icon_size(opts))
+
+  defp mbta_svg_icon("service-storm", opts),
+    do: mbta_svg_icon_sized(:service_storm, icon_size(opts))
+
+  defp mbta_svg_icon("service-none", opts),
+    do: mbta_svg_icon_sized(:service_none, icon_size(opts))
+
   defp mbta_svg_icon(unknown, _opts), do: raw(~s({{ unknown icon "#{unknown}" }}))
 
-  @spec mbta_svg_icon_sized(atom, atom) :: Phoenix.HTML.Safe.t
-  defp mbta_svg_icon_sized(icon, size), do: svg_icon_with_circle(%SvgIconWithCircle{icon: icon, size: size})
+  @spec mbta_svg_icon_sized(atom, atom) :: Phoenix.HTML.Safe.t()
+  defp mbta_svg_icon_sized(icon, size),
+    do: svg_icon_with_circle(%SvgIconWithCircle{icon: icon, size: size})
 
-  @spec icon_size(Keyword.t) :: atom
-  defp icon_size(opts), do: if Keyword.get(opts, :use_small_icon?, false), do: :small, else: :default
+  @spec icon_size(Keyword.t()) :: atom
+  defp icon_size(opts),
+    do: if(Keyword.get(opts, :use_small_icon?, false), do: :small, else: :default)
 
   defp app_svg_badge("apple"), do: SiteWeb.ViewHelpers.svg("badge-apple-store.svg")
   defp app_svg_badge("google"), do: SiteWeb.ViewHelpers.svg("badge-google-play.svg")
   defp app_svg_badge(unknown), do: raw(~s({{ unknown app badge "#{unknown}" }}))
 
   defp fare_replace({:ok, fare}, _), do: fare
-  defp fare_replace({:error, {:invalid, token}}, input), do: "{{ fare:" <> replacement_error(input, token) <> " }}"
-  defp fare_replace({:error, {_, details}}, input), do: "{{ " <> replacement_error(details) <> " fare:#{input} }}"
+
+  defp fare_replace({:error, {:invalid, token}}, input),
+    do: "{{ fare:" <> replacement_error(input, token) <> " }}"
+
+  defp fare_replace({:error, {_, details}}, input),
+    do: "{{ " <> replacement_error(details) <> " fare:#{input} }}"
 
   defp replacement_error(text), do: safe_to_string(content_tag(:span, text, class: "text-danger"))
+
   defp replacement_error(text, target) do
     highlight = content_tag(:span, target, class: "text-danger")
     String.replace(text, target, safe_to_string(highlight))

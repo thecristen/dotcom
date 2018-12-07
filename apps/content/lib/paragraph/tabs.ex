@@ -11,15 +11,13 @@ defmodule Content.Paragraph.Tabs do
 
   import Content.Helpers, only: [field_value: 2]
 
-  defstruct [
-    display: "",
-    tabs: []
-  ]
+  defstruct display: "",
+            tabs: []
 
   @type t :: %__MODULE__{
-    display: String.t,
-    tabs: [Content.Paragraph.Tab.t]
-  }
+          display: String.t(),
+          tabs: [Content.Paragraph.Tab.t()]
+        }
 
   @spec from_api(map) :: t
   def from_api(data) do

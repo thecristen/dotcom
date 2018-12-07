@@ -1,39 +1,39 @@
 defmodule Routes.Route do
-  defstruct [
-    id: "",
-    type: 0,
-    name: "",
-    long_name: "",
-    direction_names: %{0 => "Outbound", 1 => "Inbound"},
-    description: :unknown,
-  ]
-  @type id_t :: String.t
+  defstruct id: "",
+            type: 0,
+            name: "",
+            long_name: "",
+            direction_names: %{0 => "Outbound", 1 => "Inbound"},
+            description: :unknown
+
+  @type id_t :: String.t()
   @type t :: %__MODULE__{
-    id: id_t,
-    type: 0..4,
-    name: String.t,
-    long_name: String.t,
-    direction_names: %{0 => String.t, 1 => String.t},
-    description: gtfs_route_desc,
-  }
+          id: id_t,
+          type: 0..4,
+          name: String.t(),
+          long_name: String.t(),
+          direction_names: %{0 => String.t(), 1 => String.t()},
+          description: gtfs_route_desc
+        }
   @type gtfs_route_type :: :subway | :commuter_rail | :bus | :ferry
-  @type gtfs_route_desc :: :airport_shuttle |
-                           :commuter_rail |
-                           :rapid_transit |
-                           :local_bus |
-                           :ferry |
-                           :rail_replacement_bus |
-                           :key_bus_route |
-                           :supplemental_bus |
-                           :commuter_bus |
-                           :community_bus |
-                           :limited_service |
-                           :express_bus |
-                           :unknown
+  @type gtfs_route_desc ::
+          :airport_shuttle
+          | :commuter_rail
+          | :rapid_transit
+          | :local_bus
+          | :ferry
+          | :rail_replacement_bus
+          | :key_bus_route
+          | :supplemental_bus
+          | :commuter_bus
+          | :community_bus
+          | :limited_service
+          | :express_bus
+          | :unknown
   @type route_type :: gtfs_route_type | :the_ride
   @type type_int :: 0..4
   @type subway_lines_type :: :orange_line | :red_line | :green_line | :blue_line | :mattapan_line
-  @type branch_name :: String.t | nil
+  @type branch_name :: String.t() | nil
 
   @inner_express_routes ~w(170 325 326 351 424 426 428 434 441 442 448 449 450 459 501 502 503 504 553 554 556 558)
   @inner_express_route_set MapSet.new(@inner_express_routes)
@@ -42,7 +42,7 @@ defmodule Routes.Route do
   @silver_line_rapid_transit_routes ~w(741 742 743 746)
   @silver_line_rapid_transit_route_set MapSet.new(@silver_line_rapid_transit_routes)
 
-  @spec type_atom(t | type_int | String.t) :: gtfs_route_type
+  @spec type_atom(t | type_int | String.t()) :: gtfs_route_type
   def type_atom(%__MODULE__{type: type}), do: type_atom(type)
   def type_atom(0), do: :subway
   def type_atom(1), do: :subway
@@ -86,28 +86,32 @@ defmodule Routes.Route do
   def path_atom(%__MODULE__{type: 2}), do: :"commuter-rail"
   def path_atom(%__MODULE__{type: type}), do: type_atom(type)
 
-  @spec type_name(atom) :: String.t
+  @spec type_name(atom) :: String.t()
   def type_name(:the_ride), do: "The RIDE"
+
   for type_atom <- ~w(subway commuter_rail bus ferry
                       orange_line red_line blue_line
                       green_line green_line_b green_line_c green_line_d green_line_e
                       mattapan_trolley mattapan_line)a do
-    type_string = type_atom
-    |> Atom.to_string()
-    |> String.replace("_", " ")
-    |> String.split(" ")
-    |> Enum.map(&String.capitalize/1)
-    |> Enum.join(" ")
+    type_string =
+      type_atom
+      |> Atom.to_string()
+      |> String.replace("_", " ")
+      |> String.split(" ")
+      |> Enum.map(&String.capitalize/1)
+      |> Enum.join(" ")
+
     def type_name(unquote(type_atom)), do: unquote(type_string)
   end
 
   @doc """
   Standardizes a route with branches into a generic route. Currently only changes Green Line branches.
   """
-  @spec to_naive(__MODULE__.t) :: __MODULE__.t
+  @spec to_naive(__MODULE__.t()) :: __MODULE__.t()
   def to_naive(%__MODULE__{id: "Green-" <> _, type: 0} = route) do
     %{route | id: "Green", name: "Green Line", long_name: "Green Line"}
   end
+
   def to_naive(%__MODULE__{} = route) do
     route
   end
@@ -116,34 +120,38 @@ defmodule Routes.Route do
   A slightly more detailed version of &Route.type_name/1.
   The only difference is that route ids are listed for bus routes, otherwise it just returns &Route.type_name/1.
   """
-  @spec type_summary(subway_lines_type | gtfs_route_type, [t]) :: String.t
+  @spec type_summary(subway_lines_type | gtfs_route_type, [t]) :: String.t()
   def type_summary(:bus, [%__MODULE__{} | _] = routes) do
     "Bus: #{bus_route_list(routes)}"
   end
+
   def type_summary(atom, _) do
     type_name(atom)
   end
 
-  @spec bus_route_list([Routes.Route.t]) :: String.t
+  @spec bus_route_list([Routes.Route.t()]) :: String.t()
   defp bus_route_list(routes) when is_list(routes) do
     routes
     |> Enum.filter(&(icon_atom(&1) == :bus))
-    |> Enum.map(&(&1.name))
+    |> Enum.map(& &1.name)
     |> Enum.join(", ")
   end
 
-  @spec direction_name(t, 0 | 1) :: String.t
-  def direction_name(%__MODULE__{direction_names: names}, direction_id) when direction_id in [0, 1] do
+  @spec direction_name(t, 0 | 1) :: String.t()
+  def direction_name(%__MODULE__{direction_names: names}, direction_id)
+      when direction_id in [0, 1] do
     Map.get(names, direction_id)
   end
 
-  @spec vehicle_name(t) :: String.t
+  @spec vehicle_name(t) :: String.t()
   def vehicle_name(%__MODULE__{type: type}) when type in [0, 1, 2] do
     "Train"
   end
+
   def vehicle_name(%__MODULE__{type: 3}) do
     "Bus"
   end
+
   def vehicle_name(%__MODULE__{type: 4}) do
     "Ferry"
   end
@@ -173,7 +181,9 @@ defmodule Routes.Route do
 
   def inner_express?(%__MODULE__{id: id}), do: id in @inner_express_route_set
   def outer_express?(%__MODULE__{id: id}), do: id in @outer_express_route_set
-  def silver_line_rapid_transit?(%__MODULE__{id: id}), do: id in @silver_line_rapid_transit_route_set
+
+  def silver_line_rapid_transit?(%__MODULE__{id: id}),
+    do: id in @silver_line_rapid_transit_route_set
 
   def silver_line_airport_stop?(%__MODULE__{id: "741"}, "17091"), do: true
   def silver_line_airport_stop?(%__MODULE__{id: "741"}, "27092"), do: true

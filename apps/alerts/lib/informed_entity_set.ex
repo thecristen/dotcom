@@ -8,45 +8,43 @@ defmodule Alerts.InformedEntitySet do
   """
   alias Alerts.InformedEntity, as: IE
 
-  defstruct [
-    route: MapSet.new(),
-    route_type: MapSet.new(),
-    stop: MapSet.new(),
-    trip: MapSet.new(),
-    direction_id: MapSet.new(),
-    activities: MapSet.new(),
-    entities: []
-  ]
+  defstruct route: MapSet.new(),
+            route_type: MapSet.new(),
+            stop: MapSet.new(),
+            trip: MapSet.new(),
+            direction_id: MapSet.new(),
+            activities: MapSet.new(),
+            entities: []
 
   @type t :: %__MODULE__{
-    route: MapSet.t,
-    route_type: MapSet.t,
-    stop: MapSet.t,
-    trip: MapSet.t,
-    direction_id: MapSet.t,
-    activities: MapSet.t,
-    entities: [IE.t]
-  }
+          route: MapSet.t(),
+          route_type: MapSet.t(),
+          stop: MapSet.t(),
+          trip: MapSet.t(),
+          direction_id: MapSet.t(),
+          activities: MapSet.t(),
+          entities: [IE.t()]
+        }
 
   @doc "Create a new InformedEntitySet from a list of InformedEntitys"
-  @spec new([IE.t]) :: t
+  @spec new([IE.t()]) :: t
   def new(informed_entities) when is_list(informed_entities) do
     struct = %__MODULE__{entities: informed_entities}
     Enum.reduce(informed_entities, struct, &add_entity_to_set/2)
   end
 
   @doc "Returns whether the given entity matches the set"
-  @spec match?(t, IE.t) :: boolean
+  @spec match?(t, IE.t()) :: boolean
   def match?(%__MODULE__{} = set, %IE{} = entity) do
     entity
-    |> Map.from_struct
+    |> Map.from_struct()
     |> Enum.all?(&field_in_set?(set, &1))
     |> try_all_entity_match(set, entity)
   end
 
   defp add_entity_to_set(entity, set) do
     entity
-    |> Map.from_struct
+    |> Map.from_struct()
     |> Enum.reduce(set, &add_entity_field_to_set/2)
   end
 
@@ -54,6 +52,7 @@ defmodule Alerts.InformedEntitySet do
     map_set = MapSet.union(set.activities, MapSet.new(value))
     Map.put(set, :activities, map_set)
   end
+
   defp add_entity_field_to_set({key, value}, set) do
     map_set = Map.get(set, key)
     map_set = MapSet.put(map_set, value)
@@ -61,13 +60,16 @@ defmodule Alerts.InformedEntitySet do
   end
 
   defp field_in_set?(set, key_value_pair)
+
   defp field_in_set?(_set, {_, nil}) do
     # nil values match everything
     true
   end
+
   defp field_in_set?(set, {:activities, %MapSet{} = value}) do
     IE.mapsets_match?(set.activities, value)
   end
+
   defp field_in_set?(set, {key, value}) do
     map_set = Map.get(set, key)
     # either the value is in the map, or there's an entity that matches
@@ -78,6 +80,7 @@ defmodule Alerts.InformedEntitySet do
   defp try_all_entity_match(false, _set, _entity) do
     false
   end
+
   defp try_all_entity_match(true, set, entity) do
     # we only try matching against the whole set when the MapSets overlapped
     Enum.any?(set, &IE.match?(&1, entity))
@@ -92,6 +95,7 @@ defimpl Enumerable, for: Alerts.InformedEntitySet do
   def member?(_set, %Alerts.InformedEntitySet{}) do
     {:error, __MODULE__}
   end
+
   def member?(_set, _other) do
     {:ok, false}
   end

@@ -15,7 +15,7 @@ defmodule Site.GreenLine.CacheSupervisor do
   Retrieves the stops_on_routes information for a given date from the cache. If the
   Agent serving as the cache does not exist, just use the API.
   """
-  @spec stops_on_routes(0 | 1, Date.t | nil) :: GreenLine.stop_routes_pair
+  @spec stops_on_routes(0 | 1, Date.t() | nil) :: GreenLine.stop_routes_pair()
   def stops_on_routes(direction_id, date) do
     case lookup(date) do
       nil -> GreenLine.calculate_stops_on_routes(direction_id, date)
@@ -35,6 +35,7 @@ defmodule Site.GreenLine.CacheSupervisor do
     children = [
       worker(Site.GreenLine.DateAgent, [], restart: :transient)
     ]
+
     supervise(children, strategy: :simple_one_for_one)
   end
 

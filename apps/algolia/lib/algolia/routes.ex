@@ -13,7 +13,7 @@ defmodule Algolia.Routes do
   @impl Algolia.Index
   def index_name, do: "routes"
 
-  @spec get_stop_names(Routes.Route.t) :: [String.t]
+  @spec get_stop_names(Routes.Route.t()) :: [String.t()]
   def get_stop_names(route) do
     route.id
     |> Algolia.Stops.by_route()
@@ -21,12 +21,12 @@ defmodule Algolia.Routes do
     |> Enum.map(fn stop -> stop.name end)
   end
 
-  @spec filter_stations([Stops.Stop.t], integer) :: [Stops.Stop.t]
+  @spec filter_stations([Stops.Stop.t()], integer) :: [Stops.Stop.t()]
   def filter_stations(stops, route_type)
   def filter_stations(stops, 3), do: Enum.filter(stops, & &1.station?)
   def filter_stations(stops, _), do: stops
 
-  @spec headsigns(String.t) :: [String.t]
+  @spec headsigns(String.t()) :: [String.t()]
   def headsigns(id) do
     id
     |> @repo.headsigns()

@@ -10,6 +10,7 @@ defmodule SiteWeb.ScheduleController.DefaultsTest do
       |> assign(:date_time, Util.now())
       |> assign(:date, Util.service_date())
       |> fetch_query_params()
+
     {:ok, conn: conn}
   end
 
@@ -40,32 +41,40 @@ defmodule SiteWeb.ScheduleController.DefaultsTest do
     end
 
     test "0 when id is not in params and after 1:59pm", %{conn: conn} do
-      conn = conn
-      |> assign(:date_time, ~N[2017-01-25T14:00:00])
-      |> Defaults.call([])
+      conn =
+        conn
+        |> assign(:date_time, ~N[2017-01-25T14:00:00])
+        |> Defaults.call([])
+
       assert conn.assigns.direction_id == 0
     end
 
     test "1 when id is not in params and before 1:59pm", %{conn: conn} do
-      conn = conn
-      |> assign(:date_time, ~N[2017-01-25T13:00:00])
-      |> Defaults.call([])
+      conn =
+        conn
+        |> assign(:date_time, ~N[2017-01-25T13:00:00])
+        |> Defaults.call([])
+
       assert conn.assigns.direction_id == 1
     end
 
     test "silverline is 1 when id is not in params and after 1:59pm", %{conn: conn} do
-      conn = conn
-      |> assign(:route, %Route{id: "741", type: 3})
-      |> assign(:date_time, ~N[2017-01-25T14:00:00])
-      |> Defaults.call([])
+      conn =
+        conn
+        |> assign(:route, %Route{id: "741", type: 3})
+        |> assign(:date_time, ~N[2017-01-25T14:00:00])
+        |> Defaults.call([])
+
       assert conn.assigns.direction_id == 1
     end
 
     test "silverline is 0 when id is not in params and before 1:59pm", %{conn: conn} do
-      conn = conn
-      |> assign(:route, %Route{id: "741", type: 3})
-      |> assign(:date_time, ~N[2017-01-25T13:00:00])
-      |> Defaults.call([])
+      conn =
+        conn
+        |> assign(:route, %Route{id: "741", type: 3})
+        |> assign(:date_time, ~N[2017-01-25T13:00:00])
+        |> Defaults.call([])
+
       assert conn.assigns.direction_id == 0
     end
   end
@@ -73,23 +82,33 @@ defmodule SiteWeb.ScheduleController.DefaultsTest do
   describe "assign tab_params" do
     test "values are different", %{conn: conn} do
       query_params = %{"direction_id" => "1", "date" => "2017-01-01"}
-      conn = %{conn | query_params: query_params}
-      |> assign(:date_time, ~N[2017-01-02T14:00:00]) # defaults will be: direction 0, date 2017-01-02
-      |> Defaults.call([])
+
+      conn =
+        %{conn | query_params: query_params}
+        # defaults will be: direction 0, date 2017-01-02
+        |> assign(:date_time, ~N[2017-01-02T14:00:00])
+        |> Defaults.call([])
+
       assert conn.assigns.tab_params == MapSet.new(query_params)
     end
 
     test "values are the same", %{conn: conn} do
-      conn = %{conn | query_params: %{"direction_id" => "0", "date" => "2017-01-01"}}
-      |> assign(:date_time, ~N[2017-01-01T14:00:00]) # defaults will be: direction 0, date 2017-01-01
-      |> Defaults.call([])
+      conn =
+        %{conn | query_params: %{"direction_id" => "0", "date" => "2017-01-01"}}
+        # defaults will be: direction 0, date 2017-01-01
+        |> assign(:date_time, ~N[2017-01-01T14:00:00])
+        |> Defaults.call([])
+
       assert conn.assigns.tab_params == MapSet.new()
     end
 
     test "empty query params", %{conn: conn} do
-      conn = %{conn | query_params: %{}}
-      |> assign(:date_time, ~N[2017-01-01T13:00:00]) # defaults will be: direction 1, date 2017-01-01
-      |> Defaults.call([])
+      conn =
+        %{conn | query_params: %{}}
+        # defaults will be: direction 1, date 2017-01-01
+        |> assign(:date_time, ~N[2017-01-01T13:00:00])
+        |> Defaults.call([])
+
       assert conn.assigns.tab_params == MapSet.new()
     end
   end

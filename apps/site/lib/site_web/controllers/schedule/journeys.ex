@@ -11,20 +11,36 @@ defmodule SiteWeb.ScheduleController.Journeys do
   require Routes.Route
   alias Routes.Route
 
-  plug :assign_journeys
-  plug :validate_direction_id
+  plug(:assign_journeys)
+  plug(:validate_direction_id)
 
-  def assign_journeys(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type, id: route_id}, schedules: schedules}} = conn, []) when Route.subway?(route_type, route_id) do
+  def assign_journeys(
+        %Plug.Conn{
+          assigns: %{route: %Routes.Route{type: route_type, id: route_id}, schedules: schedules}
+        } = conn,
+        []
+      )
+      when Route.subway?(route_type, route_id) do
     schedules = Util.error_default(schedules, [])
     destination_id = Util.safe_id(conn.assigns.destination)
     origin_id = Util.safe_id(conn.assigns.origin)
     predictions = Util.error_default(conn.assigns.predictions, [])
 
-    journeys = JourneyList.build_predictions_only(schedules, predictions, origin_id, destination_id)
+    journeys =
+      JourneyList.build_predictions_only(schedules, predictions, origin_id, destination_id)
 
     assign(conn, :journeys, journeys)
   end
-  def assign_journeys(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type, id: route_id} = route, schedules: schedules}} = conn, []) do
+
+  def assign_journeys(
+        %Plug.Conn{
+          assigns: %{
+            route: %Routes.Route{type: route_type, id: route_id} = route,
+            schedules: schedules
+          }
+        } = conn,
+        []
+      ) do
     schedules = Util.error_default(schedules, [])
     show_all_trips? = conn.params["show_all_trips"] == "true"
     destination_id = Util.safe_id(conn.assigns.destination)
@@ -37,20 +53,35 @@ defmodule SiteWeb.ScheduleController.Journeys do
     filter_flag = filter_flag(route)
     keep_all? = keep_all?(today?, route_type, route_id, show_all_trips?)
 
-    journey_optionals = [origin_id: origin_id, destination_id: destination_id, current_time: current_time]
-    assign(conn, :journeys, JourneyList.build(schedules, predictions, filter_flag, keep_all?, journey_optionals))
+    journey_optionals = [
+      origin_id: origin_id,
+      destination_id: destination_id,
+      current_time: current_time
+    ]
+
+    assign(
+      conn,
+      :journeys,
+      JourneyList.build(schedules, predictions, filter_flag, keep_all?, journey_optionals)
+    )
   end
+
   def assign_journeys(conn, []) do
     conn
   end
 
-  def validate_direction_id(%Plug.Conn{assigns: %{direction_id: direction_id, journeys: journeys}} = conn, []) do
-    case Enum.find(journeys, &!is_nil(&1.trip)) do
+  def validate_direction_id(
+        %Plug.Conn{assigns: %{direction_id: direction_id, journeys: journeys}} = conn,
+        []
+      ) do
+    case Enum.find(journeys, &(!is_nil(&1.trip))) do
       nil ->
         conn
+
       journey ->
         if journey.trip.direction_id != direction_id do
           url = update_url(conn, direction_id: journey.trip.direction_id)
+
           conn
           |> redirect(to: url)
           |> halt
@@ -59,6 +90,7 @@ defmodule SiteWeb.ScheduleController.Journeys do
         end
     end
   end
+
   def validate_direction_id(conn, []) do
     conn
   end
@@ -67,7 +99,7 @@ defmodule SiteWeb.ScheduleController.Journeys do
     show_all? || !today? || Route.subway?(route_type, route_id)
   end
 
-  @spec filter_flag(Routes.Route.t) :: Journey.Filter.filter_flag_t
+  @spec filter_flag(Routes.Route.t()) :: Journey.Filter.filter_flag_t()
   def filter_flag(%Routes.Route{type: 3}), do: :predictions_then_schedules
   def filter_flag(%Routes.Route{type: 0, id: "Mattapan"}), do: :predictions_then_schedules
   def filter_flag(_route), do: :last_trip_and_upcoming

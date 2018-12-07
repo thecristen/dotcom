@@ -4,19 +4,22 @@ defmodule SiteWeb.Plugs.RecentlyVisitedTest do
   alias Routes.Route
 
   describe "call/2" do
-    test "assigns list of routes to :recently_visited if cookie has multiple values", %{conn: conn} do
+    test "assigns list of routes to :recently_visited if cookie has multiple values", %{
+      conn: conn
+    } do
       cookies = Map.put(%{}, Cookies.route_cookie_name(), "Red|Green|Green-B|Blue")
+
       conn =
         conn
         |> Map.put(:cookies, cookies)
         |> RecentlyVisited.call([])
 
       assert [
-        %Route{} = red,
-        %Route{} = green,
-        %Route{} = green_b,
-        %Route{} = blue
-      ] = conn.assigns.recently_visited
+               %Route{} = red,
+               %Route{} = green,
+               %Route{} = green_b,
+               %Route{} = blue
+             ] = conn.assigns.recently_visited
 
       assert red.id == "Red"
       assert green.id == "Green"
@@ -26,6 +29,7 @@ defmodule SiteWeb.Plugs.RecentlyVisitedTest do
 
     test "assigns one route if cookie has a single value", %{conn: conn} do
       cookies = Map.put(%{}, Cookies.route_cookie_name(), "Red")
+
       conn =
         conn
         |> Map.put(:cookies, cookies)

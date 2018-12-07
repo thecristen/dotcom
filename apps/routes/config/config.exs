@@ -29,4 +29,4 @@ use Mix.Config
 #
 #     import_config "#{Mix.env}.exs"
 config :routes,
-  populate_caches?: Mix.env == :prod
+  populate_caches?: Mix.env() == :prod

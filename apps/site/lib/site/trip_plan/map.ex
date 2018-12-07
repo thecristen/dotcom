@@ -5,10 +5,10 @@ defmodule Site.TripPlan.Map do
   alias Site.MapHelpers
   alias Routes.Route
 
-  @type static_map :: String.t
-  @type t :: {MapData.t, static_map}
-  @type route_mapper :: (String.t -> Route.t | nil)
-  @type stop_mapper :: (String.t -> Stops.Stop.t | nil)
+  @type static_map :: String.t()
+  @type t :: {MapData.t(), static_map}
+  @type route_mapper :: (String.t() -> Route.t() | nil)
+  @type stop_mapper :: (String.t() -> Stops.Stop.t() | nil)
 
   @default_opts [
     route_mapper: &Routes.Repo.get/1,
@@ -38,7 +38,7 @@ defmodule Site.TripPlan.Map do
     |> MapData.reset_bounds_on_update?(true)
   end
 
-  @spec initial_marker() :: Marker.t
+  @spec initial_marker() :: Marker.t()
   defp initial_marker do
     Marker.new(42.360718, -71.05891, visible?: false, id: "default-center")
   end
@@ -48,19 +48,20 @@ defmodule Site.TripPlan.Map do
   Accepts a function that will return either a
   Route or nil when given a route_id
   """
-  @spec itinerary_map(Itinerary.t, Keyword.t) :: t
+  @spec itinerary_map(Itinerary.t(), Keyword.t()) :: t
   def itinerary_map(itinerary, opts \\ []) do
     map_data = itinerary_map_data(itinerary, Keyword.merge(@default_opts, opts))
     {map_data, GoogleMaps.static_map_url(map_data)}
   end
 
-  @spec itinerary_map_data(Itinerary.t, Keyword.t) :: MapData.t
+  @spec itinerary_map_data(Itinerary.t(), Keyword.t()) :: MapData.t()
   defp itinerary_map_data(itinerary, opts) do
     markers =
       itinerary
       |> markers_for_legs(opts)
       |> Enum.with_index()
       |> Enum.map(fn {marker, idx} -> %{marker | id: "marker-#{idx}"} end)
+
     paths = Enum.map(itinerary, &build_leg_path(&1, opts[:route_mapper]))
 
     {600, 600}
@@ -69,7 +70,7 @@ defmodule Site.TripPlan.Map do
     |> MapData.add_paths(paths)
   end
 
-  @spec build_leg_path(Leg.t, route_mapper) :: Path.t
+  @spec build_leg_path(Leg.t(), route_mapper) :: Path.t()
   defp build_leg_path(leg, route_mapper) do
     color = leg_color(leg, route_mapper)
     path_weight = if Leg.transit?(leg), do: 5, else: 1
@@ -79,26 +80,29 @@ defmodule Site.TripPlan.Map do
     |> Path.new(color: color, weight: path_weight, dotted?: !Leg.transit?(leg))
   end
 
-  @spec extend_to_endpoints(String.t, Leg.t) :: String.t
+  @spec extend_to_endpoints(String.t(), Leg.t()) :: String.t()
   defp extend_to_endpoints(polyline, leg) do
     from = {Position.longitude(leg.from), Position.latitude(leg.from)}
     to = {Position.longitude(leg.to), Position.latitude(leg.to)}
 
     polyline
-    |> Polyline.decode
+    |> Polyline.decode()
     |> (fn line -> Enum.concat([[from], line, [to]]) end).()
-    |> Polyline.encode
+    |> Polyline.encode()
   end
 
-  @spec markers_for_legs(Itinerary.t, Keyword.t) :: [Marker.t]
+  @spec markers_for_legs(Itinerary.t(), Keyword.t()) :: [Marker.t()]
   defp markers_for_legs(legs, opts) do
     leg_count = Enum.count(legs)
+
     legs
     |> Enum.zip(Stream.iterate(0, &(&1 + 2)))
     |> Enum.flat_map(&build_marker_for_leg(&1, opts, leg_count))
   end
 
-  @spec build_marker_for_leg({Leg.t, non_neg_integer}, Keyword.t, non_neg_integer) :: [Marker.t]
+  @spec build_marker_for_leg({Leg.t(), non_neg_integer}, Keyword.t(), non_neg_integer) :: [
+          Marker.t()
+        ]
   defp build_marker_for_leg({leg, idx}, opts, leg_count) do
     leg_positions = [{leg.from, idx}, {leg.to, idx + 1}]
     build_markers_for_leg_positions(leg_positions, opts[:stop_mapper], leg_count)
@@ -114,15 +118,16 @@ defmodule Site.TripPlan.Map do
     end
   end
 
-  @spec build_marker_for_leg_position(NamedPosition.t, stop_mapper, map) :: Marker.t
+  @spec build_marker_for_leg_position(NamedPosition.t(), stop_mapper, map) :: Marker.t()
   defp build_marker_for_leg_position(leg_position, stop_mapper, indexes) do
     icon_name = stop_icon_name(indexes)
+
     opts = [
       icon: icon_name,
       size: stop_icon_size(icon_name),
       label: stop_icon_label(indexes),
       tooltip: tooltip_for_position(leg_position, stop_mapper),
-      z_index: z_index(indexes),
+      z_index: z_index(indexes)
     ]
 
     leg_position
@@ -131,15 +136,15 @@ defmodule Site.TripPlan.Map do
   end
 
   @type index_map :: %{
-    required(:current) => integer,
-    required(:start) => integer,
-    required(:end) => integer
-  }
+          required(:current) => integer,
+          required(:start) => integer,
+          required(:end) => integer
+        }
 
   @doc """
   Simplified name for the icon type; used by javascript to fetch the full SVG.
   """
-  @spec stop_icon_name(index_map) ::String.t
+  @spec stop_icon_name(index_map) :: String.t()
   def stop_icon_name(%{current: idx, start: idx}), do: "map-pin"
   def stop_icon_name(%{current: idx, end: idx}), do: "map-pin"
   def stop_icon_name(%{}), do: MapHelpers.map_stop_icon_path(:mid, false)
@@ -147,7 +152,7 @@ defmodule Site.TripPlan.Map do
   @doc """
   Text to display inside of the icon.
   """
-  @spec stop_icon_label(index_map) :: Marker.Label.t | nil
+  @spec stop_icon_label(index_map) :: Marker.Label.t() | nil
   def stop_icon_label(%{current: idx, start: idx}), do: do_stop_icon_label("A")
   def stop_icon_label(%{current: idx, end: idx}), do: do_stop_icon_label("B")
   def stop_icon_label(%{}), do: nil
@@ -166,24 +171,26 @@ defmodule Site.TripPlan.Map do
   Atom representing the size to use for the icon.
   Used by javascript to generate the full SVG.
   """
-  @spec stop_icon_size(String.t) :: :mid | :large
+  @spec stop_icon_size(String.t()) :: :mid | :large
   def stop_icon_size("map-pin"), do: :large
   def stop_icon_size(_), do: :mid
 
-  @spec leg_color(Leg.t, route_mapper) :: String.t
+  @spec leg_color(Leg.t(), route_mapper) :: String.t()
   defp leg_color(%Leg{mode: %TransitDetail{route_id: route_id}}, route_mapper) do
     route_id
     |> route_mapper.()
     |> MapHelpers.route_map_color()
   end
+
   defp leg_color(_leg, _route_mapper) do
     "000000"
   end
 
-  @spec tooltip_for_position(NamedPosition.t, stop_mapper) :: String.t
+  @spec tooltip_for_position(NamedPosition.t(), stop_mapper) :: String.t()
   defp tooltip_for_position(%NamedPosition{stop_id: nil, name: name}, _stop_mapper) do
     name
   end
+
   defp tooltip_for_position(%NamedPosition{stop_id: stop_id} = position, stop_mapper) do
     case stop_mapper.(stop_id) do
       nil -> position.name

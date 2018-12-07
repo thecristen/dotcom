@@ -7,6 +7,7 @@ defmodule SiteWeb.FareController.OriginDestinationTest do
     test "assigns relevant information", %{conn: conn} do
       module = SiteWeb.FareController.Ferry
       conn = ODFB.before_render(conn, module)
+
       for key <- ~w(mode route_type origin_stops destination_stops key_stops origin destination)a do
         assert Map.has_key?(conn.assigns, key)
       end

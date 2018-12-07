@@ -28,4 +28,4 @@ config :feedback,
   mailgun_key: System.get_env("MAILGUN_API_KEY") || "",
   test_mail_file: "/tmp/mailgun.json"
 
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"

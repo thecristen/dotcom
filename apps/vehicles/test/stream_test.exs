@@ -2,26 +2,29 @@ defmodule Vehicles.StreamTest do
   use ExUnit.Case, async: true
   alias ExUnit.CaptureLog
 
-  @vehicles %JsonApi{data: [
-    %JsonApi.Item{
-      type: "vehicle",
-      id: "vehicle1",
-      attributes: %{
-        "current_status" => "STOPPED_AT",
-        "direction_id" => 0
-      },
-      relationships: %{
-        "route" => [%JsonApi.Item{id: "route"}],
-        "trip" => [%JsonApi.Item{id: "trip"}],
-        "stop" => [%JsonApi.Item{id: "stop"}]
+  @vehicles %JsonApi{
+    data: [
+      %JsonApi.Item{
+        type: "vehicle",
+        id: "vehicle1",
+        attributes: %{
+          "current_status" => "STOPPED_AT",
+          "direction_id" => 0
+        },
+        relationships: %{
+          "route" => [%JsonApi.Item{id: "route"}],
+          "trip" => [%JsonApi.Item{id: "trip"}],
+          "stop" => [%JsonApi.Item{id: "stop"}]
+        }
       }
-    }
-  ]}
+    ]
+  }
 
   setup do
-    {:ok, mock_api} = GenStage.from_enumerable([
-      %V3Api.Stream.Event{event: :reset, data: @vehicles}
-    ])
+    {:ok, mock_api} =
+      GenStage.from_enumerable([
+        %V3Api.Stream.Event{event: :reset, data: @vehicles}
+      ])
 
     {:ok, mock_api: mock_api}
   end
@@ -29,34 +32,42 @@ defmodule Vehicles.StreamTest do
   describe "start_link/1" do
     test "starts a GenServer that publishes vehicles", %{mock_api: mock_api} do
       test_pid = self()
+
       broadcast_fn = fn Vehicles.PubSub, "vehicles", {type, data} ->
-        send test_pid, {type, data}
+        send(test_pid, {type, data})
         :ok
       end
-      assert {:ok, _} = Vehicles.Stream.start_link(
-        name: __MODULE__.Test1,
-        broadcast_fn: broadcast_fn,
-        subscribe_to: mock_api
-      )
+
+      assert {:ok, _} =
+               Vehicles.Stream.start_link(
+                 name: __MODULE__.Test1,
+                 broadcast_fn: broadcast_fn,
+                 subscribe_to: mock_api
+               )
 
       assert_receive {:reset, [%Vehicles.Vehicle{id: "vehicle1"}]}
     end
 
     test "publishes :remove events as a list of IDs" do
-      {:ok, mock_api} = GenStage.from_enumerable([
-        %V3Api.Stream.Event{event: :remove, data: @vehicles}
-      ])
+      {:ok, mock_api} =
+        GenStage.from_enumerable([
+          %V3Api.Stream.Event{event: :remove, data: @vehicles}
+        ])
 
       test_pid = self()
+
       broadcast_fn = fn Vehicles.PubSub, "vehicles", {type, data} ->
-        send test_pid, {:received_broadcast, {type, data}}
+        send(test_pid, {:received_broadcast, {type, data}})
         :ok
       end
-      assert {:ok, _} = Vehicles.Stream.start_link(
-        name: __MODULE__.Test2,
-        broadcast_fn: broadcast_fn,
-        subscribe_to: mock_api
-      )
+
+      assert {:ok, _} =
+               Vehicles.Stream.start_link(
+                 name: __MODULE__.Test2,
+                 broadcast_fn: broadcast_fn,
+                 subscribe_to: mock_api
+               )
+
       assert_receive {:received_broadcast, {type, data}}
       assert type == :remove
       assert data == ["vehicle1"]
@@ -64,17 +75,22 @@ defmodule Vehicles.StreamTest do
 
     test "logs an error when broadcast fails", %{mock_api: mock_api} do
       test_pid = self()
+
       broadcast_fn = fn Vehicles.PubSub, "vehicles", {_type, _data} ->
-        send test_pid, :received_broadcast
+        send(test_pid, :received_broadcast)
         {:error, "error"}
       end
-      log = CaptureLog.capture_log(fn ->
-        assert {:ok, _} = Vehicles.Stream.start_link(
-          name: __MODULE__.Test2,
-          broadcast_fn: broadcast_fn,
-          subscribe_to: mock_api
-        )
-      end)
+
+      log =
+        CaptureLog.capture_log(fn ->
+          assert {:ok, _} =
+                   Vehicles.Stream.start_link(
+                     name: __MODULE__.Test2,
+                     broadcast_fn: broadcast_fn,
+                     subscribe_to: mock_api
+                   )
+        end)
+
       assert_receive :received_broadcast
       assert log =~ "error=#{inspect("error")}"
     end

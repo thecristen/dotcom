@@ -4,57 +4,62 @@ defmodule V3ApiTest do
   import Plug.Conn, only: [fetch_query_params: 1, send_resp: 3]
 
   setup _ do
-    bypass = Bypass.open
+    bypass = Bypass.open()
     {:ok, %{bypass: bypass, url: "http://localhost:#{bypass.port}"}}
   end
 
   describe "get_json/1" do
     test "normal responses return a JsonApi struct", %{bypass: bypass, url: url} do
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         assert conn.request_path == "/normal_response"
-        send_resp conn, 200, ~s({"data": []})
-      end
+        send_resp(conn, 200, ~s({"data": []}))
+      end)
+
       response = V3Api.get_json("/normal_response", [], base_url: url)
       assert %JsonApi{} = response
       refute response.data == %{}
     end
 
     test "does not add headers normally", %{bypass: bypass, url: url} do
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         assert List.keyfind(conn.req_headers, "x-wm-proxy-url", 0) == nil
-        send_resp conn, 200, ~s({"data": []})
-      end
+        send_resp(conn, 200, ~s({"data": []}))
+      end)
+
       V3Api.get_json("/normal_response", [], base_url: url)
     end
 
     test "adds headers when WIREMOCK_PROXY=true", %{bypass: bypass, url: url} do
       System.put_env("WIREMOCK_PROXY", "true")
-      Bypass.expect bypass, fn conn ->
+
+      Bypass.expect(bypass, fn conn ->
         assert List.keyfind(conn.req_headers, "x-wm-proxy-url", 0) != nil
-        send_resp conn, 200, ~s({"data": []})
-      end
+        send_resp(conn, 200, ~s({"data": []}))
+      end)
+
       V3Api.get_json("/normal_response", [], base_url: url)
       System.delete_env("WIREMOCK_PROXY")
     end
 
     test "missing endpoints return an error", %{bypass: bypass, url: url} do
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         assert conn.request_path == "/missing"
-        send_resp conn, 404, ~s({"errors":[{"code": "not_found"}]})
-      end
+        send_resp(conn, 404, ~s({"errors":[{"code": "not_found"}]}))
+      end)
+
       response = V3Api.get_json("/missing", [], base_url: url)
       assert {:error, [%JsonApi.Error{code: "not_found"}]} = response
     end
 
     test "can't connect returns an error", %{bypass: bypass, url: url} do
-      Bypass.down bypass
+      Bypass.down(bypass)
 
       response = V3Api.get_json("/cant_connect", [], base_url: url)
       assert {:error, %{reason: _}} = response
     end
 
     test "passes an API key if present", %{bypass: bypass, url: url} do
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         assert conn.request_path == "/with_api_key"
         conn = fetch_query_params(conn)
 
@@ -65,17 +70,19 @@ defmodule V3ApiTest do
         assert conn.query_params["api_key"] == nil
         assert conn.query_params["other"] == "value"
         send_resp(conn, 200, "")
-      end
+      end)
+
       # make sure we keep other params
       V3Api.get_json("/with_api_key", [other: "value"], base_url: url, api_key: "test_key")
     end
 
     test "does not pass an API key if not set", %{bypass: bypass, url: url} do
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         assert conn.request_path == "/without_api_key"
         refute fetch_query_params(conn).query_params["api_key"]
         send_resp(conn, 200, "")
-      end
+      end)
+
       V3Api.get_json("/without_api_key", [], base_url: url, api_key: nil)
     end
   end

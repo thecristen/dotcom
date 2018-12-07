@@ -1,22 +1,20 @@
 defmodule Content.Search.Facet do
   @moduledoc "Module for representation of a search facet"
 
-  defstruct [
-    label: :ignore,
-    value: "",
-    active?: false,
-    count: 0
-  ]
+  defstruct label: :ignore,
+            value: "",
+            active?: false,
+            count: 0
 
   @type t :: %__MODULE__{
-    label: String.t | :ignore,
-    value: String.t,
-    active?: boolean,
-    count: non_neg_integer
-  }
+          label: String.t() | :ignore,
+          value: String.t(),
+          active?: boolean,
+          count: non_neg_integer
+        }
 
   @doc "Builds a facet"
-  @spec build({String.t, integer}, [String.t]) :: t
+  @spec build({String.t(), integer}, [String.t()]) :: t
   def build({value, count}, input) do
     %__MODULE__{
       label: facet_label(value),
@@ -26,7 +24,7 @@ defmodule Content.Search.Facet do
     }
   end
 
-  @spec facet_label(String.t) :: String.t | :ignore
+  @spec facet_label(String.t()) :: String.t() | :ignore
   defp facet_label("event"), do: "Event"
   defp facet_label("landing_page"), do: "Main Page"
   defp facet_label("news_entry"), do: "News"

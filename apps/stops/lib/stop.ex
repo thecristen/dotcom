@@ -4,37 +4,36 @@ defmodule Stops.Stop do
   """
   alias Stops.Stop
 
-  defstruct [
-    id: nil,
-    name: nil,
-    note: nil,
-    accessibility: [],
-    address: nil,
-    parking_lots: [],
-    latitude: nil,
-    longitude: nil,
-    is_child?: false,
-    station?: false,
-    has_fare_machine?: false,
-    has_charlie_card_vendor?: false,
-    closed_stop_info: nil]
+  defstruct id: nil,
+            name: nil,
+            note: nil,
+            accessibility: [],
+            address: nil,
+            parking_lots: [],
+            latitude: nil,
+            longitude: nil,
+            is_child?: false,
+            station?: false,
+            has_fare_machine?: false,
+            has_charlie_card_vendor?: false,
+            closed_stop_info: nil
 
-  @type id_t :: String.t
+  @type id_t :: String.t()
   @type t :: %Stop{
-    id: id_t,
-    name: String.t,
-    note: String.t | nil,
-    accessibility: [String.t],
-    address: String.t | nil,
-    parking_lots: [Stop.ParkingLot.t],
-    latitude: float,
-    longitude: float,
-    is_child?: boolean,
-    station?: boolean,
-    has_fare_machine?: boolean,
-    has_charlie_card_vendor?: boolean,
-    closed_stop_info: Stops.Stop.ClosedStopInfo.t | nil
-  }
+          id: id_t,
+          name: String.t(),
+          note: String.t() | nil,
+          accessibility: [String.t()],
+          address: String.t() | nil,
+          parking_lots: [Stop.ParkingLot.t()],
+          latitude: float,
+          longitude: float,
+          is_child?: boolean,
+          station?: boolean,
+          has_fare_machine?: boolean,
+          has_charlie_card_vendor?: boolean,
+          closed_stop_info: Stops.Stop.ClosedStopInfo.t() | nil
+        }
 
   def vending_machine_stations do
     [
@@ -95,18 +94,29 @@ defmodule Stops.Stop.ParkingLot do
   @moduledoc """
   A group of parking spots at a Stop.
   """
-  defstruct [:name, :address, :capacity, :payment, :manager, :utilization, :note, :latitude, :longitude]
+  defstruct [
+    :name,
+    :address,
+    :capacity,
+    :payment,
+    :manager,
+    :utilization,
+    :note,
+    :latitude,
+    :longitude
+  ]
+
   @type t :: %Stops.Stop.ParkingLot{
-    name: String.t,
-    address: String.t,
-    capacity: Stops.Stop.ParkingLot.Capacity.t | nil,
-    payment: Stops.Stop.ParkingLot.Payment.t | nil,
-    manager: Stops.Stop.ParkingLot.Manager.t | nil,
-    utilization: Stops.Stop.ParkingLot.Utilization.t | nil,
-    note: String.t | nil,
-    latitude: float | nil,
-    longitude: float | nil
-  }
+          name: String.t(),
+          address: String.t(),
+          capacity: Stops.Stop.ParkingLot.Capacity.t() | nil,
+          payment: Stops.Stop.ParkingLot.Payment.t() | nil,
+          manager: Stops.Stop.ParkingLot.Manager.t() | nil,
+          utilization: Stops.Stop.ParkingLot.Utilization.t() | nil,
+          note: String.t() | nil,
+          latitude: float | nil,
+          longitude: float | nil
+        }
 end
 
 defmodule Stops.Stop.ParkingLot.Payment do
@@ -118,20 +128,22 @@ defmodule Stops.Stop.ParkingLot.Payment do
   :rate - {fee-daily, fee-monthly}
   """
   defstruct [:methods, :mobile_app, :daily_rate, :monthly_rate]
+
   @type t :: %__MODULE__{
-    methods: [String.t],
-    mobile_app: Stops.Stop.ParkingLot.Payment.MobileApp.t | nil,
-    daily_rate: String.t | nil,
-    monthly_rate: String.t | nil
-  }
+          methods: [String.t()],
+          mobile_app: Stops.Stop.ParkingLot.Payment.MobileApp.t() | nil,
+          daily_rate: String.t() | nil,
+          monthly_rate: String.t() | nil
+        }
 
   @spec parse(map) :: t
   def parse(props) do
     %__MODULE__{
       methods: Map.get(props, "payment-form-accepted"),
-      mobile_app: Stops.Helpers.struct_or_nil(Stops.Stop.ParkingLot.Payment.MobileApp.parse(props)),
+      mobile_app:
+        Stops.Helpers.struct_or_nil(Stops.Stop.ParkingLot.Payment.MobileApp.parse(props)),
       daily_rate: Map.get(props, "fee-daily"),
-      monthly_rate: Map.get(props, "fee-monthly"),
+      monthly_rate: Map.get(props, "fee-monthly")
     }
   end
 end
@@ -144,18 +156,19 @@ defmodule Stops.Stop.ParkingLot.Payment.MobileApp do
   :url - payment-app-url
   """
   defstruct [:name, :id, :url]
+
   @type t :: %__MODULE__{
-    name: String.t | nil,
-    id: String.t | nil,
-    url: String.t | nil
-  }
+          name: String.t() | nil,
+          id: String.t() | nil,
+          url: String.t() | nil
+        }
 
   @spec parse(map) :: t
   def parse(props) do
     %__MODULE__{
       name: Map.get(props, "payment-app"),
       id: Map.get(props, "payment-app-id"),
-      url: Map.get(props, "payment-app-url"),
+      url: Map.get(props, "payment-app-url")
     }
   end
 end
@@ -169,24 +182,25 @@ defmodule Stops.Stop.ParkingLot.Capacity do
   :type - enclosed
   """
   defstruct [:total, :accessible, :type]
+
   @type t :: %__MODULE__{
-    total: integer | nil,
-    accessible: integer | nil,
-    type: String.t | nil
-  }
+          total: integer | nil,
+          accessible: integer | nil,
+          type: String.t() | nil
+        }
 
   @spec parse(map) :: t
   def parse(props) do
     %__MODULE__{
       total: Map.get(props, "capacity"),
       accessible: Map.get(props, "capacity-accessible"),
-      type: pretty_parking_type(Map.get(props, "enclosed")),
+      type: pretty_parking_type(Map.get(props, "enclosed"))
     }
   end
 
   # GTFS values:
   # "1 for true, 2 for false, or 0 for no information"
-  @spec pretty_parking_type(integer) :: String.t | nil
+  @spec pretty_parking_type(integer) :: String.t() | nil
   defp pretty_parking_type(0), do: nil
   defp pretty_parking_type(1), do: "Garage"
   defp pretty_parking_type(2), do: "Surface Lot"
@@ -202,12 +216,13 @@ defmodule Stops.Stop.ParkingLot.Manager do
   :url - contact-url
   """
   defstruct [:name, :contact, :phone, :url]
+
   @type t :: %__MODULE__{
-    name: String.t | nil,
-    contact: String.t | nil,
-    phone: String.t | nil,
-    url: String.t | nil
-  }
+          name: String.t() | nil,
+          contact: String.t() | nil,
+          phone: String.t() | nil,
+          url: String.t() | nil
+        }
 
   @spec parse(map) :: t
   def parse(props) do
@@ -228,26 +243,30 @@ defmodule Stops.Stop.ParkingLot.Utilization do
   :typical: - weekday-typical-utilization
   """
   defstruct [:arrive_before, :typical]
+
   @type t :: %__MODULE__{
-    arrive_before: String.t | nil,
-    typical: integer | nil,
-  }
+          arrive_before: String.t() | nil,
+          typical: integer | nil
+        }
 
   @spec parse(map) :: t
   def parse(props) do
     %__MODULE__{
       arrive_before: pretty_date(Map.get(props, "weekday-arrive-before")),
-      typical: Map.get(props, "weekday-typical-utilization"),
+      typical: Map.get(props, "weekday-typical-utilization")
     }
   end
 
-  @spec pretty_date(String.t) :: String.t
+  @spec pretty_date(String.t()) :: String.t()
   defp pretty_date(date) do
     case Timex.parse(date, "{h24}:{m}:{s}") do
-      {:ok, time} -> case Timex.format(time, "{h24}:{m} {AM}") do
-        {:ok, out} -> out
-      end
-      {:error, _} -> nil
+      {:ok, time} ->
+        case Timex.format(time, "{h24}:{m} {AM}") do
+          {:ok, out} -> out
+        end
+
+      {:error, _} ->
+        nil
     end
   end
 end
@@ -256,12 +275,11 @@ defmodule Stops.Stop.ClosedStopInfo do
   @moduledoc """
   Information about stations not in API data.
   """
-  defstruct [
-    reason: "",
-    info_link: ""]
+  defstruct reason: "",
+            info_link: ""
 
   @type t :: %Stops.Stop.ClosedStopInfo{
-    reason: String.t,
-    info_link: String.t
-  }
+          reason: String.t(),
+          info_link: String.t()
+        }
 end

@@ -6,17 +6,20 @@ defmodule Vehicles.RepoTest do
     %Vehicle{id: "86-0", route_id: "86", direction_id: 0, trip_id: "trip-1"},
     %Vehicle{id: "86-1", route_id: "86", direction_id: 1, trip_id: "trip-2"},
     %Vehicle{id: "CR-Lowell-0", route_id: "CR-Lowell", direction_id: 0, trip_id: "trip-3"},
-    %Vehicle{id: "CR_Lowell-1", route_id: "CR-Lowell", direction_id: 1, trip_id: "trip-4"},
+    %Vehicle{id: "CR_Lowell-1", route_id: "CR-Lowell", direction_id: 1, trip_id: "trip-4"}
   ]
 
   setup do
     num = Enum.random(1..1000)
     name = String.to_atom("VehiclesRepo#{num}")
-    {:ok, _pid} = Repo.start_link(
-      name: name,
-      pubsub_fn: &pubsub_fn/2
-    )
-    send name, {:reset, @vehicles}
+
+    {:ok, _pid} =
+      Repo.start_link(
+        name: name,
+        pubsub_fn: &pubsub_fn/2
+      )
+
+    send(name, {:reset, @vehicles})
     {:ok, name: name}
   end
 
@@ -24,7 +27,7 @@ defmodule Vehicles.RepoTest do
 
   describe "route/1" do
     test "given a route ID, finds vehicle statuses for that route", %{name: name} do
-      expected = Enum.filter(@vehicles, & &1.route_id == "86")
+      expected = Enum.filter(@vehicles, &(&1.route_id == "86"))
       refute Enum.empty?(expected)
       assert Repo.route("86", name: name) == expected
     end
@@ -34,8 +37,8 @@ defmodule Vehicles.RepoTest do
     end
 
     test "optionally takes a direction_id parameter", %{name: name} do
-      all_lowell = Enum.filter(@vehicles, & &1.route_id == "CR-Lowell")
-      expected = Enum.filter(all_lowell, & &1.direction_id == 1)
+      all_lowell = Enum.filter(@vehicles, &(&1.route_id == "CR-Lowell"))
+      expected = Enum.filter(all_lowell, &(&1.direction_id == 1))
       refute Enum.empty?(expected)
       refute expected == all_lowell
       assert Repo.route("CR-Lowell", direction_id: 1, name: name) == expected
@@ -43,6 +46,7 @@ defmodule Vehicles.RepoTest do
 
     test "includes vehicle bearing" do
       vehicles = Repo.route("CR-Lowell", direction_id: 1)
+
       for vehicle <- vehicles do
         assert vehicle.bearing > 0
       end
@@ -56,7 +60,7 @@ defmodule Vehicles.RepoTest do
 
     test "returns the status for a single trip if it is available", %{name: name} do
       trip_id = "trip-2"
-      expected = Enum.find(@vehicles, & &1.trip_id == trip_id)
+      expected = Enum.find(@vehicles, &(&1.trip_id == trip_id))
       assert %Vehicle{} = expected
 
       assert Repo.trip(trip_id, name: name) == expected
@@ -66,6 +70,7 @@ defmodule Vehicles.RepoTest do
   describe "all/0" do
     test "returns all vehicles", %{name: name} do
       all = Repo.all(name: name)
+
       for vehicle <- @vehicles do
         assert vehicle in all
       end
@@ -74,26 +79,28 @@ defmodule Vehicles.RepoTest do
 
   describe "stream events" do
     test "adds vehicles to repo", %{name: name} do
-      send name, {:add, [%Vehicle{id: "CR-Middleborough"}]}
+      send(name, {:add, [%Vehicle{id: "CR-Middleborough"}]})
       all = Repo.all(name: name)
-      assert %Vehicle{} = Enum.find(all, & &1.id == "CR-Middleborough")
+      assert %Vehicle{} = Enum.find(all, &(&1.id == "CR-Middleborough"))
     end
 
     test "updates vehicles in repo", %{name: name} do
-      old = Enum.find(@vehicles, & &1.id == "86-0")
-      send name, {:update, [%Vehicle{id: "86-0"}]}
+      old = Enum.find(@vehicles, &(&1.id == "86-0"))
+      send(name, {:update, [%Vehicle{id: "86-0"}]})
+
       updated =
         [name: name]
         |> Repo.all()
-        |> Enum.find(& &1.id == "86-0")
+        |> Enum.find(&(&1.id == "86-0"))
+
       refute updated == old
       assert updated == %Vehicle{id: "86-0"}
     end
 
     test "removes vehicles from repo", %{name: name} do
-      assert %Vehicle{} = [name: name] |> Repo.all() |> Enum.find(& &1.id == "86-0")
-      send name, {:remove, ["86-0"]}
-      assert [name: name] |> Repo.all() |> Enum.find(& &1.id == "86-0") == nil
+      assert %Vehicle{} = [name: name] |> Repo.all() |> Enum.find(&(&1.id == "86-0"))
+      send(name, {:remove, ["86-0"]})
+      assert [name: name] |> Repo.all() |> Enum.find(&(&1.id == "86-0")) == nil
     end
   end
 end

@@ -13,13 +13,15 @@ defmodule Algolia.QueryTest do
   @decoded_query %{
     "clickAnalytics" => "true",
     "facets" => ["*"],
-    "facetFilters" => [[
-      "route.type:0",
-      "route.type:1",
-      "route.type:3",
-      "route.type:2",
-      "route.type:4"
-    ]],
+    "facetFilters" => [
+      [
+        "route.type:0",
+        "route.type:1",
+        "route.type:3",
+        "route.type:2",
+        "route.type:4"
+      ]
+    ],
     "hitsPerPage" => "5",
     "query" => "a"
   }
@@ -27,35 +29,42 @@ defmodule Algolia.QueryTest do
   describe "encode_params/1" do
     test "encodes a query map into a string" do
       assert Query.encode_params(@decoded_query) ==
-        Enum.join(["analytics=false" | @encoded_query_params], "&")
+               Enum.join(["analytics=false" | @encoded_query_params], "&")
     end
 
     test "adds analytics param if :track_analytics? is true" do
-      on_exit fn ->
+      on_exit(fn ->
         Application.delete_env(:algolia, :track_analytics?)
-      end
+      end)
 
       Application.put_env(:algolia, :track_analytics?, true)
+
       assert Query.encode_params(@decoded_query) ==
-        Enum.join(["analytics=true" | @encoded_query_params], "&")
+               Enum.join(["analytics=true" | @encoded_query_params], "&")
     end
   end
 
   describe "build/1" do
     test "encodes a full query" do
-      full_query = %{"requests" => [%{
-        "indexName" => "index",
-        "query" => "a",
-        "params" => @decoded_query
-      }]}
+      full_query = %{
+        "requests" => [
+          %{
+            "indexName" => "index",
+            "query" => "a",
+            "params" => @decoded_query
+          }
+        ]
+      }
 
       encoded = Query.build(full_query)
       assert {:ok, %{"requests" => [query]}} = Poison.decode(encoded)
+
       assert %{
-        "indexName" => "index",
-        "query" => "a",
-        "params" => params
-      } = query
+               "indexName" => "index",
+               "query" => "a",
+               "params" => params
+             } = query
+
       assert params == Enum.join(["analytics=false" | @encoded_query_params], "&")
     end
   end

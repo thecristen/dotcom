@@ -63,35 +63,42 @@ defmodule Alerts.Sort do
   for {lifecycle, index} <- Enum.with_index(@lifecycle_order) do
     defp lifecycle_index(unquote(lifecycle)), do: unquote(index)
   end
+
   # fallback
   defp lifecycle_index(_), do: unquote(length(@lifecycle_order))
 
   for {name, index} <- Enum.with_index(@effect_order) do
     defp effect_index(unquote(name)), do: unquote(index)
   end
+
   # fallback
   defp effect_index(_), do: unquote(length(@effect_order))
 
   defp updated_at_date(dt) do
     dt
-    |> Timex.beginning_of_day
-    |> Timex.to_unix
+    |> Timex.beginning_of_day()
+    |> Timex.to_unix()
   end
 
   defp alert_vs_notice(alert) do
     if Alerts.Alert.is_notice?(alert, Timex.now()), do: 1, else: 0
   end
 
-  defp first_future_active_period_start([], _now), do: :infinity # atoms are greater than any integer
+  # atoms are greater than any integer
+  defp first_future_active_period_start([], _now), do: :infinity
+
   defp first_future_active_period_start(periods, now) do
     # first active period that's in the future
     now_unix = DateTime.to_unix(now, :second)
-    future_periods = for {start, _} <- periods,
-      start,
-      unix <- [DateTime.to_unix(start)], # wrap in a list to avoid an Erlang 19.3 issue
-      unix > now_unix do
+
+    future_periods =
+      for {start, _} <- periods,
+          start,
+          # wrap in a list to avoid an Erlang 19.3 issue
+          unix <- [DateTime.to_unix(start)],
+          unix > now_unix do
         unix
-    end
+      end
 
     if future_periods == [] do
       :infinity

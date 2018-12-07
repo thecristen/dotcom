@@ -5,19 +5,19 @@ defmodule GoogleMaps.MapDataTest do
   alias GoogleMaps.MapData.{Marker, Path, Layers}
 
   @markers [
-    %Marker {
+    %Marker{
       latitude: 42.355041,
       longitude: -71.066065,
       icon: "marker1",
       visible?: true
     },
-    %Marker {
+    %Marker{
       latitude: 42.354153,
       longitude: -71.070547,
       icon: "marker2",
       visible?: true
     },
-    %Marker {
+    %Marker{
       latitude: 42.354153,
       longitude: -71.070547,
       icon: "marker2",
@@ -26,12 +26,12 @@ defmodule GoogleMaps.MapDataTest do
   ]
 
   @paths [
-    %Path {
+    %Path{
       weight: 7,
       color: "#fff",
       polyline: "thick polyline"
     },
-    %Path {
+    %Path{
       weight: 2,
       color: "#b727",
       polyline: "thin polyline"
@@ -67,7 +67,7 @@ defmodule GoogleMaps.MapDataTest do
     @base_map {300, 400} |> new() |> add_marker(@base_marker)
 
     test "add_marker/2" do
-      marker = Marker.new(1,2)
+      marker = Marker.new(1, 2)
       marker_map = add_marker(@base_map, marker)
       assert marker_map.markers == [marker | [@base_marker]]
     end
@@ -105,7 +105,7 @@ defmodule GoogleMaps.MapDataTest do
 
   describe "disable_map_type_controls/1" do
     test "sets streetViewControl and mapTypeControl to false" do
-      map = {100, 100} |> MapData.new() |> MapData.disable_map_type_controls
+      map = {100, 100} |> MapData.new() |> MapData.disable_map_type_controls()
       refute map.dynamic_options.streetViewControl
       refute map.dynamic_options.mapTypeControl
     end
@@ -118,7 +118,7 @@ defmodule GoogleMaps.MapDataTest do
   end
 
   describe "static_query/1" do
-    @hidden_markers Enum.map(@markers, & %{&1 | visible?: false})
+    @hidden_markers Enum.map(@markers, &%{&1 | visible?: false})
 
     test "Returns correct size param" do
       query = static_query(@map_data)
@@ -127,7 +127,10 @@ defmodule GoogleMaps.MapDataTest do
 
     test "groups markers by icons" do
       single_marker = {:markers, "anchor:center|icon:marker1|42.355041,-71.066065"}
-      multiple_markers = {:markers, "anchor:center|icon:marker2|42.354153,-71.070547|42.354153,-71.070547"}
+
+      multiple_markers =
+        {:markers, "anchor:center|icon:marker2|42.354153,-71.070547|42.354153,-71.070547"}
+
       markers = @map_data |> static_query() |> Enum.filter(fn {key, _val} -> key == :markers end)
       assert List.first(markers) == multiple_markers
       assert Enum.at(markers, 1) == single_marker

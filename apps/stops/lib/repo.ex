@@ -6,38 +6,46 @@ defmodule Stops.Repo do
   alias Stops.Stop
   alias Routes.Route
 
-  @type stop_feature :: Route.route_type | Route.subway_lines_type
-                        | :access | :parking_lot | :"Green-B" |:"Green-C" |:"Green-D" |:"Green-E"
-  @type stops_response :: [Stop.t] | {:error, any}
-  @type stop_by_route :: ((Route.id_t, 0 | 1, Keyword.t) -> stops_response)
+  @type stop_feature ::
+          Route.route_type()
+          | Route.subway_lines_type()
+          | :access
+          | :parking_lot
+          | :"Green-B"
+          | :"Green-C"
+          | :"Green-D"
+          | :"Green-E"
+  @type stops_response :: [Stop.t()] | {:error, any}
+  @type stop_by_route :: (Route.id_t(), 0 | 1, Keyword.t() -> stops_response)
 
-  for {old_id, gtfs_id} <- "priv/stop_id_to_gtfs.csv"
-  |> File.stream!()
-  |> CSV.decode(headers: true)
-  |> Enum.map(&{&1 |> Map.get("atisId") |> String.split(","), Map.get(&1, "stopID")})
-  |> Enum.flat_map(fn {ids, gtfs_id} -> Enum.map(ids, &{&1, gtfs_id}) end) do
-
+  for {old_id, gtfs_id} <-
+        "priv/stop_id_to_gtfs.csv"
+        |> File.stream!()
+        |> CSV.decode(headers: true)
+        |> Enum.map(&{&1 |> Map.get("atisId") |> String.split(","), Map.get(&1, "stopID")})
+        |> Enum.flat_map(fn {ids, gtfs_id} -> Enum.map(ids, &{&1, gtfs_id}) end) do
     def old_id_to_gtfs_id(unquote(old_id)) do
       unquote(gtfs_id)
     end
   end
+
   def old_id_to_gtfs_id(_) do
     nil
   end
 
   def charlie_card_stations do
-    cache [], fn _ ->
-      Enum.map(Stop.charlie_card_stations, &get/1)
-    end
+    cache([], fn _ ->
+      Enum.map(Stop.charlie_card_stations(), &get/1)
+    end)
   end
 
   def vending_machine_stations do
-    cache [], fn _ ->
-      Enum.map(Stop.vending_machine_stations, &get/1)
-    end
+    cache([], fn _ ->
+      Enum.map(Stop.vending_machine_stations(), &get/1)
+    end)
   end
 
-  @spec get(Stop.id_t) :: Stop.t | nil
+  @spec get(Stop.id_t()) :: Stop.t() | nil
   def get(id) when is_binary(id) do
     case stop(id) do
       {:ok, s} -> s
@@ -45,7 +53,7 @@ defmodule Stops.Repo do
     end
   end
 
-  @spec get!(Stop.id_t) :: Stop.t
+  @spec get!(Stop.id_t()) :: Stop.t()
   def get!(id) do
     case stop(id) do
       {:ok, %Stop{} = s} -> s
@@ -53,20 +61,20 @@ defmodule Stops.Repo do
     end
   end
 
-  @spec stop(Stop.id_t) :: {:ok, Stop.t | nil} | {:error, any}
+  @spec stop(Stop.id_t()) :: {:ok, Stop.t() | nil} | {:error, any}
   defp stop(id) do
     # the `cache` macro uses the function name as part of the key, and :stop
     # makes more sense for this than :get, since other functions in this
     # module will be working with those cache rows as well.
-    cache id, &Stops.Api.by_gtfs_id/1
+    cache(id, &Stops.Api.by_gtfs_id/1)
   end
 
-  @spec closest(Util.Position.t) :: [Stop.t]
+  @spec closest(Util.Position.t()) :: [Stop.t()]
   def closest(position) do
     Stops.Nearby.nearby(position)
   end
 
-  @spec by_route(Route.id_t, 0 | 1, Keyword.t) :: stops_response
+  @spec by_route(Route.id_t(), 0 | 1, Keyword.t()) :: stops_response
   def by_route(route_id, direction_id, opts \\ []) do
     cache({route_id, direction_id, opts}, fn args ->
       with stops when is_list(stops) <- Stops.Api.by_route(args) do
@@ -80,7 +88,7 @@ defmodule Stops.Repo do
     end)
   end
 
-  @spec by_routes([Route.id_t], 0 | 1, Keyword.t) :: stops_response
+  @spec by_routes([Route.id_t()], 0 | 1, Keyword.t()) :: stops_response
   def by_routes(route_ids, direction_id, opts \\ []) when is_list(route_ids) do
     # once the V3 API supports multiple route_ids in this field, we can do it
     # as a single lookup -ps
@@ -90,12 +98,12 @@ defmodule Stops.Repo do
       {:ok, stops} -> stops
       _ -> []
     end)
-    |> Enum.uniq
+    |> Enum.uniq()
   end
 
-  @spec by_route_type(Route.route_type, Keyword.t):: stops_response
+  @spec by_route_type(Route.route_type(), Keyword.t()) :: stops_response
   def by_route_type(route_type, opts \\ []) do
-    cache {route_type, opts}, &Stops.Api.by_route_type/1
+    cache({route_type, opts}, &Stops.Api.by_route_type/1)
   end
 
   def stop_exists_on_route?(stop_id, route, direction_id) do
@@ -107,29 +115,31 @@ defmodule Stops.Repo do
   @doc """
   Returns a list of the features associated with the given stop
   """
-  @spec stop_features(Stop.t, Keyword.t) :: [stop_feature]
+  @spec stop_features(Stop.t(), Keyword.t()) :: [stop_feature]
   def stop_features(%Stop{} = stop, opts \\ []) do
     excluded = Keyword.get(opts, :exclude, [])
+
     [
       route_features(stop.id, opts),
       parking_features(stop.parking_lots),
       accessibility_features(stop.accessibility)
     ]
     |> Enum.concat()
-    |> Enum.reject(& &1 in excluded)
+    |> Enum.reject(&(&1 in excluded))
     |> Enum.sort_by(&sort_feature_icons/1)
   end
 
   defp parking_features([]), do: []
   defp parking_features(_parking_lots), do: [:parking_lot]
 
-  @spec route_features(String.t, Keyword.t) :: [stop_feature]
+  @spec route_features(String.t(), Keyword.t()) :: [stop_feature]
   defp route_features(stop_id, opts) do
-    icon_fn = if Keyword.get(opts, :expand_branches?) do
-      &branch_feature/1
-    else
-      &Route.icon_atom/1
-    end
+    icon_fn =
+      if Keyword.get(opts, :expand_branches?) do
+        &branch_feature/1
+      else
+        &Route.icon_atom/1
+      end
 
     opts
     |> Keyword.get(:connections)
@@ -138,10 +148,12 @@ defmodule Stops.Repo do
     |> Enum.uniq()
   end
 
-  @spec get_stop_connections([Routes.Route.t] | {:error, :not_fetched} | nil, Stops.Stop.id_t) :: [Routes.Route.t]
+  @spec get_stop_connections([Routes.Route.t()] | {:error, :not_fetched} | nil, Stops.Stop.id_t()) ::
+          [Routes.Route.t()]
   defp get_stop_connections(connections, _stop_id) when is_list(connections) do
     connections
   end
+
   defp get_stop_connections(_, stop_id) do
     Routes.Repo.by_stop(stop_id)
   end
@@ -152,7 +164,7 @@ defmodule Stops.Repo do
   def branch_feature(%Route{id: "Green-E"}), do: :"Green-E"
   def branch_feature(route), do: Route.icon_atom(route)
 
-  @spec accessibility_features([String.t]) :: [:access]
+  @spec accessibility_features([String.t()]) :: [:access]
   defp accessibility_features(["accessible" | _]), do: [:access]
   defp accessibility_features(_), do: []
 

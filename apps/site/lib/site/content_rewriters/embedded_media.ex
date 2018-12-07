@@ -11,40 +11,40 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
     "google.com/maps",
     "livestream.com",
     "mbtace.com/shuttle-tracker",
-    "youtube.com", "youtu.be"
+    "youtube.com",
+    "youtu.be"
   ]
 
-  defstruct [
-    alignment: :none,
-    caption: "",
-    element: "",
-    extra_classes: [],
-    link_attrs: [],
-    size: :full,
-    type: :image
-  ]
+  defstruct alignment: :none,
+            caption: "",
+            element: "",
+            extra_classes: [],
+            link_attrs: [],
+            size: :full,
+            type: :image
 
   @valid_sizes [:full, :half, :third]
   @valid_types [:image, :embed]
 
   @type t :: %__MODULE__{
-    alignment: :left | :right | :none,
-    caption: Floki.html_tree | String.t,
-    element: Floki.html_tree,
-    extra_classes: iodata(),
-    link_attrs: list(),
-    size: atom(),
-    type: atom()
-  }
+          alignment: :left | :right | :none,
+          caption: Floki.html_tree() | String.t(),
+          element: Floki.html_tree(),
+          extra_classes: iodata(),
+          link_attrs: list(),
+          size: atom(),
+          type: atom()
+        }
 
-  @spec parse(Floki.html_tree) :: t
+  @spec parse(Floki.html_tree()) :: t
   def parse({_, attributes, children}) do
-
     media_element = get_media(children)
-    media_classes = children
-    |> Floki.attribute(".media", "class")
-    |> List.first
-    |> String.split
+
+    media_classes =
+      children
+      |> Floki.attribute(".media", "class")
+      |> List.first()
+      |> String.split()
 
     %__MODULE__{
       alignment: get_alignment(attributes),
@@ -62,58 +62,64 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
   process the children normally (ensures images get the img-fluid class, etc). Also,
   wrap the media element in a rebuilt link, if link information is available.
   """
-  @spec build(t) :: Floki.html_tree
+  @spec build(t) :: Floki.html_tree()
   def build(%__MODULE__{type: type, size: size} = media)
-  when size in @valid_sizes and type in @valid_types do
+      when size in @valid_sizes and type in @valid_types do
+    media_embed =
+      media.link_attrs
+      |> case do
+        [_ | _] -> {"a", media.link_attrs, media.element}
+        _ -> media.element
+      end
+      |> FlokiHelpers.add_class(media.extra_classes)
 
-    media_embed = media.link_attrs
-    |> case do
-      [_ | _] -> {"a", media.link_attrs, media.element}
-      _ -> media.element
-    end
-    |> FlokiHelpers.add_class(media.extra_classes)
+    alignment_modifier =
+      case media.alignment do
+        :none -> ""
+        _ -> " c-media--align-#{media.alignment}"
+      end
 
-    alignment_modifier = case media.alignment do
-      :none -> ""
-      _ -> " c-media--align-#{media.alignment}"
-    end
-
-    caption_modifier = case media.caption do
-      "" -> ""
-      _ -> " c-media--with-caption"
-    end
+    caption_modifier =
+      case media.caption do
+        "" -> ""
+        _ -> " c-media--with-caption"
+      end
 
     {
       "figure",
-      [{
-        "class", "c-media " <>
-          "c-media--type-#{media.type} " <>
-          "c-media--size-#{media.size}" <>
-          "#{alignment_modifier}" <>
-          "#{caption_modifier}"
-      }],
       [
-        {"div", [{"class", "c-media__content"}], [
-          media_embed,
-          media.caption
-        ]}
+        {
+          "class",
+          "c-media " <>
+            "c-media--type-#{media.type} " <>
+            "c-media--size-#{media.size}" <> "#{alignment_modifier}" <> "#{caption_modifier}"
+        }
+      ],
+      [
+        {"div", [{"class", "c-media__content"}],
+         [
+           media_embed,
+           media.caption
+         ]}
       ]
     }
   end
+
   def build(_) do
     Floki.parse(~s(<div class="incompatible-media"></div>))
   end
 
-  @spec media_iframe?(String.t) :: boolean
+  @spec media_iframe?(String.t()) :: boolean
   def media_iframe?(src), do: String.contains?(src, @iframe_domains)
 
-  @spec iframe(Floki.html_tree) :: Floki.html_tree
+  @spec iframe(Floki.html_tree()) :: Floki.html_tree()
   def iframe(original) do
     # Avoid conflicts by replacing legacy classes with media-specific class
-    iframe = original
-    |> FlokiHelpers.remove_class("iframe")
-    |> FlokiHelpers.remove_class("iframe-full-width")
-    |> FlokiHelpers.add_class("c-media__embed")
+    iframe =
+      original
+      |> FlokiHelpers.remove_class("iframe")
+      |> FlokiHelpers.remove_class("iframe-full-width")
+      |> FlokiHelpers.add_class("c-media__embed")
 
     # Generate a new EmbeddedMedia struct with curated properties
     proto_media = %__MODULE__{
@@ -127,17 +133,17 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
     build(proto_media)
   end
 
-  @spec get_media(Floki.html_tree) :: Floki.html_tree | nil
+  @spec get_media(Floki.html_tree()) :: Floki.html_tree() | nil
   defp get_media(wrapper_children) do
     # Isolate the actual embedded media element. Add BEM class.
     case Floki.find(wrapper_children, ".media-content > *:first-child") do
-      [media| _] -> FlokiHelpers.add_class(media, ["c-media__element"])
+      [media | _] -> FlokiHelpers.add_class(media, ["c-media__element"])
       [] -> nil
     end
   end
 
   # Determine if there is a caption and return it. Add BEM class.
-  @spec get_caption(Floki.html_tree) :: Floki.html_tree | String.t
+  @spec get_caption(Floki.html_tree()) :: Floki.html_tree() | String.t()
   defp get_caption(wrapper_children) do
     case Floki.find(wrapper_children, "figcaption") do
       [caption | _] -> FlokiHelpers.add_class(caption, ["c-media__caption"])
@@ -146,13 +152,16 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
   end
 
   # Determine if there is a link and capture certain attributes.
-  @spec get_link(Floki.html_tree) :: list() | nil
+  @spec get_link(Floki.html_tree()) :: list() | nil
   defp get_link(wrapper_children) do
     case Floki.find(wrapper_children, ".media-link") do
-      [{_, _, _} = link | _] -> [
-        {"class", "c-media__link"},
-        {"href", Floki.attribute(link, "href")},
-        {"target", Floki.attribute(link, "target")}]
+      [{_, _, _} = link | _] ->
+        [
+          {"class", "c-media__link"},
+          {"href", Floki.attribute(link, "href")},
+          {"target", Floki.attribute(link, "target")}
+        ]
+
       [] ->
         nil
     end
@@ -162,6 +171,7 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
   @spec get_alignment(list()) :: :left | :right | :none
   defp get_alignment([{"class", wrapper_classes}]) do
     classes = String.split(wrapper_classes)
+
     cond do
       "align-left" in classes -> :left
       "align-right" in classes -> :right
@@ -179,6 +189,7 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
       true -> :unknown
     end
   end
+
   defp get_attribute(classes, :type) do
     if "media--type-image" in classes do
       :image

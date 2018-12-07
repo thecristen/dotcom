@@ -20,23 +20,24 @@ defmodule SiteWeb.Plugs.CookiesTest do
     end
 
     test "adds route to cookie if user visits a schedule page", %{conn: conn} do
-      with_cookie = get conn, schedule_path(conn, :show, %Routes.Route{id: "Red"})
+      with_cookie = get(conn, schedule_path(conn, :show, %Routes.Route{id: "Red"}))
       assert Map.get(with_cookie.cookies, route_cookie_name()) == "Red"
 
       timetable_path =
         conn
         |> schedule_path(:show, %Routes.Route{id: "CR-Lowell"})
         |> Path.join("timetable")
+
       assert timetable_path == "/schedules/CR-Lowell/timetable"
 
-      with_cookie = get conn, timetable_path
+      with_cookie = get(conn, timetable_path)
       assert Map.get(with_cookie.cookies, route_cookie_name()) == "CR-Lowell"
     end
 
     test "sets green line branch cookies correctly", %{conn: conn} do
       green_b_path = schedule_path(conn, :show, "Green-B")
       assert green_b_path == "/schedules/Green-B"
-      with_cookie = get conn, green_b_path
+      with_cookie = get(conn, green_b_path)
       assert Map.get(with_cookie.cookies, route_cookie_name()) == "Green-B"
     end
 
@@ -66,7 +67,6 @@ defmodule SiteWeb.Plugs.CookiesTest do
     end
 
     test "only saves 4 most recent cookies", %{conn: conn} do
-
       conn =
         conn
         |> get(schedule_path(conn, :show, %Routes.Route{id: "Red"}))
@@ -88,9 +88,9 @@ defmodule SiteWeb.Plugs.CookiesTest do
              |> Map.get(route_cookie_name()) == nil
 
       assert conn
-      |> get("/")
-      |> Map.get(:cookies)
-      |> Map.get(route_cookie_name()) == nil
+             |> get("/")
+             |> Map.get(:cookies)
+             |> Map.get(route_cookie_name()) == nil
     end
   end
 end

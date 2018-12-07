@@ -6,11 +6,12 @@ defmodule Algolia.ConfigTest do
       assert :algolia
              |> Application.get_env(:config)
              |> Keyword.get(:app_id) == {:system, "ALGOLIA_APP_ID"}
+
       assert %Algolia.Config{
-        app_id: <<_::binary>>,
-        admin: <<_::binary>>,
-        search: <<_::binary>>
-      } = Algolia.Config.config()
+               app_id: <<_::binary>>,
+               admin: <<_::binary>>,
+               search: <<_::binary>>
+             } = Algolia.Config.config()
     end
   end
 end

@@ -4,6 +4,7 @@ defmodule SiteWeb.ScheduleController.ScheduleError do
   def call(%{assigns: %{date_in_rating?: true}} = conn, _) do
     conn
   end
+
   def call(%{assigns: %{date_in_rating?: false}} = conn, _) do
     {:error, [api_error]} =
       Schedules.Repo.by_route_ids(

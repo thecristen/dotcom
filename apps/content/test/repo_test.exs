@@ -6,12 +6,17 @@ defmodule Content.RepoTest do
 
   describe "recent_news" do
     test "returns list of Content.NewsEntry" do
-      [%Content.NewsEntry{
-         body: body,
-         media_contact: media_contact
-       } | _] = Repo.recent_news()
+      [
+        %Content.NewsEntry{
+          body: body,
+          media_contact: media_contact
+        }
+        | _
+      ] = Repo.recent_news()
 
-      assert safe_to_string(body) =~ "<p>Beginning Sunday, April 1, the MBTA will begin a one-year"
+      assert safe_to_string(body) =~
+               "<p>Beginning Sunday, April 1, the MBTA will begin a one-year"
+
       assert media_contact == "MassDOT Press Office"
     end
 
@@ -19,7 +24,7 @@ defmodule Content.RepoTest do
       current_id = 3519
       recent_news = Repo.recent_news(current_id: current_id)
 
-      recent_news_ids = Enum.map(recent_news, &(&1.id))
+      recent_news_ids = Enum.map(recent_news, & &1.id)
       refute Enum.member?(recent_news_ids, current_id)
     end
   end
@@ -53,7 +58,8 @@ defmodule Content.RepoTest do
     end
 
     test "returns a ProjectUpdate" do
-      assert %Content.ProjectUpdate{} = Repo.get_page("/projects/project-name/update/project-progress")
+      assert %Content.ProjectUpdate{} =
+               Repo.get_page("/projects/project-name/update/project-progress")
     end
 
     test "given the path for a Basic page with tracking params" do
@@ -84,7 +90,9 @@ defmodule Content.RepoTest do
     end
 
     test "given special preview query params, return certain revision of node" do
-      result = Repo.get_page("/basic_page_no_sidebar", %{"preview" => "", "vid" => "112", "nid" => "6"})
+      result =
+        Repo.get_page("/basic_page_no_sidebar", %{"preview" => "", "vid" => "112", "nid" => "6"})
+
       assert %Content.BasicPage{} = result
       assert result.title == "Arts on the T 112"
     end
@@ -93,20 +101,26 @@ defmodule Content.RepoTest do
   describe "get_page_with_encoded_id/2" do
     test "encodes the id param into the request" do
       assert Repo.get_page("/redirect_node_with_query", %{"id" => "5"}) == {:error, :not_found}
+
       assert %Content.Redirect{} =
-        Repo.get_page_with_encoded_id("/redirect_node_with_query", %{"id" => "5"})
+               Repo.get_page_with_encoded_id("/redirect_node_with_query", %{"id" => "5"})
     end
   end
 
   describe "events/1" do
     test "returns list of Content.Event" do
-      assert [%Content.Event{
-        id: id,
-        body: body
-      } | _] = Repo.events()
+      assert [
+               %Content.Event{
+                 id: id,
+                 body: body
+               }
+               | _
+             ] = Repo.events()
 
       assert id == 3268
-      assert safe_to_string(body) =~ "(FMCB) closely monitors the T’s finances, management, and operations.</p>"
+
+      assert safe_to_string(body) =~
+               "(FMCB) closely monitors the T’s finances, management, and operations.</p>"
     end
   end
 
@@ -122,10 +136,13 @@ defmodule Content.RepoTest do
 
   describe "projects/1" do
     test "returns list of Content.Project" do
-      assert [%Content.Project{
-        id: id,
-        body: body
-      }, %Content.Project{} | _] = Repo.projects()
+      assert [
+               %Content.Project{
+                 id: id,
+                 body: body
+               },
+               %Content.Project{} | _
+             ] = Repo.projects()
 
       assert id == 3004
       assert safe_to_string(body) =~ "Wollaston Station Improvements"
@@ -138,8 +155,11 @@ defmodule Content.RepoTest do
 
   describe "project_updates/1" do
     test "returns a list of Content.ProjectUpdate" do
-      assert [%Content.ProjectUpdate{body: body, id: id},
-              %Content.ProjectUpdate{body: body_2, id: id_2} | _] = Repo.project_updates()
+      assert [
+               %Content.ProjectUpdate{body: body, id: id},
+               %Content.ProjectUpdate{body: body_2, id: id_2} | _
+             ] = Repo.project_updates()
+
       assert id == 3005
       assert id_2 == 3174
       assert safe_to_string(body) =~ "What's the bus shuttle schedule?"
@@ -153,19 +173,23 @@ defmodule Content.RepoTest do
 
   describe "whats_happening" do
     test "returns a list of Content.WhatsHappeningItem" do
-      assert [%Content.WhatsHappeningItem{
-        blurb: blurb
-      } | _] = Repo.whats_happening()
+      assert [
+               %Content.WhatsHappeningItem{
+                 blurb: blurb
+               }
+               | _
+             ] = Repo.whats_happening()
 
-      assert blurb =~ "Visiting Boston? Find your way around with our new Visitor's Guide to the T."
+      assert blurb =~
+               "Visiting Boston? Find your way around with our new Visitor's Guide to the T."
     end
   end
 
   describe "banner" do
     test "returns a Content.Banner" do
       assert %Content.Banner{
-        blurb: blurb
-      } = Repo.banner()
+               blurb: blurb
+             } = Repo.banner()
 
       assert blurb == "Headline goes here"
     end
@@ -189,9 +213,11 @@ defmodule Content.RepoTest do
     end
 
     test "returns empty list if there's an error" do
-      log = ExUnit.CaptureLog.capture_log(fn ->
-        assert [] = Repo.get_route_pdfs("error")
-      end)
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          assert [] = Repo.get_route_pdfs("error")
+        end)
+
       assert log =~ "Error getting pdfs"
     end
 
@@ -201,7 +227,6 @@ defmodule Content.RepoTest do
   end
 
   describe "teasers/1" do
-
     test "returns only teasers for a project type" do
       types =
         [type: "project"]
@@ -226,6 +251,7 @@ defmodule Content.RepoTest do
         |> Repo.teasers()
         |> MapSet.new(& &1.type)
         |> MapSet.to_list()
+
       assert types == [:event, :news_entry, :project]
     end
 
@@ -271,16 +297,16 @@ defmodule Content.RepoTest do
 
     test "takes a :type option" do
       teasers = Repo.teasers(route_id: "Red", type: :project, sidebar: 1)
-      assert Enum.all?(teasers, & &1.type == :project)
+      assert Enum.all?(teasers, &(&1.type == :project))
     end
 
     test "takes a :type_op option" do
       all_teasers = Repo.teasers(route_id: "Red", sidebar: 1)
-      assert Enum.any?(all_teasers, & &1.type == :project)
+      assert Enum.any?(all_teasers, &(&1.type == :project))
 
       filtered = Repo.teasers(route_id: "Red", type: :project, type_op: "not in", sidebar: 1)
       refute Enum.empty?(filtered)
-      refute Enum.any?(filtered, & &1.type == :project)
+      refute Enum.any?(filtered, &(&1.type == :project))
     end
 
     test "takes an :items_per_page option" do
@@ -290,9 +316,11 @@ defmodule Content.RepoTest do
     end
 
     test "returns an empty list and logs a warning if there is an error" do
-      log = ExUnit.CaptureLog.capture_log(fn ->
-        assert Repo.teasers(route_id: "NotFound", sidebar: 1) == []
-      end)
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          assert Repo.teasers(route_id: "NotFound", sidebar: 1) == []
+        end)
+
       assert log =~ "error=:not_found"
     end
   end

@@ -33,10 +33,11 @@ defmodule SiteWeb.TripPlanView do
     "Wheelchair accessible trips"
   end
 
-  @spec selected_modes_string(map) :: String.t
+  @spec selected_modes_string(map) :: String.t()
   def selected_modes_string(%{subway: true, commuter_rail: true, bus: true, ferry: true}) do
     "all modes"
   end
+
   def selected_modes_string(%{} = modes) do
     modes
     |> Enum.filter(fn {_, selected?} -> selected? end)
@@ -63,7 +64,7 @@ defmodule SiteWeb.TripPlanView do
   Fetches value to show in input field, preferring to use the geocoded
   Query value if one is available.
   """
-  @spec get_input_value(Query.t | nil, map, :to | :from) :: TripPlan.NamedPosition.t
+  @spec get_input_value(Query.t() | nil, map, :to | :from) :: TripPlan.NamedPosition.t()
   def get_input_value(%Query{} = query, params, field) do
     case Map.get(query, field) do
       pos = %TripPlan.NamedPosition{} ->
@@ -73,14 +74,16 @@ defmodule SiteWeb.TripPlanView do
         get_input_value(nil, params, field)
     end
   end
+
   def get_input_value(nil, params, field) do
     %TripPlan.NamedPosition{
-      name: Map.get(params, Atom.to_string(field)),
+      name: Map.get(params, Atom.to_string(field))
     }
   end
 
   def too_future_error do
     end_date = Schedules.Repo.end_of_rating()
+
     [
       "We can only provide trip data for the current schedule, valid until ",
       Timex.format!(end_date, "{M}/{D}/{YY}"),
@@ -117,16 +120,18 @@ defmodule SiteWeb.TripPlanView do
 
   @spec show_plan_error?([atom]) :: boolean
   def show_plan_error?(errors) do
-    Enum.any?(errors, & Map.has_key?(@plan_errors, &1))
+    Enum.any?(errors, &Map.has_key?(@plan_errors, &1))
   end
 
-  @spec plan_error_title([atom]) :: String.t
+  @spec plan_error_title([atom]) :: String.t()
   defp plan_error_title([:path_not_found]) do
     "No trips available"
   end
+
   defp plan_error_title([:too_future]) do
     "Date is too far in the future"
   end
+
   defp plan_error_title(_) do
     "Unable to plan your trip"
   end
@@ -138,6 +143,7 @@ defmodule SiteWeb.TripPlanView do
       too_future_fn when is_function(too_future_fn) -> too_future_fn.()
     end
   end
+
   def plan_error_description(_) do
     "We were unable to plan your trip. Please try again."
   end
@@ -151,7 +157,7 @@ defmodule SiteWeb.TripPlanView do
   end
 
   def rendered_location_error(%Plug.Conn{} = conn, %Query{} = query, field)
-  when field in [:from, :to] do
+      when field in [:from, :to] do
     case Map.get(query, field) do
       {:error, error} ->
         do_render_location_error(conn, field, error)
@@ -321,12 +327,15 @@ defmodule SiteWeb.TripPlanView do
   def format_plan_type_for_title(%{time: {:arrive_by, dt}}) do
     ["Arrive by ", Timex.format!(dt, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
   end
+
   def format_plan_type_for_title(%{time: {:depart_at, dt}}) do
     ["Depart at ", Timex.format!(dt, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
   end
+
   def format_plan_type_for_title(%{time: {:error, _}}) do
     format_plan_type_for_title(nil)
   end
+
   def format_plan_type_for_title(nil) do
     time = Site.TripPlan.DateTime.round_minute(Util.now())
     ["Depart at ", Timex.format!(time, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
@@ -406,9 +415,9 @@ defmodule SiteWeb.TripPlanView do
         content_tag(:label, "Month", for: "plan_date_time_month", class: "sr-only"),
         field.(:month, class: "c-select"),
         content_tag(:label, "Day", for: "plan_date_time_day", class: "sr-only"),
-        field.(:day,  class: "c-select"),
+        field.(:day, class: "c-select"),
         content_tag(:label, "Year", for: "plan_date_time_year", class: "sr-only"),
-        field.(:year,  class: "c-select")
+        field.(:year, class: "c-select")
       ],
       class: "plan-date-select hidden-js",
       id: "plan-date-select"
@@ -445,7 +454,7 @@ defmodule SiteWeb.TripPlanView do
   end
 
   @minute_options 0..55
-                  |> Enum.filter(& Integer.mod(&1, 5) == 0)
+                  |> Enum.filter(&(Integer.mod(&1, 5) == 0))
                   |> Enum.map(fn
                     int when int < 10 -> "0" <> Integer.to_string(int)
                     int -> Integer.to_string(int)
@@ -456,7 +465,7 @@ defmodule SiteWeb.TripPlanView do
       :div,
       [
         content_tag(:label, "Hour", for: "plan_date_time_hour", class: "sr-only"),
-        field.(:hour, [class: "c-select"]),
+        field.(:hour, class: "c-select"),
         content_tag(:label, "Minute", for: "plan_date_time_minute", class: "sr-only"),
         field.(:minute, class: "c-select", options: @minute_options),
         " ",

@@ -6,12 +6,15 @@ defmodule SiteWeb.LayoutViewTest do
   import SiteWeb.LayoutView
 
   describe "bold_if_active/3" do
-    test "bold_if_active makes text bold if the current request is made against the given path", %{conn: conn} do
+    test "bold_if_active makes text bold if the current request is made against the given path",
+         %{conn: conn} do
       conn = %{conn | request_path: "/schedules/subway"}
       assert bold_if_active(conn, "/schedules", "test") == raw("<strong>test</strong>")
     end
 
-    test "bold_if_active only makes text bold if the current request is made to root path", %{conn: conn} do
+    test "bold_if_active only makes text bold if the current request is made to root path", %{
+      conn: conn
+    } do
       conn = %{conn | request_path: "/"}
       assert bold_if_active(conn, "/", "test") == raw("<strong>test</strong>")
       assert bold_if_active(conn, "/schedules", "test") == raw("test")
@@ -19,7 +22,7 @@ defmodule SiteWeb.LayoutViewTest do
   end
 
   test "renders breadcrumbs in the title", %{conn: conn} do
-    conn = get conn, "/schedules/subway"
+    conn = get(conn, "/schedules/subway")
     body = html_response(conn, 200)
 
     expected_title = "Subway | Schedules &amp; Maps | MBTA"
@@ -36,12 +39,14 @@ defmodule SiteWeb.LayoutViewTest do
       conn
       |> nav_link_content()
       |> Enum.each(fn {name, description, href} ->
-
         camelized = SiteWeb.ViewHelpers.to_camelcase(name)
         id = "#" <> camelized
 
         assert [{"div", _, drawer_content}] = Floki.find(drawers, id)
-        assert [{"a", link_attrs, _link_content}] = Floki.find(drawers, ".desktop-nav-link[href=\"#{href}\"]")
+
+        assert [{"a", link_attrs, _link_content}] =
+                 Floki.find(drawers, ".desktop-nav-link[href=\"#{href}\"]")
+
         assert [controls, _class, parent, target, _href, role] = link_attrs
 
         assert controls == {"aria-controls", camelized}
@@ -60,6 +65,7 @@ defmodule SiteWeb.LayoutViewTest do
     test "renders mobile nav with all content drawers", %{conn: conn} do
       assert {:safe, html} = render("_header.html", %{conn: conn})
       html_string = IO.iodata_to_binary(html)
+
       conn
       |> nav_link_content()
       |> Enum.each(fn {name, description, link} ->

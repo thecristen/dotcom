@@ -1,12 +1,12 @@
 defmodule Alerts.Parser do
   defmodule Alert do
-    @spec parse(JsonApi.Item.t) :: Alerts.Alert.t
+    @spec parse(JsonApi.Item.t()) :: Alerts.Alert.t()
     def parse(%JsonApi.Item{type: "alert", id: id, attributes: attributes}) do
       Alerts.Alert.new(
         id: id,
         header: attributes["header"],
         informed_entity: parse_informed_entity(attributes["informed_entity"]),
-        active_period:  Enum.map(attributes["active_period"], &active_period/1),
+        active_period: Enum.map(attributes["active_period"], &active_period/1),
         effect: effect(attributes, attributes["header"]),
         severity: severity(attributes["severity"]),
         lifecycle: lifecycle(attributes["lifecycle"]),
@@ -24,6 +24,7 @@ defmodule Alerts.Parser do
     defp informed_entity(%{"route" => "Green" <> _} = entity) do
       [do_informed_entity(entity), do_informed_entity(%{entity | "route" => "Green"})]
     end
+
     defp informed_entity(entity) do
       [do_informed_entity(entity)]
     end
@@ -40,7 +41,7 @@ defmodule Alerts.Parser do
       }
     end
 
-    @spec do_activity(String.t) :: Alerts.InformedEntity.activity_type
+    @spec do_activity(String.t()) :: Alerts.InformedEntity.activity_type()
     defp do_activity("BOARD"), do: :board
     defp do_activity("EXIT"), do: :exit
     defp do_activity("RIDE"), do: :ride
@@ -58,6 +59,7 @@ defmodule Alerts.Parser do
     defp parse_time(nil) do
       nil
     end
+
     defp parse_time(str) do
       str
       |> Timex.parse!("{ISO:Extended}")
@@ -67,6 +69,7 @@ defmodule Alerts.Parser do
     defp description(nil) do
       nil
     end
+
     defp description(str) do
       case String.trim(str) do
         "" -> nil
@@ -74,14 +77,15 @@ defmodule Alerts.Parser do
       end
     end
 
-    @spec effect(%{String.t => String.t}, String.t) :: Alerts.Alert.effect
+    @spec effect(%{String.t() => String.t()}, String.t()) :: Alerts.Alert.effect()
     defp effect(attributes, header) do
       case Map.fetch(attributes, "effect_name") do
         {:ok, effect_name} ->
           effect_name
           |> String.replace(" ", "_")
-          |> String.upcase
+          |> String.upcase()
           |> do_effect(header)
+
         :error ->
           attributes
           |> Map.get("effect")
@@ -89,7 +93,7 @@ defmodule Alerts.Parser do
       end
     end
 
-    @spec do_effect(String.t, String.t) :: Alerts.Alert.effect
+    @spec do_effect(String.t(), String.t()) :: Alerts.Alert.effect()
     defp do_effect("AMBER_ALERT", _), do: :amber_alert
     defp do_effect("CANCELLATION", _), do: :cancellation
     defp do_effect("DELAY", _), do: :delay
@@ -100,7 +104,8 @@ defmodule Alerts.Parser do
     defp do_effect("STOP_CLOSURE", _), do: :stop_closure
     defp do_effect("DOCK_CLOSURE", _), do: :dock_closure
     defp do_effect("STATION_CLOSURE", _), do: :station_closure
-    defp do_effect("STOP_MOVE", _), do: :stop_moved # previous configuration
+    # previous configuration
+    defp do_effect("STOP_MOVE", _), do: :stop_moved
     defp do_effect("STOP_MOVED", _), do: :stop_moved
     defp do_effect("EXTRA_SERVICE", _), do: :extra_service
     defp do_effect("SCHEDULE_CHANGE", _), do: :schedule_change
@@ -116,49 +121,71 @@ defmodule Alerts.Parser do
     defp do_effect("SUMMARY", _), do: :summary
     defp do_effect(_, _), do: :unknown
 
-    @spec severity(String.t | integer) :: Alerts.Alert.severity
+    @spec severity(String.t() | integer) :: Alerts.Alert.severity()
     def severity(binary) when is_binary(binary) do
       case String.upcase(binary) do
-        "INFORMATION" -> 1
-        "MINOR" -> 3
-        "MODERATE" -> 5
-        "SIGNIFICANT" -> 6
-        "SEVERE" -> 7
-        _ -> 5 # default to moderate
+        "INFORMATION" ->
+          1
+
+        "MINOR" ->
+          3
+
+        "MODERATE" ->
+          5
+
+        "SIGNIFICANT" ->
+          6
+
+        "SEVERE" ->
+          7
+
+        # default to moderate
+        _ ->
+          5
       end
     end
+
     def severity(int) when 0 <= int and int <= 10 do
       int
     end
 
-    @spec lifecycle(String.t) :: Alerts.Alert.lifecycle
+    @spec lifecycle(String.t()) :: Alerts.Alert.lifecycle()
     def lifecycle(binary) do
       case String.upcase(binary) do
-        "ONGOING" -> :ongoing
-        "UPCOMING" -> :upcoming
+        "ONGOING" ->
+          :ongoing
+
+        "UPCOMING" ->
+          :upcoming
+
         # could be either "ONGOING_UPCOMING" or "ONGOING UPCOMING"
-        "ONGOING" <> _ -> :ongoing_upcoming
-          "NEW" -> :new
-        _ -> :unknown
+        "ONGOING" <> _ ->
+          :ongoing_upcoming
+
+        "NEW" ->
+          :new
+
+        _ ->
+          :unknown
       end
     end
   end
 
   defmodule Banner do
-    @spec parse(JsonApi.Item.t) :: [Alerts.Banner.t]
+    @spec parse(JsonApi.Item.t()) :: [Alerts.Banner.t()]
     def parse(%JsonApi.Item{
           id: id,
           attributes: %{
             "url" => url,
             "banner" => title
-          }}) when title != nil do
+          }
+        })
+        when title != nil do
       [
-        %Alerts.Banner{
-          id: id,
-          title: title,
-          url: url}
+        %Alerts.Banner{id: id, title: title, url: url}
       ]
     end
+
     def parse(%JsonApi.Item{}) do
       []
     end

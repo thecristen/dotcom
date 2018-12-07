@@ -17,7 +17,9 @@ defmodule Site.GreenLine.Cache do
   # Client
 
   def start_link(opts \\ []) do
-    start_date_fn = Keyword.get(opts, :start_date_fn, fn -> elem(Schedules.Repo.rating_dates(), 0) end)
+    start_date_fn =
+      Keyword.get(opts, :start_date_fn, fn -> elem(Schedules.Repo.rating_dates(), 0) end)
+
     end_date_fn = Keyword.get(opts, :end_date_fn, &Schedules.Repo.end_of_rating/0)
     reset_fn = Keyword.get(opts, :reset_fn, &reset_cache/1)
     name = Keyword.get(opts, :name, :green_line_cache)
@@ -29,7 +31,7 @@ defmodule Site.GreenLine.Cache do
 
   @impl true
   def init({start_date_fn, end_date_fn, reset_fn}) do
-    send self(), :populate_caches
+    send(self(), :populate_caches)
     {:ok, {start_date_fn, end_date_fn, reset_fn}}
   end
 
@@ -52,30 +54,35 @@ defmodule Site.GreenLine.Cache do
 
     {:noreply, state, :hibernate}
   end
+
   def handle_info({:reset_again, date}, {_, _, reset_fn} = state) do
     reset_fn.(date)
     {:noreply, state, :hibernate}
   end
+
   def handle_info(_, state) do
-    {:noreply, state} # no cover
+    # no cover
+    {:noreply, state}
   end
 
   @doc """
   Reset (requery the API) a given date's cache. If the API returns an error,
   try again in 30 seconds.
   """
-  @spec reset_cache(Date.t | nil, integer) :: :ok | :error
+  @spec reset_cache(Date.t() | nil, integer) :: :ok | :error
   def reset_cache(date, try_again_in \\ 30_000) do
-    results = case CacheSupervisor.lookup(date) do
-      nil -> CacheSupervisor.start_child(date)
-      pid -> DateAgent.reset(pid, date)
-    end
+    results =
+      case CacheSupervisor.lookup(date) do
+        nil -> CacheSupervisor.start_child(date)
+        pid -> DateAgent.reset(pid, date)
+      end
 
     case results do
       {:error, msg} ->
-        _ = Logger.info("#{__MODULE__} reset_cache error for #{date}: #{inspect msg}")
+        _ = Logger.info("#{__MODULE__} reset_cache error for #{date}: #{inspect(msg)}")
         Process.send_after(self(), {:reset_again, date}, try_again_in)
         :error
+
       _ ->
         :ok
     end
@@ -84,11 +91,11 @@ defmodule Site.GreenLine.Cache do
   @doc """
   Calculates the milliseconds between a date and 7am the next day.
   """
-  @spec next_update_after(DateTime.t) :: integer
+  @spec next_update_after(DateTime.t()) :: integer
   def next_update_after(%DateTime{} = now) do
     now
     |> Timex.shift(days: 1)
-    |> Timex.beginning_of_day
+    |> Timex.beginning_of_day()
     |> Timex.shift(hours: 7)
     |> Timex.diff(now, :milliseconds)
   end
@@ -97,6 +104,7 @@ defmodule Site.GreenLine.Cache do
     # if we don't have an end date, just do today
     reset_fn.(date)
   end
+
   defp populate_cache(date, last_date, reset_fn) do
     if Timex.before?(date, Timex.shift(last_date, days: 1)) do
       reset_fn.(date)

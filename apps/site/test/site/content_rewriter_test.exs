@@ -16,12 +16,12 @@ defmodule Site.ContentRewriterTest do
     end
 
     test "it dispatches to the table rewriter if a table is present", %{conn: conn} do
-      with_mock ResponsiveTables, [rewrite_table: fn(_) -> {"table", [], []} end] do
+      with_mock ResponsiveTables, rewrite_table: fn _ -> {"table", [], []} end do
         "<div><span>Foo</span><table>Foo</table></div>"
         |> raw()
         |> rewrite(conn)
 
-        assert called ResponsiveTables.rewrite_table({"table", [], ["Foo"]})
+        assert called(ResponsiveTables.rewrite_table({"table", [], ["Foo"]}))
       end
     end
 
@@ -59,8 +59,7 @@ defmodule Site.ContentRewriterTest do
         |> raw()
         |> rewrite(conn)
 
-      expected =
-        ~s(
+      expected = ~s(
         <div>
           Test 1 <i aria-hidden="true" class=" notranslate fa fa-test "></i>, Test 2 <i aria-hidden="true" class=" notranslate fa fa-test-two "></i>
           <figure class="c-media c-media--type-table">
@@ -99,31 +98,41 @@ defmodule Site.ContentRewriterTest do
     test "strips dimension attributes from images", %{conn: conn} do
       assert ~s(<img src="/image.png" alt="an image" width="600" height="400"/>)
              |> raw()
-             |> rewrite(conn) == {:safe, ~s(<img class="img-fluid" src="/image.png" alt="an image"/>)}
+             |> rewrite(conn) ==
+               {:safe, ~s(<img class="img-fluid" src="/image.png" alt="an image"/>)}
     end
 
     test "adds img-fluid to images that don't already have a class", %{conn: conn} do
       assert ~s(<img src="/image.png" alt="an image" />)
              |> raw()
-             |> rewrite(conn) == {:safe, ~s(<img class="img-fluid" src="/image.png" alt="an image"/>)}
+             |> rewrite(conn) ==
+               {:safe, ~s(<img class="img-fluid" src="/image.png" alt="an image"/>)}
     end
 
     test "adds img-fluid to images that do already have a class", %{conn: conn} do
       assert ~s(<img src="/image.png" alt="an image" class="existing-class" />)
              |> raw()
-             |> rewrite(conn) == {:safe, ~s(<img class="existing-class img-fluid" src="/image.png" alt="an image"/>)}
+             |> rewrite(conn) ==
+               {:safe,
+                ~s(<img class="existing-class img-fluid" src="/image.png" alt="an image"/>)}
     end
 
-    test "strips non-button elements from a paragraph with one .btn element and wraps it in a div", %{conn: conn} do
+    test "strips non-button elements from a paragraph with one .btn element and wraps it in a div",
+         %{conn: conn} do
       assert ~s(<p><a class="btn btn-primary" href="/page">Button 1</a>&nbsp; </p>)
              |> raw()
-             |> rewrite(conn) == {:safe, ~s(<div class="c-inline-buttons"><a class="btn btn-primary" href="/page">Button 1</a></div>)}
+             |> rewrite(conn) ==
+               {:safe,
+                ~s(<div class="c-inline-buttons"><a class="btn btn-primary" href="/page">Button 1</a></div>)}
     end
 
-    test "strips non-button elements from a paragraph with two or more .btn elements and wraps them in a div", %{conn: conn} do
+    test "strips non-button elements from a paragraph with two or more .btn elements and wraps them in a div",
+         %{conn: conn} do
       assert ~s(<p data-paragraph-order="1" class="rainbow"><a class="btn btn-primary" href="/page1">Button 1</a>&nbsp;<a class="btn btn-secondary" href="/page2">Button 2</a></p>)
              |> raw()
-             |> rewrite(conn) == {:safe, ~s(<div class="c-inline-buttons"><a class="btn btn-primary" href="/page1">Button 1</a><a class="btn btn-secondary" href="/page2">Button 2</a></div>)}
+             |> rewrite(conn) ==
+               {:safe,
+                ~s(<div class="c-inline-buttons"><a class="btn btn-primary" href="/page1">Button 1</a><a class="btn btn-secondary" href="/page2">Button 2</a></div>)}
     end
 
     test "replaces liquid object tags", %{conn: conn} do
@@ -131,7 +140,9 @@ defmodule Site.ContentRewriterTest do
 
       {:safe, output} = input |> raw() |> rewrite(conn)
 
-      assert output =~ ~r/^<p>Before <a href=\"#\"><span data-toggle=\"tooltip\" title=\"Green Line\">/
+      assert output =~
+               ~r/^<p>Before <a href=\"#\"><span data-toggle=\"tooltip\" title=\"Green Line\">/
+
       assert output =~ ~r/<span class=\"notranslate c-svg__icon-green-line-small\"><svg/
       assert output =~ ~r/<\/svg><\/span><\/span> link<\/a> after<\/p>$/
     end
@@ -147,22 +158,27 @@ defmodule Site.ContentRewriterTest do
       assert ol_output =~ ~r/c-svg__icon-green-line-small/
     end
 
-    test "wraps supported iframes as embedded media structures and sets aspect class for a supported source", %{conn: conn} do
-      rewritten = ~s(<figure class="c-media c-media--type-embed c-media--size-full">) <>
-                  ~s(<div class="c-media__content">) <>
-                  ~s(<div class="c-media__element c-media__element--fixed-aspect c-media__element--aspect-wide">) <>
-                  ~s(<iframe class="c-media__embed" src="https://www.youtu.be/abcd1234"></iframe></div></div></figure>)
+    test "wraps supported iframes as embedded media structures and sets aspect class for a supported source",
+         %{conn: conn} do
+      rewritten =
+        ~s(<figure class="c-media c-media--type-embed c-media--size-full">) <>
+          ~s(<div class="c-media__content">) <>
+          ~s(<div class="c-media__element c-media__element--fixed-aspect c-media__element--aspect-wide">) <>
+          ~s(<iframe class="c-media__embed" src="https://www.youtu.be/abcd1234"></iframe></div></div></figure>)
 
-      assert rewritten == ~s(<iframe src="https://www.youtu.be/abcd1234"></iframe>)
-        |> raw()
-        |> rewrite(conn)
-        |> safe_to_string()
+      assert rewritten ==
+               ~s(<iframe src="https://www.youtu.be/abcd1234"></iframe>)
+               |> raw()
+               |> rewrite(conn)
+               |> safe_to_string()
     end
 
     test "adds wrapper and iframe classes to non-media-supported iframes", %{conn: conn} do
       assert ~s(<iframe class="something" src="https://www.anything.com"></iframe>)
              |> raw()
-             |> rewrite(conn) == {:safe, ~s(<div class="iframe-container"><iframe class="something iframe" src="https://www.anything.com"></iframe></div>)}
+             |> rewrite(conn) ==
+               {:safe,
+                ~s(<div class="iframe-container"><iframe class="something iframe" src="https://www.anything.com"></iframe></div>)}
     end
 
     test "removes incompatible CMS media embed and replaces with empty div", %{conn: conn} do
@@ -180,7 +196,8 @@ defmodule Site.ContentRewriterTest do
       assert rewritten == ~s(<div class="incompatible-media"></div>)
     end
 
-    test "rebuilds CMS media embed: third-size image (deprecated: uses -half) | w/caption | aligned right | no link", %{conn: conn} do
+    test "rebuilds CMS media embed: third-size image (deprecated: uses -half) | w/caption | aligned right | no link",
+         %{conn: conn} do
       rewritten =
         ~s(<figure class="embedded-entity align-right">
           <div><div class="media media--type-image media--view-mode-third"><div class="media-content">
@@ -192,13 +209,22 @@ defmodule Site.ContentRewriterTest do
         |> rewrite(conn)
         |> safe_to_string()
 
-      assert rewritten =~ ~s(<figure class="c-media c-media--type-image c-media--size-half c-media--align-right c-media--with-caption"><div class="c-media__content">)
-      assert rewritten =~ ~s(<img class="image-style-max-650x650 c-media__element img-fluid" alt="My Image Alt Text")
-      assert rewritten =~ ~s(src="/sites/default/files/styles/max_650x650/public/2018-01/hingham-ferry-dock-repair.png?itok=YwrRrgrG")
-      assert rewritten =~ ~s(<figcaption class="c-media__caption">Right aligned third</figcaption></div></figure>)
+      assert rewritten =~
+               ~s(<figure class="c-media c-media--type-image c-media--size-half c-media--align-right c-media--with-caption"><div class="c-media__content">)
+
+      assert rewritten =~
+               ~s(<img class="image-style-max-650x650 c-media__element img-fluid" alt="My Image Alt Text")
+
+      assert rewritten =~
+               ~s(src="/sites/default/files/styles/max_650x650/public/2018-01/hingham-ferry-dock-repair.png?itok=YwrRrgrG")
+
+      assert rewritten =~
+               ~s(<figcaption class="c-media__caption">Right aligned third</figcaption></div></figure>)
     end
 
-    test "rebuilds CMS media embed: full-size image | w/o caption | no alignment | linked", %{conn: conn} do
+    test "rebuilds CMS media embed: full-size image | w/o caption | no alignment | linked", %{
+      conn: conn
+    } do
       rewritten =
         ~s(<div class="embedded-entity"><a class="media-link"
           href="/projects/wollaston-station-improvements" target="_blank">
@@ -209,13 +235,19 @@ defmodule Site.ContentRewriterTest do
         |> rewrite(conn)
         |> safe_to_string()
 
-      assert rewritten =~ ~s(<figure class="c-media c-media--type-image c-media--size-full"><div class="c-media__content">)
-      assert rewritten =~ ~s(<a class="c-media__link" href="/projects/wollaston-station-improvements" target="_blank">)
+      assert rewritten =~
+               ~s(<figure class="c-media c-media--type-image c-media--size-full"><div class="c-media__content">)
+
+      assert rewritten =~
+               ~s(<a class="c-media__link" href="/projects/wollaston-station-improvements" target="_blank">)
+
       assert rewritten =~ ~s(<img class="image-style-max-2600x2600 c-media__element img-fluid")
-      assert rewritten =~ ~s(src="/sites/default/files/styles/max_2600x2600/public/2018-01/hingham-ferry-dock-repair.png?itok=NWs0V_7W" alt="My Image Alt Text")
+
+      assert rewritten =~
+               ~s(src="/sites/default/files/styles/max_2600x2600/public/2018-01/hingham-ferry-dock-repair.png?itok=NWs0V_7W" alt="My Image Alt Text")
+
       refute rewritten =~ ~s(<figcaption)
     end
-
   end
 
   defp remove_whitespace(str), do: String.replace(str, ~r/[ \n]/, "")

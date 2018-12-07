@@ -39,6 +39,7 @@ defmodule SiteWeb do
           project_update_path: 3,
           project_update_path: 4
         ]
+
       import SiteWeb.CmsRouterHelpers
       import SiteWeb.ControllerHelpers
       import SiteWeb.Gettext
@@ -48,8 +49,9 @@ defmodule SiteWeb do
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/site_web/templates",
-                        namespace: SiteWeb
+      use Phoenix.View,
+        root: "lib/site_web/templates",
+        namespace: SiteWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
@@ -59,17 +61,19 @@ defmodule SiteWeb do
       use Site.Components.Precompiler
 
       import SiteWeb.Router.Helpers,
-      except: [
-        news_entry_path: 2,
-        news_entry_path: 3,
-        news_entry_path: 4,
-        event_path: 2,
-        event_path: 3,
-        event_path: 4,
-        project_path: 2,
-        project_path: 3,
-        project_update_path: 3,
-        project_update_path: 4]
+        except: [
+          news_entry_path: 2,
+          news_entry_path: 3,
+          news_entry_path: 4,
+          event_path: 2,
+          event_path: 3,
+          event_path: 4,
+          project_path: 2,
+          project_path: 3,
+          project_update_path: 3,
+          project_update_path: 4
+        ]
+
       import SiteWeb.CmsRouterHelpers
       import SiteWeb.ErrorHelpers
       import SiteWeb.Gettext

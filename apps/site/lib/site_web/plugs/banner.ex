@@ -17,13 +17,11 @@ defmodule SiteWeb.Plugs.Banner do
 
     banner_fn: a function which returns either an Alert.Banner or nil
     """
-    defstruct [
-      banner_fn: &Alerts.Repo.banner/0
-    ]
+    defstruct banner_fn: &Alerts.Repo.banner/0
 
     @type t :: %__MODULE__{
-      banner_fn: (() -> Alerts.Banner.t | nil)
-    }
+            banner_fn: (() -> Alerts.Banner.t() | nil)
+          }
   end
 
   alias __MODULE__.Options
@@ -36,10 +34,11 @@ defmodule SiteWeb.Plugs.Banner do
     assign_alert_banner(conn, opts.banner_fn.())
   end
 
-  @spec assign_alert_banner(Plug.Conn.t, Alerts.Banner.t | nil) :: Plug.Conn.t
+  @spec assign_alert_banner(Plug.Conn.t(), Alerts.Banner.t() | nil) :: Plug.Conn.t()
   defp assign_alert_banner(conn, nil) do
     conn
   end
+
   defp assign_alert_banner(conn, banner) do
     conn
     |> assign(:alert_banner, banner)

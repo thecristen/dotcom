@@ -17,19 +17,21 @@ defmodule SiteWeb.ModeViewTest do
   describe "mode_group_header/3" do
     test "renders an h2 if is_homepage? == false" do
       assert {tag, _, _} =
-        :commuter_rail
-        |> ModeView.mode_group_header("/schedules/commuter-rail", false)
-        |> safe_to_string()
-        |> Floki.parse()
+               :commuter_rail
+               |> ModeView.mode_group_header("/schedules/commuter-rail", false)
+               |> safe_to_string()
+               |> Floki.parse()
+
       assert tag == "h2"
     end
 
     test "renders an h3 if is_homepage? == true" do
       assert {tag, _, _} =
-        :commuter_rail
-        |> ModeView.mode_group_header("/schedules/commuter-rail", true)
-        |> safe_to_string()
-        |> Floki.parse()
+               :commuter_rail
+               |> ModeView.mode_group_header("/schedules/commuter-rail", true)
+               |> safe_to_string()
+               |> Floki.parse()
+
       assert tag == "h3"
     end
 
@@ -39,8 +41,9 @@ defmodule SiteWeb.ModeViewTest do
         {:commuter_rail, "Commuter Rail", "/schedules/commuter-rail"},
         {:subway, "Subway", "/schedules/subway"},
         {:ferry, "Ferry", "/schedules/ferry"},
-        {:the_ride, "The RIDE", "/accessibility/the-ride"},
+        {:the_ride, "The RIDE", "/accessibility/the-ride"}
       ]
+
       for {mode, text, href} <- modes do
         header =
           mode
@@ -51,6 +54,7 @@ defmodule SiteWeb.ModeViewTest do
                |> Floki.find(".m-mode__name")
                |> Floki.text()
                |> String.trim() == text
+
         assert header
                |> Floki.find(".m-mode__name")
                |> Floki.attribute("href") == [href]
@@ -71,11 +75,13 @@ defmodule SiteWeb.ModeViewTest do
     test "returns true if route has an alert" do
       now = Util.now()
       entity = %Alerts.InformedEntity{route_type: 0, route: "Pink"}
-      alert = Alert.new(
-        active_period: [{Timex.shift(now, hours: -3), Timex.shift(now, hours: 3)}],
-        effect: :delay,
-        informed_entity: [entity]
-      )
+
+      alert =
+        Alert.new(
+          active_period: [{Timex.shift(now, hours: -3), Timex.shift(now, hours: 3)}],
+          effect: :delay,
+          informed_entity: [entity]
+        )
 
       assert Alerts.Alert.is_notice?(alert, now) == false
       assert Alerts.Match.match([alert], entity, now) == [alert]
@@ -85,18 +91,20 @@ defmodule SiteWeb.ModeViewTest do
   end
 
   test "returns false if route does not have an alert" do
-      now = Util.now()
-      entity = %Alerts.InformedEntity{route_type: 0, route: "Pink"}
-      alert = Alert.new(
+    now = Util.now()
+    entity = %Alerts.InformedEntity{route_type: 0, route: "Pink"}
+
+    alert =
+      Alert.new(
         active_period: [{Timex.shift(now, days: 5), Timex.shift(now, days: 9)}],
         effect: :service_change,
         informed_entity: [entity]
       )
 
-      assert Alerts.Alert.is_notice?(alert, now) == true
-      assert Alerts.Match.match([alert], entity, now) == []
+    assert Alerts.Alert.is_notice?(alert, now) == true
+    assert Alerts.Match.match([alert], entity, now) == []
 
-      assert ModeView.has_alert?(%Route{id: "Pink", type: 0}, [alert], now) == false
+    assert ModeView.has_alert?(%Route{id: "Pink", type: 0}, [alert], now) == false
   end
 
   describe "bus_filter_atom/1 and bus_filter_range/2" do

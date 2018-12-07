@@ -1,30 +1,36 @@
 defmodule Algolia.Analytics do
   require Logger
 
-  @spec click(%{String.t => String.t | integer}) :: :ok | {:error, any}
+  @spec click(%{String.t() => String.t() | integer}) :: :ok | {:error, any}
   def click(%{"position" => <<pos::binary>>} = params) do
     case Integer.parse(pos) do
       {int, ""} when int > 0 ->
         params
         |> Map.put("position", int)
         |> click()
+
       _ ->
         {:error, %{reason: :bad_params, params: params}}
     end
   end
-  def click(%{"objectID" => _, "position" => pos, "queryID" => _} = params) when is_integer(pos) do
+
+  def click(%{"objectID" => _, "position" => pos, "queryID" => _} = params)
+      when is_integer(pos) do
     :algolia
     |> Application.get_env(:click_analytics_url)
     |> send_click(params, Application.get_env(:algolia, :track_clicks?, false))
   end
+
   def click(params) do
     {:error, %{reason: :bad_params, params: params}}
   end
 
   defp send_click(url, params, send_to_algolia?)
+
   defp send_click(_url, _params, false) do
     :ok
   end
+
   defp send_click("http" <> _ = url, params, true) do
     {:ok, json} = Poison.encode(params)
 
@@ -40,17 +46,27 @@ defmodule Algolia.Analytics do
   defp handle_click_response({:ok, %HTTPoison.Response{status_code: 200}}, _) do
     :ok
   end
+
   defp handle_click_response({:ok, %HTTPoison.Response{} = response}, body) do
-    _ = Logger.warn("module=#{__MODULE__} Bad response from Algolia: #{inspect(response)} request body: #{body}")
+    _ =
+      Logger.warn(
+        "module=#{__MODULE__} Bad response from Algolia: #{inspect(response)} request body: #{
+          body
+        }"
+      )
+
     {:error, response}
   end
+
   defp handle_click_response({:error, %HTTPoison.Error{} = response}, _) do
     _ = Logger.warn("module=#{__MODULE__} Error connecting to Algolia: #{inspect(response)}")
     {:error, response}
   end
 
   defp post_headers do
-    %Algolia.Config{app_id: <<app_id::binary>>, admin: <<admin_key::binary>>} = Algolia.Config.config()
+    %Algolia.Config{app_id: <<app_id::binary>>, admin: <<admin_key::binary>>} =
+      Algolia.Config.config()
+
     [
       {"X-Algolia-Application-Id", app_id},
       {"X-Algolia-API-Key", admin_key},

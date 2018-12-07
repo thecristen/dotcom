@@ -2,9 +2,9 @@ defmodule Stops.RouteStops do
   defstruct [:branch, :stops]
 
   @type t :: %__MODULE__{
-    branch: String.t,
-    stops: [Stops.RouteStop.t]
-  }
+          branch: String.t(),
+          stops: [Stops.RouteStop.t()]
+        }
   @type direction_id_t :: 0 | 1
 
   alias Stops.RouteStop
@@ -12,8 +12,11 @@ defmodule Stops.RouteStops do
   @doc """
   Builds a list of all stops (as %RouteStop{}) on a route in a single direction.
   """
-  @spec by_direction([Stops.Stop.t], [Routes.Shape.t], Routes.Route.t, direction_id_t) :: [t]
-  def by_direction(stops, shapes, %Routes.Route{} = route, direction_id) when is_integer(direction_id) do
+  @spec by_direction([Stops.Stop.t()], [Routes.Shape.t()], Routes.Route.t(), direction_id_t) :: [
+          t
+        ]
+  def by_direction(stops, shapes, %Routes.Route{} = route, direction_id)
+      when is_integer(direction_id) do
     shapes
     |> RouteStop.list_from_shapes(stops, route, direction_id)
     |> Task.async_stream(fn route_stop ->
@@ -30,7 +33,7 @@ defmodule Stops.RouteStops do
     |> Enum.map(&from_list/1)
   end
 
-  @spec from_list([RouteStop.t]) :: t
+  @spec from_list([RouteStop.t()]) :: t
   defp from_list([%RouteStop{branch: branch} | _] = stops) do
     %__MODULE__{
       branch: branch,

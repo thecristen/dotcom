@@ -22,30 +22,38 @@ defmodule Site.Stream.VehiclesTest do
 
     assert {:ok, pid} = GenServer.start_link(Site.Stream.Vehicles, [])
 
-    send pid, {:reset, @vehicles}
+    send(pid, {:reset, @vehicles})
 
-    assert_broadcast "reset", %{data: [
-      %Vehicle{route_id: "Red", direction_id: 0}
-    ]}
+    assert_broadcast("reset", %{
+      data: [
+        %Vehicle{route_id: "Red", direction_id: 0}
+      ]
+    })
 
-    assert_broadcast "reset", %{data: [
-      %Vehicle{route_id: "CR-Lowell", direction_id: 1}
-    ]}
+    assert_broadcast("reset", %{
+      data: [
+        %Vehicle{route_id: "CR-Lowell", direction_id: 1}
+      ]
+    })
 
-    refute_broadcast "reset", %{data: [
-      %Vehicle{route_id: "Blue", direction_id: nil}
-    ]}
+    refute_broadcast("reset", %{
+      data: [
+        %Vehicle{route_id: "Blue", direction_id: nil}
+      ]
+    })
   end
 
   test "sends a generic Green broadcast" do
     SiteWeb.Endpoint.subscribe("vehicles:Green:1")
     assert {:ok, pid} = GenServer.start_link(Site.Stream.Vehicles, [])
 
-    send pid, {:reset, @vehicles}
+    send(pid, {:reset, @vehicles})
 
-    assert_broadcast "reset", %{data: [
-      %Vehicle{route_id: "Green-B", direction_id: 1},
-      %Vehicle{route_id: "Green-C", direction_id: 1}
-    ]}
+    assert_broadcast("reset", %{
+      data: [
+        %Vehicle{route_id: "Green-B", direction_id: 1},
+        %Vehicle{route_id: "Green-C", direction_id: 1}
+      ]
+    })
   end
 end

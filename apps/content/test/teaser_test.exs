@@ -6,15 +6,16 @@ defmodule Content.TeaserTest do
   test "parses a teaser item into %Content.Teaser{}" do
     [raw | _] = Static.teasers_response()
     teaser = Teaser.from_api(raw)
+
     assert %Teaser{
-      type: type,
-      path: path,
-      image_path: image,
-      text: text,
-      title: title,
-      date: date,
-      topic: topic
-    } = teaser
+             type: type,
+             path: path,
+             image_path: image,
+             text: text,
+             title: title,
+             date: date,
+             topic: topic
+           } = teaser
 
     assert type == :project
     assert path == "/projects/green-line-d-track-and-signal-replacement"

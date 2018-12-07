@@ -6,7 +6,7 @@ defmodule SiteWeb.WwwRedirectorTest do
 
   test "call", %{conn: conn} do
     conn = WwwRedirector.call(%{conn | request_path: "/news"}, [])
-    assert_conn_redirected_halted(conn, SiteWeb.Endpoint.url <> "/news")
+    assert_conn_redirected_halted(conn, SiteWeb.Endpoint.url() <> "/news")
   end
 
   describe "redirect" do
@@ -24,7 +24,8 @@ defmodule SiteWeb.WwwRedirectorTest do
         conn,
         "/schedules/Boat-F4/schedule",
         "destination=Boat-Long",
-        "https://www.mbta.com/schedules/Boat-F4/schedule?destination=Boat-Long")
+        "https://www.mbta.com/schedules/Boat-F4/schedule?destination=Boat-Long"
+      )
     end
 
     test "with path and query string with anchor redirected", %{conn: conn} do
@@ -32,7 +33,8 @@ defmodule SiteWeb.WwwRedirectorTest do
         conn,
         "/schedules/Boat-F4/schedule",
         "destination=Boat-Long&direction_id=1&origin=Boat-Charlestown#direction-filter",
-        "https://www.mbta.com/schedules/Boat-F4/schedule?destination=Boat-Long&direction_id=1&origin=Boat-Charlestown#direction-filter")
+        "https://www.mbta.com/schedules/Boat-F4/schedule?destination=Boat-Long&direction_id=1&origin=Boat-Charlestown#direction-filter"
+      )
     end
   end
 

@@ -36,13 +36,15 @@ defmodule FaresTest do
 
     test "returns the name of the ferry fare given the origin and destination" do
       for origin_id <- @ferries,
-        destination_id <- @ferries do
-          both = [origin_id, destination_id]
-          has_logan? = "Boat-Logan" in both
-          has_charlestown? = "Boat-Charlestown" in both
-          has_long? = "Boat-Long" in both
-          has_long_south? = "Boat-Long-South" in both
-          expected_name = cond do
+          destination_id <- @ferries do
+        both = [origin_id, destination_id]
+        has_logan? = "Boat-Logan" in both
+        has_charlestown? = "Boat-Charlestown" in both
+        has_long? = "Boat-Long" in both
+        has_long_south? = "Boat-Long-South" in both
+
+        expected_name =
+          cond do
             has_logan? and has_charlestown? -> :ferry_cross_harbor
             has_long? and has_logan? -> :ferry_cross_harbor
             has_long_south? and has_charlestown? -> :ferry_inner_harbor
@@ -50,7 +52,7 @@ defmodule FaresTest do
             true -> :commuter_ferry
           end
 
-          assert Fares.fare_for_stops(:ferry, origin_id, destination_id) == {:ok, expected_name}
+        assert Fares.fare_for_stops(:ferry, origin_id, destination_id) == {:ok, expected_name}
       end
     end
   end

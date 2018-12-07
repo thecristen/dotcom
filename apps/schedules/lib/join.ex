@@ -22,15 +22,16 @@ defmodule Join do
   end
 
   def do_join(s, r, key_fn, tuple_fn) do
-    s_map = s
-    |> Map.new(fn item ->
-      {key_fn.(item), item}
-    end)
+    s_map =
+      s
+      |> Map.new(fn item ->
+        {key_fn.(item), item}
+      end)
 
     for item <- r,
-      key = key_fn.(item),
-      Map.has_key?(s_map, key) do
-        tuple_fn.(Map.get(s_map, key), item)
+        key = key_fn.(item),
+        Map.has_key?(s_map, key) do
+      tuple_fn.(Map.get(s_map, key), item)
     end
   end
 end

@@ -4,10 +4,10 @@ defmodule SiteWeb.Mode.HubBehavior do
 
   @moduledoc "Behavior for mode hub pages."
 
-  @callback routes() :: [Routes.Route.t]
-  @callback mode_name() :: String.t
-  @callback fares() :: [Summary.t]
-  @callback fare_description() :: String.t | iodata
+  @callback routes() :: [Routes.Route.t()]
+  @callback mode_name() :: String.t()
+  @callback fares() :: [Summary.t()]
+  @callback fare_description() :: String.t() | iodata
   @callback route_type() :: 0..4
 
   use SiteWeb, :controller
@@ -18,7 +18,7 @@ defmodule SiteWeb.Mode.HubBehavior do
 
       use SiteWeb, :controller
 
-      plug SiteWeb.Plugs.RecentlyVisited
+      plug(SiteWeb.Plugs.RecentlyVisited)
 
       def index(conn, params) do
         unquote(__MODULE__).index(__MODULE__, conn, Map.merge(params, Map.new(unquote(opts))))
@@ -26,7 +26,7 @@ defmodule SiteWeb.Mode.HubBehavior do
 
       def routes, do: Routes.Repo.by_type(route_type())
 
-      defoverridable [routes: 0]
+      defoverridable routes: 0
     end
   end
 
@@ -59,11 +59,15 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> render("hub.html")
   end
 
-  defp filter_recently_visited(%{assigns: %{recently_visited: recently_visited}} = conn, route_type)
-  when route_type in [2, 3] do
-    filtered = Enum.filter(recently_visited, & &1.type == route_type)
+  defp filter_recently_visited(
+         %{assigns: %{recently_visited: recently_visited}} = conn,
+         route_type
+       )
+       when route_type in [2, 3] do
+    filtered = Enum.filter(recently_visited, &(&1.type == route_type))
     assign(conn, :recently_visited, filtered)
   end
+
   defp filter_recently_visited(conn, _route_type) do
     assign(conn, :recently_visited, [])
   end
@@ -78,38 +82,39 @@ defmodule SiteWeb.Mode.HubBehavior do
     conn
     |> assign(:meta_description, meta_description)
   end
+
   defp meta_description(conn, _), do: conn
 
   def maps(:commuter_rail), do: [:commuter_rail, :commuter_rail_zones]
   def maps(type), do: [type]
 
-  @spec guides(String.t) :: [Teaser.t]
+  @spec guides(String.t()) :: [Teaser.t()]
   defp guides(mode) do
-    Content.Repo.teasers([topic: "guides", sidebar: 1, mode: mode_to_param(mode)])
+    Content.Repo.teasers(topic: "guides", sidebar: 1, mode: mode_to_param(mode))
   end
 
-  @spec mode_to_param(String.t) :: String.t
+  @spec mode_to_param(String.t()) :: String.t()
   defp mode_to_param(mode) do
     mode
     |> String.downcase()
     |> String.replace(" ", "-")
   end
 
-  @spec news(String.t) :: [Teaser.t]
+  @spec news(String.t()) :: [Teaser.t()]
   defp news(mode) do
     mode
     |> mode_to_param()
     |> do_news()
   end
 
-  @spec do_news(String.t) :: [Teaser.t]
+  @spec do_news(String.t()) :: [Teaser.t()]
   defp do_news(mode) do
     [mode: mode, type: :news_entry, sidebar: 1]
     |> Content.Repo.teasers()
-    |> Enum.map(& news_url(&1, mode))
+    |> Enum.map(&news_url(&1, mode))
   end
 
-  @spec news_url(Teaser.t, String.t) :: Teaser.t
+  @spec news_url(Teaser.t(), String.t()) :: Teaser.t()
   defp news_url(%Teaser{} = news, mode) do
     url = UrlHelpers.build_utm_url(news, source: "hub", term: mode, type: "sidebar")
     %{news | path: url}

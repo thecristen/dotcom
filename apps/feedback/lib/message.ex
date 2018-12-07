@@ -14,15 +14,16 @@ defmodule Feedback.Message do
 
   @enforce_keys [:comments, :service, :request_response]
   defstruct [:email, :phone, :name, :comments, :service, :request_response, :photos]
+
   @type t :: %__MODULE__{
-    email: String.t | nil,
-    phone: String.t | nil,
-    name: String.t | nil,
-    comments: String.t,
-    service: String.t,
-    request_response: boolean,
-    photos: [Plug.Upload.t] | nil
-  }
+          email: String.t() | nil,
+          phone: String.t() | nil,
+          name: String.t() | nil,
+          comments: String.t(),
+          service: String.t(),
+          request_response: boolean,
+          photos: [Plug.Upload.t()] | nil
+        }
 
   def service_options do
     @service_options

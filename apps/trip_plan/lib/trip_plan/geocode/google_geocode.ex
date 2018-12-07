@@ -8,8 +8,10 @@ defmodule TripPlan.Geocode.GoogleGeocode do
     case GoogleMaps.Geocode.geocode(address) do
       {:ok, results} ->
         {:ok, results |> List.first() |> address_to_result}
+
       {:error, :zero_results} ->
         {:error, :no_results}
+
       _ ->
         {:error, :unknown}
     end

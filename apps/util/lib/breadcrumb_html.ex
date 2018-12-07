@@ -1,8 +1,9 @@
 defmodule Util.BreadcrumbHTML do
   import Phoenix.HTML, only: [raw: 1]
 
-  @spec breadcrumb_trail(%Plug.Conn{}) :: Phoenix.HTML.safe
+  @spec breadcrumb_trail(%Plug.Conn{}) :: Phoenix.HTML.safe()
   def breadcrumb_trail(%Plug.Conn{assigns: %{breadcrumbs: []}}), do: raw("")
+
   def breadcrumb_trail(%Plug.Conn{assigns: %{breadcrumbs: breadcrumbs}}) do
     breadcrumbs
     |> maybe_add_home_breadcrumb()
@@ -10,25 +11,29 @@ defmodule Util.BreadcrumbHTML do
     |> Enum.join("")
     |> raw()
   end
+
   def breadcrumb_trail(%Plug.Conn{}), do: raw("")
 
-  @spec build_html([%Util.Breadcrumb{}]) :: [String.t]
+  @spec build_html([%Util.Breadcrumb{}]) :: [String.t()]
   def build_html(breadcrumbs) do
     crumbs = indexed_crumbs_ordered_by_current_to_home(breadcrumbs)
 
-    html = Enum.map(crumbs, fn({crumb, index}) ->
-      cond do
-        current_breadcrumb?(index) ->
-          breadcrumb_link(crumb)
-        crumb_proceeding_current_breadcrumb(index) ->
-          generate_html(crumb, %{icon: fa_icon()})
-        true ->
-          generate_html(
-            crumb,
-            %{class: hide_on_mobile_class(), icon: fa_icon()}
-          )
-      end
-    end)
+    html =
+      Enum.map(crumbs, fn {crumb, index} ->
+        cond do
+          current_breadcrumb?(index) ->
+            breadcrumb_link(crumb)
+
+          crumb_proceeding_current_breadcrumb(index) ->
+            generate_html(crumb, %{icon: fa_icon()})
+
+          true ->
+            generate_html(
+              crumb,
+              %{class: hide_on_mobile_class(), icon: fa_icon()}
+            )
+        end
+      end)
 
     Enum.reverse(html)
   end
@@ -47,15 +52,18 @@ defmodule Util.BreadcrumbHTML do
     index == 1
   end
 
-  @spec title_breadcrumbs(%Plug.Conn{}) :: Phoenix.HTML.Safe.t
-  def title_breadcrumbs(%Plug.Conn{assigns: %{breadcrumbs: breadcrumbs}}) when length(breadcrumbs) > 0 do
+  @spec title_breadcrumbs(%Plug.Conn{}) :: Phoenix.HTML.Safe.t()
+  def title_breadcrumbs(%Plug.Conn{assigns: %{breadcrumbs: breadcrumbs}})
+      when length(breadcrumbs) > 0 do
     breadcrumbs
-    |> Enum.map(fn(breadcrumb) -> breadcrumb.text end)
-    |> Enum.drop_while(fn(b) -> b == "Home" end)
+    |> Enum.map(fn breadcrumb -> breadcrumb.text end)
+    |> Enum.drop_while(fn b -> b == "Home" end)
     |> Enum.take(-2)
-    |> Enum.reverse(["MBTA"]) # put the default title at the end
+    # put the default title at the end
+    |> Enum.reverse(["MBTA"])
     |> Enum.intersperse(" | ")
   end
+
   def title_breadcrumbs(%Plug.Conn{}) do
     default_title()
   end
@@ -66,9 +74,7 @@ defmodule Util.BreadcrumbHTML do
 
   defp generate_html(breadcrumb, options) do
     open_span_tag(options[:class]) <>
-    breadcrumb_link(breadcrumb) <>
-    icon_html(options[:icon]) <>
-    ~s(</span>)
+      breadcrumb_link(breadcrumb) <> icon_html(options[:icon]) <> ~s(</span>)
   end
 
   defp breadcrumb_link(breadcrumb) do
@@ -102,6 +108,7 @@ defmodule Util.BreadcrumbHTML do
   end
 
   defp missing_home_breadcrumb?([]), do: true
+
   defp missing_home_breadcrumb?(breadcrumbs) do
     first_breadcrumb = List.first(breadcrumbs)
     first_breadcrumb.url != "/"

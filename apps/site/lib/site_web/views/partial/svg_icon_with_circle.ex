@@ -2,28 +2,30 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
   alias SiteWeb.ViewHelpers, as: Helpers
   alias Routes.Route
 
-  defstruct icon:  nil,
+  defstruct icon: nil,
             size: :default,
             show_tooltip?: true,
             aria_hidden?: false
 
   @type t :: %__MODULE__{
-    icon: Site.Components.Icons.SvgIcon.icon_arg,
-    size: :small | :default,
-    show_tooltip?: boolean,
-    aria_hidden?: boolean
-  }
+          icon: Site.Components.Icons.SvgIcon.icon_arg(),
+          size: :small | :default,
+          show_tooltip?: boolean,
+          aria_hidden?: boolean
+        }
 
   def svg_icon_with_circle(%__MODULE__{icon: %Route{}} = args) do
     args.icon
     |> Helpers.line_icon(args.size)
     |> do_svg_icon_with_circle(args)
   end
+
   def svg_icon_with_circle(%__MODULE__{icon: :mattapan_trolley} = args) do
     svg_icon_with_circle(%{args | icon: %Route{id: "Mattapan", type: 0}})
   end
+
   def svg_icon_with_circle(%__MODULE__{icon: line} = args)
-  when line in [:red_line, :orange_line, :blue_line, :green_line, :mattapan_line] do
+      when line in [:red_line, :orange_line, :blue_line, :green_line, :mattapan_line] do
     route_id =
       line
       |> Atom.to_string()
@@ -34,35 +36,57 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
 
     svg_icon_with_circle(%{args | icon: %Route{id: route_id, type: type}})
   end
+
   def svg_icon_with_circle(%__MODULE__{icon: branch} = args)
-  when branch in [:green_line_b, :green_line_c, :green_line_d, :green_line_e] do
+      when branch in [:green_line_b, :green_line_c, :green_line_d, :green_line_e] do
     "green_line_" <> letter = Atom.to_string(branch)
     svg_icon_with_circle(%{args | icon: %Route{id: "Green-" <> String.upcase(letter), type: 0}})
   end
+
   def svg_icon_with_circle(%__MODULE__{icon: mode} = args)
-  when mode in [:subway, :bus, :commuter_rail, :ferry] do
+      when mode in [:subway, :bus, :commuter_rail, :ferry] do
     mode
     |> Helpers.mode_icon(args.size)
     |> do_svg_icon_with_circle(args)
   end
+
   def svg_icon_with_circle(%__MODULE__{icon: icon, size: size} = args)
-  when icon in [:calendar, :stop, :station, :parking_lot, :access, :no_access, :silver_line,
-                :the_ride, :reversal, :variant, :t_logo, :service_regular, :service_storm, :service_none] do
+      when icon in [
+             :calendar,
+             :stop,
+             :station,
+             :parking_lot,
+             :access,
+             :no_access,
+             :silver_line,
+             :the_ride,
+             :reversal,
+             :variant,
+             :t_logo,
+             :service_regular,
+             :service_storm,
+             :service_none
+           ] do
     "icon-#{icon_name(icon)}-#{size}.svg"
     |> Helpers.svg()
     |> do_svg_icon_with_circle(args)
   end
 
-  @spec do_svg_icon_with_circle(Phoenix.HTML.Safe.t, __MODULE__.t) :: Phoenix.HTML.Safe.t
-  defp do_svg_icon_with_circle({:safe, _} = icon, %__MODULE__{aria_hidden?: false, show_tooltip?: false}) do
+  @spec do_svg_icon_with_circle(Phoenix.HTML.Safe.t(), __MODULE__.t()) :: Phoenix.HTML.Safe.t()
+  defp do_svg_icon_with_circle({:safe, _} = icon, %__MODULE__{
+         aria_hidden?: false,
+         show_tooltip?: false
+       }) do
     icon
   end
+
   defp do_svg_icon_with_circle({:safe, _} = icon, %__MODULE__{} = args) do
     attrs = [
       aria: aria_attrs(args),
       data: data_attrs(args),
       title: title_attr(args)
     ]
+
     Phoenix.HTML.Tag.content_tag(:span, [icon], attrs)
   end
 
@@ -78,15 +102,15 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
   defp icon_name(:service_none), do: "service-none"
   defp icon_name(icon), do: Atom.to_string(icon)
 
-  @spec aria_attrs(__MODULE__.t) :: Keyword.t
+  @spec aria_attrs(__MODULE__.t()) :: Keyword.t()
   defp aria_attrs(%__MODULE__{aria_hidden?: true}), do: [hidden: true]
   defp aria_attrs(%__MODULE__{}), do: []
 
-  @spec data_attrs(__MODULE__.t) :: Keyword.t
+  @spec data_attrs(__MODULE__.t()) :: Keyword.t()
   defp data_attrs(%__MODULE__{show_tooltip?: true}), do: [toggle: "tooltip"]
   defp data_attrs(%__MODULE__{}), do: []
 
-  @spec title_attr(__MODULE__.t) :: String.t | nil
+  @spec title_attr(__MODULE__.t()) :: String.t() | nil
   defp title_attr(%__MODULE__{show_tooltip?: true, icon: icon}), do: title(icon)
   defp title_attr(%__MODULE__{}), do: nil
 
@@ -109,6 +133,7 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
   def translate(:station), do: "4,4"
   def translate(:stop), do: "4,4"
   def translate(icon) when icon in [:tools, :alert], do: "9,9"
+
   def translate(icon) do
     cond do
       icon in Site.Components.Icons.SvgIcon.mode_icons() -> "10,10"
@@ -124,6 +149,7 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
   def scale(:calendar), do: "1.25"
   def scale(:station), do: "0.7"
   def scale(:stop), do: "0.7"
+
   def scale(icon) do
     cond do
       icon in Site.Components.Icons.SvgIcon.mode_icons() -> "1.4"
@@ -142,31 +168,50 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
   def title(:access) do
     "Accessible"
   end
+
   def title(:parking_lot) do
     "Parking"
   end
+
   def title(:service_regular) do
     "Service: Regular"
   end
+
   def title(:service_storm) do
     "Service: Storm"
   end
+
   def title(:service_none) do
     "Service: None"
   end
-  def title(icon) when icon in [
-    :bus, :subway, :ferry, :commuter_rail, :the_ride,
-    :orange_line, :green_line, :red_line, :blue_line,
-    :mattapan_trolley, :mattapan_line, :silver_line
-  ] do
+
+  def title(icon)
+      when icon in [
+             :bus,
+             :subway,
+             :ferry,
+             :commuter_rail,
+             :the_ride,
+             :orange_line,
+             :green_line,
+             :red_line,
+             :blue_line,
+             :mattapan_trolley,
+             :mattapan_line,
+             :silver_line
+           ] do
     SiteWeb.ViewHelpers.mode_name(icon)
   end
+
   def title(%Routes.Route{id: "Orange"}), do: SiteWeb.ViewHelpers.mode_name(:orange_line)
   def title(%Routes.Route{id: "Red"}), do: SiteWeb.ViewHelpers.mode_name(:red_line)
   def title(%Routes.Route{id: "Blue"}), do: SiteWeb.ViewHelpers.mode_name(:blue_line)
   def title(%Routes.Route{id: "Mattapan"}), do: SiteWeb.ViewHelpers.mode_name(:mattapan_line)
   def title(%Routes.Route{id: "Green"}), do: SiteWeb.ViewHelpers.mode_name(:green_line)
-  def title(%Routes.Route{id: "Green-" <> branch}), do: SiteWeb.ViewHelpers.mode_name(:green_line) <> " #{branch}"
+
+  def title(%Routes.Route{id: "Green-" <> branch}),
+    do: SiteWeb.ViewHelpers.mode_name(:green_line) <> " #{branch}"
+
   def title(%Routes.Route{type: type}), do: SiteWeb.ViewHelpers.mode_name(type)
   def title(_icon), do: ""
 end

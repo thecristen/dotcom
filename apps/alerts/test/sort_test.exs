@@ -7,23 +7,25 @@ defmodule Alerts.SortTest do
 
   describe "sort/2" do
     test "sorts the notices by their updated at times (newest to oldest)" do
-      date = Timex.today() |> Timex.shift(days: 1) # put them in the future
+      # put them in the future
+      date = Timex.today() |> Timex.shift(days: 1)
+
       ptest times: list(positive_int()) do
         # create alerts with a bunch of updated_at times
-        alerts = for time <- times do
-          dt = date |> Timex.shift(seconds: time)
-          %Alert{id: inspect(make_ref()),
-                 updated_at: dt,
-                 active_period: [{nil, nil}]}
-        end
+        alerts =
+          for time <- times do
+            dt = date |> Timex.shift(seconds: time)
+            %Alert{id: inspect(make_ref()), updated_at: dt, active_period: [{nil, nil}]}
+          end
 
         actual = sort(alerts, DateTime.utc_now())
         # reverse after ID sort so that the second reverse puts them in the
         # right order
-        expected = alerts
-        |> Enum.sort_by(&(&1.id))
-        |> Enum.reverse()
-        |> Enum.sort_by(&(&1.updated_at), &Timex.after?/2)
+        expected =
+          alerts
+          |> Enum.sort_by(& &1.id)
+          |> Enum.reverse()
+          |> Enum.sort_by(& &1.updated_at, &Timex.after?/2)
 
         assert actual == expected
       end
@@ -36,12 +38,18 @@ defmodule Alerts.SortTest do
         severity: 7,
         updated_at: new_datetime("2017-06-01T12:00:00-05:00")
       }
-      period_1 = {new_datetime("2017-06-10T08:00:00-05:00"), new_datetime("2017-06-12T22:00:00-05:00")}
-      period_2 = {new_datetime("2017-06-04T08:00:00-05:00"), new_datetime("2017-06-06T22:00:00-05:00")}
+
+      period_1 =
+        {new_datetime("2017-06-10T08:00:00-05:00"), new_datetime("2017-06-12T22:00:00-05:00")}
+
+      period_2 =
+        {new_datetime("2017-06-04T08:00:00-05:00"), new_datetime("2017-06-06T22:00:00-05:00")}
+
       alert_1 =
         alert_prototype
         |> Map.put(:active_period, [period_1])
         |> Map.put(:id, 1)
+
       alert_2 =
         alert_prototype
         |> Map.put(:active_period, [period_2])
@@ -57,6 +65,7 @@ defmodule Alerts.SortTest do
     test "prioritizes alerts over notices" do
       {:ok, now, _} = DateTime.from_iso8601("2018-04-03T11:00:00Z")
       period_1 = {Timex.shift(now, hours: -1), Timex.shift(now, hours: 1)}
+
       alert_prototype = %Alert{
         effect: :snow_route,
         lifecycle: "New",
@@ -74,11 +83,12 @@ defmodule Alerts.SortTest do
       assert Alerts.Alert.is_notice?(notice_2, now)
       refute Alerts.Alert.is_notice?(alert_1, now)
 
-      sorted_effects = alerts
-                      |> Alerts.Sort.sort(now)
-                      |> Enum.map(&(&1.effect))
-      assert sorted_effects == [:snow_route, :access_issue, :access_issue]
+      sorted_effects =
+        alerts
+        |> Alerts.Sort.sort(now)
+        |> Enum.map(& &1.effect)
 
+      assert sorted_effects == [:snow_route, :access_issue, :access_issue]
     end
 
     def new_datetime(str) do

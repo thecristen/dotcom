@@ -35,7 +35,9 @@ defmodule SiteWeb.RedirectorTest do
     conn = Redirector.call(conn, to: "/events")
 
     assert conn.halted == true
-    assert redirected_to(conn, :moved_permanently) == SiteWeb.Router.Helpers.event_path(conn, :show, ["3268"])
+
+    assert redirected_to(conn, :moved_permanently) ==
+             SiteWeb.Router.Helpers.event_path(conn, :show, ["3268"])
   end
 
   test "route redirected to /news with a valid id in the params", %{conn: conn} do
@@ -45,7 +47,9 @@ defmodule SiteWeb.RedirectorTest do
     conn = Redirector.call(conn, to: "/news")
 
     assert conn.halted == true
-    assert redirected_to(conn, :moved_permanently) == SiteWeb.Router.Helpers.news_entry_path(conn, :show, ["3519"])
+
+    assert redirected_to(conn, :moved_permanently) ==
+             SiteWeb.Router.Helpers.news_entry_path(conn, :show, ["3519"])
   end
 
   test "route redirected with an invalid id renders a 404", %{conn: conn} do

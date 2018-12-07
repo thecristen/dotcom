@@ -10,42 +10,41 @@ defmodule Content.Banner do
   alias Content.Field.Image
   alias Content.Field.Link
 
-  defstruct [
-    blurb: "",
-    link: %Link{},
-    thumb: nil,
-    banner_type: :default,
-    text_position: :left,
-    category: "",
-    mode: :unknown,
-    updated_on: "",
-    title: "",
-    utm_url: nil
-  ]
+  defstruct blurb: "",
+            link: %Link{},
+            thumb: nil,
+            banner_type: :default,
+            text_position: :left,
+            category: "",
+            mode: :unknown,
+            updated_on: "",
+            title: "",
+            utm_url: nil
 
-  @type mode :: :subway
-              | :bus
-              | :commuter_rail
-              | :ferry
-              | :red_line
-              | :orange_line
-              | :blue_line
-              | :green_line
-              | :silver_line
-              | :the_ride
+  @type mode ::
+          :subway
+          | :bus
+          | :commuter_rail
+          | :ferry
+          | :red_line
+          | :orange_line
+          | :blue_line
+          | :green_line
+          | :silver_line
+          | :the_ride
 
   @type t :: %__MODULE__{
-    blurb: String.t | nil,
-    link: Link.t | nil,
-    thumb: Image.t | nil,
-    banner_type: :default | :important,
-    text_position: :left | :right,
-    category: String.t,
-    mode: mode | :unknown,
-    title: String.t,
-    updated_on: String.t,
-    utm_url: String.t | nil
-  }
+          blurb: String.t() | nil,
+          link: Link.t() | nil,
+          thumb: Image.t() | nil,
+          banner_type: :default | :important,
+          text_position: :left | :right,
+          category: String.t(),
+          mode: mode | :unknown,
+          title: String.t(),
+          updated_on: String.t(),
+          utm_url: String.t() | nil
+        }
 
   @spec from_api(map) :: t
   def from_api(%{} = data) do
@@ -63,31 +62,34 @@ defmodule Content.Banner do
     }
   end
 
-  @spec parse_image([map]) :: Image.t | nil
+  @spec parse_image([map]) :: Image.t() | nil
   defp parse_image([%{} = api_image]), do: Image.from_api(api_image)
   defp parse_image(_), do: nil
 
-  @spec banner_type(String.t | nil) :: :important | :default
+  @spec banner_type(String.t() | nil) :: :important | :default
   defp banner_type("important"), do: :important
   defp banner_type(_), do: :default
 
-  @spec text_position(String.t | nil) :: :left | :right
+  @spec text_position(String.t() | nil) :: :left | :right
   defp text_position("right"), do: :right
   defp text_position(_), do: :left
 
-  @spec mode(String.t | nil) :: mode | :unknown
-  for name <- ~w(subway bus commuter_rail ferry red_line orange_line blue_line green_line silver_line the_ride) do
+  @spec mode(String.t() | nil) :: mode | :unknown
+  for name <-
+        ~w(subway bus commuter_rail ferry red_line orange_line blue_line green_line silver_line the_ride) do
     atom = String.to_atom(name)
     defp mode(unquote(name)), do: unquote(atom)
   end
+
   defp mode(_), do: :unknown
 
-  @spec updated_on(String.t | nil) :: String.t
+  @spec updated_on(String.t() | nil) :: String.t()
   defp updated_on(date) when is_binary(date) do
     date
     |> Timex.parse("{YYYY}-{M}-{D}")
     |> do_updated_on()
   end
+
   defp updated_on(_) do
     ""
   end
@@ -98,6 +100,7 @@ defmodule Content.Banner do
       {:error, _} -> ""
     end
   end
+
   defp do_updated_on(_) do
     ""
   end

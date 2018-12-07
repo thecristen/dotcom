@@ -68,7 +68,8 @@ defmodule Content.CmsMigration.MeetingMigratorTest do
         |> parse_json_file()
         |> Map.put("meeting_id", "multiple-records")
 
-      expected_error_message = "multiple records were found when querying by meeting_id: multiple-records."
+      expected_error_message =
+        "multiple records were found when querying by meeting_id: multiple-records."
 
       assert_raise MigrationError, expected_error_message, fn ->
         MeetingMigrator.migrate(record_with_non_unique_meeting_id)

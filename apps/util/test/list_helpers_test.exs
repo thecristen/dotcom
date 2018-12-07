@@ -4,7 +4,7 @@ defmodule Util.ListHelpersTest do
   import Util.ListHelpers
 
   describe "find_first/3" do
-    @list [1,2,3,4,5,6,7,8,9]
+    @list [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     test "returns the first given element if it appears first" do
       assert find_first(@list, 4, 5) == 4

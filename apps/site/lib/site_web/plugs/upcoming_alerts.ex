@@ -17,10 +17,12 @@ defmodule SiteWeb.Plugs.UpcomingAlerts do
   @impl true
   def call(%{assigns: %{all_alerts: all_alerts, date: date}} = conn, _opts) do
     {current_alerts, upcoming_alerts} = Alerts.Partition.current_and_upcoming(all_alerts, date)
+
     conn
     |> assign(:alerts, current_alerts)
     |> assign(:upcoming_alerts, upcoming_alerts)
   end
+
   def call(conn, _opts) do
     conn
   end

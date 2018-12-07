@@ -1,4 +1,4 @@
- defmodule SiteWeb.ScheduleController.TripInfoTest do
+defmodule SiteWeb.ScheduleController.TripInfoTest do
   use SiteWeb.ConnCase, async: true
   import SiteWeb.ScheduleController.TripInfo
   alias Schedules.{Schedule, Trip}
@@ -123,38 +123,47 @@
   ]
 
   setup %{conn: conn} do
-    conn = conn
-    |> assign(:date_time, @time)
-    |> assign(:date, @date)
+    conn =
+      conn
+      |> assign(:date_time, @time)
+      |> assign(:date, @date)
+
     {:ok, %{conn: conn}}
   end
 
-  defp prediction_fn([trip: "non-red-trip"]) do
-    Enum.map(@non_red_predictions, &(%Prediction{&1 | trip: %Trip{id: "non-red-trip"}}))
-  end
-  defp prediction_fn([trip: "red-trip-0"]) do
-    Enum.map(@red_predictions_0, &(%Prediction{&1 | trip: %Trip{id: "red-trip-0"}}))
-  end
-  defp prediction_fn([trip: "red-trip-1"]) do
-    Enum.map(@red_predictions_1, &(%Prediction{&1 | trip: %Trip{id: "red-trip-1"}}))
-  end
-  defp prediction_fn([trip: trip_id]) do
-    Enum.map(@predictions, &(%Prediction{&1 | trip: %Trip{id: trip_id}}))
+  defp prediction_fn(trip: "non-red-trip") do
+    Enum.map(@non_red_predictions, &%Prediction{&1 | trip: %Trip{id: "non-red-trip"}})
   end
 
-  defp trip_fn("32893585", [date: @date]) do
+  defp prediction_fn(trip: "red-trip-0") do
+    Enum.map(@red_predictions_0, &%Prediction{&1 | trip: %Trip{id: "red-trip-0"}})
+  end
+
+  defp prediction_fn(trip: "red-trip-1") do
+    Enum.map(@red_predictions_1, &%Prediction{&1 | trip: %Trip{id: "red-trip-1"}})
+  end
+
+  defp prediction_fn(trip: trip_id) do
+    Enum.map(@predictions, &%Prediction{&1 | trip: %Trip{id: trip_id}})
+  end
+
+  defp trip_fn("32893585", date: @date) do
     @trip_schedules
   end
-  defp trip_fn("non-red-trip", [date: @date]) do
+
+  defp trip_fn("non-red-trip", date: @date) do
     @non_red_schedules
   end
-  defp trip_fn("red-trip-0", [date: @date]) do
+
+  defp trip_fn("red-trip-0", date: @date) do
     @red_schedules_0
   end
-  defp trip_fn("red-trip-1", [date: @date]) do
+
+  defp trip_fn("red-trip-1", date: @date) do
     @red_schedules_1
   end
-  defp trip_fn("long_trip", [date: @date]) do
+
+  defp trip_fn("long_trip", date: @date) do
     # add some extra schedule data so that we can collapse this trip
     # make sure all schedules have "long_trip" as ID, since that's this trip_fn match
     @trip_schedules
@@ -180,14 +189,17 @@
         time: List.last(@schedules).time
       }
     ])
-    |> Enum.map(& %Schedule{&1 | trip: %Trip{id: "long_trip"}})
+    |> Enum.map(&%Schedule{&1 | trip: %Trip{id: "long_trip"}})
   end
-  defp trip_fn("not_in_schedule", [date: @date]) do
+
+  defp trip_fn("not_in_schedule", date: @date) do
     []
   end
+
   defp trip_fn("out_of_service", _) do
     {:error, [%JsonApi.Error{code: "no_service"}]}
   end
+
   defp trip_fn("", _) do
     []
   end
@@ -195,9 +207,11 @@
   defp vehicle_fn("32893585") do
     %Vehicles.Vehicle{}
   end
+
   defp vehicle_fn("non-red-trip") do
     %Vehicles.Vehicle{}
   end
+
   defp vehicle_fn(_) do
     nil
   end
@@ -205,12 +219,14 @@
   defp conn_builder(conn, schedules, params \\ []) do
     init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
     query_params = Map.new(params, fn {key, val} -> {Atom.to_string(key), val} end)
-    params = put_in query_params["route"], "1"
+    params = put_in(query_params["route"], "1")
 
-    %{conn |
-      request_path: schedule_path(conn, :show, "1"),
-      query_params: query_params,
-      params: params}
+    %{
+      conn
+      | request_path: schedule_path(conn, :show, "1"),
+        query_params: query_params,
+        params: params
+    }
     |> assign_journeys_from_schedules(schedules)
     |> assign(:vehicle_locations, %{})
     |> assign(:route, %{type: 0, id: "id"})
@@ -218,16 +234,17 @@
   end
 
   defp assign_journeys_from_schedules(conn, schedules) do
-    journeys = Enum.map(schedules, & %Journey{departure: %PredictedSchedule{schedule: &1}})
+    journeys = Enum.map(schedules, &%Journey{departure: %PredictedSchedule{schedule: &1}})
     assign(conn, :journeys, %JourneyList{journeys: journeys})
   end
 
   defp assign_journeys_from_schedules_and_predictions(conn, schedules, predictions) do
-    journeys = schedules
-    |> Enum.zip(predictions)
-    |> Enum.map(fn {schedule, prediction} ->
-      %Journey{departure: %PredictedSchedule{schedule: schedule, prediction: prediction}}
-    end)
+    journeys =
+      schedules
+      |> Enum.zip(predictions)
+      |> Enum.map(fn {schedule, prediction} ->
+        %Journey{departure: %PredictedSchedule{schedule: schedule, prediction: prediction}}
+      end)
 
     assign(conn, :journeys, %JourneyList{journeys: journeys})
   end
@@ -244,9 +261,14 @@
 
   test "assigns trip_info when origin/destination are selected", %{conn: conn} do
     expected_stops = ["after_first", "1", "2", "3", "new_last"]
-    conn = conn_builder(conn, [], trip: "long_trip", origin: "after_first", destination: "new_last")
-    actual_stops = conn.assigns.trip_info.times
-    |> Enum.map(& &1.schedule.stop.id)
+
+    conn =
+      conn_builder(conn, [], trip: "long_trip", origin: "after_first", destination: "new_last")
+
+    actual_stops =
+      conn.assigns.trip_info.times
+      |> Enum.map(& &1.schedule.stop.id)
+
     assert actual_stops == expected_stops
   end
 
@@ -264,49 +286,68 @@
   end
 
   test "redirects if we can't generate a trip info", %{conn: conn} do
-    conn = conn_builder(
-      conn, @schedules,
-      trip: "not_in_schedule",
-      origin: "fake",
-      destination: "fake",
-      param: "param")
-    expected_path = schedule_path(conn, :show, "1", destination: "fake", origin: "fake", param: "param")
+    conn =
+      conn_builder(
+        conn,
+        @schedules,
+        trip: "not_in_schedule",
+        origin: "fake",
+        destination: "fake",
+        param: "param"
+      )
+
+    expected_path =
+      schedule_path(conn, :show, "1", destination: "fake", origin: "fake", param: "param")
+
     assert conn.halted
     assert redirected_to(conn) == expected_path
   end
 
   test "does not redirect if we didn't have a trip already", %{conn: conn} do
-    conn = conn_builder(
-      conn, @schedules,
-      origin: "fake",
-      destination: "fake")
+    conn = conn_builder(conn, @schedules, origin: "fake", destination: "fake")
     refute conn.halted
     refute conn.assigns.trip_info
   end
 
   test "Trip predictions are not fetched if date is not service day", %{conn: conn} do
     future_date = Timex.shift(@date, days: 2)
-    future_trip_fn = fn "long_trip" = trip_id, [date: ^future_date] -> trip_fn(trip_id, date: @date) end
-    init = init(trip_fn: future_trip_fn, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
-    conn = %{conn |
-      request_path: schedule_path(conn, :show, "1"),
-      query_params: %{"trip" =>  "long_trip"}}
-    |> assign(:schedules, [])
-    |> assign(:date, future_date)
-    |> assign(:vehicle_locations, %{})
-    |> assign(:route, %{})
-    |> call(init)
 
-    for %PredictedSchedule{schedule: _schedule, prediction: prediction} <- conn.assigns.trip_info.times do
+    future_trip_fn = fn "long_trip" = trip_id, [date: ^future_date] ->
+      trip_fn(trip_id, date: @date)
+    end
+
+    init =
+      init(trip_fn: future_trip_fn, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+
+    conn =
+      %{
+        conn
+        | request_path: schedule_path(conn, :show, "1"),
+          query_params: %{"trip" => "long_trip"}
+      }
+      |> assign(:schedules, [])
+      |> assign(:date, future_date)
+      |> assign(:vehicle_locations, %{})
+      |> assign(:route, %{})
+      |> call(init)
+
+    for %PredictedSchedule{schedule: _schedule, prediction: prediction} <-
+          conn.assigns.trip_info.times do
       refute prediction
     end
   end
 
   test "Trip predictions are fetched if date is service day", %{conn: conn} do
-    conn = conn
-    |> conn_builder([], trip: "long_trip")
+    conn =
+      conn
+      |> conn_builder([], trip: "long_trip")
+
     predicted_schedules = conn.assigns.trip_info.times
-    assert Enum.find(predicted_schedules, &match?(%PredictedSchedule{prediction: %Prediction{}}, &1))
+
+    assert Enum.find(
+             predicted_schedules,
+             &match?(%PredictedSchedule{prediction: %Prediction{}}, &1)
+           )
   end
 
   test "does not assign trips for the subway if the date is in the future", %{conn: conn} do
@@ -330,17 +371,16 @@
         route: %Routes.Route{type: 1}
       }
     ]
+
     day = Timex.shift(@date, days: 1)
     init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1)
 
-    conn = %{conn |
-      request_path: schedule_path(conn, :show, "Red"),
-      query_params: nil
-    }
-    |> assign(:schedules, schedules)
-    |> assign(:date, day)
-    |> assign(:route, %Routes.Route{type: 1})
-    |> call(init)
+    conn =
+      %{conn | request_path: schedule_path(conn, :show, "Red"), query_params: nil}
+      |> assign(:schedules, schedules)
+      |> assign(:date, day)
+      |> assign(:route, %Routes.Route{type: 1})
+      |> call(init)
 
     assert conn.assigns.trip_info == nil
   end
@@ -366,16 +406,15 @@
         route: %Routes.Route{type: 1}
       }
     ]
+
     init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
 
-    conn = %{conn |
-      request_path: schedule_path(conn, :show, "66"),
-      query_params: nil
-    }
-    |> assign_journeys_from_schedules(schedules)
-    |> assign(:route, %Routes.Route{type: 1})
-    |> assign(:vehicle_locations, %{})
-    |> call(init)
+    conn =
+      %{conn | request_path: schedule_path(conn, :show, "66"), query_params: nil}
+      |> assign_journeys_from_schedules(schedules)
+      |> assign(:route, %Routes.Route{type: 1})
+      |> assign(:vehicle_locations, %{})
+      |> call(init)
 
     for time <- conn.assigns.trip_info.times do
       assert PredictedSchedule.trip(time).id == "32893585"
@@ -403,18 +442,17 @@
         route: %Routes.Route{type: 1}
       }
     ]
+
     init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
 
-    conn = %{conn |
-      request_path: schedule_path(conn, :show, "66"),
-      query_params: nil
-    }
-    |> assign_journeys_from_schedules(schedules)
-    |> assign(:route, %Routes.Route{type: 1})
-    |> assign(:date, ~D[2017-02-10])
-    |> assign(:datetime, @time)
-    |> assign(:vehicle_locations, %{})
-    |> call(init)
+    conn =
+      %{conn | request_path: schedule_path(conn, :show, "66"), query_params: nil}
+      |> assign_journeys_from_schedules(schedules)
+      |> assign(:route, %Routes.Route{type: 1})
+      |> assign(:date, ~D[2017-02-10])
+      |> assign(:datetime, @time)
+      |> assign(:vehicle_locations, %{})
+      |> call(init)
 
     assert TripInfo.is_current_trip?(conn.assigns.trip_info, "32893585")
   end
@@ -454,16 +492,14 @@
 
     init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: fn _ -> [] end)
 
-    conn = %{conn |
-      request_path: schedule_path(conn, :show, "66"),
-      query_params: nil
-    }
-    |> assign_journeys_from_schedules_and_predictions(schedules, predictions)
-    |> assign(:route, %Routes.Route{type: 1})
-    |> assign(:date, ~D[2017-02-10])
-    |> assign(:datetime, @time)
-    |> assign(:vehicle_locations, %{})
-    |> call(init)
+    conn =
+      %{conn | request_path: schedule_path(conn, :show, "66"), query_params: nil}
+      |> assign_journeys_from_schedules_and_predictions(schedules, predictions)
+      |> assign(:route, %Routes.Route{type: 1})
+      |> assign(:date, ~D[2017-02-10])
+      |> assign(:datetime, @time)
+      |> assign(:vehicle_locations, %{})
+      |> call(init)
 
     assert TripInfo.is_current_trip?(conn.assigns.trip_info, "long_trip")
   end
@@ -489,16 +525,15 @@
         route: %Routes.Route{type: 1}
       }
     ]
+
     init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1)
 
-    conn = %{conn |
-      request_path: schedule_path(conn, :show, "Red"),
-      query_params: nil
-    }
-    |> assign_journeys_from_schedules(schedules)
-    |> assign(:route, %Routes.Route{type: 1})
-    |> assign(:vehicle_locations, %{})
-    |> call(init)
+    conn =
+      %{conn | request_path: schedule_path(conn, :show, "Red"), query_params: nil}
+      |> assign_journeys_from_schedules(schedules)
+      |> assign(:route, %Routes.Route{type: 1})
+      |> assign(:vehicle_locations, %{})
+      |> call(init)
 
     assert conn.assigns.trip_info != nil
   end
@@ -524,53 +559,58 @@
         route: %Routes.Route{type: 3}
       }
     ]
+
     day = Timex.shift(@date, days: 1)
     future_trip_fn = fn "32893585" = trip_id, [date: ^day] -> trip_fn(trip_id, date: @date) end
     init = init(trip_fn: future_trip_fn, vehicle_fn: &vehicle_fn/1)
 
-    conn = %{conn |
-      request_path: schedule_path(conn, :show, "1"),
-      query_params: nil
-    }
-    |> assign_journeys_from_schedules(schedules)
-    |> assign(:date, day)
-    |> assign(:route, %Routes.Route{type: 3})
-    |> assign(:vehicle_locations, %{})
-    |> call(init)
+    conn =
+      %{conn | request_path: schedule_path(conn, :show, "1"), query_params: nil}
+      |> assign_journeys_from_schedules(schedules)
+      |> assign(:date, day)
+      |> assign(:route, %Routes.Route{type: 3})
+      |> assign(:vehicle_locations, %{})
+      |> call(init)
 
     assert conn.assigns.trip_info != nil
   end
 
   test "does not assign trips if the prediction doesn't have a time", %{conn: conn} do
-    prediction = %Prediction{trip: %Trip{id: "trip"}, stop: %Stop{id: "origin"}, route: %Routes.Route{}}
+    prediction = %Prediction{
+      trip: %Trip{id: "trip"},
+      stop: %Stop{id: "origin"},
+      route: %Routes.Route{}
+    }
+
     init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1)
 
-    conn = %{conn |
-      request_path: schedule_path(conn, :show, "1"),
-      query_params: nil
-    }
-    |> assign(:journeys, JourneyList.build_predictions_only([], [prediction], "origin", nil))
-    |> assign(:date, ~D[2017-01-01])
-    |> assign(:date_time, ~N[2017-01-01T12:00:00])
-    |> assign(:route, %Routes.Route{type: 1})
-    |> call(init)
+    conn =
+      %{conn | request_path: schedule_path(conn, :show, "1"), query_params: nil}
+      |> assign(:journeys, JourneyList.build_predictions_only([], [prediction], "origin", nil))
+      |> assign(:date, ~D[2017-01-01])
+      |> assign(:date_time, ~N[2017-01-01T12:00:00])
+      |> assign(:route, %Routes.Route{type: 1})
+      |> call(init)
 
     assert conn.assigns.trip_info == nil
   end
 
   test "does not assign trips if the prediction doesn't have a trip", %{conn: conn} do
-    prediction = %Prediction{time: ~N[2017-01-01T13:00:00], stop: %Stop{id: "origin"}, route: %Routes.Route{}}
+    prediction = %Prediction{
+      time: ~N[2017-01-01T13:00:00],
+      stop: %Stop{id: "origin"},
+      route: %Routes.Route{}
+    }
+
     init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1)
 
-    conn = %{conn |
-      request_path: schedule_path(conn, :show, "1"),
-      query_params: nil
-    }
-    |> assign(:journeys, JourneyList.build_predictions_only([], [prediction], "origin", nil))
-    |> assign(:date, ~D[2017-01-01])
-    |> assign(:date_time, ~N[2017-01-01T12:00:00])
-    |> assign(:route, %Routes.Route{type: 1})
-    |> call(init)
+    conn =
+      %{conn | request_path: schedule_path(conn, :show, "1"), query_params: nil}
+      |> assign(:journeys, JourneyList.build_predictions_only([], [prediction], "origin", nil))
+      |> assign(:date, ~D[2017-01-01])
+      |> assign(:date_time, ~N[2017-01-01T12:00:00])
+      |> assign(:route, %Routes.Route{type: 1})
+      |> call(init)
 
     assert conn.assigns.trip_info == nil
   end
@@ -578,15 +618,17 @@
   test "removes the trip from the query string if the API returns an error", %{conn: conn} do
     init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1)
 
-    conn = %{conn |
-      request_path: schedule_path(conn, :show, "Red"),
-      query_params: %{"trip" => "out_of_service"}
-    }
-    |> assign(:schedules, [])
-    |> assign(:date, @date)
-    |> assign(:route, %Routes.Route{type: 1})
-    |> assign(:vehicle_locations, %{})
-    |> call(init)
+    conn =
+      %{
+        conn
+        | request_path: schedule_path(conn, :show, "Red"),
+          query_params: %{"trip" => "out_of_service"}
+      }
+      |> assign(:schedules, [])
+      |> assign(:date, @date)
+      |> assign(:route, %Routes.Route{type: 1})
+      |> assign(:vehicle_locations, %{})
+      |> call(init)
 
     assert redirected_to(conn) == schedule_path(conn, :show, "Red")
   end
@@ -617,18 +659,22 @@
     test "Does not add Wollaston to non Red line routes", %{conn: conn} do
       init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
       route = %{id: "Not-Red"}
-      times = [%{times: %{direction_id: 1, route: %{id: "Not-Red"}, stop: %{id: "id1"}}},
-               %{times: %{direction_id: 1, route: %{id: "Not-Red"}, stop: %{id: "id2"}}}]
+
+      times = [
+        %{times: %{direction_id: 1, route: %{id: "Not-Red"}, stop: %{id: "id1"}}},
+        %{times: %{direction_id: 1, route: %{id: "Not-Red"}, stop: %{id: "id2"}}}
+      ]
 
       trip_info = %{route: route, times: times}
 
-      conn = %{conn | query_params: %{"trip" => "non-red-trip"}}
-             |> assign(:route, route)
-             |> assign(:trip_info, trip_info)
-             |> assign(:vehicle_locations, %{})
-             |> call(init)
+      conn =
+        %{conn | query_params: %{"trip" => "non-red-trip"}}
+        |> assign(:route, route)
+        |> assign(:trip_info, trip_info)
+        |> assign(:vehicle_locations, %{})
+        |> call(init)
 
-      stops = Enum.map(conn.assigns.trip_info.times, &(&1.schedule.stop.id))
+      stops = Enum.map(conn.assigns.trip_info.times, & &1.schedule.stop.id)
 
       assert stops == ["id2", "id1"]
     end
@@ -636,18 +682,22 @@
     test "Adds Wollaston in correct place for Red line routes with direction_id=0", %{conn: conn} do
       init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
       route = %{id: "Red"}
-      times = [%{times: %{direction_id: 0, route: %{id: "Red"}, stop: %{id: "place-nqncy"}}},
-               %{times: %{direction_id: 0, route: %{id: "Red"}, stop: %{id: "place-qnctr"}}}]
+
+      times = [
+        %{times: %{direction_id: 0, route: %{id: "Red"}, stop: %{id: "place-nqncy"}}},
+        %{times: %{direction_id: 0, route: %{id: "Red"}, stop: %{id: "place-qnctr"}}}
+      ]
 
       trip_info = %{route: route, times: times}
 
-      conn = %{conn | query_params: %{"trip" => "red-trip-0"}}
-             |> assign(:route, route)
-             |> assign(:trip_info, trip_info)
-             |> assign(:vehicle_locations, %{})
-             |> call(init)
+      conn =
+        %{conn | query_params: %{"trip" => "red-trip-0"}}
+        |> assign(:route, route)
+        |> assign(:trip_info, trip_info)
+        |> assign(:vehicle_locations, %{})
+        |> call(init)
 
-      stops = Enum.map(conn.assigns.trip_info.times, &(&1.schedule.stop.id))
+      stops = Enum.map(conn.assigns.trip_info.times, & &1.schedule.stop.id)
 
       assert stops == ["place-nqncy", "place-wstn", "place-qnctr"]
     end
@@ -655,18 +705,34 @@
     test "Adds Wollaston in correct place for Red line routes with direction_id=1", %{conn: conn} do
       init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
       route = %{id: "Red"}
-      times = [%{times: %{direction_id: 1, route: %{id: "Red"}, stop: %{id: "place-qnctr", name: "Quincy Center"}}},
-               %{times: %{direction_id: 1, route: %{id: "Red"}, stop: %{id: "place-nqncy", name: "North Quincy"}}}]
+
+      times = [
+        %{
+          times: %{
+            direction_id: 1,
+            route: %{id: "Red"},
+            stop: %{id: "place-qnctr", name: "Quincy Center"}
+          }
+        },
+        %{
+          times: %{
+            direction_id: 1,
+            route: %{id: "Red"},
+            stop: %{id: "place-nqncy", name: "North Quincy"}
+          }
+        }
+      ]
 
       trip_info = %{route: route, times: times}
 
-      conn = %{conn | query_params: %{"trip" => "red-trip-1"}}
-             |> assign(:route, route)
-             |> assign(:trip_info, trip_info)
-             |> assign(:vehicle_locations, %{})
-             |> call(init)
+      conn =
+        %{conn | query_params: %{"trip" => "red-trip-1"}}
+        |> assign(:route, route)
+        |> assign(:trip_info, trip_info)
+        |> assign(:vehicle_locations, %{})
+        |> call(init)
 
-      stops = Enum.map(conn.assigns.trip_info.times, &(&1.schedule.stop.id))
+      stops = Enum.map(conn.assigns.trip_info.times, & &1.schedule.stop.id)
 
       assert stops == ["place-qnctr", "place-wstn", "place-nqncy"]
     end

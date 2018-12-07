@@ -29,6 +29,7 @@ defmodule Content.Paragraph.ColumnMultiTest do
         }
       ]
     }
+
     column_multi_without_fare_card = %ColumnMulti{
       columns: [
         %Column{
@@ -42,5 +43,4 @@ defmodule Content.Paragraph.ColumnMultiTest do
     assert ColumnMulti.includes_fare_cards?(column_multi_with_fare_card)
     refute ColumnMulti.includes_fare_cards?(column_multi_without_fare_card)
   end
-
 end

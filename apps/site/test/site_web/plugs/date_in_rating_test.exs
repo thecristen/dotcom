@@ -42,6 +42,7 @@ defmodule SiteWeb.Plugs.DateInRatingTest do
     test "with a date in the past or future, assigns :date_in_rating? to false", %{conn: conn} do
       for date <- [~D[2016-05-31], ~D[2017-01-02]] do
         date_str = Date.to_iso8601(date)
+
         params = %{
           "date" => date_str,
           "other_param" => "value"

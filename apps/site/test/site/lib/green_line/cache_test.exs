@@ -9,9 +9,22 @@ defmodule Site.GreenLine.CacheTest do
     end_date_fn = fn -> ~D[1985-04-03] end
     reset_fn = fn date -> send(test_pid, {:done, date}) end
 
-    start_link(start_date_fn: start_date_fn, end_date_fn: end_date_fn, reset_fn: reset_fn, name: :test1)
+    start_link(
+      start_date_fn: start_date_fn,
+      end_date_fn: end_date_fn,
+      reset_fn: reset_fn,
+      name: :test1
+    )
 
-    msgs = receive_dates([nil, ~D[1985-03-31], ~D[1985-04-01], ~D[1985-04-02], ~D[1985-04-03], ~D[1985-04-04]])
+    msgs =
+      receive_dates([
+        nil,
+        ~D[1985-03-31],
+        ~D[1985-04-01],
+        ~D[1985-04-02],
+        ~D[1985-04-03],
+        ~D[1985-04-04]
+      ])
 
     assert msgs == [:ok, :ok, :ok, :ok, :ok, :nothing]
   end
@@ -22,7 +35,12 @@ defmodule Site.GreenLine.CacheTest do
     end_date_fn = fn -> nil end
     reset_fn = fn date -> send(test_pid, {:done, date}) end
 
-    start_link(start_date_fn: start_date_fn, end_date_fn: end_date_fn, reset_fn: reset_fn, name: :test1)
+    start_link(
+      start_date_fn: start_date_fn,
+      end_date_fn: end_date_fn,
+      reset_fn: reset_fn,
+      name: :test1
+    )
 
     msgs = receive_dates([nil, ~D[1985-03-31], ~D[1985-04-01]])
 
@@ -34,7 +52,7 @@ defmodule Site.GreenLine.CacheTest do
       start =
         "America/New_York"
         |> Timex.now()
-        |> Timex.beginning_of_day
+        |> Timex.beginning_of_day()
         |> Timex.shift(hours: 20)
 
       # 8pm -> 7am = 11 hrs = 39,600,000 ms
@@ -43,7 +61,8 @@ defmodule Site.GreenLine.CacheTest do
     end
 
     test "handles beginning of daylight saving time" do
-      time = ~N[2018-03-11T07:00:00] # 2am EST -> 3am EDT
+      # 2am EST -> 3am EDT
+      time = ~N[2018-03-11T07:00:00]
       assert %DateTime{hour: 3} = Timex.Timezone.convert(time, "America/New_York")
 
       # 3am -> 7am the next day = 28 hrs
@@ -53,7 +72,8 @@ defmodule Site.GreenLine.CacheTest do
     end
 
     test "handles end of daylight saving time" do
-      time = ~N[2018-11-04T06:00:00] # 2am EDT -> 1am EST
+      # 2am EDT -> 1am EST
+      time = ~N[2018-11-04T06:00:00]
       assert %Timex.AmbiguousDateTime{} = Timex.Timezone.convert(time, "America/New_York")
 
       # 1am -> 7am the next day = 30 hrs
@@ -72,7 +92,12 @@ defmodule Site.GreenLine.CacheTest do
     end_date_fn = fn -> ~D[1987-04-02] end
     reset_fn = fn date -> send(test_pid, {:done, date}) end
 
-    start_link(start_date_fn: start_date_fn, end_date_fn: end_date_fn, reset_fn: reset_fn, name: :test3)
+    start_link(
+      start_date_fn: start_date_fn,
+      end_date_fn: end_date_fn,
+      reset_fn: reset_fn,
+      name: :test3
+    )
 
     msgs = receive_dates([nil, ~D[1987-04-01], ~D[1987-04-02]])
     assert msgs == [:ok, :ok, :ok]
@@ -83,11 +108,12 @@ defmodule Site.GreenLine.CacheTest do
     invalid_date = ~D[1900-01-01]
     reset_cache(invalid_date, 50)
 
-    msg = receive do
-      {:reset_again, ^invalid_date} -> :ok
-    after
-      100 -> :no_msg
-    end
+    msg =
+      receive do
+        {:reset_again, ^invalid_date} -> :ok
+      after
+        100 -> :no_msg
+      end
 
     assert msg == :ok
   end

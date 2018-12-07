@@ -6,12 +6,19 @@ defmodule Site.PolylineHelpersTest do
   test "remove duplicates among a list of polylines and decrease precision" do
     input = [
       Polyline.encode([{1.3333333, 1.333333}, {2.333333, 2.333333}, {3.333333, 3.3333333}]),
-      Polyline.encode([{1.3333333, 1.333333}, {2.333333, 2.333333}, {3.333333, 3.3333333}, {4.333333, 4.333333}])
+      Polyline.encode([
+        {1.3333333, 1.333333},
+        {2.333333, 2.333333},
+        {3.333333, 3.3333333},
+        {4.333333, 4.333333}
+      ])
     ]
+
     expects = [
       Polyline.encode([{4.3333, 4.3333}]),
       Polyline.encode([{1.3333, 1.3333}, {2.3333, 2.3333}, {3.3333, 3.3333}])
     ]
+
     output = condense(input)
     assert output == expects
   end
@@ -45,9 +52,11 @@ defmodule Site.PolylineHelpersTest do
       Polyline.encode([{1, 1}]),
       Polyline.encode([])
     ]
+
     expects = [
       Polyline.encode([{1, 1}])
     ]
+
     output = condense(input)
     assert output == expects
   end
@@ -58,13 +67,13 @@ defmodule Site.PolylineHelpersTest do
 
   defp do_line_measumenent(range) do
     range
-    |> Enum.map(& {&1, &1})
-    |> Polyline.encode
+    |> Enum.map(&{&1, &1})
+    |> Polyline.encode()
   end
 
   defp do_condence(polyline) do
     [polyline]
     |> condense
-    |> List.first
+    |> List.first()
   end
 end

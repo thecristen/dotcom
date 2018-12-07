@@ -9,9 +9,9 @@ defmodule SiteWeb.WwwRedirector do
   def init([]), do: []
 
   @impl true
-  def call(conn, _options), do: site_redirect(SiteWeb.Endpoint.url, conn)
+  def call(conn, _options), do: site_redirect(SiteWeb.Endpoint.url(), conn)
 
-  @spec site_redirect(String.t, Conn.t) :: Plug.Conn.t
+  @spec site_redirect(String.t(), Conn.t()) :: Plug.Conn.t()
   def site_redirect(site_url, conn) do
     full_redirect_url = redirect_url(site_url, conn)
 
@@ -22,9 +22,10 @@ defmodule SiteWeb.WwwRedirector do
   end
 
   defp redirect_url(site_url, %Conn{request_path: path, query_string: query})
-      when is_binary(query) and query != "" do
+       when is_binary(query) and query != "" do
     "#{site_url}#{path}?#{query}"
   end
+
   defp redirect_url(site_url, %Conn{request_path: path}) do
     "#{site_url}#{path}"
   end

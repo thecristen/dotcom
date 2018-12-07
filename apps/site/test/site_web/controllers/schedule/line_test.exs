@@ -43,6 +43,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
     test "direction 0 returns a list of all stops in order from east to west" do
       route_stops = get_route_stops("Green", 0, @deps.stops_by_route_fn)
+
       stops =
         "Green"
         |> get_route_shapes(0)
@@ -50,15 +51,24 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> build_stop_list(0)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      for {id, idx} <- [{"place-lech", 0}, {"place-north", 2}, {"place-gover", 4}, {"place-pktrm", 5},
-                        {"place-coecl", 8}, {"place-hsmnl", 19}, {"place-river", 34}, {"place-clmnl", 47},
-                        {"place-lake", 65}] do
+      for {id, idx} <- [
+            {"place-lech", 0},
+            {"place-north", 2},
+            {"place-gover", 4},
+            {"place-pktrm", 5},
+            {"place-coecl", 8},
+            {"place-hsmnl", 19},
+            {"place-river", 34},
+            {"place-clmnl", 47},
+            {"place-lake", 65}
+          ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
     end
 
     test "direction 0 returns the correct number of bubbles for each stop" do
       route_stops = get_route_stops("Green", 0, @deps.stops_by_route_fn)
+
       stops =
         "Green"
         |> get_route_shapes(0)
@@ -66,7 +76,9 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> build_stop_list(0)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      [four, three, two, one] = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+      [four, three, two, one] =
+        Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+
       assert Enum.each(four, &(Enum.count(branches(&1)) == 4))
       assert stop_id(List.first(four)) == "place-lech"
       assert stop_id(List.last(four)) == "place-hsmnl"
@@ -86,6 +98,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
     test "direction 1 returns a list of all stops in order from west to east" do
       route_stops = get_route_stops("Green", 0, @deps.stops_by_route_fn)
+
       stops =
         "Green"
         |> get_route_shapes(1)
@@ -93,15 +106,24 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> build_stop_list(1)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      for {id, idx} <- [{"place-lech", 65}, {"place-north", 63}, {"place-gover", 61}, {"place-pktrm", 60},
-                        {"place-coecl", 57}, {"place-hsmnl", 46}, {"place-river", 31}, {"place-clmnl", 18},
-                        {"place-lake", 0}] do
+      for {id, idx} <- [
+            {"place-lech", 65},
+            {"place-north", 63},
+            {"place-gover", 61},
+            {"place-pktrm", 60},
+            {"place-coecl", 57},
+            {"place-hsmnl", 46},
+            {"place-river", 31},
+            {"place-clmnl", 18},
+            {"place-lake", 0}
+          ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
     end
 
     test "direction 1 returns the correct number of bubbles for each stop" do
       route_stops = get_route_stops("Green", 0, @deps.stops_by_route_fn)
+
       stops =
         "Green"
         |> get_route_shapes(1)
@@ -109,7 +131,9 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> build_stop_list(1)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      assert [one, two, three, four] = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+      assert [one, two, three, four] =
+               Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+
       assert stop_id(List.first(one)) == "place-lake"
       assert stop_id(List.last(one)) == "place-bland"
       assert stop_id(List.first(two)) == "place-clmnl"
@@ -124,6 +148,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
   describe "build_stop_list/2 for branched non-Green routes" do
     test "Red outbound" do
       route_stops = get_route_stops("Red", 0, @deps.stops_by_route_fn)
+
       stops =
         "Red"
         |> get_route_shapes(0)
@@ -131,13 +156,19 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> build_stop_list(0)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      for {id, idx} <- [{"place-alfcl", 0}, {"place-jfk", 12}, {"place-brntn", -5}, {"place-asmnl", -1}] do
+      for {id, idx} <- [
+            {"place-alfcl", 0},
+            {"place-jfk", 12},
+            {"place-brntn", -5},
+            {"place-asmnl", -1}
+          ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
     end
 
     test "outbound returns the correct number of bubbles for each stop" do
       route_stops = get_route_stops("Red", 0, @deps.stops_by_route_fn)
+
       stops =
         "Red"
         |> get_route_shapes(0)
@@ -145,7 +176,9 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> build_stop_list(0)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      [one, two, another_one] = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+      [one, two, another_one] =
+        Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+
       assert Enum.each(one, &(Enum.count(branches(&1)) == 1))
       assert stop_id(List.first(one)) == "place-alfcl"
       assert stop_id(List.last(one)) == "place-andrw"
@@ -161,6 +194,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
     test "Red inbound" do
       route_stops = get_route_stops("Red", 0, @deps.stops_by_route_fn)
+
       stops =
         "Red"
         |> get_route_shapes(1)
@@ -168,13 +202,19 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> build_stop_list(1)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      for {id, idx} <- [{"place-alfcl", -1}, {"place-jfk", -13}, {"place-brntn", 4}, {"place-asmnl", 0}] do
+      for {id, idx} <- [
+            {"place-alfcl", -1},
+            {"place-jfk", -13},
+            {"place-brntn", 4},
+            {"place-asmnl", 0}
+          ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
     end
 
     test "inbound returns the correct number of bubbles for each stop" do
       route_stops = get_route_stops("Red", 0, @deps.stops_by_route_fn)
+
       stops =
         "Red"
         |> get_route_shapes(1)
@@ -182,7 +222,9 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> build_stop_list(1)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      [another_one, two, one] = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+      [another_one, two, one] =
+        Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+
       assert Enum.each(another_one, &(Enum.count(branches(&1)) == 1))
       assert stop_id(List.first(another_one)) == "place-asmnl"
       assert stop_id(List.last(another_one)) == "place-shmnl"
@@ -198,6 +240,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
     test "CR-Providence outbound" do
       route_stops = get_route_stops("CR-Providence", 0, @deps.stops_by_route_fn)
+
       stops =
         "CR-Providence"
         |> get_route_shapes(0)
@@ -205,7 +248,12 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> build_stop_list(0)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      for {id, idx} <- [{"place-sstat", 0}, {"Canton Junction", 5}, {"Stoughton", 7}, {"Wickford Junction", 14}] do
+      for {id, idx} <- [
+            {"place-sstat", 0},
+            {"Canton Junction", 5},
+            {"Stoughton", 7},
+            {"Wickford Junction", 14}
+          ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
     end
@@ -285,14 +333,28 @@ defmodule SiteWeb.ScheduleController.LineTest do
     test "lechmere" do
       stop = %RouteStop{id: "place-lech"}
       branches = {nil, GreenLine.branch_ids()}
-      bubbles = [{"Green-B", :empty}, {"Green-C", :empty}, {"Green-D", :empty}, {"Green-E", :terminus}]
+
+      bubbles = [
+        {"Green-B", :empty},
+        {"Green-C", :empty},
+        {"Green-D", :empty},
+        {"Green-E", :terminus}
+      ]
+
       assert build_branched_stop(stop, [], branches) == [{bubbles, stop}]
     end
 
     test "park" do
       stop = %RouteStop{id: "place-pktrm"}
       branches = {nil, GreenLine.branch_ids()}
-      bubbles = [{"Green-B", :terminus}, {"Green-C", :stop}, {"Green-D", :stop}, {"Green-E", :stop}]
+
+      bubbles = [
+        {"Green-B", :terminus},
+        {"Green-C", :stop},
+        {"Green-D", :stop},
+        {"Green-E", :stop}
+      ]
+
       assert build_branched_stop(stop, [], branches) == [{bubbles, stop}]
     end
 
@@ -307,7 +369,14 @@ defmodule SiteWeb.ScheduleController.LineTest do
       assert GreenLine.terminus?("place-hsmnl", "Green-E")
       stop = %RouteStop{id: "place-hsmnl", branch: "Green-E", is_terminus?: true}
       branches = {nil, GreenLine.branch_ids()}
-      bubbles = [{"Green-B", :line}, {"Green-C", :line}, {"Green-D", :line}, {"Green-E", :terminus}]
+
+      bubbles = [
+        {"Green-B", :line},
+        {"Green-C", :line},
+        {"Green-D", :line},
+        {"Green-E", :terminus}
+      ]
+
       assert build_branched_stop(stop, [], branches) == [{bubbles, stop}]
     end
 
@@ -338,9 +407,12 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
   describe "build_branched_stop_list" do
     test "returns stops in reverse order for both directions when branch is nil" do
-      stops = ["first", "middle", "last"]
-      |> Util.EnumHelpers.with_first_last()
-      |> Enum.map(fn {stop_id, is_terminus?} -> %RouteStop{id: stop_id, is_terminus?: is_terminus?} end)
+      stops =
+        ["first", "middle", "last"]
+        |> Util.EnumHelpers.with_first_last()
+        |> Enum.map(fn {stop_id, is_terminus?} ->
+          %RouteStop{id: stop_id, is_terminus?: is_terminus?}
+        end)
 
       outbound = build_branched_stop_list(%RouteStops{branch: nil, stops: stops}, {[], []})
       inbound = build_branched_stop_list(%RouteStops{branch: nil, stops: stops}, {[], []})
@@ -354,10 +426,9 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
   describe "connections" do
     test "only shows subway and CR connections", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "Red")
+      conn = get(conn, line_path(conn, :show, "Red"))
       refute Enum.empty?(conn.assigns.connections)
-      assert Enum.all?(conn.assigns.connections, & Enum.member?([0, 1, 2], &1.type))
-
+      assert Enum.all?(conn.assigns.connections, &Enum.member?([0, 1, 2], &1.type))
     end
   end
 end

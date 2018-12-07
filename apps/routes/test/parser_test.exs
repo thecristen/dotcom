@@ -16,6 +16,7 @@ defmodule Routes.ParserTest do
           "direction_names" => ["zero", "one"]
         }
       }
+
       parsed = parse_route(item)
       assert parsed.name == "Silver Line Waterfront"
     end
@@ -31,6 +32,7 @@ defmodule Routes.ParserTest do
           "direction_names" => ["zero", "one"]
         }
       }
+
       parsed = parse_route(item)
       assert parsed.description == :key_bus_route
     end
@@ -46,6 +48,7 @@ defmodule Routes.ParserTest do
           "direction_names" => ["zero", "one"]
         }
       }
+
       parsed = parse_route(item)
       assert parsed.description == :unknown
     end
@@ -60,6 +63,7 @@ defmodule Routes.ParserTest do
           "direction_names" => ["zero", "one"]
         }
       }
+
       parsed = parse_route(item)
       assert parsed.name == "short"
       assert parsed.long_name == "long"
@@ -75,6 +79,7 @@ defmodule Routes.ParserTest do
           "direction_names" => ["zero", "one"]
         }
       }
+
       parsed = parse_route(item)
       assert parsed.name == "long"
     end
@@ -89,6 +94,7 @@ defmodule Routes.ParserTest do
           "direction_names" => ["zero", "one"]
         }
       }
+
       parsed = parse_route(item)
       assert parsed.name == "short"
     end
@@ -96,23 +102,27 @@ defmodule Routes.ParserTest do
 
   describe "parse_shape/1" do
     test "parses a shape" do
-      item = %Item{id: "shape_id",
-                    attributes: %{
-                      "name" => "name",
-                      "direction_id" => 1,
-                      "polyline" => "polyline",
-                      "priority" => -1},
-                    relationships: %{
-                      "stops" => [
-                        %Item{id: "1"},
-                        %Item{id: "2"}]}}
-      assert parse_shape(item) == [%Shape{
-                                      id: "shape_id",
-                                      name: "name",
-                                      stop_ids: ["1", "2"],
-                                      direction_id: 1,
-                                      polyline: "polyline",
-                                      priority: -1}]
+      item = %Item{
+        id: "shape_id",
+        attributes: %{
+          "name" => "name",
+          "direction_id" => 1,
+          "polyline" => "polyline",
+          "priority" => -1
+        },
+        relationships: %{"stops" => [%Item{id: "1"}, %Item{id: "2"}]}
+      }
+
+      assert parse_shape(item) == [
+               %Shape{
+                 id: "shape_id",
+                 name: "name",
+                 stop_ids: ["1", "2"],
+                 direction_id: 1,
+                 polyline: "polyline",
+                 priority: -1
+               }
+             ]
     end
   end
 end

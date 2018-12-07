@@ -4,57 +4,57 @@ defmodule Content.Event do
   """
 
   import Phoenix.HTML, only: [raw: 1]
-  import Content.Helpers, only: [
-    field_value: 2,
-    int_or_string_to_int: 1,
-    parse_body: 1,
-    parse_iso_datetime: 1,
-    handle_html: 1,
-    parse_files: 2,
-    path_alias: 1
-  ]
 
-  defstruct [
-    id: nil,
-    start_time: nil,
-    end_time: nil,
-    title: "",
-    location: nil,
-    street_address: nil,
-    city: nil,
-    state: nil,
-    who: nil,
-    body: raw(""),
-    notes: raw(""),
-    agenda: raw(""),
-    meeting_id: nil,
-    imported_address: nil,
-    files: [],
-    agenda_file: nil,
-    minutes_file: nil,
-    path_alias: nil
-  ]
+  import Content.Helpers,
+    only: [
+      field_value: 2,
+      int_or_string_to_int: 1,
+      parse_body: 1,
+      parse_iso_datetime: 1,
+      handle_html: 1,
+      parse_files: 2,
+      path_alias: 1
+    ]
+
+  defstruct id: nil,
+            start_time: nil,
+            end_time: nil,
+            title: "",
+            location: nil,
+            street_address: nil,
+            city: nil,
+            state: nil,
+            who: nil,
+            body: raw(""),
+            notes: raw(""),
+            agenda: raw(""),
+            meeting_id: nil,
+            imported_address: nil,
+            files: [],
+            agenda_file: nil,
+            minutes_file: nil,
+            path_alias: nil
 
   @type t :: %__MODULE__{
-    id: integer | nil,
-    start_time: DateTime.t | nil,
-    end_time: DateTime.t | nil,
-    title: String.t | nil,
-    location: String.t | nil,
-    street_address: String.t | nil,
-    city: String.t | nil,
-    state: String.t | nil,
-    who: String.t | nil,
-    body: Phoenix.HTML.safe,
-    notes: Phoenix.HTML.safe,
-    agenda: Phoenix.HTML.safe,
-    meeting_id: String.t | nil,
-    imported_address: Phoenix.HTML.safe,
-    files: [Content.Field.File.t],
-    agenda_file: Content.Field.File.t | nil,
-    minutes_file: Content.Field.File.t | nil,
-    path_alias: String.t | nil
-  }
+          id: integer | nil,
+          start_time: DateTime.t() | nil,
+          end_time: DateTime.t() | nil,
+          title: String.t() | nil,
+          location: String.t() | nil,
+          street_address: String.t() | nil,
+          city: String.t() | nil,
+          state: String.t() | nil,
+          who: String.t() | nil,
+          body: Phoenix.HTML.safe(),
+          notes: Phoenix.HTML.safe(),
+          agenda: Phoenix.HTML.safe(),
+          meeting_id: String.t() | nil,
+          imported_address: Phoenix.HTML.safe(),
+          files: [Content.Field.File.t()],
+          agenda_file: Content.Field.File.t() | nil,
+          minutes_file: Content.Field.File.t() | nil,
+          path_alias: String.t() | nil
+        }
 
   @spec from_api(map) :: t
   def from_api(%{} = data) do
@@ -80,7 +80,7 @@ defmodule Content.Event do
     }
   end
 
-  @spec past?(t, Date.t) :: boolean
+  @spec past?(t, Date.t()) :: boolean
   def past?(event, now) do
     Date.compare(event.start_time, now) == :lt
   end

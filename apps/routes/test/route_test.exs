@@ -6,12 +6,12 @@ defmodule Routes.RouteTest do
   describe "type_atom/1" do
     test "returns an atom for the route type" do
       for {int, atom} <- [
-        {0, :subway},
-        {1, :subway},
-        {2, :commuter_rail},
-        {3, :bus},
-        {4, :ferry}
-      ] do
+            {0, :subway},
+            {1, :subway},
+            {2, :commuter_rail},
+            {3, :bus},
+            {4, :ferry}
+          ] do
         assert type_atom(int) == atom
       end
     end
@@ -34,21 +34,19 @@ defmodule Routes.RouteTest do
             orange_line: "Orange",
             blue_line: "Blue",
             green_line: "Green",
-            green_line_b: "Green-B"] do
-          route = %Route{id: id}
-          actual = icon_atom(route)
-          assert actual == expected
+            green_line_b: "Green-B"
+          ] do
+        route = %Route{id: id}
+        actual = icon_atom(route)
+        assert actual == expected
       end
     end
 
     test "for other routes, returns an atom based on the type" do
-      for {expected, type} <- [
-            commuter_rail: 2,
-            bus: 3,
-            ferry: 4] do
-          route = %Route{type: type}
-          actual = icon_atom(route)
-          assert actual == expected
+      for {expected, type} <- [commuter_rail: 2, bus: 3, ferry: 4] do
+        route = %Route{type: type}
+        actual = icon_atom(route)
+        assert actual == expected
       end
     end
   end
@@ -66,20 +64,24 @@ defmodule Routes.RouteTest do
       assert types_for_mode(:commuter_rail) == [2]
       assert types_for_mode(:bus) == [3]
       assert types_for_mode(:ferry) == [4]
-      for light_rail <- [:green_line, :mattapan_line], do: assert types_for_mode(light_rail) == [0]
-      for heavy_rail <- [:red_line, :orange_line, :blue_line], do: assert types_for_mode(heavy_rail) == [1]
+
+      for light_rail <- [:green_line, :mattapan_line],
+          do: assert(types_for_mode(light_rail) == [0])
+
+      for heavy_rail <- [:red_line, :orange_line, :blue_line],
+          do: assert(types_for_mode(heavy_rail) == [1])
     end
   end
 
   describe "type_name/1" do
     test "titleizes the name" do
       for {atom, str} <- [
-        subway: "Subway",
-        bus: "Bus",
-        ferry: "Ferry",
-        commuter_rail: "Commuter Rail",
-        the_ride: "The RIDE"
-      ] do
+            subway: "Subway",
+            bus: "Bus",
+            ferry: "Ferry",
+            commuter_rail: "Commuter Rail",
+            the_ride: "The RIDE"
+          ] do
         assert type_name(atom) == str
       end
     end
@@ -92,14 +94,21 @@ defmodule Routes.RouteTest do
     end
 
     test "returns type name for all other route types" do
-      assert type_summary(:green_line, [%Route{id: "Green-C", name: "Green Line C", type: 0},
-                                        %Route{id: "Green-C", name: "Green Line C", type: 0}]) == "Green Line"
-      assert type_summary(:mattapan_trolley, [%Route{id: "Mattapan", name: "Mattapan", type: 0}]) == "Mattapan Trolley"
+      assert type_summary(:green_line, [
+               %Route{id: "Green-C", name: "Green Line C", type: 0},
+               %Route{id: "Green-C", name: "Green Line C", type: 0}
+             ]) == "Green Line"
+
+      assert type_summary(:mattapan_trolley, [%Route{id: "Mattapan", name: "Mattapan", type: 0}]) ==
+               "Mattapan Trolley"
+
       assert type_summary(:red_line, [%Route{id: "Red", name: "Red Line", type: 1}]) == "Red Line"
-      assert type_summary(:commuter_rail, [%Route{id: "CR-Fitchburg", name: "Fitchburg", type: 2}]) == "Commuter Rail"
+
+      assert type_summary(:commuter_rail, [%Route{id: "CR-Fitchburg", name: "Fitchburg", type: 2}]) ==
+               "Commuter Rail"
+
       assert type_summary(:ferry, [%Route{id: "Boat-F1", name: "Hull Ferry", type: 4}]) == "Ferry"
     end
-
   end
 
   describe "direction_name/2" do
@@ -113,12 +122,12 @@ defmodule Routes.RouteTest do
   describe "vehicle_name/1" do
     test "returns the appropriate type of vehicle" do
       for {type, name} <- [
-        {0, "Train"},
-        {1, "Train"},
-        {2, "Train"},
-        {3, "Bus"},
-        {4, "Ferry"},
-      ] do
+            {0, "Train"},
+            {1, "Train"},
+            {2, "Train"},
+            {3, "Bus"},
+            {4, "Ferry"}
+          ] do
         assert vehicle_name(%Route{type: type}) == name
       end
     end
@@ -134,7 +143,7 @@ defmodule Routes.RouteTest do
   describe "express routes" do
     defp sample(routes) do
       routes
-      |> Enum.shuffle
+      |> Enum.shuffle()
       |> Enum.at(0)
       |> (fn id -> %Route{id: id} end).()
     end
@@ -161,7 +170,8 @@ defmodule Routes.RouteTest do
 
   describe "silver line airport origin routes" do
     test "inbound routes originating at airport are properly identified" do
-      airport_stops =  ["17091", "27092", "17093", "17094", "17095"]
+      airport_stops = ["17091", "27092", "17093", "17094", "17095"]
+
       for origin_id <- airport_stops do
         assert silver_line_airport_stop?(%Route{id: "741"}, origin_id)
       end
@@ -174,11 +184,12 @@ defmodule Routes.RouteTest do
     test "turns a green line branch into a generic green line route" do
       for branch <- ["B", "C", "D", "E"] do
         assert Route.to_naive(%Routes.Route{
-          id: "Green-" <> branch,
-          name: "Green Line " <> branch
-        }) == %Routes.Route{id: "Green", name: "Green Line", long_name: "Green Line"}
+                 id: "Green-" <> branch,
+                 name: "Green Line " <> branch
+               }) == %Routes.Route{id: "Green", name: "Green Line", long_name: "Green Line"}
       end
     end
+
     test "does nothing for other routes" do
       route = %Routes.Route{id: "Red", type: 1}
       assert Route.to_naive(route) == route
@@ -192,6 +203,7 @@ defmodule Routes.RouteTest do
       green_c = %Route{id: "Green-C"}
       green_d = %Route{id: "Green-D"}
       to_param = &Phoenix.Param.Routes.Route.to_param/1
+
       for route <- [green_e, green_b, green_c, green_d] do
         assert to_param.(route) == "Green"
       end

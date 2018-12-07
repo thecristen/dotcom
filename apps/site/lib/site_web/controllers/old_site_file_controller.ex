@@ -26,6 +26,7 @@ defmodule SiteWeb.OldSiteFileController do
     new_url = s3_file_url(file_name)
     respond(conn, new_url)
   end
+
   def uploaded_files(conn, _params) do
     new_url = old_site_file_url(conn.request_path)
     respond(conn, new_url)
@@ -40,6 +41,7 @@ defmodule SiteWeb.OldSiteFileController do
   @doc "Behavior for prod: redirects through the CDN"
   def redirect_through_cdn(conn, {_host, path}) do
     url = static_url(SiteWeb.Endpoint, path)
+
     conn
     |> put_status(301)
     |> redirect(external: url)

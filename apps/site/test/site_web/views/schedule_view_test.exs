@@ -11,7 +11,12 @@ defmodule SiteWeb.ScheduleViewTest do
   @trip %Schedules.Trip{name: "101", headsign: "Headsign", direction_id: 0, id: "1"}
   @stop %Stops.Stop{id: "stop-id", name: "Stop Name"}
   @route %Routes.Route{type: 3, id: "1"}
-  @prediction %Predictions.Prediction{departing?: true, direction_id: 0, status: "On Time", trip: @trip}
+  @prediction %Predictions.Prediction{
+    departing?: true,
+    direction_id: 0,
+    status: "On Time",
+    trip: @trip
+  }
   @schedule %Schedules.Schedule{
     route: @route,
     trip: @trip,
@@ -23,7 +28,7 @@ defmodule SiteWeb.ScheduleViewTest do
     route: @route,
     vehicle: @vehicle,
     vehicle_stop_name: @stop.name,
-    times: [@predicted_schedule],
+    times: [@predicted_schedule]
   }
   @vehicle_tooltip %VehicleTooltip{
     prediction: @prediction,
@@ -41,29 +46,42 @@ defmodule SiteWeb.ScheduleViewTest do
     test "given a non-empty list of predicted_schedules, displays the direction of the first one's route" do
       route = %Routes.Route{direction_names: %{1 => "North"}}
       trip = %Trip{direction_id: 1}
-      journeys = JourneyList.build(
-        [%Schedules.Schedule{route: route, trip: trip, stop: %Stop{id: "stop"}}],
-        [],
-        :last_trip_and_upcoming,
-        true,
-        origin_id: "stop",
-        current_time: ~N[2017-01-01T06:30:00]
-      )
-      assert journeys |> display_direction |> IO.iodata_to_binary == "North to"
+
+      journeys =
+        JourneyList.build(
+          [%Schedules.Schedule{route: route, trip: trip, stop: %Stop{id: "stop"}}],
+          [],
+          :last_trip_and_upcoming,
+          true,
+          origin_id: "stop",
+          current_time: ~N[2017-01-01T06:30:00]
+        )
+
+      assert journeys |> display_direction |> IO.iodata_to_binary() == "North to"
     end
 
     test "uses predictions if no schedule are available (as on subways)" do
       route = %Routes.Route{direction_names: %{1 => "North"}, id: "1"}
       stop = %Stop{id: "stop"}
-      now = Timex.now
-      journeys = JourneyList.build_predictions_only(
-        [],
-        [%Predictions.Prediction{route: route, stop: stop, trip: nil, direction_id: 1,
-                                                                      time: Timex.shift(now, hours: -1)}],
-        stop.id,
-        nil
-      )
-      assert journeys |> display_direction |> IO.iodata_to_binary == "North to"
+      now = Timex.now()
+
+      journeys =
+        JourneyList.build_predictions_only(
+          [],
+          [
+            %Predictions.Prediction{
+              route: route,
+              stop: stop,
+              trip: nil,
+              direction_id: 1,
+              time: Timex.shift(now, hours: -1)
+            }
+          ],
+          stop.id,
+          nil
+        )
+
+      assert journeys |> display_direction |> IO.iodata_to_binary() == "North to"
     end
   end
 
@@ -88,7 +106,14 @@ defmodule SiteWeb.ScheduleViewTest do
   describe "reverse_direction_opts/4" do
     test "reverses direction when the stop exists in the other direction" do
       expected = [trip: nil, direction_id: "1", destination: "place-harsq", origin: "place-davis"]
-      actual = reverse_direction_opts(%Stops.Stop{id: "place-harsq"}, %Stops.Stop{id: "place-davis"}, "1")
+
+      actual =
+        reverse_direction_opts(
+          %Stops.Stop{id: "place-harsq"},
+          %Stops.Stop{id: "place-davis"},
+          "1"
+        )
+
       assert Enum.sort(expected) == Enum.sort(actual)
     end
 
@@ -107,23 +132,25 @@ defmodule SiteWeb.ScheduleViewTest do
 
   describe "_trip_view.html" do
     test "renders a message if no scheduled trips", %{conn: conn} do
-      conn = conn
-      |> assign(:all_stops, [])
-      |> assign(:alerts, [])
-      |> assign(:upcoming_alerts, [])
-      |> assign(:date, ~D[2017-01-01])
-      |> assign(:date_in_rating?, true)
-      |> assign(:destination, nil)
-      |> assign(:origin, nil)
-      |> assign(:route, %Routes.Route{})
-      |> assign(:direction_id, 1)
-      |> assign(:show_date_select?, false)
-      |> assign(:headsigns, %{0 => [], 1 => []})
-      |> fetch_query_params
+      conn =
+        conn
+        |> assign(:all_stops, [])
+        |> assign(:alerts, [])
+        |> assign(:upcoming_alerts, [])
+        |> assign(:date, ~D[2017-01-01])
+        |> assign(:date_in_rating?, true)
+        |> assign(:destination, nil)
+        |> assign(:origin, nil)
+        |> assign(:route, %Routes.Route{})
+        |> assign(:direction_id, 1)
+        |> assign(:show_date_select?, false)
+        |> assign(:headsigns, %{0 => [], 1 => []})
+        |> fetch_query_params
 
-      output = "_trip_view.html"
-               |> SiteWeb.ScheduleView.render(conn.assigns |> Keyword.new() |> Keyword.merge(conn: conn))
-               |> safe_to_string
+      output =
+        "_trip_view.html"
+        |> SiteWeb.ScheduleView.render(conn.assigns |> Keyword.new() |> Keyword.merge(conn: conn))
+        |> safe_to_string
 
       assert output =~ "There are no scheduled inbound trips on January 1, 2017."
     end
@@ -131,16 +158,23 @@ defmodule SiteWeb.ScheduleViewTest do
 
   describe "_frequency.html" do
     test "renders a no service message if the block doesn't have service" do
-      frequency_table = %Schedules.FrequencyList{frequencies: [%Schedules.Frequency{time_block: :am_rush}]}
-      schedules = [%Schedules.Schedule{time: Util.now}]
-      date = Util.service_date
-      safe_output = SiteWeb.ScheduleView.render(
-        "_frequency.html",
-        frequency_table: frequency_table,
-        schedules: schedules,
-        date: date,
-        origin: %{name: "Name"},
-        route: %Routes.Route{id: "1", type: 3, name: "1"})
+      frequency_table = %Schedules.FrequencyList{
+        frequencies: [%Schedules.Frequency{time_block: :am_rush}]
+      }
+
+      schedules = [%Schedules.Schedule{time: Util.now()}]
+      date = Util.service_date()
+
+      safe_output =
+        SiteWeb.ScheduleView.render(
+          "_frequency.html",
+          frequency_table: frequency_table,
+          schedules: schedules,
+          date: date,
+          origin: %{name: "Name"},
+          route: %Routes.Route{id: "1", type: 3, name: "1"}
+        )
+
       output = safe_to_string(safe_output)
       assert output =~ "No service between these hours"
     end
@@ -148,15 +182,19 @@ defmodule SiteWeb.ScheduleViewTest do
     test "renders a headway if the block has service" do
       frequency = %Schedules.Frequency{time_block: :am_rush, min_headway: 5, max_headway: 10}
       frequency_table = %Schedules.FrequencyList{frequencies: [frequency]}
-      schedules = [%Schedules.Schedule{time: Util.now}]
-      date = Util.service_date
-      safe_output = SiteWeb.ScheduleView.render(
-        "_frequency.html",
-        frequency_table: frequency_table,
-        schedules: schedules,
-        date: date,
-        origin: %{name: "Name"},
-        route: %Routes.Route{id: "1", type: 3, name: "1"})
+      schedules = [%Schedules.Schedule{time: Util.now()}]
+      date = Util.service_date()
+
+      safe_output =
+        SiteWeb.ScheduleView.render(
+          "_frequency.html",
+          frequency_table: frequency_table,
+          schedules: schedules,
+          date: date,
+          origin: %{name: "Name"},
+          route: %Routes.Route{id: "1", type: 3, name: "1"}
+        )
+
       output = safe_to_string(safe_output)
       assert output =~ "5-10"
     end
@@ -165,64 +203,76 @@ defmodule SiteWeb.ScheduleViewTest do
   describe "_trip_info.html" do
     test "show duration when it is set", %{conn: conn} do
       route = %Routes.Route{type: 2}
+
       trip_info = %TripInfo{
         route: route,
         vehicle: %Vehicles.Vehicle{status: :incoming},
         vehicle_stop_name: "Readville",
         duration: 30
       }
-      actual = SiteWeb.ScheduleView.render(
-        "_trip_info.html",
-        trip_info: trip_info,
-        origin: nil,
-        destination: nil,
-        direction_id: 0,
-        conn: conn,
-        route: route,
-        expanded: nil
-      )
+
+      actual =
+        SiteWeb.ScheduleView.render(
+          "_trip_info.html",
+          trip_info: trip_info,
+          origin: nil,
+          destination: nil,
+          direction_id: 0,
+          conn: conn,
+          route: route,
+          expanded: nil
+        )
+
       assert safe_to_string(actual) =~ "30 minutes"
     end
 
     test "hide duration when it is set to nil", %{conn: conn} do
       route = %Routes.Route{type: 2}
+
       trip_info = %TripInfo{
         route: route,
         vehicle: %Vehicles.Vehicle{status: :incoming},
         vehicle_stop_name: "Readville",
         duration: nil
       }
-      actual = SiteWeb.ScheduleView.render(
-        "_trip_info.html",
-        trip_info: trip_info,
-        origin: nil,
-        destination: nil,
-        direction_id: 0,
-        conn: conn,
-        route: route,
-        expanded: nil
-      )
+
+      actual =
+        SiteWeb.ScheduleView.render(
+          "_trip_info.html",
+          trip_info: trip_info,
+          origin: nil,
+          destination: nil,
+          direction_id: 0,
+          conn: conn,
+          route: route,
+          expanded: nil
+        )
+
       refute safe_to_string(actual) =~ "minutes"
     end
 
     test "make sure page reflects information from full_status function", %{conn: conn} do
       route = %Routes.Route{type: 2}
+
       trip_info = %TripInfo{
         route: route,
         vehicle: %Vehicles.Vehicle{status: :incoming},
         vehicle_stop_name: "Readville"
       }
-      actual = SiteWeb.ScheduleView.render(
-        "_trip_info.html",
-        trip_info: trip_info,
-        origin: nil,
-        destination: nil,
-        direction_id: 0,
-        conn: conn,
-        route: route,
-        expanded: nil
-      )
-      expected = trip_info |> TripInfo.full_status() |> IO.iodata_to_binary
+
+      actual =
+        SiteWeb.ScheduleView.render(
+          "_trip_info.html",
+          trip_info: trip_info,
+          origin: nil,
+          destination: nil,
+          direction_id: 0,
+          conn: conn,
+          route: route,
+          expanded: nil
+        )
+
+      expected = trip_info |> TripInfo.full_status() |> IO.iodata_to_binary()
       assert safe_to_string(actual) =~ expected
     end
 
@@ -232,17 +282,20 @@ defmodule SiteWeb.ScheduleViewTest do
       route = %Routes.Route{type: 2}
       trip_info = %TripInfo{route: route, base_fare: %Fares.Fare{}}
 
-      actual = SiteWeb.ScheduleView.render(
-        "_trip_info.html",
-        trip_info: trip_info,
-        origin: origin,
-        destination: destination,
-        direction_id: 0,
-        route: route,
-        conn: conn,
-        expanded: nil
-      )
-      assert safe_to_string(actual) =~ "/fares/commuter_rail?destination=Fitchburg&amp;origin=place-north"
+      actual =
+        SiteWeb.ScheduleView.render(
+          "_trip_info.html",
+          trip_info: trip_info,
+          origin: origin,
+          destination: destination,
+          direction_id: 0,
+          route: route,
+          conn: conn,
+          expanded: nil
+        )
+
+      assert safe_to_string(actual) =~
+               "/fares/commuter_rail?destination=Fitchburg&amp;origin=place-north"
     end
 
     test "the fare description is Round trip fare if it's a round-trip fare", %{conn: conn} do
@@ -251,16 +304,18 @@ defmodule SiteWeb.ScheduleViewTest do
       route = %Routes.Route{type: 2}
       trip_info = %TripInfo{route: route, base_fare: %Fares.Fare{duration: :round_trip}}
 
-      actual = SiteWeb.ScheduleView.render(
-        "_trip_info.html",
-        trip_info: trip_info,
-        origin: origin,
-        destination: destination,
-        direction_id: 0,
-        route: route,
-        conn: conn,
-        expanded: nil
-      )
+      actual =
+        SiteWeb.ScheduleView.render(
+          "_trip_info.html",
+          trip_info: trip_info,
+          origin: origin,
+          destination: destination,
+          direction_id: 0,
+          route: route,
+          conn: conn,
+          expanded: nil
+        )
+
       assert safe_to_string(actual) =~ "Round trip fare:"
     end
 
@@ -270,16 +325,18 @@ defmodule SiteWeb.ScheduleViewTest do
       route = %Routes.Route{type: 2}
       trip_info = %TripInfo{route: route, base_fare: nil}
 
-      actual = SiteWeb.ScheduleView.render(
-        "_trip_info.html",
-        trip_info: trip_info,
-        origin: origin,
-        destination: destination,
-        direction_id: 0,
-        route: route,
-        conn: conn,
-        expanded: nil
-      )
+      actual =
+        SiteWeb.ScheduleView.render(
+          "_trip_info.html",
+          trip_info: trip_info,
+          origin: origin,
+          destination: destination,
+          direction_id: 0,
+          route: route,
+          conn: conn,
+          expanded: nil
+        )
+
       rendered = safe_to_string(actual)
       refute rendered =~ "fare"
     end
@@ -290,16 +347,18 @@ defmodule SiteWeb.ScheduleViewTest do
       route = %Routes.Route{type: 2, name: "Franklin Line"}
       trip_info = %TripInfo{route: route, base_fare: nil}
 
-      actual = SiteWeb.ScheduleView.render(
-        "_trip_info.html",
-        trip_info: trip_info,
-        origin: origin,
-        destination: destination,
-        direction_id: 0,
-        route: route,
-        conn: conn,
-        expanded: "Franklin Line"
-      )
+      actual =
+        SiteWeb.ScheduleView.render(
+          "_trip_info.html",
+          trip_info: trip_info,
+          origin: origin,
+          destination: destination,
+          direction_id: 0,
+          route: route,
+          conn: conn,
+          expanded: "Franklin Line"
+        )
+
       rendered = safe_to_string(actual)
       trip_info = Floki.find(rendered, "#trip-info-stops")
 
@@ -314,19 +373,26 @@ defmodule SiteWeb.ScheduleViewTest do
       conn: %Plug.Conn{},
       vehicle_tooltips: %{{@trip.id, @stop.id} => @vehicle_tooltip},
       trip_info: @trip_info,
-      all_alerts: [Alerts.Alert.new(informed_entity: [%Alerts.InformedEntity{
-        route: @route.id,
-        direction_id: 0,
-        stop: @stop.id
-      }])]
+      all_alerts: [
+        Alerts.Alert.new(
+          informed_entity: [
+            %Alerts.InformedEntity{
+              route: @route.id,
+              direction_id: 0,
+              stop: @stop.id
+            }
+          ]
+        )
+      ]
     }
 
     test "real time icon shown when prediction is available" do
       output =
         [@predicted_schedule]
         |> SiteWeb.ScheduleView.render_trip_info_stops(@assigns)
-        |> List.first
+        |> List.first()
         |> safe_to_string
+
       assert output =~ "icon-realtime"
     end
 
@@ -335,7 +401,7 @@ defmodule SiteWeb.ScheduleViewTest do
         [@predicted_schedule]
         |> SiteWeb.ScheduleView.render_trip_info_stops(@assigns)
         |> Enum.map(&safe_to_string/1)
-        |> IO.iodata_to_binary
+        |> IO.iodata_to_binary()
 
       assert output =~ "icon-alert"
     end
@@ -345,7 +411,8 @@ defmodule SiteWeb.ScheduleViewTest do
         [@predicted_schedule]
         |> SiteWeb.ScheduleView.render_trip_info_stops(@assigns)
         |> Enum.map(&safe_to_string/1)
-        |> IO.iodata_to_binary
+        |> IO.iodata_to_binary()
+
       assert [alert] = output |> Floki.find(".icon-alert")
       assert Floki.attribute(alert, "data-toggle") == ["tooltip"]
       assert Floki.attribute(alert, "title") == ["Service alert or delay"]
@@ -356,7 +423,7 @@ defmodule SiteWeb.ScheduleViewTest do
         [@predicted_schedule]
         |> SiteWeb.ScheduleView.render_trip_info_stops(@assigns)
         |> Enum.map(&safe_to_string/1)
-        |> IO.iodata_to_binary
+        |> IO.iodata_to_binary()
 
       assert [_vehicle] = output |> Floki.find(".vehicle-bubble")
     end
@@ -366,7 +433,7 @@ defmodule SiteWeb.ScheduleViewTest do
         [@predicted_schedule]
         |> SiteWeb.ScheduleView.render_trip_info_stops(@assigns)
         |> Enum.map(&safe_to_string/1)
-        |> IO.iodata_to_binary
+        |> IO.iodata_to_binary()
 
       assert Enum.empty?(Floki.find(html, ".route-branch-stop-bubble.stop.dotted"))
     end
@@ -376,7 +443,7 @@ defmodule SiteWeb.ScheduleViewTest do
         [@predicted_schedule]
         |> SiteWeb.ScheduleView.render_trip_info_stops(@assigns)
         |> Enum.map(&safe_to_string/1)
-        |> IO.iodata_to_binary
+        |> IO.iodata_to_binary()
 
       assert Enum.count(Floki.find(html, ".route-branch-stop-bubble.stop.dotted")) == 0
     end
@@ -386,215 +453,295 @@ defmodule SiteWeb.ScheduleViewTest do
     @shape %Routes.Shape{id: "test", name: "test", stop_ids: [], direction_id: 0}
     @hours_of_operation %{
       saturday: %{
-        0 => %Schedules.Departures{first_departure: ~D[2017-01-01], last_departure: ~D[2017-01-01]},
-        1 => %Schedules.Departures{first_departure: ~D[2017-01-01], last_departure: ~D[2017-01-01]}
+        0 => %Schedules.Departures{
+          first_departure: ~D[2017-01-01],
+          last_departure: ~D[2017-01-01]
+        },
+        1 => %Schedules.Departures{
+          first_departure: ~D[2017-01-01],
+          last_departure: ~D[2017-01-01]
+        }
       },
       sunday: %{
-        0 => %Schedules.Departures{first_departure: ~D[2017-01-01], last_departure: ~D[2017-01-01]},
-        1 => %Schedules.Departures{first_departure: ~D[2017-01-01], last_departure: ~D[2017-01-01]}
+        0 => %Schedules.Departures{
+          first_departure: ~D[2017-01-01],
+          last_departure: ~D[2017-01-01]
+        },
+        1 => %Schedules.Departures{
+          first_departure: ~D[2017-01-01],
+          last_departure: ~D[2017-01-01]
+        }
       },
       week: %{
-        0 => %Schedules.Departures{first_departure: ~D[2017-01-01], last_departure: ~D[2017-01-01]},
-        1 => %Schedules.Departures{first_departure: ~D[2017-01-01], last_departure: ~D[2017-01-01]}
+        0 => %Schedules.Departures{
+          first_departure: ~D[2017-01-01],
+          last_departure: ~D[2017-01-01]
+        },
+        1 => %Schedules.Departures{
+          first_departure: ~D[2017-01-01],
+          last_departure: ~D[2017-01-01]
+        }
       }
     }
 
     test "Bus line with variant filter", %{conn: conn} do
-      route_stop_1 = %RouteStop{id: "stop 1", name: "Stop 1", zone: "1", stop_features: [], connections: []}
-      route_stop_2 = %RouteStop{id: "stop 2", name: "Stop 2", zone: "2", stop_features: [], connections: []}
-      output = SiteWeb.ScheduleView.render(
-              "_line.html",
-              conn: Plug.Conn.fetch_query_params(conn),
-              stop_list_template: "_stop_list.html",
-              all_stops: [{[{nil, :terminus}], route_stop_1},
-                          {[{nil, :terminus}], route_stop_2}],
-              route_shapes: [@shape, @shape],
-              active_shape: @shape,
-              alerts: [],
-              connections: [],
-              channel: "vehicles:1:1",
-              upcoming_alerts: [],
-              expanded: nil,
-              show_variant_selector: true,
-              map_img_src: nil,
-              hours_of_operation: @hours_of_operation,
-              holidays: [],
-              branches: [%Stops.RouteStops{branch: nil, stops: [route_stop_1,
-                                                                route_stop_2]}],
-              origin: nil,
-              destination: nil,
-              direction_id: 1,
-              route: %Routes.Route{type: 3},
-              date: ~D[2017-01-01],
-              direction_id: 1,
-              reverse_direction_all_stops: [],
-              show_date_select?: false,
-              headsigns: %{0 => [], 1 => []},
-              vehicle_tooltips: %{},
-              featured_content: nil,
-              news: [],
-              dynamic_map_data: %{})
+      route_stop_1 = %RouteStop{
+        id: "stop 1",
+        name: "Stop 1",
+        zone: "1",
+        stop_features: [],
+        connections: []
+      }
+
+      route_stop_2 = %RouteStop{
+        id: "stop 2",
+        name: "Stop 2",
+        zone: "2",
+        stop_features: [],
+        connections: []
+      }
+
+      output =
+        SiteWeb.ScheduleView.render(
+          "_line.html",
+          conn: Plug.Conn.fetch_query_params(conn),
+          stop_list_template: "_stop_list.html",
+          all_stops: [{[{nil, :terminus}], route_stop_1}, {[{nil, :terminus}], route_stop_2}],
+          route_shapes: [@shape, @shape],
+          active_shape: @shape,
+          alerts: [],
+          connections: [],
+          channel: "vehicles:1:1",
+          upcoming_alerts: [],
+          expanded: nil,
+          show_variant_selector: true,
+          map_img_src: nil,
+          hours_of_operation: @hours_of_operation,
+          holidays: [],
+          branches: [%Stops.RouteStops{branch: nil, stops: [route_stop_1, route_stop_2]}],
+          origin: nil,
+          destination: nil,
+          direction_id: 1,
+          route: %Routes.Route{type: 3},
+          date: ~D[2017-01-01],
+          direction_id: 1,
+          reverse_direction_all_stops: [],
+          show_date_select?: false,
+          headsigns: %{0 => [], 1 => []},
+          vehicle_tooltips: %{},
+          featured_content: nil,
+          news: [],
+          dynamic_map_data: %{}
+        )
 
       assert safe_to_string(output) =~ "shape-filter"
     end
 
     test "Bus line without variant filter", %{conn: conn} do
-      route_stop_1 = %RouteStop{id: "stop 1", name: "Stop 1", zone: "1", stop_features: [], connections: []}
-      route_stop_2 = %RouteStop{id: "stop 2", name: "Stop 2", zone: "2", stop_features: [], connections: []}
-      output = SiteWeb.ScheduleView.render(
-              "_line.html",
-              conn: Plug.Conn.fetch_query_params(conn),
-              stop_list_template: "_stop_list.html",
-              all_stops: [{[{nil, :terminus}], route_stop_1},
-                          {[{nil, :terminus}], route_stop_2}],
-              route_shapes: [@shape],
-              alerts: [],
-              connections: [],
-              channel: "vehicles:1:1",
-              upcoming_alerts: [],
-              expanded: nil,
-              active_shape: nil,
-              map_img_src: nil,
-              hours_of_operation: @hours_of_operation,
-              holidays: [],
-              branches: [%Stops.RouteStops{
-                          branch: nil,
-                          stops: [route_stop_1,
-                                  route_stop_2]}],
-              route: %Routes.Route{type: 3},
-              date: ~D[2017-01-01],
-              destination: nil,
-              origin: nil,
-              direction_id: 1,
-              reverse_direction_all_stops: [],
-              show_date_select?: false,
-              headsigns: %{0 => [], 1 => []},
-              vehicle_tooltips: %{},
-              featured_content: nil,
-              news: [],
-              dynamic_map_data: %{})
+      route_stop_1 = %RouteStop{
+        id: "stop 1",
+        name: "Stop 1",
+        zone: "1",
+        stop_features: [],
+        connections: []
+      }
+
+      route_stop_2 = %RouteStop{
+        id: "stop 2",
+        name: "Stop 2",
+        zone: "2",
+        stop_features: [],
+        connections: []
+      }
+
+      output =
+        SiteWeb.ScheduleView.render(
+          "_line.html",
+          conn: Plug.Conn.fetch_query_params(conn),
+          stop_list_template: "_stop_list.html",
+          all_stops: [{[{nil, :terminus}], route_stop_1}, {[{nil, :terminus}], route_stop_2}],
+          route_shapes: [@shape],
+          alerts: [],
+          connections: [],
+          channel: "vehicles:1:1",
+          upcoming_alerts: [],
+          expanded: nil,
+          active_shape: nil,
+          map_img_src: nil,
+          hours_of_operation: @hours_of_operation,
+          holidays: [],
+          branches: [%Stops.RouteStops{branch: nil, stops: [route_stop_1, route_stop_2]}],
+          route: %Routes.Route{type: 3},
+          date: ~D[2017-01-01],
+          destination: nil,
+          origin: nil,
+          direction_id: 1,
+          reverse_direction_all_stops: [],
+          show_date_select?: false,
+          headsigns: %{0 => [], 1 => []},
+          vehicle_tooltips: %{},
+          featured_content: nil,
+          news: [],
+          dynamic_map_data: %{}
+        )
+
       refute safe_to_string(output) =~ "shape-filter"
     end
 
     test "does not crash if hours of operation isn't set", %{conn: conn} do
-      output = SiteWeb.ScheduleView.render(
-              "_line.html",
-              conn: Plug.Conn.fetch_query_params(conn),
-              stop_list_template: "_stop_list.html",
-              all_stops: [],
-              alerts: [],
-              connections: [],
-              channel: "vehicles:1:1",
-              upcoming_alerts: [],
-              route_shapes: [],
-              expanded: nil,
-              active_shape: nil,
-              map_img_src: nil,
-              holidays: [],
-              branches: [],
-              route: %Routes.Route{type: 3},
-              date: ~D[2017-01-01],
-              destination: nil,
-              origin: nil,
-              direction_id: 1,
-              reverse_direction_all_stops: [],
-              show_date_select?: false,
-              headsigns: %{0 => [], 1 => []},
-              vehicle_tooltips: %{},
-              featured_content: nil,
-              news: [],
-              dynamic_map_data: %{})
+      output =
+        SiteWeb.ScheduleView.render(
+          "_line.html",
+          conn: Plug.Conn.fetch_query_params(conn),
+          stop_list_template: "_stop_list.html",
+          all_stops: [],
+          alerts: [],
+          connections: [],
+          channel: "vehicles:1:1",
+          upcoming_alerts: [],
+          route_shapes: [],
+          expanded: nil,
+          active_shape: nil,
+          map_img_src: nil,
+          holidays: [],
+          branches: [],
+          route: %Routes.Route{type: 3},
+          date: ~D[2017-01-01],
+          destination: nil,
+          origin: nil,
+          direction_id: 1,
+          reverse_direction_all_stops: [],
+          show_date_select?: false,
+          headsigns: %{0 => [], 1 => []},
+          vehicle_tooltips: %{},
+          featured_content: nil,
+          news: [],
+          dynamic_map_data: %{}
+        )
+
       refute safe_to_string(output) =~ "Hours of Operation"
     end
 
     test "Displays error message when there are no trips in selected direction", %{conn: conn} do
-      output = SiteWeb.ScheduleView.render(
-              "_line.html",
-              conn: Plug.Conn.fetch_query_params(conn),
-              stop_list_template: "_stop_list.html",
-              all_stops: [],
-              alerts: [],
-              connections: [],
-              channel: "vehicles:1:1",
-              upcoming_alerts: [],
-              route_shapes: [],
-              expanded: nil,
-              active_shape: nil,
-              map_img_src: nil,
-              holidays: [],
-              branches: [],
-              route: %Routes.Route{type: 3},
-              date: ~D[2017-01-01],
-              destination: nil,
-              origin: nil,
-              direction_id: 1,
-              reverse_direction_all_stops: [],
-              show_date_select?: false,
-              headsigns: %{0 => [], 1 => []},
-              vehicle_tooltips: %{},
-              featured_content: nil,
-              news: [],
-              dynamic_map_data: %{})
+      output =
+        SiteWeb.ScheduleView.render(
+          "_line.html",
+          conn: Plug.Conn.fetch_query_params(conn),
+          stop_list_template: "_stop_list.html",
+          all_stops: [],
+          alerts: [],
+          connections: [],
+          channel: "vehicles:1:1",
+          upcoming_alerts: [],
+          route_shapes: [],
+          expanded: nil,
+          active_shape: nil,
+          map_img_src: nil,
+          holidays: [],
+          branches: [],
+          route: %Routes.Route{type: 3},
+          date: ~D[2017-01-01],
+          destination: nil,
+          origin: nil,
+          direction_id: 1,
+          reverse_direction_all_stops: [],
+          show_date_select?: false,
+          headsigns: %{0 => [], 1 => []},
+          vehicle_tooltips: %{},
+          featured_content: nil,
+          news: [],
+          dynamic_map_data: %{}
+        )
+
       assert safe_to_string(output) =~ "There are no scheduled"
     end
 
     test "Doesn't link to last stop if it's excluded", %{conn: conn} do
       route = %Routes.Route{id: "route", type: 3}
-      route_stop = %RouteStop{id: "last", name: "last", zone: "1",
-                              route: route, connections: [],
-                              stop_features: [], is_terminus?: true, is_beginning?: false}
-      output = SiteWeb.ScheduleView.render(
-              "_line.html",
-              conn: Plug.Conn.fetch_query_params(conn),
-              stop_list_template: "_stop_list.html",
-              all_stops: [{[{nil, :terminus}], route_stop}],
-              alerts: [],
-              connections: [],
-              channel: "vehicles:1:1",
-              upcoming_alerts: [],
-              route_shapes: [@shape],
-              expanded: nil,
-              active_shape: nil,
-              map_img_src: nil,
-              hours_of_operation: @hours_of_operation,
-              holidays: [],
-              branches: [%Stops.RouteStops{
-                          branch: nil,
-                          stops: [route_stop]}],
-              route: route,
-              date: ~D[2017-01-01],
-              destination: nil,
-              origin: nil,
-              direction_id: 1,
-              reverse_direction_all_stops: [%Stops.Stop{id: "last"}],
-              show_date_select?: false,
-              headsigns: %{0 => [], 1 => []},
-              vehicle_tooltips: %{},
-              featured_content: nil,
-              news: [],
-              dynamic_map_data: %{})
-      refute safe_to_string(output) =~ trip_view_path(SiteWeb.Endpoint, :show, "route", origin: "last", direction_id: 0)
+
+      route_stop = %RouteStop{
+        id: "last",
+        name: "last",
+        zone: "1",
+        route: route,
+        connections: [],
+        stop_features: [],
+        is_terminus?: true,
+        is_beginning?: false
+      }
+
+      output =
+        SiteWeb.ScheduleView.render(
+          "_line.html",
+          conn: Plug.Conn.fetch_query_params(conn),
+          stop_list_template: "_stop_list.html",
+          all_stops: [{[{nil, :terminus}], route_stop}],
+          alerts: [],
+          connections: [],
+          channel: "vehicles:1:1",
+          upcoming_alerts: [],
+          route_shapes: [@shape],
+          expanded: nil,
+          active_shape: nil,
+          map_img_src: nil,
+          hours_of_operation: @hours_of_operation,
+          holidays: [],
+          branches: [%Stops.RouteStops{branch: nil, stops: [route_stop]}],
+          route: route,
+          date: ~D[2017-01-01],
+          destination: nil,
+          origin: nil,
+          direction_id: 1,
+          reverse_direction_all_stops: [%Stops.Stop{id: "last"}],
+          show_date_select?: false,
+          headsigns: %{0 => [], 1 => []},
+          vehicle_tooltips: %{},
+          featured_content: nil,
+          news: [],
+          dynamic_map_data: %{}
+        )
+
+      refute safe_to_string(output) =~
+               trip_view_path(SiteWeb.Endpoint, :show, "route", origin: "last", direction_id: 0)
     end
   end
 
   describe "no_trips_message/5" do
     test "when a no service error is provided" do
-      error = %JsonApi.Error{code: "no_service", meta: %{"version" => "Spring 2017 version 3D", "end_date" => "2018-05-31"}}
+      error = %JsonApi.Error{
+        code: "no_service",
+        meta: %{"version" => "Spring 2017 version 3D", "end_date" => "2018-05-31"}
+      }
+
       result =
         error
         |> no_trips_message(nil, nil, nil, ~D[2017-01-01])
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary()
-      assert result =~ "We can only provide trip data for the Spring schedule, valid until May 31, 2018"
+
+      assert result =~
+               "We can only provide trip data for the Spring schedule, valid until May 31, 2018"
     end
+
     test "when a starting and ending stop are provided" do
-      result = no_trips_message(nil, %Stops.Stop{name: "The Start"}, %Stops.Stop{name: "The End"}, nil, ~D[2017-03-05])
-      assert IO.iodata_to_binary(result) == "There are no scheduled trips between The Start and The End on March 5, 2017."
+      result =
+        no_trips_message(
+          nil,
+          %Stops.Stop{name: "The Start"},
+          %Stops.Stop{name: "The End"},
+          nil,
+          ~D[2017-03-05]
+        )
+
+      assert IO.iodata_to_binary(result) ==
+               "There are no scheduled trips between The Start and The End on March 5, 2017."
     end
 
     test "when a direction is provided" do
       result = no_trips_message(nil, nil, nil, "Inbound", ~D[2017-03-05])
-      assert IO.iodata_to_binary(result) == "There are no scheduled inbound trips on March 5, 2017."
+
+      assert IO.iodata_to_binary(result) ==
+               "There are no scheduled inbound trips on March 5, 2017."
     end
 
     test "fallback when nothing is available" do
@@ -604,10 +751,13 @@ defmodule SiteWeb.ScheduleViewTest do
 
     test "does not downcase non-traditional directions" do
       error = origin = destination = nil
-      direction = "TF Green Airport" # CR-Foxboro
+      # CR-Foxboro
+      direction = "TF Green Airport"
       date = ~D[2017-11-01]
       result = no_trips_message(error, origin, destination, direction, date)
-      assert IO.iodata_to_binary(result) == "There are no scheduled TF Green Airport trips on November 1, 2017."
+
+      assert IO.iodata_to_binary(result) ==
+               "There are no scheduled TF Green Airport trips on November 1, 2017."
     end
   end
 
@@ -615,21 +765,31 @@ defmodule SiteWeb.ScheduleViewTest do
     test "returns an empty list if no PDF for that route" do
       route = %Routes.Route{}
       today = ~D[2018-01-01]
-      assert {"div", _, []} = [] |> route_pdf_link(route, today) |> safe_to_string |> Floki.parse
-      assert {"div", _, []} = nil |> route_pdf_link(route, today) |> safe_to_string |> Floki.parse
+
+      assert {"div", _, []} =
+               [] |> route_pdf_link(route, today) |> safe_to_string |> Floki.parse()
+
+      assert {"div", _, []} =
+               nil |> route_pdf_link(route, today) |> safe_to_string |> Floki.parse()
     end
 
     test "shows all PDFs for the route" do
       route_pdfs = [
         %Content.RoutePdf{path: "/basic-current-url", date_start: ~D[2017-12-01]},
         %Content.RoutePdf{path: "/basic-future-url", date_start: ~D[2019-02-01]},
-        %Content.RoutePdf{path: "/custom-url", date_start: ~D[2017-12-01], link_text_override: "custom schedule"},
+        %Content.RoutePdf{
+          path: "/custom-url",
+          date_start: ~D[2017-12-01],
+          link_text_override: "custom schedule"
+        }
       ]
+
       route = %Routes.Route{name: "1", type: 3}
       rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
       assert rendered =~ "Download PDF of current Route 1 schedule"
       assert rendered =~ "basic-current-url"
-      assert rendered =~ "http://" # full URL
+      # full URL
+      assert rendered =~ "http://"
       assert rendered =~ "Download PDF of current custom schedule"
       assert rendered =~ "Download PDF of upcoming Route 1 schedule — effective Feb 1"
     end
@@ -637,8 +797,13 @@ defmodule SiteWeb.ScheduleViewTest do
     test "does not specify 'current' when all schedules are current" do
       route_pdfs = [
         %Content.RoutePdf{path: "/basic-current-url", date_start: ~D[2017-12-01]},
-        %Content.RoutePdf{path: "/custom-url", date_start: ~D[2017-12-01], link_text_override: "custom schedule"},
+        %Content.RoutePdf{
+          path: "/custom-url",
+          date_start: ~D[2017-12-01],
+          link_text_override: "custom schedule"
+        }
       ]
+
       route = %Routes.Route{name: "1", type: 3}
       rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
       assert rendered =~ "Download PDF of Route 1 schedule"
@@ -651,7 +816,6 @@ defmodule SiteWeb.ScheduleViewTest do
       rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
       assert rendered =~ "Download PDF of Route 1 schedule"
     end
-
   end
 
   describe "pretty_route_name/1" do
@@ -687,37 +851,52 @@ defmodule SiteWeb.ScheduleViewTest do
 
     test "shows date reset link when not current date", %{conn: conn} do
       conn = %{conn | query_params: %{}}
-      rendered = SiteWeb.ScheduleView.render("_empty.html",
-                                            error: nil,
-                                            origin: "origin",
-                                            destination: "dest",
-                                            direction: "inbound",
-                                            date: @date,
-                                            conn: conn)
+
+      rendered =
+        SiteWeb.ScheduleView.render(
+          "_empty.html",
+          error: nil,
+          origin: "origin",
+          destination: "dest",
+          direction: "inbound",
+          date: @date,
+          conn: conn
+        )
+
       assert safe_to_string(rendered) =~ "View inbound trips"
     end
 
     test "Does not show reset link if selected date is service date", %{conn: conn} do
       conn = %{conn | query_params: %{}}
-      rendered = SiteWeb.ScheduleView.render("_empty.html",
-                                            error: nil,
-                                            origin: "origin",
-                                            destination: "dest",
-                                            direction: "inbound",
-                                            date: Util.service_date(),
-                                            conn: conn)
+
+      rendered =
+        SiteWeb.ScheduleView.render(
+          "_empty.html",
+          error: nil,
+          origin: "origin",
+          destination: "dest",
+          direction: "inbound",
+          date: Util.service_date(),
+          conn: conn
+        )
+
       refute safe_to_string(rendered) =~ "View inbound trips"
     end
 
     test "Does not list date if none is given", %{conn: conn} do
       conn = %{conn | query_params: %{}}
-      rendered = SiteWeb.ScheduleView.render("_empty.html",
-                                            error: nil,
-                                            origin: nil,
-                                            destination: nil,
-                                            direction: "inbound",
-                                            date: nil,
-                                            conn: conn)
+
+      rendered =
+        SiteWeb.ScheduleView.render(
+          "_empty.html",
+          error: nil,
+          origin: nil,
+          destination: nil,
+          direction: "inbound",
+          date: nil,
+          conn: conn
+        )
+
       refute safe_to_string(rendered) =~ "on"
       assert safe_to_string(rendered) =~ "There are no scheduled inbound"
     end
@@ -744,7 +923,10 @@ defmodule SiteWeb.ScheduleViewTest do
     test "translates the type number to a string or number if non-silver-line bus" do
       assert route_header_text(%Route{type: 0, name: "test route"}) == ["test route"]
       assert route_header_text(%Route{type: 3, name: "SL1", id: "741"}) == ["Silver Line ", "SL1"]
-      assert route_header_text(%Route{type: 3, name: "2"}) == content_tag(:div, "2", class: "bus-route-sign")
+
+      assert route_header_text(%Route{type: 3, name: "2"}) ==
+               content_tag(:div, "2", class: "bus-route-sign")
+
       assert route_header_text(%Route{type: 1, name: "Red Line"}) == ["Red Line"]
       assert route_header_text(%Route{type: 2, name: "Fitchburg Line"}) == ["Fitchburg"]
     end
@@ -752,8 +934,11 @@ defmodule SiteWeb.ScheduleViewTest do
 
   describe "route_header_description/1" do
     test "Uses long name for bus or Bus Route if it's missing" do
-      assert route_header_description(%Route{type: 3, name: "short", long_name: "long"}) == content_tag(:h2, "long", class: "schedule__description")
-      assert route_header_description(%Route{type: 3, name: "short", long_name: ""}) == content_tag(:h2, "Bus Route", class: "schedule__description")
+      assert route_header_description(%Route{type: 3, name: "short", long_name: "long"}) ==
+               content_tag(:h2, "long", class: "schedule__description")
+
+      assert route_header_description(%Route{type: 3, name: "short", long_name: ""}) ==
+               content_tag(:h2, "Bus Route", class: "schedule__description")
     end
   end
 
@@ -776,12 +961,15 @@ defmodule SiteWeb.ScheduleViewTest do
     test "silver line returns subway" do
       assert to_fare_atom(%Route{type: 3, id: "741"}) == :subway
     end
+
     test "inner express bus returns :inner_express_bus" do
       assert to_fare_atom(%Route{type: 3, id: "170"}) == :inner_express_bus
     end
+
     test "outer express bus returns :inner_express_bus" do
       assert to_fare_atom(%Route{type: 3, id: "352"}) == :outer_express_bus
     end
+
     test "other types of routes return specific atoms" do
       assert to_fare_atom(%Route{type: 0, id: "Green-B"}) == :subway
       assert to_fare_atom(%Route{type: 1, id: "Red"}) == :subway
@@ -804,6 +992,7 @@ defmodule SiteWeb.ScheduleViewTest do
         %Route{type: 2, name: "Worcester"},
         %Route{type: 2, name: "Fitchburg"}
       ]
+
       sorted_routes = [
         %Route{id: "Red"},
         %Route{id: "Orange"},
@@ -816,6 +1005,7 @@ defmodule SiteWeb.ScheduleViewTest do
         %Route{type: 2, name: "Fitchburg"},
         %Route{type: 2, name: "Worcester"}
       ]
+
       assert sort_connections(routes) == sorted_routes
     end
   end

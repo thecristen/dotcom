@@ -3,11 +3,11 @@ defmodule Content.Paragraph.Unknown do
   Represents an unknown paragraph type in the Drupal CMS.
   """
 
-  defstruct [type: ""]
+  defstruct type: ""
 
   @type t :: %__MODULE__{
-    type: String.t
-  }
+          type: String.t()
+        }
 
   @spec from_api(map) :: t
   def from_api(data) do

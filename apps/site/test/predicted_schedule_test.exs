@@ -7,7 +7,7 @@ defmodule PredictedScheduleTest do
 
   # set to the end of a month to uncover issues with sorting times as
   # structs, rather than as integers
-  @base_time  ~N[2017-06-30T23:30:00]
+  @base_time ~N[2017-06-30T23:30:00]
 
   @route %Routes.Route{id: "Teal"}
 
@@ -129,7 +129,9 @@ defmodule PredictedScheduleTest do
   describe "group/2" do
     test "PredictedSchedules are paired by stop" do
       predicted_schedules = group(@predictions, Enum.shuffle(@schedules))
-      for %PredictedSchedule{schedule: schedule, prediction: prediction} <- Enum.take(predicted_schedules, 3) do
+
+      for %PredictedSchedule{schedule: schedule, prediction: prediction} <-
+            Enum.take(predicted_schedules, 3) do
         assert schedule.stop == prediction.stop
       end
     end
@@ -139,13 +141,16 @@ defmodule PredictedScheduleTest do
       schedules = @schedules ++ Enum.map(@schedules, &%{&1 | stop_sequence: 5})
       predicted_schedules = group(predictions, schedules)
       assert length(predicted_schedules) == length(schedules)
+
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <- predicted_schedules,
-        not is_nil(prediction) do
-          assert schedule.stop == prediction.stop
-          assert schedule.stop_sequence == prediction.stop_sequence
+          not is_nil(prediction) do
+        assert schedule.stop == prediction.stop
+        assert schedule.stop_sequence == prediction.stop_sequence
       end
 
-      stop_sequences = for %PredictedSchedule{schedule: schedule} <- predicted_schedules, do: schedule.stop_sequence
+      stop_sequences =
+        for %PredictedSchedule{schedule: schedule} <- predicted_schedules,
+            do: schedule.stop_sequence
 
       assert stop_sequences == Enum.sort(stop_sequences)
     end
@@ -162,27 +167,36 @@ defmodule PredictedScheduleTest do
 
     test "Predictions without matching stops are still returned" do
       predicted_schedules = group(@non_matching_predictions, Enum.shuffle(@schedules))
-      assert Enum.count(predicted_schedules) == Enum.count(@non_matching_predictions) + Enum.count(@schedules)
-      for %PredictedSchedule{schedule: schedule, prediction: _prediction} <- Enum.take(predicted_schedules, 2) do
-       refute schedule
+
+      assert Enum.count(predicted_schedules) ==
+               Enum.count(@non_matching_predictions) + Enum.count(@schedules)
+
+      for %PredictedSchedule{schedule: schedule, prediction: _prediction} <-
+            Enum.take(predicted_schedules, 2) do
+        refute schedule
       end
     end
 
     test "PredictedSchedules are sorted with unmatched predictions first" do
       predicted_schedules = group(@non_matching_predictions, Enum.shuffle(@schedules))
-      for %PredictedSchedule{schedule: schedule, prediction: prediction} <- Enum.take(predicted_schedules, 2) do
-       refute schedule
-       assert prediction
+
+      for %PredictedSchedule{schedule: schedule, prediction: prediction} <-
+            Enum.take(predicted_schedules, 2) do
+        refute schedule
+        assert prediction
       end
 
-      for %PredictedSchedule{schedule: schedule, prediction: _prediction} <- Enum.drop(predicted_schedules, 2) do
-       assert schedule
+      for %PredictedSchedule{schedule: schedule, prediction: _prediction} <-
+            Enum.drop(predicted_schedules, 2) do
+        assert schedule
       end
     end
 
     test "predicted_schedules are grouped according to trip id" do
       grouped_predicted_schedules = group(@trip_predictions, @trip_schedules)
-      for %PredictedSchedule{schedule: schedule, prediction: prediction} <- grouped_predicted_schedules do
+
+      for %PredictedSchedule{schedule: schedule, prediction: prediction} <-
+            grouped_predicted_schedules do
         assert schedule.trip.id == prediction.trip.id
       end
     end
@@ -190,7 +204,11 @@ defmodule PredictedScheduleTest do
 
   describe "stop/1" do
     test "Returns stop when schedule is available" do
-      predicted_schedule = %PredictedSchedule{schedule: List.first(@schedules), prediction: List.first(@predictions)}
+      predicted_schedule = %PredictedSchedule{
+        schedule: List.first(@schedules),
+        prediction: List.first(@predictions)
+      }
+
       assert stop(predicted_schedule).id == "first"
     end
 
@@ -202,7 +220,11 @@ defmodule PredictedScheduleTest do
 
   describe "route/1" do
     test "Returns route when schedule is available" do
-      predicted_schedule = %PredictedSchedule{schedule: List.first(@schedules), prediction: List.first(@predictions)}
+      predicted_schedule = %PredictedSchedule{
+        schedule: List.first(@schedules),
+        prediction: List.first(@predictions)
+      }
+
       assert route(predicted_schedule) == @route
     end
 
@@ -214,7 +236,11 @@ defmodule PredictedScheduleTest do
 
   describe "has_prediction?/1" do
     test "determines if PredictedSchedule has prediction" do
-      with_prediction = %PredictedSchedule{schedule: List.first(@schedules), prediction: List.first(@predictions)}
+      with_prediction = %PredictedSchedule{
+        schedule: List.first(@schedules),
+        prediction: List.first(@predictions)
+      }
+
       without_prediction = %PredictedSchedule{schedule: List.first(@schedules), prediction: nil}
       assert has_prediction?(with_prediction) == true
       assert has_prediction?(without_prediction) == false
@@ -223,19 +249,26 @@ defmodule PredictedScheduleTest do
 
   describe "time/1" do
     test "Predicted time is given if one is available" do
-      predicted_schedule = %PredictedSchedule{schedule: List.first(@schedules), prediction: List.last(@predictions)}
+      predicted_schedule = %PredictedSchedule{
+        schedule: List.first(@schedules),
+        prediction: List.last(@predictions)
+      }
+
       assert time(predicted_schedule) == List.last(@predictions).time
     end
+
     test "Scheduled time is used if no prediction present" do
       predicted_schedule = %PredictedSchedule{schedule: List.first(@schedules)}
       assert time(predicted_schedule) == List.first(@schedules).time
     end
+
     test "Scheduled time is used if the prediction is present but without a time" do
       schedule = List.first(@schedules)
       prediction = %{List.last(@predictions) | time: nil, schedule_relationship: :cancelled}
       predicted_schedule = %PredictedSchedule{schedule: schedule, prediction: prediction}
       assert time(predicted_schedule) == schedule.time
     end
+
     test "returns nil if there isn't a scheduled time or a predicted time" do
       prediction = %{List.last(@predictions) | time: nil, status: "Approaching"}
       predicted_schedule = %PredictedSchedule{prediction: prediction}
@@ -248,6 +281,7 @@ defmodule PredictedScheduleTest do
       predicted_schedule = %PredictedSchedule{prediction: %Prediction{status: "Boarding"}}
       assert PredictedSchedule.status(predicted_schedule) == "Boarding"
     end
+
     test "returns nil when status is not available" do
       refute PredictedSchedule.status(%PredictedSchedule{})
     end
@@ -260,7 +294,10 @@ defmodule PredictedScheduleTest do
     end
 
     test "uses schedule's trip if there's no prediction" do
-      predicted_schedule = %PredictedSchedule{schedule: %Schedule{trip: %Schedules.Trip{direction_id: 0}}}
+      predicted_schedule = %PredictedSchedule{
+        schedule: %Schedule{trip: %Schedules.Trip{direction_id: 0}}
+      }
+
       assert direction_id(predicted_schedule) == 0
     end
   end
@@ -281,7 +318,11 @@ defmodule PredictedScheduleTest do
     test "returns the first valid value, mapped" do
       prediction = %PredictedSchedule{prediction: List.first(@predictions)}
       schedule = %PredictedSchedule{schedule: List.first(@schedules)}
-      both = %PredictedSchedule{schedule: List.first(@schedules), prediction: List.first(@predictions)}
+
+      both = %PredictedSchedule{
+        schedule: List.first(@schedules),
+        prediction: List.first(@predictions)
+      }
 
       assert map_optional(prediction, [:schedule, :prediction], & &1) == prediction.prediction
       assert map_optional(schedule, [:prediction, :schedule], & &1) == schedule.schedule
@@ -307,12 +348,21 @@ defmodule PredictedScheduleTest do
     @time ~N[2017-01-01T12:00:00]
 
     test "returns the difference between a schedule and prediction" do
-      assert delay(%PredictedSchedule{schedule: %Schedule{time: @time}, prediction: %Prediction{time: Timex.shift(@time, minutes: 14)}}) == 14
+      assert delay(%PredictedSchedule{
+               schedule: %Schedule{time: @time},
+               prediction: %Prediction{time: Timex.shift(@time, minutes: 14)}
+             }) == 14
     end
 
     test "returns 0 if either time is nil, or if the argument itself is nil" do
-      assert delay(%PredictedSchedule{schedule: nil, prediction: %Prediction{time: Timex.shift(@time, minutes: 14)}}) == 0
-      assert delay(%PredictedSchedule{schedule: %Schedule{time: @time}, prediction: %Prediction{}}) == 0
+      assert delay(%PredictedSchedule{
+               schedule: nil,
+               prediction: %Prediction{time: Timex.shift(@time, minutes: 14)}
+             }) == 0
+
+      assert delay(%PredictedSchedule{schedule: %Schedule{time: @time}, prediction: %Prediction{}}) ==
+               0
+
       assert delay(%PredictedSchedule{schedule: %Schedule{time: @time}, prediction: nil}) == 0
       assert delay(%PredictedSchedule{schedule: nil, prediction: nil}) == 0
       assert delay(nil) == 0
@@ -332,12 +382,19 @@ defmodule PredictedScheduleTest do
     end
 
     test "returns true when there is at least a minute difference between scheduled and predicted time" do
-      assert minute_delay?(%PredictedSchedule{schedule: @late_schedule, prediction: @early_prediction})
+      assert minute_delay?(%PredictedSchedule{
+               schedule: @late_schedule,
+               prediction: @early_prediction
+             })
     end
 
     test "returns false when there is less than a minute difference" do
       close_prediction = %Prediction{time: Timex.shift(@late_time, seconds: 3)}
-      refute minute_delay?(%PredictedSchedule{schedule: @late_schedule, prediction: close_prediction})
+
+      refute minute_delay?(%PredictedSchedule{
+               schedule: @late_schedule,
+               prediction: close_prediction
+             })
     end
   end
 
@@ -348,13 +405,27 @@ defmodule PredictedScheduleTest do
       late_schedule = %Schedule{time: Timex.shift(@base_time, minutes: 2)}
       late_prediction = %Prediction{time: Timex.shift(@base_time, minutes: 1)}
 
-      assert upcoming?(%PredictedSchedule{schedule: late_schedule, prediction: late_prediction}, @base_time)
-      refute upcoming?(%PredictedSchedule{schedule: early_schedule, prediction: early_prediction}, @base_time)
-      assert upcoming?(%PredictedSchedule{schedule: early_schedule, prediction: late_prediction}, @base_time)
+      assert upcoming?(
+               %PredictedSchedule{schedule: late_schedule, prediction: late_prediction},
+               @base_time
+             )
+
+      refute upcoming?(
+               %PredictedSchedule{schedule: early_schedule, prediction: early_prediction},
+               @base_time
+             )
+
+      assert upcoming?(
+               %PredictedSchedule{schedule: early_schedule, prediction: late_prediction},
+               @base_time
+             )
     end
 
     test "departing? field is used if no time is available" do
-      upcoming_prediction = %PredictedSchedule{prediction: %Prediction{time: nil, departing?: true}}
+      upcoming_prediction = %PredictedSchedule{
+        prediction: %Prediction{time: nil, departing?: true}
+      }
+
       past_prediction = %PredictedSchedule{prediction: %Prediction{time: nil, departing?: false}}
       assert upcoming?(upcoming_prediction, @base_time)
       refute upcoming?(past_prediction, @base_time)
@@ -366,12 +437,20 @@ defmodule PredictedScheduleTest do
       schedule = %Schedule{pickup_type: 1}
       prediction = %Prediction{departing?: true}
       refute departing?(%PredictedSchedule{schedule: schedule, prediction: prediction})
-      assert departing?(%PredictedSchedule{schedule: %{schedule | pickup_type: 2}, prediction: prediction})
+
+      assert departing?(%PredictedSchedule{
+               schedule: %{schedule | pickup_type: 2},
+               prediction: prediction
+             })
     end
 
     test "Prediction is used to determine departing status if no schedule is given" do
       refute departing?(%PredictedSchedule{prediction: %Prediction{departing?: false}})
-      assert departing?(%PredictedSchedule{prediction: %Prediction{departing?: true}, schedule: nil})
+
+      assert departing?(%PredictedSchedule{
+               prediction: %Prediction{departing?: true},
+               schedule: nil
+             })
     end
   end
 

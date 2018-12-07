@@ -19,57 +19,81 @@ defmodule Site.TripPlan.AlertsTest do
     end
 
     test "returns an alert if it affects the route", %{itinerary: itinerary, route_id: route_id} do
-      good_alert = Alert.new(
-        active_period: [valid_active_period(itinerary)],
-        informed_entity: [%IE{route: route_id}]
-      )
+      good_alert =
+        Alert.new(
+          active_period: [valid_active_period(itinerary)],
+          informed_entity: [%IE{route: route_id}]
+        )
+
       bad_alert = Alert.update(good_alert, informed_entity: [%IE{route: "not_valid"}])
       assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
 
     test "returns an alert if it affects the trip", %{itinerary: itinerary, trip_id: trip_id} do
-      good_alert = Alert.new(
-        active_period: [valid_active_period(itinerary)],
-        informed_entity: [%IE{trip: trip_id}]
-      )
+      good_alert =
+        Alert.new(
+          active_period: [valid_active_period(itinerary)],
+          informed_entity: [%IE{trip: trip_id}]
+        )
+
       bad_alert = Alert.update(good_alert, informed_entity: [%IE{trip: "not_valid"}])
       assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
 
-    test "returns an alert if it affects the route in a direction", %{itinerary: itinerary, route_id: route_id} do
-      good_alert = Alert.new(
-        active_period: [valid_active_period(itinerary)],
-        informed_entity: [%IE{route: route_id, direction_id: 1}]
-      )
-      bad_alert = Alert.update(good_alert, informed_entity: [%IE{route: route_id, direction_id: 0}])
+    test "returns an alert if it affects the route in a direction", %{
+      itinerary: itinerary,
+      route_id: route_id
+    } do
+      good_alert =
+        Alert.new(
+          active_period: [valid_active_period(itinerary)],
+          informed_entity: [%IE{route: route_id, direction_id: 1}]
+        )
+
+      bad_alert =
+        Alert.update(good_alert, informed_entity: [%IE{route: route_id, direction_id: 0}])
+
       assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
 
-    test "returns an alert if it affects the route's type", %{itinerary: itinerary, route_id: route_id} do
+    test "returns an alert if it affects the route's type", %{
+      itinerary: itinerary,
+      route_id: route_id
+    } do
       route = route_by_id(route_id)
-      good_alert = Alert.new(
-        active_period: [valid_active_period(itinerary)],
-        informed_entity: [%IE{route_type: route.type}]
-      )
+
+      good_alert =
+        Alert.new(
+          active_period: [valid_active_period(itinerary)],
+          informed_entity: [%IE{route_type: route.type}]
+        )
+
       bad_alert = Alert.update(good_alert, informed_entity: [%IE{route_type: 0}])
       assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
 
     test "returns an alert if it matches a transfer stop", %{itinerary: itinerary} do
-      stop_id = itinerary |> Itinerary.stop_ids |> Enum.at(1)
-      good_alert = Alert.new(
-        active_period: [valid_active_period(itinerary)],
-        informed_entity: [%IE{stop: stop_id}]
-      )
-      bad_alert = Alert.update(good_alert, informed_entity: [%IE{stop: stop_id, route: "different route"}])
-      assert_only_good_alert good_alert, bad_alert, itinerary
+      stop_id = itinerary |> Itinerary.stop_ids() |> Enum.at(1)
+
+      good_alert =
+        Alert.new(
+          active_period: [valid_active_period(itinerary)],
+          informed_entity: [%IE{stop: stop_id}]
+        )
+
+      bad_alert =
+        Alert.update(good_alert, informed_entity: [%IE{stop: stop_id, route: "different route"}])
+
+      assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
 
     test "ignores an alert if it's at the wrong time", %{itinerary: itinerary, route_id: route_id} do
-      good_alert = Alert.new(
-        active_period: [valid_active_period(itinerary)],
-        informed_entity: [%IE{route: route_id}]
-      )
+      good_alert =
+        Alert.new(
+          active_period: [valid_active_period(itinerary)],
+          informed_entity: [%IE{route: route_id}]
+        )
+
       bad_alert = Alert.update(good_alert, active_period: [invalid_active_period(itinerary)])
       assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
@@ -94,9 +118,11 @@ defmodule Site.TripPlan.AlertsTest do
   defp route_by_id("Blue" = id) do
     %Routes.Route{type: 1, id: id, name: "Subway"}
   end
+
   defp route_by_id("CR-Lowell" = id) do
     %Routes.Route{type: 2, id: id, name: "Commuter Rail"}
   end
+
   defp route_by_id("1" = id) do
     %Routes.Route{type: 3, id: id, name: "Bus"}
   end

@@ -20,7 +20,7 @@ defmodule SiteWeb.NewsEntryViewTest do
 
       refute_text_visible?(body, "Next")
       refute body =~ news_entry_path(conn, :index, page: 2)
-   end
+    end
 
     test "does not display a Previous link on the first page", %{conn: conn} do
       news_entry = news_entry_teaser_factory(0)
@@ -44,14 +44,21 @@ defmodule SiteWeb.NewsEntryViewTest do
     test "does not display recent_news when there are two or fewer news entries", %{conn: conn} do
       news_entry = news_entry_factory(0)
       news_titles = ["News 1", "News 2"]
-      recent_news = Enum.map(news_titles, fn(title) -> news_entry_factory(0, title: title) end)
+      recent_news = Enum.map(news_titles, fn title -> news_entry_factory(0, title: title) end)
 
       SiteWeb.NewsEntryView
-      |> render_to_string("show.html", conn: conn, news_entry: news_entry, recent_news: recent_news)
+      |> render_to_string(
+        "show.html",
+        conn: conn,
+        news_entry: news_entry,
+        recent_news: recent_news
+      )
       |> refute_text_visible?("Recent News on the T")
     end
 
-    test "does not display more information when the more_information field is empty", %{conn: conn} do
+    test "does not display more information when the more_information field is empty", %{
+      conn: conn
+    } do
       news_entry = news_entry_factory(0, more_information: "")
 
       SiteWeb.NewsEntryView
@@ -61,16 +68,24 @@ defmodule SiteWeb.NewsEntryViewTest do
 
     test "displays appropriate Media Contact Information", %{conn: conn} do
       ptest media_contact: choose(from: [value("Mass DOT"), value(nil)]),
-        media_email: choose(from: [value("massdot@example.com"), value(nil)]),
-        media_phone: choose(from: [value("555-555-5555"), value(nil)]) do
+            media_email: choose(from: [value("massdot@example.com"), value(nil)]),
+            media_phone: choose(from: [value("555-555-5555"), value(nil)]) do
+        news_entry =
+          news_entry_factory(
+            0,
+            media_contact: media_contact,
+            media_email: media_email,
+            media_phone: media_phone
+          )
 
-        news_entry = news_entry_factory(0, [
-          media_contact: media_contact,
-          media_email: media_email,
-          media_phone: media_phone
-        ])
-
-        rendered = render_to_string(SiteWeb.NewsEntryView, "show.html", conn: conn, news_entry: news_entry, recent_news: [])
+        rendered =
+          render_to_string(
+            SiteWeb.NewsEntryView,
+            "show.html",
+            conn: conn,
+            news_entry: news_entry,
+            recent_news: []
+          )
 
         if is_nil(media_contact) && is_nil(media_email) && is_nil(media_phone) do
           refute rendered =~ "Media Contact Information"
@@ -102,18 +117,21 @@ defmodule SiteWeb.NewsEntryViewTest do
   describe "recent_news.html" do
     test "includes links to recent news entries", %{conn: conn} do
       recent_news_count = Content.NewsEntry.number_of_recent_news_suggestions()
-      recent_news = Enum.map(1..recent_news_count, fn(integer) ->
-        news_entry_factory(0, id: integer, title: "News Entry #{integer}")
-      end)
 
-      rendered = render_to_string(
-        SiteWeb.NewsEntryView,
-        "_recent_news.html",
-        conn: conn,
-        recent_news: recent_news
-      )
+      recent_news =
+        Enum.map(1..recent_news_count, fn integer ->
+          news_entry_factory(0, id: integer, title: "News Entry #{integer}")
+        end)
 
-      Enum.each(recent_news, fn(news_entry) ->
+      rendered =
+        render_to_string(
+          SiteWeb.NewsEntryView,
+          "_recent_news.html",
+          conn: conn,
+          recent_news: recent_news
+        )
+
+      Enum.each(recent_news, fn news_entry ->
         assert rendered =~ "/node/#{news_entry.id}"
         assert rendered =~ news_entry.title
       end)

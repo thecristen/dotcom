@@ -12,27 +12,28 @@ defmodule Schedules.Parser do
     }
   end
 
-  def route_id(
-    %JsonApi.Item{
-      relationships: %{
-        "route" => [%JsonApi.Item{id: id} | _]}}) do
+  def route_id(%JsonApi.Item{relationships: %{"route" => [%JsonApi.Item{id: id} | _]}}) do
     id
   end
 
-  def trip_id(%JsonApi.Item{
-        relationships: %{
-          "trip" => [%JsonApi.Item{id: id} | _]}}) do
+  def trip_id(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: id} | _]}}) do
     id
   end
 
   def trip(%JsonApi.Item{
         relationships: %{
-          "trip" => [%JsonApi.Item{id: id,
-                                   attributes: %{"name" => name,
-                                                 "headsign" => headsign,
-                                                 "direction_id" => direction_id} = attributes,
-                                   relationships: relationships} | _]
-        }}) do
+          "trip" => [
+            %JsonApi.Item{
+              id: id,
+              attributes:
+                %{"name" => name, "headsign" => headsign, "direction_id" => direction_id} =
+                  attributes,
+              relationships: relationships
+            }
+            | _
+          ]
+        }
+      }) do
     %Schedules.Trip{
       id: id,
       headsign: headsign,
@@ -42,15 +43,21 @@ defmodule Schedules.Parser do
       shape_id: shape_id(relationships)
     }
   end
+
   def trip(%JsonApi{
-        data: [%JsonApi.Item{
-                  id: id, attributes: %{
-                    "headsign" => headsign,
-                    "name" => name,
-                    "direction_id" => direction_id,
-                  } = attributes,
-                  relationships: relationships}]
-           }) do
+        data: [
+          %JsonApi.Item{
+            id: id,
+            attributes:
+              %{
+                "headsign" => headsign,
+                "name" => name,
+                "direction_id" => direction_id
+              } = attributes,
+            relationships: relationships
+          }
+        ]
+      }) do
     %Schedules.Trip{
       id: id,
       headsign: headsign,
@@ -60,17 +67,18 @@ defmodule Schedules.Parser do
       bikes_allowed?: bikes_allowed?(attributes)
     }
   end
-  def trip(%JsonApi.Item{
-        relationships: %{
-          "trip" => _}}) do
+
+  def trip(%JsonApi.Item{relationships: %{"trip" => _}}) do
     nil
   end
 
   def stop_id(%JsonApi.Item{
         relationships: %{
           "stop" => [
-          %JsonApi.Item{id: id}
-        ]}}) do
+            %JsonApi.Item{id: id}
+          ]
+        }
+      }) do
     id
   end
 
@@ -79,8 +87,9 @@ defmodule Schedules.Parser do
     |> Timex.parse!("{ISO:Extended}")
   end
 
-  defp flag?(%JsonApi.Item{attributes: %{"pickup_type" => pickup_type,
-                                         "drop_off_type" => drop_off_type}}) do
+  defp flag?(%JsonApi.Item{
+         attributes: %{"pickup_type" => pickup_type, "drop_off_type" => drop_off_type}
+       }) do
     # https://developers.google.com/transit/gtfs/reference/stop_times-file
     # defines pickup_type and drop_off_type:
     # * 0: Regularly scheduled drop off
@@ -91,8 +100,9 @@ defmodule Schedules.Parser do
     pickup_type == 3 || drop_off_type == 3
   end
 
-  defp early_departure?(%JsonApi.Item{attributes: %{"pickup_type" => pickup_type,
-                                                    "timepoint" => timepoint}}) do
+  defp early_departure?(%JsonApi.Item{
+         attributes: %{"pickup_type" => pickup_type, "timepoint" => timepoint}
+       }) do
     # early departure when the timepoint is false and the pickup_type is not 1
     timepoint == false && pickup_type != 1
   end
@@ -101,7 +111,7 @@ defmodule Schedules.Parser do
     pickup_type
   end
 
-  @spec shape_id(any) :: String.t | nil
+  @spec shape_id(any) :: String.t() | nil
   defp shape_id(%{"shape" => [%JsonApi.Item{id: id}]}), do: id
   defp shape_id(_), do: nil
 

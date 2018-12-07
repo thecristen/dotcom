@@ -6,7 +6,7 @@ defmodule SiteWeb.Views.Helpers.StopHelpersTest do
 
   describe "capitalized_disabled_text/2" do
     test "given a matching id in disabled_list" do
-      stop =  %Stops.Stop{id: "id2", closed_stop_info: nil}
+      stop = %Stops.Stop{id: "id2", closed_stop_info: nil}
       assert capitalized_disabled_text(@disabled_list, stop) == "Text2"
     end
 

@@ -2,7 +2,8 @@ defmodule Content.CmsMigration.MeetingMigrator do
   alias Content.CmsMigration.EventPayload
   alias Content.MigrationError
 
-  @spec migrate(map) :: {:ok, :created} | {:ok, :updated} | {:error, map} | {:error, String.t} | no_return
+  @spec migrate(map) ::
+          {:ok, :created} | {:ok, :updated} | {:error, map} | {:error, String.t()} | no_return
   def migrate(meeting_data) do
     meeting_id = Map.fetch!(meeting_data, "meeting_id")
     event = build_event(meeting_data)
@@ -29,10 +30,15 @@ defmodule Content.CmsMigration.MeetingMigrator do
 
   defp check_for_existing_event!(meeting_id) do
     case Content.Repo.events(meeting_id: meeting_id) do
-      [%Content.Event{id: id, meeting_id: ^meeting_id}] -> id
-      [] -> nil
-      _multiple_records -> raise MigrationError,
-        message: "multiple records were found when querying by meeting_id: #{meeting_id}."
+      [%Content.Event{id: id, meeting_id: ^meeting_id}] ->
+        id
+
+      [] ->
+        nil
+
+      _multiple_records ->
+        raise MigrationError,
+          message: "multiple records were found when querying by meeting_id: #{meeting_id}."
     end
   end
 
@@ -48,13 +54,21 @@ defmodule Content.CmsMigration.MeetingMigrator do
     end
   end
 
-  defp validate_event(%{field_start_time: [%{value: nil}], field_end_time: [%{value: nil}]} = _event) do
+  defp validate_event(
+         %{field_start_time: [%{value: nil}], field_end_time: [%{value: nil}]} = _event
+       ) do
     {:error, "A start time must be provided."}
   end
-  defp validate_event(%{field_start_time: [%{value: _start_time}], field_end_time: [%{value: nil}]} = event) do
+
+  defp validate_event(
+         %{field_start_time: [%{value: _start_time}], field_end_time: [%{value: nil}]} = event
+       ) do
     {:ok, event}
   end
-  defp validate_event(%{field_start_time: [%{value: start_time}], field_end_time: [%{value: end_time}]} = event) do
+
+  defp validate_event(
+         %{field_start_time: [%{value: start_time}], field_end_time: [%{value: end_time}]} = event
+       ) do
     start_datetime = convert_to_datetime(start_time)
     end_datetime = convert_to_datetime(end_time)
 

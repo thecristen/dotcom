@@ -6,74 +6,98 @@ defmodule Journey do
   alias Schedules.{Schedule, Trip}
 
   defstruct [:departure, :arrival, :trip]
-  @type t :: %__MODULE__{
-    departure: PredictedSchedule.t | nil,
-    arrival: PredictedSchedule.t | nil,
-    trip: Trip.t | nil
-  }
 
-  @spec has_departure_schedule?(__MODULE__.t) :: boolean
-  def has_departure_schedule?(%__MODULE__{departure: departure}), do: PredictedSchedule.has_schedule?(departure)
+  @type t :: %__MODULE__{
+          departure: PredictedSchedule.t() | nil,
+          arrival: PredictedSchedule.t() | nil,
+          trip: Trip.t() | nil
+        }
+
+  @spec has_departure_schedule?(__MODULE__.t()) :: boolean
+  def has_departure_schedule?(%__MODULE__{departure: departure}),
+    do: PredictedSchedule.has_schedule?(departure)
+
   def has_departure_schedule?(%__MODULE__{}), do: false
 
-  @spec has_departure_prediction?(__MODULE__.t) :: boolean
+  @spec has_departure_prediction?(__MODULE__.t()) :: boolean
   def has_departure_prediction?(%__MODULE__{departure: departure}) when not is_nil(departure) do
     PredictedSchedule.has_prediction?(departure)
   end
+
   def has_departure_prediction?(%__MODULE__{}), do: false
 
-  @spec has_arrival_prediction?(__MODULE__.t) :: boolean
+  @spec has_arrival_prediction?(__MODULE__.t()) :: boolean
   def has_arrival_prediction?(%__MODULE__{arrival: arrival}) when not is_nil(arrival) do
     PredictedSchedule.has_prediction?(arrival)
   end
+
   def has_arrival_prediction?(%__MODULE__{}), do: false
 
-  @spec has_prediction?(__MODULE__.t) :: boolean
-  def has_prediction?(journey), do: has_departure_prediction?(journey) or has_arrival_prediction?(journey)
+  @spec has_prediction?(__MODULE__.t()) :: boolean
+  def has_prediction?(journey),
+    do: has_departure_prediction?(journey) or has_arrival_prediction?(journey)
 
-  @spec prediction(__MODULE__.t) :: Prediction.t | nil
+  @spec prediction(__MODULE__.t()) :: Prediction.t() | nil
   def prediction(journey) do
     cond do
       has_departure_prediction?(journey) ->
         journey.departure.prediction
+
       has_arrival_prediction?(journey) ->
         journey.arrival.prediction
+
       true ->
         nil
     end
   end
 
-  @spec time(t) :: DateTime.t | nil
+  @spec time(t) :: DateTime.t() | nil
   def time(journey), do: departure_time(journey)
 
-  @spec departure_time(__MODULE__.t) :: DateTime.t | nil
+  @spec departure_time(__MODULE__.t()) :: DateTime.t() | nil
   def departure_time(%__MODULE__{departure: nil}), do: nil
   def departure_time(%__MODULE__{departure: departure}), do: PredictedSchedule.time(departure)
 
-  @spec arrival_time(__MODULE__.t) :: DateTime.t | nil
+  @spec arrival_time(__MODULE__.t()) :: DateTime.t() | nil
   def arrival_time(%__MODULE__{arrival: nil}), do: nil
   def arrival_time(%__MODULE__{arrival: arrival}), do: PredictedSchedule.time(arrival)
 
-  @spec departure_prediction_time(__MODULE__.t | nil) :: DateTime.t | nil
-  def departure_prediction_time(%__MODULE__{departure: %PredictedSchedule{prediction: %Prediction{time: time}}}), do: time
+  @spec departure_prediction_time(__MODULE__.t() | nil) :: DateTime.t() | nil
+  def departure_prediction_time(%__MODULE__{
+        departure: %PredictedSchedule{prediction: %Prediction{time: time}}
+      }),
+      do: time
+
   def departure_prediction_time(%__MODULE__{}), do: nil
   def departure_prediction_time(nil), do: nil
 
-  @spec departure_schedule_time(__MODULE__.t | nil) :: DateTime.t | nil
-  def departure_schedule_time(%__MODULE__{departure: %PredictedSchedule{schedule: %Schedule{time: time}}}), do: time
+  @spec departure_schedule_time(__MODULE__.t() | nil) :: DateTime.t() | nil
+  def departure_schedule_time(%__MODULE__{
+        departure: %PredictedSchedule{schedule: %Schedule{time: time}}
+      }),
+      do: time
+
   def departure_schedule_time(%__MODULE__{}), do: nil
   def departure_schedule_time(nil), do: nil
 
-  def departure_schedule_before?(%__MODULE__{departure: %PredictedSchedule{schedule: %Schedule{time: time}}}, cmp_time)
+  def departure_schedule_before?(
+        %__MODULE__{departure: %PredictedSchedule{schedule: %Schedule{time: time}}},
+        cmp_time
+      )
       when not is_nil(time) do
     Timex.before?(time, cmp_time)
   end
+
   def departure_schedule_before?(%__MODULE__{}), do: false
 
-  def departure_schedule_after?(%__MODULE__{departure: %PredictedSchedule{schedule: %Schedule{time: time}}}, cmp_time)
+  def departure_schedule_after?(
+        %__MODULE__{departure: %PredictedSchedule{schedule: %Schedule{time: time}}},
+        cmp_time
+      )
       when not is_nil(time) do
     Timex.after?(time, cmp_time)
   end
+
   def departure_schedule_after?(%__MODULE__{}, _cmp_time), do: false
 
   @doc """
@@ -95,8 +119,10 @@ defmodule Journey do
     cond do
       cmp_departure == -1 ->
         true
+
       cmp_departure == 1 ->
         false
+
       true ->
         arrival_before?(left, right)
     end
@@ -105,6 +131,7 @@ defmodule Journey do
   defp safe_time_compare(left, right) when is_nil(left) or is_nil(right) do
     0
   end
+
   defp safe_time_compare(left, right) do
     Timex.compare(left, right)
   end
@@ -119,10 +146,13 @@ defmodule Journey do
       is_nil(left_arrival_time) && is_nil(right_arrival_time) ->
         # both are nil, sort the statuses (if we have predictions)
         prediction_before?(left, right)
+
       cmp_arrival == -1 ->
         true
+
       cmp_arrival == 1 ->
         false
+
       true ->
         is_nil(left_arrival_time)
     end
@@ -135,8 +165,10 @@ defmodule Journey do
     cond do
       is_nil(left_prediction) ->
         true
+
       is_nil(right_prediction) ->
         false
+
       true ->
         status_before?(left_prediction.status, right_prediction.status)
     end
@@ -147,20 +179,25 @@ defmodule Journey do
       {{left_int, _}, {right_int, _}} ->
         # both stops away, the lower one is before: "1 stop away" <= "2 stops away"
         left_int <= right_int
+
       {{_left_int, _}, _} ->
         # right int isn't stops away, so it's before: "1 stop away" >= "Boarding"
         false
+
       {_, {_right_int, _}} ->
         # left int isn't stops away, so it's before: "Boarding" <= "1 stop away"
         true
+
       _ ->
         # fallback: sort them in reverse order: "Boarding" <= "Approaching"
         left >= right
     end
   end
+
   defp status_before?(nil, _) do
     false
   end
+
   defp status_before?(_, nil) do
     true
   end
@@ -169,22 +206,43 @@ defmodule Journey do
   Returns a message containing the maximum delay between scheduled and predicted times for an arrival
   and departure, or the empty string if there's no delay.
   """
-  @spec display_status(PredictedSchedule.t | nil, PredictedSchedule.t | nil) :: Phoenix.HTML.Safe.t
+  @spec display_status(PredictedSchedule.t() | nil, PredictedSchedule.t() | nil) ::
+          Phoenix.HTML.Safe.t()
   def display_status(departure, arrival \\ nil)
-  def display_status(%PredictedSchedule{schedule: _, prediction: %Prediction{status: status, track: track}}, _)
-  when not is_nil(status) do
+
+  def display_status(
+        %PredictedSchedule{schedule: _, prediction: %Prediction{status: status, track: track}},
+        _
+      )
+      when not is_nil(status) do
     status = String.capitalize(status)
+
     case track do
-      nil -> Phoenix.HTML.Tag.content_tag(:span, status)
-      track -> Phoenix.HTML.Tag.content_tag(:span,
-      [status, " on ", Phoenix.HTML.Tag.content_tag(:span, ["track ", track],
-       class: "no-wrap")])
+      nil ->
+        Phoenix.HTML.Tag.content_tag(:span, status)
+
+      track ->
+        Phoenix.HTML.Tag.content_tag(
+          :span,
+          [
+            status,
+            " on ",
+            Phoenix.HTML.Tag.content_tag(:span, ["track ", track], class: "no-wrap")
+          ]
+        )
     end
   end
+
   def display_status(departure, arrival) do
     case Enum.max([PredictedSchedule.delay(departure), PredictedSchedule.delay(arrival)]) do
       delay when delay > 0 ->
-        Phoenix.HTML.Tag.content_tag(:span, ["Delayed ", Integer.to_string(delay), " ", Inflex.inflect("minute", delay)])
+        Phoenix.HTML.Tag.content_tag(:span, [
+          "Delayed ",
+          Integer.to_string(delay),
+          " ",
+          Inflex.inflect("minute", delay)
+        ])
+
       _ ->
         ""
     end

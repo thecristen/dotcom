@@ -45,19 +45,19 @@ defmodule GoogleMaps.GeocodeTest do
 
   describe "reverse_geocode/2" do
     test "sets appropriate parameter and returns an error for invalid addresses" do
-      bypass = Bypass.open
+      bypass = Bypass.open()
       set_domain("http://localhost:#{bypass.port}")
 
       latitude = 0.0
       longitude = 0.0
 
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         assert "/maps/api/geocode/json" == conn.request_path
         conn = Plug.Conn.fetch_query_params(conn)
         assert conn.params["latlng"] == "#{latitude},#{longitude}"
 
         Plug.Conn.resp(conn, 200, ~s({"status": "ZERO_RESULTS", "error_message": "Message"}))
-      end
+      end)
 
       actual = reverse_geocode(latitude, longitude)
       assert {:error, :zero_results} = actual
@@ -66,36 +66,36 @@ defmodule GoogleMaps.GeocodeTest do
 
   describe "geocode/1" do
     test "returns an error for invalid addresses" do
-      bypass = Bypass.open
+      bypass = Bypass.open()
       set_domain("http://localhost:#{bypass.port}")
 
       address = "zero results"
 
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         assert "/maps/api/geocode/json" == conn.request_path
         conn = Plug.Conn.fetch_query_params(conn)
         assert conn.params["address"] == address
 
         Plug.Conn.resp(conn, 200, ~s({"status": "ZERO_RESULTS", "error_message": "Message"}))
-      end
+      end)
 
       actual = geocode(address)
       assert {:error, :zero_results} = actual
     end
 
     test "returns :ok for one valid responses" do
-      bypass = Bypass.open
+      bypass = Bypass.open()
       set_domain("http://localhost:#{bypass.port}")
 
       address = "one response"
 
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         assert "/maps/api/geocode/json" == conn.request_path
         conn = Plug.Conn.fetch_query_params(conn)
         assert conn.params["address"] == address
 
         Plug.Conn.resp(conn, 200, ~s({"status": "OK", "results": [#{@result1}]}))
-      end
+      end)
 
       actual = geocode(address)
       assert {:ok, [result]} = actual
@@ -103,18 +103,18 @@ defmodule GoogleMaps.GeocodeTest do
     end
 
     test "returns :ok for multiple matches" do
-      bypass = Bypass.open
+      bypass = Bypass.open()
       set_domain("http://localhost:#{bypass.port}")
 
       address = "multiple matches"
 
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         assert "/maps/api/geocode/json" == conn.request_path
         conn = Plug.Conn.fetch_query_params(conn)
         assert conn.params["address"] == address
 
         Plug.Conn.resp(conn, 200, ~s({"status": "OK", "results": [#{@result1}, #{@result2}]}))
-      end
+      end)
 
       actual = geocode(address)
       assert {:ok, [result1, result2]} = actual
@@ -127,81 +127,89 @@ defmodule GoogleMaps.GeocodeTest do
 
       address = "bad domain"
 
-      log = ExUnit.CaptureLog.capture_log(fn ->
-        actual = geocode(address)
-        assert {:error, :internal_error} = actual
-      end)
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          actual = geocode(address)
+          assert {:error, :internal_error} = actual
+        end)
+
       assert log =~ "HTTP error"
     end
 
     test "returns :error with error and message from google" do
-      bypass = Bypass.open
+      bypass = Bypass.open()
       set_domain("http://localhost:#{bypass.port}")
 
       address = "google error"
 
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         assert "/maps/api/geocode/json" == conn.request_path
         conn = Plug.Conn.fetch_query_params(conn)
         assert conn.params["address"] == address
 
         Plug.Conn.resp(conn, 200, ~s({"status": "INVALID_REQUEST", "error_message": "Message"}))
-      end
-
-      log = ExUnit.CaptureLog.capture_log(fn ->
-        actual = geocode(address)
-        assert {:error, :internal_error} == actual
       end)
+
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          actual = geocode(address)
+          assert {:error, :internal_error} == actual
+        end)
+
       assert log =~ "API error"
     end
 
     test "returns :error if the status != 200" do
-      bypass = Bypass.open
+      bypass = Bypass.open()
       set_domain("http://localhost:#{bypass.port}")
 
       address = "not 200 response"
 
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         Plug.Conn.resp(conn, 500, "")
-      end
-
-      log = ExUnit.CaptureLog.capture_log(fn ->
-        actual = geocode(address)
-        assert {:error, :internal_error} = actual
       end)
+
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          actual = geocode(address)
+          assert {:error, :internal_error} = actual
+        end)
+
       assert log =~ "Unexpected HTTP code"
     end
 
     test "returns :error if the JSON is invalid" do
-      bypass = Bypass.open
+      bypass = Bypass.open()
       set_domain("http://localhost:#{bypass.port}")
 
       address = "invalid json"
 
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         Plug.Conn.resp(conn, 200, "{")
-      end
-
-      log = ExUnit.CaptureLog.capture_log(fn ->
-        actual = geocode(address)
-        assert {:error, :internal_error} = actual
       end)
+
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          actual = geocode(address)
+          assert {:error, :internal_error} = actual
+        end)
+
       assert log =~ "Error parsing to JSON"
     end
 
     test "uses cache" do
-      bypass = Bypass.open
+      bypass = Bypass.open()
       set_domain("http://localhost:#{bypass.port}")
 
       address = "cached"
 
-      Bypass.expect_once bypass, fn conn ->
+      Bypass.expect_once(bypass, fn conn ->
         assert "/maps/api/geocode/json" == conn.request_path
         conn = Plug.Conn.fetch_query_params(conn)
         assert conn.params["address"] == address
 
         Plug.Conn.resp(conn, 200, ~s({"status": "OK", "results": [#{@result1}]}))
-      end
+      end)
 
       cache_miss = geocode(address)
       assert {:ok, [cache_miss_result]} = cache_miss
@@ -215,9 +223,10 @@ defmodule GoogleMaps.GeocodeTest do
     defp set_domain(new_domain) do
       old_domain = Application.get_env(:google_maps, :domain)
       Application.put_env(:google_maps, :domain, new_domain)
-      on_exit fn ->
+
+      on_exit(fn ->
         Application.put_env(:google_maps, :domain, old_domain)
-      end
+      end)
     end
   end
 

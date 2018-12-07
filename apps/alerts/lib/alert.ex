@@ -1,59 +1,59 @@
 defmodule Alerts.Alert do
   alias Alerts.InformedEntitySet, as: IESet
-  defstruct [
-    id: "",
-    header: "",
-    informed_entity: %Alerts.InformedEntitySet{},
-    active_period: [],
-    effect: :unknown,
-    severity: 5,
-    lifecycle: :unknown,
-    updated_at: Timex.now(),
-    description: ""
-  ]
-  @type period_pair :: {DateTime.t | nil, DateTime.t | nil}
+
+  defstruct id: "",
+            header: "",
+            informed_entity: %Alerts.InformedEntitySet{},
+            active_period: [],
+            effect: :unknown,
+            severity: 5,
+            lifecycle: :unknown,
+            updated_at: Timex.now(),
+            description: ""
+
+  @type period_pair :: {DateTime.t() | nil, DateTime.t() | nil}
 
   @type effect ::
-  :access_issue |
-  :amber_alert |
-  :cancellation |
-  :delay |
-  :detour |
-  :dock_issue |
-  :dock_closure |
-  :elevator_closure |
-  :escalator_closure |
-  :extra_service |
-  :no_service |
-  :policy_change |
-  :service_change |
-  :shuttle |
-  :suspension |
-  :station_closure |
-  :stop_closure |
-  :stop_moved |
-  :schedule_change |
-  :snow_route |
-  :snow_route |
-  :station_issue |
-  :stop_shoveling |
-  :summary |
-  :track_change |
-  :unknown
+          :access_issue
+          | :amber_alert
+          | :cancellation
+          | :delay
+          | :detour
+          | :dock_issue
+          | :dock_closure
+          | :elevator_closure
+          | :escalator_closure
+          | :extra_service
+          | :no_service
+          | :policy_change
+          | :service_change
+          | :shuttle
+          | :suspension
+          | :station_closure
+          | :stop_closure
+          | :stop_moved
+          | :schedule_change
+          | :snow_route
+          | :snow_route
+          | :station_issue
+          | :stop_shoveling
+          | :summary
+          | :track_change
+          | :unknown
 
   @type severity :: 0..10
   @type lifecycle :: :ongoing | :upcoming | :ongoing_upcoming | :new | :unknown
   @type t :: %Alerts.Alert{
-    id: String.t,
-    header: String.t,
-    informed_entity: Alerts.InformedEntitySet.t,
-    active_period: [period_pair],
-    effect: effect,
-    severity: severity,
-    lifecycle: lifecycle,
-    updated_at: DateTime.t,
-    description: String.t
-  }
+          id: String.t(),
+          header: String.t(),
+          informed_entity: Alerts.InformedEntitySet.t(),
+          active_period: [period_pair],
+          effect: effect,
+          severity: severity,
+          lifecycle: lifecycle,
+          updated_at: DateTime.t(),
+          description: String.t()
+        }
 
   use Timex
 
@@ -85,12 +85,15 @@ defmodule Alerts.Alert do
     :summary,
     :suspension,
     :track_change,
-    :unknown | @ongoing_effects]
+    :unknown | @ongoing_effects
+  ]
 
   def new(keywords \\ [])
+
   def new([]) do
     %__MODULE__{}
   end
+
   def new(keywords) do
     alert = struct!(__MODULE__, keywords)
     ensure_entity_set(alert)
@@ -107,17 +110,17 @@ defmodule Alerts.Alert do
   defp ensure_entity_set(%{informed_entity: %Alerts.InformedEntitySet{}} = alert) do
     alert
   end
+
   defp ensure_entity_set(alert) do
     %{alert | informed_entity: Alerts.InformedEntitySet.new(alert.informed_entity)}
   end
 
-  @spec get_entity(t, :route | :stop | :route_type | :trip | :direction_id) ::
-    Enumerable.t
+  @spec get_entity(t, :route | :stop | :route_type | :trip | :direction_id) :: Enumerable.t()
   @doc "Helper function for retrieving InformedEntity values for an alert"
-  def get_entity(%__MODULE__{informed_entity: %IESet{route:        set}}, :route), do: set
-  def get_entity(%__MODULE__{informed_entity: %IESet{stop:         set}}, :stop), do: set
-  def get_entity(%__MODULE__{informed_entity: %IESet{route_type:   set}}, :route_type), do: set
-  def get_entity(%__MODULE__{informed_entity: %IESet{trip:         set}}, :trip), do: set
+  def get_entity(%__MODULE__{informed_entity: %IESet{route: set}}, :route), do: set
+  def get_entity(%__MODULE__{informed_entity: %IESet{stop: set}}, :stop), do: set
+  def get_entity(%__MODULE__{informed_entity: %IESet{route_type: set}}, :route_type), do: set
+  def get_entity(%__MODULE__{informed_entity: %IESet{trip: set}}, :trip), do: set
   def get_entity(%__MODULE__{informed_entity: %IESet{direction_id: set}}, :direction_id), do: set
 
   @doc """
@@ -127,30 +130,38 @@ defmodule Alerts.Alert do
     * now is within a week of start date
     * now is within one week of end date
   """
-  @spec is_urgent_alert?(__MODULE__.t, DateTime.t) :: boolean
+  @spec is_urgent_alert?(__MODULE__.t(), DateTime.t()) :: boolean
   def is_urgent_alert?(%__MODULE__{severity: sev}, _time) when sev < 7 do
     false
   end
+
   def is_urgent_alert?(%__MODULE__{active_period: []}, %DateTime{}) do
     true
   end
+
   def is_urgent_alert?(%__MODULE__{} = alert, %DateTime{} = time) do
-    within_one_week(time, alert.updated_at) || Enum.any?(alert.active_period, &is_urgent_period?(&1, alert, time))
+    within_one_week(time, alert.updated_at) ||
+      Enum.any?(alert.active_period, &is_urgent_period?(&1, alert, time))
   end
 
-  @spec is_urgent_period?({DateTime.t | nil, DateTime.t | nil}, __MODULE__.t, DateTime.t) :: boolean
+  @spec is_urgent_period?({DateTime.t() | nil, DateTime.t() | nil}, __MODULE__.t(), DateTime.t()) ::
+          boolean
   def is_urgent_period?(_, %__MODULE__{severity: sev}, %DateTime{}) when sev < 7 do
     false
   end
+
   def is_urgent_period?({nil, nil}, %__MODULE__{}, %DateTime{}) do
     true
   end
+
   def is_urgent_period?({nil, %DateTime{} = until}, %__MODULE__{}, %DateTime{} = time) do
     within_one_week(until, time)
   end
+
   def is_urgent_period?({%DateTime{} = from, nil}, %__MODULE__{}, %DateTime{} = time) do
     within_one_week(time, from)
   end
+
   def is_urgent_period?({from, until}, alert, time) do
     is_urgent_period?({from, nil}, alert, time) || is_urgent_period?({nil, until}, alert, time)
   end
@@ -161,76 +172,86 @@ defmodule Alerts.Alert do
   end
 
   @doc "Returns true if the Alert should be displayed as a less-prominent notice"
-  @spec is_notice?(t, DateTime.t | Date.t) :: boolean
+  @spec is_notice?(t, DateTime.t() | Date.t()) :: boolean
   def is_notice?(alert_list, time_or_date)
+
   def is_notice?(%__MODULE__{} = alert, %Date{} = date) do
     is_notice?(alert, Timex.to_datetime(date))
   end
+
   def is_notice?(%__MODULE__{effect: :delay}, _) do
     # Delays are never notices
     false
   end
+
   def is_notice?(%__MODULE__{effect: :suspension}, _) do
     # Suspensions are not notices
     false
   end
+
   def is_notice?(%__MODULE__{severity: sev} = alert, time) when sev >= 7 do
-     !is_urgent_alert?(alert, time)
+    !is_urgent_alert?(alert, time)
   end
+
   def is_notice?(%__MODULE__{effect: :access_issue}, _) do
     true
   end
+
   def is_notice?(%__MODULE__{effect: :cancellation, active_period: active_period}, time) do
     date = Timex.to_date(time)
     Enum.all?(active_period, &outside_date_range?(date, &1))
   end
-  def is_notice?(%__MODULE__{effect: :service_change, severity: severity}, _) when severity <= 3 do
+
+  def is_notice?(%__MODULE__{effect: :service_change, severity: severity}, _)
+      when severity <= 3 do
     # minor service changes are never alerts
     true
   end
+
   def is_notice?(%__MODULE__{effect: effect, lifecycle: lifecycle}, _)
-  when effect in @ongoing_effects and lifecycle in [:ongoing, :ongoing_upcoming] do
+      when effect in @ongoing_effects and lifecycle in [:ongoing, :ongoing_upcoming] do
     # Ongoing alerts are notices
     true
   end
+
   def is_notice?(%__MODULE__{effect: effect} = alert, dt) when effect in @ongoing_effects do
     # non-Ongoing alerts are notices if they aren't happening now
     !Alerts.Match.any_time_match?(alert, dt)
   end
+
   def is_notice?(%__MODULE__{}, _) do
     # Default to true
     true
   end
 
-  @spec outside_date_range?(Date.t, {Date.t, Date.t}) :: boolean
+  @spec outside_date_range?(Date.t(), {Date.t(), Date.t()}) :: boolean
   defp outside_date_range?(date, {nil, until}) do
     until_date = Timex.to_date(until)
     date > until_date
   end
+
   defp outside_date_range?(date, {from, nil}) do
     from_date = Timex.to_date(from)
     date < from_date
   end
+
   defp outside_date_range?(date, {from, until}) do
     from_date = Timex.to_date(from)
     until_date = Timex.to_date(until)
-    (date < from_date) || (date > until_date)
+    date < from_date || date > until_date
   end
 
   def access_alert_types do
-    [elevator_closure: "Elevator",
-     escalator_closure: "Escalator",
-     access_issue: "Other"
-    ]
+    [elevator_closure: "Elevator", escalator_closure: "Escalator", access_issue: "Other"]
   end
 
   @doc "Returns a friendly name for the alert's effect"
-  @spec human_effect(t) :: String.t
+  @spec human_effect(t) :: String.t()
   def human_effect(%__MODULE__{effect: effect}) do
     do_human_effect(effect)
   end
 
-  @spec do_human_effect(effect) :: String.t
+  @spec do_human_effect(effect) :: String.t()
   defp do_human_effect(:amber_alert), do: "Amber Alert"
   defp do_human_effect(:cancellation), do: "Cancellation"
   defp do_human_effect(:delay), do: "Delay"
@@ -257,12 +278,12 @@ defmodule Alerts.Alert do
   defp do_human_effect(_), do: "Unknown"
 
   @doc "Returns a friendly name for the alert's lifecycle"
-  @spec human_lifecycle(t) :: String.t
+  @spec human_lifecycle(t) :: String.t()
   def human_lifecycle(%__MODULE__{lifecycle: lifecycle}) do
     do_human_lifecycle(lifecycle)
   end
 
-  @spec do_human_lifecycle(lifecycle) :: String.t
+  @spec do_human_lifecycle(lifecycle) :: String.t()
   defp do_human_lifecycle(:new), do: "New"
   defp do_human_lifecycle(:upcoming), do: "Upcoming"
   defp do_human_lifecycle(:ongoing_upcoming), do: "Upcoming"

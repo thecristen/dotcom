@@ -1,6 +1,7 @@
 defmodule SiteWeb.IntegrationHelpers do
   import Wallaby.Query
   import Wallaby.Browser
+
   def search_results_section(count) do
     css(".c-search-results__section", count: count)
   end

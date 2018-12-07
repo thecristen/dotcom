@@ -3,6 +3,7 @@ defmodule Content.JsonHelpers do
     file_path = [Path.dirname(__ENV__.file), "../fixtures", filename]
     parse_file(file_path)
   end
+
   def parse_json_file("priv" <> filename) do
     file_path = [Path.dirname(__ENV__.file), "../../priv/", filename]
     parse_file(file_path)

@@ -12,16 +12,19 @@ defmodule SiteWeb.Plugs.DateInRating do
   def init([]), do: [dates_fn: &Schedules.Repo.rating_dates/0]
 
   @impl Plug
-  def call(%Conn{assigns: %{date: date}, query_params: %{"date" => _}} = conn, [dates_fn: dates_fn]) do
-    in_rating? = case dates_fn.() do
-      {start_date, end_date} ->
-        Date.compare(start_date, date) != :gt and Date.compare(end_date, date) != :lt
-      :error ->
-        true
-    end
+  def call(%Conn{assigns: %{date: date}, query_params: %{"date" => _}} = conn, dates_fn: dates_fn) do
+    in_rating? =
+      case dates_fn.() do
+        {start_date, end_date} ->
+          Date.compare(start_date, date) != :gt and Date.compare(end_date, date) != :lt
+
+        :error ->
+          true
+      end
 
     assign_date_in_rating(conn, in_rating?)
   end
+
   def call(%Conn{} = conn, _) do
     assign_date_in_rating(conn, true)
   end

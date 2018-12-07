@@ -15,6 +15,7 @@ defmodule SiteWeb.Plugs.Route do
     case Routes.Repo.get(route_id) do
       nil ->
         SiteWeb.ControllerHelpers.render_404(conn)
+
       route ->
         assign(conn, :route, route)
     end

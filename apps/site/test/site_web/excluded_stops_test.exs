@@ -4,7 +4,7 @@ defmodule ExcludedStopsTest do
 
   describe "excluded_origin_stops/3" do
     test "excludes the last stop on a non-Red or Green line" do
-      all_stops = Enum.map(1..10, & %{id: Integer.to_string(&1)})
+      all_stops = Enum.map(1..10, &%{id: Integer.to_string(&1)})
 
       assert excluded_origin_stops(0, "Route", all_stops) == ["10"]
     end
@@ -14,7 +14,7 @@ defmodule ExcludedStopsTest do
     end
 
     test "excludes last terminal on northbound Red Line trips" do
-      all_stops = Enum.map(1..10, & %{id: Integer.to_string(&1)})
+      all_stops = Enum.map(1..10, &%{id: Integer.to_string(&1)})
 
       assert excluded_origin_stops(1, "Red", all_stops) == ["10"]
     end
@@ -24,13 +24,19 @@ defmodule ExcludedStopsTest do
     end
 
     test "excludes all terminals on westbound Green Line trips" do
-      assert excluded_origin_stops(0, "Green", []) == ["place-lake", "place-clmnl", "place-river", "place-hsmnl"]
+      assert excluded_origin_stops(0, "Green", []) == [
+               "place-lake",
+               "place-clmnl",
+               "place-river",
+               "place-hsmnl"
+             ]
     end
 
     test "excludes Lechmere on eastbound GL trips" do
-      all_stops = 1
-      |> GreenLine.stops_on_routes
-      |> GreenLine.all_stops
+      all_stops =
+        1
+        |> GreenLine.stops_on_routes()
+        |> GreenLine.all_stops()
 
       assert excluded_origin_stops(1, "Green", all_stops) == ["place-lech"]
     end

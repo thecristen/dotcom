@@ -1,15 +1,13 @@
 defmodule Content.SearchResult.Page do
-  defstruct [
-    title: "",
-    url: "",
-    highlights: []
-  ]
+  defstruct title: "",
+            url: "",
+            highlights: []
 
   @type t :: %__MODULE__{
-    title: String.t,
-    url: String.t,
-    highlights: [String.t]
-  }
+          title: String.t(),
+          url: String.t(),
+          highlights: [String.t()]
+        }
 
   @spec build(map) :: t
   def build(result) do

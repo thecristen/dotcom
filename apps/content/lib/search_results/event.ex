@@ -1,19 +1,17 @@
 defmodule Content.SearchResult.Event do
   import Content.Helpers, only: [parse_iso_datetime: 1]
 
-  defstruct [
-    title: "",
-    url: "",
-    start_time: nil,
-    location: ""
-  ]
+  defstruct title: "",
+            url: "",
+            start_time: nil,
+            location: ""
 
   @type t :: %__MODULE__{
-    title: String.t,
-    url: String.t,
-    start_time: DateTime.t | nil,
-    location: String.t
-  }
+          title: String.t(),
+          url: String.t(),
+          start_time: DateTime.t() | nil,
+          location: String.t()
+        }
 
   @spec build(map) :: t
   def build(result) do
@@ -25,16 +23,23 @@ defmodule Content.SearchResult.Event do
     }
   end
 
-  @spec start_time(String.t) :: DateTime.t | nil
+  @spec start_time(String.t()) :: DateTime.t() | nil
   defp start_time(datestring) do
     datestring
     |> String.replace("Z", "")
     |> parse_iso_datetime()
   end
 
-  @spec location(map) :: String.t
+  @spec location(map) :: String.t()
   defp location(%{"ss_field_imported_address" => address}), do: address
-  defp location(%{"ss_field_location" => location, "ss_field_street_address" => street, "ss_field_city" => city,
-                  "ss_field_state" => state}), do: "#{location}, #{street}, #{city} #{state}"
+
+  defp location(%{
+         "ss_field_location" => location,
+         "ss_field_street_address" => street,
+         "ss_field_city" => city,
+         "ss_field_state" => state
+       }),
+       do: "#{location}, #{street}, #{city} #{state}"
+
   defp location(_), do: ""
 end

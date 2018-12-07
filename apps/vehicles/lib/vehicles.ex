@@ -36,12 +36,14 @@ defmodule Vehicles do
     # causes the server to crash.
     []
   end
+
   defp stream_children(_) do
-    sses_opts = V3Api.Stream.build_options(
-      name: Vehicles.Api.SSES,
-      path: "/vehicles",
-      params: @api_params
-    )
+    sses_opts =
+      V3Api.Stream.build_options(
+        name: Vehicles.Api.SSES,
+        path: "/vehicles",
+        params: @api_params
+      )
 
     [
       {ServerSentEventStage, sses_opts},

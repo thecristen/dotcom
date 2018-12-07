@@ -57,7 +57,7 @@ defmodule UpcomingRouteDeparturesTest do
       pickup_type: 1,
       stop_sequence: 1
     },
-    %Schedule {
+    %Schedule{
       route: %Route{id: "Green-B", type: 0},
       stop: @stop,
       trip: %Trip{id: "GREEN-1", headsign: "GREEN-1", direction_id: 0},
@@ -65,7 +65,7 @@ defmodule UpcomingRouteDeparturesTest do
       pickup_type: 2,
       stop_sequence: 1
     },
-    %Schedule {
+    %Schedule{
       route: %Route{id: "66", type: 3, name: "66"},
       stop: @stop,
       trip: %Trip{id: "BUS-66-1", headsign: "BUS-HS-1", direction_id: 0},
@@ -73,7 +73,7 @@ defmodule UpcomingRouteDeparturesTest do
       pickup_type: 2,
       stop_sequence: 1
     },
-    %Schedule {
+    %Schedule{
       route: %Route{id: "9", type: 3, name: "9"},
       stop: @stop,
       trip: %Trip{id: "BUS-9-1", headsign: "BUS-HS-2", direction_id: 0},
@@ -81,18 +81,18 @@ defmodule UpcomingRouteDeparturesTest do
       pickup_type: 2,
       stop_sequence: 1
     },
-    %Schedule {
+    %Schedule{
       route: %Route{id: "742", type: 3, name: "SL1"},
       stop: @stop,
       trip: %Trip{id: "BUS-SL1-1", headsign: "BUS-HS-4", direction_id: 0},
       time: Timex.shift(@time, minutes: 5),
       pickup_type: 2,
       stop_sequence: 1
-    },
+    }
   ]
 
   @predictions [
-    %Prediction {
+    %Prediction{
       route: %Route{id: "CR-1", type: 2},
       id: 1,
       direction_id: 0,
@@ -102,7 +102,7 @@ defmodule UpcomingRouteDeparturesTest do
       departing?: true,
       stop_sequence: 1
     },
-    %Prediction {
+    %Prediction{
       route: %Route{id: "CR-2", type: 2},
       direction_id: 1,
       id: 2,
@@ -112,7 +112,7 @@ defmodule UpcomingRouteDeparturesTest do
       departing?: true,
       stop_sequence: 1
     },
-    %Prediction {
+    %Prediction{
       route: %Route{id: "Green-B", type: 0},
       direction_id: 0,
       id: 3,
@@ -122,7 +122,7 @@ defmodule UpcomingRouteDeparturesTest do
       departing?: true,
       stop_sequence: 1
     },
-    %Prediction {
+    %Prediction{
       route: %Route{id: "Non departure", type: 2},
       direction_id: 0,
       stop: @stop,
@@ -131,7 +131,7 @@ defmodule UpcomingRouteDeparturesTest do
       departing?: false,
       stop_sequence: 1
     },
-    %Prediction {
+    %Prediction{
       direction_id: 1,
       route: %Route{id: "Early Prediction Route", type: 2},
       stop: @stop,
@@ -143,23 +143,23 @@ defmodule UpcomingRouteDeparturesTest do
   ]
 
   @green_line_schedules [
-    %Schedule {
+    %Schedule{
       route: %Route{id: "Green-E", type: 0},
       stop: @stop,
       trip: %Trip{id: "GREEN-1", headsign: "Heath Street", direction_id: 0},
-      time: Timex.shift(@time, minutes: 5),
+      time: Timex.shift(@time, minutes: 5)
     },
-    %Schedule {
+    %Schedule{
       route: %Route{id: "Green-B", type: 0},
       stop: @stop,
       trip: %Trip{id: "GREEN-2", headsign: "Boston College", direction_id: 0},
       time: Timex.shift(@time, minutes: 5),
       stop_sequence: 1
-    },
+    }
   ]
 
   @green_line_predictions [
-    %Prediction {
+    %Prediction{
       id: "Green-Prediction-1",
       direction_id: 0,
       route: %Route{id: "Green-E", type: 0},
@@ -168,7 +168,7 @@ defmodule UpcomingRouteDeparturesTest do
       stop: @stop,
       stop_sequence: 1
     },
-    %Prediction {
+    %Prediction{
       id: "Green-Prediction-2",
       direction_id: 0,
       route: %Route{id: "Green-E", type: 0},
@@ -177,7 +177,7 @@ defmodule UpcomingRouteDeparturesTest do
       stop: @stop,
       stop_sequence: 1
     },
-    %Prediction {
+    %Prediction{
       id: "Green-Prediction-3",
       direction_id: 0,
       route: %Route{id: "Green-E", type: 0},
@@ -186,7 +186,7 @@ defmodule UpcomingRouteDeparturesTest do
       stop: @stop,
       stop_sequence: 1
     },
-    %Prediction {
+    %Prediction{
       id: "Green-Prediction-4",
       direction_id: 0,
       route: %Route{id: "Green-B", type: 0},
@@ -195,7 +195,7 @@ defmodule UpcomingRouteDeparturesTest do
       stop: @stop,
       stop_sequence: 1
     },
-    %Prediction {
+    %Prediction{
       id: "Green-Prediction-5",
       direction_id: 0,
       route: %Route{id: "Green-B", type: 0},
@@ -203,9 +203,9 @@ defmodule UpcomingRouteDeparturesTest do
       stop: @stop,
       time: Timex.shift(@time, minutes: 5),
       stop_sequence: 1,
-      departing?: true,
+      departing?: true
     },
-    %Prediction {
+    %Prediction{
       id: "Green-Prediction-6",
       status: "1 stop away",
       departing?: true,
@@ -214,7 +214,7 @@ defmodule UpcomingRouteDeparturesTest do
       stop: @stop,
       stop_sequence: 1
     },
-    %Prediction {
+    %Prediction{
       id: "Green-Prediction-5",
       status: "Approaching",
       departing?: true,
@@ -223,7 +223,7 @@ defmodule UpcomingRouteDeparturesTest do
       stop: @stop,
       stop_sequence: 1
     },
-    %Prediction {
+    %Prediction{
       id: "Green-Prediction-8",
       status: "Boarding",
       departing?: true,
@@ -231,13 +231,14 @@ defmodule UpcomingRouteDeparturesTest do
       route: %Route{id: "Green-C", type: 0},
       stop: @stop,
       stop_sequence: 1
-    },
+    }
   ]
 
   describe "build_mode_list/3" do
     test "PredictedSchedules are grouped by mode" do
       mode_map = @predictions |> build_mode_list(@schedules, @time) |> Map.new()
-      for type_integer_val <- [0,2,3] do
+
+      for type_integer_val <- [0, 2, 3] do
         for route_time <- mode_map[Route.type_atom(type_integer_val)] do
           assert route_time.route.type == type_integer_val
         end
@@ -247,9 +248,10 @@ defmodule UpcomingRouteDeparturesTest do
     test "UpcomingRouteDepartures are grouped by headsign" do
       mode_map = @predictions |> build_mode_list(@schedules, @time) |> Map.new()
       commuter_route_times = mode_map[:commuter_rail]
+
       for route_time <- commuter_route_times do
         for {headsign, predicted_schedules} <- route_time.departures do
-          Enum.all?(predicted_schedules, & PredictedSchedule.trip(&1).headsign == headsign)
+          Enum.all?(predicted_schedules, &(PredictedSchedule.trip(&1).headsign == headsign))
         end
       end
     end
@@ -275,14 +277,14 @@ defmodule UpcomingRouteDeparturesTest do
     test "Only departing predicted_schedules are returned" do
       mode_map = @predictions |> build_mode_list(@schedules, @time) |> Map.new()
       commuter_route_times = mode_map[:commuter_rail]
-      refute Enum.find(commuter_route_times, & &1.route.id == "Non departure")
+      refute Enum.find(commuter_route_times, &(&1.route.id == "Non departure"))
     end
 
     test "Same headsign can occur in separate routes" do
       mode_map = @predictions |> build_mode_list(@schedules, @time) |> Map.new()
       commuter_route_times = mode_map[:commuter_rail]
-      route1 = Enum.find(commuter_route_times, & &1.route.id == "CR-1")
-      route2 = Enum.find(commuter_route_times, & &1.route.id == "CR-2")
+      route1 = Enum.find(commuter_route_times, &(&1.route.id == "CR-1"))
+      route2 = Enum.find(commuter_route_times, &(&1.route.id == "CR-2"))
       route1_headsigns = route1.departures |> Enum.map(&elem(&1, 0))
       route2_headsigns = route2.departures |> Enum.map(&elem(&1, 0))
       assert "HS-1" in route1_headsigns
@@ -292,6 +294,7 @@ defmodule UpcomingRouteDeparturesTest do
     test "Subway departures do not contain scheduled times" do
       mode_map = @predictions |> build_mode_list(@schedules, @time) |> Map.new()
       subway_route_times = mode_map[:subway]
+
       for route_departure <- subway_route_times do
         for {_headsign, departures} <- route_departure.departures do
           Enum.all?(departures, &is_nil(&1.schedule))
@@ -302,12 +305,16 @@ defmodule UpcomingRouteDeparturesTest do
 
   describe "Green line predictions" do
     test "Multiple greenline status predictions can be shown on single route" do
-      mode_map = @green_line_predictions |> build_mode_list(@green_line_schedules, @time) |> Map.new()
-      upcoming_e_line = mode_map[:subway] |> Enum.find(& &1.route.id == "Green-E")
+      mode_map =
+        @green_line_predictions |> build_mode_list(@green_line_schedules, @time) |> Map.new()
+
+      upcoming_e_line = mode_map[:subway] |> Enum.find(&(&1.route.id == "Green-E"))
+
       for {_headsign, departures} <- upcoming_e_line.departures do
         assert Enum.count(departures) > 1
+
         for departure <- departures,
-          departure.prediction do
+            departure.prediction do
           assert departure.prediction.status
         end
       end
@@ -315,23 +322,31 @@ defmodule UpcomingRouteDeparturesTest do
 
     test "are sorted by status" do
       status_extractor = fn {_headsign, deps} -> Enum.map(deps, & &1.prediction.status) end
-      mode_map = @green_line_predictions |> build_mode_list(@green_line_schedules, @time) |> Map.new()
-      upcoming_c_line = mode_map[:subway] |> Enum.find(& &1.route.id == "Green-C")
+
+      mode_map =
+        @green_line_predictions |> build_mode_list(@green_line_schedules, @time) |> Map.new()
+
+      upcoming_c_line = mode_map[:subway] |> Enum.find(&(&1.route.id == "Green-C"))
       c_line_statuses = upcoming_c_line.departures |> Enum.flat_map(status_extractor)
       assert c_line_statuses == ["Boarding", "Approaching", "1 stop away"]
     end
 
     test "are sorted by status then time" do
       id_extractor = fn {_headsign, deps} -> Enum.map(deps, & &1.prediction.id) end
-      mode_map = @green_line_predictions |> build_mode_list(@green_line_schedules, @time) |> Map.new()
-      upcoming_b_line = mode_map[:subway] |> Enum.find(& &1.route.id == "Green-B")
+
+      mode_map =
+        @green_line_predictions |> build_mode_list(@green_line_schedules, @time) |> Map.new()
+
+      upcoming_b_line = mode_map[:subway] |> Enum.find(&(&1.route.id == "Green-B"))
       b_line_ids = upcoming_b_line.departures |> Enum.flat_map(id_extractor)
       assert b_line_ids == ["Green-Prediction-4", "Green-Prediction-5"]
     end
 
     test "status-only predictions shown without related schedules" do
-      mode_map = @green_line_predictions |> build_mode_list(@green_line_schedules, @time) |> Map.new()
-      assert mode_map[:subway] |> Enum.find(& &1.route.id == "Green-C")
+      mode_map =
+        @green_line_predictions |> build_mode_list(@green_line_schedules, @time) |> Map.new()
+
+      assert mode_map[:subway] |> Enum.find(&(&1.route.id == "Green-C"))
     end
   end
 end

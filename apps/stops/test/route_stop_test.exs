@@ -5,7 +5,7 @@ defmodule Stops.RouteStopTest do
   alias Stops.RouteStop
   alias Stops.Stop
   alias Routes.{Route, Shape}
-  @stop  %Stop{name: "Braintree", id: "place-brntn"}
+  @stop %Stop{name: "Braintree", id: "place-brntn"}
   @route %Routes.Route{id: "Red", type: 1}
   describe "build_route_stop/3" do
     test "creates a RouteStop object with all expected attributes" do
@@ -17,7 +17,8 @@ defmodule Stops.RouteStopTest do
       assert result.is_beginning?
       assert result.branch == "Braintree"
       assert result.zone == {:error, :not_fetched}
-      assert result.stop_features == {:error, :not_fetched} #~w(bus commuter_rail)a
+      # ~w(bus commuter_rail)a
+      assert result.stop_features == {:error, :not_fetched}
       assert result.connections == {:error, :not_fetched}
     end
   end
@@ -44,7 +45,7 @@ defmodule Stops.RouteStopTest do
       assert route_stop.connections == {:error, :not_fetched}
       fetched = fetch_connections(route_stop)
       assert [%Route{} | _] = fetched.connections
-      assert Enum.find(fetched.connections, & &1.id == fetched.route.id) == nil
+      assert Enum.find(fetched.connections, &(&1.id == fetched.route.id)) == nil
     end
   end
 
@@ -55,11 +56,13 @@ defmodule Stops.RouteStopTest do
         name: "Ashmont",
         stop_ids: ~w(alewife shared ashmont)s
       }
+
       braintree_shape = %Shape{
         id: "braintree",
         name: "Braintree",
         stop_ids: ~w(alewife shared braintree)s
       }
+
       stops = make_stops(~w(braintree ashmont shared alewife)s)
       route = %Route{id: "Red"}
       actual = list_from_shapes([ashmont_shape, braintree_shape], stops, route, 0)
@@ -74,11 +77,13 @@ defmodule Stops.RouteStopTest do
         name: "Ashmont",
         stop_ids: ~w(ashmont shared alewife)s
       }
+
       braintree_shape = %Shape{
         id: "braintree",
         name: "Braintree",
         stop_ids: ~w(braintree shared alewife)s
       }
+
       stops = make_stops(~w(braintree ashmont shared alewife)s)
       route = %Route{id: "Red"}
       actual = list_from_shapes([ashmont_shape, braintree_shape], stops, route, 1)
@@ -93,11 +98,13 @@ defmodule Stops.RouteStopTest do
         name: "Kingston",
         stop_ids: ~w(sstat jfk braintree kingston)s
       }
+
       plymouth = %Shape{
         id: "plymouth",
         name: "Plymouth",
         stop_ids: ~w(sstat braintree plymouth)s
       }
+
       stops = make_stops(~w(sstat jfk braintree kingston plymouth)s)
       route = %Route{id: "CR-Kingston"}
       actual = list_from_shapes([kingston, plymouth], stops, route, 0)
@@ -112,11 +119,13 @@ defmodule Stops.RouteStopTest do
         name: "Kingston",
         stop_ids: ~w(kingston braintree jfk sstat)s
       }
+
       plymouth = %Shape{
         id: "plymouth",
         name: "Plymouth",
         stop_ids: ~w(plymouth braintree sstat)s
       }
+
       stops = make_stops(~w(sstat jfk braintree kingston plymouth)s)
       route = %Route{id: "CR-Kingston"}
       actual = list_from_shapes([kingston, plymouth], stops, route, 1)

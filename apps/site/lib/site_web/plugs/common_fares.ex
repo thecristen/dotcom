@@ -5,7 +5,8 @@ defmodule SiteWeb.Plugs.CommonFares do
     bus_subway: [
       [name: :subway, duration: :single_trip, reduced: nil],
       [name: :local_bus, duration: :single_trip, reduced: nil],
-      [name: :subway, duration: :month, reduced: nil]],
+      [name: :subway, duration: :month, reduced: nil]
+    ],
     commuter_rail: [
       [mode: :commuter_rail, duration: :single_trip, reduced: nil]
     ]

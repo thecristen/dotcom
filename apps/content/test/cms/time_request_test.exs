@@ -7,15 +7,17 @@ defmodule Content.CMS.TimeRequestTest do
 
   defp setup_log_level do
     old_level = Logger.level()
-    on_exit fn ->
+
+    on_exit(fn ->
       Logger.configure(level: old_level)
-    end
+    end)
+
     Logger.configure(level: :info)
   end
 
   describe "time_request/5" do
     setup do
-      bypass = Bypass.open
+      bypass = Bypass.open()
       url = "http://127.0.0.1:#{bypass.port}/"
       {:ok, %{bypass: bypass, url: url}}
     end
@@ -23,26 +25,29 @@ defmodule Content.CMS.TimeRequestTest do
     @tag :capture_log
     test "returns an HTTP response", %{bypass: bypass, url: url} do
       setup_log_level()
-      Bypass.expect bypass, fn conn ->
+
+      Bypass.expect(bypass, fn conn ->
         assert fetch_query_params(conn).query_params == %{"param" => "value"}
         send_resp(conn, 200, "ok")
-      end
+      end)
 
-      response = time_request(:get, url, "", [], [params: [param: "value"]])
+      response = time_request(:get, url, "", [], params: [param: "value"])
       assert {:ok, %{status_code: 200, body: "ok"}} = response
     end
 
     test "logs a successful request", %{bypass: bypass, url: url} do
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         send_resp(conn, 200, "ok")
-      end
+      end)
 
       params = [params: [param: "value", _format: "json"]]
 
-      log = capture_log(fn ->
-        setup_log_level()
-        time_request(:get, url, "", [], params)
-      end)
+      log =
+        capture_log(fn ->
+          setup_log_level()
+          time_request(:get, url, "", [], params)
+        end)
+
       assert log =~ "status=200"
       assert log =~ "url=#{url}"
       assert log =~ params_without__format(params)
@@ -50,12 +55,14 @@ defmodule Content.CMS.TimeRequestTest do
     end
 
     test "logs a failed request", %{bypass: bypass, url: url} do
-      Bypass.down bypass
+      Bypass.down(bypass)
 
-      log = capture_log(fn ->
-        setup_log_level()
-        time_request(:get, url)
-      end)
+      log =
+        capture_log(fn ->
+          setup_log_level()
+          time_request(:get, url)
+        end)
+
       assert log =~ "status=error"
       assert log =~ "error="
       assert log =~ "url=#{url}"
@@ -67,6 +74,6 @@ defmodule Content.CMS.TimeRequestTest do
   defp params_without__format(params) do
     params
     |> Keyword.delete(:_format)
-    |> (fn params -> "options=#{inspect params}" end).()
+    |> (fn params -> "options=#{inspect(params)}" end).()
   end
 end

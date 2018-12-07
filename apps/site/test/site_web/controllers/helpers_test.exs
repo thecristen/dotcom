@@ -1,38 +1,99 @@
 defmodule SiteWeb.ControllerHelpersTest do
   use SiteWeb.ConnCase, async: true
   import SiteWeb.ControllerHelpers
-  import Plug.Conn, only: [
-    assign: 3,
-    get_resp_header: 2,
-    resp: 3,
-    merge_resp_headers: 2,
-    put_private: 3,
-  ]
+
+  import Plug.Conn,
+    only: [
+      assign: 3,
+      get_resp_header: 2,
+      resp: 3,
+      merge_resp_headers: 2,
+      put_private: 3
+    ]
 
   describe "filter_modes/2" do
     test "filters the key routes of all modes that are passed" do
       routes = [
-        {:subway, [%Routes.Route{direction_names: %{0 => "South", 1 => "North"},
-         id: "Red", description: :rapid_transit, name: "Red Line", type: 1},
-        %Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
-         id: "Mattapan", description: :rapid_transit, name: "Mattapan Trolley", type: 0}]},
-        {:bus, [%Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"}, id: "22",
-         description: :key_bus_route, name: "22", type: 3},
-        %Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"}, id: "23",
-         description: :key_bus_route, name: "23", type: 3},
-         %Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"}, id: "40",
-             description: :local_bus, name: "40", type: 3}]
-      }]
+        {:subway,
+         [
+           %Routes.Route{
+             direction_names: %{0 => "South", 1 => "North"},
+             id: "Red",
+             description: :rapid_transit,
+             name: "Red Line",
+             type: 1
+           },
+           %Routes.Route{
+             direction_names: %{0 => "Outbound", 1 => "Inbound"},
+             id: "Mattapan",
+             description: :rapid_transit,
+             name: "Mattapan Trolley",
+             type: 0
+           }
+         ]},
+        {:bus,
+         [
+           %Routes.Route{
+             direction_names: %{0 => "Outbound", 1 => "Inbound"},
+             id: "22",
+             description: :key_bus_route,
+             name: "22",
+             type: 3
+           },
+           %Routes.Route{
+             direction_names: %{0 => "Outbound", 1 => "Inbound"},
+             id: "23",
+             description: :key_bus_route,
+             name: "23",
+             type: 3
+           },
+           %Routes.Route{
+             direction_names: %{0 => "Outbound", 1 => "Inbound"},
+             id: "40",
+             description: :local_bus,
+             name: "40",
+             type: 3
+           }
+         ]}
+      ]
 
       assert filter_routes(routes, [:subway, :bus]) ==
-        [{:subway, [%Routes.Route{direction_names: %{0 => "South", 1 => "North"},
-          id: "Red", description: :rapid_transit, name: "Red Line", type: 1},
-        %Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
-         id: "Mattapan", description: :rapid_transit, name: "Mattapan Trolley", type: 0}]},
-        {:bus, [%Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"}, id: "22",
-         description: :key_bus_route, name: "22", type: 3},
-        %Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"}, id: "23",
-         description: :key_bus_route, name: "23", type: 3}]}]
+               [
+                 {:subway,
+                  [
+                    %Routes.Route{
+                      direction_names: %{0 => "South", 1 => "North"},
+                      id: "Red",
+                      description: :rapid_transit,
+                      name: "Red Line",
+                      type: 1
+                    },
+                    %Routes.Route{
+                      direction_names: %{0 => "Outbound", 1 => "Inbound"},
+                      id: "Mattapan",
+                      description: :rapid_transit,
+                      name: "Mattapan Trolley",
+                      type: 0
+                    }
+                  ]},
+                 {:bus,
+                  [
+                    %Routes.Route{
+                      direction_names: %{0 => "Outbound", 1 => "Inbound"},
+                      id: "22",
+                      description: :key_bus_route,
+                      name: "22",
+                      type: 3
+                    },
+                    %Routes.Route{
+                      direction_names: %{0 => "Outbound", 1 => "Inbound"},
+                      id: "23",
+                      description: :key_bus_route,
+                      name: "23",
+                      type: 3
+                    }
+                  ]}
+               ]
     end
   end
 
@@ -62,22 +123,24 @@ defmodule SiteWeb.ControllerHelpersTest do
     @commuter_rail %Alerts.InformedEntity{route_type: 2}
     @bus %Alerts.InformedEntity{route_type: 3}
 
-    @worcester_alert  Alerts.Alert.new(id: "worcester", informed_entity: [@worcester])
-    @worcester_inbound_alert Alerts.Alert.new(id: "worcester-inbound", informed_entity: [@worcester_inbound])
+    @worcester_alert Alerts.Alert.new(id: "worcester", informed_entity: [@worcester])
+    @worcester_inbound_alert Alerts.Alert.new(
+                               id: "worcester-inbound",
+                               informed_entity: [@worcester_inbound]
+                             )
     @commuter_rail_alert Alerts.Alert.new(id: "commuter-rail", informed_entity: [@commuter_rail])
     @bus_alert Alerts.Alert.new(id: "bus", informed_entity: [@bus])
 
     setup do
-      Alerts.Cache.Store.update([@worcester_alert,
-                                 @worcester_inbound_alert,
-                                 @commuter_rail_alert,
-                                 @bus_alert
-                               ], nil)
-
+      Alerts.Cache.Store.update(
+        [@worcester_alert, @worcester_inbound_alert, @commuter_rail_alert, @bus_alert],
+        nil
+      )
     end
 
     test "assigns all alerts for the route id, type, and direction", %{conn: conn} do
       route = %Routes.Route{id: "CR-Worcester", type: 2}
+
       alerts =
         conn
         |> assign(:date_time, Timex.now())
@@ -92,6 +155,7 @@ defmodule SiteWeb.ControllerHelpersTest do
 
     test "does not assign an alert in the opposite direction", %{conn: conn} do
       route = %Routes.Route{id: "CR-Worcester", type: 2}
+
       alerts =
         conn
         |> assign(:date_time, Timex.now())
@@ -106,6 +170,7 @@ defmodule SiteWeb.ControllerHelpersTest do
 
     test "assigns alerts for both directions if the direction_id is nil", %{conn: conn} do
       route = %Routes.Route{id: "CR-Worcester", type: 2}
+
       alerts =
         conn
         |> assign(:date_time, Timex.now())
@@ -120,6 +185,7 @@ defmodule SiteWeb.ControllerHelpersTest do
 
     test "assigns alerts for both directions if the direction_id is not assigned", %{conn: conn} do
       route = %Routes.Route{id: "CR-Worcester", type: 2}
+
       alerts =
         conn
         |> assign(:date_time, Timex.now())
@@ -132,19 +198,27 @@ defmodule SiteWeb.ControllerHelpersTest do
     end
 
     test "assigns alerts when any of the matching informed entities have a nil direction,
-          even if others have conflicting direction ids (which shouldn't happen)", %{conn: conn} do
-      worcester_ambiguous_alert = Alerts.Alert.new(
-        id: "worcester-ambiguous",
-        informed_entity: [@worcester_inbound, @worcester]
+          even if others have conflicting direction ids (which shouldn't happen)",
+         %{conn: conn} do
+      worcester_ambiguous_alert =
+        Alerts.Alert.new(
+          id: "worcester-ambiguous",
+          informed_entity: [@worcester_inbound, @worcester]
+        )
+
+      Alerts.Cache.Store.update(
+        [
+          @worcester_alert,
+          @worcester_inbound_alert,
+          worcester_ambiguous_alert,
+          @commuter_rail_alert,
+          @bus_alert
+        ],
+        nil
       )
-      Alerts.Cache.Store.update([@worcester_alert,
-                                 @worcester_inbound_alert,
-                                 worcester_ambiguous_alert,
-                                 @commuter_rail_alert,
-                                 @bus_alert
-                               ], nil)
 
       route = %Routes.Route{id: "CR-Worcester", type: 2}
+
       alerts =
         conn
         |> assign(:date_time, Timex.now())
@@ -160,45 +234,55 @@ defmodule SiteWeb.ControllerHelpersTest do
 
   describe "forward_static_file/2" do
     test "returns a 404 if there's an error" do
-      bypass = Bypass.open
-      Bypass.expect bypass, fn conn ->
+      bypass = Bypass.open()
+
+      Bypass.expect(bypass, fn conn ->
         assert "/causes/an/error" == conn.request_path
         resp(conn, 500, "error on remote server")
-      end
+      end)
 
-      response = forward_static_file(build_conn(), "http://localhost:#{bypass.port}/causes/an/error")
+      response =
+        forward_static_file(build_conn(), "http://localhost:#{bypass.port}/causes/an/error")
 
       assert response.status == 404
       assert response.state == :sent
     end
 
     test "returns a 404 if the remote side returns a 404" do
-      bypass = Bypass.open
-      Bypass.expect bypass, fn conn ->
+      bypass = Bypass.open()
+
+      Bypass.expect(bypass, fn conn ->
         assert "/does/not/exist" == conn.request_path
         resp(conn, 404, "not found")
-      end
+      end)
 
-      response = forward_static_file(build_conn(), "http://localhost:#{bypass.port}/does/not/exist")
+      response =
+        forward_static_file(build_conn(), "http://localhost:#{bypass.port}/does/not/exist")
 
       assert response.status == 404
       assert response.state == :sent
     end
 
     test "returns the body and headers from the response if it's a 200" do
-      headers = [{"Content-Type", "text/plain"},
-                 {"ETag", "tag"},
-                 {"Date", "date"},
-                 {"Content-Length", "6"}]
-      bypass = Bypass.open
-      Bypass.expect bypass, fn conn ->
+      headers = [
+        {"Content-Type", "text/plain"},
+        {"ETag", "tag"},
+        {"Date", "date"},
+        {"Content-Length", "6"}
+      ]
+
+      bypass = Bypass.open()
+
+      Bypass.expect(bypass, fn conn ->
         assert "/this/file/exists" == conn.request_path
+
         conn
         |> merge_resp_headers(headers)
         |> resp(200, "a file")
-      end
+      end)
 
-      response = forward_static_file(build_conn(), "http://localhost:#{bypass.port}/this/file/exists")
+      response =
+        forward_static_file(build_conn(), "http://localhost:#{bypass.port}/this/file/exists")
 
       assert response.status == 200
       assert response.resp_body == "a file"
@@ -212,9 +296,11 @@ defmodule SiteWeb.ControllerHelpersTest do
 
   describe "render_404/1" do
     test "renders the 404 bus" do
-      rendered = build_conn()
-      |> render_404()
-      |> html_response(404)
+      rendered =
+        build_conn()
+        |> render_404()
+        |> html_response(404)
+
       assert rendered =~ "Your stop cannot be found."
     end
   end
@@ -222,19 +308,25 @@ defmodule SiteWeb.ControllerHelpersTest do
   describe "check_cms_or_404/1" do
     test "returns existing pages" do
       conn = build_conn(:get, "/basic_page_no_sidebar", nil)
-      rendered = conn
-      |> put_private(:phoenix_endpoint, SiteWeb.Endpoint)
-      |> check_cms_or_404()
-      |> html_response(200)
+
+      rendered =
+        conn
+        |> put_private(:phoenix_endpoint, SiteWeb.Endpoint)
+        |> check_cms_or_404()
+        |> html_response(200)
+
       assert rendered =~ "Arts on the T"
     end
 
     test "404s on nonexistant pages" do
       conn = build_conn(:get, "/this/page/doesnt/exist", nil)
-      rendered = conn
-      |> put_private(:phoenix_endpoint, SiteWeb.Endpoint)
-      |> check_cms_or_404()
-      |> html_response(404)
+
+      rendered =
+        conn
+        |> put_private(:phoenix_endpoint, SiteWeb.Endpoint)
+        |> check_cms_or_404()
+        |> html_response(404)
+
       assert rendered =~ "Your stop cannot be found."
     end
   end
@@ -259,38 +351,38 @@ defmodule SiteWeb.ControllerHelpersTest do
 
   describe "green_routes/0" do
     assert green_routes() == [
-      %Routes.Route{
-        description: :rapid_transit,
-        direction_names: %{0 => "West", 1 => "East"},
-        id: "Green-B",
-        long_name: "Green Line B",
-        name: "Green Line B",
-        type: 0
-      },
-      %Routes.Route{
-        description: :rapid_transit,
-        direction_names: %{0 => "West", 1 => "East"},
-        id: "Green-C",
-        long_name: "Green Line C",
-        name: "Green Line C",
-        type: 0
-      },
-      %Routes.Route{
-        description: :rapid_transit,
-        direction_names: %{0 => "West", 1 => "East"},
-        id: "Green-D",
-        long_name: "Green Line D",
-        name: "Green Line D",
-        type: 0
-      },
-      %Routes.Route{
-        description: :rapid_transit,
-        direction_names: %{0 => "West", 1 => "East"},
-        id: "Green-E",
-        long_name: "Green Line E",
-        name: "Green Line E",
-        type: 0
-      }
-    ]
+             %Routes.Route{
+               description: :rapid_transit,
+               direction_names: %{0 => "West", 1 => "East"},
+               id: "Green-B",
+               long_name: "Green Line B",
+               name: "Green Line B",
+               type: 0
+             },
+             %Routes.Route{
+               description: :rapid_transit,
+               direction_names: %{0 => "West", 1 => "East"},
+               id: "Green-C",
+               long_name: "Green Line C",
+               name: "Green Line C",
+               type: 0
+             },
+             %Routes.Route{
+               description: :rapid_transit,
+               direction_names: %{0 => "West", 1 => "East"},
+               id: "Green-D",
+               long_name: "Green Line D",
+               name: "Green Line D",
+               type: 0
+             },
+             %Routes.Route{
+               description: :rapid_transit,
+               direction_names: %{0 => "West", 1 => "East"},
+               id: "Green-E",
+               long_name: "Green Line E",
+               name: "Green Line E",
+               type: 0
+             }
+           ]
   end
 end

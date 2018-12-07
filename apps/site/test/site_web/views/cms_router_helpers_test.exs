@@ -10,11 +10,15 @@ defmodule SiteWeb.CmsRouterHelpersTest do
     end
 
     test "handles :show with no path_alias", %{conn: conn} do
-      assert news_entry_path(conn, :show, %Content.NewsEntry{id: 12, path_alias: nil}) == "/node/12"
+      assert news_entry_path(conn, :show, %Content.NewsEntry{id: 12, path_alias: nil}) ==
+               "/node/12"
     end
 
     test "handles :show with path_alias", %{conn: conn} do
-      assert news_entry_path(conn, :show, %Content.NewsEntry{id: 12, path_alias: "/news/date/title"}) == "/news/date/title"
+      assert news_entry_path(conn, :show, %Content.NewsEntry{
+               id: 12,
+               path_alias: "/news/date/title"
+             }) == "/news/date/title"
     end
 
     test "handles :show with non-conforming path_alias", %{conn: conn} do
@@ -38,7 +42,8 @@ defmodule SiteWeb.CmsRouterHelpersTest do
     end
 
     test "handles :show with path_alias", %{conn: conn} do
-      assert event_path(conn, :show, %Content.Event{id: 12, path_alias: "/events/date/title"}) == "/events/date/title"
+      assert event_path(conn, :show, %Content.Event{id: 12, path_alias: "/events/date/title"}) ==
+               "/events/date/title"
     end
 
     test "handles :show with non-conforming path_alias", %{conn: conn} do
@@ -62,7 +67,10 @@ defmodule SiteWeb.CmsRouterHelpersTest do
     end
 
     test "handles :show with path_alias", %{conn: conn} do
-      assert project_path(conn, :show, %Content.Project{id: 12, path_alias: "/projects/project-name"}) == "/projects/project-name"
+      assert project_path(conn, :show, %Content.Project{
+               id: 12,
+               path_alias: "/projects/project-name"
+             }) == "/projects/project-name"
     end
 
     test "handles :show with project name", %{conn: conn} do
@@ -73,11 +81,19 @@ defmodule SiteWeb.CmsRouterHelpersTest do
   describe "project_update_path/3" do
     test "handles :project_update with no path alias", %{conn: conn} do
       assert project_update_path(conn, :project_update, %Content.ProjectUpdate{
-        id: 12, project_id: 13, path_alias: nil}) == "/node/12"
+               id: 12,
+               project_id: 13,
+               path_alias: nil
+             }) == "/node/12"
     end
 
     test "handles :project_update with path alias", %{conn: conn} do
-      project_update = %Content.ProjectUpdate{id: 12, project_id: 13, path_alias: "/projects/project-name/update/update-name"}
+      project_update = %Content.ProjectUpdate{
+        id: 12,
+        project_id: 13,
+        path_alias: "/projects/project-name/update/update-name"
+      }
+
       result = project_update_path(conn, :project_update, project_update)
       assert result == "/projects/project-name/update/update-name"
     end
@@ -85,7 +101,8 @@ defmodule SiteWeb.CmsRouterHelpersTest do
 
   describe "project_update_path/4" do
     test "handles :project_update", %{conn: conn} do
-      assert project_update_path(conn, :project_update, "project-name", "update-name") == "/projects/project-name/update/update-name"
+      assert project_update_path(conn, :project_update, "project-name", "update-name") ==
+               "/projects/project-name/update/update-name"
     end
   end
 end

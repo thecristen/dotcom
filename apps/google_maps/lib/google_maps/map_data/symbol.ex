@@ -22,26 +22,27 @@ defmodule GoogleMaps.MapData.Symbol do
   ]
 
   # https://developers.google.com/maps/documentation/javascript/reference/marker#SymbolPath
-  @type path :: :forward_closed_arrow
-              | :forward_open_arrow
-              | :backwards_closed_arrow
-              | :backwards_open_arrow
-              | :circle
+  @type path ::
+          :forward_closed_arrow
+          | :forward_open_arrow
+          | :backwards_closed_arrow
+          | :backwards_open_arrow
+          | :circle
 
   @type t :: %__MODULE__{
-    anchor: Point.t | nil,
-    fill_color: String.t | nil,
-    fill_opacity: integer | nil,
-    label_origin: Point.t | nil,
-    path: path | String.t,
-    rotation: float | nil,
-    scale: integer | nil,
-    stroke_color: String.t | nil,
-    stroke_opacity: integer | nil,
-    stroke_weight: integer | nil
-  }
+          anchor: Point.t() | nil,
+          fill_color: String.t() | nil,
+          fill_opacity: integer | nil,
+          label_origin: Point.t() | nil,
+          path: path | String.t(),
+          rotation: float | nil,
+          scale: integer | nil,
+          stroke_color: String.t() | nil,
+          stroke_opacity: integer | nil,
+          stroke_weight: integer | nil
+        }
 
-  @spec new(Keyword.t) :: t
+  @spec new(Keyword.t()) :: t
   def new(opts) do
     {size, opts} = Keyword.pop(opts, :size)
 

@@ -27,6 +27,7 @@ defmodule SiteWeb.Plugs.RewriteUrls do
   defp rewrite_url(%{path_info: ["schedules", "Boat-F3" | _]} = conn) do
     String.replace(conn.request_path, "Boat-F3", "Boat-F1")
   end
+
   defp rewrite_url(_conn) do
     nil
   end
@@ -34,6 +35,7 @@ defmodule SiteWeb.Plugs.RewriteUrls do
   defp merge_url(base_url, "") do
     base_url
   end
+
   defp merge_url(base_url, query_string) do
     "#{base_url}?#{query_string}"
   end

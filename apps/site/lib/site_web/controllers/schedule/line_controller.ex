@@ -3,24 +3,24 @@ defmodule SiteWeb.ScheduleController.LineController do
   alias Routes.Route
   alias SiteWeb.ScheduleView
 
-  plug SiteWeb.Plugs.Route
-  plug SiteWeb.Plugs.DateInRating
-  plug :tab_name
-  plug SiteWeb.ScheduleController.RoutePdfs
-  plug SiteWeb.ScheduleController.Defaults
-  plug :all_alerts
-  plug SiteWeb.Plugs.UpcomingAlerts
-  plug SiteWeb.ScheduleController.AllStops
-  plug SiteWeb.ScheduleController.RouteBreadcrumbs
-  plug SiteWeb.ScheduleController.HoursOfOperation
-  plug SiteWeb.ScheduleController.Holidays
-  plug SiteWeb.ScheduleController.VehicleLocations
-  plug SiteWeb.ScheduleController.Predictions
-  plug SiteWeb.ScheduleController.VehicleTooltips
-  plug SiteWeb.ScheduleController.Line
-  plug SiteWeb.ScheduleController.CMS
-  plug :require_map
-  plug :channel_id
+  plug(SiteWeb.Plugs.Route)
+  plug(SiteWeb.Plugs.DateInRating)
+  plug(:tab_name)
+  plug(SiteWeb.ScheduleController.RoutePdfs)
+  plug(SiteWeb.ScheduleController.Defaults)
+  plug(:all_alerts)
+  plug(SiteWeb.Plugs.UpcomingAlerts)
+  plug(SiteWeb.ScheduleController.AllStops)
+  plug(SiteWeb.ScheduleController.RouteBreadcrumbs)
+  plug(SiteWeb.ScheduleController.HoursOfOperation)
+  plug(SiteWeb.ScheduleController.Holidays)
+  plug(SiteWeb.ScheduleController.VehicleLocations)
+  plug(SiteWeb.ScheduleController.Predictions)
+  plug(SiteWeb.ScheduleController.VehicleTooltips)
+  plug(SiteWeb.ScheduleController.Line)
+  plug(SiteWeb.ScheduleController.CMS)
+  plug(:require_map)
+  plug(:channel_id)
 
   def show(conn, _) do
     conn
@@ -42,22 +42,24 @@ defmodule SiteWeb.ScheduleController.LineController do
     case Route.type_atom(route) do
       :bus ->
         bus_description(route)
+
       :subway ->
         line_description(route)
+
       _ ->
         "MBTA #{ScheduleView.route_header_text(route)} stops and schedules, including maps, " <>
-        "parking and accessibility information, and fares."
+          "parking and accessibility information, and fares."
     end
   end
 
   defp bus_description(%{id: route_number} = route) do
     "MBTA #{bus_type(route)} route #{route_number} stops and schedules, including maps, real-time updates, " <>
-    "parking and accessibility information, and connections."
+      "parking and accessibility information, and connections."
   end
 
   defp line_description(route) do
     "MBTA #{route.name} #{route_type(route)} stations and schedules, including maps, real-time updates, " <>
-    "parking and accessibility information, and connections."
+      "parking and accessibility information, and connections."
   end
 
   defp bus_type(route),

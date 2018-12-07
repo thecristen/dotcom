@@ -6,13 +6,26 @@ defmodule DetailedStopGroupTest do
   describe "from_mode/1" do
     test "all routes are returned for given mode" do
       featured_stop_groups = from_mode(:commuter_rail)
-      expected_route_names = Enum.sort(
-        ["Fairmount Line", "Fitchburg Line", "Framingham/Worcester Line",
-         "Franklin Line", "Greenbush Line", "Haverhill Line", "Kingston/Plymouth Line",
-         "Lowell Line", "Middleborough/Lakeville Line", "Needham Line",
-         "Newburyport/Rockport Line", "Providence/Stoughton Line"]
-      )
-      route_names = featured_stop_groups |> Enum.map(fn {route, _} -> route.name end) |> Enum.sort()
+
+      expected_route_names =
+        Enum.sort([
+          "Fairmount Line",
+          "Fitchburg Line",
+          "Framingham/Worcester Line",
+          "Franklin Line",
+          "Greenbush Line",
+          "Haverhill Line",
+          "Kingston/Plymouth Line",
+          "Lowell Line",
+          "Middleborough/Lakeville Line",
+          "Needham Line",
+          "Newburyport/Rockport Line",
+          "Providence/Stoughton Line"
+        ])
+
+      route_names =
+        featured_stop_groups |> Enum.map(fn {route, _} -> route.name end) |> Enum.sort()
+
       route_names = route_names -- ["Foxboro (Special Events)"]
       assert expected_route_names == route_names
     end
@@ -32,8 +45,12 @@ defmodule DetailedStopGroupTest do
     end
 
     test "The route icon for the current route is included in features" do
-      {_orange_line, orange_stops} = :subway |> from_mode() |> Enum.find(&match?({%Route{name: "Orange Line"}, _}, &1))
-      assert [_stop | _] = orange_stops # count is greater than 1
+      {_orange_line, orange_stops} =
+        :subway |> from_mode() |> Enum.find(&match?({%Route{name: "Orange Line"}, _}, &1))
+
+      # count is greater than 1
+      assert [_stop | _] = orange_stops
+
       for stop <- orange_stops do
         assert Route.icon_atom(%Route{id: "Orange"}) in stop.features
       end
@@ -48,6 +65,7 @@ defmodule DetailedStopGroupTest do
 
     test "non commuter rail stops have no zone info" do
       featured_stop_groups = from_mode(:subway)
+
       for {_route, detailed_stops} <- featured_stop_groups do
         for detailed_stop <- detailed_stops do
           refute detailed_stop.zone

@@ -11,19 +11,24 @@ defmodule Content.Search do
   alias Content.SearchResult.File
   alias Content.SearchResult.Link
 
-  defstruct [
-    count: 0,
-    content_types: Keyword.new,
-    results: []
-  ]
+  defstruct count: 0,
+            content_types: Keyword.new(),
+            results: []
 
-  @type result :: Event.t | LandingPage.t | NewsEntry.t | Page.t | Person.t | File.t | Link.t
+  @type result ::
+          Event.t()
+          | LandingPage.t()
+          | NewsEntry.t()
+          | Page.t()
+          | Person.t()
+          | File.t()
+          | Link.t()
 
   @type t :: %__MODULE__{
-    count: integer,
-    content_types: Keyword.t,
-    results: [result]
-  }
+          count: integer,
+          content_types: Keyword.t(),
+          results: [result]
+        }
 
   @spec from_api(map) :: t
   def from_api(%{"response" => response, "facet_counts" => %{"facet_fields" => facet_fields}}) do
@@ -41,18 +46,22 @@ defmodule Content.Search do
   defp parse_result(%{"ss_type" => "page"} = result), do: [Page.build(result)]
   defp parse_result(%{"ss_type" => "person"} = result), do: [Person.build(result)]
   defp parse_result(%{"ss_type" => "search_result"} = result), do: [Link.build(result)]
-  defp parse_result(%{"ss_search_api_datasource" => "entity:file"} = result), do: [File.build(result)]
+
+  defp parse_result(%{"ss_search_api_datasource" => "entity:file"} = result),
+    do: [File.build(result)]
+
   defp parse_result(_), do: []
 
-  @spec parse_content_type(map) :: Keyword.t
+  @spec parse_content_type(map) :: Keyword.t()
   defp parse_content_type(content_types) do
     content_types
     |> Map.get("content_type", [])
-    |> do_parse_content_type(Keyword.new)
+    |> do_parse_content_type(Keyword.new())
   end
 
-  @spec do_parse_content_type([String.t | integer], Keyword.t) :: Keyword.t
+  @spec do_parse_content_type([String.t() | integer], Keyword.t()) :: Keyword.t()
   defp do_parse_content_type([], output), do: output
+
   defp do_parse_content_type([first, second | _rest] = input, output) do
     do_parse_content_type(Enum.drop(input, 2), [{first, second} | output])
   end

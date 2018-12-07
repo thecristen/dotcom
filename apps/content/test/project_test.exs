@@ -1,35 +1,41 @@
 defmodule Content.ProjectTest do
   use ExUnit.Case
-  import Content.CMSTestHelpers, only: [
-    update_api_response: 3,
-    update_api_response_whole_field: 3
-  ]
+
+  import Content.CMSTestHelpers,
+    only: [
+      update_api_response: 3,
+      update_api_response_whole_field: 3
+    ]
 
   setup do
-    %{api_data_without_path_alias: Content.CMS.Static.projects_response() |> Enum.at(0),
-      api_data_with_path_alias: Content.CMS.Static.projects_response() |> Enum.at(1)}
+    %{
+      api_data_without_path_alias: Content.CMS.Static.projects_response() |> Enum.at(0),
+      api_data_with_path_alias: Content.CMS.Static.projects_response() |> Enum.at(1)
+    }
   end
 
   describe "from_api/1" do
-    test "maps project api data without path alias to a struct", %{api_data_without_path_alias: api_data} do
+    test "maps project api data without path alias to a struct", %{
+      api_data_without_path_alias: api_data
+    } do
       assert %Content.Project{
-        id: id,
-        body: body,
-        contact_information: contact_information,
-        end_year: end_year,
-        featured: featured,
-        featured_image: %Content.Field.Image{},
-        files: [],
-        media_email: media_email,
-        media_phone: media_phone,
-        photo_gallery: [%Content.Field.Image{} | _],
-        start_year: start_year,
-        status: status,
-        teaser: teaser,
-        title: title,
-        updated_on: updated_on,
-        path_alias: path_alias
-      } = Content.Project.from_api(api_data)
+               id: id,
+               body: body,
+               contact_information: contact_information,
+               end_year: end_year,
+               featured: featured,
+               featured_image: %Content.Field.Image{},
+               files: [],
+               media_email: media_email,
+               media_phone: media_phone,
+               photo_gallery: [%Content.Field.Image{} | _],
+               start_year: start_year,
+               status: status,
+               teaser: teaser,
+               title: title,
+               updated_on: updated_on,
+               path_alias: path_alias
+             } = Content.Project.from_api(api_data)
 
       assert id == 3004
       assert Phoenix.HTML.safe_to_string(body) =~ "<p>Major accessibility improvements,"
@@ -46,10 +52,12 @@ defmodule Content.ProjectTest do
       assert path_alias == nil
     end
 
-    test "maps project api data with path alias to a struct", %{api_data_with_path_alias: api_data} do
+    test "maps project api data with path alias to a struct", %{
+      api_data_with_path_alias: api_data
+    } do
       assert %Content.Project{
-        path_alias: path_alias
-      } = Content.Project.from_api(api_data)
+               path_alias: path_alias
+             } = Content.Project.from_api(api_data)
 
       assert path_alias == "/projects/project-name"
     end
@@ -110,17 +118,21 @@ defmodule Content.ProjectTest do
   end
 
   defp image_api_data do
-    [%{
-      "alt" => "image alt",
-      "url" => "http://example.com/files/train.jpeg"
-    }]
+    [
+      %{
+        "alt" => "image alt",
+        "url" => "http://example.com/files/train.jpeg"
+      }
+    ]
   end
 
   defp file_api_data do
-    [%{
-      "description" => "important file",
-      "url" => "http://example.com/files/important.txt",
-      "mime_type" => "text/plain"
-    }]
+    [
+      %{
+        "description" => "important file",
+        "url" => "http://example.com/files/important.txt",
+        "mime_type" => "text/plain"
+      }
+    ]
   end
 end

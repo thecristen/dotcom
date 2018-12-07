@@ -29,10 +29,11 @@ defmodule TripPlanIntegrationTest do
 
     @tag :wallaby
     test "reverse button swaps to and from", %{session: session} do
-      session = session
-                |> visit("/trip-planner")
-                |> fill_in(@from, with: "A")
-                |> fill_in(@to, with: "B")
+      session =
+        session
+        |> visit("/trip-planner")
+        |> fill_in(@from, with: "A")
+        |> fill_in(@to, with: "B")
 
       assert Browser.has_value?(session, @from, "A")
       assert Browser.has_value?(session, @to, "B")

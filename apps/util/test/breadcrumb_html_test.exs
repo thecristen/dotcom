@@ -7,26 +7,30 @@ defmodule Util.BreadcrumbHTMLTest do
   end
 
   describe "title_breadcrumbs/1" do
-    test "returns the text for the last two CMS breadcrumbs, in reverse order, separated by pipes", %{conn: conn} do
+    test "returns the text for the last two CMS breadcrumbs, in reverse order, separated by pipes",
+         %{conn: conn} do
       breadcrumbs = [
         %Util.Breadcrumb{text: "Home", url: "/"},
         %Util.Breadcrumb{text: "Second", url: "/second"},
         %Util.Breadcrumb{text: "Third", url: "/second/third"}
       ]
+
       conn = Plug.Conn.assign(conn, :breadcrumbs, breadcrumbs)
 
-      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary
+      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
       assert breadcrumbs =~ "Third | Second | MBTA"
     end
 
-    test "returns the text for the last two static breadcrumbs, in reverse order, separated by pipes", %{conn: conn} do
+    test "returns the text for the last two static breadcrumbs, in reverse order, separated by pipes",
+         %{conn: conn} do
       breadcrumbs = [
         %Util.Breadcrumb{text: "First", url: "/first"},
-        %Util.Breadcrumb{text: "Second", url: "/first/second"},
+        %Util.Breadcrumb{text: "Second", url: "/first/second"}
       ]
+
       conn = Plug.Conn.assign(conn, :breadcrumbs, breadcrumbs)
 
-      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary
+      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
       assert breadcrumbs =~ "Second | First | MBTA"
     end
 
@@ -35,20 +39,21 @@ defmodule Util.BreadcrumbHTMLTest do
         %Util.Breadcrumb{text: "Home", url: "/"},
         %Util.Breadcrumb{text: "First", url: "/first"}
       ]
+
       conn = Plug.Conn.assign(conn, :breadcrumbs, breadcrumbs)
 
-      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary
+      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
       assert breadcrumbs == "First | MBTA"
     end
 
     test "returns the MBTA's full name when breadcrumbs are empty", %{conn: conn} do
       conn = Plug.Conn.assign(conn, :breadcrumbs, [])
-      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary
+      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
       assert breadcrumbs == "MBTA - Massachusetts Bay Transportation Authority"
     end
 
     test "returns the MBTA's full name when the breadcrumbs key is not found", %{conn: conn} do
-      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary
+      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
       assert breadcrumbs == "MBTA - Massachusetts Bay Transportation Authority"
     end
   end
@@ -62,13 +67,12 @@ defmodule Util.BreadcrumbHTMLTest do
 
       conn = Plug.Conn.assign(conn, :breadcrumbs, breadcrumbs)
 
-      assert breadcrumb_trail(conn) == {:safe,
-        ~s(<span>) <>
-        ~s(<a href="/">Home</a>) <>
-        ~s(<i class="fa fa-angle-right" aria-hidden="true"></i>) <>
-        ~s(</span>) <>
-        ~s(Second)
-      }
+      assert breadcrumb_trail(conn) ==
+               {:safe,
+                ~s(<span>) <>
+                  ~s(<a href="/">Home</a>) <>
+                  ~s(<i class="fa fa-angle-right" aria-hidden="true"></i>) <>
+                  ~s(</span>) <> ~s(Second)}
     end
 
     test "adds a link to the root path if one is not provided", %{conn: conn} do
@@ -78,10 +82,9 @@ defmodule Util.BreadcrumbHTMLTest do
       result = breadcrumb_trail(conn)
 
       assert Phoenix.HTML.safe_to_string(result) =~
-        ~s(<span>) <>
-        ~s(<a href="/">Home</a>) <>
-        ~s(<i class="fa fa-angle-right" aria-hidden="true"></i>) <>
-        ~s(</span>)
+               ~s(<span>) <>
+                 ~s(<a href="/">Home</a>) <>
+                 ~s(<i class="fa fa-angle-right" aria-hidden="true"></i>) <> ~s(</span>)
     end
 
     test "when the breadcrumbs are empty", %{conn: conn} do
@@ -99,8 +102,8 @@ defmodule Util.BreadcrumbHTMLTest do
       breadcrumbs = [%Util.Breadcrumb{text: "home", url: "sample"}]
 
       assert build_html(breadcrumbs) == [
-        ~s(<a href="sample">home</a>)
-      ]
+               ~s(<a href="sample">home</a>)
+             ]
     end
 
     test "separates each breadcrumb with an icon" do
@@ -112,10 +115,9 @@ defmodule Util.BreadcrumbHTMLTest do
       [first_crumb, second_crumb] = build_html(breadcrumbs)
 
       assert first_crumb ==
-        ~s(<span>) <>
-        ~s(<a href="/">Home</a>) <>
-        ~s(<i class="fa fa-angle-right" aria-hidden="true"></i>) <>
-        ~s(</span>)
+               ~s(<span>) <>
+                 ~s(<a href="/">Home</a>) <>
+                 ~s(<i class="fa fa-angle-right" aria-hidden="true"></i>) <> ~s(</span>)
 
       assert second_crumb == "Second"
     end
@@ -130,10 +132,9 @@ defmodule Util.BreadcrumbHTMLTest do
       [first_crumb, second_crumb, third_crumb] = build_html(breadcrumbs)
 
       assert first_crumb ==
-        ~s(<span class="focusable-sm-down">) <>
-        ~s(<a href="/">Home</a>) <>
-        ~s(<i class="fa fa-angle-right" aria-hidden="true"></i>) <>
-        ~s(</span>)
+               ~s(<span class="focusable-sm-down">) <>
+                 ~s(<a href="/">Home</a>) <>
+                 ~s(<i class="fa fa-angle-right" aria-hidden="true"></i>) <> ~s(</span>)
 
       refute Regex.match?(~r/focusable-sm-down/, second_crumb)
       refute Regex.match?(~r/focusable-sm-down/, third_crumb)
@@ -143,17 +144,17 @@ defmodule Util.BreadcrumbHTMLTest do
   describe "maybe_add_home_breadcrumb/1" do
     test "adds a link to the home path if one does not exist" do
       assert maybe_add_home_breadcrumb([]) == [
-        %Util.Breadcrumb{text: "Home", url: "/"}
-      ]
+               %Util.Breadcrumb{text: "Home", url: "/"}
+             ]
     end
 
     test "does not add a link to the home path if one already exists" do
       breadcrumb = %Util.Breadcrumb{url: "/foo", text: "foo"}
 
       assert maybe_add_home_breadcrumb([breadcrumb]) == [
-        %Util.Breadcrumb{text: "Home", url: "/"},
-        breadcrumb
-      ]
+               %Util.Breadcrumb{text: "Home", url: "/"},
+               breadcrumb
+             ]
     end
   end
 end

@@ -17,25 +17,42 @@ defmodule Predictions.ParserTest do
           "stop_sequence" => 5
         },
         relationships: %{
-          "route" => [%Item{id: "route_id", attributes: %{
-                               "long_name" => "Route",
-                               "direction_names" => ["East", "West"],
-                               "type" => 5
-                            }},
-                      %Item{id: "wrong"}],
-          "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
-          "trip" => [%Item{id: "trip_id", attributes: %{
-                              "name" => "trip_name",
-                              "direction_id" => "0",
-                              "headsign" => "trip_headsign"
-                           }},
-                     %Item{id: "wrong", attributes: %{
-                              "name" => "trip_name",
-                              "direction_id" => "0",
-                              "headsign" => "trip_headsign"
-                           }}]
+          "route" => [
+            %Item{
+              id: "route_id",
+              attributes: %{
+                "long_name" => "Route",
+                "direction_names" => ["East", "West"],
+                "type" => 5
+              }
+            },
+            %Item{id: "wrong"}
+          ],
+          "stop" => [
+            %Item{id: "place-pktrm", attributes: %{"name" => "Stop"}},
+            %Item{id: "wrong"}
+          ],
+          "trip" => [
+            %Item{
+              id: "trip_id",
+              attributes: %{
+                "name" => "trip_name",
+                "direction_id" => "0",
+                "headsign" => "trip_headsign"
+              }
+            },
+            %Item{
+              id: "wrong",
+              attributes: %{
+                "name" => "trip_name",
+                "direction_id" => "0",
+                "headsign" => "trip_headsign"
+              }
+            }
+          ]
         }
       }
+
       expected = {
         nil,
         "trip_id",
@@ -60,28 +77,45 @@ defmodule Predictions.ParserTest do
           "status" => "On Time",
           "direction_id" => 0,
           "departure_time" => nil,
-          "arrival_time" => "2016-09-15T15:40:00+01:00",
+          "arrival_time" => "2016-09-15T15:40:00+01:00"
         },
         relationships: %{
-          "route" => [%Item{id: "route_id", attributes: %{
-                               "long_name" => "Route",
-                               "direction_names" => ["East", "West"],
-                               "type" => 5
-                            }},
-                      %Item{id: "wrong"}],
-          "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
-          "trip" => [%Item{id: "trip_id", attributes: %{
-                              "name" => "trip_name",
-                              "direction_id" => "0",
-                              "headsign" => "trip_headsign"
-                           }},
-                     %Item{id: "wrong", attributes: %{
-                              "name" => "trip_name",
-                              "direction_id" => "0",
-                              "headsign" => "trip_headsign"
-                           }}]
+          "route" => [
+            %Item{
+              id: "route_id",
+              attributes: %{
+                "long_name" => "Route",
+                "direction_names" => ["East", "West"],
+                "type" => 5
+              }
+            },
+            %Item{id: "wrong"}
+          ],
+          "stop" => [
+            %Item{id: "place-pktrm", attributes: %{"name" => "Stop"}},
+            %Item{id: "wrong"}
+          ],
+          "trip" => [
+            %Item{
+              id: "trip_id",
+              attributes: %{
+                "name" => "trip_name",
+                "direction_id" => "0",
+                "headsign" => "trip_headsign"
+              }
+            },
+            %Item{
+              id: "wrong",
+              attributes: %{
+                "name" => "trip_name",
+                "direction_id" => "0",
+                "headsign" => "trip_headsign"
+              }
+            }
+          ]
         }
       }
+
       parsed = parse(item)
 
       assert elem(parsed, 5) == ~N[2016-09-15T14:40:00] |> Timezone.convert("Etc/GMT-1")
@@ -95,28 +129,45 @@ defmodule Predictions.ParserTest do
           "status" => "On Time",
           "direction_id" => 0,
           "departure_time" => nil,
-          "arrival_time" => nil,
+          "arrival_time" => nil
         },
         relationships: %{
-          "route" => [%Item{id: "route_id", attributes: %{
-                               "long_name" => "Route",
-                               "direction_names" => ["East", "West"],
-                               "type" => 5
-                            }},
-                      %Item{id: "wrong"}],
-          "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
-          "trip" => [%Item{id: "trip_id", attributes: %{
-                              "name" => "trip_name",
-                              "direction_id" => "0",
-                              "headsign" => "trip_headsign"
-                           }},
-                     %Item{id: "wrong", attributes: %{
-                              "name" => "trip_name",
-                              "direction_id" => "0",
-                              "headsign" => "trip_headsign"
-                           }}]
+          "route" => [
+            %Item{
+              id: "route_id",
+              attributes: %{
+                "long_name" => "Route",
+                "direction_names" => ["East", "West"],
+                "type" => 5
+              }
+            },
+            %Item{id: "wrong"}
+          ],
+          "stop" => [
+            %Item{id: "place-pktrm", attributes: %{"name" => "Stop"}},
+            %Item{id: "wrong"}
+          ],
+          "trip" => [
+            %Item{
+              id: "trip_id",
+              attributes: %{
+                "name" => "trip_name",
+                "direction_id" => "0",
+                "headsign" => "trip_headsign"
+              }
+            },
+            %Item{
+              id: "wrong",
+              attributes: %{
+                "name" => "trip_name",
+                "direction_id" => "0",
+                "headsign" => "trip_headsign"
+              }
+            }
+          ]
         }
       }
+
       parsed = parse(item)
 
       assert elem(parsed, 5) == nil
@@ -129,28 +180,42 @@ defmodule Predictions.ParserTest do
           "status" => "On Time",
           "direction_id" => 0,
           "departure_time" => "2018-06-15T12:00:00-04:00",
-          "arrival_time" => nil,
+          "arrival_time" => nil
         },
         relationships: %{
-          "route" => [%Item{id: "route_id", attributes: %{
-                               "long_name" => "Route",
-                               "direction_names" => ["East", "West"],
-                               "type" => 5
-                            }},
-                      %Item{id: "wrong"}],
+          "route" => [
+            %Item{
+              id: "route_id",
+              attributes: %{
+                "long_name" => "Route",
+                "direction_names" => ["East", "West"],
+                "type" => 5
+              }
+            },
+            %Item{id: "wrong"}
+          ],
           "stop" => [%Item{id: "South Station-11", attributes: %{"platform_code" => "11"}}],
-          "trip" => [%Item{id: "trip_id", attributes: %{
-                              "name" => "trip_name",
-                              "direction_id" => "0",
-                              "headsign" => "trip_headsign"
-                           }},
-                     %Item{id: "wrong", attributes: %{
-                              "name" => "trip_name",
-                              "direction_id" => "0",
-                              "headsign" => "trip_headsign"
-                           }}]
+          "trip" => [
+            %Item{
+              id: "trip_id",
+              attributes: %{
+                "name" => "trip_name",
+                "direction_id" => "0",
+                "headsign" => "trip_headsign"
+              }
+            },
+            %Item{
+              id: "wrong",
+              attributes: %{
+                "name" => "trip_name",
+                "direction_id" => "0",
+                "headsign" => "trip_headsign"
+              }
+            }
+          ]
         }
       }
+
       parsed = parse(item)
 
       assert elem(parsed, 8) == "11"
@@ -166,23 +231,39 @@ defmodule Predictions.ParserTest do
           "arrival_time" => "2016-01-01T00:00:00-04:00"
         },
         relationships: %{
-          "route" => [%Item{id: "route_id", attributes: %{
-                               "long_name" => "Route",
-                               "direction_names" => ["East", "West"],
-                               "type" => 5
-                            }},
-                      %Item{id: "wrong"}],
-          "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
-          "trip" => [%Item{id: "trip_id", attributes: %{
-                              "name" => "trip_name",
-                              "direction_id" => "0",
-                              "headsign" => "trip_headsign"
-                           }},
-                     %Item{id: "wrong", attributes: %{
-                              "name" => "trip_name",
-                              "direction_id" => "0",
-                              "headsign" => "trip_headsign"
-                           }}]
+          "route" => [
+            %Item{
+              id: "route_id",
+              attributes: %{
+                "long_name" => "Route",
+                "direction_names" => ["East", "West"],
+                "type" => 5
+              }
+            },
+            %Item{id: "wrong"}
+          ],
+          "stop" => [
+            %Item{id: "place-pktrm", attributes: %{"name" => "Stop"}},
+            %Item{id: "wrong"}
+          ],
+          "trip" => [
+            %Item{
+              id: "trip_id",
+              attributes: %{
+                "name" => "trip_name",
+                "direction_id" => "0",
+                "headsign" => "trip_headsign"
+              }
+            },
+            %Item{
+              id: "wrong",
+              attributes: %{
+                "name" => "trip_name",
+                "direction_id" => "0",
+                "headsign" => "trip_headsign"
+              }
+            }
+          ]
         }
       }
 
@@ -195,10 +276,14 @@ defmodule Predictions.ParserTest do
             {"UNSCHEDULED", :unscheduled},
             {"NO_DATA", :no_data}
           ] do
-          # update the item to set the given JSON relationship
-          item = %{base_item | attributes: Map.put(base_item.attributes, "schedule_relationship", json)}
-          parsed = parse(item)
-          assert elem(parsed, 7) == expected
+        # update the item to set the given JSON relationship
+        item = %{
+          base_item
+          | attributes: Map.put(base_item.attributes, "schedule_relationship", json)
+        }
+
+        parsed = parse(item)
+        assert elem(parsed, 7) == expected
       end
     end
 
@@ -212,15 +297,21 @@ defmodule Predictions.ParserTest do
           "arrival_time" => "2016-01-01T00:00:00-04:00"
         },
         relationships: %{
-          "route" => [%Item{id: "route_id", attributes: %{
-                               "long_name" => "Route",
-                               "direction_names" => ["East", "West"],
-                               "type" => 5
-                            }}],
+          "route" => [
+            %Item{
+              id: "route_id",
+              attributes: %{
+                "long_name" => "Route",
+                "direction_names" => ["East", "West"],
+                "type" => 5
+              }
+            }
+          ],
           "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}],
           "trip" => []
         }
       }
+
       parsed = parse(item)
       assert elem(parsed, 1) == nil
     end
@@ -232,18 +323,24 @@ defmodule Predictions.ParserTest do
           "status" => "3 stops away",
           "direction_id" => 0,
           "departure_time" => nil,
-          "arrival_time" => nil,
+          "arrival_time" => nil
         },
         relationships: %{
-          "route" => [%Item{id: "route_id", attributes: %{
-                               "long_name" => "Route",
-                               "direction_names" => ["East", "West"],
-                               "type" => 1
-                            }}],
+          "route" => [
+            %Item{
+              id: "route_id",
+              attributes: %{
+                "long_name" => "Route",
+                "direction_names" => ["East", "West"],
+                "type" => 1
+              }
+            }
+          ],
           "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}],
           "trip" => []
         }
       }
+
       parsed = parse(json_item)
       assert elem(parsed, 10)
     end

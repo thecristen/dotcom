@@ -19,6 +19,7 @@ defmodule Site.TripPlan.RelatedLinkTest do
           ["1"] -> {"Route 1 schedules", :bus}
           ["CR-Lowell"] -> {"Lowell Line schedules", :commuter_rail}
         end
+
       [trip_id] = Itinerary.trip_ids(itinerary)
       assert [route_link, fare_link] = links_for_itinerary(itinerary)
       assert text(route_link) == expected_route
@@ -31,16 +32,20 @@ defmodule Site.TripPlan.RelatedLinkTest do
 
     test "returns a non-empty list for multiple kinds of itineraries" do
       for _i <- 0..100 do
-        {:ok, [itinerary]} = TripPlan.plan(MockPlanner.random_stop(), MockPlanner.random_stop(), [])
+        {:ok, [itinerary]} =
+          TripPlan.plan(MockPlanner.random_stop(), MockPlanner.random_stop(), [])
+
         assert [_ | _] = links_for_itinerary(itinerary)
       end
     end
 
     test "with multiple types of fares, returns relevant fare links", %{itinerary: itinerary} do
       for _i <- 0..10 do
-        itinerary = itinerary
-        |> MockPlanner.add_transit_leg
-        |> MockPlanner.add_transit_leg
+        itinerary =
+          itinerary
+          |> MockPlanner.add_transit_leg()
+          |> MockPlanner.add_transit_leg()
+
         links = links_for_itinerary(itinerary)
         # for each leg, we build the expected test along with the URL later, if
         # we only have one expected text, assert that we've cleaned up the text
@@ -49,20 +54,30 @@ defmodule Site.TripPlan.RelatedLinkTest do
           case leg.mode do
             %{route_id: "1"} ->
               {"bus/subway", fare_path(SiteWeb.Endpoint, :show, :bus_subway, [])}
+
             %{route_id: "Blue"} ->
               {"bus/subway", fare_path(SiteWeb.Endpoint, :show, :bus_subway, [])}
+
             %{route_id: "CR-Lowell"} ->
-              {"commuter rail", fare_path(SiteWeb.Endpoint, :show, :commuter_rail,
-                  origin: fare_stop_id(leg.from.stop_id),
-                  destination: fare_stop_id(leg.to.stop_id))}
+              {"commuter rail",
+               fare_path(
+                 SiteWeb.Endpoint,
+                 :show,
+                 :commuter_rail,
+                 origin: fare_stop_id(leg.from.stop_id),
+                 destination: fare_stop_id(leg.to.stop_id)
+               )}
+
             _ ->
               nil
           end
         end
-        expected_text_urls = for leg <- itinerary,
-          expected = expected_text_url.(leg) do
+
+        expected_text_urls =
+          for leg <- itinerary,
+              expected = expected_text_url.(leg) do
             expected
-        end
+          end
 
         case Enum.uniq(expected_text_urls) do
           [{_expected_text, expected_url}] ->
@@ -70,9 +85,11 @@ defmodule Site.TripPlan.RelatedLinkTest do
             fare_link = List.last(links)
             assert text(fare_link) == "View fare information"
             assert url(fare_link) == expected_url
+
           text_urls ->
             # we reverse the lists since the fare links are at the end
             links_with_expectations = Enum.zip(Enum.reverse(links), Enum.reverse(text_urls))
+
             for {link, {expected_text, expected_url}} <- links_with_expectations do
               assert text(link) =~ "View #{expected_text} fare information"
               assert url(link) == expected_url

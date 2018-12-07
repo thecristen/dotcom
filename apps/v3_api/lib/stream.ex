@@ -26,15 +26,15 @@ defmodule V3Api.Stream do
     @moduledoc """
     Struct representing a parsed V3Api server-sent event.
     """
-    defstruct [data: nil, event: :unknown]
+    defstruct data: nil, event: :unknown
     @type event :: :reset | :add | :update | :remove
     @type t :: %__MODULE__{
-      event: event | :unknown,
-      data: nil | JsonApi.t | {:error, any}
-    }
+            event: event | :unknown,
+            data: nil | JsonApi.t() | {:error, any}
+          }
   end
 
-  @spec start_link(Keyword.t) :: {:ok, pid}
+  @spec start_link(Keyword.t()) :: {:ok, pid}
   def start_link(opts) do
     name = Keyword.fetch!(opts, :name)
     GenStage.start_link(__MODULE__, opts, name: name)
@@ -46,7 +46,7 @@ defmodule V3Api.Stream do
   Each app's ServerSentEventStage should be started
   inside the application's supervision tree.
   """
-  @spec build_options(Keyword.t) :: Keyword.t
+  @spec build_options(Keyword.t()) :: Keyword.t()
   def build_options(opts) do
     default_options()
     |> Keyword.merge(opts)
@@ -54,7 +54,7 @@ defmodule V3Api.Stream do
     |> set_headers()
   end
 
-  @spec default_options :: Keyword.t
+  @spec default_options :: Keyword.t()
   defp default_options do
     [
       base_url: config(:base_url),
@@ -65,7 +65,7 @@ defmodule V3Api.Stream do
   @spec config(atom) :: any
   defp config(key), do: Util.config(:v3_api, key)
 
-  @spec set_url(Keyword.t) :: Keyword.t
+  @spec set_url(Keyword.t()) :: Keyword.t()
   defp set_url(opts) do
     path = Keyword.fetch!(opts, :path)
     base_url = Keyword.fetch!(opts, :base_url)
@@ -73,7 +73,7 @@ defmodule V3Api.Stream do
     Keyword.put(opts, :url, Path.join(base_url, path))
   end
 
-  @spec set_headers(Keyword.t) :: Keyword.t
+  @spec set_headers(Keyword.t()) :: Keyword.t()
   defp set_headers(opts) do
     headers =
       opts
@@ -92,7 +92,7 @@ defmodule V3Api.Stream do
     {:noreply, Enum.map(events, &parse_event/1), state}
   end
 
-  @spec parse_event(SSES.Event.t) :: Event.t
+  @spec parse_event(SSES.Event.t()) :: Event.t()
   defp parse_event(%SSES.Event{data: data, event: event}) do
     %Event{
       data: JsonApi.parse(data),
@@ -100,7 +100,7 @@ defmodule V3Api.Stream do
     }
   end
 
-  @spec event(String.t) :: Event.event
+  @spec event(String.t()) :: Event.event()
   for atom <- ~w(reset add update remove)a do
     str = Atom.to_string(atom)
     defp event(unquote(str)), do: unquote(atom)

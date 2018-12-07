@@ -2,17 +2,19 @@ defmodule JsonApi.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :json_api,
-     version: "0.0.1",
-     build_path: "../../_build",
-     config_path: "../../config/config.exs",
-     deps_path: "../../deps",
-     lockfile: "../../mix.lock",
-     elixir: "~> 1.2",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     test_coverage: [tool: ExCoveralls],
-     deps: deps()]
+    [
+      app: :json_api,
+      version: "0.0.1",
+      build_path: "../../_build",
+      config_path: "../../config/config.exs",
+      deps_path: "../../deps",
+      lockfile: "../../mix.lock",
+      elixir: "~> 1.2",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      test_coverage: [tool: ExCoveralls],
+      deps: deps()
+    ]
   end
 
   # Configuration for the OTP application
@@ -36,8 +38,10 @@ defmodule JsonApi.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:poison, ">= 0.0.0"},
-     {:excoveralls, "~> 0.5", only: :test},
-     {:benchfella, "~> 0.3", only: :dev}]
+    [
+      {:poison, ">= 0.0.0"},
+      {:excoveralls, "~> 0.5", only: :test},
+      {:benchfella, "~> 0.3", only: :dev}
+    ]
   end
 end

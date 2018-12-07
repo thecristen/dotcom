@@ -13,6 +13,7 @@ defmodule SiteWeb.ScheduleController.HoursOfOperation do
     |> Schedules.Repo.hours_of_operation(conn.assigns.date)
     |> assign_hours(conn)
   end
+
   def call(conn, _opts) do
     conn
   end
@@ -20,6 +21,7 @@ defmodule SiteWeb.ScheduleController.HoursOfOperation do
   defp full_route_id("Green") do
     GreenLine.branch_ids()
   end
+
   defp full_route_id(route_id) do
     route_id
   end

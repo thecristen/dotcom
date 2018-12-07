@@ -25,8 +25,9 @@ defmodule Site.GreenLine.Supervisor do
     children = [
       supervisor(Registry, [:unique, :green_line_cache_registry]),
       supervisor(Site.GreenLine.CacheSupervisor, []),
-      worker(Site.GreenLine.Cache, []),
+      worker(Site.GreenLine.Cache, [])
     ]
+
     supervise(children, strategy: :rest_for_one)
   end
 end

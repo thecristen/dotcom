@@ -6,14 +6,14 @@ defmodule Site.GreenLine.DateAgent do
 
   import GreenLine, only: [calculate_stops_on_routes: 2]
 
-  @typep callback_fn :: (Date.t -> {any, any})
+  @typep callback_fn :: (Date.t() -> {any, any})
 
   def stops_on_routes(pid, direction_id) do
     Agent.get(pid, fn state -> elem(state, direction_id) end)
   end
 
   @doc "Resets the agent, for example when it's time to bust the cache."
-  @spec reset(pid, Date.t, callback_fn) :: :ok | {:error, any}
+  @spec reset(pid, Date.t(), callback_fn) :: :ok | {:error, any}
   def reset(pid, date, calculate_state_fn \\ &calculate_state/1) do
     case calculate_state_fn.(date) do
       {:error, _} = error -> error
@@ -26,7 +26,7 @@ defmodule Site.GreenLine.DateAgent do
   example the API query fails, it returns {:error, msg} rather than starting up
   the Agent.
   """
-  @spec start_link(Date.t, GenServer.name, callback_fn) :: Agent.on_start | {:error, any}
+  @spec start_link(Date.t(), GenServer.name(), callback_fn) :: Agent.on_start() | {:error, any}
   def start_link(date, name, calculate_state_fn \\ &calculate_state/1) do
     case calculate_state_fn.(date) do
       {:error, _} = error -> error

@@ -5,19 +5,20 @@ defmodule SiteWeb.Plugs.RewriteUrlsTest do
 
   describe "call/2" do
     test "redirects if we're going to /schedules/Boat-F3", %{conn: conn} do
-      conn = %{conn |
-               path_info: ["schedules", "Boat-F3"],
-               request_path: "/schedules/Boat-F3"}
+      conn = %{conn | path_info: ["schedules", "Boat-F3"], request_path: "/schedules/Boat-F3"}
       conn = call(conn, [])
       assert redirected_to(conn, 302) == "/schedules/Boat-F1"
       assert conn.halted
     end
 
     test "includes a query string if present", %{conn: conn} do
-      conn = %{conn |
-               path_info: ["schedules", "Boat-F3", "schedules"],
-               request_path: "/schedules/Boat-F3/schedules",
-               query_string: "query=string"}
+      conn = %{
+        conn
+        | path_info: ["schedules", "Boat-F3", "schedules"],
+          request_path: "/schedules/Boat-F3/schedules",
+          query_string: "query=string"
+      }
+
       conn = call(conn, [])
       assert redirected_to(conn, 302) == "/schedules/Boat-F1/schedules?query=string"
       assert conn.halted

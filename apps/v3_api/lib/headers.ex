@@ -8,9 +8,9 @@ defmodule V3Api.Headers do
 
   alias V3Api.Cache
 
-  @type header_list :: [{String.t, String.t}]
+  @type header_list :: [{String.t(), String.t()}]
 
-  @spec build(String.t | nil, Keyword.t) :: header_list
+  @spec build(String.t() | nil, Keyword.t()) :: header_list
   def build(api_key, opts) do
     []
     |> api_key_header(api_key)
@@ -18,7 +18,7 @@ defmodule V3Api.Headers do
     |> cache_headers(opts)
   end
 
-  @spec api_key_header(header_list, String.t | nil) :: header_list
+  @spec api_key_header(header_list, String.t() | nil) :: header_list
   defp api_key_header(headers, nil), do: headers
   defp api_key_header(headers, <<key::binary>>), do: [{"x-api-key", key} | headers]
 
@@ -29,16 +29,17 @@ defmodule V3Api.Headers do
     |> do_proxy_headers(headers)
   end
 
-  @spec do_proxy_headers(String.t | nil, header_list) :: header_list
+  @spec do_proxy_headers(String.t() | nil, header_list) :: header_list
   defp do_proxy_headers("true", headers) do
     {_, _, proxy_url} = Application.get_env(:v3_api, :base_url)
     [{"X-WM-Proxy-Url", proxy_url} | headers]
   end
+
   defp do_proxy_headers(_, headers) do
     headers
   end
 
-  @spec cache_headers(header_list, Keyword.t) :: header_list
+  @spec cache_headers(header_list, Keyword.t()) :: header_list
   defp cache_headers(headers, opts) do
     if Keyword.get(opts, :use_cache?, true) do
       do_cache_headers(headers, opts)
@@ -47,7 +48,7 @@ defmodule V3Api.Headers do
     end
   end
 
-  @spec do_cache_headers(header_list, Keyword.t) :: header_list
+  @spec do_cache_headers(header_list, Keyword.t()) :: header_list
   defp do_cache_headers(headers, opts) do
     params = Keyword.fetch!(opts, :params)
     cache_headers_fn = Keyword.get(opts, :cache_headers_fn, &Cache.cache_headers/2)
@@ -55,6 +56,6 @@ defmodule V3Api.Headers do
     opts
     |> Keyword.fetch!(:url)
     |> cache_headers_fn.(params)
-    |> Enum.reduce(headers, & [&1 | &2])
+    |> Enum.reduce(headers, &[&1 | &2])
   end
 end

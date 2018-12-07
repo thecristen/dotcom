@@ -9,16 +9,16 @@ defmodule SiteWeb.PaginationHelpersTest do
     prefix: [1, "…"],
     previous: 4,
     range: [3, 4, 5, 6, 7],
-    suffix: ["…", 10]}
+    suffix: ["…", 10]
+  }
 
   @link_context %{form: "search", path: "/search", params: %{"[a]" => "1", "[b][c]" => "2"}}
 
   @result "_responsive_pagination.html"
-  |> render(pagination: @pagination, link_context: @link_context)
-  |> Phoenix.HTML.safe_to_string()
+          |> render(pagination: @pagination, link_context: @link_context)
+          |> Phoenix.HTML.safe_to_string()
 
   describe "render/2" do
-
     test "link built correctly" do
       expected_link = "search?offset=5"
       @result =~ expected_link
@@ -42,9 +42,11 @@ defmodule SiteWeb.PaginationHelpersTest do
     end
 
     test "empty when there is not data to paginate" do
-      actual = "_responsive_pagination.html"
-      |> render(pagination: %Site.ResponsivePagination{}, link_context: @link_context)
-      |> Phoenix.HTML.safe_to_string()
+      actual =
+        "_responsive_pagination.html"
+        |> render(pagination: %Site.ResponsivePagination{}, link_context: @link_context)
+        |> Phoenix.HTML.safe_to_string()
+
       expects = ""
       assert actual == expects
     end

@@ -9,10 +9,13 @@ use Mix.Config
 
 port = String.to_integer(System.get_env("PORT") || "4001")
 host = System.get_env("HOST") || "localhost"
-static_url = case System.get_env("STATIC_URL") do
-  nil -> [host: System.get_env("STATIC_HOST") || host, port: port]
-  static_url -> [url: static_url]
-end
+
+static_url =
+  case System.get_env("STATIC_URL") do
+    nil -> [host: System.get_env("STATIC_HOST") || host, port: port]
+    static_url -> [url: static_url]
+  end
+
 config :site, SiteWeb.Endpoint,
   http: [port: port],
   static_url: static_url,
@@ -37,7 +40,10 @@ config :site, SiteWeb.Endpoint,
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
-config :logger, level: String.to_atom(System.get_env("LOGGER_LEVEL") || "warn"), colors: [enabled: true]
+
+config :logger,
+  level: String.to_atom(System.get_env("LOGGER_LEVEL") || "warn"),
+  colors: [enabled: true]
 
 # Set a higher stacktrace during development.
 # Do not configure such in production as keeping

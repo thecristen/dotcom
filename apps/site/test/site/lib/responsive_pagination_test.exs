@@ -13,7 +13,9 @@ defmodule Site.ResponsivePaginationTest do
         prefix: [],
         previous: nil,
         range: [],
-        suffix: []}
+        suffix: []
+      }
+
       assert expected == build(%{offset: 0, per_page: 10, total: 0})
     end
 
@@ -25,7 +27,9 @@ defmodule Site.ResponsivePaginationTest do
         prefix: [1, "…"],
         previous: 4,
         range: [3, 4, 5, 6, 7],
-        suffix: ["…", 10]}
+        suffix: ["…", 10]
+      }
+
       assert expected == build(@stats)
       assert expected.current == 5
       assert expected.previous == expected.current - 1
@@ -45,7 +49,9 @@ defmodule Site.ResponsivePaginationTest do
         prefix: [],
         previous: nil,
         range: [1, 2, 3, 4, 5],
-        suffix: ["…", 10]}
+        suffix: ["…", 10]
+      }
+
       assert expected == build(%{@stats | offset: 0})
       assert expected.current == 1
       assert expected.prefix == []
@@ -63,7 +69,9 @@ defmodule Site.ResponsivePaginationTest do
         prefix: [1, "…"],
         previous: 9,
         range: [6, 7, 8, 9, 10],
-        suffix: []}
+        suffix: []
+      }
+
       assert expected == build(%{@stats | offset: 9})
       assert expected.current == 10
       assert expected.next == nil

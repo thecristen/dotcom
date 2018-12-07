@@ -6,13 +6,23 @@ defmodule Alerts.Cache.StoreTest do
   @now Timex.parse!("2017-06-08T10:00:00-05:00", "{ISO:Extended}")
 
   test "updating and fetching without a banner" do
-    alert1 = Alerts.Alert.new(id: "123", informed_entity: [
-      %Alerts.InformedEntity{route: "Blue"},
-      %Alerts.InformedEntity{stop: "place-pktrm"},
-    ])
-    alert2 = Alerts.Alert.new(id: "456", informed_entity: [
-      %Alerts.InformedEntity{route: "Red"},
-    ])
+    alert1 =
+      Alerts.Alert.new(
+        id: "123",
+        informed_entity: [
+          %Alerts.InformedEntity{route: "Blue"},
+          %Alerts.InformedEntity{stop: "place-pktrm"}
+        ]
+      )
+
+    alert2 =
+      Alerts.Alert.new(
+        id: "456",
+        informed_entity: [
+          %Alerts.InformedEntity{route: "Red"}
+        ]
+      )
+
     alerts = [alert1, alert2]
 
     Store.update(alerts, nil)

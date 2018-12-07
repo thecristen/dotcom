@@ -2,17 +2,19 @@ defmodule Feedback.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :feedback,
-     version: "0.1.0",
-     elixir: "~> 1.3",
-     build_path: "../../_build",
-     config_path: "../../config/config.exs",
-     deps_path: "../../deps",
-     lockfile: "../../mix.lock",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     test_coverage: [tool: ExCoveralls],
-     deps: deps()]
+    [
+      app: :feedback,
+      version: "0.1.0",
+      elixir: "~> 1.3",
+      build_path: "../../_build",
+      config_path: "../../config/config.exs",
+      deps_path: "../../deps",
+      lockfile: "../../mix.lock",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      test_coverage: [tool: ExCoveralls],
+      deps: deps()
+    ]
   end
 
   # Configuration for the OTP application
@@ -32,11 +34,13 @@ defmodule Feedback.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:mailgun, "~> 0.1.2"},
-     {:poison, "~> 2.2", override: true},
-     {:timex, ">= 2.0.0"},
-     {:briefly, "~> 0.3"},
-     {:excoveralls, "~> 0.5", only: :test},
-     {:plug, "~> 1.3"}]
+    [
+      {:mailgun, "~> 0.1.2"},
+      {:poison, "~> 2.2", override: true},
+      {:timex, ">= 2.0.0"},
+      {:briefly, "~> 0.3"},
+      {:excoveralls, "~> 0.5", only: :test},
+      {:plug, "~> 1.3"}
+    ]
   end
 end

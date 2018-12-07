@@ -12,30 +12,29 @@ defmodule Site.Components.Tabs.TabSelector do
   """
 
   @enforce_keys [:links, :selected]
-  defstruct [
-    id: "tab-select",
-    class: "",
-    links: [
-      {"trip-view", "Schedule", "/schedules/bus"},
-      {"info", "Info", "/schedules/bus"}],
-    selected: "trip-view",
-    stacked_label: "",
-    icon_map: %{},
-  ]
+  defstruct id: "tab-select",
+            class: "",
+            links: [
+              {"trip-view", "Schedule", "/schedules/bus"},
+              {"info", "Info", "/schedules/bus"}
+            ],
+            selected: "trip-view",
+            stacked_label: "",
+            icon_map: %{}
 
   @type t :: %__MODULE__{
-    id: String.t,
-    class: String.t,
-    links: [{tab_item_name:: String.t, title:: String.t, href:: String.t}],
-    selected: String.t,
-    stacked_label: String.t,
-    icon_map: %{optional(title:: String.t) => Phoenix.HTML.safe}
-  }
+          id: String.t(),
+          class: String.t(),
+          links: [{tab_item_name :: String.t(), title :: String.t(), href :: String.t()}],
+          selected: String.t(),
+          stacked_label: String.t(),
+          icon_map: %{optional(title :: String.t()) => Phoenix.HTML.safe()}
+        }
 
   def selected?(tab_item_name, tab_item_name), do: true
   def selected?(_, _), do: false
 
-  @spec slug(String.t) :: String.t
+  @spec slug(String.t()) :: String.t()
   def slug(title) do
     String.replace(String.downcase(title), " ", "-") <> "-tab"
   end

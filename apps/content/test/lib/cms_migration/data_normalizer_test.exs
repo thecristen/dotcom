@@ -78,7 +78,8 @@ defmodule Content.CmsMigration.DataNormalizerTest do
 
   describe "remove_style_information/1" do
     test "removes style attributes" do
-      value = ~s(<a href=\"www.mbta.example\" style=\"text-align: center;\" target=\"_blank\">Example</a>)
+      value =
+        ~s(<a href=\"www.mbta.example\" style=\"text-align: center;\" target=\"_blank\">Example</a>)
 
       result = remove_style_information(value)
 

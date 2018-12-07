@@ -140,6 +140,7 @@ defmodule SiteWeb.GlobalSearchTest do
     @tag :wallaby
     test "clear button only shows when text has been entered", %{session: session} do
       reset_id = "#search-global__reset"
+
       session
       |> visit("/search")
       |> assert_has(css(reset_id, visible: false))
@@ -200,7 +201,10 @@ defmodule SiteWeb.GlobalSearchTest do
       query_string_elements = url_to_param_map(url)
 
       assert Keyword.fetch(query_string_elements, :query) == {:ok, ""}
-      assert Keyword.fetch(query_string_elements, :facets) == {:ok, "stops,facet-station,facet-stop"}
+
+      assert Keyword.fetch(query_string_elements, :facets) ==
+               {:ok, "stops,facet-station,facet-stop"}
+
       assert Keyword.fetch(query_string_elements, :showmore) == {:ok, ""}
     end
 
@@ -233,26 +237,29 @@ defmodule SiteWeb.GlobalSearchTest do
 
     Bypass.expect(bypass, fn conn ->
       {:ok, body, _} = Plug.Conn.read_body(conn)
+
       case Poison.decode(body) do
         {:ok, %{"objectID" => "route" <> _, "queryID" => <<_::binary>>, "position" => 1}} ->
-          send parent, :click_tracked
+          send(parent, :click_tracked)
+
         decoded ->
-          send parent, {:bad_click_request, decoded}
+          send(parent, {:bad_click_request, decoded})
           :ok
       end
+
       Plug.Conn.send_resp(conn, 200, "{}")
     end)
 
-    on_exit fn ->
+    on_exit(fn ->
       Application.put_env(:algolia, :track_clicks?, false)
       Application.put_env(:algolia, :click_analytics_url, old_url)
-    end
+    end)
 
     assert Application.get_env(:algolia, :track_clicks?) == true
     session = visit(session, "/search?query=a")
 
     [_, routes | _] = find(session, css(".c-search-results__section", count: :any))
-    [first_link | _]  = find(routes, css(".c-search-result__link", count: :any))
+    [first_link | _] = find(routes, css(".c-search-result__link", count: :any))
 
     Wallaby.Element.click(first_link)
     assert_receive :click_tracked
@@ -282,7 +289,9 @@ defmodule SiteWeb.GlobalSearchTest do
       query_string_elements = url_to_param_map(url)
       assert Keyword.fetch(query_string_elements, :from) == {:ok, "global-search"}
       assert Keyword.fetch(query_string_elements, :query) == {:ok, "community college"}
-      assert Keyword.fetch(query_string_elements, :facets) == {:ok, "stops,facet-station,facet-stop"}
+
+      assert Keyword.fetch(query_string_elements, :facets) ==
+               {:ok, "stops,facet-station,facet-stop"}
     end
   end
 
@@ -297,9 +306,12 @@ defmodule SiteWeb.GlobalSearchTest do
     test "checks off facets and does a search", %{session: session} do
       session = visit(session, "/search?query=alewife&facets=stops,facet-station,facet-stop")
       assert attr(session, @search_input, "value") == "alewife"
-      session = session
-      |> assert_has(search_results_section(1))
-      |> assert_has(search_hits(1))
+
+      session =
+        session
+        |> assert_has(search_results_section(1))
+        |> assert_has(search_hits(1))
+
       assert selected?(session, facet_checkbox("stops"))
       assert selected?(session, facet_checkbox("facet-station"))
       assert selected?(session, facet_checkbox("facet-stop"))
@@ -307,11 +319,19 @@ defmodule SiteWeb.GlobalSearchTest do
 
     @tag :wallaby
     test "does a search, checks off facets and shows more", %{session: session} do
-      session = visit(session, "/search?query=alewife&facets=page,document&showmore=pages&showmore=documents")
+      session =
+        visit(
+          session,
+          "/search?query=alewife&facets=page,document&showmore=pages&showmore=documents"
+        )
+
       assert attr(session, @search_input, "value") == "alewife"
-      session = session
-      |> assert_has(search_results_section(2))
-      |> assert_has(css(".c-search-result__hit", minimum: 5))
+
+      session =
+        session
+        |> assert_has(search_results_section(2))
+        |> assert_has(css(".c-search-result__hit", minimum: 5))
+
       assert selected?(session, facet_checkbox("page"))
       assert selected?(session, facet_checkbox("document"))
     end
@@ -338,7 +358,7 @@ defmodule SiteWeb.GlobalSearchTest do
     query_string = URI.parse(url)
 
     query_string.query
-      |> URI.query_decoder()
-      |> Enum.map(fn({a, b}) -> {String.to_atom(a), b} end)
+    |> URI.query_decoder()
+    |> Enum.map(fn {a, b} -> {String.to_atom(a), b} end)
   end
 end

@@ -3,16 +3,16 @@ defmodule V3Api.StopsTest do
 
   describe "by_gtfs_id/1" do
     test "gets the parent station info" do
-      bypass = Bypass.open
+      bypass = Bypass.open()
 
       url = "http://localhost:#{bypass.port}"
 
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         assert conn.request_path == "/stops/123"
         conn = Plug.Conn.fetch_query_params(conn)
         assert conn.params["include"] == "parent_station,facilities"
         Plug.Conn.resp(conn, 200, ~s({"data": []}))
-      end
+      end)
 
       assert %JsonApi{} = V3Api.Stops.by_gtfs_id("123", base_url: url)
     end

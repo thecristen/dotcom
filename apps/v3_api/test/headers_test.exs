@@ -5,23 +5,25 @@ defmodule V3Api.HeadersTest do
 
   test "always adds api header" do
     assert Headers.build("API_KEY", use_cache?: false) == [
-      {"x-api-key", "API_KEY"}
-    ]
+             {"x-api-key", "API_KEY"}
+           ]
 
     assert Headers.build("API_KEY", params: [], url: "url") == [
-      {"x-api-key", "API_KEY"}
-    ]
+             {"x-api-key", "API_KEY"}
+           ]
   end
 
   test "adds wiremock proxy header if env var is set" do
     System.put_env("WIREMOCK_PROXY", "true")
+
     assert Headers.build("API_KEY", use_cache?: false) == [
-      {"X-WM-Proxy-Url", "https://dev.api.mbtace.com/"},
-      {"x-api-key", "API_KEY"}
-    ]
-    on_exit fn ->
+             {"X-WM-Proxy-Url", "https://dev.api.mbtace.com/"},
+             {"x-api-key", "API_KEY"}
+           ]
+
+    on_exit(fn ->
       System.delete_env("WIREMOCK_PROXY")
-    end
+    end)
   end
 
   test "calls cache header fn if use_cache? is true" do
@@ -33,8 +35,8 @@ defmodule V3Api.HeadersTest do
     ]
 
     assert Headers.build("API_KEY", opts) == [
-      {"if-modified-since", "LAST_MODIFIED"},
-      {"x-api-key", "API_KEY"}
-    ]
+             {"if-modified-since", "LAST_MODIFIED"},
+             {"x-api-key", "API_KEY"}
+           ]
   end
 end

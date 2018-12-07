@@ -1,6 +1,6 @@
 defmodule SiteWeb.TransitNearMeController do
   use SiteWeb, :controller
-  plug SiteWeb.Plugs.TransitNearMe
+  plug(SiteWeb.Plugs.TransitNearMe)
 
   @doc """
     Handles GET requests both with and without parameters. Calling with an address parameter (String.t) will

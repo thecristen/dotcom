@@ -3,14 +3,15 @@ defmodule Content.ProjectUpdate do
   Represents the Project Update content type in the CMS.
   """
 
-  import Content.Helpers, only: [
-    field_value: 2,
-    int_or_string_to_int: 1,
-    parse_body: 1,
-    parse_date: 2,
-    parse_images: 2,
-    path_alias: 1
-  ]
+  import Content.Helpers,
+    only: [
+      field_value: 2,
+      int_or_string_to_int: 1,
+      parse_body: 1,
+      parse_date: 2,
+      parse_images: 2,
+      path_alias: 1
+    ]
 
   @enforce_keys [:id, :project_id]
   defstruct [
@@ -22,24 +23,25 @@ defmodule Content.ProjectUpdate do
     photo_gallery: [],
     posted_on: "",
     teaser: "",
-    title: "",
+    title: ""
   ]
 
   @type t :: %__MODULE__{
-    id: integer,
-    body: Phoenix.HTML.safe,
-    photo_gallery: [Content.Field.Image.t],
-    posted_on: Date.t,
-    project_id: integer,
-    project_url: String.t,
-    path_alias: String.t | nil,
-    teaser: String.t,
-    title: String.t,
-  }
+          id: integer,
+          body: Phoenix.HTML.safe(),
+          photo_gallery: [Content.Field.Image.t()],
+          posted_on: Date.t(),
+          project_id: integer,
+          project_url: String.t(),
+          path_alias: String.t() | nil,
+          teaser: String.t(),
+          title: String.t()
+        }
 
   @spec from_api(map) :: t
   def from_api(%{} = data) do
     {project_id, project_alias} = parse_project(data)
+
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
       body: parse_body(data),

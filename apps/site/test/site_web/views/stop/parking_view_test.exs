@@ -8,22 +8,22 @@ defmodule SiteWeb.Stop.ParkingViewTest do
   @lot %ParkingLot{
     name: "Parking Lot",
     address: "123 Parking Lot Ave.",
-    capacity: %ParkingLot.Capacity {
+    capacity: %ParkingLot.Capacity{
       total: 24,
       accessible: 2,
       type: "Garage"
     },
-    payment: %ParkingLot.Payment {
+    payment: %ParkingLot.Payment{
       methods: ["Pay by Phone", "Credit/Debit Card"],
-      mobile_app: %ParkingLot.Payment.MobileApp {
+      mobile_app: %ParkingLot.Payment.MobileApp{
         name: "ParkingApp",
         id: "1515",
-        url: "www.mobileapp.com",
+        url: "www.mobileapp.com"
       },
       daily_rate: "$10",
       monthly_rate: "$444"
     },
-    utilization: %ParkingLot.Utilization {
+    utilization: %ParkingLot.Utilization{
       typical: 10,
       arrive_before: "06:00 AM"
     },
@@ -50,7 +50,12 @@ defmodule SiteWeb.Stop.ParkingViewTest do
 
   describe "utilization/1" do
     test "prints information about arrival time if utilization is greater than 90%" do
-      message = utilization(%{@lot | utilization: %ParkingLot.Utilization{typical: 24, arrive_before: "06:00 AM"}})
+      message =
+        utilization(%{
+          @lot
+          | utilization: %ParkingLot.Utilization{typical: 24, arrive_before: "06:00 AM"}
+        })
+
       assert safe_to_string(message) =~ "06:00 AM"
     end
 
@@ -92,15 +97,30 @@ defmodule SiteWeb.Stop.ParkingViewTest do
     end
 
     test "doesn't print id if no mobile app id" do
-      out = safe_to_string(payment(%{@lot.payment | mobile_app: %ParkingLot.Payment.MobileApp{name: "AppName",
-                                                                                              id: nil,
-                                                                                              url: "www.app.com"}}))
+      out =
+        safe_to_string(
+          payment(%{
+            @lot.payment
+            | mobile_app: %ParkingLot.Payment.MobileApp{
+                name: "AppName",
+                id: nil,
+                url: "www.app.com"
+              }
+          })
+        )
+
       refute out =~ "#"
     end
 
     test "prints name without url if no url" do
-      out = safe_to_string(payment(%{@lot.payment | mobile_app: %ParkingLot.Payment.MobileApp{name: "AppName",
-                                                                                              id: "3",  url: nil}}))
+      out =
+        safe_to_string(
+          payment(%{
+            @lot.payment
+            | mobile_app: %ParkingLot.Payment.MobileApp{name: "AppName", id: "3", url: nil}
+          })
+        )
+
       assert out =~ "AppName"
       assert out =~ "#3"
     end

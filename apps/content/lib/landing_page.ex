@@ -1,11 +1,12 @@
 defmodule Content.LandingPage do
   @moduledoc "Represents a 'Landing Page' type in the Drupal CMS"
 
-  import Content.Helpers, only: [
-    field_value: 2,
-    parse_image: 2,
-    parse_paragraphs: 1
-  ]
+  import Content.Helpers,
+    only: [
+      field_value: 2,
+      parse_image: 2,
+      parse_paragraphs: 1
+    ]
 
   @enforce_keys [:id]
   defstruct [
@@ -20,15 +21,15 @@ defmodule Content.LandingPage do
   ]
 
   @type t :: %__MODULE__{
-    id: integer,
-    title: String.t,
-    hero_desktop: Content.Field.Image.t,
-    hero_mobile: Content.Field.Image.t,
-    hero_mobile_2x: Content.Field.Image.t,
-    paragraphs: [Content.Paragraph.t],
-    subtitle: String.t | nil,
-    breadcrumbs: [Util.Breadcrumb.t]
-  }
+          id: integer,
+          title: String.t(),
+          hero_desktop: Content.Field.Image.t(),
+          hero_mobile: Content.Field.Image.t(),
+          hero_mobile_2x: Content.Field.Image.t(),
+          paragraphs: [Content.Paragraph.t()],
+          subtitle: String.t() | nil,
+          breadcrumbs: [Util.Breadcrumb.t()]
+        }
 
   @spec from_api(map) :: t
   def from_api(%{} = data) do

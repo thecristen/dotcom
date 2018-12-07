@@ -1,20 +1,14 @@
 defmodule Fares.RetailLocations.Location do
-  defstruct [:name,
-             :address,
-             :latitude,
-             :longitude,
-             :phone,
-             :payment,
-            ]
+  defstruct [:name, :address, :latitude, :longitude, :phone, :payment]
 
   @type t :: %__MODULE__{
-    name: String.t,
-    address: String.t,
-    latitude: float,
-    longitude: float,
-    phone: String.t,
-    payment: [String.t],
-  }
+          name: String.t(),
+          address: String.t(),
+          latitude: float,
+          longitude: float,
+          phone: String.t(),
+          payment: [String.t()]
+        }
 
   defimpl Util.Position do
     def latitude(%@for{latitude: latitude}), do: latitude

@@ -23,7 +23,8 @@ defmodule SiteWeb.StopController.StopMapTest do
     test "srcset contains all sizes for both scales" do
       {_map_data, srcset, _static_url} = map_info(@stop)
       sizes = [140, 280, 340, 400, 520]
-      doubled_sizes = Enum.map(sizes, & &1 * 2)
+      doubled_sizes = Enum.map(sizes, &(&1 * 2))
+
       for {size, doubled_size} <- Enum.zip(sizes, doubled_sizes) do
         assert srcset =~ "#{size}w"
         assert srcset =~ "#{doubled_size}w"

@@ -5,9 +5,10 @@ defmodule Util.AndOr do
 
   """
 
-  @spec join([String.t], :and | :or) :: iolist
+  @spec join([String.t()], :and | :or) :: iolist
   def join([], _), do: ""
   def join([single], _), do: single
+
   def join(list, and_or) when and_or in [:and, :or] do
     do_join(list, and_or)
   end
@@ -15,9 +16,11 @@ defmodule Util.AndOr do
   defp do_join([one, two], and_or) do
     [one, " #{and_or} ", two]
   end
+
   defp do_join([one, two, three], and_or) do
     [one, ", ", two, ", #{and_or} ", three]
   end
+
   defp do_join([first | rest], and_or) do
     [
       first,

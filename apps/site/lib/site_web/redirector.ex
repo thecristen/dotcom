@@ -4,19 +4,20 @@ defmodule SiteWeb.Redirector do
   import Phoenix.Controller, only: [redirect: 2, render: 4, put_layout: 2]
 
   @impl true
-  @spec init(Keyword.t) :: Keyword.t
+  @spec init(Keyword.t()) :: Keyword.t()
   def init([to: _] = opts), do: opts
   def init(_default), do: raise("Missing required to: option in redirect")
 
   @impl true
-  @spec call(Plug.Conn.t, Keyword.t) :: Plug.Conn.t
-  def call(%Plug.Conn{params: %{"id" => id}} = conn, [to: to]) when to not in ["/projects"] do
+  @spec call(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
+  def call(%Plug.Conn{params: %{"id" => id}} = conn, to: to) when to not in ["/projects"] do
     case find_record(id, to) do
       :not_found -> render_not_found(conn)
       record -> redirect_to_show(conn, to, record)
     end
   end
-  def call(conn, [to: to]) do
+
+  def call(conn, to: to) do
     conn
     |> put_status(:moved_permanently)
     |> redirect(to: append_query_string(conn, to))
@@ -29,6 +30,7 @@ defmodule SiteWeb.Redirector do
   defp find_record(id, "/events") do
     Content.Repo.event_by(meeting_id: id)
   end
+
   defp find_record(id, "/news") do
     Content.Repo.news_entry_by(migration_id: id)
   end

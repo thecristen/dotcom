@@ -3,7 +3,7 @@ defmodule SiteWeb.HowToPayView do
 
   import SiteWeb.ViewHelpers
 
-  @spec mode_template(atom) :: String.t
+  @spec mode_template(atom) :: String.t()
   def mode_template(mode) do
     "#{mode}.html"
   end

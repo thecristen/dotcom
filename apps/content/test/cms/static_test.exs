@@ -9,7 +9,9 @@ defmodule Content.CMS.StaticTest do
     end
 
     test "/projects/project-deleted/update/project-deleted-update" do
-      assert {:ok, %{"field_project" => [project]}} = view("/projects/project-deleted/update/project-deleted-progress", %{})
+      assert {:ok, %{"field_project" => [project]}} =
+               view("/projects/project-deleted/update/project-deleted-progress", %{})
+
       assert %{"url" => "/projects/project-deleted"} = project
     end
 
@@ -23,7 +25,10 @@ defmodule Content.CMS.StaticTest do
       assert {:error, {:redirect, 301, _}} = view("/news/redirected-url", %{})
       assert {:error, {:redirect, 301, _}} = view("/events/redirected-url", %{})
       assert {:error, {:redirect, 301, _}} = view("/projects/redirected-project", %{})
-      assert {:error, {:redirect, 301, _}} = view("/projects/project-name/update/redirected-update", %{})
+
+      assert {:error, {:redirect, 301, _}} =
+               view("/projects/project-name/update/redirected-update", %{})
+
       assert {:error, {:redirect, 301, _}} = view("/node/3518", %{})
       assert {:error, {:redirect, 301, _}} = view("/node/3458", %{})
       assert {:error, {:redirect, 301, _}} = view("/node/3480", %{})
@@ -33,6 +38,7 @@ defmodule Content.CMS.StaticTest do
     test "/cms/teasers/guides" do
       assert {:ok, guides} = view("/cms/teasers/guides", %{})
       refute Enum.empty?(guides)
+
       for guide <- guides do
         assert Map.fetch(guide, "topic") == {:ok, "Guides"}
       end
@@ -41,6 +47,7 @@ defmodule Content.CMS.StaticTest do
     test "/cms/teasers?type=news_entry" do
       assert {:ok, news_entries} = view("/cms/teasers", %{type: "news_entry"})
       refute Enum.empty?(news_entries)
+
       for news_entry <- news_entries do
         assert Map.fetch(news_entry, "type") == {:ok, "news_entry"}
       end
@@ -53,7 +60,8 @@ defmodule Content.CMS.StaticTest do
     end
 
     test "redirects without params if they do not exist" do
-      assert redirect("path", %{"foo" => "bar"}, 302) == {:error, {:redirect, 302, [to: "path?foo=bar"]}}
+      assert redirect("path", %{"foo" => "bar"}, 302) ==
+               {:error, {:redirect, 302, [to: "path?foo=bar"]}}
     end
   end
 

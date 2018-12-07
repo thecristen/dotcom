@@ -80,6 +80,7 @@ defmodule Content.CmsMigration.EventPayload do
   defp cms_format_date_time(nil) do
     cms_format(nil)
   end
+
   defp cms_format_date_time(datetime) do
     datetime
     |> Timex.format!("{YYYY}-{0M}-{0D}T{h24}:{m}:{s}")

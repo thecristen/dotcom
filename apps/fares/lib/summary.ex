@@ -11,22 +11,20 @@ defmodule Fares.Summary do
   `name` and `fares` should already be rendered for display.
   """
   @type t :: %__MODULE__{
-    name: String.t,
-    duration: Fares.Fare.duration,
-    modes: [Routes.Route.route_type],
-    fares: [{String.t, String.t | iolist}],
-    url: String.t | nil
-  }
+          name: String.t(),
+          duration: Fares.Fare.duration(),
+          modes: [Routes.Route.route_type()],
+          fares: [{String.t(), String.t() | iolist}],
+          url: String.t() | nil
+        }
 
-  defstruct [
-    name: "",
-    duration: :single_trip,
-    modes: [],
-    fares: [],
-    url: nil
-  ]
+  defstruct name: "",
+            duration: :single_trip,
+            modes: [],
+            fares: [],
+            url: nil
 
-  @spec price_range(t) :: String.t
+  @spec price_range(t) :: String.t()
   def price_range(%__MODULE__{fares: [{_label, amount} | _]}) do
     IO.iodata_to_binary(amount)
   end

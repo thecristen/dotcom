@@ -5,7 +5,9 @@ defmodule SiteWeb.Plugs.BannerTest do
   alias Alerts.Banner
 
   describe "call/2" do
-    test "if there's an alert banner, assigns it along with the banner class/template", %{conn: conn} do
+    test "if there's an alert banner, assigns it along with the banner class/template", %{
+      conn: conn
+    } do
       opts = init(banner_fn: fn -> %Banner{} end)
       conn = call(conn, opts)
       assert conn.assigns.alert_banner == %Banner{}

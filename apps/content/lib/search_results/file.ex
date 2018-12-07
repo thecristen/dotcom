@@ -1,15 +1,13 @@
 defmodule Content.SearchResult.File do
-  defstruct [
-    title: "",
-    url: "",
-    mimetype: ""
-  ]
+  defstruct title: "",
+            url: "",
+            mimetype: ""
 
   @type t :: %__MODULE__{
-    title: String.t,
-    url: String.t,
-    mimetype: String.t
-  }
+          title: String.t(),
+          url: String.t(),
+          mimetype: String.t()
+        }
 
   @spec build(map) :: t
   def build(result) do
@@ -20,9 +18,9 @@ defmodule Content.SearchResult.File do
     }
   end
 
-  @spec link(String.t) :: String.t
+  @spec link(String.t()) :: String.t()
   defp link(path) do
-    path = String.replace(path, "public:/", Content.Config.static_path)
+    path = String.replace(path, "public:/", Content.Config.static_path())
     Util.site_path(:static_url, [path])
   end
 end

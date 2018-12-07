@@ -6,12 +6,12 @@ defmodule Content.Field.Image do
   in other content types like Content.NewsEntry.
   """
 
-  defstruct [url: "", alt: ""]
+  defstruct url: "", alt: ""
 
   @type t :: %__MODULE__{
-    url: String.t,
-    alt: String.t
-  }
+          url: String.t(),
+          alt: String.t()
+        }
 
   @spec from_api(map) :: t
   def from_api(%{"alt" => alt, "url" => url}) do

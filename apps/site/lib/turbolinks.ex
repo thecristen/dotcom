@@ -17,8 +17,9 @@ defmodule Turbolinks do
 
   @doc "Return HTML for the Turbolinks Cache-Control on the current request"
   def cache_meta(%{assigns: %{turbolinks_cache_header: header}}) when is_binary(header) do
-    Tag.tag :meta, name: "turbolinks-cache-control", content: header
+    Tag.tag(:meta, name: "turbolinks-cache-control", content: header)
   end
+
   def cache_meta(_conn) do
     ""
   end
@@ -34,12 +35,9 @@ defmodule Turbolinks.Plug do
 
   """
   @behaviour Plug
-  import Phoenix.Controller, only: [get_flash: 2,
-                                    put_flash: 3]
+  import Phoenix.Controller, only: [get_flash: 2, put_flash: 3]
 
-  import Plug.Conn, only: [register_before_send: 2,
-                           get_resp_header: 2,
-                           put_resp_header: 3]
+  import Plug.Conn, only: [register_before_send: 2, get_resp_header: 2, put_resp_header: 3]
 
   @impl true
   def init([]), do: []
@@ -63,13 +61,15 @@ defmodule Turbolinks.Plug do
   end
 
   def before_send(%{status: status} = conn) when status >= 300 and status < 400 do
-    location = conn
-    |> get_resp_header("location")
-    |> List.first
+    location =
+      conn
+      |> get_resp_header("location")
+      |> List.first()
 
     conn
     |> put_flash(:turbolinks_redirect, location)
   end
+
   def before_send(conn) do
     conn
   end

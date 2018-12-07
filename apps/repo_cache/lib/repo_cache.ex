@@ -36,10 +36,11 @@ defmodule RepoCache do
   end
 
   defp include_defaults(opts) do
-    opts = opts
-    |> Keyword.put_new(:ttl, :timer.seconds(1))
-    |> Keyword.put(:read_concurrency, :true)
-    |> Keyword.put(:write_concurrency, :true)
+    opts =
+      opts
+      |> Keyword.put_new(:ttl, :timer.seconds(1))
+      |> Keyword.put(:read_concurrency, true)
+      |> Keyword.put(:write_concurrency, true)
 
     Keyword.put_new(opts, :ttl_check, opts[:ttl])
   end
@@ -48,12 +49,14 @@ defmodule RepoCache do
     quote do
       [mod | _] = __ENV__.context_modules
       {name, _} = __ENV__.function
+
       unquote(__MODULE__).do_cache(
         mod,
         name,
         unquote(fun),
         unquote(fun_param),
-        unquote(cache_opts))
+        unquote(cache_opts)
+      )
     end
   end
 
@@ -69,8 +72,8 @@ defmodule RepoCache do
 
       def clear_cache do
         __MODULE__
-        |> ConCache.ets
-        |> :ets.delete_all_objects
+        |> ConCache.ets()
+        |> :ets.delete_all_objects()
       end
 
       def child_spec(_opts) do
@@ -88,12 +91,15 @@ defmodule RepoCache do
   def do_cache(mod, name, fun, fun_param, cache_opts) do
     key = {name, fun_param}
     timeout = Keyword.get(cache_opts, :timeout)
+
     case ConCache.get(mod, key) do
       nil ->
         RepoCache.Log.log(:miss, mod, name)
-        ConCache.isolated mod, key, timeout, fn ->
+
+        ConCache.isolated(mod, key, timeout, fn ->
           do_cache_isolated(fun, fun_param, mod, key, cache_opts)
-        end
+        end)
+
       value ->
         RepoCache.Log.log(:hit, mod, name)
         value
@@ -106,6 +112,7 @@ defmodule RepoCache do
     case ConCache.get(mod, key) do
       nil ->
         maybe_set_value(fun.(fun_param), mod, key, cache_opts)
+
       value ->
         value
     end
@@ -114,6 +121,7 @@ defmodule RepoCache do
   defp maybe_set_value({:error, _} = error, _, _, _) do
     error
   end
+
   defp maybe_set_value(value, mod, key, cache_opts) do
     ttl = Keyword.get(cache_opts, :ttl, mod.default_ttl())
     item = %ConCache.Item{value: value, ttl: ttl}

@@ -10,28 +10,29 @@ defmodule Content.RoutePdf do
     :path,
     :date_start,
     date_end: nil,
-    link_text_override: nil,
+    link_text_override: nil
   ]
 
   @type t :: %__MODULE__{
-    path: String.t,
-    date_start: Date.t,
-    date_end: Date.t,
-    link_text_override: String.t,
-  }
+          path: String.t(),
+          date_start: Date.t(),
+          date_end: Date.t(),
+          link_text_override: String.t()
+        }
 
   @spec from_api(map) :: t
   def from_api(data) do
     %__MODULE__{
-      path: data
+      path:
+        data
         |> parse_files("field_route_pdf")
-        |> List.first
+        |> List.first()
         |> Map.get(:url)
-        |> URI.parse
+        |> URI.parse()
         |> Map.get(:path),
       date_start: parse_date(data, "field_pdf_date_start"),
       date_end: parse_date(data, "field_pdf_date_end"),
-      link_text_override: field_value(data, "field_link_text_override"),
+      link_text_override: field_value(data, "field_link_text_override")
     }
   end
 
@@ -40,12 +41,12 @@ defmodule Content.RoutePdf do
     text != nil and text != ""
   end
 
-  @spec started?(t, Date.t) :: boolean
+  @spec started?(t, Date.t()) :: boolean
   def started?(%__MODULE__{date_start: date_start}, date) do
     Date.compare(date_start, date) != :gt
   end
 
-  @spec outdated?(t, Date.t) :: boolean
+  @spec outdated?(t, Date.t()) :: boolean
   def outdated?(%__MODULE__{date_end: date_end}, date) do
     date_end != nil && Date.compare(date_end, date) == :lt
   end

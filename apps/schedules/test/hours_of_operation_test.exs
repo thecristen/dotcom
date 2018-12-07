@@ -37,13 +37,23 @@ defmodule Schedules.HoursOfOperationTest do
       route_id = "route_id"
       [week_date, saturday_date, sunday_date] = week_dates(date)
       actual = api_params([route_id], date)
-      assert [week_query, saturday_query, sunday_query,
-              week_query_1, saturday_query_1, sunday_query_1] = actual
+
       assert [
-        {:route, ^route_id},
-        {:date, ^week_date},
-        {:direction_id, 0},
-        {:stop_sequence, "first,last"} | _] = week_query
+               week_query,
+               saturday_query,
+               sunday_query,
+               week_query_1,
+               saturday_query_1,
+               sunday_query_1
+             ] = actual
+
+      assert [
+               {:route, ^route_id},
+               {:date, ^week_date},
+               {:direction_id, 0},
+               {:stop_sequence, "first,last"} | _
+             ] = week_query
+
       assert week_query_1[:route] == route_id
       assert week_query_1[:direction_id] == 1
       assert week_query_1[:date] == week_date
@@ -60,21 +70,43 @@ defmodule Schedules.HoursOfOperationTest do
 
   describe "parse_responses/1" do
     test "returns a timeout error if not all of the tasks complete within the timeout" do
-      assert {:error, :timeout} = parse_responses([{:exit, :timeout}, {:ok, %JsonApi{}}, {:ok, %JsonApi{}},
-                                                   {:ok, %JsonApi{}}, {:ok, %JsonApi{}}, {:ok, %JsonApi{}}])
+      assert {:error, :timeout} =
+               parse_responses([
+                 {:exit, :timeout},
+                 {:ok, %JsonApi{}},
+                 {:ok, %JsonApi{}},
+                 {:ok, %JsonApi{}},
+                 {:ok, %JsonApi{}},
+                 {:ok, %JsonApi{}}
+               ])
     end
 
     test "returns a timeout error if the API returns an error" do
       # {:ok, _} is from Task.async_stream
       # {:error, [%JsonApi.Error{}]} is from JsonApi
       error = {:error, [%JsonApi.Error{}]}
-      assert {:error, :timeout} = parse_responses([{:ok, error}, {:ok, %JsonApi{}}, {:ok, %JsonApi{}},
-                                                   {:ok, %JsonApi{}}, {:ok, %JsonApi{}}, {:ok, %JsonApi{}}])
+
+      assert {:error, :timeout} =
+               parse_responses([
+                 {:ok, error},
+                 {:ok, %JsonApi{}},
+                 {:ok, %JsonApi{}},
+                 {:ok, %JsonApi{}},
+                 {:ok, %JsonApi{}},
+                 {:ok, %JsonApi{}}
+               ])
     end
 
     test "if they all complete, returns a %__MODULE__{} struct" do
-      assert %HoursOfOperation{} = parse_responses([{:ok, %JsonApi{}}, {:ok, %JsonApi{}}, {:ok, %JsonApi{}},
-                                                    {:ok, %JsonApi{}}, {:ok, %JsonApi{}}, {:ok, %JsonApi{}}])
+      assert %HoursOfOperation{} =
+               parse_responses([
+                 {:ok, %JsonApi{}},
+                 {:ok, %JsonApi{}},
+                 {:ok, %JsonApi{}},
+                 {:ok, %JsonApi{}},
+                 {:ok, %JsonApi{}},
+                 {:ok, %JsonApi{}}
+               ])
     end
 
     test "returns min/max times if present, otherwise :no_service" do
@@ -82,6 +114,7 @@ defmodule Schedules.HoursOfOperationTest do
       {max_item, max_time} = build_schedule()
       {only_item, only_time} = build_schedule()
       sunday_out_of_service = {:error, [%JsonApi.Error{code: "no_service"}]}
+
       responses = [
         {:ok, %JsonApi{data: [max_item, min_item]}},
         {:ok, %JsonApi{}},
@@ -90,11 +123,14 @@ defmodule Schedules.HoursOfOperationTest do
         {:ok, %JsonApi{data: [only_item]}},
         {:ok, %JsonApi{}}
       ]
+
       expected = %HoursOfOperation{
         week: {%Departures{first_departure: min_time, last_departure: max_time}, :no_service},
-        saturday: {:no_service, %Departures{first_departure: only_time, last_departure: only_time}},
+        saturday:
+          {:no_service, %Departures{first_departure: only_time, last_departure: only_time}},
         sunday: {:no_service, :no_service}
       }
+
       actual = parse_responses(responses)
       assert expected == actual
     end
@@ -112,45 +148,57 @@ defmodule Schedules.HoursOfOperationTest do
       lower_middle = %Departures{first_departure: lower, last_departure: middle}
       middle_higher = %Departures{first_departure: middle, last_departure: higher}
       lower_higher = %Departures{first_departure: lower, last_departure: higher}
+
       expected = %HoursOfOperation{
         week: {lower_higher, lower_higher},
         saturday: {lower_higher, lower_higher},
         sunday: {lower_higher, lower_higher}
       }
-      actual = join_hours([
-        %HoursOfOperation{
-          week: {:no_service, lower_middle},
-          saturday: {middle_higher, :no_service},
-          sunday: {lower_middle, lower_middle}
-        },
-        %HoursOfOperation{},
-        %HoursOfOperation{
-          week: {lower_higher, middle_higher},
-          saturday: {lower_middle, lower_higher},
-          sunday: {middle_higher, middle_higher}
+
+      actual =
+        join_hours([
+          %HoursOfOperation{
+            week: {:no_service, lower_middle},
+            saturday: {middle_higher, :no_service},
+            sunday: {lower_middle, lower_middle}
+          },
+          %HoursOfOperation{},
+          %HoursOfOperation{
+            week: {lower_higher, middle_higher},
+            saturday: {lower_middle, lower_higher},
+            sunday: {middle_higher, middle_higher}
           }
-      ])
+        ])
+
       assert expected == actual
     end
   end
 
   describe "week_dates/1" do
     test "for a given date, returns the next monday, saturday, and sunday" do
-      date = ~D[2017-10-26] # Thursday
+      # Thursday
+      date = ~D[2017-10-26]
+
       assert week_dates(date) == [
-        ~D[2017-10-30], # Next Monday
-        ~D[2017-10-28], # Upcoming Saturday
-        ~D[2017-10-29] # Upcoming Sunday
-      ]
+               # Next Monday
+               ~D[2017-10-30],
+               # Upcoming Saturday
+               ~D[2017-10-28],
+               # Upcoming Sunday
+               ~D[2017-10-29]
+             ]
     end
 
     test "on a sunday, we use the saturday from next week" do
       date = ~D[2017-10-29]
+
       assert week_dates(date) == [
-        ~D[2017-10-30], # Next Monday
-        ~D[2017-11-04], # Next Saturday
-        date
-      ]
+               # Next Monday
+               ~D[2017-10-30],
+               # Next Saturday
+               ~D[2017-11-04],
+               date
+             ]
     end
 
     test "always generates valid responses" do
@@ -167,11 +215,13 @@ defmodule Schedules.HoursOfOperationTest do
     test "returns items in week/saturday/sunday order, ignoring no-service dates" do
       now = DateTime.utc_now()
       departure = %Departures{first_departure: now, last_departure: now}
+
       hours = %HoursOfOperation{
         week: {:no_service, departure},
         saturday: {:no_service, :no_service},
-        sunday: {departure, :no_service},
+        sunday: {departure, :no_service}
       }
+
       assert Enum.count(hours) == 2
       assert Enum.into(hours, []) == [week: hours.week, sunday: hours.sunday]
     end
@@ -181,21 +231,19 @@ defmodule Schedules.HoursOfOperationTest do
     year = int(min: year, max: year + 5)
     month = int(min: 1, max: 12)
     day = int(min: 1, max: 28)
-    VG.struct(
-      %Date{
-        calendar: value(Calendar.ISO),
-        year: year,
-        month: month,
-        day: day})
+    VG.struct(%Date{calendar: value(Calendar.ISO), year: year, month: month, day: day})
   end
 
   defp build_schedule do
     date_time = DateTime.utc_now()
+
     item = %JsonApi.Item{
       type: "schedule",
       attributes: %{
         "departure_time" => DateTime.to_iso8601(date_time)
-      }}
+      }
+    }
+
     {item, date_time}
   end
 end

@@ -28,20 +28,27 @@ defmodule RepoCache.Log do
 
   defp do_log(key, :hit) do
     default = {key, 1, 0}
+
     :ets.update_counter(
       @table,
       key,
       {2, 1},
-      default)
+      default
+    )
+
     :ok
   end
+
   defp do_log(key, :miss) do
     default = {key, 0, 1}
+
     :ets.update_counter(
       @table,
       key,
       {3, 1},
-      default)
+      default
+    )
+
     :ok
   end
 
@@ -51,13 +58,16 @@ defmodule RepoCache.Log do
 
   def init([]) do
     table_opts = [:named_table, :public, :set, {:write_concurrency, true}]
-    @table = try do
-               :ets.new(@table, table_opts)
-             rescue
-               ArgumentError ->
-                 true = :ets.delete(@table)
-                 :ets.new(@table, table_opts)
-             end
+
+    @table =
+      try do
+        :ets.new(@table, table_opts)
+      rescue
+        ArgumentError ->
+          true = :ets.delete(@table)
+          :ets.new(@table, table_opts)
+      end
+
     schedule_log()
     {:ok, []}
   end
@@ -67,14 +77,16 @@ defmodule RepoCache.Log do
   end
 
   def handle_info(:output_log, state) do
-    _ = all()
-    |> reset_table()
-    |> output_cache_hit_rates()
-    |> output_sizes()
+    _ =
+      all()
+      |> reset_table()
+      |> output_cache_hit_rates()
+      |> output_sizes()
 
     schedule_log()
     {:noreply, state, :hibernate}
   end
+
   def handle_info(msg, state) do
     _ = Logger.error("module=#{__MODULE__} error=unexpected_message message=#{inspect(msg)}")
     {:noreply, state}
@@ -85,34 +97,46 @@ defmodule RepoCache.Log do
       # remove the previous hit/miss count from each
       _ = :ets.update_counter(@table, key, [{2, -hit}, {3, -miss}])
     end
+
     values
   end
 
   def output_cache_hit_rates(values) do
     for value <- values do
-      _ = Logger.info fn ->
-        {{mod, name}, hit, miss} = value
-        total = hit + miss
-        hit_rate = case total do
-                     0 -> 0.0
-                     _ -> Float.round(hit / total, 2)
-                   end
-        "repocache_report mod=#{mod} fun=#{name} hit=#{hit} miss=#{miss} total=#{total} hit_rate=#{hit_rate}"
-      end
+      _ =
+        Logger.info(fn ->
+          {{mod, name}, hit, miss} = value
+          total = hit + miss
+
+          hit_rate =
+            case total do
+              0 -> 0.0
+              _ -> Float.round(hit / total, 2)
+            end
+
+          "repocache_report mod=#{mod} fun=#{name} hit=#{hit} miss=#{miss} total=#{total} hit_rate=#{
+            hit_rate
+          }"
+        end)
     end
+
     values
   end
 
   def output_sizes(values) do
-    modules = values |> Enum.map(&elem(elem(&1, 0), 0)) |> Enum.uniq
+    modules = values |> Enum.map(&elem(elem(&1, 0), 0)) |> Enum.uniq()
+
     for mod <- modules do
       {:ok, table} = ets_table(mod)
-      _ = Logger.info fn ->
-        size = :ets.info(table, :size)
-        memory = :ets.info(table, :memory)
-        "repocache_report table=#{mod} size=#{size} memory=#{memory}"
-      end
+
+      _ =
+        Logger.info(fn ->
+          size = :ets.info(table, :size)
+          memory = :ets.info(table, :memory)
+          "repocache_report table=#{mod} size=#{size} memory=#{memory}"
+        end)
     end
+
     values
   end
 

@@ -1,8 +1,8 @@
 use Mix.Releases.Config,
-    # This sets the default release built by `mix release`
-    default_release: :site,
-    # This sets the default environment used by `mix release`
-    default_environment: :prod
+  # This sets the default release built by `mix release`
+  default_release: :site,
+  # This sets the default environment used by `mix release`
+  default_environment: :prod
 
 # For a full list of config options for both releases
 # and environments, visit https://hexdocs.pm/distillery/configuration.html
@@ -13,9 +13,12 @@ use Mix.Releases.Config,
 # and environment configuration is called a profile
 
 environment :prod do
-  set include_erts: true
-  set include_src: false
-  set cookie: "NODE_COOKIE" |> System.get_env |> Kernel.||("prod_web_cookie") |> String.to_atom
+  set(include_erts: true)
+  set(include_src: false)
+
+  set(
+    cookie: "NODE_COOKIE" |> System.get_env() |> Kernel.||("prod_web_cookie") |> String.to_atom()
+  )
 end
 
 # You may define one or more releases in this file.
@@ -24,28 +27,31 @@ end
 # will be used by default
 
 release :site do
-  set version: current_version(:site)
-  set vm_args: "rel/vm.args"
-  set applications: [
-    :runtime_tools,
-    alerts: :permanent,
-    content: :permanent,
-    fares: :permanent,
-    feedback: :permanent,
-    google_maps: :permanent,
-    holiday: :permanent,
-    json_api: :permanent,
-    predictions: :permanent,
-    repo_cache: :permanent,
-    routes: :permanent,
-    schedules: :permanent,
-    site: :permanent,
-    stops: :permanent,
-    system_metrics: :permanent,
-    trip_plan: :permanent,
-    util: :permanent,
-    v3_api: :permanent,
-    vehicles: :permanent,
-    zones: :permanent
-  ]
+  set(version: current_version(:site))
+  set(vm_args: "rel/vm.args")
+
+  set(
+    applications: [
+      :runtime_tools,
+      alerts: :permanent,
+      content: :permanent,
+      fares: :permanent,
+      feedback: :permanent,
+      google_maps: :permanent,
+      holiday: :permanent,
+      json_api: :permanent,
+      predictions: :permanent,
+      repo_cache: :permanent,
+      routes: :permanent,
+      schedules: :permanent,
+      site: :permanent,
+      stops: :permanent,
+      system_metrics: :permanent,
+      trip_plan: :permanent,
+      util: :permanent,
+      v3_api: :permanent,
+      vehicles: :permanent,
+      zones: :permanent
+    ]
+  )
 end

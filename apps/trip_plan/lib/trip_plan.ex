@@ -6,13 +6,14 @@ defmodule TripPlan do
 
   # Default options for the plans
   @default_opts [
-    max_walk_distance: 805, # ~0.5 miles
+    # ~0.5 miles
+    max_walk_distance: 805
   ]
 
   @doc """
   Tries to describe how to get between two places.
   """
-  @spec plan(Position.t, Position.t, TripPlan.Api.plan_opts, pid()) :: TripPlan.Api.t
+  @spec plan(Position.t(), Position.t(), TripPlan.Api.plan_opts(), pid()) :: TripPlan.Api.t()
   def plan(from, to, opts, parent \\ self()) do
     apply(module(Api), :plan, [from, to, Keyword.merge(@default_opts, opts), parent])
   end
@@ -20,7 +21,7 @@ defmodule TripPlan do
   @doc """
   Fetches all stops within 1km of a given point
   """
-  @spec stops_nearby(Position.t) :: [Position.t]
+  @spec stops_nearby(Position.t()) :: [Position.t()]
   def stops_nearby(location) do
     apply(module(Api), :stops_nearby, [location])
   end
@@ -28,11 +29,13 @@ defmodule TripPlan do
   @doc """
   Finds the latitude/longitude for a given address.
   """
-  @spec geocode(String.t) :: TripPlan.Geocode.t
+  @spec geocode(String.t()) :: TripPlan.Geocode.t()
   def geocode(address)
+
   def geocode("") do
     {:error, :required}
   end
+
   def geocode(address) when is_binary(address) do
     apply(module(Geocode), :geocode, [address])
   end

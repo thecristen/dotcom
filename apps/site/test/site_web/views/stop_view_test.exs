@@ -29,67 +29,114 @@ defmodule SiteWeb.StopViewTest do
     @no_accessible_with_feature %Stop{name: "name", accessibility: ["mini_high"]}
     @only_accessible_feature %Stop{name: "test", accessibility: ["accessible"]}
     @many_feature %Stop{name: "test", accessibility: ["accessible", "ramp", "elevator"]}
-    @unknown_accessibly  %Stop{id: "44", name: "44", accessibility: ["unknown"]}
+    @unknown_accessibly %Stop{id: "44", name: "44", accessibility: ["unknown"]}
     @lechmere %Stop{id: "place-lech", name: "Lechmere", accessibility: ["accessible"]}
-    @brookline_hills %Stop{id: "place-brkhl", name: "Brookline Hills", accessibility: ["accessible"]}
-    @newton_highlands %Stop{id: "place-newtn", name: "Newton Highlands", accessibility: ["accessible"]}
+    @brookline_hills %Stop{
+      id: "place-brkhl",
+      name: "Brookline Hills",
+      accessibility: ["accessible"]
+    }
+    @newton_highlands %Stop{
+      id: "place-newtn",
+      name: "Newton Highlands",
+      accessibility: ["accessible"]
+    }
     @ashmont %Stop{id: "place-asmnl", name: "Ashmont", accessibility: ["accessible", "ramp"]}
 
     test "Accessibility description reflects features" do
-      has_text? accessibility_info(@unknown_accessibly, []), "Minor to moderate accessibility barriers exist"
-      has_text? accessibility_info(@no_accessible_feature, []), "Significant accessibility barriers exist"
-      has_text? accessibility_info(@no_accessible_with_feature, []), "Significant accessibility barriers exist"
-      has_text? accessibility_info(@only_accessible_feature, []), "is accessible"
-      has_text? accessibility_info(@many_feature, []), "has the following"
+      has_text?(
+        accessibility_info(@unknown_accessibly, []),
+        "Minor to moderate accessibility barriers exist"
+      )
+
+      has_text?(
+        accessibility_info(@no_accessible_feature, []),
+        "Significant accessibility barriers exist"
+      )
+
+      has_text?(
+        accessibility_info(@no_accessible_with_feature, []),
+        "Significant accessibility barriers exist"
+      )
+
+      has_text?(accessibility_info(@only_accessible_feature, []), "is accessible")
+      has_text?(accessibility_info(@many_feature, []), "has the following")
     end
 
     test "Accessibility description only has extra information for bus routes" do
-      has_text? accessibility_info(@unknown_accessibly, [:bus]), "Bus operator may need to relocate bus for safe boarding and exiting"
-      no_text? accessibility_info(@unknown_accessibly, []), "Bus operator may need to relocate bus for safe boarding and exiting"
-      has_text? accessibility_info(@no_accessible_feature, [:bus]), "Customers using wheeled mobility devices may need to board at street level"
-      no_text? accessibility_info(@no_accessible_feature, []), "Customers using wheeled mobility devices may need to board at street level"
+      has_text?(
+        accessibility_info(@unknown_accessibly, [:bus]),
+        "Bus operator may need to relocate bus for safe boarding and exiting"
+      )
+
+      no_text?(
+        accessibility_info(@unknown_accessibly, []),
+        "Bus operator may need to relocate bus for safe boarding and exiting"
+      )
+
+      has_text?(
+        accessibility_info(@no_accessible_feature, [:bus]),
+        "Customers using wheeled mobility devices may need to board at street level"
+      )
+
+      no_text?(
+        accessibility_info(@no_accessible_feature, []),
+        "Customers using wheeled mobility devices may need to board at street level"
+      )
     end
 
     test "Contact link only appears for stops with accessibility features" do
       text = "Report an elevator, escalator, or other accessibility issue."
-      has_text? accessibility_info(@many_feature, []), text
-      has_text? accessibility_info(@no_accessible_with_feature, []), text
-      no_text? accessibility_info(@only_accessible_feature, []), text
-      no_text? accessibility_info(@no_accessible_feature, []), text
-      no_text? accessibility_info(@unknown_accessibly, []), text
+      has_text?(accessibility_info(@many_feature, []), text)
+      has_text?(accessibility_info(@no_accessible_with_feature, []), text)
+      no_text?(accessibility_info(@only_accessible_feature, []), text)
+      no_text?(accessibility_info(@no_accessible_feature, []), text)
+      no_text?(accessibility_info(@unknown_accessibly, []), text)
     end
 
     test "Lechemre has special accessibility text" do
-      has_text? accessibility_info(@lechmere, [:subway]),
-                "Significant accessibility barriers exist at Lechmere, but customers can board/exit the train using a mobile lift."
+      has_text?(
+        accessibility_info(@lechmere, [:subway]),
+        "Significant accessibility barriers exist at Lechmere, but customers can board/exit the train using a mobile lift."
+      )
     end
 
     test "Newton Highlands has special accessibility text" do
-      has_text? accessibility_info(@newton_highlands, [:subway]),
-                "Significant accessibility barriers exist at Newton Highlands, but customers can board/exit the train using a mobile lift."
+      has_text?(
+        accessibility_info(@newton_highlands, [:subway]),
+        "Significant accessibility barriers exist at Newton Highlands, but customers can board/exit the train using a mobile lift."
+      )
     end
 
     test "Brookline Hills has special accessibility text" do
-      has_text? accessibility_info(@brookline_hills, [:subway]),
-                "Significant accessibility barriers exist at Brookline Hills, but customers can board/exit the train using a mobile lift."
+      has_text?(
+        accessibility_info(@brookline_hills, [:subway]),
+        "Significant accessibility barriers exist at Brookline Hills, but customers can board/exit the train using a mobile lift."
+      )
     end
 
     test "Ashmont has special accessibility text" do
-      has_text? accessibility_info(@ashmont, [:subway]),
-                "Significant accessibility barriers exist at Ashmont, but customers can board/exit the Mattapan Trolley using a mobile lift."
+      has_text?(
+        accessibility_info(@ashmont, [:subway]),
+        "Significant accessibility barriers exist at Ashmont, but customers can board/exit the Mattapan Trolley using a mobile lift."
+      )
     end
 
     defp has_text?(unsafe, text) do
-      safe = unsafe
-      |> Phoenix.HTML.html_escape
-      |> Phoenix.HTML.safe_to_string
+      safe =
+        unsafe
+        |> Phoenix.HTML.html_escape()
+        |> Phoenix.HTML.safe_to_string()
+
       assert safe =~ text
     end
 
     defp no_text?(unsafe, text) do
-      safe = unsafe
-      |> Phoenix.HTML.html_escape
-      |> Phoenix.HTML.safe_to_string
+      safe =
+        unsafe
+        |> Phoenix.HTML.html_escape()
+        |> Phoenix.HTML.safe_to_string()
+
       refute safe =~ text
     end
   end
@@ -101,8 +148,14 @@ defmodule SiteWeb.StopViewTest do
       assert pretty_accessibility("escalator_up") == ["Escalator (up only)"]
       assert pretty_accessibility("escalator_down") == ["Escalator (down only)"]
       assert pretty_accessibility("ramp") == ["Long ramp"]
-      assert pretty_accessibility("fully_elevated_platform") == ["Full high level platform to provide level boarding to every car in a train set"]
-      assert pretty_accessibility("elevated_subplatform") == ["Mini high level platform to provide level boarding to certain cars in a train set"]
+
+      assert pretty_accessibility("fully_elevated_platform") == [
+               "Full high level platform to provide level boarding to every car in a train set"
+             ]
+
+      assert pretty_accessibility("elevated_subplatform") == [
+               "Mini high level platform to provide level boarding to certain cars in a train set"
+             ]
     end
 
     test "For all other fields, separates underscore and capitalizes first word" do
@@ -118,7 +171,13 @@ defmodule SiteWeb.StopViewTest do
 
   describe "location/1" do
     test "returns an encoded address if lat/lng is missing" do
-      stop = %Stop{id: "place-sstat", latitude: nil, longitude: nil, address: "10 Park Plaza, Boston, MA"}
+      stop = %Stop{
+        id: "place-sstat",
+        latitude: nil,
+        longitude: nil,
+        address: "10 Park Plaza, Boston, MA"
+      }
+
       assert location(stop) == "10%20Park%20Plaza%2C%20Boston%2C%20MA"
     end
 
@@ -138,18 +197,41 @@ defmodule SiteWeb.StopViewTest do
 
   describe "info_tab_name/1" do
     test "is stop info when given a bus line" do
-      grouped_routes = [bus: [%Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
-        id: "742", description: :rapid_transit, name: "SL2", type: 3}]]
+      grouped_routes = [
+        bus: [
+          %Route{
+            direction_names: %{0 => "Outbound", 1 => "Inbound"},
+            id: "742",
+            description: :rapid_transit,
+            name: "SL2",
+            type: 3
+          }
+        ]
+      ]
 
       assert info_tab_name(grouped_routes) == "Stop Info"
     end
 
     test "is station info when given any other line" do
       grouped_routes = [
-        bus: [%Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
-          id: "742", description: :rapid_transit, name: "SL2", type: 3}],
-        subway: [%Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
-          id: "Red", description: :rapid_transit, name: "Red", type: 1}]
+        bus: [
+          %Route{
+            direction_names: %{0 => "Outbound", 1 => "Inbound"},
+            id: "742",
+            description: :rapid_transit,
+            name: "SL2",
+            type: 3
+          }
+        ],
+        subway: [
+          %Route{
+            direction_names: %{0 => "Outbound", 1 => "Inbound"},
+            id: "Red",
+            description: :rapid_transit,
+            name: "Red",
+            type: 1
+          }
+        ]
       ]
 
       assert info_tab_name(grouped_routes) == "Station Info"
@@ -160,17 +242,20 @@ defmodule SiteWeb.StopViewTest do
     test "returns a list of rendered time differences" do
       date_time = ~N[2017-01-01T11:00:00]
       ps = %PredictedSchedule{schedule: %Schedule{time: ~N[2017-01-01T12:00:00]}}
+
       assert time_differences([ps], date_time) ==
-        [PredictedSchedule.Display.time_difference(ps, date_time)]
+               [PredictedSchedule.Display.time_difference(ps, date_time)]
     end
 
     test "time differences are in order from smallest to largest" do
       now = Util.now()
+
       schedules = [
         %PredictedSchedule{schedule: %Schedule{time: Timex.shift(now, minutes: 3)}},
         %PredictedSchedule{prediction: %Prediction{time: Timex.shift(now, minutes: 1)}},
-        %PredictedSchedule{schedule: %Schedule{time: Timex.shift(now, minutes: 5)}},
+        %PredictedSchedule{schedule: %Schedule{time: Timex.shift(now, minutes: 5)}}
       ]
+
       assert [one_min_live, three_mins, five_mins] = time_differences(schedules, now)
       assert safe_to_string(one_min_live) =~ "1 min"
       assert safe_to_string(one_min_live) =~ "icon-realtime"
@@ -180,12 +265,15 @@ defmodule SiteWeb.StopViewTest do
 
     test "sorts status predictions from closest to furthest" do
       date_time = ~N[2017-01-01T00:00:00]
-      schedules = Enum.shuffle([
-        %PredictedSchedule{prediction: %Prediction{status: "Boarding"}},
-        %PredictedSchedule{prediction: %Prediction{status: "Approaching"}},
-        %PredictedSchedule{prediction: %Prediction{status: "1 stop away"}},
-        %PredictedSchedule{prediction: %Prediction{status: "2 stops away"}},
-      ])
+
+      schedules =
+        Enum.shuffle([
+          %PredictedSchedule{prediction: %Prediction{status: "Boarding"}},
+          %PredictedSchedule{prediction: %Prediction{status: "Approaching"}},
+          %PredictedSchedule{prediction: %Prediction{status: "1 stop away"}},
+          %PredictedSchedule{prediction: %Prediction{status: "2 stops away"}}
+        ])
+
       assert [board, approach, one_stop] = time_differences(schedules, date_time)
       assert safe_to_string(board) =~ "Boarding"
       assert safe_to_string(approach) =~ "Approaching"
@@ -194,20 +282,24 @@ defmodule SiteWeb.StopViewTest do
 
     test "filters out predicted schedules we could not render" do
       date_time = ~N[2017-01-01T11:00:00]
+
       predicted_schedules = [
         %PredictedSchedule{}
       ]
+
       assert time_differences(predicted_schedules, date_time) == []
     end
 
     test "does not return a combination of stops away amd time" do
       now = Util.now()
       date_time = ~N[2017-01-01T00:00:00]
+
       schedules = [
         %PredictedSchedule{prediction: %Prediction{status: "Boarding"}},
         %PredictedSchedule{prediction: %Prediction{status: "Approaching"}},
-        %PredictedSchedule{prediction: %Prediction{time: Timex.shift(now, minutes: 5)}},
+        %PredictedSchedule{prediction: %Prediction{time: Timex.shift(now, minutes: 5)}}
       ]
+
       assert [board, approach] = time_differences(schedules, date_time)
       assert safe_to_string(board) =~ "Boarding"
       assert safe_to_string(approach) =~ "Approaching"
@@ -216,15 +308,25 @@ defmodule SiteWeb.StopViewTest do
 
   @alerts [
     %Alerts.Alert{
-      active_period: [
-        {~N[2017-04-12T20:00:00], ~N[2017-05-12T20:00:00]}],
+      active_period: [{~N[2017-04-12T20:00:00], ~N[2017-05-12T20:00:00]}],
       description: "description",
       effect: :access_issue,
-      header: "header", id: "1"}]
+      header: "header",
+      id: "1"
+    }
+  ]
 
   describe "has_alerts?/3" do
     date = ~D[2017-05-11]
-    informed_entity = %Alerts.InformedEntity{direction_id: 1, route: "556", route_type: nil, stop: nil, trip: nil}
+
+    informed_entity = %Alerts.InformedEntity{
+      direction_id: 1,
+      route: "556",
+      route_type: nil,
+      stop: nil,
+      trip: nil
+    }
+
     assert !has_alerts?(@alerts, date, informed_entity)
   end
 
@@ -244,6 +346,7 @@ defmodule SiteWeb.StopViewTest do
   def safe_or_list_to_string(list) when is_list(list) do
     Enum.map(list, &safe_or_list_to_string/1)
   end
+
   def safe_or_list_to_string({:safe, _} = safe) do
     safe_to_string(safe)
   end
@@ -265,21 +368,25 @@ defmodule SiteWeb.StopViewTest do
           %Route{id: "Green-E", type: 0, name: "Green Line E"}
         ]
       ]
+
       rendered = SiteWeb.StopView.render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
       assert [subway_io, [], [], []] = rendered
       subway = header_mode_to_string(subway_io)
+
       assert Floki.attribute(subway, "href") == [
-        "/stops/stop?tab=departures#subway-schedule",
-        "/stops/stop?tab=departures#subway-schedule",
-        "/stops/stop?tab=departures#subway-schedule",
-        "/stops/stop?tab=departures#subway-schedule",
-        "/stops/stop?tab=departures#subway-schedule",
-        "/stops/stop?tab=departures#subway-schedule"
-      ]
+               "/stops/stop?tab=departures#subway-schedule",
+               "/stops/stop?tab=departures#subway-schedule",
+               "/stops/stop?tab=departures#subway-schedule",
+               "/stops/stop?tab=departures#subway-schedule",
+               "/stops/stop?tab=departures#subway-schedule",
+               "/stops/stop?tab=departures#subway-schedule"
+             ]
+
       assert [_] = Floki.find(subway, ".c-svg__icon-red-line-default")
       assert Floki.text(subway) =~ "Red Line"
       assert [_] = Floki.find(subway, ".c-svg__icon-green-line-default")
       assert Floki.text(subway) =~ "Green Line"
+
       for branch <- ["b", "c", "d", "e"] do
         assert [_] = Floki.find(subway, ".c-svg__icon-green-line-#{branch}-default")
         refute Floki.text(subway) =~ "Green Line " <> String.upcase(branch)
@@ -293,6 +400,7 @@ defmodule SiteWeb.StopViewTest do
           %Route{id: "Boat-Hull", type: 4}
         ]
       ]
+
       rendered = SiteWeb.StopView.render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
       assert [[], ferry_io, [], []] = rendered
       ferry = header_mode_to_string(ferry_io)
@@ -308,16 +416,18 @@ defmodule SiteWeb.StopViewTest do
           %Route{id: "CR-Lowell", type: 2}
         ]
       ]
+
       rendered = SiteWeb.StopView.render_header_modes(%Stop{id: "stop"}, grouped_routes, 2)
       assert [[], [], cr_io, []] = rendered
       cr = header_mode_to_string(cr_io)
       assert [_] = Floki.find(cr, ".c-svg__icon-mode-commuter-rail-default")
       assert [_] = Floki.find(cr, ".station__header-description")
       assert [_] = Floki.find(cr, ".c-icon__cr-zone")
+
       assert Floki.attribute(cr, "href") == [
-        "/stops/stop?tab=departures#commuter-rail-schedule",
-        "/stops/stop?tab=info#commuter-fares"
-      ]
+               "/stops/stop?tab=departures#commuter-rail-schedule",
+               "/stops/stop?tab=info#commuter-fares"
+             ]
     end
 
     test "renders CR with no zone if zone not assigned" do
@@ -327,6 +437,7 @@ defmodule SiteWeb.StopViewTest do
           %Route{id: "CR-Lowell", type: 2}
         ]
       ]
+
       rendered = SiteWeb.StopView.render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
       assert [[], [], cr_io, []] = rendered
       cr = header_mode_to_string(cr_io)
@@ -343,6 +454,7 @@ defmodule SiteWeb.StopViewTest do
           %Route{id: "86", type: 3}
         ]
       ]
+
       rendered = SiteWeb.StopView.render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
       assert [[], [], [], bus_io] = rendered
       bus = header_mode_to_string(bus_io)
@@ -354,45 +466,57 @@ defmodule SiteWeb.StopViewTest do
 
   describe "_info.html" do
     test "Ferry Fare link preselects origin", %{conn: conn} do
-      output = SiteWeb.StopView.render("_info.html",
-                                          stop_alerts: [],
-                                          fare_name: "The Iron Price",
-                                          date: ~D[2017-05-11],
-                                          stop: %Stop{name: "Iron Island", id: "IronIsland"},
-                                          grouped_routes: [{:ferry}],
-                                          fare_types: [:ferry],
-                                          fare_sales_locations: [],
-                                          terminal_stations: %{4 => ""},
-                                          conn: conn)
+      output =
+        SiteWeb.StopView.render(
+          "_info.html",
+          stop_alerts: [],
+          fare_name: "The Iron Price",
+          date: ~D[2017-05-11],
+          stop: %Stop{name: "Iron Island", id: "IronIsland"},
+          grouped_routes: [{:ferry}],
+          fare_types: [:ferry],
+          fare_sales_locations: [],
+          terminal_stations: %{4 => ""},
+          conn: conn
+        )
+
       assert safe_to_string(output) =~ "/fares/ferry?origin=IronIsland"
     end
 
     test "Can render multiple fares types", %{conn: conn} do
-      output = SiteWeb.StopView.render("_info.html",
-                                          stop_alerts: [],
-                                          fare_name: "The Iron Price",
-                                          date: ~D[2017-05-11],
-                                          stop: %Stop{name: "My Stop", id: "MyStop"},
-                                          grouped_routes: [{:bus}, {:subway}],
-                                          fare_types: [:bus, :subway],
-                                          fare_sales_locations: [],
-                                          terminal_stations: %{4 => ""},
-                                          conn: conn)
+      output =
+        SiteWeb.StopView.render(
+          "_info.html",
+          stop_alerts: [],
+          fare_name: "The Iron Price",
+          date: ~D[2017-05-11],
+          stop: %Stop{name: "My Stop", id: "MyStop"},
+          grouped_routes: [{:bus}, {:subway}],
+          fare_types: [:bus, :subway],
+          fare_sales_locations: [],
+          terminal_stations: %{4 => ""},
+          conn: conn
+        )
+
       assert safe_to_string(output) =~ "Local Bus One-Way"
       assert safe_to_string(output) =~ "Subway One-Way"
     end
 
     test "Does not render fares unless they are in fare_types assign", %{conn: conn} do
-      output = SiteWeb.StopView.render("_info.html",
-                                          stop_alerts: [],
-                                          fare_name: "The Iron Price",
-                                          date: ~D[2017-05-11],
-                                          stop: %Stop{name: "My Stop", id: "MyStop"},
-                                          grouped_routes: [{:bus}, {:subway}],
-                                          fare_types: [:subway],
-                                          fare_sales_locations: [],
-                                          terminal_stations: %{4 => ""},
-                                          conn: conn)
+      output =
+        SiteWeb.StopView.render(
+          "_info.html",
+          stop_alerts: [],
+          fare_name: "The Iron Price",
+          date: ~D[2017-05-11],
+          stop: %Stop{name: "My Stop", id: "MyStop"},
+          grouped_routes: [{:bus}, {:subway}],
+          fare_types: [:subway],
+          fare_sales_locations: [],
+          terminal_stations: %{4 => ""},
+          conn: conn
+        )
+
       refute safe_to_string(output) =~ "Local Bus One-Way"
       assert safe_to_string(output) =~ "Subway One-Way"
     end
@@ -403,11 +527,14 @@ defmodule SiteWeb.StopViewTest do
       stops = [
         %DetailedStop{stop: %Stop{name: "Alewife", id: "place-alfcl"}},
         %DetailedStop{stop: %Stop{name: "Davis", id: "place-davis"}},
-        %DetailedStop{stop: %Stop{name: "Porter", id: "place-porter"}},
+        %DetailedStop{stop: %Stop{name: "Porter", id: "place-porter"}}
       ]
-      html = "_detailed_stop_list.html"
-             |>  SiteWeb.StopView.render(detailed_stops: stops, conn: conn)
-             |> safe_to_string()
+
+      html =
+        "_detailed_stop_list.html"
+        |> SiteWeb.StopView.render(detailed_stops: stops, conn: conn)
+        |> safe_to_string()
+
       assert [alewife, davis, porter] = Floki.find(html, ".stop-btn")
       assert Floki.text(alewife) =~ "Alewife"
       assert Floki.text(davis) =~ "Davis"
@@ -420,11 +547,14 @@ defmodule SiteWeb.StopViewTest do
       stops = [
         %DetailedStop{stop: %Stop{name: "Alewife", id: "place-alfcl"}},
         %DetailedStop{stop: %Stop{name: "Davis", id: "place-davis"}},
-        %DetailedStop{stop: %Stop{name: "Porter", id: "place-porter"}},
+        %DetailedStop{stop: %Stop{name: "Porter", id: "place-porter"}}
       ]
-      html = "_search_bar.html"
-             |>  SiteWeb.StopView.render(stop_info: stops, conn: conn)
-             |> safe_to_string()
+
+      html =
+        "_search_bar.html"
+        |> SiteWeb.StopView.render(stop_info: stops, conn: conn)
+        |> safe_to_string()
+
       assert [{"div", _, _}] = Floki.find(html, ".c-search-bar")
     end
   end

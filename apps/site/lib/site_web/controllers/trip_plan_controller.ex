@@ -26,12 +26,15 @@ defmodule SiteWeb.TripPlanController do
     render(conn, :index)
   end
 
-  @spec render_plan(Plug.Conn.t, map) :: Plug.Conn.t
+  @spec render_plan(Plug.Conn.t(), map) :: Plug.Conn.t()
   defp render_plan(conn, plan) do
-    query = Query.from_query(plan, [
-      now: conn.assigns.date_time,
-      end_of_rating: Map.get(conn.assigns, :end_of_rating, Schedules.Repo.end_of_rating())
-    ])
+    query =
+      Query.from_query(
+        plan,
+        now: conn.assigns.date_time,
+        end_of_rating: Map.get(conn.assigns, :end_of_rating, Schedules.Repo.end_of_rating())
+      )
+
     itineraries = Query.get_itineraries(query)
     route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
@@ -97,20 +100,24 @@ defmodule SiteWeb.TripPlanController do
   defp do_add_initial_map_marker({:error, _}, %MapData{} = map, _) do
     map
   end
+
   defp do_add_initial_map_marker(%NamedPosition{} = pos, %MapData{} = map, field) do
     index_map = marker_index_map(field)
 
     icon_name = Site.TripPlan.Map.stop_icon_name(index_map)
     label = Site.TripPlan.Map.stop_icon_label(index_map)
 
-    marker = Marker.new(pos.latitude, pos.longitude, [
-      id: "marker-" <> label.text,
-      icon: icon_name,
-      size: Site.TripPlan.Map.stop_icon_size(icon_name),
-      label: label,
-      tooltip: pos.name,
-      z_index: Site.TripPlan.Map.z_index(index_map),
-    ])
+    marker =
+      Marker.new(
+        pos.latitude,
+        pos.longitude,
+        id: "marker-" <> label.text,
+        icon: icon_name,
+        size: Site.TripPlan.Map.stop_icon_size(icon_name),
+        label: label,
+        tooltip: pos.name,
+        z_index: Site.TripPlan.Map.z_index(index_map)
+      )
 
     MapData.add_marker(map, marker)
   end
@@ -169,7 +176,8 @@ defmodule SiteWeb.TripPlanController do
 
   defp add_additional_routes(ids) do
     if Enum.any?(ids, &String.starts_with?(&1, "Green")) do
-      Enum.concat(ids, GreenLine.branch_ids()) # no cover
+      # no cover
+      Enum.concat(ids, GreenLine.branch_ids())
     else
       ids
     end
@@ -180,7 +188,7 @@ defmodule SiteWeb.TripPlanController do
     |> assign(
       :meta_description,
       "Plan a trip on public transit in the Greater Boston region with directions " <>
-      "and suggestions based on real-time data."
+        "and suggestions based on real-time data."
     )
   end
 end

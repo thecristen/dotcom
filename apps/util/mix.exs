@@ -2,18 +2,20 @@ defmodule Util.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :util,
-     version: "0.1.0",
-     build_path: "../../_build",
-     config_path: "../../config/config.exs",
-     deps_path: "../../deps",
-     lockfile: "../../mix.lock",
-     elixir: "~> 1.4",
-     elixirc_paths: elixirc_paths(Mix.env),
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     test_coverage: [tool: ExCoveralls],
-     deps: deps()]
+    [
+      app: :util,
+      version: "0.1.0",
+      build_path: "../../_build",
+      config_path: "../../config/config.exs",
+      deps_path: "../../deps",
+      lockfile: "../../mix.lock",
+      elixir: "~> 1.4",
+      elixirc_paths: elixirc_paths(Mix.env()),
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      test_coverage: [tool: ExCoveralls],
+      deps: deps()
+    ]
   end
 
   # Configuration for the OTP application
@@ -42,9 +44,11 @@ defmodule Util.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:timex, ">= 0.0.0"},
-     {:quixir, "~> 0.9", only: :test},
-     {:phoenix_html, "~> 2.6"},
-     {:plug, ">= 0.0.0"}]
+    [
+      {:timex, ">= 0.0.0"},
+      {:quixir, "~> 0.9", only: :test},
+      {:phoenix_html, "~> 2.6"},
+      {:plug, ">= 0.0.0"}
+    ]
   end
 end

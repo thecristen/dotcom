@@ -2,7 +2,7 @@ defmodule RepoCacheTest.Repo do
   use RepoCache, ttl: :timer.seconds(1)
 
   def time(value) do
-    cache(value, fn _ -> System.monotonic_time end)
+    cache(value, fn _ -> System.monotonic_time() end)
   end
 
   def always(value) do
@@ -18,7 +18,7 @@ defmodule RepoCacheTest.Repo do
   def slow_message(pid, value) do
     cache(pid, fn pid ->
       Process.sleep(100)
-      send pid, {:message, value}
+      send(pid, {:message, value})
       :ok
     end)
   end
@@ -29,7 +29,7 @@ defmodule RepoCacheTest do
   alias RepoCacheTest.Repo
 
   setup_all do
-    {:ok, _} = Repo.start_link
+    {:ok, _} = Repo.start_link()
     :ok
   end
 
@@ -48,34 +48,38 @@ defmodule RepoCacheTest do
   end
 
   test "does not cache errors" do
-    {:ok, pid} = Agent.start_link fn -> {:error, :value} end
+    {:ok, pid} = Agent.start_link(fn -> {:error, :value} end)
     assert {:error, :value} == Repo.agent_state(pid)
-    Agent.update pid, fn _ -> :real end
+    Agent.update(pid, fn _ -> :real end)
     assert :real == Repo.agent_state(pid)
   end
 
   test "can clear the cache with clear_cache" do
-    {:ok, pid} = Agent.start_link fn -> :value end
+    {:ok, pid} = Agent.start_link(fn -> :value end)
     assert :value == Repo.agent_state(pid)
-    Agent.update pid, fn _ -> :real end
+    Agent.update(pid, fn _ -> :real end)
     assert :value == Repo.agent_state(pid)
-    Repo.clear_cache
+    Repo.clear_cache()
     assert :real == Repo.agent_state(pid)
   end
 
   test "many simultaneous requests don't all call the function" do
     parent = self()
+
     tasks =
-    for i <- 0..10 do
-      Task.async fn ->
-        Repo.slow_message(parent, i)
+      for i <- 0..10 do
+        Task.async(fn ->
+          Repo.slow_message(parent, i)
+        end)
       end
-    end
+
     for {_task, result} <- Task.yield_many(tasks) do
-      assert result == {:ok, :ok}, "one of the tasks failed: #{inspect result}"
+      assert result == {:ok, :ok}, "one of the tasks failed: #{inspect(result)}"
     end
+
     # function was only called once
     assert_received {:message, _}
+
     for _i <- 1..10 do
       refute_received {:message, _}
     end
@@ -83,12 +87,7 @@ defmodule RepoCacheTest do
 
   describe "child_spec/1" do
     test "returns a child_spec map" do
-      assert %{
-        id: _,
-        start: {_, _, _},
-        type: _,
-        restart: _,
-        shutdown: _} = Repo.child_spec([])
+      assert %{id: _, start: {_, _, _}, type: _, restart: _, shutdown: _} = Repo.child_spec([])
     end
   end
 end

@@ -13,6 +13,7 @@ defmodule Content.CmsMigration.DatetimeTest do
 
     test "raises an error when unable to format the time" do
       error = "Unable to convert '200PM' to a datetime."
+
       assert_raise DatetimeError, error, fn ->
         assert parse_time!("200PM")
       end

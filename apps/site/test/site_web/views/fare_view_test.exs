@@ -9,28 +9,32 @@ defmodule SiteWeb.FareViewTest do
   describe "fare_type_note/2" do
     test "returns fare note for students" do
       note = fare_type_note(build_conn(), %Fare{mode: :commuter_rail, reduced: :student})
+
       assert note |> List.first() |> safe_to_string() =~
-        "Middle and high school students with an MBTA-issued"
+               "Middle and high school students with an MBTA-issued"
     end
 
     test "returns fare note for seniors" do
-      assert safe_to_string(fare_type_note(build_conn(), %Fare{mode: :commuter_rail, reduced: :senior_disabled})) =~
-        "Seniors are eligible for reduced fares on the subway, bus, Commuter Rail, and ferry"
+      assert safe_to_string(
+               fare_type_note(build_conn(), %Fare{mode: :commuter_rail, reduced: :senior_disabled})
+             ) =~
+               "Seniors are eligible for reduced fares on the subway, bus, Commuter Rail, and ferry"
     end
 
     test "returns fare note for bus and subway" do
       assert safe_to_string(fare_type_note(build_conn(), %Fare{mode: :bus, reduced: nil})) =~
-        "click on the &quot;Passes&quot; tab below"
+               "click on the &quot;Passes&quot; tab below"
     end
 
     test "returns fare note for ferry" do
       assert safe_to_string(fare_type_note(build_conn(), %Fare{mode: :ferry, reduced: nil})) =~
-      "You can buy a ferry ticket after you board the boat"
+               "You can buy a ferry ticket after you board the boat"
     end
 
     test "returns fare note for commuter rail" do
-      assert safe_to_string(fare_type_note(build_conn(), %Fare{mode: :commuter_rail, reduced: nil})) =~
-      "If you buy a round trip ticket"
+      assert safe_to_string(
+               fare_type_note(build_conn(), %Fare{mode: :commuter_rail, reduced: nil})
+             ) =~ "If you buy a round trip ticket"
     end
   end
 
@@ -44,13 +48,23 @@ defmodule SiteWeb.FareViewTest do
 
     test "if the summary has a duration, link to the correct anchor" do
       expected = SiteWeb.Router.Helpers.fare_path(SiteWeb.Endpoint, :show, "subway-fares")
-      assert summary_url(%Summary{modes: [:subway, :bus], duration: :week}) == expected <> "#7-day"
-      assert summary_url(%Summary{modes: [:subway, :bus], duration: :month}) == expected <> "#monthly"
+
+      assert summary_url(%Summary{modes: [:subway, :bus], duration: :week}) ==
+               expected <> "#7-day"
+
+      assert summary_url(%Summary{modes: [:subway, :bus], duration: :month}) ==
+               expected <> "#monthly"
     end
 
     test "links directly for commuter rail/ferry" do
       for mode <- [:commuter_rail, :ferry] do
-        expected = SiteWeb.Router.Helpers.fare_path(SiteWeb.Endpoint, :show, SiteWeb.StaticPage.convert_path(mode))
+        expected =
+          SiteWeb.Router.Helpers.fare_path(
+            SiteWeb.Endpoint,
+            :show,
+            SiteWeb.StaticPage.convert_path(mode)
+          )
+
         assert summary_url(%Summary{modes: [mode, :bus]}) == expected <> "-fares"
       end
     end
@@ -62,10 +76,11 @@ defmodule SiteWeb.FareViewTest do
 
   describe "vending_machine_stations/0" do
     test "generates a list of links to stations with fare vending machines" do
-      content = vending_machine_stations()
-      |> Enum.map(&raw/1)
-      |> Enum.map(&safe_to_string/1)
-      |> Enum.join("")
+      content =
+        vending_machine_stations()
+        |> Enum.map(&raw/1)
+        |> Enum.map(&safe_to_string/1)
+        |> Enum.join("")
 
       assert content =~ "place-north"
       assert content =~ "place-sstat"
@@ -84,10 +99,11 @@ defmodule SiteWeb.FareViewTest do
 
   describe "charlie_card_stations/0" do
     test "generates a list of links to stations where a customer can buy a CharlieCard" do
-      content = charlie_card_stations()
-      |> Enum.map(&raw/1)
-      |> Enum.map(&safe_to_string/1)
-      |> Enum.join("")
+      content =
+        charlie_card_stations()
+        |> Enum.map(&raw/1)
+        |> Enum.map(&safe_to_string/1)
+        |> Enum.join("")
 
       assert content =~ "place-alfcl"
       assert content =~ "place-armnl"
@@ -111,7 +127,9 @@ defmodule SiteWeb.FareViewTest do
       dest_stop2 = %Stops.Stop{id: 5}
       dest_stop3 = %Stops.Stop{id: 2}
 
-      filtered = destination_key_stops([dest_stop1, dest_stop2, dest_stop3], [key_stop1, key_stop2])
+      filtered =
+        destination_key_stops([dest_stop1, dest_stop2, dest_stop3], [key_stop1, key_stop2])
+
       assert Enum.count(filtered) == 1
       assert List.first(filtered).id == 2
     end
@@ -121,7 +139,10 @@ defmodule SiteWeb.FareViewTest do
     test "uses ferry origin and destination" do
       origin = %Stops.Stop{name: "North"}
       dest = %Stops.Stop{name: "South"}
-      tag = format_name(%Fare{mode: :ferry, duration: :week}, %{origin: origin, destination: dest})
+
+      tag =
+        format_name(%Fare{mode: :ferry, duration: :week}, %{origin: origin, destination: dest})
+
       assert safe_to_string(tag) =~ "North"
       assert safe_to_string(tag) =~ "South"
     end
@@ -134,13 +155,15 @@ defmodule SiteWeb.FareViewTest do
 
   describe "origin_destination_description/2" do
     test "links to the zone fares page for CR" do
-      content = :commuter_rail |> origin_destination_description() |> html_escape() |> safe_to_string()
+      content =
+        :commuter_rail |> origin_destination_description() |> html_escape() |> safe_to_string()
+
       assert content =~ "Select your origin and destination"
       assert content =~ "your Commuter Rail fare"
     end
 
     test "for ferry" do
-      content =  :ferry |> origin_destination_description() |> html_escape() |> safe_to_string()
+      content = :ferry |> origin_destination_description() |> html_escape() |> safe_to_string()
       assert content =~ "Select your origin and destination"
       assert content =~ "ferry fare"
     end
@@ -154,7 +177,7 @@ defmodule SiteWeb.FareViewTest do
         |> safe_to_string
 
       assert rendered ==
-        ~s(<span class="no-wrap">\(<a data-turbolinks="false" href="/fares/charlie_card/#store">view details</a>\)</span>)
+               ~s(<span class="no-wrap">\(<a data-turbolinks="false" href="/fares/charlie_card/#store">view details</a>\)</span>)
     end
   end
 end

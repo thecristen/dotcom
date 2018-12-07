@@ -1,15 +1,13 @@
 defmodule Content.SearchResult.Link do
-  defstruct [
-    title: "",
-    url: "",
-    description: ""
-  ]
+  defstruct title: "",
+            url: "",
+            description: ""
 
   @type t :: %__MODULE__{
-    title: String.t,
-    url: String.t,
-    description: String.t
-  }
+          title: String.t(),
+          url: String.t(),
+          description: String.t()
+        }
 
   @spec build(map) :: t
   def build(result) do
@@ -20,7 +18,7 @@ defmodule Content.SearchResult.Link do
     }
   end
 
-  @spec parse_link(String.t) :: String.t
+  @spec parse_link(String.t()) :: String.t()
   defp parse_link(link) do
     case String.split(link, ":") do
       ["internal", part] -> part

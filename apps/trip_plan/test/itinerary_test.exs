@@ -9,12 +9,15 @@ defmodule TripPlan.ItineraryTest do
   describe "route_ids/1" do
     test "returns all the route IDs from the itinerary" do
       {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
-      test_calculated_ids = Enum.flat_map(itinerary, fn leg ->
-        case leg.mode do
-          %TransitDetail{route_id: route_id} -> [route_id]
-          _ -> []
-        end
-      end)
+
+      test_calculated_ids =
+        Enum.flat_map(itinerary, fn leg ->
+          case leg.mode do
+            %TransitDetail{route_id: route_id} -> [route_id]
+            _ -> []
+          end
+        end)
+
       assert test_calculated_ids == route_ids(itinerary)
     end
   end
@@ -22,12 +25,15 @@ defmodule TripPlan.ItineraryTest do
   describe "trip_ids/1" do
     test "returns all the trip IDs from the itinerary" do
       {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
-      test_calculated_ids = Enum.flat_map(itinerary, fn leg ->
-        case leg.mode do
-          %TransitDetail{trip_id: trip_id} -> [trip_id]
-          _ -> []
-        end
-      end)
+
+      test_calculated_ids =
+        Enum.flat_map(itinerary, fn leg ->
+          case leg.mode do
+            %TransitDetail{trip_id: trip_id} -> [trip_id]
+            _ -> []
+          end
+        end)
+
       assert test_calculated_ids == trip_ids(itinerary)
     end
   end
@@ -35,12 +41,15 @@ defmodule TripPlan.ItineraryTest do
   describe "route_trip_ids/1" do
     test "returns all the route and trip IDs from the itinerary" do
       {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
-      test_calculated_ids = Enum.flat_map(itinerary.legs, fn leg ->
-        case leg.mode do
-          %TransitDetail{} = td -> [{td.route_id, td.trip_id}]
-          _ -> []
-        end
-      end)
+
+      test_calculated_ids =
+        Enum.flat_map(itinerary.legs, fn leg ->
+          case leg.mode do
+            %TransitDetail{} = td -> [{td.route_id, td.trip_id}]
+            _ -> []
+          end
+        end)
+
       assert test_calculated_ids == route_trip_ids(itinerary)
     end
   end
@@ -66,7 +75,10 @@ defmodule TripPlan.ItineraryTest do
       {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
       first_leg = Enum.at(itinerary, 0)
       last_leg = Enum.at(itinerary, -1)
-      test_calculated_ids = Enum.uniq([first_leg.from.stop_id, last_leg.from.stop_id, last_leg.to.stop_id])
+
+      test_calculated_ids =
+        Enum.uniq([first_leg.from.stop_id, last_leg.from.stop_id, last_leg.to.stop_id])
+
       assert test_calculated_ids == stop_ids(itinerary)
     end
   end
@@ -79,9 +91,10 @@ defmodule TripPlan.ItineraryTest do
         legs: [
           %Leg{mode: %PersonalDetail{distance: 12.3}},
           %Leg{mode: %TransitDetail{}},
-          %Leg{mode: %PersonalDetail{distance: 34.5}},
-        ],
+          %Leg{mode: %PersonalDetail{distance: 34.5}}
+        ]
       }
+
       assert abs(walking_distance(itinerary) - 46.8) < 0.001
     end
   end
@@ -107,17 +120,19 @@ defmodule TripPlan.ItineraryTest do
 
   describe "intermediate_stop_ids" do
     test "returns intermediate stop ids if the leg is transit detail and has them" do
-       itinerary = %TripPlan.Itinerary{
+      itinerary = %TripPlan.Itinerary{
         start: DateTime.from_unix(10),
         stop: DateTime.from_unix(13),
         legs: [
           %Leg{mode: %PersonalDetail{}},
           %Leg{mode: %TransitDetail{intermediate_stop_ids: ["1", "2", "3"]}},
-          %Leg{mode: %PersonalDetail{}},
-        ],
+          %Leg{mode: %PersonalDetail{}}
+        ]
       }
+
       assert intermediate_stop_ids(itinerary) == ["1", "2", "3"]
     end
+
     test "does not return duplicate ids" do
       itinerary = %TripPlan.Itinerary{
         start: DateTime.from_unix(10),
@@ -125,9 +140,10 @@ defmodule TripPlan.ItineraryTest do
         legs: [
           %Leg{mode: %PersonalDetail{}},
           %Leg{mode: %TransitDetail{intermediate_stop_ids: ["1", "2", "3"]}},
-          %Leg{mode: %TransitDetail{intermediate_stop_ids: ["1", "2", "3"]}},
-        ],
+          %Leg{mode: %TransitDetail{intermediate_stop_ids: ["1", "2", "3"]}}
+        ]
       }
+
       assert intermediate_stop_ids(itinerary) == ["1", "2", "3"]
     end
   end

@@ -16,12 +16,30 @@ defmodule SiteWeb.ScheduleController.ExcludedStops do
   def init([]), do: []
 
   @impl true
-  def call(%Plug.Conn{assigns: %{route: %{id: route_id}, direction_id: direction_id, all_stops: all_stops, origin: origin}} = conn, []) do
+  def call(
+        %Plug.Conn{
+          assigns: %{
+            route: %{id: route_id},
+            direction_id: direction_id,
+            all_stops: all_stops,
+            origin: origin
+          }
+        } = conn,
+        []
+      ) do
     origin_id = origin && origin.id
+
     conn
-    |> assign(:excluded_origin_stops, ExcludedStops.excluded_origin_stops(direction_id, route_id, all_stops))
-    |> assign(:excluded_destination_stops, ExcludedStops.excluded_destination_stops(route_id, origin_id))
+    |> assign(
+      :excluded_origin_stops,
+      ExcludedStops.excluded_origin_stops(direction_id, route_id, all_stops)
+    )
+    |> assign(
+      :excluded_destination_stops,
+      ExcludedStops.excluded_destination_stops(route_id, origin_id)
+    )
   end
+
   def call(conn, []) do
     conn
     |> assign(:excluded_origin_stops, [])

@@ -12,7 +12,9 @@ defmodule Site.ComponentsTest do
         %ButtonGroup{links: [{"Link 1", "/link-1"}, {"Link 2", "/link-2"}]}
         |> button_group()
         |> safe_to_string()
+
       assert [{"div", [{"class", "button-group"}], links}] = Floki.find(rendered, ".button-group")
+
       for link <- links do
         assert Floki.attribute(link, "class") == ["button-container"]
       end
@@ -56,7 +58,10 @@ defmodule Site.ComponentsTest do
 
     test "Title tooltip is shown if show_tooltip? is not specified" do
       rendered = %SvgIcon{icon: :subway} |> svg_icon() |> safe_to_string()
-      [data_toggle] = rendered |> Floki.find("svg") |> List.first() |> Floki.attribute("data-toggle")
+
+      [data_toggle] =
+        rendered |> Floki.find("svg") |> List.first() |> Floki.attribute("data-toggle")
+
       assert data_toggle == "tooltip"
     end
 
@@ -67,19 +72,32 @@ defmodule Site.ComponentsTest do
   end
 
   describe "tabs > mode_tab_list" do
-    @links [{"commuter-rail", "/commuter-rail"}, {"bus", "/bus"}, {"subway", "/subway"}, {"the_ride", "/the-ride"}, {"access", "/access"}]
+    @links [
+      {"commuter-rail", "/commuter-rail"},
+      {"bus", "/bus"},
+      {"subway", "/subway"},
+      {"the_ride", "/the-ride"},
+      {"access", "/access"}
+    ]
 
     def mode_tab_args do
       %ModeTabList{
         class: "navbar-toggleable-sm",
         links: @links,
-        selected_mode: :bus,
+        selected_mode: :bus
       }
     end
 
     test "renders a list of tabs for with links for modes, including access and the ride" do
       rendered = mode_tab_args() |> mode_tab_list() |> safe_to_string()
-      for link <- ["/commuter-rail#commuter-rail-tab", "/bus#bus-tab", "/subway#subway-tab", "/the-ride#the-ride-tab", "/access#access-tab"] do
+
+      for link <- [
+            "/commuter-rail#commuter-rail-tab",
+            "/bus#bus-tab",
+            "/subway#subway-tab",
+            "/the-ride#the-ride-tab",
+            "/access#access-tab"
+          ] do
         assert rendered =~ ~s(href="#{link}")
       end
     end
@@ -91,16 +109,25 @@ defmodule Site.ComponentsTest do
 
     test "renders icons for each mode" do
       rendered = mode_tab_args() |> mode_tab_list() |> safe_to_string()
+
       for mode <- ["bus", "subway"] do
         assert rendered =~ "icon-mode-#{mode}"
       end
+
       for icon <- ["the-ride", "accessible"] do
         assert rendered =~ "icon-#{icon}"
       end
     end
 
     test "mode_links/1" do
-      expected = [{"commuter_rail", "Commuter Rail", "/commuter-rail"}, {"bus", "Bus", "/bus"}, {"subway", "Subway", "/subway"}, {"the_ride", "The Ride", "/the-ride"}, {"access", "Access", "/access"}]
+      expected = [
+        {"commuter_rail", "Commuter Rail", "/commuter-rail"},
+        {"bus", "Bus", "/bus"},
+        {"subway", "Subway", "/subway"},
+        {"the_ride", "The Ride", "/the-ride"},
+        {"access", "Access", "/access"}
+      ]
+
       assert mode_links(@links) == expected
     end
 
@@ -116,20 +143,24 @@ defmodule Site.ComponentsTest do
       {"sched", "Schedules", "/schedules"},
       {"info", "Info", "/info"},
       {"etc", "Something Else", "/something-else"}
-      ]
+    ]
 
     def tab_args do
       %TabSelector{
         links: @links,
         selected: "info",
-        icon_map: %{"Info" => "info-icon"},
+        icon_map: %{"Info" => "info-icon"}
       }
     end
 
     test "renders a list of tabs" do
       rendered = tab_args() |> tab_selector() |> safe_to_string()
 
-      for link <- ["/schedules#schedules-tab", "/info#info-tab", "/something-else#something-else-tab"] do
+      for link <- [
+            "/schedules#schedules-tab",
+            "/info#info-tab",
+            "/something-else#something-else-tab"
+          ] do
         assert rendered =~ ~s(href="#{link}")
       end
     end
@@ -148,19 +179,25 @@ defmodule Site.ComponentsTest do
     end
 
     test "Icons are shown if given" do
-      rendered = tab_args() |> tab_selector()  |> safe_to_string()
-      option = rendered
-      |> Floki.find(".tab-select-btn-selected")
-      |> Enum.at(0)
-      |> elem(2)
-      |> List.first
+      rendered = tab_args() |> tab_selector() |> safe_to_string()
+
+      option =
+        rendered
+        |> Floki.find(".tab-select-btn-selected")
+        |> Enum.at(0)
+        |> elem(2)
+        |> List.first()
+
       assert option =~ "info-icon"
     end
 
     test "Selected option is shown as such" do
-      rendered = tab_args() |> tab_selector()  |> safe_to_string()
-      option = rendered
-      |> Floki.find(".tab-select-btn-selected")
+      rendered = tab_args() |> tab_selector() |> safe_to_string()
+
+      option =
+        rendered
+        |> Floki.find(".tab-select-btn-selected")
+
       assert inspect(option) =~ "Info"
     end
 
@@ -173,8 +210,8 @@ defmodule Site.ComponentsTest do
   describe "get_path/1" do
     test "can take a %Route{}" do
       assert %Routes.Route{id: "Red"}
-              |> get_path()
-              |> safe_to_string() =~ "<path"
+             |> get_path()
+             |> safe_to_string() =~ "<path"
     end
   end
 
@@ -185,5 +222,4 @@ defmodule Site.ComponentsTest do
   defp period_shift(period) do
     {Util.now() |> Timex.shift(period), nil}
   end
-
 end

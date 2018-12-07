@@ -10,31 +10,34 @@ defmodule SiteWeb.PartialViewTest do
 
   describe "stop_selector_suffix/2" do
     test "returns zones for commuter rail", %{conn: conn} do
-      conn = conn
-      |> assign(:route, %Routes.Route{type: 2})
-      |> assign(:zone_map, %{"Lowell" => "6"})
+      conn =
+        conn
+        |> assign(:route, %Routes.Route{type: 2})
+        |> assign(:zone_map, %{"Lowell" => "6"})
 
-      assert conn |> stop_selector_suffix("Lowell") |> IO.iodata_to_binary == "Zone 6"
+      assert conn |> stop_selector_suffix("Lowell") |> IO.iodata_to_binary() == "Zone 6"
     end
 
     test "if the stop has no zone, returns the empty string", %{conn: conn} do
-      conn = conn
-      |> assign(:route, %Routes.Route{type: 2})
-      |> assign(:zone_map, %{})
+      conn =
+        conn
+        |> assign(:route, %Routes.Route{type: 2})
+        |> assign(:zone_map, %{})
 
-      assert stop_selector_suffix(conn, "Wachusett")  == ""
+      assert stop_selector_suffix(conn, "Wachusett") == ""
     end
 
     test "returns a comma-separated list of lines for the green line", %{conn: conn} do
-      conn = conn
-      |> assign(:route, %Routes.Route{id: "Green"})
-      |> assign(:stops_on_routes, GreenLine.stops_on_routes(0))
+      conn =
+        conn
+        |> assign(:route, %Routes.Route{id: "Green"})
+        |> assign(:stops_on_routes, GreenLine.stops_on_routes(0))
 
-      assert conn |> stop_selector_suffix("place-pktrm") |> IO.iodata_to_binary == "B,C,D,E"
-      assert conn |> stop_selector_suffix("place-lech") |> IO.iodata_to_binary == "E"
-      assert conn |> stop_selector_suffix("place-kencl") |> IO.iodata_to_binary == "B,C,D"
+      assert conn |> stop_selector_suffix("place-pktrm") |> IO.iodata_to_binary() == "B,C,D,E"
+      assert conn |> stop_selector_suffix("place-lech") |> IO.iodata_to_binary() == "E"
+      assert conn |> stop_selector_suffix("place-kencl") |> IO.iodata_to_binary() == "B,C,D"
       # not on the green line
-      assert conn |> stop_selector_suffix("place-alfcl") |> IO.iodata_to_binary == ""
+      assert conn |> stop_selector_suffix("place-alfcl") |> IO.iodata_to_binary() == ""
     end
 
     test "for other lines, returns the empty string", %{conn: conn} do
@@ -52,15 +55,16 @@ defmodule SiteWeb.PartialViewTest do
     end
 
     test "otherwise returns a link setting the query_key to nil", %{conn: conn} do
-      result = %{
-        clearable?: true,
-        selected: "place-davis",
-        placeholder_text: "destination",
-        query_key: "destination",
-        conn: fetch_query_params(conn)
-      }
-      |> clear_selector_link()
-      |> safe_to_string
+      result =
+        %{
+          clearable?: true,
+          selected: "place-davis",
+          placeholder_text: "destination",
+          query_key: "destination",
+          conn: fetch_query_params(conn)
+        }
+        |> clear_selector_link()
+        |> safe_to_string
 
       assert result =~ "(clear<span class=\"sr-only\"> destination</span>)"
       refute result =~ "place-davis"
@@ -73,13 +77,18 @@ defmodule SiteWeb.PartialViewTest do
         %SvgIconWithCircle{icon: :subway}
         |> svg_icon_with_circle()
         |> safe_to_string()
+
       assert rendered =~ "</svg>"
       assert rendered =~ "c-svg__icon-mode-subway"
       assert rendered =~ "title=\"Subway\""
     end
 
     test "uses small icon if size is set to small" do
-      rendered = %SvgIconWithCircle{icon: :subway, size: :small} |> svg_icon_with_circle() |> safe_to_string()
+      rendered =
+        %SvgIconWithCircle{icon: :subway, size: :small}
+        |> svg_icon_with_circle()
+        |> safe_to_string()
+
       assert rendered =~ "c-svg__icon-mode-subway-small"
     end
 
@@ -99,18 +108,23 @@ defmodule SiteWeb.PartialViewTest do
         %SvgIconWithCircle{icon: :subway}
         |> svg_icon_with_circle()
         |> safe_to_string()
+
       assert Floki.attribute(rendered, "data-toggle") == ["tooltip"]
     end
 
     test "Tooltip is not shown if show_tooltip? is false" do
-      rendered = %SvgIconWithCircle{icon: :subway, show_tooltip?: false} |> svg_icon_with_circle() |> safe_to_string()
-      assert rendered |> Floki.find("svg") |> List.first |> Floki.attribute("data-toggle") == []
+      rendered =
+        %SvgIconWithCircle{icon: :subway, show_tooltip?: false}
+        |> svg_icon_with_circle()
+        |> safe_to_string()
+
+      assert rendered |> Floki.find("svg") |> List.first() |> Floki.attribute("data-toggle") == []
     end
   end
 
   describe "teaser/1" do
     test "renders the title and description for non-guide teasers" do
-      assert [teaser | _] = Repo.teasers([route_id: "Red", sidebar: 1])
+      assert [teaser | _] = Repo.teasers(route_id: "Red", sidebar: 1)
       assert %Teaser{topic: ""} = teaser
       rendered = teaser |> PartialView.teaser() |> safe_to_string()
       assert rendered =~ teaser.image_path
@@ -119,14 +133,20 @@ defmodule SiteWeb.PartialViewTest do
     end
 
     test "only shows image for guide teasers" do
-      assert [teaser | _] = Repo.teasers([topic: "guides", sidebar: 1])
+      assert [teaser | _] = Repo.teasers(topic: "guides", sidebar: 1)
       assert teaser.topic == "Guides"
+
       rendered =
         teaser
         |> PartialView.teaser()
         |> safe_to_string()
+
       assert rendered =~ teaser.image_path
-      assert Floki.find(rendered, ".sr-only") == [{"span", [{"class", "sr-only"}], [teaser.title]}]
+
+      assert Floki.find(rendered, ".sr-only") == [
+               {"span", [{"class", "sr-only"}], [teaser.title]}
+             ]
+
       refute rendered =~ teaser.text
     end
   end
@@ -155,6 +175,7 @@ defmodule SiteWeb.PartialViewTest do
 
     test "takes a Teaser struct", %{conn: conn} do
       assert {:ok, date} = Date.new(2018, 11, 30)
+
       news = %Teaser{
         id: "id",
         date: date,

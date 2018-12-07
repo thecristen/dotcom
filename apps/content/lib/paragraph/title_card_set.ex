@@ -1,9 +1,9 @@
 defmodule Content.Paragraph.TitleCardSet do
-  defstruct [title_cards: []]
+  defstruct title_cards: []
 
   @type t :: %__MODULE__{
-    title_cards: [Content.Paragraph.TitleCard.t]
-  }
+          title_cards: [Content.Paragraph.TitleCard.t()]
+        }
 
   @spec from_api(map) :: t
   def from_api(data) do

@@ -3,7 +3,7 @@ defmodule Content.CMS do
   The behaviour for a live HTTP or a static testing API over our content CMS.
   """
 
-  @type error :: :not_found | :timeout | :invalid_response | {:redirect, integer, Keyword.t}
+  @type error :: :not_found | :timeout | :invalid_response | {:redirect, integer, Keyword.t()}
   @type response :: {:ok, map() | [map()]} | {:error, error}
 
   @doc """
@@ -12,8 +12,10 @@ defmodule Content.CMS do
   beyond that. Shouldn't raise an exception; if the HTTP request
   or JSON decoding fails, returns {:error, message}
   """
-  @callback view(String.t, Keyword.t | map) :: response
+  @callback view(String.t(), Keyword.t() | map) :: response
   @callback preview(integer) :: {:ok, [map()]} | {:error, error}
-  @callback post(String.t, String.t) :: {:ok, Poison.Parser.t} | {:error, map} | {:error, String.t}
-  @callback update(String.t, String.t) :: {:ok, Poison.Parser.t} | {:error, map} | {:error, String.t}
+  @callback post(String.t(), String.t()) ::
+              {:ok, Poison.Parser.t()} | {:error, map} | {:error, String.t()}
+  @callback update(String.t(), String.t()) ::
+              {:ok, Poison.Parser.t()} | {:error, map} | {:error, String.t()}
 end

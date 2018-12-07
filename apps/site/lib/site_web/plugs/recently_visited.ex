@@ -22,7 +22,7 @@ defmodule SiteWeb.Plugs.RecentlyVisited do
     end
   end
 
-  @spec assign_recently_visited(Conn.t, String.t) :: Conn.t
+  @spec assign_recently_visited(Conn.t(), String.t()) :: Conn.t()
   defp assign_recently_visited(conn, routes) do
     route_list =
       routes
@@ -34,20 +34,22 @@ defmodule SiteWeb.Plugs.RecentlyVisited do
     Conn.assign(conn, :recently_visited, route_list)
   end
 
-  @spec get_route(String.t) :: Route.t | nil
+  @spec get_route(String.t()) :: Route.t() | nil
   defp get_route("Green") do
     "Green-B"
     |> Routes.Repo.get()
     |> Route.to_naive()
   end
+
   defp get_route(route) do
     Routes.Repo.get(route)
   end
 
-  @spec parse_route_response({:ok, Route.t | nil} | {:error, any}, [Route.t]) :: [Route.t]
+  @spec parse_route_response({:ok, Route.t() | nil} | {:error, any}, [Route.t()]) :: [Route.t()]
   defp parse_route_response({:ok, %Route{} = route}, acc) do
     [route | acc]
   end
+
   defp parse_route_response(_, acc) do
     acc
   end

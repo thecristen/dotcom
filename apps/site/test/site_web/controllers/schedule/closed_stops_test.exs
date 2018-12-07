@@ -29,22 +29,30 @@ defmodule SiteWeb.ScheduleController.ClosedStopsTest do
   describe "add_wollaston/4" do
     test "Does not insert Wollaston if insertion stop does not exist" do
       stops = [%Stops.Stop{id: "id1", name: "name1"}, %Stops.Stop{id: "id2"}]
-      new_stops = add_wollaston(stops, 0, &(&1), fn(_elem, stop) -> stop end)
+      new_stops = add_wollaston(stops, 0, & &1, fn _elem, stop -> stop end)
 
       assert new_stops == stops
     end
 
     test "Inserts Wollaston stop properly for direction_id = 0" do
-      stops = [%Stops.Stop{id: "place-nqncy", name: "Quincy Center"}, %Stops.Stop{id: "place-qnctr"}]
-      new_stops = add_wollaston(stops, 0, &(&1), fn(_elem, stop) -> stop end)
+      stops = [
+        %Stops.Stop{id: "place-nqncy", name: "Quincy Center"},
+        %Stops.Stop{id: "place-qnctr"}
+      ]
+
+      new_stops = add_wollaston(stops, 0, & &1, fn _elem, stop -> stop end)
 
       assert length(new_stops) == 3
       assert Enum.at(new_stops, 1).id == "place-wstn"
     end
 
     test "Inserts Wollaston stop properly for direction_id = 1" do
-      stops = [%Stops.Stop{id: "place-qnctr", name: "Quincy Center"}, %Stops.Stop{id: "place-nqncy"}]
-      new_stops = add_wollaston(stops, 1, &(&1), fn(_elem, stop) -> stop end)
+      stops = [
+        %Stops.Stop{id: "place-qnctr", name: "Quincy Center"},
+        %Stops.Stop{id: "place-nqncy"}
+      ]
+
+      new_stops = add_wollaston(stops, 1, & &1, fn _elem, stop -> stop end)
 
       assert length(new_stops) == 3
       assert Enum.at(new_stops, 1).id == "place-wstn"

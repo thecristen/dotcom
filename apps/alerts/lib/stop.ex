@@ -22,16 +22,15 @@ defmodule Alerts.Stop do
     time = options[:time]
 
     for alert <- alerts,
-      Match.match([alert], stop_entity, time) != [],
-      Match.match([alert], stop_with_options_entity) != [] do
-        alert
+        Match.match([alert], stop_entity, time) != [],
+        Match.match([alert], stop_with_options_entity) != [] do
+      alert
     end
   end
 
   defp entity_for(stop_id, options) do
     options
     |> Keyword.put(:stop, stop_id)
-    |> IE.from_keywords
+    |> IE.from_keywords()
   end
-
 end

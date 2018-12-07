@@ -15,16 +15,19 @@ defmodule SiteWeb.PageControllerTest do
   end
 
   test "body gets assigned a js class", %{conn: conn} do
-    [body_class] = build_conn()
+    [body_class] =
+      build_conn()
       |> get(page_path(conn, :index))
       |> html_response(200)
       |> Floki.find("body")
       |> Floki.attribute("class")
+
     assert body_class == "no-js"
   end
 
   test "renders recommended routes if route cookie has a value", %{conn: conn} do
     cookie_name = SiteWeb.Plugs.Cookies.route_cookie_name()
+
     conn =
       conn
       |> Plug.Test.put_req_cookie(cookie_name, "Red|1|CR-Lowell|Boat-F4")
@@ -33,9 +36,9 @@ defmodule SiteWeb.PageControllerTest do
     assert Enum.count(conn.assigns.recently_visited) == 4
 
     assert [routes_div] =
-      conn
-      |> html_response(200)
-      |> Floki.find(".c-recently-visited")
+             conn
+             |> html_response(200)
+             |> Floki.find(".c-recently-visited")
 
     assert Floki.text(routes_div) =~ "Recently Visited"
 
@@ -66,19 +69,36 @@ defmodule SiteWeb.PageControllerTest do
 
   test "adds utm params to url for news entries" do
     with_utm = add_utm_url(%NewsEntry{path_alias: "/path", title: "title"})
-    assert %{utm_url: "/path?utm_campaign=curated-content&utm_content=title&utm_medium=news&utm_source=homepage&utm_term=null"} = with_utm
+
+    assert %{
+             utm_url:
+               "/path?utm_campaign=curated-content&utm_content=title&utm_medium=news&utm_source=homepage&utm_term=null"
+           } = with_utm
   end
 
   test "adds utm params to url for what's happening" do
-    promoted_with_utm = add_utm_url(%WhatsHappeningItem{link: %Link{url: "/path"}, title: "title"}, true)
-    assert %{utm_url: "/path?utm_campaign=curated-content&utm_content=title&utm_medium=whats-happening&utm_source=homepage&utm_term=null"} = promoted_with_utm
+    promoted_with_utm =
+      add_utm_url(%WhatsHappeningItem{link: %Link{url: "/path"}, title: "title"}, true)
+
+    assert %{
+             utm_url:
+               "/path?utm_campaign=curated-content&utm_content=title&utm_medium=whats-happening&utm_source=homepage&utm_term=null"
+           } = promoted_with_utm
 
     with_utm = add_utm_url(%WhatsHappeningItem{link: %Link{url: "/path"}, title: "title"}, false)
-    assert %{utm_url: "/path?utm_campaign=curated-content&utm_content=title&utm_medium=whats-happening-secondary&utm_source=homepage&utm_term=null"} = with_utm
+
+    assert %{
+             utm_url:
+               "/path?utm_campaign=curated-content&utm_content=title&utm_medium=whats-happening-secondary&utm_source=homepage&utm_term=null"
+           } = with_utm
   end
 
   test "adds utm params to url for banner" do
     with_utm = add_utm_url(%Banner{link: %Link{url: "/path"}, title: "title", mode: "green_line"})
-    assert %{utm_url: "/path?utm_campaign=curated-content&utm_content=title&utm_medium=banner&utm_source=homepage&utm_term=green_line"} = with_utm
+
+    assert %{
+             utm_url:
+               "/path?utm_campaign=curated-content&utm_content=title&utm_medium=banner&utm_source=homepage&utm_term=green_line"
+           } = with_utm
   end
 end

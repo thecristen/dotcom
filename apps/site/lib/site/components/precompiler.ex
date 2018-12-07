@@ -23,6 +23,7 @@ defmodule Site.Components.Precompiler do
   # not sure if this spec is correct -- does it return a def?
   defmacro precompile_components do
     sections = File.ls!(components_folder_path())
+
     for section <- Enum.map(sections, &String.to_atom/1) do
       if File.dir?(components_section_path(section)) do
         get_components(section)
@@ -35,13 +36,13 @@ defmodule Site.Components.Precompiler do
   """
   def get_components(section) do
     components = File.ls!(components_section_path(section))
+
     for component <- Enum.map(components, &String.to_atom/1) do
       if File.dir?(component_folder_path(component, section)) do
         precompile_component(component, section)
       end
     end
   end
-
 
   @doc """
   Defines function to render a particular component.  For example:
@@ -52,9 +53,12 @@ defmodule Site.Components.Precompiler do
   returning a `Phoenix.HTML.Safe.t`.
   """
   def precompile_component(component, section) when is_atom(component) and is_atom(section) do
-    path = Path.join(
-      component_folder_path(component, section),
-      "/component.html.eex")
+    path =
+      Path.join(
+        component_folder_path(component, section),
+        "/component.html.eex"
+      )
+
     module = component_module(component, section)
 
     quote do
@@ -63,13 +67,14 @@ defmodule Site.Components.Precompiler do
       import unquote(module)
       alias unquote(module)
 
-      @spec unquote(component)(unquote(module).t) :: Phoenix.HTML.Safe.t
+      @spec unquote(component)(unquote(module).t) :: Phoenix.HTML.Safe.t()
       EEx.function_from_file(
         :def,
         unquote(component),
         unquote(path),
         [:args],
-        engine: Phoenix.HTML.Engine)
+        engine: Phoenix.HTML.Engine
+      )
     end
   end
 end

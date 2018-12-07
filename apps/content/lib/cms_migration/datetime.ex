@@ -5,14 +5,14 @@ end
 defmodule Content.CmsMigration.Datetime do
   alias Content.CmsMigration.DatetimeError
 
-  @spec parse_utc_datetime(String.t, String.t, Timex.Types.valid_timezone) :: DateTime.t
+  @spec parse_utc_datetime(String.t(), String.t(), Timex.Types.valid_timezone()) :: DateTime.t()
   def parse_utc_datetime(date, time, timezone \\ "America/New_York") do
     date
     |> naive_datetime_from(time)
     |> convert_to_utc(timezone)
   end
 
-  @spec parse_time!(String.t) :: Time.t | no_return
+  @spec parse_time!(String.t()) :: Time.t() | no_return
   def parse_time!(time) do
     case parse(time, accepted_time_formats()) do
       {:error, message} -> raise DatetimeError, message: message
@@ -20,7 +20,7 @@ defmodule Content.CmsMigration.Datetime do
     end
   end
 
-  @spec parse_date!(String.t) :: Date.t | no_return
+  @spec parse_date!(String.t()) :: Date.t() | no_return
   def parse_date!(date) do
     date = remove_unncessary_punctuation(date)
 
@@ -50,6 +50,7 @@ defmodule Content.CmsMigration.Datetime do
       {:error, _message} -> parse(string, tail)
     end
   end
+
   defp parse(string, []) do
     {:error, "Unable to convert '#{string}' to a datetime."}
   end

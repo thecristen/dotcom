@@ -1,9 +1,9 @@
 defmodule Content.Paragraph.UpcomingBoardMeetings do
-  defstruct [events: []]
+  defstruct events: []
 
   @type t :: %__MODULE__{
-    events: [Content.Event.t]
-  }
+          events: [Content.Event.t()]
+        }
 
   @spec from_api(map) :: t
   def from_api(data) do

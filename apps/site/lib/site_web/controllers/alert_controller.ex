@@ -1,10 +1,10 @@
 defmodule SiteWeb.AlertController do
   use SiteWeb, :controller
 
-  plug :all_routes
-  plug :all_alerts
-  plug SiteWeb.Plugs.UpcomingAlerts
-  plug SiteWeb.Plug.Mticket
+  plug(:all_routes)
+  plug(:all_alerts)
+  plug(SiteWeb.Plugs.UpcomingAlerts)
+  plug(SiteWeb.Plug.Mticket)
 
   @valid_ids ~w(subway commuter-rail bus ferry access)s
 
@@ -18,9 +18,11 @@ defmodule SiteWeb.AlertController do
     conn
     |> render_route_alerts(group_access_alerts(all_alerts))
   end
+
   def show(conn, %{"id" => mode}) when mode in @valid_ids do
     render_routes(conn)
   end
+
   def show(conn, _params) do
     check_cms_or_404(conn)
   end
@@ -34,7 +36,7 @@ defmodule SiteWeb.AlertController do
     |> assign(
       :meta_description,
       "Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. " <>
-      "Updates on delays, construction, elevator outages, and more."
+        "Updates on delays, construction, elevator outages, and more."
     )
     |> render(
       "show.html",
@@ -49,11 +51,16 @@ defmodule SiteWeb.AlertController do
       route_type: route.type,
       route: route.id
     }
+
     {route, Alerts.Match.match(alerts, entity)}
   end
 
   def group_access_alerts(alerts) do
-    Enum.reduce(Alerts.Alert.access_alert_types, %{}, &group_access_alerts_by_type(alerts, &1, &2))
+    Enum.reduce(
+      Alerts.Alert.access_alert_types(),
+      %{},
+      &group_access_alerts_by_type(alerts, &1, &2)
+    )
   end
 
   defp group_access_alerts_by_type(alerts, {type, name}, accumulator) do
@@ -76,6 +83,7 @@ defmodule SiteWeb.AlertController do
   defp all_alerts(%{params: %{"id" => id}} = conn, _opts) when id in @valid_ids do
     assign(conn, :all_alerts, Alerts.Repo.all(conn.assigns.date_time))
   end
+
   defp all_alerts(conn, _opts) do
     conn
   end

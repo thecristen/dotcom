@@ -5,11 +5,11 @@ defmodule Content.Paragraph.PeopleGrid do
 
   alias Content.Person
 
-  defstruct [people: []]
+  defstruct people: []
 
   @type t :: %__MODULE__{
-    people: [Person.t]
-  }
+          people: [Person.t()]
+        }
 
   @spec from_api(map) :: t
   def from_api(data) do

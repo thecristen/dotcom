@@ -9,15 +9,18 @@ defmodule Routes do
     children = [
       # Define workers and child supervisors to be supervised
       # worker(Routes.Worker, [arg1, arg2, arg3]),
-      Routes.Repo,
+      Routes.Repo
     ]
-    children = if Application.get_env(:routes, :populate_caches?) do
-      children ++ [
-        Routes.PopulateCaches
-      ]
-    else
-      children
-    end
+
+    children =
+      if Application.get_env(:routes, :populate_caches?) do
+        children ++
+          [
+            Routes.PopulateCaches
+          ]
+      else
+        children
+      end
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options

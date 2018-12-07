@@ -13,7 +13,7 @@ defmodule Content.EmailCase do
   end
 
   setup do
-    Content.EmailHelpers.clear_sent_emails
+    Content.EmailHelpers.clear_sent_emails()
     :ok
   end
 end

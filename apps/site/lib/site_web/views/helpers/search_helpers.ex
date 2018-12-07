@@ -6,20 +6,31 @@ defmodule SiteWeb.SearchHelpers do
   @form_options [as: :search, method: :get]
   @placeholder "Search by keyword"
 
-  @spec desktop_form(Plug.Conn.t, map) :: Phoenix.HTML.safe
+  @spec desktop_form(Plug.Conn.t(), map) :: Phoenix.HTML.safe()
   def desktop_form(conn, params) do
-    form_for conn, search_path(conn, :index), @form_options, fn _ ->
+    form_for(conn, search_path(conn, :index), @form_options, fn _ ->
       [
-        search_input(:search, :query, value: get_search_from_query(params), placeholder: @placeholder,
-                     autocomplete: "off", data: [input: "search"]),
-        content_tag :button, class: "search-button search-button-xl", aria: [label: "submit search"] do
-          SiteWeb.PageView.svg_icon(%Site.Components.Icons.SvgIcon{icon: :search, show_tooltip?: false})
+        search_input(
+          :search,
+          :query,
+          value: get_search_from_query(params),
+          placeholder: @placeholder,
+          autocomplete: "off",
+          data: [input: "search"]
+        ),
+        content_tag :button,
+          class: "search-button search-button-xl",
+          aria: [label: "submit search"] do
+          SiteWeb.PageView.svg_icon(%Site.Components.Icons.SvgIcon{
+            icon: :search,
+            show_tooltip?: false
+          })
         end
       ]
-    end
+    end)
   end
 
-  @spec get_search_from_query(map) :: String.t
+  @spec get_search_from_query(map) :: String.t()
   defp get_search_from_query(%{"search" => %{"query" => query}}), do: query
   defp get_search_from_query(_), do: ""
 end

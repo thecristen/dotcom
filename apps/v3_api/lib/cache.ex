@@ -25,7 +25,8 @@ defmodule V3Api.Cache do
   - If the HTTP response is a 200, 400, or 404, cache it and return the response
   - If the HTTP response is anything else, try to return a cached response, otherwise return the response as-is
   """
-  @spec cache_response(url, params, Response.t) :: {:ok, Response.t} | {:error, :no_cached_response}
+  @spec cache_response(url, params, Response.t()) ::
+          {:ok, Response.t()} | {:error, :no_cached_response}
   def cache_response(name \\ __MODULE__, url, params, response)
 
   def cache_response(name, url, params, %{status_code: 304}) do
@@ -36,7 +37,7 @@ defmodule V3Api.Cache do
   end
 
   def cache_response(name, url, params, %{status_code: status_code} = response)
-  when status_code in [200, 400, 404] do
+      when status_code in [200, 400, 404] do
     key = {url, params}
     last_modified = header(response, "last-modified")
     true = :ets.insert(name, {key, last_modified, response, now()})
@@ -60,7 +61,7 @@ defmodule V3Api.Cache do
   @doc """
   Return a list of cache headers for the given URL/parameters.
   """
-  @spec cache_headers(url, params) :: [{String.t, String.t}]
+  @spec cache_headers(url, params) :: [{String.t(), String.t()}]
   def cache_headers(name \\ __MODULE__, url, params) do
     last_modfied = :ets.lookup_element(name, {url, params}, 2)
     [{"if-modified-since", last_modfied}]
@@ -70,7 +71,7 @@ defmodule V3Api.Cache do
   end
 
   defp header(%{headers: headers}, header) do
-    case Enum.find(headers, &String.downcase(elem(&1, 0)) == header) do
+    case Enum.find(headers, &(String.downcase(elem(&1, 0)) == header)) do
       {_, value} -> value
       nil -> nil
     end
@@ -85,7 +86,16 @@ defmodule V3Api.Cache do
   @impl GenServer
   def init(opts) do
     name = Keyword.fetch!(opts, :name)
-    ^name = :ets.new(name, [:set, :named_table, :public, {:read_concurrency, true}, {:write_concurrency, true}])
+
+    ^name =
+      :ets.new(name, [
+        :set,
+        :named_table,
+        :public,
+        {:read_concurrency, true},
+        {:write_concurrency, true}
+      ])
+
     timeout = Keyword.get(opts, :timeout, 60_000)
     Process.send_after(self(), :expire, timeout)
     size = Keyword.get(opts, :size, Application.get_env(:v3_api, :cache_size))
@@ -107,9 +117,11 @@ defmodule V3Api.Cache do
 
   defp do_expire(%{name: name, size: size}) do
     current_size = :ets.info(name, :size)
-    _ = Logger.info(fn ->
-      "#{name} report - size=#{current_size} max_size=#{size} memory=#{:ets.info(name, :memory)}"
-    end)
+
+    _ =
+      Logger.info(fn ->
+        "#{name} report - size=#{current_size} max_size=#{size} memory=#{:ets.info(name, :memory)}"
+      end)
 
     if current_size > size do
       # keep half of the cache, so that we don't bounce around clearing the

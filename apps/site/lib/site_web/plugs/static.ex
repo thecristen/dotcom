@@ -26,6 +26,7 @@ defmodule SiteWeb.Plugs.Static do
     |> redirect(to: "/apple-touch-icon.png")
     |> halt()
   end
+
   def redirect_if_apple_touch_icon(_, conn) do
     conn
   end

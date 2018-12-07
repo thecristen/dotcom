@@ -7,8 +7,22 @@ defmodule SiteWeb.ContentViewTest do
   alias Content.BasicPage
   alias Content.CMS.Static
   alias Content.Field.{File, Link}
-  alias Content.Paragraph.{Column, ColumnMulti, CustomHTML, FareCard, FilesGrid,
-    PeopleGrid, Tab, Tabs, TitleCard, TitleCardSet, Unknown, UpcomingBoardMeetings}
+
+  alias Content.Paragraph.{
+    Column,
+    ColumnMulti,
+    CustomHTML,
+    FareCard,
+    FilesGrid,
+    PeopleGrid,
+    Tab,
+    Tabs,
+    TitleCard,
+    TitleCardSet,
+    Unknown,
+    UpcomingBoardMeetings
+  }
+
   alias Phoenix.HTML
 
   describe "Basic Page" do
@@ -18,12 +32,15 @@ defmodule SiteWeb.ContentViewTest do
     end
 
     test "renders a sidebar menu", %{basic_page: basic_page} do
-      fake_conn = %{query_params: %{}, request_path: basic_page.sidebar_menu.links |> List.first |> Map.get(:url)}
+      fake_conn = %{
+        query_params: %{},
+        request_path: basic_page.sidebar_menu.links |> List.first() |> Map.get(:url)
+      }
 
       rendered =
         "page.html"
         |> render(page: basic_page, conn: fake_conn)
-        |> HTML.safe_to_string
+        |> HTML.safe_to_string()
 
       assert rendered =~ ~s(c-cms--with-sidebar)
       assert rendered =~ ~s(c-cms--sidebar-left)
@@ -40,7 +57,7 @@ defmodule SiteWeb.ContentViewTest do
       rendered =
         "page.html"
         |> render(page: basic_page, conn: fake_conn)
-        |> HTML.safe_to_string
+        |> HTML.safe_to_string()
 
       assert rendered =~ ~s(c-cms--no-sidebar)
       assert rendered =~ "Fenway Park"
@@ -55,7 +72,7 @@ defmodule SiteWeb.ContentViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string
+        |> HTML.safe_to_string()
 
       assert rendered == "<p>Hello</p>"
     end
@@ -67,7 +84,7 @@ defmodule SiteWeb.ContentViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string
+        |> HTML.safe_to_string()
 
       assert rendered =~ "responsive-table"
     end
@@ -78,12 +95,12 @@ defmodule SiteWeb.ContentViewTest do
           %TitleCard{
             title: "Card 1",
             body: HTML.raw("<strong>Body 1</strong>"),
-            link: %Link{url: "/relative/link"},
+            link: %Link{url: "/relative/link"}
           },
           %TitleCard{
             title: "Card 2",
             body: HTML.raw("<strong>Body 2</strong>"),
-            link: %Link{url: "https://www.example.com/another/link"},
+            link: %Link{url: "https://www.example.com/another/link"}
           }
         ]
       }
@@ -91,13 +108,17 @@ defmodule SiteWeb.ContentViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string
+        |> HTML.safe_to_string()
 
-      assert rendered =~ ~s(<div class="c-title-card__title c-title-card--link__title">Card 1</div>)
+      assert rendered =~
+               ~s(<div class="c-title-card__title c-title-card--link__title">Card 1</div>)
+
       assert rendered =~ "<strong>Body 1</strong>"
       assert rendered =~ ~s( href="/relative/link")
 
-      assert rendered =~ ~s(<div class="c-title-card__title c-title-card--link__title">Card 2</div>)
+      assert rendered =~
+               ~s(<div class="c-title-card__title c-title-card--link__title">Card 2</div>)
+
       assert rendered =~ "<strong>Body 2</strong>"
       assert rendered =~ ~s( href="https://www.example.com/another/link")
     end
@@ -108,7 +129,7 @@ defmodule SiteWeb.ContentViewTest do
           %TitleCard{
             title: ~s({{mbta-circle-icon "bus"}}),
             body: HTML.raw("<div><span>Foo</span><table>Foo</table></div>"),
-            link: %Link{url: "/relative/link"},
+            link: %Link{url: "/relative/link"}
           }
         ]
       }
@@ -116,7 +137,7 @@ defmodule SiteWeb.ContentViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string
+        |> HTML.safe_to_string()
 
       assert rendered =~ "responsive-table"
       refute rendered =~ "mbta-circle-icon"
@@ -124,6 +145,7 @@ defmodule SiteWeb.ContentViewTest do
 
     test "renders a Content.Paragraph.UpcomingBoardMeetings", %{conn: conn} do
       event = event_factory(0)
+
       paragraph = %UpcomingBoardMeetings{
         events: [event]
       }
@@ -131,12 +153,12 @@ defmodule SiteWeb.ContentViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string
+        |> HTML.safe_to_string()
 
       rendered_title =
         event.title
-        |> HTML.html_escape
-        |> HTML.safe_to_string
+        |> HTML.html_escape()
+        |> HTML.safe_to_string()
 
       assert rendered =~ rendered_title
       assert rendered =~ "View all upcoming meetings"
@@ -148,7 +170,7 @@ defmodule SiteWeb.ContentViewTest do
           %TitleCard{
             title: "Title Card",
             body: HTML.raw("This is a title card"),
-            link: nil,
+            link: nil
           }
         ]
       }
@@ -156,7 +178,7 @@ defmodule SiteWeb.ContentViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string
+        |> HTML.safe_to_string()
 
       assert rendered =~ "This is a title card"
     end
@@ -171,7 +193,7 @@ defmodule SiteWeb.ContentViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string
+        |> HTML.safe_to_string()
 
       assert rendered =~ person.name
       assert rendered =~ person.position
@@ -195,8 +217,7 @@ defmodule SiteWeb.ContentViewTest do
               %FareCard{
                 fare_token: "local_bus:charlie_card",
                 note: %CustomHTML{
-                  body: {:safe,
-                   "<p>{{ fare:local_bus:cash }} with CharlieTicket</p>\n"}
+                  body: {:safe, "<p>{{ fare:local_bus:cash }} with CharlieTicket</p>\n"}
                 }
               }
             ]
@@ -237,8 +258,7 @@ defmodule SiteWeb.ContentViewTest do
               %FareCard{
                 fare_token: "local_bus:cash",
                 note: %CustomHTML{
-                  body: {:safe,
-                   "<p>a href='/schedules/bus'>Limited transfers</a></p>\n"}
+                  body: {:safe, "<p>a href='/schedules/bus'>Limited transfers</a></p>\n"}
                 }
               }
             ]
@@ -264,12 +284,15 @@ defmodule SiteWeb.ContentViewTest do
     end
 
     test "renders a Paragraph.FilesGrid without a title", %{conn: conn} do
-      paragraph = %FilesGrid{title: nil, files: [%File{url: "/link", description: "link description"}]}
+      paragraph = %FilesGrid{
+        title: nil,
+        files: [%File{url: "/link", description: "link description"}]
+      }
 
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string
+        |> HTML.safe_to_string()
 
       assert rendered =~ "link description"
     end
@@ -280,7 +303,7 @@ defmodule SiteWeb.ContentViewTest do
       rendered =
         paragraph
         |> render_paragraph(conn)
-        |> HTML.safe_to_string
+        |> HTML.safe_to_string()
 
       assert rendered =~ paragraph.title
     end
@@ -289,6 +312,7 @@ defmodule SiteWeb.ContentViewTest do
       header = %Content.Paragraph.ColumnMultiHeader{
         text: HTML.raw("<h4>This is a multi-column header</h4>")
       }
+
       cols = [
         %Column{
           paragraphs: [
@@ -315,22 +339,22 @@ defmodule SiteWeb.ContentViewTest do
       rendered_quarters =
         %ColumnMulti{header: header, columns: cols}
         |> render_paragraph(conn)
-        |> HTML.safe_to_string
+        |> HTML.safe_to_string()
 
       rendered_thirds =
         %ColumnMulti{header: header, columns: Enum.take(cols, 3)}
         |> render_paragraph(conn)
-        |> HTML.safe_to_string
+        |> HTML.safe_to_string()
 
       rendered_halves =
         %ColumnMulti{header: header, columns: Enum.take(cols, 2)}
         |> render_paragraph(conn)
-        |> HTML.safe_to_string
+        |> HTML.safe_to_string()
 
       rendered_single =
         %ColumnMulti{header: header, columns: Enum.take(cols, 1)}
         |> render_paragraph(conn)
-        |> HTML.safe_to_string
+        |> HTML.safe_to_string()
 
       assert rendered_quarters =~ "<h4>This is a multi-column header</h4>"
       assert rendered_quarters =~ ~r/<div class=\"col-md-3\">\s*<strong>Column 1<\/strong>/
@@ -348,7 +372,9 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered_halves =~ ~r/<div class=\"col-md-6\">\s*<strong>Column 2<\/strong>/
 
       assert rendered_single =~ "<h4>This is a multi-column header</h4>"
-      assert rendered_single =~ ~r/<div class=\"row\">\s*<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
+
+      assert rendered_single =~
+               ~r/<div class=\"row\">\s*<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
     end
 
     test "renders a Content.Paragraph.Tabs", %{conn: conn} do
@@ -358,7 +384,7 @@ defmodule SiteWeb.ContentViewTest do
           prefix: "cms-10",
           content: %CustomHTML{
             body: HTML.raw("<strong>First tab's content</strong>")
-          },
+          }
         },
         %Tab{
           title: "Tab 2",
@@ -374,13 +400,38 @@ defmodule SiteWeb.ContentViewTest do
         |> render_paragraph(conn)
         |> HTML.safe_to_string()
 
-      [{_, _, [icon_1 | [title_1]]}, {_, _, [title_2]}] = Floki.find(rendered_tabs, ".c-tabbed-ui__title")
-      [{_, _, [body_1]}, {_, _, [body_2]}] = Floki.find(rendered_tabs, ".c-tabbed-ui__target > .c-tabbed-ui__content")
-      [{_, [_, {"href", href_1}, _, _, {"aria-controls", aria_controls_1}, _, {"data-parent", parent_1}], _},
-       {_, [_, {"href", href_2}, _, _, {"aria-controls", aria_controls_2}, _, {"data-parent", parent_2}], _}] =
-       Floki.find(rendered_tabs, ".c-tabbed-ui__trigger")
+      [{_, _, [icon_1 | [title_1]]}, {_, _, [title_2]}] =
+        Floki.find(rendered_tabs, ".c-tabbed-ui__title")
 
-      assert {"span", [{"data-toggle", "tooltip"}, {"title", "Red Line"}], [{"span", [{"class", "notranslate c-svg__icon-red-line-default"}], _}]} = icon_1
+      [{_, _, [body_1]}, {_, _, [body_2]}] =
+        Floki.find(rendered_tabs, ".c-tabbed-ui__target > .c-tabbed-ui__content")
+
+      [
+        {_,
+         [
+           _,
+           {"href", href_1},
+           _,
+           _,
+           {"aria-controls", aria_controls_1},
+           _,
+           {"data-parent", parent_1}
+         ], _},
+        {_,
+         [
+           _,
+           {"href", href_2},
+           _,
+           _,
+           {"aria-controls", aria_controls_2},
+           _,
+           {"data-parent", parent_2}
+         ], _}
+      ] = Floki.find(rendered_tabs, ".c-tabbed-ui__trigger")
+
+      assert {"span", [{"data-toggle", "tooltip"}, {"title", "Red Line"}],
+              [{"span", [{"class", "notranslate c-svg__icon-red-line-default"}], _}]} = icon_1
+
       assert title_1 =~ ~r/\s*Tab 1\s*/
       assert title_2 =~ ~r/\s*Tab 2\s*/
       assert href_1 == "#cms-10-tab"
@@ -444,9 +495,12 @@ defmodule SiteWeb.ContentViewTest do
     end
 
     test "with DateTimes, shifts them to America/New_York" do
-      actual = render_duration(
-                              Timex.to_datetime(~N[2016-11-05T05:00:00], "Etc/UTC"),
-                              Timex.to_datetime(~N[2016-11-06T06:00:00], "Etc/UTC"))
+      actual =
+        render_duration(
+          Timex.to_datetime(~N[2016-11-05T05:00:00], "Etc/UTC"),
+          Timex.to_datetime(~N[2016-11-06T06:00:00], "Etc/UTC")
+        )
+
       # could also be November 6th, 1:00 AM (test daylight savings)
       expected = "November 5, 2016 1:00am - November 6, 2016 2:00am"
       assert expected == actual
@@ -488,7 +542,7 @@ defmodule SiteWeb.ContentViewTest do
 
   describe "extend_width_if/2" do
     test "wraps content with media divs if the condition is true" do
-      rendered = extend_width_if(true, do: "foo") |> HTML.safe_to_string
+      rendered = extend_width_if(true, do: "foo") |> HTML.safe_to_string()
 
       assert rendered =~ "c-media c-media--type-table"
       assert rendered =~ "c-media__content"

@@ -19,18 +19,21 @@ defmodule SiteWeb.ScheduleController.RouteBreadcrumbs do
       Breadcrumb.build("Schedules & Maps", mode_path(SiteWeb.Endpoint, :index)),
       route_type_display(type),
       Breadcrumb.build(name)
-   ]
+    ]
   end
 
   def route_type_display(type) when type == 0 or type == 1 do
     Breadcrumb.build("Subway", mode_path(SiteWeb.Endpoint, :subway))
   end
+
   def route_type_display(2) do
     Breadcrumb.build("Commuter Rail", mode_path(SiteWeb.Endpoint, :commuter_rail))
   end
+
   def route_type_display(3) do
     Breadcrumb.build("Bus", mode_path(SiteWeb.Endpoint, :bus))
   end
+
   def route_type_display(4) do
     Breadcrumb.build("Ferry", mode_path(SiteWeb.Endpoint, :ferry))
   end

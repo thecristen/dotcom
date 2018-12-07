@@ -4,7 +4,8 @@ defmodule Predictions.Repo do
   alias Stops.Stop
 
   @default_params [
-    "fields[prediction]": "track,status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence",
+    "fields[prediction]":
+      "track,status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence",
     "fields[trip]": "direction_id,headsign,name,bikes_allowed",
     "fields[stop]": "platform_code",
     include: "trip,stop"
@@ -29,7 +30,9 @@ defmodule Predictions.Repo do
 
   defp fetch(params) do
     case V3Api.Predictions.all(params) do
-      {:error, error} -> warn_error(params, error)
+      {:error, error} ->
+        warn_error(params, error)
+
       %JsonApi{data: data} ->
         cache_trips(data)
         Enum.flat_map(data, &parse/1)
@@ -42,9 +45,11 @@ defmodule Predictions.Repo do
     |> Schedules.Repo.insert_trips_into_cache()
   end
 
-  def has_trip?(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: id} | _]}}) when not is_nil(id) do
+  def has_trip?(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: id} | _]}})
+      when not is_nil(id) do
     true
   end
+
   def has_trip?(%JsonApi.Item{}) do
     false
   end
@@ -58,13 +63,14 @@ defmodule Predictions.Repo do
   end
 
   defp warn_error(item, e) do
-    _ = Logger.warn("error during Prediction (#{inspect item}): #{inspect e}")
+    _ = Logger.warn("error during Prediction (#{inspect(item)}): #{inspect(e)}")
     []
   end
 
   def load_from_other_repos([]) do
     []
   end
+
   def load_from_other_repos(predictions) do
     predictions
     |> Task.async_stream(&record_to_structs/1)
@@ -75,6 +81,7 @@ defmodule Predictions.Repo do
     # no stop ID
     []
   end
+
   defp record_to_structs({_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _} = record) do
     stop_id
     |> Stops.Repo.get()
@@ -82,26 +89,28 @@ defmodule Predictions.Repo do
   end
 
   defp do_record_to_structs(nil, {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _} = record) do
-    :ok = Logger.error("Discarding prediction because stop #{inspect(stop_id)} does not exist. Prediction: #{inspect(record)}")
+    :ok =
+      Logger.error(
+        "Discarding prediction because stop #{inspect(stop_id)} does not exist. Prediction: #{
+          inspect(record)
+        }"
+      )
+
     []
   end
-  defp do_record_to_structs(%Stop{} = stop, {
-      id,
-      trip_id,
-      _stop_id,
-      route_id,
-      direction_id,
-      time,
-      stop_sequence,
-      schedule_relationship,
-      track,
-      status,
-      departing?}) do
 
-    trip = if trip_id do
-      Schedules.Repo.trip(trip_id)
-    end
+  defp do_record_to_structs(
+         %Stop{} = stop,
+         {id, trip_id, _stop_id, route_id, direction_id, time, stop_sequence,
+          schedule_relationship, track, status, departing?}
+       ) do
+    trip =
+      if trip_id do
+        Schedules.Repo.trip(trip_id)
+      end
+
     route = Routes.Repo.get(route_id)
+
     [
       %Predictions.Prediction{
         id: id,
@@ -114,7 +123,8 @@ defmodule Predictions.Repo do
         schedule_relationship: schedule_relationship,
         track: track,
         status: status,
-        departing?: departing?}
+        departing?: departing?
+      }
     ]
   end
 end

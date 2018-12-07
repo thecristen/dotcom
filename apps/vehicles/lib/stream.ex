@@ -31,26 +31,32 @@ defmodule Vehicles.Stream do
     {:noreply, [], state}
   end
 
-  defp send_event(%V3Api.Stream.Event{
-    event: :remove,
-    data: %JsonApi{data: data}
-  }, broadcast_fn) do
+  defp send_event(
+         %V3Api.Stream.Event{
+           event: :remove,
+           data: %JsonApi{data: data}
+         },
+         broadcast_fn
+       ) do
     data
     |> Enum.map(& &1.id)
     |> broadcast(:remove, broadcast_fn)
   end
 
-  defp send_event(%V3Api.Stream.Event{
-    event: type,
-    data: %JsonApi{data: data}
-  }, broadcast_fn) do
+  defp send_event(
+         %V3Api.Stream.Event{
+           event: type,
+           data: %JsonApi{data: data}
+         },
+         broadcast_fn
+       ) do
     data
     |> Enum.map(&Parser.parse/1)
     |> broadcast(type, broadcast_fn)
   end
 
-  @typep broadcast_fn :: (atom, String.t, any -> :ok | {:error, any})
-  @spec broadcast([Vehicles.Vehicle.t | String.t], event_type, broadcast_fn) :: :ok
+  @typep broadcast_fn :: (atom, String.t(), any -> :ok | {:error, any})
+  @spec broadcast([Vehicles.Vehicle.t() | String.t()], event_type, broadcast_fn) :: :ok
   defp broadcast(data, type, broadcast_fn) do
     Vehicles.PubSub
     |> broadcast_fn.("vehicles", {type, data})
@@ -61,7 +67,8 @@ defmodule Vehicles.Stream do
   defp do_broadcast(:ok) do
     :ok
   end
+
   defp do_broadcast({:error, error}) do
-    Logger.error("module=#{__MODULE__} error=#{inspect error}")
+    Logger.error("module=#{__MODULE__} error=#{inspect(error)}")
   end
 end

@@ -40,8 +40,7 @@ defmodule SiteWeb.EventViewTest do
     end
 
     test "the location field takes priority over the imported address", %{conn: conn} do
-      event =
-        event_factory(0, location: "MassDot", imported_address: "Meed me at the docks")
+      event = event_factory(0, location: "MassDot", imported_address: "Meed me at the docks")
 
       html =
         SiteWeb.EventView
@@ -52,8 +51,7 @@ defmodule SiteWeb.EventViewTest do
     end
 
     test "given the location field is empty, the imported address is shown", %{conn: conn} do
-      event =
-        event_factory(0, location: nil, imported_address: "Meet me at the docks")
+      event = event_factory(0, location: nil, imported_address: "Meet me at the docks")
 
       html =
         SiteWeb.EventView
@@ -109,19 +107,23 @@ defmodule SiteWeb.EventViewTest do
 
   describe "month_navigation_header/2" do
     test "links to next and previous months", %{conn: conn} do
-      [prev_link, _title, next_link] = conn
-      |> month_navigation_header("2018-06-01")
-      |> Phoenix.HTML.safe_to_string
-      |> Floki.parse
+      [prev_link, _title, next_link] =
+        conn
+        |> month_navigation_header("2018-06-01")
+        |> Phoenix.HTML.safe_to_string()
+        |> Floki.parse()
+
       assert Floki.attribute(prev_link, "a", "href") == ["/events?month=2018-05-01"]
       assert Floki.attribute(next_link, "a", "href") == ["/events?month=2018-07-01"]
     end
 
     test "displays current month", %{conn: conn} do
-      [_prev_link, title, _next_link] = conn
-      |> month_navigation_header("2018-06-01")
-      |> Phoenix.HTML.safe_to_string
-      |> Floki.parse
+      [_prev_link, title, _next_link] =
+        conn
+        |> month_navigation_header("2018-06-01")
+        |> Phoenix.HTML.safe_to_string()
+        |> Floki.parse()
+
       assert title == "June"
     end
   end

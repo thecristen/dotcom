@@ -7,10 +7,10 @@ defmodule CSSHelpers do
   """
 
   @doc "Returns a css class: a string with hyphens."
-  @spec atom_to_class(atom) :: String.t
+  @spec atom_to_class(atom) :: String.t()
   def atom_to_class(atom) do
     atom
-    |> Atom.to_string
+    |> Atom.to_string()
     |> String.replace("_", "-")
   end
 end

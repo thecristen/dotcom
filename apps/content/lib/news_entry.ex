@@ -3,45 +3,45 @@ defmodule Content.NewsEntry do
   Represents a "news_entry" content type in the Drupal CMS.
   """
 
-  @number_of_recent_news_suggestions 4  # configured in the CMS
+  # configured in the CMS
+  @number_of_recent_news_suggestions 4
 
-  import Content.Helpers, only: [
-    field_value: 2,
-    handle_html: 1,
-    int_or_string_to_int: 1,
-    parse_body: 1,
-    path_alias: 1
-  ]
+  import Content.Helpers,
+    only: [
+      field_value: 2,
+      handle_html: 1,
+      int_or_string_to_int: 1,
+      parse_body: 1,
+      path_alias: 1
+    ]
 
-  defstruct [
-    id: nil,
-    title: Phoenix.HTML.raw(""),
-    body: Phoenix.HTML.raw(""),
-    media_contact: nil,
-    media_email: nil,
-    media_phone: nil,
-    more_information: Phoenix.HTML.raw(""),
-    posted_on: nil,
-    teaser: Phoenix.HTML.raw(""),
-    migration_id: nil,
-    path_alias: nil,
-    utm_url: nil
-  ]
+  defstruct id: nil,
+            title: Phoenix.HTML.raw(""),
+            body: Phoenix.HTML.raw(""),
+            media_contact: nil,
+            media_email: nil,
+            media_phone: nil,
+            more_information: Phoenix.HTML.raw(""),
+            posted_on: nil,
+            teaser: Phoenix.HTML.raw(""),
+            migration_id: nil,
+            path_alias: nil,
+            utm_url: nil
 
   @type t :: %__MODULE__{
-    id: integer | nil,
-    title: Phoenix.HTML.safe,
-    body: Phoenix.HTML.safe,
-    media_contact: String.t | nil,
-    media_email: String.t | nil,
-    media_phone: String.t | nil,
-    more_information: Phoenix.HTML.safe | nil,
-    posted_on: Date.t | nil,
-    teaser: Phoenix.HTML.safe,
-    migration_id: String.t | nil,
-    path_alias: String.t | nil,
-    utm_url: String.t | nil
-  }
+          id: integer | nil,
+          title: Phoenix.HTML.safe(),
+          body: Phoenix.HTML.safe(),
+          media_contact: String.t() | nil,
+          media_email: String.t() | nil,
+          media_phone: String.t() | nil,
+          more_information: Phoenix.HTML.safe() | nil,
+          posted_on: Date.t() | nil,
+          teaser: Phoenix.HTML.safe(),
+          migration_id: String.t() | nil,
+          path_alias: String.t() | nil,
+          utm_url: String.t() | nil
+        }
 
   @spec from_api(map) :: t
   def from_api(%{} = data) do

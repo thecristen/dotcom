@@ -4,9 +4,9 @@ defmodule GoogleMaps.MapData.Layers do
   See https://developers.google.com/maps/documentation/javascript/examples/layer-transit for
   more details.
   """
-  defstruct [transit: false]
+  defstruct transit: false
 
   @type t :: %__MODULE__{
-    transit: boolean
-  }
+          transit: boolean
+        }
 end

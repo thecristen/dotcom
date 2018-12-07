@@ -18,9 +18,9 @@ defmodule Content.BreadcrumbsTest do
       }
 
       assert [
-        %Util.Breadcrumb{text: "Home", url: "/"},
-        %Util.Breadcrumb{text: "Current Crumb", url: ""}
-      ] = build(data)
+               %Util.Breadcrumb{text: "Home", url: "/"},
+               %Util.Breadcrumb{text: "Current Crumb", url: ""}
+             ] = build(data)
     end
 
     test "when breadcrumbs are missing" do

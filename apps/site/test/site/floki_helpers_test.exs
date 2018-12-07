@@ -4,8 +4,8 @@ defmodule Site.FlokiHelpersTest do
   import Site.FlokiHelpers
 
   setup do
-    html = Floki.parse(
-      """
+    html =
+      Floki.parse("""
         <div><span class="highlight">Hello, this is some text</span></div>
         <div>
           <ul>
@@ -13,8 +13,7 @@ defmodule Site.FlokiHelpersTest do
             <li>Two</li>
           </ul>
         </div>
-      """
-    )
+      """)
 
     %{html: html}
   end
@@ -22,58 +21,70 @@ defmodule Site.FlokiHelpersTest do
   describe "traverse" do
     test "if function returns nil it returns all nodes unchanged", %{html: html} do
       expected = traverse(html, fn _ -> nil end)
+
       assert expected == [
-        {"div", [], [{"span", [{"class", "highlight"}], ["Hello, this is some text"]}]},
-        {"div", [], [
-          {"ul", [], [
-            {"li", [], ["One"]},
-            {"li", [], ["Two"]},
-          ]}
-        ]}
-      ]
+               {"div", [], [{"span", [{"class", "highlight"}], ["Hello, this is some text"]}]},
+               {"div", [],
+                [
+                  {"ul", [],
+                   [
+                     {"li", [], ["One"]},
+                     {"li", [], ["Two"]}
+                   ]}
+                ]}
+             ]
     end
 
     test "visitor function can replace text", %{html: html} do
-      expected = traverse(html, fn node ->
-        case node do
-          "One" -> "Neo"
-          _ -> nil
-        end
-      end)
+      expected =
+        traverse(html, fn node ->
+          case node do
+            "One" -> "Neo"
+            _ -> nil
+          end
+        end)
 
       assert expected == [
-        {"div", [], [{"span", [{"class", "highlight"}], ["Hello, this is some text"]}]},
-        {"div", [], [
-          {"ul", [], [
-            {"li", [], ["Neo"]},
-            {"li", [], ["Two"]},
-          ]}
-        ]}
-      ]
+               {"div", [], [{"span", [{"class", "highlight"}], ["Hello, this is some text"]}]},
+               {"div", [],
+                [
+                  {"ul", [],
+                   [
+                     {"li", [], ["Neo"]},
+                     {"li", [], ["Two"]}
+                   ]}
+                ]}
+             ]
     end
 
     test "visitor function can replace subtree", %{html: html} do
-      expected = traverse(html, fn node ->
-        case node do
-          {"ul", _, _} -> {"div", [], ["Not anymore!"]}
-          _ -> nil
-        end
-      end)
+      expected =
+        traverse(html, fn node ->
+          case node do
+            {"ul", _, _} -> {"div", [], ["Not anymore!"]}
+            _ -> nil
+          end
+        end)
 
       assert expected == [
-        {"div", [], [{"span", [{"class", "highlight"}], ["Hello, this is some text"]}]},
-        {"div", [], [
-          {"div", [], ["Not anymore!"]}
-        ]}
-      ]
+               {"div", [], [{"span", [{"class", "highlight"}], ["Hello, this is some text"]}]},
+               {"div", [],
+                [
+                  {"div", [], ["Not anymore!"]}
+                ]}
+             ]
     end
   end
 
   describe "remove_class/2" do
     test "classes are removed without affecting other attributes or existing classess" do
-      element = {"div", [{"href", "#anchor"}, {"class", "class-to-remove good-one"}], ["Text content"]}
+      element =
+        {"div", [{"href", "#anchor"}, {"class", "class-to-remove good-one"}], ["Text content"]}
+
       assert {"div", [{"class", "good-one"} | _], _} = remove_class(element, "class-to-remove")
-      assert {"div", [{"class", "class-to-remove good-one"} | _], _} = remove_class(element, "class-does-not-exist")
+
+      assert {"div", [{"class", "class-to-remove good-one"} | _], _} =
+               remove_class(element, "class-does-not-exist")
     end
   end
 end

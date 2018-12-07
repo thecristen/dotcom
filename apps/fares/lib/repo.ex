@@ -1,21 +1,22 @@
 defmodule Fares.Repo do
-  @fares Fares.FareInfo.fare_info
-  @grouped_commuter_fares Fares.FareInfo.grouped_fares
+  @fares Fares.FareInfo.fare_info()
+  @grouped_commuter_fares Fares.FareInfo.grouped_fares()
 
   use RepoCache, ttl: :timer.hours(24)
 
   alias Fares.Fare
 
-  @spec all() :: [Fare.t]
-  @spec all(Keyword.t) :: [Fare.t]
+  @spec all() :: [Fare.t()]
+  @spec all(Keyword.t()) :: [Fare.t()]
   def all do
     @fares
   end
+
   def all(opts) when is_list(opts) do
-    cache opts, fn opts ->
+    cache(opts, fn opts ->
       all()
       |> filter(opts)
-    end
+    end)
   end
 
   def grouped_commuter_fares do
@@ -28,13 +29,13 @@ defmodule Fares.Repo do
   :includes_media keyword, which will match against a fare whose :media list
   includes that media (possibly among other media types).
   """
-  @spec filter([Fare.t], Keyword.t) :: [Fare.t]
+  @spec filter([Fare.t()], Keyword.t()) :: [Fare.t()]
   def filter(fares, opts) do
     fares
     |> filter_all(Map.new(opts))
   end
 
-  @spec filter_all([Fare.t], %{}) :: [Fare.t]
+  @spec filter_all([Fare.t()], %{}) :: [Fare.t()]
   defp filter_all(fares, opts) do
     {media, opts} = Map.pop(opts, :includes_media)
 

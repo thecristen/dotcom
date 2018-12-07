@@ -3,20 +3,26 @@ defmodule Site.TripPlan.Location do
   alias Site.TripPlan.Query
   alias TripPlan.NamedPosition
 
-  @spec validate(Query.t, map) :: Query.t
-  def validate(%Query{} = query, %{
-    "to_latitude" => <<_::binary>>,
-    "to_longitude" => <<_::binary>>,
-    "to" => _
-  } = params) do
+  @spec validate(Query.t(), map) :: Query.t()
+  def validate(
+        %Query{} = query,
+        %{
+          "to_latitude" => <<_::binary>>,
+          "to_longitude" => <<_::binary>>,
+          "to" => _
+        } = params
+      ) do
     validate_lat_lng(:to, params, query)
   end
 
-  def validate(%Query{} = query, %{
-    "from_latitude" => <<_::binary>>,
-    "from_longitude" => <<_::binary>>,
-    "from" => _
-  } = params) do
+  def validate(
+        %Query{} = query,
+        %{
+          "from_latitude" => <<_::binary>>,
+          "from_longitude" => <<_::binary>>,
+          "from" => _
+        } = params
+      ) do
     validate_lat_lng(:from, params, query)
   end
 
@@ -43,10 +49,13 @@ defmodule Site.TripPlan.Location do
     validate_by_name(:from, query, params)
   end
 
-  def validate(%Query{
-    to: %NamedPosition{latitude: lat, longitude: lng},
-    from: %NamedPosition{latitude: lat, longitude: lng}
-  } = query, %{}) do
+  def validate(
+        %Query{
+          to: %NamedPosition{latitude: lat, longitude: lng},
+          from: %NamedPosition{latitude: lat, longitude: lng}
+        } = query,
+        %{}
+      ) do
     %{query | errors: MapSet.put(query.errors, :same_address)}
   end
 
@@ -54,7 +63,7 @@ defmodule Site.TripPlan.Location do
     query
   end
 
-  @spec validate_lat_lng(:to | :from, map, Query.t) :: Query.t
+  @spec validate_lat_lng(:to | :from, map, Query.t()) :: Query.t()
   defp validate_lat_lng(field_atom, params, %Query{} = query) do
     field = Atom.to_string(field_atom)
     {lat_bin, params} = Map.pop(params, field <> "_latitude")
@@ -62,7 +71,6 @@ defmodule Site.TripPlan.Location do
 
     with {lat, ""} <- Float.parse(lat_bin),
          {lng, ""} <- Float.parse(lng_bin) do
-
       {name, params} = Map.pop(params, field)
 
       position = %NamedPosition{
@@ -80,7 +88,7 @@ defmodule Site.TripPlan.Location do
     end
   end
 
-  @spec encode_name(String.t) :: String.t
+  @spec encode_name(String.t()) :: String.t()
   defp encode_name(name) do
     name
     |> HTML.html_escape()
@@ -89,9 +97,10 @@ defmodule Site.TripPlan.Location do
     |> String.replace("&amp;", "&")
   end
 
-  @spec validate_by_name(:to | :from, Query.t, map) :: Query.t
+  @spec validate_by_name(:to | :from, Query.t(), map) :: Query.t()
   defp validate_by_name(field, %Query{} = query, params) do
     {val, params} = Map.pop(params, Atom.to_string(field))
+
     case val do
       nil ->
         do_validate_by_name({:error, :required}, field, query, params)
@@ -107,17 +116,19 @@ defmodule Site.TripPlan.Location do
     end
   end
 
-  @spec do_validate_by_name(TripPlan.Geocode.t, :to | :from, Query.t, map) :: Query.t
+  @spec do_validate_by_name(TripPlan.Geocode.t(), :to | :from, Query.t(), map) :: Query.t()
   defp do_validate_by_name({:ok, %NamedPosition{} = pos}, field, query, params) do
     query
     |> Map.put(field, pos)
     |> validate(params)
   end
+
   defp do_validate_by_name({:error, error}, field, query, params) do
-    error_atom = case error do
-      {:multiple_results, _} -> :multiple_results
-      atom when is_atom(atom) -> atom
-    end
+    error_atom =
+      case error do
+        {:multiple_results, _} -> :multiple_results
+        atom when is_atom(atom) -> atom
+      end
 
     query
     |> Map.put(:errors, MapSet.put(query.errors, error_atom))

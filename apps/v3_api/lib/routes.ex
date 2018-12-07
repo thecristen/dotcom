@@ -19,7 +19,7 @@ defmodule V3Api.Routes do
   end
 
   def by_stop(stop_id, opts \\ []) do
-    opts = put_in opts[:stop], stop_id
+    opts = put_in(opts[:stop], stop_id)
     get_json("/routes/", opts)
   end
 end

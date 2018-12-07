@@ -9,90 +9,116 @@ defmodule SiteWeb.CmsRouterHelpers do
   alias SiteWeb.Router.Helpers, as: RouterHelpers
 
   @spec news_entry_path(
-          Plug.Conn.t | nil,
+          Plug.Conn.t() | nil,
           atom,
-          Keyword.t | Content.NewsEntry.t | Content.Teaser.t | String.t
-        ) :: String.t
+          Keyword.t() | Content.NewsEntry.t() | Content.Teaser.t() | String.t()
+        ) :: String.t()
   def news_entry_path(conn, verb, opts \\ [])
+
   def news_entry_path(conn, :index, opts) do
     RouterHelpers.news_entry_path(conn, :index, opts)
   end
+
   def news_entry_path(conn, :show, %Content.Teaser{} = news_entry) do
     check_preview(conn, news_entry.path)
   end
+
   def news_entry_path(conn, :show, %Content.NewsEntry{path_alias: nil} = news_entry) do
     check_preview(conn, "/node/#{news_entry.id}")
   end
+
   def news_entry_path(conn, :show, %Content.NewsEntry{} = news_entry) do
     check_preview(conn, news_entry.path_alias)
   end
+
   def news_entry_path(conn, :show, value) when is_binary(value) do
     check_preview(conn, RouterHelpers.news_entry_path(conn, :show, [value]))
   end
 
-  @spec news_entry_path(Plug.Conn.t, atom, String.t, String.t) :: String.t
+  @spec news_entry_path(Plug.Conn.t(), atom, String.t(), String.t()) :: String.t()
   def news_entry_path(conn, :show, date, title) when is_binary(date) and is_binary(title) do
     check_preview(conn, RouterHelpers.news_entry_path(conn, :show, [date, title]))
   end
 
-  @spec event_path(Plug.Conn.t, atom, Keyword.t | Content.Event.t | String.t) :: String.t
+  @spec event_path(Plug.Conn.t(), atom, Keyword.t() | Content.Event.t() | String.t()) ::
+          String.t()
   def event_path(conn, verb, opts \\ [])
+
   def event_path(conn, :index, opts) do
     RouterHelpers.event_path(conn, :index, opts)
   end
+
   def event_path(conn, :show, %Content.Event{path_alias: nil} = event) do
     check_preview(conn, "/node/#{event.id}")
   end
+
   def event_path(conn, :show, %Content.Event{} = event) do
     check_preview(conn, event.path_alias)
   end
+
   def event_path(conn, :show, value) when is_binary(value) do
     check_preview(conn, RouterHelpers.event_path(conn, :show, [value]))
   end
 
-  @spec event_path(Plug.Conn.t, atom, String.t, String.t) :: String.t
+  @spec event_path(Plug.Conn.t(), atom, String.t(), String.t()) :: String.t()
   def event_path(conn, :show, date, title) when is_binary(date) and is_binary(title) do
     check_preview(conn, RouterHelpers.event_path(conn, :show, [date, title]))
   end
 
   def event_icalendar_path(conn, :show, %Content.Event{} = event) do
-    ["", route | path] = conn
-                            |> event_path(:show, event)
-                            |> String.split("/")
+    ["", route | path] =
+      conn
+      |> event_path(:show, event)
+      |> String.split("/")
+
     check_preview(conn, Path.join(["/", route, "icalendar" | path]))
   end
 
-  @spec project_path(Plug.Conn.t, atom, Keyword.t | Content.Project.t | Content.Teaser.t | String.t) :: String.t
+  @spec project_path(
+          Plug.Conn.t(),
+          atom,
+          Keyword.t() | Content.Project.t() | Content.Teaser.t() | String.t()
+        ) :: String.t()
   def project_path(conn, verb, opts \\ [])
+
   def project_path(conn, :index, opts) do
     RouterHelpers.project_path(conn, :index, opts)
   end
+
   def project_path(conn, :show, %Content.Teaser{} = project) do
     check_preview(conn, project.path)
   end
+
   def project_path(conn, :show, %Content.Project{path_alias: nil} = project) do
     check_preview(conn, "/node/#{project.id}")
   end
+
   def project_path(conn, :show, %Content.Project{} = project) do
     check_preview(conn, project.path_alias)
   end
+
   def project_path(conn, :show, value) when is_binary(value) do
     check_preview(conn, RouterHelpers.project_path(conn, :show, value))
   end
 
-  @spec project_update_path(Plug.Conn.t, atom, Content.ProjectUpdate.t) :: String.t
-  def project_update_path(conn, :project_update, %Content.ProjectUpdate{path_alias: nil} = project_update) do
+  @spec project_update_path(Plug.Conn.t(), atom, Content.ProjectUpdate.t()) :: String.t()
+  def project_update_path(
+        conn,
+        :project_update,
+        %Content.ProjectUpdate{path_alias: nil} = project_update
+      ) do
     check_preview(conn, "/node/#{project_update.id}")
   end
+
   def project_update_path(conn, :project_update, %Content.ProjectUpdate{} = project_update) do
     check_preview(conn, project_update.path_alias)
   end
 
-  @spec project_update_path(module | Plug.Conn.t, atom, String.t, String.t) :: String.t
+  @spec project_update_path(module | Plug.Conn.t(), atom, String.t(), String.t()) :: String.t()
   def project_update_path(conn, :project_update, project, update) do
     check_preview(conn, "/projects/#{project}/update/#{update}")
   end
 
-  @spec check_preview(module | Plug.Conn.t, String.t) :: String.t
+  @spec check_preview(module | Plug.Conn.t(), String.t()) :: String.t()
   defp check_preview(conn, path), do: SiteWeb.ViewHelpers.cms_static_page_path(conn, path)
 end

@@ -4,13 +4,26 @@ defmodule Site.VehicleHelpersTest do
   import VehicleHelpers
   import SiteWeb.ViewHelpers, only: [format_schedule_time: 1]
 
-  @locations %{{"CR-Weekday-Fall-18-515", "place-sstat"} =>
-                %Vehicles.Vehicle{latitude: 1.1, longitude: 2.2, status: :stopped, stop_id: "place-sstat",
-                                  trip_id: "CR-Weekday-Fall-18-515", shape_id: "903_0018"}}
+  @locations %{
+    {"CR-Weekday-Fall-18-515", "place-sstat"} => %Vehicles.Vehicle{
+      latitude: 1.1,
+      longitude: 2.2,
+      status: :stopped,
+      stop_id: "place-sstat",
+      trip_id: "CR-Weekday-Fall-18-515",
+      shape_id: "903_0018"
+    }
+  }
 
-  @predictions [%Predictions.Prediction{departing?: true, time: ~N[2018-05-01T11:00:00], status: "On Time",
-                                        trip: %Schedules.Trip{id: "CR-Weekday-Fall-18-515", shape_id: "903_0018"},
-                                        stop: %Stops.Stop{id: "place-sstat"}}]
+  @predictions [
+    %Predictions.Prediction{
+      departing?: true,
+      time: ~N[2018-05-01T11:00:00],
+      status: "On Time",
+      trip: %Schedules.Trip{id: "CR-Weekday-Fall-18-515", shape_id: "903_0018"},
+      stop: %Stops.Stop{id: "place-sstat"}
+    }
+  ]
 
   @route %Routes.Route{name: "Framingham/Worcester Line", type: 2}
 
@@ -58,12 +71,13 @@ defmodule Site.VehicleHelpersTest do
     end
 
     test "it uses the prediction corresponding to the vehicle's current stop" do
-      locations = %{{"trip_1", "stop_1"} =>
-        %Vehicles.Vehicle{
+      locations = %{
+        {"trip_1", "stop_1"} => %Vehicles.Vehicle{
           stop_id: "stop_1",
           trip_id: "trip_1"
         }
       }
+
       predictions = [
         %Predictions.Prediction{
           departing?: false,
@@ -80,6 +94,7 @@ defmodule Site.VehicleHelpersTest do
           stop: %Stops.Stop{id: "stop_1"}
         }
       ]
+
       route = %Routes.Route{type: 2}
 
       tooltips = build_tooltip_index(route, locations, predictions)
@@ -97,14 +112,28 @@ defmodule Site.VehicleHelpersTest do
     end
 
     test "when a prediction has a time, gives the arrival time" do
-      tooltip = %{@tooltip_base | prediction: %{@tooltip_base.prediction | departing?: false,
-                                                                           time: ~N[2017-01-01T13:00:00]}}
+      tooltip = %{
+        @tooltip_base
+        | prediction: %{
+            @tooltip_base.prediction
+            | departing?: false,
+              time: ~N[2017-01-01T13:00:00]
+          }
+      }
+
       assert tooltip(tooltip) =~ "Expected arrival at 01:00P"
     end
 
     test "when a prediction is departing, gives the departing time" do
-      tooltip = %{@tooltip_base | prediction: %{@tooltip_base.prediction | departing?: true,
-                                                                           time: ~N[2017-01-01T12:00:00]}}
+      tooltip = %{
+        @tooltip_base
+        | prediction: %{
+            @tooltip_base.prediction
+            | departing?: true,
+              time: ~N[2017-01-01T12:00:00]
+          }
+      }
+
       assert tooltip(tooltip) =~ "Expected departure at 12:00P"
     end
 
@@ -116,27 +145,47 @@ defmodule Site.VehicleHelpersTest do
     end
 
     test "when a prediction has a track, gives the time, the status and the track" do
-      tooltip = %{@tooltip_base | prediction: %{@tooltip_base.prediction | status: "Now Boarding", track: "4"}}
+      tooltip = %{
+        @tooltip_base
+        | prediction: %{@tooltip_base.prediction | status: "Now Boarding", track: "4"}
+      }
+
       assert tooltip(tooltip) =~ "Now boarding on track 4"
     end
 
     test "when a prediction does not have a track, gives nothing" do
-      tooltip = %{@tooltip_base | prediction: %{@tooltip_base.prediction | status: "Now Boarding", track: nil}}
+      tooltip = %{
+        @tooltip_base
+        | prediction: %{@tooltip_base.prediction | status: "Now Boarding", track: nil}
+      }
+
       refute tooltip(tooltip) =~ "Now boarding"
     end
 
     test "when there is no time or status for the prediction, returns stop name" do
-      tooltip = %{@tooltip_base | prediction: %{@tooltip_base.prediction | status: nil, time: nil}}
+      tooltip = %{
+        @tooltip_base
+        | prediction: %{@tooltip_base.prediction | status: nil, time: nil}
+      }
+
       assert tooltip(tooltip) =~ "South Station"
     end
 
     test "when there is a time but no status for the prediction, gives a tooltip with arrival time" do
-      tooltip = %{@tooltip_base | prediction: %{@tooltip_base.prediction | status: nil, time: ~N[2017-01-01T12:00:00]}}
+      tooltip = %{
+        @tooltip_base
+        | prediction: %{@tooltip_base.prediction | status: nil, time: ~N[2017-01-01T12:00:00]}
+      }
+
       assert tooltip(tooltip) =~ "12:00P"
     end
 
     test "when there is a status but no time for the prediction, gives a tooltip with the status" do
-      tooltip = %{@tooltip_base | prediction: %{@tooltip_base.prediction | status: "Now Boarding", time: nil}}
+      tooltip = %{
+        @tooltip_base
+        | prediction: %{@tooltip_base.prediction | status: "Now Boarding", time: nil}
+      }
+
       result = tooltip(tooltip)
       assert result =~ "has arrived"
       refute result =~ "A"
@@ -144,7 +193,14 @@ defmodule Site.VehicleHelpersTest do
     end
 
     test "when there is a status and a time for the prediction, gives a tooltip with both and also replaces double quotes with single quotes" do
-      tooltip = %{@tooltip_base | prediction: %{@tooltip_base.prediction | status: "now boarding", time: ~N[2017-01-01T12:00:00]}}
+      tooltip = %{
+        @tooltip_base
+        | prediction: %{
+            @tooltip_base.prediction
+            | status: "now boarding",
+              time: ~N[2017-01-01T12:00:00]
+          }
+      }
 
       # there will be four single quotes, two for each class declaration
       assert length(String.split(tooltip(tooltip), "'")) == 5
@@ -153,7 +209,13 @@ defmodule Site.VehicleHelpersTest do
     test "creates a tooltip for the prediction" do
       time = ~N[2017-02-17T05:46:28]
       formatted_time = format_schedule_time(time)
-      result = tooltip(%{@tooltip_base | prediction: %Predictions.Prediction{time: time, status: "Now Boarding", track: "4"}})
+
+      result =
+        tooltip(%{
+          @tooltip_base
+          | prediction: %Predictions.Prediction{time: time, status: "Now Boarding", track: "4"}
+        })
+
       assert result =~ "Now boarding on track 4"
       assert result =~ "Expected arrival at #{formatted_time}"
     end
@@ -169,7 +231,7 @@ defmodule Site.VehicleHelpersTest do
     end
 
     test "displays the route when there isn't a trip" do
-      actual = tooltip(%{@tooltip_base | prediction: nil, trip:  nil})
+      actual = tooltip(%{@tooltip_base | prediction: nil, trip: nil})
       assert actual =~ "Framingham/Worcester Line"
       assert actual =~ "train has arrived"
       assert actual =~ "South Station"
@@ -178,7 +240,14 @@ defmodule Site.VehicleHelpersTest do
 
   describe "prediction_for_stop/2" do
     test "do not crash if vehicle prediction does not contain a trip" do
-      predictions = [%Predictions.Prediction{departing?: true, time: ~N[2017-01-01T11:00:00], status: "On Time"}]
+      predictions = [
+        %Predictions.Prediction{
+          departing?: true,
+          time: ~N[2017-01-01T11:00:00],
+          status: "On Time"
+        }
+      ]
+
       tooltips = build_tooltip_index(@route, @locations, predictions)
       tooltip = tooltips["place-sstat"]
       assert tooltip(tooltip) =~ "train 515 has arrived"
@@ -188,7 +257,7 @@ defmodule Site.VehicleHelpersTest do
   describe "get_vehicle_polylines/2" do
     test "vehicle polyline not in route polylines" do
       vehicle_polylines = get_vehicle_polylines(@locations, [])
-      assert [<< _::binary >>] = vehicle_polylines
+      assert [<<_::binary>>] = vehicle_polylines
     end
 
     test "vehicle polyline in route polylines" do
@@ -197,5 +266,4 @@ defmodule Site.VehicleHelpersTest do
       assert vehicle_polylines == []
     end
   end
-
 end

@@ -1,4 +1,4 @@
- defmodule Content.CmsMigration.MeetingTimeRangeTest do
+defmodule Content.CmsMigration.MeetingTimeRangeTest do
   use ExUnit.Case, async: true
   import Content.CmsMigration.MeetingTimeRange
 

@@ -1,5 +1,5 @@
 defmodule Content.CmsMigration.MeetingTimeRange do
-  @spec parse_start_time(String.t) :: String.t | {:error, term}
+  @spec parse_start_time(String.t()) :: String.t() | {:error, term}
   def parse_start_time(time_range) do
     time_range
     |> standardize_format()
@@ -7,7 +7,7 @@ defmodule Content.CmsMigration.MeetingTimeRange do
     |> capture_start_time()
   end
 
-  @spec parse_end_time(String.t) :: String.t | {:error, term}
+  @spec parse_end_time(String.t()) :: String.t() | {:error, term}
   def parse_end_time(time_range) do
     time_range
     |> standardize_format()
@@ -15,7 +15,7 @@ defmodule Content.CmsMigration.MeetingTimeRange do
     |> capture_end_time()
   end
 
-  @spec standardize_format(String.t) :: String.t | {:error, term}
+  @spec standardize_format(String.t()) :: String.t() | {:error, term}
   def standardize_format(time_range) do
     time_range
     |> remove_unncessary_punctuation()
@@ -37,18 +37,22 @@ defmodule Content.CmsMigration.MeetingTimeRange do
   defp verify_format([start_time]) do
     start_time
   end
+
   defp verify_format([start_time, end_time]) do
     maybe_add_missing_am_pm_value(start_time, end_time)
   end
+
   defp verify_format(unknown_format) do
     {:error, "Unable to standardize time range: #{unknown_format}."}
   end
 
   defp maybe_add_missing_am_pm_value(start_time, end_time) do
-    start_time = case am_pm_value(start_time) do
-      [_am_pm] -> start_time
-      [] -> infer_am_pm_from_end_time(start_time, end_time)
-    end
+    start_time =
+      case am_pm_value(start_time) do
+        [_am_pm] -> start_time
+        [] -> infer_am_pm_from_end_time(start_time, end_time)
+      end
+
     Enum.join([start_time, end_time], "-")
   end
 

@@ -12,7 +12,7 @@ defmodule Site.TripPlan.DateTimeTest do
     hour: 12,
     minute: 0,
     second: 0,
-    zone_abbr: "EDT",
+    zone_abbr: "EDT"
   }
 
   @end_of_rating @now |> Timex.shift(months: 3) |> DateTime.to_date()

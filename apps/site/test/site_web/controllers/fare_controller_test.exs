@@ -6,12 +6,19 @@ defmodule SiteWeb.FareControllerTest do
 
   describe "show" do
     test "renders commuter rail", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, "commuter-rail", origin: "place-sstat", destination: "Readville")
+      conn =
+        get(
+          conn,
+          fare_path(conn, :show, "commuter-rail", origin: "place-sstat", destination: "Readville")
+        )
+
       assert html_response(conn, 200) =~ "Commuter Rail"
     end
 
     test "renders ferry", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, :ferry, origin: "Boat-Long", destination: "Boat-Logan")
+      conn =
+        get(conn, fare_path(conn, :show, :ferry, origin: "Boat-Long", destination: "Boat-Logan"))
+
       response = html_response(conn, 200)
       assert response =~ "Ferry"
       assert response =~ "Valid between"
@@ -20,37 +27,46 @@ defmodule SiteWeb.FareControllerTest do
     end
 
     test "renders ferry when no destinations", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, :ferry)
+      conn = get(conn, fare_path(conn, :show, :ferry))
       response = html_response(conn, 200)
       assert response =~ "Find Your Fare"
     end
 
     test "renders a page about retail sale locations", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, "retail-sales-locations")
+      conn = get(conn, fare_path(conn, :show, "retail-sales-locations"))
       assert html_response(conn, 200) =~ "Retail Sales Locations"
     end
 
     test "404s on nonexistant mode", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, :doesnotexist)
+      conn = get(conn, fare_path(conn, :show, :doesnotexist))
       assert html_response(conn, 404) =~ "Your stop cannot be found."
     end
 
     test "sets a custom meta description", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, "commuter-rail", origin: "place-sstat", destination: "Readville")
+      conn =
+        get(
+          conn,
+          fare_path(conn, :show, "commuter-rail", origin: "place-sstat", destination: "Readville")
+        )
+
       assert conn.assigns.meta_description
     end
   end
 
   describe "fare_sales_locations/2" do
     test "calculates nearest retail_sales_locations" do
-      nearby_fn = fn position -> [{%{latitude: position.latitude, longitude: position.longitude}, 10.0}] end
+      nearby_fn = fn position ->
+        [{%{latitude: position.latitude, longitude: position.longitude}, 10.0}]
+      end
 
       locations = fare_sales_locations(%{latitude: 42.0, longitude: -71.0}, nearby_fn)
       assert locations == [{%{latitude: 42.0, longitude: -71.0}, 10.0}]
     end
 
     test "when there is no search position, is an empty list of nearby locations" do
-      nearby_fn = fn position -> [{%{latitude: position.latitude, longitude: position.longitude}, 10.0}] end
+      nearby_fn = fn position ->
+        [{%{latitude: position.latitude, longitude: position.longitude}, 10.0}]
+      end
 
       locations = fare_sales_locations(%{}, nearby_fn)
       assert locations == []
@@ -60,8 +76,10 @@ defmodule SiteWeb.FareControllerTest do
   describe "calculate_position/2" do
     test "it calculates search position and address" do
       params = %{"location" => %{"address" => "42.0, -71.0"}}
+
       geocode_fn = fn _address ->
-        {:ok, [%GoogleMaps.Geocode.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
+        {:ok,
+         [%GoogleMaps.Geocode.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
       end
 
       {position, formatted} = calculate_position(params, geocode_fn)
@@ -72,8 +90,9 @@ defmodule SiteWeb.FareControllerTest do
 
     test "does not geocode if latitude/longitude params exist" do
       params = %{"latitude" => "42.0", "longitude" => "-71.0"}
+
       geocode_fn = fn _ ->
-        send self(), :geocode_called
+        send(self(), :geocode_called)
         {:error, :no_results}
       end
 
@@ -85,10 +104,14 @@ defmodule SiteWeb.FareControllerTest do
 
     test "handles bad lat/lng values" do
       params = %{"latitude" => "foo", "longitude" => "bar"}
+
       geocode_fn = fn _address ->
-        send self(), :geocode_called
-        {:ok, [%GoogleMaps.Geocode.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
+        send(self(), :geocode_called)
+
+        {:ok,
+         [%GoogleMaps.Geocode.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
       end
+
       {position, formatted} = calculate_position(params, geocode_fn)
       refute_received :geocode_called
       assert position == %{}
@@ -98,7 +121,7 @@ defmodule SiteWeb.FareControllerTest do
     test "when there is no location map there is no position" do
       params = %{}
       geocode_fn = fn _address -> %{formatted: "address", latitude: 42.0, longitude: -71.0} end
-      {position, formatted}  = calculate_position(params, geocode_fn)
+      {position, formatted} = calculate_position(params, geocode_fn)
       assert formatted == ""
       assert position == %{}
     end
@@ -118,20 +141,29 @@ defmodule SiteWeb.FareControllerTest do
     end
 
     test "uses the date passed in if there is one", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, "retail-sales-locations", date_time: "2013-01-01T12:12:12-05:00")
+      conn =
+        get(
+          conn,
+          fare_path(conn, :show, "retail-sales-locations", date_time: "2013-01-01T12:12:12-05:00")
+        )
 
       assert html_response(conn, 200) =~ "January 2013"
     end
   end
 
   describe "filter_reduced/2" do
-    @fares [%Fare{name: {:zone, "6"}, reduced: nil},
-            %Fare{name: {:zone, "5"}, reduced: nil},
-            %Fare{name: {:zone, "6"}, reduced: :student}]
+    @fares [
+      %Fare{name: {:zone, "6"}, reduced: nil},
+      %Fare{name: {:zone, "5"}, reduced: nil},
+      %Fare{name: {:zone, "6"}, reduced: :student}
+    ]
 
     test "filters out non-standard fares" do
-      expected_fares = [%Fare{name: {:zone, "6"}, reduced: nil},
-                        %Fare{name: {:zone, "5"}, reduced: nil}]
+      expected_fares = [
+        %Fare{name: {:zone, "6"}, reduced: nil},
+        %Fare{name: {:zone, "5"}, reduced: nil}
+      ]
+
       assert filter_reduced(@fares, nil) == expected_fares
     end
 

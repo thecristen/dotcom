@@ -2,7 +2,7 @@ defmodule SiteWeb.Mode.CommuterRailController do
   use SiteWeb.Mode.HubBehavior,
     meta_description:
       "Schedule information for MBTA Commuter Rail lines in the Greater Boston region, " <>
-      "including real-time updates and arrival predictions."
+        "including real-time updates and arrival predictions."
 
   import Phoenix.HTML.Link, only: [link: 2]
 
@@ -25,6 +25,6 @@ defmodule SiteWeb.Mode.CommuterRailController do
 
   defp link_to_zone_fares do
     path = fare_path(SiteWeb.Endpoint, :show, "commuter-rail")
-    link "Commuter Rail Fares", to: path
+    link("Commuter Rail Fares", to: path)
   end
 end

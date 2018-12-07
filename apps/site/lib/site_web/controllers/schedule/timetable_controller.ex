@@ -2,26 +2,28 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   use SiteWeb, :controller
   alias SiteWeb.ScheduleView
 
-  plug SiteWeb.Plugs.Route
-  plug SiteWeb.Plugs.DateInRating
-  plug :tab_name
-  plug :direction_id
-  plug :all_stops
-  plug SiteWeb.ScheduleController.RoutePdfs
-  plug SiteWeb.ScheduleController.Core
-  plug :assign_trip_schedules
-  plug SiteWeb.ScheduleController.Offset
-  plug SiteWeb.ScheduleController.ScheduleError
+  plug(SiteWeb.Plugs.Route)
+  plug(SiteWeb.Plugs.DateInRating)
+  plug(:tab_name)
+  plug(:direction_id)
+  plug(:all_stops)
+  plug(SiteWeb.ScheduleController.RoutePdfs)
+  plug(SiteWeb.ScheduleController.Core)
+  plug(:assign_trip_schedules)
+  plug(SiteWeb.ScheduleController.Offset)
+  plug(SiteWeb.ScheduleController.ScheduleError)
 
-  defdelegate direction_id(conn, params), to: SiteWeb.ScheduleController.Defaults, as: :assign_direction_id
+  defdelegate direction_id(conn, params),
+    to: SiteWeb.ScheduleController.Defaults,
+    as: :assign_direction_id
 
   def show(conn, _) do
     conn
     |> assign(
       :meta_description,
       "MBTA #{ScheduleView.route_header_text(conn.assigns.route)} Line Commuter Rail stations and " <>
-      "schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, " <>
-      "and connections."
+        "schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, " <>
+        "and connections."
     )
     |> render(ScheduleView, "show.html", [])
   end
@@ -30,6 +32,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   defp assign_trip_schedules(conn, _) do
     timetable_schedules = timetable_schedules(conn)
     header_schedules = header_schedules(timetable_schedules)
+
     %{
       trip_schedules: trip_schedules,
       all_stops: all_stops
@@ -44,7 +47,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   end
 
   # Helper function for obtaining schedule data
-  @spec timetable_schedules(Plug.Conn.t) :: [Schedules.Schedule.t]
+  @spec timetable_schedules(Plug.Conn.t()) :: [Schedules.Schedule.t()]
   defp timetable_schedules(%{assigns: %{date: date, route: route, direction_id: direction_id}}) do
     case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: direction_id) do
       {:error, _} -> []
@@ -52,7 +55,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     end
   end
 
-  @spec trip_messages(Routes.Route.t, 0 | 1) :: %{{String.t, String.t} => String.t}
+  @spec trip_messages(Routes.Route.t(), 0 | 1) :: %{{String.t(), String.t()} => String.t()}
   defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 0) do
     %{
       {"221", "Melrose Cedar Park"} => "Via",
@@ -60,6 +63,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
       {"221", "Greenwood"} => "Line"
     }
   end
+
   defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 1) do
     %{
       {"208", "Greenwood"} => "Via",
@@ -67,25 +71,29 @@ defmodule SiteWeb.ScheduleController.TimetableController do
       {"208", "Melrose Cedar Park"} => "Line"
     }
   end
+
   defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 0) do
     %{
       {"221", "North Billerica"} => "Via",
-      {"221", "Lowell"} => "Haverhill",
+      {"221", "Lowell"} => "Haverhill"
     }
   end
+
   defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 1) do
     %{
       {"208", "Lowell"} => "Via",
       {"208", "North Billerica"} => "Haverhill",
-      {"208", "Wilmington"} => "-",
+      {"208", "Wilmington"} => "-"
     }
   end
+
   defp trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) do
     %{
       {"790", "place-rugg"} => "Via",
       {"790", "place-bbsta"} => "Fairmount"
     }
   end
+
   defp trip_messages(_, _) do
     %{}
   end
@@ -99,13 +107,16 @@ defmodule SiteWeb.ScheduleController.TimetableController do
 
   defp tab_name(conn, _), do: assign(conn, :tab, "timetable")
 
-  @spec build_timetable([Stops.Stop.t], [Schedules.Schedule.t]) :: %{
-    required(:trip_schedules) => %{required({Schedules.Trip.id_t, Stops.Stop.id_t}) => Schedules.Schedule.t},
-    required(:all_stops) => [Stops.Stop.t]
-  }
+  @spec build_timetable([Stops.Stop.t()], [Schedules.Schedule.t()]) :: %{
+          required(:trip_schedules) => %{
+            required({Schedules.Trip.id_t(), Stops.Stop.id_t()}) => Schedules.Schedule.t()
+          },
+          required(:all_stops) => [Stops.Stop.t()]
+        }
   def build_timetable(all_stops, schedules) do
-    trip_schedules = Map.new(schedules, & {{&1.trip.id, &1.stop.id}, &1})
+    trip_schedules = Map.new(schedules, &{{&1.trip.id, &1.stop.id}, &1})
     all_stops = remove_unused_stops(all_stops, schedules)
+
     %{
       trip_schedules: trip_schedules,
       all_stops: all_stops
@@ -115,7 +126,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   @spec header_schedules(list) :: list
   defp header_schedules(timetable_schedules) do
     timetable_schedules
-    |> Schedules.Sort.sort_by_first_times
+    |> Schedules.Sort.sort_by_first_times()
     |> Enum.map(&List.first/1)
   end
 

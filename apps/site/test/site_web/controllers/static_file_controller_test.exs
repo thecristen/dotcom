@@ -3,13 +3,13 @@ defmodule SiteWeb.StaticFileControllerTest do
 
   describe "index/2" do
     test "forwards files from config:content:drupal:root" do
-      bypass = Bypass.open
+      bypass = Bypass.open()
       set_drupal_root("http://localhost:#{bypass.port}")
 
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         assert "/path" == conn.request_path
         Plug.Conn.resp(conn, 200, "file from drupal")
-      end
+      end)
 
       conn = %{build_conn() | request_path: "/path"}
       response = SiteWeb.StaticFileController.index(conn, [])
@@ -30,13 +30,17 @@ defmodule SiteWeb.StaticFileControllerTest do
 
   defp set_drupal_root(new_domain) do
     old_config = Application.get_env(:content, :drupal)
-    new_config = case old_config do
-      nil -> [root: new_domain]
-      keywordlist -> Keyword.put(keywordlist, :root, new_domain)
-    end
+
+    new_config =
+      case old_config do
+        nil -> [root: new_domain]
+        keywordlist -> Keyword.put(keywordlist, :root, new_domain)
+      end
+
     Application.put_env(:content, :drupal, new_config)
-    on_exit fn ->
+
+    on_exit(fn ->
       Application.put_env(:content, :drual, old_config)
-    end
+    end)
   end
 end

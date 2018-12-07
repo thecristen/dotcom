@@ -13,17 +13,19 @@ defmodule TripPlan.Api.OpenTripPlanner do
   @impl true
   def plan(from, to, opts) do
     with {:ok, params} <- build_params(opts),
-         params = Map.merge(params,
-         %{
-           "fromPlace" => location(from),
-           "toPlace" => location(to),
-           "showIntermediateStops" => "true",
-           "format" => "json",
-           "locale" => "en"
-         }),
-         root_url =  params["root_url"] || config(:root_url),
-         full_url = "#{root_url}/otp/routers/default/plan"
-    do
+         params =
+           Map.merge(
+             params,
+             %{
+               "fromPlace" => location(from),
+               "toPlace" => location(to),
+               "showIntermediateStops" => "true",
+               "format" => "json",
+               "locale" => "en"
+             }
+           ),
+         root_url = params["root_url"] || config(:root_url),
+         full_url = "#{root_url}/otp/routers/default/plan" do
       send_request(full_url, params, &parse_json/1)
     end
   end
@@ -31,11 +33,13 @@ defmodule TripPlan.Api.OpenTripPlanner do
   def stops_nearby(location) do
     root_url = config(:root_url)
     full_url = "#{root_url}/otp/routers/default/index/stops"
+
     params = %{
       lat: Position.latitude(location),
       lon: Position.longitude(location),
       radius: 1000
     }
+
     send_request(full_url, params, &parse_nearby/1)
   end
 
@@ -50,21 +54,27 @@ defmodule TripPlan.Api.OpenTripPlanner do
     else
       %{status_code: _} = response ->
         {:error, response}
+
       error ->
         error
     end
   end
 
   defp log_response(url, params) do
-    {duration, response} = :timer.tc(HTTPoison,
-                                     :get,
-                                     [url,
-                                      build_headers(config(:wiremock_proxy)),
-                                      [params: params, recv_timeout: 10_000]
-                                     ])
-    _ = Logger.info(fn ->
-      "#{__MODULE__}.plan_response url=#{url} params=#{inspect params} #{status_text(response)} duration=#{duration / :timer.seconds(1)}"
-    end)
+    {duration, response} =
+      :timer.tc(
+        HTTPoison,
+        :get,
+        [url, build_headers(config(:wiremock_proxy)), [params: params, recv_timeout: 10_000]]
+      )
+
+    _ =
+      Logger.info(fn ->
+        "#{__MODULE__}.plan_response url=#{url} params=#{inspect(params)} #{status_text(response)} duration=#{
+          duration / :timer.seconds(1)
+        }"
+      end)
+
     response
   end
 
@@ -72,18 +82,21 @@ defmodule TripPlan.Api.OpenTripPlanner do
     {_, _, proxy_url} = Application.get_env(:trip_plan, OpenTripPlanner)[:root_url]
     [{"X-WM-Proxy-Url", proxy_url}]
   end
+
   defp build_headers(_), do: []
 
   defp status_text({:ok, %{status_code: code, body: body}}) do
     "status=#{code} content_length=#{byte_size(body)}"
   end
+
   defp status_text({:error, error}) do
-    "status=error error=#{inspect error}"
+    "status=error error=#{inspect(error)}"
   end
 
   defp location(%NamedPosition{} = np) do
     "#{np.name}::#{Position.latitude(np)},#{Position.longitude(np)}"
   end
+
   defp location(position) do
     "#{Position.latitude(position)},#{Position.longitude(position)}"
   end

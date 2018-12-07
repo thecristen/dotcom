@@ -7,14 +7,17 @@ defmodule Site.Application do
     import Supervisor.Spec, warn: false
 
     # hack to pull the STATIC_SCHEME variable out of the environment
-    Application.put_env(:site, SiteWeb.Endpoint,
-      update_static_url(Application.get_env(:site, SiteWeb.Endpoint)))
+    Application.put_env(
+      :site,
+      SiteWeb.Endpoint,
+      update_static_url(Application.get_env(:site, SiteWeb.Endpoint))
+    )
 
     children = [
       # Start the endpoint when the application starts
       supervisor(SiteWeb.Endpoint, []),
       supervisor(Site.GreenLine.Supervisor, []),
-      supervisor(Site.Stream.Vehicles, []),
+      supervisor(Site.Stream.Vehicles, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
@@ -34,9 +37,11 @@ defmodule Site.Application do
     static_url_parts = Keyword.update(static_url_parts, :scheme, nil, &update_static_url_scheme/1)
     [{:static_url, static_url_parts} | update_static_url(rest)]
   end
+
   defp update_static_url([first | rest]) do
     [first | update_static_url(rest)]
   end
+
   defp update_static_url([]) do
     []
   end

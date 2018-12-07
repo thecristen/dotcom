@@ -1,33 +1,31 @@
 defmodule Alerts.InformedEntity do
   @fields [:route, :route_type, :stop, :trip, :direction_id, :activities]
-  @empty_activities MapSet.new
-  defstruct [
-    route: nil,
-    route_type: nil,
-    stop: nil,
-    trip: nil,
-    direction_id: nil,
-    activities: @empty_activities
-  ]
+  @empty_activities MapSet.new()
+  defstruct route: nil,
+            route_type: nil,
+            stop: nil,
+            trip: nil,
+            direction_id: nil,
+            activities: @empty_activities
 
   @type t :: %Alerts.InformedEntity{
-    route: String.t | nil,
-    route_type: String.t | nil,
-    stop: String.t | nil,
-    trip: String.t | nil,
-    direction_id: 0 | 1 | nil,
-    activities: MapSet.t(activity_type)
-  }
+          route: String.t() | nil,
+          route_type: String.t() | nil,
+          stop: String.t() | nil,
+          trip: String.t() | nil,
+          direction_id: 0 | 1 | nil,
+          activities: MapSet.t(activity_type)
+        }
 
   @type activity_type ::
-  :board |
-  :exit |
-  :ride |
-  :park_car |
-  :bringing_bike |
-  :store_bike |
-  :using_wheelchair |
-  :using_escalator
+          :board
+          | :exit
+          | :ride
+          | :park_car
+          | :bringing_bike
+          | :store_bike
+          | :using_wheelchair
+          | :using_escalator
 
   alias __MODULE__, as: IE
 
@@ -47,6 +45,7 @@ defmodule Alerts.InformedEntity do
   defp ensure_value_type({:activities, enum}) do
     {:activities, MapSet.new(enum)}
   end
+
   defp ensure_value_type(item) do
     item
   end
@@ -64,10 +63,13 @@ defmodule Alerts.InformedEntity do
     share_a_key?(first, second) && do_match?(first, second)
   end
 
-  def mapsets_match?(%MapSet{} = a, %MapSet{} = b) when a == @empty_activities or b == @empty_activities, do: true
+  def mapsets_match?(%MapSet{} = a, %MapSet{} = b)
+      when a == @empty_activities or b == @empty_activities,
+      do: true
+
   def mapsets_match?(%MapSet{} = a, %MapSet{} = b), do: has_intersect?(a, b)
 
-  defp has_intersect?(a, b), do: Enum.any?(a, & &1 in b)
+  defp has_intersect?(a, b), do: Enum.any?(a, &(&1 in b))
 
   defp do_match?(f, s) do
     @fields

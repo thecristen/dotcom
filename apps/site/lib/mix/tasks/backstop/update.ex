@@ -11,8 +11,9 @@ defmodule Mix.Tasks.Backstop.Update do
 
   def run(files) do
     test_dir = latest_test_dir()
+
     test_dir
-    |> File.ls!
+    |> File.ls!()
     |> filter_file_list(files)
     |> join_paths(test_dir)
     |> Enum.each(&copy_file/1)
@@ -20,10 +21,10 @@ defmodule Mix.Tasks.Backstop.Update do
 
   defp latest_test_dir do
     @reference_dir
-    |> File.ls!
+    |> File.ls!()
     |> join_paths(@reference_dir)
     |> Enum.filter(&File.dir?/1)
-    |> Enum.max
+    |> Enum.max()
   end
 
   @doc "Join a root path to a list of filenames"
@@ -35,22 +36,23 @@ defmodule Mix.Tasks.Backstop.Update do
   def filter_file_list(directory_files, []) do
     latest_failures(directory_files)
   end
+
   def filter_file_list(directory_files, file_list) do
     for file <- directory_files,
-      file in file_list do
-        file
+        file in file_list do
+      file
     end
   end
 
   defp latest_failures(files) do
     for file <- files,
-      String.starts_with?(file, "failed_diff_") do
-        String.replace_prefix(file, "failed_diff_", "")
+        String.starts_with?(file, "failed_diff_") do
+      String.replace_prefix(file, "failed_diff_", "")
     end
   end
 
   defp copy_file(path) do
-    File.cp! path, destination_path(path)
+    File.cp!(path, destination_path(path))
   end
 
   @doc "Path for the reference image of a given test image"
@@ -58,7 +60,7 @@ defmodule Mix.Tasks.Backstop.Update do
     filename = Path.basename(path)
 
     [@reference_dir, "../bitmaps_reference", filename]
-    |> Path.join
-    |> Path.expand
+    |> Path.join()
+    |> Path.expand()
   end
 end

@@ -32,10 +32,10 @@ defmodule Routes.GroupTest do
   test ".group groups routes by their type" do
     # drops the light rail (only keeps the green line)
     assert Routes.Group.group([@light_rail, @green, @subway, @rail, @bus, @ferry]) == [
-      subway: [@light_rail, @subway, @green],
-      bus: [@bus],
-      commuter_rail: [@rail],
-      ferry: [@ferry]
-    ]
+             subway: [@light_rail, @subway, @green],
+             bus: [@bus],
+             commuter_rail: [@rail],
+             ferry: [@ferry]
+           ]
   end
 end

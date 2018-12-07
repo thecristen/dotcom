@@ -7,7 +7,7 @@ defmodule Content.CmsMigration.MeetingTest do
       date = "April 15, 2017"
       time_range = "4:00 PM - 6:00 PM"
 
-      expected = Timex.to_datetime({{2017, 4, 15}, {20,0,0}}, "Etc/UTC")
+      expected = Timex.to_datetime({{2017, 4, 15}, {20, 0, 0}}, "Etc/UTC")
       assert start_utc_datetime(date, time_range) == expected
     end
 
@@ -24,7 +24,7 @@ defmodule Content.CmsMigration.MeetingTest do
       date = "April 15, 2017"
       time_range = "4:00 PM - 6:00 PM"
 
-      expected = Timex.to_datetime({{2017, 4, 15}, {22,0,0}}, "Etc/UTC")
+      expected = Timex.to_datetime({{2017, 4, 15}, {22, 0, 0}}, "Etc/UTC")
       assert end_utc_datetime(date, time_range) == expected
     end
 

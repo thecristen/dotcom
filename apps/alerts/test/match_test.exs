@@ -26,7 +26,10 @@ defmodule Alerts.MatchTest do
     assert Alerts.Match.match(alerts, %InformedEntity{stop: "31"}) == []
     assert Alerts.Match.match(alerts, %InformedEntity{route_type: 1, route: "2"}) == alerts
     assert Alerts.Match.match(alerts, %InformedEntity{route_type: 1, route: "21"}) == []
-    assert Alerts.Match.match(alerts, %InformedEntity{route_type: 1, route: "2", stop: "3"}) == alerts
+
+    assert Alerts.Match.match(alerts, %InformedEntity{route_type: 1, route: "2", stop: "3"}) ==
+             alerts
+
     assert Alerts.Match.match(alerts, %InformedEntity{route_type: 1, route: "2", stop: "4"}) == []
   end
 
@@ -36,7 +39,7 @@ defmodule Alerts.MatchTest do
         informed_entity: [
           %InformedEntity{
             route_type: 1,
-            route: "2",
+            route: "2"
           }
         ]
       )
@@ -49,8 +52,12 @@ defmodule Alerts.MatchTest do
     assert Alerts.Match.match(alerts, %InformedEntity{stop: "3"}) == []
     assert Alerts.Match.match(alerts, %InformedEntity{route_type: 1, route: "2"}) == alerts
     assert Alerts.Match.match(alerts, %InformedEntity{route_type: 1, route: "21"}) == []
-    assert Alerts.Match.match(alerts, %InformedEntity{route_type: 1, route: "2", stop: "3"}) == alerts
-    assert Alerts.Match.match(alerts, %InformedEntity{route_type: 1, route: "2", stop: "4"}) == alerts
+
+    assert Alerts.Match.match(alerts, %InformedEntity{route_type: 1, route: "2", stop: "3"}) ==
+             alerts
+
+    assert Alerts.Match.match(alerts, %InformedEntity{route_type: 1, route: "2", stop: "4"}) ==
+             alerts
   end
 
   test ".match can take a datetime to filter further" do
@@ -61,23 +68,40 @@ defmodule Alerts.MatchTest do
         ],
         active_period: [
           {nil, ~N[2016-06-01T00:00:00]},
-          {NaiveDateTime.from_erl!({{2016, 6, 2}, {0, 0, 0}}), NaiveDateTime.from_erl!({{2016, 6, 2}, {1, 0, 0}})},
+          {NaiveDateTime.from_erl!({{2016, 6, 2}, {0, 0, 0}}),
+           NaiveDateTime.from_erl!({{2016, 6, 2}, {1, 0, 0}})},
           {NaiveDateTime.from_erl!({{2016, 6, 3}, {0, 0, 0}}), nil}
         ]
       )
     ]
+
     ie = %InformedEntity{stop: "1"}
 
     assert Alerts.Match.match(alerts, ie) == alerts
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 1}, {0, 0, 0}})) == alerts
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 2}, {0, 0, 0}})) == alerts
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 2}, {0, 30, 0}})) == alerts
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 3}, {0, 0, 0}})) == alerts
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 4}, {0, 0, 0}})) == alerts
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 5, 20}, {0, 0, 0}})) == alerts
 
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 1}, {12, 0, 0}})) == []
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 2}, {12, 0, 0}})) == []
+    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 1}, {0, 0, 0}})) ==
+             alerts
+
+    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 2}, {0, 0, 0}})) ==
+             alerts
+
+    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 2}, {0, 30, 0}})) ==
+             alerts
+
+    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 3}, {0, 0, 0}})) ==
+             alerts
+
+    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 4}, {0, 0, 0}})) ==
+             alerts
+
+    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 5, 20}, {0, 0, 0}})) ==
+             alerts
+
+    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 1}, {12, 0, 0}})) ==
+             []
+
+    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 2}, {12, 0, 0}})) ==
+             []
   end
 
   test ".match returns alerts that have a nil value for a non-nil key in the entity to match" do

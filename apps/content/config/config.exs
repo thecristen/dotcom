@@ -44,4 +44,4 @@ config :content, :email,
   developer_alert_address: "devops-alerts@mbtace.com",
   no_reply_address: "noreply@mbtace.com"
 
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"

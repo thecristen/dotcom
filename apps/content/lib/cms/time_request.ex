@@ -8,26 +8,36 @@ defmodule Content.CMS.TimeRequest do
   Wraps an HTTP call and times how long the request takes.  Returns the HTTP response.
 
   """
-  @spec time_request(atom, String.t, String.t, Keyword.t, Keyword.t) ::
-    {:ok, HTTPoison.Response.t} |
-    {:error, HTTPoison.Error.t}
+  @spec time_request(atom, String.t(), String.t(), Keyword.t(), Keyword.t()) ::
+          {:ok, HTTPoison.Response.t()}
+          | {:error, HTTPoison.Error.t()}
   def time_request(method, url, body \\ "", headers \\ [], opts \\ []) do
-    {time, response} = :timer.tc(HTTPoison, :request, [
-      method, url, body, headers, opts
-    ])
+    {time, response} =
+      :timer.tc(HTTPoison, :request, [
+        method,
+        url,
+        body,
+        headers,
+        opts
+      ])
+
     log_response(time, url, opts, response)
     response
   end
 
   defp log_response(time, url, opts, response) do
-    _ = Logger.info(fn ->
-      text = case response do
-               {:ok, %{status_code: code}} -> "status=#{code}"
-               {:error, e} -> "status=error error=#{inspect e}"
-             end
-      time = time / :timer.seconds(1)
-      "#{__MODULE__} response url=#{url} options=#{inspect opts} #{text} duration=#{time}"
-    end)
+    _ =
+      Logger.info(fn ->
+        text =
+          case response do
+            {:ok, %{status_code: code}} -> "status=#{code}"
+            {:error, e} -> "status=error error=#{inspect(e)}"
+          end
+
+        time = time / :timer.seconds(1)
+        "#{__MODULE__} response url=#{url} options=#{inspect(opts)} #{text} duration=#{time}"
+      end)
+
     :ok
   end
 end

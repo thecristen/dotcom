@@ -5,8 +5,7 @@ defmodule SiteWeb.Plugs.ClearCookiesTest do
 
   describe "call/2" do
     test "clears asp session cookies", %{conn: conn} do
-      conn = %{conn |
-        cookies: %{"ASPSESSION-TEST" => "session", "cookie" => "test"}}
+      conn = %{conn | cookies: %{"ASPSESSION-TEST" => "session", "cookie" => "test"}}
 
       conn = call(conn, [])
 

@@ -37,6 +37,7 @@ defmodule SiteWeb.HomepageSearchTest do
     @tag :wallaby
     test "only shown when input has a value", %{session: session} do
       reset_id = "#search-homepage__reset"
+
       session
       |> assert_has(css(reset_id, visible: false))
       |> fill_in(@search_input, with: "a")
@@ -75,20 +76,23 @@ defmodule SiteWeb.HomepageSearchTest do
 
     Bypass.expect(bypass, fn conn ->
       {:ok, body, _} = Plug.Conn.read_body(conn)
+
       case Poison.decode(body) do
         {:ok, %{"objectID" => "route-" <> _, "queryID" => <<_::binary>>, "position" => 2}} ->
-          send parent, :click_tracked
+          send(parent, :click_tracked)
+
         decoded ->
-          send parent, {:bad_click_request, decoded}
+          send(parent, {:bad_click_request, decoded})
           :ok
       end
+
       Plug.Conn.send_resp(conn, 200, "{}")
     end)
 
-    on_exit fn ->
+    on_exit(fn ->
       Application.put_env(:algolia, :track_clicks?, false)
       Application.put_env(:algolia, :click_analytics_url, old_url)
-    end
+    end)
 
     session =
       session

@@ -23,11 +23,19 @@ defmodule SiteWeb.Plug.Mticket do
   def call(conn, _opts) do
     # this is the user agent that mTrip 1.0 uses to proxy some pages when the app is first loaded
     if get_req_header(conn, "user-agent") == ["Java/1.8.0_91"] do
-      content_description = if String.contains?(conn.request_path, "schedule"), do: "schedules", else: "alerts"
-      full_link_path = "#{SiteWeb.Endpoint.url}#{conn.request_path}"
+      content_description =
+        if String.contains?(conn.request_path, "schedule"), do: "schedules", else: "alerts"
+
+      full_link_path = "#{SiteWeb.Endpoint.url()}#{conn.request_path}"
+
       conn
       |> put_layout(false)
-      |> render(SiteWeb.MticketView, "notice.html", full_link_path: full_link_path, content_description: content_description)
+      |> render(
+        SiteWeb.MticketView,
+        "notice.html",
+        full_link_path: full_link_path,
+        content_description: content_description
+      )
       |> halt
     else
       conn

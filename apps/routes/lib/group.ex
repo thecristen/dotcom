@@ -6,9 +6,9 @@ defmodule Routes.Group do
   """
   alias Routes.{Repo, Route}
 
-  @type t :: {Routes.Route.route_type, Routes.Route.t}
+  @type t :: {Routes.Route.route_type(), Routes.Route.t()}
 
-  @spec group([Route.t]) :: [Routes.Group.t]
+  @spec group([Route.t()]) :: [Routes.Group.t()]
   def group(routes) do
     routes
     |> combine_green_line_into_single_route
@@ -16,7 +16,7 @@ defmodule Routes.Group do
     |> Enum.sort_by(&sorter/1)
   end
 
-  @spec combine_green_line_into_single_route([Route.t]) :: [Route.t]
+  @spec combine_green_line_into_single_route([Route.t()]) :: [Route.t()]
   defp combine_green_line_into_single_route(routes) do
     Enum.filter(routes, fn
       %{id: "Green" <> _} -> false

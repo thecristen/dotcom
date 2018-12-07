@@ -47,7 +47,8 @@ defmodule Content.CmsMigration.NewsMigratorTest do
         |> parse_json_file()
         |> Map.put("id", "multiple-records")
 
-      expected_error_message = "multiple records were found when querying by migration_id: multiple-records."
+      expected_error_message =
+        "multiple records were found when querying by migration_id: multiple-records."
 
       assert_raise Content.MigrationError, expected_error_message, fn ->
         NewsMigrator.migrate(record_with_non_unique_migration_id)
