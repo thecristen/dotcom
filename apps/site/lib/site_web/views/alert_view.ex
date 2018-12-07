@@ -169,4 +169,35 @@ defmodule SiteWeb.AlertView do
   def route_icon(route) do
     svg_icon_with_circle(%SvgIconWithCircle{icon: Route.icon_atom(route), aria_hidden?: true})
   end
+
+  @spec mode_buttons(atom) :: [Phoenix.HTML.Safe.t]
+  def mode_buttons(selected) do
+    for mode <- [:subway, :bus, :commuter_rail, :ferry, :access] do
+      link([
+        content_tag(:div, [
+          content_tag(:div, type_icon(mode), class: "m-alerts__mode-icon"),
+          content_tag(:div, type_name(mode), class: "m-alerts__mode-name")
+        ], class: [
+          "m-alerts__mode-button",
+          if mode == selected do
+            [" ", "m-alerts__mode-button--selected"]
+          else
+            []
+          end
+        ])
+      ], to: alert_path(SiteWeb.Endpoint, :show, mode), class: "m-alerts__mode-button-container")
+    end
+  end
+
+  @spec type_name(atom) :: String.t
+  def type_name(:commuter_rail), do: "Rail"
+  def type_name(mode), do: mode_name(mode)
+
+  @spec type_icon(atom) :: Phoenix.HTML.Safe.t
+  def type_icon(:access) do
+    svg("icon-accessible-default.svg")
+  end
+  def type_icon(mode) do
+    mode_icon(mode, :default)
+  end
 end

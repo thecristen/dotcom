@@ -293,4 +293,15 @@ defmodule SiteWeb.AlertViewTest do
       refute safe_to_string(response) =~ "View Full Description"
     end
   end
+
+  test "mode_buttons" do
+    assert [subway | rest] =
+      :subway
+      |> mode_buttons()
+      |> Enum.map(&safe_to_string/1)
+    assert subway =~ "m-alerts__mode-button--selected"
+    for mode <- rest do
+      refute mode =~ "m-alerts__mode-button--selected"
+    end
+  end
 end
