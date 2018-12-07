@@ -3464,7 +3464,7 @@
           ],
           "field_label": [
             {
-              "value": "Accordion Tab Label 1"
+              "value": "Accordion Label 1"
             }
           ]
         },
@@ -3654,7 +3654,7 @@
           ],
           "field_label": [
             {
-              "value": "Accordion Tab Label 2"
+              "value": "Accordion Label 2"
             }
           ]
         }

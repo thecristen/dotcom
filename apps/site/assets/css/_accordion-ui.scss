@@ -1,16 +1,16 @@
-.c-tabbed-ui {
+.c-accordion-ui {
   border: solid $border-width $brand-primary-dark;
   border-bottom: 0;
   margin: $base-spacing 0;
 }
 
-.c-tabbed-ui__heading {
+.c-accordion-ui__heading {
   &.sticky-top {
     background-color: $white;
   }
 }
 
-.c-tabbed-ui__trigger {
+.c-accordion-ui__trigger {
   @include icon-size-inline(1.5em);
   border-bottom: solid $border-width $brand-primary-dark;
   color: $brand-primary;
@@ -31,7 +31,7 @@
   }
 }
 
-.c-tabbed-ui__indicator {
+.c-accordion-ui__indicator {
   align-items: center;
   display: flex;
   padding-left: $base-spacing * 2;
@@ -51,14 +51,14 @@
   }
 }
 
-.c-tabbed-ui__trigger,
-.c-tabbed-ui__content {
+.c-accordion-ui__trigger,
+.c-accordion-ui__content {
   // Character/line-height includes some space, so here we
   // reduce the vertical spacing slightly to account for this
   padding: ($base-spacing / 1.5) $base-spacing;
 }
 
-.c-tabbed-ui__target {
+.c-accordion-ui__target {
   // Borders on this element are hidden while collapsed
   border-bottom: solid $border-width $brand-primary-dark;
 }

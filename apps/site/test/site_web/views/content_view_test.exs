@@ -9,6 +9,8 @@ defmodule SiteWeb.ContentViewTest do
   alias Content.Field.{File, Link}
 
   alias Content.Paragraph.{
+    Accordion,
+    AccordionSection,
     Column,
     ColumnMulti,
     ColumnMultiHeader,
@@ -18,8 +20,6 @@ defmodule SiteWeb.ContentViewTest do
     FareCard,
     FilesGrid,
     PeopleGrid,
-    Tab,
-    Tabs,
     TitleCard,
     TitleCardSet,
     Unknown,
@@ -405,34 +405,34 @@ defmodule SiteWeb.ContentViewTest do
                ~r/<div class=\"row\">\s*<div class=\"col-md-6\">\s*<strong>Column 1<\/strong>/
     end
 
-    test "renders a Content.Paragraph.Tabs", %{conn: conn} do
-      tabs = [
-        %Tab{
-          title: "{{ icon:subway-red }} Tab 1",
+    test "renders a Content.Paragraph.Accordion", %{conn: conn} do
+      sections = [
+        %AccordionSection{
+          title: "{{ icon:subway-red }} Section 1",
           prefix: "cms-10",
           content: %CustomHTML{
-            body: HTML.raw("<strong>First tab's content</strong>")
+            body: HTML.raw("<strong>First section's content</strong>")
           }
         },
-        %Tab{
-          title: "Tab 2",
+        %AccordionSection{
+          title: "Section 2",
           prefix: "cms-11",
           content: %CustomHTML{
-            body: HTML.raw("<strong>Second tab's content</strong>")
+            body: HTML.raw("<strong>Second section's content</strong>")
           }
         }
       ]
 
-      rendered_tabs =
-        %Tabs{display: "accordion", tabs: tabs}
+      rendered_accordion =
+        %Accordion{sections: sections}
         |> render_paragraph(conn)
         |> HTML.safe_to_string()
 
       [{_, _, [icon_1 | [title_1]]}, {_, _, [title_2]}] =
-        Floki.find(rendered_tabs, ".c-tabbed-ui__title")
+        Floki.find(rendered_accordion, ".c-accordion-ui__title")
 
       [{_, _, [body_1]}, {_, _, [body_2]}] =
-        Floki.find(rendered_tabs, ".c-tabbed-ui__target > .c-tabbed-ui__content")
+        Floki.find(rendered_accordion, ".c-accordion-ui__target > .c-accordion-ui__content")
 
       [
         {_,
@@ -455,21 +455,21 @@ defmodule SiteWeb.ContentViewTest do
            _,
            {"data-parent", parent_2}
          ], _}
-      ] = Floki.find(rendered_tabs, ".c-tabbed-ui__trigger")
+      ] = Floki.find(rendered_accordion, ".c-accordion-ui__trigger")
 
       assert {"span", [{"data-toggle", "tooltip"}, {"title", "Red Line"}],
               [{"span", [{"class", "notranslate c-svg__icon-red-line-default"}], _}]} = icon_1
 
-      assert title_1 =~ ~r/\s*Tab 1\s*/
-      assert title_2 =~ ~r/\s*Tab 2\s*/
-      assert href_1 == "#cms-10-tab"
-      assert href_2 == "#cms-11-tab"
-      assert aria_controls_1 == "cms-10-tab"
-      assert aria_controls_2 == "cms-11-tab"
-      assert parent_1 == "#tab-group"
+      assert title_1 =~ ~r/\s*Section 1\s*/
+      assert title_2 =~ ~r/\s*Section 2\s*/
+      assert href_1 == "#cms-10-section"
+      assert href_2 == "#cms-11-section"
+      assert aria_controls_1 == "cms-10-section"
+      assert aria_controls_2 == "cms-11-section"
+      assert parent_1 == "#accordion"
       assert parent_1 == parent_2
-      assert Floki.raw_html(body_1, encode: false) =~ "First tab's content"
-      assert Floki.raw_html(body_2, encode: false) =~ "Second tab's content"
+      assert Floki.raw_html(body_1, encode: false) =~ "First section's content"
+      assert Floki.raw_html(body_2, encode: false) =~ "Second section's content"
     end
 
     test "renders a Paragraph.Unknown", %{conn: conn} do

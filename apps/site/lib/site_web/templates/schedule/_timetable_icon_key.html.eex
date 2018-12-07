@@ -8,9 +8,9 @@
 <div class="m-schedule-icon-key-container">
   <h2 class="m-schedule-icon-key-header">Icon Key</h2>
   <%=
-  SiteWeb.PartialView.render("_tabbed_ui.html", Map.merge(assigns, %{
-    accordion: true,
-    tabs: [
+  SiteWeb.PartialView.render("_accordion_ui.html", Map.merge(assigns, %{
+    multiselectable: false,
+    sections: [
       %{
         content: bike,
         title: [safe_to_string(svg("icon-bikes-default.svg")), "Bikes Allowed"],

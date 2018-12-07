@@ -9,6 +9,8 @@ defmodule Content.ParagraphTest do
   alias Content.Field.File
 
   alias Content.Paragraph.{
+    Accordion,
+    AccordionSection,
     Column,
     ColumnMulti,
     ColumnMultiHeader,
@@ -18,8 +20,6 @@ defmodule Content.ParagraphTest do
     FareCard,
     FilesGrid,
     PeopleGrid,
-    Tab,
-    Tabs,
     TitleCard,
     TitleCardSet,
     Unknown,
@@ -158,22 +158,22 @@ defmodule Content.ParagraphTest do
              } = from_api(api_data)
     end
 
-    test "parses tabbed interface paragraph (tabs)" do
+    test "parses accordion interface paragraph" do
       api_data = api_paragraph("tabs")
 
-      assert %Tabs{
+      assert %Accordion{
                display: "collapsible",
-               tabs: [
-                 %Tab{} = tab1,
-                 %Tab{} = tab2
+               sections: [
+                 %AccordionSection{} = section1,
+                 %AccordionSection{} = section2
                ]
              } = from_api(api_data)
 
-      assert tab1.title == "Accordion Tab Label 1"
-      assert tab2.title == "Accordion Tab Label 2"
+      assert section1.title == "Accordion Label 1"
+      assert section2.title == "Accordion Label 2"
 
-      assert %CustomHTML{} = tab1.content
-      assert %CustomHTML{} = tab2.content
+      assert %CustomHTML{} = section1.content
+      assert %CustomHTML{} = section2.content
     end
 
     test "parses title card set" do

@@ -21,13 +21,13 @@ defmodule Content.Paragraph do
   """
 
   alias Content.Paragraph.{
+    Accordion,
     ColumnMulti,
     CustomHTML,
     DescriptionList,
     FareCard,
     FilesGrid,
     PeopleGrid,
-    Tabs,
     TitleCardSet,
     Unknown,
     UpcomingBoardMeetings
@@ -35,12 +35,12 @@ defmodule Content.Paragraph do
 
   @type t ::
           ColumnMulti.t()
+          | Accordion.t()
           | CustomHTML.t()
           | DescriptionList.t()
           | FareCard.t()
           | FilesGrid.t()
           | PeopleGrid.t()
-          | Tabs.t()
           | TitleCardSet.t()
           | Unknown.t()
           | UpcomingBoardMeetings.t()
@@ -71,7 +71,7 @@ defmodule Content.Paragraph do
   end
 
   def from_api(%{"type" => [%{"target_id" => "tabs"}]} = para) do
-    Tabs.from_api(para)
+    Accordion.from_api(para)
   end
 
   def from_api(%{"type" => [%{"target_id" => "title_card_set"}]} = para) do

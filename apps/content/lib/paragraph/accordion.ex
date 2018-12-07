@@ -1,4 +1,4 @@
-defmodule Content.Paragraph.Tabs do
+defmodule Content.Paragraph.Accordion do
   @moduledoc """
 
   This paragraph type provides a tabbed user interface. This
@@ -10,25 +10,26 @@ defmodule Content.Paragraph.Tabs do
   """
 
   import Content.Helpers, only: [field_value: 2]
+  alias Content.Paragraph.AccordionSection
 
   defstruct display: "",
-            tabs: []
+            sections: []
 
   @type t :: %__MODULE__{
           display: String.t(),
-          tabs: [Content.Paragraph.Tab.t()]
+          sections: [AccordionSection.t()]
         }
 
   @spec from_api(map) :: t
   def from_api(data) do
-    tabs =
+    sections =
       data
       |> Map.get("field_tabs", [])
-      |> Enum.map(&Content.Paragraph.Tab.from_api/1)
+      |> Enum.map(&AccordionSection.from_api/1)
 
     %__MODULE__{
       display: field_value(data, "field_tabs_display"),
-      tabs: tabs
+      sections: sections
     }
   end
 end

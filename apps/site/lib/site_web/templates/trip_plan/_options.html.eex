@@ -1,8 +1,8 @@
 <%=
-  SiteWeb.PartialView.render("_tabbed_ui.html", Map.merge(assigns, %{
+  SiteWeb.PartialView.render("_accordion_ui.html", Map.merge(assigns, %{
+    multiselectable: true,
     parent_view: SiteWeb.TripPlanView,
-    accordion: false,
-    tabs: [
+    sections: [
       %{
         content_template: "_departure.html",
         title: format_plan_type_for_title(@query),

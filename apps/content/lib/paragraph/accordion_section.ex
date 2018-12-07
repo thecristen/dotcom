@@ -1,8 +1,8 @@
-defmodule Content.Paragraph.Tab do
+defmodule Content.Paragraph.AccordionSection do
   @moduledoc """
 
   This paragraph will only ever exist as a sub-paragraph of
-  Content.Paragraph.Tabs, and contains each of the tabbed items'
+  Content.Paragraph.Accordion, and contains each of the section items'
   title, id (for javascript/ARIA targeting purposes), and actual content.
 
   The content attribute will always be another Content.Paragraph.t.

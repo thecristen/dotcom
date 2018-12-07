@@ -6,13 +6,13 @@ defmodule SiteWeb.ContentView do
   alias Content.Paragraph
 
   alias Content.Paragraph.{
+    Accordion,
     ColumnMulti,
     CustomHTML,
     DescriptionList,
     FareCard,
     FilesGrid,
     PeopleGrid,
-    Tabs,
     TitleCardSet,
     Unknown,
     UpcomingBoardMeetings
@@ -79,8 +79,8 @@ defmodule SiteWeb.ContentView do
     end
   end
 
-  def render_paragraph(%Tabs{} = para, conn) do
-    render("_tabs.html", paragraph: para, conn: conn)
+  def render_paragraph(%Accordion{} = para, conn) do
+    render("_accordion.html", paragraph: para, conn: conn)
   end
 
   def render_paragraph(%Unknown{} = para, _) do
