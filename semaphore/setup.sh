@@ -55,3 +55,5 @@ gem install sass -v 3.4.23
 npm run webpack:build
 
 MIX_ENV=test mix compile --warnings-as-errors --force
+
+mix format --check-formatted
