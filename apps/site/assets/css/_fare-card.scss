@@ -11,6 +11,13 @@
     max-width: 20rem;
   }
 
+  // When columns break and are stacked add extra spacing between cards
+  div ~ div > &:first-child {
+    @include media-breakpoint-down(sm) {
+      margin-top: 2.375rem;
+    }
+  }
+
   &--subway {
     border-color: $brand-subway;
   }
