@@ -311,6 +311,32 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "Limited transfers"
     end
 
+    test "renders an error message for a grouped FareCard with bad data", %{conn: conn} do
+      # Missing a second fare card
+      paragraph = %ColumnMulti{
+        columns: [
+          %Column{
+            paragraphs: [
+              %FareCard{
+                fare_token: "local_bus:charlie_card",
+                note: %CustomHTML{
+                  body: {:safe, "<p>1 free transfer to Local Bus within 2 hours</p>\n"}
+                }
+              }
+            ]
+          }
+        ],
+        display_options: "grouped"
+      }
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "Bad grouped fare card data"
+    end
+
     test "renders a Paragraph.FilesGrid without a title", %{conn: conn} do
       paragraph = %FilesGrid{
         title: nil,

@@ -55,24 +55,14 @@ defmodule SiteWeb.ContentView do
 
   def render_paragraph(%ColumnMulti{} = para, conn) do
     if ColumnMulti.is_grouped?(para) do
-      paragraphs =
+      grouped_fare_card_data =
         para.columns
-        |> Enum.flat_map(& &1.paragraphs)
-
-      [first_note | [second_note | _]] = Enum.map(paragraphs, &Map.get(&1, :note))
-
-      [first_fare | [second_fare | _]] =
-        paragraphs
-        |> Enum.map(&Map.get(&1, :fare_token))
-        |> Enum.map(&Fare.fare_object_request(&1))
+        |> nested_paragraphs()
+        |> grouped_fare_card_data()
 
       render(
         "_grouped_fare_card.html",
-        first_fare: first_fare,
-        second_fare: second_fare,
-        first_note: first_note,
-        second_note: second_note,
-        conn: conn
+        Keyword.merge(grouped_fare_card_data, conn: conn)
       )
     else
       render("_column_multi.html", paragraph: para, conn: conn)
@@ -157,4 +147,26 @@ defmodule SiteWeb.ContentView do
   defp format_time(time) do
     Timex.format!(time, "{h12}:{m}{am}")
   end
+
+  defp nested_paragraphs(columns), do: columns |> Enum.flat_map(& &1.paragraphs)
+
+  defp grouped_fare_card_data([first_paragraph, second_paragraph]) do
+    [
+      first_fare: fare_from_paragraph(first_paragraph),
+      second_fare: fare_from_paragraph(second_paragraph),
+      first_note: first_paragraph.note,
+      second_note: second_paragraph.note
+    ]
+  end
+
+  defp grouped_fare_card_data(_) do
+    [
+      first_fare: nil,
+      second_fare: nil,
+      first_note: nil,
+      second_note: nil
+    ]
+  end
+
+  defp fare_from_paragraph(%{fare_token: fare_token}), do: Fare.fare_object_request(fare_token)
 end
