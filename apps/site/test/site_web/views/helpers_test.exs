@@ -310,6 +310,12 @@ defmodule SiteWeb.ViewHelpersTest do
         assert class == "notranslate c-svg__icon-mode-#{type}-#{size}"
       end
     end
+
+    assert {"span", [{"class", "notranslate c-svg__icon-the-ride-default"}], _} =
+             :the_ride
+             |> mode_icon(:default)
+             |> safe_to_string()
+             |> Floki.parse()
   end
 
   test "bw_circle_icon/2" do

@@ -39,12 +39,18 @@ defmodule SiteWeb.ViewHelpers do
   end
 
   @spec mode_icon(atom, :default | :small) :: Phoenix.HTML.Safe.t()
-  def mode_icon(:commuter_rail, size), do: mode_icon(:"commuter-rail", size)
+  def mode_icon(:commuter_rail, size) do
+    mode_icon(:"commuter-rail", size)
+  end
 
   def mode_icon(mode, size)
       when mode in [:subway, :bus, :"commuter-rail", :ferry, :trolley] and
              size in [:default, :small] do
     svg("icon-mode-#{mode}-#{size}.svg")
+  end
+
+  def mode_icon(:the_ride, size) when size in [:default, :small] do
+    svg("icon-the-ride-#{size}.svg")
   end
 
   @spec bw_circle_icon(integer, :default | :small) :: Phoenix.HTML.Safe.t()
