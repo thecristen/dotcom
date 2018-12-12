@@ -1,44 +1,18 @@
 defmodule Fares.FareInfo do
+  @moduledoc """
+  Retrieve saved fare data from the file system and map to structs.
+  """
+
   alias Fares.Fare
 
   @filename "priv/fares.csv"
-
-  @spec grouped_fares(Path.t()) :: [Fares.CommuterFareGroup.t()]
-  def grouped_fares(filename \\ @filename) do
-    :fares
-    |> Application.app_dir()
-    |> Path.join(filename)
-    |> File.stream!()
-    |> CSV.decode()
-    |> Enum.flat_map(&zone_mapper/1)
-  end
-
-  @spec zone_mapper([String.t()]) :: [Fares.CommuterFareGroup.t()]
-  def zone_mapper(["commuter", zone, single_trip, single_trip_reduced, monthly | _]) do
-    [
-      %Fares.CommuterFareGroup{
-        name: commuter_rail_fare_name(zone),
-        single_trip: dollars_to_cents(single_trip),
-        single_trip_reduced: dollars_to_cents(single_trip_reduced),
-        month: dollars_to_cents(monthly),
-        mticket: mticket_price(dollars_to_cents(monthly))
-      }
-    ]
-  end
-
-  def zone_mapper(_) do
-    []
-  end
 
   @doc "Load fare info from a CSV file."
   @spec fare_info() :: [Fare.t()]
   @spec fare_info(Path.t()) :: [Fare.t()]
   def fare_info(filename \\ @filename) do
-    :fares
-    |> Application.app_dir()
-    |> Path.join(filename)
-    |> File.stream!()
-    |> CSV.decode()
+    filename
+    |> fare_data()
     |> Enum.flat_map(&mapper/1)
     |> Enum.concat(free_fare())
   end
@@ -58,7 +32,6 @@ defmodule Fares.FareInfo do
     ]
   end
 
-  _ = @lint {Credo.Check.Refactor.ABCSize, false}
   @spec mapper([String.t()]) :: [Fare.t()]
   def mapper(["commuter", zone, single_trip, single_trip_reduced, monthly | _]) do
     base = %Fare{
@@ -489,6 +462,14 @@ defmodule Fares.FareInfo do
     end
   end
 
+  defp fare_data(filename) do
+    :fares
+    |> Application.app_dir()
+    |> Path.join(filename)
+    |> File.stream!()
+    |> CSV.decode()
+  end
+
   defp monthly_commuter_modes("interzone_" <> _) do
     [:bus]
   end
@@ -516,7 +497,4 @@ defmodule Fares.FareInfo do
   end
 
   def floor_to_ten_cents(fare), do: Float.floor(fare / 10) * 10
-
-  # fix warning
-  _ = @lint
 end
