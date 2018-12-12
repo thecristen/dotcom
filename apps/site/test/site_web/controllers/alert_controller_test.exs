@@ -4,7 +4,7 @@ defmodule SiteWeb.AlertControllerTest do
   use Phoenix.Controller
   alias Alerts.Alert
   alias SiteWeb.PartialView.SvgIconWithCircle
-  import SiteWeb.AlertController, only: [group_access_alerts: 1]
+  import SiteWeb.AlertController, only: [group_access_alerts: 1, filter_by_timeframe: 3]
 
   test "renders commuter rail", %{conn: conn} do
     conn = get(conn, alert_path(conn, :show, "commuter-rail"))
@@ -40,6 +40,54 @@ defmodule SiteWeb.AlertControllerTest do
       conn = get(conn, alert_path(conn, :show, :bus))
       assert conn.assigns.meta_description
     end
+
+    test "parses timeframe param", %{conn: conn} do
+      all_alerts = get(conn, alert_path(conn, :show, :bus))
+      assert all_alerts.assigns.timeframe == nil
+      current = get(conn, alert_path(conn, :show, :bus, timeframe: "current"))
+      assert current.assigns.timeframe == "current"
+      upcoming = get(conn, alert_path(conn, :show, :bus, timeframe: "upcoming"))
+      assert upcoming.assigns.timeframe == "upcoming"
+      bad_param = get(conn, alert_path(conn, :show, :bus, timeframe: "foobar"))
+      assert bad_param.assigns.timeframe == nil
+    end
+  end
+
+  @now Util.now()
+
+  @timeframe_alerts [
+    %Alert{
+      id: "ongoing",
+      active_period: [{Timex.shift(@now, days: -1), nil}]
+    },
+    %Alert{
+      id: "upcoming",
+      active_period: [{Timex.shift(@now, days: 1), nil}]
+    },
+    %Alert{
+      id: "current",
+      active_period: [{Timex.shift(@now, hours: -1), Timex.shift(@now, hours: 1)}]
+    }
+  ]
+
+  describe "filter_by_timeframe/3" do
+    test "filters for current alerts" do
+      assert @timeframe_alerts
+             |> filter_by_timeframe(%{"timeframe" => "current"}, @now)
+             |> Enum.map(& &1.id) == ["ongoing", "current"]
+    end
+
+    test "filters for upcoming alerts" do
+      assert @timeframe_alerts
+             |> filter_by_timeframe(%{"timeframe" => "upcoming"}, @now)
+             |> Enum.map(& &1.id) == ["upcoming"]
+    end
+
+    test "returns all alerts if timeframe isn't available" do
+      assert @timeframe_alerts
+             |> filter_by_timeframe(%{}, @now)
+             |> Enum.map(& &1.id) == ["ongoing", "upcoming", "current"]
+    end
   end
 
   describe "mode icons" do
@@ -70,6 +118,7 @@ defmodule SiteWeb.AlertControllerTest do
 
     defp render_alerts_page(conn, mode, alerts) do
       conn
+      |> assign(:timeframe, nil)
       |> put_view(SiteWeb.AlertView)
       |> render(
         "show.html",

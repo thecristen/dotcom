@@ -231,4 +231,52 @@ defmodule SiteWeb.AlertView do
   def type_icon(mode) do
     mode_icon(mode, :default)
   end
+
+  @doc """
+  Renders the All/Current/Planned filters for the alerts page
+  """
+  @spec time_filters(atom, String.t() | nil) :: Phoenix.HTML.Safe.t()
+  def time_filters(current_mode, current_timeframe) do
+    [
+      content_tag(:h2, "Filter by type", class: "h2"),
+      content_tag(
+        :div,
+        Enum.map([nil, "current", "upcoming"], &time_filter(&1, current_mode, current_timeframe)),
+        class: "m-alerts__time-filters"
+      )
+    ]
+  end
+
+  @spec time_filter(String.t() | nil, atom, String.t() | nil) :: Phoenix.HTML.Safe.t()
+  defp time_filter(filter, current_mode, current_timeframe) do
+    filter
+    |> time_filter_text()
+    |> link(
+      class: time_filter_class(filter, current_timeframe),
+      to: alert_path(SiteWeb.Endpoint, :show, current_mode, time_filter_params(filter))
+    )
+  end
+
+  @spec time_filter_text(String.t() | nil) :: String.t()
+  defp time_filter_text(nil), do: "All Alerts"
+  defp time_filter_text("current"), do: "Current Alerts"
+  defp time_filter_text("upcoming"), do: "Planned Service Alerts"
+
+  @spec time_filter_params(String.t() | nil) :: Keyword.t()
+  defp time_filter_params(nil), do: []
+  defp time_filter_params(<<timeframe::binary>>), do: [timeframe: timeframe]
+
+  @spec time_filter_class(String.t() | nil, String.t() | nil) :: [String.t()]
+  defp time_filter_class(filter, current_timeframe) do
+    ["m-alerts__time-filter" | time_filter_selected_class(filter, current_timeframe)]
+  end
+
+  @spec time_filter_selected_class(String.t() | nil, String.t() | nil) :: [String.t()]
+  defp time_filter_selected_class(filter, filter) do
+    [" ", "m-alerts__time-filter--selected"]
+  end
+
+  defp time_filter_selected_class(_, _) do
+    []
+  end
 end

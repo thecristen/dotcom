@@ -1,39 +1,44 @@
 <div class="container">
   <div class="page-section">
     <div class="page-header">
-      <h1>Service Alerts and Notices</h1>
-      <div class="m-alerts__mode-buttons">
-        <%= mode_buttons(@id) %>
-      </div>
+      <h1>Alerts</h1>
     </div>
-    <div>
-      <%= for {route, alerts} <- @route_alerts do %>
-        <div class="m-alerts-header">
-          <%= link to: alert_line_show_path(@conn, route.id), class: "m-alerts-header__link" do %>
-            <h2 class="m-alerts-header__name"><%= route_name(route) %></h2>
-          <% end %>
-          <%= if show_mode_icon?(route) do %>
-            <%= link to: alert_line_show_path(@conn, route.id), class: "m-alerts-header__icon" do %>
-              <%= route_icon(route) %>
-            <% end %>
-          <% end %>
-          <div class="alert-show-body">
-            <%= if alerts == [] do %>
-              <div class="alert-show-empty">
-                <span><strong>Regular Service:</strong> There are no current or upcoming service alerts.</span>
-              </div>
-            <% else %>
-              <%= SiteWeb.AlertView.modal alerts: alerts, route: route, hide_t_alerts: true, time: @date %>
-            <% end %>
-          </div>
+    <div class="row">
+      <div class="col-lg-3">
+        <%= time_filters(@id, @timeframe) %>
+      </div>
+      <div class="col-lg-8 col-lg-offset-1">
+        <div class="m-alerts__mode-buttons">
+          <%= mode_buttons(@id) %>
         </div>
-      <% end %>
-    </div>
-    <%= if @route_alerts == [] do %>
-      <div class="alert-no-alerts">
-        There are no current service alerts for <%= mode_name(@id) %>.
+        <%= for {route, alerts} <- @route_alerts do %>
+          <div class="m-alerts-header">
+            <%= link to: alert_line_show_path(@conn, route.id), class: "m-alerts-header__link" do %>
+              <h2 class="m-alerts-header__name"><%= route_name(route) %></h2>
+            <% end %>
+            <%= if show_mode_icon?(route) do %>
+              <%= link to: alert_line_show_path(@conn, route.id), class: "m-alerts-header__icon" do %>
+                <%= route_icon(route) %>
+              <% end %>
+            <% end %>
+            <div class="alert-show-body">
+              <%= if alerts == [] do %>
+                <div class="alert-show-empty">
+                  <span><strong>Regular Service:</strong> There are no current or upcoming service alerts.</span>
+                </div>
+              <% else %>
+                <%= SiteWeb.AlertView.modal alerts: alerts, route: route, hide_t_alerts: true, time: @date %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        <%= if @route_alerts == [] do %>
+          <div class="alert-no-alerts">
+            There are no current service alerts for <%= mode_name(@id) %>.
+          </div>
+        <% end %>
       </div>
-    <% end %>
+    </div>
     <div class="m-alerts-header">
       <div class="t-alert-container-big">
         <h2 class="h2">Sign-up for T-Alerts!</h2>

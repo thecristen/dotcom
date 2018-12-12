@@ -1,6 +1,8 @@
 defmodule SiteWeb.AlertController do
   use SiteWeb, :controller
+  alias Alerts.{Alert, InformedEntity, Match}
 
+  plug(:assign_timeframe)
   plug(:all_routes)
   plug(:all_alerts)
   plug(SiteWeb.Plugs.UpcomingAlerts)
@@ -47,17 +49,17 @@ defmodule SiteWeb.AlertController do
   end
 
   def route_alerts(%Routes.Route{} = route, alerts) do
-    entity = %Alerts.InformedEntity{
+    entity = %InformedEntity{
       route_type: route.type,
       route: route.id
     }
 
-    {route, Alerts.Match.match(alerts, entity)}
+    {route, Match.match(alerts, entity)}
   end
 
   def group_access_alerts(alerts) do
     Enum.reduce(
-      Alerts.Alert.access_alert_types(),
+      Alert.access_alert_types(),
       %{},
       &group_access_alerts_by_type(alerts, &1, &2)
     )
@@ -70,6 +72,15 @@ defmodule SiteWeb.AlertController do
     Map.put(accumulator, route, filtered_alerts)
   end
 
+  defp assign_timeframe(%{params: %{"timeframe" => timeframe}} = conn, _opts)
+       when timeframe in ["current", "upcoming"] do
+    assign(conn, :timeframe, timeframe)
+  end
+
+  defp assign_timeframe(conn, _opts) do
+    assign(conn, :timeframe, nil)
+  end
+
   defp all_routes(%{params: %{"id" => "subway"}} = conn, _opts), do: do_all_routes(conn, [0, 1])
   defp all_routes(%{params: %{"id" => "commuter-rail"}} = conn, _opts), do: do_all_routes(conn, 2)
   defp all_routes(%{params: %{"id" => "bus"}} = conn, _opts), do: do_all_routes(conn, 3)
@@ -80,8 +91,13 @@ defmodule SiteWeb.AlertController do
     assign(conn, :all_routes, Routes.Repo.by_type(route_types))
   end
 
-  defp all_alerts(%{params: %{"id" => id}} = conn, _opts) when id in @valid_ids do
-    assign(conn, :all_alerts, Alerts.Repo.all(conn.assigns.date_time))
+  defp all_alerts(%{params: %{"id" => id} = params} = conn, _opts) when id in @valid_ids do
+    all_alerts =
+      conn.assigns.date_time
+      |> Alerts.Repo.all()
+      |> filter_by_timeframe(params, conn.assigns.date_time)
+
+    assign(conn, :all_alerts, all_alerts)
   end
 
   defp all_alerts(conn, _opts) do
@@ -90,4 +106,17 @@ defmodule SiteWeb.AlertController do
 
   defp id_to_atom("commuter-rail"), do: :commuter_rail
   defp id_to_atom(id), do: String.to_existing_atom(id)
+
+  @spec filter_by_timeframe([Alert.t()], map, DateTime.t()) :: [Alert.t()]
+  def filter_by_timeframe(alerts, %{"timeframe" => "current"}, date_time) do
+    Enum.filter(alerts, &Match.any_time_match?(&1, date_time))
+  end
+
+  def filter_by_timeframe(alerts, %{"timeframe" => "upcoming"}, date_time) do
+    Enum.filter(alerts, &(Match.any_time_match?(&1, date_time) == false))
+  end
+
+  def filter_by_timeframe(alerts, %{}, %DateTime{}) do
+    alerts
+  end
 end
