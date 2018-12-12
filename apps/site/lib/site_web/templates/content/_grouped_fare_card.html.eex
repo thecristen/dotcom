@@ -8,10 +8,10 @@
         </div>
 
         <h3 class="c-fare-card__name">
-          <span class="c-fare-card__name_mode">
+          <span class="c-fare-card__name-mode">
             <%= Fares.Format.name(@first_fare) %>
           </span>
-          <span class="c-fare-card__name_duration">
+          <span class="c-fare-card__name-duration">
             <%= Fares.Format.duration(@first_fare) %>
           </span>
         </h3>
