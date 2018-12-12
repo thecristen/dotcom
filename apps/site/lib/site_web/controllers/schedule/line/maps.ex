@@ -4,14 +4,13 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   alias Stops.{RouteStops, RouteStop}
   alias Routes.{Shape, Route}
   alias Site.MapHelpers
-  import SiteWeb.Router.Helpers
 
   @moduledoc """
   Handles Map information for the line controller
   """
 
   def map_img_src(_, _, %Routes.Route{type: 4}, _path_color) do
-    static_url(SiteWeb.Endpoint, "/images/map_thumbnails/Ferry_Map.png")
+    MapHelpers.image(:ferry)
   end
 
   def map_img_src({route_stops, _shapes}, polylines, _route, path_color) do
