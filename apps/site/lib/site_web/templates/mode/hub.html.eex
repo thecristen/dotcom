@@ -3,7 +3,7 @@
 <div class="container">
   <div class="page-section">
     <div class="row">
-      <div class="mode-hub col-lg-7">
+      <div class="mode-hub col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-7">
         <h1>
           <%= svg_icon_with_circle(%SvgIconWithCircle{aria_hidden?: true, icon: @mode_icon}) %>
           <%= @mode_name %>
@@ -27,7 +27,7 @@
                                                                     all_alerts: @all_alerts,
                                                                     date_time: @date_time) %>
         </div>
-        <h2>Line Schedules</h2>
+        <h2>Schedules</h2>
         <%
           sub_routes = if mode == :subway, do: @green_routes, else: []
           grid_template_assigns = assigns
@@ -50,10 +50,12 @@
           <% end %>
         </p>
       </div>
-      <div class="col-lg-4 col-lg-offset-1">
-        <%= SiteWeb.PartialView.render("_trip_planner_widget.html", assigns) %>
+      <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-4 col-lg-offset-1">
+        <div class="m-mode-hub__trip-plan-widget">
+          <%= SiteWeb.PartialView.render("_trip_planner_widget.html", assigns) %>
+        </div>
         <div class="m-mode__guides">
-          <%= for guide <- @guides do SiteWeb.PartialView.teaser(guide, class: "m-mode-hub__guide") end %>
+          <%= for guide <- @guides do SiteWeb.PartialView.teaser(guide, class: "m-mode__guide") end %>
         </div>
         <%= unless Enum.empty?(@news) do %>
           <h3 class="h3">News</h3>

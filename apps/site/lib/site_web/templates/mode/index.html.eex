@@ -1,7 +1,7 @@
 <div class="container">
   <div class="page-section <%= assigns[:card_class] %>" id="schedules">
     <div class="row">
-      <div class="col-lg-7">
+      <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-7">
         <% h_level_section = if @home, do: :h2, else: :h1 %>
         <% route_types = Enum.map @grouped_routes, fn {mode, _routes} -> {mode, mode_path(@conn, mode)} end %>
         <% the_ride = [the_ride: cms_static_page_path(@conn, "/accessibility/the-ride")] %>
@@ -42,8 +42,10 @@
         <h2 class="h2">Maps</h2>
         <%= map_buttons([:subway, :bus, :commuter_rail, :commuter_rail_zones, :ferry]) %>
       </div>
-      <div class="col-lg-4 col-lg-offset-1">
-        <%= SiteWeb.PartialView.render("_trip_planner_widget.html", assigns) %>
+      <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-4 col-lg-offset-1">
+        <div class="m-mode-hub__trip-plan-widget">
+          <%= SiteWeb.PartialView.render("_trip_planner_widget.html", assigns) %>
+        </div>
         <div class="m-mode-hub__guides">
           <%= for guide <- @guides do SiteWeb.PartialView.teaser(guide, class: "m-mode-hub__guide") end %>
         </div>

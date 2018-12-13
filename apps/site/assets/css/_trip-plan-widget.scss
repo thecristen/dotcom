@@ -1,9 +1,7 @@
 .c-trip-plan-widget {
   background-color: $gray-bordered-background;
   border: solid 1px $gray-lightest;
-  margin-bottom: $base-spacing;
-  padding: $base-spacing;
-  padding-top: 0;
+  padding: 0 $base-spacing $base-spacing;
 }
 
 .c-trip-plan-widget__inputs {

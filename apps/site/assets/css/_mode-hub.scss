@@ -97,3 +97,11 @@
 .m-mode-hub__news {
   flex-direction: column;
 }
+
+.m-mode-hub__trip-plan-widget {
+  margin-bottom: $base-spacing;
+
+  @include media-breakpoint-down(md) {
+    margin-top: $base-spacing;
+  }
+}

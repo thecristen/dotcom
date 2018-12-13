@@ -84,7 +84,8 @@
   }
 }
 
-.c-grid-button--ferry {
+.c-grid-button--ferry,
+.c-grid-button--the-ride {
   @include media-breakpoint-up(sm) {
     flex-basis: 50%;
     max-width: 50%;
