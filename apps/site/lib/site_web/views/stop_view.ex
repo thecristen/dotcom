@@ -40,12 +40,14 @@ defmodule SiteWeb.StopView do
   end
 
   @spec render_alerts([Alerts.Alert], DateTime.t(), Stop.t()) :: Phoenix.HTML.safe() | String.t()
-  def render_alerts(stop_alerts, date, stop) do
+  def render_alerts(stop_alerts, date, stop, show_empty? \\ false) do
     SiteWeb.AlertView.modal(
       alerts: stop_alerts,
       hide_t_alerts: true,
+      show_empty?: show_empty?,
       time: date,
-      route: %{id: stop.id |> String.replace(" ", "-"), name: stop.name}
+      route: %{id: stop.id |> String.replace(" ", "-"), name: stop.name},
+      stop?: true
     )
   end
 
@@ -209,6 +211,7 @@ defmodule SiteWeb.StopView do
   @spec template_for_tab(String.t()) :: String.t()
   @doc "Returns the template to be rendered for the given tab"
   def template_for_tab("departures"), do: "_departures.html"
+  def template_for_tab("alerts"), do: "_alerts.html"
   def template_for_tab(_tab), do: "_info.html"
 
   @spec schedule_template(Route.route_type()) :: String.t()

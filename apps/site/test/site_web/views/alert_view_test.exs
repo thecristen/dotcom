@@ -275,6 +275,19 @@ defmodule SiteWeb.AlertViewTest do
       assert text =~ "There are currently no service alerts affecting the #{@route.name} today."
     end
 
+    test "text for no alerts of any type but show_empty? set" do
+      response =
+        modal(
+          alerts: [],
+          route: @route,
+          stop?: true,
+          show_empty?: true
+        )
+
+      text = safe_to_string(response)
+      assert text =~ "Service is running as expected at Name. There are no alerts at this time."
+    end
+
     test "text for no current alerts and 2 upcoming alerts" do
       response =
         SiteWeb.AlertView.render(

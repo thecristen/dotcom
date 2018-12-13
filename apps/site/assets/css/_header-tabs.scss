@@ -24,6 +24,7 @@
   }
 
   @include media-breakpoint-down(xs) {
+    font-size: $base-spacing * .85714; // 12 / 14
     padding: $space-8;
   }
 

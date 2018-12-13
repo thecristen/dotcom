@@ -110,6 +110,8 @@ defmodule SiteWeb.StopControllerTest do
     assert conn.assigns.tab == "info"
     conn = get(conn, stop_path(conn, :show, "place-sstat", tab: "departures"))
     assert conn.assigns.tab == "departures"
+    conn = get(conn, stop_path(conn, :show, "place-sstat", tab: "alerts"))
+    assert conn.assigns.tab == "alerts"
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
@@ -164,6 +166,15 @@ defmodule SiteWeb.StopControllerTest do
       conn
       |> assign(:all_alerts, @alerts)
       |> get(stop_path(conn, :show, "place-sstat", tab: "info"))
+
+    assert conn.assigns[:stop_alerts]
+  end
+
+  test "does assign stop alerts on alerts tab", %{conn: conn} do
+    conn =
+      conn
+      |> assign(:all_alerts, @alerts)
+      |> get(stop_path(conn, :show, "place-sstat", tab: "alerts"))
 
     assert conn.assigns[:stop_alerts]
   end

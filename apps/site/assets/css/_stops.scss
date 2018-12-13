@@ -277,3 +277,7 @@
 .station__name--upcase {
   text-transform: uppercase;
 }
+
+.station__address {
+  margin: $base-spacing 0;
+}

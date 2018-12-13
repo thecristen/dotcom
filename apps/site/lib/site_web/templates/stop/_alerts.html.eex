@@ -1,0 +1,7 @@
+<div class="page-section">
+  <div class="row">
+    <div class="col-xs-12">
+      <%= render_alerts(@stop_alerts, @date, @stop, true) %>
+    </div>
+  </div>
+</div>

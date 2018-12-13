@@ -123,6 +123,7 @@ defmodule SiteWeb.StopController do
   # Determine which tab should be displayed
   @spec tab_value(String.t() | nil) :: String.t()
   defp tab_value("departures"), do: "departures"
+  defp tab_value("alerts"), do: "alerts"
   defp tab_value(_), do: "info"
 
   @spec tab_assigns(Plug.Conn.t(), Stop.t(), [Routes.Route.t()]) :: Plug.Conn.t()
@@ -144,6 +145,11 @@ defmodule SiteWeb.StopController do
     |> assign(:stop_alerts, stop_alerts(alerts, stop))
     |> await_assign_all(10_000)
     |> assign_upcoming_route_departures()
+  end
+
+  defp tab_assigns(%{assigns: %{tab: "alerts", all_alerts: alerts}} = conn, stop, _routes) do
+    conn
+    |> assign(:stop_alerts, stop_alerts(alerts, stop))
   end
 
   defp assign_upcoming_route_departures(conn) do

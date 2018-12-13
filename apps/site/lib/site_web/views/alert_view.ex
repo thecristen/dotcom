@@ -13,7 +13,9 @@ defmodule SiteWeb.AlertView do
   """
   def modal(opts) do
     alerts = Keyword.fetch!(opts, :alerts)
-    _ = Keyword.fetch!(opts, :route)
+    route = Keyword.fetch!(opts, :route)
+    stop? = Keyword.get(opts, :stop?, false)
+    show_empty? = Keyword.get(opts, :show_empty?, false)
 
     upcoming_alerts = opts[:upcoming_alerts] || []
 
@@ -21,8 +23,17 @@ defmodule SiteWeb.AlertView do
       opts
       |> Keyword.put(:upcoming_alert_count, length(upcoming_alerts))
 
-    case {alerts, upcoming_alerts} do
-      {[], []} ->
+    case {alerts, upcoming_alerts, show_empty?} do
+      {[], [], true} ->
+        location = if stop?, do: ["at ", route.name], else: ["on the ", route.name]
+
+        content_tag(
+          :div,
+          ["Service is running as expected ", location, ". There are no alerts at this time."],
+          class: "callout"
+        )
+
+      {[], [], false} ->
         ""
 
       _ ->
