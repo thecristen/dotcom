@@ -43,7 +43,7 @@ $layout-cms: (
     ),
     sidebar-right: (
       title:    (span: 10),
-      sidebar:  (offset: 1)
+      sidebar:  (span: 4, offset: 1)
     )
   ),
   xxl: (
