@@ -16,6 +16,12 @@
   padding-left: $base-spacing;
 }
 
+.c-news-entry--large {
+  @include media-breakpoint-down(sm) {
+    padding-left: $base-spacing;
+  }
+}
+
 .c-news-entry__date {
   color: $black;
   flex: 0 0 20%;
