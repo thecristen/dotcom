@@ -47,6 +47,7 @@ import inputFocus from "./input-focus";
 import transitNearMe from "./transit-near-me";
 import routeMap from "./route-map";
 import channels from "./channels";
+import CRTrains from "./cr-timetable-trains";
 
 // Extra steps for non-modular javascript
 Turbolinks.start();
@@ -304,3 +305,4 @@ fullstory();
 transitNearMe();
 routeMap();
 channels();
+CRTrains();

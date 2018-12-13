@@ -1,4 +1,7 @@
 <%= if @trip_schedule do %>
+  <% 
+    trip_id = @schedule.trip.id
+  %>
   <span class="m-timetable__schedule">
     <span class="m-timetable__flag-icon">
       <%= if @trip_schedule.flag? do %>
@@ -17,13 +20,8 @@
       <span class="sr-only"><%= format_schedule_time_for_screenreader(@trip_schedule.time) %></span>
       <span aria-hidden="true"><%= format_schedule_time(@trip_schedule.time) %></span>
     </span>
-    <span class="m-timetable__vehicle-icon">
-      <%= if Map.has_key?(@vehicle_locations, {@schedule.trip.id, @stop.id}) do %>
-        <% vehicle = @vehicle_locations[{@schedule.trip.id, @stop.id}] %>
-        <%= timetable_location_display(vehicle) %>
-      <% else %>
+    <span class="m-timetable__vehicle-icon" id="<%="#{@stop.name}-#{trip_id}"%>">
         &nbsp;
-      <% end %>
     </span>
   </span>
 <% else %>

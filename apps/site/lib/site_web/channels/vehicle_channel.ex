@@ -10,6 +10,14 @@ defmodule SiteWeb.VehicleChannel do
     {:ok, socket}
   end
 
+  @impl true
+  @spec handle_in(String.t(), %{}, Phoenix.Socket.t()) :: {:noreply, Phoenix.Socket.t()}
+  def handle_in("init", %{"route_id" => route_id, "direction_id" => direction_id}, socket) do
+    vehicles = Vehicles.Repo.route(route_id, direction_id: String.to_integer(direction_id))
+    push(socket, "data", %{event: "reset", data: Enum.map(vehicles, &build_marker/1)})
+    {:noreply, socket}
+  end
+
   @spec handle_out(String.t(), %{required(:data) => [Vehicle.t()]}, Phoenix.Socket.t()) ::
           {:noreply, Phoenix.Socket.t()}
   def handle_out(event, %{data: vehicles}, socket) when event in ["reset", "add", "update"] do
@@ -27,7 +35,7 @@ defmodule SiteWeb.VehicleChannel do
   end
 
   @type data_map :: %{
-          required(:data) => Vehicle.t(),
+          required(:data) => %{vehicle: Vehicle.t(), stop_name: String.t()},
           required(:marker) => GoogleMaps.MapData.Marker.t()
         }
   @spec build_marker(Vehicles.Vehicle.t()) :: data_map
@@ -46,7 +54,7 @@ defmodule SiteWeb.VehicleChannel do
       })
 
     %{
-      data: vehicle,
+      data: %{vehicle: vehicle, stop_name: stop_name},
       marker: marker
     }
   end

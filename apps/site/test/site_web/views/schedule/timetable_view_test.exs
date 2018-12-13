@@ -1,86 +1,28 @@
 defmodule SiteWeb.Schedule.TimetableViewTest do
   use ExUnit.Case, async: true
   import SiteWeb.ScheduleView.Timetable
+  alias Schedules.Schedule
   import Phoenix.ConnTest, only: [build_conn: 0]
   import Phoenix.HTML, only: [safe_to_string: 1]
-  import VehicleHelpers, only: [build_tooltip_index: 3]
 
-  describe "timetable_location_display/1" do
-    test "given nil, returns the empty string" do
-      assert timetable_location_display(nil) == ""
-    end
-
-    test "otherwise, displays the CR icon" do
-      for status <- [:in_transit, :incoming, :stopped] do
-        assert %Vehicles.Vehicle{status: status}
-               |> timetable_location_display()
-               |> safe_to_string() =~ "c-svg__icon-commuter-rail-default"
-      end
-    end
-  end
-
-  describe "timetable_tooltip/4" do
-    @locations %{
-      {"CR-Weekday-Fall-18-515", "place-sstat"} => %Vehicles.Vehicle{
-        latitude: 1.1,
-        longitude: 2.2,
-        status: :stopped,
-        stop_id: "place-sstat",
-        trip_id: "CR-Weekday-Fall-18-515",
-        shape_id: "903_0018"
-      }
-    }
-
-    @predictions [
-      %Predictions.Prediction{
-        departing?: true,
-        time: ~N[2018-05-01T11:00:00],
-        status: "On Time",
-        trip: %Schedules.Trip{id: "CR-Weekday-Fall-18-515", shape_id: "903_0018"},
-        stop: %Stops.Stop{id: "place-sstat"}
-      }
-    ]
-
-    @route %Routes.Route{name: "Framingham/Worcester Line", type: 2}
-
-    @tooltips build_tooltip_index(@route, @locations, @predictions)
-
-    @tooltip_key {"CR-Weekday-Fall-18-515", "place-sstat"}
-
-    @expected_vehicle "Worcester train 515 has arrived at South Station"
+  describe "stop_tooltip/4" do
     @expected_flag "Flag Stop"
     @expected_delayed "Early Departure Stop"
 
     test "returns nil when there are no matches" do
-      assert nil == timetable_tooltip(%{}, {"a", "b"}, false, false)
-    end
-
-    test "returns only a vehicle" do
-      actual = timetable_tooltip(@tooltips, @tooltip_key, false, false)
-      assert actual =~ @expected_vehicle
-      refute actual =~ @expected_flag
-      refute actual =~ @expected_delayed
+      assert nil == stop_tooltip(%Schedule{})
     end
 
     test "returns only a flag stop" do
-      actual = timetable_tooltip(%{}, {"a", "b"}, false, true)
-      refute actual =~ @expected_vehicle
+      actual = stop_tooltip(%Schedule{flag?: true})
       assert actual =~ @expected_flag
       refute actual =~ @expected_delayed
     end
 
     test "returns only an early departure" do
-      actual = timetable_tooltip(%{}, {"a", "b"}, true, false)
-      refute actual =~ @expected_vehicle
+      actual = stop_tooltip(%Schedule{early_departure?: true})
       refute actual =~ @expected_flag
       assert actual =~ @expected_delayed
-    end
-
-    test "returns a vehicle and a flag stop" do
-      actual = timetable_tooltip(@tooltips, @tooltip_key, false, true)
-      assert actual =~ @expected_vehicle
-      assert actual =~ @expected_flag
-      refute actual =~ @expected_delayed
     end
   end
 
@@ -106,6 +48,9 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
 
       assigns = [
         conn: conn,
+        channel: "fakeId",
+        vehicle_schedules: [],
+        prior_stops: [],
         date: date,
         headsigns: headsigns,
         route: route,

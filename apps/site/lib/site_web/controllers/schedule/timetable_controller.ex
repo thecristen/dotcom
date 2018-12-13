@@ -12,6 +12,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   plug(:assign_trip_schedules)
   plug(SiteWeb.ScheduleController.Offset)
   plug(SiteWeb.ScheduleController.ScheduleError)
+  plug(:channel_id)
 
   defdelegate direction_id(conn, params),
     to: SiteWeb.ScheduleController.Defaults,
@@ -32,6 +33,8 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   defp assign_trip_schedules(conn, _) do
     timetable_schedules = timetable_schedules(conn)
     header_schedules = header_schedules(timetable_schedules)
+    vehicle_schedules = vehicle_schedules(timetable_schedules)
+    prior_stops = prior_stops(vehicle_schedules)
 
     %{
       trip_schedules: trip_schedules,
@@ -42,6 +45,8 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:header_schedules, header_schedules)
     |> assign(:trip_schedules, trip_schedules)
+    |> assign(:vehicle_schedules, vehicle_schedules)
+    |> assign(:prior_stops, prior_stops)
     |> assign(:trip_messages, trip_messages(conn.assigns.route, conn.assigns.direction_id))
     |> assign(:all_stops, all_stops)
   end
@@ -130,8 +135,34 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     |> Enum.map(&List.first/1)
   end
 
+  @spec vehicle_schedules(list) :: map
+  def vehicle_schedules(timetable_schedules) do
+    timetable_schedules
+    |> Enum.map(&construct_vehicle_data/1)
+    |> Map.new(&{"#{&1.stop_name}-#{&1.trip_id}", &1})
+  end
+
+  defp construct_vehicle_data(%Schedules.Schedule{
+         stop: %Stops.Stop{name: sn},
+         stop_sequence: s,
+         trip: %Schedules.Trip{id: ti}
+       }) do
+    %{stop_sequence: s, stop_name: sn, trip_id: ti}
+  end
+
+  @spec prior_stops(map) :: map
+  def prior_stops(vehicle_schedules) do
+    vehicle_schedules
+    |> Map.values()
+    |> Map.new(&{"#{&1.trip_id}-#{&1.stop_sequence}", "#{&1.stop_name}-#{&1.trip_id}"})
+  end
+
   defp remove_unused_stops(all_stops, schedules) do
     timetable_stop = MapSet.new(schedules, & &1.stop.id)
     Enum.filter(all_stops, &MapSet.member?(timetable_stop, &1.id))
+  end
+
+  defp channel_id(conn, _) do
+    assign(conn, :channel, "vehicles:#{conn.assigns.route.id}:#{conn.assigns.direction_id}")
   end
 end

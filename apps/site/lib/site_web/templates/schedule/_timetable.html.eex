@@ -90,15 +90,16 @@
             </td>
             <%= for schedule <- @header_schedules do %>
               <%
-                trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}]
-                early_departure? = Map.get(trip_schedule || %{}, :early_departure?, false)
-                flag_stop? = Map.get(trip_schedule || %{}, :flag?, false)
-                tooltip = timetable_tooltip(@vehicle_tooltips, {schedule.trip.id, stop.id}, early_departure?, flag_stop?)
+                trip_id = schedule.trip.id
+                trip_schedule = @trip_schedules[{trip_id, stop.id} || %{}]
+                tooltip = stop_tooltip(trip_schedule)
                 trip_message = @trip_messages[{schedule.trip.name, stop.id}]
+                tooltip_attrs = [html: true, toggle: "tooltip"]
               %>
               <%= content_tag :td, [
                 class: "js-tt-cell m-timetable__cell" <> cell_flag_class(trip_schedule) <> cell_via_class(trip_message),
-                data: if tooltip do [html: true, toggle: "tooltip"] else [] end,
+                id: "#{stop.name}-#{trip_id}-tooltip",
+                data: if tooltip do tooltip_attrs ++ [stop: raw(tooltip)] else tooltip_attrs end,
                 title: if tooltip do raw(tooltip) end
               ] do %>
                 <%= if trip_message do %>
@@ -118,3 +119,10 @@
   <%= render "_timetable_icon_key.html", assigns %>
   <%= render "_pdf_schedules.html", assigns %>
 </div>
+<script type="text/plaintext" id="js-cr-vehicle-data" data-channel="<%= @channel %>"></script>
+<script type="application/json" id="js-cr-vehicle-schedules-data">
+  <%= raw Poison.encode!(@vehicle_schedules) %>
+</script>
+<script type="application/json" id="js-cr-vehicle-prior-stops-data">
+  <%= raw Poison.encode!(@prior_stops) %>
+</script>

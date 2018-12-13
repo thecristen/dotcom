@@ -1,6 +1,7 @@
 defmodule Site.MapHelpers.MarkersTest do
   use ExUnit.Case, async: true
   alias GoogleMaps.MapData.{Marker, Symbol}
+  alias Site.MapHelpers.Markers
 
   @route %Routes.Route{
     description: :rapid_transit,
@@ -91,7 +92,7 @@ defmodule Site.MapHelpers.MarkersTest do
                longitude: longitude,
                tooltip: tooltip,
                z_index: 1_000
-             } = Site.MapHelpers.Markers.vehicle(vt)
+             } = Markers.vehicle(vt)
 
       assert id == "vehicle-" <> @vehicle.id
       assert latitude == @vehicle.latitude
@@ -124,7 +125,7 @@ defmodule Site.MapHelpers.MarkersTest do
                longitude: longitude,
                tooltip: tooltip,
                z_index: 1_000
-             } = Site.MapHelpers.Markers.vehicle(vt)
+             } = Markers.vehicle(vt)
 
       assert id == "vehicle-" <> @vehicle.id
       assert latitude == @vehicle.latitude
@@ -151,7 +152,7 @@ defmodule Site.MapHelpers.MarkersTest do
                size: :tiny,
                icon: "000000-dot",
                tooltip: tooltip
-             } = Site.MapHelpers.Markers.stop(@stop, false)
+             } = Markers.stop(@stop, false)
 
       assert latitude == @stop.latitude
       assert longitude == @stop.longitude
@@ -160,7 +161,7 @@ defmodule Site.MapHelpers.MarkersTest do
 
       assert %Marker{
                icon: "000000-dot-filled"
-             } = Site.MapHelpers.Markers.stop(@stop, true)
+             } = Markers.stop(@stop, true)
     end
   end
 end

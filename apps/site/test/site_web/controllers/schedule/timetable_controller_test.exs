@@ -12,21 +12,42 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
   ]
   @schedules [
     %Schedule{
+      stop_sequence: 1,
       time: DateTime.from_unix!(500),
-      stop: %Stop{id: "1"},
+      stop: %Stop{id: "1", name: "name1"},
       trip: %Trip{id: "trip-1", name: "123"}
     },
     %Schedule{
+      stop_sequence: 2,
       time: DateTime.from_unix!(5000),
-      stop: %Stop{id: "2"},
+      stop: %Stop{id: "2", name: "name2"},
       trip: %Trip{id: "trip-2", name: "456"}
     },
     %Schedule{
+      stop_sequence: 3,
       time: DateTime.from_unix!(50_000),
-      stop: %Stop{id: "3"},
+      stop: %Stop{id: "3", name: "name3"},
       trip: %Trip{id: "trip-3", name: "789"}
     }
   ]
+
+  @vehicle_schedules %{
+    "name1-trip-1" => %{
+      stop_name: "name1",
+      stop_sequence: 1,
+      trip_id: "trip-1"
+    },
+    "name2-trip-2" => %{
+      stop_name: "name2",
+      stop_sequence: 2,
+      trip_id: "trip-2"
+    },
+    "name3-trip-3" => %{
+      stop_name: "name3",
+      stop_sequence: 3,
+      trip_id: "trip-3"
+    }
+  }
 
   describe "build_timetable/2" do
     test "trip_schedules: a map from trip_id/stop_id to a schedule" do
@@ -51,6 +72,25 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
       %{all_stops: all_stops} = build_timetable(@stops, schedules)
       # other two stops were removed
       assert [%{id: "1"}] = all_stops
+    end
+  end
+
+  describe "vehicle_schedules/1" do
+    test "constructs vehicle data for channel consumption" do
+      vehicles = vehicle_schedules(@schedules)
+      assert @vehicle_schedules == vehicles
+    end
+  end
+
+  describe "prior_stops/1" do
+    test "creates a map of stop identifiers to stop sequences for a schedule" do
+      stops = prior_stops(@vehicle_schedules)
+
+      assert %{
+               "trip-1-1" => "name1-trip-1",
+               "trip-2-2" => "name2-trip-2",
+               "trip-3-3" => "name3-trip-3"
+             } == stops
     end
   end
 end

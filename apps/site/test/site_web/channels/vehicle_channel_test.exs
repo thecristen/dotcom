@@ -26,7 +26,7 @@ defmodule SiteWeb.VehicleChannelTest do
     assert %{data: [vehicle_with_marker]} = vehicles
 
     assert %{
-             data: ^vehicle,
+             data: %{stop_name: _, vehicle: ^vehicle},
              marker: %Marker{}
            } = vehicle_with_marker
   end
@@ -43,5 +43,21 @@ defmodule SiteWeb.VehicleChannelTest do
     assert_push("data", vehicles)
 
     assert vehicles == %{data: [Markers.vehicle_marker_id("vehicle_id")], event: "remove"}
+  end
+
+  test "responds to init push by sending data" do
+    assert {:ok, _, socket} =
+             ""
+             |> socket(%{some: :assign})
+             |> subscribe_and_join(VehicleChannel, "vehicles:VehicleChannelTest3")
+
+    assert {:noreply, %Phoenix.Socket{}} =
+             VehicleChannel.handle_in(
+               "init",
+               %{"route_id" => "route_id", "direction_id" => "0"},
+               socket
+             )
+
+    assert_push("data", _)
   end
 end

@@ -18,7 +18,13 @@ function initChannel(channelId, socket) {
       .receive("error", ({ reason }) =>
         console.error(`failed to join ${channelId}`, reason)
       )
-      .receive("timeout", () => console.error(`timeout joining ${channelId}`));
+      .receive("timeout", () => console.error(`timeout joining ${channelId}`))
+      .receive("ok", () => {
+        if (channelId !== "vehicles:remove") {
+          const route = channelId.split(":");
+          channel.push("init", { route_id: route[1], direction_id: route[2] });
+        }
+      });
   }
 }
 
