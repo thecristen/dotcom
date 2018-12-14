@@ -147,7 +147,11 @@ defmodule SiteWeb.ViewHelpersTest do
           IO.iodata_to_binary([text, " ", prices])
         end)
 
-      assert fares == ["CharlieTicket $3.50", "CharlieTicket $84.50", "mTicket App $74.50"]
+      assert fares == [
+               "CharlieTicket, Cash, or mTicket App $3.50",
+               "CharlieTicket $84.50",
+               "mTicket App $74.50"
+             ]
     end
   end
 
