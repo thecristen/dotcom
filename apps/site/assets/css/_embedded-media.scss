@@ -4,7 +4,8 @@
 // # of master-grid columns different types of media occupy,
 // depending on sidebar layout and on current breakpoint.
 //
-// full:     visual media - extends on both sides (images, iframes, videos)
+// callout:  full bleed callouts (asymmetrical two-column grid)
+// wide:     visual media - extends on both sides (images, iframes, videos)
 // text:     text-based media - extends on right side only (tables, quotes, fare card multi-columns)
 // left:     graphic media floated left
 // right:    graphic media floated right
@@ -12,15 +13,19 @@
 $layout-media: (
   sm: (
     c-cms: (
-      full:     (span: 12, offset: -1),
+      callout:  (span: 10),
+      wide:     (span: 12, offset: -1),
       text:     (span: 11),
       left:     (span: 6, offset: -1),
-      right:    (span: 6, offset: -1),
+      right:    (span: 6, offset: -1)
     )
   ),
   md: (
+    c-cms: (
+      callout:  (span: 10),
+    ),
     no-sidebar: (
-      full:     (span: 10, offset: -1),
+      wide:     (span: 10, offset: -1),
       text:     (span: 9),
       left:     (span: 5, offset: -1),
       right:    (span: 5, offset: -1)
@@ -32,37 +37,39 @@ $layout-media: (
   ),
   lg: (
     c-cms: (
+      callout:  (span: 10),
       text:     (span: 8),
       right:    (span: 4, offset: -1)
     ),
     no-sidebar: (
-      full:     (span: 9, offset: -1),
+      wide:     (span: 9, offset: -1),
       left:     (span: 4, offset: -1)
     ),
     sidebar-left: (
-      full:     (span: 8),
+      wide:     (span: 8),
       left:     (span: 3)
     ),
     sidebar-right: (
-      full:     (span: 8),
+      wide:     (span: 8),
       left:     (span: 3)
     )
   ),
   xxl: (
     c-cms: (
+      callout:  (span: 10),
       text:     (span: 7),
       right:    (span: 4, offset: -1)
     ),
     no-sidebar: (
-      full:     (span: 8, offset: -1),
+      wide:     (span: 8, offset: -1),
       left:     (span: 4, offset: -1)
     ),
     sidebar-left: (
-      full:     (span: 7),
+      wide:     (span: 7),
       left:     (span: 3)
     ),
     sidebar-right: (
-      full:     (span: 7),
+      wide:     (span: 7),
       left:     (span: 3)
     )
   )
@@ -138,8 +145,8 @@ $layout-media: (
   // to classify which element/class identifies as each type of media.
   // NOTE: These keys must match the ones found in $layout-media (_layout.scss).
   $supported-media: (
-    full: (
-      '.c-media--size-full'
+    wide: (
+      '.c-media--size-wide'
     ),
     text: (
       '.c-media--type-table'
@@ -149,6 +156,9 @@ $layout-media: (
     ),
     right: (
       '.c-media--align-right'
+    ),
+    callout: (
+      '.c-media--type-callout'
     )
   );
 

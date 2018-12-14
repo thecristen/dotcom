@@ -1,4 +1,4 @@
-<figure class="c-media c-media--type-widget c-media--size-full">
+<figure class="c-media c-media--type-widget c-media--size-wide">
   <div class="c-media__content">
     <div class="c-photo-gallery clearfix" data-component="photo-gallery">
       <%= for photo <- @photos do %>

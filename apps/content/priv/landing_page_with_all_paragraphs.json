@@ -5738,6 +5738,223 @@
           ]
         }
       ]
+    },
+    {
+      "target_id": 4757,
+      "target_revision_id": 75588,
+      "id": [
+        {
+          "value": 4757
+        }
+      ],
+      "uuid": [
+        {
+          "value": "f10ecc98-82cc-4f83-8cae-e8a3509527fb"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 75588
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "entity_reference",
+          "target_type": "paragraphs_type",
+          "target_uuid": "4f4bc898-e483-4da7-b7b1-21fa4f44554a"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1544133761
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2795"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_content_reference": [
+        {
+          "nid": [
+            {
+              "value": 3955
+            }
+          ],
+          "uuid": [
+            {
+              "value": "fce892eb-9cea-4f10-abab-135b3a316645"
+            }
+          ],
+          "vid": [
+            {
+              "value": 19790
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "callout",
+              "target_type": "node_type",
+              "target_uuid": "6c56ef13-6520-49f0-98ca-2b85bc010d73"
+            }
+          ],
+          "revision_timestamp": [
+            {
+              "value": 1544133875
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "revision_log": [],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "title": [
+            {
+              "value": "Visiting Boston?"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "created": [
+            {
+              "value": 1544133875
+            }
+          ],
+          "changed": [
+            {
+              "value": 1544133875
+            }
+          ],
+          "promote": [
+            {
+              "value": false
+            }
+          ],
+          "sticky": [
+            {
+              "value": false
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "sidebar": [
+            {
+              "value": false
+            }
+          ],
+          "path": [
+            {
+              "alias": null,
+              "pid": null,
+              "langcode": "en"
+            }
+          ],
+          "publish_on": [],
+          "unpublish_on": [],
+          "menu_link": [],
+          "body": [
+            {
+              "value": "<p>We created a guide just for you! Learn how you can get to all the best spots in Boston on the MBTA.</p>\r\n",
+              "format": "full_html",
+              "processed": "<p>We created a guide just for you! Learn how you can get to all the best spots in Boston on the MBTA.</p>\n",
+              "summary": ""
+            }
+          ],
+          "field_image": [
+            {
+              "url": "http://mbta.offline/sites/default/files/styles/whats_happening/public/projects/parking-prices/beverly-garage.png?itok=OpuWWmbv",
+              "alt": "Beverly parking garage"
+            }
+          ],
+          "field_url": [
+            {
+              "uri": "/summer-visitors-guide",
+              "title": "Check out our Visitor's Guide",
+              "options": []
+            }
+          ]
+        }
+      ]
     }
   ],
   "field_subtitle": [

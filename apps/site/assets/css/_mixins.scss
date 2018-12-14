@@ -219,7 +219,7 @@
     .c-cms__body & {
       // Reset row
       &.c-media {
-        margin: 1rem 0 1.5rem; // Defaults for .c-media--size-full
+        margin: 1rem 0 1.5rem; // Defaults for .c-media--size-wide
 
         &::after {
           content: none;

@@ -22,6 +22,7 @@ defmodule Content.Paragraph do
 
   alias Content.Paragraph.{
     Accordion,
+    Callout,
     ColumnMulti,
     CustomHTML,
     DescriptionList,
@@ -36,6 +37,7 @@ defmodule Content.Paragraph do
   @type t ::
           ColumnMulti.t()
           | Accordion.t()
+          | Callout.t()
           | CustomHTML.t()
           | DescriptionList.t()
           | FareCard.t()
@@ -46,6 +48,10 @@ defmodule Content.Paragraph do
           | UpcomingBoardMeetings.t()
 
   @spec from_api(map) :: t
+  def from_api(%{"type" => [%{"target_id" => "entity_reference"}]} = para) do
+    Callout.from_api(para)
+  end
+
   def from_api(%{"type" => [%{"target_id" => "custom_html"}]} = para) do
     CustomHTML.from_api(para)
   end

@@ -1,0 +1,25 @@
+<% img_class = @entity.image && "c-callout--with-image" %>
+
+<div class="c-media c-media--type-callout">
+  <div class="c-media__content">
+    <div class="c-media__element">
+      <div class="c-callout <%= img_class %> u-full-bleed">
+        <div class="c-callout__column c-callout__column--text">
+          <h2><%= @entity.title %></h2>
+          <%= @entity.body %>
+          <%= link @entity.link.title,
+              to: cms_static_page_path(@conn, @entity.link.url),
+              class: "c-call-to-action" %>
+        </div>
+        <%= if @entity.image do %>
+          <div class="c-callout__column c-callout__column--image">
+            <%= link to: cms_static_page_path(@conn, @entity.link.url),
+                     title: @entity.link.title do %>
+              <%= img_tag @entity.image.url, alt: @entity.image.alt, class: "c-callout__image" %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

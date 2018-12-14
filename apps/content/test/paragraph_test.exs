@@ -6,11 +6,12 @@ defmodule Content.ParagraphTest do
 
   alias Content.CMS.Static
   alias Content.Event
-  alias Content.Field.File
+  alias Content.Field.{File, Image, Link}
 
   alias Content.Paragraph.{
     Accordion,
     AccordionSection,
+    Callout,
     Column,
     ColumnMulti,
     ColumnMultiHeader,
@@ -188,6 +189,26 @@ defmodule Content.ParagraphTest do
 
       assert title_card1.title == "Example Card 1"
       assert safe_to_string(title_card1.body) =~ "<p>The body of the title card"
+    end
+
+    test "parses callout" do
+      api_data = api_paragraph("entity_reference")
+
+      assert %Callout{
+               body: body,
+               title: title,
+               image: %Image{} = image,
+               link: %Link{} = link
+             } = from_api(api_data)
+
+      assert title == "Visiting Boston?"
+      assert safe_to_string(body) =~ "<p>We created a guide just for you!"
+
+      assert image.url =~
+               "/sites/default/files/styles/whats_happening/public/projects/parking-prices/beverly-garage.png?itok="
+
+      assert link.url == "/summer-visitors-guide"
+      assert link.title == "Check out our Visitor's Guide"
     end
 
     test "parses upcoming board meetings" do

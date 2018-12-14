@@ -161,7 +161,7 @@ defmodule Site.ContentRewriterTest do
     test "wraps supported iframes as embedded media structures and sets aspect class for a supported source",
          %{conn: conn} do
       rewritten =
-        ~s(<figure class="c-media c-media--type-embed c-media--size-full">) <>
+        ~s(<figure class="c-media c-media--type-embed c-media--size-wide">) <>
           ~s(<div class="c-media__content">) <>
           ~s(<div class="c-media__element c-media__element--fixed-aspect c-media__element--aspect-wide">) <>
           ~s(<iframe class="c-media__embed" src="https://www.youtu.be/abcd1234"></iframe></div></div></figure>)
@@ -236,7 +236,7 @@ defmodule Site.ContentRewriterTest do
         |> safe_to_string()
 
       assert rewritten =~
-               ~s(<figure class="c-media c-media--type-image c-media--size-full"><div class="c-media__content">)
+               ~s(<figure class="c-media c-media--type-image c-media--size-wide"><div class="c-media__content">)
 
       assert rewritten =~
                ~s(<a class="c-media__link" href="/projects/wollaston-station-improvements" target="_blank">)

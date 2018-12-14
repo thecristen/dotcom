@@ -20,10 +20,10 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
             element: "",
             extra_classes: [],
             link_attrs: [],
-            size: :full,
+            size: :wide,
             type: :image
 
-  @valid_sizes [:full, :half, :third]
+  @valid_sizes [:wide, :half, :third]
   @valid_types [:image, :embed]
 
   @type t :: %__MODULE__{
@@ -125,7 +125,7 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
     proto_media = %__MODULE__{
       element: {"div", [{"class", "c-media__element"}], iframe},
       extra_classes: ["c-media__element--fixed-aspect", " ", "c-media__element--aspect-wide"],
-      size: :full,
+      size: :wide,
       type: :embed
     }
 
@@ -183,7 +183,7 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
   @spec get_attribute(list(), :size | :type) :: atom()
   defp get_attribute(classes, :size) do
     cond do
-      "media--view-mode-full" in classes -> :full
+      "media--view-mode-full" in classes -> :wide
       "media--view-mode-half" in classes -> :half
       "media--view-mode-third" in classes -> :half
       true -> :unknown

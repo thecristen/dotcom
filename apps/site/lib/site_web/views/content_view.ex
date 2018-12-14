@@ -7,6 +7,7 @@ defmodule SiteWeb.ContentView do
 
   alias Content.Paragraph.{
     Accordion,
+    Callout,
     ColumnMulti,
     CustomHTML,
     DescriptionList,
@@ -71,6 +72,10 @@ defmodule SiteWeb.ContentView do
 
   def render_paragraph(%Accordion{} = para, conn) do
     render("_accordion.html", paragraph: para, conn: conn)
+  end
+
+  def render_paragraph(%Callout{} = entity, conn) do
+    render("_callout.html", entity: entity, conn: conn)
   end
 
   def render_paragraph(%Unknown{} = para, _) do

@@ -97,3 +97,14 @@
   color: $error-text;
   padding: $base-spacing / 2;
 }
+
+.u-full-bleed {
+  background-color: $brand-primary-lightest-contrast;
+
+  @include media-breakpoint-up(sm) {
+    // Visual trick to avoid horizontal overflow scrollbars
+    // without needing to rebuild/reflow parent layout/grid.
+    box-shadow: -33vw 0 $brand-primary-lightest-contrast,
+                 33vw 0 $brand-primary-lightest-contrast;
+  }
+}

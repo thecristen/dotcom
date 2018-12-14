@@ -6,11 +6,12 @@ defmodule SiteWeb.ContentViewTest do
 
   alias Content.BasicPage
   alias Content.CMS.Static
-  alias Content.Field.{File, Link}
+  alias Content.Field.{File, Image, Link}
 
   alias Content.Paragraph.{
     Accordion,
     AccordionSection,
+    Callout,
     Column,
     ColumnMulti,
     ColumnMultiHeader,
@@ -200,6 +201,39 @@ defmodule SiteWeb.ContentViewTest do
 
       assert rendered =~ person.name
       assert rendered =~ person.position
+    end
+
+    test "renders a Paragraph.Callout", %{conn: conn} do
+      callout = %Callout{
+        title: "Visiting Boston?",
+        body: HTML.raw("<p>We created a guide just for you!</p>"),
+        image: %Image{
+          url: "/sites/default/files/styles/whats_happening/public/image.png",
+          alt: "Alternative text for image"
+        },
+        link: %Link{
+          title: "Title for URL",
+          url: "/cms-link"
+        }
+      }
+
+      rendered =
+        callout
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ ~s(<h2>Visiting Boston?</h2>)
+      assert rendered =~ ~s(<p>We created a guide just for you!</p>)
+      assert rendered =~ callout.link.url
+      assert rendered =~ "c-callout__column--image"
+
+      imageless =
+        callout
+        |> struct(%{image: nil})
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      refute imageless =~ "c-callout__column--image"
     end
 
     test "renders a DescriptionList", %{conn: conn} do

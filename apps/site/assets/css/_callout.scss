@@ -1,0 +1,66 @@
+.c-callout {
+  @include make-row;
+
+  // Prevent collapsing margin-tops
+  border-top: 1px solid transparent;
+  margin-bottom: 3rem;
+  margin-top: 3rem;
+
+  &.c-callout--with-image {
+    // Callouts w/images don't need as much room
+    margin-bottom: 2rem;
+
+    @include media-breakpoint-only(xxl) {
+      // Sibling element should clear overhang
+      margin-bottom: 2.25rem;
+    }
+  }
+}
+
+.c-callout__column {
+  @include make-col;
+  @include media-breakpoint-up(sm) {
+    @include make-col-span(6);
+  }
+}
+
+.c-callout__column--text {
+  padding-bottom: 2.25rem;
+
+  .c-callout--with-image & {
+    @include media-breakpoint-only(xs) {
+      // Allow extra space for adjacent image to "bite" into this container.
+      padding-bottom: 8rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      // Add space above for better optical balance between both columns.
+      padding-top: 2.25rem;
+    }
+  }
+}
+
+.c-callout__column--image {
+  @include media-breakpoint-only(xs) {
+    background-color: $white;
+  }
+}
+
+.c-callout__image {
+  @include img-fluid;
+
+  margin: 2.25rem 0;
+
+  .c-callout--with-image & {
+    @include media-breakpoint-only(xs) {
+      // Image "bites" into previous container
+      margin-bottom: 1rem;
+      margin-top: -6.5rem;
+    }
+
+    @include media-breakpoint-only(xxl) {
+      // Image appears to overhang container
+      margin-bottom: -2.25rem;
+    }
+  }
+}
