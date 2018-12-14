@@ -1,17 +1,19 @@
-<%= if @paragraph.header do %>
-  <%= ContentRewriter.rewrite(@paragraph.header.text, @conn) %>
-<% end %>
+<div class="c-multi-column">
+  <%= if @paragraph.header do %>
+    <%= ContentRewriter.rewrite(@paragraph.header.text, @conn) %>
+  <% end %>
 
-<%= extend_width_if Content.Paragraph.ColumnMulti.includes_fare_cards?(@paragraph) do %>
-  <div class="row">
-    <%= for column <- @paragraph.columns do %>
-      <div class="col-md-<%= grid(@paragraph) %>">
+  <%= extend_width_if Content.Paragraph.ColumnMulti.includes_fare_cards?(@paragraph) do %>
+    <div class="c-multi-column__row row">
+      <%= for column <- @paragraph.columns do %>
+        <div class="c-multi-column__col col-md-<%= grid(@paragraph) %>">
 
-        <%= for paragraph <- column.paragraphs do %>
-          <%= SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
-        <% end %>
+          <%= for paragraph <- column.paragraphs do %>
+            <%= SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
+          <% end %>
 
-      </div>
-    <% end %>
-  </div>
-<% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,12 @@
+.c-multi-column__row,
+.c-multi-column__col {
+  @include media-breakpoint-up(md) {
+    display: flex;
+  }
+}
+
+.c-multi-column__col {
+  @include media-breakpoint-up(md) {
+    flex-direction: column;
+  }
+}

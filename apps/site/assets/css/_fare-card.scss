@@ -1,6 +1,7 @@
 .c-fare-card {
   border: 2px solid;
   line-height: normal;
+  flex-grow: 1;
   margin: 1.375rem 0 1rem;
   padding: 1.375rem 1rem 1rem;
   position: relative;
@@ -66,7 +67,6 @@
 
 .c-fare-card__note {
   font-size: .875rem;
-  min-height: 2.4em;
 }
 
 .c-fare-card--grouped {
@@ -75,6 +75,10 @@
   .c-fare-card__header {
     border-bottom: 2px solid;
     padding-top: 1.375rem;
+  }
+
+  .c-fare-card__note {
+    min-height: 2.4em;
   }
 
   .row {
