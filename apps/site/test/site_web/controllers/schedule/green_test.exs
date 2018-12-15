@@ -16,8 +16,7 @@ defmodule SiteWeb.ScheduleController.GreenTest do
     test "renders line tab without redirect when query_params doesn't include :tab", %{conn: conn} do
       conn = get(conn, schedule_path(conn, :show, "Green"))
 
-      assert catch_error(redirected_to(conn, 302)) ==
-               %RuntimeError{message: "expected redirection with status 302, got: 200"}
+      assert conn.status == 200
 
       assert conn.assigns.tab == "line"
     end
@@ -28,10 +27,20 @@ defmodule SiteWeb.ScheduleController.GreenTest do
       conn = get(conn, schedule_path(conn, :show, "Green", %{tab: "trip-view"}))
       assert conn.query_params == %{"tab" => "trip-view"}
 
-      assert catch_error(redirected_to(conn, 302)) ==
-               %RuntimeError{message: "expected redirection with status 302, got: 200"}
+      assert conn.status == 200
 
       assert conn.assigns.tab == "trip-view"
+    end
+
+    test ~s(renders alerts tab without redirecting when query params = %{tab => alerts}), %{
+      conn: conn
+    } do
+      conn = get(conn, schedule_path(conn, :show, "Green", %{tab: "alerts"}))
+      assert conn.query_params == %{"tab" => "alerts"}
+
+      assert conn.status == 200
+
+      assert conn.assigns.tab == "alerts"
     end
 
     test ~s(renders line tab without redirecting when query params = %{tab => trip-view}), %{
@@ -40,8 +49,7 @@ defmodule SiteWeb.ScheduleController.GreenTest do
       conn = get(conn, schedule_path(conn, :show, "Green", %{tab: "line"}))
       assert conn.query_params == %{"tab" => "line"}
 
-      assert catch_error(redirected_to(conn, 302)) ==
-               %RuntimeError{message: "expected redirection with status 302, got: 200"}
+      assert conn.status == 200
 
       assert conn.assigns.tab == "line"
     end

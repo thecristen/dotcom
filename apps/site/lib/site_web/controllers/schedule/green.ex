@@ -7,7 +7,7 @@ defmodule SiteWeb.ScheduleController.Green do
   plug(:route)
   plug(SiteWeb.Plugs.DateInRating)
   plug(SiteWeb.ScheduleController.DatePicker)
-  plug(:alerts)
+  plug(:all_alerts)
   plug(SiteWeb.Plugs.UpcomingAlerts)
   plug(SiteWeb.ScheduleController.Defaults)
   plug(:stops_on_routes)
@@ -36,11 +36,20 @@ defmodule SiteWeb.ScheduleController.Green do
   def show(%Plug.Conn{query_params: %{"tab" => "trip-view"}} = conn, _params),
     do: trip_view(conn, [])
 
+  def show(%Plug.Conn{query_params: %{"tab" => "alerts"}} = conn, _params),
+    do: alerts(conn, [])
+
   def show(conn, _parmas), do: line(conn, [])
 
   def trip_view(conn, _params) do
     conn
     |> assign(:tab, "trip-view")
+    |> render(SiteWeb.ScheduleView, "show.html", [])
+  end
+
+  def alerts(conn, _params) do
+    conn
+    |> assign(:tab, "alerts")
     |> render(SiteWeb.ScheduleView, "show.html", [])
   end
 
@@ -141,7 +150,7 @@ defmodule SiteWeb.ScheduleController.Green do
     |> assign(:vehicle_predictions, vehicle_predictions)
   end
 
-  def alerts(conn, _opts) do
+  def all_alerts(conn, _opts) do
     assign(
       conn,
       :all_alerts,

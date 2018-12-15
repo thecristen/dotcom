@@ -10,9 +10,11 @@ defmodule SiteWeb.PartialView.HeaderTabs do
   end
 
   def render_tab(name, href, selected, class) do
+    id = slug(name)
+
     Phoenix.HTML.Link.link to: href,
-                           id: slug(name),
-                           class: "header-tab #{selected_class(selected)} #{class}" do
+                           id: id,
+                           class: "header-tab #{selected_class(selected)} #{class} #{id}" do
       name
     end
   end

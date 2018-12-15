@@ -26,6 +26,13 @@ defmodule SiteWeb.ScheduleController do
     )
   end
 
+  def show(%{query_params: %{"tab" => "alerts"} = query_params} = conn, _params) do
+    tab_redirect(
+      conn,
+      alerts_path(conn, :show, conn.assigns.route.id, Map.delete(query_params, "tab"))
+    )
+  end
+
   def show(
         %{assigns: %{route: %Route{type: 2, id: route_id}}, query_params: query_params} = conn,
         _params

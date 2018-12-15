@@ -435,6 +435,19 @@ defmodule SiteWeb.ScheduleControllerTest do
       refute path =~ "tab="
     end
 
+    test "alerts tab", %{conn: conn} do
+      conn =
+        get(
+          conn,
+          schedule_path(conn, :show, "CR-Worcester", tab: "alerts", origin: "place-sstat")
+        )
+
+      path = redirected_to(conn, 302)
+      path =~ alerts_path(conn, :show, "CR-Worcester")
+      path =~ "origin=place-sstat"
+      refute path =~ "tab="
+    end
+
     test "trip_view tab", %{conn: conn} do
       conn =
         get(

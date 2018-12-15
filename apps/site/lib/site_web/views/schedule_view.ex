@@ -52,6 +52,7 @@ defmodule SiteWeb.ScheduleView do
   def template_for_tab("trip-view"), do: "_trip_view.html"
   def template_for_tab("timetable"), do: "_timetable.html"
   def template_for_tab("line"), do: "_line.html"
+  def template_for_tab("alerts"), do: "_alerts.html"
 
   @spec reverse_direction_opts(Stops.Stop.t() | nil, Stops.Stop.t() | nil, 0..1) :: Keyword.t()
   def reverse_direction_opts(origin, destination, direction_id) do
@@ -333,11 +334,17 @@ defmodule SiteWeb.ScheduleView do
     schedule_link = trip_view_path(conn, :show, route.id, tab_params)
     info_link = line_path(conn, :show, route.id, tab_params)
     timetable_link = timetable_path(conn, :show, route.id, tab_params)
-    tabs = [{"trip-view", "Schedule", schedule_link}, {"line", "Info & Maps", info_link}]
+    alerts_link = alerts_path(conn, :show, route.id, tab_params)
+
+    tabs = [
+      {"trip-view", "Schedule", schedule_link},
+      {"line", "Info & Maps", info_link},
+      {"alerts", "Alerts", alerts_link}
+    ]
 
     tabs =
       case route.type do
-        2 -> [{"timetable", "Timetable", timetable_link} | tabs]
+        2 -> [{"timetable", "Timetable", timetable_link}, {"line", "Info", info_link} | tabs]
         _ -> tabs
       end
 

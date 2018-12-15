@@ -1035,6 +1035,20 @@ del .trip-list-realtime {
 
 .schedule__header {
   color: $white;
+
+  &.u-bg--commuter-rail {
+    .info-\&-maps-tab {
+      @include media-breakpoint-down(xs) {
+        display: none;
+      }
+    }
+
+    .info-tab {
+      @include media-breakpoint-up(sm) {
+        display: none;
+      }
+    }
+  }
 }
 
 .schedule__header-container {

@@ -957,6 +957,40 @@ defmodule SiteWeb.ScheduleViewTest do
     end
   end
 
+  describe "route_header_tabs/1" do
+    test "returns 5 tabs for commuter rail (1 hidden by css)", %{conn: conn} do
+      tabs =
+        conn
+        |> assign(:route, %Route{type: 2})
+        |> assign(:tab, "alerts")
+        |> assign(:tab_params, [])
+        |> route_header_tabs()
+        |> safe_to_string()
+
+      assert tabs =~ "info-tab"
+      assert tabs =~ "schedule-tab"
+      assert tabs =~ "info-&amp;-maps-tab"
+      assert tabs =~ "timetable-tab"
+      assert tabs =~ "alerts-tab"
+    end
+
+    test "returns 3 tabs for other routes", %{conn: conn} do
+      tabs =
+        conn
+        |> assign(:route, %Route{type: 3})
+        |> assign(:tab, "alerts")
+        |> assign(:tab_params, [])
+        |> route_header_tabs()
+        |> safe_to_string()
+
+      assert tabs =~ "schedule-tab"
+      assert tabs =~ "info-&amp;-maps-tab"
+      assert tabs =~ "alerts-tab"
+      refute tabs =~ "info-tab"
+      refute tabs =~ "timetable-tab"
+    end
+  end
+
   describe "to_fare_atom/1" do
     test "silver line returns subway" do
       assert to_fare_atom(%Route{type: 3, id: "741"}) == :subway

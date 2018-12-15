@@ -1,0 +1,7 @@
+<div class="page-section m-schedule-line">
+  <div class="row">
+    <div class="col-xs-12">
+      <%= SiteWeb.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date, show_empty?: true) %>
+    </div>
+  </div>
+</div>
