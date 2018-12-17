@@ -129,15 +129,16 @@
   }
 }
 
+.m-timetable__row-header--empty {
+  position: relative;
+}
+
+
 .m-timetable__stop-name {
   @include icon-size-inline(1em);
   align-items: center;
   display: inline-flex;
-  font-weight: bold;
-
-  @include media-breakpoint-down(xs) {
-    font-weight: normal;
-  }
+  font-weight: $font-weight-medium;
 }
 
 .m-timetable__stop-link {
@@ -165,7 +166,6 @@
     @include icon-size(12px)
   }
 }
-
 
 .m-timetable__row,
 .m-timetable__cell {
@@ -231,6 +231,23 @@
 
 .m-timetable__header-cell {
   background: $brand-primary-lightest;
+}
+
+.m-timetable__cell--first-column-header {
+  line-height: 1.5625rem;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.m-timetable__cell--first-column::after {
+  background: linear-gradient(to right, transparentize($gray-lighter, .3), transparent);
+  content: '';
+  display: block;
+  height: 100%;
+  position: absolute;
+  right: -4px;
+  top: 0;
+  width: 4px;
 }
 
 .m-timetable__schedule {

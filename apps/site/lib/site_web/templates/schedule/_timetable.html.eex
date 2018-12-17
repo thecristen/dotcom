@@ -10,7 +10,7 @@
         should_show_scroll_controls? = match?([_, _ | _], @header_schedules)
     %>
     <div class="m-timetable__header hidden-no-js">
-      <div class="m-timetable__cell m-timetable__cell--gray m-timetable__row-header--empty"></div>
+      <div class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__row-header--empty"></div>
       <div class="m-timetable__col-headers" aria-hidden="true">
         <%= if should_show_scroll_controls? do %>
           <span class="m-timetable__trains-label">Trains</span>
@@ -22,7 +22,7 @@
     <div id="timetable" class="m-timetable__table-container" data-sticky-container>
       <table class="m-timetable__table" aria-label="Timetable for <%= @route.name %>">
         <tr>
-          <th scope="col" class="m-timetable__cell m-timetable__cell--gray" data-absolute>
+          <th scope="col" class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header" data-absolute>
             <div class="m-timetable__row-header">Stops</div>
           </th>
           <td class="hidden-no-js">
@@ -39,7 +39,7 @@
           <% end %>
         </tr>
         <tr>
-          <th scope="row" class="m-timetable__cell m-timetable__cell--gray m-timetable__bike-icon-spacer" data-absolute>
+          <th scope="row" class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__bike-icon-spacer" data-absolute>
             <div class="m-timetable__row-header">
               <span class="sr-only">Bicycles Allowed?</span>
               <%=
@@ -71,7 +71,8 @@
             <%= content_tag :th, [
               scope: "row",
               data: [absolute: true],
-              class: "js-tt-stop-name m-timetable__cell m-timetable__cell--" <> cell_background
+              class: "js-tt-stop-name m-timetable__cell--first-column m-timetable__cell m-timetable__cell--" <>
+                cell_background
             ] do %>
               <div class="m-timetable__row-header m-timetable__stop-name">
                 <%= link to: stop_path(@conn, :show, stop.id), class: "m-timetable__stop-link" do %>
