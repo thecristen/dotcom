@@ -6,6 +6,9 @@
     <div class="row">
       <div class="col-lg-3">
         <%= time_filters(@id, @timeframe) %>
+        <div class="hidden-md-down">
+          <%= render "_t-alerts.html" %>
+        </div>
       </div>
       <div class="col-lg-8 col-lg-offset-1">
         <div class="m-alerts__mode-buttons">
@@ -37,16 +40,8 @@
             There are no current service alerts for <%= mode_name(@id) %>.
           </div>
         <% end %>
-      </div>
-    </div>
-    <div class="m-alerts-header">
-      <div class="t-alert-container-big">
-        <h2 class="h2">Sign-up for T-Alerts!</h2>
-        <p>Test the new and improved version of T-Alerts.<br>
-        Tell us about your travel plans and receive text or email alerts about delays that are relevant to you.</p>
-        <div class="c-inline-buttons">
-          <%= link "Learn more", to: "https://www.mbta.com/about-t-alerts", class: "btn" %>
-          <%= link "Sign-up", to: "https://alerts.mbta.com/", class: "btn btn-white" %>
+        <div class="hidden-lg-up">
+          <%= render "_t-alerts.html" %>
         </div>
       </div>
     </div>

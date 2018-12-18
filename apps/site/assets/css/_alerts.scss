@@ -371,7 +371,7 @@
   border-style: solid;
   border-width: 0 1px 1px;
   flex: 1 1 auto;
-  padding: $base-spacing / 2;
+  padding: $base-spacing * .75 $base-spacing;
 
   @include media-breakpoint-between(sm, md) {
     border-width: 1px 1px 1px 0;
@@ -403,5 +403,74 @@
 
   &--selected {
     background: $brand-primary-lightest;
+  }
+}
+
+.m-alerts-ad {
+  background: $brand-primary;
+  color: $white;
+  padding: $space-1 $base-spacing 0;
+}
+
+.m-alerts-ad__content {
+  display: flex;
+  flex-direction: column;
+
+  @include media-breakpoint-between(sm, md) {
+    flex-direction: row;
+  }
+}
+
+.m-alerts-ad__buttons,
+.m-alerts-ad__image {
+  flex-basis: auto;
+  flex-grow: 1;
+}
+
+.m-alerts-ad__buttons {
+  flex: 1 1 auto;
+
+  @include media-breakpoint-only(md) {
+    flex-basis: 60%;
+    padding-right: $base-spacing * 4;
+  }
+}
+
+.m-alerts-ad__image {
+  flex: 0 0 25%;
+  max-height: $base-spacing * 13;
+  overflow-y: hidden;
+
+  @include media-breakpoint-between(sm, md) {
+    flex-basis: 40%;
+  }
+
+  @include media-breakpoint-down(xs) {
+    max-height: $base-spacing * 25;
+  }
+
+  img {
+    width: 100%;
+  }
+}
+
+.m-alerts-ad__link {
+  border: 1px solid $white;
+  border-radius: $border-radius;
+  color: $white;
+  display: block;
+  margin-bottom: $base-spacing / 2;
+  padding: $base-spacing * .75 $base-spacing;
+  text-align: center;
+}
+
+.m-alerts-ad__link--create {
+  background: $white;
+  color: $brand-primary;
+}
+
+.m-alerts-ad__link--login {
+  &:hover {
+    color: $white;
   }
 }
