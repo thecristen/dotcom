@@ -29,6 +29,7 @@ export class RouteMap {
   clearMap() {
     this.map
       .activeMarkers()
+      .filter(RouteMap.isVehicle)
       .forEach(marker => this.map.removeMarker(marker.id));
   }
 
@@ -39,6 +40,10 @@ export class RouteMap {
 
   onRemoveVehicles(ev, { data, event }) {
     data.forEach(id => this.map.removeMarker(id));
+  }
+
+  static isVehicle(marker) {
+    return marker.id.slice(0, 8) === "vehicle-";
   }
 }
 
