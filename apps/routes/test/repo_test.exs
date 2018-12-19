@@ -42,7 +42,7 @@ defmodule Routes.RepoTest do
                type: 3,
                name: "SL1",
                long_name: "Logan Airport - South Station",
-               description: :rapid_transit
+               description: :key_bus_route
              }
     end
 
@@ -99,7 +99,7 @@ defmodule Routes.RepoTest do
 
   test "key bus routes are tagged" do
     assert %Routes.Route{description: :key_bus_route} = Routes.Repo.get("1")
-    assert %Routes.Route{description: :rapid_transit} = Routes.Repo.get("741")
+    assert %Routes.Route{description: :key_bus_route} = Routes.Repo.get("741")
     assert %Routes.Route{description: :local_bus} = Routes.Repo.get("47")
   end
 
