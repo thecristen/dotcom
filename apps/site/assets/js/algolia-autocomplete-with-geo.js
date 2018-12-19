@@ -7,6 +7,7 @@ import * as AlgoliaResult from "./algolia-result";
 export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   constructor(id, selectors, indices, locationParams, popular, parent) {
     super(id, selectors, indices, parent);
+    this.sessionToken = null;
     if (!this._parent.getParams) {
       this._parent.getParams = () => {
         return {};
@@ -24,6 +25,26 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     this._indices.splice(this._locationParams.position, 0, "locations");
     this._indices.push("usemylocation");
     this._indices.push("popular");
+  }
+
+  bind() {
+    super.bind();
+    this.onFocus = this.onFocus.bind(this);
+  }
+
+  _addListeners() {
+    super._addListeners();
+    this._input.addEventListener("focus", this.onFocus);
+  }
+
+  onFocus() {
+    if (!this.sessionToken) {
+      this.sessionToken = new window.google.maps.places.AutocompleteSessionToken();
+    }
+  }
+
+  resetSessionToken() {
+    this.sessionToken = null;
   }
 
   addUseMyLocationErrorEl() {
@@ -51,19 +72,22 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     }
   }
 
-  _locationSource(index) {
-    return (query, callback) => {
-      const bounds = {
+  _locationSource(index, service) {
+    // service can be injected in tests
+    return (input, callback) => {
+      const searchBounds = {
         west: 41.3193,
         north: -71.938,
         east: 42.8266,
         south: -69.6189
       };
-      return GoogleMapsHelpers.autocomplete(
-        query,
-        bounds,
-        this._locationParams.hitLimit
-      )
+      return GoogleMapsHelpers.autocomplete({
+        input,
+        searchBounds,
+        service,
+        sessionToken: this.sessionToken,
+        hitLimit: this._locationParams.hitLimit
+      })
         .then(results => this._onResults(callback, index, results))
         .catch(err => console.error(err));
     };
@@ -103,13 +127,14 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     }
   }
 
-  onHitSelected(ev) {
+  onHitSelected(ev, placesService) {
+    // placesService can be injected in tests
     const hit = ev.originalEvent;
     const index = hit._args[1];
     switch (index) {
       case "locations":
         this._input.value = hit._args[0].description;
-        this._doLocationSearch(hit._args[0].id);
+        this._doLocationSearch(hit._args[0].id, placesService);
         break;
       case "usemylocation":
         this.useMyLocationSearch();
@@ -138,8 +163,8 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     }
   }
 
-  _doLocationSearch(placeId) {
-    return GoogleMapsHelpers.lookupPlace(placeId)
+  _doLocationSearch(placeId, service) {
+    return GoogleMapsHelpers.lookupPlace(placeId, this.sessionToken, service)
       .then(result => this._onLocationSearchResult(result))
       .catch(err =>
         console.error("Error looking up place_id from Google Maps.", err)
@@ -147,6 +172,7 @@ export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   }
 
   _onLocationSearchResult(result) {
+    this.resetSessionToken();
     return this.showLocation(
       result.geometry.location.lat(),
       result.geometry.location.lng(),

@@ -161,8 +161,9 @@ export class AlgoliaResults {
 
   _locationSearch(placeId) {
     return () => {
-      GoogleMapsHelpers.lookupPlace(placeId)
+      GoogleMapsHelpers.lookupPlace(placeId, this._parent.getSessionToken())
         .then(result => {
+          this._parent.resetSessionToken();
           this._showLocation(
             result.geometry.location.lat(),
             result.geometry.location.lng(),

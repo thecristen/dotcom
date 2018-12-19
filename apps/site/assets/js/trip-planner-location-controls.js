@@ -296,8 +296,9 @@ export class TripPlannerLocControls {
           );
           break;
         case "locations":
-          GoogleMapsHelpers.lookupPlace(hit.place_id)
+          GoogleMapsHelpers.lookupPlace(hit.place_id, ac.sessionToken)
             .then(res => {
+              ac.resetSessionToken();
               const geo = res.geometry.location;
               this.setAutocompleteValue(
                 ac,

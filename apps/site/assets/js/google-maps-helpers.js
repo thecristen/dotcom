@@ -1,20 +1,31 @@
-export function autocomplete(query, searchBounds, hitLimit) {
-  if (query.length == 0) {
+export function autocomplete({
+  input,
+  searchBounds,
+  hitLimit,
+  sessionToken,
+  service
+}) {
+  if (input.length === 0) {
     return Promise.resolve({});
-  } else {
-    return new Promise((resolve, reject) => {
-      new google.maps.places.AutocompleteService().getPlacePredictions(
-        {
-          input: query,
-          bounds: new google.maps.LatLngBounds(
-            new google.maps.LatLng(searchBounds.west, searchBounds.north),
-            new google.maps.LatLng(searchBounds.east, searchBounds.south)
-          )
-        },
-        processAutocompleteResults(resolve, reject, hitLimit)
-      );
-    });
   }
+
+  return new Promise((resolve, reject) => {
+    // service can be stubbed in tests
+    const autocompleteService =
+      service || new window.google.maps.places.AutocompleteService();
+
+    autocompleteService.getPlacePredictions(
+      {
+        input,
+        sessionToken,
+        bounds: new window.google.maps.LatLngBounds(
+          new window.google.maps.LatLng(searchBounds.west, searchBounds.north),
+          new window.google.maps.LatLng(searchBounds.east, searchBounds.south)
+        )
+      },
+      processAutocompleteResults(resolve, reject, hitLimit)
+    );
+  });
 }
 
 function processAutocompleteResults(resolve, reject, hitLimit) {
@@ -25,7 +36,7 @@ function processAutocompleteResults(resolve, reject, hitLimit) {
         nbHits: 0
       }
     };
-    if (status != google.maps.places.PlacesServiceStatus.OK) {
+    if (status != window.google.maps.places.PlacesServiceStatus.OK) {
       return resolve(results);
     }
     results.locations = {
@@ -36,14 +47,19 @@ function processAutocompleteResults(resolve, reject, hitLimit) {
   };
 }
 
-export function lookupPlace(placeId) {
-  const places = new google.maps.places.PlacesService(
-    document.createElement("div")
-  );
+export function lookupPlace(placeId, sessionToken, service) {
+  const places =
+    service ||
+    new window.google.maps.places.PlacesService(document.createElement("div"));
+
+  const fields = ["formatted_address", "geometry"];
+
   return new Promise((resolve, reject) => {
     places.getDetails(
       {
-        placeId: placeId
+        placeId,
+        sessionToken,
+        fields
       },
       processPlacesCallback(resolve, reject)
     );
@@ -79,7 +95,7 @@ function processGeocodeCallback(resolve, reject) {
 
 function processPlacesCallback(resolve, reject) {
   return (place, status) => {
-    if (status != google.maps.places.PlacesServiceStatus.OK) {
+    if (status != window.google.maps.places.PlacesServiceStatus.OK) {
       reject(status);
     } else {
       resolve(place);

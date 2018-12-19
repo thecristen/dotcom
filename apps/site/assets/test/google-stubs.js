@@ -67,6 +67,26 @@ class Marker {
   }
 }
 
+class AutocompleteSessionToken { }
+
+class AutocompleteService {
+  // eslint-disable-next-line class-methods-use-this
+  getPlacePredictions() {
+    throw new Error(
+      "AutocompleteService.getPlacePredictions needs to be stubbed by individual tests"
+    );
+  }
+}
+
+class PlacesService {
+  // eslint-disable-next-line class-methods-use-this
+  getDetails() {
+    throw new Error(
+      "PlacesService.getPlaceDetails needs to be stubbed by individual tests"
+    );
+  }
+}
+
 export default {
   maps: {
     Map: Map,
@@ -75,6 +95,14 @@ export default {
     Marker: Marker,
     event: {
       addListenerOnce: sinon.spy()
+    },
+    places: {
+      AutocompleteSessionToken: AutocompleteSessionToken,
+      AutocompleteService: AutocompleteService,
+      PlacesService: PlacesService,
+      PlacesServiceStatus: {
+        OK: "OK"
+      }
     }
   }
 };

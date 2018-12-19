@@ -3,6 +3,7 @@ import sinon from "sinon";
 import { expect } from "chai";
 import { AlgoliaAutocompleteWithGeo } from "../../assets/js/algolia-autocomplete-with-geo";
 import * as GoogleMapsHelpers from "../../assets/js/google-maps-helpers";
+import google from "./google-stubs";
 
 describe("AlgoliaAutocompleteWithGeo", function() {
   var $;
@@ -134,21 +135,41 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       this.locationSearchResults = {
         locations: {hits: [{hitTitle: "location result"}]}
       }
-      this.client.search = sinon.stub().resolves(this.locationSearchResults)
-      sinon.spy(this.ac, "showLocation");
-      sinon.stub(GoogleMapsHelpers, "lookupPlace").resolves({
-        geometry: {
-          location: {
-            lat: () => 42.1,
-            lng: () => -72.0
-          }
-        },
-        formatted_address: "10 Park Plaza, Boston, MA"
-      });
-    });
 
-    afterEach(function() {
-      GoogleMapsHelpers.lookupPlace.restore();
+      this.client.search = sinon.stub().resolves(this.locationSearchResults)
+
+      window.google = google;
+
+      sinon.spy(this.ac, "showLocation");
+
+      this.autocompleteService = new window.google.maps.places.AutocompleteService();
+
+      sinon.stub(this.autocompleteService, "getPlacePredictions")
+        .callsFake((_input, callback) => {
+          return callback([
+            {
+              description: "10 Park Plaza, Boston, MA",
+              place_id: "10_PARK_PLAZA"
+            }
+          ], window.google.maps.places.PlacesServiceStatus.OK);
+        });
+
+      this.placesService = new window.google.maps.places.PlacesService(
+        document.createElement("div")
+      );
+
+      sinon.stub(this.placesService, "getDetails")
+        .callsFake((_input, callback) => {
+          return callback({
+            geometry: {
+              location: {
+                lat: () => 42.1,
+                lng: () => -72.0
+              }
+            },
+            formatted_address: "10 Park Plaza, Boston, MA"
+          }, window.google.maps.places.PlacesServiceStatus.OK);
+        })
     });
 
     describe("onHitSelected", function() {
@@ -161,14 +182,30 @@ describe("AlgoliaAutocompleteWithGeo", function() {
           return forceString.replace(/\s/g, "%20").replace(/\&/g, "%26");
         }
         this.ac.init(this.client);
+        this.ac.onFocus(); // initialize session token
+        this.ac.sessionToken.id = "SESSION_TOKEN";
         const result = this.ac.onHitSelected({
           originalEvent: {_args: [{ id: "hitId", description: "10 Park Plaza, Boston, MA" }, "locations"]}
-        });
+        }, this.placesService);
         Promise.resolve(result).then(() => {
+          expect(this.placesService.getDetails.called).to.be.true;
+
+          const {
+            sessionToken,
+            fields
+          } = this.placesService.getDetails.args[0][0];
+
+          expect(sessionToken).to.be
+            .an.instanceOf(window.google.maps.places.AutocompleteSessionToken);
+          expect(sessionToken.id).to.equal("SESSION_TOKEN");
+
+          expect(fields.length).to.equal(2);
+          expect(fields).to.include("formatted_address", "geometry");
+
           expect(this.ac.showLocation.called).to.be.true;
           expect(this.ac.showLocation.args[0][2]).to.equal("10 Park Plaza, Boston, MA");
           expect($(`#${selectors.input}`).val()).to.equal("10 Park Plaza, Boston, MA");
-          expect(GoogleMapsHelpers.lookupPlace.called).to.be.true;
+
           expect(window.Turbolinks.visit.called).to.be.true;
           expect(window.Turbolinks.visit.args[0][0]).to.contain("latitude=42.1");
           expect(window.Turbolinks.visit.args[0][0]).to.contain("longitude=-72");
@@ -176,6 +213,60 @@ describe("AlgoliaAutocompleteWithGeo", function() {
           done();
         });
       });
-    })
+    });
+
+    describe("google session token", function() {
+      it("gets set on focus if a token doesn't already exist", function() {
+        expect(this.ac.sessionToken).to.equal(null);
+
+        this.ac.onFocus();
+
+        expect(this.ac.sessionToken).to.be.an.instanceOf(window.google.maps.places.AutocompleteSessionToken);
+      });
+
+      it("does not get reset on re-focus if a token already exists", function() {
+        expect(this.ac.sessionToken).to.equal(null);
+
+        this.ac.onFocus();
+
+        expect(this.ac.sessionToken).to.be.an.instanceOf(window.google.maps.places.AutocompleteSessionToken);
+
+        this.ac.sessionToken.id = "ORIGINAL_SESSION_TOKEN";
+        this.ac.onFocus();
+
+        expect(this.ac.sessionToken.id).to.equal("ORIGINAL_SESSION_TOKEN")
+      });
+
+      it("includes session token with location autocomplete queries", function(done) {
+        window.Turbolinks = {
+          visit: sinon.spy()
+        };
+        window.encodeURIComponent = params => {
+          const forceString = params.toString();
+          return forceString.replace(/\s/g, "%20").replace(/\&/g, "%26");
+        }
+        this.ac.init(this.client);
+        this.ac.onFocus(); // initialize the session token
+        this.ac.sessionToken.id = "SESSION_TOKEN";
+
+        const result = this.ac._locationSource(
+          "locations",
+          this.autocompleteService
+        )("10 park plaza", sinon.spy());
+
+        Promise.resolve(result).then(() => {
+          expect(this.autocompleteService.getPlacePredictions.called).to.be.true;
+
+          const args = this.autocompleteService.getPlacePredictions.args[0][0];
+
+          expect(args.sessionToken).to.be
+            .an.instanceOf(window.google.maps.places.AutocompleteSessionToken);
+
+          expect(args.sessionToken.id).to.equal("SESSION_TOKEN");
+
+          done();
+        });
+      });
+    });
   });
 });

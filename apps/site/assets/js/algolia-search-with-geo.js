@@ -30,19 +30,20 @@ export class AlgoliaWithGeo extends Algolia {
     }
 
     if (!(!this._locationEnabled && this._activeQueryIds.length > 0)) {
-      googleResults = GoogleMapsHelpers.autocomplete(
-        this._lastQuery,
-        this._bounds,
-        this._hitLimit
-      ).catch(() => console.error("Error while contacting google places API."));
+      googleResults = GoogleMapsHelpers.autocomplete({
+        input: this._lastQuery,
+        searchBounds: this._bounds,
+        hitLimit: this._hitLimit,
+        sessionToken: this.sessionToken
+      }).catch(() =>
+        console.error("Error while contacting google places API.")
+      );
     }
 
     return Promise.all([algoliaResults, googleResults])
       .then(resultsList => {
         this.updateWidgets(
-          resultsList.reduce((acc, res) => {
-            return Object.assign(acc, res);
-          })
+          resultsList.reduce((acc, res) => Object.assign(acc, res))
         );
       })
       .catch(err => console.error(err));
@@ -55,5 +56,15 @@ export class AlgoliaWithGeo extends Algolia {
 
   enableLocationSearch(enabled) {
     this._locationEnabled = enabled;
+  }
+
+  setSessionToken() {
+    if (!this.sessionToken) {
+      this.sessionToken = new window.google.maps.places.AutocompleteSessionToken();
+    }
+  }
+
+  resetSessionToken() {
+    this.sessionToken = null;
   }
 }
