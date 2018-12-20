@@ -37,10 +37,7 @@ export class CRTimetableTrainIcons {
     }
 
     // If the train isn't currently in this container, remove the other instance
-    if (
-      vehicleContainer &&
-      vehicleContainer.innerHTML.trim() === emptySpaceForIcon
-    ) {
+    if (vehicleContainer.innerHTML.trim() === emptySpaceForIcon) {
       removeTrain(vehicle.id);
     }
 

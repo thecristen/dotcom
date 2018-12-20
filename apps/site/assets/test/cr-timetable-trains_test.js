@@ -19,6 +19,7 @@ describe("CRTimetableTrains", () => {
         }
       };
     };
+
     document.body.innerHTML = `
       <table>
       <td class="schedule-timetable-time-col js-tt-cell" data-html="true" data-toggle="tooltip" id="Middleborough/Lakeville-CR-Weekday-Fall-18-002-tooltip" style="height: 56px;">
