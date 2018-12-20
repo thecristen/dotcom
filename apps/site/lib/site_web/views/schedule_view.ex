@@ -240,7 +240,7 @@ defmodule SiteWeb.ScheduleView do
     route = assigns.route
     route_name = route.name
     direction_id = assigns.direction_id
-    all_alerts = assigns.all_alerts
+    alerts = assigns.alerts
     first? = opts[:first?] == true
     last? = opts[:last?] == true
     terminus? = first? or last?
@@ -261,7 +261,7 @@ defmodule SiteWeb.ScheduleView do
         route: route,
         vehicle_tooltip: vehicle_tooltip,
         terminus?: terminus?,
-        alerts: stop_alerts(predicted_schedule, all_alerts, route.id, direction_id),
+        alerts: stop_alerts(predicted_schedule, alerts, route.id, direction_id),
         predicted_schedule: predicted_schedule,
         row_content_template: "_trip_info_stop.html"
       })

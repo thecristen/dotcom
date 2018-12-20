@@ -62,7 +62,8 @@ defmodule Alerts.ParserTest do
                  lifecycle: :ongoing,
                  effect: :delay,
                  updated_at: ~N[2016-06-20T16:09:29] |> Timex.to_datetime("Etc/GMT+4"),
-                 description: "Affected routes: 18"
+                 description: "Affected routes: 18",
+                 priority: :high
                }
     end
 

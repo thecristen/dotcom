@@ -1,5 +1,6 @@
 defmodule SiteWeb.ModeView do
   use SiteWeb, :view
+  alias Alerts.Match
   alias Site.MapHelpers
   alias SiteWeb.PartialView.SvgIconWithCircle
   alias Routes.Route
@@ -140,8 +141,7 @@ defmodule SiteWeb.ModeView do
     entity = %Alerts.InformedEntity{route_type: route.type, route: route.id}
 
     Enum.any?(alerts, fn alert ->
-      not Alerts.Alert.is_notice?(alert, date) &&
-        Alerts.Match.match([alert], entity, date) == [alert]
+      alert.priority == :high and Match.match([alert], entity, date) == [alert]
     end)
   end
 

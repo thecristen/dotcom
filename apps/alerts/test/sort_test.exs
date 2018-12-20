@@ -74,14 +74,10 @@ defmodule Alerts.SortTest do
         active_period: [period_1]
       }
 
-      notice_1 = %{alert_prototype | severity: 3, effect: :access_issue, id: 1}
-      notice_2 = %{alert_prototype | severity: 3, effect: :access_issue, id: 2}
-      alert_1 = %{alert_prototype | severity: 5, effect: :snow_route, id: 3}
+      notice_1 = %{alert_prototype | severity: 3, effect: :access_issue, id: 1, priority: :low}
+      notice_2 = %{alert_prototype | severity: 3, effect: :access_issue, id: 2, priority: :low}
+      alert_1 = %{alert_prototype | severity: 5, effect: :snow_route, id: 3, priority: :high}
       alerts = [notice_1, alert_1, notice_2]
-
-      assert Alerts.Alert.is_notice?(notice_1, now)
-      assert Alerts.Alert.is_notice?(notice_2, now)
-      refute Alerts.Alert.is_notice?(alert_1, now)
 
       sorted_effects =
         alerts

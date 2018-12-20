@@ -28,6 +28,10 @@ defmodule Alerts.InformedEntitySet do
 
   @doc "Create a new InformedEntitySet from a list of InformedEntitys"
   @spec new([IE.t()]) :: t
+  def new(%__MODULE__{} = entity_set) do
+    entity_set
+  end
+
   def new(informed_entities) when is_list(informed_entities) do
     struct = %__MODULE__{entities: informed_entities}
     Enum.reduce(informed_entities, struct, &add_entity_to_set/2)

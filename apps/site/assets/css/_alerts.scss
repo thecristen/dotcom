@@ -1,65 +1,15 @@
 // Show
-
-.alert:empty {
-  display: none;
-}
-
-.alert-show-btn-bus {
-  .btn-selected-bottom {
-    border-color: $brand-secondary;
-  }
-}
-
-.alert-show-btn-commuter-rail {
-  .btn-selected-bottom {
-    border-color: $brand-commuter-rail;
-  }
-}
-
-.alert-show-btn-subway {
-  .btn-selected-bottom {
-    border-color: $brand-silver-line;
-  }
-}
-
-.alert-show-btn-ferry {
-  .btn-selected-bottom {
-    border-color: $brand-primary-light;
-  }
-}
-
-.alert-show-empty {
+.m-alerts__notice--show-empty {
   border: $border;
   padding: $space-6;
 }
 
-.alert-show-body {
-  margin-bottom: $space-12;
-}
-
-.alert-no-alerts {
+.m-alerts__notice--no-alerts {
   background-color: $gray-lightest;
   padding: $space-12;
 }
 
-.t-alert-container-big {
-  background-color: $brand-primary;
-  color: $white;
-  margin-top: $space-12 * 2;
-  padding: $space-12;
-  text-align: center;
-
-  .btn {
-    border-color: $white;
-    color: $white;
-  }
-
-  .btn-white {
-    background-color: $white;
-    color: $brand-primary;
-  }
-}
-
+// Header
 .m-alerts-header {
   margin: $space-12 * 2 auto $space-6;
   position: relative;
@@ -97,209 +47,121 @@
   top: 0;
 }
 
-// Modal
-.alert-link,
-.alert-list {
-  color: $gray-dark;
-}
+// Group
+.m-alert-group {
+  list-style-type: none;
+  padding-left: 0;
 
-.alert-link {
-  background-color: $alert-color-lighter;
-  border: $border;
-  display: block;
-  padding: $space-12;
-
-  @include media-breakpoint-down(xs) {
-    line-height: 1.4rem;
-    padding: $space-8;
+  @include media-breakpoint-down(sm) {
+    margin-left: -$half-gutter;
+    margin-right: -$half-gutter;
   }
 }
 
-.alert-link-title {
-  float: left;
-  max-width: 80%;
+// Item
+.m-alert-item {
+  background-color: $service-alert-yellow;
+  border: 1px solid $service-alert-yellow-darker;
+  overflow: hidden;
+  position: relative;
 
-  @include media-breakpoint-up(sm) {
-    max-width: 86%;
+  @include media-breakpoint-down(sm) {
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .m-alert-item__caret--up {
+    display: none;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    // when tabbing through, ensure that focus is covered by next item
+    z-index: 1;
   }
 }
 
-.alert-list-header {
-  background-color: $alert-color;
-  border: 1px solid $alert-color;
-  color: $gray-dark;
-  display: block;
-  padding: $space-12;
-  position: sticky;
-  top: 0;
-  z-index: $z-index-alert-list-header;
+.m-alert-item--expandable {
+  cursor: pointer;
+}
 
-  &.fixedsticky-on {
-    width: calc(100% - 2.5rem + 2px);
+.m-alert-item--low {
+  background-color: $service-alert-gray;
+  border: 1px solid $service-alert-gray-darker;
+}
 
-    @include media-breakpoint-up(md) {
-      width: map-get($container-max-widths, md) - 26px;
-    }
+.m-alert-item__top {
+  display: flex;
+  padding-left: $base-spacing * 3;
+}
 
-    @include media-breakpoint-up(lg) {
-      width: map-get($container-max-widths, lg) - 2px;
-    }
+.m-alert-item__top-text-container {
+  flex: 1 1 auto;
+  padding: $base-spacing;
+}
 
-    @include media-breakpoint-up(xxl) {
-      width: map-get($container-max-widths, xxl) - 2px;
-    }
+.m-alert-item__top-caret-container {
+  align-self: center;
+  flex: 0 0 auto;
+  padding: $base-spacing;
+}
+
+.m-alert-item__icon {
+  left: $base-spacing;
+  pointer-events: none;
+  position: absolute;
+  top: $base-spacing;
+
+  [class*="c-svg__icon"] {
+    height: $base-spacing * 2;
+    width: $base-spacing * 2;
   }
 }
 
-.alert-list-header-title {
-  display: inline-block;
+.m-alert-item__effect {
+  font-size: $font-size-h4;
   font-weight: bold;
-  margin-right: $space-12;
-  max-width: 54%;
+}
 
-  @include media-breakpoint-up(sm) {
-    max-width: 82%;
+.m-alert-item__bottom {
+  background-color: $service-alert-yellow-lighter;
+  max-height: 0;
+  transition: max-height .5s;
+
+  .m-alert-item--open &,
+  .no-js & {
+    // ideally this would be height: auto, but to get the CSS animation to work it needs a value
+    max-height: 1000px;
   }
 }
 
-.alert-list {
-  display: block;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.m-alert-item__bottom--low {
+  background-color: $white;
 }
 
-.alert-list-item {
-  @include clearfix();
-  background-color: $alert-color-lighter;
-  border-color: $gray-lightest;
-  border-style: solid;
-  border-width: $space-1 $space-2;
-  padding: $space-12;
-
-  &:last-child {
-    border-bottom-width: $space-2;
-  }
-}
-
-.alert-container .alert-list-item:first-child {
-  border-top-width: 0;
-}
-
-.alert-list-toggle {
-  color: $brand-primary;
-  float: right;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-.alerts-plus {
-  color: $brand-primary;
-  font-weight: bold;
-
-  @include hover-focus-active {
-    text-decoration: underline;
-  }
-}
-
-.alert-item-icon {
-  @include old-style-icon-size-inline(1rem);
-  color: $gray-dark;
-  display: block;
-  float: left;
-  margin-right: $space-12;
-  margin-top: -$space-2;
-  padding: .125rem;
-  z-index: $z-index-alert-item-icon;
-
-  > .fa {
-    display: block;
-    margin: .0625rem .125rem;
-
-    @include media-breakpoint-up(xxl) {
-      margin: .1rem .2rem;
-    }
-  }
-}
-
-.alert-item-icon-notice {
-  color: $gray-dark;
-
-  > .fa {
-    left: .1rem;
-    position: relative;
-    top: .05rem;
-  }
-}
-
-.alert-item-effect-container {
-  display: block;
-  float: left;
-  margin-top: -.3rem;
-  width: 100%;
-}
-
-.alert-item-body-container {
-  @include media-breakpoint-up(lg) {
-    width: 75%;
-  }
-}
-
-.alert-item-body {
-  &.collapsing,
-  &.collapse.in {
+.m-alert-item--open {
+  .m-alert-item__caret--up {
     display: block;
   }
 
-  &.collapse.in + .alert-body-toggle {
+  .m-alert-item__caret--down {
     display: none;
   }
 }
 
-.alert-item-header {
-  padding: 1.5rem 0 .5rem;
+.m-alert-item__description {
+  padding: $base-spacing;
 }
 
-.alert-body-toggle {
-  display: block;
+.m-alert-item__badge {
+  background-color: $service-alert-yellow-darker;
+  border-radius: $base-spacing / 4;
+  padding: $base-spacing / 8 $base-spacing / 2;
 }
 
-.no-js {
-  .alert-item-body {
-    display: block;
-  }
-
-  .alert-body-toggle {
-    display: none;
-  }
-}
-
-.alert-item-updated {
-  display: block;
-  font-size: $font-size-sm;
-  margin-top: $space-12;
-}
-
-.alert-container.collapsing {
-  display: block;
-}
-
-.alert-container,
-.alert-container.collapse:target {
-  display: none;
-
-  + .alert-link {
-    display: block;
-  }
-}
-
-.alert-container:target,
-.alert-container.collapse.in {
-  display: block;
-
-  + .alert-link {
-    display: none;
-  }
+.m-alert-item__badge--low {
+  background-color: $service-alert-gray-darker;
 }
 
 .m-alerts__mode-buttons {

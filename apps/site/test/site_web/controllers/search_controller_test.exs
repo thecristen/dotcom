@@ -166,20 +166,18 @@ defmodule SiteWeb.SearchControllerTest do
           effect: :station_closure,
           severity: 9,
           updated_at: Timex.shift(dt, hours: -2),
-          informed_entity: [stop_entity, route_entity]
+          informed_entity: [stop_entity, route_entity],
+          priority: :high
         )
-
-      refute Alert.is_notice?(stop_alert, dt)
 
       route_alert =
         Alert.new(
           effect: :suspension,
           severity: 9,
           updated_at: Timex.shift(dt, hours: -1),
-          informed_entity: [route_entity]
+          informed_entity: [route_entity],
+          priority: :high
         )
-
-      refute Alert.is_notice?(route_alert, dt)
 
       alerts_repo_fn = fn %DateTime{} ->
         [

@@ -2,7 +2,7 @@
 <div class="page-section m-schedule-line">
   <div class="row">
     <div class="col-md-12">
-    <%= SiteWeb.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
+    <%= SiteWeb.AlertView.group(alerts: @alerts, route: @route, time: @date, priority_filter: :high) %>
     <%= render "_route_disclaimer.html", route: @route %>
     </div>
     <div class="col-xs-12 col-md-7">

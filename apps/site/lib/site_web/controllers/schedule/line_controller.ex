@@ -8,8 +8,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   plug(:tab_name)
   plug(SiteWeb.ScheduleController.RoutePdfs)
   plug(SiteWeb.ScheduleController.Defaults)
-  plug(:all_alerts)
-  plug(SiteWeb.Plugs.UpcomingAlerts)
+  plug(:alerts)
   plug(SiteWeb.ScheduleController.AllStops)
   plug(SiteWeb.ScheduleController.RouteBreadcrumbs)
   plug(SiteWeb.ScheduleController.HoursOfOperation)
@@ -30,7 +29,7 @@ defmodule SiteWeb.ScheduleController.LineController do
 
   defp tab_name(conn, _), do: assign(conn, :tab, "line")
 
-  defp all_alerts(conn, _), do: assign_all_alerts(conn, [])
+  defp alerts(conn, _), do: assign_alerts(conn, [])
 
   defp require_map(conn, _), do: assign(conn, :requires_google_maps?, true)
 

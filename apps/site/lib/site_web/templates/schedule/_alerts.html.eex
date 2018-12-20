@@ -1,7 +1,14 @@
 <div class="page-section m-schedule-line">
   <div class="row">
-    <div class="col-xs-12">
-      <%= SiteWeb.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date, show_empty?: true) %>
+    <div class="col-xs-12 col-lg-3">
+      <%= SiteWeb.PartialView.alert_time_filters(@alerts_timeframe, [
+        method: :alerts_path,
+        item: @route
+      ]) %>
+    </div>
+    <div class="col-xs-12 col-lg-8 col-lg-offset-1">
+      <h2 class="h2">Alerts</h2>
+      <%= SiteWeb.AlertView.group(alerts: @alerts, route: @route, time: @date, show_empty?: true) %>
     </div>
   </div>
 </div>

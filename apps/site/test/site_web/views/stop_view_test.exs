@@ -306,19 +306,30 @@ defmodule SiteWeb.StopViewTest do
     end
   end
 
-  @alerts [
+  @high_priority_alerts [
+    %Alerts.Alert{
+      active_period: [{~N[2017-04-12T20:00:00], ~N[2017-05-12T20:00:00]}],
+      description: "description",
+      effect: :delay,
+      header: "header",
+      id: "1",
+      lifecycle: :ongoing,
+      priority: :high
+    }
+  ]
+
+  @low_priority_alerts [
     %Alerts.Alert{
       active_period: [{~N[2017-04-12T20:00:00], ~N[2017-05-12T20:00:00]}],
       description: "description",
       effect: :access_issue,
       header: "header",
-      id: "1"
+      id: "1",
+      priority: :low
     }
   ]
 
-  describe "has_alerts?/3" do
-    date = ~D[2017-05-11]
-
+  describe "has_alerts?/2" do
     informed_entity = %Alerts.InformedEntity{
       direction_id: 1,
       route: "556",
@@ -327,12 +338,33 @@ defmodule SiteWeb.StopViewTest do
       trip: nil
     }
 
-    assert !has_alerts?(@alerts, date, informed_entity)
+    assert !has_alerts?(@high_priority_alerts, informed_entity)
   end
 
-  describe "render_alerts/3" do
-    response = render_alerts(@alerts, ~D[2017-05-11], %Stop{id: "2438"})
-    assert safe_to_string(response) =~ "alert-list-item"
+  describe "render_alerts/4" do
+    test "displays an alert" do
+      response =
+        render_alerts(
+          @high_priority_alerts,
+          ~D[2017-05-11],
+          %Stop{id: "2438"},
+          priority_filter: :high
+        )
+
+      assert safe_to_string(response) =~ "m-alert-item"
+    end
+
+    test "does not display an alert" do
+      response =
+        render_alerts(
+          @low_priority_alerts,
+          ~D[2017-05-11],
+          %Stop{id: "2438"},
+          priority_filter: :high
+        )
+
+      assert response == ""
+    end
   end
 
   describe "feature_icons/1" do

@@ -1,28 +1,37 @@
-<% extra_id = case assigns[:extra_id] do
-    nil -> ""
-    id -> "-#{id}"
-    end %>
-<span class="alert-item-effect-container">
-  <%= render "_icon.html", alert: @alert, time: @time %>
-  <span class="alert-item-effect">
-    <strong><%= effect_name(@alert) %></strong>
-  </span>
-</span>
-<div class="alert-item-body-container">
-  <div class="alert-item-header">
-    <%= replace_urls_with_links(@alert.header) %>
+<% label = Alerts.Alert.human_label(@alert) %>
+<% alert_icon_type = Alerts.Alert.icon(@alert) %>
+<li tabindex="0"
+    class="m-alert-item m-alert-item--<%= @alert.priority %>
+           <%= if @alert.description, do: "js-toggle-alert" %>
+           <%= if @alert.description, do: "m-alert-item--expandable" %>"
+           <%= if @alert.description, do: raw("aria-expanded=\"false\" aria-role=\"button\"") %>>
+  <div class="m-alert-item__icon">
+    <%= alert_icon(alert_icon_type) %>
   </div>
-  <div class="alert-item-body collapse" id="alert-body-<%= @alert.id %><%= extra_id %>">
-    <%= format_alert_description(@alert.description) %>
+  <div class="m-alert-item__top">
+    <div class="m-alert-item__top-text-container">
+      <div class="m-alert-item__effect">
+        <%= effect_name(@alert) %>
+        <%= unless label == "" do %>
+          <span class="u-small-caps m-alert-item__badge m-alert-item__badge--<%= @alert.priority %>"><%= label %></span>
+        <% end %>
+      </div>
+      <div>
+        <%= replace_urls_with_links(@alert.header) %>
+      </div>
+    </div>
+    <div class="m-alert-item__top-caret-container">
+      <%= if @alert.description do %>
+        <%= fa "angle-up", class: "m-alert-item__caret--up" %>
+        <%= fa "angle-down", class: "m-alert-item__caret--down" %>
+      <% end %>
+    </div>
   </div>
   <%= if @alert.description do %>
-    <p class="alert-body-toggle" data-toggle="collapse" data-target="#alert-body-<%= @alert.id %><%= extra_id %>" aria-expanded="false" aria-controls="alert-body-<%= @alert.id %><%= extra_id %>">
-      <a href="#alert-body-<%= @alert.id %><%= extra_id %>" class="c-call-to-action">
-        View Full Description
-      </a>
-    </p>
+    <div class="m-alert-item__bottom m-alert-item__bottom--<%= @alert.priority %>">
+      <div class="m-alert-item__description">
+        <%= format_alert_description(@alert.description) %>
+      </div>
+    </div>
   <% end %>
-</div>
-<span class="alert-item-updated">
-  <%= alert_updated(@alert, @time) %>
-</span>
+</li>

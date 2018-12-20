@@ -3,7 +3,7 @@ defmodule SiteWeb.ScheduleController.Core do
   Core pipeline for schedules
   """
   use Plug.Builder
-  import SiteWeb.ControllerHelpers, only: [call_plug: 2, assign_all_alerts: 2]
+  import SiteWeb.ControllerHelpers, only: [call_plug: 2, assign_alerts: 2]
 
   plug(:schedule_pipeline_setup)
   plug(:schedule_pipeline_with_direction)
@@ -23,8 +23,7 @@ defmodule SiteWeb.ScheduleController.Core do
 
   defp schedule_pipeline_with_direction(conn, _opts) do
     conn
-    |> assign_all_alerts([])
-    |> call_plug(SiteWeb.Plugs.UpcomingAlerts)
+    |> assign_alerts([])
     |> call_plug(SiteWeb.ScheduleController.AllStops)
   end
 end

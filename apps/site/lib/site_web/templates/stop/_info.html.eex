@@ -1,5 +1,5 @@
 <div class="page-section">
-  <%= render_alerts(@stop_alerts, @date, @stop) %>
+  <%= render_alerts(@stop_alerts, @date, @stop, priority_filter: :high) %>
   <div class="station__address">
     <%= if @stop.address && @stop.address != "" do %>
       <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>

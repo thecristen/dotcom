@@ -2,10 +2,9 @@ defmodule SiteWeb.AlertController do
   use SiteWeb, :controller
   alias Alerts.{Alert, InformedEntity, Match}
 
-  plug(:assign_timeframe)
-  plug(:all_routes)
-  plug(:all_alerts)
-  plug(SiteWeb.Plugs.UpcomingAlerts)
+  plug(:routes)
+  plug(:alerts)
+  plug(SiteWeb.Plugs.AlertsByTimeframe)
   plug(SiteWeb.Plug.Mticket)
 
   @valid_ids ~w(subway commuter-rail bus ferry access)s
@@ -16,9 +15,9 @@ defmodule SiteWeb.AlertController do
     |> halt
   end
 
-  def show(%{assigns: %{all_alerts: all_alerts}} = conn, %{"id" => "access"}) do
+  def show(%{assigns: %{alerts: alerts}} = conn, %{"id" => "access"}) do
     conn
-    |> render_route_alerts(group_access_alerts(all_alerts))
+    |> render_route_alerts(group_access_alerts(alerts))
   end
 
   def show(conn, %{"id" => mode}) when mode in @valid_ids do
@@ -29,8 +28,8 @@ defmodule SiteWeb.AlertController do
     check_cms_or_404(conn)
   end
 
-  def render_routes(%{assigns: %{all_alerts: all_alerts, all_routes: all_routes}} = conn) do
-    render_route_alerts(conn, Enum.map(all_routes, &route_alerts(&1, all_alerts)))
+  def render_routes(%{assigns: %{alerts: alerts, routes: routes}} = conn) do
+    render_route_alerts(conn, Enum.map(routes, &route_alerts(&1, alerts)))
   end
 
   def render_route_alerts(%{params: %{"id" => id}} = conn, route_alerts) do
@@ -72,51 +71,25 @@ defmodule SiteWeb.AlertController do
     Map.put(accumulator, route, filtered_alerts)
   end
 
-  defp assign_timeframe(%{params: %{"timeframe" => timeframe}} = conn, _opts)
-       when timeframe in ["current", "upcoming"] do
-    assign(conn, :timeframe, timeframe)
+  defp routes(%{params: %{"id" => "subway"}} = conn, _opts), do: do_routes(conn, [0, 1])
+  defp routes(%{params: %{"id" => "commuter-rail"}} = conn, _opts), do: do_routes(conn, 2)
+  defp routes(%{params: %{"id" => "bus"}} = conn, _opts), do: do_routes(conn, 3)
+  defp routes(%{params: %{"id" => "ferry"}} = conn, _opts), do: do_routes(conn, 4)
+  defp routes(conn, _opts), do: conn
+
+  defp do_routes(conn, route_types) do
+    assign(conn, :routes, Routes.Repo.by_type(route_types))
   end
 
-  defp assign_timeframe(conn, _opts) do
-    assign(conn, :timeframe, nil)
+  defp alerts(%{params: %{"id" => id}} = conn, _opts) when id in @valid_ids do
+    alerts = Alerts.Repo.all(conn.assigns.date_time)
+    assign(conn, :alerts, alerts)
   end
 
-  defp all_routes(%{params: %{"id" => "subway"}} = conn, _opts), do: do_all_routes(conn, [0, 1])
-  defp all_routes(%{params: %{"id" => "commuter-rail"}} = conn, _opts), do: do_all_routes(conn, 2)
-  defp all_routes(%{params: %{"id" => "bus"}} = conn, _opts), do: do_all_routes(conn, 3)
-  defp all_routes(%{params: %{"id" => "ferry"}} = conn, _opts), do: do_all_routes(conn, 4)
-  defp all_routes(conn, _opts), do: conn
-
-  defp do_all_routes(conn, route_types) do
-    assign(conn, :all_routes, Routes.Repo.by_type(route_types))
-  end
-
-  defp all_alerts(%{params: %{"id" => id} = params} = conn, _opts) when id in @valid_ids do
-    all_alerts =
-      conn.assigns.date_time
-      |> Alerts.Repo.all()
-      |> filter_by_timeframe(params, conn.assigns.date_time)
-
-    assign(conn, :all_alerts, all_alerts)
-  end
-
-  defp all_alerts(conn, _opts) do
+  defp alerts(conn, _opts) do
     conn
   end
 
   defp id_to_atom("commuter-rail"), do: :commuter_rail
   defp id_to_atom(id), do: String.to_existing_atom(id)
-
-  @spec filter_by_timeframe([Alert.t()], map, DateTime.t()) :: [Alert.t()]
-  def filter_by_timeframe(alerts, %{"timeframe" => "current"}, date_time) do
-    Enum.filter(alerts, &Match.any_time_match?(&1, date_time))
-  end
-
-  def filter_by_timeframe(alerts, %{"timeframe" => "upcoming"}, date_time) do
-    Enum.filter(alerts, &(Match.any_time_match?(&1, date_time) == false))
-  end
-
-  def filter_by_timeframe(alerts, %{}, %DateTime{}) do
-    alerts
-  end
 end

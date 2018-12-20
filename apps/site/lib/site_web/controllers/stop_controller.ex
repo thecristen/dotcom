@@ -1,8 +1,8 @@
 defmodule SiteWeb.StopController do
   use SiteWeb, :controller
 
-  plug(:all_alerts)
-
+  plug(:alerts)
+  plug(SiteWeb.Plugs.AlertsByTimeframe)
   alias Stops.Repo
   alias Stops.Stop
   alias Routes.Route
@@ -127,7 +127,7 @@ defmodule SiteWeb.StopController do
   defp tab_value(_), do: "info"
 
   @spec tab_assigns(Plug.Conn.t(), Stop.t(), [Routes.Route.t()]) :: Plug.Conn.t()
-  defp tab_assigns(%{assigns: %{tab: "info", all_alerts: alerts}} = conn, stop, routes) do
+  defp tab_assigns(%{assigns: %{tab: "info", alerts: alerts}} = conn, stop, routes) do
     conn
     |> async_assign(:fare_name, fn -> fare_name(stop, routes) end)
     |> async_assign(:terminal_stations, fn -> terminal_stations(routes) end)
@@ -138,7 +138,7 @@ defmodule SiteWeb.StopController do
     |> await_assign_all()
   end
 
-  defp tab_assigns(%{assigns: %{tab: "departures", all_alerts: alerts}} = conn, stop, _routes) do
+  defp tab_assigns(%{assigns: %{tab: "departures", alerts: alerts}} = conn, stop, _routes) do
     conn
     |> async_assign(:stop_schedule, fn -> stop_schedule(stop.id, conn.assigns.date) end)
     |> async_assign(:stop_predictions, fn -> stop_predictions(stop.id) end)
@@ -147,7 +147,7 @@ defmodule SiteWeb.StopController do
     |> assign_upcoming_route_departures()
   end
 
-  defp tab_assigns(%{assigns: %{tab: "alerts", all_alerts: alerts}} = conn, stop, _routes) do
+  defp tab_assigns(%{assigns: %{tab: "alerts", alerts: alerts}} = conn, stop, _routes) do
     conn
     |> assign(:stop_alerts, stop_alerts(alerts, stop))
   end
@@ -225,8 +225,8 @@ defmodule SiteWeb.StopController do
     Predictions.Repo.all(stop: stop_id)
   end
 
-  defp all_alerts(conn, _opts) do
-    assign(conn, :all_alerts, Alerts.Repo.all(conn.assigns.date_time))
+  defp alerts(conn, _opts) do
+    assign(conn, :alerts, Alerts.Repo.all(conn.assigns.date_time))
   end
 
   @spec get_stop_info :: {DetailedStopGroup.t(), [DetailedStopGroup.t()]}

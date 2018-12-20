@@ -1,0 +1,10 @@
+<ul class="m-alert-group">
+  <%= for alert <- @alerts do %>
+    <%= render "_item.html", alert: alert, extra_id: @route.id %>
+  <% end %>
+  <%= if @alerts == [] do %>
+    <li class="m-alert-item">
+      There are currently no service alerts affecting the <%= @route.name %> today.
+    </li>
+  <% end %>
+</ul>

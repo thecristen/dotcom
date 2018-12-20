@@ -23,7 +23,7 @@
         <div class="m-mode__recently-visited">
           <%= render(SiteWeb.PartialView, "_recently_visited.html", conn: @conn,
                                                                     routes: Map.get(assigns, :recently_visited, []),
-                                                                    all_alerts: @all_alerts,
+                                                                    alerts: @alerts,
                                                                     date_time: @date_time) %>
         </div>
         <%= for {route_type, mode_page} <- route_types ++ the_ride do %>
@@ -34,7 +34,7 @@
                                               show_icons?: false,
                                               conn: @conn,
                                               date_time: @date_time,
-                                              all_alerts: @all_alerts,
+                                              alerts: @alerts,
                                               sub_routes: if route_type == :subway, do: @green_routes, else: []
               %>
         </div>

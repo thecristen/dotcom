@@ -48,7 +48,7 @@ defmodule Alerts.Sort do
 
   defp sort_key(alert, now) do
     {
-      alert_vs_notice(alert),
+      priority(alert),
       effect_index(alert.effect),
       lifecycle_index(alert.lifecycle),
       -alert.severity,
@@ -80,9 +80,8 @@ defmodule Alerts.Sort do
     |> Timex.to_unix()
   end
 
-  defp alert_vs_notice(alert) do
-    if Alerts.Alert.is_notice?(alert, Timex.now()), do: 1, else: 0
-  end
+  defp priority(%{priority: :low}), do: 1
+  defp priority(%{priority: :high}), do: 0
 
   # atoms are greater than any integer
   defp first_future_active_period_start([], _now), do: :infinity

@@ -117,7 +117,7 @@ defmodule SiteWeb.ControllerHelpersTest do
     end
   end
 
-  describe "assign_all_alerts/2" do
+  describe "assign_alerts/2" do
     @worcester %Alerts.InformedEntity{route: "CR-Worcester", route_type: 2}
     @worcester_inbound %Alerts.InformedEntity{route: "CR-Worcester", direction_id: 1}
     @commuter_rail %Alerts.InformedEntity{route_type: 2}
@@ -146,8 +146,8 @@ defmodule SiteWeb.ControllerHelpersTest do
         |> assign(:date_time, Timex.now())
         |> assign(:route, route)
         |> assign(:direction_id, 1)
-        |> assign_all_alerts([])
-        |> (fn conn -> conn.assigns.all_alerts end).()
+        |> assign_alerts([])
+        |> (fn conn -> conn.assigns.alerts end).()
 
       expected = [@commuter_rail_alert, @worcester_alert, @worcester_inbound_alert]
       assert alerts == expected
@@ -161,8 +161,8 @@ defmodule SiteWeb.ControllerHelpersTest do
         |> assign(:date_time, Timex.now())
         |> assign(:route, route)
         |> assign(:direction_id, 0)
-        |> assign_all_alerts([])
-        |> (fn conn -> conn.assigns.all_alerts end).()
+        |> assign_alerts([])
+        |> (fn conn -> conn.assigns.alerts end).()
 
       expected = [@commuter_rail_alert, @worcester_alert]
       assert alerts == expected
@@ -176,8 +176,8 @@ defmodule SiteWeb.ControllerHelpersTest do
         |> assign(:date_time, Timex.now())
         |> assign(:route, route)
         |> assign(:direction_id, nil)
-        |> assign_all_alerts([])
-        |> (fn conn -> conn.assigns.all_alerts end).()
+        |> assign_alerts([])
+        |> (fn conn -> conn.assigns.alerts end).()
 
       expected = [@commuter_rail_alert, @worcester_alert, @worcester_inbound_alert]
       assert alerts == expected
@@ -190,8 +190,8 @@ defmodule SiteWeb.ControllerHelpersTest do
         conn
         |> assign(:date_time, Timex.now())
         |> assign(:route, route)
-        |> assign_all_alerts([])
-        |> (fn conn -> conn.assigns.all_alerts end).()
+        |> assign_alerts([])
+        |> (fn conn -> conn.assigns.alerts end).()
 
       expected = [@commuter_rail_alert, @worcester_alert, @worcester_inbound_alert]
       assert alerts == expected
@@ -224,8 +224,8 @@ defmodule SiteWeb.ControllerHelpersTest do
         |> assign(:date_time, Timex.now())
         |> assign(:route, route)
         |> assign(:direction_id, 0)
-        |> assign_all_alerts([])
-        |> (fn conn -> conn.assigns.all_alerts end).()
+        |> assign_alerts([])
+        |> (fn conn -> conn.assigns.alerts end).()
 
       expected = [@commuter_rail_alert, @worcester_alert, worcester_ambiguous_alert]
       assert alerts == expected

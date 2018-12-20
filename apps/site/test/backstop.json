@@ -235,7 +235,7 @@
       "selectors": [
         "main"
       ],
-      "delay": 100,
+      "delay": 500,
       "misMatchThreshold": 0.03
     },
     {
@@ -265,7 +265,7 @@
       "selectors": [
         "main"
       ],
-      "delay": 100,
+      "delay": 500,
       "misMatchThreshold": 0.03
     },
     {
@@ -331,7 +331,7 @@
       "selectors": [
         "main"
       ],
-      "delay": 100,
+      "delay": 500,
       "misMatchThreshold": 0.03
     },
 

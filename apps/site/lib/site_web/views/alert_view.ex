@@ -1,5 +1,6 @@
 defmodule SiteWeb.AlertView do
   use SiteWeb, :view
+  alias Alerts.Alert
   alias Routes.Route
   alias SiteWeb.PartialView.SvgIconWithCircle
   import SiteWeb.ViewHelpers
@@ -8,23 +9,22 @@ defmodule SiteWeb.AlertView do
 
   @doc """
 
-  Used by the schedule view to render a link/modal with relevant alerts.
+  Used to render a group of alerts.
 
   """
-  def modal(opts) do
-    alerts = Keyword.fetch!(opts, :alerts)
+  def group(opts) do
     route = Keyword.fetch!(opts, :route)
     stop? = Keyword.get(opts, :stop?, false)
     show_empty? = Keyword.get(opts, :show_empty?, false)
+    priority_filter = Keyword.get(opts, :priority_filter, :any)
 
-    upcoming_alerts = opts[:upcoming_alerts] || []
-
-    opts =
+    alerts =
       opts
-      |> Keyword.put(:upcoming_alert_count, length(upcoming_alerts))
+      |> Keyword.fetch!(:alerts)
+      |> Enum.filter(&filter_by_priority(priority_filter, &1))
 
-    case {alerts, upcoming_alerts, show_empty?} do
-      {[], [], true} ->
+    case {alerts, show_empty?} do
+      {[], true} ->
         location = if stop?, do: ["at ", route.name], else: ["on the ", route.name]
 
         content_tag(
@@ -33,13 +33,22 @@ defmodule SiteWeb.AlertView do
           class: "callout"
         )
 
-      {[], [], false} ->
+      {[], false} ->
         ""
 
       _ ->
-        render(__MODULE__, "modal.html", opts)
+        render(__MODULE__, "group.html", alerts: alerts, route: route)
     end
   end
+
+  @spec filter_by_priority(boolean, Alert.t()) :: boolean
+  defp filter_by_priority(:any, _), do: true
+
+  defp filter_by_priority(priority_filter, %{priority: priority})
+       when priority_filter == priority,
+       do: true
+
+  defp filter_by_priority(_, _), do: false
 
   @doc """
 
@@ -71,20 +80,20 @@ defmodule SiteWeb.AlertView do
     do: ["There are no alerts for today; ", count |> Integer.to_string(), " upcoming alerts."]
 
   def alert_effects([alert], _) do
-    {Alerts.Alert.human_effect(alert), ""}
+    {Alert.human_effect(alert), ""}
   end
 
   def alert_effects([alert | rest], _) do
-    {Alerts.Alert.human_effect(alert), ["+", rest |> length |> Integer.to_string(), " more"]}
+    {Alert.human_effect(alert), ["+", rest |> length |> Integer.to_string(), " more"]}
   end
 
   def effect_name(%{lifecycle: lifecycle} = alert)
       when lifecycle in [:new, :unknown] do
-    Alerts.Alert.human_effect(alert)
+    Alert.human_effect(alert)
   end
 
   def effect_name(alert) do
-    [Alerts.Alert.human_effect(alert), " (", Alerts.Alert.human_lifecycle(alert), ")"]
+    Alert.human_effect(alert)
   end
 
   def alert_updated(alert, relative_to) do
@@ -98,47 +107,6 @@ defmodule SiteWeb.AlertView do
     time = format_schedule_time(alert.updated_at)
 
     ["Last Updated: ", date, 32, time]
-  end
-
-  def alert_character_limits do
-    [
-      {{:xxs, :sm}, 58},
-      {{:xs, :md}, 100},
-      {{:sm, :lg}, 160},
-      {{:md, :xxl}, 220},
-      {{:lg, :xxxl}, 260}
-    ]
-  end
-
-  def clamp_header(header, effects, max_chars) do
-    trunc = truncate_at(effects, max_chars)
-
-    case String.split_at(header, trunc) do
-      {short, ""} ->
-        short
-
-      # ellipsis
-      {short, _} ->
-        [String.trim(short), "…"]
-    end
-  end
-
-  defp truncate_at(effects, max_chars) do
-    extra_length =
-      case effects do
-        {prefix, suffix} ->
-          [prefix, suffix]
-          |> Enum.map(&IO.iodata_to_binary/1)
-          |> Enum.map(&String.length/1)
-          |> Enum.reduce(0, &(&1 + &2))
-
-        text ->
-          text
-          |> IO.iodata_to_binary()
-          |> String.length()
-      end
-
-    max_chars - extra_length
   end
 
   def format_alert_description(text) do
@@ -189,10 +157,10 @@ defmodule SiteWeb.AlertView do
   defp show_mode_icon?(_), do: true
 
   @spec route_name(Route.t()) :: Phoenix.HTML.Safe.t()
-  def route_name(%Route{long_name: long_name, name: name, type: 3}),
+  defp route_name(%Route{long_name: long_name, name: name, type: 3}),
     do: [name, content_tag(:span, long_name, class: "h3 m-alerts-header__long-name")]
 
-  def route_name(%Route{name: name}), do: name
+  defp route_name(%Route{name: name}), do: name
 
   @spec route_icon(Route.t()) :: Phoenix.HTML.Safe.t()
   def route_icon(%{type: 3, description: :rapid_transit}) do
@@ -231,63 +199,25 @@ defmodule SiteWeb.AlertView do
   end
 
   @spec type_name(atom) :: String.t()
-  def type_name(:commuter_rail), do: "Rail"
-  def type_name(mode), do: mode_name(mode)
+  defp type_name(:commuter_rail), do: "Rail"
+  defp type_name(mode), do: mode_name(mode)
 
   @spec type_icon(atom) :: Phoenix.HTML.Safe.t()
-  def type_icon(:access) do
-    svg("icon-accessible-default.svg")
-  end
+  defp type_icon(:access), do: svg("icon-accessible-default.svg")
+  defp type_icon(mode), do: mode_icon(mode, :default)
 
-  def type_icon(mode) do
-    mode_icon(mode, :default)
-  end
+  @spec alert_icon(Alert.icon_type()) :: Phoenix.HTML.Safe.t()
+  defp alert_icon(:shuttle), do: svg("icon-shuttle-default.svg")
+  defp alert_icon(:cancel), do: svg("icon-cancelled-default.svg")
+  defp alert_icon(:snow), do: svg("icon-snow-default.svg")
+  defp alert_icon(:alert), do: svg("icon-alerts-triangle.svg")
+  defp alert_icon(:none), do: ""
 
-  @doc """
-  Renders the All/Current/Planned filters for the alerts page
-  """
-  @spec time_filters(atom, String.t() | nil) :: Phoenix.HTML.Safe.t()
-  def time_filters(current_mode, current_timeframe) do
-    [
-      content_tag(:h2, "Filter by type", class: "h2"),
-      content_tag(
-        :div,
-        Enum.map([nil, "current", "upcoming"], &time_filter(&1, current_mode, current_timeframe)),
-        class: "m-alerts__time-filters"
-      )
-    ]
-  end
+  @spec empty_message_for_timeframe(String.t() | nil) :: String.t()
+  def empty_message_for_timeframe("current"), do: "There are no current alerts."
 
-  @spec time_filter(String.t() | nil, atom, String.t() | nil) :: Phoenix.HTML.Safe.t()
-  defp time_filter(filter, current_mode, current_timeframe) do
-    filter
-    |> time_filter_text()
-    |> link(
-      class: time_filter_class(filter, current_timeframe),
-      to: alert_path(SiteWeb.Endpoint, :show, current_mode, time_filter_params(filter))
-    )
-  end
+  def empty_message_for_timeframe("upcoming"),
+    do: "There are no planned service alerts at this time."
 
-  @spec time_filter_text(String.t() | nil) :: String.t()
-  defp time_filter_text(nil), do: "All Alerts"
-  defp time_filter_text("current"), do: "Current Alerts"
-  defp time_filter_text("upcoming"), do: "Planned Service Alerts"
-
-  @spec time_filter_params(String.t() | nil) :: Keyword.t()
-  defp time_filter_params(nil), do: []
-  defp time_filter_params(<<timeframe::binary>>), do: [timeframe: timeframe]
-
-  @spec time_filter_class(String.t() | nil, String.t() | nil) :: [String.t()]
-  defp time_filter_class(filter, current_timeframe) do
-    ["m-alerts__time-filter" | time_filter_selected_class(filter, current_timeframe)]
-  end
-
-  @spec time_filter_selected_class(String.t() | nil, String.t() | nil) :: [String.t()]
-  defp time_filter_selected_class(filter, filter) do
-    [" ", "m-alerts__time-filter--selected"]
-  end
-
-  defp time_filter_selected_class(_, _) do
-    []
-  end
+  def empty_message_for_timeframe(_), do: "There are no alerts at this time."
 end

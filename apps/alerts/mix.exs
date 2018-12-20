@@ -22,7 +22,7 @@ defmodule Alerts.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [
-      applications: [:logger, :timex, :repo_cache, :con_cache, :tzdata],
+      applications: [:logger, :timex, :repo_cache, :con_cache, :tzdata, :util],
       mod: {Alerts, []}
     ]
   end
@@ -46,7 +46,7 @@ defmodule Alerts.Mixfile do
       {:repo_cache, in_umbrella: true},
       {:con_cache, "~> 0.12.0"},
       {:timex, ">= 0.0.0"},
-      {:util, in_umbrella: true, only: :test},
+      {:util, in_umbrella: true},
       {:quixir, "~> 0.9", only: :test},
       {:excoveralls, "~> 0.5", only: :test},
       {:benchfella, "~> 0.3", only: :dev}

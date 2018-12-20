@@ -1,12 +1,14 @@
 defmodule SiteWeb.AlertViewTest do
   @moduledoc false
   use ExUnit.Case, async: true
+  use Timex
 
   import Phoenix.HTML, only: [safe_to_string: 1, raw: 1]
   import SiteWeb.AlertView
   alias Alerts.Alert
 
   @route %Routes.Route{type: 2, id: "route_id", name: "Name"}
+  @now Util.to_local_time(~N[2018-01-15T12:00:00])
 
   describe "alert_effects/1" do
     test "returns one alert for one effect" do
@@ -49,7 +51,7 @@ defmodule SiteWeb.AlertViewTest do
     end
 
     test "includes the lifecycle for alerts" do
-      assert "Shuttle (Upcoming)" ==
+      assert "Shuttle" ==
                %Alert{effect: :shuttle, lifecycle: :upcoming}
                |> effect_name
                |> IO.iodata_to_binary()
@@ -110,68 +112,6 @@ defmodule SiteWeb.AlertViewTest do
       expected = "Last Updated: 10/5/2016 12:02A"
       actual = alert |> alert_updated(date) |> :erlang.iolist_to_binary()
       assert actual == expected
-    end
-  end
-
-  describe "clamp_header/1" do
-    test "short headers are the same" do
-      assert clamp_header("short", {"", ""}, 58) == "short"
-    end
-
-    test "adds an ellipsis to truncated headers" do
-      truncated =
-        "x"
-        |> String.duplicate(65)
-        |> clamp_header({"", ""}, 60)
-        |> IO.iodata_to_binary()
-
-      assert String.ends_with?(truncated, "…")
-    end
-
-    test "anything more than the provided character limit gets chomped" do
-      long = String.duplicate("x", 65)
-
-      assert long |> clamp_header({"", ""}, 60) |> :erlang.iolist_to_binary() |> String.length() ==
-               61
-    end
-
-    test "clamps that end in a space have it trimmed" do
-      text = String.duplicate(" ", 61)
-
-      assert text |> clamp_header({"", ""}, 60) |> :erlang.iolist_to_binary() |> String.length() ==
-               1
-    end
-
-    test "the max length includes prefix and suffix for the alert" do
-      long = String.duplicate("x", 61)
-
-      length =
-        long
-        |> clamp_header({"prefix", "suffix"}, 60)
-        |> IO.iodata_to_binary()
-        |> String.length()
-
-      assert length == 60 - (String.length("prefix") + String.length("suffix")) + 1
-    end
-
-    test "the max length includes the effects string if it is not split into prefix/suffix" do
-      long = String.duplicate("x", 61)
-
-      length =
-        long
-        |> clamp_header("effects string", 60)
-        |> IO.iodata_to_binary()
-        |> String.length()
-
-      assert length == 60 - String.length("effects string") + 1
-    end
-  end
-
-  describe "alert_character_limits" do
-    test "has a minimum breakpoint, maximum breakpoint, and character limit" do
-      for constraints <- alert_character_limits() do
-        assert {{_min, _max}, _chars} = constraints
-      end
     end
   end
 
@@ -260,11 +200,11 @@ defmodule SiteWeb.AlertViewTest do
     end
   end
 
-  describe "modal.html" do
+  describe "group.html" do
     test "text for no current alerts and 1 upcoming alert" do
       response =
-        SiteWeb.AlertView.render(
-          "modal.html",
+        render(
+          "group.html",
           alerts: [],
           upcoming_alert_count: 1,
           route: @route,
@@ -277,7 +217,7 @@ defmodule SiteWeb.AlertViewTest do
 
     test "text for no alerts of any type but show_empty? set" do
       response =
-        modal(
+        group(
           alerts: [],
           route: @route,
           stop?: true,
@@ -290,8 +230,8 @@ defmodule SiteWeb.AlertViewTest do
 
     test "text for no current alerts and 2 upcoming alerts" do
       response =
-        SiteWeb.AlertView.render(
-          "modal.html",
+        render(
+          "group.html",
           alerts: [],
           upcoming_alert_count: 2,
           route: @route,
@@ -305,12 +245,12 @@ defmodule SiteWeb.AlertViewTest do
 
   describe "inline/2" do
     test "raises an exception if time is not an option" do
-      assert catch_error(SiteWeb.AlertView.inline(SiteWeb.Endpoint, []))
+      assert catch_error(inline(SiteWeb.Endpoint, []))
     end
 
     test "renders nothing if no alerts are passed in" do
       result =
-        SiteWeb.AlertView.inline(
+        inline(
           SiteWeb.Endpoint,
           alerts: [],
           time: Util.service_date()
@@ -321,7 +261,7 @@ defmodule SiteWeb.AlertViewTest do
 
     test "renders if a list of alerts and times is passed in" do
       result =
-        SiteWeb.AlertView.inline(
+        inline(
           SiteWeb.Endpoint,
           alerts: [%Alert{effect: :delay, lifecycle: :upcoming, updated_at: Util.now()}],
           time: Util.service_date()
@@ -339,17 +279,102 @@ defmodule SiteWeb.AlertViewTest do
       description: "description"
     }
     @time ~N[2017-03-01T07:29:00]
+    @active_period [{Timex.shift(@now, days: -8), Timex.shift(@now, days: 8)}]
 
-    test "Displays full description button if alert has description" do
-      response = SiteWeb.AlertView.render("_item.html", alert: @alert, time: @time)
-      assert safe_to_string(response) =~ "View Full Description"
+    test "Displays expansion control if alert has description" do
+      response = render("_item.html", alert: @alert, time: @time)
+      assert safe_to_string(response) =~ "m-alert-item__caret--up"
     end
 
-    test "Does not display full description button if description is nil" do
-      response =
-        SiteWeb.AlertView.render("_item.html", alert: %{@alert | description: nil}, time: @time)
+    test "Does not display expansion control if description is nil" do
+      response = render("_item.html", alert: %{@alert | description: nil}, time: @time)
 
-      refute safe_to_string(response) =~ "View Full Description"
+      refute safe_to_string(response) =~ "m-alert-item__caret--up"
+    end
+
+    test "Icons and labels are displayed for shuttle today" do
+      response =
+        "_item.html"
+        |> render(
+          alert: %Alert{
+            effect: :shuttle,
+            lifecycle: :ongoing,
+            severity: 7,
+            priority: :high
+          },
+          time: @now
+        )
+        |> safe_to_string()
+
+      assert response =~ "c-svg__icon-shuttle-default"
+      assert response =~ "m-alert-item__badge"
+    end
+
+    test "Icons and labels are displayed for delay" do
+      response =
+        "_item.html"
+        |> render(
+          alert: %Alert{
+            effect: :delay,
+            priority: :high
+          },
+          time: @now
+        )
+        |> safe_to_string()
+
+      assert response =~ "c-svg__icon-alerts-triangle"
+      assert response =~ "up to 20 minutes"
+    end
+
+    test "Icons and labels are displayed for snow route" do
+      response =
+        "_item.html"
+        |> render(
+          alert: %Alert{
+            effect: :snow_route,
+            lifecycle: :ongoing,
+            severity: 7,
+            priority: :high
+          },
+          time: @now
+        )
+        |> safe_to_string()
+
+      assert response =~ "c-svg__icon-snow-default"
+      assert response =~ "Ongoing"
+    end
+
+    test "Icons and labels are displayed for cancellation" do
+      response =
+        render(
+          "_item.html",
+          alert: %Alert{
+            effect: :cancellation,
+            active_period: @active_period,
+            priority: :high
+          },
+          time: @now
+        )
+
+      assert safe_to_string(response) =~ "c-svg__icon-cancelled-default"
+    end
+
+    test "No icon for future cancellation" do
+      response =
+        "_item.html"
+        |> render(
+          alert: %Alert{
+            effect: :cancellation,
+            active_period: @active_period,
+            lifecycle: :upcoming,
+            priority: :low
+          },
+          time: @time
+        )
+        |> safe_to_string()
+
+      refute response =~ "c-svg__icon"
+      assert response =~ "Upcoming"
     end
   end
 

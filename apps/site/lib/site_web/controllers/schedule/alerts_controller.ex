@@ -5,8 +5,8 @@ defmodule SiteWeb.ScheduleController.AlertsController do
 
   plug(SiteWeb.Plugs.Route)
   plug(SiteWeb.ScheduleController.Defaults)
-  plug(:all_alerts)
-  plug(SiteWeb.Plugs.UpcomingAlerts)
+  plug(:alerts)
+  plug(SiteWeb.Plugs.AlertsByTimeframe)
   plug(:tab_name)
 
   def show(conn, _) do
@@ -17,7 +17,7 @@ defmodule SiteWeb.ScheduleController.AlertsController do
 
   defp tab_name(conn, _), do: assign(conn, :tab, "alerts")
 
-  defp all_alerts(conn, _), do: assign_all_alerts(conn, [])
+  defp alerts(conn, _), do: assign_alerts(conn, [])
 
   def route_description(route) do
     "Alerts for MBTA #{do_route_description(Route.type_atom(route), route)}"

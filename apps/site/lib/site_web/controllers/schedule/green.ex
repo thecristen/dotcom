@@ -7,8 +7,8 @@ defmodule SiteWeb.ScheduleController.Green do
   plug(:route)
   plug(SiteWeb.Plugs.DateInRating)
   plug(SiteWeb.ScheduleController.DatePicker)
-  plug(:all_alerts)
-  plug(SiteWeb.Plugs.UpcomingAlerts)
+  plug(:green_alerts)
+  plug(SiteWeb.Plugs.AlertsByTimeframe)
   plug(SiteWeb.ScheduleController.Defaults)
   plug(:stops_on_routes)
   plug(:all_stops)
@@ -150,10 +150,10 @@ defmodule SiteWeb.ScheduleController.Green do
     |> assign(:vehicle_predictions, vehicle_predictions)
   end
 
-  def all_alerts(conn, _opts) do
+  def green_alerts(conn, _opts) do
     assign(
       conn,
-      :all_alerts,
+      :alerts,
       Alerts.Repo.by_route_id_and_type("Green", 0, conn.assigns.date_time)
     )
   end

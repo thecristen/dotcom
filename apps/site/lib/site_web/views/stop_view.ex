@@ -3,6 +3,7 @@ defmodule SiteWeb.StopView do
 
   alias Stops.Stop
   alias Routes.Route
+  alias SiteWeb.AlertView
   alias SiteWeb.PartialView.SvgIconWithCircle
   import SiteWeb.StopView.Parking
 
@@ -39,12 +40,13 @@ defmodule SiteWeb.StopView do
     ]
   end
 
-  @spec render_alerts([Alerts.Alert], DateTime.t(), Stop.t()) :: Phoenix.HTML.safe() | String.t()
-  def render_alerts(stop_alerts, date, stop, show_empty? \\ false) do
-    SiteWeb.AlertView.modal(
+  @spec render_alerts([Alerts.Alert], DateTime.t(), Stop.t(), Keyword.t()) ::
+          Phoenix.HTML.safe() | String.t()
+  def render_alerts(stop_alerts, date, stop, opts) do
+    AlertView.group(
+      priority_filter: Keyword.get(opts, :priority_filter, :any),
+      show_empty?: Keyword.get(opts, :show_empty?, false),
       alerts: stop_alerts,
-      hide_t_alerts: true,
-      show_empty?: show_empty?,
       time: date,
       route: %{id: stop.id |> String.replace(" ", "-"), name: stop.name},
       stop?: true
@@ -219,11 +221,11 @@ defmodule SiteWeb.StopView do
   def schedule_template(:commuter_rail), do: "_commuter_schedule.html"
   def schedule_template(_), do: "_mode_schedule.html"
 
-  @spec has_alerts?([Alerts.Alert.t()], Date.t(), Alerts.InformedEntity.t()) :: boolean
+  @spec has_alerts?([Alerts.Alert.t()], Alerts.InformedEntity.t()) :: boolean
   @doc "Returns true if the given route has alerts."
-  def has_alerts?(alerts, date, informed_entity) do
+  def has_alerts?(alerts, informed_entity) do
     alerts
-    |> Enum.reject(&Alerts.Alert.is_notice?(&1, date))
+    |> Enum.reject(&(&1.priority == :low))
     |> Alerts.Match.match(informed_entity)
     |> Enum.empty?()
     |> Kernel.not()

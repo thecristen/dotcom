@@ -4,7 +4,7 @@
     <%= render SiteWeb.ModeView, "_grid_buttons.html",
           conn: @conn,
           routes: @routes,
-          all_alerts: @all_alerts,
+          alerts: @alerts,
           date_time: @date_time,
           id_prefix: "recently-visited",
           show_icons?: true

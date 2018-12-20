@@ -40,15 +40,15 @@ defmodule Alerts.Match do
     any_period_match?(alert.active_period, datetime)
   end
 
-  defp any_period_match?([], _datetime) do
+  def any_period_match?([], _datetime) do
     false
   end
 
-  defp any_period_match?([{nil, nil} | _rest], _datetime) do
+  def any_period_match?([{nil, nil} | _rest], _datetime) do
     true
   end
 
-  defp any_period_match?([{nil, stop} | rest], datetime) do
+  def any_period_match?([{nil, stop} | rest], datetime) do
     if compare(datetime, stop) != :gt do
       true
     else
@@ -56,11 +56,11 @@ defmodule Alerts.Match do
     end
   end
 
-  defp any_period_match?([{start, nil} | _rest], datetime) do
+  def any_period_match?([{start, nil} | _rest], datetime) do
     compare(datetime, start) != :lt
   end
 
-  defp any_period_match?([{start, stop} | rest], datetime) do
+  def any_period_match?([{start, stop} | rest], datetime) do
     start_compare = compare(datetime, start)
     stop_compare = compare(datetime, stop)
 

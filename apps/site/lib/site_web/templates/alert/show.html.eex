@@ -5,7 +5,10 @@
     </div>
     <div class="row">
       <div class="col-lg-3">
-        <%= time_filters(@id, @timeframe) %>
+        <%= SiteWeb.PartialView.alert_time_filters(@alerts_timeframe, [
+          method: :alert_path,
+          item: @id
+        ]) %>
         <div class="hidden-md-down">
           <%= render "_t-alerts.html" %>
         </div>
@@ -24,19 +27,19 @@
                 <%= route_icon(route) %>
               <% end %>
             <% end %>
-            <div class="alert-show-body">
-              <%= if alerts == [] do %>
-                <div class="alert-show-empty">
-                  <span><strong>Regular Service:</strong> There are no current or upcoming service alerts.</span>
-                </div>
-              <% else %>
-                <%= SiteWeb.AlertView.modal alerts: alerts, route: route, hide_t_alerts: true, time: @date %>
-              <% end %>
-            </div>
+          </div>
+          <div>
+            <%= if alerts == [] do %>
+              <div class="m-alerts__notice--show-empty">
+                <%= mode_name(@id) %> service is running as expected. <%= empty_message_for_timeframe(@timeframe) %>
+              </div>
+            <% else %>
+              <%= SiteWeb.AlertView.group alerts: alerts, route: route, time: @date %>
+            <% end %>
           </div>
         <% end %>
         <%= if @route_alerts == [] do %>
-          <div class="alert-no-alerts">
+          <div class="m-alerts__notice--no-alerts">
             There are no current service alerts for <%= mode_name(@id) %>.
           </div>
         <% end %>

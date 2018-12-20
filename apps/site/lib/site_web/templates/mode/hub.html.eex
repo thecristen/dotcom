@@ -24,7 +24,7 @@
         <div class="m-mode__recently-visited">
           <%= render(SiteWeb.PartialView, "_recently_visited.html", conn: @conn,
                                                                     routes: @recently_visited,
-                                                                    all_alerts: @all_alerts,
+                                                                    alerts: @alerts,
                                                                     date_time: @date_time) %>
         </div>
         <h2>Schedules</h2>

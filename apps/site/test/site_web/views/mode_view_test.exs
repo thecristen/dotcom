@@ -80,10 +80,10 @@ defmodule SiteWeb.ModeViewTest do
         Alert.new(
           active_period: [{Timex.shift(now, hours: -3), Timex.shift(now, hours: 3)}],
           effect: :delay,
-          informed_entity: [entity]
+          informed_entity: [entity],
+          priority: :high
         )
 
-      assert Alerts.Alert.is_notice?(alert, now) == false
       assert Alerts.Match.match([alert], entity, now) == [alert]
 
       assert ModeView.has_alert?(%Route{id: "Pink", type: 0}, [alert], now) == true
@@ -101,7 +101,6 @@ defmodule SiteWeb.ModeViewTest do
         informed_entity: [entity]
       )
 
-    assert Alerts.Alert.is_notice?(alert, now) == true
     assert Alerts.Match.match([alert], entity, now) == []
 
     assert ModeView.has_alert?(%Route{id: "Pink", type: 0}, [alert], now) == false

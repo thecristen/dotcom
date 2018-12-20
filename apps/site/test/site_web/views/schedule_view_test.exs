@@ -136,7 +136,6 @@ defmodule SiteWeb.ScheduleViewTest do
         conn
         |> assign(:all_stops, [])
         |> assign(:alerts, [])
-        |> assign(:upcoming_alerts, [])
         |> assign(:date, ~D[2017-01-01])
         |> assign(:date_in_rating?, true)
         |> assign(:destination, nil)
@@ -373,7 +372,7 @@ defmodule SiteWeb.ScheduleViewTest do
       conn: %Plug.Conn{},
       vehicle_tooltips: %{{@trip.id, @stop.id} => @vehicle_tooltip},
       trip_info: @trip_info,
-      all_alerts: [
+      alerts: [
         Alerts.Alert.new(
           informed_entity: [
             %Alerts.InformedEntity{
@@ -512,7 +511,6 @@ defmodule SiteWeb.ScheduleViewTest do
           alerts: [],
           connections: [],
           channel: "vehicles:1:1",
-          upcoming_alerts: [],
           expanded: nil,
           show_variant_selector: true,
           map_img_src: nil,
@@ -598,7 +596,6 @@ defmodule SiteWeb.ScheduleViewTest do
           alerts: [],
           connections: [],
           channel: "vehicles:1:1",
-          upcoming_alerts: [],
           route_shapes: [],
           expanded: nil,
           active_shape: nil,
@@ -632,7 +629,6 @@ defmodule SiteWeb.ScheduleViewTest do
           alerts: [],
           connections: [],
           channel: "vehicles:1:1",
-          upcoming_alerts: [],
           route_shapes: [],
           expanded: nil,
           active_shape: nil,
@@ -679,7 +675,6 @@ defmodule SiteWeb.ScheduleViewTest do
           alerts: [],
           connections: [],
           channel: "vehicles:1:1",
-          upcoming_alerts: [],
           route_shapes: [@shape],
           expanded: nil,
           active_shape: nil,

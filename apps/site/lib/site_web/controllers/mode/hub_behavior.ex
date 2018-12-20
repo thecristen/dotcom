@@ -40,7 +40,7 @@ defmodule SiteWeb.Mode.HubBehavior do
     conn
     |> filter_recently_visited(mode_strategy.route_type)
     |> async_assign(:fares, &mode_strategy.fares/0)
-    |> async_assign(:all_alerts, fn -> alerts(mode_routes, conn.assigns.date_time) end)
+    |> async_assign(:alerts, fn -> alerts(mode_routes, conn.assigns.date_time) end)
     |> assign(:green_routes, green_routes())
     |> assign(:routes, mode_routes)
     |> assign(:route_type, mode_strategy.route_type |> Routes.Route.type_atom())

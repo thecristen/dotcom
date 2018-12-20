@@ -199,4 +199,70 @@ defmodule SiteWeb.PartialView do
       " "
     )
   end
+
+  @doc """
+  Renders the All/Current/Planned filters for an alerts list.
+  The third argument is for the link generated for each item;
+  the first element in the tuple is the path helper method
+  that should be used
+  """
+  @spec alert_time_filters(atom, Keyword.t()) :: Phoenix.HTML.Safe.t()
+  def alert_time_filters(current_timeframe, path_opts) do
+    [
+      content_tag(:h3, "Filter by type", class: "h3"),
+      content_tag(
+        :div,
+        Enum.map([nil, :current, :upcoming], &time_filter(&1, current_timeframe, path_opts)),
+        class: "m-alerts__time-filters"
+      )
+    ]
+  end
+
+  @spec time_filter(atom, atom, Keyword.t()) :: Phoenix.HTML.Safe.t()
+  defp time_filter(filter, current_timeframe, path_opts) do
+    path_method = Keyword.fetch!(path_opts, :method)
+
+    item = Keyword.fetch!(path_opts, :item)
+
+    path_params =
+      path_opts
+      |> Keyword.get(:params, [])
+      |> time_filter_params(filter)
+
+    path =
+      apply(SiteWeb.Router.Helpers, path_method, [SiteWeb.Endpoint, :show, item, path_params])
+
+    filter
+    |> time_filter_text()
+    |> link(
+      class: time_filter_class(filter, current_timeframe),
+      to: path
+    )
+  end
+
+  @spec time_filter_text(atom) :: String.t()
+  defp time_filter_text(nil), do: "All Alerts"
+  defp time_filter_text(:current), do: "Current Alerts"
+  defp time_filter_text(:upcoming), do: "Planned Service Alerts"
+
+  @spec time_filter_params(Keyword.t(), atom) :: Keyword.t()
+  defp time_filter_params(params, nil), do: params
+
+  defp time_filter_params(params, timeframe)
+       when timeframe in [:current, :upcoming],
+       do: Keyword.put(params, :alerts_timeframe, timeframe)
+
+  @spec time_filter_class(atom, atom) :: [String.t()]
+  defp time_filter_class(filter, current_timeframe) do
+    ["m-alerts__time-filter" | time_filter_selected_class(filter, current_timeframe)]
+  end
+
+  @spec time_filter_selected_class(atom, atom) :: [String.t()]
+  defp time_filter_selected_class(filter, filter) do
+    [" ", "m-alerts__time-filter--selected"]
+  end
+
+  defp time_filter_selected_class(_, _) do
+    []
+  end
 end

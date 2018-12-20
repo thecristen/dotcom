@@ -48,6 +48,7 @@ import transitNearMe from "./transit-near-me";
 import routeMap from "./route-map";
 import channels from "./channels";
 import CRTrains from "./cr-timetable-trains";
+import alertItem from "./alert-item";
 
 // Extra steps for non-modular javascript
 Turbolinks.start();
@@ -272,6 +273,7 @@ googleMapsLoaded();
 selectModal();
 headerDropdowns();
 collapse();
+alertItem();
 modal();
 turbolinksMods();
 supportForm();

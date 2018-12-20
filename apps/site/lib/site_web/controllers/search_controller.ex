@@ -143,7 +143,7 @@ defmodule SiteWeb.SearchController do
   def get_alert_ids(%DateTime{} = dt, alerts_repo_fn \\ &Alerts.Repo.all/1) do
     dt
     |> alerts_repo_fn.()
-    |> Enum.reject(&Alert.is_notice?(&1, dt))
+    |> Enum.reject(&(&1.priority == :low))
     |> Enum.reduce(%{stop: MapSet.new(), route: MapSet.new()}, &get_entity_ids/2)
   end
 

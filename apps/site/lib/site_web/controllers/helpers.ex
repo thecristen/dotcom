@@ -68,8 +68,8 @@ defmodule SiteWeb.ControllerHelpers do
   @spec green_routes() :: [Route.t()]
   def green_routes, do: Enum.map(GreenLine.branch_ids(), &Routes.Repo.get(&1))
 
-  @spec assign_all_alerts(Conn.t(), []) :: Conn.t()
-  def assign_all_alerts(
+  @spec assign_alerts(Conn.t(), []) :: Conn.t()
+  def assign_alerts(
         %{assigns: %{route: %Routes.Route{id: route_id, type: route_type}}} = conn,
         _opts
       ) do
@@ -83,7 +83,7 @@ defmodule SiteWeb.ControllerHelpers do
       |> Alerts.Repo.by_route_id_and_type(route_type, conn.assigns.date_time)
       |> Alerts.Match.match(informed_entity_matchers)
 
-    Conn.assign(conn, :all_alerts, alerts)
+    Conn.assign(conn, :alerts, alerts)
   end
 
   @doc """
