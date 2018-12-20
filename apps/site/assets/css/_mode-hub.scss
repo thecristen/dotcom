@@ -105,3 +105,17 @@
     margin-top: $base-spacing;
   }
 }
+
+.m-mode-hub__fare {
+  color: $black;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  .c-fare-card {
+    @include media-breakpoint-down(md) {
+      max-width: none;
+    }
+  }
+}

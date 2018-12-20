@@ -338,10 +338,10 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "Local Bus"
       assert rendered =~ "One-Way"
       assert rendered =~ "$1.70"
-      assert rendered =~ "with a CharlieCard"
+      assert rendered =~ "with a\nCharlieCard"
       assert rendered =~ "1 free transfer"
       assert rendered =~ "$2.00"
-      assert rendered =~ "with a CharlieTicket or Cash"
+      assert rendered =~ "with a\nCharlieTicket or Cash"
       assert rendered =~ "Limited transfers"
     end
 

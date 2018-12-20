@@ -21,7 +21,6 @@ defmodule SiteWeb.ContentView do
 
   alias Phoenix.HTML.Tag
   alias Site.ContentRewriter
-  alias Site.ContentRewriters.LiquidObjects.Fare
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 
@@ -63,7 +62,8 @@ defmodule SiteWeb.ContentView do
 
       render(
         "_grouped_fare_card.html",
-        Keyword.merge(grouped_fare_card_data, conn: conn)
+        fare_cards: grouped_fare_card_data,
+        conn: conn
       )
     else
       render("_column_multi.html", paragraph: para, conn: conn)
@@ -155,23 +155,14 @@ defmodule SiteWeb.ContentView do
 
   defp nested_paragraphs(columns), do: columns |> Enum.flat_map(& &1.paragraphs)
 
-  defp grouped_fare_card_data([first_paragraph, second_paragraph]) do
-    [
-      first_fare: fare_from_paragraph(first_paragraph),
-      second_fare: fare_from_paragraph(second_paragraph),
-      first_note: first_paragraph.note,
-      second_note: second_paragraph.note
-    ]
+  defp grouped_fare_card_data(paragraphs) when is_list(paragraphs) do
+    Enum.map(
+      paragraphs,
+      &%FareCard{fare_token: &1.fare_token, note: &1.note}
+    )
   end
 
   defp grouped_fare_card_data(_) do
-    [
-      first_fare: nil,
-      second_fare: nil,
-      first_note: nil,
-      second_note: nil
-    ]
+    nil
   end
-
-  defp fare_from_paragraph(%{fare_token: fare_token}), do: Fare.fare_object_request(fare_token)
 end

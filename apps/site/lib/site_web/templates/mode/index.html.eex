@@ -42,6 +42,7 @@
         <h2 class="h2">Maps</h2>
         <%= map_buttons([:subway, :bus, :commuter_rail, :commuter_rail_zones, :ferry]) %>
       </div>
+
       <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-4 col-lg-offset-1">
         <div class="m-mode-hub__trip-plan-widget">
           <%= SiteWeb.PartialView.render("_trip_planner_widget.html", assigns) %>
@@ -50,6 +51,29 @@
           <%= for guide <- @guides do SiteWeb.PartialView.teaser(guide, class: "m-mode-hub__guide") end %>
         </div>
       </div>
+
+      <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-7">
+        <h2 class="h2">Fares</h2>
+        <% fare_cards = fare_cards() %>
+        <div class="m-mode-hub__fares">
+          <%= link to: cms_static_page_path(@conn, "/fares/subway-fares"), class: "m-mode-hub__fare" do %>
+            <%= SiteWeb.ContentView.render("_grouped_fare_card.html", fare_cards: fare_cards.subway, conn: @conn) %>
+          <% end %>
+          <%= link to: cms_static_page_path(@conn, "/fares/bus-fares"), class: "m-mode-hub__fare" do %>
+            <%= SiteWeb.ContentView.render("_grouped_fare_card.html", fare_cards: fare_cards.bus, conn: @conn) %>
+          <% end %>
+          <%= link to: cms_static_page_path(@conn, "/fares/commuter-rail-fares"), class: "m-mode-hub__fare" do %>
+            <%= SiteWeb.ContentView.render("_fare_card.html", fare_card: fare_cards.commuter_rail, conn: @conn) %>
+          <% end %>
+          <%= link to: cms_static_page_path(@conn, "/fares/ferry-fares"), class: "m-mode-hub__fare" do %>
+            <%= SiteWeb.ContentView.render("_fare_card.html", fare_card: fare_cards.ferry, conn: @conn) %>
+          <% end %>
+        </div>
+        <%= link to: cms_static_page_path(@conn, "/fares"), class: "c-call-to-action" do %>
+          View fares overview
+        <% end %>
+      </div>
+
     </div>
   </div>
 </div>

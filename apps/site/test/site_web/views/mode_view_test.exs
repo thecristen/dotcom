@@ -1,6 +1,6 @@
 defmodule SiteWeb.ModeViewTest do
   use ExUnit.Case, async: true
-
+  alias Content.Paragraph.FareCard
   alias SiteWeb.ModeView
   alias Routes.Route
   alias Alerts.Alert
@@ -117,6 +117,39 @@ defmodule SiteWeb.ModeViewTest do
     test "Numeric bus route" do
       assert [%Route{name: "99"}] == Enum.filter(@bus_routes, ModeView.bus_filter_range(1, 100))
       assert [] == Enum.filter(@bus_routes, ModeView.bus_filter_range(200, 299))
+    end
+  end
+
+  describe "fares" do
+    test "returns all fare card data" do
+      assert %{
+               commuter_rail: %FareCard{},
+               ferry: %FareCard{},
+               subway: [%FareCard{}, %FareCard{}],
+               bus: [%FareCard{}, %FareCard{}]
+             } = ModeView.fare_cards()
+    end
+
+    test "returns :commuter_rail fare card data" do
+      assert %FareCard{fare_token: "commuter_rail"} = ModeView.fare_cards(:commuter_rail)
+    end
+
+    test "returns :ferry fare card data" do
+      assert %FareCard{fare_token: "ferry"} = ModeView.fare_cards(:ferry)
+    end
+
+    test "returns :subway fare card data" do
+      assert [
+               %FareCard{fare_token: "subway:charlie_card:single_trip"},
+               %FareCard{fare_token: "subway:charlie_ticket:single_trip"}
+             ] = ModeView.fare_cards(:subway)
+    end
+
+    test "returns :bus fare card data" do
+      assert [
+               %FareCard{fare_token: "local_bus:charlie_card:single_trip"},
+               %FareCard{fare_token: "local_bus:charlie_ticket:single_trip"}
+             ] = ModeView.fare_cards(:bus)
     end
   end
 end

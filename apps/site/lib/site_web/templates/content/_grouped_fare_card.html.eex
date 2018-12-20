@@ -1,60 +1,50 @@
-<%= if @first_fare do %>
-  <%= extend_width_if true do %>
-    <div class="c-fare-card c-fare-card--grouped c-fare-card--<%= @first_fare.mode %>">
+<%= if @fare_cards && length(@fare_cards) == 2 do %>
+<%= extend_width_if true do %>
+<% group = Site.ContentRewriters.LiquidObjects.Fare.fare_object_request(List.first(@fare_cards).fare_token) %>
 
-      <div class="c-fare-card__header">
-        <div class="c-fare-card__icon">
-          <%= mode_icon(@first_fare.mode, :default) %>
-        </div>
+<div class="c-fare-card c-fare-card--grouped c-fare-card--<%= group.mode %>">
 
-        <h3 class="c-fare-card__name">
-          <span class="c-fare-card__name-mode">
-            <%= Fares.Format.name(@first_fare) %>
-          </span>
-          <span class="c-fare-card__name-duration">
-            <%= Fares.Format.duration(@first_fare) %>
-          </span>
-        </h3>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <div class="c-fare-card__fare h2">
-            <%= Fares.Format.price(@first_fare) %>
-          </div>
-
-          <p class="c-fare-card__media">
-            with a <%= Fares.Format.media(@first_fare) %>
-          </p>
-
-          <%= if @first_note do %>
-            <div class="c-fare-card__note">
-              <%= SiteWeb.ContentView.render_paragraph(@first_note, @conn) %>
-            </div>
-          <% end %>
-        </div>
-
-        <div class="col-md-6">
-          <div class="c-fare-card__fare h2">
-            <%= Fares.Format.price(@second_fare) %>
-          </div>
-
-          <p class="c-fare-card__media">
-            with a <%= Fares.Format.media(@second_fare) %>
-          </p>
-
-          <%= if @second_note do %>
-            <div class="c-fare-card__note">
-              <%= SiteWeb.ContentView.render_paragraph(@second_note, @conn) %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-
+  <div class="c-fare-card__header">
+    <div class="c-fare-card__icon">
+      <%= mode_icon(group.mode, :default) %>
     </div>
-  <% end %>
+
+    <h3 class="c-fare-card__name">
+      <span class="c-fare-card__name-mode">
+        <%= Fares.Format.name(group) %>
+      </span>
+      <span class="c-fare-card__name-duration">
+        <%= Fares.Format.duration(group) %>
+      </span>
+    </h3>
+  </div>
+
+  <div class="row">
+    <%= for fare_card <- @fare_cards do %>
+    <% fare = Site.ContentRewriters.LiquidObjects.Fare.fare_object_request(fare_card.fare_token) %>
+    <div class="col-md-6">
+      <div class="c-fare-card__fare h2">
+        <%= Fares.Format.price(fare) %>
+      </div>
+
+      <p class="c-fare-card__media">
+        with a
+        <%= Fares.Format.media(fare) %>
+      </p>
+
+      <%= if fare_card.note do %>
+      <div class="c-fare-card__note">
+        <%= SiteWeb.ContentView.render_paragraph(fare_card.note, @conn) %>
+      </div>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
+
+</div>
+<% end %>
 <% else %>
-  <p>
-    <em>Bad grouped fare card data</em>
-  </p>
+<p>
+  <em>Bad grouped fare card data</em>
+</p>
 <% end %>
