@@ -95,7 +95,7 @@ defmodule Site.Mixfile do
       {:laboratory, github: "paulswartz/laboratory", ref: "cookie_opts"},
       {:parallel_stream, "~> 1.0.5"},
       {:bypass, "~> 0.8", only: :test},
-      {:dialyxir, ">= 0.3.5", only: [:test, :dev]},
+      {:dialyxir, ">= 1.0.0-rc.4", only: [:test, :dev], runtime: false},
       {:benchfella, "~> 0.3", only: :dev},
       {:excoveralls, "~> 0.5", only: :test},
       {:floki, "~> 0.20.4"},
