@@ -2,9 +2,9 @@ defmodule SiteWeb.PartialViewTest do
   use SiteWeb.ConnCase, async: true
 
   import SiteWeb.PartialView
-  import SiteWeb.PartialView.SvgIconWithCircle
+  import SiteWeb.PartialView.{HeaderTabs, SvgIconWithCircle}
   alias SiteWeb.PartialView
-  alias SiteWeb.PartialView.SvgIconWithCircle
+  alias SiteWeb.PartialView.{HeaderTab, HeaderTabBadge, SvgIconWithCircle}
   alias Content.{NewsEntry, Repo, Teaser}
   import Phoenix.HTML, only: [safe_to_string: 1]
 
@@ -192,6 +192,36 @@ defmodule SiteWeb.PartialViewTest do
       assert rendered =~ "Nov"
       assert rendered =~ "30"
       assert rendered =~ ~s(href="/url")
+    end
+  end
+
+  describe "render_tabs/2" do
+    test "returns tabs with badge" do
+      actual =
+        [
+          %HeaderTab{id: "a", name: "A", href: "/a"},
+          %HeaderTab{id: "b", name: "B", href: "/b"},
+          %HeaderTab{
+            id: "c",
+            name: "C",
+            href: "/c",
+            badge: %HeaderTabBadge{
+              content: "5",
+              class: "some-tab-badge",
+              aria_label: "5 things"
+            }
+          }
+        ]
+        |> render_tabs(
+          selected: "b",
+          tab_class: "some-tab-class"
+        )
+        |> safe_to_string()
+
+      expected =
+        "<div class=\"header-tabs\"><a class=\"header-tab  some-tab-class a-tab\" href=\"/a\" id=\"a-tab\">A</a><a class=\"header-tab header-tab--selected some-tab-class b-tab\" href=\"/b\" id=\"b-tab\">B</a><a class=\"header-tab  some-tab-class c-tab\" href=\"/c\" id=\"c-tab\">C<span aria-label=\"5 things\" class=\"some-tab-badge\">5</span></a></div>"
+
+      assert actual == expected
     end
   end
 end

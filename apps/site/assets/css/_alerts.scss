@@ -336,3 +336,20 @@
     color: $white;
   }
 }
+
+.m-alert-badge {
+  background-color: $brand-primary;
+  border-radius: $base-spacing / 4;
+  color: $white;
+  font-weight: bold;
+  margin-left: $base-spacing / 2;
+  padding: $base-spacing / 8 $base-spacing / 2;
+
+  @include media-breakpoint-up(sm) {
+    position: absolute;
+    right: $base-spacing / 2;
+    // unusual top spacing is due to the container having a border-bottom
+    // that visually appears as part of the tab
+    top: $base-spacing / 1.75;
+  }
+}

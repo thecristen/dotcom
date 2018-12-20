@@ -6,10 +6,11 @@ defmodule SiteWeb.ScheduleView do
   import SiteWeb.ScheduleView.Timetable
 
   require Routes.Route
+  alias Plug.Conn
   alias Routes.Route
   alias Stops.Stop
   alias Site.MapHelpers
-  alias SiteWeb.PartialView.SvgIconWithCircle
+  alias SiteWeb.PartialView.{HeaderTab, HeaderTabBadge, HeaderTabs, SvgIconWithCircle}
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
 
@@ -337,19 +338,49 @@ defmodule SiteWeb.ScheduleView do
     alerts_link = alerts_path(conn, :show, route.id, tab_params)
 
     tabs = [
-      {"trip-view", "Schedule", schedule_link},
-      {"line", "Info & Maps", info_link},
-      {"alerts", "Alerts", alerts_link}
+      %HeaderTab{id: "trip-view", name: "Schedule", href: schedule_link},
+      %HeaderTab{id: "line", name: "Info & Maps", href: info_link},
+      %HeaderTab{
+        id: "alerts",
+        name: "Alerts",
+        href: alerts_link,
+        badge: conn |> alert_count() |> alert_badge()
+      }
     ]
 
     tabs =
       case route.type do
-        2 -> [{"timetable", "Timetable", timetable_link}, {"line", "Info", info_link} | tabs]
-        _ -> tabs
+        2 ->
+          [
+            %HeaderTab{id: "timetable", name: "Timetable", href: timetable_link},
+            %HeaderTab{id: "line", name: "Info", href: info_link} | tabs
+          ]
+
+        _ ->
+          tabs
       end
 
-    SiteWeb.PartialView.HeaderTabs.render_tabs(tabs, conn.assigns.tab, route_tab_class(route))
+    HeaderTabs.render_tabs(tabs, selected: conn.assigns.tab, tab_class: route_tab_class(route))
   end
+
+  @spec alert_count(Conn.t()) :: integer
+  defp alert_count(%{assigns: %{alerts: alerts}}), do: length(alerts)
+  defp alert_count(_), do: 0
+
+  @spec alert_badge(integer) :: nil | HeaderTabBadge
+  defp alert_badge(0), do: nil
+
+  defp alert_badge(count) do
+    %HeaderTabBadge{
+      content: Integer.to_string(count),
+      class: "m-alert-badge",
+      aria_label: alert_badge_aria_label(count)
+    }
+  end
+
+  @spec alert_badge_aria_label(integer) :: String.t()
+  defp alert_badge_aria_label(1), do: "1 alert"
+  defp alert_badge_aria_label(count), do: "#{count} alerts"
 
   @spec route_tab_class(Route.t()) :: String.t()
   defp route_tab_class(%Route{type: 3} = route) do
