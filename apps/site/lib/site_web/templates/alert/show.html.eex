@@ -40,7 +40,8 @@
         <% end %>
         <%= if @route_alerts == [] do %>
           <div class="m-alerts__notice--no-alerts">
-            There are no current service alerts for <%= mode_name(@id) %>.
+            <% timeframe = if @alerts_timeframe == :upcoming, do: :planned, else: @alerts_timeframe %>
+            There are no <%= timeframe %> service alerts for <%= mode_name(@id) %>.
           </div>
         <% end %>
         <div class="hidden-lg-up">
