@@ -183,6 +183,23 @@ defmodule SiteWeb.ControllerHelpersTest do
       assert alerts == expected
     end
 
+    test "assigns alerts for both directions if the matching strategy is both_directions", %{
+      conn: conn
+    } do
+      route = %Routes.Route{id: "CR-Worcester", type: 2}
+
+      alerts =
+        conn
+        |> assign(:date_time, Timex.now())
+        |> assign(:route, route)
+        |> assign(:direction_id, 0)
+        |> assign_alerts(matching_strategy: :both_directions)
+        |> (fn conn -> conn.assigns.alerts end).()
+
+      expected = [@commuter_rail_alert, @worcester_alert, @worcester_inbound_alert]
+      assert alerts == expected
+    end
+
     test "assigns alerts for both directions if the direction_id is not assigned", %{conn: conn} do
       route = %Routes.Route{id: "CR-Worcester", type: 2}
 

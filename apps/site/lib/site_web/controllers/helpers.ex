@@ -1,4 +1,5 @@
 defmodule SiteWeb.ControllerHelpers do
+  alias Alerts.{InformedEntity, Match, Repo}
   alias Plug.Conn
   alias Routes.Route
   alias Timex.Format.DateTime.Formatters.Strftime
@@ -68,23 +69,35 @@ defmodule SiteWeb.ControllerHelpers do
   @spec green_routes() :: [Route.t()]
   def green_routes, do: Enum.map(GreenLine.branch_ids(), &Routes.Repo.get(&1))
 
-  @spec assign_alerts(Conn.t(), []) :: Conn.t()
+  @spec assign_alerts(Conn.t(), Keyword.t()) :: Conn.t()
   def assign_alerts(
-        %{assigns: %{route: %Routes.Route{id: route_id, type: route_type}}} = conn,
-        _opts
+        %{
+          assigns:
+            %{date_time: date_time, route: %Route{id: route_id, type: route_type}} = assigns
+        } = conn,
+        opts
       ) do
+    matching_strategy = Keyword.get(opts, :matching_strategy, :one_direction)
+
     informed_entity_matchers = [
-      %Alerts.InformedEntity{route_type: route_type, direction_id: conn.assigns[:direction_id]},
-      %Alerts.InformedEntity{route: route_id, direction_id: conn.assigns[:direction_id]}
+      %InformedEntity{
+        route_type: route_type,
+        direction_id: direction_id(matching_strategy, assigns)
+      },
+      %InformedEntity{route: route_id, direction_id: direction_id(matching_strategy, assigns)}
     ]
 
     alerts =
       route_id
-      |> Alerts.Repo.by_route_id_and_type(route_type, conn.assigns.date_time)
-      |> Alerts.Match.match(informed_entity_matchers)
+      |> Repo.by_route_id_and_type(route_type, date_time)
+      |> Match.match(informed_entity_matchers)
 
     Conn.assign(conn, :alerts, alerts)
   end
+
+  @spec direction_id(:one_direction | :both_directions, map) :: 0 | 1 | nil
+  defp direction_id(:one_direction, assigns), do: assigns[:direction_id]
+  defp direction_id(:both_directions, _), do: nil
 
   @doc """
   Gets a remote static file and forwards it to the client.
