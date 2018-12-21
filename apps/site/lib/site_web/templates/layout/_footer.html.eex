@@ -49,13 +49,13 @@
           <li class="m-footer__item"><%= link "News & Updates", to: news_entry_path(@conn, :index), data: [scroll: true] %></li>
           <li class="m-footer__item"><%= link "Events", to: event_path(@conn, :index), data: [scroll: true] %></li>
           <li class="m-footer__item"><%= link "Performance", to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" %></li>
+          <li class="m-footer__item"><%= link "Careers", to: cms_static_page_path(@conn, "/careers"), data: [scroll: true]  %></li>
         </ul>
       </li>
       <li class="m-footer__group">
         <div class="m-footer__group-title">Business Center</div>
         <ul class="list-unstyled">
           <li class="m-footer__item"><%= link "Business Opportunities", to: cms_static_page_path(@conn, "/business") %></li>
-          <li class="m-footer__item"><%= link "Careers", to: cms_static_page_path(@conn, "/careers"), data: [scroll: true]  %></li>
           <li class="m-footer__item"><%= link "Developers", to: cms_static_page_path(@conn, "/developers"), data: [scroll: true] %></li>
           <li class="m-footer__item"><%= link "Financials", to: cms_static_page_path(@conn, "/financials"), data: [scroll: true]  %></li>
           <li class="m-footer__item"><%= link "Innovation", to: cms_static_page_path(@conn, "/innovation") %></li>

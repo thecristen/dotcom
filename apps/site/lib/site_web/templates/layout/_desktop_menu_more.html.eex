@@ -58,6 +58,11 @@
               Gifts
             <% end %>
           </li>
+          <li>
+            <%= link to: cms_static_page_path(@conn, "/careers") do %>
+              Careers
+            <% end %>
+          </li>
         </ul>
       </div>
     </div>
@@ -69,11 +74,6 @@
         <li>
           <%= link to: cms_static_page_path(@conn, "/business") do %>
             Business Opportunities
-          <% end %>
-        </li>
-        <li>
-          <%= link to: cms_static_page_path(@conn, "/careers") do %>
-            Careers
           <% end %>
         </li>
         <li>
