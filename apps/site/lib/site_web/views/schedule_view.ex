@@ -364,7 +364,7 @@ defmodule SiteWeb.ScheduleView do
   end
 
   @spec alert_count(Conn.t()) :: integer
-  defp alert_count(%{assigns: %{alerts: alerts}}), do: length(alerts)
+  defp alert_count(%{assigns: %{all_alerts_count: all_alerts_count}}), do: all_alerts_count
   defp alert_count(_), do: 0
 
   @spec alert_badge(integer) :: nil | HeaderTabBadge

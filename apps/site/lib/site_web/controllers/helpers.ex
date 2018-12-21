@@ -92,7 +92,9 @@ defmodule SiteWeb.ControllerHelpers do
       |> Repo.by_route_id_and_type(route_type, date_time)
       |> Match.match(informed_entity_matchers)
 
-    Conn.assign(conn, :alerts, alerts)
+    conn
+    |> Conn.assign(:alerts, alerts)
+    |> Conn.assign(:all_alerts_count, length(alerts))
   end
 
   @spec direction_id(:one_direction | :both_directions, map) :: 0 | 1 | nil
