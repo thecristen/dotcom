@@ -7,6 +7,7 @@ defmodule SiteWeb.ScheduleController.AlertsController do
   plug(SiteWeb.ScheduleController.Defaults)
   plug(:alerts)
   plug(SiteWeb.Plugs.AlertsByTimeframe)
+  plug(SiteWeb.ScheduleController.RouteBreadcrumbs)
   plug(:tab_name)
 
   def show(conn, _) do
