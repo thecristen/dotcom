@@ -1,13 +1,14 @@
 defmodule Routes.RepoTest do
   use ExUnit.Case, async: true
+  alias Routes.{Repo, Route}
 
   describe "all/0" do
     test "returns something" do
-      assert Routes.Repo.all() != []
+      assert Repo.all() != []
     end
 
     test "parses the data into Route structs" do
-      assert Routes.Repo.all() |> List.first() == %Routes.Route{
+      assert Repo.all() |> List.first() == %Route{
                id: "Red",
                type: 1,
                name: "Red Line",
@@ -19,10 +20,10 @@ defmodule Routes.RepoTest do
 
     test "parses a long name for the Green Line" do
       [route] =
-        Routes.Repo.all()
+        Repo.all()
         |> Enum.filter(&(&1.id == "Green-B"))
 
-      assert route == %Routes.Route{
+      assert route == %Route{
                id: "Green-B",
                type: 0,
                name: "Green Line B",
@@ -34,10 +35,10 @@ defmodule Routes.RepoTest do
 
     test "parses a short name instead of a long one" do
       [route] =
-        Routes.Repo.all()
+        Repo.all()
         |> Enum.filter(&(&1.name == "SL1"))
 
-      assert route == %Routes.Route{
+      assert route == %Route{
                id: "741",
                type: 3,
                name: "SL1",
@@ -48,10 +49,10 @@ defmodule Routes.RepoTest do
 
     test "parses a short_name if there's no long name" do
       [route] =
-        Routes.Repo.all()
+        Repo.all()
         |> Enum.filter(&(&1.name == "23"))
 
-      assert route == %Routes.Route{
+      assert route == %Route{
                id: "23",
                type: 3,
                name: "23",
@@ -61,51 +62,51 @@ defmodule Routes.RepoTest do
     end
 
     test "filters out 'hidden' routes'" do
-      all = Routes.Repo.all()
+      all = Repo.all()
       assert all |> Enum.filter(fn route -> route.name == "24/27" end) == []
     end
   end
 
   describe "by_type/1" do
     test "only returns routes of a given type" do
-      one = Routes.Repo.by_type(1)
+      one = Repo.by_type(1)
       assert one |> Enum.all?(fn route -> route.type == 1 end)
       assert one != []
-      assert one == Routes.Repo.by_type([1])
+      assert one == Repo.by_type([1])
     end
 
     test "filtering by a list keeps the routes in their global order" do
-      assert Routes.Repo.by_type([0, 1, 2, 3, 4]) == Routes.Repo.all()
+      assert Repo.by_type([0, 1, 2, 3, 4]) == Repo.all()
     end
   end
 
   describe "get/1" do
     test "returns a single route" do
-      assert %Routes.Route{
+      assert %Route{
                id: "Red",
                name: "Red Line",
                type: 1
-             } = Routes.Repo.get("Red")
+             } = Repo.get("Red")
     end
 
     test "returns nil for an unknown route" do
-      refute Routes.Repo.get("_unknown_route")
+      refute Repo.get("_unknown_route")
     end
 
     test "returns a hidden route" do
-      assert %Routes.Route{id: "746"} = Routes.Repo.get("746")
+      assert %Route{id: "746"} = Repo.get("746")
     end
   end
 
   test "key bus routes are tagged" do
-    assert %Routes.Route{description: :key_bus_route} = Routes.Repo.get("1")
-    assert %Routes.Route{description: :key_bus_route} = Routes.Repo.get("741")
-    assert %Routes.Route{description: :local_bus} = Routes.Repo.get("47")
+    assert %Route{description: :key_bus_route} = Repo.get("1")
+    assert %Route{description: :key_bus_route} = Repo.get("741")
+    assert %Route{description: :local_bus} = Repo.get("47")
   end
 
   describe "headsigns/1" do
     test "returns empty lists when route has no trips" do
-      headsigns = Routes.Repo.headsigns("tripless")
+      headsigns = Repo.headsigns("tripless")
 
       assert headsigns == %{
                0 => [],
@@ -114,13 +115,13 @@ defmodule Routes.RepoTest do
     end
 
     test "returns keys for both directions" do
-      headsigns = Routes.Repo.headsigns("1")
+      headsigns = Repo.headsigns("1")
 
       assert Map.keys(headsigns) == [0, 1]
     end
 
     test "returns basic headsign data" do
-      headsigns = Routes.Repo.headsigns("1")
+      headsigns = Repo.headsigns("1")
 
       assert headsigns == %{
                0 => ["Harvard"],
@@ -129,14 +130,14 @@ defmodule Routes.RepoTest do
     end
 
     test "returns headsigns for primary route for rail routes" do
-      headsigns = Routes.Repo.headsigns("CR-Lowell")
+      headsigns = Repo.headsigns("CR-Lowell")
       assert "Lowell" in headsigns[0]
       # fixup after gtfs update: refute "Haverhill" in headsigns[0]
       assert "North Station" in headsigns[1]
     end
 
     test "returns headsigns for subway routes" do
-      headsigns = Routes.Repo.headsigns("Red")
+      headsigns = Repo.headsigns("Red")
 
       assert "Ashmont" in headsigns[0]
       assert "Braintree" in headsigns[0]
@@ -147,7 +148,7 @@ defmodule Routes.RepoTest do
   describe "calculate_headsigns" do
     test "returns an empty list for an error" do
       error = %JsonApi.Error{}
-      assert Routes.Repo.calculate_headsigns(error) == []
+      assert Repo.calculate_headsigns(error) == []
     end
 
     test "returns headsigns sorted by frequency" do
@@ -172,7 +173,7 @@ defmodule Routes.RepoTest do
         ]
       }
 
-      assert Routes.Repo.calculate_headsigns(data, "primary") == ["first", "second"]
+      assert Repo.calculate_headsigns(data, "primary") == ["first", "second"]
     end
 
     test "filters out items with route ids not matching primary route" do
@@ -197,7 +198,7 @@ defmodule Routes.RepoTest do
         ]
       }
 
-      assert Routes.Repo.calculate_headsigns(data, "primary") == ["first"]
+      assert Repo.calculate_headsigns(data, "primary") == ["first"]
     end
   end
 
@@ -205,24 +206,24 @@ defmodule Routes.RepoTest do
     test "returns stops from different lines" do
       # Beachmont
       assert [
-               %Routes.Route{id: "Blue", type: 1},
-               %Routes.Route{id: "119", type: 3}
-             ] = Routes.Repo.by_stop("place-bmmnl")
+               %Route{id: "Blue", type: 1},
+               %Route{id: "119", type: 3}
+             ] = Repo.by_stop("place-bmmnl")
     end
 
     test "can specify type as param" do
       # Beachmont
       assert [
-               %Routes.Route{id: "119", type: 3}
-             ] = Routes.Repo.by_stop("place-bmmnl", type: 3)
+               %Route{id: "119", type: 3}
+             ] = Repo.by_stop("place-bmmnl", type: 3)
     end
 
     test "returns empty list if no routes of that type serve that stop" do
-      assert [] = Routes.Repo.by_stop("place-bmmnl", type: 0)
+      assert [] = Repo.by_stop("place-bmmnl", type: 0)
     end
 
     test "returns no routes on nonexistant station" do
-      assert [] = Routes.Repo.by_stop("thisstopdoesntexist")
+      assert [] = Repo.by_stop("thisstopdoesntexist")
     end
   end
 
@@ -248,7 +249,7 @@ defmodule Routes.RepoTest do
       ]
 
       for route_id <- hidden_routes do
-        assert Routes.Repo.route_hidden?(%{id: route_id})
+        assert Repo.route_hidden?(%{id: route_id})
       end
     end
 
@@ -256,7 +257,7 @@ defmodule Routes.RepoTest do
       visible_routes = ["SL1", "66", "1", "742"]
 
       for route_id <- visible_routes do
-        refute Routes.Repo.route_hidden?(%{id: route_id})
+        refute Repo.route_hidden?(%{id: route_id})
       end
     end
   end
@@ -295,8 +296,7 @@ defmodule Routes.RepoTest do
         links: %{}
       }
 
-      assert {:ok, [%Routes.Route{id: "16"}, %Routes.Route{id: "36"}]} =
-               Routes.Repo.handle_response(response)
+      assert {:ok, [%Route{id: "16"}, %Route{id: "36"}]} = Repo.handle_response(response)
     end
 
     test "removes hidden routes" do
@@ -332,18 +332,18 @@ defmodule Routes.RepoTest do
         links: %{}
       }
 
-      assert {:ok, [%Routes.Route{id: "36"}]} = Routes.Repo.handle_response(response)
+      assert {:ok, [%Route{id: "36"}]} = Repo.handle_response(response)
     end
 
     test "passes errors through" do
       error = {:error, %HTTPoison.Error{id: nil, reason: :timeout}}
-      assert Routes.Repo.handle_response(error) == error
+      assert Repo.handle_response(error) == error
     end
   end
 
   describe "get_shapes/2" do
     test "Get valid response for bus route" do
-      shapes = Routes.Repo.get_shapes("9", 1)
+      shapes = Repo.get_shapes("9", 1)
       shape = List.first(shapes)
 
       assert Enum.count(shapes) >= 2
@@ -352,8 +352,8 @@ defmodule Routes.RepoTest do
     end
 
     test "get different number of shapes from same route depending on filtering" do
-      all_shapes = Routes.Repo.get_shapes("Green-E", 0, false)
-      priority_shapes = Routes.Repo.get_shapes("Green-E", 0)
+      all_shapes = Repo.get_shapes("100", 1, false)
+      priority_shapes = Repo.get_shapes("100", 1)
 
       refute Enum.count(all_shapes) == Enum.count(priority_shapes)
     end
@@ -362,14 +362,14 @@ defmodule Routes.RepoTest do
   describe "get_shape/1" do
     shape =
       "903_0018"
-      |> Routes.Repo.get_shape()
+      |> Repo.get_shape()
       |> List.first()
 
     assert shape.id == "903_0018"
   end
 
   describe "green_line" do
-    green_line = Routes.Repo.green_line()
+    green_line = Repo.green_line()
     assert green_line.id == "Green"
     assert green_line.name == "Green Line"
   end

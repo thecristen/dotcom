@@ -1,0 +1,22 @@
+{
+  "id" : "dc7ee7fb-7d7f-3879-bbee-c71d88a8382e",
+  "request" : {
+    "url" : "/routes/?stop=place-rugg",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Zvf1D.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:16:30 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3phbkatu33d9tms00ceg1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "dc7ee7fb-7d7f-3879-bbee-c71d88a8382e"
+}

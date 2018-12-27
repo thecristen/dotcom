@@ -1,0 +1,22 @@
+{
+  "id" : "ce37966e-b792-358b-8d6d-b11edbcf1ea2",
+  "request" : {
+    "url" : "/routes/?stop=Kendal+Green",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LmMct.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:16:30 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3phbbu0r6n3uro400cdk1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ce37966e-b792-358b-8d6d-b11edbcf1ea2"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "48df5da4-f486-395e-b1d7-1d7385783c8c",
+  "request" : {
+    "url" : "/routes/?stop=Plymouth",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-oSalh.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:16:31 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3phcbnn06l7s2ss003na2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "48df5da4-f486-395e-b1d7-1d7385783c8c"
+}

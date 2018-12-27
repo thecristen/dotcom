@@ -1,0 +1,22 @@
+{
+  "id" : "f03c444a-8094-3f3f-a298-5bc72b4d54b6",
+  "request" : {
+    "url" : "/routes/?stop=57&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-PEwWo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:13:24 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3p6g30ck56o4r58003jg2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f03c444a-8094-3f3f-a298-5bc72b4d54b6"
+}

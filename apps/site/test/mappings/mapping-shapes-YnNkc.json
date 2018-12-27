@@ -1,0 +1,22 @@
+{
+  "id" : "fc58cc0c-985d-3816-b65e-414396abbb3d",
+  "request" : {
+    "url" : "/shapes/?route=CR-Lowell&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-YnNkc.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:07:08 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:18:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3ogkih7s2119g2o0016b4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "fc58cc0c-985d-3816-b65e-414396abbb3d"
+}

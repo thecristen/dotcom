@@ -1,0 +1,22 @@
+{
+  "id" : "dd85f4a5-a0f6-3b29-ade5-2809a590a28f",
+  "request" : {
+    "url" : "/routes/?stop=place-knncl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-PcvRN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:13:19 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3p67jf49cu4rdg800c0c1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "dd85f4a5-a0f6-3b29-ade5-2809a590a28f"
+}

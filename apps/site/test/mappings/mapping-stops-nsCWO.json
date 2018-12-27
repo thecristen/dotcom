@@ -1,0 +1,22 @@
+{
+  "id" : "c01e0216-807d-3280-b957-f92ff02c87f4",
+  "request" : {
+    "url" : "/stops/?route=CR-Haverhill&include=parent_station%2Cfacilities&direction_id=0&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-nsCWO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:16:30 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:44 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3pharjodq00uqe0003mm2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c01e0216-807d-3280-b957-f92ff02c87f4"
+}

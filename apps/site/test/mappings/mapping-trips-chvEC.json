@@ -1,0 +1,22 @@
+{
+  "id" : "75ac716f-ff0d-33b8-bff9-c70013b654b4",
+  "request" : {
+    "url" : "/trips/?route=CR-Lowell&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-chvEC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:07:08 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 16:07:03 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3ogkdirqkijp5ds002v02",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "75ac716f-ff0d-33b8-bff9-c70013b654b4"
+}

@@ -1,0 +1,1 @@
+{"data":[{"attributes":{"color":"80276C","description":"Commuter Rail","direction_destinations":["Fairmount","South Station"],"direction_names":["Outbound","Inbound"],"long_name":"Fairmount Line","short_name":"","sort_order":51,"text_color":"FFFFFF","type":2},"id":"CR-Fairmount","links":{"self":"/routes/CR-Fairmount"},"type":"route"}],"jsonapi":{"version":"1.0"}}

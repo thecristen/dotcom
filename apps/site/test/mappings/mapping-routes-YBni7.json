@@ -1,0 +1,22 @@
+{
+  "id" : "3ae9fdf3-2122-3553-9d50-6c281f145b0d",
+  "request" : {
+    "url" : "/routes/?stop=place-river",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-YBni7.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:16:31 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3phd49srhva0pro00ciu1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3ae9fdf3-2122-3553-9d50-6c281f145b0d"
+}

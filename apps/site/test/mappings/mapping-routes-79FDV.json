@@ -1,0 +1,22 @@
+{
+  "id" : "b7086414-bf6a-3f96-a021-2a7b5013fe3f",
+  "request" : {
+    "url" : "/routes/?stop=place-rsmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-79FDV.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:13:20 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3p69ir9iedvv8tc00c321",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b7086414-bf6a-3f96-a021-2a7b5013fe3f"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "5f29f749-4ca3-3fee-b3ef-9693fa795662",
+  "request" : {
+    "url" : "/routes/?stop=Beverly",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-0BsSt.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:16:31 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3phck4513odk6mg00chg1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "5f29f749-4ca3-3fee-b3ef-9693fa795662"
+}

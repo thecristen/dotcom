@@ -1,0 +1,22 @@
+{
+  "id" : "a592cf35-d6ca-347e-b601-2bd372176438",
+  "request" : {
+    "url" : "/routes/?stop=Whitman",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-RAqnq.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:16:31 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3phcdcf01385o2o00cgr1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a592cf35-d6ca-347e-b601-2bd372176438"
+}

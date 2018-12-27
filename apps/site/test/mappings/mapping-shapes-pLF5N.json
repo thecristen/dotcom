@@ -1,0 +1,22 @@
+{
+  "id" : "4bbcb144-257e-341e-bddd-de94a61914c6",
+  "request" : {
+    "url" : "/shapes/?route=CR-Haverhill&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-pLF5N.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:07:08 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:18:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3ogk0klfuae1674001634",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4bbcb144-257e-341e-bddd-de94a61914c6"
+}

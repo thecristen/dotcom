@@ -1,1 +1,0 @@
-{"data":[{"attributes":{"color":"80276C","description":"Commuter Rail","direction_names":["Outbound","Inbound"],"long_name":"Needham Line","short_name":"","sort_order":60,"text_color":"FFFFFF","type":2},"id":"CR-Needham","links":{"self":"/routes/CR-Needham"},"type":"route"}],"jsonapi":{"version":"1.0"}}

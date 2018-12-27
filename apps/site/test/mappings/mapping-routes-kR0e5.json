@@ -1,0 +1,22 @@
+{
+  "id" : "efe16f42-afdd-3dd6-b7d8-8f3a2d8c1cef",
+  "request" : {
+    "url" : "/routes/?stop=place-dwnxg&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-kR0e5.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:13:19 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3p674f71q3n2scc001na3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "efe16f42-afdd-3dd6-b7d8-8f3a2d8c1cef"
+}

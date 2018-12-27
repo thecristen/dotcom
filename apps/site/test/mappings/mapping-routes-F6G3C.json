@@ -1,0 +1,22 @@
+{
+  "id" : "db5e1bd2-97e9-3d92-a56c-1f261337cd2c",
+  "request" : {
+    "url" : "/routes/?stop=place-tumnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-F6G3C.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:13:19 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3p66v4bvpfh95fk00bv91",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "db5e1bd2-97e9-3d92-a56c-1f261337cd2c"
+}

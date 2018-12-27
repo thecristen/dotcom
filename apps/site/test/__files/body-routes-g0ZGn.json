@@ -1,0 +1,1 @@
+{"data":[{"attributes":{"color":"80276C","description":"Commuter Rail","direction_destinations":["Lowell","North Station"],"direction_names":["Outbound","Inbound"],"long_name":"Lowell Line","short_name":"","sort_order":58,"text_color":"FFFFFF","type":2},"id":"CR-Lowell","links":{"self":"/routes/CR-Lowell"},"type":"route"}],"jsonapi":{"version":"1.0"}}

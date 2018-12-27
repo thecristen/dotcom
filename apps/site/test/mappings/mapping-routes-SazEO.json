@@ -1,0 +1,22 @@
+{
+  "id" : "7be4ac35-95b1-3bfb-8c33-d67e9f2016e4",
+  "request" : {
+    "url" : "/routes/?stop=Hyde+Park",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-SazEO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:16:30 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3phballrs6bbgn000cdg1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "7be4ac35-95b1-3bfb-8c33-d67e9f2016e4"
+}

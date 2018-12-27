@@ -1,0 +1,1 @@
+{"data":[{"attributes":{"headsign":"Foxboro"},"id":"CR-Foxboro-Sunday-1300-9711","links":{"self":"/trips/CR-Foxboro-Sunday-1300-9711"},"relationships":{"route":{"data":{"id":"CR-Foxboro","type":"route"}},"service":{"data":{"id":"CR-Foxboro-Sunday-1300","type":"service"}},"shape":{"data":{"id":"SouFoxWik","type":"shape"}}},"type":"trip"}],"jsonapi":{"version":"1.0"}}

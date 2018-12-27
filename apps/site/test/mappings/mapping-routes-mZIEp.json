@@ -1,0 +1,22 @@
+{
+  "id" : "faa331f3-cba7-3f52-91e6-67f51a0e7020",
+  "request" : {
+    "url" : "/routes/?stop=58&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-mZIEp.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:13:24 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3p6g0od2opd70cg003jd2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "faa331f3-cba7-3f52-91e6-67f51a0e7020"
+}

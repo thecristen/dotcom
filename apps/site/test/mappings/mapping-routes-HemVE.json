@@ -1,0 +1,22 @@
+{
+  "id" : "ada67e10-5edb-35bf-b6ae-62ddae444d51",
+  "request" : {
+    "url" : "/routes/?stop=place-bcnfd&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-HemVE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:13:20 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3p69buela21viik003c02",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ada67e10-5edb-35bf-b6ae-62ddae444d51"
+}

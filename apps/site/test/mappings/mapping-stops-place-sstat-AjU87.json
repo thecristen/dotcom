@@ -1,0 +1,22 @@
+{
+  "id" : "b4b5916c-b173-3653-b23e-f5ba0f5dce31",
+  "request" : {
+    "url" : "/stops/place-sstat?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-sstat-AjU87.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:14:07 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:44 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3p91c9g8iv8ugqk003kj2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b4b5916c-b173-3653-b23e-f5ba0f5dce31"
+}

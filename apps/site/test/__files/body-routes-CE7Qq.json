@@ -1,0 +1,1 @@
+{"data":[{"attributes":{"color":"DA291C","description":"Rapid Transit","direction_destinations":["Ashmont/Braintree","Alewife"],"direction_names":["South","North"],"long_name":"Red Line","short_name":"","sort_order":1,"text_color":"FFFFFF","type":1},"id":"Red","links":{"self":"/routes/Red"},"type":"route"}],"jsonapi":{"version":"1.0"}}

@@ -1,0 +1,1 @@
+{"data":[{"attributes":{"color":"00843D","description":"Rapid Transit","direction_destinations":["Cleveland Circle","North Station"],"direction_names":["West","East"],"long_name":"Green Line C","short_name":"C","sort_order":5,"text_color":"FFFFFF","type":0},"id":"Green-C","links":{"self":"/routes/Green-C"},"type":"route"}],"jsonapi":{"version":"1.0"}}

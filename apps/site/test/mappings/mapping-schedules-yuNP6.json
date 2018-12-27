@@ -1,0 +1,22 @@
+{
+  "id" : "852e95bb-4865-39f6-a121-7d0861593caf",
+  "request" : {
+    "url" : "/schedules/?direction_id=0&date=2019-03-16&route=CR-Providence&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id%2Cbikes_allowed",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-yuNP6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:15:43 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:17:46 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3pejj8mq1c5t2j400c9v1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "852e95bb-4865-39f6-a121-7d0861593caf"
+}

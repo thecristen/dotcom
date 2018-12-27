@@ -1,0 +1,22 @@
+{
+  "id" : "1e208636-2f21-3911-9cb9-dcdda5e2c2cd",
+  "request" : {
+    "url" : "/trips/38990844",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-38990844-LC5WC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:18:03 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 16:17:27 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3pmnc32rv111mlg00cni1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "1e208636-2f21-3911-9cb9-dcdda5e2c2cd"
+}

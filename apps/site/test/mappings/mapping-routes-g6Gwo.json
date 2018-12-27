@@ -1,0 +1,22 @@
+{
+  "id" : "5c5c5d72-b5bc-3081-9110-215b0c7563ee",
+  "request" : {
+    "url" : "/routes/?stop=North+Beverly",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-g6Gwo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:16:31 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3phcun5jfoi6akg00cib1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "5c5c5d72-b5bc-3081-9110-215b0c7563ee"
+}

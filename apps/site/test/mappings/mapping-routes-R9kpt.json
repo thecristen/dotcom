@@ -1,0 +1,22 @@
+{
+  "id" : "a4da3fd2-5804-3937-bb7e-af0db75d47ea",
+  "request" : {
+    "url" : "/routes/?stop=place-tapst&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-R9kpt.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:13:20 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3p69a649lcgokeo00c2l1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a4da3fd2-5804-3937-bb7e-af0db75d47ea"
+}

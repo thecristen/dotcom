@@ -1,0 +1,22 @@
+{
+  "id" : "985e66eb-9b96-3ea9-af97-51921f756fbe",
+  "request" : {
+    "url" : "/routes/?stop=place-smmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-wxhAB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:16:31 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3phc1fd4gpsqhto00cfo1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "985e66eb-9b96-3ea9-af97-51921f756fbe"
+}

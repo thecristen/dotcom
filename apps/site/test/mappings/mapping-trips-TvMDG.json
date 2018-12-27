@@ -1,0 +1,22 @@
+{
+  "id" : "bb2a8a2e-8f54-36d2-8fd2-a08c2db2f592",
+  "request" : {
+    "url" : "/trips/?route=CR-Worcester&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-TvMDG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:07:07 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 16:07:03 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3ogj4bvdfn8djhk00b6m1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "bb2a8a2e-8f54-36d2-8fd2-a08c2db2f592"
+}

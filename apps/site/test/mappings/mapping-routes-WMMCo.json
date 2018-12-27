@@ -1,0 +1,22 @@
+{
+  "id" : "20edcd03-6d6c-38b7-84aa-892935fa91f5",
+  "request" : {
+    "url" : "/routes/?stop=place-brntn&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-WMMCo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:13:21 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3p6abv8bvfac82o00c491",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "20edcd03-6d6c-38b7-84aa-892935fa91f5"
+}

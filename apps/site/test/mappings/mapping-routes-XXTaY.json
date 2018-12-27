@@ -1,0 +1,22 @@
+{
+  "id" : "549977c9-0851-3630-959d-b83ad9872491",
+  "request" : {
+    "url" : "/routes/?stop=Boston+Landing",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-XXTaY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:16:30 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3phb5h8s409d0cc00ccu1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "549977c9-0851-3630-959d-b83ad9872491"
+}

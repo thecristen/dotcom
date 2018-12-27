@@ -1,0 +1,22 @@
+{
+  "id" : "d52a70c8-7c90-3757-83f4-31247922336a",
+  "request" : {
+    "url" : "/routes/?stop=place-ogmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-pUm3B.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:13:21 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3p6a3281f8tjg8c003cl2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d52a70c8-7c90-3757-83f4-31247922336a"
+}

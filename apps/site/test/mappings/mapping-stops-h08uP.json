@@ -1,0 +1,22 @@
+{
+  "id" : "1a68e06e-310a-3a85-ab4a-024a1ff25c13",
+  "request" : {
+    "url" : "/stops/?route=CR-Middleborough&include=parent_station%2Cfacilities&direction_id=0&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-h08uP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:14:31 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:44 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3padt9h1hb3up1g00c6t1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "1a68e06e-310a-3a85-ab4a-024a1ff25c13"
+}

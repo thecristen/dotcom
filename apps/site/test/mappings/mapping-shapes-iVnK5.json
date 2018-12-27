@@ -1,0 +1,22 @@
+{
+  "id" : "ac22ea75-df3b-33f9-8b08-088dbaac2a0b",
+  "request" : {
+    "url" : "/shapes/?route=Green-D&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-iVnK5.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:07:05 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:18:59 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3ogf40928ncjvf00014k4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ac22ea75-df3b-33f9-8b08-088dbaac2a0b"
+}

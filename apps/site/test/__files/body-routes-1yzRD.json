@@ -1,1 +1,0 @@
-{"data":[{"attributes":{"color":"FFC72C","description":"Limited Service","direction_names":["Outbound","Inbound"],"long_name":"North Station - Tide Street","short_name":"4","sort_order":400,"text_color":"000000","type":3},"id":"4","links":{"self":"/routes/4"},"type":"route"}],"jsonapi":{"version":"1.0"}}

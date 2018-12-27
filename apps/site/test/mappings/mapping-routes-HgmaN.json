@@ -1,0 +1,22 @@
+{
+  "id" : "ec023ed3-a380-3e54-bf12-a1c94610f8b7",
+  "request" : {
+    "url" : "/routes/?stop=place-grnst&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-HgmaN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:13:20 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3p6914ja3akv9t8003bk2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ec023ed3-a380-3e54-bf12-a1c94610f8b7"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "95904711-c136-3b42-b3e2-69df882e754e",
+  "request" : {
+    "url" : "/routes/?stop=Auburndale",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-C7pTq.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:16:30 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3phb49usgapadrs00ccq1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "95904711-c136-3b42-b3e2-69df882e754e"
+}

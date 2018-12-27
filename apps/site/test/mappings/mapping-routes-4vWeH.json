@@ -1,0 +1,22 @@
+{
+  "id" : "21559204-7e86-3901-9717-d4c44e7984d3",
+  "request" : {
+    "url" : "/routes/?stop=Hanson",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-4vWeH.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 27 Dec 2018 16:16:31 GMT",
+      "last-modified" : "Thu, 27 Dec 2018 10:16:43 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lq3phc6iqp5d208fc00cg71",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "21559204-7e86-3901-9717-d4c44e7984d3"
+}
