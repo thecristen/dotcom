@@ -1,5 +1,5 @@
 defmodule SiteWeb.ControllerHelpers do
-  alias Alerts.{InformedEntity, Match, Repo}
+  alias Alerts.{Alert, InformedEntity, Match, Repo}
   alias Plug.Conn
   alias Routes.Route
   alias Timex.Format.DateTime.Formatters.Strftime
@@ -77,29 +77,31 @@ defmodule SiteWeb.ControllerHelpers do
         } = conn,
         opts
       ) do
-    matching_strategy = Keyword.get(opts, :matching_strategy, :one_direction)
-
-    informed_entity_matchers = [
-      %InformedEntity{
-        route_type: route_type,
-        direction_id: direction_id(matching_strategy, assigns)
-      },
-      %InformedEntity{route: route_id, direction_id: direction_id(matching_strategy, assigns)}
-    ]
+    filter_by_direction? = Keyword.get(opts, :filter_by_direction?, true)
 
     alerts =
       route_id
       |> Repo.by_route_id_and_type(route_type, date_time)
-      |> Match.match(informed_entity_matchers)
+      |> Match.match([%InformedEntity{route_type: route_type}, %InformedEntity{route: route_id}])
+
+    filtered_alerts =
+      filter_alerts_by_direction(alerts, filter_by_direction?, assigns[:direction_id])
 
     conn
-    |> Conn.assign(:alerts, alerts)
+    |> Conn.assign(:alerts, filtered_alerts)
     |> Conn.assign(:all_alerts_count, length(alerts))
   end
 
-  @spec direction_id(:one_direction | :both_directions, map) :: 0 | 1 | nil
-  defp direction_id(:one_direction, assigns), do: assigns[:direction_id]
-  defp direction_id(:both_directions, _), do: nil
+  @spec filter_alerts_by_direction([Alert.t()], boolean, map) :: [Alert.t()]
+  defp filter_alerts_by_direction(alerts, false, _), do: alerts
+  defp filter_alerts_by_direction(alerts, true, nil), do: alerts
+
+  defp filter_alerts_by_direction(alerts, true, direction_id) do
+    Enum.filter(alerts, fn %{informed_entity: informed_entity} ->
+      # direction matches if the direction of the alert is the same or nil
+      Enum.any?(informed_entity, &(&1.direction_id == direction_id or &1.direction_id == nil))
+    end)
+  end
 
   @doc """
   Gets a remote static file and forwards it to the client.

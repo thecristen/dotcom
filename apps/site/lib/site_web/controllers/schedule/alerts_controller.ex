@@ -18,7 +18,7 @@ defmodule SiteWeb.ScheduleController.AlertsController do
 
   defp tab_name(conn, _), do: assign(conn, :tab, "alerts")
 
-  defp alerts(conn, _), do: assign_alerts(conn, matching_strategy: :both_directions)
+  defp alerts(conn, _), do: assign_alerts(conn, filter_by_direction?: false)
 
   def route_description(route) do
     "Alerts for MBTA #{do_route_description(Route.type_atom(route), route)}"

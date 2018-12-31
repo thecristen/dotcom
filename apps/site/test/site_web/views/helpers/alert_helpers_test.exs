@@ -1,6 +1,7 @@
 defmodule SiteWeb.Views.Helpers.AlertHelpersTest do
   use SiteWeb.ConnCase, async: true
   import SiteWeb.Views.Helpers.AlertHelpers
+  alias SiteWeb.PartialView.HeaderTabBadge
 
   describe "alert_line_show_path/2" do
     test "Returns line path given a real route id", %{conn: conn} do
@@ -17,6 +18,23 @@ defmodule SiteWeb.Views.Helpers.AlertHelpersTest do
 
     test "Returns /accessibility path given fake 'Escalator' route id", %{conn: conn} do
       assert alert_line_show_path(conn, "Escalator") == "/accessibility"
+    end
+  end
+
+  describe "alert_badge/1" do
+    test "nil badge when count is 0" do
+      assert nil == alert_badge(0)
+    end
+
+    test "returns a badge struct" do
+      expected = %HeaderTabBadge{
+        aria_label: "5 alerts",
+        class: "m-alert-badge",
+        content: "5"
+      }
+
+      actual = alert_badge(5)
+      assert actual == expected
     end
   end
 end

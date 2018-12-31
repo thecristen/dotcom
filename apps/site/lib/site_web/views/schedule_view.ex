@@ -10,7 +10,7 @@ defmodule SiteWeb.ScheduleView do
   alias Routes.Route
   alias Stops.Stop
   alias Site.MapHelpers
-  alias SiteWeb.PartialView.{HeaderTab, HeaderTabBadge, HeaderTabs, SvgIconWithCircle}
+  alias SiteWeb.PartialView.{HeaderTab, HeaderTabs, SvgIconWithCircle}
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
 
@@ -366,21 +366,6 @@ defmodule SiteWeb.ScheduleView do
   @spec alert_count(Conn.t()) :: integer
   defp alert_count(%{assigns: %{all_alerts_count: all_alerts_count}}), do: all_alerts_count
   defp alert_count(_), do: 0
-
-  @spec alert_badge(integer) :: nil | HeaderTabBadge
-  defp alert_badge(0), do: nil
-
-  defp alert_badge(count) do
-    %HeaderTabBadge{
-      content: Integer.to_string(count),
-      class: "m-alert-badge",
-      aria_label: alert_badge_aria_label(count)
-    }
-  end
-
-  @spec alert_badge_aria_label(integer) :: String.t()
-  defp alert_badge_aria_label(1), do: "1 alert"
-  defp alert_badge_aria_label(count), do: "#{count} alerts"
 
   @spec route_tab_class(Route.t()) :: String.t()
   defp route_tab_class(%Route{type: 3} = route) do

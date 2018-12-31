@@ -3,6 +3,8 @@ defmodule SiteWeb.StopController do
 
   plug(:alerts)
   plug(SiteWeb.Plugs.AlertsByTimeframe)
+  alias Alerts.Repo, as: AlertsRepo
+  alias Alerts.Stop, as: AlertsStop
   alias Stops.Repo
   alias Stops.Stop
   alias Routes.Route
@@ -127,29 +129,26 @@ defmodule SiteWeb.StopController do
   defp tab_value(_), do: "info"
 
   @spec tab_assigns(Plug.Conn.t(), Stop.t(), [Routes.Route.t()]) :: Plug.Conn.t()
-  defp tab_assigns(%{assigns: %{tab: "info", alerts: alerts}} = conn, stop, routes) do
+  defp tab_assigns(%{assigns: %{tab: "info"}} = conn, stop, routes) do
     conn
     |> async_assign(:fare_name, fn -> fare_name(stop, routes) end)
     |> async_assign(:terminal_stations, fn -> terminal_stations(routes) end)
     |> async_assign(:fare_sales_locations, fn -> Fares.RetailLocations.get_nearby(stop) end)
     |> assign(:requires_google_maps?, true)
     |> assign(:map_info, StopMap.map_info(stop))
-    |> assign(:stop_alerts, stop_alerts(alerts, stop))
     |> await_assign_all()
   end
 
-  defp tab_assigns(%{assigns: %{tab: "departures", alerts: alerts}} = conn, stop, _routes) do
+  defp tab_assigns(%{assigns: %{tab: "departures"}} = conn, stop, _routes) do
     conn
     |> async_assign(:stop_schedule, fn -> stop_schedule(stop.id, conn.assigns.date) end)
     |> async_assign(:stop_predictions, fn -> stop_predictions(stop.id) end)
-    |> assign(:stop_alerts, stop_alerts(alerts, stop))
     |> await_assign_all(10_000)
     |> assign_upcoming_route_departures()
   end
 
-  defp tab_assigns(%{assigns: %{tab: "alerts", alerts: alerts}} = conn, stop, _routes) do
+  defp tab_assigns(%{assigns: %{tab: "alerts"}} = conn, _stop, _routes) do
     conn
-    |> assign(:stop_alerts, stop_alerts(alerts, stop))
   end
 
   defp assign_upcoming_route_departures(conn) do
@@ -210,11 +209,6 @@ defmodule SiteWeb.StopController do
 
   defp do_terminal_stations(_routes, _type), do: ""
 
-  @spec stop_alerts([Alerts.Alert.t()], Stop.t()) :: [Alerts.Alert.t()]
-  def stop_alerts(alerts, stop) do
-    Alerts.Stop.match(alerts, stop.id)
-  end
-
   @spec stop_schedule(String.t(), DateTime.t()) :: [Schedules.Schedule.t()]
   defp stop_schedule(stop_id, date) do
     Schedules.Repo.schedule_for_stop(stop_id, date: date)
@@ -225,8 +219,25 @@ defmodule SiteWeb.StopController do
     Predictions.Repo.all(stop: stop_id)
   end
 
+  defp alerts(%{assigns: %{alerts: alerts}} = conn, _opts) do
+    assign(conn, :all_alerts_count, length(alerts))
+  end
+
+  defp alerts(%{path_params: %{"id" => id}} = conn, _opts) do
+    stop_id = URI.decode_www_form(id)
+
+    alerts =
+      conn.assigns.date_time
+      |> AlertsRepo.all()
+      |> AlertsStop.match(stop_id)
+
+    conn
+    |> assign(:alerts, alerts)
+    |> assign(:all_alerts_count, length(alerts))
+  end
+
   defp alerts(conn, _opts) do
-    assign(conn, :alerts, Alerts.Repo.all(conn.assigns.date_time))
+    assign(conn, :alerts, AlertsRepo.all(conn.assigns.date_time))
   end
 
   @spec get_stop_info :: {DetailedStopGroup.t(), [DetailedStopGroup.t()]}

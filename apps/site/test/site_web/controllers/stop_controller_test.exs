@@ -167,7 +167,7 @@ defmodule SiteWeb.StopControllerTest do
       |> assign(:alerts, @alerts)
       |> get(stop_path(conn, :show, "place-sstat", tab: "info"))
 
-    assert conn.assigns[:stop_alerts]
+    assert conn.assigns[:alerts]
   end
 
   test "does assign stop alerts on alerts tab", %{conn: conn} do
@@ -176,7 +176,7 @@ defmodule SiteWeb.StopControllerTest do
       |> assign(:alerts, @alerts)
       |> get(stop_path(conn, :show, "place-sstat", tab: "alerts"))
 
-    assert conn.assigns[:stop_alerts]
+    assert html_response(conn, 200) =~ "3 alerts"
   end
 
   test "renders a google maps link for every fare retail location", %{conn: conn} do

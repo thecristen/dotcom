@@ -401,7 +401,7 @@ defmodule SiteWeb.StopViewTest do
         ]
       ]
 
-      rendered = SiteWeb.StopView.render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
+      rendered = render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
       assert [subway_io, [], [], []] = rendered
       subway = header_mode_to_string(subway_io)
 
@@ -433,7 +433,7 @@ defmodule SiteWeb.StopViewTest do
         ]
       ]
 
-      rendered = SiteWeb.StopView.render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
+      rendered = render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
       assert [[], ferry_io, [], []] = rendered
       ferry = header_mode_to_string(ferry_io)
       assert [_] = Floki.find(ferry, ".c-svg__icon-mode-ferry-default")
@@ -449,7 +449,7 @@ defmodule SiteWeb.StopViewTest do
         ]
       ]
 
-      rendered = SiteWeb.StopView.render_header_modes(%Stop{id: "stop"}, grouped_routes, 2)
+      rendered = render_header_modes(%Stop{id: "stop"}, grouped_routes, 2)
       assert [[], [], cr_io, []] = rendered
       cr = header_mode_to_string(cr_io)
       assert [_] = Floki.find(cr, ".c-svg__icon-mode-commuter-rail-default")
@@ -470,7 +470,7 @@ defmodule SiteWeb.StopViewTest do
         ]
       ]
 
-      rendered = SiteWeb.StopView.render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
+      rendered = render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
       assert [[], [], cr_io, []] = rendered
       cr = header_mode_to_string(cr_io)
       assert [_] = Floki.find(cr, ".c-svg__icon-mode-commuter-rail-default")
@@ -487,7 +487,7 @@ defmodule SiteWeb.StopViewTest do
         ]
       ]
 
-      rendered = SiteWeb.StopView.render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
+      rendered = render_header_modes(%Stop{id: "stop"}, grouped_routes, nil)
       assert [[], [], [], bus_io] = rendered
       bus = header_mode_to_string(bus_io)
       assert [_] = Floki.find(bus, ".c-svg__icon-mode-bus-default")
@@ -499,9 +499,9 @@ defmodule SiteWeb.StopViewTest do
   describe "_info.html" do
     test "Ferry Fare link preselects origin", %{conn: conn} do
       output =
-        SiteWeb.StopView.render(
+        render(
           "_info.html",
-          stop_alerts: [],
+          alerts: [],
           fare_name: "The Iron Price",
           date: ~D[2017-05-11],
           stop: %Stop{name: "Iron Island", id: "IronIsland"},
@@ -517,9 +517,9 @@ defmodule SiteWeb.StopViewTest do
 
     test "Can render multiple fares types", %{conn: conn} do
       output =
-        SiteWeb.StopView.render(
+        render(
           "_info.html",
-          stop_alerts: [],
+          alerts: [],
           fare_name: "The Iron Price",
           date: ~D[2017-05-11],
           stop: %Stop{name: "My Stop", id: "MyStop"},
@@ -536,9 +536,9 @@ defmodule SiteWeb.StopViewTest do
 
     test "Does not render fares unless they are in fare_types assign", %{conn: conn} do
       output =
-        SiteWeb.StopView.render(
+        render(
           "_info.html",
-          stop_alerts: [],
+          alerts: [],
           fare_name: "The Iron Price",
           date: ~D[2017-05-11],
           stop: %Stop{name: "My Stop", id: "MyStop"},
@@ -564,7 +564,7 @@ defmodule SiteWeb.StopViewTest do
 
       html =
         "_detailed_stop_list.html"
-        |> SiteWeb.StopView.render(detailed_stops: stops, conn: conn)
+        |> render(detailed_stops: stops, conn: conn)
         |> safe_to_string()
 
       assert [alewife, davis, porter] = Floki.find(html, ".stop-btn")
@@ -584,7 +584,7 @@ defmodule SiteWeb.StopViewTest do
 
       html =
         "_search_bar.html"
-        |> SiteWeb.StopView.render(stop_info: stops, conn: conn)
+        |> render(stop_info: stops, conn: conn)
         |> safe_to_string()
 
       assert [{"div", _, _}] = Floki.find(html, ".c-search-bar")
