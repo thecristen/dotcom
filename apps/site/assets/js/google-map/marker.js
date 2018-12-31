@@ -68,12 +68,15 @@ export default class Marker {
 
   update(data) {
     this.data = data;
-    this.latLng = new window.google.maps.LatLng(data.latitude, data.longitude);
+
+    const newPosition = new window.google.maps.LatLng(data.latitude, data.longitude);
 
     if (this.marker) {
       this.buildIcon();
       this.marker.setIcon(this.icon);
-      this.marker.setPosition(this.latLng);
+      this.slowMove(newPosition);
+    } else {
+      this.latLng = newPosition;
     }
   }
 
@@ -106,5 +109,27 @@ export default class Marker {
 
   closeInfoWindow() {
     this.parent.closeInfoWindow();
+  }
+
+  slowMove(moveTo) {
+    const current = this.latLng;
+    const animationDuration = 0.5;
+
+    var deltaLat = (moveTo.lat() - current.lat()) / 100;
+    var deltaLng = (moveTo.lng() - current.lng()) / 100;
+
+    var delay = 10 * animationDuration;
+    for (var i = 0; i < 100; i++) {
+      this.doSlowMove(deltaLat, deltaLng, delay * i);
+    }
+  }
+
+  doSlowMove(deltaLat, deltaLng, delay) {
+    requestAnimationFrame(() => {
+      const lat = this.latLng.lat() + deltaLat;
+      const lng = this.latLng.lng() + deltaLng;
+      this.latLng = new window.google.maps.LatLng(lat, lng);
+      this.marker.setPosition(this.latLng);
+    }, delay);
   }
 }

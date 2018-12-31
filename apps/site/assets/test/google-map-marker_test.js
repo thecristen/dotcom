@@ -53,13 +53,16 @@ describe("Marker", () => {
         id: "marker-id",
         latitude: 42,
         longitude: -71,
-        "visible?": true,
+        "visible?": false,
       });
+      sinon.stub(marker, "slowMove");
+
       expect(marker.latLng.lat).to.equal(42);
       marker.update({
         latitude: 60,
         longitude: 40
       });
+      expect(marker.slowMove.called).to.be.false;
       expect(marker.latLng.lat).to.equal(60);
     });
 
@@ -71,11 +74,13 @@ describe("Marker", () => {
         longitude: -71,
         "visible?": true,
       });
+      sinon.stub(marker, "slowMove");
       marker.update({
         latitude: 60,
         longitude: 40
       });
-      expect(marker.marker.getPosition().lat).to.equal(60);
+      expect(marker.slowMove.called).to.be.true;
+      expect(marker.slowMove.args[0][0].lat).to.equal(60);
     });
   });
 });
