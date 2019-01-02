@@ -1,0 +1,22 @@
+{
+  "id" : "7e8fb846-5bc1-3e36-a66c-4cdc56b104a2",
+  "request" : {
+    "url" : "/routes/?stop=Norwood+Depot",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-i6aAu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:25 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch769ksj5bahsk00osa1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "7e8fb846-5bc1-3e36-a66c-4cdc56b104a2"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "b24274ba-0c58-3f0a-82ed-fbdefee9e48c",
+  "request" : {
+    "url" : "/routes/?stop=place-state&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZB6vN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:59:21 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnc9vl269un3nnrk00odh1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b24274ba-0c58-3f0a-82ed-fbdefee9e48c"
+}

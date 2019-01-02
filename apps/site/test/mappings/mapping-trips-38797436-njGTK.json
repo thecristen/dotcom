@@ -1,0 +1,22 @@
+{
+  "id" : "d3d84517-5f3f-3330-9447-f4706f2b80be",
+  "request" : {
+    "url" : "/trips/38797436",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-38797436-njGTK.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:02:18 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 16:02:12 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqncka5il43ukrses00p1o1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d3d84517-5f3f-3330-9447-f4706f2b80be"
+}

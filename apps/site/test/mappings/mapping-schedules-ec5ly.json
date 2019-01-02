@@ -1,0 +1,22 @@
+{
+  "id" : "75ca93f2-9676-39ae-8a2d-fdc8727f705d",
+  "request" : {
+    "url" : "/schedules/?stop=102&direction_id=0&date=2019-03-16&route=1&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id%2Cbikes_allowed",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-ec5ly.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:00:22 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:13:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqncdi8d4gnh6015800oo61",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "75ca93f2-9676-39ae-8a2d-fdc8727f705d"
+}

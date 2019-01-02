@@ -1,0 +1,22 @@
+{
+  "id" : "f1c989d7-3474-35bf-8690-09b489af720a",
+  "request" : {
+    "url" : "/routes/?stop=Salem",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-RzC22.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:26 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch8uf8lce9fsss00p0d1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f1c989d7-3474-35bf-8690-09b489af720a"
+}

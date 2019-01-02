@@ -1,0 +1,22 @@
+{
+  "id" : "4e8af2d7-a218-366a-a9dd-4f24796dcf99",
+  "request" : {
+    "url" : "/routes/?stop=place-bcnwa&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-fl3Yw.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:59:22 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnca1vof5pd0j668002h23",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4e8af2d7-a218-366a-a9dd-4f24796dcf99"
+}

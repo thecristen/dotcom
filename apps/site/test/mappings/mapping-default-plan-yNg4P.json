@@ -1,0 +1,20 @@
+{
+  "id" : "3659f395-95f2-3b35-8053-c633fa531380",
+  "request" : {
+    "url" : "/otp/routers/default/plan?arriveBy=false&date=2019-03-16&disableRemainingWeightHeuristic=true&format=json&fromPlace=Boston+Children%27s+Museum%2C+Congress+Street%2C+Boston%2C+MA%2C+USA%3A%3A42.3518682%2C-71.04999250000003&locale=en&maxWalkDistance=805&mode=TRAM%2CSUBWAY%2CFERRY%2CRAIL%2CBUS%2CWALK&showIntermediateStops=true&time=11%3A35am&toPlace=Government+Center%3A%3A42.359705%2C-71.059215&wheelchair=true",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-default-plan-yNg4P.json",
+    "headers" : {
+      "Access-Control-Allow-Credentials" : "false",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 31 Dec 2018 16:02:18 GMT",
+      "Server" : "nginx/1.12.1",
+      "transfer-encoding" : "chunked",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3659f395-95f2-3b35-8053-c633fa531380"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "04408b75-92b7-3249-9ff3-41f1f420a554",
+  "request" : {
+    "url" : "/trips/?route=424&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-HeJIO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:58:24 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 15:58:20 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnc6lujeopqn35tk00oap1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "04408b75-92b7-3249-9ff3-41f1f420a554"
+}

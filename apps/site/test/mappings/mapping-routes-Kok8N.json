@@ -1,0 +1,22 @@
+{
+  "id" : "68325b94-95f9-3516-b483-d8173651b5c7",
+  "request" : {
+    "url" : "/routes/?stop=place-fbkst&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Kok8N.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:59:22 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnca1rn4l4s8kk1c002gs3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "68325b94-95f9-3516-b483-d8173651b5c7"
+}

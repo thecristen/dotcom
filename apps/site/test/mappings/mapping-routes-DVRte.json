@@ -1,0 +1,22 @@
+{
+  "id" : "1e83ac86-2706-3ac4-b9ff-38dad1938e9e",
+  "request" : {
+    "url" : "/routes/?stop=Greenwood",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-DVRte.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:25 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch7qdmsskeuv3o00otm1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "1e83ac86-2706-3ac4-b9ff-38dad1938e9e"
+}

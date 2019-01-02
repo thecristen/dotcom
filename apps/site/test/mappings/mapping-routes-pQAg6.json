@@ -1,0 +1,22 @@
+{
+  "id" : "a04491d7-3719-323d-94c6-fa92f486b11d",
+  "request" : {
+    "url" : "/routes/?stop=place-sumav&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-pQAg6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:59:22 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnca1l6fb8pjbjg0002gf3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a04491d7-3719-323d-94c6-fa92f486b11d"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "64637175-e8c6-320a-8717-9bab3c78dbe8",
+  "request" : {
+    "url" : "/routes/?stop=Melrose+Cedar+Park",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-HRVJO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:25 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch80d9o3miehj4001j24",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "64637175-e8c6-320a-8717-9bab3c78dbe8"
+}

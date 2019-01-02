@@ -1,0 +1,22 @@
+{
+  "id" : "d91bf0d1-c24c-3e57-989b-3972e2836157",
+  "request" : {
+    "url" : "/routes/?stop=6542",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-iPaiU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:59:26 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqncaag9ju2u4opto0050i2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d91bf0d1-c24c-3e57-989b-3972e2836157"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "b3efb88b-26c7-347c-aebd-cf746cf29202",
+  "request" : {
+    "url" : "/routes/?stop=place-chmnl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-wKlMp.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:59:21 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnc9vl1n6nuhk9c000odg1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b3efb88b-26c7-347c-aebd-cf746cf29202"
+}

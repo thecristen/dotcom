@@ -1,0 +1,22 @@
+{
+  "id" : "2d0079b5-4173-36f0-b7f4-5310ed560251",
+  "request" : {
+    "url" : "/schedules/?route=1&date=2019-03-18&direction_id=0&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-lckBc.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json",
+      "Date" : "Mon, 31 Dec 2018 16:00:35 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:13:01 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnceas01ivhf2d0g005152",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "2d0079b5-4173-36f0-b7f4-5310ed560251"
+}

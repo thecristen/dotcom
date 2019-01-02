@@ -1,0 +1,22 @@
+{
+  "id" : "d373b9d5-2c31-3f6a-8a24-e219e6977841",
+  "request" : {
+    "url" : "/routes/?stop=place-mispk",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-a9L7Z.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:26 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch8kh8q1q41a5g00ovm1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d373b9d5-2c31-3f6a-8a24-e219e6977841"
+}

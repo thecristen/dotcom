@@ -1,0 +1,22 @@
+{
+  "id" : "592897a1-0288-3afe-be64-73aeed0a0b4f",
+  "request" : {
+    "url" : "/routes/?stop=Mishawum",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-dup6c.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:25 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch7vlodrgk0sig00ou21",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "592897a1-0288-3afe-be64-73aeed0a0b4f"
+}

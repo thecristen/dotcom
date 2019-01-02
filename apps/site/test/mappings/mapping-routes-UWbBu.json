@@ -1,0 +1,22 @@
+{
+  "id" : "a6540469-f770-32e0-8132-47832757ce42",
+  "request" : {
+    "url" : "/routes/?stop=place-hsmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-UWbBu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:25 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch89gu932bqt3s00ouq1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a6540469-f770-32e0-8132-47832757ce42"
+}

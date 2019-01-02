@@ -1,0 +1,22 @@
+{
+  "id" : "2c3ddbd3-186c-31cf-b0ae-af89e83cb2a6",
+  "request" : {
+    "url" : "/routes/?stop=Westborough",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-8CwmS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:25 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch7k3a1k8d80lo001is4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "2c3ddbd3-186c-31cf-b0ae-af89e83cb2a6"
+}

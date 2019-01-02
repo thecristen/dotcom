@@ -1,0 +1,22 @@
+{
+  "id" : "ead955dc-eb20-3fe4-b81b-582f5da84428",
+  "request" : {
+    "url" : "/routes/?stop=place-bmmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ER2Zu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:59:22 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnca2n0mgvdu0j1000oh81",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ead955dc-eb20-3fe4-b81b-582f5da84428"
+}

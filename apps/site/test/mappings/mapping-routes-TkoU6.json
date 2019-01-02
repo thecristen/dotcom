@@ -1,0 +1,22 @@
+{
+  "id" : "7c3070ca-0e0d-3905-bbc1-1e61d0ef94fe",
+  "request" : {
+    "url" : "/routes/?stop=place-kntst",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-TkoU6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:26 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch8cke5ij4qs1c00ov21",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "7c3070ca-0e0d-3905-bbc1-1e61d0ef94fe"
+}

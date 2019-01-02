@@ -1,0 +1,22 @@
+{
+  "id" : "2a5ddc68-09b5-3aa6-a5cd-652cefe06d83",
+  "request" : {
+    "url" : "/routes/?stop=Lincoln",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-7XsdB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:25 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch6v3tlg3nak9k00orn1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "2a5ddc68-09b5-3aa6-a5cd-652cefe06d83"
+}

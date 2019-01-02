@@ -1,0 +1,22 @@
+{
+  "id" : "4d3f10b1-29e7-34a3-80ff-5abdde22be3c",
+  "request" : {
+    "url" : "/routes/?stop=place-cntsq",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-m1P61.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:25 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch6kvjeh2ucsf400or41",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4d3f10b1-29e7-34a3-80ff-5abdde22be3c"
+}

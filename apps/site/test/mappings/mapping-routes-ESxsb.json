@@ -1,0 +1,22 @@
+{
+  "id" : "8c58a79d-f756-3b5b-a44f-eeba0e1c7280",
+  "request" : {
+    "url" : "/routes/?stop=Wellesley+Farms",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ESxsb.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:25 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch6v4h92kkvkmc00oro1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8c58a79d-f756-3b5b-a44f-eeba0e1c7280"
+}

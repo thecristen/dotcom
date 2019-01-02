@@ -1,0 +1,22 @@
+{
+  "id" : "ebbd9ff3-c9f5-374f-92b6-17e7475472dd",
+  "request" : {
+    "url" : "/routes/?stop=West+Medford",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-NbRSD.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:25 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch863m8ogom1fo00ouh1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ebbd9ff3-c9f5-374f-92b6-17e7475472dd"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "ede4ad4a-f726-3857-b328-201970f77cff",
+  "request" : {
+    "url" : "/alerts/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-alerts-Bf3un.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:57:59 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 15:57:25 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnc572kh1l51bi2c00nu71",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ede4ad4a-f726-3857-b328-201970f77cff"
+}

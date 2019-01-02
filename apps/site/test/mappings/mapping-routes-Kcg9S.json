@@ -1,0 +1,22 @@
+{
+  "id" : "2b29f152-7afa-32ba-ac11-624d18353f37",
+  "request" : {
+    "url" : "/routes/?stop=1397&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Kcg9S.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:59:24 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnca6e8o4l7bh7qc002l73",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "2b29f152-7afa-32ba-ac11-624d18353f37"
+}

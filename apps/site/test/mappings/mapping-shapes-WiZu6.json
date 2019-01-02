@@ -1,0 +1,22 @@
+{
+  "id" : "13b397d6-10a4-34e1-a88c-796ac071e8ea",
+  "request" : {
+    "url" : "/shapes/?route=36&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-WiZu6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:58:10 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:14:12 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnc5s4e7tk2pstq4001ev4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "13b397d6-10a4-34e1-a88c-796ac071e8ea"
+}

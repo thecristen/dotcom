@@ -1,0 +1,22 @@
+{
+  "id" : "4f9692e2-168d-3599-b3db-8764e9b933e1",
+  "request" : {
+    "url" : "/routes/?stop=Mansfield",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-QwArX.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:26 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch8fnth4qttk1800ovb1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4f9692e2-168d-3599-b3db-8764e9b933e1"
+}

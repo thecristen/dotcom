@@ -1,0 +1,22 @@
+{
+  "id" : "cf4fbf18-fa3a-3e57-9f52-7b36414c203f",
+  "request" : {
+    "url" : "/routes/?stop=9980&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-JAesW.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:59:23 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnca4jjc0epnlv9s00oik1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "cf4fbf18-fa3a-3e57-9f52-7b36414c203f"
+}

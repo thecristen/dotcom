@@ -1,0 +1,22 @@
+{
+  "id" : "bcbbf301-2e58-32bd-af72-79f0676c6cf5",
+  "request" : {
+    "url" : "/routes/?stop=place-kencl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-zfo5I.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:59:21 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnca053uo0j7vi5c001i94",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "bcbbf301-2e58-32bd-af72-79f0676c6cf5"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "f9e0a195-5723-3e52-9983-3860cb808af9",
+  "request" : {
+    "url" : "/routes/?stop=Newtonville",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-I6P67.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:25 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch6tacfobvuf0800orl1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f9e0a195-5723-3e52-9983-3860cb808af9"
+}

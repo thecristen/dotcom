@@ -1,0 +1,22 @@
+{
+  "id" : "26dcc954-b62d-39d5-807c-1d3a5f41ae27",
+  "request" : {
+    "url" : "/stops/place-bbsta?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-bbsta-hOY2I.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:59:26 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:02 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqncaabmdkskot0ps002mt3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "26dcc954-b62d-39d5-807c-1d3a5f41ae27"
+}

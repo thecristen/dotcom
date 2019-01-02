@@ -1,0 +1,22 @@
+{
+  "id" : "78b92823-03ba-336c-9eb3-c515bee6a71e",
+  "request" : {
+    "url" : "/trips/?route=Green-B&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-uxF7a.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:58:00 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 15:57:55 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnc591s7d9orb28g001uc3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "78b92823-03ba-336c-9eb3-c515bee6a71e"
+}

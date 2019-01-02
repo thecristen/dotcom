@@ -1,0 +1,22 @@
+{
+  "id" : "06440b1e-7b4a-3ed1-9bad-986641449379",
+  "request" : {
+    "url" : "/routes/?stop=place-woodl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-qGDNu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:26 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch96l3mijrp52000p0v1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "06440b1e-7b4a-3ed1-9bad-986641449379"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "d37dfefb-3dc1-377a-b3c4-e0e033f9cf4c",
+  "request" : {
+    "url" : "/stops/?route=CR-Worcester&include=parent_station%2Cfacilities&direction_id=0&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-omJHv.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:00:15 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:02 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqncd5svdqv81ds7c00oo11",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d37dfefb-3dc1-377a-b3c4-e0e033f9cf4c"
+}

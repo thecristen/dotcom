@@ -1,0 +1,22 @@
+{
+  "id" : "ff665eaa-7527-3781-89b1-08a93f242020",
+  "request" : {
+    "url" : "/routes/?stop=place-stpul&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-I3VPD.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:59:21 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnca14adlk28182g00ofk1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ff665eaa-7527-3781-89b1-08a93f242020"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "34d7e542-348c-3902-85d0-7f6abb04e49b",
+  "request" : {
+    "url" : "/routes/?stop=88&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ry0ko.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:59:25 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnca8qrm1u92ogj8004vn2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "34d7e542-348c-3902-85d0-7f6abb04e49b"
+}

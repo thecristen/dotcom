@@ -1,0 +1,22 @@
+{
+  "id" : "ae6e976b-34f4-3873-9943-7d877d0d3a73",
+  "request" : {
+    "url" : "/shapes/?route=Orange&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-3RHmx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 15:58:00 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:14:12 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnc58rr0mhcmj3sk00nvb1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ae6e976b-34f4-3873-9943-7d877d0d3a73"
+}

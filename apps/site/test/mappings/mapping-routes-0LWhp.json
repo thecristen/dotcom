@@ -1,0 +1,22 @@
+{
+  "id" : "1553e166-1d18-384a-a256-e8d44371ccd4",
+  "request" : {
+    "url" : "/routes/?stop=Hersey",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-0LWhp.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 31 Dec 2018 16:01:25 GMT",
+      "last-modified" : "Mon, 31 Dec 2018 10:12:00 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lqnch8arpehl7bo6c00out1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "1553e166-1d18-384a-a256-e8d44371ccd4"
+}
