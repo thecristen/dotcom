@@ -26,6 +26,7 @@ defmodule Content.Paragraph do
     ColumnMulti,
     CustomHTML,
     DescriptionList,
+    DescriptiveLink,
     FareCard,
     FilesGrid,
     PeopleGrid,
@@ -40,6 +41,7 @@ defmodule Content.Paragraph do
           | Callout.t()
           | CustomHTML.t()
           | DescriptionList.t()
+          | DescriptiveLink.t()
           | FareCard.t()
           | FilesGrid.t()
           | PeopleGrid.t()
@@ -78,6 +80,10 @@ defmodule Content.Paragraph do
 
   def from_api(%{"type" => [%{"target_id" => "tabs"}]} = para) do
     Accordion.from_api(para)
+  end
+
+  def from_api(%{"type" => [%{"target_id" => "title_card"}]} = para) do
+    DescriptiveLink.from_api(para)
   end
 
   def from_api(%{"type" => [%{"target_id" => "title_card_set"}]} = para) do

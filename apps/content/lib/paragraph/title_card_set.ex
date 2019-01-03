@@ -1,8 +1,10 @@
 defmodule Content.Paragraph.TitleCardSet do
-  defstruct title_cards: []
+  defstruct descriptive_links: []
+
+  alias Content.Paragraph.DescriptiveLink
 
   @type t :: %__MODULE__{
-          title_cards: [Content.Paragraph.TitleCard.t()]
+          descriptive_links: [DescriptiveLink.t()]
         }
 
   @spec from_api(map) :: t
@@ -10,10 +12,10 @@ defmodule Content.Paragraph.TitleCardSet do
     cards =
       data
       |> Map.get("field_title_cards", [])
-      |> Enum.map(&Content.Paragraph.TitleCard.from_api/1)
+      |> Enum.map(&DescriptiveLink.from_api/1)
 
     %__MODULE__{
-      title_cards: cards
+      descriptive_links: cards
     }
   end
 end

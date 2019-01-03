@@ -3,7 +3,7 @@
     <%= ContentRewriter.rewrite(@paragraph.header.text, @conn) %>
   <% end %>
 
-  <%= extend_width_if Content.Paragraph.ColumnMulti.includes_fare_cards?(@paragraph) do %>
+  <%= extend_width_if Content.Paragraph.ColumnMulti.includes_cards?(@paragraph) do %>
     <div class="c-multi-column__row row">
       <%= for column <- @paragraph.columns do %>
         <div class="c-multi-column__col col-md-<%= grid(@paragraph) %>">

@@ -1,6 +1,11 @@
 defmodule Content.HelpersTest do
   use ExUnit.Case, async: true
+
   import Content.Helpers
+
+  alias Content.Helpers
+  alias Phoenix.HTML
+
   doctest Content.Helpers
 
   describe "handle_html/1" do
@@ -188,6 +193,7 @@ defmodule Content.HelpersTest do
             "field_title_cards" => [
               %{
                 "type" => [%{"target_id" => "title_card"}],
+                "parent_field_name" => [%{"value" => "field_title_cards"}],
                 "field_title_card_body" => [%{"value" => "body"}],
                 "field_title_card_link" => [%{"uri" => "internal:/foo/bar"}],
                 "field_title_card_title" => [%{"value" => "title"}]
@@ -200,12 +206,13 @@ defmodule Content.HelpersTest do
       parsed = parse_paragraphs(api_data)
 
       assert parsed == [
-               %Content.Paragraph.CustomHTML{body: Phoenix.HTML.raw("some HTML")},
+               %Content.Paragraph.CustomHTML{body: HTML.raw("some HTML")},
                %Content.Paragraph.TitleCardSet{
-                 title_cards: [
-                   %Content.Paragraph.TitleCard{
-                     body: Phoenix.HTML.raw("body"),
+                 descriptive_links: [
+                   %Content.Paragraph.DescriptiveLink{
+                     body: HTML.raw("body"),
                      title: "title",
+                     parent: "field_title_cards",
                      link: %Content.Field.Link{
                        url: "/foo/bar"
                      }
@@ -254,13 +261,14 @@ defmodule Content.HelpersTest do
       parsed_map = parse_paragraphs(map_data)
 
       assert parsed_map == [
-               %Content.Paragraph.CustomHTML{body: Phoenix.HTML.raw("I am published")},
+               %Content.Paragraph.CustomHTML{body: HTML.raw("I am published")},
                %Content.Paragraph.TitleCardSet{
-                 title_cards: [
-                   %Content.Paragraph.TitleCard{
-                     body: Phoenix.HTML.raw("I am published"),
+                 descriptive_links: [
+                   %Content.Paragraph.DescriptiveLink{
+                     body: HTML.raw("I am published"),
                      title: nil,
-                     link: nil
+                     link: nil,
+                     parent: nil
                    }
                  ]
                }
@@ -273,7 +281,7 @@ defmodule Content.HelpersTest do
       assert %URI{} =
                uri =
                "http://test-mbta.pantheonsite.io/foo/bar?baz=quux"
-               |> Content.Helpers.rewrite_url()
+               |> Helpers.rewrite_url()
                |> URI.parse()
 
       assert uri.scheme == "http"
@@ -286,7 +294,7 @@ defmodule Content.HelpersTest do
       assert %URI{} =
                uri =
                "http://test-mbta.pantheonsite.io/foo/bar"
-               |> Content.Helpers.rewrite_url()
+               |> Helpers.rewrite_url()
                |> URI.parse()
 
       assert uri.scheme == "http"
@@ -299,7 +307,7 @@ defmodule Content.HelpersTest do
       assert %URI{} =
                uri =
                "https://example.com/foo/bar"
-               |> Content.Helpers.rewrite_url()
+               |> Helpers.rewrite_url()
                |> URI.parse()
 
       assert uri.scheme == "http"

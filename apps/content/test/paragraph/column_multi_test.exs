@@ -14,7 +14,7 @@ defmodule Content.Paragraph.ColumnMultiTest do
     refute ColumnMulti.is_grouped?(ungrouped_column_multi)
   end
 
-  test "includes_fare_cards?/1 returns whether or not the ColumnMulti paragraph contains a fare card" do
+  test "includes_cards?/1 returns whether or not the ColumnMulti paragraph contains a fare card" do
     column_multi_with_fare_card = %ColumnMulti{
       columns: [
         %Column{
@@ -40,7 +40,7 @@ defmodule Content.Paragraph.ColumnMultiTest do
       ]
     }
 
-    assert ColumnMulti.includes_fare_cards?(column_multi_with_fare_card)
-    refute ColumnMulti.includes_fare_cards?(column_multi_without_fare_card)
+    assert ColumnMulti.includes_cards?(column_multi_with_fare_card)
+    refute ColumnMulti.includes_cards?(column_multi_without_fare_card)
   end
 end

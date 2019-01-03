@@ -5955,6 +5955,109 @@
           ]
         }
       ]
+    },
+    {
+      "target_id": 38,
+      "target_revision_id": 16468,
+      "id": [
+        {
+          "value": 38
+        }
+      ],
+      "uuid": [
+        {
+          "value": "9409f638-30e0-4a26-b0dc-6393fa59db24"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 16468
+        }
+      ],
+      "type": [
+        {
+          "target_id": "title_card",
+          "target_type": "paragraphs_type",
+          "target_uuid": "f1b9c3e7-f439-4138-b48c-bbb17a8a003d"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "/user/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1500580291
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "/user/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "40"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "paragraph"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [],
+      "moderation_state": [],
+      "field_title_card_body": [
+        {
+          "value": "<p>The body of the title card can be anything, but usually it's just a few sentences or maybe a bulleted list. This card just links back to this very same page, but it can link internally or externally.</p>\r\n",
+          "format": "basic_html",
+          "processed": "<p>The body of the title card can be anything, but usually it's just a few sentences or maybe a bulleted list. This card just links back to this very same page, but it can link internally or externally.</p>"
+        }
+      ],
+      "field_title_card_link": [
+        {
+          "uri": "/cms/style-guide/paragraphs",
+          "title": "",
+          "options": []
+        }
+      ],
+      "field_title_card_title": [
+        {
+          "value": "Example Card 1"
+        }
+      ]
     }
   ],
   "field_subtitle": [

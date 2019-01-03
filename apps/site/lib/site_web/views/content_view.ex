@@ -11,6 +11,7 @@ defmodule SiteWeb.ContentView do
     ColumnMulti,
     CustomHTML,
     DescriptionList,
+    DescriptiveLink,
     FareCard,
     FilesGrid,
     PeopleGrid,
@@ -27,6 +28,10 @@ defmodule SiteWeb.ContentView do
   @spec render_paragraph(Paragraph.t(), Plug.Conn.t()) :: Phoenix.HTML.safe()
   def render_paragraph(%CustomHTML{} = para, conn) do
     ContentRewriter.rewrite(para.body, conn)
+  end
+
+  def render_paragraph(%DescriptiveLink{} = para, conn) do
+    render("_descriptive_link.html", paragraph: para, conn: conn)
   end
 
   def render_paragraph(%TitleCardSet{} = para, conn) do

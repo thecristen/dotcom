@@ -18,10 +18,10 @@ defmodule Content.ParagraphTest do
     CustomHTML,
     Description,
     DescriptionList,
+    DescriptiveLink,
     FareCard,
     FilesGrid,
     PeopleGrid,
-    TitleCard,
     TitleCardSet,
     Unknown,
     UpcomingBoardMeetings
@@ -177,18 +177,34 @@ defmodule Content.ParagraphTest do
       assert %CustomHTML{} = section2.content
     end
 
+    test "parses title card (used in DescriptiveLink context)" do
+      api_data = api_paragraph("title_card")
+
+      assert %DescriptiveLink{
+               body: body,
+               link: link,
+               title: title,
+               parent: parent
+             } = from_api(api_data)
+
+      assert title == "Example Card 1"
+      assert safe_to_string(body) =~ "<p>The body of the title card"
+      assert link.url == "/cms/style-guide/paragraphs"
+      assert parent == "field_paragraphs"
+    end
+
     test "parses title card set" do
       api_data = api_paragraph("title_card_set")
 
       assert %TitleCardSet{
-               title_cards: [
-                 %TitleCard{} = title_card1,
-                 %TitleCard{}
+               descriptive_links: [
+                 %DescriptiveLink{} = descriptive_link1,
+                 %DescriptiveLink{}
                ]
              } = from_api(api_data)
 
-      assert title_card1.title == "Example Card 1"
-      assert safe_to_string(title_card1.body) =~ "<p>The body of the title card"
+      assert descriptive_link1.title == "Example Card 1"
+      assert safe_to_string(descriptive_link1.body) =~ "<p>The body of the title card"
     end
 
     test "parses callout" do

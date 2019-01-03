@@ -18,10 +18,10 @@ defmodule SiteWeb.ContentViewTest do
     CustomHTML,
     Description,
     DescriptionList,
+    DescriptiveLink,
     FareCard,
     FilesGrid,
     PeopleGrid,
-    TitleCard,
     TitleCardSet,
     Unknown,
     UpcomingBoardMeetings
@@ -95,13 +95,13 @@ defmodule SiteWeb.ContentViewTest do
 
     test "renders a Content.Paragraph.TitleCardSet", %{conn: conn} do
       paragraph = %TitleCardSet{
-        title_cards: [
-          %TitleCard{
+        descriptive_links: [
+          %DescriptiveLink{
             title: "Card 1",
             body: HTML.raw("<strong>Body 1</strong>"),
             link: %Link{url: "/relative/link"}
           },
-          %TitleCard{
+          %DescriptiveLink{
             title: "Card 2",
             body: HTML.raw("<strong>Body 2</strong>"),
             link: %Link{url: "https://www.example.com/another/link"}
@@ -129,8 +129,8 @@ defmodule SiteWeb.ContentViewTest do
 
     test "renders a Content.Paragraph.TitleCardSet with content rewritten", %{conn: conn} do
       paragraph = %TitleCardSet{
-        title_cards: [
-          %TitleCard{
+        descriptive_links: [
+          %DescriptiveLink{
             title: ~s({{mbta-circle-icon "bus"}}),
             body: HTML.raw("<div><span>Foo</span><table>Foo</table></div>"),
             link: %Link{url: "/relative/link"}
@@ -145,6 +145,43 @@ defmodule SiteWeb.ContentViewTest do
 
       assert rendered =~ "responsive-table"
       refute rendered =~ "mbta-circle-icon"
+    end
+
+    test "renders a Content.Paragraph.DescriptiveLink (outside a Title Card Set)", %{conn: conn} do
+      alone = %DescriptiveLink{
+        title: "Card 1",
+        body: HTML.raw("<strong>Body 1</strong>"),
+        link: %Link{url: "/relative/link"},
+        parent: "field_paragraphs"
+      }
+
+      rendered_alone =
+        alone
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      rendered_in_mc =
+        alone
+        |> Map.put(:parent, "field_column")
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      rendered_unlinked =
+        alone
+        |> Map.put(:link, nil)
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered_alone =~ "c-descriptive-link"
+      assert rendered_alone =~ "<strong>Body 1</strong>"
+      assert rendered_alone =~ "c-media__element"
+      assert rendered_alone =~ ~s(href="/relative/link")
+
+      assert rendered_in_mc =~ "c-descriptive-link"
+      assert rendered_in_mc =~ "<strong>Body 1</strong>"
+      refute rendered_in_mc =~ "c-media__element"
+
+      assert rendered_unlinked =~ ~s(href="")
     end
 
     test "renders a Content.Paragraph.UpcomingBoardMeetings", %{conn: conn} do
@@ -170,8 +207,8 @@ defmodule SiteWeb.ContentViewTest do
 
     test "renders a TitleCardSet when it doesn't have a link", %{conn: conn} do
       paragraph = %TitleCardSet{
-        title_cards: [
-          %TitleCard{
+        descriptive_links: [
+          %DescriptiveLink{
             title: "Title Card",
             body: HTML.raw("This is a title card"),
             link: nil

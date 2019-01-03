@@ -3,7 +3,7 @@ defmodule Content.Paragraph.ColumnMulti do
   A set of columns to organize layout on the page.
   """
   alias Content.Helpers
-  alias Content.Paragraph.{Column, ColumnMultiHeader, FareCard}
+  alias Content.Paragraph.{Column, ColumnMultiHeader, DescriptiveLink, FareCard}
 
   defstruct header: nil,
             columns: [],
@@ -42,13 +42,14 @@ defmodule Content.Paragraph.ColumnMulti do
   def is_grouped?(%__MODULE__{display_options: "grouped"}), do: true
   def is_grouped?(_), do: false
 
-  @spec includes_fare_cards?(__MODULE__.t()) :: boolean
-  def includes_fare_cards?(%__MODULE__{columns: columns}) do
+  @spec includes_cards?(__MODULE__.t()) :: boolean
+  def includes_cards?(%__MODULE__{columns: columns}) do
     columns
     |> Enum.flat_map(& &1.paragraphs)
-    |> Enum.any?(&is_a_fare_card?/1)
+    |> Enum.any?(&is_a_card?/1)
   end
 
-  defp is_a_fare_card?(%FareCard{}), do: true
-  defp is_a_fare_card?(_), do: false
+  defp is_a_card?(%FareCard{}), do: true
+  defp is_a_card?(%DescriptiveLink{}), do: true
+  defp is_a_card?(_), do: false
 end
