@@ -118,7 +118,11 @@ const turbolinks = ($, w = window, doc = document) => {
 };
 
 export function samePathWithQueryString(first, second) {
-  return samePath(first, second, "?");
+  return (
+    samePath(first, second, "?") &&
+    // Don't consider it the same path if we are switching tabs
+    !includesTabParam(first)
+  );
 }
 
 export function samePathWithAnchor(first, second) {
@@ -134,6 +138,10 @@ function samePath(first, second, suffix_char) {
 
 function withAnchor(urlString) {
   return urlString.includes("#");
+}
+
+function includesTabParam(path) {
+  return path.split("?").length >= 2 && path.split("?")[1].includes("tab=");
 }
 
 function getCurrentUrl() {
