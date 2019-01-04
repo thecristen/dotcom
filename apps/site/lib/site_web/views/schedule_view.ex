@@ -81,7 +81,7 @@ defmodule SiteWeb.ScheduleView do
     [
       content_tag(:div, [
         format_full_date(date),
-        " is too far in the future."
+        " is outside of our current schedule."
       ]),
       content_tag(:div, [
         "We can only provide trip data for the ",
