@@ -97,4 +97,7 @@ defmodule Content.Paragraph do
   def from_api(unknown_paragraph_type) do
     Unknown.from_api(unknown_paragraph_type)
   end
+
+  def right_rail?(%{right_rail: true}), do: true
+  def right_rail?(_), do: false
 end

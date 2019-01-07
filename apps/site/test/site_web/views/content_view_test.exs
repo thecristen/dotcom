@@ -52,6 +52,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "Logan Airport"
       assert rendered =~ ~s(<ul class="c-cms__sidebar-links">)
       assert rendered =~ ~s(c-cms__sidebar)
+      refute rendered =~ "c-cms__right-rail"
     end
 
     test "renders a page without a sidebar menu", %{basic_page: basic_page} do
@@ -66,6 +67,28 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ ~s(c-cms--no-sidebar)
       assert rendered =~ "Fenway Park"
       refute rendered =~ ~s(<ul class="sidebar-menu">)
+      refute rendered =~ "c-cms__right-rail"
+    end
+
+    test "renders a page with a right rail" do
+      page_with_right_rail = %BasicPage{
+        paragraphs: [
+          %CustomHTML{body: HTML.raw("<p>Hello</p>"), right_rail: false},
+          %CustomHTML{body: HTML.raw("<p>world</p>"), right_rail: true}
+        ]
+      }
+
+      fake_conn = %{request_path: "/"}
+
+      rendered =
+        "page.html"
+        |> render(page: page_with_right_rail, conn: fake_conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "c-cms--sidebar-right"
+      assert rendered =~ "Hello"
+      assert rendered =~ "world"
+      assert rendered =~ "c-right-rail-paragraph"
     end
   end
 
@@ -78,7 +101,7 @@ defmodule SiteWeb.ContentViewTest do
         |> render_paragraph(conn)
         |> HTML.safe_to_string()
 
-      assert rendered == "<p>Hello</p>"
+      assert rendered =~ "<p>Hello</p>"
     end
 
     test "renders a Content.Paragraph.CustomHTML with rewritten body", %{conn: conn} do
@@ -482,42 +505,49 @@ defmodule SiteWeb.ContentViewTest do
         |> HTML.safe_to_string()
 
       assert rendered_quarters =~ "<h4>This is a multi-column header</h4>"
-
-      assert rendered_quarters =~
-               ~r/<div class=\"c-multi-column__col col-md-3\">\s*<strong>Column 1<\/strong>/
-
-      assert rendered_quarters =~
-               ~r/<div class=\"c-multi-column__col col-md-3\">\s*<strong>Column 2<\/strong>/
-
-      assert rendered_quarters =~
-               ~r/<div class=\"c-multi-column__col col-md-3\">\s*<strong>Column 3<\/strong>/
-
-      assert rendered_quarters =~
-               ~r/<div class=\"c-multi-column__col col-md-3\">\s*<strong>Column 4<\/strong>/
+      assert rendered_quarters =~ "c-multi-column__col col-md-3"
+      assert rendered_quarters =~ "Column 1"
+      assert rendered_quarters =~ "Column 2"
+      assert rendered_quarters =~ "Column 3"
+      assert rendered_quarters =~ "Column 4"
 
       assert rendered_thirds =~ "<h4>This is a multi-column header</h4>"
 
-      assert rendered_thirds =~
-               ~r/<div class=\"c-multi-column__col col-md-4\">\s*<strong>Column 1<\/strong>/
-
-      assert rendered_thirds =~
-               ~r/<div class=\"c-multi-column__col col-md-4\">\s*<strong>Column 2<\/strong>/
-
-      assert rendered_thirds =~
-               ~r/<div class=\"c-multi-column__col col-md-4\">\s*<strong>Column 3<\/strong>/
+      assert rendered_thirds =~ "c-multi-column__col col-md-4"
+      assert rendered_thirds =~ "Column 1"
+      assert rendered_thirds =~ "Column 3"
 
       assert rendered_halves =~ "<h4>This is a multi-column header</h4>"
-
-      assert rendered_halves =~
-               ~r/<div class=\"c-multi-column__col col-md-6\">\s*<strong>Column 1<\/strong>/
-
-      assert rendered_halves =~
-               ~r/<div class=\"c-multi-column__col col-md-6\">\s*<strong>Column 2<\/strong>/
+      assert rendered_halves =~ "c-multi-column__col col-md-6"
+      assert rendered_halves =~ "Column 1"
+      assert rendered_halves =~ "Column 2"
 
       assert rendered_single =~ "<h4>This is a multi-column header</h4>"
+      assert rendered_single =~ "c-multi-column__col col-md-6"
+      assert rendered_single =~ "Column 1"
+    end
 
-      assert rendered_single =~
-               ~r/<div class=\"c-multi-column__col col-md-6\">\s*<strong>Column 1<\/strong>/
+    test "renders to the right rail", %{conn: conn} do
+      rendered =
+        %ColumnMulti{
+          header: %ColumnMultiHeader{
+            text: HTML.raw("<h4>This is a multi-column header</h4>")
+          },
+          columns: [
+            %Column{
+              paragraphs: [
+                %CustomHTML{body: HTML.raw("<strong>Column 1</strong>")}
+              ]
+            }
+          ],
+          right_rail: true
+        }
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "c-right-rail-paragraph"
+      assert rendered =~ "<h4>This is a multi-column header</h4>"
+      assert rendered =~ "Column 1"
     end
 
     test "renders a Content.Paragraph.Accordion", %{conn: conn} do
@@ -650,6 +680,32 @@ defmodule SiteWeb.ContentViewTest do
     end
   end
 
+  describe "cms_wrapper_class/1" do
+    test "returns appropriate classes for a page with a sidebar" do
+      page_with_sidebar = BasicPage.from_api(Static.basic_page_with_sidebar_response())
+
+      assert cms_wrapper_class(page_with_sidebar) ==
+               "c-cms c-cms--with-sidebar c-cms--sidebar-left c-cms--sidebar-after"
+    end
+
+    test "returns appropriate classes for a page without a sidebar" do
+      page_without_sidebar = BasicPage.from_api(Static.basic_page_response())
+
+      assert cms_wrapper_class(page_without_sidebar) == "c-cms c-cms--no-sidebar"
+    end
+
+    test "returns appropriate classes for a page with a right rail" do
+      page_with_right_rail = %BasicPage{
+        paragraphs: [
+          %CustomHTML{body: HTML.raw("<p>Hello</p>"), right_rail: false},
+          %CustomHTML{body: HTML.raw("<p>world</p>"), right_rail: true}
+        ]
+      }
+
+      assert cms_wrapper_class(page_with_right_rail) == "c-cms c-cms--sidebar-right"
+    end
+  end
+
   describe "grid/1" do
     test "returns the size of our grid based on the number of columns" do
       column_multi_2 = %ColumnMulti{
@@ -683,6 +739,17 @@ defmodule SiteWeb.ContentViewTest do
     end
   end
 
+  describe "extend_width/1" do
+    test "wraps content with media divs" do
+      rendered = extend_width(do: "foo") |> HTML.safe_to_string()
+
+      assert rendered =~ "c-media c-media--type-table"
+      assert rendered =~ "c-media__content"
+      assert rendered =~ "c-media__element"
+      assert rendered =~ "foo"
+    end
+  end
+
   describe "extend_width_if/2" do
     test "wraps content with media divs if the condition is true" do
       rendered = extend_width_if(true, do: "foo") |> HTML.safe_to_string()
@@ -695,6 +762,52 @@ defmodule SiteWeb.ContentViewTest do
 
     test "wraps content with nothing if the condition is false" do
       assert extend_width_if(false, do: "foo") == "foo"
+    end
+  end
+
+  describe "full_bleed/2" do
+    test "wraps content with callout wrapper divs" do
+      rendered = full_bleed(do: "foo") |> HTML.safe_to_string()
+
+      assert rendered =~ "c-media c-media--type-callout"
+      assert rendered =~ "c-media__content"
+      assert rendered =~ "c-media__element"
+      assert rendered =~ "u-full-bleed"
+      assert rendered =~ "foo"
+    end
+
+    test "accepts a callout class" do
+      rendered =
+        [callout_class: "c-callout c-callout--with-image"]
+        |> full_bleed(do: "foo")
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "u-full-bleed c-callout c-callout--with-image"
+    end
+
+    test "accepts a wrapper class" do
+      rendered =
+        [wrapper_class: "c-right-rail-paragraph"]
+        |> full_bleed(do: "foo")
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "c-media c-media--type-callout c-right-rail-paragraph"
+    end
+  end
+
+  describe "full_bleed_if/3" do
+    test "wraps content with callout wrapper divs if the condition is true" do
+      rendered = full_bleed_if(true, do: "foo") |> HTML.safe_to_string()
+
+      assert rendered =~ "c-media c-media--type-callout"
+      assert rendered =~ "c-media__content"
+      assert rendered =~ "c-media__element"
+      assert rendered =~ "u-full-bleed"
+      assert rendered =~ "foo"
+    end
+
+    test "wraps content with nothing if the condition is false" do
+      assert full_bleed_if(false, do: "foo") == "foo"
     end
   end
 end

@@ -6058,6 +6058,482 @@
           "value": "Example Card 1"
         }
       ]
+    },
+    {
+      "target_id": 5003,
+      "target_revision_id": 80361,
+      "id": [
+        {
+          "value": 5003
+        }
+      ],
+      "uuid": [
+        {
+          "value": "3117e571-ad9a-44fd-a64e-cd82b437d4a5"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 80361
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 102,
+          "target_type": "user",
+          "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+          "url": "/user/102"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1545063736
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 102,
+          "target_type": "user",
+          "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+          "url": "/user/102"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "4026"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_column": [
+        {
+          "target_id": 5000,
+          "target_revision_id": 80358,
+          "id": [
+            {
+              "value": 5000
+            }
+          ],
+          "uuid": [
+            {
+              "value": "74309804-bf1e-47d2-9d92-bb61c8da3066"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 80358
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1545063743
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "5003"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "field_content": [
+            {
+              "target_id": 4999,
+              "target_revision_id": 80357,
+              "id": [
+                {
+                  "value": 4999
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "2f5a881b-b3fe-4f2d-a133-9f6c9970a8b7"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 80357
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "custom_html",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                }
+              ],
+              "uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1545063746
+                }
+              ],
+              "revision_uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "5000"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": "a:0:{}"
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "field_custom_html_body": [
+                {
+                  "value": "<h3>MyCharlie</h3>\r\n\r\n<p>Add value or order monthly Commuter Rail and ferry passes online.</p>\r\n\r\n<p><a class=\"btn btn-primary\" href=\"https://mbta.com/fares/charliecard/services\">Buy Online</a></p>\r\n",
+                  "format": "full_html",
+                  "processed": "<h3>MyCharlie</h3>\n\n<p>Add value or order monthly Commuter Rail and ferry passes online.</p>\n\n<p><a class=\"btn btn-primary\" href=\"https://mbta.com/fares/charliecard/services\">Buy Online</a></p>\n"
+                }
+              ],
+              "field_right_rail": [
+                {
+                  "value": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "target_id": 5002,
+          "target_revision_id": 80360,
+          "id": [
+            {
+              "value": 5002
+            }
+          ],
+          "uuid": [
+            {
+              "value": "bb72773e-2456-48a4-9377-a5b81d8f41bc"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 80360
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1545063774
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 102,
+              "target_type": "user",
+              "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+              "url": "/user/102"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "5003"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "field_content": [
+            {
+              "target_id": 5001,
+              "target_revision_id": 80359,
+              "id": [
+                {
+                  "value": 5001
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "f6e5b608-4b6f-4bf1-98fb-e8b565264fad"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 80359
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "custom_html",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                }
+              ],
+              "uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1545063776
+                }
+              ],
+              "revision_uid": [
+                {
+                  "target_id": 102,
+                  "target_type": "user",
+                  "target_uuid": "1126c50a-960a-4d07-bcc3-860c7325e271",
+                  "url": "/user/102"
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "5002"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": "a:0:{}"
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "field_custom_html_body": [
+                {
+                  "value": "<h3>New: Auto-pay</h3>\r\n\r\n<p>Get a Monthly LinkPass that renews automatically.</p>\r\n\r\n<p><a class=\"btn btn-primary\" href=\"https://mbta.chargifypay.com/subscribe/c4vb8zr55vfp/monthly-linkpass?_ga=2.54542562.8102435.1532957045-1711429420.1505227200\">Sign Up for Auto-pay</a></p>\r\n\r\n<p>Already have an account?</p>\r\n\r\n<p>Log in to Auto-pay</p>\r\n",
+                  "format": "full_html",
+                  "processed": "<h3>New: Auto-pay</h3>\n\n<p>Get a Monthly LinkPass that renews automatically.</p>\n\n<p><a class=\"btn btn-primary\" href=\"https://mbta.chargifypay.com/subscribe/c4vb8zr55vfp/monthly-linkpass?_ga=2.54542562.8102435.1532957045-1711429420.1505227200\">Sign Up for Auto-pay</a></p>\n\n<p>Already have an account?</p>\n\n<p>Log in to Auto-pay</p>\n"
+                }
+              ],
+              "field_right_rail": [
+                {
+                  "value": false
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "field_display_options": [
+        {
+          "value": "default"
+        }
+      ],
+      "field_multi_column_header": [],
+      "field_right_rail": [
+        {
+          "value": true
+        }
+      ]
     }
   ],
   "field_subtitle": [

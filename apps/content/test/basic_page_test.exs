@@ -1,6 +1,10 @@
 defmodule Content.BasicPageTest do
   use ExUnit.Case, async: true
 
+  alias Content.BasicPage
+  alias Content.Paragraph.CustomHTML
+  alias Phoenix.HTML
+
   import Content.CMSTestHelpers, only: [update_api_response: 3]
 
   setup do
@@ -37,6 +41,30 @@ defmodule Content.BasicPageTest do
                     "<p>Visiting Boston? Learn more about some of the popular spots you can get to on the T.</p>"}
                }
              } = Content.BasicPage.from_api(api_page)
+    end
+  end
+
+  describe "has_right_rail?/1" do
+    test "returns true if any paragraphs are for the right rail" do
+      page = %BasicPage{
+        paragraphs: [
+          %CustomHTML{body: HTML.raw("<p>Hello</p>"), right_rail: false},
+          %CustomHTML{body: HTML.raw("<p>world</p>"), right_rail: true}
+        ]
+      }
+
+      assert BasicPage.has_right_rail?(page)
+    end
+
+    test "returns false if no paragraphs are for the right rail" do
+      page = %BasicPage{
+        paragraphs: [
+          %CustomHTML{body: HTML.raw("<p>Hello</p>"), right_rail: false},
+          %CustomHTML{body: HTML.raw("<p>world</p>"), right_rail: false}
+        ]
+      }
+
+      refute BasicPage.has_right_rail?(page)
     end
   end
 end

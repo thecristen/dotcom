@@ -3,6 +3,9 @@ defmodule Content.BasicPage do
   Represents a basic "page" type in the Drupal CMS.
   """
 
+  alias Content.{Breadcrumbs, MenuLinks, Paragraph}
+  alias Phoenix.HTML
+
   import Content.Helpers,
     only: [
       field_value: 2,
@@ -11,7 +14,7 @@ defmodule Content.BasicPage do
       parse_paragraphs: 1
     ]
 
-  defstruct body: Phoenix.HTML.raw(""),
+  defstruct body: HTML.raw(""),
             id: nil,
             paragraphs: [],
             sidebar_menu: nil,
@@ -21,9 +24,9 @@ defmodule Content.BasicPage do
   @type t :: %__MODULE__{
           id: integer | nil,
           title: String.t(),
-          body: Phoenix.HTML.safe(),
-          paragraphs: [Content.Paragraph.t()],
-          sidebar_menu: Content.MenuLinks.t() | nil,
+          body: HTML.safe(),
+          paragraphs: [Paragraph.t()],
+          sidebar_menu: MenuLinks.t() | nil,
           breadcrumbs: [Util.Breadcrumb.t()]
         }
 
@@ -35,13 +38,18 @@ defmodule Content.BasicPage do
       body: parse_body(data),
       paragraphs: parse_paragraphs(data),
       sidebar_menu: parse_menu_links(data),
-      breadcrumbs: Content.Breadcrumbs.build(data)
+      breadcrumbs: Breadcrumbs.build(data)
     }
   end
 
-  @spec parse_menu_links(map) :: Content.MenuLinks.t() | nil
+  @spec has_right_rail?(__MODULE__.t()) :: boolean
+  def has_right_rail?(%__MODULE__{paragraphs: paragraphs}) do
+    Enum.any?(paragraphs, &Paragraph.right_rail?(&1))
+  end
+
+  @spec parse_menu_links(map) :: MenuLinks.t() | nil
   defp parse_menu_links(%{"field_sidebar_menu" => [menu_links_data]}) do
-    Content.MenuLinks.from_api(menu_links_data)
+    MenuLinks.from_api(menu_links_data)
   end
 
   defp parse_menu_links(_) do

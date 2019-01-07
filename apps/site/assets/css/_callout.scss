@@ -1,8 +1,4 @@
 .c-callout {
-  @include make-row;
-
-  // Prevent collapsing margin-tops
-  border-top: 1px solid transparent;
   margin-bottom: 3rem;
   margin-top: 3rem;
 

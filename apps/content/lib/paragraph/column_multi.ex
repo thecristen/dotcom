@@ -7,12 +7,14 @@ defmodule Content.Paragraph.ColumnMulti do
 
   defstruct header: nil,
             columns: [],
-            display_options: nil
+            display_options: nil,
+            right_rail: false
 
   @type t :: %__MODULE__{
           header: ColumnMultiHeader.t(),
           columns: [Column.t()],
-          display_options: String.t()
+          display_options: String.t(),
+          right_rail: boolean
         }
 
   @spec from_api(map) :: t
@@ -31,10 +33,13 @@ defmodule Content.Paragraph.ColumnMulti do
 
     display_options = Helpers.field_value(data, "field_display_options")
 
+    right_rail = Helpers.field_value(data, "field_right_rail")
+
     %__MODULE__{
       header: header,
       columns: columns,
-      display_options: display_options
+      display_options: display_options,
+      right_rail: right_rail
     }
   end
 

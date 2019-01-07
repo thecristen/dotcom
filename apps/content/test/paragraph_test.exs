@@ -147,6 +147,18 @@ defmodule Content.ParagraphTest do
              } = from_api(api_data)
     end
 
+    test "parses a multi-column paragraph for the right rail" do
+      api_data = api_paragraph_by_id(5003)
+
+      assert %ColumnMulti{
+               columns: [
+                 %Column{paragraphs: [%CustomHTML{}]},
+                 %Column{paragraphs: [%CustomHTML{}]}
+               ],
+               right_rail: true
+             } = from_api(api_data)
+    end
+
     test "returns the correct struct when given a people grid paragraph" do
       api_data = api_paragraph("people_grid")
 
@@ -248,6 +260,26 @@ defmodule Content.ParagraphTest do
       assert %Unknown{
                type: "unsupported_paragraph_type"
              } = from_api(api_data)
+    end
+  end
+
+  describe "right_rail?" do
+    test "returns true if this paragraph has the right_rail property set to true" do
+      paragraph = %{right_rail: true}
+
+      assert right_rail?(paragraph)
+    end
+
+    test "returns false if this paragraph has the right_rail property set to false" do
+      paragraph = %{right_rail: false}
+
+      refute right_rail?(paragraph)
+    end
+
+    test "returns false if this paragraph has no right_rail property" do
+      paragraph = %{}
+
+      refute right_rail?(paragraph)
     end
   end
 

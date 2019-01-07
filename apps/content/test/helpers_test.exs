@@ -1,6 +1,5 @@
 defmodule Content.HelpersTest do
   use ExUnit.Case, async: true
-
   import Content.Helpers
 
   alias Content.Helpers
@@ -206,7 +205,10 @@ defmodule Content.HelpersTest do
       parsed = parse_paragraphs(api_data)
 
       assert parsed == [
-               %Content.Paragraph.CustomHTML{body: HTML.raw("some HTML")},
+               %Content.Paragraph.CustomHTML{
+                 body: HTML.raw("some HTML"),
+                 right_rail: nil
+               },
                %Content.Paragraph.TitleCardSet{
                  descriptive_links: [
                    %Content.Paragraph.DescriptiveLink{
@@ -261,7 +263,10 @@ defmodule Content.HelpersTest do
       parsed_map = parse_paragraphs(map_data)
 
       assert parsed_map == [
-               %Content.Paragraph.CustomHTML{body: HTML.raw("I am published")},
+               %Content.Paragraph.CustomHTML{
+                 body: HTML.raw("I am published"),
+                 right_rail: nil
+               },
                %Content.Paragraph.TitleCardSet{
                  descriptive_links: [
                    %Content.Paragraph.DescriptiveLink{

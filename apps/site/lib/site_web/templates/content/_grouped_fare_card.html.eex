@@ -1,5 +1,5 @@
 <%= if @fare_cards && length(@fare_cards) == 2 do %>
-<%= extend_width_if true do %>
+<%= extend_width do %>
 <% group = Site.ContentRewriters.LiquidObjects.Fare.fare_object_request(List.first(@fare_cards).fare_token) %>
 
 <div class="c-fare-card c-fare-card--grouped c-fare-card--<%= group.mode %>">

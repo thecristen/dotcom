@@ -2,7 +2,9 @@ defmodule SiteWeb.ContentView do
   use SiteWeb, :view
   import SiteWeb.TimeHelpers
 
+  alias Content.BasicPage
   alias Content.Field.File
+  alias Content.MenuLinks
   alias Content.Paragraph
 
   alias Content.Paragraph.{
@@ -27,7 +29,7 @@ defmodule SiteWeb.ContentView do
 
   @spec render_paragraph(Paragraph.t(), Plug.Conn.t()) :: Phoenix.HTML.safe()
   def render_paragraph(%CustomHTML{} = para, conn) do
-    ContentRewriter.rewrite(para.body, conn)
+    render("_custom_html.html", paragraph: para, conn: conn)
   end
 
   def render_paragraph(%DescriptiveLink{} = para, conn) do
@@ -112,21 +114,60 @@ defmodule SiteWeb.ContentView do
     |> do_render_duration(maybe_shift_timezone(end_time))
   end
 
+  @spec cms_wrapper_class(BasicPage.t()) :: String.t()
+  def cms_wrapper_class(page) do
+    [
+      "c-cms",
+      sidebar_class(page),
+      right_rail_class(page)
+    ]
+    |> List.flatten()
+    |> Enum.reject(&is_nil(&1))
+    |> Enum.join(" ")
+  end
+
+  @spec grid(ColumnMulti.t()) :: integer
   def grid(%ColumnMulti{columns: columns}) do
     div(12, max(Enum.count(columns), 2))
   end
 
-  @spec extend_width_if(boolean, Keyword.t()) :: Phoenix.HTML.safe()
-  def extend_width_if(true, do: content) do
+  @spec extend_width(Keyword.t()) :: Phoenix.HTML.safe()
+  def extend_width(do: content) do
     Tag.content_tag :div, class: "c-media c-media--type-table" do
-      Tag.content_tag :div, class: "c-media__content" do
-        Tag.content_tag(:div, [class: "c-media__element"], do: content)
+      inner_wrappers(do: content)
+    end
+  end
+
+  @spec extend_width_if(boolean, Keyword.t()) :: Phoenix.HTML.safe()
+  def extend_width_if(true, do: content), do: extend_width(do: content)
+
+  def extend_width_if(false, do: content), do: content
+
+  @spec full_bleed(Keyword.t(), Keyword.t()) :: Phoenix.HTML.safe()
+  def full_bleed(classes \\ Keyword.new(), do: content) do
+    Tag.content_tag :div,
+      class: "c-media c-media--type-callout #{Keyword.get(classes, :wrapper_class, "")}" do
+      inner_wrappers do
+        Tag.content_tag(
+          :div,
+          [class: "u-full-bleed #{Keyword.get(classes, :callout_class, "")}"],
+          do: content
+        )
       end
     end
   end
 
-  def extend_width_if(false, do: content) do
-    content
+  @spec full_bleed_if(boolean, Keyword.t(), Keyword.t()) :: Phoenix.HTML.safe()
+  def full_bleed_if(condition, classes \\ Keyword.new(), content)
+
+  def full_bleed_if(true, classes, do: content), do: full_bleed(classes, do: content)
+
+  def full_bleed_if(false, _, do: content), do: content
+
+  defp inner_wrappers(do: content) do
+    Tag.content_tag :div, class: "c-media__content" do
+      Tag.content_tag(:div, [class: "c-media__element"], do: content)
+    end
   end
 
   defp maybe_shift_timezone(%NaiveDateTime{} = time) do
@@ -169,5 +210,25 @@ defmodule SiteWeb.ContentView do
 
   defp grouped_fare_card_data(_) do
     nil
+  end
+
+  defp sidebar_class(%{sidebar_menu: %MenuLinks{position: sidebar_menu_position}}) do
+    [
+      "c-cms--with-sidebar",
+      "c-cms--sidebar-left",
+      "c-cms--sidebar-#{sidebar_menu_position}"
+    ]
+  end
+
+  defp sidebar_class(page) do
+    unless BasicPage.has_right_rail?(page) do
+      ["c-cms--no-sidebar"]
+    end
+  end
+
+  defp right_rail_class(page) do
+    if BasicPage.has_right_rail?(page) do
+      ["c-cms--sidebar-right"]
+    end
   end
 end

@@ -1,0 +1,94 @@
+.c-cms__sidebar {
+  .c-right-rail-paragraph {
+    background-color: $brand-primary-lightest-contrast;
+    margin-bottom: 1rem;
+    padding: 1rem;
+
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+
+    // Adjust the top margin of the first direct child header,
+    // or the first header in the first column of a multi-column.
+    // scss-lint:disable SelectorDepth
+    > h1:first-child,
+    > .h1:first-child,
+    > h2:first-child,
+    > .h2:first-child,
+    > h3:first-child,
+    > .h3:first-child,
+    > h4:first-child,
+    > .h4:first-child,
+    > h5:first-child,
+    > .h5:first-child,
+    > h6:first-child,
+    > .h6:first-child,
+    .c-multi-column__col:first-of-type h1:first-child,
+    .c-multi-column__col:first-of-type .h1:first-child,
+    .c-multi-column__col:first-of-type h2:first-child,
+    .c-multi-column__col:first-of-type .h2:first-child,
+    .c-multi-column__col:first-of-type h3:first-child,
+    .c-multi-column__col:first-of-type .h3:first-child,
+    .c-multi-column__col:first-of-type h4:first-child,
+    .c-multi-column__col:first-of-type .h4:first-child,
+    .c-multi-column__col:first-of-type h5:first-child,
+    .c-multi-column__col:first-of-type .h5:first-child,
+    .c-multi-column__col:first-of-type h6:first-child,
+    .c-multi-column__col:first-of-type .h6:first-child {
+      @include reduce-adjacent-heading-space();
+    }
+  }
+
+  .c-multi-column__row,
+  .c-multi-column__col {
+    display: block;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+  }
+
+  .c-inline-buttons {
+    margin: 0 0 1rem;
+
+    .btn {
+      display: block;
+      margin: 0;
+    }
+  }
+}
+
+.c-cms__body {
+  .c-right-rail-paragraph {
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+
+    @include media-breakpoint-only(sm) {
+      .col-md-6 {
+        @include make-col-span(6);
+
+        float: left;
+      }
+    }
+
+    @include media-breakpoint-down(xs) {
+      .c-callout {
+        padding: 0 1rem;
+      }
+    }
+
+    .u-full-bleed {
+      @include media-breakpoint-up(sm) {
+        margin: 0;
+      }
+
+      @include media-breakpoint-down(xs) {
+        padding-left: .9375rem;
+        padding-right: .9375rem;
+      }
+    }
+  }
+}

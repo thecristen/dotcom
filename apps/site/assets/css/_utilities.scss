@@ -103,7 +103,10 @@
 }
 
 .u-full-bleed {
+  @include make-row;
   background-color: $brand-primary-lightest-contrast;
+  // Prevent collapsing margin-tops
+  border-top: 1px solid transparent;
 
   @include media-breakpoint-up(sm) {
     // Visual trick to avoid horizontal overflow scrollbars

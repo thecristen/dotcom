@@ -1,22 +1,18 @@
 <div class="container">
-  <%=
-    container_class =
-      if @page.sidebar_menu do
-        [" ", "c-cms--with-sidebar", " ", "c-cms--sidebar-left", " ",
-        "c-cms--sidebar-", Atom.to_string(@page.sidebar_menu.position)]
-      else
-        [" ", "c-cms--no-sidebar"]
-      end
-    content_tag(:div, [class: ["c-cms"] ++ container_class]) do [
-      content_tag(:div, class: "c-cms__header") do
-        content_tag(:div, class: "c-cms__title") do
-          content_tag :h1, @page.title, class: "c-cms__title-text"
-        end
-      end,
-      content_tag(:div, class: "c-cms__content") do [
-        render("_sidebar.html", page: @page, conn: @conn),
-        render("_basic_page.html", page: @page, conn: @conn)
-      ] end
-    ] end
-  %>
+  <div class="<%= cms_wrapper_class(@page) %>">
+
+    <div class="c-cms__header">
+      <div class="c-cms__title">
+        <h1 class="c-cms__title-text">
+          <%= @page.title %>
+        </h1>
+      </div>
+    </div>
+
+    <div class="c-cms__content">
+      <%= render("_sidebar.html", page: @page, conn: @conn) %>
+      <%= render("_basic_page.html", page: @page, conn: @conn) %>
+      <%= render("_right_rail.html", page: @page, conn: @conn) %>
+    </div>
+  </div>
 </div>
