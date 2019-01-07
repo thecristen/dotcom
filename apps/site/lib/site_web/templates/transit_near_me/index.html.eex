@@ -1,8 +1,7 @@
 <div class="container">
-  <div class="page-section transit-near-me-page">
-    <h1>Transit Near Me</h1>
-    <p>View stations and stops near your location and preview information on schedules, alerts, fares, and other station details.</p>
+  <h1>Transit Near Me</h1>
+  <p>View stations and stops near your location and preview information on schedules, alerts, fares, and other station details.</p>
 
-    <%= render "_transit_near_me.html", stops_with_routes: @stops_with_routes, conn: @conn, tnm_address: @tnm_address%>
-  </div>
+  <%= SiteWeb.TransitNearMeV1View.render "_input.html", tnm_address: @tnm_address, conn: @conn, button_class: "" %>
+  <%= SiteWeb.TransitNearMeV1View.render "_results.html", class: "c-location-cards--background-gray", stops_with_routes: @stops_with_routes, conn: @conn %>
 </div>

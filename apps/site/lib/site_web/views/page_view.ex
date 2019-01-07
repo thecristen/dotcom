@@ -33,7 +33,6 @@ defmodule SiteWeb.PageView do
   defp shortcut_link(:the_ride),
     do: cms_static_page_path(SiteWeb.Endpoint, "/accessibility/the-ride")
 
-  defp shortcut_link(:nearby), do: transit_near_me_path(SiteWeb.Endpoint, :index)
   defp shortcut_link(mode), do: schedule_path(SiteWeb.Endpoint, :show, mode)
 
   @spec shortcut_text(atom) :: [Phoenix.HTML.Safe.t()]

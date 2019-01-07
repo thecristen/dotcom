@@ -1,7 +1,7 @@
-defmodule SiteWeb.TransitNearMeViewTest do
+defmodule SiteWeb.TransitNearMeV1ViewTest do
   use SiteWeb.ConnCase, async: true
   import Phoenix.HTML, only: [safe_to_string: 1]
-  alias SiteWeb.TransitNearMeView, as: View
+  alias SiteWeb.TransitNearMeV1View, as: View
 
   @stop %Stops.Stop{
     accessibility: ["accessible", "elevator", "tty_phone", "escalator_up"],
