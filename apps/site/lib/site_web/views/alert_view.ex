@@ -96,6 +96,20 @@ defmodule SiteWeb.AlertView do
     Alert.human_effect(alert)
   end
 
+  defp alert_label_class(badge) do
+    ["u-small-caps", "m-alert-item__badge"]
+    |> do_alert_label_class(badge)
+    |> Enum.join(" ")
+  end
+
+  defp do_alert_label_class(class_list, "Upcoming") do
+    ["m-alert-item__badge--upcoming" | class_list]
+  end
+
+  defp do_alert_label_class(class_list, _) do
+    class_list
+  end
+
   def alert_updated(alert, relative_to) do
     date =
       if Timex.equal?(relative_to, alert.updated_at) do

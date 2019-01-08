@@ -12,9 +12,9 @@
     <div class="m-alert-item__top-text-container">
       <div class="m-alert-item__effect">
         <%= effect_name(@alert) %>
-        <%= unless label == "" do %>
-          <span class="u-small-caps m-alert-item__badge m-alert-item__badge--<%= @alert.priority %>"><%= label %></span>
-        <% end %>
+        <%= unless label == "" do
+          content_tag(:span, [label], class: alert_label_class(label))
+        end %>
       </div>
       <div>
         <%= replace_urls_with_links(@alert.header) %>
