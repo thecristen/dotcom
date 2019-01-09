@@ -48,4 +48,7 @@
   <div id="icon-feature-map-pin">
     <%=  svg("icon-map-pin.svg") %>
   </div>
+  <div id="icon-feature-current-location-marker">
+    <%= svg("icon-current-location-marker.svg") %>
+  </div>
 </div>

@@ -1,3 +1,8 @@
+import GoogleMap from "./google-map-class";
+import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
+
+let map;
+
 const showLoadingIndicators = bool => {
   const method = bool ? "remove" : "add";
   const loadingIndicators = document.getElementsByClassName(
@@ -29,7 +34,20 @@ export const onError = error => {
   }
 };
 
+const loadMap = () => {
+  const dataEl = document.getElementById("js-tnm-map-dynamic-data");
+  if (dataEl) {
+    doWhenGoogleMapsIsReady(() => {
+      const id = dataEl.getAttribute("data-for");
+      const data = JSON.parse(dataEl.innerHTML);
+      map = new GoogleMap(id, data);
+    });
+  }
+};
+
 export const onLoad = ({ data }) => {
+  loadMap();
+
   if (data && data.url) {
     const url = window.decodeURIComponent(data.url);
 

@@ -56,6 +56,10 @@ export const iconSvg = marker => {
       icon = MapIcons.iconPin();
       break;
 
+    case "current-location":
+      icon = MapIcons.iconCurrentLocation();
+      break;
+
     default:
       throw new Error(`unknown icon ${type}`);
   }

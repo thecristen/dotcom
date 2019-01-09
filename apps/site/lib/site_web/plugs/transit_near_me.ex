@@ -167,9 +167,10 @@ defmodule SiteWeb.Plugs.TransitNearMe do
 
   def address(_), do: ""
 
-  def assign_address(conn, {:ok, [%{formatted: address} | _]}) do
+  def assign_address(conn, {:ok, [%{} = location | _]}) do
     conn
-    |> assign(:tnm_address, address)
+    |> assign(:tnm_address, location.formatted)
+    |> assign(:location, location)
   end
 
   def assign_address(conn, {:error, _reason}) do
@@ -184,6 +185,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
   def assign_address(conn, _) do
     conn
     |> assign(:tnm_address, "")
+    |> assign(:location, nil)
   end
 
   @spec flash_if_error(Plug.Conn.t()) :: Plug.Conn.t()

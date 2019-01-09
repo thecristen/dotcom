@@ -47,6 +47,8 @@ export const iconMode = mode => getSvgIcon(`${mode}`);
 
 export const iconPin = () => getSvgIcon("map-pin");
 
+export const iconCurrentLocation = () => getSvgIcon("current-location-marker");
+
 export const iconDot = color =>
   `<svg width="8" height="8" xmlns="http://www.w3.org/2000/svg"><circle fill="#FFFFFF" cx="4" cy="4" r="3"></circle><path d="M4,6.5 C5.38071187,6.5 6.5,5.38071187 6.5,4 C6.5,2.61928813 5.38071187,1.5 4,1.5 C2.61928813,1.5 1.5,2.61928813 1.5,4 C1.5,5.38071187 2.61928813,6.5 4,6.5 Z M4,8 C1.790861,8 0,6.209139 0,4 C0,1.790861 1.790861,0 4,0 C6.209139,0 8,1.790861 8,4 C8,6.209139 6.209139,8 4,8 Z" fill="#${color}" fill-rule="nonzero"></path></svg>`;
 
