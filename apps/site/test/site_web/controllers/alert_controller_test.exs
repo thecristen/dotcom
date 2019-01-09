@@ -4,6 +4,7 @@ defmodule SiteWeb.AlertControllerTest do
   use Phoenix.Controller
   alias Alerts.Alert
   alias SiteWeb.PartialView.SvgIconWithCircle
+  alias Stops.Repo
   import SiteWeb.AlertController, only: [group_access_alerts: 1]
 
   test "renders commuter rail", %{conn: conn} do
@@ -89,7 +90,7 @@ defmodule SiteWeb.AlertControllerTest do
       |> render(
         "show.html",
         id: mode,
-        route_alerts: alerts,
+        alert_groups: alerts,
         breadcrumbs: ["Alerts"],
         date: Util.now()
       )
@@ -171,39 +172,74 @@ defmodule SiteWeb.AlertControllerTest do
   end
 
   describe "group_access_alerts/1" do
-    test "given a list of alerts, groups the access alerts by type" do
+    test "given a list of alerts, groups the access alerts by stop" do
       alerts = [
-        Alert.new(effect: :escalator_closure, header: "Escalator Alert"),
-        Alert.new(effect: :elevator_closure, header: "Elevator Alert"),
-        Alert.new(effect: :access_issue, header: "Access Alert")
+        Alert.new(
+          id: "alewife-escalator-alert",
+          effect: :escalator_closure,
+          header: "Escalator Alert 1",
+          informed_entity: [%Alerts.InformedEntity{stop: "place-alfcl"}]
+        ),
+        Alert.new(
+          id: "south-station-alert",
+          effect: :escalator_closure,
+          header: "Escalator Alert 2",
+          informed_entity: [%Alerts.InformedEntity{stop: "place-sstat"}]
+        ),
+        Alert.new(
+          id: "alewife-access-alert",
+          effect: :access_issue,
+          header: "Access Alert",
+          informed_entity: [%Alerts.InformedEntity{stop: "place-alfcl"}]
+        )
       ]
 
-      assert group_access_alerts(alerts) == %{
-               %Routes.Route{id: "Escalator", name: "Escalator"} => [Enum.at(alerts, 0)],
-               %Routes.Route{id: "Elevator", name: "Elevator"} => [Enum.at(alerts, 1)],
-               %Routes.Route{id: "Other", name: "Other"} => [Enum.at(alerts, 2)]
-             }
+      grouped = alerts |> group_access_alerts() |> Map.new()
+      alewife = Repo.get("place-alfcl")
+      south_station = Repo.get("place-sstat")
+
+      assert [access, escalator] = grouped |> Map.get(alewife) |> MapSet.to_list()
+      assert escalator.id == "alewife-escalator-alert"
+      assert access.id == "alewife-access-alert"
+      assert [south_station_alert] = grouped |> Map.get(south_station) |> MapSet.to_list()
+      assert south_station_alert.id == "south-station-alert"
     end
 
-    test "keeps alerts in order within a a type" do
+    test "deduplicates child stops" do
       alerts = [
-        Alert.new(effect: :escalator_closure, header: "Escalator Alert 1"),
-        Alert.new(effect: :escalator_closure, header: "Escalator Alert 2")
+        Alert.new(
+          id: "escalator-alert",
+          effect: :escalator_closure,
+          header: "Escalator Alert 1",
+          informed_entity: [%Alerts.InformedEntity{stop: "place-alfcl"}]
+        ),
+        Alert.new(
+          id: "access-alert",
+          effect: :access_issue,
+          header: "Access Alert",
+          informed_entity: [%Alerts.InformedEntity{stop: "70061"}]
+        )
       ]
 
-      assert group_access_alerts(alerts) == %{
-               %Routes.Route{id: "Elevator", name: "Elevator"} => [],
-               %Routes.Route{id: "Escalator", name: "Escalator"} => alerts,
-               %Routes.Route{id: "Other", name: "Other"} => []
-             }
+      assert Repo.get("70061").id == "place-alfcl"
+
+      grouped = group_access_alerts(alerts)
+      assert Enum.map(grouped, fn {stop, _} -> stop.id end) == ["place-alfcl"]
+      alewife = Repo.get("place-alfcl")
+      assert [%Alert{}, %Alert{}] = grouped |> Map.new() |> Map.get(alewife) |> MapSet.to_list()
     end
 
-    test "ignores non access Issue, elevator or escalator  alerts" do
-      assert group_access_alerts([Alert.new()]) == %{
-               %Routes.Route{id: "Elevator", name: "Elevator"} => [],
-               %Routes.Route{id: "Escalator", name: "Escalator"} => [],
-               %Routes.Route{id: "Other", name: "Other"} => []
-             }
+    test "ignores bad stop ids" do
+      alert = [
+        Alert.new(
+          id: "bad-stop-id",
+          effect: :escalator_closure,
+          header: "Escalator alert",
+          informed_entity: [%Alerts.InformedEntity{stop: "does-not-exist"}]
+        )
+      ]
+
+      assert group_access_alerts(alert) == []
     end
   end
 

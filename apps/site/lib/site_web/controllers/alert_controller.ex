@@ -1,6 +1,7 @@
 defmodule SiteWeb.AlertController do
   use SiteWeb, :controller
   alias Alerts.{Alert, InformedEntity, Match}
+  alias Stops.Stop
 
   plug(:routes)
   plug(:alerts)
@@ -17,7 +18,7 @@ defmodule SiteWeb.AlertController do
 
   def show(%{assigns: %{alerts: alerts}} = conn, %{"id" => "access"}) do
     conn
-    |> render_route_alerts(group_access_alerts(alerts))
+    |> render_alert_groups(group_access_alerts(alerts))
   end
 
   def show(conn, %{"id" => mode}) when mode in @valid_ids do
@@ -29,10 +30,10 @@ defmodule SiteWeb.AlertController do
   end
 
   def render_routes(%{assigns: %{alerts: alerts, routes: routes}} = conn) do
-    render_route_alerts(conn, Enum.map(routes, &route_alerts(&1, alerts)))
+    render_alert_groups(conn, Enum.map(routes, &route_alerts(&1, alerts)))
   end
 
-  def render_route_alerts(%{params: %{"id" => id}} = conn, route_alerts) do
+  def render_alert_groups(%{params: %{"id" => id}} = conn, route_alerts) do
     conn
     |> assign(
       :meta_description,
@@ -42,7 +43,7 @@ defmodule SiteWeb.AlertController do
     |> render(
       "show.html",
       id: id_to_atom(id),
-      route_alerts: route_alerts |> Enum.reject(&match?({_, []}, &1)),
+      alert_groups: route_alerts |> Enum.reject(&match?({_, []}, &1)),
       breadcrumbs: [Breadcrumb.build("Alerts")]
     )
   end
@@ -57,18 +58,34 @@ defmodule SiteWeb.AlertController do
   end
 
   def group_access_alerts(alerts) do
-    Enum.reduce(
-      Alert.access_alert_types(),
-      %{},
-      &group_access_alerts_by_type(alerts, &1, &2)
-    )
+    access_effects = Alert.access_alert_types() |> Keyword.keys() |> MapSet.new()
+
+    alerts
+    |> Enum.filter(&MapSet.member?(access_effects, &1.effect))
+    |> Enum.reduce(%{}, &group_access_alerts_by_stop/2)
+    |> Enum.map(fn {stop_id, alerts} ->
+      stop = Stops.Repo.get(stop_id)
+      {stop, alerts}
+    end)
+    |> Enum.sort_by(fn {stop, _} -> stop.name end)
   end
 
-  defp group_access_alerts_by_type(alerts, {type, name}, accumulator) do
-    route = %Routes.Route{id: name, name: name}
-    filtered_alerts = Enum.filter(alerts, &(&1.effect == type))
+  defp group_access_alerts_by_stop(%Alert{} = alert, acc) do
+    alert.informed_entity.stop
+    |> MapSet.to_list()
+    |> Enum.reduce(acc, &do_group_access_alerts_by_stop(&1, alert, &2))
+  end
 
-    Map.put(accumulator, route, filtered_alerts)
+  defp do_group_access_alerts_by_stop(stop_id, alert, acc) do
+    # stop_ids are sometimes child stops.
+    # Fetch the stop_id from the repo to get the parent id.
+    case Stops.Repo.get(stop_id) do
+      %Stop{id: parent_stop_id} ->
+        Map.update(acc, parent_stop_id, MapSet.new([alert]), &MapSet.put(&1, alert))
+
+      _ ->
+        acc
+    end
   end
 
   defp routes(%{params: %{"id" => "subway"}} = conn, _opts), do: do_routes(conn, [0, 1])

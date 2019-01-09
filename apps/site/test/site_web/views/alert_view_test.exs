@@ -6,6 +6,8 @@ defmodule SiteWeb.AlertViewTest do
   import Phoenix.HTML, only: [safe_to_string: 1, raw: 1]
   import SiteWeb.AlertView
   alias Alerts.Alert
+  alias Routes.Route
+  alias Stops.Stop
 
   @route %Routes.Route{type: 2, id: "route_id", name: "Name"}
   @now Util.to_local_time(~N[2018-01-15T12:00:00])
@@ -388,6 +390,18 @@ defmodule SiteWeb.AlertViewTest do
 
     for mode <- rest do
       refute mode =~ "m-alerts__mode-button--selected"
+    end
+  end
+
+  describe "group_header_path/1" do
+    test "for routes" do
+      route = %Route{id: "Red"}
+      assert group_header_path(route) == "/schedules/Red"
+    end
+
+    test "for stops" do
+      stop = %Stop{id: "place-sstat"}
+      assert group_header_path(stop) == "/stops/place-sstat"
     end
   end
 end

@@ -3,6 +3,7 @@ defmodule SiteWeb.AlertView do
   alias Alerts.Alert
   alias Routes.Route
   alias SiteWeb.PartialView.SvgIconWithCircle
+  alias Stops.Stop
   import SiteWeb.ViewHelpers
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import SiteWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
@@ -164,24 +165,39 @@ defmodule SiteWeb.AlertView do
   defp ensure_scheme("https://" <> _ = url), do: url
   defp ensure_scheme(url), do: "http://" <> url
 
-  @spec show_mode_icon?(Route.t()) :: boolean
-  defp show_mode_icon?(%Route{name: name}) when name in ["Escalator", "Elevator", "Other"],
-    do: false
+  @spec group_header_path(Route.t() | Stop.t()) :: String.t()
+  def group_header_path(%Route{id: route_id}) do
+    schedule_path(SiteWeb.Endpoint, :show, route_id)
+  end
 
-  defp show_mode_icon?(_), do: true
+  def group_header_path(%Stop{id: stop_id}) do
+    stop_path(SiteWeb.Endpoint, :show, stop_id)
+  end
 
-  @spec route_name(Route.t()) :: Phoenix.HTML.Safe.t()
-  defp route_name(%Route{long_name: long_name, name: name, type: 3}),
-    do: [name, content_tag(:span, long_name, class: "h3 m-alerts-header__long-name")]
+  @spec group_header_name(Route.t() | Stop.t()) :: Phoenix.HTML.Safe.t()
+  defp group_header_name(%Route{long_name: long_name, name: name, type: 3}) do
+    [name, content_tag(:span, long_name, class: "h3 m-alerts-header__long-name")]
+  end
 
-  defp route_name(%Route{name: name}), do: name
+  defp group_header_name(%Route{name: name}) do
+    [name]
+  end
+
+  defp group_header_name(%Stops.Stop{name: name}) do
+    [name]
+  end
+
+  @spec show_mode_icon?(Route.t() | Stop.t()) :: boolean
+  defp show_mode_icon?(%Stop{}), do: false
+
+  defp show_mode_icon?(%Route{}), do: true
 
   @spec route_icon(Route.t()) :: Phoenix.HTML.Safe.t()
-  def route_icon(%{type: 3, description: :rapid_transit}) do
+  def route_icon(%Route{type: 3, description: :rapid_transit}) do
     svg_icon_with_circle(%SvgIconWithCircle{icon: :silver_line, aria_hidden?: true})
   end
 
-  def route_icon(route) do
+  def route_icon(%Route{} = route) do
     svg_icon_with_circle(%SvgIconWithCircle{icon: Route.icon_atom(route), aria_hidden?: true})
   end
 
