@@ -54,23 +54,23 @@ export class TripPlannerLocControls {
       TripPlannerLocControls.INDICES.from,
       TripPlannerLocControls.PARAMS
     );
-    this.toAutocomplete = new AlgoliaAutocompleteWithGeo(
-      "trip-planner__autocomplete--to",
-      TripPlannerLocControls.SELECTORS.to,
-      Object.keys(TripPlannerLocControls.INDICES.to),
-      { position: 1, hitLimit: 3 },
-      TripPlannerLocControls.POPULAR,
-      this
-    );
+    this.toAutocomplete = new AlgoliaAutocompleteWithGeo({
+      id: "trip-planner__autocomplete--to",
+      selectors: TripPlannerLocControls.SELECTORS.to,
+      indices: Object.keys(TripPlannerLocControls.INDICES.to),
+      locationParams: { position: 1, hitLimit: 3 },
+      popular: TripPlannerLocControls.POPULAR,
+      parent: this
+    });
 
-    this.fromAutocomplete = new AlgoliaAutocompleteWithGeo(
-      "trip-planner__autocomplete--from",
-      TripPlannerLocControls.SELECTORS.from,
-      Object.keys(TripPlannerLocControls.INDICES.from),
-      { position: 1, hitLimit: 3 },
-      TripPlannerLocControls.POPULAR,
-      this
-    );
+    this.fromAutocomplete = new AlgoliaAutocompleteWithGeo({
+      id: "trip-planner__autocomplete--from",
+      selectors: TripPlannerLocControls.SELECTORS.from,
+      indices: Object.keys(TripPlannerLocControls.INDICES.from),
+      locationParams: { position: 1, hitLimit: 3 },
+      popular: TripPlannerLocControls.POPULAR,
+      parent: this
+    });
     this.autocompletes = [this.toAutocomplete, this.fromAutocomplete];
 
     this.autocompletes.forEach(ac => {

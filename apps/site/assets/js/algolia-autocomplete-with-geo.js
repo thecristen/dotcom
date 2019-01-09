@@ -5,7 +5,7 @@ import geolocationPromise from "./geolocation-promise";
 import * as AlgoliaResult from "./algolia-result";
 
 export class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
-  constructor(id, selectors, indices, locationParams, popular, parent) {
+  constructor({ id, selectors, indices, locationParams, popular, parent }) {
     super(id, selectors, indices, parent);
     this.sessionToken = null;
     if (!this._parent.getParams) {

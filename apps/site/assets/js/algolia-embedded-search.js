@@ -37,14 +37,14 @@ export class AlgoliaEmbeddedSearch {
   init() {
     this.input.value = "";
     this.controller = new Algolia(this.indices, this.params);
-    this.autocomplete = new AlgoliaAutocompleteWithGeo(
-      this.pageId,
-      this.selectors,
-      Object.keys(this.indices),
-      this.locationParams,
-      [],
-      this
-    );
+    this.autocomplete = new AlgoliaAutocompleteWithGeo({
+      id: this.pageId,
+      selectors: this.selectors,
+      indices: Object.keys(this.indices),
+      locationParams: this.locationParams,
+      popular: [],
+      parent: this
+    });
     this.autocomplete.renderFooterTemplate =
       AlgoliaEmbeddedSearch.renderFooterTemplate;
     this.addEventListeners();

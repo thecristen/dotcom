@@ -35,7 +35,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       reset: sinon.spy(),
       updateParamsByKey: sinon.spy(),
     };
-    const locationsData = {
+    const locationParams = {
       position: 1,
       hitLimit: 3,
     };
@@ -44,7 +44,14 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       name: "test"
     }
     ]
-    this.ac = new AlgoliaAutocompleteWithGeo("id", selectors, indices, locationsData, this.popular, this.parent);
+    this.ac = new AlgoliaAutocompleteWithGeo({
+      id: "id",
+      popular: this.popular,
+      parent: this.parent,
+      selectors,
+      indices,
+      locationParams,
+    });
     this.ac.init(this.client);
   });
 
