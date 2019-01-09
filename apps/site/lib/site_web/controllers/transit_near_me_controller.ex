@@ -37,6 +37,7 @@ defmodule SiteWeb.TransitNearMeController do
       marker.stop.longitude,
       id: marker.stop.id,
       icon: "map-current-location",
+      size: :large,
       tooltip: tooltip(marker)
     )
   end
