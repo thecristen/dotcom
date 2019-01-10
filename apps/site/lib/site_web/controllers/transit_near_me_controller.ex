@@ -36,7 +36,7 @@ defmodule SiteWeb.TransitNearMeController do
       marker.stop.latitude,
       marker.stop.longitude,
       id: marker.stop.id,
-      icon: "map-current-location",
+      icon: "map-stop-marker",
       size: :large,
       tooltip: tooltip(marker)
     )
@@ -47,7 +47,7 @@ defmodule SiteWeb.TransitNearMeController do
       marker.stop.latitude,
       marker.stop.longitude,
       id: marker.stop.id,
-      icon: "map-pin",
+      icon: "map-station-marker",
       size: :large,
       tooltip: tooltip(marker)
     )

@@ -94,8 +94,8 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert %MapData{} = conn.assigns.map_data
       assert [marker, bus_marker] = conn.assigns.map_data.markers
       assert %Marker{} = bus_marker
-      assert bus_marker.icon == "map-current-location"
-      assert put_in(bus_marker.icon, "map-pin") == marker
+      assert bus_marker.icon == "map-stop-marker"
+      assert put_in(bus_marker.icon, "map-station-marker") == marker
     end
 
     test "assigns a marker for the provided location", %{conn: conn} do

@@ -52,6 +52,14 @@ export const iconSvg = marker => {
       icon = MapIcons.iconMode(id);
       break;
 
+    case "stop-marker":
+      icon = MapIcons.iconStop();
+      break;
+
+    case "station-marker":
+      icon = MapIcons.iconStation();
+      break;
+
     case "pin":
       icon = MapIcons.iconPin();
       break;

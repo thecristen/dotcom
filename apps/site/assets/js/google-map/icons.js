@@ -45,6 +45,10 @@ export const iconVehicle = type => getSvgIcon(`bw-${type}`);
 
 export const iconMode = mode => getSvgIcon(`${mode}`);
 
+export const iconStop = () => getSvgIcon("map-stop-marker");
+
+export const iconStation = () => getSvgIcon("map-station-marker");
+
 export const iconPin = () => getSvgIcon("map-pin");
 
 export const iconCurrentLocation = () => getSvgIcon("current-location-marker");
