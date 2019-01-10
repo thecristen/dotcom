@@ -45,6 +45,66 @@ defmodule SiteWeb.TransitNearMeControllerTest do
     }
   }
 
+  def location_fn(%{"address" => %{"latitude" => "valid", "longitude" => "valid"}}, []) do
+    send(self(), :location_fn)
+
+    {:ok,
+     [
+       %Address{
+         latitude: 42.351,
+         longitude: -71.066,
+         formatted: "10 Park Plaza, Boston, MA, 02116"
+       }
+     ]}
+  end
+
+  def location_fn(%{"address" => %{"latitude" => "no_stops", "longitude" => "no_stops"}}, []) do
+    send(self(), :location_fn)
+
+    {:ok,
+     [
+       %Address{
+         latitude: 0.0,
+         longitude: 0.0,
+         formatted: "no_stops"
+       }
+     ]}
+  end
+
+  def location_fn(%{"address" => %{"latitude" => "no_results", "longitude" => "no_results"}}, []) do
+    send(self(), :location_fn)
+    {:error, :zero_results}
+  end
+
+  def location_fn(%{"address" => %{"latitude" => "error", "longitude" => "error"}}, []) do
+    send(self(), :location_fn)
+    {:error, :internal_error}
+  end
+
+  def location_fn(%{}, []) do
+    send(self(), :location_fn)
+    :no_address
+  end
+
+  def stops_with_routes_fn(%Address{formatted: "10 Park Plaza, Boston, MA, 02116"}, []) do
+    send(self(), :stops_with_routes_fn)
+    [@stop_with_routes]
+  end
+
+  def stops_with_routes_fn(%Address{formatted: "no_stops"}, []) do
+    send(self(), :stops_with_routes_fn)
+    []
+  end
+
+  setup do
+    conn =
+      build_conn()
+      |> assign(:location_fn, &location_fn/2)
+      |> assign(:stops_with_routes_fn, &stops_with_routes_fn/2)
+
+    {:ok, conn: conn}
+  end
+
   test "index is under a flag", %{conn: conn} do
     assert conn
            |> get(transit_near_me_path(conn, :index))
@@ -54,6 +114,114 @@ defmodule SiteWeb.TransitNearMeControllerTest do
            |> put_req_cookie("transit_near_me_redesign", "true")
            |> get(transit_near_me_path(conn, :index))
            |> Map.fetch!(:status) == 200
+  end
+
+  describe "with no location params" do
+    test "does not attempt to calculate stops with routes", %{conn: conn} do
+      conn =
+        conn
+        |> put_req_cookie("transit_near_me_redesign", "true")
+        |> get(transit_near_me_path(conn, :index))
+
+      assert conn.status == 200
+
+      assert_receive :location_fn
+      refute_receive :stops_with_routes_fn
+
+      assert conn.assigns.location == :no_address
+      assert conn.assigns.tnm_address == ""
+      assert conn.assigns.stops_with_routes == []
+      assert get_flash(conn) == %{}
+    end
+  end
+
+  describe "with valid location params" do
+    test "assigns stops with routes", %{conn: conn} do
+      params = %{"address" => %{"latitude" => "valid", "longitude" => "valid"}}
+
+      conn =
+        conn
+        |> put_req_cookie("transit_near_me_redesign", "true")
+        |> get(transit_near_me_path(conn, :index, params))
+
+      assert conn.status == 200
+
+      assert_receive :location_fn
+      assert_receive :stops_with_routes_fn
+
+      assert {:ok, [%Address{}]} = conn.assigns.location
+      assert conn.assigns.tnm_address == "10 Park Plaza, Boston, MA, 02116"
+      assert conn.assigns.stops_with_routes == [@stop_with_routes]
+      assert get_flash(conn) == %{}
+    end
+
+    test "flashes an error if location has no stops nearby", %{conn: conn} do
+      params = %{"address" => %{"latitude" => "no_stops", "longitude" => "no_stops"}}
+
+      conn =
+        conn
+        |> put_req_cookie("transit_near_me_redesign", "true")
+        |> get(transit_near_me_path(conn, :index, params))
+
+      assert conn.status == 200
+
+      assert_receive :location_fn
+      assert_receive :stops_with_routes_fn
+
+      assert {:ok, [%Address{}]} = conn.assigns.location
+      assert conn.assigns.tnm_address == "no_stops"
+      assert conn.assigns.stops_with_routes == []
+
+      assert get_flash(conn) == %{
+               "info" =>
+                 "There doesn't seem to be any stations found near the given address. " <>
+                   "Please try a different address to continue."
+             }
+    end
+  end
+
+  describe "with invalid location params" do
+    test "flashes an error when address cannot be located", %{conn: conn} do
+      params = %{"address" => %{"latitude" => "no_results", "longitude" => "no_results"}}
+
+      conn =
+        conn
+        |> put_req_cookie("transit_near_me_redesign", "true")
+        |> get(transit_near_me_path(conn, :index, params))
+
+      assert conn.status == 200
+
+      assert_receive :location_fn
+      refute_receive :stops_with_routes_fn
+
+      assert conn.assigns.location == {:error, :zero_results}
+      assert conn.assigns.tnm_address == ""
+      assert conn.assigns.stops_with_routes == []
+
+      assert get_flash(conn) == %{"info" => "We are unable to locate that address."}
+    end
+
+    test "flashes an error for any other error", %{conn: conn} do
+      params = %{"address" => %{"latitude" => "error", "longitude" => "error"}}
+
+      conn =
+        conn
+        |> put_req_cookie("transit_near_me_redesign", "true")
+        |> get(transit_near_me_path(conn, :index, params))
+
+      assert conn.status == 200
+
+      assert_receive :location_fn
+      refute_receive :stops_with_routes_fn
+
+      assert conn.assigns.location == {:error, :internal_error}
+      assert conn.assigns.tnm_address == ""
+      assert conn.assigns.stops_with_routes == []
+
+      assert get_flash(conn) == %{
+               "info" => "There was an error locating that address. Please try again."
+             }
+    end
   end
 
   describe "assign_map_data/1" do
