@@ -12,41 +12,6 @@ defmodule SiteWeb.AlertViewTest do
   @route %Routes.Route{type: 2, id: "route_id", name: "Name"}
   @now Util.to_local_time(~N[2018-01-15T12:00:00])
 
-  describe "alert_effects/1" do
-    test "returns one alert for one effect" do
-      delay_alert = %Alert{effect: :delay, lifecycle: :upcoming}
-
-      expected = {"Delay", ""}
-      actual = alert_effects([delay_alert], 0)
-
-      assert expected == actual
-    end
-
-    test "returns a count with multiple alerts" do
-      alerts = [
-        %Alert{effect: :suspension, lifecycle: :new},
-        %Alert{effect: :delay},
-        %Alert{effect: :cancellation}
-      ]
-
-      expected = {"Suspension", ["+", "2", " more"]}
-      actual = alert_effects(alerts, 0)
-
-      assert expected == actual
-    end
-
-    test "returns text when there are no current alerts" do
-      assert [] |> alert_effects(0) |> :erlang.iolist_to_binary() ==
-               "There are no alerts for today."
-
-      assert [] |> alert_effects(1) |> :erlang.iolist_to_binary() ==
-               "There are no alerts for today; 1 upcoming alert."
-
-      assert [] |> alert_effects(2) |> :erlang.iolist_to_binary() ==
-               "There are no alerts for today; 2 upcoming alerts."
-    end
-  end
-
   describe "effect_name/1" do
     test "returns the effect name for new alerts" do
       assert "Delay" == effect_name(%Alert{effect: :delay, lifecycle: :new})
@@ -203,21 +168,35 @@ defmodule SiteWeb.AlertViewTest do
   end
 
   describe "group.html" do
-    test "text for no current alerts and 1 upcoming alert" do
+    test "text for no current alerts and show_empty set to false (default)" do
       response =
         render(
           "group.html",
           alerts: [],
-          upcoming_alert_count: 1,
-          route: @route,
-          time: Util.now()
+          timeframe: :current,
+          route: @route
         )
 
       text = safe_to_string(response)
-      assert text =~ "There are currently no service alerts affecting the #{@route.name} today."
+      refute text =~ "There are no alerts"
     end
 
-    test "text for no alerts of any type but show_empty? set" do
+    test "text for no current alerts and show_empty? set for a route" do
+      response =
+        group(
+          alerts: [],
+          route: @route,
+          stop?: false,
+          show_empty?: true,
+          timeframe: :current
+        )
+
+      text = safe_to_string(response)
+
+      assert text =~ "Service is running as expected on the Name. There are no current alerts."
+    end
+
+    test "text for no alerts of any type but show_empty? set for a stop" do
       response =
         group(
           alerts: [],
@@ -227,21 +206,68 @@ defmodule SiteWeb.AlertViewTest do
         )
 
       text = safe_to_string(response)
-      assert text =~ "Service is running as expected at Name. There are no alerts at this time."
+      assert text =~ "There are no alerts on the Name at this time."
+    end
+  end
+
+  describe "no_alerts_message/3" do
+    test "reports service as running as expected when timeframe is current for routes" do
+      msg = no_alerts_message(%{name: "Route", id: 2}, false, :current)
+
+      assert IO.iodata_to_binary(msg) =~
+               "Service is running as expected on the Route. There are no current alerts."
     end
 
-    test "text for no current alerts and 2 upcoming alerts" do
-      response =
-        render(
-          "group.html",
-          alerts: [],
-          upcoming_alert_count: 2,
-          route: @route,
-          time: Util.now()
-        )
+    test "reports service as running as expected when timeframe is current for stops" do
+      msg = no_alerts_message(%{name: "Stop", id: 1}, true, :current)
 
-      text = safe_to_string(response)
-      assert text =~ "There are currently no service alerts affecting the #{@route.name} today."
+      assert IO.iodata_to_binary(msg) =~ "There are no current alerts at Stop."
+    end
+
+    test "reports no upcoming alerts for a route" do
+      msg = no_alerts_message(%{name: "Route", id: 1}, false, :upcoming)
+      assert IO.iodata_to_binary(msg) =~ "There are no planned alerts for the Route at this time."
+    end
+
+    test "reports no upcoming alerts at a stop" do
+      msg = no_alerts_message(%{name: "Stop", id: 1}, true, :upcoming)
+      assert IO.iodata_to_binary(msg) =~ "There are no planned alerts at Stop at this time."
+    end
+  end
+
+  describe "location_name/2" do
+    test "creates a location name with prefix for a route" do
+      assert IO.iodata_to_binary(location_name(%{name: "Route"}, false)) == " on the Route"
+    end
+
+    test "creates a location name with a prefix for a stop" do
+      assert IO.iodata_to_binary(location_name(%{name: "Stop"}, true)) == " at Stop"
+    end
+  end
+
+  describe "format_alerts_timeframe" do
+    test "formats :upcoming to planned" do
+      assert format_alerts_timeframe(:upcoming) == "planned"
+    end
+
+    test "if alerts_timeframe isn't set, returns empty string" do
+      assert format_alerts_timeframe(nil) == ""
+    end
+
+    test "converts an atom to a string" do
+      assert format_alerts_timeframe(:current) == "current"
+    end
+  end
+
+  describe "empty_message_for_timeframe/2" do
+    test "returns a generic empty message if a timeframe isn't provided" do
+      assert IO.iodata_to_binary(empty_message_for_timeframe(nil, " for the Route")) ==
+               "There are no alerts for the Route at this time."
+    end
+
+    test "formats an empty message for current alerts" do
+      assert IO.iodata_to_binary(empty_message_for_timeframe(:upcoming, " at this Location")) ==
+               "There are no planned alerts at this Location at this time."
     end
   end
 

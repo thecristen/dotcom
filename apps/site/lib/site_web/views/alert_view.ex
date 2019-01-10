@@ -14,10 +14,11 @@ defmodule SiteWeb.AlertView do
 
   """
   def group(opts) do
-    route = Keyword.fetch!(opts, :route)
-    stop? = Keyword.get(opts, :stop?, false)
+    stop? = Keyword.has_key?(opts, :stop)
+    route = Keyword.get(opts, :stop) || Keyword.fetch!(opts, :route)
     show_empty? = Keyword.get(opts, :show_empty?, false)
     priority_filter = Keyword.get(opts, :priority_filter, :any)
+    timeframe = Keyword.get(opts, :timeframe, nil)
 
     alerts =
       opts
@@ -26,11 +27,9 @@ defmodule SiteWeb.AlertView do
 
     case {alerts, show_empty?} do
       {[], true} ->
-        location = if stop?, do: ["at ", route.name], else: ["on the ", route.name]
-
         content_tag(
           :div,
-          ["Service is running as expected ", location, ". There are no alerts at this time."],
+          no_alerts_message(route, stop?, timeframe),
           class: "callout"
         )
 
@@ -41,6 +40,72 @@ defmodule SiteWeb.AlertView do
         render(__MODULE__, "group.html", alerts: alerts, route: route)
     end
   end
+
+  @spec no_alerts_message(map, boolean, atom) :: iolist
+  def no_alerts_message(route, false, :current) do
+    [
+      "Service is running as expected",
+      location_name(route, false),
+      ". ",
+      empty_message_for_timeframe(:current, "")
+    ]
+  end
+
+  def no_alerts_message(route, false, :upcoming) do
+    empty_message_for_timeframe(:upcoming, [" for the ", route.name])
+  end
+
+  def no_alerts_message(route, stop?, timeframe) do
+    empty_message_for_timeframe(timeframe, location_name(route, stop?))
+  end
+
+  @spec location_name(map, boolean) :: iolist
+  def location_name(route, true) do
+    [" at ", route.name]
+  end
+
+  def location_name(route, false) do
+    [" on the ", route.name]
+  end
+
+  @spec format_alerts_timeframe(atom | nil) :: String.t() | nil
+  def format_alerts_timeframe(:upcoming) do
+    "planned"
+  end
+
+  def format_alerts_timeframe(nil) do
+    ""
+  end
+
+  def format_alerts_timeframe(timeframe) when is_atom(timeframe) do
+    Atom.to_string(timeframe)
+  end
+
+  @spec empty_message_for_timeframe(atom | nil, String.t() | iolist | nil) :: iolist
+  def empty_message_for_timeframe(:current, location),
+    do: [
+      "There are no ",
+      format_alerts_timeframe(:current),
+      " alerts",
+      location,
+      "."
+    ]
+
+  def empty_message_for_timeframe(nil, location),
+    do: [
+      "There are no alerts",
+      location,
+      " at this time."
+    ]
+
+  def empty_message_for_timeframe(timeframe, location),
+    do: [
+      "There are no ",
+      format_alerts_timeframe(timeframe),
+      " alerts",
+      location,
+      " at this time."
+    ]
 
   @spec filter_by_priority(boolean, Alert.t()) :: boolean
   defp filter_by_priority(:any, _), do: true
@@ -69,23 +134,6 @@ defmodule SiteWeb.AlertView do
       value when not is_nil(value) ->
         render(__MODULE__, "inline.html", assigns)
     end
-  end
-
-  @doc """
-  """
-  def alert_effects(alerts, upcoming_count)
-  def alert_effects([], 0), do: "There are no alerts for today."
-  def alert_effects([], 1), do: "There are no alerts for today; 1 upcoming alert."
-
-  def alert_effects([], count),
-    do: ["There are no alerts for today; ", count |> Integer.to_string(), " upcoming alerts."]
-
-  def alert_effects([alert], _) do
-    {Alert.human_effect(alert), ""}
-  end
-
-  def alert_effects([alert | rest], _) do
-    {Alert.human_effect(alert), ["+", rest |> length |> Integer.to_string(), " more"]}
   end
 
   def effect_name(%{lifecycle: lifecycle} = alert)
@@ -242,12 +290,4 @@ defmodule SiteWeb.AlertView do
   defp alert_icon(:snow), do: svg("icon-snow-default.svg")
   defp alert_icon(:alert), do: svg("icon-alerts-triangle.svg")
   defp alert_icon(:none), do: ""
-
-  @spec empty_message_for_timeframe(String.t() | nil) :: String.t()
-  def empty_message_for_timeframe("current"), do: "There are no current alerts."
-
-  def empty_message_for_timeframe("upcoming"),
-    do: "There are no planned service alerts at this time."
-
-  def empty_message_for_timeframe(_), do: "There are no alerts at this time."
 end

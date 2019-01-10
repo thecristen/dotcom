@@ -48,8 +48,8 @@ defmodule SiteWeb.StopView do
       show_empty?: Keyword.get(opts, :show_empty?, false),
       alerts: stop_alerts,
       time: date,
-      route: %{id: stop.id |> String.replace(" ", "-"), name: stop.name},
-      stop?: true
+      stop: %{id: stop.id |> String.replace(" ", "-"), name: stop.name},
+      timeframe: Keyword.get(opts, :timeframe)
     )
   end
 

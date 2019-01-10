@@ -9,7 +9,7 @@
     </div>
     <div class="col-xs-12 col-lg-8 col-lg-offset-1">
       <h2 class="h2">Alerts</h2>
-      <%= render_alerts(@alerts, @date, @stop, show_empty?: true) %>
+      <%= render_alerts(@alerts, @date, @stop, show_empty?: true, timeframe: @alerts_timeframe) %>
     </div>
   </div>
 </div>

@@ -17,6 +17,7 @@
         <div class="m-alerts__mode-buttons">
           <%= mode_buttons(@id) %>
         </div>
+        <% timeframe = format_alerts_timeframe(@alerts_timeframe) %>
         <%= for {route_or_stop, alerts} <- @alert_groups do %>
           <div class="m-alerts-header">
             <%= link to: group_header_path(route_or_stop), class: "m-alerts-header__link" do %>
@@ -29,19 +30,12 @@
             <% end %>
           </div>
           <div>
-            <%= if Enum.empty?(alerts) do %>
-              <div class="m-alerts__notice--show-empty">
-                <%= mode_name(@id) %> service is running as expected. <%= empty_message_for_timeframe(@timeframe) %>
-              </div>
-            <% else %>
-              <%= SiteWeb.AlertView.group alerts: alerts, route: route_or_stop, time: @date %>
-            <% end %>
+          <%= SiteWeb.AlertView.group alerts: alerts, route: route_or_stop %>
           </div>
         <% end %>
         <%= if Enum.empty?(@alert_groups) do %>
           <div class="m-alerts__notice--no-alerts">
-            <% timeframe = if @alerts_timeframe == :upcoming, do: :planned, else: @alerts_timeframe %>
-            There are no <%= timeframe %> service alerts for <%= mode_name(@id) %>.
+            There are no <%= timeframe %> <%= mode_name(@id) %> alerts at this time.
           </div>
         <% end %>
         <div class="hidden-lg-up">
