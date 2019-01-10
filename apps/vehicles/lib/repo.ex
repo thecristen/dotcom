@@ -58,8 +58,19 @@ defmodule Vehicles.Repo do
   def handle_call({:trip_id, trip_id}, _from, state) do
     vehicle =
       case :ets.match(state.ets, {:_, :_, :_, trip_id, :"$1"}) do
-        [[trip]] -> trip
-        [] -> nil
+        [[vehicle]] ->
+          vehicle
+
+        [] ->
+          nil
+
+        vehicles ->
+          # Trips can sometimes get "overloaded" with vehicles, i.e. when running extra service.
+          # For simplicity's sake, our repo always returns a single vehicle for a trip.
+          # We sort by vehicle id to ensure that all servers will return the same vehicle.
+          # See https://github.com/mbta/dotcom/pull/2753 for further details.
+          [[vehicle] | _] = Enum.sort_by(vehicles, fn [%{id: id}] -> id end)
+          vehicle
       end
 
     {:reply, vehicle, state}
