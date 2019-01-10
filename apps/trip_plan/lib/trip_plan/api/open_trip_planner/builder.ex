@@ -5,7 +5,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
   @spec build_params(TripPlan.Api.plan_opts()) ::
           {:ok, %{String.t() => String.t()}} | {:error, any}
   def build_params(opts) do
-    do_build_params(opts, %{"disableRemainingWeightHeuristic" => "true", "mode" => "TRANSIT,WALK"})
+    do_build_params(opts, %{"mode" => "TRANSIT,WALK"})
   end
 
   defp do_build_params([], acc) do

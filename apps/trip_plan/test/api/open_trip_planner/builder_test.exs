@@ -10,7 +10,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "date" => "2017-05-22",
            "time" => "12:04pm",
            "arriveBy" => "false",
-           "disableRemainingWeightHeuristic" => "true",
            "mode" => "TRANSIT,WALK"
          }}
 
@@ -25,7 +24,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "date" => "2017-05-22",
            "time" => "12:04pm",
            "arriveBy" => "true",
-           "disableRemainingWeightHeuristic" => "true",
            "mode" => "TRANSIT,WALK"
          }}
 
@@ -38,7 +36,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
         {:ok,
          %{
            "wheelchair" => "true",
-           "disableRemainingWeightHeuristic" => "true",
            "mode" => "TRANSIT,WALK"
          }}
 
@@ -48,7 +45,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "disableRemainingWeightHeuristic" => "true",
            "mode" => "TRANSIT,WALK"
          }}
 
@@ -61,7 +57,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
         {:ok,
          %{
            "maxWalkDistance" => "1609.5",
-           "disableRemainingWeightHeuristic" => "true",
            "mode" => "TRANSIT,WALK"
          }}
 
@@ -73,7 +68,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "disableRemainingWeightHeuristic" => "true",
            "mode" => "TRANSIT,WALK"
          }}
 
@@ -85,7 +79,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "disableRemainingWeightHeuristic" => "true",
            "mode" => "BUS,SUBWAY,TRAM,WALK"
          }}
 
@@ -97,7 +90,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "disableRemainingWeightHeuristic" => "true",
            "mode" => "TRANSIT,WALK",
            "walkReluctance" => 17
          }}
@@ -110,7 +102,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "disableRemainingWeightHeuristic" => "true",
            "mode" => "TRANSIT,WALK",
            "transferPenalty" => 100
          }}
