@@ -85,6 +85,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
     test "assigns a marker with a bus icon for stops that aren't stations", %{conn: conn} do
       bus_stop_with_routes = put_in(@stop_with_routes.stop.station?, false)
+
       conn =
         conn
         |> assign(:stops_with_routes, [@stop_with_routes, bus_stop_with_routes])
