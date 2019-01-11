@@ -31,26 +31,23 @@ defmodule SiteWeb.TransitNearMeController do
     assign(conn, :map_data, map_data)
   end
 
-  def build_stop_marker(%{stop: %{station?: false}} = marker) do
-    Marker.new(
-      marker.stop.latitude,
-      marker.stop.longitude,
-      id: marker.stop.id,
-      icon: "map-stop-marker",
-      size: :large,
-      tooltip: tooltip(marker)
-    )
-  end
-
   def build_stop_marker(marker) do
     Marker.new(
       marker.stop.latitude,
       marker.stop.longitude,
       id: marker.stop.id,
-      icon: "map-station-marker",
+      icon: marker_for_stop_type(marker.stop),
       size: :large,
       tooltip: tooltip(marker)
     )
+  end
+
+  def marker_for_stop_type(%{station?: false}) do
+    "map-stop-marker"
+  end
+
+  def marker_for_stop_type(_) do
+    "map-station-marker"
   end
 
   def add_location_marker(map_data, %{location: %Geocode.Address{}} = assigns) do
