@@ -51,16 +51,7 @@ defmodule SiteWeb.TransitNearMeController do
   def assign_map_data(conn) do
     markers =
       conn.assigns.stops_with_routes
-      |> Enum.map(fn marker ->
-        Marker.new(
-          marker.stop.latitude,
-          marker.stop.longitude,
-          id: marker.stop.id,
-          icon: "map-pin",
-          size: :large,
-          tooltip: tooltip(marker)
-        )
-      end)
+      |> Enum.map(&build_stop_marker(&1))
 
     map_data =
       {630, 400}
@@ -70,6 +61,25 @@ defmodule SiteWeb.TransitNearMeController do
       |> add_location_marker(conn.assigns)
 
     assign(conn, :map_data, map_data)
+  end
+
+  def build_stop_marker(marker) do
+    Marker.new(
+      marker.stop.latitude,
+      marker.stop.longitude,
+      id: marker.stop.id,
+      icon: marker_for_stop_type(marker.stop),
+      size: :large,
+      tooltip: tooltip(marker)
+    )
+  end
+
+  def marker_for_stop_type(%{station?: false}) do
+    "map-stop-marker"
+  end
+
+  def marker_for_stop_type(_) do
+    "map-station-marker"
   end
 
   def add_location_marker(map_data, %{location: %Geocode.Address{}} = assigns) do

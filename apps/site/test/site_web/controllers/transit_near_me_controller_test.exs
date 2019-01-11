@@ -251,6 +251,22 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert marker.tooltip =~ "c-location-card__name"
     end
 
+    test "assigns a marker with a bus icon for stops that aren't stations", %{conn: conn} do
+      bus_stop_with_routes = put_in(@stop_with_routes.stop.station?, false)
+
+      conn =
+        conn
+        |> assign(:stops_with_routes, [@stop_with_routes, bus_stop_with_routes])
+        |> assign(:location, nil)
+        |> TNMController.assign_map_data()
+
+      assert %MapData{} = conn.assigns.map_data
+      assert [marker, bus_marker] = conn.assigns.map_data.markers
+      assert %Marker{} = bus_marker
+      assert bus_marker.icon == "map-stop-marker"
+      assert put_in(bus_marker.icon, "map-station-marker") == marker
+    end
+
     test "assigns a marker for the provided location", %{conn: conn} do
       conn =
         conn
