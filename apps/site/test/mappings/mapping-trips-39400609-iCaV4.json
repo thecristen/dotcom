@@ -1,0 +1,22 @@
+{
+  "id" : "2ed4264b-21d3-3a27-8aac-0e8a281f55bc",
+  "request" : {
+    "url" : "/trips/39400609",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-39400609-iCaV4.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 11 Jan 2019 16:12:37 GMT",
+      "last-modified" : "Fri, 11 Jan 2019 16:12:31 GMT",
+      "Server" : "nginx/1.12.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2lsdegtbd5btg42bi00047m2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "2ed4264b-21d3-3a27-8aac-0e8a281f55bc"
+}
