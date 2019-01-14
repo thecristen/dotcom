@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import jsdom from 'mocha-jsdom';
 import sinon from 'sinon';
 import * as TransitNearMe from '../../assets/js/transit-near-me';
+import { TransitNearMeSearch } from '../../assets/js/transit-near-me/search';
 
 describe('TransitNearMe', () => {
   jsdom();
@@ -15,8 +16,23 @@ describe('TransitNearMe', () => {
       return string.replace(/\%20/g, ' ').replace(/\%26/g, '&');
     };
 
+    window.autocomplete = jsdom.rerequire("autocomplete.js");
+    window.jQuery = jsdom.rerequire("jquery");
+
+    const {
+      container,
+      input,
+      resetButton,
+      goBtn
+    } = TransitNearMeSearch.SELECTORS;
+
     document.body.innerHTML = `
       <div id='address-search-message'></div>
+      <div id="${container}">
+        <input id="${input}"></input>
+        <div id="${resetButton}"></div>
+        <button id ="${goBtn}"></button>
+      </div>
     `;
   });
 

@@ -2,7 +2,7 @@
   <h1>Transit Near Me</h1>
   <p>View stations and stops near your location and preview information on schedules, alerts, fares, and other station details.</p>
 
-  <%= SiteWeb.TransitNearMeV1View.render "_input.html", tnm_address: @tnm_address, conn: @conn, button_class: "" %>
+  <%= render "_input.html", location: @location, conn: @conn %>
   <div class="m-tnm__map">
     <script data-for="tnm-map" id="js-tnm-map-dynamic-data" type="text/plain"><%= raw Poison.encode!(@map_data) %></script>
     <div id="tnm-map"></div>

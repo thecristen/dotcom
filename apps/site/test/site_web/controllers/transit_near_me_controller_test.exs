@@ -129,7 +129,6 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       refute_receive :stops_with_routes_fn
 
       assert conn.assigns.location == :no_address
-      assert conn.assigns.tnm_address == ""
       assert conn.assigns.stops_with_routes == []
       assert get_flash(conn) == %{}
     end
@@ -149,8 +148,9 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert_receive :location_fn
       assert_receive :stops_with_routes_fn
 
-      assert {:ok, [%Address{}]} = conn.assigns.location
-      assert conn.assigns.tnm_address == "10 Park Plaza, Boston, MA, 02116"
+      assert {:ok, [%Address{formatted: "10 Park Plaza, Boston, MA, 02116"}]} =
+               conn.assigns.location
+
       assert conn.assigns.stops_with_routes == [@stop_with_routes]
       assert %MapData{} = conn.assigns.map_data
       assert Enum.count(conn.assigns.map_data.markers) == 2
@@ -175,8 +175,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert_receive :location_fn
       assert_receive :stops_with_routes_fn
 
-      assert {:ok, [%Address{}]} = conn.assigns.location
-      assert conn.assigns.tnm_address == "no_stops"
+      assert {:ok, [%Address{formatted: "no_stops"}]} = conn.assigns.location
       assert conn.assigns.stops_with_routes == []
 
       assert get_flash(conn) == %{
@@ -202,7 +201,6 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       refute_receive :stops_with_routes_fn
 
       assert conn.assigns.location == {:error, :zero_results}
-      assert conn.assigns.tnm_address == ""
       assert conn.assigns.stops_with_routes == []
 
       assert get_flash(conn) == %{"info" => "We are unable to locate that address."}
@@ -222,7 +220,6 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       refute_receive :stops_with_routes_fn
 
       assert conn.assigns.location == {:error, :internal_error}
-      assert conn.assigns.tnm_address == ""
       assert conn.assigns.stops_with_routes == []
 
       assert get_flash(conn) == %{

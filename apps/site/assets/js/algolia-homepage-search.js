@@ -63,20 +63,31 @@ const LOCATION_PARAMS = {
 
 // exported for testing
 export const doInit = () => {
-  const search = new AlgoliaEmbeddedSearch({
-    pageId: "search-homepage",
-    indices: INDICES,
-    params: PARAMS,
-    selectors: SELECTORS,
-    locationParams: LOCATION_PARAMS
-  });
-  search.buildSearchParams = () => {
-    return QueryStringHelpers.parseParams({
-      query: search.input.value
-    });
-  };
+  const input = document.getElementById(SELECTORS.input);
+  if (input) {
+    // The global search page expects the query param to be ?query=foo, but
+    // the &Phoenix.HTML.Form.text_input/3 helper that builds this input
+    // requires the input's name to be a nested value (i.e. name="query[input]"),
+    // Fixing this at the source would require more refactoring than we could
+    // justify; hence, this dirty hack. -kh
+    input.setAttribute("name", "query");
 
-  return search;
+    const search = new AlgoliaEmbeddedSearch({
+      pageId: "search-homepage",
+      indices: INDICES,
+      params: PARAMS,
+      selectors: SELECTORS,
+      locationParams: LOCATION_PARAMS
+    });
+
+    search.buildSearchParams = () => {
+      return QueryStringHelpers.parseParams({
+        query: search.input.value
+      });
+    };
+
+    return search;
+  }
 };
 
 export function init() {

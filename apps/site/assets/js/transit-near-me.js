@@ -1,7 +1,9 @@
 import GoogleMap from "./google-map-class";
 import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
+import { TransitNearMeSearch } from "./transit-near-me/search";
 
 let map;
+let search = null;
 
 const showLoadingIndicators = bool => {
   const method = bool ? "remove" : "add";
@@ -45,8 +47,16 @@ const loadMap = () => {
   }
 };
 
+const setupSearch = () => {
+  const el = document.getElementById(TransitNearMeSearch.SELECTORS.container);
+  if (el) {
+    search = new TransitNearMeSearch();
+  }
+};
+
 export const onLoad = ({ data }) => {
   loadMap();
+  setupSearch();
 
   if (data && data.url) {
     const url = window.decodeURIComponent(data.url);

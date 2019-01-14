@@ -1,6 +1,6 @@
 defmodule SiteWeb.TransitNearMeController do
   use SiteWeb, :controller
-  alias GoogleMaps.{Geocode, Geocode.Address, MapData, MapData.Layers, MapData.Marker}
+  alias GoogleMaps.{Geocode, MapData, MapData.Layers, MapData.Marker}
   alias Phoenix.HTML
   alias Plug.Conn
   alias SiteWeb.TransitNearMeController.{Location, StopsWithRoutes}
@@ -25,15 +25,7 @@ defmodule SiteWeb.TransitNearMeController do
 
     location = location_fn.(conn.params, [])
 
-    conn = assign(conn, :location, location)
-
-    case location do
-      {:ok, [%Address{formatted: formatted} | _]} ->
-        assign(conn, :tnm_address, formatted)
-
-      _ ->
-        assign(conn, :tnm_address, "")
-    end
+    assign(conn, :location, location)
   end
 
   defp assign_stops(%{assigns: %{location: {:ok, [location | _]}}} = conn) do

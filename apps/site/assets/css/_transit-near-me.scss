@@ -1,3 +1,10 @@
+.m-transit-near-me__input {
+  @include media-breakpoint-up(md) {
+    width: 60%;
+  }
+}
+
 .m-tnm__map {
   height: 30rem;
+  margin-top: $base-spacing * 1.5;
 }

@@ -1,5 +1,6 @@
 defmodule SiteWeb.TransitNearMeView do
   use SiteWeb, :view
+  alias GoogleMaps.Geocode.Address
   alias Routes.Route
   alias SiteWeb.PartialView.SvgIconWithCircle
   alias Stops.Stop
@@ -31,5 +32,13 @@ defmodule SiteWeb.TransitNearMeView do
   defp route_link(%Route{} = route, %Stop{id: stop_id}) do
     path = schedule_path(SiteWeb.Endpoint, :show, route, origin: stop_id)
     link(route.name, to: path)
+  end
+
+  defp input_value({:ok, [%Address{formatted: address}]}) do
+    address
+  end
+
+  defp input_value(_) do
+    ""
   end
 end
