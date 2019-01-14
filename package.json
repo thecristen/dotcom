@@ -19,6 +19,7 @@
     "wiremock:record:clean": "rm -fr apps/site/test/__files/*.json && rm -fr apps/site/test/mappings/mapping* && npm run wiremock:record",
     "webpack:watch": "cd apps/site/assets && npm run webpack:watch",
     "webpack:build": "cd apps/site/assets && npm run webpack:build",
+    "webpack:analyze": "cd apps/site/assets && npm run webpack:analyze",
     "routes": "cd apps/site && mix phx.routes && cd ../..",
     "dialyzer": "mix dialyzer --halt-exit-status"
   }

@@ -9,3 +9,9 @@
   </div>
   <%= SiteWeb.TransitNearMeV1View.render "_results.html", class: "c-location-cards--background-gray", stops_with_routes: @stops_with_routes, conn: @conn %>
 </div>
+
+<%= if Application.get_env(:site, :dev_server?) do %>
+  <script defer src="http://localhost:8090/tnm.js"></script>
+<% else %>
+  <script defer src="<%= static_url(@conn, "/js/tnm.js") %>"></script>
+<% end %>
