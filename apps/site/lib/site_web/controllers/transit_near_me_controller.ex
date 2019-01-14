@@ -82,8 +82,9 @@ defmodule SiteWeb.TransitNearMeController do
     "map-station-marker"
   end
 
-  def add_location_marker(map_data, %{location: %Geocode.Address{}} = assigns) do
-    %{latitude: latitude, longitude: longitude} = assigns.location
+  def add_location_marker(map_data, %{location: {:ok, [%Geocode.Address{} | _]}} = assigns) do
+    {:ok, [%{latitude: latitude, longitude: longitude, formatted: formatted} | _]} =
+      assigns.location
 
     marker =
       Marker.new(
@@ -92,7 +93,7 @@ defmodule SiteWeb.TransitNearMeController do
         id: "current-location",
         icon: "map-current-location",
         size: :mid,
-        tooltip: assigns.location.formatted,
+        tooltip: formatted,
         z_index: 100
       )
 

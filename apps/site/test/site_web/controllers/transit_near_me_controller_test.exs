@@ -152,6 +152,13 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert {:ok, [%Address{}]} = conn.assigns.location
       assert conn.assigns.tnm_address == "10 Park Plaza, Boston, MA, 02116"
       assert conn.assigns.stops_with_routes == [@stop_with_routes]
+      assert %MapData{} = conn.assigns.map_data
+      assert Enum.count(conn.assigns.map_data.markers) == 2
+      assert %Marker{} = Enum.find(conn.assigns.map_data.markers, &(&1.id == "current-location"))
+
+      assert %Marker{} =
+               Enum.find(conn.assigns.map_data.markers, &(&1.id == @stop_with_routes.stop.id))
+
       assert get_flash(conn) == %{}
     end
 
@@ -271,11 +278,17 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       conn =
         conn
         |> assign(:stops_with_routes, [])
-        |> assign(:location, %Address{
-          formatted: "10 Park Plaza",
-          latitude: @stop_with_routes.stop.latitude,
-          longitude: @stop_with_routes.stop.longitude
-        })
+        |> assign(
+          :location,
+          {:ok,
+           [
+             %Address{
+               formatted: "10 Park Plaza",
+               latitude: @stop_with_routes.stop.latitude,
+               longitude: @stop_with_routes.stop.longitude
+             }
+           ]}
+        )
         |> TNMController.assign_map_data()
 
       assert [marker] = conn.assigns.map_data.markers
