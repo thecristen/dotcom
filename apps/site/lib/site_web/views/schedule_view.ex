@@ -293,7 +293,7 @@ defmodule SiteWeb.ScheduleView do
 
   @spec header_class(Route.t()) :: String.t()
   def header_class(%Route{type: 3} = route) do
-    if Route.silver_line_rapid_transit?(route) do
+    if Route.silver_line_rapid_or_local_transit?(route) do
       do_header_class("silver-line")
     else
       do_header_class("bus")

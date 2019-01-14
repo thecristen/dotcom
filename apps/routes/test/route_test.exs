@@ -171,6 +171,14 @@ defmodule Routes.RouteTest do
     end
   end
 
+  describe "silver line rapid or local transit routes" do
+    test "silver_line_rapid_or_local_transit?/1 returns true if a route id is in @silver_line_rapid_transit_routes or @silver_line_local_routes" do
+      assert silver_line_rapid_or_local_transit?(sample(silver_line_rapid_transit()))
+      assert silver_line_rapid_or_local_transit?(%Route{id: "751"})
+      refute silver_line_rapid_or_local_transit?(%Route{id: "352"})
+    end
+  end
+
   describe "silver line airport origin routes" do
     test "inbound routes originating at airport are properly identified" do
       airport_stops = ["17091", "27092", "17093", "17094", "17095"]

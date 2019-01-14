@@ -41,6 +41,8 @@ defmodule Routes.Route do
   @outer_express_route_set MapSet.new(@outer_express_routes)
   @silver_line_rapid_transit_routes ~w(741 742 743 746)
   @silver_line_rapid_transit_route_set MapSet.new(@silver_line_rapid_transit_routes)
+  @silver_line_local_routes ~w(749 751)
+  @silver_line_local_route_set MapSet.new(@silver_line_local_routes)
 
   @spec type_atom(t | type_int | String.t()) :: gtfs_route_type
   def type_atom(%__MODULE__{type: type}), do: type_atom(type)
@@ -188,12 +190,21 @@ defmodule Routes.Route do
   def outer_express, do: @outer_express_routes
   def silver_line_rapid_transit, do: @silver_line_rapid_transit_routes
 
+  @spec inner_express?(t) :: boolean
   def inner_express?(%__MODULE__{id: id}), do: id in @inner_express_route_set
+
+  @spec outer_express?(t) :: boolean
   def outer_express?(%__MODULE__{id: id}), do: id in @outer_express_route_set
 
+  @spec silver_line_rapid_transit?(t) :: boolean
   def silver_line_rapid_transit?(%__MODULE__{id: id}),
     do: id in @silver_line_rapid_transit_route_set
 
+  @spec silver_line_rapid_or_local_transit?(t) :: boolean
+  def silver_line_rapid_or_local_transit?(%__MODULE__{id: id}),
+    do: id in @silver_line_rapid_transit_route_set or id in @silver_line_local_route_set
+
+  @spec silver_line_airport_stop?(t, String.t()) :: boolean
   def silver_line_airport_stop?(%__MODULE__{id: "741"}, "17091"), do: true
   def silver_line_airport_stop?(%__MODULE__{id: "741"}, "27092"), do: true
   def silver_line_airport_stop?(%__MODULE__{id: "741"}, "17093"), do: true
