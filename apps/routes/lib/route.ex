@@ -35,7 +35,7 @@ defmodule Routes.Route do
   @type subway_lines_type :: :orange_line | :red_line | :green_line | :blue_line | :mattapan_line
   @type branch_name :: String.t() | nil
 
-  @inner_express_routes ~w(170 325 326 351 424 426 428 434 441 442 448 449 450 459 501 502 503 504 553 554 556 558)
+  @inner_express_routes ~w(170 325 326 351 424 426 428 434 448 449 450 459 501 502 503 504 553 554 556 558)
   @inner_express_route_set MapSet.new(@inner_express_routes)
   @outer_express_routes ~w(352 354 505)
   @outer_express_route_set MapSet.new(@outer_express_routes)
