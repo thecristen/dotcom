@@ -1,5 +1,11 @@
+<%
+  sidebar_left = !is_nil(@page.sidebar_menu)
+  sidebar_right = Content.BasicPage.has_right_rail?(@page)
+  sidebar_layout = {sidebar_left, sidebar_right}
+%>
+
 <div class="container">
-  <div class="<%= cms_wrapper_class(@page) %>">
+  <div class="c-cms <%= sidebar_classes(sidebar_layout) %>">
 
     <div class="c-cms__header">
       <div class="c-cms__title">
@@ -10,9 +16,9 @@
     </div>
 
     <div class="c-cms__content">
-      <%= render("_sidebar.html", page: @page, conn: @conn) %>
+      <%= if sidebar_left, do: render("_sidebar_left.html", page: @page, conn: @conn) %>
       <%= render("_basic_page.html", page: @page, conn: @conn) %>
-      <%= render("_right_rail.html", page: @page, conn: @conn) %>
+      <%= if !sidebar_left && sidebar_right, do: render("_sidebar_right.html", page: @page, conn: @conn) %>
     </div>
   </div>
 </div>

@@ -679,29 +679,29 @@ defmodule SiteWeb.ContentViewTest do
     end
   end
 
-  describe "cms_wrapper_class/1" do
+  describe "sidebar_classes/1" do
     test "returns appropriate classes for a page with a sidebar" do
-      page_with_sidebar = BasicPage.from_api(Static.basic_page_with_sidebar_response())
+      sidebar_layout = {true, false}
 
-      assert cms_wrapper_class(page_with_sidebar) ==
-               "c-cms c-cms--with-sidebar c-cms--sidebar-left"
+      assert sidebar_classes(sidebar_layout) == "c-cms--with-sidebar c-cms--sidebar-left"
     end
 
     test "returns appropriate classes for a page without a sidebar" do
-      page_without_sidebar = BasicPage.from_api(Static.basic_page_response())
+      sidebar_layout = {false, false}
 
-      assert cms_wrapper_class(page_without_sidebar) == "c-cms c-cms--no-sidebar"
+      assert sidebar_classes(sidebar_layout) == "c-cms--no-sidebar"
     end
 
     test "returns appropriate classes for a page with a right rail" do
-      page_with_right_rail = %BasicPage{
-        paragraphs: [
-          %CustomHTML{body: HTML.raw("<p>Hello</p>"), right_rail: false},
-          %CustomHTML{body: HTML.raw("<p>world</p>"), right_rail: true}
-        ]
-      }
+      sidebar_layout = {false, true}
 
-      assert cms_wrapper_class(page_with_right_rail) == "c-cms c-cms--sidebar-right"
+      assert sidebar_classes(sidebar_layout) == "c-cms--with-sidebar c-cms--sidebar-right"
+    end
+
+    test "returns only left-sidebar classes for a page with a both left menu and right rail" do
+      sidebar_layout = {true, true}
+
+      assert sidebar_classes(sidebar_layout) == "c-cms--with-sidebar c-cms--sidebar-left"
     end
   end
 

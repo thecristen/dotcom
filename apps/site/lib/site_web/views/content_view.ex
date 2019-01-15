@@ -2,9 +2,7 @@ defmodule SiteWeb.ContentView do
   use SiteWeb, :view
   import SiteWeb.TimeHelpers
 
-  alias Content.BasicPage
   alias Content.Field.File
-  alias Content.MenuLinks
   alias Content.Paragraph
 
   alias Content.Paragraph.{
@@ -114,17 +112,11 @@ defmodule SiteWeb.ContentView do
     |> do_render_duration(maybe_shift_timezone(end_time))
   end
 
-  @spec cms_wrapper_class(BasicPage.t()) :: String.t()
-  def cms_wrapper_class(page) do
-    [
-      "c-cms",
-      sidebar_class(page),
-      right_rail_class(page)
-    ]
-    |> List.flatten()
-    |> Enum.reject(&is_nil(&1))
-    |> Enum.join(" ")
-  end
+  @doc "Sets CMS content wrapper classes based on presence of sidebar elements {left, right}"
+  @spec sidebar_classes({boolean, boolean}) :: String.t()
+  def sidebar_classes({true, _}), do: "c-cms--with-sidebar c-cms--sidebar-left"
+  def sidebar_classes({false, true}), do: "c-cms--with-sidebar c-cms--sidebar-right"
+  def sidebar_classes({false, false}), do: "c-cms--no-sidebar"
 
   @spec grid(ColumnMulti.t()) :: integer
   def grid(%ColumnMulti{columns: columns}) do
@@ -210,24 +202,5 @@ defmodule SiteWeb.ContentView do
 
   defp grouped_fare_card_data(_) do
     nil
-  end
-
-  defp sidebar_class(%{sidebar_menu: %MenuLinks{}}) do
-    [
-      "c-cms--with-sidebar",
-      "c-cms--sidebar-left"
-    ]
-  end
-
-  defp sidebar_class(page) do
-    unless BasicPage.has_right_rail?(page) do
-      ["c-cms--no-sidebar"]
-    end
-  end
-
-  defp right_rail_class(page) do
-    if BasicPage.has_right_rail?(page) do
-      ["c-cms--sidebar-right"]
-    end
   end
 end
