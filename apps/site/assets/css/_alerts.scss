@@ -28,6 +28,10 @@
   &:hover {
     color: $brand-primary;
   }
+
+  &--systemwide:hover {
+    color: $gray-dark;
+  }
 }
 
 .m-alerts-header__link {
@@ -275,6 +279,7 @@
 .m-alerts-ad {
   background: $brand-primary;
   color: $white;
+  margin-top: 1rem;
   padding: $space-1 $base-spacing 0;
 }
 

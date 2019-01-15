@@ -11,6 +11,11 @@ defmodule Alerts.Repo do
     Store.banner()
   end
 
+  @spec by_id(String.t()) :: Alerts.Alert.t() | nil
+  def by_id(id) do
+    Store.alert(id)
+  end
+
   @spec by_route_ids([String.t()], DateTime.t()) :: [Alerts.Alert.t()]
   def by_route_ids(route_ids, now) do
     route_ids

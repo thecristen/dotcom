@@ -42,7 +42,7 @@ defmodule SiteWeb.Plugs.Banner do
   defp assign_alert_banner(conn, banner) do
     conn
     |> assign(:alert_banner, banner)
-    |> assign(:banner_class, "alert-announcement-container")
+    |> assign(:banner_class, "alert-announcement__container")
     |> assign(:banner_template, "_alert_announcement.html")
   end
 end

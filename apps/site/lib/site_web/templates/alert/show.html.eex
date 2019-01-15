@@ -1,3 +1,5 @@
+<% show_systemwide_alert? = show_systemwide_alert?(assigns) %>
+
 <div class="container">
   <div class="page-section">
     <div class="page-header">
@@ -17,6 +19,25 @@
         <div class="m-alerts__mode-buttons">
           <%= mode_buttons(@id) %>
         </div>
+
+        <%= if show_systemwide_alert? do %>
+          <div class="m-alerts-header">
+            <h2 class="m-alerts-header__name--systemwide">Systemwide</h2>
+            <span class="m-alerts-header__icon">
+              <%=
+                SiteWeb.PartialView.SvgIconWithCircle.svg_icon_with_circle(
+                  %SvgIconWithCircle{icon: :t_logo, aria_hidden?: true}
+                )
+              %>
+            </span>
+          </div>
+          <div class="announcement-container <%= assigns[:banner_class] %>">
+            <div class="container">
+              <%= render SiteWeb.LayoutView, @banner_template, assigns %>
+            </div>
+          </div>
+        <% end %>
+
         <% timeframe = format_alerts_timeframe(@alerts_timeframe) %>
         <%= for {route_or_stop, alerts} <- @alert_groups do %>
           <div class="m-alerts-header">
@@ -33,7 +54,7 @@
           <%= SiteWeb.AlertView.group alerts: alerts, route: route_or_stop %>
           </div>
         <% end %>
-        <%= if Enum.empty?(@alert_groups) do %>
+        <%= if Enum.empty?(@alert_groups) && !show_systemwide_alert? do %>
           <div class="m-alerts__notice--no-alerts">
             There are no <%= timeframe %> <%= mode_name(@id) %> alerts at this time.
           </div>

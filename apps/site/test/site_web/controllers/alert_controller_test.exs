@@ -5,7 +5,7 @@ defmodule SiteWeb.AlertControllerTest do
   alias Alerts.Alert
   alias SiteWeb.PartialView.SvgIconWithCircle
   alias Stops.Repo
-  import SiteWeb.AlertController, only: [group_access_alerts: 1]
+  import SiteWeb.AlertController, only: [excluding_banner: 2, group_access_alerts: 1]
 
   test "renders commuter rail", %{conn: conn} do
     conn = get(conn, alert_path(conn, :show, "commuter-rail"))
@@ -263,6 +263,31 @@ defmodule SiteWeb.AlertControllerTest do
         |> html_response(200)
 
       refute response =~ "mticket-notice"
+    end
+  end
+
+  describe "excluding_banner/2" do
+    setup do
+      alerts = [
+        %{id: "1"},
+        %{id: "2"},
+        %{id: "3"}
+      ]
+
+      %{alerts: alerts}
+    end
+
+    test "filters out the banner alert from a list of alerts", %{alerts: alerts} do
+      expected_result = [
+        %{id: "1"},
+        %{id: "3"}
+      ]
+
+      assert excluding_banner(%{assigns: %{alert_banner: %{id: "2"}}}, alerts) == expected_result
+    end
+
+    test "returns the list of alerts if no banner alert is in assigns", %{alerts: alerts} do
+      assert excluding_banner(%{}, alerts) == alerts
     end
   end
 end

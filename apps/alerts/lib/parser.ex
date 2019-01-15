@@ -7,7 +7,7 @@ defmodule Alerts.Parser do
         header: attributes["header"],
         informed_entity: parse_informed_entity(attributes["informed_entity"]),
         active_period: Enum.map(attributes["active_period"], &active_period/1),
-        effect: effect(attributes, attributes["header"]),
+        effect: effect(attributes),
         severity: severity(attributes["severity"]),
         lifecycle: lifecycle(attributes["lifecycle"]),
         updated_at: parse_time(attributes["updated_at"]),
@@ -15,7 +15,7 @@ defmodule Alerts.Parser do
       )
     end
 
-    defp parse_informed_entity(informed_entities) do
+    def parse_informed_entity(informed_entities) do
       informed_entities
       |> Enum.flat_map(&informed_entity/1)
       |> Enum.uniq()
@@ -77,49 +77,49 @@ defmodule Alerts.Parser do
       end
     end
 
-    @spec effect(%{String.t() => String.t()}, String.t()) :: Alerts.Alert.effect()
-    defp effect(attributes, header) do
+    @spec effect(%{String.t() => String.t()}) :: Alerts.Alert.effect()
+    def effect(attributes) do
       case Map.fetch(attributes, "effect_name") do
         {:ok, effect_name} ->
           effect_name
           |> String.replace(" ", "_")
           |> String.upcase()
-          |> do_effect(header)
+          |> do_effect()
 
         :error ->
           attributes
           |> Map.get("effect")
-          |> do_effect(header)
+          |> do_effect()
       end
     end
 
-    @spec do_effect(String.t(), String.t()) :: Alerts.Alert.effect()
-    defp do_effect("AMBER_ALERT", _), do: :amber_alert
-    defp do_effect("CANCELLATION", _), do: :cancellation
-    defp do_effect("DELAY", _), do: :delay
-    defp do_effect("SUSPENSION", _), do: :suspension
-    defp do_effect("TRACK_CHANGE", _), do: :track_change
-    defp do_effect("DETOUR", _), do: :detour
-    defp do_effect("SHUTTLE", _), do: :shuttle
-    defp do_effect("STOP_CLOSURE", _), do: :stop_closure
-    defp do_effect("DOCK_CLOSURE", _), do: :dock_closure
-    defp do_effect("STATION_CLOSURE", _), do: :station_closure
+    @spec do_effect(String.t()) :: Alerts.Alert.effect()
+    defp do_effect("AMBER_ALERT"), do: :amber_alert
+    defp do_effect("CANCELLATION"), do: :cancellation
+    defp do_effect("DELAY"), do: :delay
+    defp do_effect("SUSPENSION"), do: :suspension
+    defp do_effect("TRACK_CHANGE"), do: :track_change
+    defp do_effect("DETOUR"), do: :detour
+    defp do_effect("SHUTTLE"), do: :shuttle
+    defp do_effect("STOP_CLOSURE"), do: :stop_closure
+    defp do_effect("DOCK_CLOSURE"), do: :dock_closure
+    defp do_effect("STATION_CLOSURE"), do: :station_closure
     # previous configuration
-    defp do_effect("STOP_MOVE", _), do: :stop_moved
-    defp do_effect("STOP_MOVED", _), do: :stop_moved
-    defp do_effect("EXTRA_SERVICE", _), do: :extra_service
-    defp do_effect("SCHEDULE_CHANGE", _), do: :schedule_change
-    defp do_effect("SERVICE_CHANGE", _), do: :service_change
-    defp do_effect("SNOW_ROUTE", _), do: :snow_route
-    defp do_effect("STATION_ISSUE", _), do: :station_issue
-    defp do_effect("DOCK_ISSUE", _), do: :dock_issue
-    defp do_effect("ACCESS_ISSUE", _), do: :access_issue
-    defp do_effect("ELEVATOR_CLOSURE", _), do: :elevator_closure
-    defp do_effect("ESCALATOR_CLOSURE", _), do: :escalator_closure
-    defp do_effect("POLICY_CHANGE", _), do: :policy_change
-    defp do_effect("STOP_SHOVELING", _), do: :stop_shoveling
-    defp do_effect("SUMMARY", _), do: :summary
-    defp do_effect(_, _), do: :unknown
+    defp do_effect("STOP_MOVE"), do: :stop_moved
+    defp do_effect("STOP_MOVED"), do: :stop_moved
+    defp do_effect("EXTRA_SERVICE"), do: :extra_service
+    defp do_effect("SCHEDULE_CHANGE"), do: :schedule_change
+    defp do_effect("SERVICE_CHANGE"), do: :service_change
+    defp do_effect("SNOW_ROUTE"), do: :snow_route
+    defp do_effect("STATION_ISSUE"), do: :station_issue
+    defp do_effect("DOCK_ISSUE"), do: :dock_issue
+    defp do_effect("ACCESS_ISSUE"), do: :access_issue
+    defp do_effect("ELEVATOR_CLOSURE"), do: :elevator_closure
+    defp do_effect("ESCALATOR_CLOSURE"), do: :escalator_closure
+    defp do_effect("POLICY_CHANGE"), do: :policy_change
+    defp do_effect("STOP_SHOVELING"), do: :stop_shoveling
+    defp do_effect("SUMMARY"), do: :summary
+    defp do_effect(_), do: :unknown
 
     @spec severity(String.t() | integer) :: Alerts.Alert.severity()
     def severity(binary) when is_binary(binary) do
@@ -172,17 +172,30 @@ defmodule Alerts.Parser do
   end
 
   defmodule Banner do
-    @spec parse(JsonApi.Item.t()) :: [Alerts.Banner.t()]
+    alias Alerts.{Banner, InformedEntitySet, Parser.Alert}
+
+    @spec parse(JsonApi.Item.t()) :: [Banner.t()]
     def parse(%JsonApi.Item{
           id: id,
-          attributes: %{
-            "url" => url,
-            "banner" => title
-          }
+          attributes:
+            %{
+              "url" => url,
+              "banner" => title,
+              "severity" => severity,
+              "informed_entity" => informed_entity
+            } = attributes
         })
         when title != nil do
       [
-        %Alerts.Banner{id: id, title: title, url: url}
+        %Banner{
+          id: id,
+          title: title,
+          url: url,
+          effect: Alert.effect(attributes),
+          severity: Alert.severity(severity),
+          informed_entity_set:
+            informed_entity |> Alert.parse_informed_entity() |> InformedEntitySet.new()
+        }
       ]
     end
 

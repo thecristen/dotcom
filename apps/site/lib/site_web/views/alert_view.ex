@@ -1,6 +1,6 @@
 defmodule SiteWeb.AlertView do
   use SiteWeb, :view
-  alias Alerts.Alert
+  alias Alerts.{Alert, InformedEntity, InformedEntitySet}
   alias Routes.Route
   alias SiteWeb.PartialView.SvgIconWithCircle
   alias Stops.Stop
@@ -275,6 +275,26 @@ defmodule SiteWeb.AlertView do
         class: "m-alerts__mode-button-container"
       )
     end
+  end
+
+  @spec show_systemwide_alert?(map) :: boolean
+  def show_systemwide_alert?(%{
+        alert_banner: alert_banner,
+        route_type: route_type
+      }) do
+    # Ensure route types are in a List
+    route_types = List.flatten([route_type])
+
+    Enum.any?(route_types, fn route_type ->
+      InformedEntitySet.match?(
+        alert_banner.informed_entity_set,
+        %InformedEntity{route_type: route_type}
+      )
+    end)
+  end
+
+  def show_systemwide_alert?(_) do
+    false
   end
 
   @spec type_name(atom) :: String.t()

@@ -3,6 +3,7 @@ defmodule SiteWeb.AlertController do
   alias Alerts.{Alert, InformedEntity, Match}
   alias Stops.Stop
 
+  plug(:route_type)
   plug(:routes)
   plug(:alerts)
   plug(SiteWeb.Plugs.AlertsByTimeframe)
@@ -30,7 +31,7 @@ defmodule SiteWeb.AlertController do
   end
 
   def render_routes(%{assigns: %{alerts: alerts, routes: routes}} = conn) do
-    render_alert_groups(conn, Enum.map(routes, &route_alerts(&1, alerts)))
+    render_alert_groups(conn, Enum.map(routes, &route_alerts(&1, excluding_banner(conn, alerts))))
   end
 
   def render_alert_groups(%{params: %{"id" => id}} = conn, route_alerts) do
@@ -88,15 +89,26 @@ defmodule SiteWeb.AlertController do
     end
   end
 
-  defp routes(%{params: %{"id" => "subway"}} = conn, _opts), do: do_routes(conn, [0, 1])
-  defp routes(%{params: %{"id" => "commuter-rail"}} = conn, _opts), do: do_routes(conn, 2)
-  defp routes(%{params: %{"id" => "bus"}} = conn, _opts), do: do_routes(conn, 3)
-  defp routes(%{params: %{"id" => "ferry"}} = conn, _opts), do: do_routes(conn, 4)
-  defp routes(conn, _opts), do: conn
+  @spec excluding_banner(map, [Alert.t()]) :: [Alert.t()]
+  def excluding_banner(%{assigns: %{alert_banner: alert_banner}}, alerts),
+    do: Enum.reject(alerts, &(&1.id == alert_banner.id))
 
-  defp do_routes(conn, route_types) do
-    assign(conn, :routes, Routes.Repo.by_type(route_types))
+  def excluding_banner(_, alerts), do: alerts
+
+  defp route_type(%{params: %{"id" => "subway"}} = conn, _opts), do: do_route_type(conn, [0, 1])
+  defp route_type(%{params: %{"id" => "commuter-rail"}} = conn, _opts), do: do_route_type(conn, 2)
+  defp route_type(%{params: %{"id" => "bus"}} = conn, _opts), do: do_route_type(conn, 3)
+  defp route_type(%{params: %{"id" => "ferry"}} = conn, _opts), do: do_route_type(conn, 4)
+  defp route_type(conn, _opts), do: conn
+
+  defp do_route_type(conn, route_type) do
+    assign(conn, :route_type, route_type)
   end
+
+  defp routes(%{assigns: %{route_type: route_type}} = conn, _opts),
+    do: assign(conn, :routes, Routes.Repo.by_type(route_type))
+
+  defp routes(conn, _opts), do: conn
 
   defp alerts(%{params: %{"id" => id}} = conn, _opts) when id in @valid_ids do
     alerts = Alerts.Repo.all(conn.assigns.date_time)

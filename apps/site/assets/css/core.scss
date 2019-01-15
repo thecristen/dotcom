@@ -192,16 +192,12 @@ small {
   }
 }
 
-%top-bar {
-  padding-bottom: $space-8;
-  padding-top: $space-8;
-}
-
 .breadcrumb-container {
-  @extend %top-bar;
   background-color: $gray-bordered-background;
   border: solid 1px $gray-lightest;
   color: $gray-dark;
+  padding-bottom: $space-8;
+  padding-top: $space-8;
 
   i {
     color: $gray-light;
@@ -222,9 +218,9 @@ small {
   }
 }
 
-.alert-announcement-container {
-  @extend %top-bar;
-  background-color: $alert-color-lighter;
+.alert-announcement__container {
+  background-color: $service-alert-yellow-darker;
+  border: 0;
   color: $gray-dark;
   font-size: $font-size-base;
   padding-bottom: $space-16;
@@ -235,30 +231,44 @@ small {
       text-decoration: none;
     }
   }
+
+  li {
+    list-style: none;
+  }
+
+  .m-alert-item {
+    background: transparent;
+  }
+
+  .m-alert-item__icon {
+    top: 0;
+  }
+
+  .m-alert-item__top-text-container {
+    padding-bottom: 0;
+    padding-top: 0;
+
+    div {
+      float: left;
+      padding-top: .25rem;
+    }
+
+    .m-alert-item__effect {
+      margin-right: .5rem;
+      padding-top: 0;
+    }
+  }
+
+  .m-alert-item__badge {
+    background-color: $service-alert-yellow;
+  }
 }
 
-.alert-announcement-header {
+.alert-announcement__header {
   color: $gray-dark;
 
   @include hover-focus-active {
     color: $gray-dark;
-  }
-
-  .alert-item-icon {
-    margin-top: 0;
-  }
-}
-
-.alert-announcement-message {
-  float: left;
-  width: 90%;
-
-  @include media-breakpoint-only(md) {
-    width: 80%;
-  }
-
-  @include media-breakpoint-down(sm) {
-    width: 70%;
   }
 }
 

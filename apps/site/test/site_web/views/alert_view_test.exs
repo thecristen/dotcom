@@ -5,7 +5,7 @@ defmodule SiteWeb.AlertViewTest do
 
   import Phoenix.HTML, only: [safe_to_string: 1, raw: 1]
   import SiteWeb.AlertView
-  alias Alerts.Alert
+  alias Alerts.{Alert, Banner, InformedEntity, InformedEntitySet}
   alias Routes.Route
   alias Stops.Stop
 
@@ -416,6 +416,70 @@ defmodule SiteWeb.AlertViewTest do
 
     for mode <- rest do
       refute mode =~ "m-alerts__mode-button--selected"
+    end
+  end
+
+  describe "show_systemwide_alert?/1" do
+    setup do
+      banner_template = "_alert_announcement.html"
+
+      alert_banner = %Banner{
+        id: "123",
+        title: "All service may experience delays due to snow",
+        url: "https://mbta.com/guides/winter-guide",
+        effect: :delay,
+        severity: 5,
+        informed_entity_set:
+          InformedEntitySet.new([
+            %InformedEntity{
+              activities: MapSet.new([:board, :exit, :ride]),
+              direction_id: nil,
+              route: nil,
+              route_type: 0,
+              stop: nil,
+              trip: nil
+            },
+            %InformedEntity{
+              activities: MapSet.new([:board, :exit, :ride]),
+              direction_id: nil,
+              route: nil,
+              route_type: 1,
+              stop: nil,
+              trip: nil
+            }
+          ])
+      }
+
+      assigns = %{
+        banner_template: banner_template,
+        alert_banner: alert_banner
+      }
+
+      %{assigns: assigns}
+    end
+
+    test "tests whether any informed entities on the alert_banenr match a list of route types", %{
+      assigns: assigns
+    } do
+      matching_assigns = Map.merge(assigns, %{route_type: [1, 2]})
+      non_matching_assigns = Map.merge(assigns, %{route_type: [2, 3]})
+
+      assert show_systemwide_alert?(matching_assigns)
+      refute show_systemwide_alert?(non_matching_assigns)
+    end
+
+    test "tests whether any informed entities on the alert_banenr match a single route type", %{
+      assigns: assigns
+    } do
+      matching_assigns = Map.merge(assigns, %{route_type: 1})
+      non_matching_assigns = Map.merge(assigns, %{route_type: 2})
+
+      assert show_systemwide_alert?(matching_assigns)
+      refute show_systemwide_alert?(non_matching_assigns)
+    end
+
+    test "returns false if any required assigns properties are missing", %{assigns: assigns} do
+      refute show_systemwide_alert?(assigns)
     end
   end
 

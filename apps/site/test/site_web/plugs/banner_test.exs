@@ -11,7 +11,7 @@ defmodule SiteWeb.Plugs.BannerTest do
       opts = init(banner_fn: fn -> %Banner{} end)
       conn = call(conn, opts)
       assert conn.assigns.alert_banner == %Banner{}
-      assert conn.assigns.banner_class == "alert-announcement-container"
+      assert conn.assigns.banner_class == "alert-announcement__container"
       assert conn.assigns.banner_template == "_alert_announcement.html"
     end
 

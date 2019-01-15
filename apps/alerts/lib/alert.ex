@@ -53,7 +53,7 @@ defmodule Alerts.Alert do
           severity: severity,
           lifecycle: lifecycle,
           updated_at: DateTime.t(),
-          description: String.t(),
+          description: String.t() | nil,
           priority: Priority.priority_level()
         }
 

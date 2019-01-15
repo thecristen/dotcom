@@ -1,7 +1,7 @@
 defmodule Alerts.ParserTest do
   use ExUnit.Case, async: true
 
-  alias Alerts.Parser
+  alias Alerts.{InformedEntity, InformedEntitySet, Parser}
 
   describe "Alert.parse/1" do
     test ".parse converts a JsonApi.Item into an Alerts.Alert" do
@@ -33,7 +33,8 @@ defmodule Alerts.ParserTest do
                  "lifecycle" => "Ongoing",
                  "effect_name" => "Delay",
                  "updated_at" => "2016-06-20T16:09:29-04:00",
-                 "description" => "Affected routes: 18"
+                 "description" => "Affected routes: 18",
+                 "banner" => "Test banner copy"
                }
              }) ==
                %Alerts.Alert{
@@ -261,6 +262,73 @@ defmodule Alerts.ParserTest do
                severity: 3,
                effect: :access_issue
              } = alert
+    end
+  end
+
+  describe "Banner.parse/1" do
+    setup do
+      json_item = %JsonApi.Item{
+        attributes: %{
+          "active_period" => [
+            %{
+              "end" => "2019-01-13T02:30:00-05:00",
+              "start" => "2019-01-07T16:26:25-05:00"
+            }
+          ],
+          "banner" => "All service may experience delays due to snow",
+          "cause" => "SPECIAL_EVENT",
+          "created_at" => "2019-01-07T16:26:31-05:00",
+          "description" => nil,
+          "effect" => "DELAY",
+          "header" => "All service may experience delays due to snow",
+          "informed_entity" => [
+            %{
+              "activities" => [
+                "BOARD",
+                "EXIT",
+                "RIDE"
+              ],
+              "route_type" => 2
+            }
+          ],
+          "lifecycle" => "NEW",
+          "service_effect" => "Subway delays",
+          "severity" => 5,
+          "short_header" => "All service may experience delays due to snow",
+          "timeframe" => "through Saturday",
+          "updated_at" => "2019-01-07T16:26:59-05:00",
+          "url" => "https://mbta.com/guides/winter-guide"
+        },
+        id: "123",
+        type: "alert"
+      }
+
+      %{json_item: json_item}
+    end
+
+    test "converts a JsonApi.Item into a list of Alerts.Banners", %{json_item: json_item} do
+      expected_banner = [
+        %Alerts.Banner{
+          id: "123",
+          title: "All service may experience delays due to snow",
+          url: "https://mbta.com/guides/winter-guide",
+          effect: :delay,
+          severity: 5,
+          informed_entity_set:
+            InformedEntitySet.new([
+              %InformedEntity{
+                activities: MapSet.new([:board, :exit, :ride]),
+                direction_id: nil,
+                route: nil,
+                route_type: 2,
+                stop: nil,
+                trip: nil
+              }
+            ])
+        }
+      ]
+
+      assert Parser.Banner.parse(json_item) == expected_banner
     end
   end
 end

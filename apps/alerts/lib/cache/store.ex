@@ -68,6 +68,16 @@ defmodule Alerts.Cache.Store do
   end
 
   @doc """
+  Retrieves an alert object given an alert ID.
+  """
+  @spec alert(String.t()) :: Alerts.Alert.t() | nil
+  def alert(alert_id) do
+    :alert_id_to_alert
+    |> select_many([alert_id])
+    |> List.first()
+  end
+
+  @doc """
   Retrieves the full set of current alerts in priority sorted order.
   """
   @spec all_alerts(DateTime.t()) :: [Alerts.Alert.t()]
