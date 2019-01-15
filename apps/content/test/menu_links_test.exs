@@ -3,9 +3,11 @@ defmodule Content.MenuLinksTest do
 
   import Content.MenuLinks
 
+  alias Content.CMS.Static
+
   setup do
     api_data =
-      Content.CMS.Static.basic_page_with_sidebar_response()
+      Static.basic_page_with_sidebar_response()
       |> Map.get("field_sidebar_menu")
       |> List.first()
 
@@ -16,7 +18,6 @@ defmodule Content.MenuLinksTest do
     test "parses the data into a MenuLinks struct", %{api_data: api_data} do
       assert %Content.MenuLinks{
                title: "Destinations",
-               position: :after,
                blurb:
                  {:safe,
                   "<p>Visiting Boston? Learn more about some of the popular spots you can get to on the T.</p>"},

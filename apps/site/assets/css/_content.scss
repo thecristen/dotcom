@@ -1,13 +1,10 @@
 .c-cms__title-prefix {
   display: none;
 
-  // Only show "More from <title>" prefix if:
-  // 1. We are in a stacked/single column page layout (sm-down) AND
-  // 2. The sidebar appears AFTER the content (default situation)
-  .c-cms--sidebar-after & {
-    @include media-breakpoint-down(sm) {
-      display: inline;
-    }
+  // Only show "More from <title>" prefix if we are
+  // in a stacked/single column page layout (sm-down)
+  @include media-breakpoint-down(sm) {
+    display: inline;
   }
 }
 

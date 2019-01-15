@@ -48,7 +48,6 @@ defmodule SiteWeb.ContentViewTest do
 
       assert rendered =~ ~s(c-cms--with-sidebar)
       assert rendered =~ ~s(c-cms--sidebar-left)
-      assert rendered =~ ~s(c-cms--sidebar-after)
       assert rendered =~ "Logan Airport"
       assert rendered =~ ~s(<ul class="c-cms__sidebar-links">)
       assert rendered =~ ~s(c-cms__sidebar)
@@ -685,7 +684,7 @@ defmodule SiteWeb.ContentViewTest do
       page_with_sidebar = BasicPage.from_api(Static.basic_page_with_sidebar_response())
 
       assert cms_wrapper_class(page_with_sidebar) ==
-               "c-cms c-cms--with-sidebar c-cms--sidebar-left c-cms--sidebar-after"
+               "c-cms c-cms--with-sidebar c-cms--sidebar-left"
     end
 
     test "returns appropriate classes for a page without a sidebar" do

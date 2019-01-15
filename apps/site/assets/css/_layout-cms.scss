@@ -152,17 +152,25 @@ $body-columns: ();
   }
 }
 
-.c-cms__content {
-  .c-cms--sidebar-after & {
-    // Only use flexbox when menu appears below content (default)
-    @include media-breakpoint-down(sm) {
+.c-cms--sidebar-left {
+  @include media-breakpoint-down(sm) {
+
+    // Change order so navigation appears at bottom
+    // (after content) when in single-column layout
+    .c-cms__content {
       display: flex;
       flex-direction: column;
+    }
+
+    .c-cms__sidebar {
+      order: 2;
     }
   }
 }
 
 .c-cms__sidebar {
+  // Provide additional buffer when in single-column layout
+  margin-bottom: $base-spacing;
 
   // Visually align sidebar headings' baselines with the adjacent h1 baseline
   // (below values provide alignment only if sidebar headings are set as h3)
@@ -191,18 +199,5 @@ $body-columns: ();
     @include media-breakpoint-up(md) {
       padding-top: .875rem;
     }
-  }
-
-  .c-cms--sidebar-after & {
-    // Use order (flexbox) when menu appears below content (default)
-    @include media-breakpoint-down(sm) {
-      order: 2;
-    }
-  }
-
-  // Provide additional buffer when in single-column layout (mobile) below content
-  .c-cms--sidebar-after &,
-  .c-cms--sidebar-right & {
-    margin-bottom: $base-spacing;
   }
 }

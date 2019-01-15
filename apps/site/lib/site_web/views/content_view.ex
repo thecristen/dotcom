@@ -212,11 +212,10 @@ defmodule SiteWeb.ContentView do
     nil
   end
 
-  defp sidebar_class(%{sidebar_menu: %MenuLinks{position: sidebar_menu_position}}) do
+  defp sidebar_class(%{sidebar_menu: %MenuLinks{}}) do
     [
       "c-cms--with-sidebar",
-      "c-cms--sidebar-left",
-      "c-cms--sidebar-#{sidebar_menu_position}"
+      "c-cms--sidebar-left"
     ]
   end
 
