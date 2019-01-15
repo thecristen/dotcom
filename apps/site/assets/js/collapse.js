@@ -15,4 +15,9 @@ export default function($) {
   }
   $(document).on("click", "[data-hide=collapse]", handler("in", "hide"));
   $(document).on("click", "[data-show=collapse]", handler("", "show"));
+
+  // focus after expansion of collapsible elements that have the js-focus-on-expand class
+  $(document).on("shown.bs.collapse", ".js-focus-on-expand", ev => {
+    ev.target.focus();
+  });
 }

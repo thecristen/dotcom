@@ -17,10 +17,11 @@
           </div>
         </a>
       </div>
-      <div class="c-accordion-ui__target collapse"
+      <div class="c-accordion-ui__target collapse js-focus-on-expand"
           id="<%= section.prefix %>-section"
           role="region"
-          aria-labelledby="<%= section.prefix %>-title">
+          aria-labelledby="<%= section.prefix %>-title"
+          tabindex="0">
         <div class="c-accordion-ui__content">
           <%= if assigns[:parent_view] do %>
             <% template = if (assigns[:content_template]), do: @content_template, else: section.content_template %>
