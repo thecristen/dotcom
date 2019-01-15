@@ -37,6 +37,7 @@
       <link rel="stylesheet" href="<%= static_url(@conn, "/css/core.css") %>" data-turbolinks-track="reload">
       <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>" data-turbolinks-track="reload">
       <script defer src="<%= static_url(@conn, "/js/vendors~app.js") %>" data-turbolinks-track="reload"></script>
+      <script defer src="<%= static_url(@conn, "/js/vendors~app~tnm.js") %>" data-turbolinks-track="reload"></script>
       <script defer src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-track="reload"></script>
       <% end %>
 
