@@ -145,13 +145,14 @@ defmodule SiteWeb.AlertView do
     Alert.human_effect(alert)
   end
 
-  defp alert_label_class(badge) do
+  defp alert_label_class(%Alert{} = alert) do
     ["u-small-caps", "m-alert-item__badge"]
-    |> do_alert_label_class(badge)
+    |> do_alert_label_class(alert)
     |> Enum.join(" ")
   end
 
-  defp do_alert_label_class(class_list, "Upcoming") do
+  defp do_alert_label_class(class_list, %Alert{lifecycle: lifecycle})
+       when lifecycle in [:upcoming, :upcoming_ongoing] do
     ["m-alert-item__badge--upcoming" | class_list]
   end
 

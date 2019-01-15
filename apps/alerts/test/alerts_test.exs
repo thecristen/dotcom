@@ -75,7 +75,7 @@ defmodule AlertsTest do
       assert human_label(%Alert{effect: :delay, severity: 5}) == "up to 20 minutes"
       assert human_label(%Alert{effect: :delay, severity: 6}) == "up to 25 minutes"
       assert human_label(%Alert{effect: :delay, severity: 7}) == "up to 30 minutes"
-      assert human_label(%Alert{effect: :delay, severity: 8}) == "more than 30 minutes"
+      assert human_label(%Alert{effect: :delay, severity: 8}) == "30+ minutes"
       assert human_label(%Alert{effect: :delay, severity: 9}) == "more than an hour"
     end
 

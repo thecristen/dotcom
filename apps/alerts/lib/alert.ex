@@ -205,7 +205,7 @@ defmodule Alerts.Alert do
   def human_label(%__MODULE__{effect: :delay, severity: 5}), do: "up to 20 minutes"
   def human_label(%__MODULE__{effect: :delay, severity: 6}), do: "up to 25 minutes"
   def human_label(%__MODULE__{effect: :delay, severity: 7}), do: "up to 30 minutes"
-  def human_label(%__MODULE__{effect: :delay, severity: 8}), do: "more than 30 minutes"
+  def human_label(%__MODULE__{effect: :delay, severity: 8}), do: "30+ minutes"
   def human_label(%__MODULE__{effect: :delay, severity: 9}), do: "more than an hour"
   def human_label(alert), do: do_upcoming_ongoing(alert)
 

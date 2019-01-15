@@ -13,7 +13,7 @@
       <div class="m-alert-item__effect">
         <%= effect_name(@alert) %>
         <%= unless label == "" do
-          content_tag(:span, [label], class: alert_label_class(label))
+          content_tag(:span, [label], class: alert_label_class(@alert))
         end %>
       </div>
       <div>
