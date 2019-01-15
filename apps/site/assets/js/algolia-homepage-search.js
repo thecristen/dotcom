@@ -36,7 +36,7 @@ const PARAMS = {
     facetFilters: [[]]
   },
   routes: {
-    hitsPerPage: 2,
+    hitsPerPage: 5,
     facets: ["*"],
     facetFilters: [[]]
   },
@@ -80,11 +80,10 @@ export const doInit = () => {
       locationParams: LOCATION_PARAMS
     });
 
-    search.buildSearchParams = () => {
-      return QueryStringHelpers.parseParams({
+    search.buildSearchParams = () =>
+      QueryStringHelpers.parseParams({
         query: search.input.value
       });
-    };
 
     return search;
   }
