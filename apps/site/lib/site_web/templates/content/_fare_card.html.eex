@@ -1,5 +1,5 @@
 <%
-  fare = Site.ContentRewriters.LiquidObjects.Fare.fare_object_request(@fare_card.fare_token)
+  fare = Site.ContentRewriters.LiquidObjects.Fare.fare_object_request(@content.fare_token)
   mode = case fare do
     %Fares.Summary{} ->
       List.first(fare.modes)
@@ -56,9 +56,9 @@
     with a <%= media %>
   </p>
 
-  <%= if @fare_card.note do %>
+  <%= if @content.note do %>
     <div class="c-fare-card__note">
-      <%= SiteWeb.ContentView.render_paragraph(@fare_card.note, @conn) %>
+      <%= SiteWeb.ContentView.render_content(@content.note, @conn) %>
     </div>
   <% end %>
 </div>

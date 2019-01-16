@@ -9,8 +9,8 @@
 
 <div class="c-cms__sidebar">
   <%= for paragraph <- right_rail_paragraphs do %>
-    <div class="c-right-rail-paragraph">
-      <%= render_paragraph(paragraph, @conn) %>
+    <div class="c-paragraph c-right-rail-paragraph">
+      <%= render_content(paragraph, @conn) %>
     </div>
   <% end %>
 </div>

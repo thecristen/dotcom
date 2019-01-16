@@ -1,8 +1,8 @@
 <%
   content = [
     content_tag(:div, class: "c-descriptive-link__text") do [
-      content_tag(:div, ContentRewriter.rewrite(@paragraph.title, @conn), class: "c-descriptive-link__title"),
-      ContentRewriter.rewrite(@paragraph.body, @conn)
+      content_tag(:div, ContentRewriter.rewrite(@content.title, @conn), class: "c-descriptive-link__title"),
+      ContentRewriter.rewrite(@content.body, @conn)
     ] end,
     content_tag(:div, class: "c-descriptive-link__caret-wrapper") do
       content_tag(:i, "", class: "c-descriptive-link__caret fa fa-angle-right notranslate")
@@ -10,8 +10,8 @@
   ]
 %>
 
-<%= extend_width_if Content.Paragraph.DescriptiveLink.is_alone?(@paragraph) do %>
+<%= extend_width_if Content.Paragraph.DescriptiveLink.is_alone?(@content) do %>
   <%= link(content, 
-        to: if(@paragraph.link, do: cms_static_page_path(@conn, @paragraph.link.url), else: ""), 
+        to: if(@content.link, do: cms_static_page_path(@conn, @content.link.url), else: ""), 
         class: "c-descriptive-link") %>
 <% end %>

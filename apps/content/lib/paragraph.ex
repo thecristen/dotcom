@@ -11,9 +11,9 @@ defmodule Content.Paragraph do
   * Load /cms/style-guide/paragraphs?_format=json from the CMS and update
     /cms/style-guide/paragraphs.json.
   * Create a new module, Content.Paragraph.MyPara in lib/paragraph/my_para.ex.
+  * Create a _my_para.html.eex partial (filename pattern must match module name)
   * Add that type to Content.Paragraph.t here.
   * Update this module's from_api/1 function to dispatch to the MyPara.from_api
-  * Update Site.ContentView.render_paragraph/1 to display it.
   * Update Content.ParagraphTest to ensure it is parsed correctly
   * Update Site.ContentViewTest to ensure it is rendered correctly
   * After the code is merged and deployed, update /cms/style-guide/paragraphs
@@ -36,9 +36,9 @@ defmodule Content.Paragraph do
   }
 
   @type t ::
-          ColumnMulti.t()
-          | Accordion.t()
+          Accordion.t()
           | Callout.t()
+          | ColumnMulti.t()
           | CustomHTML.t()
           | DescriptionList.t()
           | DescriptiveLink.t()
@@ -48,6 +48,21 @@ defmodule Content.Paragraph do
           | TitleCardSet.t()
           | Unknown.t()
           | UpcomingBoardMeetings.t()
+
+  @types [
+    Accordion,
+    Callout,
+    ColumnMulti,
+    CustomHTML,
+    DescriptionList,
+    DescriptiveLink,
+    FareCard,
+    FilesGrid,
+    PeopleGrid,
+    TitleCardSet,
+    Unknown,
+    UpcomingBoardMeetings
+  ]
 
   @spec from_api(map) :: t
   def from_api(%{"type" => [%{"target_id" => "entity_reference"}]} = para) do
@@ -97,6 +112,8 @@ defmodule Content.Paragraph do
   def from_api(unknown_paragraph_type) do
     Unknown.from_api(unknown_paragraph_type)
   end
+
+  def get_types, do: @types
 
   def right_rail?(%{right_rail: true}), do: true
   def right_rail?(_), do: false

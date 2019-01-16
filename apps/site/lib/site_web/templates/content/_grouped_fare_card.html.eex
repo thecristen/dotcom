@@ -34,7 +34,7 @@
 
       <%= if fare_card.note do %>
       <div class="c-fare-card__note">
-        <%= SiteWeb.ContentView.render_paragraph(fare_card.note, @conn) %>
+        <%= SiteWeb.ContentView.render_content(fare_card.note, @conn) %>
       </div>
       <% end %>
     </div>

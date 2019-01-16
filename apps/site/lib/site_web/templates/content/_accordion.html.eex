@@ -3,7 +3,7 @@
     multiselectable: false,
     parent_view: SiteWeb.ContentView,
     content_template: "_accordion_content.html",
-    sections: @paragraph.sections |> Enum.map(fn section -> Map.from_struct(section) end),
+    sections: @content.sections |> Enum.map(fn section -> Map.from_struct(section) end),
     sticky: true,
     conn: @conn
   })) %>

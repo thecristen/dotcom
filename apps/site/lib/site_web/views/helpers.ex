@@ -432,6 +432,16 @@ defmodule SiteWeb.ViewHelpers do
     |> IO.iodata_to_binary()
   end
 
+  @doc "Turns an Elixir.Module.Name into an CSS-friendly string "
+  @spec struct_to_class(struct(), String.t()) :: String.t()
+  def struct_to_class(%{__struct__: struct}, glue \\ "-") do
+    struct
+    |> Module.split()
+    |> List.last()
+    |> Macro.underscore()
+    |> String.replace("_", glue)
+  end
+
   def pretty_date(date, format \\ "{Mshort} {D}") do
     if date == Util.service_date() do
       "today"

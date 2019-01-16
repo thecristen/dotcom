@@ -1,1 +1,1 @@
-<%= render_paragraph(@content, @conn) %>
+<%= render_content(@content, @conn) %>

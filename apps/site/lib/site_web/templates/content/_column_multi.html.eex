@@ -1,16 +1,16 @@
-<%= full_bleed_if Paragraph.right_rail?(@paragraph), wrapper_class: "c-right-rail-paragraph" do %>
+<%= full_bleed_if Paragraph.right_rail?(@content), wrapper_class: "c-right-rail-paragraph" do %>
   <div class="c-multi-column">
-    <%= if @paragraph.header do %>
-      <%= ContentRewriter.rewrite(@paragraph.header.text, @conn) %>
+    <%= if @content.header do %>
+      <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
     <% end %>
 
-    <%= extend_width_if Content.Paragraph.ColumnMulti.includes_cards?(@paragraph) do %>
+    <%= extend_width_if Content.Paragraph.ColumnMulti.includes_cards?(@content) do %>
       <div class="c-multi-column__row row">
-        <%= for column <- @paragraph.columns do %>
-          <div class="c-multi-column__col col-md-<%= grid(@paragraph) %>">
+        <%= for column <- @content.columns do %>
+          <div class="c-multi-column__col col-md-<%= grid(@content) %>">
 
             <%= for paragraph <- column.paragraphs do %>
-              <%= SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
+              <%= SiteWeb.ContentView.render_content(paragraph, @conn) %>
             <% end %>
 
           </div>

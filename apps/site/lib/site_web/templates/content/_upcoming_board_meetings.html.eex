@@ -1,7 +1,7 @@
-<%= full_bleed_if Paragraph.right_rail?(@paragraph), wrapper_class: "c-right-rail-paragraph" do %>
+<%= full_bleed_if Paragraph.right_rail?(@content), wrapper_class: "c-right-rail-paragraph" do %>
   <div class="events-paragraph">
     <%= SiteWeb.EventView.render "_event_list.html",
-      events: @paragraph.events,
+      events: @content.events,
       conn: @conn,
       title: "Upcoming Board Meetings",
       empty_placeholder_text: "There are no upcoming board meetings" %>

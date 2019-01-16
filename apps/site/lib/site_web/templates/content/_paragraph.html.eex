@@ -1,0 +1,17 @@
+<%
+  classes = [
+    # Paragraph type derived from struct
+    "c-paragraph--#{@paragraph_type}",
+    # Unique classes specific to this type of paragraph
+    @paragraph_classes
+  ]
+
+  type_and_classes =
+    classes
+    |> Enum.filter(& &1)
+    |> List.flatten()
+    |> Enum.intersperse(" ")
+%>
+<div class="c-paragraph <%= type_and_classes %>">
+  <%= SiteWeb.ContentView.render_content(@paragraph, @conn) %>
+</div>
