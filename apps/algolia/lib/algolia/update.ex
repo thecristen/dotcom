@@ -120,7 +120,7 @@ defmodule Algolia.Update do
 
   @spec rank_route_by_type(Routes.Route.t() | Routes.Route.type_int()) :: rank
   defp rank_route_by_type(%Routes.Route{} = route) do
-    if Routes.Route.silver_line_rapid_or_local_transit?(route) do
+    if Routes.Route.silver_line?(route) do
       1
     else
       rank_route_by_type(route.type)
