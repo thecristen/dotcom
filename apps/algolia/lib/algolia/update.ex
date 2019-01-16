@@ -87,7 +87,7 @@ defmodule Algolia.Update do
     })
   end
 
-  @type rank :: 1 | 2 | 3 | 4
+  @type rank :: 1 | 2 | 3 | 4 | 5
 
   @spec set_rank(map, Stops.Stop.t() | Routes.Route.t() | map) :: map
   defp set_rank(%{routes: []} = data, %Stops.Stop{}) do
@@ -103,8 +103,8 @@ defmodule Algolia.Update do
     |> do_set_rank(data)
   end
 
-  defp set_rank(%{} = data, %Routes.Route{type: type}) do
-    type
+  defp set_rank(%{} = data, %Routes.Route{} = route) do
+    route
     |> rank_route_by_type()
     |> do_set_rank(data)
   end
@@ -114,14 +114,22 @@ defmodule Algolia.Update do
   end
 
   @spec do_set_rank(rank, map) :: map
-  defp do_set_rank(rank, %{} = data) when rank in 1..4 do
+  defp do_set_rank(rank, %{} = data) when rank in 1..5 do
     Map.put(data, :rank, rank)
   end
 
-  @spec rank_route_by_type(Routes.Route.type_int()) :: rank
+  @spec rank_route_by_type(Routes.Route.t() | Routes.Route.type_int()) :: rank
+  defp rank_route_by_type(%Routes.Route{} = route) do
+    if Routes.Route.silver_line_rapid_or_local_transit?(route) do
+      1
+    else
+      rank_route_by_type(route.type)
+    end
+  end
+
   defp rank_route_by_type(0), do: 2
   defp rank_route_by_type(1), do: 2
   defp rank_route_by_type(2), do: 3
-  defp rank_route_by_type(3), do: 4
-  defp rank_route_by_type(4), do: 1
+  defp rank_route_by_type(4), do: 4
+  defp rank_route_by_type(3), do: 5
 end
