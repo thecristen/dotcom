@@ -17,7 +17,7 @@
   <div class="graph-legend today"></div><span>Today</span>
 </div>
 <span class="col-sm-9 col-xs-12">
-  <table class="table schedule-date-picker">
+  <table id="date-picker-calendar" class="table schedule-date-picker" role="region" tabindex="-1">
     <thead>
       <tr>
         <td colspan=7 class="month">

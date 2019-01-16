@@ -395,11 +395,8 @@ a {
   background-color: $holiday-color;
 }
 
+.schedule-selected,
 .schedule-today {
-  background-color: $today-color;
-}
-
-.schedule-selected {
   @extend %button-selected-color;
 }
 

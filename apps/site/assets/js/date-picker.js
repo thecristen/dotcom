@@ -31,12 +31,18 @@ export default function($) {
   // event handler for toggling
   const toggleDatePicker = ev => {
     ev.preventDefault();
-    if ($(".date-picker-container")[0].hasAttribute("hidden")) {
+    const expand = document
+      .querySelector(".date-picker-container")
+      .hasAttribute("hidden");
+    const datePickerEl = document.getElementById("date-filter");
+    if (expand) {
       show();
+      document.getElementById("date-picker-calendar").focus();
     } else {
       hide(false);
-      $(".date-picker-toggle").focus();
+      datePickerEl.focus();
     }
+    datePickerEl.setAttribute("aria-expanded", expand);
   };
 
   // setup toggle behavior
