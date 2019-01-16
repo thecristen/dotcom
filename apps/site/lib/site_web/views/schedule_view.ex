@@ -279,7 +279,7 @@ defmodule SiteWeb.ScheduleView do
 
   @doc "Prefix route name with route for bus lines"
   def route_header_text(%Route{type: 3, name: name} = route) do
-    if Route.silver_line_rapid_transit?(route) do
+    if Route.silver_line?(route) do
       ["Silver Line ", name]
     else
       content_tag :div, class: "bus-route-sign" do
@@ -293,7 +293,7 @@ defmodule SiteWeb.ScheduleView do
 
   @spec header_class(Route.t()) :: String.t()
   def header_class(%Route{type: 3} = route) do
-    if Route.silver_line_rapid_or_local_transit?(route) do
+    if Route.silver_line?(route) do
       do_header_class("silver-line")
     else
       do_header_class("bus")
@@ -314,7 +314,7 @@ defmodule SiteWeb.ScheduleView do
   @doc "Route sub text (long names for bus routes)"
   @spec route_header_description(Route.t()) :: String.t()
   def route_header_description(%Route{type: 3} = route) do
-    if Route.silver_line_rapid_transit?(route) do
+    if Route.silver_line?(route) do
       ""
     else
       content_tag :h2, class: "schedule__description" do
@@ -369,7 +369,7 @@ defmodule SiteWeb.ScheduleView do
 
   @spec route_tab_class(Route.t()) :: String.t()
   defp route_tab_class(%Route{type: 3} = route) do
-    if Route.silver_line_rapid_transit?(route) do
+    if Route.silver_line?(route) do
       ""
     else
       "header-tab--bus"
@@ -401,11 +401,11 @@ defmodule SiteWeb.ScheduleView do
   end
 
   @spec to_fare_atom(Route.t()) :: atom
-  def to_fare_atom(%Route{type: 3} = route) do
+  def to_fare_atom(%Route{type: 3, id: id}) do
     cond do
-      Route.silver_line_rapid_transit?(route) -> :subway
-      Route.inner_express?(route) -> :inner_express_bus
-      Route.outer_express?(route) -> :outer_express_bus
+      Fares.silver_line_rapid_transit?(id) -> :subway
+      Fares.inner_express?(id) -> :inner_express_bus
+      Fares.outer_express?(id) -> :outer_express_bus
       true -> :bus
     end
   end

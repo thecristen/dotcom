@@ -107,10 +107,12 @@ defmodule SiteWeb.ModeViewTest do
   end
 
   describe "bus_filter_atom/1 and bus_filter_range/2" do
-    @bus_routes [%Route{name: "SL1"}, %Route{name: "CT1"}, %Route{name: "99"}]
+    @bus_routes [%Route{name: "SL1", id: "741"}, %Route{name: "CT1"}, %Route{name: "99"}]
 
     test "Silver Line and Cross Town" do
-      assert [%Route{name: "SL1"}] == Enum.filter(@bus_routes, ModeView.bus_filter_atom(:sl))
+      assert [%Route{name: "SL1", id: "741"}] ==
+               Enum.filter(@bus_routes, ModeView.bus_filter_atom(:sl))
+
       assert [%Route{name: "CT1"}] == Enum.filter(@bus_routes, ModeView.bus_filter_atom(:ct))
     end
 

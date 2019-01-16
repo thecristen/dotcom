@@ -1,6 +1,6 @@
 defmodule Routes.RouteTest do
   use ExUnit.Case, async: true
-  alias Routes.Route
+  alias Routes.{Repo, Route}
   import Route
 
   describe "type_atom/1" do
@@ -143,51 +143,13 @@ defmodule Routes.RouteTest do
     end
   end
 
-  describe "express routes" do
-    defp sample(routes) do
-      routes
-      |> Enum.shuffle()
-      |> Enum.at(0)
-      |> (fn id -> %Route{id: id} end).()
-    end
-
-    test "inner_express?/1 returns true if a route id is in @inner_express_routes" do
-      assert inner_express?(sample(inner_express()))
-      refute inner_express?(sample(outer_express()))
-      refute inner_express?(%Route{id: "1"})
-    end
-
-    test "outer_express?/1 returns true if a route id is in @outer_express_routes" do
-      assert outer_express?(sample(outer_express()))
-      refute outer_express?(sample(inner_express()))
-      refute outer_express?(%Route{id: "1"})
-    end
-  end
-
-  describe "silver line rapid transit routes" do
-    test "silver_line_rapid_transit?/1 returns true if a route id is in @silver_line_rapid_transit_routes" do
-      assert silver_line_rapid_transit?(sample(silver_line_rapid_transit()))
-      refute silver_line_rapid_transit?(%Route{id: "751"})
-    end
-  end
-
-  describe "silver line rapid or local transit routes" do
-    test "silver_line_rapid_or_local_transit?/1 returns true if a route id is in @silver_line_rapid_transit_routes or @silver_line_local_routes" do
-      assert silver_line_rapid_or_local_transit?(sample(silver_line_rapid_transit()))
-      assert silver_line_rapid_or_local_transit?(%Route{id: "751"})
-      refute silver_line_rapid_or_local_transit?(%Route{id: "352"})
-    end
-  end
-
-  describe "silver line airport origin routes" do
-    test "inbound routes originating at airport are properly identified" do
-      airport_stops = ["17091", "27092", "17093", "17094", "17095"]
-
-      for origin_id <- airport_stops do
-        assert silver_line_airport_stop?(%Route{id: "741"}, origin_id)
+  describe "silver_line?/1" do
+    test "returns true if a route id is in @silver_line" do
+      for id <- silver_line() do
+        assert id |> Repo.get() |> silver_line?()
       end
 
-      refute silver_line_airport_stop?(%Route{id: "742"}, "17091")
+      refute "352" |> Repo.get() |> silver_line?()
     end
   end
 

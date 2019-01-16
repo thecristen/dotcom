@@ -195,7 +195,7 @@ defmodule SiteWeb.ModeView do
   end
 
   @spec bus_filter_atom(atom) :: (Route.t() -> boolean)
-  def bus_filter_atom(:sl), do: fn route -> route.name =~ "SL" end
+  def bus_filter_atom(:sl), do: &Route.silver_line?/1
   def bus_filter_atom(:ct), do: fn route -> route.name =~ "CT" end
 
   @spec bus_filter_range(integer, integer) :: (Route.t() -> boolean)

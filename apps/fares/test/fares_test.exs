@@ -56,4 +56,56 @@ defmodule FaresTest do
       end
     end
   end
+
+  describe "silver line rapid transit routes" do
+    test "silver_line_rapid_transit?/1 returns true if a route id is in @silver_line_rapid_transit" do
+      for id <- Fares.silver_line_rapid_transit() do
+        assert Fares.silver_line_rapid_transit?(id)
+      end
+
+      refute Fares.silver_line_rapid_transit?("751")
+    end
+  end
+
+  describe "express routes" do
+    test "inner_express?/1 returns true if a route id is in @inner_express_routes" do
+      for id <- Fares.inner_express() do
+        assert Fares.inner_express?(id)
+      end
+
+      for id <- Fares.outer_express() do
+        refute Fares.inner_express?(id)
+      end
+
+      refute Fares.inner_express?("1")
+    end
+
+    test "outer_express?/1 returns true if a route id is in @outer_express_routes" do
+      for id <- Fares.outer_express() do
+        assert Fares.outer_express?(id)
+      end
+
+      for id <- Fares.inner_express() do
+        refute Fares.outer_express?(id)
+      end
+
+      refute Fares.outer_express?("1")
+    end
+  end
+
+  describe "silver line airport origin routes" do
+    test "inbound routes originating at airport are properly identified" do
+      airport_stops = ["17091", "27092", "17093", "17094", "17095"]
+
+      for origin_id <- airport_stops do
+        assert Fares.silver_line_airport_stop?("741", origin_id)
+      end
+
+      refute Fares.silver_line_airport_stop?("742", "17091")
+    end
+
+    test "origin_id can be nil" do
+      refute Fares.silver_line_airport_stop?("741", nil)
+    end
+  end
 end

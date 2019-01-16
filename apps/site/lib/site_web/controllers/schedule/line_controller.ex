@@ -62,7 +62,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   end
 
   defp bus_type(route),
-    do: if(Route.silver_line_rapid_transit?(route), do: "Silver Line", else: "bus")
+    do: if(Route.silver_line?(route), do: "Silver Line", else: "bus")
 
   defp route_type(route) do
     route

@@ -1,4 +1,16 @@
 defmodule Fares do
+  alias Routes.Route
+  alias Stops.Stop
+
+  @silver_line_rapid_transit ~w(741 742 743 746)
+  @silver_line_rapid_transit_set MapSet.new(@silver_line_rapid_transit)
+
+  @inner_express_routes ~w(170 325 326 351 424 426 428 434 448 449 450 459 501 502 503 504 553 554 556 558)
+  @inner_express_route_set MapSet.new(@inner_express_routes)
+
+  @outer_express_routes ~w(352 354 505)
+  @outer_express_route_set MapSet.new(@outer_express_routes)
+
   @type ferry_name ::
           :ferry_cross_harbor | :ferry_inner_harbor | :commuter_ferry_logan | :commuter_ferry
 
@@ -64,4 +76,30 @@ defmodule Fares do
   defp calculate_ferry(_origin, _destination) do
     :commuter_ferry
   end
+
+  @spec silver_line_rapid_transit?(Route.id_t()) :: boolean
+  def silver_line_rapid_transit?(<<id::binary>>),
+    do: id in @silver_line_rapid_transit_set
+
+  @spec silver_line_airport_stop?(Route.id_t(), Stop.id_t() | nil) :: boolean
+  def silver_line_airport_stop?(route_id, origin_id)
+  def silver_line_airport_stop?(_, nil), do: false
+  def silver_line_airport_stop?("741", "17091"), do: true
+  def silver_line_airport_stop?("741", "27092"), do: true
+  def silver_line_airport_stop?("741", "17093"), do: true
+  def silver_line_airport_stop?("741", "17094"), do: true
+  def silver_line_airport_stop?("741", "17095"), do: true
+  def silver_line_airport_stop?(<<_route_id::binary>>, <<_origin_id::binary>>), do: false
+
+  @spec inner_express?(Route.id_t()) :: boolean
+  def inner_express?(<<id::binary>>), do: id in @inner_express_route_set
+
+  @spec outer_express?(Route.id_t()) :: boolean
+  def outer_express?(<<id::binary>>), do: id in @outer_express_route_set
+
+  def silver_line_rapid_transit, do: @silver_line_rapid_transit
+
+  def inner_express, do: @inner_express_routes
+
+  def outer_express, do: @outer_express_routes
 end

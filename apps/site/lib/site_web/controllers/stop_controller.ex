@@ -72,7 +72,7 @@ defmodule SiteWeb.StopController do
 
   @spec coerce_sl_rapid_transit_to_subway(Routes.Route.t()) :: Routes.Route.t()
   defp coerce_sl_rapid_transit_to_subway(route) do
-    if Enum.member?(Route.silver_line_rapid_transit(), route.id) do
+    if Fares.silver_line_rapid_transit?(route.id) do
       %{route | type: 1}
     else
       route

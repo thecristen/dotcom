@@ -3,6 +3,7 @@ defmodule SiteWeb.FareView do
 
   alias Fares.{Fare, Summary}
   alias SiteWeb.PartialView.SvgIconWithCircle
+  alias Util.AndOr
 
   defdelegate description(fare, assigns), to: SiteWeb.FareView.Description
 
@@ -118,11 +119,11 @@ defmodule SiteWeb.FareView do
 
   @spec callout(Fare.t()) :: String.t() | iolist
   def callout(%Fare{name: :inner_express_bus}) do
-    [Util.AndOr.join(Routes.Route.inner_express(), :and), "."]
+    [AndOr.join(Fares.inner_express(), :and), "."]
   end
 
   def callout(%Fare{name: :outer_express_bus}) do
-    [Util.AndOr.join(Routes.Route.outer_express(), :and), "."]
+    [AndOr.join(Fares.outer_express(), :and), "."]
   end
 
   def callout(%Fare{}), do: ""

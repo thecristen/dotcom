@@ -35,14 +35,8 @@ defmodule Routes.Route do
   @type subway_lines_type :: :orange_line | :red_line | :green_line | :blue_line | :mattapan_line
   @type branch_name :: String.t() | nil
 
-  @inner_express_routes ~w(170 325 326 351 424 426 428 434 448 449 450 459 501 502 503 504 553 554 556 558)
-  @inner_express_route_set MapSet.new(@inner_express_routes)
-  @outer_express_routes ~w(352 354 505)
-  @outer_express_route_set MapSet.new(@outer_express_routes)
-  @silver_line_rapid_transit_routes ~w(741 742 743 746)
-  @silver_line_rapid_transit_route_set MapSet.new(@silver_line_rapid_transit_routes)
-  @silver_line_local_routes ~w(749 751)
-  @silver_line_local_route_set MapSet.new(@silver_line_local_routes)
+  @silver_line ~w(741 742 743 746 749 751)
+  @silver_line_set MapSet.new(@silver_line)
 
   @spec type_atom(t | type_int | String.t()) :: gtfs_route_type
   def type_atom(%__MODULE__{type: type}), do: type_atom(type)
@@ -186,31 +180,9 @@ defmodule Routes.Route do
     end
   end
 
-  def inner_express, do: @inner_express_routes
-  def outer_express, do: @outer_express_routes
-  def silver_line_rapid_transit, do: @silver_line_rapid_transit_routes
+  def silver_line?(%__MODULE__{id: id}), do: id in @silver_line_set
 
-  @spec inner_express?(t) :: boolean
-  def inner_express?(%__MODULE__{id: id}), do: id in @inner_express_route_set
-
-  @spec outer_express?(t) :: boolean
-  def outer_express?(%__MODULE__{id: id}), do: id in @outer_express_route_set
-
-  @spec silver_line_rapid_transit?(t) :: boolean
-  def silver_line_rapid_transit?(%__MODULE__{id: id}),
-    do: id in @silver_line_rapid_transit_route_set
-
-  @spec silver_line_rapid_or_local_transit?(t) :: boolean
-  def silver_line_rapid_or_local_transit?(%__MODULE__{id: id}),
-    do: id in @silver_line_rapid_transit_route_set or id in @silver_line_local_route_set
-
-  @spec silver_line_airport_stop?(t, String.t()) :: boolean
-  def silver_line_airport_stop?(%__MODULE__{id: "741"}, "17091"), do: true
-  def silver_line_airport_stop?(%__MODULE__{id: "741"}, "27092"), do: true
-  def silver_line_airport_stop?(%__MODULE__{id: "741"}, "17093"), do: true
-  def silver_line_airport_stop?(%__MODULE__{id: "741"}, "17094"), do: true
-  def silver_line_airport_stop?(%__MODULE__{id: "741"}, "17095"), do: true
-  def silver_line_airport_stop?(_route, _origin_id), do: false
+  def silver_line, do: @silver_line
 end
 
 defimpl Phoenix.Param, for: Routes.Route do
