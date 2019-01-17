@@ -34,7 +34,8 @@ export const parseObject = data => {
   if (typeof rotation === "number") icon.rotation = rotation;
   if (typeof strokeOpacity === "number") icon.strokeOpacity = strokeOpacity;
   if (typeof strokeWeight === "number") icon.strokeWeight = strokeWeight;
-  if (labelOrigin && typeof labelOrigin === "object") icon.labelOrigin = getPoint(labelOrigin);
+  if (labelOrigin && typeof labelOrigin === "object")
+    icon.labelOrigin = getPoint(labelOrigin);
   if (anchor && typeof anchor === "object") icon.anchor = getPoint(anchor);
   if (typeof path === "string") icon.path = getPath(path);
 

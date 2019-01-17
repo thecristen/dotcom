@@ -110,7 +110,8 @@ describe("AlgoliaResult", () => {
     },
     powerpoint: {
       search_api_datasource: "entity:file",
-      _file_type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      _file_type:
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
       _file_uri: "public://powerpoint.ppt",
       content_title: "Powerpoint Title",
       file_name_raw: "Powerpoint file name",
@@ -142,10 +143,7 @@ describe("AlgoliaResult", () => {
   const locationHits = {
     bostonCommon: {
       description: "Boston Common, Tremont Street, Boston, MA, USA",
-      matched_substrings: [
-        { length: 2, offset: 3 },
-        { length: 5, offset: 9 }
-      ],
+      matched_substrings: [{ length: 2, offset: 3 }, { length: 5, offset: 9 }]
     }
   };
   const routeHits = {
@@ -279,13 +277,13 @@ describe("AlgoliaResult", () => {
             value: "North Station"
           }
         }
-      },
+      }
     },
     busStop: {
       stop: {
         id: "place-bus",
         name: "Bus Stop",
-        routes: [{name: "Bus Route", id: "bus-route", type: 3}]
+        routes: [{ name: "Bus Route", id: "bus-route", type: 3 }]
       },
       _highlightResult: {
         stop: {
@@ -293,9 +291,9 @@ describe("AlgoliaResult", () => {
             value: "Bus Stop"
           }
         }
-      },
+      }
     }
-  }
+  };
 
   jsdom();
   before(() => {
@@ -316,105 +314,224 @@ describe("AlgoliaResult", () => {
     `;
   });
   describe("getIcon", () => {
-    it('renders correct icon for Drupal results', () => {
-      assert.include(AlgoliaResult.getIcon(drupalHits.searchResult, "drupal"), "<span");
-      assert.include(AlgoliaResult.getIcon(drupalHits.searchResult, "drupal"), "</span>");
-      assert.include(AlgoliaResult.getIcon(drupalHits.searchResult, "drupal"), "fa-info");
-      assert.include(AlgoliaResult.getIcon(drupalHits.newsEntry, "drupal"), "fa-newspaper-o");
-      assert.include(AlgoliaResult.getIcon(drupalHits.event, "drupal"), "fa-calendar");
-      assert.include(AlgoliaResult.getIcon(drupalHits.page, "drupal"), "fa-info");
-      assert.include(AlgoliaResult.getIcon(drupalHits.landingPage, "drupal"), "fa-info");
-      assert.include(AlgoliaResult.getIcon(drupalHits.person, "drupal"), "fa-user");
-      assert.include(AlgoliaResult.getIcon(drupalHits.other, "drupal"), "fa-info");
-      assert.include(AlgoliaResult.getIcon(drupalHits.pdf, "drupal"), "fa-file-pdf-o");
-      assert.include(AlgoliaResult.getIcon(drupalHits.excel, "drupal"), "fa-file-excel-o");
-      assert.include(AlgoliaResult.getIcon(drupalHits.powerpoint, "drupal"), "fa-file-powerpoint-o");
-      assert.include(AlgoliaResult.getIcon(drupalHits.unrecognizedFileType, "drupal"), "fa-file-o");
+    it("renders correct icon for Drupal results", () => {
+      assert.include(
+        AlgoliaResult.getIcon(drupalHits.searchResult, "drupal"),
+        "<span"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(drupalHits.searchResult, "drupal"),
+        "</span>"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(drupalHits.searchResult, "drupal"),
+        "fa-info"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(drupalHits.newsEntry, "drupal"),
+        "fa-newspaper-o"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(drupalHits.event, "drupal"),
+        "fa-calendar"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(drupalHits.page, "drupal"),
+        "fa-info"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(drupalHits.landingPage, "drupal"),
+        "fa-info"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(drupalHits.person, "drupal"),
+        "fa-user"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(drupalHits.other, "drupal"),
+        "fa-info"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(drupalHits.pdf, "drupal"),
+        "fa-file-pdf-o"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(drupalHits.excel, "drupal"),
+        "fa-file-excel-o"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(drupalHits.powerpoint, "drupal"),
+        "fa-file-powerpoint-o"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(drupalHits.unrecognizedFileType, "drupal"),
+        "fa-file-o"
+      );
     });
     it("renders correct icon for route type", () => {
-      expect(AlgoliaResult.getIcon(routeHits.commuterRail, "routes")).to.equal("<span>commuter rail icon</span>");
-      expect(AlgoliaResult.getIcon(routeHits.bus, "routes")).to.equal("<span>bus icon</span>");
-      assert.equal(AlgoliaResult.getIcon(routeHits.ferry, "routes"), "<span>ferry icon</span>");
-      expect(AlgoliaResult.getIcon(routeHits.redLine, "routes")).to.equal("<span>red line icon</span>");
-      expect(AlgoliaResult.getIcon(routeHits.blueLine, "routes")).to.equal("<span>blue line icon</span>");
-      expect(AlgoliaResult.getIcon(routeHits.orangeLine, "routes")).to.equal("<span>orange line icon</span>");
-      expect(AlgoliaResult.getIcon(routeHits.greenLineC, "routes")).to.equal("<span>green line C icon</span>");
-      expect(AlgoliaResult.getIcon(routeHits.mattapan, "routes")).to.equal("<span>mattapan line icon</span>");
+      expect(AlgoliaResult.getIcon(routeHits.commuterRail, "routes")).to.equal(
+        "<span>commuter rail icon</span>"
+      );
+      expect(AlgoliaResult.getIcon(routeHits.bus, "routes")).to.equal(
+        "<span>bus icon</span>"
+      );
+      assert.equal(
+        AlgoliaResult.getIcon(routeHits.ferry, "routes"),
+        "<span>ferry icon</span>"
+      );
+      expect(AlgoliaResult.getIcon(routeHits.redLine, "routes")).to.equal(
+        "<span>red line icon</span>"
+      );
+      expect(AlgoliaResult.getIcon(routeHits.blueLine, "routes")).to.equal(
+        "<span>blue line icon</span>"
+      );
+      expect(AlgoliaResult.getIcon(routeHits.orangeLine, "routes")).to.equal(
+        "<span>orange line icon</span>"
+      );
+      expect(AlgoliaResult.getIcon(routeHits.greenLineC, "routes")).to.equal(
+        "<span>green line C icon</span>"
+      );
+      expect(AlgoliaResult.getIcon(routeHits.mattapan, "routes")).to.equal(
+        "<span>mattapan line icon</span>"
+      );
     });
     it("renders stop icon for stops", () => {
-      expect(AlgoliaResult.getIcon(stopHits.northStation, "stops")).to.equal("<span>stop icon</span>");
-      expect(AlgoliaResult.getIcon(stopHits.busStop, "stops")).to.equal("<span>stop icon</span>");
+      expect(AlgoliaResult.getIcon(stopHits.northStation, "stops")).to.equal(
+        "<span>stop icon</span>"
+      );
+      expect(AlgoliaResult.getIcon(stopHits.busStop, "stops")).to.equal(
+        "<span>stop icon</span>"
+      );
     });
   });
 
   describe("getTitle", () => {
     describe("for routes", () => {
       it("returns the route name", () => {
-        expect(AlgoliaResult.getTitle(routeHits.redLine, "routes")).to.equal("Red Line");
-        expect(AlgoliaResult.getTitle(routeHits.commuterRail, "routes")).to.equal("Fitchburg Line");
+        expect(AlgoliaResult.getTitle(routeHits.redLine, "routes")).to.equal(
+          "Red Line"
+        );
+        expect(
+          AlgoliaResult.getTitle(routeHits.commuterRail, "routes")
+        ).to.equal("Fitchburg Line");
       });
     });
 
     describe("for locations", function() {
       it("properly highlights search results from google locations", () => {
-        expect(AlgoliaResult.getTitle(locationHits.bostonCommon, "locations")).to.equal("Bos<em>to</em>n Co<em>mmon,</em> Tremont Street, Boston, MA, USA")
+        expect(
+          AlgoliaResult.getTitle(locationHits.bostonCommon, "locations")
+        ).to.equal(
+          "Bos<em>to</em>n Co<em>mmon,</em> Tremont Street, Boston, MA, USA"
+        );
       });
     });
 
     describe("for stops", () => {
       it("returns the stop name", () => {
-        expect(AlgoliaResult.getTitle(stopHits.northStation, "stops")).to.equal("North Station");
-        expect(AlgoliaResult.getTitle(stopHits.busStop, "stops")).to.equal("Bus Stop");
+        expect(AlgoliaResult.getTitle(stopHits.northStation, "stops")).to.equal(
+          "North Station"
+        );
+        expect(AlgoliaResult.getTitle(stopHits.busStop, "stops")).to.equal(
+          "Bus Stop"
+        );
       });
     });
 
     describe("for drupal content", () => {
       it("returns file name for files", () => {
-        expect(AlgoliaResult.getTitle(drupalHits.pdf, "drupal")).to.equal("PDF file name");
-        expect(AlgoliaResult.getTitle(drupalHits.excel, "drupal")).to.equal("Excel file name");
-        expect(AlgoliaResult.getTitle(drupalHits.powerpoint, "drupal")).to.equal("Powerpoint file name");
-        expect(AlgoliaResult.getTitle(drupalHits.unrecognizedFileType, "drupal")).to.equal("Unrecognized file name");
+        expect(AlgoliaResult.getTitle(drupalHits.pdf, "drupal")).to.equal(
+          "PDF file name"
+        );
+        expect(AlgoliaResult.getTitle(drupalHits.excel, "drupal")).to.equal(
+          "Excel file name"
+        );
+        expect(
+          AlgoliaResult.getTitle(drupalHits.powerpoint, "drupal")
+        ).to.equal("Powerpoint file name");
+        expect(
+          AlgoliaResult.getTitle(drupalHits.unrecognizedFileType, "drupal")
+        ).to.equal("Unrecognized file name");
       });
 
       it("returns content title for all other content types", () => {
-        expect(AlgoliaResult.getTitle(drupalHits.searchResult, "drupal")).to.equal("Search Result Title");
-        expect(AlgoliaResult.getTitle(drupalHits.newsEntry, "drupal")).to.equal("News Entry Title");
-        expect(AlgoliaResult.getTitle(drupalHits.event, "drupal")).to.equal("Event Title");
-        expect(AlgoliaResult.getTitle(drupalHits.page, "drupal")).to.equal("Page Title");
-        expect(AlgoliaResult.getTitle(drupalHits.landingPage, "drupal")).to.equal("Landing Page Title");
-        expect(AlgoliaResult.getTitle(drupalHits.person, "drupal")).to.equal("Person Name");
-        expect(AlgoliaResult.getTitle(drupalHits.other, "drupal")).to.equal("Other Title");
+        expect(
+          AlgoliaResult.getTitle(drupalHits.searchResult, "drupal")
+        ).to.equal("Search Result Title");
+        expect(AlgoliaResult.getTitle(drupalHits.newsEntry, "drupal")).to.equal(
+          "News Entry Title"
+        );
+        expect(AlgoliaResult.getTitle(drupalHits.event, "drupal")).to.equal(
+          "Event Title"
+        );
+        expect(AlgoliaResult.getTitle(drupalHits.page, "drupal")).to.equal(
+          "Page Title"
+        );
+        expect(
+          AlgoliaResult.getTitle(drupalHits.landingPage, "drupal")
+        ).to.equal("Landing Page Title");
+        expect(AlgoliaResult.getTitle(drupalHits.person, "drupal")).to.equal(
+          "Person Name"
+        );
+        expect(AlgoliaResult.getTitle(drupalHits.other, "drupal")).to.equal(
+          "Other Title"
+        );
       });
     });
   });
 
   describe("getUrl returns correct URL", () => {
     it("for routes", () => {
-      expect(AlgoliaResult.getUrl(routeHits.redLine, "routes")).to.equal("/schedules/Red");
-      expect(AlgoliaResult.getUrl(routeHits.greenLineC, "routes")).to.equal("/schedules/Green-C");
+      expect(AlgoliaResult.getUrl(routeHits.redLine, "routes")).to.equal(
+        "/schedules/Red"
+      );
+      expect(AlgoliaResult.getUrl(routeHits.greenLineC, "routes")).to.equal(
+        "/schedules/Green-C"
+      );
     });
     it("for stops", () => {
-      expect(AlgoliaResult.getUrl(stopHits.northStation, "stops")).to.equal("/stops/place-north");
-      expect(AlgoliaResult.getUrl(stopHits.busStop, "stops")).to.equal("/stops/place-bus");
+      expect(AlgoliaResult.getUrl(stopHits.northStation, "stops")).to.equal(
+        "/stops/place-north"
+      );
+      expect(AlgoliaResult.getUrl(stopHits.busStop, "stops")).to.equal(
+        "/stops/place-bus"
+      );
     });
     it("for drupal content", () => {
-      expect(AlgoliaResult.getUrl(drupalHits.searchResult, "drupal")).to.equal("/search/result");
-      expect(AlgoliaResult.getUrl(drupalHits.newsEntry, "drupal")).to.equal("/news/2018-03-30/entry");
-      expect(AlgoliaResult.getUrl(drupalHits.event, "drupal")).to.equal("/events/2018-03-29/event");
-      expect(AlgoliaResult.getUrl(drupalHits.page, "drupal")).to.equal("/pages/page");
-      expect(AlgoliaResult.getUrl(drupalHits.landingPage, "drupal")).to.equal("/landing_page");
-      expect(AlgoliaResult.getUrl(drupalHits.person, "drupal")).to.equal("/people/person");
-      expect(AlgoliaResult.getUrl(drupalHits.other, "drupal")).to.equal("/other/page");
+      expect(AlgoliaResult.getUrl(drupalHits.searchResult, "drupal")).to.equal(
+        "/search/result"
+      );
+      expect(AlgoliaResult.getUrl(drupalHits.newsEntry, "drupal")).to.equal(
+        "/news/2018-03-30/entry"
+      );
+      expect(AlgoliaResult.getUrl(drupalHits.event, "drupal")).to.equal(
+        "/events/2018-03-29/event"
+      );
+      expect(AlgoliaResult.getUrl(drupalHits.page, "drupal")).to.equal(
+        "/pages/page"
+      );
+      expect(AlgoliaResult.getUrl(drupalHits.landingPage, "drupal")).to.equal(
+        "/landing_page"
+      );
+      expect(AlgoliaResult.getUrl(drupalHits.person, "drupal")).to.equal(
+        "/people/person"
+      );
+      expect(AlgoliaResult.getUrl(drupalHits.other, "drupal")).to.equal(
+        "/other/page"
+      );
     });
   });
 
   describe("getFeatureIcons returns correct content date", () => {
     it("for news", () => {
-      expect(AlgoliaResult.getFeatureIcons(drupalHits.newsEntry, "news")[0]).to.contain(["Mar 30, 2018"]);
+      expect(
+        AlgoliaResult.getFeatureIcons(drupalHits.newsEntry, "news")[0]
+      ).to.contain(["Mar 30, 2018"]);
     });
     it("for news", () => {
-      expect(AlgoliaResult.getFeatureIcons(drupalHits.event, "events")[0]).to.contain(["Mar 29, 2018"]);
+      expect(
+        AlgoliaResult.getFeatureIcons(drupalHits.event, "events")[0]
+      ).to.contain(["Mar 29, 2018"]);
     });
   });
-
 });

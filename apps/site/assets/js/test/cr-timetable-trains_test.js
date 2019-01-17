@@ -1,10 +1,7 @@
 import jsdom from "mocha-jsdom";
 import sinon from "sinon";
 import { expect } from "chai";
-import {
-  CRTimetableTrains,
-  channelDataId
-} from "../cr-timetable-trains";
+import { CRTimetableTrains, channelDataId } from "../cr-timetable-trains";
 import { trainIcon } from "../cr-timetable-train-icons";
 
 describe("CRTimetableTrains", () => {
@@ -108,7 +105,7 @@ describe("CRTimetableTrains", () => {
             },
             marker: {
               tooltip:
-              "<div><div><p class='prediction-tooltip'>Middleborough/Lakeville train 028 is on the way to Holbrook/Randolph</p></div>"
+                "<div><div><p class='prediction-tooltip'>Middleborough/Lakeville train 028 is on the way to Holbrook/Randolph</p></div>"
             }
           }
         ]
@@ -153,7 +150,8 @@ describe("CRTimetableTrains", () => {
               }
             },
             marker: {
-              tooltip: "<div><div><p class='prediction-tooltip'>Middleborough/Lakeville train 028 has arrived at Brockton</p></div>"
+              tooltip:
+                "<div><div><p class='prediction-tooltip'>Middleborough/Lakeville train 028 has arrived at Brockton</p></div>"
             }
           }
         ]

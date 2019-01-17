@@ -6,7 +6,7 @@ describe("trip-plan", () => {
   var $;
   jsdom();
 
-  beforeEach( () => {
+  beforeEach(() => {
     $ = jsdom.rerequire("jquery");
 
     $("body").append(`
@@ -18,12 +18,21 @@ describe("trip-plan", () => {
 
   describe("autocomplete returns", () => {
     const mapEvent = {
-      addListener: (autocomplete, event, callback) => { autocomplete.events[event] = callback; }
+      addListener: (autocomplete, event, callback) => {
+        autocomplete.events[event] = callback;
+      }
     };
 
     it("fills the form with the lat/lng", () => {
       const place = {
-        geometry: { location: { lat: () => { return 42.3428 }, lng: () => -71.0857 } }
+        geometry: {
+          location: {
+            lat: () => {
+              return 42.3428;
+            },
+            lng: () => -71.0857
+          }
+        }
       };
       const autocomplete = {
         getPlace: () => place,
@@ -43,7 +52,9 @@ describe("trip-plan", () => {
 
     it("fills the form with empty lat/lng when the result is empty", () => {
       const autocomplete = {
-        getPlace: () => { return {}; },
+        getPlace: () => {
+          return {};
+        },
         events: {}
       };
 

@@ -11,11 +11,7 @@ import {
 
 describe("animated-placeholder", function() {
   jsdom();
-  const placeholders = [
-    "placeholder 1",
-    "placeholder 2",
-    "placeholder 3"
-  ];
+  const placeholders = ["placeholder 1", "placeholder 2", "placeholder 3"];
 
   beforeEach(function() {
     paused["input"] = false;
@@ -32,7 +28,9 @@ describe("animated-placeholder", function() {
       expect(result).to.equal(true);
       const placeholder = document.getElementById(placeholderId);
       expect(placeholder).to.be.an.instanceOf(window.HTMLDivElement);
-      expect(placeholder.classList.contains("c-form__animated-placeholder")).to.equal(true);
+      expect(
+        placeholder.classList.contains("c-form__animated-placeholder")
+      ).to.equal(true);
     });
 
     it("does not add another placeholder if one already exists", function() {
@@ -70,10 +68,16 @@ describe("animated-placeholder", function() {
 
   describe("animatePlaceholders", function() {
     it("adds placeholder and calls run()", function() {
-      expect(document.getElementsByClassName("c-form__input--with-animated-placeholder").item(0)).to.equal(null);
+      expect(
+        document
+          .getElementsByClassName("c-form__input--with-animated-placeholder")
+          .item(0)
+      ).to.equal(null);
       const result = animatePlaceholder("input", placeholders, 100);
       const input = document.getElementById("input");
-      expect(input.classList.contains("c-form__input--with-animated-placeholder")).to.be.true;
+      expect(
+        input.classList.contains("c-form__input--with-animated-placeholder")
+      ).to.be.true;
       expect(result.attr("id")).to.equal(placeholderId);
     });
 

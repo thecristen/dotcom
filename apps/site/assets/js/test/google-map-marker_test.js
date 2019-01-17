@@ -12,7 +12,7 @@ describe("Marker", () => {
     markers: [],
     paths: [],
     zoom: 17
-  }
+  };
 
   beforeEach(() => {
     window.google = google;
@@ -28,7 +28,7 @@ describe("Marker", () => {
         id: "marker-id",
         latitude: 42,
         longitude: -71,
-        "visible?": true,
+        "visible?": true
       });
       expect(marker).to.be.an.instanceOf(Marker);
       expect(marker.marker).to.be.an.instanceOf(window.google.maps.Marker);
@@ -40,7 +40,7 @@ describe("Marker", () => {
         id: "marker-id",
         latitude: 42,
         longitude: -71,
-        "visible?": false,
+        "visible?": false
       });
       expect(marker.marker).to.equal(null);
     });
@@ -53,7 +53,7 @@ describe("Marker", () => {
         id: "marker-id",
         latitude: 42,
         longitude: -71,
-        "visible?": false,
+        "visible?": false
       });
       sinon.stub(marker, "slowMove");
 
@@ -72,7 +72,7 @@ describe("Marker", () => {
         id: "marker-id",
         latitude: 42,
         longitude: -71,
-        "visible?": true,
+        "visible?": true
       });
       sinon.stub(marker, "slowMove");
       marker.update({

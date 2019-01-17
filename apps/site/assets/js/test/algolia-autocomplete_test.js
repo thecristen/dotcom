@@ -25,11 +25,13 @@ describe("AlgoliaAutocomplete", () => {
     }
   };
   const parent = {
-    getParams: () => { return {
-      from: "stop-search",
-      query: ""
-    }; }
-  }
+    getParams: () => {
+      return {
+        from: "stop-search",
+        query: ""
+      };
+    }
+  };
 
   beforeEach(() => {
     document.body.innerHTML = `
@@ -41,21 +43,25 @@ describe("AlgoliaAutocomplete", () => {
     window.jQuery = jsdom.rerequire("jquery");
     window.Turbolinks = {
       visit: sinon.spy()
-    }
-    window.encodeURIComponent = (string) => {
+    };
+    window.encodeURIComponent = string => {
       return string.replace(/\s/g, "%20").replace(/\&/g, "%26");
-    }
+    };
   });
   it("constructor does not initialize autocomplete", () => {
     const ac = new AlgoliaAutocomplete("id", selectors, indices, parent);
-    expect(ac._selectors.resultsContainer).to.equal(selectors.input + "-autocomplete-results");
+    expect(ac._selectors.resultsContainer).to.equal(
+      selectors.input + "-autocomplete-results"
+    );
     expect(ac._indices).to.equal(indices);
     expect(ac._autocomplete).to.equal(null);
   });
 
   describe("init", () => {
     it("initializes autocomplete if input exists", () => {
-      expect(document.getElementById(selectors.input)).to.be.an.instanceOf(window.HTMLInputElement);
+      expect(document.getElementById(selectors.input)).to.be.an.instanceOf(
+        window.HTMLInputElement
+      );
       const ac = new AlgoliaAutocomplete("id", selectors, indices, parent);
       const client = new Algolia(queries, queryParams);
       ac.init(client);
@@ -77,7 +83,7 @@ describe("AlgoliaAutocomplete", () => {
         }
       };
       expect(callback.called).to.be.false;
-      ac._onResults(callback, "stops", results)
+      ac._onResults(callback, "stops", results);
       expect(callback.called).to.be.true;
       expect(callback.args[0][0]).to.eql(["success"]);
     });
@@ -90,8 +96,8 @@ describe("AlgoliaAutocomplete", () => {
       expect(ac._highlightedHit).to.equal(null);
       const hit = {
         url: "/success"
-      }
-      ac.onCursorChanged({originalEvent: {_args: [hit, indices[0]]}});
+      };
+      ac.onCursorChanged({ originalEvent: { _args: [hit, indices[0]] } });
       expect(ac._highlightedHit.hit).to.equal(hit);
       expect(ac._highlightedHit.index).to.equal(indices[0]);
     });
@@ -115,52 +121,77 @@ describe("AlgoliaAutocomplete", () => {
   describe("clickFirstResult", () => {
     describe("when results exist:", () => {
       it("clicks the first result of the first index with hits", () => {
-        const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], parent);
+        const ac = new AlgoliaAutocomplete(
+          "id",
+          selectors,
+          ["stops", "locations"],
+          parent
+        );
         ac.init({});
         ac._results = {
           stops: {
-            hits: [{
-              url: "/stops",
-              stop: {
-                id: "123"
+            hits: [
+              {
+                url: "/stops",
+                stop: {
+                  id: "123"
+                }
               }
-            }]
+            ]
           },
           locations: {
-            hits: [{
-              url: "/locations"
-            }]
+            hits: [
+              {
+                url: "/locations"
+              }
+            ]
           }
         };
         expect(window.Turbolinks.visit.called).to.be.false;
         ac.clickFirstResult();
         expect(window.Turbolinks.visit.called).to.be.true;
-        expect(window.Turbolinks.visit.args[0][0]).to.equal("/stops/123?from=stop-search&query=");
+        expect(window.Turbolinks.visit.args[0][0]).to.equal(
+          "/stops/123?from=stop-search&query="
+        );
       });
 
       it("finds the first index with results if some are empty", () => {
-        const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "routes"], parent);
+        const ac = new AlgoliaAutocomplete(
+          "id",
+          selectors,
+          ["stops", "routes"],
+          parent
+        );
         ac.init({});
         ac._results = {
           stops: {
             hits: []
           },
           routes: {
-            hits: [{
-              route: {
-                id: "123"
+            hits: [
+              {
+                route: {
+                  id: "123"
+                }
               }
-            }]
+            ]
           }
         };
         expect(window.Turbolinks.visit.called).to.be.false;
         ac.clickFirstResult();
         expect(window.Turbolinks.visit.called).to.be.true;
-        expect(window.Turbolinks.visit.args[0][0]).to.equal("/schedules/123?from=stop-search&query=");
+        expect(window.Turbolinks.visit.args[0][0]).to.equal(
+          "/schedules/123?from=stop-search&query="
+        );
       });
 
       it("does nothing if results list is empty", () => {
-        const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], parent);
+        const ac = new AlgoliaAutocomplete(
+          "id",
+          selectors,
+          ["stops", "locations"],
+          parent
+        );
         ac.init({});
         ac._results = {
           stops: {
@@ -178,7 +209,12 @@ describe("AlgoliaAutocomplete", () => {
 
     describe("when results do not exist", () => {
       it("does nothing", () => {
-        const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], parent);
+        const ac = new AlgoliaAutocomplete(
+          "id",
+          selectors,
+          ["stops", "locations"],
+          parent
+        );
         ac.init({});
         expect(Object.keys(ac._results)).to.have.members([]);
         expect(window.Turbolinks.visit.called).to.be.false;
@@ -204,41 +240,59 @@ describe("AlgoliaAutocomplete", () => {
         expect(window.Turbolinks.visit.called).to.be.false;
         ac.clickHighlightedOrFirstResult();
         expect(window.Turbolinks.visit.called).to.be.true;
-        expect(window.Turbolinks.visit.args[0][0]).to.equal("/stops/123?from=stop-search&query=");
+        expect(window.Turbolinks.visit.args[0][0]).to.equal(
+          "/stops/123?from=stop-search&query="
+        );
       });
     });
 
     describe("when this._highlightedHit is null", () => {
       describe("and this._results has results", () => {
         it("visits the url of the first index's results that we get from AlgoliaResult.getUrl", () => {
-          const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], parent);
+          const ac = new AlgoliaAutocomplete(
+            "id",
+            selectors,
+            ["stops", "locations"],
+            parent
+          );
           ac.init({});
           ac._results = {
             stops: {
-              hits: [{
-                stop: {
-                  id: "123",
+              hits: [
+                {
+                  stop: {
+                    id: "123"
+                  }
                 }
-              }]
+              ]
             },
             locations: {
-              hits: [{
-                url: "/fail"
-              }]
+              hits: [
+                {
+                  url: "/fail"
+                }
+              ]
             }
           };
           expect(ac._highlightedHit).to.equal(null);
           expect(window.Turbolinks.visit.called).to.be.false;
           ac.clickHighlightedOrFirstResult();
           expect(window.Turbolinks.visit.called).to.be.true;
-          expect(window.Turbolinks.visit.args[0][0]).to.equal("/stops/123?from=stop-search&query=");
+          expect(window.Turbolinks.visit.args[0][0]).to.equal(
+            "/stops/123?from=stop-search&query="
+          );
         });
       });
     });
 
     describe("and this._results has no results", () => {
       it("does nothing", () => {
-        const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], parent);
+        const ac = new AlgoliaAutocomplete(
+          "id",
+          selectors,
+          ["stops", "locations"],
+          parent
+        );
         ac.init({});
         expect(Object.keys(ac._results)).to.have.members([]);
         expect(ac._highlightedHit).to.equal(null);
@@ -250,13 +304,18 @@ describe("AlgoliaAutocomplete", () => {
   });
 
   describe("datasetSource", () => {
-    it("returns a callback that performs a search", (done) => {
-      const ac = new AlgoliaAutocomplete("id", selectors, ["stops", "locations"], parent);
+    it("returns a callback that performs a search", done => {
+      const ac = new AlgoliaAutocomplete(
+        "id",
+        selectors,
+        ["stops", "locations"],
+        parent
+      );
       const client = new Algolia(queries, queryParams);
       client._sendQueries = sinon.stub();
       client._sendQueries.resolves({
-        results: [{hits: []}]
-      })
+        results: [{ hits: [] }]
+      });
       ac.init(client);
       expect(Object.keys(ac._results)).to.have.members([]);
 
@@ -269,7 +328,7 @@ describe("AlgoliaAutocomplete", () => {
         expect(callback.args[0][0]).to.be.an("array");
         expect(callback.args[0][0]).to.have.members([]);
         done();
-      })
+      });
     });
   });
 });

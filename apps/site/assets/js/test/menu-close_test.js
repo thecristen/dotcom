@@ -1,34 +1,36 @@
-import { assert } from 'chai';
-import jsdom from 'mocha-jsdom';
-import menuClose from '../menu-close';
+import { assert } from "chai";
+import jsdom from "mocha-jsdom";
+import menuClose from "../menu-close";
 
-describe('menuClose', () => {
+describe("menuClose", () => {
   var $;
   var clicked;
   jsdom();
 
   before(() => {
-    $ = jsdom.rerequire('jquery');
+    $ = jsdom.rerequire("jquery");
     menuClose($);
   });
 
   beforeEach(() => {
-    $('body')
-      .append(
-        `
+    $("body").append(
+      `
 <div id=desktop-menu>
   <div><a href=#1 id=tab1 aria-expanded=true data-parent="#1">1</a></div>
   <div id=1 class=collapse><a href=#></a></div>
   <div><a href=#2 id=tab2 aria-expanded=false data-parent="#2">2</a></div>
   <div id=2 class=collapse><a href=#></a><a href=#></a></div>
 </div>
-<div><a id=non-menu-link href=#>3</a></div>`);
+<div><a id=non-menu-link href=#>3</a></div>`
+    );
 
     clicked = false;
-    $("#tab1").click(() => clicked = true).focus();
+    $("#tab1")
+      .click(() => (clicked = true))
+      .focus();
   });
 
-  afterEach(() => $('body > div').remove());
+  afterEach(() => $("body > div").remove());
 
   it("keeps the expanded panel when switching focus to another tab", () => {
     $("#tab2").focus();

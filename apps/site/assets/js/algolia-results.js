@@ -148,8 +148,7 @@ export class AlgoliaResults {
       .then(result => {
         document.getElementById(
           "search-result__loading-indicator"
-        ).style.display =
-          "none";
+        ).style.display = "none";
         this._showLocation(latitude, longitude, result);
       })
       .catch(err => {

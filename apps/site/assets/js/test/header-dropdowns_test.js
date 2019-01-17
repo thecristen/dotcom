@@ -27,22 +27,28 @@ describe("headerDropdowns", function() {
 
   it("adds up/down carets if they don't already exist", function() {
     initCarets();
-    const el = document.getElementsByClassName("js-header-link__content").item(0);
+    const el = document
+      .getElementsByClassName("js-header-link__content")
+      .item(0);
     const caretContainer = el.children.item(0);
     expect(caretContainer).to.be.an.instanceOf(window.HTMLDivElement);
     expect(caretContainer.children).to.have.lengthOf(2);
-    expect(caretContainer.children.item(0).classList.contains("fa-angle-up")).to.be.true;
-    expect(caretContainer.children.item(1).classList.contains("fa-angle-down")).to.be.true;
+    expect(caretContainer.children.item(0).classList.contains("fa-angle-up")).to
+      .be.true;
+    expect(caretContainer.children.item(1).classList.contains("fa-angle-down"))
+      .to.be.true;
   });
 
   it("does not add more carets if they already exist", function() {
-    const container = document.getElementsByClassName("js-header-link__carets").item(0);
-    const up = document.createElement("i")
+    const container = document
+      .getElementsByClassName("js-header-link__carets")
+      .item(0);
+    const up = document.createElement("i");
     up.classList.add("up");
     up.classList.add("fa-angle-up");
     container.appendChild(up);
 
-    const down = document.createElement("i")
+    const down = document.createElement("i");
     down.classList.add("down");
     down.classList.add("fa-angle-down");
     container.appendChild(down);

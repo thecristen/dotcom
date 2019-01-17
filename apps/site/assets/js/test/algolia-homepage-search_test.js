@@ -11,7 +11,7 @@ describe("HomepageSearch", () => {
     window.jQuery = jsdom.rerequire("jquery");
     window.$ = window.jQuery;
     window.autocomplete = jsdom.rerequire("autocomplete.js");
-    window.encodeURIComponent = (str) => str;
+    window.encodeURIComponent = str => str;
     window.Turbolinks = {
       visit: sinon.spy()
     };
@@ -45,5 +45,5 @@ describe("HomepageSearch", () => {
     $goBtn.click();
     expect(window.Turbolinks.visit.called).to.be.true;
     expect(window.Turbolinks.visit.args[0][0]).to.equal("/search?query=b");
-  })
+  });
 });

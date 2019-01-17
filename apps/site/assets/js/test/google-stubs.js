@@ -29,7 +29,7 @@ class LatLng {
   }
 
   equals(latLng) {
-    return (this.lat === latLng.lat) && (this.lng === latLng.lng);
+    return this.lat === latLng.lat && this.lng === latLng.lng;
   }
 }
 
@@ -67,7 +67,7 @@ class Marker {
   }
 }
 
-class AutocompleteSessionToken { }
+class AutocompleteSessionToken {}
 
 class AutocompleteService {
   // eslint-disable-next-line class-methods-use-this

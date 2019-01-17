@@ -1,6 +1,6 @@
-import { assert } from 'chai';
-import jsdom from 'mocha-jsdom';
-import datePicker from '../date-picker';
+import { assert } from "chai";
+import jsdom from "mocha-jsdom";
+import datePicker from "../date-picker";
 
 describe("date-picker", () => {
   let $;

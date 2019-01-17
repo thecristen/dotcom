@@ -59,8 +59,8 @@ export default class Marker {
         fontFamily: this.data.label.font_family,
         fontSize: this.data.label.font_size,
         fontWeight: this.data.label.font_weight,
-        text: this.data.label.text,
-      }
+        text: this.data.label.text
+      };
 
       this.marker.setLabel(label);
     }
@@ -69,7 +69,10 @@ export default class Marker {
   update(data) {
     this.data = data;
 
-    const newPosition = new window.google.maps.LatLng(data.latitude, data.longitude);
+    const newPosition = new window.google.maps.LatLng(
+      data.latitude,
+      data.longitude
+    );
 
     if (this.marker) {
       this.buildIcon();

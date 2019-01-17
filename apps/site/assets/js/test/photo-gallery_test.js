@@ -9,7 +9,8 @@ describe("photo-gallery", () => {
   beforeEach(() => {
     $ = jsdom.rerequire("jquery");
 
-    $("body").append(`<div class="photo-gallery clearfix" data-component="photo-gallery">
+    $("body")
+      .append(`<div class="photo-gallery clearfix" data-component="photo-gallery">
       <div class="col-xs-12 col-sm-6 col-md-4 photo-item">
         <div><a href="E74C3C.png"><img alt="Red" class="img-thumbnail" src="E74C3C.png"></a></div>
         <div class="photo-name">Red</div>
@@ -84,32 +85,40 @@ describe("photo-gallery", () => {
   });
 
   afterEach(() => {
-    $('.photo-gallery').remove();
+    $(".photo-gallery").remove();
   });
 
   it("converts a list of image to a gallery component", () => {
-    const galleryId = $("[data-component=\"photo-gallery\"]").attr("data-gallery-id");
+    const galleryId = $('[data-component="photo-gallery"]').attr(
+      "data-gallery-id"
+    );
     assert.isNotNull(galleryId);
   });
 
   it("shows the first image by default", () => {
-    const galleryId = $("[data-component=\"photo-gallery\"]").attr("data-gallery-id");
+    const galleryId = $('[data-component="photo-gallery"]').attr(
+      "data-gallery-id"
+    );
     const actual = $("#" + galleryId + "primary").attr("alt");
     const expected = "Red";
     assert.equal(expected, actual);
   });
 
   it("shows the second image as the main image when the second image is clicked", () => {
-    $("[data-offset=\"1\"]").click();
-    const galleryId = $("[data-component=\"photo-gallery\"]").attr("data-gallery-id");
+    $('[data-offset="1"]').click();
+    const galleryId = $('[data-component="photo-gallery"]').attr(
+      "data-gallery-id"
+    );
     const actual = $("#" + galleryId + "primary").attr("alt");
     const expected = "Blue";
     assert.equal(expected, actual);
   });
 
   it("shows the next image when the next navigation item is clicked", () => {
-    $("[data-increment=\"1\"]").click();
-    const galleryId = $("[data-component=\"photo-gallery\"]").attr("data-gallery-id");
+    $('[data-increment="1"]').click();
+    const galleryId = $('[data-component="photo-gallery"]').attr(
+      "data-gallery-id"
+    );
     const actual = $("#" + galleryId + "primary").attr("alt");
     const expected = "Blue";
     assert.equal(expected, actual);

@@ -6,7 +6,7 @@ describe("FacetGroup", () => {
   jsdom();
 
   function getFeatureIcon(feature) {
-    return `<span id=${feature}></span>`
+    return `<span id=${feature}></span>`;
   }
 
   function setup() {
@@ -68,16 +68,22 @@ describe("FacetGroup", () => {
     beforeEach(setup);
     it("resets counts", function() {
       expect(this.group._item.sumChildren()).to.equal(0);
-      expect(document.getElementById("facet-item-counter-subway").innerHTML).to.equal("");
+      expect(
+        document.getElementById("facet-item-counter-subway").innerHTML
+      ).to.equal("");
       this.group.updateCounts({
         "subway:0": 1,
         "subway:1": 2
       });
       expect(this.group._item.sumChildren()).to.equal(3);
-      expect(document.getElementById("facet-item-counter-subway").innerHTML).to.equal("3");
+      expect(
+        document.getElementById("facet-item-counter-subway").innerHTML
+      ).to.equal("3");
       this.group.reset();
       expect(this.group._item.sumChildren()).to.equal(0);
-      expect(document.getElementById("facet-item-counter-subway").innerHTML).to.equal("");
+      expect(
+        document.getElementById("facet-item-counter-subway").innerHTML
+      ).to.equal("");
     });
   });
 });

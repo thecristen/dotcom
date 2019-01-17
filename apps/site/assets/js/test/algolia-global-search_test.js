@@ -7,8 +7,8 @@ import { AlgoliaGlobalSearch } from "../algolia-global-search";
 describe("AlgoliaGlobalSearch", function() {
   jsdom({
     scripts: [
-      'https://maps.googleapis.com/maps/api/js?libraries=places,geometry',
-    ],
+      "https://maps.googleapis.com/maps/api/js?libraries=places,geometry"
+    ]
   });
 
   beforeEach(function() {
@@ -17,22 +17,25 @@ describe("AlgoliaGlobalSearch", function() {
     window.requestAnimationFrame = sinon.spy(); // used by animated-placeholder.js
     document.body.innerHTML = "";
     Object.keys(AlgoliaGlobalSearch.SELECTORS).forEach(key => {
-      document.body.innerHTML += `<div id="${AlgoliaGlobalSearch.SELECTORS[key]}"></div>`;
+      document.body.innerHTML += `<div id="${
+        AlgoliaGlobalSearch.SELECTORS[key]
+      }"></div>`;
     });
     document.body.innerHTML += `<div id="powered-by-google-logo"></div>`;
     document.body.innerHTML += `<div id="algolia-error">There was an error</div>`;
-
   });
 
   it("constructor does not create a new Algolia instance", function() {
-    const globalSearch = new AlgoliaGlobalSearch()
+    const globalSearch = new AlgoliaGlobalSearch();
     expect(globalSearch.controller).to.equal(null);
   });
 
   describe("init", function() {
     it("generates a new Algolia client if search element exists", function() {
       const globalSearch = new AlgoliaGlobalSearch();
-      expect(document.getElementById(AlgoliaGlobalSearch.SELECTORS.input)).to.be.an.instanceOf(window.HTMLDivElement);
+      expect(
+        document.getElementById(AlgoliaGlobalSearch.SELECTORS.input)
+      ).to.be.an.instanceOf(window.HTMLDivElement);
       globalSearch.init();
       expect(globalSearch.controller).to.be.an.instanceOf(Algolia);
     });
@@ -40,7 +43,9 @@ describe("AlgoliaGlobalSearch", function() {
     it("does not generates a new Algolia client if search element does not exist", function() {
       document.body.innerHTML = "";
       const globalSearch = new AlgoliaGlobalSearch();
-      expect(document.getElementById(AlgoliaGlobalSearch.SELECTORS.input)).to.equal(null);
+      expect(
+        document.getElementById(AlgoliaGlobalSearch.SELECTORS.input)
+      ).to.equal(null);
       globalSearch.init();
       expect(globalSearch.controller).to.equal(null);
     });
@@ -59,7 +64,14 @@ describe("AlgoliaGlobalSearch", function() {
       const globalSearch = new AlgoliaGlobalSearch();
       globalSearch.init();
       globalSearch.loadState("?query=foobar&facets=lines-routes,locations");
-      expect(globalSearch._facetsWidget.selectedFacetNames()).to.have.members(["lines-routes", "locations", "subway", "bus", "commuter-rail", "ferry"]);
+      expect(globalSearch._facetsWidget.selectedFacetNames()).to.have.members([
+        "lines-routes",
+        "locations",
+        "subway",
+        "bus",
+        "commuter-rail",
+        "ferry"
+      ]);
     });
   });
 
@@ -82,7 +94,10 @@ describe("AlgoliaGlobalSearch", function() {
       globalSearch.init();
       window.jQuery("#checkbox-container-lines-routes").trigger("click");
       expect(window.history.replaceState.called).to.be.true;
-      const expectedFacets = "facets=lines-routes,subway,bus,commuter-rail,ferry".replace(/,/g, "%2C");
+      const expectedFacets = "facets=lines-routes,subway,bus,commuter-rail,ferry".replace(
+        /,/g,
+        "%2C"
+      );
       expect(window.history.replaceState.args[0][2]).to.contain(expectedFacets);
     });
     it("updates history when show more is clicked", function() {
@@ -92,7 +107,9 @@ describe("AlgoliaGlobalSearch", function() {
       globalSearch.init();
       globalSearch.onClickShowMore("stops");
       expect(window.history.replaceState.called).to.be.true;
-      expect(window.history.replaceState.args[0][2]).to.contain("showmore=stops");
+      expect(window.history.replaceState.args[0][2]).to.contain(
+        "showmore=stops"
+      );
     });
   });
 
@@ -100,8 +117,10 @@ describe("AlgoliaGlobalSearch", function() {
     beforeEach(function() {
       document.body.innerHTML = "";
       Object.keys(AlgoliaGlobalSearch.SELECTORS).forEach(key => {
-        const elType = (key == "input") ? "input" : "div"
-        document.body.innerHTML += `<${elType} id="${AlgoliaGlobalSearch.SELECTORS[key]}"></${elType}>`;
+        const elType = key == "input" ? "input" : "div";
+        document.body.innerHTML += `<${elType} id="${
+          AlgoliaGlobalSearch.SELECTORS[key]
+        }"></${elType}>`;
       });
       document.body.innerHTML += `<div id="powered-by-google-logo"></div>`;
       document.body.innerHTML += `<div id="algolia-error">There was an error</div>`;

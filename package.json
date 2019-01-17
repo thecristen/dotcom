@@ -1,11 +1,11 @@
 {
   "scripts": {
     "lint": "pronto run",
-    "eslint": "git diff --name-only --diff-filter=dx origin/master... | grep apps/site/assets/js/.*\\.js | xargs apps/site/assets/node_modules/.bin/eslint -c apps/site/assets/ts-js/.eslintrc.js",
+    "eslint": "git diff --name-only --diff-filter=dx origin/master... | grep apps/site/assets/js/.*\\.js | xargs apps/site/assets/node_modules/.bin/eslint -c apps/site/assets/.eslintrc.js",
     "tslint": "cd apps/site/assets && npm run tslint",
-    "eslint:fix": "git diff --name-only --diff-filter=dx origin/master... | grep apps/site/assets/js/.*\\.js | xargs apps/site/assets/node_modules/.bin/eslint -c apps/site/assets/ts-js/.eslintrc.js --fix",
-    "format": "cd apps/site/assets && node_modules/.bin/prettier --write js/*",
-    "format:check": "cd apps/site/assets && node_modules/.bin/prettier js/* --list-different",
+    "eslint:fix": "git diff --name-only --diff-filter=dx origin/master... | grep apps/site/assets/js/.*\\.js | xargs apps/site/assets/node_modules/.bin/eslint -c apps/site/assets/.eslintrc.js --fix",
+    "format": "cd apps/site/assets && node_modules/.bin/prettier --write \"{js,ts}/**/*.{js,ts,tsx}\"",
+    "format:check": "cd apps/site/assets && node_modules/.bin/prettier \"{js,ts}/**/*.{js,ts,tsx}\" --list-different",
     "ci-install": "cd apps/site/assets && npm ci --no-optional",
     "install": "cd apps/site/assets && npm install --no-optional",
     "test": "mix test && npm run test:js && mix backstop.tests",

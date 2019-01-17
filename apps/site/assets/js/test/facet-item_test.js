@@ -6,7 +6,7 @@ describe("FacetItem", () => {
   jsdom();
 
   function getFeatureIcon(feature) {
-    return `<span id=${feature}></span>`
+    return `<span id=${feature}></span>`;
   }
 
   describe("FacetItem with children", function() {
@@ -14,30 +14,30 @@ describe("FacetItem", () => {
       id: "lines-routes",
       name: "Lines and Routes",
       items: [
-      {
-        id: "subway",
-        name: "Subway",
-        facets: ["0", "1"],
-        icon: getFeatureIcon("station")
-      },
-      {
-        id: "commuter-rail",
-        name: "Commuter Rail",
-        facets: ["2"],
-        icon: getFeatureIcon("commuter_rail")
-      },
-      {
-        id: "bus",
-        name: "Bus",
-        facets: ["3"],
-        icon: getFeatureIcon("bus")
-      },
-      {
-        id: "ferry",
-        name: "Ferry",
-        facets: ["4"],
-        icon: getFeatureIcon("ferry")
-      },
+        {
+          id: "subway",
+          name: "Subway",
+          facets: ["0", "1"],
+          icon: getFeatureIcon("station")
+        },
+        {
+          id: "commuter-rail",
+          name: "Commuter Rail",
+          facets: ["2"],
+          icon: getFeatureIcon("commuter_rail")
+        },
+        {
+          id: "bus",
+          name: "Bus",
+          facets: ["3"],
+          icon: getFeatureIcon("bus")
+        },
+        {
+          id: "ferry",
+          name: "Ferry",
+          facets: ["4"],
+          icon: getFeatureIcon("ferry")
+        }
       ]
     };
 
@@ -45,8 +45,10 @@ describe("FacetItem", () => {
       document.body.innerHTML = `
         <div id="facet-item-with-kids-container"></div>
       `;
-      this.item = new FacetItem(data, {addToMap: () => {}});
-      this.item.render(document.getElementById("facet-item-with-kids-container"));
+      this.item = new FacetItem(data, { addToMap: () => {} });
+      this.item.render(
+        document.getElementById("facet-item-with-kids-container")
+      );
     });
 
     describe("selectedFacetNames", () => {

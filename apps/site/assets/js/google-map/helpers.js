@@ -88,7 +88,7 @@ const iconAnchor = (icon, size) => {
     return new window.google.maps.Point(size / 2, size);
   }
   return new window.google.maps.Point(size / 2, size / 2);
-}
+};
 
 const buildIconFromString = (iconData, size) => {
   const sizeInt = iconSize(size);
@@ -110,4 +110,4 @@ export const buildIcon = (iconData, size) => {
   } else {
     return MapIcons.parseObject(iconData);
   }
-}
+};
