@@ -1,9 +1,14 @@
 .c-cms__sidebar {
-  .c-right-rail-paragraph {
+
+  // Any paragraph in the sidebar == a "right-rail" paragraph
+  .c-paragraph {
     background-color: $brand-primary-lightest-contrast;
     margin-bottom: 1rem;
     padding: 1rem;
 
+    // Right sidebar paragraphs are cloned from their sources
+    // located in .c-cms__body. They switch visibility with
+    // one another at the SM breakpoint.
     @include media-breakpoint-down(sm) {
       display: none;
     }
@@ -23,35 +28,32 @@
     > .h5:first-child,
     > h6:first-child,
     > .h6:first-child,
-    .c-multi-column__col:first-of-type h1:first-child,
-    .c-multi-column__col:first-of-type .h1:first-child,
-    .c-multi-column__col:first-of-type h2:first-child,
-    .c-multi-column__col:first-of-type .h2:first-child,
-    .c-multi-column__col:first-of-type h3:first-child,
-    .c-multi-column__col:first-of-type .h3:first-child,
-    .c-multi-column__col:first-of-type h4:first-child,
-    .c-multi-column__col:first-of-type .h4:first-child,
-    .c-multi-column__col:first-of-type h5:first-child,
-    .c-multi-column__col:first-of-type .h5:first-child,
-    .c-multi-column__col:first-of-type h6:first-child,
-    .c-multi-column__col:first-of-type .h6:first-child {
+    .c-multi-column__column:first-of-type h1:first-child,
+    .c-multi-column__column:first-of-type .h1:first-child,
+    .c-multi-column__column:first-of-type h2:first-child,
+    .c-multi-column__column:first-of-type .h2:first-child,
+    .c-multi-column__column:first-of-type h3:first-child,
+    .c-multi-column__column:first-of-type .h3:first-child,
+    .c-multi-column__column:first-of-type h4:first-child,
+    .c-multi-column__column:first-of-type .h4:first-child,
+    .c-multi-column__column:first-of-type h5:first-child,
+    .c-multi-column__column:first-of-type .h5:first-child,
+    .c-multi-column__column:first-of-type h6:first-child,
+    .c-multi-column__column:first-of-type .h6:first-child {
       @include reduce-adjacent-heading-space();
     }
-  }
 
-  .c-multi-column__row,
-  .c-multi-column__col {
-    display: block;
-    float: none;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
-    width: 100%;
-  }
+    .c-multi-column__row,
+    .c-multi-column__column {
+      float: none;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
 
-  .c-inline-buttons {
-    margin: 0 0 1rem;
+    .c-inline-buttons {
+      margin: 1em 0;
+    }
 
     .btn {
       display: block;
@@ -61,34 +63,14 @@
 }
 
 .c-cms__body {
-  .c-right-rail-paragraph {
+  // Any "right-rail" paragraph in the body should be hidden above SM
+  .c-paragraph--right-rail {
+
+    // Right sidebar paragraphs are cloned from their sources
+    // located in .c-cms__body. They switch visibility with
+    // one another at the SM breakpoint.
     @include media-breakpoint-up(md) {
       display: none;
-    }
-
-    @include media-breakpoint-only(sm) {
-      .col-md-6 {
-        @include make-col-span(6);
-
-        float: left;
-      }
-    }
-
-    @include media-breakpoint-down(xs) {
-      .c-callout {
-        padding: 0 1rem;
-      }
-    }
-
-    .u-full-bleed {
-      @include media-breakpoint-up(sm) {
-        margin: 0;
-      }
-
-      @include media-breakpoint-down(xs) {
-        padding-left: .9375rem;
-        padding-right: .9375rem;
-      }
     }
   }
 }

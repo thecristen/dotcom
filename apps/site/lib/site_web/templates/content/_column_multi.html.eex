@@ -1,20 +1,23 @@
-<%= full_bleed_if Paragraph.right_rail?(@content), wrapper_class: "c-right-rail-paragraph" do %>
-  <div class="c-multi-column">
-    <%= if @content.header do %>
-      <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
-    <% end %>
+<%
+  has_cards? = ColumnMulti.includes?(@content, :fares) ||
+               ColumnMulti.includes?(@content, :links)
+%>
 
-    <%= extend_width_if Content.Paragraph.ColumnMulti.includes_cards?(@content) do %>
-      <div class="c-multi-column__row row">
-        <%= for column <- @content.columns do %>
-          <div class="c-multi-column__col col-md-<%= grid(@content) %>">
+<%= if @content.header do %>
+  <div class="c-multi-column__header">
+    <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
+  </div>
+<% end %>
 
-            <%= for paragraph <- column.paragraphs do %>
-              <%= SiteWeb.ContentView.render_content(paragraph, @conn) %>
-            <% end %>
+<%= extend_width_if has_cards?, :cards do %>
+  <div class="c-multi-column__row row">
+    <%= for column <- @content.columns do %>
+      <div class="c-multi-column__column col-md-<%= grid(@content) %>">
 
-          </div>
+        <%= for paragraph <- column.paragraphs do %>
+          <%= render_content(paragraph, @conn) %>
         <% end %>
+
       </div>
     <% end %>
   </div>

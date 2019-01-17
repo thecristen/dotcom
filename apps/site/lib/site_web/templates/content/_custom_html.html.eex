@@ -1,3 +1,1 @@
-<%= full_bleed_if Paragraph.right_rail?(@content), wrapper_class: "c-right-rail-paragraph" do %>
-  <%= ContentRewriter.rewrite(@content.body, @conn) %>
-<% end %>
+<%= ContentRewriter.rewrite(@content.body, @conn) %>

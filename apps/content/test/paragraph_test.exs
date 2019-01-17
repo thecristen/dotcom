@@ -283,6 +283,22 @@ defmodule Content.ParagraphTest do
     end
   end
 
+  describe "full_bleed?" do
+    test "returns true if this paragraph meets criteria for being full-bleed" do
+      callout = %Callout{}
+      right_rail = %CustomHTML{right_rail: true}
+
+      assert full_bleed?(callout)
+      assert full_bleed?(right_rail)
+    end
+
+    test "returns false if this paragraph does not meet criteria for being full-bleed" do
+      paragraph = %CustomHTML{}
+
+      refute full_bleed?(paragraph)
+    end
+  end
+
   defp api_paragraph(paragraph_type) do
     Static.all_paragraphs_response()
     |> Map.get("field_paragraphs")

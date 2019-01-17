@@ -47,14 +47,15 @@ defmodule Content.Paragraph.ColumnMulti do
   def is_grouped?(%__MODULE__{display_options: "grouped"}), do: true
   def is_grouped?(_), do: false
 
-  @spec includes_cards?(__MODULE__.t()) :: boolean
-  def includes_cards?(%__MODULE__{columns: columns}) do
+  @spec includes?(__MODULE__.t(), atom) :: boolean
+  def includes?(%__MODULE__{columns: columns}, type) do
     columns
     |> Enum.flat_map(& &1.paragraphs)
-    |> Enum.any?(&is_a_card?/1)
+    |> Enum.any?(&matches?(&1, type))
   end
 
-  defp is_a_card?(%FareCard{}), do: true
-  defp is_a_card?(%DescriptiveLink{}), do: true
-  defp is_a_card?(_), do: false
+  @spec matches?(__MODULE__.t(), atom) :: boolean
+  defp matches?(%FareCard{}, :fares), do: true
+  defp matches?(%DescriptiveLink{}, :links), do: true
+  defp matches?(_, _), do: false
 end

@@ -103,15 +103,30 @@
 }
 
 .u-full-bleed {
-  @include make-row;
   background-color: $brand-primary-lightest-contrast;
-  // Prevent collapsing margin-tops
-  border-top: 1px solid transparent;
 
-  @include media-breakpoint-up(sm) {
-    // Visual trick to avoid horizontal overflow scrollbars
-    // without needing to rebuild/reflow parent layout/grid.
-    box-shadow: -33vw 0 $brand-primary-lightest-contrast,
-                 33vw 0 $brand-primary-lightest-contrast;
+  // Visual trick to avoid horizontal overflow scrollbars
+  // without needing to rebuild/reflow parent layout/grid.
+  box-shadow: -66vw 0 $brand-primary-lightest-contrast,
+               66vw 0 $brand-primary-lightest-contrast,
+              -33vw 0 $brand-primary-lightest-contrast,
+               33vw 0 $brand-primary-lightest-contrast;
+
+  margin-bottom: 3rem;
+  margin-top: 3rem;
+
+  @include media-breakpoint-up(lg) {
+    // Multiple sets are needed at wider breakpoints to fill
+    // in the gaps (width is restricted to HTML element width).
+    box-shadow: -55vw 0 $brand-primary-lightest-contrast,
+                 55vw 0 $brand-primary-lightest-contrast,
+                -50vw 0 $brand-primary-lightest-contrast,
+                 50vw 0 $brand-primary-lightest-contrast,
+                -45vw 0 $brand-primary-lightest-contrast,
+                 45vw 0 $brand-primary-lightest-contrast,
+                -25vw 0 $brand-primary-lightest-contrast,
+                 25vw 0 $brand-primary-lightest-contrast,
+                -10vw 0 $brand-primary-lightest-contrast,
+                 10vw 0 $brand-primary-lightest-contrast;
   }
 }

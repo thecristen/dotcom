@@ -112,6 +112,8 @@ defmodule SiteWeb.ContentViewTest do
         |> render_paragraph(conn)
         |> HTML.safe_to_string()
 
+      assert rendered =~ "c-paragraph--custom-html"
+      refute rendered =~ "c-paragraph--right-rail"
       assert rendered =~ "responsive-table"
     end
 
@@ -194,6 +196,7 @@ defmodule SiteWeb.ContentViewTest do
         |> render_paragraph(conn)
         |> HTML.safe_to_string()
 
+      assert rendered_alone =~ "c-paragraph--descriptive-link"
       assert rendered_alone =~ "c-descriptive-link"
       assert rendered_alone =~ "<strong>Body 1</strong>"
       assert rendered_alone =~ "c-media__element"
@@ -223,6 +226,7 @@ defmodule SiteWeb.ContentViewTest do
         |> HTML.html_escape()
         |> HTML.safe_to_string()
 
+      assert rendered =~ "c-paragraph--upcoming-board-meetings"
       assert rendered =~ rendered_title
       assert rendered =~ "View all upcoming meetings"
     end
@@ -243,6 +247,7 @@ defmodule SiteWeb.ContentViewTest do
         |> render_paragraph(conn)
         |> HTML.safe_to_string()
 
+      assert rendered =~ "c-paragraph--title-card-set"
       assert rendered =~ "This is a title card"
     end
 
@@ -258,6 +263,7 @@ defmodule SiteWeb.ContentViewTest do
         |> render_paragraph(conn)
         |> HTML.safe_to_string()
 
+      assert rendered =~ "c-paragraph--people-grid"
       assert rendered =~ person.name
       assert rendered =~ person.position
     end
@@ -281,6 +287,8 @@ defmodule SiteWeb.ContentViewTest do
         |> render_paragraph(conn)
         |> HTML.safe_to_string()
 
+      assert rendered =~ "c-paragraph--callout"
+      assert rendered =~ "u-full-bleed"
       assert rendered =~ ~s(<h2>Visiting Boston?</h2>)
       assert rendered =~ ~s(<p>We created a guide just for you!</p>)
       assert rendered =~ callout.link.url
@@ -315,6 +323,7 @@ defmodule SiteWeb.ContentViewTest do
         |> render_paragraph(conn)
         |> HTML.safe_to_string()
 
+      assert rendered =~ "c-paragraph--description-list"
       assert rendered =~ "Header copy"
       assert rendered =~ "Day pass"
       assert rendered =~ "Week pass"
@@ -351,6 +360,7 @@ defmodule SiteWeb.ContentViewTest do
         |> render_paragraph(conn)
         |> HTML.safe_to_string()
 
+      assert rendered =~ "c-paragraph--ungrouped c-paragraph--with-cards c-paragraph--with-fares"
       assert rendered =~ "Subway"
       assert rendered =~ "One-Way"
       assert rendered =~ "$2.25"
@@ -393,14 +403,15 @@ defmodule SiteWeb.ContentViewTest do
         |> render_paragraph(conn)
         |> HTML.safe_to_string()
 
+      assert rendered =~ "c-paragraph--grouped c-paragraph--with-cards c-paragraph--with-fares"
       assert rendered =~ "fare-card--grouped"
       assert rendered =~ "Local Bus"
       assert rendered =~ "One-Way"
       assert rendered =~ "$1.70"
-      assert rendered =~ "with a\nCharlieCard"
+      assert rendered =~ "with a CharlieCard"
       assert rendered =~ "1 free transfer"
       assert rendered =~ "$2.00"
-      assert rendered =~ "with a\nCharlieTicket or Cash"
+      assert rendered =~ "with a CharlieTicket or Cash"
       assert rendered =~ "Limited transfers"
     end
 
@@ -428,6 +439,34 @@ defmodule SiteWeb.ContentViewTest do
         |> HTML.safe_to_string()
 
       assert rendered =~ "Bad grouped fare card data"
+    end
+
+    test "renders a set of Descriptive Links", %{conn: conn} do
+      paragraph = %ColumnMulti{
+        columns: [
+          %Column{
+            paragraphs: [
+              %DescriptiveLink{title: "Link1"}
+            ]
+          },
+          %Column{
+            paragraphs: [
+              %DescriptiveLink{title: "Link2"}
+            ]
+          }
+        ]
+      }
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~
+               "c-paragraph--column-multi c-paragraph--ungrouped c-paragraph--with-cards c-paragraph--with-links"
+
+      assert rendered =~ "Link1"
+      assert rendered =~ "Link2"
     end
 
     test "renders a Paragraph.FilesGrid without a title", %{conn: conn} do
@@ -504,7 +543,7 @@ defmodule SiteWeb.ContentViewTest do
         |> HTML.safe_to_string()
 
       assert rendered_quarters =~ "<h4>This is a multi-column header</h4>"
-      assert rendered_quarters =~ "c-multi-column__col col-md-3"
+      assert rendered_quarters =~ "c-multi-column__column col-md-3"
       assert rendered_quarters =~ "Column 1"
       assert rendered_quarters =~ "Column 2"
       assert rendered_quarters =~ "Column 3"
@@ -512,17 +551,17 @@ defmodule SiteWeb.ContentViewTest do
 
       assert rendered_thirds =~ "<h4>This is a multi-column header</h4>"
 
-      assert rendered_thirds =~ "c-multi-column__col col-md-4"
+      assert rendered_thirds =~ "c-multi-column__column col-md-4"
       assert rendered_thirds =~ "Column 1"
       assert rendered_thirds =~ "Column 3"
 
       assert rendered_halves =~ "<h4>This is a multi-column header</h4>"
-      assert rendered_halves =~ "c-multi-column__col col-md-6"
+      assert rendered_halves =~ "c-multi-column__column col-md-6"
       assert rendered_halves =~ "Column 1"
       assert rendered_halves =~ "Column 2"
 
       assert rendered_single =~ "<h4>This is a multi-column header</h4>"
-      assert rendered_single =~ "c-multi-column__col col-md-6"
+      assert rendered_single =~ "c-multi-column__column col-md-6"
       assert rendered_single =~ "Column 1"
     end
 
@@ -544,7 +583,7 @@ defmodule SiteWeb.ContentViewTest do
         |> render_paragraph(conn)
         |> HTML.safe_to_string()
 
-      assert rendered =~ "c-right-rail-paragraph"
+      assert rendered =~ "c-paragraph--right-rail"
       assert rendered =~ "<h4>This is a multi-column header</h4>"
       assert rendered =~ "Column 1"
     end
@@ -738,20 +777,9 @@ defmodule SiteWeb.ContentViewTest do
     end
   end
 
-  describe "extend_width/1" do
-    test "wraps content with media divs" do
-      rendered = extend_width(do: "foo") |> HTML.safe_to_string()
-
-      assert rendered =~ "c-media c-media--type-table"
-      assert rendered =~ "c-media__content"
-      assert rendered =~ "c-media__element"
-      assert rendered =~ "foo"
-    end
-  end
-
-  describe "extend_width_if/2" do
+  describe "extend_width_if/3" do
     test "wraps content with media divs if the condition is true" do
-      rendered = extend_width_if(true, do: "foo") |> HTML.safe_to_string()
+      rendered = extend_width_if(true, :table, do: "foo") |> HTML.safe_to_string()
 
       assert rendered =~ "c-media c-media--type-table"
       assert rendered =~ "c-media__content"
@@ -760,53 +788,7 @@ defmodule SiteWeb.ContentViewTest do
     end
 
     test "wraps content with nothing if the condition is false" do
-      assert extend_width_if(false, do: "foo") == "foo"
-    end
-  end
-
-  describe "full_bleed/2" do
-    test "wraps content with callout wrapper divs" do
-      rendered = full_bleed(do: "foo") |> HTML.safe_to_string()
-
-      assert rendered =~ "c-media c-media--type-callout"
-      assert rendered =~ "c-media__content"
-      assert rendered =~ "c-media__element"
-      assert rendered =~ "u-full-bleed"
-      assert rendered =~ "foo"
-    end
-
-    test "accepts a callout class" do
-      rendered =
-        [callout_class: "c-callout c-callout--with-image"]
-        |> full_bleed(do: "foo")
-        |> HTML.safe_to_string()
-
-      assert rendered =~ "u-full-bleed c-callout c-callout--with-image"
-    end
-
-    test "accepts a wrapper class" do
-      rendered =
-        [wrapper_class: "c-right-rail-paragraph"]
-        |> full_bleed(do: "foo")
-        |> HTML.safe_to_string()
-
-      assert rendered =~ "c-media c-media--type-callout c-right-rail-paragraph"
-    end
-  end
-
-  describe "full_bleed_if/3" do
-    test "wraps content with callout wrapper divs if the condition is true" do
-      rendered = full_bleed_if(true, do: "foo") |> HTML.safe_to_string()
-
-      assert rendered =~ "c-media c-media--type-callout"
-      assert rendered =~ "c-media__content"
-      assert rendered =~ "c-media__element"
-      assert rendered =~ "u-full-bleed"
-      assert rendered =~ "foo"
-    end
-
-    test "wraps content with nothing if the condition is false" do
-      assert full_bleed_if(false, do: "foo") == "foo"
+      assert extend_width_if(false, :table, do: "foo") == "foo"
     end
   end
 end

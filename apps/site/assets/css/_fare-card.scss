@@ -1,7 +1,7 @@
 .c-fare-card {
   border: 2px solid;
-  line-height: normal;
   flex-grow: 1;
+  line-height: normal;
   margin: 1.375rem 0 1rem;
   padding: 1.375rem 1rem 1rem;
   position: relative;
@@ -17,6 +17,35 @@
     @include media-breakpoint-down(sm) {
       margin-top: 2.375rem;
     }
+  }
+
+  &__icon {
+    @include icon-size(2.75rem);
+    left: 50%;
+    margin-left: -1.375rem;
+    position: absolute;
+    top: -1.375rem;
+
+    span {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  &__name {
+    margin-top: .6rem;
+  }
+
+  &__duration {
+    white-space: nowrap;
+  }
+
+  &__fare {
+    margin-top: .8rem;
+  }
+
+  &__note {
+    font-size: .875rem;
   }
 
   &--subway {
@@ -40,35 +69,6 @@
   }
 }
 
-.c-fare-card__icon {
-  @include icon-size(2.75rem);
-  left: 50%;
-  margin-left: -1.375rem;
-  position: absolute;
-  top: -1.375rem;
-
-  span {
-    height: 100%;
-    width: 100%;
-  }
-}
-
-.c-fare-card__name {
-  margin-top: .6rem;
-}
-
-.c-fare-card__name-duration {
-  white-space: nowrap;
-}
-
-.c-fare-card__fare {
-  margin-top: .8rem;
-}
-
-.c-fare-card__note {
-  font-size: .875rem;
-}
-
 .c-fare-card--grouped {
   padding: 0;
 
@@ -77,16 +77,11 @@
     padding-top: 1.375rem;
   }
 
-  .c-fare-card__note {
-    min-height: 2.4em;
-  }
-
-  .row {
+  .c-multi-column__row {
     margin: 0;
-    width: 100%;
   }
 
-  .col-md-6 {
+  .c-multi-column__column {
     padding: 1.375rem 1rem 1rem;
 
     &:first-child {
@@ -99,32 +94,36 @@
     }
   }
 
+  .c-fare-card__fare {
+    margin-top: 0;
+  }
+
+  .c-fare-card__note {
+    min-height: 2.4em;
+  }
+
   &.c-fare-card--subway .c-fare-card__header,
-  &.c-fare-card--subway .row .col-md-6 {
+  &.c-fare-card--subway .c-multi-column__column {
     border-color: $brand-subway;
   }
 
   &.c-fare-card--bus .c-fare-card__header,
-  &.c-fare-card--bus .row .col-md-6 {
+  &.c-fare-card--bus .c-multi-column__column {
     border-color: $brand-bus;
   }
 
   &.c-fare-card--commuter-rail .c-fare-card__header,
-  &.c-fare-card--commuter-rail .row .col-md-6 {
+  &.c-fare-card--commuter-rail .c-multi-column__column {
     border-color: $brand-commuter-rail;
   }
 
   &.c-fare-card--ferry .c-fare-card__header,
-  &.c-fare-card--ferry .row .col-md-6 {
+  &.c-fare-card--ferry .c-multi-column__column {
     border-color: $brand-ferry;
   }
 
   &.c-fare-card--the-ride .c-fare-card__header,
-  &.c-fare-card--the-ride .row .col-md-6 {
+  &.c-fare-card--the-ride .c-multi-column__column {
     border-color: $brand-the-ride;
-  }
-
-  .c-fare-card__fare {
-    margin-top: 0;
   }
 }

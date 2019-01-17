@@ -115,6 +115,12 @@ defmodule Content.Paragraph do
 
   def get_types, do: @types
 
+  @spec right_rail?(t) :: boolean
   def right_rail?(%{right_rail: true}), do: true
   def right_rail?(_), do: false
+
+  @spec full_bleed?(t) :: boolean
+  def full_bleed?(%Callout{}), do: true
+  def full_bleed?(%{right_rail: true}), do: true
+  def full_bleed?(_), do: false
 end

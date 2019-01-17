@@ -2,10 +2,9 @@ defmodule SiteWeb.ContentView do
   use SiteWeb, :view
   import SiteWeb.TimeHelpers
 
-  alias Content.Field.File
+  alias Content.Field.{File, Image}
   alias Content.Paragraph
   alias Content.Paragraph.{Callout, ColumnMulti, FareCard}
-  alias Phoenix.HTML.Tag
   alias Site.ContentRewriter
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
@@ -94,42 +93,22 @@ defmodule SiteWeb.ContentView do
     div(12, max(Enum.count(columns), 2))
   end
 
-  @spec extend_width(Keyword.t()) :: Phoenix.HTML.safe()
-  def extend_width(do: content) do
-    Tag.content_tag :div, class: "c-media c-media--type-table" do
-      inner_wrappers(do: content)
-    end
+  @doc "If true, allows content to break out of grid like embedded_media components do"
+  @spec extend_width_if(boolean, atom, Keyword.t()) :: Phoenix.HTML.safe()
+  def extend_width_if(true, type, do: content) do
+    extend_width(type, do: content)
   end
 
-  @spec extend_width_if(boolean, Keyword.t()) :: Phoenix.HTML.safe()
-  def extend_width_if(true, do: content), do: extend_width(do: content)
+  def extend_width_if(false, _type, do: content) do
+    content
+  end
 
-  def extend_width_if(false, do: content), do: content
-
-  @spec full_bleed(Keyword.t(), Keyword.t()) :: Phoenix.HTML.safe()
-  def full_bleed(classes \\ Keyword.new(), do: content) do
-    Tag.content_tag :div,
-      class: "c-media c-media--type-callout #{Keyword.get(classes, :wrapper_class, "")}" do
-      inner_wrappers do
-        Tag.content_tag(
-          :div,
-          [class: "u-full-bleed #{Keyword.get(classes, :callout_class, "")}"],
-          do: content
-        )
+  @spec extend_width(atom, Keyword.t()) :: Phoenix.HTML.safe()
+  def extend_width(type, do: content) do
+    content_tag :div, class: "c-media c-media--type-#{type} c-media--extended" do
+      content_tag :div, class: "c-media__content" do
+        content_tag(:div, [class: "c-media__element"], do: content)
       end
-    end
-  end
-
-  @spec full_bleed_if(boolean, Keyword.t(), Keyword.t()) :: Phoenix.HTML.safe()
-  def full_bleed_if(condition, classes \\ Keyword.new(), content)
-
-  def full_bleed_if(true, classes, do: content), do: full_bleed(classes, do: content)
-
-  def full_bleed_if(false, _, do: content), do: content
-
-  defp inner_wrappers(do: content) do
-    Tag.content_tag :div, class: "c-media__content" do
-      Tag.content_tag(:div, [class: "c-media__element"], do: content)
     end
   end
 
@@ -177,7 +156,6 @@ defmodule SiteWeb.ContentView do
 
   @spec paragraph_classes(Paragraph.t()) :: iodata()
   defp paragraph_classes(paragraph)
-  defp paragraph_classes(%Callout{image: nil}), do: []
-  defp paragraph_classes(%Callout{}), do: ["c-callout--with-image"]
+  defp paragraph_classes(%Callout{image: %Image{}}), do: ["c-callout--with-image"]
   defp paragraph_classes(_), do: []
 end

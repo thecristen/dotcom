@@ -13,6 +13,7 @@
 $layout-media: (
   sm: (
     c-cms: (
+      cards:    (span: 10),
       callout:  (span: 10),
       wide:     (span: 12, offset: -1),
       text:     (span: 11),
@@ -26,6 +27,7 @@ $layout-media: (
     ),
     no-sidebar: (
       wide:     (span: 10, offset: -1),
+      cards:    (span: 9),
       text:     (span: 9),
       left:     (span: 5, offset: -1),
       right:    (span: 5, offset: -1)
@@ -37,6 +39,7 @@ $layout-media: (
   ),
   lg: (
     c-cms: (
+      cards:    (span: 8),
       callout:  (span: 10),
       text:     (span: 8),
       right:    (span: 4, offset: -1)
@@ -56,6 +59,7 @@ $layout-media: (
   ),
   xxl: (
     c-cms: (
+      cards:    (span: 7),
       callout:  (span: 10),
       text:     (span: 7),
       right:    (span: 4, offset: -1)
@@ -159,6 +163,9 @@ $layout-media: (
     ),
     callout: (
       '.c-media--type-callout'
+    ),
+    cards: (
+      '.c-media--type-cards'
     )
   );
 

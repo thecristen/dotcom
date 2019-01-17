@@ -2,7 +2,7 @@
   <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
 <% end %>
 
-<%= extend_width do %>
+<%= extend_width :table do %>
   <dl class="dl" role="list">
     <%= for description <- @content.descriptions do %>
       <div role="listitem">

@@ -3,7 +3,7 @@ defmodule Content.Paragraph.ColumnMultiTest do
 
   use ExUnit.Case, async: true
 
-  alias Content.Paragraph.{Column, ColumnMulti, CustomHTML, FareCard}
+  alias Content.Paragraph.{Column, ColumnMulti, CustomHTML, DescriptiveLink, FareCard}
   alias Phoenix.HTML
 
   test "is_grouped?/1 returns whether or not the ColumnMulti paragraph is grouped" do
@@ -14,7 +14,7 @@ defmodule Content.Paragraph.ColumnMultiTest do
     refute ColumnMulti.is_grouped?(ungrouped_column_multi)
   end
 
-  test "includes_cards?/1 returns whether or not the ColumnMulti paragraph contains a fare card" do
+  test "includes?/1 returns whether or not the ColumnMulti paragraph contains a fare card" do
     column_multi_with_fare_card = %ColumnMulti{
       columns: [
         %Column{
@@ -40,7 +40,35 @@ defmodule Content.Paragraph.ColumnMultiTest do
       ]
     }
 
-    assert ColumnMulti.includes_cards?(column_multi_with_fare_card)
-    refute ColumnMulti.includes_cards?(column_multi_without_fare_card)
+    assert ColumnMulti.includes?(column_multi_with_fare_card, :fares)
+    refute ColumnMulti.includes?(column_multi_without_fare_card, :fares)
+  end
+
+  test "includes?/1 returns whether or not the ColumnMulti paragraph contains descriptive links" do
+    column_multi_with_link = %ColumnMulti{
+      columns: [
+        %Column{
+          paragraphs: [
+            %DescriptiveLink{
+              title: "Descriptive Link",
+              body: {:safe, "<p>Info</p>"}
+            }
+          ]
+        }
+      ]
+    }
+
+    column_multi_without_link = %ColumnMulti{
+      columns: [
+        %Column{
+          paragraphs: [
+            %CustomHTML{body: HTML.raw("<strong>Column 1</strong>")}
+          ]
+        }
+      ]
+    }
+
+    assert ColumnMulti.includes?(column_multi_with_link, :links)
+    refute ColumnMulti.includes?(column_multi_without_link, :links)
   end
 end

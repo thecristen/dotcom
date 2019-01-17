@@ -1,48 +1,57 @@
 <%= if @fare_cards && length(@fare_cards) == 2 do %>
-<%= extend_width do %>
+
 <% group = Site.ContentRewriters.LiquidObjects.Fare.fare_object_request(List.first(@fare_cards).fare_token) %>
 
-<div class="c-fare-card c-fare-card--grouped c-fare-card--<%= group.mode %>">
+<%
+  card_classes =
+    ["c-fare-card", "grouped", CSSHelpers.atom_to_class(group.mode)]
+    |> Enum.intersperse(" c-fare-card--")
+%>
 
-  <div class="c-fare-card__header">
-    <div class="c-fare-card__icon">
-      <%= mode_icon(group.mode, :default) %>
+<%= extend_width :cards do %>
+
+  <%= content_tag :div, class: card_classes do %>
+
+    <div class="c-fare-card__header">
+      <div class="c-fare-card__icon">
+        <%= mode_icon(group.mode, :default) %>
+      </div>
+
+      <h3 class="c-fare-card__name">
+        <span class="c-fare-card__mode">
+          <%= Fares.Format.name(group) %>
+        </span>
+        <span class="c-fare-card__duration">
+          <%= Fares.Format.duration(group) %>
+        </span>
+      </h3>
     </div>
 
-    <h3 class="c-fare-card__name">
-      <span class="c-fare-card__name-mode">
-        <%= Fares.Format.name(group) %>
-      </span>
-      <span class="c-fare-card__name-duration">
-        <%= Fares.Format.duration(group) %>
-      </span>
-    </h3>
-  </div>
+    <div class="c-multi-column__row row">
+      <%= for fare_card <- @fare_cards do %>
+        <% fare = Site.ContentRewriters.LiquidObjects.Fare.fare_object_request(fare_card.fare_token) %>
+        <div class="c-multi-column__column col-md-6">
 
-  <div class="row">
-    <%= for fare_card <- @fare_cards do %>
-    <% fare = Site.ContentRewriters.LiquidObjects.Fare.fare_object_request(fare_card.fare_token) %>
-    <div class="col-md-6">
-      <div class="c-fare-card__fare h2">
-        <%= Fares.Format.price(fare) %>
-      </div>
+          <div class="c-fare-card__fare h2">
+            <%= Fares.Format.price(fare) %>
+          </div>
 
-      <p class="c-fare-card__media">
-        with a
-        <%= Fares.Format.media(fare) %>
-      </p>
+          <p class="c-fare-card__media">
+            with a <%= Fares.Format.media(fare) %>
+          </p>
 
-      <%= if fare_card.note do %>
-      <div class="c-fare-card__note">
-        <%= SiteWeb.ContentView.render_content(fare_card.note, @conn) %>
-      </div>
+          <%= if fare_card.note do %>
+            <div class="c-fare-card__note">
+              <%= render_content(fare_card.note, @conn) %>
+            </div>
+          <% end %>
+        </div>
       <% end %>
     </div>
-    <% end %>
-  </div>
 
-</div>
+  <% end %>
 <% end %>
+
 <% else %>
 <p>
   <em>Bad grouped fare card data</em>
