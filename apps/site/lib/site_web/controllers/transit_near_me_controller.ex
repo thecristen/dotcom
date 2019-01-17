@@ -3,7 +3,14 @@ defmodule SiteWeb.TransitNearMeController do
   alias GoogleMaps.{Geocode, MapData, MapData.Layers, MapData.Marker}
   alias Phoenix.HTML
   alias Plug.Conn
-  alias SiteWeb.TransitNearMeController.{Location, StopsWithRoutes}
+
+  alias SiteWeb.TransitNearMeController.{
+    Location,
+    RoutesAndStops,
+    RoutesWithStops,
+    StopsWithRoutes
+  }
+
   alias SiteWeb.TransitNearMeView
 
   @half_mile 0.008333
@@ -13,7 +20,7 @@ defmodule SiteWeb.TransitNearMeController do
       conn
       |> assign(:requires_google_maps?, true)
       |> assign_location()
-      |> assign_stops()
+      |> assign_stops_and_routes()
       |> assign_map_data()
       |> flash_if_error()
       |> render("index.html", breadcrumbs: [Breadcrumb.build("Transit Near Me")])
@@ -30,16 +37,22 @@ defmodule SiteWeb.TransitNearMeController do
     assign(conn, :location, location)
   end
 
-  defp assign_stops(%{assigns: %{location: {:ok, [location | _]}}} = conn) do
-    stops_with_routes_fn = Map.get(conn.assigns, :stops_with_routes_fn, &StopsWithRoutes.get/2)
+  defp assign_stops_and_routes(%{assigns: %{location: {:ok, [location | _]}}} = conn) do
+    routes_and_stops_fn = Map.get(conn.assigns, :routes_and_stops_fn, &RoutesAndStops.get/2)
+    routes_and_stops = routes_and_stops_fn.(location, [])
 
-    stops_with_routes = stops_with_routes_fn.(location, [])
+    stops_with_routes = StopsWithRoutes.from_routes_and_stops(routes_and_stops)
+    routes_with_stops = RoutesWithStops.from_routes_and_stops(routes_and_stops)
 
-    assign(conn, :stops_with_routes, stops_with_routes)
+    conn
+    |> assign(:stops_with_routes, stops_with_routes)
+    |> assign(:routes_with_stops, routes_with_stops)
   end
 
-  defp assign_stops(conn) do
-    assign(conn, :stops_with_routes, [])
+  defp assign_stops_and_routes(conn) do
+    conn
+    |> assign(:stops_with_routes, [])
+    |> assign(:routes_with_stops, [])
   end
 
   def assign_map_data(conn) do

@@ -2,10 +2,9 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutes do
   @moduledoc """
   Builds a list of stops near a location, with the routes that go through that stop.
   """
-  alias GoogleMaps.{Geocode, Geocode.Address}
-  alias Routes.{Repo, Route}
-  alias Stops.{Nearby, Stop}
-  alias Util.Distance
+  alias Routes.Route
+  alias SiteWeb.TransitNearMeController.RoutesAndStops
+  alias Stops.Stop
 
   @type route_group :: {
           Route.gtfs_route_type() | Route.subway_lines_type(),
@@ -18,49 +17,42 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutes do
           stop: Stop.t()
         }
 
-  @spec get(GoogleMaps.Geocode.Address.t(), Keyword.t()) :: [stop_with_routes]
-  def get(location, opts) do
-    opts =
-      Keyword.merge(
-        [
-          stops_nearby_fn: &Nearby.nearby/1,
-          routes_by_stop_fn: &Repo.by_stop/1
-        ],
-        opts
-      )
-
-    nearby_fn = Keyword.fetch!(opts, :stops_nearby_fn)
-    routes_by_stop_fn = Keyword.fetch!(opts, :routes_by_stop_fn)
-
-    location
-    |> nearby_fn.()
-    |> stops_with_routes(location, routes_by_stop_fn)
-  end
-
-  @spec stops_with_routes([Stop.t()], Geocode.Address.t(), (String.t() -> [Route.t()])) :: [
-          stop_with_routes
-        ]
-  defp stops_with_routes(stops, location, routes_by_stop_fn) do
-    stops
-    |> Task.async_stream(&build_stop_with_routes(&1, location, routes_by_stop_fn))
+  @spec from_routes_and_stops(RoutesAndStops.t()) :: [stop_with_routes]
+  def from_routes_and_stops(%RoutesAndStops{stops: stops_with_distances} = routes_and_stops) do
+    stops_with_distances
+    |> Map.values()
+    |> Task.async_stream(&build_stop_with_routes(&1, routes_and_stops))
     |> Enum.map(fn {:ok, map} -> map end)
   end
 
-  @spec build_stop_with_routes(Stops.Stop.t(), GoogleMaps.Geocode.Address.t(), (any() -> any())) ::
+  @spec build_stop_with_routes(RoutesAndStops.stop_with_distance_t(), RoutesAndStops.t()) ::
           stop_with_routes
-  def build_stop_with_routes(%Stop{} = stop, %Address{} = location, routes_by_stop_fn) do
+  defp build_stop_with_routes(
+         %{stop: stop, distance: distance},
+         %RoutesAndStops{} = routes_and_stops
+       ) do
+    grouped_routes =
+      stop.id
+      |> routes_for_stop(routes_and_stops)
+      |> get_route_groups()
+
     %{
       stop: stop,
-      distance: Distance.haversine(stop, location),
-      routes:
-        stop.id
-        |> routes_by_stop_fn.()
-        |> get_route_groups()
+      distance: distance,
+      routes: grouped_routes
     }
   end
 
+  @spec routes_for_stop(String.t(), RoutesAndStops.t()) :: [Route.t()]
+  defp routes_for_stop(stop_id, %RoutesAndStops{routes: routes, join: join}) do
+    join
+    |> Enum.filter(&(&1.stop_id == stop_id))
+    |> Enum.map(& &1.route_id)
+    |> Enum.map(&routes[&1])
+  end
+
   @spec get_route_groups([Route.t()]) :: [Routes.Group.t()]
-  def get_route_groups(route_list) do
+  defp get_route_groups(route_list) do
     route_list
     |> Enum.group_by(&Route.type_atom/1)
     |> Keyword.new()
