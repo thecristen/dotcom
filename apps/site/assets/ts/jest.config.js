@@ -5,10 +5,10 @@ module.exports = {
     "^.+\\.ts?$": "ts-jest"
   },
   testEnvironment: "jsdom",
-  setupTestFrameworkScriptFile: "./ts/__tests__/setupTests.ts",
+  setupTestFrameworkScriptFile: "./__tests__/setupTests.ts",
   testPathIgnorePatterns: [
     "/node_modules/",
     "./ts-build",
-    "./ts/__tests__/setupTests.ts"
+    "./__tests__/setupTests.ts"
   ]
 };

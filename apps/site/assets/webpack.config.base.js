@@ -4,9 +4,9 @@ const webpack = require("webpack");
 
 module.exports = {
   entry: {
-    app: ["./js-ts/js/app.js"],
-    core: ["./js-ts/js/core.js"],
-    tnm: ["./js-ts/ts/transit-near-me-entry.ts"]
+    app: ["./js/app.js"],
+    core: ["./js/core.js"],
+    tnm: ["./ts/transit-near-me-entry.ts"]
   },
 
   node: {

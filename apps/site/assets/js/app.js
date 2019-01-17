@@ -1,9 +1,9 @@
 document.body.className = document.body.className.replace("no-js", "js");
 
 import "@babel/polyfill";
-import "../../css/app.scss";
-import "../../vendor/fixedsticky";
-import "../../vendor/accessible-date-picker";
+import "../css/app.scss";
+import "../vendor/fixedsticky";
+import "../vendor/accessible-date-picker";
 import "bootstrap/dist/js/umd/collapse";
 import "bootstrap/dist/js/umd/modal";
 import "bootstrap/dist/js/umd/tooltip";
