@@ -6,6 +6,8 @@ defmodule SiteWeb.TransitNearMeController do
   alias SiteWeb.TransitNearMeController.{Location, StopsWithRoutes}
   alias SiteWeb.TransitNearMeView
 
+  @half_mile 0.008333
+
   def index(conn, _params) do
     if Laboratory.enabled?(conn, :transit_near_me_redesign) do
       conn
@@ -89,7 +91,24 @@ defmodule SiteWeb.TransitNearMeController do
         z_index: 100
       )
 
-    MapData.add_marker(map_data, marker)
+    map_data
+    |> MapData.add_marker(marker)
+    |> MapData.add_marker(
+      Marker.new(
+        latitude + @half_mile,
+        longitude,
+        id: "radius-east",
+        visible?: false
+      )
+    )
+    |> MapData.add_marker(
+      Marker.new(
+        latitude - @half_mile,
+        longitude,
+        id: "radius-west",
+        visible?: false
+      )
+    )
   end
 
   def add_location_marker(map_data, _) do

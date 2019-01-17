@@ -1,5 +1,4 @@
-import GoogleMap from "./google-map-class";
-import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
+import loadMap from "./transit-near-me/map.js";
 import { TransitNearMeSearch } from "./transit-near-me/search";
 
 let map;
@@ -33,17 +32,6 @@ export const onError = error => {
   if (msgEl) {
     msgEl.innerHTML = `There was an error retrieving your current location;
                        please enter an address to see transit near you.`;
-  }
-};
-
-const loadMap = () => {
-  const dataEl = document.getElementById("js-tnm-map-dynamic-data");
-  if (dataEl) {
-    doWhenGoogleMapsIsReady(() => {
-      const id = dataEl.getAttribute("data-for");
-      const data = JSON.parse(dataEl.innerHTML);
-      map = new GoogleMap(id, data);
-    });
   }
 };
 

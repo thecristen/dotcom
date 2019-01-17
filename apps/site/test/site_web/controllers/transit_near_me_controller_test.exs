@@ -153,8 +153,10 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
       assert conn.assigns.stops_with_routes == [@stop_with_routes]
       assert %MapData{} = conn.assigns.map_data
-      assert Enum.count(conn.assigns.map_data.markers) == 2
+      assert Enum.count(conn.assigns.map_data.markers) == 4
       assert %Marker{} = Enum.find(conn.assigns.map_data.markers, &(&1.id == "current-location"))
+      assert %Marker{} = Enum.find(conn.assigns.map_data.markers, &(&1.id == "radius-west"))
+      assert %Marker{} = Enum.find(conn.assigns.map_data.markers, &(&1.id == "radius-east"))
 
       assert %Marker{} =
                Enum.find(conn.assigns.map_data.markers, &(&1.id == @stop_with_routes.stop.id))
@@ -288,7 +290,10 @@ defmodule SiteWeb.TransitNearMeControllerTest do
         )
         |> TNMController.assign_map_data()
 
-      assert [marker] = conn.assigns.map_data.markers
+      assert [radius_west, radius_east, marker] = conn.assigns.map_data.markers
+      assert radius_west.id == "radius-west"
+      assert radius_east.id == "radius-east"
+      assert marker.id == "current-location"
       assert marker.tooltip == "10 Park Plaza"
     end
   end

@@ -145,9 +145,11 @@ export default class GoogleMap {
     }
   }
 
-  resetBounds() {
+  resetBounds(markerIds) {
     this.bound = new window.google.maps.LatLngBounds();
-    const markers = this.activeMarkers();
+    const markers = markerIds
+      ? markerIds.map(id => this.markers[id])
+      : this.activeMarkers();
 
     markers.forEach(marker => {
       if (marker) this.addMarkerToBounds(marker);
