@@ -48,8 +48,9 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> assign(:mode_icon, mode_strategy.mode_icon())
     |> assign(:fare_description, mode_strategy.fare_description())
     |> assign(:maps, mode_strategy.mode_icon() |> maps())
-    |> assign(:guides, mode_strategy.mode_name() |> guides())
-    |> assign(:news, mode_strategy.mode_name() |> news())
+    |> async_assign(:guides, fn -> mode_strategy.mode_name() |> guides() end)
+    |> async_assign(:news, fn -> mode_strategy.mode_name() |> teasers(:news_entry) end)
+    |> async_assign(:projects, fn -> mode_strategy.mode_name() |> teasers(:project, 2) end)
     |> assign(:breadcrumbs, [
       Breadcrumb.build("Schedules & Maps", mode_path(conn, :index)),
       Breadcrumb.build(mode_strategy.mode_name())
@@ -100,23 +101,23 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> String.replace(" ", "-")
   end
 
-  @spec news(String.t()) :: [Teaser.t()]
-  defp news(mode) do
+  @spec teasers(String.t(), atom, integer) :: [Teaser.t()]
+  defp teasers(mode, content_type, limit \\ 10) do
     mode
     |> mode_to_param()
-    |> do_news()
+    |> do_teasers(content_type, limit)
   end
 
-  @spec do_news(String.t()) :: [Teaser.t()]
-  defp do_news(mode) do
-    [mode: mode, type: :news_entry, sidebar: 1]
+  @spec do_teasers(String.t(), atom, integer) :: [Teaser.t()]
+  defp do_teasers(mode, content_type, limit) do
+    [mode: mode, type: content_type, sidebar: 1, items_per_page: limit]
     |> Content.Repo.teasers()
-    |> Enum.map(&news_url(&1, mode))
+    |> Enum.map(&teaser_url(&1, mode))
   end
 
-  @spec news_url(Teaser.t(), String.t()) :: Teaser.t()
-  defp news_url(%Teaser{} = news, mode) do
-    url = UrlHelpers.build_utm_url(news, source: "hub", term: mode, type: "sidebar")
-    %{news | path: url}
+  @spec teaser_url(Teaser.t(), String.t()) :: Teaser.t()
+  defp teaser_url(%Teaser{} = teaser, mode) do
+    url = UrlHelpers.build_utm_url(teaser, source: "hub", term: mode, type: "sidebar")
+    %{teaser | path: url}
   end
 end
