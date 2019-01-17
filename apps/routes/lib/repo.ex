@@ -246,8 +246,10 @@ defmodule Routes.Repo do
     %Routes.Route{
       id: "Green",
       name: "Green Line",
+      long_name: "Green Line",
       direction_names: %{0 => "West", 1 => "East"},
-      type: 0
+      type: 0,
+      description: :rapid_transit
     }
   end
 end

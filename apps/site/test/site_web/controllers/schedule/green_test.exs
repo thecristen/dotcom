@@ -1,16 +1,13 @@
 defmodule SiteWeb.ScheduleController.GreenTest do
+  alias Routes.Repo
+
   use SiteWeb.ConnCase, async: true
 
   import SiteWeb.ScheduleController.Green
 
   @moduletag :external
 
-  @green_line %Routes.Route{
-    id: "Green",
-    name: "Green Line",
-    direction_names: %{0 => "West", 1 => "East"},
-    type: 0
-  }
+  @green_line Repo.green_line()
 
   describe "schedule_path/3" do
     test "renders line tab without redirect when query_params doesn't include :tab", %{conn: conn} do

@@ -3,10 +3,10 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
 
   import SiteWeb.Plugs.TransitNearMe
 
-  alias SiteWeb.Plugs.TransitNearMe.Options
-  alias Routes.Route
-  alias Stops.Stop
   alias GoogleMaps.Geocode
+  alias Routes.{Repo, Route}
+  alias SiteWeb.Plugs.TransitNearMe.Options
+  alias Stops.Stop
 
   @tnm_address "10 park plaza, boston ma"
   @stop_ids [
@@ -196,7 +196,7 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
 
       assert route_list |> get_route_groups() |> Enum.sort() == [
                green_line: [
-                 %Route{id: "Green", name: "Green Line", type: 0, long_name: "Green Line"}
+                 Repo.green_line()
                ],
                red_line: [red_line]
              ]
