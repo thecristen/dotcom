@@ -56,6 +56,22 @@
   // Character/line-height includes some space, so here we
   // reduce the vertical spacing slightly to account for this
   padding: ($base-spacing / 1.5) $base-spacing;
+
+  // Prevent tables from breaking out of accordion boxes:
+  .c-media--type-table {
+    @include media-breakpoint-up(sm) {
+      .c-media__content {
+        max-width: 100%;
+        overflow-x: auto;
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      .c-media__element {
+        font-size: .875rem;
+      }
+    }
+  }
 }
 
 .c-accordion-ui__target {
