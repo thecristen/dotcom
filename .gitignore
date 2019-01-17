@@ -7,6 +7,7 @@ erl_crash.dump
 *.ez
 .DS_Store
 .ruby-version
+.vscode
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
@@ -14,6 +15,7 @@ erl_crash.dump
 /site-build.zip
 /apps/site/test/backstop_data/bitmaps_test
 /apps/site/test/backstop_data/html_report
+ts-build
 stats.json
 npm-debug.log
 /apps/news/posts.zip

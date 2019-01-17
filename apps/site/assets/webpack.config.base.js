@@ -1,14 +1,12 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const path = require("path");
 const webpack = require("webpack");
 
 module.exports = {
   entry: {
-    app: ["./js/app.js"],
-    core: ["./js/core.js"],
-    tnm: ["./js/transit-near-me-entry.js"]
+    app: ["./js-ts/js/app.js"],
+    core: ["./js-ts/js/core.js"],
+    tnm: ["./js-ts/ts/transit-near-me-entry.ts"]
   },
 
   node: {
@@ -21,8 +19,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(ts|tsx)$/,
         exclude: /(node_modules|deps)/,
+        use: "ts-loader"
+      },
+      {
+        test: /\.(js)$/,
+        exclude: /(node_modules|dep|ts)/,
         use: {
           loader: "babel-loader",
           options: {
@@ -66,5 +69,9 @@ module.exports = {
       phoenix: "phoenix",
       "autocomplete": "autocomplete.js"
     })
-  ]
+  ],
+
+  resolve: {
+    extensions: [".tsx", ".ts", ".jsx", ".js"]
+  }
 };
