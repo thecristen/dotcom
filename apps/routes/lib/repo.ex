@@ -250,7 +250,7 @@ defmodule Routes.Repo do
       direction_names: %{0 => "West", 1 => "East"},
       direction_destinations: %{
         0 => "Boston College / Cleveland Circle / Riverside / Heath Street",
-        1 => "North Station"
+        1 => "Park Street / Government Center / North Station / Lechmere"
       },
       type: 0,
       description: :rapid_transit
