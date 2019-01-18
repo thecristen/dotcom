@@ -1,4 +1,3 @@
-<% headsigns = @headsigns[@direction_id] |> Enum.map(&break_text_at_slash/1) |> Enum.intersperse(" • ") %>
 <div class="direction-filter col-xs-12 col-sm-<%= @column_width %>" <%= if @show_date_select? do "hidden" end %>>
   <%= link to: update_url(@conn, reverse_direction_opts(@origin, @destination, 1 - @direction_id)) <> "#direction-filter", id: "direction-filter", class: "filter-button" do %>
     <div class="filter-text">
@@ -7,7 +6,7 @@
         Direction of your trip:
       </div>
       <div>
-        <%= direction_with_headsign(@route, @direction_id, headsigns) %>
+        <%= direction_with_headsign(@route, @direction_id, []) %>
       </div>
     </div>
     <div class="filter-icon">

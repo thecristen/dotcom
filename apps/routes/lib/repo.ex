@@ -248,6 +248,10 @@ defmodule Routes.Repo do
       name: "Green Line",
       long_name: "Green Line",
       direction_names: %{0 => "West", 1 => "East"},
+      direction_destinations: %{
+        0 => "Boston College / Cleveland Circle / Riverside / Heath Street",
+        1 => "North Station"
+      },
       type: 0,
       description: :rapid_transit
     }

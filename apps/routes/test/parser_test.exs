@@ -13,7 +13,8 @@ defmodule Routes.ParserTest do
           "type" => 3,
           "short_name" => "",
           "long_name" => "Silver Line Waterfront",
-          "direction_names" => ["zero", "one"]
+          "direction_names" => ["zero", "one"],
+          "direction_destinations" => ["Destination 1", "Destination 2"]
         }
       }
 
@@ -29,7 +30,8 @@ defmodule Routes.ParserTest do
           "short_name" => "short",
           "long_name" => "long",
           "description" => "Key Bus Route (Frequent Service)",
-          "direction_names" => ["zero", "one"]
+          "direction_names" => ["zero", "one"],
+          "direction_destinations" => ["Destination 1", "Destination 2"]
         }
       }
 
@@ -45,7 +47,8 @@ defmodule Routes.ParserTest do
           "short_name" => "short",
           "long_name" => "long",
           "description" => "Monorail",
-          "direction_names" => ["zero", "one"]
+          "direction_names" => ["zero", "one"],
+          "direction_destinations" => ["Destination 1", "Destination 2"]
         }
       }
 
@@ -60,7 +63,8 @@ defmodule Routes.ParserTest do
           "type" => 3,
           "short_name" => "short",
           "long_name" => "long",
-          "direction_names" => ["zero", "one"]
+          "direction_names" => ["zero", "one"],
+          "direction_destinations" => ["Destination 1", "Destination 2"]
         }
       }
 
@@ -76,7 +80,8 @@ defmodule Routes.ParserTest do
           "type" => 2,
           "short_name" => "short",
           "long_name" => "long",
-          "direction_names" => ["zero", "one"]
+          "direction_names" => ["zero", "one"],
+          "direction_destinations" => ["Destination 1", "Destination 2"]
         }
       }
 
@@ -91,12 +96,30 @@ defmodule Routes.ParserTest do
           "type" => 2,
           "short_name" => "short",
           "long_name" => "",
-          "direction_names" => ["zero", "one"]
+          "direction_names" => ["zero", "one"],
+          "direction_destinations" => ["Destination 1", "Destination 2"]
         }
       }
 
       parsed = parse_route(item)
       assert parsed.name == "short"
+    end
+
+    test "parses direction attributes" do
+      item = %Item{
+        id: "id",
+        attributes: %{
+          "type" => 2,
+          "short_name" => "short",
+          "long_name" => "",
+          "direction_names" => ["zero", "one"],
+          "direction_destinations" => ["Destination 1", "Destination 2"]
+        }
+      }
+
+      parsed = parse_route(item)
+      assert parsed.direction_names == %{0 => "zero", 1 => "one"}
+      assert parsed.direction_destinations == %{0 => "Destination 1", 1 => "Destination 2"}
     end
   end
 

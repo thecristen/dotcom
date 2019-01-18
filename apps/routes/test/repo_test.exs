@@ -14,6 +14,7 @@ defmodule Routes.RepoTest do
                name: "Red Line",
                long_name: "Red Line",
                direction_names: %{0 => "South", 1 => "North"},
+               direction_destinations: %{0 => "Ashmont/Braintree", 1 => "Alewife"},
                description: :rapid_transit
              }
     end
@@ -29,6 +30,7 @@ defmodule Routes.RepoTest do
                name: "Green Line B",
                long_name: "Green Line B",
                direction_names: %{0 => "West", 1 => "East"},
+               direction_destinations: %{0 => "Boston College", 1 => "Park Street"},
                description: :rapid_transit
              }
     end
@@ -43,6 +45,7 @@ defmodule Routes.RepoTest do
                type: 3,
                name: "SL1",
                long_name: "Logan Airport - South Station",
+               direction_destinations: %{0 => "Logan Airport", 1 => "South Station"},
                description: :key_bus_route
              }
     end
@@ -57,6 +60,7 @@ defmodule Routes.RepoTest do
                type: 3,
                name: "23",
                long_name: "Ashmont - Ruggles via Washington Street",
+               direction_destinations: %{0 => "Ashmont", 1 => "Ruggles"},
                description: :key_bus_route
              }
     end
@@ -270,6 +274,7 @@ defmodule Routes.RepoTest do
             attributes: %{
               "description" => "Local Bus",
               "direction_names" => ["Outbound", "Inbound"],
+              "direction_destinations" => ["Start", "End"],
               "long_name" => "",
               "short_name" => "16",
               "sort_order" => 1600,
@@ -283,6 +288,7 @@ defmodule Routes.RepoTest do
             attributes: %{
               "description" => "Local Bus",
               "direction_names" => ["Outbound", "Inbound"],
+              "direction_destinations" => ["Start", "End"],
               "long_name" => "",
               "short_name" => "36",
               "sort_order" => 3600,
@@ -306,6 +312,7 @@ defmodule Routes.RepoTest do
             attributes: %{
               "description" => "Local Bus",
               "direction_names" => ["Outbound", "Inbound"],
+              "direction_destinations" => ["Start", "End"],
               "long_name" => "",
               "short_name" => "36",
               "sort_order" => 3600,
@@ -319,6 +326,7 @@ defmodule Routes.RepoTest do
             attributes: %{
               "description" => "Limited Service",
               "direction_names" => ["Outbound", "Inbound"],
+              "direction_destinations" => ["Start", "End"],
               "long_name" => "",
               "short_name" => "9701",
               "sort_order" => 970_100,

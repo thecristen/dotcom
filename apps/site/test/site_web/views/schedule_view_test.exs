@@ -61,7 +61,12 @@ defmodule SiteWeb.ScheduleViewTest do
     end
 
     test "uses predictions if no schedule are available (as on subways)" do
-      route = %Routes.Route{direction_names: %{1 => "North"}, id: "1"}
+      route = %Routes.Route{
+        direction_names: %{1 => "North"},
+        id: "1",
+        direction_destinations: %{1 => "End"}
+      }
+
       stop = %Stop{id: "stop"}
       now = Timex.now()
 
@@ -140,7 +145,7 @@ defmodule SiteWeb.ScheduleViewTest do
         |> assign(:date_in_rating?, true)
         |> assign(:destination, nil)
         |> assign(:origin, nil)
-        |> assign(:route, %Routes.Route{})
+        |> assign(:route, %Routes.Route{direction_destinations: %{1 => "End"}})
         |> assign(:direction_id, 1)
         |> assign(:show_date_select?, false)
         |> assign(:headsigns, %{0 => [], 1 => []})
@@ -520,7 +525,7 @@ defmodule SiteWeb.ScheduleViewTest do
           origin: nil,
           destination: nil,
           direction_id: 1,
-          route: %Routes.Route{type: 3},
+          route: %Routes.Route{type: 3, direction_destinations: %{1 => "End"}},
           date: ~D[2017-01-01],
           direction_id: 1,
           reverse_direction_all_stops: [],
@@ -569,7 +574,7 @@ defmodule SiteWeb.ScheduleViewTest do
           hours_of_operation: @hours_of_operation,
           holidays: [],
           branches: [%Stops.RouteStops{branch: nil, stops: [route_stop_1, route_stop_2]}],
-          route: %Routes.Route{type: 3},
+          route: %Routes.Route{type: 3, direction_destinations: %{1 => "End"}},
           date: ~D[2017-01-01],
           destination: nil,
           origin: nil,
@@ -653,7 +658,7 @@ defmodule SiteWeb.ScheduleViewTest do
     end
 
     test "Doesn't link to last stop if it's excluded", %{conn: conn} do
-      route = %Routes.Route{id: "route", type: 3}
+      route = %Routes.Route{id: "route", type: 3, direction_destinations: %{1 => "End"}}
 
       route_stop = %RouteStop{
         id: "last",

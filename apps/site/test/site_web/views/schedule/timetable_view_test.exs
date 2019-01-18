@@ -32,7 +32,7 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
       date = ~D[2018-01-01]
       headsigns = %{0 => ["Headsign"]}
       offset = 0
-      route = %Routes.Route{}
+      route = %Routes.Route{direction_destinations: %{0 => "End"}}
       direction_id = 0
       origin = destination = nil
       alerts = []

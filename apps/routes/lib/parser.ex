@@ -6,7 +6,8 @@ defmodule Routes.Parser do
       type: attributes["type"],
       name: name(attributes),
       long_name: attributes["long_name"],
-      direction_names: direction_names(attributes["direction_names"]),
+      direction_names: direction_attrs(attributes["direction_names"]),
+      direction_destinations: direction_attrs(attributes["direction_destinations"]),
       description: parse_gtfs_desc(attributes["description"])
     }
   end
@@ -15,7 +16,7 @@ defmodule Routes.Parser do
   defp name(%{"short_name" => short_name, "long_name" => ""}), do: short_name
   defp name(%{"long_name" => long_name}), do: long_name
 
-  defp direction_names([zero, one]) do
+  defp direction_attrs([zero, one]) do
     %{0 => zero, 1 => one}
   end
 

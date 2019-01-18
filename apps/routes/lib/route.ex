@@ -6,6 +6,7 @@ defmodule Routes.Route do
             name: "",
             long_name: "",
             direction_names: %{0 => "Outbound", 1 => "Inbound"},
+            direction_destinations: :unknown,
             description: :unknown
 
   @type id_t :: String.t()
@@ -15,6 +16,7 @@ defmodule Routes.Route do
           name: String.t(),
           long_name: String.t(),
           direction_names: %{0 => String.t(), 1 => String.t()},
+          direction_destinations: %{0 => String.t(), 1 => String.t()} | :unknown,
           description: gtfs_route_desc
         }
   @type gtfs_route_type :: :subway | :commuter_rail | :bus | :ferry
@@ -141,6 +143,11 @@ defmodule Routes.Route do
     names
     |> Map.get(direction_id)
     |> add_direction_suffix()
+  end
+
+  def direction_destination(%__MODULE__{direction_destinations: destinations}, direction_id)
+      when direction_id in [0, 1] do
+    Map.fetch!(destinations, direction_id)
   end
 
   @spec add_direction_suffix(String.t()) :: String.t()

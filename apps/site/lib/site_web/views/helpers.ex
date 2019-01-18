@@ -127,7 +127,7 @@ defmodule SiteWeb.ViewHelpers do
   def direction_with_headsign(route, direction_id, headsign)
 
   def direction_with_headsign(route, direction_id, empty) when empty in ["", []] do
-    Routes.Route.direction_name(route, direction_id)
+    direction_with_headsign(route, direction_id, Route.direction_destination(route, direction_id))
   end
 
   def direction_with_headsign(route, direction_id, headsign) do

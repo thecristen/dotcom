@@ -5,7 +5,7 @@ defmodule SiteWeb.ViewHelpersTest do
   import SiteWeb.ViewHelpers
   import Phoenix.HTML.Tag, only: [tag: 2, content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1, html_escape: 1]
-  alias Routes.Route
+  alias Routes.{Repo, Route}
 
   describe "break_text_at_slash/1" do
     test "doesn't change text without slashes" do
@@ -250,12 +250,18 @@ defmodule SiteWeb.ViewHelpersTest do
       assert actual =~ "headsign"
     end
 
-    test "skips the arrow and headsign if the headsign is empty" do
-      actual = safe_to_string(html_escape(direction_with_headsign(%Route{}, 0, "")))
-      refute actual =~ "arrow-right"
+    test "uses route's direction_destination if the headsign is empty" do
+      route = Repo.get("1")
 
-      actual = safe_to_string(html_escape(direction_with_headsign(%Route{}, 0, [])))
-      refute actual =~ "arrow-right"
+      actual = route |> direction_with_headsign(0, "") |> html_escape() |> safe_to_string()
+      assert actual =~ "Outbound"
+      assert actual =~ "arrow-right"
+      assert actual =~ "Harvard"
+
+      actual = route |> direction_with_headsign(0, []) |> html_escape() |> safe_to_string()
+      assert actual =~ "Outbound"
+      assert actual =~ "arrow-right"
+      assert actual =~ "Harvard"
     end
   end
 

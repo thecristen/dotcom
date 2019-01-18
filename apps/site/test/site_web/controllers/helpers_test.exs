@@ -349,11 +349,12 @@ defmodule SiteWeb.ControllerHelpersTest do
     end
   end
 
-  describe "green_routes/0" do
+  test "green_routes/0" do
     assert green_routes() == [
              %Routes.Route{
                description: :rapid_transit,
                direction_names: %{0 => "West", 1 => "East"},
+               direction_destinations: %{0 => "Boston College", 1 => "Park Street"},
                id: "Green-B",
                long_name: "Green Line B",
                name: "Green Line B",
@@ -362,6 +363,7 @@ defmodule SiteWeb.ControllerHelpersTest do
              %Routes.Route{
                description: :rapid_transit,
                direction_names: %{0 => "West", 1 => "East"},
+               direction_destinations: %{0 => "Cleveland Circle", 1 => "North Station"},
                id: "Green-C",
                long_name: "Green Line C",
                name: "Green Line C",
@@ -370,6 +372,7 @@ defmodule SiteWeb.ControllerHelpersTest do
              %Routes.Route{
                description: :rapid_transit,
                direction_names: %{0 => "West", 1 => "East"},
+               direction_destinations: %{0 => "Riverside", 1 => "Government Center"},
                id: "Green-D",
                long_name: "Green Line D",
                name: "Green Line D",
@@ -378,6 +381,7 @@ defmodule SiteWeb.ControllerHelpersTest do
              %Routes.Route{
                description: :rapid_transit,
                direction_names: %{0 => "West", 1 => "East"},
+               direction_destinations: %{0 => "Heath Street", 1 => "Lechmere"},
                id: "Green-E",
                long_name: "Green Line E",
                name: "Green Line E",

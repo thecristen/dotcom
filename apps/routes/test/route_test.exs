@@ -122,6 +122,20 @@ defmodule Routes.RouteTest do
     end
   end
 
+  describe "direction_destination/2" do
+    test "returns the destination of the direction" do
+      route = %Route{
+        direction_destinations: %{
+          0 => "Start",
+          1 => "End"
+        }
+      }
+
+      assert direction_destination(route, 0) == "Start"
+      assert direction_destination(route, 1) == "End"
+    end
+  end
+
   describe "vehicle_name/1" do
     test "returns the appropriate type of vehicle" do
       for {type, name} <- [
