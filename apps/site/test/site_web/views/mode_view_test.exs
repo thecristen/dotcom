@@ -1,10 +1,12 @@
 defmodule SiteWeb.ModeViewTest do
   use ExUnit.Case, async: true
-  alias Content.Paragraph.FareCard
-  alias SiteWeb.ModeView
-  alias Routes.Route
-  alias Alerts.Alert
+
   import Phoenix.HTML, only: [safe_to_string: 1]
+
+  alias Alerts.Alert
+  alias Content.Paragraph.{Column, ColumnMulti, FareCard}
+  alias Routes.Route
+  alias SiteWeb.ModeView
 
   describe "fares_note/1" do
     test "Commuter Rail has note" do
@@ -122,36 +124,55 @@ defmodule SiteWeb.ModeViewTest do
     end
   end
 
-  describe "fares" do
-    test "returns all fare card data" do
-      assert %{
-               commuter_rail: %FareCard{},
-               ferry: %FareCard{},
-               subway: [%FareCard{}, %FareCard{}],
-               bus: [%FareCard{}, %FareCard{}]
-             } = ModeView.fare_cards()
+  describe "grouped_fares" do
+    test "returns grouped fare card data" do
+      assert [
+               %ColumnMulti{
+                 columns: [
+                   %Column{paragraphs: [%FareCard{fare_token: "subway:charlie_card"}]},
+                   %Column{paragraphs: [%FareCard{fare_token: "subway:charlie_ticket"}]}
+                 ]
+               },
+               %ColumnMulti{
+                 columns: [
+                   %Column{paragraphs: [%FareCard{fare_token: "local_bus:charlie_card"}]},
+                   %Column{paragraphs: [%FareCard{fare_token: "local_bus:charlie_ticket"}]}
+                 ]
+               }
+             ] = ModeView.grouped_fares()
     end
+  end
 
-    test "returns :commuter_rail fare card data" do
-      assert %FareCard{fare_token: "commuter_rail"} = ModeView.fare_cards(:commuter_rail)
+  describe "single_fares" do
+    test "returns single fare card data" do
+      assert [
+               %FareCard{fare_token: "commuter_rail"},
+               %FareCard{fare_token: "ferry"}
+             ] = ModeView.single_fares()
     end
+  end
 
-    test "returns :ferry fare card data" do
-      assert %FareCard{fare_token: "ferry"} = ModeView.fare_cards(:ferry)
-    end
-
+  describe "fare_card/1" do
     test "returns :subway fare card data" do
       assert [
-               %FareCard{fare_token: "subway:charlie_card:single_trip"},
-               %FareCard{fare_token: "subway:charlie_ticket:single_trip"}
-             ] = ModeView.fare_cards(:subway)
+               %Column{paragraphs: [%FareCard{fare_token: "subway:charlie_card"}]},
+               %Column{paragraphs: [%FareCard{fare_token: "subway:charlie_ticket"}]}
+             ] = ModeView.fare_card(:subway)
     end
 
     test "returns :bus fare card data" do
       assert [
-               %FareCard{fare_token: "local_bus:charlie_card:single_trip"},
-               %FareCard{fare_token: "local_bus:charlie_ticket:single_trip"}
-             ] = ModeView.fare_cards(:bus)
+               %Column{paragraphs: [%FareCard{fare_token: "local_bus:charlie_card"}]},
+               %Column{paragraphs: [%FareCard{fare_token: "local_bus:charlie_ticket"}]}
+             ] = ModeView.fare_card(:bus)
+    end
+
+    test "returns :commuter_rail fare card data" do
+      assert %FareCard{fare_token: "commuter_rail"} = ModeView.fare_card(:commuter_rail)
+    end
+
+    test "returns :ferry fare card data" do
+      assert %FareCard{fare_token: "ferry"} = ModeView.fare_card(:ferry)
     end
   end
 end

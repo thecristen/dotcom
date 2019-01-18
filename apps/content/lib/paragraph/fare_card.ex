@@ -3,14 +3,16 @@ defmodule Content.Paragraph.FareCard do
   Represents a Fare Card paragraph type from the CMS.
   """
 
+  alias Content.Field.Link
   alias Content.Helpers
   alias Content.Paragraph.CustomHTML
 
-  defstruct [:fare_token, :note]
+  defstruct [:fare_token, :note, :link]
 
   @type t :: %__MODULE__{
           fare_token: String.t(),
-          note: CustomHTML.t()
+          note: CustomHTML.t(),
+          link: Link.t() | nil
         }
 
   @spec from_api(map) :: t
@@ -19,7 +21,8 @@ defmodule Content.Paragraph.FareCard do
          note <- note(data) do
       %__MODULE__{
         fare_token: fare_token,
-        note: note
+        note: note,
+        link: nil
       }
     end
   end

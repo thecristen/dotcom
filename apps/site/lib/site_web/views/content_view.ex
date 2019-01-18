@@ -1,8 +1,9 @@
 defmodule SiteWeb.ContentView do
   use SiteWeb, :view
+
   import SiteWeb.TimeHelpers
 
-  alias Content.Field.{File, Image}
+  alias Content.Field.{File, Image, Link}
   alias Content.Paragraph
   alias Content.Paragraph.{Callout, ColumnMulti, FareCard}
   alias Site.ContentRewriter
@@ -39,14 +40,26 @@ defmodule SiteWeb.ContentView do
   def render_content(paragraph, conn)
 
   def render_content(%ColumnMulti{display_options: "grouped"} = paragraph, conn) do
-    grouped_fare_card_data =
+    fare_cards =
       paragraph.columns
       |> nested_paragraphs()
       |> grouped_fare_card_data()
 
+    group_fare = List.first(fare_cards)
+
     render(
       "_grouped_fare_card.html",
-      fare_cards: grouped_fare_card_data,
+      fare_cards: fare_cards,
+      element: fare_card_element(group_fare.link),
+      conn: conn
+    )
+  end
+
+  def render_content(%FareCard{} = paragraph, conn) do
+    render(
+      "_fare_card.html",
+      fare_card: paragraph,
+      element: fare_card_element(paragraph.link),
       conn: conn
     )
   end
@@ -146,13 +159,17 @@ defmodule SiteWeb.ContentView do
   defp grouped_fare_card_data(paragraphs) when is_list(paragraphs) do
     Enum.map(
       paragraphs,
-      &%FareCard{fare_token: &1.fare_token, note: &1.note}
+      &struct(FareCard, fare_token: &1.fare_token, note: &1.note, link: &1.link)
     )
   end
 
   defp grouped_fare_card_data(_) do
     nil
   end
+
+  @spec fare_card_element(Link.t() | nil) :: map
+  defp fare_card_element(%Link{url: url}), do: %{tag: :a, attrs: [href: url]}
+  defp fare_card_element(nil), do: %{tag: :div, attrs: []}
 
   @spec paragraph_classes(Paragraph.t()) :: iodata()
   defp paragraph_classes(paragraph)

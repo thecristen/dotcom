@@ -1,9 +1,11 @@
 defmodule SiteWeb.ViewHelpers do
+  import Site.ContentRewriters.LiquidObjects.Fare, only: [fare_object_request: 1]
   import SiteWeb.Router.Helpers, only: [redirect_path: 3, stop_path: 3]
   import Phoenix.HTML, only: [raw: 1]
   import Phoenix.HTML.Link, only: [link: 2]
   import Phoenix.HTML.Tag, only: [content_tag: 3, tag: 2]
   import Plug.Conn
+
   alias Routes.Route
 
   # precompile the SVGs, rather than hitting the filesystem every time
@@ -440,6 +442,11 @@ defmodule SiteWeb.ViewHelpers do
     |> List.last()
     |> Macro.underscore()
     |> String.replace("_", glue)
+  end
+
+  @spec fare_from_token(String.t()) :: Fares.Fare.t() | Fares.Summary.t()
+  def fare_from_token(token) do
+    fare_object_request(token)
   end
 
   def pretty_date(date, format \\ "{Mshort} {D}") do

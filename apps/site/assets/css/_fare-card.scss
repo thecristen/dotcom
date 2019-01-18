@@ -1,4 +1,5 @@
 .c-fare-card {
+  background-color: $white;
   border: 2px solid;
   flex-grow: 1;
   line-height: normal;
@@ -10,13 +11,6 @@
 
   @include media-breakpoint-down(sm) {
     max-width: 20rem;
-  }
-
-  // When columns break and are stacked add extra spacing between cards
-  div ~ div > &:first-child {
-    @include media-breakpoint-down(sm) {
-      margin-top: 2.375rem;
-    }
   }
 
   &__icon {
@@ -46,6 +40,12 @@
 
   &__note {
     font-size: .875rem;
+  }
+
+  &--linked {
+    @extend %button-focus-color;
+    color: $black;
+    display: block;
   }
 
   &--subway {

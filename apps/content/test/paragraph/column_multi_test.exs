@@ -6,6 +6,24 @@ defmodule Content.Paragraph.ColumnMultiTest do
   alias Content.Paragraph.{Column, ColumnMulti, CustomHTML, DescriptiveLink, FareCard}
   alias Phoenix.HTML
 
+  test "new/0 creates a new, complete ColumnMulti struct" do
+    assert %ColumnMulti{
+             header: nil,
+             columns: [],
+             display_options: "default",
+             right_rail: false
+           } = ColumnMulti.new()
+  end
+
+  test "new/1 creates a new, complete ColumnMulti struct with overidden properties" do
+    assert %ColumnMulti{
+             header: nil,
+             columns: [],
+             display_options: "grouped",
+             right_rail: true
+           } = ColumnMulti.new(display_options: "grouped", right_rail: true)
+  end
+
   test "is_grouped?/1 returns whether or not the ColumnMulti paragraph is grouped" do
     grouped_column_multi = %ColumnMulti{display_options: "grouped"}
     ungrouped_column_multi = %ColumnMulti{display_options: "default"}

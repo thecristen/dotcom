@@ -106,13 +106,7 @@
   }
 }
 
-.m-mode-hub__fare {
-  color: $black;
-
-  &:hover {
-    text-decoration: none;
-  }
-
+.m-mode-hub__fares {
   .c-fare-card {
     @include media-breakpoint-down(md) {
       max-width: none;

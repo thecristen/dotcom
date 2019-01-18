@@ -7,11 +7,11 @@ defmodule Content.Paragraph.ColumnMulti do
 
   defstruct header: nil,
             columns: [],
-            display_options: nil,
+            display_options: "default",
             right_rail: false
 
   @type t :: %__MODULE__{
-          header: ColumnMultiHeader.t(),
+          header: ColumnMultiHeader.t() | nil,
           columns: [Column.t()],
           display_options: String.t(),
           right_rail: boolean
@@ -42,6 +42,10 @@ defmodule Content.Paragraph.ColumnMulti do
       right_rail: right_rail
     }
   end
+
+  @doc "Create a default Paragraph type with optional overrides"
+  @spec new(Keyword.t()) :: __MODULE__.t()
+  def new(opts \\ []), do: struct(__MODULE__, opts)
 
   @spec is_grouped?(__MODULE__.t()) :: boolean
   def is_grouped?(%__MODULE__{display_options: "grouped"}), do: true

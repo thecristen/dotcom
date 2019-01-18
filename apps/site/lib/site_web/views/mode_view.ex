@@ -1,10 +1,12 @@
 defmodule SiteWeb.ModeView do
   use SiteWeb, :view
+
   alias Alerts.Match
-  alias Content.Paragraph.{CustomHTML, FareCard}
+  alias Content.Field.Link
+  alias Content.Paragraph.{Column, ColumnMulti, CustomHTML, FareCard}
+  alias Routes.Route
   alias Site.MapHelpers
   alias SiteWeb.PartialView.SvgIconWithCircle
-  alias Routes.Route
 
   def get_route_group(:commuter_rail = route_type, route_groups) do
     # Note that we do not sort the commuter rail routes by name as we
@@ -222,47 +224,80 @@ defmodule SiteWeb.ModeView do
     %CustomHTML{body: raw("Limited transfers")}
   end
 
-  @spec fare_cards :: %{
-          commuter_rail: FareCard.t() | list(FareCard.t()),
-          ferry: FareCard.t() | list(FareCard.t()),
-          subway: FareCard.t() | list(FareCard.t()),
-          bus: FareCard.t() | list(FareCard.t())
-        }
-  def fare_cards do
-    %{
-      commuter_rail: fare_cards(:commuter_rail),
-      ferry: fare_cards(:ferry),
-      subway: fare_cards(:subway),
-      bus: fare_cards(:bus)
-    }
+  @spec grouped_fares :: [ColumnMulti.t()]
+  def grouped_fares do
+    [
+      ColumnMulti.new(columns: fare_card(:subway), display_options: "grouped"),
+      ColumnMulti.new(columns: fare_card(:bus), display_options: "grouped")
+    ]
   end
 
-  @spec fare_cards(:bus | :commuter_rail | :ferry | :subway) :: [FareCard.t()] | FareCard.t()
-  def fare_cards(:commuter_rail) do
+  @spec single_fares :: [FareCard.t()]
+  def single_fares do
+    [
+      fare_card(:commuter_rail),
+      fare_card(:ferry)
+    ]
+  end
+
+  @spec fare_card(:bus | :commuter_rail | :ferry | :subway) :: [Column.t()] | FareCard.t()
+  def fare_card(:subway) do
+    [
+      %Column{
+        paragraphs: [
+          %FareCard{
+            fare_token: "subway:charlie_card",
+            note: charlie_card_note(),
+            link: %Link{url: "/fares/subway-fares"}
+          }
+        ]
+      },
+      %Column{
+        paragraphs: [
+          %FareCard{
+            fare_token: "subway:charlie_ticket",
+            note: charlie_ticket_note()
+          }
+        ]
+      }
+    ]
+  end
+
+  def fare_card(:bus) do
+    [
+      %Column{
+        paragraphs: [
+          %FareCard{
+            fare_token: "local_bus:charlie_card",
+            note: charlie_card_note(),
+            link: %Link{url: "/fares/bus-fares"}
+          }
+        ]
+      },
+      %Column{
+        paragraphs: [
+          %FareCard{
+            fare_token: "local_bus:charlie_ticket",
+            note: charlie_ticket_note()
+          }
+        ]
+      }
+    ]
+  end
+
+  def fare_card(:commuter_rail) do
     %FareCard{
       fare_token: "commuter_rail",
-      note: %CustomHTML{body: "Price based on Zone, no transfers"}
+      note: %CustomHTML{body: raw("Price based on Zone, no transfers")},
+      link: %Link{url: "/fares/commuter-rail-fares"}
     }
   end
 
-  def fare_cards(:ferry) do
+  def fare_card(:ferry) do
     %FareCard{
       fare_token: "ferry",
-      note: %CustomHTML{body: "Price based on route taken, no transfers"}
+      note: %CustomHTML{body: raw("Price based on route taken, no transfers")},
+      link: %Link{url: "/fares/ferry-fares"}
     }
-  end
-
-  def fare_cards(:subway) do
-    [
-      %FareCard{fare_token: "subway:charlie_card:single_trip", note: charlie_card_note()},
-      %FareCard{fare_token: "subway:charlie_ticket:single_trip", note: charlie_ticket_note()}
-    ]
-  end
-
-  def fare_cards(:bus) do
-    [
-      %FareCard{fare_token: "local_bus:charlie_card:single_trip", note: charlie_card_note()},
-      %FareCard{fare_token: "local_bus:charlie_ticket:single_trip", note: charlie_ticket_note()}
-    ]
   end
 end
