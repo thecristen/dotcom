@@ -214,90 +214,71 @@ defmodule SiteWeb.ModeView do
   defp in_range?(first, last, value) when value >= first and value <= last, do: true
   defp in_range?(_, _, _), do: false
 
-  @spec charlie_card_note :: CustomHTML.t()
-  defp charlie_card_note do
-    %CustomHTML{body: raw("1 free transfer to Local Bus within 2 hours")}
-  end
-
-  @spec charlie_ticket_note :: CustomHTML.t()
-  defp charlie_ticket_note do
-    %CustomHTML{body: raw("Limited transfers")}
-  end
-
-  @spec grouped_fares :: [ColumnMulti.t()]
-  def grouped_fares do
+  @spec fare_groups :: [ColumnMulti.t()]
+  def fare_groups do
     [
-      ColumnMulti.new(columns: fare_card(:subway), display_options: "grouped"),
-      ColumnMulti.new(columns: fare_card(:bus), display_options: "grouped")
+      ColumnMulti.new(columns: [fare_card(:subway), fare_card(:bus)]),
+      ColumnMulti.new(columns: [fare_card(:commuter_rail), fare_card(:ferry)])
     ]
   end
 
-  @spec single_fares :: [FareCard.t()]
-  def single_fares do
-    [
-      fare_card(:commuter_rail),
-      fare_card(:ferry)
-    ]
-  end
-
-  @spec fare_card(:bus | :commuter_rail | :ferry | :subway) :: [Column.t()] | FareCard.t()
-  def fare_card(:subway) do
-    [
-      %Column{
-        paragraphs: [
-          %FareCard{
-            fare_token: "subway:charlie_card",
-            note: charlie_card_note(),
-            link: %Link{url: "/fares/subway-fares"}
-          }
-        ]
-      },
-      %Column{
-        paragraphs: [
-          %FareCard{
-            fare_token: "subway:charlie_ticket",
-            note: charlie_ticket_note()
-          }
-        ]
-      }
-    ]
-  end
-
-  def fare_card(:bus) do
-    [
-      %Column{
-        paragraphs: [
-          %FareCard{
-            fare_token: "local_bus:charlie_card",
-            note: charlie_card_note(),
-            link: %Link{url: "/fares/bus-fares"}
-          }
-        ]
-      },
-      %Column{
-        paragraphs: [
-          %FareCard{
-            fare_token: "local_bus:charlie_ticket",
-            note: charlie_ticket_note()
-          }
-        ]
-      }
-    ]
-  end
-
-  def fare_card(:commuter_rail) do
-    %FareCard{
-      fare_token: "commuter_rail",
-      note: %CustomHTML{body: raw("Price based on Zone, no transfers")},
-      link: %Link{url: "/fares/commuter-rail-fares"}
+  @spec fare_card(:bus | :commuter_rail | :ferry | :subway) :: Column.t()
+  defp fare_card(:subway) do
+    %Column{
+      paragraphs: [
+        %FareCard{
+          fare_token: "subway:charlie_card",
+          note: %CustomHTML{
+            body: raw("#{fare_price("subway:cash")} with a CharlieTicket or cash")
+          },
+          link: %Link{url: "/fares/subway-fares"}
+        }
+      ]
     }
   end
 
-  def fare_card(:ferry) do
-    %FareCard{
-      fare_token: "ferry",
-      note: %CustomHTML{body: raw("Price based on route taken, no transfers")},
-      link: %Link{url: "/fares/ferry-fares"}
+  defp fare_card(:bus) do
+    %Column{
+      paragraphs: [
+        %FareCard{
+          fare_token: "local_bus:charlie_card",
+          note: %CustomHTML{
+            body: raw("#{fare_price("local_bus:cash")} with a CharlieTicket or cash")
+          },
+          link: %Link{url: "/fares/bus-fares"}
+        }
+      ]
     }
+  end
+
+  defp fare_card(:commuter_rail) do
+    %Column{
+      paragraphs: [
+        %FareCard{
+          fare_token: "commuter_rail",
+          note: %CustomHTML{body: raw("Price based on distance traveled")},
+          link: %Link{url: "/fares/commuter-rail-fares"}
+        }
+      ]
+    }
+  end
+
+  defp fare_card(:ferry) do
+    %Column{
+      paragraphs: [
+        %FareCard{
+          fare_token: "ferry",
+          note: %CustomHTML{body: raw("Price based on route taken")},
+          link: %Link{url: "/fares/ferry-fares"}
+        }
+      ]
+    }
+  end
+
+  defp fare_price(token) do
+    token
+    |> String.replace_prefix("fare:", "")
+    |> fare_from_token()
+    |> Fares.Format.price()
   end
 end

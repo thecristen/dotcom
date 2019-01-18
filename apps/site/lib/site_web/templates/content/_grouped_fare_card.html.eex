@@ -39,7 +39,7 @@
 
         <% fare = fare_from_token(fare_card.fare_token) %>
 
-        <div class="c-multi-column__column col-md-6">
+        <div class="c-multi-column__column col-sm-6">
 
           <div class="c-fare-card__fare h2">
             <%= Fares.Format.price(fare) %>

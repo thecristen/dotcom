@@ -9,10 +9,6 @@
   text-align: center;
   width: 100%;
 
-  @include media-breakpoint-down(sm) {
-    max-width: 20rem;
-  }
-
   &__icon {
     @include icon-size(2.75rem);
     left: 50%;
@@ -87,7 +83,7 @@
     &:first-child {
       border-right: 2px solid;
 
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-only(xs) {
         border-bottom: 2px solid;
         border-right: 0;
       }

@@ -124,55 +124,22 @@ defmodule SiteWeb.ModeViewTest do
     end
   end
 
-  describe "grouped_fares" do
+  describe "fare_groups" do
     test "returns grouped fare card data" do
       assert [
                %ColumnMulti{
                  columns: [
                    %Column{paragraphs: [%FareCard{fare_token: "subway:charlie_card"}]},
-                   %Column{paragraphs: [%FareCard{fare_token: "subway:charlie_ticket"}]}
+                   %Column{paragraphs: [%FareCard{fare_token: "local_bus:charlie_card"}]}
                  ]
                },
                %ColumnMulti{
                  columns: [
-                   %Column{paragraphs: [%FareCard{fare_token: "local_bus:charlie_card"}]},
-                   %Column{paragraphs: [%FareCard{fare_token: "local_bus:charlie_ticket"}]}
+                   %Column{paragraphs: [%FareCard{fare_token: "commuter_rail"}]},
+                   %Column{paragraphs: [%FareCard{fare_token: "ferry"}]}
                  ]
                }
-             ] = ModeView.grouped_fares()
-    end
-  end
-
-  describe "single_fares" do
-    test "returns single fare card data" do
-      assert [
-               %FareCard{fare_token: "commuter_rail"},
-               %FareCard{fare_token: "ferry"}
-             ] = ModeView.single_fares()
-    end
-  end
-
-  describe "fare_card/1" do
-    test "returns :subway fare card data" do
-      assert [
-               %Column{paragraphs: [%FareCard{fare_token: "subway:charlie_card"}]},
-               %Column{paragraphs: [%FareCard{fare_token: "subway:charlie_ticket"}]}
-             ] = ModeView.fare_card(:subway)
-    end
-
-    test "returns :bus fare card data" do
-      assert [
-               %Column{paragraphs: [%FareCard{fare_token: "local_bus:charlie_card"}]},
-               %Column{paragraphs: [%FareCard{fare_token: "local_bus:charlie_ticket"}]}
-             ] = ModeView.fare_card(:bus)
-    end
-
-    test "returns :commuter_rail fare card data" do
-      assert %FareCard{fare_token: "commuter_rail"} = ModeView.fare_card(:commuter_rail)
-    end
-
-    test "returns :ferry fare card data" do
-      assert %FareCard{fare_token: "ferry"} = ModeView.fare_card(:ferry)
+             ] = ModeView.fare_groups()
     end
   end
 end

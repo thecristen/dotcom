@@ -543,7 +543,7 @@ defmodule SiteWeb.ContentViewTest do
         |> HTML.safe_to_string()
 
       assert rendered_quarters =~ "<h4>This is a multi-column header</h4>"
-      assert rendered_quarters =~ "c-multi-column__column col-md-3"
+      assert rendered_quarters =~ "c-multi-column__column col-sm-6 col-md-3"
       assert rendered_quarters =~ "Column 1"
       assert rendered_quarters =~ "Column 2"
       assert rendered_quarters =~ "Column 3"
@@ -551,17 +551,17 @@ defmodule SiteWeb.ContentViewTest do
 
       assert rendered_thirds =~ "<h4>This is a multi-column header</h4>"
 
-      assert rendered_thirds =~ "c-multi-column__column col-md-4"
+      assert rendered_thirds =~ "c-multi-column__column col-sm-6 col-md-4"
       assert rendered_thirds =~ "Column 1"
       assert rendered_thirds =~ "Column 3"
 
       assert rendered_halves =~ "<h4>This is a multi-column header</h4>"
-      assert rendered_halves =~ "c-multi-column__column col-md-6"
+      assert rendered_halves =~ "c-multi-column__column col-sm-6 col-md-6"
       assert rendered_halves =~ "Column 1"
       assert rendered_halves =~ "Column 2"
 
       assert rendered_single =~ "<h4>This is a multi-column header</h4>"
-      assert rendered_single =~ "c-multi-column__column col-md-6"
+      assert rendered_single =~ "c-multi-column__column col-sm-6 col-md-6"
       assert rendered_single =~ "Column 1"
     end
 

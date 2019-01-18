@@ -105,11 +105,3 @@
     margin-top: $base-spacing;
   }
 }
-
-.m-mode-hub__fares {
-  .c-fare-card {
-    @include media-breakpoint-down(md) {
-      max-width: none;
-    }
-  }
-}
