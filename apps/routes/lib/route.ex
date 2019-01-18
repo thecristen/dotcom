@@ -80,6 +80,11 @@ defmodule Routes.Route do
   def icon_atom(%__MODULE__{id: "Green-C"}), do: :green_line_c
   def icon_atom(%__MODULE__{id: "Green-D"}), do: :green_line_d
   def icon_atom(%__MODULE__{id: "Green-E"}), do: :green_line_e
+
+  for silver_line_route <- @silver_line do
+    def icon_atom(%__MODULE__{id: unquote(silver_line_route)}), do: unquote(:silver_line)
+  end
+
   def icon_atom(%__MODULE__{} = route), do: type_atom(route.type)
 
   @spec path_atom(t) :: gtfs_route_type

@@ -60,7 +60,8 @@
   }
 }
 
-.c-grid-button--bus {
+.c-grid-button--bus,
+.c-grid-button--silver-line {
   @include media-breakpoint-up(sm) {
     flex-basis: 20%;
     max-width: 20%;
