@@ -249,11 +249,11 @@ $layout-media: (
   }
 
   // Don't interrupt vertical rhythm of h1 + .page-section
-  &:first-child {
+  .page-section > &:first-child {
     margin-top: 0;
   }
 
-  // Unless columns are stacked, stip offset/float media styles
+  // Unless columns are stacked, strip offset/float media styles
   @each $breakpoint in (xs, sm, md) {
     [class*="col-#{$breakpoint}"] & {
       @include media-breakpoint-up($breakpoint) {
@@ -289,6 +289,12 @@ $layout-media: (
 
     .c-media--align-right & {
       margin-left: $half-gutter;
+    }
+  }
+
+  .c-media.c-media--type-cards & {
+    .c-cms__body & {
+      float: none;
     }
   }
 }

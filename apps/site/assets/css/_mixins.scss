@@ -246,6 +246,20 @@
   }
 }
 
+// Match horizontally paired links' gutters with
+// vertical gutters (useful for mixed groups).
+@mixin adjacent-descriptive-links {
+  @include media-breakpoint-up(sm) {
+    margin-top: $grid-gutter-width;
+  }
+}
+
+// Hack to force margin clearance between $location
+// of current element and adjacent element.
+@mixin margin-clearance($location: top) {
+  border-#{$location}: 1px solid transparent;
+}
+
 /////////////////////////////////////////////////
 // Supporting @mixins for icon alignment below //
 /////////////////////////////////////////////////

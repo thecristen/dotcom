@@ -93,7 +93,7 @@
 }
 
 .u-padding-top {
-  padding-top: 1rem;
+  padding-top: $base-spacing;
 }
 
 .u-error {
@@ -103,6 +103,9 @@
 }
 
 .u-full-bleed {
+  // Disable upper margin collapse since we want the bg color here.
+  @include margin-clearance;
+
   background-color: $brand-primary-lightest-contrast;
 
   // Visual trick to avoid horizontal overflow scrollbars
@@ -112,8 +115,8 @@
               -33vw 0 $brand-primary-lightest-contrast,
                33vw 0 $brand-primary-lightest-contrast;
 
-  margin-bottom: 3rem;
-  margin-top: 3rem;
+  margin-bottom: 3 * $base-spacing;
+  margin-top: 3 * $base-spacing;
 
   @include media-breakpoint-up(lg) {
     // Multiple sets are needed at wider breakpoints to fill

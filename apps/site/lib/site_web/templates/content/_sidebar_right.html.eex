@@ -2,15 +2,13 @@
   right_rail_paragraphs =
     @page.paragraphs
     |> Enum.filter(&Content.Paragraph.right_rail?(&1))
-    # Remove the right_rail flag so that paragraphs in the right rail are not
-    # wrapped with a callout (which is triggered by right_rail: true)
+    ## Strip right-rail flag (any paragraph here is right rail by context).
+    ## This also prevents `u-full-bleed` class from being applied to right rail paragraphs.
     |> Enum.map(&(%{&1 | right_rail: false}))
 %>
 
 <div class="c-cms__sidebar">
   <%= for paragraph <- right_rail_paragraphs do %>
-    <div class="c-paragraph c-right-rail-paragraph">
-      <%= render_content(paragraph, @conn) %>
-    </div>
+    <%= render_paragraph(paragraph, @conn) %>
   <% end %>
 </div>

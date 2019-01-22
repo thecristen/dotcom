@@ -87,7 +87,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "c-cms--sidebar-right"
       assert rendered =~ "Hello"
       assert rendered =~ "world"
-      assert rendered =~ "c-right-rail-paragraph"
+      assert rendered =~ "c-paragraph--right-rail"
     end
   end
 

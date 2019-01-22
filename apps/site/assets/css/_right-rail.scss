@@ -3,8 +3,7 @@
   // Any paragraph in the sidebar == a "right-rail" paragraph
   .c-paragraph {
     background-color: $brand-primary-lightest-contrast;
-    margin-bottom: 1rem;
-    padding: 1rem;
+    padding: $base-spacing; // Sidebar paragraphs don't get .u-full-bleed, so add this manually here
 
     // Right sidebar paragraphs are cloned from their sources
     // located in .c-cms__body. They switch visibility with
@@ -13,34 +12,20 @@
       display: none;
     }
 
-    // Adjust the top margin of the first direct child header,
-    // or the first header in the first column of a multi-column.
-    // scss-lint:disable SelectorDepth
-    > h1:first-child,
-    > .h1:first-child,
-    > h2:first-child,
-    > .h2:first-child,
-    > h3:first-child,
-    > .h3:first-child,
-    > h4:first-child,
-    > .h4:first-child,
-    > h5:first-child,
-    > .h5:first-child,
-    > h6:first-child,
-    > .h6:first-child,
-    .c-multi-column__column:first-of-type h1:first-child,
-    .c-multi-column__column:first-of-type .h1:first-child,
-    .c-multi-column__column:first-of-type h2:first-child,
-    .c-multi-column__column:first-of-type .h2:first-child,
-    .c-multi-column__column:first-of-type h3:first-child,
-    .c-multi-column__column:first-of-type .h3:first-child,
-    .c-multi-column__column:first-of-type h4:first-child,
-    .c-multi-column__column:first-of-type .h4:first-child,
-    .c-multi-column__column:first-of-type h5:first-child,
-    .c-multi-column__column:first-of-type .h5:first-child,
-    .c-multi-column__column:first-of-type h6:first-child,
-    .c-multi-column__column:first-of-type .h6:first-child {
-      @include reduce-adjacent-heading-space();
+    // Optical adjustment to top margin of the first direct child
+    // heading due to presence background color in sidebar paragraphs.
+    @each $heading in $headings {
+      > #{$heading}:first-child,
+      > .#{$heading}:first-child,
+      .c-multi-column__column:first-child > #{$heading}:first-child,
+      .c-multi-column__column:first-child > .#{$heading}:first-child {
+        margin-top: .125em; // Should be relative to heading font-size
+      }
+    }
+
+    // Better align start of shaded content with main body column content.
+    &:first-child {
+      margin-top: 0;
     }
 
     .c-multi-column__row,
@@ -56,8 +41,8 @@
     }
 
     .btn {
-      display: block;
       margin: 0;
+      width: 100%;
     }
   }
 }
@@ -65,6 +50,9 @@
 .c-cms__body {
   // Any "right-rail" paragraph in the body should be hidden above SM
   .c-paragraph--right-rail {
+
+    // Most paragraphs have headings; balance space below and above
+    padding-bottom: $base-spacing;
 
     // Right sidebar paragraphs are cloned from their sources
     // located in .c-cms__body. They switch visibility with

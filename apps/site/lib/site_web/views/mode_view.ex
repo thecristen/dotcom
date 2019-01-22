@@ -229,7 +229,7 @@ defmodule SiteWeb.ModeView do
         %FareCard{
           fare_token: "subway:charlie_card",
           note: %CustomHTML{
-            body: raw("#{fare_price("subway:cash")} with a CharlieTicket or cash")
+            body: content_tag(:p, "#{fare_price("subway:cash")} with a CharlieTicket or cash")
           },
           link: %Link{url: "/fares/subway-fares"}
         }
@@ -243,7 +243,7 @@ defmodule SiteWeb.ModeView do
         %FareCard{
           fare_token: "local_bus:charlie_card",
           note: %CustomHTML{
-            body: raw("#{fare_price("local_bus:cash")} with a CharlieTicket or cash")
+            body: content_tag(:p, "#{fare_price("local_bus:cash")} with a CharlieTicket or cash")
           },
           link: %Link{url: "/fares/bus-fares"}
         }
@@ -256,7 +256,7 @@ defmodule SiteWeb.ModeView do
       paragraphs: [
         %FareCard{
           fare_token: "commuter_rail",
-          note: %CustomHTML{body: raw("Price based on distance traveled")},
+          note: %CustomHTML{body: content_tag(:p, "Price based on distance traveled")},
           link: %Link{url: "/fares/commuter-rail-fares"}
         }
       ]
@@ -268,7 +268,7 @@ defmodule SiteWeb.ModeView do
       paragraphs: [
         %FareCard{
           fare_token: "ferry",
-          note: %CustomHTML{body: raw("Price based on route taken")},
+          note: %CustomHTML{body: content_tag(:p, "Price based on route taken")},
           link: %Link{url: "/fares/ferry-fares"}
         }
       ]
