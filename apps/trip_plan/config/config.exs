@@ -38,4 +38,15 @@ config :trip_plan, OpenTripPlanner,
     {:system, "OPEN_TRIP_PLANNER_URL", "http://mbta-otp-dev.us-east-1.elasticbeanstalk.com"},
   wiremock_proxy: {:system, "WIREMOCK_PROXY", "false"}
 
+# defines polygon to be used in trip planner to determine max walk distance for a trip
+config :trip_plan, ReducedWalkingArea, [
+  {42.41092718, -70.9912490},
+  {42.42055885, -71.1368179},
+  {42.36122457, -71.1951828},
+  {42.30386558, -71.1265182},
+  {42.29370809, -71.0544204},
+  {42.35361356, -70.9891891},
+  {42.41092718, -70.9912490}
+]
+
 import_config "#{Mix.env()}.exs"

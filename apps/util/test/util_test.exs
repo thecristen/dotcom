@@ -3,6 +3,7 @@ defmodule UtilTest do
   use Quixir
   import Util
   doctest Util
+  doctest Util.Polygon
 
   describe "now/1" do
     test "handles ambiguous UTC times by returning the earlier time" do

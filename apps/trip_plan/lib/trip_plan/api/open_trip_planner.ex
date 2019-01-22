@@ -1,7 +1,7 @@
 defmodule TripPlan.Api.OpenTripPlanner do
   @behaviour TripPlan.Api
   require Logger
-  import __MODULE__.Builder, only: [build_params: 1]
+  import __MODULE__.Builder, only: [build_params: 2]
   import __MODULE__.Parser, only: [parse_json: 1, parse_nearby: 1]
   alias TripPlan.NamedPosition
   alias Util.Position
@@ -12,7 +12,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
 
   @impl true
   def plan(from, to, opts) do
-    with {:ok, params} <- build_params(opts),
+    with {:ok, params} <- build_params(from, opts),
          params =
            Map.merge(
              params,

@@ -2,6 +2,16 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
   use ExUnit.Case, async: true
   import TripPlan.Api.OpenTripPlanner.Builder
 
+  @from_inside %TripPlan.NamedPosition{
+    latitude: 42.356365,
+    longitude: -71.060920
+  }
+
+  @from_outside %TripPlan.NamedPosition{
+    latitude: 42.314299,
+    longitude: -71.308373
+  }
+
   describe "build_params/1" do
     test "depart_at sets date/time options" do
       expected =
@@ -14,7 +24,12 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "mode" => "TRANSIT,WALK"
          }}
 
-      actual = build_params(depart_at: DateTime.from_naive!(~N[2017-05-22T16:04:20], "Etc/UTC"))
+      actual =
+        build_params(
+          @from_inside,
+          depart_at: DateTime.from_naive!(~N[2017-05-22T16:04:20], "Etc/UTC")
+        )
+
       assert expected == actual
     end
 
@@ -29,7 +44,12 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "mode" => "TRANSIT,WALK"
          }}
 
-      actual = build_params(arrive_by: DateTime.from_naive!(~N[2017-05-22T16:04:20], "Etc/UTC"))
+      actual =
+        build_params(
+          @from_inside,
+          arrive_by: DateTime.from_naive!(~N[2017-05-22T16:04:20], "Etc/UTC")
+        )
+
       assert expected == actual
     end
 
@@ -42,7 +62,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "mode" => "TRANSIT,WALK"
          }}
 
-      actual = build_params(wheelchair_accessible?: true)
+      actual = build_params(@from_inside, wheelchair_accessible?: true)
       assert expected == actual
 
       expected =
@@ -52,7 +72,20 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "mode" => "TRANSIT,WALK"
          }}
 
-      actual = build_params(wheelchair_accessible?: false)
+      actual = build_params(@from_inside, wheelchair_accessible?: false)
+      assert expected == actual
+    end
+
+    test "maxWalkDistance is increased when searching from outside of city" do
+      expected =
+        {:ok,
+         %{
+           "maxWalkDistance" => "16093",
+           "walkReluctance" => 5,
+           "mode" => "TRANSIT,WALK"
+         }}
+
+      actual = build_params(@from_outside, wheelchair_accessible?: false)
       assert expected == actual
     end
 
@@ -65,7 +98,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "mode" => "TRANSIT,WALK"
          }}
 
-      actual = build_params(max_walk_distance: 1609.5)
+      actual = build_params(@from_inside, max_walk_distance: 1609.5)
       assert expected == actual
     end
 
@@ -77,7 +110,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "mode" => "TRANSIT,WALK"
          }}
 
-      actual = build_params(mode: [])
+      actual = build_params(@from_inside, mode: [])
       assert expected == actual
     end
 
@@ -89,7 +122,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "mode" => "BUS,SUBWAY,TRAM,WALK"
          }}
 
-      actual = build_params(mode: ["BUS", "SUBWAY", "TRAM"])
+      actual = build_params(@from_inside, mode: ["BUS", "SUBWAY", "TRAM"])
       assert expected == actual
     end
 
@@ -101,7 +134,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "walkReluctance" => 17
          }}
 
-      actual = build_params(optimize_for: :less_walking)
+      actual = build_params(@from_inside, optimize_for: :less_walking)
       assert expected == actual
     end
 
@@ -114,13 +147,13 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "transferPenalty" => 100
          }}
 
-      actual = build_params(optimize_for: :fewest_transfers)
+      actual = build_params(@from_inside, optimize_for: :fewest_transfers)
       assert expected == actual
     end
 
     test "bad options return an error" do
       expected = {:error, {:bad_param, {:bad, :arg}}}
-      actual = build_params(bad: :arg)
+      actual = build_params(@from_inside, bad: :arg)
       assert expected == actual
     end
   end
