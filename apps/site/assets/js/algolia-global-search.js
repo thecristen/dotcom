@@ -2,8 +2,6 @@ import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import { AlgoliaWithGeo } from "./algolia-search-with-geo";
 import { AlgoliaFacets } from "./algolia-facets";
 import { AlgoliaResults } from "./algolia-results";
-import { animatePlaceholder } from "./animated-placeholder";
-import { placeholders } from "./search-placeholders";
 import * as QueryStringHelpers from "./query-string-helpers";
 
 export function init() {
@@ -71,7 +69,6 @@ export class AlgoliaGlobalSearch {
     this.addEventListeners();
     this.loadState(window.location.search);
     this.controller.search({ query: this.container.value });
-    animatePlaceholder(AlgoliaGlobalSearch.SELECTORS.input, placeholders);
   }
 
   addEventListeners() {
@@ -81,27 +78,27 @@ export class AlgoliaGlobalSearch {
     const inputField = document.getElementById(
       AlgoliaGlobalSearch.SELECTORS.input
     );
-    window.jQuery(document).on("keyup", "#" + inputField.id, this.onKeyup);
+    window.jQuery(document).on("keyup", `#${inputField.id}`, this.onKeyup);
 
     inputField.addEventListener("focus", this.onFocusInput);
 
     document.addEventListener("turbolinks:before-render", () => {
-      window.jQuery(document).off("keyup", "#" + inputField.id, this.onKeyup);
+      window.jQuery(document).off("keyup", `#${inputField.id}`, this.onKeyup);
     });
   }
 
   loadState(query) {
     this._queryParams = QueryStringHelpers.parseQuery(query);
-    this.container.value = this._queryParams["query"] || "";
+    this.container.value = this._queryParams.query || "";
 
-    const showMoreState = this._queryParams["showmore"] || "";
+    const showMoreState = this._queryParams.showmore || "";
     if (showMoreState != "") {
       showMoreState.split(",").forEach(group => {
         this.addPage(group);
       });
     }
 
-    const facetState = this._queryParams["facets"] || "";
+    const facetState = this._queryParams.facets || "";
     this._facetsWidget.loadState(facetState.split(","));
     if (facetState != "") {
       this.controller.enableLocationSearch(facetState.includes("locations"));
@@ -143,11 +140,11 @@ export class AlgoliaGlobalSearch {
   }
 
   updateHistory() {
-    this._queryParams["query"] = this.container.value;
-    this._queryParams["facets"] = this._facetsWidget
+    this._queryParams.query = this.container.value;
+    this._queryParams.facets = this._facetsWidget
       .selectedFacetNames()
       .join(",");
-    this._queryParams["showmore"] = this._showMoreList.join(",");
+    this._queryParams.showmore = this._showMoreList.join(",");
     window.history.replaceState(
       window.history.state,
       "",

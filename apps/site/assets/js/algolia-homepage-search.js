@@ -1,7 +1,5 @@
 import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import { AlgoliaEmbeddedSearch } from "./algolia-embedded-search";
-import { animatePlaceholder } from "./animated-placeholder";
-import { placeholders } from "./search-placeholders";
 import * as QueryStringHelpers from "./query-string-helpers";
 
 const INDICES = {
@@ -92,7 +90,5 @@ export const doInit = () => {
 export function init() {
   document.addEventListener("turbolinks:load", () => {
     doWhenGoogleMapsIsReady(doInit);
-
-    animatePlaceholder(SELECTORS.input, placeholders);
   });
 }
