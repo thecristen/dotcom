@@ -27,8 +27,8 @@
     <%= if Application.get_env(:site, :dev_server?) do %>
       <script defer src="http://localhost:8090/core.js" data-turbolinks-track="reload"></script>
       <script defer src="http://localhost:8090/app.js" data-turbolinks-track="reload"></script>
-    <% else %>
-      <script defer src="<%= static_url(@conn, "/js/vendors~app~tnm.js") %>" data-turbolinks-track="reload"></script>
+      <% else %>
+      <script defer src="<%= static_url(@conn, "/js/vendors.js") %>" data-turbolinks-track="reload"></script>
       <script defer src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-track="reload"></script>
     <% end %>
 

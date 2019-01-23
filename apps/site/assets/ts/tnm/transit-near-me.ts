@@ -2,15 +2,6 @@ import { doWhenGoogleMapsIsReady } from "../../js/google-maps-loaded";
 import TransitNearMeSearch from "./search";
 import render from "./components/map";
 
-declare global {
-  interface Window {
-    /* eslint-disable typescript/no-explicit-any */
-    Turbolinks: any;
-    decodeURIComponent: any;
-    /* eslint-enable typescript/no-explicit-any */
-  }
-}
-
 let search = null; // eslint-disable-line
 
 const showLoadingIndicators = (bool: boolean): void => {

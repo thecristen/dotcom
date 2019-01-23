@@ -62,7 +62,19 @@ module.exports = merge(base, {
     ],
     splitChunks: {
       chunks: "all",
-      maxInitialRequests: 2 // This needs to be lower than the default to factor in our separate css loads
+      cacheGroups: {
+        vendors: false,
+        // Set our own cacheGroups instead of using the default groups
+        // Since all entrypoints are dependent on the app entrypoint
+        vendor: {
+          name: "vendors",
+          test: /[\\/]node_modules[\\/](?!react*)/
+        },
+        react: {
+          name: "react",
+          test: /[\\/]node_modules[\\/](react*)/
+        }
+      }
     }
   }
 });
