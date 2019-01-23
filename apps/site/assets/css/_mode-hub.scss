@@ -76,21 +76,11 @@
 
   @include media-breakpoint-down(md) {
     flex: 0 0 40%;
-    padding-left: $base-spacing / 2;
-    padding-right: $base-spacing / 2;
   }
 
-  &:first-child {
-    padding-left: 0;
-  }
-
-  &:last-child {
-    padding-right: 0;
-  }
-
-  &:only-child {
-    padding-left: 0;
-    padding-right: 0;
+  & + & {
+    // add a margin between items when laid out horizontally
+    margin-left: $base-spacing;
   }
 }
 
