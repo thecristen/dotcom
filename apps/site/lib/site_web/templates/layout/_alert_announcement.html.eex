@@ -1,3 +1,3 @@
 <%= link to: (@alert_banner.url || alert_path(@conn, :index)), class: "alert-announcement__header" do %>
-  <%= SiteWeb.AlertView.render "_item.html", alert: Alerts.Repo.by_id(@alert_banner.id) %>
+  <%= SiteWeb.AlertView.render "_item.html", alert: Alerts.Repo.by_id(@alert_banner.id), date_time: @date_time %>
 <% end %>

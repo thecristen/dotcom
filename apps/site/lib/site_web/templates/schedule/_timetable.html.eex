@@ -1,4 +1,4 @@
-<%= SiteWeb.AlertView.group(alerts: @alerts, route: @route, time: @date, priority_filter: :high) %>
+<%= SiteWeb.AlertView.group(alerts: @alerts, route: @route, date_time: @date_time, priority_filter: :high) %>
 <%= render "_trip_view_filters.html", assigns %>
 
 <div class="calendar-covered m-timetable">

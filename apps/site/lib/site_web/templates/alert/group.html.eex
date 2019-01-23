@@ -1,5 +1,5 @@
 <ul class="m-alert-group">
   <%= for alert <- @alerts do %>
-    <%= render "_item.html", alert: alert, extra_id: @route.id %>
+    <%= render "_item.html", alert: alert, extra_id: @route.id, date_time: @date_time %>
   <% end %>
 </ul>

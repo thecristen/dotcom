@@ -19,6 +19,7 @@ defmodule SiteWeb.AlertView do
     show_empty? = Keyword.get(opts, :show_empty?, false)
     priority_filter = Keyword.get(opts, :priority_filter, :any)
     timeframe = Keyword.get(opts, :timeframe, nil)
+    date_time = Keyword.get(opts, :date_time)
 
     alerts =
       opts
@@ -37,7 +38,7 @@ defmodule SiteWeb.AlertView do
         ""
 
       _ ->
-        render(__MODULE__, "group.html", alerts: alerts, route: route)
+        render(__MODULE__, "group.html", alerts: alerts, route: route, date_time: date_time)
     end
   end
 
@@ -116,26 +117,6 @@ defmodule SiteWeb.AlertView do
 
   defp filter_by_priority(_, _), do: false
 
-  @doc """
-
-  Renders an inline list of alerts, passed in as the alerts key.
-
-  """
-  def inline(_conn, [{:alerts, []} | _]) do
-    ""
-  end
-
-  def inline(_conn, [{:alerts, nil} | _]) do
-    ""
-  end
-
-  def inline(_conn, assigns) do
-    case Keyword.get(assigns, :time) do
-      value when not is_nil(value) ->
-        render(__MODULE__, "inline.html", assigns)
-    end
-  end
-
   def effect_name(%{lifecycle: lifecycle} = alert)
       when lifecycle in [:new, :unknown] do
     Alert.human_effect(alert)
@@ -170,7 +151,7 @@ defmodule SiteWeb.AlertView do
 
     time = format_schedule_time(alert.updated_at)
 
-    ["Last Updated: ", date, 32, time]
+    ["Updated: ", date, 32, time]
   end
 
   def format_alert_description(text) do

@@ -51,7 +51,7 @@
             <% end %>
           </div>
           <div>
-          <%= SiteWeb.AlertView.group alerts: alerts, route: route_or_stop %>
+            <%= SiteWeb.AlertView.group alerts: alerts, route: route_or_stop, date_time: @date_time %>
           </div>
         <% end %>
         <%= if Enum.empty?(@alert_groups) && !show_systemwide_alert? do %>

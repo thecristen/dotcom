@@ -86,6 +86,7 @@ defmodule SiteWeb.AlertControllerTest do
     defp render_alerts_page(conn, mode, alerts) do
       conn
       |> assign(:alerts_timeframe, nil)
+      |> assign(:date_time, ~N[2000-01-01 23:00:07])
       |> put_view(SiteWeb.AlertView)
       |> render(
         "show.html",

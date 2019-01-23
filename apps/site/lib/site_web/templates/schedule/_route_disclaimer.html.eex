@@ -22,5 +22,5 @@
     }
   %>
 
-  <%= SiteWeb.AlertView.render "group.html", alerts: [alert], route: @route %>
+  <%= SiteWeb.AlertView.render "group.html", alerts: [alert], route: @route, date_time: @date_time %>
 <% end %>

@@ -31,6 +31,10 @@
     <div class="m-alert-item__bottom m-alert-item__bottom--<%= @alert.priority %>">
       <div class="m-alert-item__description">
         <%= format_alert_description(@alert.description) %>
+
+        <div class="m-alert-item__updated">
+          <%= alert_updated(@alert, @date_time) %>
+        </div>
       </div>
     </div>
   <% end %>

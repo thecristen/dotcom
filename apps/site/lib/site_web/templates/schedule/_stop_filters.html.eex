@@ -50,4 +50,4 @@
     <% end %>
   </div>
 </div>
-<%= render "_route_disclaimer.html", route: @route %>
+<%= render "_route_disclaimer.html", route: @route, date_time: @date_time %>

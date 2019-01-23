@@ -42,12 +42,12 @@ defmodule SiteWeb.StopView do
 
   @spec render_alerts([Alerts.Alert], DateTime.t(), Stop.t(), Keyword.t()) ::
           Phoenix.HTML.safe() | String.t()
-  def render_alerts(stop_alerts, date, stop, opts) do
+  def render_alerts(stop_alerts, date_time, stop, opts) do
     AlertView.group(
       priority_filter: Keyword.get(opts, :priority_filter, :any),
       show_empty?: Keyword.get(opts, :show_empty?, false),
       alerts: stop_alerts,
-      time: date,
+      date_time: date_time,
       stop: %{id: stop.id |> String.replace(" ", "-"), name: stop.name},
       timeframe: Keyword.get(opts, :timeframe)
     )

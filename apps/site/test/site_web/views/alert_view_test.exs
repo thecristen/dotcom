@@ -65,7 +65,7 @@ defmodule SiteWeb.AlertViewTest do
       date = ~D[2016-10-05]
       alert = %Alert{updated_at: now}
 
-      expected = "Last Updated: Today at 12:02A"
+      expected = "Updated: Today at 12:02A"
       actual = alert |> alert_updated(date) |> :erlang.iolist_to_binary()
       assert actual == expected
     end
@@ -76,7 +76,7 @@ defmodule SiteWeb.AlertViewTest do
 
       alert = %Alert{updated_at: now}
 
-      expected = "Last Updated: 10/5/2016 12:02A"
+      expected = "Updated: 10/5/2016 12:02A"
       actual = alert |> alert_updated(date) |> :erlang.iolist_to_binary()
       assert actual == expected
     end
@@ -271,34 +271,6 @@ defmodule SiteWeb.AlertViewTest do
     end
   end
 
-  describe "inline/2" do
-    test "raises an exception if time is not an option" do
-      assert catch_error(inline(SiteWeb.Endpoint, []))
-    end
-
-    test "renders nothing if no alerts are passed in" do
-      result =
-        inline(
-          SiteWeb.Endpoint,
-          alerts: [],
-          time: Util.service_date()
-        )
-
-      assert result == ""
-    end
-
-    test "renders if a list of alerts and times is passed in" do
-      result =
-        inline(
-          SiteWeb.Endpoint,
-          alerts: [%Alert{effect: :delay, lifecycle: :upcoming, updated_at: Util.now()}],
-          time: Util.service_date()
-        )
-
-      refute safe_to_string(result) == ""
-    end
-  end
-
   describe "_item.html" do
     @alert %Alert{
       effect: :access_issue,
@@ -306,16 +278,16 @@ defmodule SiteWeb.AlertViewTest do
       header: "Alert Header",
       description: "description"
     }
-    @time ~N[2017-03-01T07:29:00]
+    @date_time ~N[2017-03-01T07:29:00]
     @active_period [{Timex.shift(@now, days: -8), Timex.shift(@now, days: 8)}]
 
     test "Displays expansion control if alert has description" do
-      response = render("_item.html", alert: @alert, time: @time)
+      response = render("_item.html", alert: @alert, date_time: @date_time)
       assert safe_to_string(response) =~ "m-alert-item__caret--up"
     end
 
     test "Does not display expansion control if description is nil" do
-      response = render("_item.html", alert: %{@alert | description: nil}, time: @time)
+      response = render("_item.html", alert: %{@alert | description: nil}, date_time: @date_time)
 
       refute safe_to_string(response) =~ "m-alert-item__caret--up"
     end
@@ -330,7 +302,7 @@ defmodule SiteWeb.AlertViewTest do
             severity: 7,
             priority: :high
           },
-          time: @now
+          date_time: @now
         )
         |> safe_to_string()
 
@@ -346,7 +318,7 @@ defmodule SiteWeb.AlertViewTest do
             effect: :delay,
             priority: :high
           },
-          time: @now
+          date_time: @now
         )
         |> safe_to_string()
 
@@ -364,7 +336,7 @@ defmodule SiteWeb.AlertViewTest do
             severity: 7,
             priority: :high
           },
-          time: @now
+          date_time: @now
         )
         |> safe_to_string()
 
@@ -381,7 +353,7 @@ defmodule SiteWeb.AlertViewTest do
             active_period: @active_period,
             priority: :high
           },
-          time: @now
+          date_time: @now
         )
 
       assert safe_to_string(response) =~ "c-svg__icon-cancelled-default"
@@ -397,7 +369,7 @@ defmodule SiteWeb.AlertViewTest do
             lifecycle: :upcoming,
             priority: :low
           },
-          time: @time
+          date_time: @date_time
         )
         |> safe_to_string()
 

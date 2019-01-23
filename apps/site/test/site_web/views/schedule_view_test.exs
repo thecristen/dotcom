@@ -142,6 +142,7 @@ defmodule SiteWeb.ScheduleViewTest do
         |> assign(:all_stops, [])
         |> assign(:alerts, [])
         |> assign(:date, ~D[2017-01-01])
+        |> assign(:date_time, ~N[2017-03-01T07:29:00])
         |> assign(:date_in_rating?, true)
         |> assign(:destination, nil)
         |> assign(:origin, nil)
@@ -527,6 +528,7 @@ defmodule SiteWeb.ScheduleViewTest do
           direction_id: 1,
           route: %Routes.Route{type: 3, direction_destinations: %{1 => "End"}},
           date: ~D[2017-01-01],
+          date_time: ~N[2017-03-01T07:29:00],
           direction_id: 1,
           reverse_direction_all_stops: [],
           show_date_select?: false,
@@ -576,6 +578,7 @@ defmodule SiteWeb.ScheduleViewTest do
           branches: [%Stops.RouteStops{branch: nil, stops: [route_stop_1, route_stop_2]}],
           route: %Routes.Route{type: 3, direction_destinations: %{1 => "End"}},
           date: ~D[2017-01-01],
+          date_time: ~N[2017-03-01T07:29:00],
           destination: nil,
           origin: nil,
           direction_id: 1,
@@ -609,6 +612,7 @@ defmodule SiteWeb.ScheduleViewTest do
           branches: [],
           route: %Routes.Route{type: 3},
           date: ~D[2017-01-01],
+          date_time: ~N[2017-03-01T07:29:00],
           destination: nil,
           origin: nil,
           direction_id: 1,
@@ -642,6 +646,7 @@ defmodule SiteWeb.ScheduleViewTest do
           branches: [],
           route: %Routes.Route{type: 3},
           date: ~D[2017-01-01],
+          date_time: ~N[2017-03-01T07:29:00],
           destination: nil,
           origin: nil,
           direction_id: 1,
@@ -689,6 +694,7 @@ defmodule SiteWeb.ScheduleViewTest do
           branches: [%Stops.RouteStops{branch: nil, stops: [route_stop]}],
           route: route,
           date: ~D[2017-01-01],
+          date_time: ~N[2017-03-01T07:29:00],
           destination: nil,
           origin: nil,
           direction_id: 1,

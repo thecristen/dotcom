@@ -5,9 +5,7 @@ defmodule SiteWeb.ScheduleController.AlertsControllerTest do
 
   describe "show" do
     test "adds meta description for a line", %{conn: conn} do
-      conn =
-        conn
-        |> get(alerts_path(conn, :show, "Red"))
+      conn = get(conn, alerts_path(conn, :show, "Red"))
 
       assert conn.assigns.meta_description == "Alerts for MBTA Red Line Subway"
     end

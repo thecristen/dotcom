@@ -162,6 +162,11 @@
   padding: $base-spacing;
 }
 
+.m-alert-item__updated {
+  font-size: $font-size-sm;
+  margin-top: $space-12;
+}
+
 .m-alert-item__badge {
   background-color: $service-alert-yellow-darker;
   border-radius: $base-spacing / 4;
