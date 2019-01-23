@@ -16,31 +16,28 @@
     <link rel="apple-touch-icon" href="<%= static_url(@conn, "/images/mbta-logo-t-180.png") %>" type="image/png">
     <link rel="icon" href="<%= static_url(@conn, "/images/mbta-logo-t-favicon.png") %>" sizes="32x32" type="image/png">
     <link rel="icon" href="<%= static_url(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
-  
+
     <%= if google_tag_manager_id() do %>
       <link rel="preconnect" href="//www.google-analytics.com">
     <% end %>
 
-    <%= if assigns[:requires_google_maps?] do %>
-      <script type="application/javascript">if (!window.mapsCallback) {window.mapsCallback = function() {window.isMapReady = true;}}</script>
-      <script defer src="<%= google_maps_js_url %>"></script>
-    <% else %>
-      <link rel="prefetch" href="<%= google_maps_js_url %>" as="script">
-    <% end %>
+    <link rel="stylesheet" href="<%= static_url(@conn, "/css/core.css") %>" data-turbolinks-track="reload">
+    <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>" data-turbolinks-track="reload">
 
     <%= if Application.get_env(:site, :dev_server?) do %>
       <script defer src="http://localhost:8090/core.js" data-turbolinks-track="reload"></script>
       <script defer src="http://localhost:8090/app.js" data-turbolinks-track="reload"></script>
-      <link rel="stylesheet" href="<%= static_url(@conn, "/css/core.css") %>" data-turbolinks-track="reload">
-      <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>" data-turbolinks-track="reload">
-      <% else %>
-      <link rel="stylesheet" href="<%= static_url(@conn, "/css/core.css") %>" data-turbolinks-track="reload">
-      <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>" data-turbolinks-track="reload">
-      <script defer src="<%= static_url(@conn, "/js/vendors~app.js") %>" data-turbolinks-track="reload"></script>
+    <% else %>
       <script defer src="<%= static_url(@conn, "/js/vendors~app~tnm.js") %>" data-turbolinks-track="reload"></script>
       <script defer src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-track="reload"></script>
-      <% end %>
+    <% end %>
 
+    <%= if assigns[:requires_google_maps?] do %>
+      <script type="application/javascript">if (!window.mapsCallback) {window.mapsCallback = function() {window.isMapReady = true;}}</script>
+      <script async src="<%= google_maps_js_url %>"></script>
+    <% else %>
+      <link rel="prefetch" href="<%= google_maps_js_url %>" as="script">
+    <% end %>
   </head>
   <%= Site.BodyTag.render(@conn) %>
     <div class="body-wrapper">

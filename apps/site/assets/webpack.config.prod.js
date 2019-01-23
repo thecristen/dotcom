@@ -61,7 +61,8 @@ module.exports = merge(base, {
       new OptimizeCSSAssetsPlugin({})
     ],
     splitChunks: {
-      chunks: "all"
+      chunks: "all",
+      maxInitialRequests: 2 // This needs to be lower than the default to factor in our separate css loads
     }
   }
 });
