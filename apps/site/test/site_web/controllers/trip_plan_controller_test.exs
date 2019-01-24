@@ -306,7 +306,7 @@ defmodule SiteWeb.TripPlanControllerTest do
           "to_latitude" => "90",
           "from_longitude" => "50",
           "to_longitude" => "50",
-          "date_time" => %{@afternoon | "year" => "2016"},
+          "date_time" => @afternoon,
           "from" => "from St",
           "to" => "from Street"
         }
@@ -326,7 +326,7 @@ defmodule SiteWeb.TripPlanControllerTest do
           "to_latitude" => "90.5",
           "from_longitude" => "50.5",
           "to_longitude" => "50",
-          "date_time" => %{@afternoon | "year" => "2016"},
+          "date_time" => @afternoon,
           "from" => "from St",
           "to" => "from Street"
         }
@@ -343,7 +343,7 @@ defmodule SiteWeb.TripPlanControllerTest do
         "plan" => %{
           "from" => "from",
           "to" => "from",
-          "date_time" => %{@afternoon | "year" => "2016"}
+          "date_time" => @afternoon
         }
       }
 
@@ -359,7 +359,7 @@ defmodule SiteWeb.TripPlanControllerTest do
         "plan" => %{
           "from" => "from",
           "to" => "to",
-          "date_time" => %{@afternoon | "year" => "2016"}
+          "date_time" => @afternoon
         }
       }
 
@@ -378,7 +378,7 @@ defmodule SiteWeb.TripPlanControllerTest do
           "to_longitude" => "",
           "from_latitude" => "",
           "from_longitude" => "",
-          "date_time" => %{@afternoon | "year" => "2016"}
+          "date_time" => @afternoon
         }
       }
 
@@ -471,6 +471,37 @@ defmodule SiteWeb.TripPlanControllerTest do
         |> IO.iodata_to_binary()
 
       assert response =~ expected
+    end
+
+    test "bad date input: date in past", %{conn: conn} do
+      past_date =
+        @system_time
+        |> Timex.parse!("{ISO:Extended}")
+        |> Timex.shift(days: -10)
+
+      past_date_as_params = %{
+        "month" => Integer.to_string(past_date.month),
+        "day" => Integer.to_string(past_date.day),
+        "year" => Integer.to_string(past_date.year),
+        "hour" => "12",
+        "minute" => "15",
+        "am_pm" => "PM"
+      }
+
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{
+          "from" => "from address",
+          "to" => "to address",
+          "date_time" => past_date_as_params,
+          "time" => "depart"
+        }
+      }
+
+      conn = get(conn, trip_plan_path(conn, :index, params))
+      response = html_response(conn, 200)
+      assert Map.get(conn.assigns, :plan_error) == [:past]
+      assert response =~ "Date is in the past"
     end
 
     test "good date input: date within service date of end of rating", %{conn: conn} do

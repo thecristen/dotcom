@@ -2,7 +2,8 @@ defmodule Site.TripPlan.DateTime do
   alias Site.TripPlan.Query
 
   @type time_type :: :depart_at | :arrive_by
-  @type date_time :: {time_type, DateTime.t()} | {:error, :invalid_date}
+  @type date_error :: :invalid_date | {:too_future, DateTime.t()} | {:past, DateTime.t()}
+  @type date_time :: {time_type, DateTime.t()} | {:error, date_error}
 
   @spec validate(Query.t(), map, Keyword.t()) :: Query.t()
   def validate(%Query{} = query, %{"date_time" => dt} = params, opts) do
@@ -12,7 +13,7 @@ defmodule Site.TripPlan.DateTime do
 
     dt
     |> parse()
-    |> future_date_or_now(now)
+    |> future_date_or_error(now)
     |> verify_inside_rating(end_of_rating)
     |> round_minute()
     |> do_validate(type, query)
@@ -24,8 +25,9 @@ defmodule Site.TripPlan.DateTime do
   end
 
   @spec do_validate(DateTime.t() | {:error, any}, String.t() | nil, Query.t()) :: Query.t()
-  defp do_validate({:error, {:too_future, %DateTime{} = dt}}, type, query) do
-    errors = MapSet.put(query.errors, :too_future)
+  defp do_validate({:error, {error, %DateTime{} = dt}}, type, query)
+       when error in [:too_future, :past] do
+    errors = MapSet.put(query.errors, error)
     do_validate(dt, type, %{query | errors: errors})
   end
 
@@ -83,29 +85,30 @@ defmodule Site.TripPlan.DateTime do
     {:error, :invalid_date}
   end
 
-  @spec future_date_or_now(NaiveDateTime.t() | {:error, :invalid_date}, DateTime.t()) :: date_time
-  defp future_date_or_now({:error, :invalid_date}, %DateTime{}) do
+  @spec future_date_or_error(NaiveDateTime.t() | {:error, :invalid_date}, DateTime.t()) ::
+          date_time
+  defp future_date_or_error({:error, :invalid_date}, %DateTime{}) do
     {:error, :invalid_date}
   end
 
-  defp future_date_or_now(%DateTime{} = now, %DateTime{} = system_dt) do
-    now
-    |> do_future_date_or_now(system_dt)
+  defp future_date_or_error(%DateTime{} = now, %DateTime{} = system_dt) do
+    do_future_date_or_error(now, system_dt)
   end
 
-  defp future_date_or_now(%NaiveDateTime{} = naive_dt, %DateTime{} = system_dt) do
+  defp future_date_or_error(%NaiveDateTime{} = naive_dt, %DateTime{} = system_dt) do
     naive_dt
     |> Timex.to_datetime(system_dt.time_zone)
     |> handle_ambiguous_time()
-    |> do_future_date_or_now(system_dt)
+    |> do_future_date_or_error(system_dt)
   end
 
-  @spec do_future_date_or_now(DateTime.t(), DateTime.t()) :: DateTime.t()
-  defp do_future_date_or_now(%DateTime{} = input, %DateTime{} = now) do
-    if Timex.after?(input, now) do
-      input
+  @spec do_future_date_or_error(DateTime.t(), DateTime.t()) ::
+          DateTime.t() | {:error, {:past, DateTime.t()}}
+  defp do_future_date_or_error(%DateTime{} = input, %DateTime{} = now) do
+    if Timex.before?(input, now) do
+      {:error, {:past, input}}
     else
-      now
+      input
     end
   end
 
@@ -121,8 +124,8 @@ defmodule Site.TripPlan.DateTime do
     before
   end
 
-  defp verify_inside_rating({:error, :invalid_date}, %Date{}) do
-    {:error, :invalid_date}
+  defp verify_inside_rating({:error, error}, %Date{}) do
+    {:error, error}
   end
 
   defp verify_inside_rating(%DateTime{} = dt, %Date{} = end_of_rating) do

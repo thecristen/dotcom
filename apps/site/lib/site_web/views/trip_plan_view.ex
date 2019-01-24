@@ -5,6 +5,9 @@ defmodule SiteWeb.TripPlanView do
   alias Routes.Route
   alias Phoenix.HTML.Form
   alias SiteWeb.PartialView.SvgIconWithCircle
+
+  import Schedules.Repo, only: [end_of_rating: 0]
+
   @meters_per_mile 1609.34
 
   @spec itinerary_explanation(Query.t(), map) :: iodata
@@ -82,13 +85,17 @@ defmodule SiteWeb.TripPlanView do
   end
 
   def too_future_error do
-    end_date = Schedules.Repo.end_of_rating()
+    end_date = end_of_rating()
 
     [
-      "We can only provide trip data for the current schedule, valid until ",
+      "We can only provide trip data for the current schedule, valid between now and ",
       Timex.format!(end_date, "{M}/{D}/{YY}"),
       "."
     ]
+  end
+
+  def past_error do
+    ["Date is in the past. " | too_future_error()]
   end
 
   @plan_errors %{
@@ -99,6 +106,7 @@ defmodule SiteWeb.TripPlanView do
     path_not_found: "We were unable to plan a trip between those locations.",
     too_close: "We were unable to plan a trip between those locations.",
     unknown: "An unknown error occurred. Please try again, or try a different address.",
+    past: &__MODULE__.past_error/0,
     too_future: &__MODULE__.too_future_error/0
   }
 
@@ -367,7 +375,7 @@ defmodule SiteWeb.TripPlanView do
   @spec custom_date_select(Form.t(), DateTime.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
   defp custom_date_select(form, %DateTime{} = datetime, options) do
     min_date = Timex.format!(Util.now(), "{0M}/{0D}/{YYYY}")
-    max_date = Timex.format!(Schedules.Repo.end_of_rating(), "{0M}/{0D}/{YYYY}")
+    max_date = Timex.format!(end_of_rating(), "{0M}/{0D}/{YYYY}")
     current_date = Timex.format!(datetime, "{WDfull}, {Mfull} {D}, {YYYY}")
     aria_label = "#{current_date}, click or press the enter or space key to edit the date"
 

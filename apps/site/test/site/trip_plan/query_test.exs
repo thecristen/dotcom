@@ -27,6 +27,7 @@ defmodule Site.TripPlan.QueryTest do
     test "can plan a basic trip with defaults from query params" do
       params = %{"from" => "from address", "to" => "to address"}
       actual = from_query(params, @date_opts)
+      assert actual.errors == MapSet.new([])
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
 
@@ -59,6 +60,7 @@ defmodule Site.TripPlan.QueryTest do
       }
 
       actual = from_query(params, @date_opts)
+      assert actual.errors == MapSet.new([])
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
       assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}

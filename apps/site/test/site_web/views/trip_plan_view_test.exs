@@ -3,9 +3,10 @@ defmodule SiteWeb.TripPlanViewTest do
   import SiteWeb.TripPlanView
   import Phoenix.HTML, only: [safe_to_string: 1]
   import UrlHelpers, only: [update_url: 2]
-  alias Site.TripPlan.{Query, ItineraryRow, IntermediateStop}
-  alias TripPlan.Api.MockPlanner
+  import Schedules.Repo, only: [end_of_rating: 0]
   alias Routes.Route
+  alias Site.TripPlan.{IntermediateStop, ItineraryRow, Query}
+  alias TripPlan.Api.MockPlanner
 
   describe "itinerary_explanation/2" do
     @base_explanation_query %Query{
@@ -100,7 +101,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
   describe "plan_error_description" do
     test "renders too_future error" do
-      end_of_rating = Schedules.Repo.end_of_rating() |> Timex.format!("{M}/{D}/{YY}")
+      end_of_rating = end_of_rating() |> Timex.format!("{M}/{D}/{YY}")
 
       error =
         [:too_future]
@@ -111,8 +112,21 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert error =~ end_of_rating
     end
 
+    test "renders past error" do
+      end_of_rating = end_of_rating() |> Timex.format!("{M}/{D}/{YY}")
+
+      error =
+        [:past]
+        |> plan_error_description()
+        |> IO.iodata_to_binary()
+
+      assert error =~ "Date is in the past"
+      assert error =~ "We can only provide trip data for the current schedule"
+      assert error =~ end_of_rating
+    end
+
     test "returns text for every plan error" do
-      for error <- Enum.reject(plan_errors(), &(&1 == :too_future)) do
+      for error <- Enum.reject(plan_errors(), &(&1 in [:too_future, :past])) do
         result = plan_error_description([error])
         assert is_binary(result)
         refute result == ""
