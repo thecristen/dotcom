@@ -5,7 +5,7 @@ defmodule Alerts.Priority do
 
   alias Alerts.Match
 
-  @type priority_level :: :high | :low
+  @type priority_level :: :high | :low | :system
   @ongoing_effects Alerts.Alert.ongoing_effects()
 
   @spec priority(map, DateTime.t()) :: priority_level

@@ -31,10 +31,8 @@
               %>
             </span>
           </div>
-          <div class="announcement-container <%= assigns[:banner_class] %>">
-            <div class="container">
-              <%= render SiteWeb.LayoutView, @banner_template, assigns %>
-            </div>
+          <div class="c-alert-group">
+            <%= render "_item.html", alert: %{Alerts.Repo.by_id(@alert_banner.id) | priority: :system}, date_time: @date_time %>
           </div>
         <% end %>
 

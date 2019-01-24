@@ -52,7 +52,7 @@
 }
 
 // Group
-.m-alert-group {
+.c-alert-group {
   list-style-type: none;
   padding-left: 0;
 
@@ -67,7 +67,7 @@
 }
 
 // Item
-.m-alert-item {
+.c-alert-item {
   background-color: $service-alert-yellow;
   border: 1px solid $service-alert-yellow-darker;
   overflow: hidden;
@@ -78,7 +78,7 @@
     border-right: 0;
   }
 
-  .m-alert-item__caret--up {
+  .c-alert-item__caret--up {
     display: none;
   }
 
@@ -90,32 +90,37 @@
   }
 }
 
-.m-alert-item--expandable {
+.c-alert-item--expandable {
   cursor: pointer;
 }
 
-.m-alert-item--low {
+.c-alert-item--system {
+  background-color: $service-alert-yellow-darker;
+  border: 1px solid $service-alert-yellow-darker;
+}
+
+.c-alert-item--low {
   background-color: $service-alert-gray;
   border: 1px solid $service-alert-gray-darker;
 }
 
-.m-alert-item__top {
+.c-alert-item__top {
   display: flex;
   padding-left: $base-spacing * 3;
 }
 
-.m-alert-item__top-text-container {
+.c-alert-item__top-text-container {
   flex: 1 1 auto;
   padding: $base-spacing;
 }
 
-.m-alert-item__top-caret-container {
+.c-alert-item__top-caret-container {
   align-self: center;
   flex: 0 0 auto;
   padding: $base-spacing;
 }
 
-.m-alert-item__icon {
+.c-alert-item__icon {
   left: $base-spacing;
   pointer-events: none;
   position: absolute;
@@ -127,54 +132,58 @@
   }
 }
 
-.m-alert-item__effect {
+.c-alert-item__effect {
   font-size: $font-size-h4;
   font-weight: bold;
 }
 
-.m-alert-item__bottom {
+.c-alert-item__bottom {
   background-color: $service-alert-yellow-lighter;
   max-height: 0;
   transition: max-height .5s;
 
-  .m-alert-item--open &,
+  .c-alert-item--open &,
   .no-js & {
     // ideally this would be height: auto, but to get the CSS animation to work it needs a value
     max-height: 1000px;
   }
 }
 
-.m-alert-item__bottom--low {
+.c-alert-item__bottom--low {
   background-color: $white;
 }
 
-.m-alert-item--open {
-  .m-alert-item__caret--up {
+.c-alert-item--open {
+  .c-alert-item__caret--up {
     display: block;
   }
 
-  .m-alert-item__caret--down {
+  .c-alert-item__caret--down {
     display: none;
   }
 }
 
-.m-alert-item__description {
+.c-alert-item__description {
   padding: $base-spacing;
 }
 
-.m-alert-item__updated {
+.c-alert-item__updated {
   font-size: $font-size-sm;
   margin-top: $space-12;
 }
 
-.m-alert-item__badge {
+.c-alert-item__badge {
   background-color: $service-alert-yellow-darker;
   border-radius: $base-spacing / 4;
   padding: $base-spacing / 8 $base-spacing / 2;
 }
 
-.m-alert-item__badge--upcoming {
+.c-alert-item__badge--upcoming {
   background-color: $service-alert-gray-darker;
+}
+
+.c-alert-item__badge--system {
+  background-color: $service-alert-yellow;
 }
 
 .m-alerts__mode-buttons {

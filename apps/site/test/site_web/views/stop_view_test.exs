@@ -351,7 +351,7 @@ defmodule SiteWeb.StopViewTest do
           priority_filter: :high
         )
 
-      assert safe_to_string(response) =~ "m-alert-item"
+      assert safe_to_string(response) =~ "c-alert-item"
     end
 
     test "does not display an alert" do

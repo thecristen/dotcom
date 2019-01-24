@@ -32,8 +32,8 @@ const batchDomMutations = (el, opened) => {
 
 const toggleOpenClass = (el, opened) =>
   opened === true
-    ? el.classList.remove("m-alert-item--open")
-    : el.classList.add("m-alert-item--open");
+    ? el.classList.remove("c-alert-item--open")
+    : el.classList.add("c-alert-item--open");
 
 const toggleAriaAttribute = (el, opened) =>
   opened === true

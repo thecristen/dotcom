@@ -283,13 +283,13 @@ defmodule SiteWeb.AlertViewTest do
 
     test "Displays expansion control if alert has description" do
       response = render("_item.html", alert: @alert, date_time: @date_time)
-      assert safe_to_string(response) =~ "m-alert-item__caret--up"
+      assert safe_to_string(response) =~ "c-alert-item__caret--up"
     end
 
     test "Does not display expansion control if description is nil" do
       response = render("_item.html", alert: %{@alert | description: nil}, date_time: @date_time)
 
-      refute safe_to_string(response) =~ "m-alert-item__caret--up"
+      refute safe_to_string(response) =~ "c-alert-item__caret--up"
     end
 
     test "Icons and labels are displayed for shuttle today" do
@@ -307,7 +307,7 @@ defmodule SiteWeb.AlertViewTest do
         |> safe_to_string()
 
       assert response =~ "c-svg__icon-shuttle-default"
-      assert response =~ "m-alert-item__badge"
+      assert response =~ "c-alert-item__badge"
     end
 
     test "Icons and labels are displayed for delay" do

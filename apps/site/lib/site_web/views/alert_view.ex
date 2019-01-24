@@ -127,14 +127,19 @@ defmodule SiteWeb.AlertView do
   end
 
   defp alert_label_class(%Alert{} = alert) do
-    ["u-small-caps", "m-alert-item__badge"]
+    ["u-small-caps", "c-alert-item__badge"]
     |> do_alert_label_class(alert)
     |> Enum.join(" ")
   end
 
+  defp do_alert_label_class(class_list, %Alert{priority: priority})
+       when priority == :system do
+    ["c-alert-item__badge--system" | class_list]
+  end
+
   defp do_alert_label_class(class_list, %Alert{lifecycle: lifecycle})
        when lifecycle in [:upcoming, :upcoming_ongoing] do
-    ["m-alert-item__badge--upcoming" | class_list]
+    ["c-alert-item__badge--upcoming" | class_list]
   end
 
   defp do_alert_label_class(class_list, _) do
