@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import ReactDOM from "react-dom";
 // @ts-ignore: Not typed
 import GoogleMap from "../../../js/google-map-class";
@@ -28,24 +28,10 @@ class TransitNearMeMap extends React.Component<Props> {
     this.map.resetBounds(["current-location", "radius-west", "radius-east"]);
   }
 
-  public render(): null {
-    return null;
+  // eslint-disable-next-line
+  public render(): ReactElement<any> {
+    return <div />;
   }
 }
 
-const render = (): void => {
-  const dataEl = document.getElementById("js-tnm-map-dynamic-data");
-  if (dataEl) {
-    const id = dataEl.getAttribute("data-for") as string;
-    const initialData = JSON.parse(dataEl.innerHTML);
-    ReactDOM.render(
-      <div className="m-tnm__map">
-        <div id={id} />
-        <TransitNearMeMap mapElementId={id} initialData={initialData} />
-      </div>,
-      document.getElementById("react-root")
-    );
-  }
-};
-
-export default render;
+export default TransitNearMeMap;

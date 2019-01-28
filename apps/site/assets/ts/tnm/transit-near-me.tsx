@@ -1,6 +1,8 @@
+import React from "react";
+import ReactDOM from "react-dom";
 import { doWhenGoogleMapsIsReady } from "../../js/google-maps-loaded";
 import TransitNearMeSearch from "./search";
-import render from "./components/map";
+import TransitNearMeMap from "./components/TransitNearMeMap";
 
 let search = null; // eslint-disable-line
 
@@ -33,6 +35,20 @@ export const onError = (error: PositionError): void => {
     msgEl.innerHTML = `There was an error retrieving your current location;
                        please enter an address to see transit near you.`;
   }
+};
+
+const render = (): void => {
+  const dataEl = document.getElementById("js-tnm-map-dynamic-data");
+  if (!dataEl) return;
+  const id = dataEl.getAttribute("data-for") as string;
+  const initialData = JSON.parse(dataEl.innerHTML);
+  ReactDOM.render(
+    <div className="m-tnm__map">
+      <div id={id} />
+      <TransitNearMeMap mapElementId={id} initialData={initialData} />
+    </div>,
+    document.getElementById("react-root")
+  );
 };
 
 const renderMap = (): void => {

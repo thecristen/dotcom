@@ -1,3 +1,5 @@
+import createGoogleMapsMock from "./helpers/stubs/googleMaps";
+
 export {};
 declare global {
   interface Window {
@@ -12,3 +14,7 @@ declare global {
 window.jQuery = require("jquery");
 window.autocomplete = require("autocomplete.js");
 window.Turbolinks = require("turbolinks");
+
+window.google = {
+  maps: createGoogleMapsMock()
+};
