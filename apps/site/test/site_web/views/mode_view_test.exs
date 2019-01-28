@@ -124,7 +124,7 @@ defmodule SiteWeb.ModeViewTest do
     end
   end
 
-  describe "fare_groups" do
+  describe "hub_fare_cards" do
     test "returns grouped fare card data" do
       assert [
                %ColumnMulti{
@@ -139,7 +139,7 @@ defmodule SiteWeb.ModeViewTest do
                    %Column{paragraphs: [%FareCard{fare_token: "ferry"}]}
                  ]
                }
-             ] = ModeView.fare_groups()
+             ] = ModeView.hub_fare_cards()
     end
   end
 end

@@ -122,3 +122,12 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
     border-color: $brand-the-ride;
   }
 }
+
+.c-fare-pass__name {
+  margin-top: 0;
+}
+
+.c-fare-pass__price {
+  float: left;
+  margin: 0 0 $base-spacing;
+}

@@ -5,7 +5,7 @@
 <%= extend_width :table do %>
   <dl class="dl" role="list">
     <%= for description <- @content.descriptions do %>
-      <div role="listitem">
+      <div role="listitem" class="dl--item">
         <dt class="dt">
           <%= ContentRewriter.rewrite(description.term, @conn) %>
         </dt>

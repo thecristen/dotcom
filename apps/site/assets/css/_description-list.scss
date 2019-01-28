@@ -4,6 +4,13 @@
   margin: .5rem 0 0;
 }
 
+.dl--item {
+  // added this because at larger breakpoints items float into different rows
+  @include media-breakpoint-up(md) {
+    clear: both;
+  }
+}
+
 .dt {
   @include make-col();
   @include make-col-span(3);

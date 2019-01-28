@@ -55,7 +55,7 @@
       <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-7">
         <h2 class="h2">Fares</h2>
 
-        <%= for paragraph <- fare_groups(), do: SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
+        <%= for paragraph <- hub_fare_cards(), do: SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
 
         <p>
           <%= link("View fares overview", to: cms_static_page_path(@conn, "/fares"), class: "c-call-to-action") %>

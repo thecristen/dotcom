@@ -3,7 +3,18 @@ defmodule SiteWeb.ModeView do
 
   alias Alerts.Match
   alias Content.Field.Link
-  alias Content.Paragraph.{Column, ColumnMulti, CustomHTML, FareCard}
+
+  alias Content.Paragraph.{
+    Column,
+    ColumnMulti,
+    CustomHTML,
+    Description,
+    DescriptionList,
+    FareCard
+  }
+
+  alias Phoenix.HTML
+  alias Plug.Conn
   alias Routes.Route
   alias Site.MapHelpers
   alias SiteWeb.PartialView.SvgIconWithCircle
@@ -85,12 +96,12 @@ defmodule SiteWeb.ModeView do
     []
   end
 
-  @spec grid_button_path(atom, Plug.Conn.t()) :: String.t()
-  def grid_button_path(:the_ride, %Plug.Conn{} = conn) do
+  @spec grid_button_path(atom, Conn.t()) :: String.t()
+  def grid_button_path(:the_ride, %Conn{} = conn) do
     cms_static_page_path(conn, "/accessibility/the-ride")
   end
 
-  def grid_button_path(%Route{id: route_id}, %Plug.Conn{} = conn) do
+  def grid_button_path(%Route{id: route_id}, %Conn{} = conn) do
     schedule_path(conn, :show, route_id)
   end
 
@@ -214,15 +225,15 @@ defmodule SiteWeb.ModeView do
   defp in_range?(first, last, value) when value >= first and value <= last, do: true
   defp in_range?(_, _, _), do: false
 
-  @spec fare_groups :: [ColumnMulti.t()]
-  def fare_groups do
+  @spec hub_fare_cards :: [ColumnMulti.t()]
+  def hub_fare_cards do
     [
       ColumnMulti.new(columns: [fare_card(:subway), fare_card(:bus)]),
       ColumnMulti.new(columns: [fare_card(:commuter_rail), fare_card(:ferry)])
     ]
   end
 
-  @spec fare_card(:bus | :commuter_rail | :ferry | :subway) :: Column.t()
+  @spec fare_card(Route.gtfs_route_type()) :: Column.t()
   defp fare_card(:subway) do
     %Column{
       paragraphs: [
@@ -273,6 +284,171 @@ defmodule SiteWeb.ModeView do
         }
       ]
     }
+  end
+
+  @spec mode_fare_card(Route.gtfs_route_type()) :: ColumnMulti.t()
+  def mode_fare_card(:commuter_rail) do
+    ColumnMulti.new(columns: [fare_card(:commuter_rail)])
+  end
+
+  def mode_fare_card(:ferry) do
+    ColumnMulti.new(columns: [fare_card(:ferry)])
+  end
+
+  def mode_fare_card(mode) do
+    ColumnMulti.new(
+      columns: [fare_card_double(mode)],
+      display_options: "grouped"
+    )
+  end
+
+  @spec fare_card_double(:subway | :bus) :: Column.t()
+  defp fare_card_double(:subway) do
+    %Column{
+      paragraphs: [
+        %FareCard{
+          fare_token: "subway:charlie_card",
+          link: %Link{url: "/fares/subway-fares"},
+          note: %CustomHTML{
+            body: content_tag(:p, "1 free transfer to Local Bus within 2 hours"),
+            right_rail: nil
+          }
+        },
+        %FareCard{
+          fare_token: "subway:cash",
+          link: nil,
+          note: %CustomHTML{
+            body: content_tag(:p, "Limited transfers"),
+            right_rail: nil
+          }
+        }
+      ]
+    }
+  end
+
+  defp fare_card_double(:bus) do
+    %Column{
+      paragraphs: [
+        %FareCard{
+          fare_token: "local_bus:charlie_card",
+          link: %Link{url: "/fares/bus-fares"},
+          note: %CustomHTML{
+            body: content_tag(:p, "1 free transfer to Local Bus within 2 hours"),
+            right_rail: nil
+          }
+        },
+        %FareCard{
+          fare_token: "local_bus:cash",
+          link: nil,
+          note: %CustomHTML{
+            body: content_tag(:p, "Limited transfers")
+          }
+        }
+      ]
+    }
+  end
+
+  @spec fare_passes(Route.gtfs_route_type()) :: DescriptionList.t()
+  def fare_passes(:subway) do
+    %DescriptionList{
+      descriptions: [
+        %Description{
+          term: fare_pass_name("7-Day Pass"),
+          details: fare_pass_price("{{fare:subway:week}}")
+        },
+        %Description{
+          term: fare_pass_name("Monthly LinkPass"),
+          details: fare_pass_price("{{fare:subway:month}}")
+        }
+      ]
+    }
+  end
+
+  def fare_passes(:bus) do
+    %DescriptionList{
+      descriptions: [
+        %Description{
+          term: fare_pass_name("Inner Express Bus One-Way"),
+          details: fare_pass_price("{{fare:inner_express_bus:charlie_card}}")
+        },
+        %Description{
+          term: fare_pass_name("Outer Express Bus One-Way"),
+          details: fare_pass_price("{{fare:outer_express_bus:charlie_card}}")
+        },
+        %Description{
+          term: fare_pass_name("Monthly LinkPass"),
+          details: fare_pass_price("{{fare:local_bus:month}}")
+        },
+        %Description{
+          term: fare_pass_name("7-Day Pass"),
+          details: fare_pass_price("{{fare:subway:week}}")
+        }
+      ]
+    }
+  end
+
+  def fare_passes(:commuter_rail) do
+    %DescriptionList{
+      descriptions: [
+        %Description{
+          term: fare_pass_name("Commuter Rail Monthly Pass"),
+          details: fare_pass_price("{{fare:commuter_rail:month:commuter_ticket}}")
+        }
+      ]
+    }
+  end
+
+  def fare_passes(:ferry) do
+    %DescriptionList{
+      descriptions: [
+        %Description{
+          term: fare_pass_name("Ferry Monthly Pass"),
+          details: fare_pass_price("{{fare:ferry:month:charlie_ticket}}")
+        }
+      ]
+    }
+  end
+
+  @spec fare_pass_name(String.t()) :: HTML.safe()
+  defp fare_pass_name(name), do: content_tag(:h3, name, class: "c-fare-pass__name")
+
+  @spec fare_pass_price(String.t()) :: HTML.safe()
+  defp fare_pass_price(price), do: content_tag(:span, price, class: "h2 c-fare-pass__price")
+
+  @spec fare_finder_link(Route.gtfs_route_type(), Conn.t()) :: HTML.safe()
+  def fare_finder_link(:commuter_rail, conn) do
+    content_tag(:p, [
+      link(
+        "Commuter Rail Fare Finder",
+        to: cms_static_page_path(conn, "/fares/commuter-rail"),
+        class: "c-call-to-action"
+      )
+    ])
+  end
+
+  def fare_finder_link(:ferry, conn) do
+    content_tag(:p, [
+      link(
+        "Ferry Fare Finder",
+        to: cms_static_page_path(conn, "/fares/commuter-rail"),
+        class: "c-call-to-action"
+      )
+    ])
+  end
+
+  def fare_finder_link(_, _), do: nil
+
+  @spec fare_overview_link(Route.gtfs_route_type(), Conn.t()) :: HTML.safe()
+  def fare_overview_link(mode, conn) do
+    link(
+      "View fares overview",
+      to:
+        cms_static_page_path(
+          conn,
+          "/fares/#{mode |> Atom.to_string() |> String.replace("_", "-")}-fares"
+        ),
+      class: "c-call-to-action"
+    )
   end
 
   defp fare_price(token) do

@@ -9,7 +9,7 @@ defmodule Content.Paragraph.DescriptionList do
             descriptions: []
 
   @type t :: %__MODULE__{
-          header: ColumnMultiHeader.t(),
+          header: ColumnMultiHeader.t() | nil,
           descriptions: [Description.t()]
         }
 
