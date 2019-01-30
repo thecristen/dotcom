@@ -25,10 +25,11 @@ end
 defmodule Schedules.Trip do
   defstruct [:id, :name, :headsign, :direction_id, :shape_id, bikes_allowed?: false]
   @type id_t :: String.t()
+  @type headsign :: String.t()
   @type t :: %Schedules.Trip{
           id: id_t,
           name: String.t(),
-          headsign: String.t(),
+          headsign: headsign,
           direction_id: 0 | 1,
           shape_id: String.t() | nil,
           bikes_allowed?: boolean

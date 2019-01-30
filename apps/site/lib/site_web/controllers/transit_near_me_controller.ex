@@ -3,11 +3,10 @@ defmodule SiteWeb.TransitNearMeController do
   alias GoogleMaps.{Geocode, MapData, MapData.Layers, MapData.Marker}
   alias Phoenix.HTML
   alias Plug.Conn
+  alias Site.TransitNearMe
 
   alias SiteWeb.TransitNearMeController.{
     Location,
-    RoutesAndStops,
-    RoutesWithStops,
     StopsWithRoutes
   }
 
@@ -38,21 +37,23 @@ defmodule SiteWeb.TransitNearMeController do
   end
 
   defp assign_stops_and_routes(%{assigns: %{location: {:ok, [location | _]}}} = conn) do
-    routes_and_stops_fn = Map.get(conn.assigns, :routes_and_stops_fn, &RoutesAndStops.get/2)
-    routes_and_stops = routes_and_stops_fn.(location, [])
+    data_fn = Map.get(conn.assigns, :data_fn, &TransitNearMe.build/2)
 
-    stops_with_routes = StopsWithRoutes.from_routes_and_stops(routes_and_stops)
-    routes_with_stops = RoutesWithStops.from_routes_and_stops(routes_and_stops)
+    to_json_fn = Map.get(conn.assigns, :to_json_fn, &TransitNearMe.to_json/1)
+
+    data = data_fn.(location, date: conn.assigns.date, now: conn.assigns.date_time)
+
+    stops_with_routes = StopsWithRoutes.from_routes_and_stops(data)
 
     conn
     |> assign(:stops_with_routes, stops_with_routes)
-    |> assign(:routes_with_stops, routes_with_stops)
+    |> assign(:json, to_json_fn.(data))
   end
 
   defp assign_stops_and_routes(conn) do
     conn
     |> assign(:stops_with_routes, [])
-    |> assign(:routes_with_stops, [])
+    |> assign(:json, Poison.encode!([]))
   end
 
   def assign_map_data(conn) do

@@ -3,128 +3,75 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
   alias GoogleMaps.{Geocode.Address, MapData, MapData.Marker}
   alias Routes.Route
+  alias Schedules.Schedule
+  alias Site.TransitNearMe
   alias SiteWeb.TransitNearMeController, as: TNMController
-  alias SiteWeb.TransitNearMeController.RoutesAndStops
   alias Stops.Stop
 
-  @routes_and_stops %RoutesAndStops{
-    routes: %{
-      "Orange" => %Route{id: "Orange", description: :rapid_transit, name: "Orange Line", type: 1},
-      "CR-Worcester" => %Route{
-        id: "CR-Worcester",
-        description: :commuter_rail,
-        name: "Framingham/Worcester Line",
-        type: 2
-      },
-      "CR-Franklin" => %Route{
-        id: "CR-Franklin",
-        description: :commuter_rail,
-        name: "Franklin Line",
-        type: 2
-      },
-      "CR-Needham" => %Route{
-        id: "CR-Needham",
-        description: :commuter_rail,
-        name: "Needham Line",
-        type: 2
-      },
-      "CR-Providence" => %Route{
-        id: "CR-Providence",
-        description: :commuter_rail,
-        name: "Providence/Stoughton Line",
-        type: 2
-      },
-      "10" => %Route{id: "10", description: :local_bus, name: "10", type: 3},
-      "39" => %Route{id: "39", description: :key_bus_route, name: "39", type: 3},
-      "170" => %Route{id: "170", description: :limited_service, name: "170", type: 3}
-    },
-    stops: %{
-      "place-bbsta" => %{
-        stop: %Stop{
-          accessibility: ["accessible", "elevator", "tty_phone", "escalator_up"],
-          address: "145 Dartmouth St Boston, MA 02116-5162",
-          id: "place-bbsta",
-          latitude: 42.34735,
-          longitude: -71.075727,
-          name: "Back Bay",
-          station?: true
-        },
-        distance: 0.52934802
-      }
-    },
-    join: [
-      %{
-        route_id: "Orange",
-        stop_id: "place-bbsta"
-      },
-      %{
-        route_id: "CR-Worcester",
-        stop_id: "place-bbsta"
-      },
-      %{
-        route_id: "CR-Franklin",
-        stop_id: "place-bbsta"
-      },
-      %{
-        route_id: "CR-Needham",
-        stop_id: "place-bbsta"
-      },
-      %{
-        route_id: "CR-Providence",
-        stop_id: "place-bbsta"
-      },
-      %{
-        route_id: "10",
-        stop_id: "place-bbsta"
-      },
-      %{
-        route_id: "39",
-        stop_id: "place-bbsta"
-      },
-      %{
-        route_id: "170",
-        stop_id: "place-bbsta"
-      }
-    ]
+  @orange_line %Route{id: "Orange", description: :rapid_transit, name: "Orange Line", type: 1}
+  @cr_worcester %Route{
+    id: "CR-Worcester",
+    description: :commuter_rail,
+    name: "Framingham/Worcester Line",
+    type: 2
+  }
+  @cr_franklin %Route{
+    id: "CR-Franklin",
+    description: :commuter_rail,
+    name: "Franklin Line",
+    type: 2
+  }
+  @cr_needham %Route{
+    id: "CR-Needham",
+    description: :commuter_rail,
+    name: "Needham Line",
+    type: 2
+  }
+  @cr_providence %Route{
+    id: "CR-Providence",
+    description: :commuter_rail,
+    name: "Providence/Stoughton Line",
+    type: 2
+  }
+  @bus_10 %Route{id: "10", description: :local_bus, name: "10", type: 3}
+  @bus_39 %Route{id: "39", description: :key_bus_route, name: "39", type: 3}
+  @bus_170 %Route{id: "170", description: :limited_service, name: "170", type: 3}
+
+  @back_bay %Stop{
+    accessibility: ["accessible", "elevator", "tty_phone", "escalator_up"],
+    address: "145 Dartmouth St Boston, MA 02116-5162",
+    id: "place-bbsta",
+    latitude: 42.34735,
+    longitude: -71.075727,
+    name: "Back Bay",
+    station?: true
+  }
+
+  @data %TransitNearMe{
+    distances: %{"place-bbsta" => 0.52934802},
+    stops: [@back_bay],
+    schedules: %{
+      "place-bbsta" => [
+        %Schedule{stop: @back_bay, route: @orange_line},
+        %Schedule{stop: @back_bay, route: @cr_worcester},
+        %Schedule{stop: @back_bay, route: @cr_franklin},
+        %Schedule{stop: @back_bay, route: @cr_needham},
+        %Schedule{stop: @back_bay, route: @cr_providence},
+        %Schedule{stop: @back_bay, route: @bus_10},
+        %Schedule{stop: @back_bay, route: @bus_39},
+        %Schedule{stop: @back_bay, route: @bus_170}
+      ]
+    }
   }
 
   @stop_with_routes %{
     distance: 0.52934802,
     routes: [
-      orange_line: [
-        %Route{id: "Orange", description: :rapid_transit, name: "Orange Line", type: 1}
-      ],
-      bus: [
-        %Route{id: "10", description: :local_bus, name: "10", type: 3},
-        %Route{id: "39", description: :key_bus_route, name: "39", type: 3},
-        %Route{id: "170", description: :limited_service, name: "170", type: 3}
-      ],
-      commuter_rail: [
-        %Route{
-          id: "CR-Worcester",
-          description: :commuter_rail,
-          name: "Framingham/Worcester Line",
-          type: 2
-        },
-        %Route{id: "CR-Franklin", description: :commuter_rail, name: "Franklin Line", type: 2},
-        %Route{id: "CR-Needham", description: :commuter_rail, name: "Needham Line", type: 2},
-        %Route{
-          id: "CR-Providence",
-          description: :commuter_rail,
-          name: "Providence/Stoughton Line",
-          type: 2
-        }
-      ]
+      orange_line: [@orange_line],
+      bus: [@bus_39, @bus_170, @bus_10],
+      commuter_rail: [@cr_franklin, @cr_needham, @cr_providence, @cr_worcester]
     ],
-    stop: %Stop{
-      accessibility: ["accessible", "elevator", "tty_phone", "escalator_up"],
-      address: "145 Dartmouth St Boston, MA 02116-5162",
-      id: "place-bbsta",
-      latitude: 42.34735,
-      longitude: -71.075727,
-      name: "Back Bay",
-      station?: true
-    }
+    stop: @back_bay
   }
 
   def location_fn(%{"address" => %{"latitude" => "valid", "longitude" => "valid"}}, []) do
@@ -168,21 +115,31 @@ defmodule SiteWeb.TransitNearMeControllerTest do
     :no_address
   end
 
-  def routes_and_stops_fn(%Address{formatted: "10 Park Plaza, Boston, MA, 02116"}, []) do
-    send(self(), :routes_and_stops_fn)
-    @routes_and_stops
+  def data_fn(
+        %Address{formatted: "10 Park Plaza, Boston, MA, 02116"},
+        date: %Date{},
+        now: %DateTime{}
+      ) do
+    send(self(), :data_fn)
+    @data
   end
 
-  def routes_and_stops_fn(%Address{formatted: "no_stops"}, []) do
-    send(self(), :routes_and_stops_fn)
-    %RoutesAndStops{}
+  def data_fn(%Address{formatted: "no_stops"}, date: %Date{}, now: %DateTime{}) do
+    send(self(), :data_fn)
+    %TransitNearMe{}
+  end
+
+  def to_json_fn(%TransitNearMe{}) do
+    send(self(), :to_json_fn)
+    Poison.encode!([])
   end
 
   setup do
     conn =
       build_conn()
       |> assign(:location_fn, &location_fn/2)
-      |> assign(:routes_and_stops_fn, &routes_and_stops_fn/2)
+      |> assign(:data_fn, &data_fn/2)
+      |> assign(:to_json_fn, &to_json_fn/1)
 
     {:ok, conn: conn}
   end
@@ -208,10 +165,11 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert conn.status == 200
 
       assert_receive :location_fn
-      refute_receive :routes_and_stops_fn
+      refute_receive :data_fn
 
       assert conn.assigns.location == :no_address
       assert conn.assigns.stops_with_routes == []
+      assert conn.assigns.json == "[]"
       assert get_flash(conn) == %{}
     end
   end
@@ -228,12 +186,14 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert conn.status == 200
 
       assert_receive :location_fn
-      assert_receive :routes_and_stops_fn
+      assert_receive :data_fn
+      assert_receive :to_json_fn
 
       assert {:ok, [%Address{formatted: "10 Park Plaza, Boston, MA, 02116"}]} =
                conn.assigns.location
 
       assert conn.assigns.stops_with_routes == [@stop_with_routes]
+      assert conn.assigns.json == to_json_fn(%TransitNearMe{})
       assert %MapData{} = conn.assigns.map_data
       assert Enum.count(conn.assigns.map_data.markers) == 4
       assert %Marker{} = Enum.find(conn.assigns.map_data.markers, &(&1.id == "current-location"))
@@ -257,10 +217,11 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert conn.status == 200
 
       assert_receive :location_fn
-      assert_receive :routes_and_stops_fn
+      assert_receive :data_fn
 
       assert {:ok, [%Address{formatted: "no_stops"}]} = conn.assigns.location
       assert conn.assigns.stops_with_routes == []
+      assert conn.assigns.json == "[]"
 
       assert get_flash(conn) == %{
                "info" =>
@@ -282,10 +243,11 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert conn.status == 200
 
       assert_receive :location_fn
-      refute_receive :routes_and_stops_fn
+      refute_receive :data_fn
 
       assert conn.assigns.location == {:error, :zero_results}
       assert conn.assigns.stops_with_routes == []
+      assert conn.assigns.json == "[]"
 
       assert get_flash(conn) == %{"info" => "We are unable to locate that address."}
     end
@@ -301,10 +263,11 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert conn.status == 200
 
       assert_receive :location_fn
-      refute_receive :routes_and_stops_fn
+      refute_receive :data_fn
 
       assert conn.assigns.location == {:error, :internal_error}
       assert conn.assigns.stops_with_routes == []
+      assert conn.assigns.json == "[]"
 
       assert get_flash(conn) == %{
                "info" => "There was an error locating that address. Please try again."

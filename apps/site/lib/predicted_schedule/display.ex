@@ -57,7 +57,8 @@ defmodule PredictedSchedule.Display do
     end
   end
 
-  defp do_time_difference(time, current_time) do
+  @spec do_time_difference(DateTime.t(), DateTime.t()) :: [String.t()] | String.t()
+  def do_time_difference(time, current_time) do
     time
     |> Timex.diff(current_time, :minutes)
     |> format_time_difference(time)
@@ -66,7 +67,7 @@ defmodule PredictedSchedule.Display do
   defp format_time_difference(diff, time) when diff > 60 or diff < -1,
     do: format_schedule_time(time)
 
-  defp format_time_difference(0, _), do: "< 1 min"
+  defp format_time_difference(0, _), do: ["< 1", " ", "min"]
 
   defp format_time_difference(diff, _),
     do: [Integer.to_string(diff), " ", Inflex.inflect("min", diff)]

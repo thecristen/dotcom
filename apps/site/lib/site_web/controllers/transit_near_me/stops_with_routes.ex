@@ -3,7 +3,7 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutes do
   Builds a list of stops near a location, with the routes that go through that stop.
   """
   alias Routes.Route
-  alias SiteWeb.TransitNearMeController.RoutesAndStops
+  alias Site.TransitNearMe
   alias Stops.Stop
 
   @type route_group :: {
@@ -17,38 +17,28 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutes do
           stop: Stop.t()
         }
 
-  @spec from_routes_and_stops(RoutesAndStops.t()) :: [stop_with_routes]
-  def from_routes_and_stops(%RoutesAndStops{stops: stops_with_distances} = routes_and_stops) do
-    stops_with_distances
-    |> Map.values()
-    |> Task.async_stream(&build_stop_with_routes(&1, routes_and_stops))
+  @spec from_routes_and_stops(TransitNearMe.t()) :: [stop_with_routes]
+  def from_routes_and_stops(%TransitNearMe{stops: stops} = data) do
+    stops
+    |> Task.async_stream(&build_stop_with_routes(&1, data))
     |> Enum.map(fn {:ok, map} -> map end)
   end
 
-  @spec build_stop_with_routes(RoutesAndStops.stop_with_distance_t(), RoutesAndStops.t()) ::
-          stop_with_routes
+  @spec build_stop_with_routes(Stop.t(), TransitNearMe.t()) :: stop_with_routes
   defp build_stop_with_routes(
-         %{stop: stop, distance: distance},
-         %RoutesAndStops{} = routes_and_stops
+         %Stop{} = stop,
+         %TransitNearMe{} = data
        ) do
     grouped_routes =
-      stop.id
-      |> routes_for_stop(routes_and_stops)
+      data
+      |> TransitNearMe.routes_for_stop(stop.id)
       |> get_route_groups()
 
     %{
       stop: stop,
-      distance: distance,
+      distance: TransitNearMe.distance_for_stop(data, stop.id),
       routes: grouped_routes
     }
-  end
-
-  @spec routes_for_stop(String.t(), RoutesAndStops.t()) :: [Route.t()]
-  defp routes_for_stop(stop_id, %RoutesAndStops{routes: routes, join: join}) do
-    join
-    |> Enum.filter(&(&1.stop_id == stop_id))
-    |> Enum.map(& &1.route_id)
-    |> Enum.map(&routes[&1])
   end
 
   @spec get_route_groups([Route.t()]) :: [Routes.Group.t()]
