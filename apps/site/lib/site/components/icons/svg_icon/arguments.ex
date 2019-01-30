@@ -7,7 +7,16 @@ defmodule Site.Components.Icons.SvgIcon do
   @type t :: %__MODULE__{icon: icon_arg, class: String.t(), show_tooltip?: boolean}
   @type icon_arg :: atom | String.t() | Routes.Route.t() | 0..4
 
-  @transit_type_icons [:bus, :ferry, :subway, :commuter_rail, :mattapan_trolley, :mattapan_line]
+  @transit_type_icons [
+    :bus,
+    :logan_express,
+    :massport_shuttle,
+    :ferry,
+    :subway,
+    :commuter_rail,
+    :mattapan_trolley,
+    :mattapan_line
+  ]
   @mode_icons [:t_logo, :green_line, :orange_line, :blue_line, :red_line]
 
   @icons [
@@ -115,6 +124,8 @@ defmodule Site.Components.Icons.SvgIcon do
   end
 
   def get_path(:mattapan_line), do: get_path(:mattapan_trolley)
+  def get_path(:logan_express), do: get_path(:bus)
+  def get_path(:massport_shuttle), do: get_path(:bus)
 
   def get_path(atom) when atom in [:green_line, :red_line, :blue_line, :orange_line],
     do: get_path(:t_logo)
@@ -156,7 +167,8 @@ defmodule Site.Components.Icons.SvgIcon do
   def icon_title(:alert), do: "Service alert or delay"
   def icon_title(:parking_lot), do: "Parking"
 
-  def icon_title(icon) when icon in [:subway, :bus, :commuter_rail, :ferry] do
+  def icon_title(icon)
+      when icon in [:subway, :bus, :logan_express, :massport_shuttle, :commuter_rail, :ferry] do
     SiteWeb.ViewHelpers.mode_name(icon)
   end
 

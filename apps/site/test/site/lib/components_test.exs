@@ -213,6 +213,12 @@ defmodule Site.ComponentsTest do
              |> get_path()
              |> safe_to_string() =~ "<path"
     end
+
+    test "returns bus icon path for massport routes" do
+      expected = get_path(:bus)
+      assert expected == get_path(:logan_express)
+      assert expected == get_path(:massport_shuttle)
+    end
   end
 
   def current_active_period do

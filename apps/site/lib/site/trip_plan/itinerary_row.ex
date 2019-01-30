@@ -147,7 +147,7 @@ defmodule Site.TripPlan.ItineraryRow do
   def name_from_position(%NamedPosition{stop_id: stop_id, name: name}, stop_mapper)
       when not is_nil(stop_id) do
     case stop_mapper.(stop_id) do
-      nil -> {name, stop_id}
+      nil -> {name, nil}
       stop -> {stop.name, stop.id}
     end
   end

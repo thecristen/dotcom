@@ -12,6 +12,11 @@ defmodule TripPlan.Leg do
             mode: nil,
             from: nil,
             to: nil,
+            name: nil,
+            long_name: nil,
+            type: nil,
+            description: nil,
+            url: nil,
             polyline: ""
 
   @type mode :: PersonalDetail.t() | TransitDetail.t()
@@ -21,6 +26,11 @@ defmodule TripPlan.Leg do
           mode: mode,
           from: NamedPosition.t(),
           to: NamedPosition.t(),
+          name: String.t(),
+          long_name: String.t(),
+          type: String.t(),
+          description: String.t(),
+          url: String.t(),
           polyline: String.t()
         }
 

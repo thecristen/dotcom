@@ -34,7 +34,9 @@
 }
 
 .callout-small {
-  .icon-bus {
+  .icon-bus,
+  .icon-logan-express,
+  .icon-massport-shuttle {
     height: 1em;
     position: relative;
     top: .05em; // Oddly proportioned icon

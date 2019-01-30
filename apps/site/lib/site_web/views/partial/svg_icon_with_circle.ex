@@ -44,7 +44,7 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
   end
 
   def svg_icon_with_circle(%__MODULE__{icon: mode} = args)
-      when mode in [:subway, :bus, :commuter_rail, :ferry] do
+      when mode in [:subway, :bus, :logan_express, :massport_shuttle, :commuter_rail, :ferry] do
     mode
     |> Helpers.mode_icon(args.size)
     |> do_svg_icon_with_circle(args)

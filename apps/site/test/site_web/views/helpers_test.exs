@@ -155,6 +155,13 @@ defmodule SiteWeb.ViewHelpersTest do
     end
   end
 
+  describe "mode_name/1" do
+    test "returns correct name for custom routes" do
+      assert mode_name("909") == "Logan Express"
+      assert mode_name("983") == "Massport Shuttle"
+    end
+  end
+
   describe "mode_atom/1" do
     test "Mode atoms do not contain spaces" do
       assert mode_atom("Commuter Rail") == :commuter_rail
@@ -306,7 +313,15 @@ defmodule SiteWeb.ViewHelpersTest do
   end
 
   test "mode_icon/2" do
-    for type <- [:subway, :commuter_rail, :bus, :ferry, :trolley],
+    for type <- [
+          :subway,
+          :commuter_rail,
+          :bus,
+          :logan_express,
+          :massport_shuttle,
+          :ferry,
+          :trolley
+        ],
         size <- [:default, :small] do
       assert {"span", [{"class", class}], _} =
                type
@@ -314,10 +329,11 @@ defmodule SiteWeb.ViewHelpersTest do
                |> safe_to_string()
                |> Floki.parse()
 
-      if type == :commuter_rail do
-        assert class == "notranslate c-svg__icon-mode-commuter-rail-#{size}"
-      else
-        assert class == "notranslate c-svg__icon-mode-#{type}-#{size}"
+      case type do
+        :commuter_rail -> assert class == "notranslate c-svg__icon-mode-commuter-rail-#{size}"
+        :logan_express -> assert class == "notranslate c-svg__icon-mode-bus-#{size}"
+        :massport_shuttle -> assert class == "notranslate c-svg__icon-mode-bus-#{size}"
+        other -> assert class == "notranslate c-svg__icon-mode-#{other}-#{size}"
       end
     end
 

@@ -2,6 +2,7 @@ defmodule Site.TripPlan.RelatedLinkTest do
   use ExUnit.Case, async: true
   import Site.TripPlan.RelatedLink
   import SiteWeb.Router.Helpers, only: [fare_path: 4]
+  alias Routes.Route
   alias TripPlan.{Itinerary, Api.MockPlanner}
 
   setup do
@@ -96,6 +97,18 @@ defmodule Site.TripPlan.RelatedLinkTest do
             end
         end
       end
+    end
+  end
+
+  describe "links_for_itinerary/2" do
+    test "returns custom links for custom routes", %{itinerary: itinerary} do
+      url = "http://custom.url"
+      legs = Enum.map(itinerary.legs, &%{&1 | url: url})
+      itinerary = %TripPlan.Itinerary{itinerary | legs: legs}
+      mapper = fn _route -> %Route{custom_route?: true} end
+
+      assert [%Site.TripPlan.RelatedLink{text: "Route information", url: ^url}] =
+               links_for_itinerary(itinerary, route_by_id: mapper)
     end
   end
 

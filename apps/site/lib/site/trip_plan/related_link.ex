@@ -86,17 +86,21 @@ defmodule Site.TripPlan.RelatedLink do
   defp route_link(route, trip_id, itinerary) do
     icon_name = Route.icon_atom(route)
 
-    base_text =
-      if Route.type_atom(route) == :bus do
-        ["Route ", route.name]
-      else
-        route.name
-      end
+    if route.custom_route? do
+      leg = Enum.find(itinerary.legs, &match?(%TripPlan.Leg{url: url} when url != nil, &1))
+      new("Route information", leg.url, icon_name)
+    else
+      base_text =
+        if Route.type_atom(route) == :bus do
+          ["Route ", route.name]
+        else
+          route.name
+        end
 
-    text = [base_text, " schedules"]
-    date = Timex.format!(itinerary.start, "{ISOdate}")
-    url = schedule_path(SiteWeb.Endpoint, :show, route, date: date, trip: trip_id)
-    new(text, url, icon_name)
+      date = Date.to_iso8601(itinerary.start)
+      url = schedule_path(SiteWeb.Endpoint, :show, route, date: date, trip: trip_id)
+      new([base_text, " schedules"], url, icon_name)
+    end
   end
 
   defp fare_links(itinerary, opts) do
@@ -104,7 +108,7 @@ defmodule Site.TripPlan.RelatedLink do
 
     for leg <- itinerary,
         {:ok, route_id} <- [Leg.route_id(leg)],
-        %Route{} = route <- [route_by_id.(route_id)] do
+        %Route{custom_route?: false} = route <- [route_by_id.(route_id)] do
       fare_link(route, leg, opts)
     end
     |> Enum.uniq()

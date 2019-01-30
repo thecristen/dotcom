@@ -2,7 +2,7 @@ defmodule SiteWeb.TripPlanController do
   use SiteWeb, :controller
   alias Site.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap
-  alias TripPlan.Itinerary
+  alias TripPlan.{Itinerary, Leg}
   alias GoogleMaps.{MapData, MapData.Marker}
   alias TripPlan.NamedPosition
 
@@ -154,12 +154,12 @@ defmodule SiteWeb.TripPlanController do
   end
 
   @spec routes_for_query([Itinerary.t()]) :: route_map
-  defp routes_for_query(itineraries) do
+  def routes_for_query(itineraries) do
     itineraries
     |> Enum.flat_map(&Itinerary.route_ids/1)
     |> add_additional_routes()
     |> Enum.uniq()
-    |> Map.new(&{&1, Routes.Repo.get(&1)})
+    |> Map.new(&{&1, get_route(&1, itineraries)})
   end
 
   @spec routes_for_itinerary(Itinerary.t(), route_mapper) :: [Routes.Route.t()]
@@ -180,6 +180,36 @@ defmodule SiteWeb.TripPlanController do
       Enum.concat(ids, GreenLine.branch_ids())
     else
       ids
+    end
+  end
+
+  defp get_route(id, itineraries) do
+    case Routes.Repo.get(id) do
+      %Routes.Route{} = route -> route
+      nil -> get_route_from_itinerary(itineraries, id)
+    end
+  end
+
+  defp get_route_from_itinerary(itineraries, id) do
+    case Enum.find(itineraries, &(Itinerary.route_ids(&1) == [id])) do
+      %TripPlan.Itinerary{} = itinerary ->
+        case Enum.find(itinerary.legs, &({:ok, id} == Leg.route_id(&1))) do
+          %TripPlan.Leg{} = leg ->
+            %Routes.Route{
+              description: leg.description,
+              id: leg.mode.route_id,
+              long_name: leg.long_name,
+              name: leg.name,
+              type: leg.type,
+              custom_route?: true
+            }
+
+          _ ->
+            nil
+        end
+
+      _ ->
+        nil
     end
   end
 

@@ -45,6 +45,9 @@ defmodule SiteWeb.ViewHelpers do
     mode_icon(:"commuter-rail", size)
   end
 
+  def mode_icon(:logan_express, size), do: mode_icon(:bus, size)
+  def mode_icon(:massport_shuttle, size), do: mode_icon(:bus, size)
+
   def mode_icon(mode, size)
       when mode in [:subway, :bus, :"commuter-rail", :ferry, :trolley] and
              size in [:default, :small] do
@@ -152,6 +155,8 @@ defmodule SiteWeb.ViewHelpers do
   def mode_name(type) when type in [2, :commuter_rail], do: "Commuter Rail"
   def mode_name(type) when type in [3, :bus], do: "Bus"
   def mode_name(type) when type in [4, :ferry], do: "Ferry"
+  def mode_name(type) when type in ["909", :logan_express], do: "Logan Express"
+  def mode_name(type) when type in ["983", :massport_shuttle], do: "Massport Shuttle"
   def mode_name(:access), do: "Access"
   def mode_name(:the_ride), do: "The Ride"
   def mode_name(:mattapan_trolley), do: "Mattapan Trolley"

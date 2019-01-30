@@ -5,6 +5,7 @@ defmodule TripPlan.ItineraryRowTest do
   alias Site.TripPlan.ItineraryRow
   alias Routes.Route
   alias Alerts.{Alert, InformedEntity}
+  alias TripPlan.NamedPosition
 
   describe "route_id/1" do
     test "returns the route id when a route is present" do
@@ -295,6 +296,17 @@ defmodule TripPlan.ItineraryRowTest do
     }
     test "returns true if steps have alerts" do
       assert intermediate_alerts?(@itinerary_row)
+    end
+  end
+
+  describe "name_from_position" do
+    test "doesn't return stop id if mapper returns nil" do
+      stop_id = "ignored"
+      name = "stop name"
+      mapper = fn _stop_id -> nil end
+
+      assert {^name, nil} =
+               name_from_position(%NamedPosition{stop_id: stop_id, name: name}, mapper)
     end
   end
 end

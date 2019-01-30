@@ -7,7 +7,8 @@ defmodule Routes.Route do
             long_name: "",
             direction_names: %{0 => "Outbound", 1 => "Inbound"},
             direction_destinations: :unknown,
-            description: :unknown
+            description: :unknown,
+            custom_route?: false
 
   @type id_t :: String.t()
   @type t :: %__MODULE__{
@@ -17,9 +18,11 @@ defmodule Routes.Route do
           long_name: String.t(),
           direction_names: %{0 => String.t(), 1 => String.t()},
           direction_destinations: %{0 => String.t(), 1 => String.t()} | :unknown,
-          description: gtfs_route_desc
+          description: gtfs_route_desc,
+          custom_route?: boolean
         }
-  @type gtfs_route_type :: :subway | :commuter_rail | :bus | :ferry
+  @type gtfs_route_type ::
+          :subway | :commuter_rail | :bus | :ferry | :logan_express | :massport_shuttle
   @type gtfs_route_desc ::
           :airport_shuttle
           | :commuter_rail
@@ -54,6 +57,8 @@ defmodule Routes.Route do
   def type_atom("subway"), do: :subway
   def type_atom("bus"), do: :bus
   def type_atom("ferry"), do: :ferry
+  def type_atom("909"), do: :logan_express
+  def type_atom("983"), do: :massport_shuttle
 
   @spec types_for_mode(gtfs_route_type | subway_lines_type) :: [0..4]
   def types_for_mode(:subway), do: [0, 1]

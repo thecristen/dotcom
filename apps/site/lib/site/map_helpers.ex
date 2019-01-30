@@ -76,6 +76,7 @@ defmodule Site.MapHelpers do
   def route_map_color(%Route{id: "Mattapan"}), do: "FF1428"
   def route_map_color(%Route{id: "Orange"}), do: "FF8200"
   def route_map_color(%Route{id: "Green" <> _}), do: "428608"
+  def route_map_color(%Route{custom_route?: true}), do: "003383"
 
   def route_map_color(_), do: "000000"
 

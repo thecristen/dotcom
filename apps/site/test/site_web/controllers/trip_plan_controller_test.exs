@@ -1,7 +1,8 @@
 defmodule SiteWeb.TripPlanControllerTest do
   use SiteWeb.ConnCase
   alias Site.TripPlan.Query
-  alias TripPlan.NamedPosition
+  alias SiteWeb.TripPlanController
+  alias TripPlan.{Api.MockPlanner, NamedPosition}
   import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
   doctest SiteWeb.TripPlanController
 
@@ -599,9 +600,45 @@ defmodule SiteWeb.TripPlanControllerTest do
       assert %{assigns: %{initial_map_data: map}} =
                conn
                |> assign(:initial_map_data, initial_data)
-               |> SiteWeb.TripPlanController.add_initial_map_markers(query)
+               |> TripPlanController.add_initial_map_markers(query)
 
       assert [%GoogleMaps.MapData.Marker{}] = map.markers
+    end
+  end
+
+  describe "routes_for_query/1" do
+    setup do
+      from = MockPlanner.random_stop()
+      to = MockPlanner.random_stop()
+      {:ok, itineraries} = TripPlan.plan(from, to, [])
+      {:ok, %{itineraries: itineraries}}
+    end
+
+    test "doesn't set custom_route? flag for regular routes", %{itineraries: itineraries} do
+      rfq = TripPlanController.routes_for_query(itineraries)
+      assert Enum.all?(rfq, fn {_route_id, route} -> !route.custom_route? end)
+    end
+
+    test "sets custom_route? flag for routes not present in API", %{itineraries: itineraries} do
+      itineraries =
+        Enum.map(itineraries, fn i ->
+          legs =
+            Enum.map(i.legs, fn l ->
+              case l do
+                %{mode: %{route_id: _route_id}} ->
+                  mode = %{l.mode | route_id: "UNKNOWN"}
+                  %{l | mode: mode}
+
+                _ ->
+                  l
+              end
+            end)
+
+          %{i | legs: legs}
+        end)
+
+      rfq = TripPlanController.routes_for_query(itineraries)
+      assert Enum.all?(rfq, fn {_route_id, route} -> route.custom_route? end)
     end
   end
 end

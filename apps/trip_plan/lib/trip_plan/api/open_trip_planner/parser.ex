@@ -90,7 +90,12 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
       mode: parse_mode(json),
       from: parse_named_position(json["from"], "stopId"),
       to: parse_named_position(json["to"], "stopId"),
-      polyline: json["legGeometry"]["points"]
+      polyline: json["legGeometry"]["points"],
+      name: json["route"],
+      long_name: json["routeLongName"],
+      type: json["agencyId"],
+      url: json["agencyUrl"],
+      description: json["mode"]
     }
   end
 
