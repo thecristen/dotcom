@@ -39,7 +39,7 @@ until [ $n -ge 3 ]; do
 done
 
 nvm use 8.7.0
-npm install -g npm@6.4.1
+npm install -g npm@6.7.0
 echo npm version is `npm -v`
 
 # set cache dir for node

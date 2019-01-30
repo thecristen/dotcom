@@ -78,7 +78,7 @@ The new face of https://www.mbta.com/
 
 1. Install npm globally
    ```
-   npm install -g npm@6.4.1
+   npm install -g npm@6.7.0
    ```
 
 1. Install our Node dependencies. From the root of this repo:
