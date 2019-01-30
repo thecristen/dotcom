@@ -1,6 +1,14 @@
 defmodule Content.CMS.Static do
+  @moduledoc """
+
+  Emulates Drupal REST API (both native and Views-based)
+
+  """
   @behaviour Content.CMS
+
+  alias Content.Helpers
   alias Content.NewsEntry
+  alias Poison.Parser
 
   # Views REST export responses
 
@@ -389,12 +397,12 @@ defmodule Content.CMS.Static do
   end
 
   @impl true
-  def preview(node_id)
-  def preview(3518), do: {:ok, do_preview(Enum.at(news_response(), 1))}
-  def preview(5), do: {:ok, do_preview(Enum.at(events_response(), 1))}
-  def preview(3480), do: {:ok, do_preview(Enum.at(projects_response(), 1))}
-  def preview(3174), do: {:ok, do_preview(Enum.at(project_updates_response(), 1))}
-  def preview(6), do: {:ok, do_preview(basic_page_response())}
+  def preview(node_id, revision_id)
+  def preview(3518, vid), do: {:ok, do_preview(Enum.at(news_response(), 1), vid)}
+  def preview(5, vid), do: {:ok, do_preview(Enum.at(events_response(), 1), vid)}
+  def preview(3480, vid), do: {:ok, do_preview(Enum.at(projects_response(), 1), vid)}
+  def preview(3174, vid), do: {:ok, do_preview(Enum.at(project_updates_response(), 1), vid)}
+  def preview(6, vid), do: {:ok, do_preview(basic_page_response(), vid)}
 
   @impl true
   def post("entity/node", body) do
@@ -402,7 +410,7 @@ defmodule Content.CMS.Static do
       {:error, %{status_code: 422}}
     else
       body
-      |> Poison.Parser.parse!()
+      |> Parser.parse!()
       |> entity_type()
       |> successful_response()
     end
@@ -414,7 +422,7 @@ defmodule Content.CMS.Static do
       {:error, %{status_code: 422}}
     else
       body
-      |> Poison.Parser.parse!()
+      |> Parser.parse!()
       |> entity_type()
       |> successful_response()
     end
@@ -442,13 +450,34 @@ defmodule Content.CMS.Static do
     file_path
     |> Path.join()
     |> File.read!()
-    |> Poison.Parser.parse!()
+    |> Parser.parse!()
   end
 
-  defp do_preview(%{"title" => [%{"value" => title}]} = response) do
-    for vid <- [111, 112, 113] do
-      %{response | "vid" => [%{"value" => vid}], "title" => [%{"value" => "#{title} #{vid}"}]}
-    end
+  # Generates multiple revisions on the fly for a single fixture
+  @spec do_preview(map, integer | String.t() | nil) :: [map]
+  defp do_preview(%{"title" => [%{"value" => title}]} = response, vid) do
+    vid = Helpers.int_or_string_to_int(vid)
+
+    revisions =
+      for v <- [113, 112, 111] do
+        %{response | "vid" => [%{"value" => v}], "title" => [%{"value" => "#{title} #{v}"}]}
+      end
+
+    cms_revision_filter(revisions, vid)
+  end
+
+  # Performs the CMS-side revision ID filtering
+  @spec cms_revision_filter([map], integer | nil) :: [map]
+  defp cms_revision_filter(revisions, vid)
+
+  # When no vid is specified, all results are returned
+  defp cms_revision_filter(revisions, nil) do
+    revisions
+  end
+
+  # CMS will filter results to single matching result with vid
+  defp cms_revision_filter(revisions, vid) do
+    Enum.filter(revisions, &match?(%{"vid" => [%{"value" => ^vid}]}, &1))
   end
 
   def redirect(path, params, code) when params == %{}, do: {:error, {:redirect, code, [to: path]}}

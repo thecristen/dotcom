@@ -128,7 +128,7 @@ defmodule SiteWeb.ContentControllerTest do
     } do
       conn = get(conn, "/redirected-url?preview&vid=latest")
       assert conn.status == 302
-      assert Plug.Conn.get_resp_header(conn, "location") == ["/different-url?preview=&vid=latest"]
+      assert Plug.Conn.get_resp_header(conn, "location") == ["/different-url?preview=&vid="]
     end
 
     test "renders a 404 when the CMS does not return any content", %{conn: conn} do

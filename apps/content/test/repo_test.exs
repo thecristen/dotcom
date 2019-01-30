@@ -96,6 +96,18 @@ defmodule Content.RepoTest do
       assert %Content.BasicPage{} = result
       assert result.title == "Arts on the T 112"
     end
+
+    test "deprecated use of 'latest' value for revision parameter still returns newest revision" do
+      result =
+        Repo.get_page("/basic_page_no_sidebar", %{
+          "preview" => "",
+          "vid" => "latest",
+          "nid" => "6"
+        })
+
+      assert %Content.BasicPage{} = result
+      assert result.title == "Arts on the T 113"
+    end
   end
 
   describe "get_page_with_encoded_id/2" do

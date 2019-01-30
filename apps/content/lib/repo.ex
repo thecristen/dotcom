@@ -200,12 +200,17 @@ defmodule Content.Repo do
   end
 
   @spec view_or_preview(String.t(), map) :: {:ok, map} | {:error, Content.CMS.error()}
+  defp view_or_preview(path, %{"preview" => _, "vid" => "latest"} = params) do
+    # "preview" value is deprecated. Use empty string or nil to get latest revision.
+    view_or_preview(path, Map.put(params, "vid", nil))
+  end
+
   defp view_or_preview(_path, %{"preview" => _, "vid" => vid, "nid" => node_id}) do
     case Integer.parse(node_id) do
       {nid, ""} ->
         nid
-        |> @cms_api.preview()
-        |> get_revision(vid)
+        |> @cms_api.preview(vid)
+        |> handle_revision()
 
       _ ->
         # Invalid or missing node ID
@@ -217,34 +222,12 @@ defmodule Content.Repo do
     @cms_api.view(path, params)
   end
 
-  @spec get_revision({:error, any} | {:ok, [map]}, String.t()) ::
-          {:error, String.t()} | {:ok, map}
-  def get_revision({:error, err}, _), do: {:error, err}
-  # No results
-  def get_revision({:ok, []}, _), do: {:error, :not_found}
+  @spec handle_revision({:error, any} | {:ok, [map]}) :: {:error, String.t()} | {:ok, map}
+  defp handle_revision({:error, err}), do: {:error, err}
 
-  def get_revision({:ok, revisions}, revision_id) when is_list(revisions) do
-    case revision_id do
-      "latest" ->
-        {:ok, List.first(revisions)}
+  defp handle_revision({:ok, []}), do: {:error, :not_found}
 
-      _ ->
-        with {vid, ""} <- Integer.parse(revision_id) do
-          case Enum.find(revisions, fn %{"vid" => [%{"value" => id}]} -> id == vid end) do
-            # Revision not found
-            nil ->
-              {:error, :not_found}
-
-            revision ->
-              {:ok, revision}
-          end
-        else
-          # Invalid revision request
-          _ ->
-            {:error, :not_found}
-        end
-    end
-  end
+  defp handle_revision({:ok, revisions}) when is_list(revisions), do: {:ok, List.first(revisions)}
 
   @doc """
   Returns a list of teaser items.

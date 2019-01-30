@@ -13,7 +13,7 @@ defmodule Content.CMS do
   or JSON decoding fails, returns {:error, message}
   """
   @callback view(String.t(), Keyword.t() | map) :: response
-  @callback preview(integer) :: {:ok, [map()]} | {:error, error}
+  @callback preview(integer, integer | nil) :: {:ok, [map()]} | {:error, error}
   @callback post(String.t(), String.t()) ::
               {:ok, Poison.Parser.t()} | {:error, map} | {:error, String.t()}
   @callback update(String.t(), String.t()) ::
