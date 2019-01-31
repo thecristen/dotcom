@@ -28,6 +28,8 @@ export function autocomplete({
   });
 }
 
+const BANNED_PLACES = ["ChIJN0na1RRw44kRRFEtH8OUkww"]; // Unreachable location @ Boston Logan International Airport
+
 function processAutocompleteResults(resolve, reject, hitLimit) {
   return (predictions, status) => {
     const results = {
@@ -40,7 +42,9 @@ function processAutocompleteResults(resolve, reject, hitLimit) {
       return resolve(results);
     }
     results.locations = {
-      hits: predictions.slice(0, hitLimit),
+      hits: predictions
+        .filter(p => BANNED_PLACES.indexOf(p.place_id) == -1)
+        .slice(0, hitLimit),
       nbHits: predictions.length
     };
     return resolve(results);
