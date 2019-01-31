@@ -1,5 +1,4 @@
 import React, { ReactElement } from "react";
-import ReactDOM from "react-dom";
 // @ts-ignore: Not typed
 import GoogleMap from "../../../js/google-map-class";
 

@@ -20,11 +20,11 @@ module.exports = {
     "^.+\\.ts?$": "ts-jest"
   },
   testEnvironment: "jsdom",
-  setupTestFrameworkScriptFile: "./__tests__/setupTests.ts",
+  setupTestFrameworkScriptFile: "./tnm/__tests__/setupTests.ts",
   testPathIgnorePatterns: [
     "/node_modules/",
     "./ts-build",
-    "./__tests__/setupTests.ts",
-    "./__tests__/helpers"
+    "./tnm/__tests__/setupTests.ts",
+    "./tnm/__tests__/helpers"
   ]
 };

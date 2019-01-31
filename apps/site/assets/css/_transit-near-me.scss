@@ -5,6 +5,100 @@
 }
 
 .m-tnm__map {
-  height: 30rem;
-  margin-top: $base-spacing * 1.5;
+  height: 30 * $base-spacing;
+  margin-top: 1.5 * $base-spacing;
+  position: relative;
+}
+
+.m-tnm-sidebar {
+  background-color: $gray-lightest;
+  height: 30 * $base-spacing;
+  left: 5 * $base-spacing;
+  overflow: scroll;
+  padding: $base-spacing / 2;
+  position: absolute;
+  top: 0;
+  width: 21 * $base-spacing;
+}
+
+.m-tnm-sidebar__route {
+  background-color: $white;
+
+  & + & {
+    margin-top: $base-spacing / 2;
+  }
+}
+
+.m-tnm-sidebar__route-name {
+  border-top-left-radius: $default-border-radius;
+  border-top-right-radius: $default-border-radius;
+  margin: 0;
+  padding: $base-spacing / 2;
+  text-transform: uppercase;
+}
+
+.m-tnm-sidebar__stop {
+  padding: $base-spacing / 2;
+
+  & + & {
+    border-top: 5px solid $gray-lightest;
+  }
+}
+
+.m-tnm-sidebar__stop-info {
+  display: flex;
+  font-size: .875 * $base-spacing;
+  justify-content: space-between;
+  margin-bottom: $base-spacing / 2;
+}
+
+.m-tnm-sidebar__direction {
+  margin-bottom: $base-spacing / 4;
+}
+
+.m-tnm-sidebar__direction-name {
+  font-size: .875 * $base-spacing;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.m-tnm-sidebar__direction-destination {
+  @include h3();
+  margin: 0;
+}
+
+.m-tnm-sidebar__headsign-schedule {
+  border-top: $border;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: $base-spacing / 4;
+  padding-top: $base-spacing / 4;
+}
+
+.m-tnm-sidebar__headsign-name {
+  font-weight: bold;
+}
+
+.m-tnm-sidebar__schedules {
+  display: flex;
+}
+
+.m-tnm-sidebar__schedule {
+  font-size: .875 * $base-spacing;
+  padding-left: $base-spacing;
+}
+
+.m-tnm-sidebar__prediction {
+  text-align: center;
+}
+
+.m-tnm-sidebar__prediction-number {
+  @include h3();
+  line-height: 1em;
+  margin: 0;
+}
+
+.m-tnm-sidebar__prediction-mins {
+  font-weight: bold;
+  line-height: 1em;
 }

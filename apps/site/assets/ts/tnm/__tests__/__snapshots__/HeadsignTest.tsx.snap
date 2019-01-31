@@ -1,0 +1,209 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders 2 predictions 1`] = `
+<div
+  className="m-tnm-sidebar__headsign-schedule"
+>
+  <div
+    className="m-tnm-sidebar__headsign"
+  >
+    <div
+      className="m-tnm-sidebar__headsign-name"
+    >
+      Downtown
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__schedules"
+  >
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__prediction"
+      >
+        <div
+          className="m-tnm-sidebar__prediction-number"
+        >
+          &lt; 1
+        </div>
+        <div
+          className="m-tnm-sidebar__prediction-mins"
+        >
+          min
+        </div>
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__prediction"
+      >
+        <div
+          className="m-tnm-sidebar__prediction-number"
+        >
+          &lt; 1
+        </div>
+        <div
+          className="m-tnm-sidebar__prediction-mins"
+        >
+          min
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`it renders prediction time string 1`] = `
+<div
+  className="m-tnm-sidebar__headsign-schedule"
+>
+  <div
+    className="m-tnm-sidebar__headsign"
+  >
+    <div
+      className="m-tnm-sidebar__headsign-name"
+    >
+      Downtown
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__schedules"
+  >
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__prediction"
+      >
+        <div
+          className="m-tnm-sidebar__prediction-number"
+        >
+          &lt; 1
+        </div>
+        <div
+          className="m-tnm-sidebar__prediction-mins"
+        >
+          min
+        </div>
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__prediction"
+      >
+        10:35P
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`it renders scheduled time when prediction is null 1`] = `
+<div
+  className="m-tnm-sidebar__headsign-schedule"
+>
+  <div
+    className="m-tnm-sidebar__headsign"
+  >
+    <div
+      className="m-tnm-sidebar__headsign-name"
+    >
+      Downtown
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__schedules"
+  >
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__prediction"
+      >
+        <div
+          className="m-tnm-sidebar__prediction-number"
+        >
+          &lt; 1
+        </div>
+        <div
+          className="m-tnm-sidebar__prediction-mins"
+        >
+          min
+        </div>
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      4:01 PM
+    </div>
+  </div>
+</div>
+`;
+
+exports[`it splits the headsign name when it contains 'via'  1`] = `
+<div
+  className="m-tnm-sidebar__headsign-schedule"
+>
+  <div
+    className="m-tnm-sidebar__headsign"
+  >
+    <div
+      className="m-tnm-sidebar__headsign-name"
+    >
+      Watertown
+    </div>
+    <div
+      className="m-tnm-sidebar__via"
+    >
+      via 
+      Harvard Square
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__schedules"
+  >
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__prediction"
+      >
+        <div
+          className="m-tnm-sidebar__prediction-number"
+        >
+          &lt; 1
+        </div>
+        <div
+          className="m-tnm-sidebar__prediction-mins"
+        >
+          min
+        </div>
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__prediction"
+      >
+        <div
+          className="m-tnm-sidebar__prediction-number"
+        >
+          &lt; 1
+        </div>
+        <div
+          className="m-tnm-sidebar__prediction-mins"
+        >
+          min
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

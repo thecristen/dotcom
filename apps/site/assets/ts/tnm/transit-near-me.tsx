@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { doWhenGoogleMapsIsReady } from "../../js/google-maps-loaded";
+import RoutesSidebar from "./components/RoutesSidebar";
 import TransitNearMeSearch from "./search";
 import TransitNearMeMap from "./components/TransitNearMeMap";
 
@@ -39,13 +40,16 @@ export const onError = (error: PositionError): void => {
 
 const render = (): void => {
   const dataEl = document.getElementById("js-tnm-map-dynamic-data");
-  if (!dataEl) return;
+  const sidebarDataEl = document.getElementById("js-tnm-sidebar-data");
+  if (!dataEl || !sidebarDataEl) return;
   const id = dataEl.getAttribute("data-for") as string;
   const initialData = JSON.parse(dataEl.innerHTML);
+  const sidebarData = JSON.parse(sidebarDataEl.innerHTML);
   ReactDOM.render(
     <div className="m-tnm__map">
       <div id={id} />
       <TransitNearMeMap mapElementId={id} initialData={initialData} />
+      <RoutesSidebar data={sidebarData} />
     </div>,
     document.getElementById("react-root")
   );

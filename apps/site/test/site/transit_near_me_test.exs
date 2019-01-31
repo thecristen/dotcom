@@ -100,5 +100,14 @@ defmodule Site.TransitNearMeTest do
         assert Map.keys(prediction) == [:status, :time, :track]
       end
     end
+
+    test "creates a json file for react tests" do
+      data =
+        @address |> TransitNearMe.build(date: @date, now: Util.now()) |> TransitNearMe.to_json()
+
+      :site
+      |> Application.app_dir("priv/tnmData.json")
+      |> File.write(data)
+    end
   end
 end

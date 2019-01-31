@@ -1,5 +1,5 @@
-import * as TransitNearMe from "../tnm/transit-near-me";
-import TransitNearMeSearch from "../tnm/search";
+import * as TransitNearMe from "../transit-near-me";
+import TransitNearMeSearch from "../search";
 
 describe("TransitNearMe", () => {
   beforeEach(() => {
