@@ -15,10 +15,6 @@
 html,
 body {
   @include base-font-size();
-
-  // without this, child items of elements set to overflow-x: scroll
-  // can make the page horizontally scrollable in safari
-  overflow-x: hidden;
 }
 
 html {
