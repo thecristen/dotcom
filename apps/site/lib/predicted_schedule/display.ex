@@ -64,7 +64,7 @@ defmodule PredictedSchedule.Display do
     |> format_time_difference(time)
   end
 
-  defp format_time_difference(diff, time) when diff > 60 or diff < -1,
+  defp format_time_difference(diff, time) when diff > 60 or diff < 0,
     do: format_schedule_time(time)
 
   defp format_time_difference(0, _), do: ["< 1", " ", "min"]

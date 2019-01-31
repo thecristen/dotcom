@@ -226,6 +226,13 @@ defmodule PredictedSchedule.DisplayTest do
       assert time_difference(ps, @base_time) == ["< 1", " ", "min"]
     end
 
+    test "Time shown when predicted just before current time" do
+      shoulda_been_here = %Prediction{time: Timex.shift(@base_time, minutes: -1)}
+      ps = %PredictedSchedule{schedule: @schedule, prediction: shoulda_been_here}
+
+      assert safe_to_string(time_difference(ps, @base_time)) =~ "11:59A"
+    end
+
     test "crossed out schedule shown when prediction doesn't have a time" do
       ps = %PredictedSchedule{
         schedule: @schedule,
