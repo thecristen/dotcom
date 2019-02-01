@@ -16,7 +16,16 @@
           </span>
         </span>
       </button>
-      <span id="custom-language-button-mobile"></span>
+      <span id="custom-language-button-mobile">
+        <button id="custom-language-selector-mobile" tabindex="0" class="u-pointer navbar-toggle-moble--language navbar-toggle navbar-toggle-mobile collapsed toggle-up-down" aria-expanded="false" type="button" data-toggle="collapse" data-target="#languageMenuMobile">
+          <div class="nav-link-content js-header-link__content">
+            <span class="nav-link-name notranslate">
+              <i class="fa fa-globe" aria-hidden="true"></i> EN
+            </span>
+            <div class="nav-link-arrows js-header-link__carets"></div>
+          </div>
+        </button>
+      </span>
       <%= render "_nav_desktop.html", assigns %>
     </div>
     <div id="custom-language-menu-mobile"></div>
