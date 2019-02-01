@@ -11,7 +11,7 @@ interface Props {
 const Direction = ({ direction, route, stopId }: Props) => (
   <div>
     <div className="m-tnm-sidebar__direction">
-      <div className="m-tnm-sidebar__direction-name">
+      <div className="m-tnm-sidebar__direction-name u-small-caps">
         {route.direction_names[direction.direction_id]}
       </div>
       <div className="m-tnm-sidebar__direction-destination">
