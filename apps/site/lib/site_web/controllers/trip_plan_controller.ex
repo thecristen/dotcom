@@ -1,5 +1,6 @@
 defmodule SiteWeb.TripPlanController do
   use SiteWeb, :controller
+  alias Routes.Route
   alias Site.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap
   alias TripPlan.{Itinerary, Leg}
@@ -13,8 +14,8 @@ defmodule SiteWeb.TripPlanController do
   plug(:optimize_for)
   plug(:meta_description)
 
-  @type route_map :: %{optional(Routes.Route.id_t()) => Routes.Route.t()}
-  @type route_mapper :: (Routes.Route.id_t() -> Routes.Route.t() | nil)
+  @type route_map :: %{optional(Route.id_t()) => Route.t()}
+  @type route_mapper :: (Route.id_t() -> Route.t() | nil)
 
   def index(conn, %{"plan" => %{"to" => _to, "from" => _fr} = plan}) do
     conn
@@ -162,7 +163,7 @@ defmodule SiteWeb.TripPlanController do
     |> Map.new(&{&1, get_route(&1, itineraries)})
   end
 
-  @spec routes_for_itinerary(Itinerary.t(), route_mapper) :: [Routes.Route.t()]
+  @spec routes_for_itinerary(Itinerary.t(), route_mapper) :: [Route.t()]
   defp routes_for_itinerary(itinerary, route_mapper) do
     itinerary
     |> Itinerary.route_ids()
@@ -185,32 +186,36 @@ defmodule SiteWeb.TripPlanController do
 
   defp get_route(id, itineraries) do
     case Routes.Repo.get(id) do
-      %Routes.Route{} = route -> route
+      %Route{} = route -> route
       nil -> get_route_from_itinerary(itineraries, id)
     end
   end
 
+  @spec get_route_from_itinerary([Itinerary.t()], Route.id_t()) :: Route.t()
   defp get_route_from_itinerary(itineraries, id) do
-    case Enum.find(itineraries, &(Itinerary.route_ids(&1) == [id])) do
-      %TripPlan.Itinerary{} = itinerary ->
-        case Enum.find(itinerary.legs, &({:ok, id} == Leg.route_id(&1))) do
-          %TripPlan.Leg{} = leg ->
-            %Routes.Route{
-              description: leg.description,
-              id: leg.mode.route_id,
-              long_name: leg.long_name,
-              name: leg.name,
-              type: leg.type,
-              custom_route?: true
-            }
+    # used for non-MBTA routes that are returned by
+    # OpenTripPlanner but do not exist in our repo,
+    # such as Logan Express.
 
-          _ ->
-            nil
-        end
+    %TripPlan.Itinerary{legs: legs} =
+      Enum.find(itineraries, &(&1 |> Itinerary.route_ids() |> Enum.member?(id)))
 
-      _ ->
-        nil
-    end
+    %TripPlan.Leg{
+      description: description,
+      mode: mode,
+      long_name: long_name,
+      name: name,
+      type: type
+    } = Enum.find(legs, &(Leg.route_id(&1) == {:ok, id}))
+
+    %Route{
+      description: description,
+      id: mode.route_id,
+      long_name: long_name,
+      name: name,
+      type: type,
+      custom_route?: true
+    }
   end
 
   defp meta_description(conn, _) do
