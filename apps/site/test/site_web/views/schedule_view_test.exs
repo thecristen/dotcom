@@ -782,7 +782,7 @@ defmodule SiteWeb.ScheduleViewTest do
     test "shows all PDFs for the route" do
       route_pdfs = [
         %Content.RoutePdf{path: "/basic-current-url", date_start: ~D[2017-12-01]},
-        %Content.RoutePdf{path: "/basic-future-url", date_start: ~D[2019-02-01]},
+        %Content.RoutePdf{path: "/basic-future-url", date_start: ~D[2119-02-01]},
         %Content.RoutePdf{
           path: "/custom-url",
           date_start: ~D[2017-12-01],
