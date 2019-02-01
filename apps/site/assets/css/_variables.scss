@@ -40,9 +40,6 @@ $spacers: (
   )
 );
 
-$half-gutter: $grid-gutter-width / 2;
-$col-width: 100% / $grid-columns;
-
 $space-16: 1rem;
 $space-12: $space-16 * .75;
 $space-18: $space-12 * 1.5;
@@ -58,6 +55,10 @@ $base-spacing: $space-16;
 $base-spacing-sm: $space-8;
 $base-spacing-lg: $space-24;
 $base-spacing-xl: $space-36;
+
+$homepage-gutter: $base-spacing / 2;
+$half-gutter: $grid-gutter-width / 2;
+$col-width: 100% / $grid-columns;
 
 $font-family-base: 'Inter UI', $font-family-sans-serif;
 $headings-font-family: 'Helvetica Neue', Helvetica, Arial, $font-family-sans-serif;

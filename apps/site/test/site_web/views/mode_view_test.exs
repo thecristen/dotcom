@@ -1,4 +1,5 @@
 defmodule SiteWeb.ModeViewTest do
+  @moduledoc false
   use ExUnit.Case, async: true
 
   import Phoenix.HTML, only: [safe_to_string: 1]

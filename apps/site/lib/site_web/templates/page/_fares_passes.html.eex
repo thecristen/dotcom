@@ -1,12 +1,10 @@
-<div class="fares-passes page-section">
+<div class="page-section">
   <div class="container">
     <div class="m-homepage--10-col-sm-only">
-      <h2>Fares and Passes</h2>
-      <%= SiteWeb.FareView.summarize(@common_fare_summaries) %>
-      <div class="all-fares-link">
-        <%= link to: cms_static_page_path(@conn, "/fares"), class: "btn btn-primary" do
-          "See fares overview"
-        end %>
+      <div class="m-homepage__fares">
+        <h2>Standard One-Way Fares</h2>
+        <%= homepage_fare_cards() |> SiteWeb.ContentView.render_paragraph(@conn) %>
+        <p><a href="/fares" class="btn btn-secondary m-homepage__fares-link">See fares overview</a></p>
       </div>
     </div>
   </div>

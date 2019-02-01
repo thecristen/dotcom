@@ -65,7 +65,7 @@
       @include margin-clearance;
 
       & + &,
-      .c-multi-column__column:last-child {
+      .c-multi-column__column ~ .c-multi-column__column {
         @include margin-clearance;
       }
 

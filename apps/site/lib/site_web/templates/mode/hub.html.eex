@@ -44,13 +44,13 @@
         <h2 class="h2">Fares</h2>
         <%= mode |> mode_fare_card() |> SiteWeb.ContentView.render_paragraph(@conn) %>
 
-        <%= fare_finder_link(mode, @conn) %>
+        <%= SiteWeb.FareView.fare_finder_link(mode, @conn) %>
 
         <div class="m-mode__passes">
-          <%= mode |> fare_passes() |> SiteWeb.ContentView.render_paragraph(@conn) %>
+          <%= mode |> SiteWeb.FareView.fare_passes() |> SiteWeb.ContentView.render_paragraph(@conn) %>
         </div>
 
-        <p><%= fare_overview_link(mode, @conn) %></p>
+        <p><%= SiteWeb.FareView.fare_overview_link(mode, @conn) %></p>
       </div>
       <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-4 col-lg-offset-1">
         <div class="m-mode-hub__trip-plan-widget">

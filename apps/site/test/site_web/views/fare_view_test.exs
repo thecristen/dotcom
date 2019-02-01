@@ -1,9 +1,11 @@
 defmodule SiteWeb.FareViewTest do
   @moduledoc false
   use ExUnit.Case, async: true
+
   import SiteWeb.FareView
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1, html_escape: 1]
   import Phoenix.ConnTest, only: [build_conn: 0]
+
   alias Fares.{Fare, Summary}
 
   describe "fare_type_note/2" do
