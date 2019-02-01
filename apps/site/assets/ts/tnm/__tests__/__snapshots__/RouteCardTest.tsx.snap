@@ -35,7 +35,7 @@ exports[`it renders a stop card 1`] = `
         className="m-tnm-sidebar__direction"
       >
         <div
-          className="m-tnm-sidebar__direction-name"
+          className="m-tnm-sidebar__direction-name u-small-caps"
         >
           Inbound
         </div>
@@ -122,7 +122,7 @@ exports[`it renders a stop card 1`] = `
         className="m-tnm-sidebar__direction"
       >
         <div
-          className="m-tnm-sidebar__direction-name"
+          className="m-tnm-sidebar__direction-name u-small-caps"
         >
           Inbound
         </div>
@@ -225,7 +225,7 @@ exports[`it renders a stop card for the silver line 1`] = `
         className="m-tnm-sidebar__direction"
       >
         <div
-          className="m-tnm-sidebar__direction-name"
+          className="m-tnm-sidebar__direction-name u-small-caps"
         >
           Inbound
         </div>
@@ -312,7 +312,7 @@ exports[`it renders a stop card for the silver line 1`] = `
         className="m-tnm-sidebar__direction"
       >
         <div
-          className="m-tnm-sidebar__direction-name"
+          className="m-tnm-sidebar__direction-name u-small-caps"
         >
           Outbound
         </div>
@@ -381,7 +381,7 @@ exports[`it renders a stop card for the silver line 1`] = `
         className="m-tnm-sidebar__direction"
       >
         <div
-          className="m-tnm-sidebar__direction-name"
+          className="m-tnm-sidebar__direction-name u-small-caps"
         >
           Inbound
         </div>

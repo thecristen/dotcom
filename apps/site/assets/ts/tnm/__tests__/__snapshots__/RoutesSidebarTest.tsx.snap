@@ -38,7 +38,7 @@ exports[`it renders 1`] = `
           className="m-tnm-sidebar__direction"
         >
           <div
-            className="m-tnm-sidebar__direction-name"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
             Inbound
           </div>
@@ -125,7 +125,7 @@ exports[`it renders 1`] = `
           className="m-tnm-sidebar__direction"
         >
           <div
-            className="m-tnm-sidebar__direction-name"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
             Inbound
           </div>
@@ -225,7 +225,7 @@ exports[`it renders 1`] = `
           className="m-tnm-sidebar__direction"
         >
           <div
-            className="m-tnm-sidebar__direction-name"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
             Inbound
           </div>
@@ -287,7 +287,7 @@ exports[`it renders 1`] = `
           className="m-tnm-sidebar__direction"
         >
           <div
-            className="m-tnm-sidebar__direction-name"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
             Outbound
           </div>
@@ -349,7 +349,7 @@ exports[`it renders 1`] = `
           className="m-tnm-sidebar__direction"
         >
           <div
-            className="m-tnm-sidebar__direction-name"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
             Outbound
           </div>
@@ -393,7 +393,7 @@ exports[`it renders 1`] = `
           className="m-tnm-sidebar__direction"
         >
           <div
-            className="m-tnm-sidebar__direction-name"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
             Inbound
           </div>
@@ -468,7 +468,7 @@ exports[`it renders 1`] = `
           className="m-tnm-sidebar__direction"
         >
           <div
-            className="m-tnm-sidebar__direction-name"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
             Inbound
           </div>
@@ -555,7 +555,7 @@ exports[`it renders 1`] = `
           className="m-tnm-sidebar__direction"
         >
           <div
-            className="m-tnm-sidebar__direction-name"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
             Outbound
           </div>
@@ -642,7 +642,7 @@ exports[`it renders 1`] = `
           className="m-tnm-sidebar__direction"
         >
           <div
-            className="m-tnm-sidebar__direction-name"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
             Outbound
           </div>
@@ -729,7 +729,7 @@ exports[`it renders 1`] = `
           className="m-tnm-sidebar__direction"
         >
           <div
-            className="m-tnm-sidebar__direction-name"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
             Outbound
           </div>
