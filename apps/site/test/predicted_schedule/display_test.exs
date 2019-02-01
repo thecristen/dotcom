@@ -198,13 +198,13 @@ defmodule PredictedSchedule.DisplayTest do
 
     test "Prediction time is preferred" do
       ps = %PredictedSchedule{schedule: @schedule, prediction: @prediction}
-      assert safe_to_string(time_difference(ps, @base_time)) =~ "28 mins"
+      assert safe_to_string(time_difference(ps, @base_time)) =~ "28 min"
     end
 
     test "Schedule used when no prediction" do
       ps = %PredictedSchedule{schedule: @schedule}
       output = IO.iodata_to_binary(time_difference(ps, @base_time))
-      assert output =~ "30 mins"
+      assert output =~ "30 min"
     end
 
     test "realtime icon shown when prediction is shown" do

@@ -70,7 +70,7 @@ defmodule PredictedSchedule.Display do
   defp format_time_difference(0, _), do: ["< 1", " ", "min"]
 
   defp format_time_difference(diff, _),
-    do: [Integer.to_string(diff), " ", Inflex.inflect("min", diff)]
+    do: [Integer.to_string(diff), " ", "min"]
 
   @doc """
 
