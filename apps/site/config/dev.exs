@@ -9,12 +9,15 @@ use Mix.Config
 
 port = String.to_integer(System.get_env("PORT") || "4001")
 host = System.get_env("HOST") || "localhost"
+webpack_port = String.to_integer(System.get_env("WEBPACK_PORT") || "8090")
 
 static_url =
   case System.get_env("STATIC_URL") do
     nil -> [host: System.get_env("STATIC_HOST") || host, port: port]
     static_url -> [url: static_url]
   end
+
+webpack_path = "http://#{System.get_env("STATIC_HOST") || host}:#{webpack_port}"
 
 config :site, SiteWeb.Endpoint,
   http: [port: port],
@@ -25,7 +28,8 @@ config :site, SiteWeb.Endpoint,
   watchers: [npm: ["run", "webpack:watch", cd: Path.expand("../assets/", __DIR__)]]
 
 config :site,
-  dev_server?: true
+  dev_server?: true,
+  webpack_path: webpack_path
 
 # Watch static and templates for browser reloading.
 config :site, SiteWeb.Endpoint,

@@ -13,7 +13,7 @@
 </div>
 
 <%= if Application.get_env(:site, :dev_server?) do %>
-  <script defer src="http://localhost:8090/tnm.js"></script>
+  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/tnm.js" %>"></script>
 <% else %>
   <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
   <script defer src="<%= static_url(@conn, "/js/tnm.js") %>"></script>
