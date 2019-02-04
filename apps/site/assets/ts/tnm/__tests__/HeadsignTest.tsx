@@ -44,7 +44,7 @@ it("it renders prediction time string", () => {
 
   expect(headsign.times[0].prediction).not.toBeNull();
   expect(headsign.times[1].prediction).not.toBeNull();
-  headsign.times[1].prediction!.time = "10:35P";
+  headsign.times[1].prediction!.time = ["10:35", " ", "PM"];
 
   createReactRoot();
   const tree = renderer.create(<Headsign headsign={headsign} />).toJSON();

@@ -57,19 +57,21 @@ defmodule PredictedSchedule.Display do
     end
   end
 
-  @spec do_time_difference(DateTime.t(), DateTime.t()) :: [String.t()] | String.t()
-  def do_time_difference(time, current_time) do
+  @type time_formatter_t :: (DateTime.t() -> [String.t()] | String.t())
+  @spec do_time_difference(DateTime.t(), DateTime.t(), time_formatter_t) ::
+          [String.t()] | String.t()
+  def do_time_difference(time, current_time, not_soon_formatter_fn \\ &format_schedule_time/1) do
     time
     |> Timex.diff(current_time, :minutes)
-    |> format_time_difference(time)
+    |> format_time_difference(time, not_soon_formatter_fn)
   end
 
-  defp format_time_difference(diff, time) when diff > 60 or diff < 0,
-    do: format_schedule_time(time)
+  defp format_time_difference(diff, time, not_soon_formatter_fn) when diff > 60 or diff < 0,
+    do: not_soon_formatter_fn.(time)
 
-  defp format_time_difference(0, _), do: ["< 1", " ", "min"]
+  defp format_time_difference(0, _, _), do: ["< 1", " ", "min"]
 
-  defp format_time_difference(diff, _),
+  defp format_time_difference(diff, _, _),
     do: [Integer.to_string(diff), " ", "min"]
 
   @doc """

@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { TNMHeadsign, TNMPredictionTime, TNMTime } from "./__tnm";
+import { TNMHeadsign, TNMTime } from "./__tnm";
 
 interface Props {
   headsign: TNMHeadsign;
@@ -12,7 +12,7 @@ const Headsign = ({ headsign }: Props): ReactElement<any> => {
         {renderHeadsignName(headsign.name)}
       </div>
       <div className="m-tnm-sidebar__schedules">
-        {headsign.times.map(time => renderTime(time))}
+        {headsign.times.map(time => renderTime(time, headsign.name))}
       </div>
     </div>
   );
@@ -31,28 +31,26 @@ const renderHeadsignName = (headsignName: string): ReactElement<any> => {
   return <div className="m-tnm-sidebar__headsign-name">{headsignName}</div>;
 };
 
-const renderPrediction = (time: TNMPredictionTime): ReactElement<any> =>
-  typeof time === "string" ? renderTimeString(time) : renderTimeArray(time);
+const renderTime = (tnmTime: TNMTime, headsignName: string) => {
+  const { prediction, schedule } = tnmTime;
+  const time = prediction ? prediction.time : schedule;
 
-const renderTimeString = (time: string): ReactElement<any> => (
-  <div className="m-tnm-sidebar__prediction">{time}</div>
-);
-
-const renderTimeArray = (time: Array<string>): ReactElement<any> => {
-  const [num, _space, mins] = time;
   return (
-    <div className="m-tnm-sidebar__prediction">
-      <div className="m-tnm-sidebar__prediction-number">{num}</div>
-      <div className="m-tnm-sidebar__prediction-mins">{mins}</div>
+    <div
+      key={`${headsignName}-${schedule.join("")}`}
+      className="m-tnm-sidebar__schedule"
+    >
+      {renderTimeArray(time)}
     </div>
   );
 };
 
-const renderTime = (time: TNMTime) => {
-  const { prediction, schedule } = time;
+const renderTimeArray = (time: Array<string>): ReactElement<any> => {
+  const [num, _space, mins] = time;
   return (
-    <div key={time.schedule} className="m-tnm-sidebar__schedule">
-      {prediction ? renderPrediction(prediction.time) : schedule}
+    <div className="m-tnm-sidebar__time">
+      <div className="m-tnm-sidebar__time-number">{num}</div>
+      <div className="m-tnm-sidebar__time-mins">{mins}</div>
     </div>
   );
 };

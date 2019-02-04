@@ -115,13 +115,13 @@ defmodule Site.TransitNearMe do
   end
 
   @type simple_prediction :: %{
-          required(:time) => [String.t()] | String.t(),
+          required(:time) => [String.t()],
           required(:status) => String.t() | nil,
           required(:track) => String.t() | nil
         }
 
   @type time_data :: %{
-          required(:schedule) => String.t(),
+          required(:schedule) => [String.t()],
           required(:prediction) => simple_prediction | nil
         }
 
@@ -231,7 +231,7 @@ defmodule Site.TransitNearMe do
   @spec build_time_map(Schedule.t()) :: time_data
   defp build_time_map(schedule) do
     %{
-      schedule: Timex.format!(schedule.time, "{h12}:{m} {AM}"),
+      schedule: format_time(schedule.time),
       prediction: [trip: schedule.trip.id] |> Predictions.Repo.all() |> simple_prediction()
     }
   end
@@ -249,7 +249,17 @@ defmodule Site.TransitNearMe do
 
   @spec format_prediction_time(DateTime.t()) :: [String.t()] | String.t()
   defp format_prediction_time(%DateTime{} = time) do
-    Display.do_time_difference(time, Util.now())
+    Display.do_time_difference(time, Util.now(), &format_time/1)
+  end
+
+  @spec format_time(DateTime.t()) :: [String.t()]
+  defp format_time(time) do
+    [time, am_pm] =
+      time
+      |> Timex.format!("{h12}:{m} {AM}")
+      |> String.split(" ")
+
+    [time, " ", am_pm]
   end
 
   @doc """

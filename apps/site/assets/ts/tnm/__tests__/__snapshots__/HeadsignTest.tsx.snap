@@ -20,15 +20,15 @@ exports[`it renders 2 predictions 1`] = `
       className="m-tnm-sidebar__schedule"
     >
       <div
-        className="m-tnm-sidebar__prediction"
+        className="m-tnm-sidebar__time"
       >
         <div
-          className="m-tnm-sidebar__prediction-number"
+          className="m-tnm-sidebar__time-number"
         >
           &lt; 1
         </div>
         <div
-          className="m-tnm-sidebar__prediction-mins"
+          className="m-tnm-sidebar__time-mins"
         >
           min
         </div>
@@ -38,15 +38,15 @@ exports[`it renders 2 predictions 1`] = `
       className="m-tnm-sidebar__schedule"
     >
       <div
-        className="m-tnm-sidebar__prediction"
+        className="m-tnm-sidebar__time"
       >
         <div
-          className="m-tnm-sidebar__prediction-number"
+          className="m-tnm-sidebar__time-number"
         >
           &lt; 1
         </div>
         <div
-          className="m-tnm-sidebar__prediction-mins"
+          className="m-tnm-sidebar__time-mins"
         >
           min
         </div>
@@ -76,15 +76,15 @@ exports[`it renders prediction time string 1`] = `
       className="m-tnm-sidebar__schedule"
     >
       <div
-        className="m-tnm-sidebar__prediction"
+        className="m-tnm-sidebar__time"
       >
         <div
-          className="m-tnm-sidebar__prediction-number"
+          className="m-tnm-sidebar__time-number"
         >
           &lt; 1
         </div>
         <div
-          className="m-tnm-sidebar__prediction-mins"
+          className="m-tnm-sidebar__time-mins"
         >
           min
         </div>
@@ -94,9 +94,18 @@ exports[`it renders prediction time string 1`] = `
       className="m-tnm-sidebar__schedule"
     >
       <div
-        className="m-tnm-sidebar__prediction"
+        className="m-tnm-sidebar__time"
       >
-        10:35P
+        <div
+          className="m-tnm-sidebar__time-number"
+        >
+          10:35
+        </div>
+        <div
+          className="m-tnm-sidebar__time-mins"
+        >
+          PM
+        </div>
       </div>
     </div>
   </div>
@@ -123,15 +132,15 @@ exports[`it renders scheduled time when prediction is null 1`] = `
       className="m-tnm-sidebar__schedule"
     >
       <div
-        className="m-tnm-sidebar__prediction"
+        className="m-tnm-sidebar__time"
       >
         <div
-          className="m-tnm-sidebar__prediction-number"
+          className="m-tnm-sidebar__time-number"
         >
           &lt; 1
         </div>
         <div
-          className="m-tnm-sidebar__prediction-mins"
+          className="m-tnm-sidebar__time-mins"
         >
           min
         </div>
@@ -140,7 +149,20 @@ exports[`it renders scheduled time when prediction is null 1`] = `
     <div
       className="m-tnm-sidebar__schedule"
     >
-      4:01 PM
+      <div
+        className="m-tnm-sidebar__time"
+      >
+        <div
+          className="m-tnm-sidebar__time-number"
+        >
+          4:01
+        </div>
+        <div
+          className="m-tnm-sidebar__time-mins"
+        >
+          PM
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -172,15 +194,15 @@ exports[`it splits the headsign name when it contains 'via'  1`] = `
       className="m-tnm-sidebar__schedule"
     >
       <div
-        className="m-tnm-sidebar__prediction"
+        className="m-tnm-sidebar__time"
       >
         <div
-          className="m-tnm-sidebar__prediction-number"
+          className="m-tnm-sidebar__time-number"
         >
           &lt; 1
         </div>
         <div
-          className="m-tnm-sidebar__prediction-mins"
+          className="m-tnm-sidebar__time-mins"
         >
           min
         </div>
@@ -190,15 +212,15 @@ exports[`it splits the headsign name when it contains 'via'  1`] = `
       className="m-tnm-sidebar__schedule"
     >
       <div
-        className="m-tnm-sidebar__prediction"
+        className="m-tnm-sidebar__time"
       >
         <div
-          className="m-tnm-sidebar__prediction-number"
+          className="m-tnm-sidebar__time-number"
         >
           &lt; 1
         </div>
         <div
-          className="m-tnm-sidebar__prediction-mins"
+          className="m-tnm-sidebar__time-mins"
         >
           min
         </div>

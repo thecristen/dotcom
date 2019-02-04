@@ -94,7 +94,7 @@ defmodule Site.TransitNearMeTest do
 
       assert %{schedule: schedule, prediction: prediction} = time
 
-      assert {:ok, _} = Timex.parse(schedule, "{h12}:{m} {AM}")
+      assert {:ok, _} = Timex.parse(Enum.join(schedule), "{h12}:{m} {AM}")
 
       if prediction do
         assert Map.keys(prediction) == [:status, :time, :track]

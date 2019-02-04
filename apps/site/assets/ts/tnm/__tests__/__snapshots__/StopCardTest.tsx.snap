@@ -52,15 +52,15 @@ exports[`it renders a stop card 1`] = `
           className="m-tnm-sidebar__schedule"
         >
           <div
-            className="m-tnm-sidebar__prediction"
+            className="m-tnm-sidebar__time"
           >
             <div
-              className="m-tnm-sidebar__prediction-number"
+              className="m-tnm-sidebar__time-number"
             >
               &lt; 1
             </div>
             <div
-              className="m-tnm-sidebar__prediction-mins"
+              className="m-tnm-sidebar__time-mins"
             >
               min
             </div>
@@ -70,15 +70,15 @@ exports[`it renders a stop card 1`] = `
           className="m-tnm-sidebar__schedule"
         >
           <div
-            className="m-tnm-sidebar__prediction"
+            className="m-tnm-sidebar__time"
           >
             <div
-              className="m-tnm-sidebar__prediction-number"
+              className="m-tnm-sidebar__time-number"
             >
               &lt; 1
             </div>
             <div
-              className="m-tnm-sidebar__prediction-mins"
+              className="m-tnm-sidebar__time-mins"
             >
               min
             </div>

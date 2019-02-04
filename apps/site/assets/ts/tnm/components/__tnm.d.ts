@@ -45,17 +45,15 @@ export interface TNMHeadsign {
 }
 
 export interface TNMTime {
-  schedule: string;
+  schedule: Array<string>;
   prediction: TNMPrediction | null;
 }
 
 export interface TNMPrediction {
-  time: TNMPredictionTime;
+  time: Array<string>;
   status: string;
   track: string;
 }
-
-export type TNMPredictionTime = Array<string> | string;
 
 export interface Trip {
   "bikes_allowed?": true;

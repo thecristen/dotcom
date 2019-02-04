@@ -86,17 +86,17 @@
   padding-left: $base-spacing;
 }
 
-.m-tnm-sidebar__prediction {
+.m-tnm-sidebar__time {
   text-align: center;
 }
 
-.m-tnm-sidebar__prediction-number {
+.m-tnm-sidebar__time-number {
   @include h3();
   line-height: 1em;
   margin: 0;
 }
 
-.m-tnm-sidebar__prediction-mins {
+.m-tnm-sidebar__time-mins {
   font-weight: bold;
   line-height: 1em;
 }
