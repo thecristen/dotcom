@@ -89,3 +89,5 @@ exports[`it renders a stop card 1`] = `
   </div>
 </div>
 `;
+
+exports[`returns null if stop has no schedules 1`] = `null`;

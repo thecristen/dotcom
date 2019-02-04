@@ -23,10 +23,12 @@ defmodule Site.TransitNearMe do
           }
         }
 
+  @type distance_hash :: %{Stop.id_t() => float}
+
   @type t :: %__MODULE__{
           location: Address.t() | nil,
           stops: [Stop.t()],
-          distances: %{Stop.id_t() => float},
+          distances: distance_hash,
           schedules: %{Stop.id_t() => schedule_data}
         }
 
@@ -152,16 +154,26 @@ defmodule Site.TransitNearMe do
   list of headsigns. Each headsign has a schedule, and a prediction if available.
   """
   @spec schedules_for_routes(t()) :: [route_data]
-  def schedules_for_routes(%__MODULE__{schedules: schedules, location: location}) do
+  def schedules_for_routes(%__MODULE__{
+        schedules: schedules,
+        location: location,
+        distances: distances
+      }) do
     schedules
     |> Map.values()
     |> List.flatten()
     |> Enum.group_by(& &1.route.id)
-    |> Enum.map(&schedules_for_route(&1, location))
+    |> Enum.map(&schedules_for_route(&1, location, distances))
+    |> Enum.sort_by(&route_sorter(&1, distances))
   end
 
-  @spec schedules_for_route({Route.id_t(), [Schedule.t()]}, Address.t()) :: route_data
-  defp schedules_for_route({_route_id, schedules}, location) do
+  defp route_sorter(%{stops: [%{id: stop_id} | _]}, distances) do
+    Map.fetch!(distances, stop_id)
+  end
+
+  @spec schedules_for_route({Route.id_t(), [Schedule.t()]}, Address.t(), distance_hash) ::
+          route_data
+  defp schedules_for_route({_route_id, schedules}, location, distances) do
     [%Schedule{route: route} | _] = schedules
 
     route
@@ -172,17 +184,25 @@ defmodule Site.TransitNearMe do
     |> Map.update!(:direction_destinations, fn map ->
       Map.new(map, fn {key, val} -> {Integer.to_string(key), val} end)
     end)
-    |> Map.put(:stops, get_stops_for_route(schedules, location))
+    |> Map.put(:stops, get_stops_for_route(schedules, location, distances, route))
   end
 
-  @spec get_stops_for_route([Schedule.t()], Address.t()) :: [stop_data]
-  defp get_stops_for_route(schedules, location) do
+  @spec get_stops_for_route([Schedule.t()], Address.t(), distance_hash, Route.t()) :: [stop_data]
+  defp get_stops_for_route(schedules, location, distances, route) do
     schedules
     |> Enum.group_by(& &1.stop.id)
     |> Task.async_stream(&get_directions_for_stop(&1, location), on_timeout: :kill_task)
     |> Enum.reduce_while({:ok, []}, &collect_data/2)
     |> sort_data()
+    |> Enum.sort_by(&Map.fetch!(distances, &1.id))
+    |> Enum.take(stop_count(route))
   end
+
+  # show the closest two stops for bus, in order to
+  # display both inbound and outbound stops
+  @spec stop_count(Route.t()) :: integer
+  defp stop_count(%Route{type: 3}), do: 2
+  defp stop_count(_), do: 1
 
   @spec get_directions_for_stop({Stop.id_t(), [Schedule.t()]}, Address.t()) :: stop_data
   defp get_directions_for_stop({_stop_id, schedules}, location) do
@@ -210,6 +230,7 @@ defmodule Site.TransitNearMe do
     headsigns =
       schedules
       |> Enum.group_by(& &1.trip.headsign)
+      |> Enum.reject(&last_stop?/1)
       |> Task.async_stream(&build_headsign_map/1, on_timeout: :kill_task)
       |> Enum.reduce_while({:ok, []}, &collect_data/2)
       |> sort_data()
@@ -220,19 +241,50 @@ defmodule Site.TransitNearMe do
     }
   end
 
+  @spec last_stop?({String.t(), [Schedule.t()]}) :: boolean
+  defp last_stop?({_headsign, [%{trip: trip, stop: %{id: stop_id}} | _]}) do
+    case Routes.Repo.get_shape(trip.shape_id) do
+      [%{stop_ids: stop_ids}] -> stop_id == List.last(stop_ids)
+      _ -> false
+    end
+  end
+
   @spec build_headsign_map({Schedules.Trip.headsign(), [Schedule.t()]}) :: headsign_data
   defp build_headsign_map({headsign, schedules}) do
+    headsign_schedules =
+      schedules
+      |> Enum.take(2)
+      |> Enum.map(&build_time_map/1)
+      |> filter_headsign_schedules()
+
     %{
       name: headsign,
-      times: schedules |> Enum.take(2) |> Enum.map(&build_time_map/1)
+      times: headsign_schedules
     }
+  end
+
+  @spec filter_headsign_schedules([time_data]) :: [time_data]
+  defp filter_headsign_schedules([%{prediction: _} = keep, %{prediction: nil}]) do
+    # only show one schedule if the second schedule has no prediction
+    [keep]
+  end
+
+  defp filter_headsign_schedules(schedules) do
+    schedules
   end
 
   @spec build_time_map(Schedule.t()) :: time_data
   defp build_time_map(schedule) do
+    prediction =
+      [trip: schedule.trip.id]
+      |> Predictions.Repo.all()
+      # occasionally, a prediction will not have a time; discard if that happens
+      |> Enum.filter(& &1.time)
+      |> simple_prediction()
+
     %{
       schedule: format_time(schedule.time),
-      prediction: [trip: schedule.trip.id] |> Predictions.Repo.all() |> simple_prediction()
+      prediction: prediction
     }
   end
 

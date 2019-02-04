@@ -64,17 +64,31 @@ defmodule Site.TransitNearMeTest do
     test "returns a list of custom route structs" do
       data = TransitNearMe.build(@address, date: @date, now: Util.now())
 
-      assert [route | _] = TransitNearMe.schedules_for_routes(data)
+      routes = TransitNearMe.schedules_for_routes(data)
+
+      [%{id: closest_stop} | _] = data.stops
+
+      for route <- routes do
+        if route.type == 3 do
+          assert Enum.count(route.stops) in [1, 2]
+        else
+          assert Enum.count(route.stops) == 1
+        end
+      end
+
+      assert [route | _] = routes
 
       assert [:stops | %Route{} |> Map.from_struct() |> Map.keys()] |> Enum.sort() ==
                route |> Map.keys() |> Enum.sort()
 
       assert %{stops: [stop | _]} = route
 
+      assert stop.id == closest_stop
+
       assert [:distance, :directions | %Stop{} |> Map.from_struct() |> Map.keys()] |> Enum.sort() ==
                stop |> Map.keys() |> Enum.sort()
 
-      assert stop.distance == "0.2 mi"
+      assert stop.distance == "238 ft"
 
       assert %{directions: [direction | _]} = stop
 

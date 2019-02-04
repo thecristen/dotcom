@@ -14,3 +14,15 @@ it("it renders a stop card", () => {
   const tree = renderer.create(<StopCard stop={stop} route={route} />).toJSON();
   expect(tree).toMatchSnapshot();
 });
+
+it("returns null if stop has no schedules", () => {
+  const data = JSON.parse(JSON.stringify(tnmData));
+  const route: Route = data[0];
+  const stop: Stop = route.stops[0];
+
+  expect(stop.directions.length).toBe(1);
+  stop.directions[0].headsigns = [];
+
+  const tree = renderer.create(<StopCard stop={stop} route={route} />).toJSON();
+  expect(tree).toMatchSnapshot();
+});

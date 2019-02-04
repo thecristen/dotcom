@@ -1,14 +1,20 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from "react";
-import StopCard from "./StopCard";
+import { StopCard, stopIsEmpty } from "./StopCard";
 import { Route } from "./__tnm";
 
 interface Props {
   route: Route;
 }
 
+const routeIsEmpty = (route: Route): boolean => route.stops.every(stopIsEmpty);
+
 const RouteCard = ({ route }: Props) => {
   const bgClass = `u-bg--${routeBgColor(route)}`;
+
+  if (routeIsEmpty(route)) {
+    return null;
+  }
 
   return (
     <div className="m-tnm-sidebar__route">

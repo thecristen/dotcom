@@ -6,12 +6,29 @@ import RouteCard, {
   busClass
 } from "../components/RouteCard";
 import createReactRoot from "./helpers/testUtils";
-import { Route } from "../components/__tnm";
+import { Route, Stop, TNMDirection } from "../components/__tnm";
 import tnmData from "./tnmData.json";
 
 it("it renders a stop card", () => {
   const data = JSON.parse(JSON.stringify(tnmData));
   const route: Route = data[0] as Route;
+
+  createReactRoot();
+  const tree = renderer.create(<RouteCard route={route} />).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it("returns null if route has no schedules", () => {
+  const data = JSON.parse(JSON.stringify(tnmData));
+  const route: Route = data[0];
+
+  const stop: Stop = route.stops[0];
+  expect(stop.directions.length).toBe(1);
+
+  const direction: TNMDirection = stop.directions[0];
+
+  direction.headsigns = [];
+  route.stops = [stop];
 
   createReactRoot();
   const tree = renderer.create(<RouteCard route={route} />).toJSON();

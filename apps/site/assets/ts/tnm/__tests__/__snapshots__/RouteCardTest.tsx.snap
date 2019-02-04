@@ -448,3 +448,5 @@ exports[`it renders a stop card for the silver line 1`] = `
   </div>
 </div>
 `;
+
+exports[`returns null if route has no schedules 1`] = `null`;

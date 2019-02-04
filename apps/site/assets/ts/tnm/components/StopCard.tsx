@@ -1,13 +1,22 @@
 import React from "react";
 import { Stop, Route } from "./__tnm";
-import Direction from "./Direction";
+import { Direction, directionIsEmpty } from "./Direction";
 
 interface Props {
   stop: Stop;
   route: Route;
 }
-const StopCard = ({ stop, route }: Props) => {
+
+export const stopIsEmpty = (stop: Stop): boolean =>
+  stop.directions.every(directionIsEmpty);
+
+export const StopCard = ({ stop, route }: Props) => {
   const key = `${route.id}-${stop.id}`;
+
+  if (stopIsEmpty(stop)) {
+    return null;
+  }
+
   return (
     <div className="m-tnm-sidebar__stop">
       <div className="m-tnm-sidebar__stop-info">
