@@ -29,7 +29,7 @@ function initChannel(channelId, socket) {
 }
 
 function initAll(socket) {
-  document.querySelectorAll("[data-channel]").forEach(el => {
+  Array.from(document.querySelectorAll("[data-channel]")).forEach(el => {
     const channelId = el.getAttribute("data-channel");
     initChannel(channelId, socket);
     if (channelId.includes("vehicles:")) {

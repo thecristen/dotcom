@@ -1,6 +1,9 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const webpack = require("webpack");
+const path = require("path");
 
 module.exports = {
   entry: {
@@ -20,24 +23,14 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        exclude: /(node_modules|deps)/,
-        use: "ts-loader"
+        exclude: /node_modules/,
+        use: [{ loader: "babel-loader" }, { loader: "ts-loader" }]
       },
       {
         test: /\.(js)$/,
-        exclude: /(node_modules|dep|ts)/,
+        exclude: [/node_modules/, path.resolve(__dirname, "ts/")],
         use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              [
-                "@babel/preset-env",
-                {
-                  useBuiltIns: "entry"
-                }
-              ]
-            ]
-          }
+          loader: "babel-loader"
         }
       },
       {
@@ -52,6 +45,21 @@ module.exports = {
           }
         ]
       }
+    ]
+  },
+
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true,
+        terserOptions: {
+          ecma: 5,
+          safari10: true // You scoundrel you
+        }
+      }),
+      new OptimizeCSSAssetsPlugin({})
     ]
   },
 

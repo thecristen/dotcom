@@ -33,7 +33,11 @@ const turbolinks = ($, w = window, doc = document) => {
       // same page, and if it is, retain the same position. But if the active element indicated what scroll action to take
       // then that preference should override the default behavior
       lastScrollPosition = [w.scrollX, w.scrollY];
-      switch (ev.srcElement.activeElement.dataset.scroll) {
+      switch (
+        ev.srcElement.activeElement &&
+          ev.srcElement.activeElement.dataset &&
+          ev.srcElement.activeElement.dataset.scroll
+      ) {
         // allow the page to scroll on focus, or not at all if there is no focus
         case "true":
           scrollBehavior = "none";

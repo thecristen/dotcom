@@ -1,7 +1,5 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const path = require("path");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const postcssPresetEnv = require("postcss-preset-env");
 const merge = require("webpack-merge");
 const base = require("./webpack.config.base");
@@ -52,14 +50,6 @@ module.exports = merge(base, {
   },
 
   optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: true
-      }),
-      new OptimizeCSSAssetsPlugin({})
-    ],
     splitChunks: {
       chunks: "all",
       cacheGroups: {

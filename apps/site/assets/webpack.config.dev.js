@@ -1,6 +1,4 @@
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const path = require("path");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const postcssPresetEnv = require("postcss-preset-env");
 const merge = require("webpack-merge");
 const base = require("./webpack.config.base");
@@ -9,7 +7,7 @@ module.exports = env =>
   merge(base, {
     mode: "development",
 
-    devtool: "eval",
+    devtool: "cheap-inline-source-map",
 
     devServer: {
       host: "0.0.0.0",
@@ -54,16 +52,6 @@ module.exports = env =>
             }
           ]
         }
-      ]
-    },
-
-    optimization: {
-      minimizer: [
-        new UglifyJsPlugin({
-          cache: true,
-          parallel: true
-        }),
-        new OptimizeCSSAssetsPlugin({})
       ]
     }
   });
