@@ -23,7 +23,7 @@ use Mix.Config
 
 config :feedback,
   support_ticket_to_email: System.get_env("SUPPORT_TICKET_TO_EMAIL") || "cssheat3@mbta.com",
-  support_ticket_from_email: "customer-complaint@mbtace.com",
+  support_ticket_from_email: "customer-complaint@mbta.com",
   mailgun_domain: System.get_env("MAILGUN_DOMAIN") || "",
   mailgun_key: System.get_env("MAILGUN_API_KEY") || "",
   test_mail_file: "/tmp/mailgun.json"
