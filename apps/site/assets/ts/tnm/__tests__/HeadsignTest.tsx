@@ -16,7 +16,9 @@ it("it renders 2 predictions", () => {
   expect(headsign.times[1].prediction).not.toBeNull();
 
   createReactRoot();
-  const tree = renderer.create(<Headsign headsign={headsign} />).toJSON();
+  const tree = renderer
+    .create(<Headsign headsign={headsign} condensed={false} routeType={1} />)
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
@@ -31,7 +33,9 @@ it("it renders scheduled time when prediction is null", () => {
   headsign.times[1].prediction = null;
 
   createReactRoot();
-  const tree = renderer.create(<Headsign headsign={headsign} />).toJSON();
+  const tree = renderer
+    .create(<Headsign headsign={headsign} condensed={false} routeType={1} />)
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
@@ -47,7 +51,9 @@ it("it renders prediction time string", () => {
   headsign.times[1].prediction!.time = ["10:35", " ", "PM"];
 
   createReactRoot();
-  const tree = renderer.create(<Headsign headsign={headsign} />).toJSON();
+  const tree = renderer
+    .create(<Headsign headsign={headsign} condensed={false} routeType={1} />)
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
@@ -63,6 +69,45 @@ it("it splits the headsign name when it contains 'via' ", () => {
   headsign.name = "Watertown via Harvard Square";
 
   createReactRoot();
-  const tree = renderer.create(<Headsign headsign={headsign} />).toJSON();
+  const tree = renderer
+    .create(<Headsign headsign={headsign} condensed={false} routeType={1} />)
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it("it renders a status and train name for Commuter Rail", () => {
+  const data = JSON.parse(JSON.stringify(tnmData));
+  const route: Route = data[data.length - 1] as Route;
+  const stop: Stop = route.stops[0];
+  const direction: TNMDirection = stop.directions[0];
+  const headsign: TNMHeadsign = direction.headsigns[0];
+
+  expect(route.type).toBe(2);
+
+  createReactRoot();
+  const tree = renderer
+    .create(
+      <Headsign headsign={headsign} condensed={false} routeType={route.type} />
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it("it renders uncondensed bus headsign name as --small", () => {
+  const data = JSON.parse(JSON.stringify(tnmData));
+  const route: Route = data.find((route: Route) => route.type === 3);
+  const stop: Stop = route.stops[0];
+  const direction: TNMDirection = stop.directions[0];
+  const headsign: TNMHeadsign = direction.headsigns[0];
+
+  expect(headsign.times[0].prediction).not.toBeNull();
+  expect(headsign.times[1].prediction).not.toBeNull();
+
+  createReactRoot();
+  const tree = renderer
+    .create(
+      <Headsign headsign={headsign} condensed={false} routeType={route.type} />
+    )
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });

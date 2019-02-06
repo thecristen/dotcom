@@ -13,7 +13,7 @@ exports[`it renders 1`] = `
       <span
         className="bus-route-sign"
       >
-        11
+        504
       </span>
     </div>
     <div
@@ -24,6 +24,7 @@ exports[`it renders 1`] = `
       >
         <a
           className="m-tnm-sidebar__stop-name"
+          href="/stops/9983"
         >
           <span
             className="m-tnm-sidebar__stop-marker"
@@ -34,7 +35,104 @@ exports[`it renders 1`] = `
             }
           />
            
-          Washington St @ Essex St
+          Stuart St @ Charles St S
+        </a>
+        <div
+          className="m-tnm-sidebar__stop-distance"
+        >
+          238 ft
+        </div>
+      </div>
+      <div>
+        <div
+          className="m-tnm-sidebar__direction"
+        >
+          <div
+            className="m-tnm-sidebar__direction-name u-small-caps"
+          >
+            Outbound
+          </div>
+        </div>
+        <div
+          className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+        >
+          <div
+            className="m-tnm-sidebar__headsign"
+          >
+            <div
+              className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+            >
+              Watertown
+            </div>
+            <div
+              className="m-tnm-sidebar__via"
+            >
+              via Copley (Express)
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__schedules"
+          >
+            <div
+              className="m-tnm-sidebar__schedule"
+            >
+              <div
+                className="m-tnm-sidebar__time"
+              >
+                <div
+                  className="m-tnm-sidebar__time-number"
+                >
+                  14
+                </div>
+                <div
+                  className="m-tnm-sidebar__time-mins"
+                >
+                  min
+                </div>
+              </div>
+            </div>
+            <div
+              className="m-tnm-sidebar__schedule"
+            >
+              <div
+                className="m-tnm-sidebar__time"
+              >
+                <div
+                  className="m-tnm-sidebar__time-number"
+                >
+                  44
+                </div>
+                <div
+                  className="m-tnm-sidebar__time-mins"
+                >
+                  min
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__stop"
+    >
+      <div
+        className="m-tnm-sidebar__stop-info"
+      >
+        <a
+          className="m-tnm-sidebar__stop-name"
+          href="/stops/6542"
+        >
+          <span
+            className="m-tnm-sidebar__stop-marker"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+              }
+            }
+          />
+           
+          Kneeland St @ Washington St
         </a>
         <div
           className="m-tnm-sidebar__stop-distance"
@@ -51,22 +149,22 @@ exports[`it renders 1`] = `
           >
             Inbound
           </div>
-          <div
-            className="m-tnm-sidebar__direction-destination"
-          >
-            Downtown Boston
-          </div>
         </div>
         <div
-          className="m-tnm-sidebar__headsign-schedule"
+          className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
         >
           <div
             className="m-tnm-sidebar__headsign"
           >
             <div
-              className="m-tnm-sidebar__headsign-name"
+              className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
             >
               Downtown
+            </div>
+            <div
+              className="m-tnm-sidebar__via"
+            >
+              via Copley (Express)
             </div>
           </div>
           <div
@@ -81,7 +179,7 @@ exports[`it renders 1`] = `
                 <div
                   className="m-tnm-sidebar__time-number"
                 >
-                  &lt; 1
+                  1
                 </div>
                 <div
                   className="m-tnm-sidebar__time-mins"
@@ -99,103 +197,7 @@ exports[`it renders 1`] = `
                 <div
                   className="m-tnm-sidebar__time-number"
                 >
-                  &lt; 1
-                </div>
-                <div
-                  className="m-tnm-sidebar__time-mins"
-                >
-                  min
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="m-tnm-sidebar__stop"
-    >
-      <div
-        className="m-tnm-sidebar__stop-info"
-      >
-        <a
-          className="m-tnm-sidebar__stop-name"
-        >
-          <span
-            className="m-tnm-sidebar__stop-marker"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "<svg id=\\"icon-feature-map-station-icon\\"></svg>",
-              }
-            }
-          />
-           
-          Tufts Medical Center
-        </a>
-        <div
-          className="m-tnm-sidebar__stop-distance"
-        >
-          0.1 mi
-        </div>
-      </div>
-      <div>
-        <div
-          className="m-tnm-sidebar__direction"
-        >
-          <div
-            className="m-tnm-sidebar__direction-name u-small-caps"
-          >
-            Inbound
-          </div>
-          <div
-            className="m-tnm-sidebar__direction-destination"
-          >
-            Downtown Boston
-          </div>
-        </div>
-        <div
-          className="m-tnm-sidebar__headsign-schedule"
-        >
-          <div
-            className="m-tnm-sidebar__headsign"
-          >
-            <div
-              className="m-tnm-sidebar__headsign-name"
-            >
-              Downtown
-            </div>
-          </div>
-          <div
-            className="m-tnm-sidebar__schedules"
-          >
-            <div
-              className="m-tnm-sidebar__schedule"
-            >
-              <div
-                className="m-tnm-sidebar__time"
-              >
-                <div
-                  className="m-tnm-sidebar__time-number"
-                >
-                  &lt; 1
-                </div>
-                <div
-                  className="m-tnm-sidebar__time-mins"
-                >
-                  min
-                </div>
-              </div>
-            </div>
-            <div
-              className="m-tnm-sidebar__schedule"
-            >
-              <div
-                className="m-tnm-sidebar__time"
-              >
-                <div
-                  className="m-tnm-sidebar__time-number"
-                >
-                  &lt; 1
+                  14
                 </div>
                 <div
                   className="m-tnm-sidebar__time-mins"
@@ -218,7 +220,7 @@ exports[`it renders 1`] = `
       <span
         className="bus-route-sign"
       >
-        15
+        55
       </span>
     </div>
     <div
@@ -229,6 +231,7 @@ exports[`it renders 1`] = `
       >
         <a
           className="m-tnm-sidebar__stop-name"
+          href="/stops/9983"
         >
           <span
             className="m-tnm-sidebar__stop-marker"
@@ -239,12 +242,12 @@ exports[`it renders 1`] = `
             }
           />
            
-          Washington St @ Essex St
+          Stuart St @ Charles St S
         </a>
         <div
           className="m-tnm-sidebar__stop-distance"
         >
-          0.2 mi
+          238 ft
         </div>
       </div>
       <div>
@@ -254,30 +257,19 @@ exports[`it renders 1`] = `
           <div
             className="m-tnm-sidebar__direction-name u-small-caps"
           >
-            Inbound
-          </div>
-          <div
-            className="m-tnm-sidebar__direction-destination"
-          >
-            Ruggles
+            Outbound
           </div>
         </div>
         <div
-          className="m-tnm-sidebar__headsign-schedule"
+          className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
         >
           <div
             className="m-tnm-sidebar__headsign"
           >
             <div
-              className="m-tnm-sidebar__headsign-name"
+              className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
             >
-              Haymarket
-            </div>
-            <div
-              className="m-tnm-sidebar__via"
-            >
-              via 
-              Dudley & Fields Corner
+              Queensberry St
             </div>
           </div>
           <div
@@ -292,12 +284,30 @@ exports[`it renders 1`] = `
                 <div
                   className="m-tnm-sidebar__time-number"
                 >
-                  1:53
+                  39
                 </div>
                 <div
                   className="m-tnm-sidebar__time-mins"
                 >
-                  AM
+                  min
+                </div>
+              </div>
+            </div>
+            <div
+              className="m-tnm-sidebar__schedule"
+            >
+              <div
+                className="m-tnm-sidebar__time"
+              >
+                <div
+                  className="m-tnm-sidebar__time-number"
+                >
+                  12:55
+                </div>
+                <div
+                  className="m-tnm-sidebar__time-mins"
+                >
+                  PM
                 </div>
               </div>
             </div>
@@ -313,6 +323,7 @@ exports[`it renders 1`] = `
       >
         <a
           className="m-tnm-sidebar__stop-name"
+          href="/stops/8279"
         >
           <span
             className="m-tnm-sidebar__stop-marker"
@@ -340,28 +351,17 @@ exports[`it renders 1`] = `
           >
             Outbound
           </div>
-          <div
-            className="m-tnm-sidebar__direction-destination"
-          >
-            Kane Square
-          </div>
         </div>
         <div
-          className="m-tnm-sidebar__headsign-schedule"
+          className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
         >
           <div
             className="m-tnm-sidebar__headsign"
           >
             <div
-              className="m-tnm-sidebar__headsign-name"
+              className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
             >
-              Mattapan
-            </div>
-            <div
-              className="m-tnm-sidebar__via"
-            >
-              via 
-              Dudley & Fields Corner
+              Queensberry St
             </div>
           </div>
           <div
@@ -376,239 +376,7 @@ exports[`it renders 1`] = `
                 <div
                   className="m-tnm-sidebar__time-number"
                 >
-                  2:05
-                </div>
-                <div
-                  className="m-tnm-sidebar__time-mins"
-                >
-                  AM
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="m-tnm-sidebar__stop"
-    >
-      <div
-        className="m-tnm-sidebar__stop-info"
-      >
-        <a
-          className="m-tnm-sidebar__stop-name"
-        >
-          <span
-            className="m-tnm-sidebar__stop-marker"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "<svg id=\\"icon-feature-map-station-icon\\"></svg>",
-              }
-            }
-          />
-           
-          Tufts Medical Center
-        </a>
-        <div
-          className="m-tnm-sidebar__stop-distance"
-        >
-          0.1 mi
-        </div>
-      </div>
-      <div>
-        <div
-          className="m-tnm-sidebar__direction"
-        >
-          <div
-            className="m-tnm-sidebar__direction-name u-small-caps"
-          >
-            Outbound
-          </div>
-          <div
-            className="m-tnm-sidebar__direction-destination"
-          >
-            Kane Square
-          </div>
-        </div>
-        <div
-          className="m-tnm-sidebar__headsign-schedule"
-        >
-          <div
-            className="m-tnm-sidebar__headsign"
-          >
-            <div
-              className="m-tnm-sidebar__headsign-name"
-            >
-              Mattapan
-            </div>
-            <div
-              className="m-tnm-sidebar__via"
-            >
-              via 
-              Dudley & Fields Corner
-            </div>
-          </div>
-          <div
-            className="m-tnm-sidebar__schedules"
-          >
-            <div
-              className="m-tnm-sidebar__schedule"
-            >
-              <div
-                className="m-tnm-sidebar__time"
-              >
-                <div
-                  className="m-tnm-sidebar__time-number"
-                >
-                  2:07
-                </div>
-                <div
-                  className="m-tnm-sidebar__time-mins"
-                >
-                  AM
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div
-          className="m-tnm-sidebar__direction"
-        >
-          <div
-            className="m-tnm-sidebar__direction-name u-small-caps"
-          >
-            Inbound
-          </div>
-          <div
-            className="m-tnm-sidebar__direction-destination"
-          >
-            Ruggles
-          </div>
-        </div>
-        <div
-          className="m-tnm-sidebar__headsign-schedule"
-        >
-          <div
-            className="m-tnm-sidebar__headsign"
-          >
-            <div
-              className="m-tnm-sidebar__headsign-name"
-            >
-              Haymarket
-            </div>
-            <div
-              className="m-tnm-sidebar__via"
-            >
-              via 
-              Dudley & Fields Corner
-            </div>
-          </div>
-          <div
-            className="m-tnm-sidebar__schedules"
-          >
-            <div
-              className="m-tnm-sidebar__schedule"
-            >
-              <div
-                className="m-tnm-sidebar__time"
-              >
-                <div
-                  className="m-tnm-sidebar__time-number"
-                >
-                  1:52
-                </div>
-                <div
-                  className="m-tnm-sidebar__time-mins"
-                >
-                  AM
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    className="m-tnm-sidebar__route"
-  >
-    <div
-      className="h3 m-tnm-sidebar__route-name u-bg--bus"
-    >
-      <span
-        className="bus-route-sign"
-      >
-        43
-      </span>
-    </div>
-    <div
-      className="m-tnm-sidebar__stop"
-    >
-      <div
-        className="m-tnm-sidebar__stop-info"
-      >
-        <a
-          className="m-tnm-sidebar__stop-name"
-        >
-          <span
-            className="m-tnm-sidebar__stop-marker"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
-              }
-            }
-          />
-           
-          Charles St S @ Park Plaza
-        </a>
-        <div
-          className="m-tnm-sidebar__stop-distance"
-        >
-          444 ft
-        </div>
-      </div>
-      <div>
-        <div
-          className="m-tnm-sidebar__direction"
-        >
-          <div
-            className="m-tnm-sidebar__direction-name u-small-caps"
-          >
-            Inbound
-          </div>
-          <div
-            className="m-tnm-sidebar__direction-destination"
-          >
-            Downtown Boston
-          </div>
-        </div>
-        <div
-          className="m-tnm-sidebar__headsign-schedule"
-        >
-          <div
-            className="m-tnm-sidebar__headsign"
-          >
-            <div
-              className="m-tnm-sidebar__headsign-name"
-            >
-              Park St & Tremont St
-            </div>
-          </div>
-          <div
-            className="m-tnm-sidebar__schedules"
-          >
-            <div
-              className="m-tnm-sidebar__schedule"
-            >
-              <div
-                className="m-tnm-sidebar__time"
-              >
-                <div
-                  className="m-tnm-sidebar__time-number"
-                >
-                  &lt; 1
+                  39
                 </div>
                 <div
                   className="m-tnm-sidebar__time-mins"
@@ -626,12 +394,104 @@ exports[`it renders 1`] = `
                 <div
                   className="m-tnm-sidebar__time-number"
                 >
-                  23
+                  12:55
                 </div>
                 <div
                   className="m-tnm-sidebar__time-mins"
                 >
-                  mins
+                  PM
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__route"
+  >
+    <div
+      className="h3 m-tnm-sidebar__route-name u-bg--bus"
+    >
+      <span
+        className="bus-route-sign"
+      >
+        553
+      </span>
+    </div>
+    <div
+      className="m-tnm-sidebar__stop"
+    >
+      <div
+        className="m-tnm-sidebar__stop-info"
+      >
+        <a
+          className="m-tnm-sidebar__stop-name"
+          href="/stops/9983"
+        >
+          <span
+            className="m-tnm-sidebar__stop-marker"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+              }
+            }
+          />
+           
+          Stuart St @ Charles St S
+        </a>
+        <div
+          className="m-tnm-sidebar__stop-distance"
+        >
+          238 ft
+        </div>
+      </div>
+      <div>
+        <div
+          className="m-tnm-sidebar__direction"
+        >
+          <div
+            className="m-tnm-sidebar__direction-name u-small-caps"
+          >
+            Outbound
+          </div>
+        </div>
+        <div
+          className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+        >
+          <div
+            className="m-tnm-sidebar__headsign"
+          >
+            <div
+              className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+            >
+              Waltham
+            </div>
+            <div
+              className="m-tnm-sidebar__via"
+            >
+              via Copley (Express)
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__schedules"
+          >
+            <div
+              className="m-tnm-sidebar__schedule"
+            >
+              <div
+                className="m-tnm-sidebar__time"
+              >
+                <div
+                  className="m-tnm-sidebar__time-number"
+                >
+                  7:07
+                </div>
+                <div
+                  className="m-tnm-sidebar__time-mins"
+                >
+                  PM
                 </div>
               </div>
             </div>
@@ -647,6 +507,7 @@ exports[`it renders 1`] = `
       >
         <a
           className="m-tnm-sidebar__stop-name"
+          href="/stops/6542"
         >
           <span
             className="m-tnm-sidebar__stop-marker"
@@ -657,7 +518,7 @@ exports[`it renders 1`] = `
             }
           />
            
-          Tremont St @ Charles St S
+          Kneeland St @ Washington St
         </a>
         <div
           className="m-tnm-sidebar__stop-distance"
@@ -672,24 +533,24 @@ exports[`it renders 1`] = `
           <div
             className="m-tnm-sidebar__direction-name u-small-caps"
           >
-            Outbound
-          </div>
-          <div
-            className="m-tnm-sidebar__direction-destination"
-          >
-            Ruggles
+            Inbound
           </div>
         </div>
         <div
-          className="m-tnm-sidebar__headsign-schedule"
+          className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
         >
           <div
             className="m-tnm-sidebar__headsign"
           >
             <div
-              className="m-tnm-sidebar__headsign-name"
+              className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
             >
-              Ruggles
+              Downtown
+            </div>
+            <div
+              className="m-tnm-sidebar__via"
+            >
+              via Copley (Express)
             </div>
           </div>
           <div
@@ -704,222 +565,12 @@ exports[`it renders 1`] = `
                 <div
                   className="m-tnm-sidebar__time-number"
                 >
-                  18
+                  8:24
                 </div>
                 <div
                   className="m-tnm-sidebar__time-mins"
                 >
-                  mins
-                </div>
-              </div>
-            </div>
-            <div
-              className="m-tnm-sidebar__schedule"
-            >
-              <div
-                className="m-tnm-sidebar__time"
-              >
-                <div
-                  className="m-tnm-sidebar__time-number"
-                >
-                  43
-                </div>
-                <div
-                  className="m-tnm-sidebar__time-mins"
-                >
-                  mins
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="m-tnm-sidebar__stop"
-    >
-      <div
-        className="m-tnm-sidebar__stop-info"
-      >
-        <a
-          className="m-tnm-sidebar__stop-name"
-        >
-          <span
-            className="m-tnm-sidebar__stop-marker"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
-              }
-            }
-          />
-           
-          Tremont St @ Boylston Station
-        </a>
-        <div
-          className="m-tnm-sidebar__stop-distance"
-        >
-          0.2 mi
-        </div>
-      </div>
-      <div>
-        <div
-          className="m-tnm-sidebar__direction"
-        >
-          <div
-            className="m-tnm-sidebar__direction-name u-small-caps"
-          >
-            Outbound
-          </div>
-          <div
-            className="m-tnm-sidebar__direction-destination"
-          >
-            Ruggles
-          </div>
-        </div>
-        <div
-          className="m-tnm-sidebar__headsign-schedule"
-        >
-          <div
-            className="m-tnm-sidebar__headsign"
-          >
-            <div
-              className="m-tnm-sidebar__headsign-name"
-            >
-              Ruggles
-            </div>
-          </div>
-          <div
-            className="m-tnm-sidebar__schedules"
-          >
-            <div
-              className="m-tnm-sidebar__schedule"
-            >
-              <div
-                className="m-tnm-sidebar__time"
-              >
-                <div
-                  className="m-tnm-sidebar__time-number"
-                >
-                  18
-                </div>
-                <div
-                  className="m-tnm-sidebar__time-mins"
-                >
-                  mins
-                </div>
-              </div>
-            </div>
-            <div
-              className="m-tnm-sidebar__schedule"
-            >
-              <div
-                className="m-tnm-sidebar__time"
-              >
-                <div
-                  className="m-tnm-sidebar__time-number"
-                >
-                  43
-                </div>
-                <div
-                  className="m-tnm-sidebar__time-mins"
-                >
-                  mins
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="m-tnm-sidebar__stop"
-    >
-      <div
-        className="m-tnm-sidebar__stop-info"
-      >
-        <a
-          className="m-tnm-sidebar__stop-name"
-        >
-          <span
-            className="m-tnm-sidebar__stop-marker"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
-              }
-            }
-          />
-           
-          285 Tremont St
-        </a>
-        <div
-          className="m-tnm-sidebar__stop-distance"
-        >
-          0.1 mi
-        </div>
-      </div>
-      <div>
-        <div
-          className="m-tnm-sidebar__direction"
-        >
-          <div
-            className="m-tnm-sidebar__direction-name u-small-caps"
-          >
-            Outbound
-          </div>
-          <div
-            className="m-tnm-sidebar__direction-destination"
-          >
-            Ruggles
-          </div>
-        </div>
-        <div
-          className="m-tnm-sidebar__headsign-schedule"
-        >
-          <div
-            className="m-tnm-sidebar__headsign"
-          >
-            <div
-              className="m-tnm-sidebar__headsign-name"
-            >
-              Ruggles
-            </div>
-          </div>
-          <div
-            className="m-tnm-sidebar__schedules"
-          >
-            <div
-              className="m-tnm-sidebar__schedule"
-            >
-              <div
-                className="m-tnm-sidebar__time"
-              >
-                <div
-                  className="m-tnm-sidebar__time-number"
-                >
-                  18
-                </div>
-                <div
-                  className="m-tnm-sidebar__time-mins"
-                >
-                  mins
-                </div>
-              </div>
-            </div>
-            <div
-              className="m-tnm-sidebar__schedule"
-            >
-              <div
-                className="m-tnm-sidebar__time"
-              >
-                <div
-                  className="m-tnm-sidebar__time-number"
-                >
-                  43
-                </div>
-                <div
-                  className="m-tnm-sidebar__time-mins"
-                >
-                  mins
+                  PM
                 </div>
               </div>
             </div>

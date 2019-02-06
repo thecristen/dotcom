@@ -8,9 +8,14 @@ exports[`it renders 2 predictions 1`] = `
     className="m-tnm-sidebar__headsign"
   >
     <div
-      className="m-tnm-sidebar__headsign-name"
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
     >
-      Downtown
+      Watertown
+    </div>
+    <div
+      className="m-tnm-sidebar__via"
+    >
+      via Copley (Express)
     </div>
   </div>
   <div
@@ -25,7 +30,7 @@ exports[`it renders 2 predictions 1`] = `
         <div
           className="m-tnm-sidebar__time-number"
         >
-          &lt; 1
+          14
         </div>
         <div
           className="m-tnm-sidebar__time-mins"
@@ -43,12 +48,55 @@ exports[`it renders 2 predictions 1`] = `
         <div
           className="m-tnm-sidebar__time-number"
         >
-          &lt; 1
+          44
         </div>
         <div
           className="m-tnm-sidebar__time-mins"
         >
           min
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`it renders a status and train name for Commuter Rail 1`] = `
+<div
+  className="m-tnm-sidebar__headsign-schedule"
+>
+  <div
+    className="m-tnm-sidebar__headsign"
+  >
+    <div
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+    >
+      Framingham
+    </div>
+    <div
+      className="m-tnm-sidebar__headsign-train"
+    >
+      Train 591
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__schedules"
+  >
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail"
+      >
+        <div
+          className="m-tnm-sidebar__time-number"
+        >
+          4:30 PM
+        </div>
+        <div
+          className="m-tnm-sidebar__status"
+        >
+          On Time
         </div>
       </div>
     </div>
@@ -64,9 +112,14 @@ exports[`it renders prediction time string 1`] = `
     className="m-tnm-sidebar__headsign"
   >
     <div
-      className="m-tnm-sidebar__headsign-name"
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
     >
-      Downtown
+      Watertown
+    </div>
+    <div
+      className="m-tnm-sidebar__via"
+    >
+      via Copley (Express)
     </div>
   </div>
   <div
@@ -81,7 +134,7 @@ exports[`it renders prediction time string 1`] = `
         <div
           className="m-tnm-sidebar__time-number"
         >
-          &lt; 1
+          14
         </div>
         <div
           className="m-tnm-sidebar__time-mins"
@@ -120,9 +173,14 @@ exports[`it renders scheduled time when prediction is null 1`] = `
     className="m-tnm-sidebar__headsign"
   >
     <div
-      className="m-tnm-sidebar__headsign-name"
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
     >
-      Downtown
+      Watertown
+    </div>
+    <div
+      className="m-tnm-sidebar__via"
+    >
+      via Copley (Express)
     </div>
   </div>
   <div
@@ -137,7 +195,7 @@ exports[`it renders scheduled time when prediction is null 1`] = `
         <div
           className="m-tnm-sidebar__time-number"
         >
-          &lt; 1
+          14
         </div>
         <div
           className="m-tnm-sidebar__time-mins"
@@ -155,12 +213,73 @@ exports[`it renders scheduled time when prediction is null 1`] = `
         <div
           className="m-tnm-sidebar__time-number"
         >
-          4:01
+          12:08
         </div>
         <div
           className="m-tnm-sidebar__time-mins"
         >
           PM
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`it renders uncondensed bus headsign name as --small 1`] = `
+<div
+  className="m-tnm-sidebar__headsign-schedule"
+>
+  <div
+    className="m-tnm-sidebar__headsign"
+  >
+    <div
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+    >
+      Watertown
+    </div>
+    <div
+      className="m-tnm-sidebar__via"
+    >
+      via Copley (Express)
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__schedules"
+  >
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__time"
+      >
+        <div
+          className="m-tnm-sidebar__time-number"
+        >
+          14
+        </div>
+        <div
+          className="m-tnm-sidebar__time-mins"
+        >
+          min
+        </div>
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__time"
+      >
+        <div
+          className="m-tnm-sidebar__time-number"
+        >
+          44
+        </div>
+        <div
+          className="m-tnm-sidebar__time-mins"
+        >
+          min
         </div>
       </div>
     </div>
@@ -176,15 +295,14 @@ exports[`it splits the headsign name when it contains 'via'  1`] = `
     className="m-tnm-sidebar__headsign"
   >
     <div
-      className="m-tnm-sidebar__headsign-name"
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
     >
       Watertown
     </div>
     <div
       className="m-tnm-sidebar__via"
     >
-      via 
-      Harvard Square
+      via Harvard Square
     </div>
   </div>
   <div
@@ -199,7 +317,7 @@ exports[`it splits the headsign name when it contains 'via'  1`] = `
         <div
           className="m-tnm-sidebar__time-number"
         >
-          &lt; 1
+          14
         </div>
         <div
           className="m-tnm-sidebar__time-mins"
@@ -217,7 +335,7 @@ exports[`it splits the headsign name when it contains 'via'  1`] = `
         <div
           className="m-tnm-sidebar__time-number"
         >
-          &lt; 1
+          44
         </div>
         <div
           className="m-tnm-sidebar__time-mins"

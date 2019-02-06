@@ -223,7 +223,7 @@ defmodule PredictedSchedule.DisplayTest do
 
     test "Time shown as `< 1` minute when same time as current_time" do
       ps = %PredictedSchedule{schedule: %Schedule{time: @base_time}}
-      assert time_difference(ps, @base_time) == ["< 1", " ", "min"]
+      assert time_difference(ps, @base_time) == ["1", " ", "min"]
     end
 
     test "Time shown when predicted just before current time" do

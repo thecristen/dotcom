@@ -10,7 +10,7 @@ exports[`it renders a stop card 1`] = `
     <span
       className="bus-route-sign"
     >
-      11
+      504
     </span>
   </div>
   <div
@@ -21,6 +21,7 @@ exports[`it renders a stop card 1`] = `
     >
       <a
         className="m-tnm-sidebar__stop-name"
+        href="/stops/9983"
       >
         <span
           className="m-tnm-sidebar__stop-marker"
@@ -31,7 +32,104 @@ exports[`it renders a stop card 1`] = `
           }
         />
          
-        Washington St @ Essex St
+        Stuart St @ Charles St S
+      </a>
+      <div
+        className="m-tnm-sidebar__stop-distance"
+      >
+        238 ft
+      </div>
+    </div>
+    <div>
+      <div
+        className="m-tnm-sidebar__direction"
+      >
+        <div
+          className="m-tnm-sidebar__direction-name u-small-caps"
+        >
+          Outbound
+        </div>
+      </div>
+      <div
+        className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+      >
+        <div
+          className="m-tnm-sidebar__headsign"
+        >
+          <div
+            className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+          >
+            Watertown
+          </div>
+          <div
+            className="m-tnm-sidebar__via"
+          >
+            via Copley (Express)
+          </div>
+        </div>
+        <div
+          className="m-tnm-sidebar__schedules"
+        >
+          <div
+            className="m-tnm-sidebar__schedule"
+          >
+            <div
+              className="m-tnm-sidebar__time"
+            >
+              <div
+                className="m-tnm-sidebar__time-number"
+              >
+                14
+              </div>
+              <div
+                className="m-tnm-sidebar__time-mins"
+              >
+                min
+              </div>
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__schedule"
+          >
+            <div
+              className="m-tnm-sidebar__time"
+            >
+              <div
+                className="m-tnm-sidebar__time-number"
+              >
+                44
+              </div>
+              <div
+                className="m-tnm-sidebar__time-mins"
+              >
+                min
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__stop"
+  >
+    <div
+      className="m-tnm-sidebar__stop-info"
+    >
+      <a
+        className="m-tnm-sidebar__stop-name"
+        href="/stops/6542"
+      >
+        <span
+          className="m-tnm-sidebar__stop-marker"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+            }
+          }
+        />
+         
+        Kneeland St @ Washington St
       </a>
       <div
         className="m-tnm-sidebar__stop-distance"
@@ -48,22 +146,22 @@ exports[`it renders a stop card 1`] = `
         >
           Inbound
         </div>
-        <div
-          className="m-tnm-sidebar__direction-destination"
-        >
-          Downtown Boston
-        </div>
       </div>
       <div
-        className="m-tnm-sidebar__headsign-schedule"
+        className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
       >
         <div
           className="m-tnm-sidebar__headsign"
         >
           <div
-            className="m-tnm-sidebar__headsign-name"
+            className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
           >
             Downtown
+          </div>
+          <div
+            className="m-tnm-sidebar__via"
+          >
+            via Copley (Express)
           </div>
         </div>
         <div
@@ -78,7 +176,7 @@ exports[`it renders a stop card 1`] = `
               <div
                 className="m-tnm-sidebar__time-number"
               >
-                &lt; 1
+                1
               </div>
               <div
                 className="m-tnm-sidebar__time-mins"
@@ -96,103 +194,7 @@ exports[`it renders a stop card 1`] = `
               <div
                 className="m-tnm-sidebar__time-number"
               >
-                &lt; 1
-              </div>
-              <div
-                className="m-tnm-sidebar__time-mins"
-              >
-                min
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    className="m-tnm-sidebar__stop"
-  >
-    <div
-      className="m-tnm-sidebar__stop-info"
-    >
-      <a
-        className="m-tnm-sidebar__stop-name"
-      >
-        <span
-          className="m-tnm-sidebar__stop-marker"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "<svg id=\\"icon-feature-map-station-icon\\"></svg>",
-            }
-          }
-        />
-         
-        Tufts Medical Center
-      </a>
-      <div
-        className="m-tnm-sidebar__stop-distance"
-      >
-        0.1 mi
-      </div>
-    </div>
-    <div>
-      <div
-        className="m-tnm-sidebar__direction"
-      >
-        <div
-          className="m-tnm-sidebar__direction-name u-small-caps"
-        >
-          Inbound
-        </div>
-        <div
-          className="m-tnm-sidebar__direction-destination"
-        >
-          Downtown Boston
-        </div>
-      </div>
-      <div
-        className="m-tnm-sidebar__headsign-schedule"
-      >
-        <div
-          className="m-tnm-sidebar__headsign"
-        >
-          <div
-            className="m-tnm-sidebar__headsign-name"
-          >
-            Downtown
-          </div>
-        </div>
-        <div
-          className="m-tnm-sidebar__schedules"
-        >
-          <div
-            className="m-tnm-sidebar__schedule"
-          >
-            <div
-              className="m-tnm-sidebar__time"
-            >
-              <div
-                className="m-tnm-sidebar__time-number"
-              >
-                &lt; 1
-              </div>
-              <div
-                className="m-tnm-sidebar__time-mins"
-              >
-                min
-              </div>
-            </div>
-          </div>
-          <div
-            className="m-tnm-sidebar__schedule"
-          >
-            <div
-              className="m-tnm-sidebar__time"
-            >
-              <div
-                className="m-tnm-sidebar__time-number"
-              >
-                &lt; 1
+                14
               </div>
               <div
                 className="m-tnm-sidebar__time-mins"
@@ -229,102 +231,7 @@ exports[`it renders a stop card for the silver line 1`] = `
     >
       <a
         className="m-tnm-sidebar__stop-name"
-      >
-        <span
-          className="m-tnm-sidebar__stop-marker"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
-            }
-          }
-        />
-         
-        Washington St @ Essex St
-      </a>
-      <div
-        className="m-tnm-sidebar__stop-distance"
-      >
-        0.2 mi
-      </div>
-    </div>
-    <div>
-      <div
-        className="m-tnm-sidebar__direction"
-      >
-        <div
-          className="m-tnm-sidebar__direction-name u-small-caps"
-        >
-          Inbound
-        </div>
-        <div
-          className="m-tnm-sidebar__direction-destination"
-        >
-          South Station
-        </div>
-      </div>
-      <div
-        className="m-tnm-sidebar__headsign-schedule"
-      >
-        <div
-          className="m-tnm-sidebar__headsign"
-        >
-          <div
-            className="m-tnm-sidebar__headsign-name"
-          >
-            South Station
-          </div>
-        </div>
-        <div
-          className="m-tnm-sidebar__schedules"
-        >
-          <div
-            className="m-tnm-sidebar__schedule"
-          >
-            <div
-              className="m-tnm-sidebar__time"
-            >
-              <div
-                className="m-tnm-sidebar__time-number"
-              >
-                &lt; 1
-              </div>
-              <div
-                className="m-tnm-sidebar__time-mins"
-              >
-                min
-              </div>
-            </div>
-          </div>
-          <div
-            className="m-tnm-sidebar__schedule"
-          >
-            <div
-              className="m-tnm-sidebar__time"
-            >
-              <div
-                className="m-tnm-sidebar__time-number"
-              >
-                &lt; 1
-              </div>
-              <div
-                className="m-tnm-sidebar__time-mins"
-              >
-                min
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    className="m-tnm-sidebar__stop"
-  >
-    <div
-      className="m-tnm-sidebar__stop-info"
-    >
-      <a
-        className="m-tnm-sidebar__stop-name"
+        href="/stops/place-tumnl"
       >
         <span
           className="m-tnm-sidebar__stop-marker"
@@ -352,20 +259,15 @@ exports[`it renders a stop card for the silver line 1`] = `
         >
           Outbound
         </div>
-        <div
-          className="m-tnm-sidebar__direction-destination"
-        >
-          Dudley
-        </div>
       </div>
       <div
-        className="m-tnm-sidebar__headsign-schedule"
+        className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
       >
         <div
           className="m-tnm-sidebar__headsign"
         >
           <div
-            className="m-tnm-sidebar__headsign-name"
+            className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
           >
             Dudley
           </div>
@@ -382,76 +284,7 @@ exports[`it renders a stop card for the silver line 1`] = `
               <div
                 className="m-tnm-sidebar__time-number"
               >
-                2
-              </div>
-              <div
-                className="m-tnm-sidebar__time-mins"
-              >
-                mins
-              </div>
-            </div>
-          </div>
-          <div
-            className="m-tnm-sidebar__schedule"
-          >
-            <div
-              className="m-tnm-sidebar__time"
-            >
-              <div
-                className="m-tnm-sidebar__time-number"
-              >
-                16
-              </div>
-              <div
-                className="m-tnm-sidebar__time-mins"
-              >
-                mins
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div
-        className="m-tnm-sidebar__direction"
-      >
-        <div
-          className="m-tnm-sidebar__direction-name u-small-caps"
-        >
-          Inbound
-        </div>
-        <div
-          className="m-tnm-sidebar__direction-destination"
-        >
-          South Station
-        </div>
-      </div>
-      <div
-        className="m-tnm-sidebar__headsign-schedule"
-      >
-        <div
-          className="m-tnm-sidebar__headsign"
-        >
-          <div
-            className="m-tnm-sidebar__headsign-name"
-          >
-            South Station
-          </div>
-        </div>
-        <div
-          className="m-tnm-sidebar__schedules"
-        >
-          <div
-            className="m-tnm-sidebar__schedule"
-          >
-            <div
-              className="m-tnm-sidebar__time"
-            >
-              <div
-                className="m-tnm-sidebar__time-number"
-              >
-                &lt; 1
+                4
               </div>
               <div
                 className="m-tnm-sidebar__time-mins"
@@ -469,7 +302,163 @@ exports[`it renders a stop card for the silver line 1`] = `
               <div
                 className="m-tnm-sidebar__time-number"
               >
-                &lt; 1
+                16
+              </div>
+              <div
+                className="m-tnm-sidebar__time-mins"
+              >
+                min
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="m-tnm-sidebar__direction"
+      >
+        <div
+          className="m-tnm-sidebar__direction-name u-small-caps"
+        >
+          Inbound
+        </div>
+      </div>
+      <div
+        className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+      >
+        <div
+          className="m-tnm-sidebar__headsign"
+        >
+          <div
+            className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+          >
+            South Station
+          </div>
+        </div>
+        <div
+          className="m-tnm-sidebar__schedules"
+        >
+          <div
+            className="m-tnm-sidebar__schedule"
+          >
+            <div
+              className="m-tnm-sidebar__time"
+            >
+              <div
+                className="m-tnm-sidebar__time-number"
+              >
+                1
+              </div>
+              <div
+                className="m-tnm-sidebar__time-mins"
+              >
+                min
+              </div>
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__schedule"
+          >
+            <div
+              className="m-tnm-sidebar__time"
+            >
+              <div
+                className="m-tnm-sidebar__time-number"
+              >
+                4
+              </div>
+              <div
+                className="m-tnm-sidebar__time-mins"
+              >
+                min
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__stop"
+  >
+    <div
+      className="m-tnm-sidebar__stop-info"
+    >
+      <a
+        className="m-tnm-sidebar__stop-name"
+        href="/stops/6537"
+      >
+        <span
+          className="m-tnm-sidebar__stop-marker"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+            }
+          }
+        />
+         
+        Washington St @ Essex St
+      </a>
+      <div
+        className="m-tnm-sidebar__stop-distance"
+      >
+        0.2 mi
+      </div>
+    </div>
+    <div>
+      <div
+        className="m-tnm-sidebar__direction"
+      >
+        <div
+          className="m-tnm-sidebar__direction-name u-small-caps"
+        >
+          Inbound
+        </div>
+      </div>
+      <div
+        className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+      >
+        <div
+          className="m-tnm-sidebar__headsign"
+        >
+          <div
+            className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+          >
+            South Station
+          </div>
+        </div>
+        <div
+          className="m-tnm-sidebar__schedules"
+        >
+          <div
+            className="m-tnm-sidebar__schedule"
+          >
+            <div
+              className="m-tnm-sidebar__time"
+            >
+              <div
+                className="m-tnm-sidebar__time-number"
+              >
+                1
+              </div>
+              <div
+                className="m-tnm-sidebar__time-mins"
+              >
+                min
+              </div>
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__schedule"
+          >
+            <div
+              className="m-tnm-sidebar__time"
+            >
+              <div
+                className="m-tnm-sidebar__time-number"
+              >
+                4
               </div>
               <div
                 className="m-tnm-sidebar__time-mins"

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`it renders 1`] = `
+exports[`it does not display the direction destination when there is only one headsign 1`] = `
 <div>
   <div
     className="m-tnm-sidebar__direction"
@@ -8,24 +8,24 @@ exports[`it renders 1`] = `
     <div
       className="m-tnm-sidebar__direction-name u-small-caps"
     >
-      Inbound
-    </div>
-    <div
-      className="m-tnm-sidebar__direction-destination"
-    >
-      Downtown Boston
+      Outbound
     </div>
   </div>
   <div
-    className="m-tnm-sidebar__headsign-schedule"
+    className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
   >
     <div
       className="m-tnm-sidebar__headsign"
     >
       <div
-        className="m-tnm-sidebar__headsign-name"
+        className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
       >
-        Downtown
+        Watertown
+      </div>
+      <div
+        className="m-tnm-sidebar__via"
+      >
+        via Copley (Express)
       </div>
     </div>
     <div
@@ -40,7 +40,7 @@ exports[`it renders 1`] = `
           <div
             className="m-tnm-sidebar__time-number"
           >
-            &lt; 1
+            14
           </div>
           <div
             className="m-tnm-sidebar__time-mins"
@@ -58,12 +58,190 @@ exports[`it renders 1`] = `
           <div
             className="m-tnm-sidebar__time-number"
           >
-            &lt; 1
+            44
           </div>
           <div
             className="m-tnm-sidebar__time-mins"
           >
             min
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`it does not display the route direction for commuter rail 1`] = `
+<div>
+  <div
+    className="m-tnm-sidebar__direction"
+  >
+    <div
+      className="m-tnm-sidebar__direction-name u-small-caps"
+    >
+      Outbound
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__headsign-schedule"
+  >
+    <div
+      className="m-tnm-sidebar__headsign"
+    >
+      <div
+        className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+      >
+        Framingham
+      </div>
+      <div
+        className="m-tnm-sidebar__headsign-train"
+      >
+        Train 591
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__schedules"
+    >
+      <div
+        className="m-tnm-sidebar__schedule"
+      >
+        <div
+          className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail"
+        >
+          <div
+            className="m-tnm-sidebar__time-number"
+          >
+            4:30 PM
+          </div>
+          <div
+            className="m-tnm-sidebar__status"
+          >
+            On Time
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__headsign-schedule"
+  >
+    <div
+      className="m-tnm-sidebar__headsign"
+    >
+      <div
+        className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+      >
+        Worcester
+      </div>
+      <div
+        className="m-tnm-sidebar__headsign-train"
+      >
+        Train 513
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__schedules"
+    >
+      <div
+        className="m-tnm-sidebar__schedule"
+      >
+        <div
+          className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail"
+        >
+          <div
+            className="m-tnm-sidebar__time-number"
+          >
+            39 min
+          </div>
+          <div
+            className="m-tnm-sidebar__status"
+          >
+            On time
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`it renders 1`] = `
+<div>
+  <div
+    className="m-tnm-sidebar__direction"
+  >
+    <div
+      className="m-tnm-sidebar__direction-name u-small-caps"
+    >
+      Westbound
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__headsign-schedule"
+  >
+    <div
+      className="m-tnm-sidebar__headsign"
+    >
+      <div
+        className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+      >
+        Reservoir
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__schedules"
+    >
+      <div
+        className="m-tnm-sidebar__schedule"
+      >
+        <div
+          className="m-tnm-sidebar__time"
+        >
+          <div
+            className="m-tnm-sidebar__time-number"
+          >
+            6:58
+          </div>
+          <div
+            className="m-tnm-sidebar__time-mins"
+          >
+            PM
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__headsign-schedule"
+  >
+    <div
+      className="m-tnm-sidebar__headsign"
+    >
+      <div
+        className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+      >
+        Riverside
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__schedules"
+    >
+      <div
+        className="m-tnm-sidebar__schedule"
+      >
+        <div
+          className="m-tnm-sidebar__time"
+        >
+          <div
+            className="m-tnm-sidebar__time-number"
+          >
+            11:18
+          </div>
+          <div
+            className="m-tnm-sidebar__time-mins"
+          >
+            AM
           </div>
         </div>
       </div>

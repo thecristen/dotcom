@@ -92,7 +92,7 @@ describe("routeBgColor", () => {
     route.id = "1";
     expect(routeBgColor(route)).toBe("bus");
 
-    route.type = 6;
+    route.type = 0;
     route.id = "fakeID";
     expect(routeBgColor(route)).toBe("unknown");
   });

@@ -98,17 +98,17 @@ defmodule Site.TransitNearMeTest do
 
       assert %{headsigns: [headsign | _]} = direction
 
-      assert Map.keys(headsign) == [:name, :times]
+      assert Map.keys(headsign) == [:name, :times, :train_number]
 
       assert length(headsign.times) <= 2
 
       assert %{times: [time | _]} = headsign
 
-      assert Map.keys(time) == [:prediction, :schedule]
+      assert Map.keys(time) == [:prediction, :scheduled_time]
 
-      assert %{schedule: schedule, prediction: prediction} = time
+      assert %{scheduled_time: scheduled_time, prediction: prediction} = time
 
-      assert {:ok, _} = Timex.parse(Enum.join(schedule), "{h12}:{m} {AM}")
+      assert {:ok, _} = Timex.parse(Enum.join(scheduled_time), "{h12}:{m} {AM}")
 
       if prediction do
         assert Map.keys(prediction) == [:status, :time, :track]

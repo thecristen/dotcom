@@ -69,7 +69,7 @@ defmodule PredictedSchedule.Display do
   defp format_time_difference(diff, time, not_soon_formatter_fn) when diff > 60 or diff < 0,
     do: not_soon_formatter_fn.(time)
 
-  defp format_time_difference(0, _, _), do: ["< 1", " ", "min"]
+  defp format_time_difference(0, _, _), do: ["1", " ", "min"]
 
   defp format_time_difference(diff, _, _),
     do: [Integer.to_string(diff), " ", "min"]

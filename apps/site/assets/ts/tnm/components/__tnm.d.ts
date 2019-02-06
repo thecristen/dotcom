@@ -15,7 +15,7 @@ export interface Route {
   id: string;
   long_name: string;
   name: string;
-  type: number;
+  type: RouteType;
   stops: Array<Stop>;
 }
 
@@ -40,6 +40,8 @@ export interface Stop {
 
 type DirectionId = 0 | 1;
 
+type RouteType = 0 | 1 | 2 | 3 | 4;
+
 export interface TNMDirection {
   direction_id: DirectionId;
   headsigns: Array<TNMHeadsign>;
@@ -48,10 +50,11 @@ export interface TNMDirection {
 export interface TNMHeadsign {
   name: string;
   times: Array<TNMTime>;
+  train_number: string | null;
 }
 
 export interface TNMTime {
-  schedule: Array<string>;
+  scheduled_time: Array<string>;
   prediction: TNMPrediction | null;
 }
 

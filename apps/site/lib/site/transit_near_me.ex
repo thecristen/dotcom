@@ -124,13 +124,14 @@ defmodule Site.TransitNearMe do
         }
 
   @type time_data :: %{
-          required(:schedule) => [String.t()],
+          required(:scheduled_time) => [String.t()],
           required(:prediction) => simple_prediction | nil
         }
 
   @type headsign_data :: %{
           required(:name) => String.t(),
-          required(:times) => [time_data]
+          required(:times) => [time_data],
+          required(:train_number) => String.t() | nil
         }
 
   @type direction_data :: %{
@@ -181,11 +182,12 @@ defmodule Site.TransitNearMe do
     route
     |> Map.from_struct()
     |> Map.update!(:direction_names, fn map ->
-      Map.new(map, fn {key, val} -> {Integer.to_string(key), val} end)
+      Map.new(map, fn {key, val} -> {Integer.to_string(key), Route.add_direction_suffix(val)} end)
     end)
     |> Map.update!(:direction_destinations, fn map ->
       Map.new(map, fn {key, val} -> {Integer.to_string(key), val} end)
     end)
+    |> Map.update!(:name, fn name -> ViewHelpers.break_text_at_slash(name) end)
     |> Map.put(:stops, get_stops_for_route(schedules, location, distances, route))
   end
 
@@ -256,17 +258,23 @@ defmodule Site.TransitNearMe do
 
   @spec build_headsign_map({Schedules.Trip.headsign(), [Schedule.t()]}) :: headsign_data
   defp build_headsign_map({headsign, schedules}) do
+    [%{route: route, trip: trip} | _] = schedules
+
     headsign_schedules =
       schedules
-      |> Enum.take(2)
+      |> Enum.take(schedule_count(route))
       |> Enum.map(&build_time_map/1)
       |> filter_headsign_schedules()
 
     %{
-      name: headsign,
-      times: headsign_schedules
+      name: ViewHelpers.break_text_at_slash(headsign),
+      times: headsign_schedules,
+      train_number: trip.name
     }
   end
+
+  defp schedule_count(%Route{type: 2}), do: 1
+  defp schedule_count(%Route{}), do: 2
 
   @spec filter_headsign_schedules([time_data]) :: [time_data]
   defp filter_headsign_schedules([%{prediction: _} = keep, %{prediction: nil}]) do
@@ -288,7 +296,7 @@ defmodule Site.TransitNearMe do
       |> simple_prediction()
 
     %{
-      schedule: format_time(schedule.time),
+      scheduled_time: format_time(schedule.time),
       prediction: prediction
     }
   end

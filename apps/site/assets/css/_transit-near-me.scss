@@ -54,6 +54,7 @@
 
 .m-tnm-sidebar__direction {
   margin-bottom: $base-spacing / 4;
+  margin-top: $base-spacing;
 }
 
 .m-tnm-sidebar__direction-name {
@@ -69,12 +70,20 @@
   border-top: $border;
   display: flex;
   justify-content: space-between;
-  padding-bottom: $base-spacing / 4;
-  padding-top: $base-spacing / 4;
 }
 
-.m-tnm-sidebar__headsign-name {
-  font-weight: bold;
+.m-tnm-sidebar__headsign-schedule--condensed {
+  border-top: 0;
+
+}
+
+.m-tnm-sidebar__headsign-name--large {
+  @include h3();
+  margin: 0;
+}
+
+.m-tnm-sidebar__via {
+  font-weight: $font-weight-medium;
 }
 
 .m-tnm-sidebar__schedules {
@@ -88,6 +97,10 @@
 
 .m-tnm-sidebar__time {
   text-align: center;
+
+  &--commuter-rail {
+    text-align: right;
+  }
 }
 
 .m-tnm-sidebar__time-number {

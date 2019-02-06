@@ -161,11 +161,11 @@ defmodule Routes.Route do
   end
 
   @spec add_direction_suffix(String.t()) :: String.t()
-  defp add_direction_suffix("North"), do: "Northbound"
-  defp add_direction_suffix("South"), do: "Southbound"
-  defp add_direction_suffix("East"), do: "Eastbound"
-  defp add_direction_suffix("West"), do: "Westbound"
-  defp add_direction_suffix(direction), do: direction
+  def add_direction_suffix("North"), do: "Northbound"
+  def add_direction_suffix("South"), do: "Southbound"
+  def add_direction_suffix("East"), do: "Eastbound"
+  def add_direction_suffix("West"), do: "Westbound"
+  def add_direction_suffix(direction), do: direction
 
   @spec vehicle_name(t) :: String.t()
   def vehicle_name(%__MODULE__{type: type}) when type in [0, 1, 2] do

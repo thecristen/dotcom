@@ -9,6 +9,7 @@ exports[`it renders a stop card 1`] = `
   >
     <a
       className="m-tnm-sidebar__stop-name"
+      href="/stops/9983"
     >
       <span
         className="m-tnm-sidebar__stop-marker"
@@ -19,12 +20,12 @@ exports[`it renders a stop card 1`] = `
         }
       />
        
-      Washington St @ Essex St
+      Stuart St @ Charles St S
     </a>
     <div
       className="m-tnm-sidebar__stop-distance"
     >
-      0.2 mi
+      238 ft
     </div>
   </div>
   <div>
@@ -34,24 +35,24 @@ exports[`it renders a stop card 1`] = `
       <div
         className="m-tnm-sidebar__direction-name u-small-caps"
       >
-        Inbound
-      </div>
-      <div
-        className="m-tnm-sidebar__direction-destination"
-      >
-        Downtown Boston
+        Outbound
       </div>
     </div>
     <div
-      className="m-tnm-sidebar__headsign-schedule"
+      className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
     >
       <div
         className="m-tnm-sidebar__headsign"
       >
         <div
-          className="m-tnm-sidebar__headsign-name"
+          className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
         >
-          Downtown
+          Watertown
+        </div>
+        <div
+          className="m-tnm-sidebar__via"
+        >
+          via Copley (Express)
         </div>
       </div>
       <div
@@ -66,7 +67,7 @@ exports[`it renders a stop card 1`] = `
             <div
               className="m-tnm-sidebar__time-number"
             >
-              &lt; 1
+              14
             </div>
             <div
               className="m-tnm-sidebar__time-mins"
@@ -84,7 +85,7 @@ exports[`it renders a stop card 1`] = `
             <div
               className="m-tnm-sidebar__time-number"
             >
-              &lt; 1
+              44
             </div>
             <div
               className="m-tnm-sidebar__time-mins"
