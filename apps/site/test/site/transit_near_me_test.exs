@@ -85,8 +85,8 @@ defmodule Site.TransitNearMeTest do
 
       assert stop.id == closest_stop
 
-      assert [:distance, :directions | %Stop{} |> Map.from_struct() |> Map.keys()] |> Enum.sort() ==
-               stop |> Map.keys() |> Enum.sort()
+      assert [:distance, :directions, :href | %Stop{} |> Map.from_struct() |> Map.keys()]
+             |> Enum.sort() == stop |> Map.keys() |> Enum.sort()
 
       assert stop.distance == "238 ft"
 

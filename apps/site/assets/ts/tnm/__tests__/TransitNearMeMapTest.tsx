@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import TransitNearMeMap from "../components/TransitNearMeMap";
-import createReactRoot from "./helpers/testUtils";
+import { createReactRoot } from "./helpers/testUtils";
 
 it("it renders without initial markers", () => {
   createReactRoot();

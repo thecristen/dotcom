@@ -5,16 +5,21 @@ import RouteCard, {
   routeBgColor,
   busClass
 } from "../components/RouteCard";
-import createReactRoot from "./helpers/testUtils";
+import { createReactRoot, createMarkers } from "./helpers/testUtils";
 import { Route, Stop, TNMDirection } from "../components/__tnm";
 import tnmData from "./tnmData.json";
+import StopCard from "../components/StopCard";
+
+const markers = createMarkers();
 
 it("it renders a stop card", () => {
   const data = JSON.parse(JSON.stringify(tnmData));
   const route: Route = data[0] as Route;
 
   createReactRoot();
-  const tree = renderer.create(<RouteCard route={route} />).toJSON();
+  const tree = renderer
+    .create(<RouteCard route={route} markers={markers} />)
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
@@ -31,7 +36,9 @@ it("returns null if route has no schedules", () => {
   route.stops = [stop];
 
   createReactRoot();
-  const tree = renderer.create(<RouteCard route={route} />).toJSON();
+  const tree = renderer
+    .create(<RouteCard route={route} markers={markers} />)
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
@@ -42,7 +49,9 @@ it("it renders a stop card for the silver line", () => {
   expect(route).not.toBeNull;
 
   createReactRoot();
-  const tree = renderer.create(<RouteCard route={route} />).toJSON();
+  const tree = renderer
+    .create(<RouteCard route={route} markers={markers} />)
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });
 

@@ -8,6 +8,7 @@ defmodule Site.TransitNearMe do
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
+  alias SiteWeb.Router.Helpers
   alias SiteWeb.ViewHelpers
   alias Stops.{Nearby, Stop}
   alias Util.Distance
@@ -140,7 +141,8 @@ defmodule Site.TransitNearMe do
   @type stop_data :: %{
           # stop_data includes the full %Stop{} struct, plus:
           required(:directions) => [direction_data],
-          required(:distance) => String.t()
+          required(:distance) => String.t(),
+          required(:href) => String.t()
         }
 
   @type route_data :: %{
@@ -206,14 +208,17 @@ defmodule Site.TransitNearMe do
 
   @spec get_directions_for_stop({Stop.id_t(), [Schedule.t()]}, Address.t()) :: stop_data
   defp get_directions_for_stop({_stop_id, schedules}, location) do
-    [%Schedule{stop: stop} | _] = schedules
+    [%Schedule{stop: schedule_stop} | _] = schedules
+    stop = Stops.Repo.get(schedule_stop.id)
 
     distance = Distance.haversine(stop, location)
+    href = Helpers.stop_path(SiteWeb.Endpoint, :show, stop.id)
 
     stop
     |> Map.from_struct()
     |> Map.put(:directions, get_direction_map(schedules))
     |> Map.put(:distance, ViewHelpers.round_distance(distance))
+    |> Map.put(:href, href)
   end
 
   @spec get_direction_map([Schedule.t()]) :: [direction_data]

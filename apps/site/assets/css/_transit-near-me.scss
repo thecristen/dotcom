@@ -100,3 +100,9 @@
   font-weight: bold;
   line-height: 1em;
 }
+
+.m-tnm-sidebar__stop-marker {
+  svg {
+    @include center-icon(1em);
+  }
+}

@@ -1,15 +1,16 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from "react";
 import { StopCard, stopIsEmpty } from "./StopCard";
-import { Route } from "./__tnm";
+import { Route, SVGMarkers } from "./__tnm";
 
 interface Props {
   route: Route;
+  markers: SVGMarkers;
 }
 
 const routeIsEmpty = (route: Route): boolean => route.stops.every(stopIsEmpty);
 
-const RouteCard = ({ route }: Props) => {
+const RouteCard = ({ route, markers }: Props) => {
   const bgClass = `u-bg--${routeBgColor(route)}`;
 
   if (routeIsEmpty(route)) {
@@ -22,7 +23,7 @@ const RouteCard = ({ route }: Props) => {
         <span className={busClass(route)}>{route.name}</span>
       </div>
       {route.stops.map(stop => (
-        <StopCard key={stop.id} stop={stop} route={route} />
+        <StopCard key={stop.id} stop={stop} route={route} markers={markers} />
       ))}
     </div>
   );

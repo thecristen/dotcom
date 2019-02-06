@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import Headsign from "../components/Headsign";
-import createReactRoot from "./helpers/testUtils";
+import { createReactRoot } from "./helpers/testUtils";
 import { Route, Stop, TNMDirection, TNMHeadsign } from "../components/__tnm";
 import tnmData from "./tnmData.json";
 

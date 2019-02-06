@@ -3,6 +3,11 @@ export interface DirectionInfo {
   1: string;
 }
 
+export interface SVGMarkers {
+  stopMarker: string;
+  stationMarker: string;
+}
+
 export interface Route {
   description: string;
   direction_destinations: DirectionInfo;
@@ -30,6 +35,7 @@ export interface Stop {
   "station?": boolean;
   distance: string;
   directions: Array<TNMDirection>;
+  href: string;
 }
 
 type DirectionId = 0 | 1;

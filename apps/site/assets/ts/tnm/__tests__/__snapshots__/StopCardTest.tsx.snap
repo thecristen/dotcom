@@ -7,11 +7,20 @@ exports[`it renders a stop card 1`] = `
   <div
     className="m-tnm-sidebar__stop-info"
   >
-    <div
+    <a
       className="m-tnm-sidebar__stop-name"
     >
+      <span
+        className="m-tnm-sidebar__stop-marker"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+          }
+        }
+      />
+       
       Washington St @ Essex St
-    </div>
+    </a>
     <div
       className="m-tnm-sidebar__stop-distance"
     >

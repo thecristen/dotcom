@@ -22,11 +22,20 @@ exports[`it renders 1`] = `
       <div
         className="m-tnm-sidebar__stop-info"
       >
-        <div
+        <a
           className="m-tnm-sidebar__stop-name"
         >
+          <span
+            className="m-tnm-sidebar__stop-marker"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+              }
+            }
+          />
+           
           Washington St @ Essex St
-        </div>
+        </a>
         <div
           className="m-tnm-sidebar__stop-distance"
         >
@@ -109,11 +118,20 @@ exports[`it renders 1`] = `
       <div
         className="m-tnm-sidebar__stop-info"
       >
-        <div
+        <a
           className="m-tnm-sidebar__stop-name"
         >
+          <span
+            className="m-tnm-sidebar__stop-marker"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg id=\\"icon-feature-map-station-icon\\"></svg>",
+              }
+            }
+          />
+           
           Tufts Medical Center
-        </div>
+        </a>
         <div
           className="m-tnm-sidebar__stop-distance"
         >
@@ -209,11 +227,20 @@ exports[`it renders 1`] = `
       <div
         className="m-tnm-sidebar__stop-info"
       >
-        <div
+        <a
           className="m-tnm-sidebar__stop-name"
         >
+          <span
+            className="m-tnm-sidebar__stop-marker"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+              }
+            }
+          />
+           
           Washington St @ Essex St
-        </div>
+        </a>
         <div
           className="m-tnm-sidebar__stop-distance"
         >
@@ -284,11 +311,20 @@ exports[`it renders 1`] = `
       <div
         className="m-tnm-sidebar__stop-info"
       >
-        <div
+        <a
           className="m-tnm-sidebar__stop-name"
         >
+          <span
+            className="m-tnm-sidebar__stop-marker"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+              }
+            }
+          />
+           
           Tremont St @ Boylston Station
-        </div>
+        </a>
         <div
           className="m-tnm-sidebar__stop-distance"
         >
@@ -359,11 +395,20 @@ exports[`it renders 1`] = `
       <div
         className="m-tnm-sidebar__stop-info"
       >
-        <div
+        <a
           className="m-tnm-sidebar__stop-name"
         >
+          <span
+            className="m-tnm-sidebar__stop-marker"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg id=\\"icon-feature-map-station-icon\\"></svg>",
+              }
+            }
+          />
+           
           Tufts Medical Center
-        </div>
+        </a>
         <div
           className="m-tnm-sidebar__stop-distance"
         >
@@ -504,11 +549,20 @@ exports[`it renders 1`] = `
       <div
         className="m-tnm-sidebar__stop-info"
       >
-        <div
+        <a
           className="m-tnm-sidebar__stop-name"
         >
+          <span
+            className="m-tnm-sidebar__stop-marker"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+              }
+            }
+          />
+           
           Charles St S @ Park Plaza
-        </div>
+        </a>
         <div
           className="m-tnm-sidebar__stop-distance"
         >
@@ -591,11 +645,20 @@ exports[`it renders 1`] = `
       <div
         className="m-tnm-sidebar__stop-info"
       >
-        <div
+        <a
           className="m-tnm-sidebar__stop-name"
         >
+          <span
+            className="m-tnm-sidebar__stop-marker"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+              }
+            }
+          />
+           
           Tremont St @ Charles St S
-        </div>
+        </a>
         <div
           className="m-tnm-sidebar__stop-distance"
         >
@@ -678,11 +741,20 @@ exports[`it renders 1`] = `
       <div
         className="m-tnm-sidebar__stop-info"
       >
-        <div
+        <a
           className="m-tnm-sidebar__stop-name"
         >
+          <span
+            className="m-tnm-sidebar__stop-marker"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+              }
+            }
+          />
+           
           Tremont St @ Boylston Station
-        </div>
+        </a>
         <div
           className="m-tnm-sidebar__stop-distance"
         >
@@ -765,11 +837,20 @@ exports[`it renders 1`] = `
       <div
         className="m-tnm-sidebar__stop-info"
       >
-        <div
+        <a
           className="m-tnm-sidebar__stop-name"
         >
+          <span
+            className="m-tnm-sidebar__stop-marker"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+              }
+            }
+          />
+           
           285 Tremont St
-        </div>
+        </a>
         <div
           className="m-tnm-sidebar__stop-distance"
         >
