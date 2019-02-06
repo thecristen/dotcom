@@ -263,6 +263,18 @@ if (!Array.prototype.find) {
   });
 }
 
+if ("outerHTML" in SVGElement.prototype) {
+  Object.defineProperty(SVGElement.prototype, "outerHTML", {
+    get: function() {
+      const container = document.createElement("div");
+      container.appendChild(this.cloneNode(true));
+      return container.innerHTML;
+    },
+    enumerable: false,
+    configurable: true
+  });
+}
+
 // breakpoints defined in assets/css/_variables.scss
 const breakpoints = { xs: 0, sm: 544, md: 800, lg: 1088, xxl: 1344 };
 
