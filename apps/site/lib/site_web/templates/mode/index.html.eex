@@ -43,7 +43,7 @@
         <%= map_buttons([:subway, :bus, :commuter_rail, :commuter_rail_zones, :ferry]) %>
       </div>
 
-      <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-4 col-lg-offset-1">
+      <div class="m-mode-hub__guides-wrapper col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-4 col-lg-offset-1">
         <div class="m-mode-hub__trip-plan-widget">
           <%= SiteWeb.PartialView.render("_trip_planner_widget.html", assigns) %>
         </div>

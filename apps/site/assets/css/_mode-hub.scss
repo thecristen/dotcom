@@ -69,6 +69,11 @@
   }
 }
 
+.m-mode-hub__guides-wrapper {
+  // this fixes a horizontal scroll issues on Safari at small breakpoints
+  overflow: hidden;
+}
+
 .m-mode-hub__guide {
   @include media-breakpoint-up(lg) {
     margin-bottom: $base-spacing;
