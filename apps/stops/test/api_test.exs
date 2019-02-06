@@ -17,7 +17,7 @@ defmodule Stops.ApiTest do
         assert %Stop.ParkingLot{} = parking_lot
         assert parking_lot.capacity.total != nil
         manager = parking_lot.manager
-        assert manager.name == "Massport"
+        assert manager.name in ["Massport", "LAZ Parking"]
       end
     end
 
