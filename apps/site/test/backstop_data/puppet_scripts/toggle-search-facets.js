@@ -1,5 +1,5 @@
 module.exports = async (page, scenario, vp) => {
-  if (!(vp.label.includes('md') || vp.label.includes('xxl'))) {
+  if (!(vp.label.includes('md') || vp.label.includes('lg') || vp.label.includes('xxl'))) {
     const sel = "#show-facets";
     if (await page.$(sel) !== null) {
       await page.click(sel);
