@@ -4,6 +4,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const webpack = require("webpack");
 const path = require("path");
+const postcssPresetEnv = require("postcss-preset-env");
 
 module.exports = {
   entry: {
@@ -41,6 +42,35 @@ module.exports = {
             loader: "svgo-loader",
             options: {
               externalConfig: "svgo.yml"
+            }
+          }
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          {
+            loader: "css-loader",
+            options: { importLoaders: 1 }
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              ident: "postcss",
+              plugins: () => [postcssPresetEnv()]
+            }
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              includePaths: [
+                "node_modules/bootstrap/scss",
+                "node_modules/font-awesome/scss"
+              ],
+              precision: 8
             }
           }
         ]
