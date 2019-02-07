@@ -80,11 +80,11 @@
   }
 
   @include media-breakpoint-down(md) {
-    flex: 0 0 40%;
+    flex: 0 0 80%;
 
     & + & {
       // add a margin between items when laid out horizontally
-      margin-left: $base-spacing;
+      margin-left: $base-spacing / 2;
     }
   }
 }
