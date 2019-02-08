@@ -9,13 +9,13 @@ defmodule Routes.RepoTest do
 
     test "parses the data into Route structs" do
       assert Repo.all() |> List.first() == %Route{
-               id: "CR-Fairmount",
-               type: 2,
-               name: "Fairmount Line",
-               long_name: "Fairmount Line",
-               direction_names: %{0 => "Outbound", 1 => "Inbound"},
-               direction_destinations: %{0 => "Fairmount", 1 => "South Station"},
-               description: :commuter_rail
+               id: "Red",
+               type: 1,
+               name: "Red Line",
+               long_name: "Red Line",
+               direction_names: %{0 => "South", 1 => "North"},
+               direction_destinations: %{0 => "Ashmont/Braintree", 1 => "Alewife"},
+               description: :rapid_transit
              }
     end
 
