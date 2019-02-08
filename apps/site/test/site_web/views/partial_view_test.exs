@@ -3,10 +3,11 @@ defmodule SiteWeb.PartialViewTest do
 
   import SiteWeb.PartialView
   import SiteWeb.PartialView.{HeaderTabs, SvgIconWithCircle}
+  import Phoenix.HTML, only: [safe_to_string: 1]
+
   alias SiteWeb.PartialView
   alias SiteWeb.PartialView.{HeaderTab, HeaderTabBadge, SvgIconWithCircle}
   alias Content.{NewsEntry, Repo, Teaser}
-  import Phoenix.HTML, only: [safe_to_string: 1]
 
   describe "stop_selector_suffix/2" do
     test "returns zones for commuter rail", %{conn: conn} do
@@ -192,6 +193,19 @@ defmodule SiteWeb.PartialViewTest do
       assert rendered =~ "Nov"
       assert rendered =~ "30"
       assert rendered =~ ~s(href="/url")
+    end
+  end
+
+  describe "paragraph/2" do
+    test "renders a CMS partial (paragraph) directly from API", %{conn: conn} do
+      rendered =
+        30
+        |> PartialView.paragraph(conn)
+        |> safe_to_string()
+
+      assert rendered =~ "<p>library item"
+      assert rendered =~ "c-paragraph--custom-html"
+      refute rendered =~ "c-paragraph--library-item"
     end
   end
 

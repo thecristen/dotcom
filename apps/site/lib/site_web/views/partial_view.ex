@@ -1,9 +1,11 @@
 defmodule SiteWeb.PartialView do
   use SiteWeb, :view
-  alias Content.{NewsEntry, Teaser}
+
+  alias Content.{NewsEntry, Repo, Teaser}
   alias Plug.Conn
   alias SiteWeb.PartialView.SvgIconWithCircle
-  import SiteWeb.ContentView, only: [file_description: 1]
+
+  import SiteWeb.ContentView, only: [file_description: 1, render_paragraph: 2]
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 
@@ -198,6 +200,13 @@ defmodule SiteWeb.PartialView do
       ],
       " "
     )
+  end
+
+  @spec paragraph(integer(), Conn.t()) :: Phoenix.HTML.Safe.t()
+  def paragraph(id, %Conn{} = conn) do
+    id
+    |> Repo.get_paragraph()
+    |> render_paragraph(conn)
   end
 
   @doc """

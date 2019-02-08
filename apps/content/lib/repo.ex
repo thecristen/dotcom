@@ -10,6 +10,8 @@ defmodule Content.Repo do
 
   use RepoCache, ttl: :timer.minutes(1)
 
+  alias Content.Paragraph
+
   @cms_api Application.get_env(:content, :cms_api)
 
   @spec get_page(String.t(), map) :: Content.Page.t() | {:error, Content.CMS.error()}
@@ -300,5 +302,13 @@ defmodule Content.Repo do
       |> Logger.warn()
 
     []
+  end
+
+  @spec get_paragraph(integer()) :: Paragraph.t() | []
+  def get_paragraph(id) do
+    case @cms_api.view("/admin/content/paragraphs/#{id}", []) do
+      {:ok, api_data} -> Paragraph.from_api(api_data)
+      _ -> []
+    end
   end
 end

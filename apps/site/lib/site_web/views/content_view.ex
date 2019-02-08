@@ -11,16 +11,14 @@ defmodule SiteWeb.ContentView do
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 
   @doc "Map paragraph module names to their templates"
-  for module <- Paragraph.get_types() do
+  for type <- Paragraph.get_types() do
     template_name =
-      module
-      |> Module.split()
-      |> List.last()
-      |> Macro.underscore()
+      type
+      |> struct_name_to_string()
       |> String.replace_prefix("", "_")
       |> String.replace_suffix("", ".html")
 
-    def get_template(%{__struct__: unquote(module)}), do: unquote(template_name)
+    def get_template(%{__struct__: unquote(type)}), do: unquote(template_name)
   end
 
   @doc "Universal wrapper around all paragraph types"
@@ -30,12 +28,15 @@ defmodule SiteWeb.ContentView do
       "_paragraph.html",
       paragraph: paragraph,
       paragraph_classes: paragraph_classes(paragraph),
-      paragraph_type: struct_to_class(paragraph),
+      paragraph_type: paragraph |> struct_name_to_string() |> String.replace("_", "-"),
       conn: conn
     )
   end
 
-  @doc "Intelligently choose and render paragraph template based on type"
+  @doc """
+  Intelligently choose and render paragraph template based on type, except
+  for certain types which either have no template or require special values.
+  """
   @spec render_content(Paragraph.t(), Plug.Conn.t()) :: Phoenix.HTML.safe()
   def render_content(paragraph, conn)
 

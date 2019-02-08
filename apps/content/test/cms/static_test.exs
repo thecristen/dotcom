@@ -52,6 +52,12 @@ defmodule Content.CMS.StaticTest do
         assert Map.fetch(news_entry, "type") == {:ok, "news_entry"}
       end
     end
+
+    test "/admin/content/paragraphs/30" do
+      assert {:ok, library_paragraph_item} = view("/admin/content/paragraphs/30", %{})
+      assert %{"id" => [%{"value" => 30}]}
+      assert %{"paragraphs" => [_]} = library_paragraph_item
+    end
   end
 
   describe "redirect/3" do

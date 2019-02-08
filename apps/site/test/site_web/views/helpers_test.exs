@@ -229,6 +229,16 @@ defmodule SiteWeb.ViewHelpersTest do
     end
   end
 
+  describe "struct_name_to_string/1" do
+    test "turns a module name atom into an underscored string" do
+      assert struct_name_to_string(Content.Paragraph.CustomHTML) == "custom_html"
+    end
+
+    test "turns a module struct into an underscored string" do
+      assert struct_name_to_string(%Content.Paragraph.CustomHTML{}) == "custom_html"
+    end
+  end
+
   describe "fa/2" do
     test "creates the HTML for a FontAwesome icon" do
       expected = ~s(<i aria-hidden="true" class="notranslate fa fa-arrow-right "></i>)

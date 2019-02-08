@@ -35,20 +35,6 @@ defmodule Content.Paragraph do
     UpcomingBoardMeetings
   }
 
-  @type t ::
-          Accordion.t()
-          | Callout.t()
-          | ColumnMulti.t()
-          | CustomHTML.t()
-          | DescriptionList.t()
-          | DescriptiveLink.t()
-          | FareCard.t()
-          | FilesGrid.t()
-          | PeopleGrid.t()
-          | TitleCardSet.t()
-          | Unknown.t()
-          | UpcomingBoardMeetings.t()
-
   @types [
     Accordion,
     Callout,
@@ -63,6 +49,34 @@ defmodule Content.Paragraph do
     Unknown,
     UpcomingBoardMeetings
   ]
+
+  @type t ::
+          Accordion.t()
+          | Callout.t()
+          | ColumnMulti.t()
+          | CustomHTML.t()
+          | DescriptionList.t()
+          | DescriptiveLink.t()
+          | FareCard.t()
+          | FilesGrid.t()
+          | PeopleGrid.t()
+          | TitleCardSet.t()
+          | Unknown.t()
+          | UpcomingBoardMeetings.t()
+
+  @type name ::
+          Accordion
+          | Callout
+          | ColumnMulti
+          | CustomHTML
+          | DescriptionList
+          | DescriptiveLink
+          | FareCard
+          | FilesGrid
+          | PeopleGrid
+          | TitleCardSet
+          | Unknown
+          | UpcomingBoardMeetings
 
   @spec from_api(map) :: t
   def from_api(%{"type" => [%{"target_id" => "entity_reference"}]} = para) do
@@ -83,6 +97,16 @@ defmodule Content.Paragraph do
 
   def from_api(%{"type" => [%{"target_id" => "files_grid"}]} = para) do
     FilesGrid.from_api(para)
+  end
+
+  @doc "This ¶ type has a single paragraph reference within. Get the nested paragraph."
+  def from_api(%{"type" => [%{"target_id" => "from_library"}]} = para) do
+    parse_library_item(para)
+  end
+
+  @doc "For directly accessing a reusable paragraph (from paragraphs API endpoint)"
+  def from_api(%{"paragraphs" => [para]}) do
+    from_api(para)
   end
 
   def from_api(%{"type" => [%{"target_id" => "multi_column"}]} = para) do
@@ -113,8 +137,6 @@ defmodule Content.Paragraph do
     Unknown.from_api(unknown_paragraph_type)
   end
 
-  def get_types, do: @types
-
   @spec right_rail?(t) :: boolean
   def right_rail?(%{right_rail: true}), do: true
   def right_rail?(_), do: false
@@ -123,4 +145,17 @@ defmodule Content.Paragraph do
   def full_bleed?(%Callout{}), do: true
   def full_bleed?(%{right_rail: true}), do: true
   def full_bleed?(_), do: false
+
+  @spec get_types() :: [name]
+  def get_types, do: @types
+
+  @spec parse_library_item(map) :: t
+  defp parse_library_item(data) do
+    data
+    |> Map.get("field_reusable_paragraph", [])
+    |> List.first()
+    |> Map.get("paragraphs", [])
+    |> List.first()
+    |> from_api()
+  end
 end

@@ -102,6 +102,12 @@ defmodule Content.CMS.Static do
     parse_json("redirect_with_query%3Fid%3D5.json")
   end
 
+  # Partials (paragraph library) response
+
+  def paragraph_response do
+    parse_json("_paragraph.json")
+  end
+
   @impl true
   def view(path, params)
 
@@ -378,6 +384,10 @@ defmodule Content.CMS.Static do
       :error ->
         {:ok, filtered}
     end
+  end
+
+  def view("/admin/content/paragraphs/" <> _paragraph_id, _) do
+    {:ok, paragraph_response()}
   end
 
   def view("/redirected-url", params) do

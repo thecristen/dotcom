@@ -443,14 +443,19 @@ defmodule SiteWeb.ViewHelpers do
     |> IO.iodata_to_binary()
   end
 
-  @doc "Turns an Elixir.Module.Name into an CSS-friendly string "
-  @spec struct_to_class(struct(), String.t()) :: String.t()
-  def struct_to_class(%{__struct__: struct}, glue \\ "-") do
+  @doc "Turns a struct OR an Elixir.Module.Name into an underscored string"
+  @spec struct_name_to_string(atom() | struct()) :: String.t()
+  def struct_name_to_string(struct_name) when is_atom(struct_name) do
+    struct_name
+    |> struct()
+    |> struct_name_to_string()
+  end
+
+  def struct_name_to_string(%{__struct__: struct}) do
     struct
     |> Module.split()
     |> List.last()
     |> Macro.underscore()
-    |> String.replace("_", glue)
   end
 
   @spec fare_from_token(String.t()) :: Fares.Fare.t() | Fares.Summary.t()

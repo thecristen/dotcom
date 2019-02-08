@@ -2,7 +2,8 @@ defmodule Content.RepoTest do
   use ExUnit.Case, async: true
 
   import Phoenix.HTML, only: [safe_to_string: 1]
-  alias Content.Repo
+
+  alias Content.{Paragraph, Repo}
 
   describe "recent_news" do
     test "returns list of Content.NewsEntry" do
@@ -334,6 +335,13 @@ defmodule Content.RepoTest do
         end)
 
       assert log =~ "error=:not_found"
+    end
+  end
+
+  describe "get_paragraph/1" do
+    test "returns a single paragraph item" do
+      paragraph = Repo.get_paragraph(30)
+      assert %Paragraph.CustomHTML{} = paragraph
     end
   end
 end

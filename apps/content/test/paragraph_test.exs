@@ -252,6 +252,13 @@ defmodule Content.ParagraphTest do
              } = from_api(api_data)
     end
 
+    test "parses a reusable paragraph" do
+      api_data = api_paragraph("from_library")
+
+      assert %CustomHTML{body: body} = from_api(api_data)
+      assert safe_to_string(body) =~ "<p>library item</p>"
+    end
+
     test "parses an unknown paragraph type" do
       api_data = %{
         "type" => [%{"target_id" => "unsupported_paragraph_type"}]
