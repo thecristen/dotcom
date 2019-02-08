@@ -32,6 +32,40 @@ defmodule Site.VehicleHelpersTest do
   @tooltip_base @tooltips["place-sstat"]
 
   describe "build_tooltip_index/3" do
+    test "translate child stop to parent stop" do
+      locations = %{
+        {"CR-Weekday-Fall-18-515", "South Station-02"} => %Vehicles.Vehicle{
+          latitude: 1.1,
+          longitude: 2.2,
+          status: :stopped,
+          stop_id: "South Station-02",
+          trip_id: "CR-Weekday-Fall-18-515",
+          shape_id: "903_0018"
+        }
+      }
+
+      assert @route
+             |> build_tooltip_index(locations, @predictions)
+             |> Map.has_key?("place-sstat")
+    end
+
+    test "translate parent stop to itself" do
+      locations = %{
+        {"CR-Weekday-Fall-18-330", "Lowell"} => %Vehicles.Vehicle{
+          latitude: 1.1,
+          longitude: 2.2,
+          status: :stopped,
+          stop_id: "Lowell",
+          trip_id: "CR-Weekday-Fall-18-330",
+          shape_id: "903_0018"
+        }
+      }
+
+      assert @route
+             |> build_tooltip_index(locations, @predictions)
+             |> Map.has_key?("Lowell")
+    end
+
     test "verify the Vehicle tooltip data" do
       assert length(Map.keys(@tooltips)) == 2
       assert Map.has_key?(@tooltips, {"CR-Weekday-Fall-18-515", "place-sstat"})

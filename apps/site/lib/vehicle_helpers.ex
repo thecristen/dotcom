@@ -32,22 +32,25 @@ defmodule VehicleHelpers do
     vehicle_locations
     |> Stream.reject(fn {{_trip_id, stop_id}, _status} -> is_nil(stop_id) end)
     |> Enum.reduce(%{}, fn vehicle_location, output ->
-      {{trip_id, stop_id}, vehicle_status} = vehicle_location
+      {{trip_id, child_stop_id}, vehicle_status} = vehicle_location
 
       {prediction, trip} =
         if trip_id do
           {
-            prediction_for_stop(indexed_predictions, trip_id, stop_id),
+            prediction_for_stop(indexed_predictions, trip_id, child_stop_id),
             Schedules.Repo.trip(trip_id)
           }
         else
           {nil, nil}
         end
 
+      parent_stop = Stops.Repo.get(child_stop_id)
+      stop_id = stop_id(parent_stop, child_stop_id)
+
       tooltip = %VehicleTooltip{
         vehicle: vehicle_status,
         prediction: prediction,
-        stop_name: stop_name(Stops.Repo.get(stop_id)),
+        stop_name: stop_name(parent_stop),
         trip: trip,
         route: route
       }
@@ -76,6 +79,10 @@ defmodule VehicleHelpers do
   @spec stop_name(Stops.Stop.t() | nil) :: String.t()
   defp stop_name(nil), do: ""
   defp stop_name(stop), do: stop.name
+
+  @spec stop_id(Stops.Stop.t() | nil, String.t()) :: String.t()
+  defp stop_id(nil, child_stop_id), do: child_stop_id
+  defp stop_id(stop, _), do: stop.id
 
   @doc """
   Get polylines for vehicles that didn't already have their shape included when the route polylines were requested
