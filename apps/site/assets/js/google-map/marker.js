@@ -73,13 +73,12 @@ export default class Marker {
       data.latitude,
       data.longitude
     );
+    this.latLng = newPosition;
 
     if (this.marker) {
       this.buildIcon();
       this.marker.setIcon(this.icon);
       this.slowMove(newPosition);
-    } else {
-      this.latLng = newPosition;
     }
   }
 
