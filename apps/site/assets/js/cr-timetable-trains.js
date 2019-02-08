@@ -11,6 +11,10 @@ const vehicleStopSequenceDataId = "js-cr-vehicle-prior-stops-data";
 
 export class CRTimetableTrains {
   constructor(dataEl) {
+    // Don't render trains on days that are not today
+    if (window.location.search.includes("date")) {
+      return;
+    }
     this.data = {};
     try {
       this.getData();
