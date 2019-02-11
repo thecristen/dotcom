@@ -26,7 +26,7 @@ defmodule Vehicles.RepoTest do
         pubsub_fn: &pubsub_fn/2
       )
 
-    send(name, {:reset, @vehicles})
+    :ok = Repo.sync_send(name, {:reset, @vehicles})
     {:ok, name: name}
   end
 
@@ -90,14 +90,14 @@ defmodule Vehicles.RepoTest do
 
   describe "stream events" do
     test "adds vehicles to repo", %{name: name} do
-      send(name, {:add, [%Vehicle{id: "CR-Middleborough"}]})
+      Repo.sync_send(name, {:add, [%Vehicle{id: "CR-Middleborough"}]})
       all = Repo.all(name: name)
       assert %Vehicle{} = Enum.find(all, &(&1.id == "CR-Middleborough"))
     end
 
     test "updates vehicles in repo", %{name: name} do
       old = Enum.find(@vehicles, &(&1.id == "86-0"))
-      send(name, {:update, [%Vehicle{id: "86-0"}]})
+      Repo.sync_send(name, {:update, [%Vehicle{id: "86-0"}]})
 
       updated =
         [name: name]
@@ -110,7 +110,7 @@ defmodule Vehicles.RepoTest do
 
     test "removes vehicles from repo", %{name: name} do
       assert %Vehicle{} = [name: name] |> Repo.all() |> Enum.find(&(&1.id == "86-0"))
-      send(name, {:remove, ["86-0"]})
+      Repo.sync_send(name, {:remove, ["86-0"]})
       assert [name: name] |> Repo.all() |> Enum.find(&(&1.id == "86-0")) == nil
     end
   end

@@ -1,25 +1,58 @@
 defmodule Vehicles.Repo do
+  @moduledoc """
+  Repository for Vehicles. Vehicles are updated via server-sent events in Vehicles.Stream.
+  This module listens to that stream and updates the local cache (ETS table) when things change,
+  and also has public functions for retrieving vehicles from the cache.
+  """
+
   use GenServer
   alias Vehicles.Vehicle
 
   @spec route(String.t(), Keyword.t()) :: [Vehicle.t()]
   def route(route_id, opts \\ []) do
-    {cache, opts} = Keyword.pop(opts, :name, __MODULE__)
-    GenServer.call(cache, {:route, route_id, opts})
+    direction_id =
+      case Keyword.fetch(opts, :direction_id) do
+        {:ok, dir} -> dir
+        :error -> :_
+      end
+
+    opts
+    |> Keyword.get(:name, __MODULE__)
+    |> :ets.select([{{:_, route_id, direction_id, :_, :"$1"}, [], [:"$1"]}])
   end
 
   @spec trip(String.t()) :: Vehicle.t() | nil
   def trip(trip_id, opts \\ []) do
     opts
     |> Keyword.get(:name, __MODULE__)
-    |> GenServer.call({:trip_id, trip_id})
+    |> :ets.select([{{:_, :_, :_, trip_id, :"$1"}, [], [:"$1"]}])
+    |> case do
+      [%Vehicle{} = vehicle] ->
+        vehicle
+
+      [] ->
+        nil
+
+      [%Vehicle{} | _] = vehicles ->
+        # Trips can sometimes get "overloaded" with vehicles, i.e. when running extra service.
+        # For simplicity's sake, our repo always returns a single vehicle for a trip.
+        # We sort by vehicle id to ensure that all servers will return the same vehicle.
+        # See https://github.com/mbta/dotcom/pull/2753 for further details.
+        [vehicle | _] = Enum.sort_by(vehicles, fn %{id: id} -> id end)
+        vehicle
+    end
   end
 
   @spec all(keyword(String.t())) :: [Vehicle.t()]
   def all(opts \\ []) do
     opts
     |> Keyword.get(:name, __MODULE__)
-    |> GenServer.call(:all)
+    |> :ets.select([{{:_, :_, :_, :_, :"$1"}, [], [:"$1"]}])
+  end
+
+  def sync_send(genserver, {event, data}) do
+    # used by tests to send events to the cache
+    GenServer.call(genserver, {event, data})
   end
 
   #
@@ -33,62 +66,21 @@ defmodule Vehicles.Repo do
 
   @impl GenServer
   def init(opts) do
-    ets_name =
+    ets =
       opts
       |> Keyword.fetch!(:name)
-      |> Module.concat(ETS)
-
-    ets = :ets.new(ets_name, [])
+      |> :ets.new([:named_table, :protected])
 
     pubsub_fn = Keyword.get(opts, :pubsub_fn, &Phoenix.PubSub.subscribe/2)
     _ = pubsub_fn.(Vehicles.PubSub, "vehicles")
+
     {:ok, %{ets: ets}}
   end
 
   @impl GenServer
-  def handle_call(:all, _from, %{ets: ets} = state) do
-    vehicles =
-      ets
-      |> :ets.tab2list()
-      |> Enum.map(fn {_id, _route, _dir, _trip, %Vehicle{} = v} -> v end)
-
-    {:reply, vehicles, state}
-  end
-
-  def handle_call({:trip_id, trip_id}, _from, state) do
-    vehicle =
-      case :ets.match(state.ets, {:_, :_, :_, trip_id, :"$1"}) do
-        [[vehicle]] ->
-          vehicle
-
-        [] ->
-          nil
-
-        vehicles ->
-          # Trips can sometimes get "overloaded" with vehicles, i.e. when running extra service.
-          # For simplicity's sake, our repo always returns a single vehicle for a trip.
-          # We sort by vehicle id to ensure that all servers will return the same vehicle.
-          # See https://github.com/mbta/dotcom/pull/2753 for further details.
-          [[vehicle] | _] = Enum.sort_by(vehicles, fn [%{id: id}] -> id end)
-          vehicle
-      end
-
-    {:reply, vehicle, state}
-  end
-
-  def handle_call({:route, route_id, opts}, _from, state) do
-    direction_id =
-      case Keyword.fetch(opts, :direction_id) do
-        {:ok, dir} -> dir
-        :error -> :_
-      end
-
-    vehicles =
-      state.ets
-      |> :ets.match({:_, route_id, direction_id, :_, :"$1"})
-      |> List.flatten()
-
-    {:reply, vehicles, state}
+  def handle_call({event, data}, _from, state) do
+    {:noreply, state} = handle_info({event, data}, state)
+    {:reply, :ok, state}
   end
 
   @impl GenServer
