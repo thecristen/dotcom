@@ -6,11 +6,25 @@ import { iconStation, iconStop } from "../../../js/google-map/icons";
 interface Props {
   data: Array<Route>;
   markers: SVGMarkers;
+  getOffset(): number;
 }
 
-class RoutesSidebar extends React.Component<Props> {
+interface State {
+  offset: number;
+}
+
+class RoutesSidebar extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.onResize = this.onResize.bind(this);
+    this.state = {
+      offset: 0
+    };
+  }
+
   public static defaultProps: Props = {
     data: [],
+    getOffset: () => 0,
     markers: {
       stopMarker: iconStop(),
       stationMarker: iconStation()
@@ -27,10 +41,25 @@ class RoutesSidebar extends React.Component<Props> {
   public render(): ReactElement<any> | null {
     const { data, markers } = this.props;
     return data.length ? (
-      <div className="m-tnm-sidebar">
+      <div className="m-tnm-sidebar" style={{ left: `${this.state.offset}px` }}>
         {data.map(route => this.renderRouteCard(route, markers))}
       </div>
     ) : null;
+  }
+
+  componentDidMount() {
+    window.addEventListener("resize", this.onResize);
+    this.onResize();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.onResize);
+  }
+
+  onResize() {
+    this.setState({
+      offset: this.props.getOffset()
+    });
   }
 }
 

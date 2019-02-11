@@ -3,6 +3,11 @@
 exports[`it renders 1`] = `
 <div
   className="m-tnm-sidebar"
+  style={
+    Object {
+      "left": "0px",
+    }
+  }
 >
   <div
     className="m-tnm-sidebar__route"

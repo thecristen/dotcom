@@ -1,28 +1,77 @@
+$map-height: $base-spacing * 30;
+
+.transitnearmeview {
+  @include media-breakpoint-down(sm) {
+    padding-bottom: 0;
+  }
+}
+
 .m-transit-near-me__input {
   @include media-breakpoint-up(md) {
     width: 60%;
   }
 }
 
-.m-tnm__map {
-  height: 30 * $base-spacing;
+.m-tnm {
   margin-top: 1.5 * $base-spacing;
   position: relative;
+
+  @include media-breakpoint-only(md) {
+    display: flex;
+  }
+}
+
+.m-tnm__map {
+  height: $map-height;
+
+  @include media-breakpoint-only(md) {
+    flex: 1 1 auto;
+    order: 2;
+  }
+
+  @include media-breakpoint-down(sm) {
+    box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
+  }
 }
 
 .m-tnm-sidebar {
   background-color: $gray-lightest;
-  height: 30 * $base-spacing;
-  left: 5 * $base-spacing;
-  overflow: scroll;
-  padding: $base-spacing / 2;
-  position: absolute;
-  top: 0;
-  width: 21 * $base-spacing;
+  padding-bottom: $base-spacing * 2;
+  padding-top: $base-spacing * 2;
+
+  @include media-breakpoint-down(xs) {
+    padding-left: $base-spacing;
+    padding-right: $base-spacing;
+  }
+
+  @include media-breakpoint-up(md) {
+    // left is set by RoutesSidebar react component
+    height: $map-height;
+    overflow: scroll;
+    padding: $base-spacing / 2;
+    width: 21 * $base-spacing;
+  }
+
+  @include media-breakpoint-up(lg) {
+    position: absolute;
+    top: 0;
+  }
+
+  @include media-breakpoint-only(md) {
+    flex: 1 1 auto;
+    order: 1;
+    width: 30 * $base-spacing;
+  }
 }
 
 .m-tnm-sidebar__route {
   background-color: $white;
+
+  @include media-breakpoint-only(sm) {
+    @include make-col-span(8);
+    margin-left: auto;
+    margin-right: auto;
+  }
 
   & + & {
     margin-top: $base-spacing / 2;

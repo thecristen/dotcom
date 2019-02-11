@@ -38,6 +38,18 @@ export const onError = (error: PositionError): void => {
   }
 };
 
+const getSidebarOffset = (): number => {
+  const containerEl = document
+    .getElementsByClassName("container")
+    .item(0) as HTMLElement;
+
+  if (containerEl) {
+    return containerEl.offsetLeft;
+  }
+
+  return 0;
+};
+
 const render = (): void => {
   const dataEl = document.getElementById("js-tnm-map-dynamic-data");
   const sidebarDataEl = document.getElementById("js-tnm-sidebar-data");
@@ -46,10 +58,10 @@ const render = (): void => {
   const initialData = JSON.parse(dataEl.innerHTML);
   const sidebarData = JSON.parse(sidebarDataEl.innerHTML);
   ReactDOM.render(
-    <div className="m-tnm__map">
-      <div id={id} />
+    <div className="m-tnm">
+      <div id={id} className="m-tnm__map" />
       <TransitNearMeMap mapElementId={id} initialData={initialData} />
-      <RoutesSidebar data={sidebarData} />
+      <RoutesSidebar data={sidebarData} getOffset={getSidebarOffset} />
     </div>,
     document.getElementById("react-root")
   );

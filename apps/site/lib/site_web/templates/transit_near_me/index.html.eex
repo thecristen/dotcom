@@ -3,13 +3,16 @@
   <p>View stations and stops near your location and preview information on schedules, alerts, fares, and other station details.</p>
 
   <%= render "_input.html", location: @location, conn: @conn %>
+</div>
 
-  <div class="m-tnm">
-    <script data-for="tnm-map" id="js-tnm-map-dynamic-data" type="text/plain"><%= raw Poison.encode!(@map_data) %></script>
-    <script id="js-tnm-sidebar-data" type="text/plain"><%= raw @json %></script>
-    <div id="react-root"></div>
-  </div>
-  <%= SiteWeb.TransitNearMeV1View.render "_results.html", class: "c-location-cards--background-gray", stops_with_routes: @stops_with_routes, conn: @conn %>
+<script data-for="tnm-map" id="js-tnm-map-dynamic-data" type="text/plain"><%= raw Poison.encode!(@map_data) %></script>
+<script id="js-tnm-sidebar-data" type="text/plain"><%= raw @json %></script>
+<div id="react-root"></div>
+
+<div class="container">
+  <noscript>
+    <%= SiteWeb.TransitNearMeV1View.render "_results.html", class: "c-location-cards--background-gray", stops_with_routes: @stops_with_routes, conn: @conn %>
+  </noscript>
 </div>
 
 <%= if Application.get_env(:site, :dev_server?) do %>
