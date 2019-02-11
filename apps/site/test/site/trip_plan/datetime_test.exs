@@ -40,7 +40,29 @@ defmodule Site.TripPlan.DateTimeTest do
       assert dt.hour == 18
     end
 
-    test "adds :past date to errors if date is in the past" do
+    test "sets time to %DateTime{} if date is valid and within the past hour" do
+      fifty_minutes_ago = %{
+        "year" => "2018",
+        "month" => "8",
+        "day" => "13",
+        "hour" => "11",
+        "minute" => "10",
+        "am_pm" => "AM"
+      }
+
+      params = %{"date_time" => fifty_minutes_ago, "time" => "depart"}
+      query = Site.TripPlan.DateTime.validate(%Query{}, params, @opts)
+
+      assert %Query{} = query
+      assert query.errors == MapSet.new()
+      assert {:depart_at, %DateTime{} = dt} = query.time
+      assert dt.month == 8
+      assert dt.day == 13
+      assert dt.hour == 11
+      assert dt.minute == 10
+    end
+
+    test "adds :past date to errors if date is in the past by more than an hour" do
       params = %{"date_time" => Map.put(@date, "day", "1"), "time" => "depart"}
       query = Site.TripPlan.DateTime.validate(%Query{}, params, @opts)
       assert %Query{} = query

@@ -105,7 +105,8 @@ defmodule Site.TripPlan.DateTime do
   @spec do_future_date_or_error(DateTime.t(), DateTime.t()) ::
           DateTime.t() | {:error, {:past, DateTime.t()}}
   defp do_future_date_or_error(%DateTime{} = input, %DateTime{} = now) do
-    if Timex.before?(input, now) do
+    # input within the past hour is considered "now"
+    if Timex.before?(input, Timex.shift(now, hours: -1)) do
       {:error, {:past, input}}
     else
       input
