@@ -20,15 +20,18 @@
           <% end %>
         </div>
 
-        <div class="page-section project-summary">
-          <h2>About the Project</h2>
-          <div>
-            <strong>Timeline:</strong> <%= @project.start_year %><%= if @project.end_year, do: "-#{@project.end_year}" %>
+        <h2>About the Project</h2>
+
+        <%= if @project.start_year || @project.status do %>
+          <div class="page-section project-summary">
+            <%= if @project.start_year do %>
+              <div><strong>Timeline:</strong> <%= @project.start_year %><%= if @project.end_year, do: " – #{@project.end_year}" %></div>
+            <% end %>
+            <%= if @project.status do %>
+              <div><strong>Status:</strong> <%= @project.status %></div>
+            <% end %>
           </div>
-          <div>
-            <strong>Status:</strong> <%= @project.status %>
-          </div>
-        </div>
+        <% end %>
 
         <div class="page-section project-body">
           <%= Site.ContentRewriter.rewrite(@project.body, @conn) %>
