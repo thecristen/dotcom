@@ -41,6 +41,33 @@ defmodule Content.RepoTest do
   end
 
   describe "get_page/1" do
+    test "caches views" do
+      path = "/news/2018/news-entry"
+      params = %{}
+      cache_key = {:view_or_preview, path: path, params: params}
+
+      # ensure cache is empty
+      case ConCache.get(Repo, cache_key) do
+        nil ->
+          :ok
+
+        {:ok, %{"type" => [%{"target_id" => "news_entry"}]}} ->
+          ConCache.dirty_delete(Repo, cache_key)
+      end
+
+      assert %Content.NewsEntry{} = Repo.get_page(path, params)
+      assert {:ok, %{"type" => [%{"target_id" => "news_entry"}]}} = ConCache.get(Repo, cache_key)
+    end
+
+    test "does not cache previews" do
+      path = "/basic_page_no_sidebar"
+      params = %{"preview" => "", "vid" => "112", "nid" => "6"}
+      cache_key = {:view_or_preview, path: path, params: params}
+      assert ConCache.get(Repo, cache_key) == nil
+      assert %Content.BasicPage{} = Repo.get_page(path, params)
+      assert ConCache.get(Repo, cache_key) == nil
+    end
+
     test "given the path for a Basic page" do
       result = Repo.get_page("/basic_page_with_sidebar")
       assert %Content.BasicPage{} = result

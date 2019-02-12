@@ -221,7 +221,7 @@ defmodule Content.Repo do
   end
 
   defp view_or_preview(path, params) do
-    @cms_api.view(path, params)
+    cache([path: path, params: params], fn _ -> @cms_api.view(path, params) end)
   end
 
   @spec handle_revision({:error, any} | {:ok, [map]}) :: {:error, String.t()} | {:ok, map}
