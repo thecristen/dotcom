@@ -1,7 +1,7 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from "react";
 import { StopCard, stopIsEmpty } from "./StopCard";
-import { Route, SVGMarkers } from "./__tnm";
+import { Route, Stop, SVGMarkers } from "./__tnm";
 
 interface Props {
   route: Route;
@@ -9,6 +9,13 @@ interface Props {
 }
 
 const routeIsEmpty = (route: Route): boolean => route.stops.every(stopIsEmpty);
+
+const filterStops = (route: Route): Stop[] => {
+  // show the closest two stops for bus, in order to display both inbound and outbound stops
+
+  const count = route.type === 3 ? 2 : 1;
+  return route.stops.slice(0, count);
+};
 
 const RouteCard = ({ route, markers }: Props) => {
   const bgClass = `u-bg--${routeBgColor(route)}`;
@@ -22,7 +29,7 @@ const RouteCard = ({ route, markers }: Props) => {
       <div className={`h3 m-tnm-sidebar__route-name ${bgClass}`}>
         <span className={busClass(route)}>{route.name}</span>
       </div>
-      {route.stops.map(stop => (
+      {filterStops(route).map(stop => (
         <StopCard key={stop.id} stop={stop} route={route} markers={markers} />
       ))}
     </div>

@@ -68,14 +68,6 @@ defmodule Site.TransitNearMeTest do
 
       [%{id: closest_stop} | _] = data.stops
 
-      for route <- routes do
-        if route.type == 3 do
-          assert Enum.count(route.stops) in [1, 2]
-        else
-          assert Enum.count(route.stops) == 1
-        end
-      end
-
       assert [route | _] = routes
 
       assert [:stops | %Route{} |> Map.from_struct() |> Map.keys()] |> Enum.sort() ==

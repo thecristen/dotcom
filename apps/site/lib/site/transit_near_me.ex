@@ -188,25 +188,18 @@ defmodule Site.TransitNearMe do
       Map.new(map, fn {key, val} -> {Integer.to_string(key), val} end)
     end)
     |> Map.update!(:name, fn name -> ViewHelpers.break_text_at_slash(name) end)
-    |> Map.put(:stops, get_stops_for_route(schedules, location, distances, route))
+    |> Map.put(:stops, get_stops_for_route(schedules, location, distances))
   end
 
-  @spec get_stops_for_route([Schedule.t()], Address.t(), distance_hash, Route.t()) :: [stop_data]
-  defp get_stops_for_route(schedules, location, distances, route) do
+  @spec get_stops_for_route([Schedule.t()], Address.t(), distance_hash) :: [stop_data]
+  defp get_stops_for_route(schedules, location, distances) do
     schedules
     |> Enum.group_by(& &1.stop.id)
     |> Task.async_stream(&get_directions_for_stop(&1, location), on_timeout: :kill_task)
     |> Enum.reduce_while({:ok, []}, &collect_data/2)
     |> sort_data()
     |> Enum.sort_by(&Map.fetch!(distances, &1.id))
-    |> Enum.take(stop_count(route))
   end
-
-  # show the closest two stops for bus, in order to
-  # display both inbound and outbound stops
-  @spec stop_count(Route.t()) :: integer
-  defp stop_count(%Route{type: 3}), do: 2
-  defp stop_count(_), do: 1
 
   @spec get_directions_for_stop({Stop.id_t(), [Schedule.t()]}, Address.t()) :: stop_data
   defp get_directions_for_stop({_stop_id, schedules}, location) do
