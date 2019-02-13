@@ -9,6 +9,19 @@ defmodule Fares.FareInfoTest do
       refute actual == []
       assert Enum.all?(actual, &match?(%Fare{}, &1))
     end
+
+    test "no duplicate fares are present" do
+      results = fare_info()
+      unique = Enum.uniq(results)
+      assert Enum.count(results) == Enum.count(unique)
+    end
+
+    test "reduced fares for senior and student media have been broken out" do
+      results = fare_info()
+      assert Enum.any?(results, &match?(%Fare{reduced: :senior_disabled}, &1))
+      assert Enum.any?(results, &match?(%Fare{reduced: :student}, &1))
+      assert Enum.any?(results, &match?(%Fare{reduced: :any}, &1))
+    end
   end
 
   describe "mapper/1" do
@@ -26,16 +39,8 @@ defmodule Fares.FareInfoTest do
                  name: {:zone, "1A"},
                  mode: :commuter_rail,
                  duration: :single_trip,
-                 media: [:student_card],
-                 reduced: :student,
-                 cents: 110
-               },
-               %Fare{
-                 name: {:zone, "1A"},
-                 mode: :commuter_rail,
-                 duration: :single_trip,
-                 media: [:senior_card],
-                 reduced: :senior_disabled,
+                 media: [:senior_card, :student_card],
+                 reduced: :any,
                  cents: 110
                },
                %Fare{
@@ -50,16 +55,8 @@ defmodule Fares.FareInfoTest do
                  name: {:zone, "1A"},
                  mode: :commuter_rail,
                  duration: :round_trip,
-                 media: [:student_card],
-                 reduced: :student,
-                 cents: 220
-               },
-               %Fare{
-                 name: {:zone, "1A"},
-                 mode: :commuter_rail,
-                 duration: :round_trip,
-                 media: [:senior_card],
-                 reduced: :senior_disabled,
+                 media: [:senior_card, :student_card],
+                 reduced: :any,
                  cents: 220
                },
                %Fare{
@@ -97,19 +94,10 @@ defmodule Fares.FareInfoTest do
                  additional_valid_modes: [],
                  cents: 225,
                  duration: :single_trip,
-                 media: [:student_card],
+                 media: [:senior_card, :student_card],
                  mode: :commuter_rail,
                  name: {:interzone, "5"},
-                 reduced: :student
-               },
-               %Fares.Fare{
-                 additional_valid_modes: [],
-                 cents: 225,
-                 duration: :single_trip,
-                 media: [:senior_card],
-                 mode: :commuter_rail,
-                 name: {:interzone, "5"},
-                 reduced: :senior_disabled
+                 reduced: :any
                },
                %Fares.Fare{
                  additional_valid_modes: [],
@@ -124,19 +112,10 @@ defmodule Fares.FareInfoTest do
                  additional_valid_modes: [],
                  cents: 450,
                  duration: :round_trip,
-                 media: [:student_card],
+                 media: [:senior_card, :student_card],
                  mode: :commuter_rail,
                  name: {:interzone, "5"},
-                 reduced: :student
-               },
-               %Fares.Fare{
-                 additional_valid_modes: [],
-                 cents: 450,
-                 duration: :round_trip,
-                 media: [:senior_card],
-                 mode: :commuter_rail,
-                 name: {:interzone, "5"},
-                 reduced: :senior_disabled
+                 reduced: :any
                },
                %Fares.Fare{
                  additional_valid_modes: [:bus],
@@ -163,13 +142,6 @@ defmodule Fares.FareInfoTest do
   describe "mticket_price/1" do
     test "subtracts 10 dollars from the monthly price" do
       assert mticket_price(2000) == 1000
-    end
-  end
-
-  describe "floor_to_ten_cents/1" do
-    test "floors to nearest ten cents" do
-      assert floor_to_ten_cents(949) == 940
-      assert floor_to_ten_cents(944) == 940
     end
   end
 end

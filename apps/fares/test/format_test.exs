@@ -14,7 +14,30 @@ defmodule Fares.FormatTest do
     end
   end
 
+  describe "media/1" do
+    test "returns generic media message when both student and senior price applies" do
+      assert media(%Fare{reduced: :any}) == "reduced fare card"
+    end
+
+    test "returns multiple/summary media when more than one media type applies" do
+      assert media(%Fare{media: [:charlie_ticket, :cash]}) == ["CharlieTicket", " or ", "Cash"]
+    end
+
+    test "returns appropriate media type text based on fare" do
+      assert media(%Fare{media: [:charlie_card]}) == "CharlieCard"
+      assert media(%Fare{media: [:commuter_ticket]}) == "CharlieTicket"
+      assert media(%Fare{media: [:mticket]}) == "mTicket App"
+      assert media(%Fare{media: [:cash]}) == "Cash"
+      assert media(%Fare{media: [:senior_card]}) == "Senior CharlieCard or TAP ID"
+      assert media(%Fare{media: [:student_card]}) == "Student CharlieCard"
+    end
+  end
+
   describe "customers/1" do
+    test "gets 'Reduced Fares' when the fare applies to any reduced media" do
+      assert customers(%Fare{reduced: :any}) == "Reduced Fares"
+    end
+
     test "gets 'Reduced Fares' when the fare applies to students" do
       assert customers(%Fare{reduced: :senior_disabled}) == "Reduced Fares"
     end

@@ -128,7 +128,7 @@ defmodule SiteWeb.ViewHelpersTest do
                Enum.any?(summaries, &mode_present.(&1, :subway))
     end
 
-    test "Ferry summaries with nil fare name return range of fares" do
+    test "Ferry summaries with nil fare name return range of fares including passes" do
       fares =
         :ferry
         |> mode_summaries(nil)

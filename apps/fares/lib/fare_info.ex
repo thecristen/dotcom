@@ -15,21 +15,7 @@ defmodule Fares.FareInfo do
     |> fare_data()
     |> Enum.flat_map(&mapper/1)
     |> Enum.concat(free_fare())
-  end
-
-  @doc "Special fare used only for inbound trips from the airport"
-  @spec free_fare() :: [Fare.t()]
-  def free_fare do
-    [
-      %Fare{
-        mode: :bus,
-        name: :free_fare,
-        duration: :single_trip,
-        media: [],
-        reduced: nil,
-        cents: dollars_to_cents("0.00")
-      }
-    ]
+    |> split_reduced_fares()
   end
 
   @spec mapper([String.t()]) :: [Fare.t()]
@@ -50,15 +36,8 @@ defmodule Fares.FareInfo do
       %{
         base
         | duration: :single_trip,
-          media: [:student_card],
-          reduced: :student,
-          cents: dollars_to_cents(single_trip_reduced)
-      },
-      %{
-        base
-        | duration: :single_trip,
-          media: [:senior_card],
-          reduced: :senior_disabled,
+          media: [:senior_card, :student_card],
+          reduced: :any,
           cents: dollars_to_cents(single_trip_reduced)
       },
       %{
@@ -71,15 +50,8 @@ defmodule Fares.FareInfo do
       %{
         base
         | duration: :round_trip,
-          media: [:student_card],
-          reduced: :student,
-          cents: dollars_to_cents(single_trip_reduced) * 2
-      },
-      %{
-        base
-        | duration: :round_trip,
-          media: [:senior_card],
-          reduced: :senior_disabled,
+          media: [:senior_card, :student_card],
+          reduced: :any,
           cents: dollars_to_cents(single_trip_reduced) * 2
       },
       %{
@@ -128,16 +100,8 @@ defmodule Fares.FareInfo do
       %{
         base
         | duration: :month,
-          media: [:student_card],
-          reduced: :student,
-          cents: dollars_to_cents(month_reduced_price),
-          additional_valid_modes: [:bus]
-      },
-      %{
-        base
-        | duration: :month,
-          media: [:senior_card],
-          reduced: :senior_disabled,
+          media: [:senior_card, :student_card],
+          reduced: :any,
           cents: dollars_to_cents(month_reduced_price),
           additional_valid_modes: [:bus]
       },
@@ -160,15 +124,8 @@ defmodule Fares.FareInfo do
       %{
         base
         | duration: :single_trip,
-          media: [:student_card],
-          reduced: :student,
-          cents: dollars_to_cents(day_reduced_price)
-      },
-      %{
-        base
-        | duration: :single_trip,
-          media: [:senior_card],
-          reduced: :senior_disabled,
+          media: [:senior_card, :student_card],
+          reduced: :any,
           cents: dollars_to_cents(day_reduced_price)
       },
       %{
@@ -224,15 +181,8 @@ defmodule Fares.FareInfo do
       %{
         base
         | duration: :single_trip,
-          media: [:student_card],
-          reduced: :student,
-          cents: dollars_to_cents(day_reduced_price)
-      },
-      %{
-        base
-        | duration: :single_trip,
-          media: [:senior_card],
-          reduced: :senior_disabled,
+          media: [:senior_card, :student_card],
+          reduced: :any,
           cents: dollars_to_cents(day_reduced_price)
       },
       %{
@@ -280,15 +230,8 @@ defmodule Fares.FareInfo do
       %{
         base
         | duration: :single_trip,
-          media: [:student_card],
-          reduced: :student,
-          cents: dollars_to_cents(day_reduced_price)
-      },
-      %{
-        base
-        | duration: :single_trip,
-          media: [:senior_card],
-          reduced: :senior_disabled,
+          media: [:senior_card, :student_card],
+          reduced: :any,
           cents: dollars_to_cents(day_reduced_price)
       },
       %{
@@ -418,11 +361,7 @@ defmodule Fares.FareInfo do
       |> Enum.filter(&(&1.duration in [:single_trip, :round_trip]))
       |> Enum.flat_map(fn fare ->
         reduced_price = floor_to_ten_cents(fare.cents) / 2
-
-        [
-          %{fare | cents: reduced_price, media: [:senior_card], reduced: :senior_disabled},
-          %{fare | cents: reduced_price, media: [:student_card], reduced: :student}
-        ]
+        [%{fare | cents: reduced_price, media: [:senior_card, :student_card], reduced: :any}]
       end)
 
     fares ++ reduced_fares
@@ -450,16 +389,16 @@ defmodule Fares.FareInfo do
   end
 
   def mapper(["foxboro", round_trip | _]) do
-    for reduced <- [nil, :student, :senior_disabled] do
+    [
       %Fare{
         mode: :commuter_rail,
         name: :foxboro,
         duration: :round_trip,
         media: [:commuter_ticket, :cash],
-        reduced: reduced,
+        reduced: nil,
         cents: dollars_to_cents(round_trip)
       }
-    end
+    ]
   end
 
   defp fare_data(filename) do
@@ -496,5 +435,38 @@ defmodule Fares.FareInfo do
     |> round
   end
 
-  def floor_to_ten_cents(fare), do: Float.floor(fare / 10) * 10
+  defp floor_to_ten_cents(fare), do: Float.floor(fare / 10) * 10
+
+  # Student and Senior fare prices are always the same.
+  # For every generic reduced fare, add in two discreet
+  # fares by media type (senior_card and student_card).
+  @spec split_reduced_fares([Fare.t()]) :: [Fare.t()]
+  defp split_reduced_fares(fares) do
+    fares
+    |> Enum.filter(&match?(%{reduced: :any}, &1))
+    |> Enum.reduce(fares, &populate_reduced(&1, &2))
+  end
+
+  @spec populate_reduced(Fare.t(), [Fare.t()]) :: [Fare.t()]
+  defp populate_reduced(fare, fares) do
+    senior = %{fare | media: [:senior_card], reduced: :senior_disabled}
+    student = %{fare | media: [:student_card], reduced: :student}
+
+    [senior, student | fares]
+  end
+
+  # Special fare used only for inbound trips from the airport
+  @spec free_fare() :: [Fare.t()]
+  defp free_fare do
+    [
+      %Fare{
+        mode: :bus,
+        name: :free_fare,
+        duration: :single_trip,
+        media: [],
+        reduced: nil,
+        cents: dollars_to_cents("0.00")
+      }
+    ]
+  end
 end

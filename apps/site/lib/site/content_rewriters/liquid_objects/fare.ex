@@ -72,7 +72,7 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
   @fare_reduced [
     "senior_disabled",
     "student",
-    "nil"
+    "reduced"
   ]
 
   @fare_duration [
@@ -151,7 +151,7 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
   end
 
   defp parse_token(value, good, bad) when value in @fare_reduced do
-    {filter_insert(good, reduced: value), bad}
+    {filter_insert(good, reduced: (value == "reduced" && "any") || value), bad}
   end
 
   defp parse_token(value, good, bad) when value in @fare_duration do
@@ -229,7 +229,7 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
 
   # Adds the valid key/val into our arg list, after first
   # converting the value into a proper, known Fare atom.
-  @spec filter_insert([repo_arg], [{fare_key, String.t() | atom}]) :: [repo_arg]
+  @spec filter_insert([repo_arg], [{fare_key, String.t()}]) :: [repo_arg]
   defp filter_insert(old_args, new_args) do
     Enum.reduce(new_args, old_args, fn {k, v}, args ->
       Keyword.put(args, k, String.to_existing_atom(v))

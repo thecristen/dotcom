@@ -1049,4 +1049,10 @@ defmodule SiteWeb.ScheduleViewTest do
       assert sort_connections(routes) == sorted_routes
     end
   end
+
+  describe "single_trip_fares/1" do
+    test "only return summary for single_trip fares" do
+      assert single_trip_fares("commuter_rail") == [{"Zones 1A-10", ["$2.25", " – ", "$12.50"]}]
+    end
+  end
 end

@@ -132,7 +132,7 @@ defmodule SiteWeb.FareController do
   end
 
   defp fare_type(%{params: %{"fare_type" => fare_type}})
-       when fare_type in ["senior_disabled", "student"] do
+       when fare_type in ["senior_disabled", "student", "any"] do
     String.to_existing_atom(fare_type)
   end
 
@@ -140,7 +140,7 @@ defmodule SiteWeb.FareController do
     nil
   end
 
-  def filter_reduced(fares, reduced) when is_atom(reduced) or is_nil(reduced) do
+  def filter_reduced(fares, reduced) when is_atom(reduced) do
     fares
     |> Enum.filter(&match?(%{reduced: ^reduced}, &1))
   end

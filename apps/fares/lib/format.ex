@@ -11,6 +11,7 @@ defmodule Fares.Format do
 
   @doc "Formats the fare media (card, &c) as a string"
   @spec media(Fare.t() | [Fare.media()] | Fare.media()) :: iodata
+  def media(%Fare{reduced: :any}), do: "reduced fare card"
   def media(%Fare{media: list}), do: media(list)
 
   def media(list) when is_list(list) do
@@ -27,12 +28,12 @@ defmodule Fares.Format do
   def media(:senior_card), do: "Senior CharlieCard or TAP ID"
   def media(:student_card), do: "Student CharlieCard"
 
-  @doc "Formats the customers that are served by the given fare: Standard / Student / Senior"
+  @doc "Formats the customers that are served by the given fare based on reduced type"
   @spec customers(Fare.t() | Fare.reduced()) :: String.t()
   def customers(%Fare{reduced: reduced}), do: customers(reduced)
   def customers(:student), do: "Student Fares"
-  def customers(:senior_disabled), do: "Reduced Fares"
   def customers(nil), do: "Standard Fares"
+  def customers(_), do: "Reduced Fares"
 
   @doc "Formats the duration of the Fare"
   @spec duration(Fare.t() | Summary.t()) :: String.t()
@@ -103,7 +104,7 @@ defmodule Fares.Format do
 
   def summarize(fares, :bus_subway, url) do
     for [base | _] = chunk <-
-          Enum.chunk_by(fares, &{&1.name, &1.duration, &1.additional_valid_modes}) do
+          Enum.chunk_by(fares, &{&1.name, &1.duration, &1.additional_valid_modes, &1.reduced}) do
       %Summary{
         name: Fares.Format.full_name(base),
         duration: base.duration,

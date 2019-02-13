@@ -13,7 +13,7 @@ defmodule Fares.Fare do
           | :mticket
           | :student_card
           | :senior_card
-  @type reduced :: nil | :student | :senior_disabled
+  @type reduced :: nil | :student | :senior_disabled | :any
   @type duration :: :single_trip | :round_trip | :day | :week | :month | :invalid
   @type t :: %__MODULE__{
           mode: Routes.Route.route_type(),
