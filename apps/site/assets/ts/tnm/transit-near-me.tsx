@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { doWhenGoogleMapsIsReady } from "../../js/google-maps-loaded";
-import RoutesSidebar from "./components/RoutesSidebar";
 import TransitNearMeSearch from "./search";
-import TransitNearMeMap from "./components/TransitNearMeMap";
+import TransitNearMe from "./components/TransitNearMe";
 
 let search = null; // eslint-disable-line
 
@@ -54,15 +53,16 @@ const render = (): void => {
   const dataEl = document.getElementById("js-tnm-map-dynamic-data");
   const sidebarDataEl = document.getElementById("js-tnm-sidebar-data");
   if (!dataEl || !sidebarDataEl) return;
-  const id = dataEl.getAttribute("data-for") as string;
-  const initialData = JSON.parse(dataEl.innerHTML);
+  const mapId = dataEl.getAttribute("data-for") as string;
+  const mapData = JSON.parse(dataEl.innerHTML);
   const sidebarData = JSON.parse(sidebarDataEl.innerHTML);
   ReactDOM.render(
-    <div className="m-tnm">
-      <div id={id} className="m-tnm__map" />
-      <TransitNearMeMap mapElementId={id} initialData={initialData} />
-      <RoutesSidebar data={sidebarData} getOffset={getSidebarOffset} />
-    </div>,
+    <TransitNearMe
+      mapData={mapData}
+      mapId={mapId}
+      sidebarData={sidebarData}
+      getSidebarOffset={getSidebarOffset}
+    />,
     document.getElementById("react-root")
   );
 };

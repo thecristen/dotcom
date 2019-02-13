@@ -1,0 +1,597 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders 1`] = `
+<div
+  className="m-tnm"
+>
+  <div
+    className="m-tnm__map"
+    id="test"
+  />
+  <div />
+  <div
+    className="m-tnm-sidebar"
+    style={
+      Object {
+        "left": "3px",
+      }
+    }
+  >
+    <div
+      className="m-tnm-sidebar__route"
+    >
+      <div
+        className="h3 m-tnm-sidebar__route-name u-bg--bus"
+      >
+        <span
+          className="bus-route-sign"
+        >
+          504
+        </span>
+      </div>
+      <div
+        className="m-tnm-sidebar__stop"
+      >
+        <div
+          className="m-tnm-sidebar__stop-info"
+        >
+          <a
+            className="m-tnm-sidebar__stop-name"
+            href="/stops/9983"
+          >
+            <span
+              className="m-tnm-sidebar__stop-marker"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "",
+                }
+              }
+            />
+             
+            Stuart St @ Charles St S
+          </a>
+          <div
+            className="m-tnm-sidebar__stop-distance"
+          >
+            238 ft
+          </div>
+        </div>
+        <div>
+          <div
+            className="m-tnm-sidebar__direction"
+          >
+            <div
+              className="m-tnm-sidebar__direction-name u-small-caps"
+            >
+              Outbound
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+          >
+            <div
+              className="m-tnm-sidebar__headsign"
+            >
+              <div
+                className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+              >
+                Watertown
+              </div>
+              <div
+                className="m-tnm-sidebar__via"
+              >
+                via Copley (Express)
+              </div>
+            </div>
+            <div
+              className="m-tnm-sidebar__schedules"
+            >
+              <div
+                className="m-tnm-sidebar__schedule"
+              >
+                <div
+                  className="m-tnm-sidebar__time"
+                >
+                  <div
+                    className="m-tnm-sidebar__time-number"
+                  >
+                    14
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__time-mins"
+                  >
+                    min
+                  </div>
+                </div>
+              </div>
+              <div
+                className="m-tnm-sidebar__schedule"
+              >
+                <div
+                  className="m-tnm-sidebar__time"
+                >
+                  <div
+                    className="m-tnm-sidebar__time-number"
+                  >
+                    44
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__time-mins"
+                  >
+                    min
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="m-tnm-sidebar__stop"
+      >
+        <div
+          className="m-tnm-sidebar__stop-info"
+        >
+          <a
+            className="m-tnm-sidebar__stop-name"
+            href="/stops/6542"
+          >
+            <span
+              className="m-tnm-sidebar__stop-marker"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "",
+                }
+              }
+            />
+             
+            Kneeland St @ Washington St
+          </a>
+          <div
+            className="m-tnm-sidebar__stop-distance"
+          >
+            0.2 mi
+          </div>
+        </div>
+        <div>
+          <div
+            className="m-tnm-sidebar__direction"
+          >
+            <div
+              className="m-tnm-sidebar__direction-name u-small-caps"
+            >
+              Inbound
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+          >
+            <div
+              className="m-tnm-sidebar__headsign"
+            >
+              <div
+                className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+              >
+                Downtown
+              </div>
+              <div
+                className="m-tnm-sidebar__via"
+              >
+                via Copley (Express)
+              </div>
+            </div>
+            <div
+              className="m-tnm-sidebar__schedules"
+            >
+              <div
+                className="m-tnm-sidebar__schedule"
+              >
+                <div
+                  className="m-tnm-sidebar__time"
+                >
+                  <div
+                    className="m-tnm-sidebar__time-number"
+                  >
+                    1
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__time-mins"
+                  >
+                    min
+                  </div>
+                </div>
+              </div>
+              <div
+                className="m-tnm-sidebar__schedule"
+              >
+                <div
+                  className="m-tnm-sidebar__time"
+                >
+                  <div
+                    className="m-tnm-sidebar__time-number"
+                  >
+                    14
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__time-mins"
+                  >
+                    min
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__route"
+    >
+      <div
+        className="h3 m-tnm-sidebar__route-name u-bg--bus"
+      >
+        <span
+          className="bus-route-sign"
+        >
+          55
+        </span>
+      </div>
+      <div
+        className="m-tnm-sidebar__stop"
+      >
+        <div
+          className="m-tnm-sidebar__stop-info"
+        >
+          <a
+            className="m-tnm-sidebar__stop-name"
+            href="/stops/9983"
+          >
+            <span
+              className="m-tnm-sidebar__stop-marker"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "",
+                }
+              }
+            />
+             
+            Stuart St @ Charles St S
+          </a>
+          <div
+            className="m-tnm-sidebar__stop-distance"
+          >
+            238 ft
+          </div>
+        </div>
+        <div>
+          <div
+            className="m-tnm-sidebar__direction"
+          >
+            <div
+              className="m-tnm-sidebar__direction-name u-small-caps"
+            >
+              Outbound
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+          >
+            <div
+              className="m-tnm-sidebar__headsign"
+            >
+              <div
+                className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+              >
+                Queensberry St
+              </div>
+            </div>
+            <div
+              className="m-tnm-sidebar__schedules"
+            >
+              <div
+                className="m-tnm-sidebar__schedule"
+              >
+                <div
+                  className="m-tnm-sidebar__time"
+                >
+                  <div
+                    className="m-tnm-sidebar__time-number"
+                  >
+                    39
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__time-mins"
+                  >
+                    min
+                  </div>
+                </div>
+              </div>
+              <div
+                className="m-tnm-sidebar__schedule"
+              >
+                <div
+                  className="m-tnm-sidebar__time"
+                >
+                  <div
+                    className="m-tnm-sidebar__time-number"
+                  >
+                    12:55
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__time-mins"
+                  >
+                    PM
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="m-tnm-sidebar__stop"
+      >
+        <div
+          className="m-tnm-sidebar__stop-info"
+        >
+          <a
+            className="m-tnm-sidebar__stop-name"
+            href="/stops/8279"
+          >
+            <span
+              className="m-tnm-sidebar__stop-marker"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "",
+                }
+              }
+            />
+             
+            Tremont St @ Boylston Station
+          </a>
+          <div
+            className="m-tnm-sidebar__stop-distance"
+          >
+            0.2 mi
+          </div>
+        </div>
+        <div>
+          <div
+            className="m-tnm-sidebar__direction"
+          >
+            <div
+              className="m-tnm-sidebar__direction-name u-small-caps"
+            >
+              Outbound
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+          >
+            <div
+              className="m-tnm-sidebar__headsign"
+            >
+              <div
+                className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+              >
+                Queensberry St
+              </div>
+            </div>
+            <div
+              className="m-tnm-sidebar__schedules"
+            >
+              <div
+                className="m-tnm-sidebar__schedule"
+              >
+                <div
+                  className="m-tnm-sidebar__time"
+                >
+                  <div
+                    className="m-tnm-sidebar__time-number"
+                  >
+                    39
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__time-mins"
+                  >
+                    min
+                  </div>
+                </div>
+              </div>
+              <div
+                className="m-tnm-sidebar__schedule"
+              >
+                <div
+                  className="m-tnm-sidebar__time"
+                >
+                  <div
+                    className="m-tnm-sidebar__time-number"
+                  >
+                    12:55
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__time-mins"
+                  >
+                    PM
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__route"
+    >
+      <div
+        className="h3 m-tnm-sidebar__route-name u-bg--bus"
+      >
+        <span
+          className="bus-route-sign"
+        >
+          553
+        </span>
+      </div>
+      <div
+        className="m-tnm-sidebar__stop"
+      >
+        <div
+          className="m-tnm-sidebar__stop-info"
+        >
+          <a
+            className="m-tnm-sidebar__stop-name"
+            href="/stops/9983"
+          >
+            <span
+              className="m-tnm-sidebar__stop-marker"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "",
+                }
+              }
+            />
+             
+            Stuart St @ Charles St S
+          </a>
+          <div
+            className="m-tnm-sidebar__stop-distance"
+          >
+            238 ft
+          </div>
+        </div>
+        <div>
+          <div
+            className="m-tnm-sidebar__direction"
+          >
+            <div
+              className="m-tnm-sidebar__direction-name u-small-caps"
+            >
+              Outbound
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+          >
+            <div
+              className="m-tnm-sidebar__headsign"
+            >
+              <div
+                className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+              >
+                Waltham
+              </div>
+              <div
+                className="m-tnm-sidebar__via"
+              >
+                via Copley (Express)
+              </div>
+            </div>
+            <div
+              className="m-tnm-sidebar__schedules"
+            >
+              <div
+                className="m-tnm-sidebar__schedule"
+              >
+                <div
+                  className="m-tnm-sidebar__time"
+                >
+                  <div
+                    className="m-tnm-sidebar__time-number"
+                  >
+                    7:07
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__time-mins"
+                  >
+                    PM
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="m-tnm-sidebar__stop"
+      >
+        <div
+          className="m-tnm-sidebar__stop-info"
+        >
+          <a
+            className="m-tnm-sidebar__stop-name"
+            href="/stops/6542"
+          >
+            <span
+              className="m-tnm-sidebar__stop-marker"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "",
+                }
+              }
+            />
+             
+            Kneeland St @ Washington St
+          </a>
+          <div
+            className="m-tnm-sidebar__stop-distance"
+          >
+            0.2 mi
+          </div>
+        </div>
+        <div>
+          <div
+            className="m-tnm-sidebar__direction"
+          >
+            <div
+              className="m-tnm-sidebar__direction-name u-small-caps"
+            >
+              Inbound
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+          >
+            <div
+              className="m-tnm-sidebar__headsign"
+            >
+              <div
+                className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+              >
+                Downtown
+              </div>
+              <div
+                className="m-tnm-sidebar__via"
+              >
+                via Copley (Express)
+              </div>
+            </div>
+            <div
+              className="m-tnm-sidebar__schedules"
+            >
+              <div
+                className="m-tnm-sidebar__schedule"
+              >
+                <div
+                  className="m-tnm-sidebar__time"
+                >
+                  <div
+                    className="m-tnm-sidebar__time-number"
+                  >
+                    8:24
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__time-mins"
+                  >
+                    PM
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

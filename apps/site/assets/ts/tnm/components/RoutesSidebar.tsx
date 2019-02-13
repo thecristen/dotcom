@@ -4,7 +4,7 @@ import { Route, SVGMarkers } from "./__tnm";
 import { iconStation, iconStop } from "../../../js/google-map/icons";
 
 interface Props {
-  data: Array<Route>;
+  data: Route[];
   markers: SVGMarkers;
   getOffset(): number;
 }
@@ -26,8 +26,8 @@ class RoutesSidebar extends React.Component<Props, State> {
     data: [],
     getOffset: () => 0,
     markers: {
-      stopMarker: iconStop(),
-      stationMarker: iconStation()
+      stopMarker: "",
+      stationMarker: ""
     }
   };
 

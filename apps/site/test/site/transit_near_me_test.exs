@@ -2,7 +2,6 @@ defmodule Site.TransitNearMeTest do
   use ExUnit.Case
 
   alias GoogleMaps.Geocode.Address
-  # alias Schedules.Schedule
   alias Routes.Route
   alias Site.TransitNearMe
   alias Stops.Stop

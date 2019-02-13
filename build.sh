@@ -9,8 +9,9 @@ BUILD_ARTIFACT=$APP-build.zip
 docker build -t $BUILD_TAG .
 CONTAINER=$(docker run -d ${BUILD_TAG} sleep 2000)
 
-rm -rf rel/$APP rel/$APP.tar.gz
+rm -rf rel/$APP rel/$APP.tar.gz rel/app.js
 docker cp $CONTAINER:/root/${PREFIX}rel/$APP/releases/$VERSION/$APP.tar.gz rel/$APP.tar.gz
+docker cp $CONTAINER:/root/apps/site/react_renderer/dist/app.js rel/app.js
 
 docker kill $CONTAINER
 tar -zxf rel/$APP.tar.gz -C rel/

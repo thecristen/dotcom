@@ -12,11 +12,11 @@ RUN mix local.hex --force && \
 # Install node/npm
 # Instructions from https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
-    apt-get install -y nodejs
+  apt-get install -y nodejs
 
 # Install Sass
 RUN apt-get install -y rubygems ruby2.3-dev && \
-    gem install sass
+  gem install sass
 
 # Clean up
 RUN apt-get clean
@@ -30,6 +30,9 @@ RUN mix do deps.get, deps.compile
 
 WORKDIR /root/apps/site/assets/
 RUN npm install && npm run webpack:build
+
+WORKDIR /root/apps/site/react_renderer/
+RUN npm install && npx webpack
 
 WORKDIR /root/apps/site/
 RUN mix phx.digest

@@ -21,3 +21,5 @@ config :wallaby,
     headless: true
   ],
   js_errors: true
+
+config :site, :react, source_path: nil

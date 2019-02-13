@@ -6,8 +6,12 @@
 </div>
 
 <script data-for="tnm-map" id="js-tnm-map-dynamic-data" type="text/plain"><%= raw Poison.encode!(@map_data) %></script>
-<script id="js-tnm-sidebar-data" type="text/plain"><%= raw @json %></script>
-<div id="react-root"></div>
+<script id="js-tnm-sidebar-data" type="text/plain"><%= @json |> Poison.encode!() |> raw()  %></script>
+<div id="react-root">
+  <%= unless Enum.empty?(@json) do %>
+    <%= Site.React.render("TransitNearMe", %{sidebarData: @json, mapData: @map_data, mapId: "js-tnm-map-dynamic-data" }) %>
+  <% end %>
+</div>
 
 <div class="container">
   <noscript>

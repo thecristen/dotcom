@@ -319,17 +319,4 @@ defmodule Site.TransitNearMe do
 
     [time, " ", am_pm]
   end
-
-  @doc """
-  Turns a TransitNearMe struct into json.
-
-  Data gets passed through schedules_for_routes/1 before being encoded, which transforms the
-  data into a customized list of routes.
-  """
-  @spec to_json(t()) :: String.t()
-  def to_json(%__MODULE__{} = data) do
-    data
-    |> schedules_for_routes()
-    |> Poison.encode!()
-  end
 end

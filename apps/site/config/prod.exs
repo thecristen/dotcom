@@ -125,3 +125,7 @@ config :site, OldSiteFileController,
 
 config :site, StaticFileController,
   response_fn: {SiteWeb.StaticFileController, :redirect_through_cdn}
+
+config :site, :react,
+  source_path: nil,
+  build_path: "/root/rel/site/app.js"

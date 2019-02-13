@@ -39,7 +39,7 @@ defmodule SiteWeb.TransitNearMeController do
   defp assign_stops_and_routes(%{assigns: %{location: {:ok, [location | _]}}} = conn) do
     data_fn = Map.get(conn.assigns, :data_fn, &TransitNearMe.build/2)
 
-    to_json_fn = Map.get(conn.assigns, :to_json_fn, &TransitNearMe.to_json/1)
+    to_json_fn = Map.get(conn.assigns, :to_json_fn, &TransitNearMe.schedules_for_routes/1)
 
     data = data_fn.(location, date: conn.assigns.date, now: conn.assigns.date_time)
 
@@ -53,7 +53,7 @@ defmodule SiteWeb.TransitNearMeController do
   defp assign_stops_and_routes(conn) do
     conn
     |> assign(:stops_with_routes, [])
-    |> assign(:json, Poison.encode!([]))
+    |> assign(:json, [])
   end
 
   def assign_map_data(conn) do

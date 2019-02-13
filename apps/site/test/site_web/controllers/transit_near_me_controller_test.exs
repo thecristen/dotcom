@@ -131,7 +131,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
   def to_json_fn(%TransitNearMe{}) do
     send(self(), :to_json_fn)
-    Poison.encode!([])
+    []
   end
 
   setup do
@@ -169,7 +169,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
       assert conn.assigns.location == :no_address
       assert conn.assigns.stops_with_routes == []
-      assert conn.assigns.json == "[]"
+      assert conn.assigns.json == []
       assert get_flash(conn) == %{}
     end
   end
@@ -221,7 +221,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
       assert {:ok, [%Address{formatted: "no_stops"}]} = conn.assigns.location
       assert conn.assigns.stops_with_routes == []
-      assert conn.assigns.json == "[]"
+      assert conn.assigns.json == []
 
       assert get_flash(conn) == %{
                "info" =>
@@ -247,7 +247,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
       assert conn.assigns.location == {:error, :zero_results}
       assert conn.assigns.stops_with_routes == []
-      assert conn.assigns.json == "[]"
+      assert conn.assigns.json == []
 
       assert get_flash(conn) == %{"info" => "We are unable to locate that address."}
     end
@@ -267,7 +267,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
       assert conn.assigns.location == {:error, :internal_error}
       assert conn.assigns.stops_with_routes == []
-      assert conn.assigns.json == "[]"
+      assert conn.assigns.json == []
 
       assert get_flash(conn) == %{
                "info" => "There was an error locating that address. Please try again."

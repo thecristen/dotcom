@@ -38,7 +38,7 @@ until [ $n -ge 3 ]; do
     sleep 3
 done
 
-nvm use 8.7.0
+nvm use 8.15.0
 npm install -g npm@6.7.0
 echo npm version is `npm -v`
 
@@ -53,6 +53,8 @@ GEM_SPEC=$SEMAPHORE_CACHE_DIR/gems
 gem install sass -v 3.4.23
 
 npm run webpack:build
+npm run react:setup
+npm run react:build
 
 MIX_ENV=test mix compile --warnings-as-errors --force
 
