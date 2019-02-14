@@ -114,6 +114,10 @@ defmodule Alerts.Parser do
     defp do_effect("STATION_ISSUE"), do: :station_issue
     defp do_effect("DOCK_ISSUE"), do: :dock_issue
     defp do_effect("ACCESS_ISSUE"), do: :access_issue
+    defp do_effect("FACILITY_ISSUE"), do: :facility_issue
+    defp do_effect("BIKE_ISSUE"), do: :bike_issue
+    defp do_effect("PARKING_ISSUE"), do: :parking_issue
+    defp do_effect("PARKING_CLOSURE"), do: :parking_closure
     defp do_effect("ELEVATOR_CLOSURE"), do: :elevator_closure
     defp do_effect("ESCALATOR_CLOSURE"), do: :escalator_closure
     defp do_effect("POLICY_CHANGE"), do: :policy_change

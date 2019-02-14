@@ -18,6 +18,7 @@ defmodule Alerts.Alert do
   @type effect ::
           :access_issue
           | :amber_alert
+          | :bike_issue
           | :cancellation
           | :delay
           | :detour
@@ -26,7 +27,10 @@ defmodule Alerts.Alert do
           | :elevator_closure
           | :escalator_closure
           | :extra_service
+          | :facility_issue
           | :no_service
+          | :parking_closure
+          | :parking_issue
           | :policy_change
           | :service_change
           | :shuttle
@@ -171,6 +175,10 @@ defmodule Alerts.Alert do
   defp do_human_effect(:station_issue), do: "Station Issue"
   defp do_human_effect(:dock_issue), do: "Dock Issue"
   defp do_human_effect(:access_issue), do: "Access Issue"
+  defp do_human_effect(:facility_issue), do: "Facility Issue"
+  defp do_human_effect(:bike_issue), do: "Bike Issue"
+  defp do_human_effect(:parking_issue), do: "Parking Issue"
+  defp do_human_effect(:parking_closure), do: "Parking Closure"
   defp do_human_effect(:elevator_closure), do: "Elevator Closure"
   defp do_human_effect(:escalator_closure), do: "Escalator Closure"
   defp do_human_effect(:policy_change), do: "Policy Change"
