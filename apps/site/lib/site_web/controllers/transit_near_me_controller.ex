@@ -64,6 +64,7 @@ defmodule SiteWeb.TransitNearMeController do
     map_data =
       {630, 400}
       |> MapData.new(14)
+      |> MapData.disable_map_type_controls()
       |> MapData.add_layers(%Layers{transit: true})
       |> MapData.add_markers(markers)
       |> add_location_marker(conn.assigns)
