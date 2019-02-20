@@ -8,7 +8,6 @@ exports[`it renders 1`] = `
     className="m-tnm__map"
     id="test"
   />
-  <div />
   <div
     className="m-tnm-sidebar"
     style={
@@ -17,6 +16,13 @@ exports[`it renders 1`] = `
       }
     }
   >
+    <div
+      className="m-tnm-sidebar__header"
+    >
+      <h2>
+        Nearby Routes
+      </h2>
+    </div>
     <div
       className="m-tnm-sidebar__route"
     >
@@ -31,6 +37,10 @@ exports[`it renders 1`] = `
       </div>
       <div
         className="m-tnm-sidebar__stop"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
         <div
           className="m-tnm-sidebar__stop-info"
@@ -128,6 +138,10 @@ exports[`it renders 1`] = `
       </div>
       <div
         className="m-tnm-sidebar__stop"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
         <div
           className="m-tnm-sidebar__stop-info"
@@ -238,6 +252,10 @@ exports[`it renders 1`] = `
       </div>
       <div
         className="m-tnm-sidebar__stop"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
         <div
           className="m-tnm-sidebar__stop-info"
@@ -330,6 +348,10 @@ exports[`it renders 1`] = `
       </div>
       <div
         className="m-tnm-sidebar__stop"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
         <div
           className="m-tnm-sidebar__stop-info"
@@ -435,6 +457,10 @@ exports[`it renders 1`] = `
       </div>
       <div
         className="m-tnm-sidebar__stop"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
         <div
           className="m-tnm-sidebar__stop-info"
@@ -514,6 +540,10 @@ exports[`it renders 1`] = `
       </div>
       <div
         className="m-tnm-sidebar__stop"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
         <div
           className="m-tnm-sidebar__stop-info"

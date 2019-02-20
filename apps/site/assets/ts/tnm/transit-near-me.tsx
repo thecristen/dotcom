@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { MapData } from "./components/__tnm";
 import { doWhenGoogleMapsIsReady } from "../../js/google-maps-loaded";
 import TransitNearMeSearch from "./search";
 import TransitNearMe from "./components/TransitNearMe";
@@ -54,7 +55,7 @@ const render = (): void => {
   const sidebarDataEl = document.getElementById("js-tnm-sidebar-data");
   if (!dataEl || !sidebarDataEl) return;
   const mapId = dataEl.getAttribute("data-for") as string;
-  const mapData = JSON.parse(dataEl.innerHTML);
+  const mapData = JSON.parse(dataEl.innerHTML) as MapData;
   const sidebarData = JSON.parse(sidebarDataEl.innerHTML);
   ReactDOM.render(
     <TransitNearMe

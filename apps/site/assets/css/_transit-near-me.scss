@@ -64,6 +64,26 @@ $map-height: $base-spacing * 30;
   }
 }
 
+.m-tnm-sidebar__header {
+  margin-bottom: $base-spacing / 2;
+
+  h2 {
+    margin-top: 1.8125 * $base-spacing;
+  }
+}
+
+.m-tnm-sidebar__pill {
+  border: 1px solid $brand-primary;
+  border-radius: 17px;
+  color: $brand-primary;
+  cursor: pointer;
+  padding: .2 * $base-spacing .7 * $base-spacing;
+}
+
+.m-tnm-sidebar__pill-close {
+  margin-left: $base-spacing / 2;
+}
+
 .m-tnm-sidebar__route {
   background-color: $white;
 
@@ -87,6 +107,7 @@ $map-height: $base-spacing * 30;
 }
 
 .m-tnm-sidebar__stop {
+  cursor: pointer;
   padding: $base-spacing / 2;
 
   & + & {
@@ -123,7 +144,6 @@ $map-height: $base-spacing * 30;
 
 .m-tnm-sidebar__headsign-schedule--condensed {
   border-top: 0;
-
 }
 
 .m-tnm-sidebar__headsign-name--large {

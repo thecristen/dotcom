@@ -95,7 +95,7 @@ it("it renders a status and train name for Commuter Rail", () => {
 
 it("it renders uncondensed bus headsign name as --small", () => {
   const data = JSON.parse(JSON.stringify(tnmData));
-  const route: Route = data.find((route: Route) => route.type === 3);
+  const route: Route = data.find((r: Route) => r.type === 3);
   const stop: Stop = route.stops[0];
   const direction: TNMDirection = stop.directions[0];
   const headsign: TNMHeadsign = direction.headsigns[0];

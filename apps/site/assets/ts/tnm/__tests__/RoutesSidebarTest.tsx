@@ -1,26 +1,64 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import RoutesSidebar from "../components/RoutesSidebar";
-import { createReactRoot, createMarkers } from "./helpers/testUtils";
-import tnmData from "./tnmData.json";
+import RoutesSidebar, { filterData } from "../components/RoutesSidebar";
+import { createReactRoot, importData } from "./helpers/testUtils";
 import { Route } from "../components/__tnm";
 
-it("it renders", () => {
-  const data = tnmData.slice(0, 3) as Array<Route>;
+describe("render", () => {
+  it("it renders", () => {
+    const data = importData().slice(0, 3);
 
-  createReactRoot();
-  const markers = createMarkers();
-  const tree = renderer
-    .create(<RoutesSidebar data={data} markers={markers} />)
-    .toJSON();
-  expect(tree).toMatchSnapshot();
+    createReactRoot();
+    const tree = renderer
+      .create(
+        <RoutesSidebar
+          data={data}
+          getOffset={() => 0}
+          selectedStopId={null}
+          shouldFilterStopCards={false}
+          dispatch={() => {}}
+          selectedStop={undefined}
+        />
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("it returns null when there isn't data", () => {
+    createReactRoot();
+    const tree = renderer
+      .create(
+        <RoutesSidebar
+          data={[]}
+          getOffset={() => 0}
+          selectedStopId={null}
+          shouldFilterStopCards={false}
+          dispatch={() => {}}
+          selectedStop={undefined}
+        />
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 });
 
-it("it returns null when there isn't data", () => {
-  createReactRoot();
-  const markers = createMarkers();
-  const tree = renderer
-    .create(<RoutesSidebar data={[]} markers={markers} />)
-    .toJSON();
-  expect(tree).toMatchSnapshot();
+describe("filterData", () => {
+  it("should filter by stop ID", () => {
+    const data = importData();
+    const selectedStopId = data[0].stops[0].id;
+
+    expect(data).toHaveLength(26);
+
+    const filteredData = filterData(data, selectedStopId, true);
+
+    expect(filteredData).toHaveLength(3);
+
+    // Every route should only have one stop
+    expect(filteredData.every((route: Route) => route.stops.length === 1));
+
+    // Every stop should match the selected stop
+    expect(
+      filteredData.every((route: Route) => route.stops[0].id === selectedStopId)
+    );
+  });
 });

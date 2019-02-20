@@ -7,8 +7,8 @@ import { Route, Stop, TNMDirection } from "../components/__tnm";
 
 it("it renders", () => {
   const data = JSON.parse(JSON.stringify(tnmData));
-  const route: Route = data.find((route: Route) =>
-    route.stops.some((stop: Stop) =>
+  const route: Route = data.find((r: Route) =>
+    r.stops.some((stop: Stop) =>
       stop.directions.some(
         (direction: TNMDirection) => direction.headsigns.length > 1
       )

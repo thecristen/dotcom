@@ -24,8 +24,16 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        exclude: /(node_modules|__tests__)/,
-        use: [{ loader: "babel-loader" }, { loader: "ts-loader" }]
+        exclude: [/node_modules/],
+        use: [
+          { loader: "babel-loader" },
+          {
+            loader: "ts-loader",
+            options: {
+              configFile: "tsconfig.webpack.json"
+            }
+          }
+        ]
       },
       {
         test: /\.(js)$/,
@@ -37,7 +45,7 @@ module.exports = {
       {
         test: /\.svg$/,
         use: [
-          { loader: "file-loader" },
+          { loader: "svg-inline-loader" },
           {
             loader: "svgo-loader",
             options: {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import Headsign from "./Headsign";
 import { Route, TNMDirection } from "./__tnm";
 
@@ -11,7 +11,10 @@ interface Props {
 export const directionIsEmpty = (dir: TNMDirection): boolean =>
   dir.headsigns.length === 0;
 
-export const Direction = ({ direction, route, stopId }: Props) => {
+export const Direction = ({
+  direction,
+  route
+}: Props): ReactElement<HTMLElement> | null => {
   if (directionIsEmpty(direction)) {
     return null;
   }

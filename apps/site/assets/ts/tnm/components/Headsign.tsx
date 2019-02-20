@@ -7,22 +7,6 @@ interface Props {
   condensed: boolean;
 }
 
-const Headsign = (props: Props): ReactElement<any> => {
-  const { headsign, routeType, condensed } = props;
-  return (
-    <div className={headsignClass(condensed)}>
-      <div className="m-tnm-sidebar__headsign">
-        {renderHeadsignName(props)}
-
-        {routeType === 2 && renderTrainName(`Train ${headsign.train_number}`)}
-      </div>
-      <div className="m-tnm-sidebar__schedules">
-        {headsign.times.map(time => renderTime(time, headsign.name, routeType))}
-      </div>
-    </div>
-  );
-};
-
 const headsignClass = (condensed: boolean): string => {
   if (condensed === true) {
     return "m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed";
@@ -34,8 +18,8 @@ const renderHeadsignName = ({
   headsign,
   routeType,
   condensed
-}: Props): ReactElement<any> => {
-  const modifier = !condensed && routeType == 3 ? "small" : "large";
+}: Props): ReactElement<HTMLElement> => {
+  const modifier = !condensed && routeType === 3 ? "small" : "large";
 
   const headsignNameClass = `m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--${modifier}`;
 
@@ -51,20 +35,42 @@ const renderHeadsignName = ({
   return <div className={headsignNameClass}>{headsign.name}</div>;
 };
 
-const renderTrainName = (trainName: string): ReactElement<any> => (
+const renderTrainName = (trainName: string): ReactElement<HTMLElement> => (
   <div className="m-tnm-sidebar__headsign-train">{trainName}</div>
+);
+
+const renderTimeCommuterRail = (
+  time: string[],
+  prediction: TNMPrediction | null
+): ReactElement<HTMLElement> => (
+  <div className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail">
+    <div className="m-tnm-sidebar__time-number">{time.join("")}</div>
+    <div className="m-tnm-sidebar__status">
+      {prediction ? prediction.status : "On Time"}
+    </div>
+  </div>
+);
+
+const renderTimeDefault = (time: string[]): ReactElement<HTMLElement> => (
+  <div className="m-tnm-sidebar__time">
+    <div className="m-tnm-sidebar__time-number">{time[0]}</div>
+    <div className="m-tnm-sidebar__time-mins">{time[2]}</div>
+  </div>
 );
 
 const renderTime = (
   tnmTime: TNMTime,
   headsignName: string,
   routeType: RouteType
-) => {
+): JSX.Element => {
+  // eslint-disable-next-line typescript/camelcase
   const { prediction, scheduled_time } = tnmTime;
+  // eslint-disable-next-line typescript/camelcase
   const time = prediction ? prediction.time : scheduled_time;
 
   return (
     <div
+      // eslint-disable-next-line typescript/camelcase
       key={`${headsignName}-${scheduled_time.join("")}`}
       className="m-tnm-sidebar__schedule"
     >
@@ -75,26 +81,20 @@ const renderTime = (
   );
 };
 
-const renderTimeDefault = (time: Array<string>): ReactElement<any> => {
-  const [num, _space, mins] = time;
+const Headsign = (props: Props): ReactElement<HTMLElement> => {
+  const { headsign, routeType, condensed } = props;
   return (
-    <div className="m-tnm-sidebar__time">
-      <div className="m-tnm-sidebar__time-number">{num}</div>
-      <div className="m-tnm-sidebar__time-mins">{mins}</div>
+    <div className={headsignClass(condensed)}>
+      <div className="m-tnm-sidebar__headsign">
+        {renderHeadsignName(props)}
+
+        {routeType === 2 && renderTrainName(`Train ${headsign.train_number}`)}
+      </div>
+      <div className="m-tnm-sidebar__schedules">
+        {headsign.times.map(time => renderTime(time, headsign.name, routeType))}
+      </div>
     </div>
   );
 };
-
-const renderTimeCommuterRail = (
-  time: Array<string>,
-  prediction: TNMPrediction | null
-): ReactElement<any> => (
-  <div className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail">
-    <div className="m-tnm-sidebar__time-number">{time.join("")}</div>
-    <div className="m-tnm-sidebar__status">
-      {prediction ? prediction.status : "On Time"}
-    </div>
-  </div>
-);
 
 export default Headsign;

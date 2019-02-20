@@ -173,7 +173,9 @@ const createGoogleMapsMock = (libraries = []) => {
     },
     GroundOverlay() {},
     ImageMapType() {},
-    InfoWindow() {},
+    InfoWindow: jest.fn().mockImplementation(function() {
+      createMVCObject(this);
+    }),
     KmlLayer() {},
     KmlLayerStatus: {
       DOCUMENT_NOT_FOUND: "DOCUMENT_NOT_FOUND",
@@ -212,7 +214,8 @@ const createGoogleMapsMock = (libraries = []) => {
         "setOptions",
         "setStreetView",
         "setTilt",
-        "setZoom"
+        "setZoom",
+        "fitBounds"
       ]);
     }),
     MapTypeControlStyle: {

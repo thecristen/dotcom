@@ -1,44 +1,70 @@
-import React from "react";
-import { Stop, Route, SVGMarkers } from "./__tnm";
+import React, { ReactElement, KeyboardEvent } from "react";
+import { Stop, Route } from "./__tnm";
+import { clickStopCardAction } from "../state";
 import { Direction, directionIsEmpty } from "./Direction";
+// @ts-ignore
+import stationSymbol from "../../../static/images/icon-circle-t-small.svg";
 
 interface Props {
   stop: Stop;
   route: Route;
-  markers: SVGMarkers;
+  dispatch: Function;
 }
 
 export const stopIsEmpty = (stop: Stop): boolean =>
   stop.directions.every(directionIsEmpty);
 
-const renderStopMarker = (stop: Stop, markers: SVGMarkers) => {
-  const svgText = stop["station?"] ? markers.stationMarker : markers.stopMarker;
+const renderStopIcon = (stop: Stop): JSX.Element => {
+  const svgText = stop["station?"] ? stationSymbol : "";
   return (
     <span
       className="m-tnm-sidebar__stop-marker"
+      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: svgText }}
     />
   );
 };
 
-export const StopCard = ({ stop, route, markers }: Props) => {
+const handleKeyPress = (
+  e: KeyboardEvent<HTMLDivElement>,
+  onClick: Function
+): void => {
+  if (e.key === "Enter") {
+    onClick();
+  }
+};
+
+export const StopCard = ({
+  stop,
+  route,
+  dispatch
+}: Props): ReactElement<HTMLElement> | null => {
   const key = `${route.id}-${stop.id}`;
 
   if (stopIsEmpty(stop)) {
     return null;
   }
 
+  const onClick = (): void => dispatch(clickStopCardAction(stop.id));
+
   return (
-    <div className="m-tnm-sidebar__stop">
+    <div
+      role="button"
+      tabIndex={0}
+      className="m-tnm-sidebar__stop"
+      onClick={onClick}
+      onKeyPress={e => handleKeyPress(e, onClick)}
+    >
       <div className="m-tnm-sidebar__stop-info">
         <a href={stop.href} className="m-tnm-sidebar__stop-name">
-          {renderStopMarker(stop, markers)} {stop.name}
+          {/* eslint-disable-next-line */}
+          {renderStopIcon(stop)} {stop.name}
         </a>
         <div className="m-tnm-sidebar__stop-distance">{stop.distance}</div>
       </div>
       {stop.directions.map(direction => (
         <Direction
-          key={direction.direction_id}
+          key={`${key}-${direction.direction_id}`}
           direction={direction}
           route={route}
           stopId={stop.id}

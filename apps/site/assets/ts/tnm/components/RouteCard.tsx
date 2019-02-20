@@ -1,11 +1,11 @@
 /* eslint-disable react/prefer-stateless-function */
-import React from "react";
+import React, { ReactElement } from "react";
 import { StopCard, stopIsEmpty } from "./StopCard";
-import { Route, Stop, SVGMarkers } from "./__tnm";
+import { Route, Stop } from "./__tnm";
 
 interface Props {
   route: Route;
-  markers: SVGMarkers;
+  dispatch: Function;
 }
 
 const routeIsEmpty = (route: Route): boolean => route.stops.every(stopIsEmpty);
@@ -15,25 +15,6 @@ const filterStops = (route: Route): Stop[] => {
 
   const count = route.type === 3 ? 2 : 1;
   return route.stops.slice(0, count);
-};
-
-const RouteCard = ({ route, markers }: Props) => {
-  const bgClass = `u-bg--${routeBgColor(route)}`;
-
-  if (routeIsEmpty(route)) {
-    return null;
-  }
-
-  return (
-    <div className="m-tnm-sidebar__route">
-      <div className={`h3 m-tnm-sidebar__route-name ${bgClass}`}>
-        <span className={busClass(route)}>{route.name}</span>
-      </div>
-      {filterStops(route).map(stop => (
-        <StopCard key={stop.id} stop={stop} route={route} markers={markers} />
-      ))}
-    </div>
-  );
 };
 
 export const isSilverLine = (route: Route): boolean => {
@@ -63,5 +44,27 @@ export const routeBgColor = (route: Route): string => {
 
 export const busClass = (route: Route): string =>
   route.type === 3 && !isSilverLine(route) ? "bus-route-sign" : "";
+
+const RouteCard = ({
+  route,
+  dispatch
+}: Props): ReactElement<HTMLElement> | null => {
+  const bgClass = `u-bg--${routeBgColor(route)}`;
+
+  if (routeIsEmpty(route)) {
+    return null;
+  }
+
+  return (
+    <div className="m-tnm-sidebar__route">
+      <div className={`h3 m-tnm-sidebar__route-name ${bgClass}`}>
+        <span className={busClass(route)}>{route.name}</span>
+      </div>
+      {filterStops(route).map(stop => (
+        <StopCard key={stop.id} stop={stop} route={route} dispatch={dispatch} />
+      ))}
+    </div>
+  );
+};
 
 export default RouteCard;

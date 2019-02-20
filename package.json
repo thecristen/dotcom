@@ -12,6 +12,7 @@
     "test:js": "cd apps/site/assets && npm run test",
     "test:jest": "cd apps/site/assets && npm run test:jest",
     "test:jest:update": "cd apps/site/assets && npm run test:jest:update",
+    "test:jest:cov": "open apps/site/assets/ts/coverage/index.html",
     "backstop:test": "cd apps/site/test && ../assets/node_modules/.bin/backstop test --docker",
     "backstop:reference": "cd apps/site/test && ../assets/node_modules/.bin/backstop reference --docker",
     "brunch:build:namespaced": "cd apps/site/assets/namespaced_header_footer && npm run brunch:build",

@@ -3,6 +3,10 @@
 exports[`it renders a stop card 1`] = `
 <div
   className="m-tnm-sidebar__stop"
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  role="button"
+  tabIndex={0}
 >
   <div
     className="m-tnm-sidebar__stop-info"
@@ -15,7 +19,7 @@ exports[`it renders a stop card 1`] = `
         className="m-tnm-sidebar__stop-marker"
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+            "__html": "",
           }
         }
       />

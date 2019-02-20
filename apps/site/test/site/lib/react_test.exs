@@ -52,7 +52,7 @@ defmodule Site.ReactTest do
                    })
         end)
 
-      assert log =~ "react_renderer component=TransitNearMe n.map is not a function"
+      assert log =~ "react_renderer component=TransitNearMe e.reduce is not a function"
     end
   end
 

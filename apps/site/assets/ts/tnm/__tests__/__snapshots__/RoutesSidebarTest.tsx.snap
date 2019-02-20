@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`it renders 1`] = `
+exports[`render it renders 1`] = `
 <div
   className="m-tnm-sidebar"
   style={
@@ -9,6 +9,13 @@ exports[`it renders 1`] = `
     }
   }
 >
+  <div
+    className="m-tnm-sidebar__header"
+  >
+    <h2>
+      Nearby Routes
+    </h2>
+  </div>
   <div
     className="m-tnm-sidebar__route"
   >
@@ -23,6 +30,10 @@ exports[`it renders 1`] = `
     </div>
     <div
       className="m-tnm-sidebar__stop"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      role="button"
+      tabIndex={0}
     >
       <div
         className="m-tnm-sidebar__stop-info"
@@ -35,7 +46,7 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-marker"
             dangerouslySetInnerHTML={
               Object {
-                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+                "__html": "",
               }
             }
           />
@@ -120,6 +131,10 @@ exports[`it renders 1`] = `
     </div>
     <div
       className="m-tnm-sidebar__stop"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      role="button"
+      tabIndex={0}
     >
       <div
         className="m-tnm-sidebar__stop-info"
@@ -132,7 +147,7 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-marker"
             dangerouslySetInnerHTML={
               Object {
-                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+                "__html": "",
               }
             }
           />
@@ -230,6 +245,10 @@ exports[`it renders 1`] = `
     </div>
     <div
       className="m-tnm-sidebar__stop"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      role="button"
+      tabIndex={0}
     >
       <div
         className="m-tnm-sidebar__stop-info"
@@ -242,7 +261,7 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-marker"
             dangerouslySetInnerHTML={
               Object {
-                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+                "__html": "",
               }
             }
           />
@@ -322,6 +341,10 @@ exports[`it renders 1`] = `
     </div>
     <div
       className="m-tnm-sidebar__stop"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      role="button"
+      tabIndex={0}
     >
       <div
         className="m-tnm-sidebar__stop-info"
@@ -334,7 +357,7 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-marker"
             dangerouslySetInnerHTML={
               Object {
-                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+                "__html": "",
               }
             }
           />
@@ -427,6 +450,10 @@ exports[`it renders 1`] = `
     </div>
     <div
       className="m-tnm-sidebar__stop"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      role="button"
+      tabIndex={0}
     >
       <div
         className="m-tnm-sidebar__stop-info"
@@ -439,7 +466,7 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-marker"
             dangerouslySetInnerHTML={
               Object {
-                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+                "__html": "",
               }
             }
           />
@@ -506,6 +533,10 @@ exports[`it renders 1`] = `
     </div>
     <div
       className="m-tnm-sidebar__stop"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      role="button"
+      tabIndex={0}
     >
       <div
         className="m-tnm-sidebar__stop-info"
@@ -518,7 +549,7 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-marker"
             dangerouslySetInnerHTML={
               Object {
-                "__html": "<svg id=\\"icon-feature-map-stop-icon\\"></svg>",
+                "__html": "",
               }
             }
           />
@@ -587,4 +618,4 @@ exports[`it renders 1`] = `
 </div>
 `;
 
-exports[`it returns null when there isn't data 1`] = `null`;
+exports[`render it returns null when there isn't data 1`] = `null`;
