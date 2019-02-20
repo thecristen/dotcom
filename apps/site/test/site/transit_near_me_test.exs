@@ -2,6 +2,7 @@ defmodule Site.TransitNearMeTest do
   use ExUnit.Case
 
   alias GoogleMaps.Geocode.Address
+  alias Predictions.Prediction
   alias Routes.Route
   alias Site.TransitNearMe
   alias Stops.Stop
@@ -104,6 +105,36 @@ defmodule Site.TransitNearMeTest do
       if prediction do
         assert Map.keys(prediction) == [:status, :time, :track]
       end
+    end
+  end
+
+  describe "simple_prediction/2" do
+    test "returns nil if no prediction" do
+      assert nil == TransitNearMe.simple_prediction([], :commuter_rail)
+    end
+
+    test "returns up to three keys if a prediction is available" do
+      assert %{time: _, track: _, status: _} =
+               TransitNearMe.simple_prediction(
+                 [%Prediction{time: Util.now(), track: 1, status: "On time"}],
+                 :commuter_rail
+               )
+    end
+
+    test "returns a AM/PM time for CR" do
+      [time, _, am_pm] =
+        TransitNearMe.simple_prediction([%Prediction{time: Util.now()}], :commuter_rail).time
+
+      assert time =~ ~r/\d{1,2}:\d\d/
+      assert am_pm =~ ~r/(AM|PM)/
+    end
+
+    test "returns a time difference for modes other than CR" do
+      assert [_, _, "min"] =
+               TransitNearMe.simple_prediction(
+                 [%Prediction{time: Timex.shift(Util.now(), minutes: 5)}],
+                 :subway
+               ).time
     end
   end
 end

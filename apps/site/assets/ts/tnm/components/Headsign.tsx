@@ -46,7 +46,9 @@ const renderTimeCommuterRail = (
   <div className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail">
     <div className="m-tnm-sidebar__time-number">{time.join("")}</div>
     <div className="m-tnm-sidebar__status">
-      {prediction ? prediction.status : "On Time"}
+      {`${prediction ? prediction.status : "On time"}${
+        prediction && prediction.track ? ` track ${prediction.track}` : ""
+      }`}
     </div>
   </div>
 );
@@ -62,7 +64,7 @@ const renderTime = (
   tnmTime: TNMTime,
   headsignName: string,
   routeType: RouteType
-): JSX.Element => {
+): ReactElement<HTMLElement> => {
   // eslint-disable-next-line typescript/camelcase
   const { prediction, scheduled_time } = tnmTime;
   // eslint-disable-next-line typescript/camelcase

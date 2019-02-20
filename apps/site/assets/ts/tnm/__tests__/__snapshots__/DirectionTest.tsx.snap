@@ -117,7 +117,7 @@ exports[`it does not display the route direction for commuter rail 1`] = `
           <div
             className="m-tnm-sidebar__status"
           >
-            On Time
+            On time
           </div>
         </div>
       </div>

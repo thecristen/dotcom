@@ -93,6 +93,26 @@ it("it renders a status and train name for Commuter Rail", () => {
   expect(tree).toMatchSnapshot();
 });
 
+fit("it renders a status and train name for Commuter Rail with track number if available", () => {
+  const data = JSON.parse(JSON.stringify(tnmData));
+  const route: Route = data[data.length - 1] as Route;
+  const stop: Stop = route.stops[0];
+  const direction: TNMDirection = stop.directions[0];
+  const headsign: TNMHeadsign = direction.headsigns[0];
+  headsign.times[0] = Object.assign({}, headsign.times[0], {
+    prediction: { time: ["4:30", " ", "PM"], status: "On time", track: 1 }
+  });
+  expect(route.type).toBe(2);
+
+  createReactRoot();
+  const tree = renderer
+    .create(
+      <Headsign headsign={headsign} condensed={false} routeType={route.type} />
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
 it("it renders uncondensed bus headsign name as --small", () => {
   const data = JSON.parse(JSON.stringify(tnmData));
   const route: Route = data.find((r: Route) => r.type === 3);

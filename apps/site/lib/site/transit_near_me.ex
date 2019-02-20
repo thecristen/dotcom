@@ -281,12 +281,14 @@ defmodule Site.TransitNearMe do
 
   @spec build_time_map(Schedule.t()) :: time_data
   defp build_time_map(schedule) do
+    route_type = Route.type_atom(schedule.route)
+
     prediction =
       [trip: schedule.trip.id]
       |> Predictions.Repo.all()
       # occasionally, a prediction will not have a time; discard if that happens
       |> Enum.filter(& &1.time)
-      |> simple_prediction()
+      |> simple_prediction(route_type)
 
     %{
       scheduled_time: format_time(schedule.time),
@@ -294,19 +296,23 @@ defmodule Site.TransitNearMe do
     }
   end
 
-  @spec simple_prediction([Prediction.t()]) :: simple_prediction | nil
-  defp simple_prediction([]) do
+  @spec simple_prediction([Prediction.t()], atom) :: simple_prediction | nil
+  def simple_prediction([], _) do
     nil
   end
 
-  defp simple_prediction([prediction | _]) do
+  def simple_prediction([prediction | _], route_type) do
     prediction
-    |> Map.update!(:time, &format_prediction_time/1)
+    |> Map.update!(:time, &format_prediction_time(&1, route_type))
     |> Map.take([:time, :status, :track])
   end
 
-  @spec format_prediction_time(DateTime.t()) :: [String.t()] | String.t()
-  defp format_prediction_time(%DateTime{} = time) do
+  @spec format_prediction_time(DateTime.t(), atom) :: [String.t()] | String.t()
+  defp format_prediction_time(%DateTime{} = time, :commuter_rail) do
+    format_time(time)
+  end
+
+  defp format_prediction_time(%DateTime{} = time, _) do
     Display.do_time_difference(time, Util.now(), &format_time/1)
   end
 

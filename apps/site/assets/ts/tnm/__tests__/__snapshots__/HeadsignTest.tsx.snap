@@ -104,6 +104,49 @@ exports[`it renders a status and train name for Commuter Rail 1`] = `
 </div>
 `;
 
+exports[`it renders a status and train name for Commuter Rail with track number if available 1`] = `
+<div
+  className="m-tnm-sidebar__headsign-schedule"
+>
+  <div
+    className="m-tnm-sidebar__headsign"
+  >
+    <div
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+    >
+      Framingham
+    </div>
+    <div
+      className="m-tnm-sidebar__headsign-train"
+    >
+      Train 591
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__schedules"
+  >
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail"
+      >
+        <div
+          className="m-tnm-sidebar__time-number"
+        >
+          4:30 PM
+        </div>
+        <div
+          className="m-tnm-sidebar__status"
+        >
+          On time track 1
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`it renders prediction time string 1`] = `
 <div
   className="m-tnm-sidebar__headsign-schedule"
