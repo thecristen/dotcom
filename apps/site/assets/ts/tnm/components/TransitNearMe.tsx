@@ -32,7 +32,12 @@ const TransitNearMe = ({
 
   return (
     <div className="m-tnm">
-      <div id={mapId} className="m-tnm__map" />
+      <div
+        id={mapId}
+        className="m-tnm__map"
+        role="application"
+        aria-label="Map with stops"
+      />
       <TransitNearMeMap
         selectedStopId={state.selectedStopId}
         dispatch={dispatch}

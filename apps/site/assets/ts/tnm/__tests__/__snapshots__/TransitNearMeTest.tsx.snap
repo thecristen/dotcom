@@ -5,8 +5,10 @@ exports[`it renders 1`] = `
   className="m-tnm"
 >
   <div
+    aria-label="Map with stops"
     className="m-tnm__map"
     id="test"
+    role="application"
   />
   <div
     className="m-tnm-sidebar"
