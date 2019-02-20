@@ -28,7 +28,6 @@ describe("buildIconFromSVG", () => {
     expect(markerIcon.url).toBe(
       "data:image/svg+xml;base64, PHN2Zz48ZyBpZD0ic29tZVN0cmluZyI+PC9zdmc+"
     );
-    expect(markerIcon.anchor).toBeInstanceOf(google.maps.Point);
     expect(markerIcon.labelOrigin).toBeInstanceOf(google.maps.Point);
     expect(markerIcon.origin).toBeInstanceOf(google.maps.Point);
     expect(markerIcon.scaledSize).toBeInstanceOf(google.maps.Size);

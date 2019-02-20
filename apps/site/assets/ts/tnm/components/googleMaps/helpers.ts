@@ -12,14 +12,6 @@ import { iconSize } from "../../../../js/google-map/helpers";
 
 import { MarkerData } from "../__tnm";
 
-interface GoogleMapMarkerSVG {
-  url: string;
-  scaledSize: google.maps.Size;
-  origin: google.maps.Point;
-  anchor: google.maps.Point;
-  labelOrigin: google.maps.Point;
-}
-
 export const stopIcon = (selected: boolean): string =>
   selected ? selectedStopMarker : stopMarker;
 export const stationIcon = (selected: boolean): string =>
@@ -28,7 +20,7 @@ export const stationIcon = (selected: boolean): string =>
 export const buildIconFromSVG = (
   svg: string,
   size: string
-): GoogleMapMarkerSVG => {
+): google.maps.Icon => {
   const sizeInt = iconSize(size);
 
   const encoded = window.btoa(svg);
@@ -37,7 +29,6 @@ export const buildIconFromSVG = (
     url: `data:image/svg+xml;base64, ${encoded}`,
     scaledSize: new window.google.maps.Size(sizeInt, sizeInt),
     origin: new window.google.maps.Point(0, 0),
-    anchor: new window.google.maps.Point(sizeInt / 2, sizeInt / 2),
     labelOrigin: new window.google.maps.Point(sizeInt / 2, sizeInt / 2)
   };
 };
@@ -45,7 +36,7 @@ export const buildIconFromSVG = (
 export const buildMarkerIcon = (
   data: MarkerData,
   selected: boolean
-): GoogleMapMarkerSVG | undefined => {
+): google.maps.Icon | undefined => {
   if (data.icon) {
     if (data.icon!.includes("station")) {
       return buildIconFromSVG(stationIcon(selected), data.size);
