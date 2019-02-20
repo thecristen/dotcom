@@ -12,6 +12,16 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
     longitude: -71.308373
   }
 
+  @to_inside %TripPlan.NamedPosition{
+    latitude: 42.3636617,
+    longitude: -71.0832908
+  }
+
+  @to_outside %TripPlan.NamedPosition{
+    latitude: 42.4185923,
+    longitude: -71.2184401
+  }
+
   describe "build_params/1" do
     test "depart_at sets date/time options" do
       expected =
@@ -27,6 +37,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       actual =
         build_params(
           @from_inside,
+          @to_inside,
           depart_at: DateTime.from_naive!(~N[2017-05-22T16:04:20], "Etc/UTC")
         )
 
@@ -47,6 +58,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       actual =
         build_params(
           @from_inside,
+          @to_inside,
           arrive_by: DateTime.from_naive!(~N[2017-05-22T16:04:20], "Etc/UTC")
         )
 
@@ -62,7 +74,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "mode" => "TRANSIT,WALK"
          }}
 
-      actual = build_params(@from_inside, wheelchair_accessible?: true)
+      actual = build_params(@from_inside, @to_inside, wheelchair_accessible?: true)
       assert expected == actual
 
       expected =
@@ -72,11 +84,11 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "mode" => "TRANSIT,WALK"
          }}
 
-      actual = build_params(@from_inside, wheelchair_accessible?: false)
+      actual = build_params(@from_inside, @to_inside, wheelchair_accessible?: false)
       assert expected == actual
     end
 
-    test "maxWalkDistance is increased when searching from outside of city" do
+    test "maxWalkDistance is increased when searching from outside of subway service area" do
       expected =
         {:ok,
          %{
@@ -85,7 +97,22 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "mode" => "TRANSIT,WALK"
          }}
 
-      actual = build_params(@from_outside, wheelchair_accessible?: false)
+      actual = build_params(@from_outside, @to_inside, wheelchair_accessible?: false)
+      assert expected == actual
+
+      actual = build_params(@from_inside, @to_outside, wheelchair_accessible?: false)
+      assert expected == actual
+    end
+
+    test "maxWalkDistance is not increased when searching from inside of subway service area" do
+      expected =
+        {:ok,
+         %{
+           "walkReluctance" => 5,
+           "mode" => "TRANSIT,WALK"
+         }}
+
+      actual = build_params(@from_inside, @to_inside, wheelchair_accessible?: false)
       assert expected == actual
     end
 
@@ -98,7 +125,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "mode" => "TRANSIT,WALK"
          }}
 
-      actual = build_params(@from_inside, max_walk_distance: 1609.5)
+      actual = build_params(@from_inside, @to_inside, max_walk_distance: 1609.5)
       assert expected == actual
     end
 
@@ -110,7 +137,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "mode" => "TRANSIT,WALK"
          }}
 
-      actual = build_params(@from_inside, mode: [])
+      actual = build_params(@from_inside, @to_inside, mode: [])
       assert expected == actual
     end
 
@@ -122,7 +149,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "mode" => "BUS,SUBWAY,TRAM,WALK"
          }}
 
-      actual = build_params(@from_inside, mode: ["BUS", "SUBWAY", "TRAM"])
+      actual = build_params(@from_inside, @to_inside, mode: ["BUS", "SUBWAY", "TRAM"])
       assert expected == actual
     end
 
@@ -134,7 +161,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "walkReluctance" => 17
          }}
 
-      actual = build_params(@from_inside, optimize_for: :less_walking)
+      actual = build_params(@from_inside, @to_inside, optimize_for: :less_walking)
       assert expected == actual
     end
 
@@ -147,13 +174,13 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "transferPenalty" => 100
          }}
 
-      actual = build_params(@from_inside, optimize_for: :fewest_transfers)
+      actual = build_params(@from_inside, @to_inside, optimize_for: :fewest_transfers)
       assert expected == actual
     end
 
     test "bad options return an error" do
       expected = {:error, {:bad_param, {:bad, :arg}}}
-      actual = build_params(@from_inside, bad: :arg)
+      actual = build_params(@from_inside, @to_inside, bad: :arg)
       assert expected == actual
     end
   end

@@ -4,17 +4,17 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
   @ten_miles 16_093
 
   @doc "Convert general planning options into query params for OTP"
-  @spec build_params(Position.t(), TripPlan.Api.plan_opts()) ::
+  @spec build_params(Position.t(), Position.t(), TripPlan.Api.plan_opts()) ::
           {:ok, %{String.t() => String.t()}} | {:error, any}
-  def build_params(from, opts) do
-    opts = configure_walk_distance(from, opts)
+  def build_params(from, to, opts) do
+    opts = configure_walk_distance(from, to, opts)
     do_build_params(opts, %{"mode" => "TRANSIT,WALK", "walkReluctance" => 5})
   end
 
-  defp configure_walk_distance(from, opts) do
+  defp configure_walk_distance(from, to, opts) do
     polygon = Application.get_env(:trip_plan, ReducedWalkingArea, [])
 
-    if Polygon.inside?(polygon, from) do
+    if Polygon.inside?(polygon, from) and Polygon.inside?(polygon, to) do
       opts
     else
       put_in(opts[:max_walk_distance], @ten_miles)
