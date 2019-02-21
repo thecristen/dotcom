@@ -165,9 +165,21 @@ defmodule Site.TransitNearMe do
     schedules
     |> Map.values()
     |> List.flatten()
+    |> Enum.filter(&coming_today_if_bus(&1, &1.route.type))
     |> Enum.group_by(& &1.route.id)
     |> Enum.map(&schedules_for_route(&1, location, distances))
     |> Enum.sort_by(&route_sorter(&1, distances))
+  end
+
+  @spec coming_today_if_bus(Schedule.t(), 0..4) :: boolean
+  defp coming_today_if_bus(schedule, 3) do
+    twenty_four_hours_in_seconds = 86_400
+
+    DateTime.diff(schedule.time, Util.now()) < twenty_four_hours_in_seconds
+  end
+
+  defp coming_today_if_bus(_schedule, _non_bus_route_type) do
+    true
   end
 
   defp route_sorter(%{stops: [%{id: stop_id} | _]}, distances) do
