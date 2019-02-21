@@ -25,7 +25,7 @@ cd apps/site/assets && npm install && cd -
 
 set +e
 
-docker run --rm -it --network host --mount type=bind,source="/home/runner/dotcom/apps/site/test",target=/src backstopjs/backstopjs:3.5.16 test "--_=test" "--h=false" "--help=false" "--v=false" "--version=false" "--i=false" "--moby=true" "--config=backstop.json" "--moby"
+docker run --rm -it --network host --mount type=bind,source="/home/runner/dotcom/apps/site/test",target=/src backstopjs/backstopjs:3.8.8 test "--_=test" "--h=false" "--help=false" "--v=false" "--version=false" "--i=false" "--moby=true" "--config=backstop.json" "--moby"
 
 if [ $? -eq 0 ]
 then
@@ -37,7 +37,7 @@ else
   FILENAME="$BRANCH.tar.gz"
   tar -czvf $FILENAME apps/site/test/backstop_data
   aws s3 cp $FILENAME s3://mbta-semaphore/$FILENAME
-  LINK=`aws s3 presign s3://mbta-semaphore/$FILENAME --expires-in 1800`
-  echo "Backstop report located at $LINK, available for 30 minutes."
-  exit 0
+  LINK=`aws s3 presign s3://mbta-semaphore/$FILENAME --expires-in 3600`
+  echo "Backstop report located at $LINK, available for 1 hour."
+  exit 1
 fi
