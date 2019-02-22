@@ -301,4 +301,24 @@ defmodule Site.TransitNearMeTest do
                ).time
     end
   end
+
+  describe "format_min_time/1" do
+    test "returns hour greater than 24 between midnight and 3:00am" do
+      {:ok, midnight} = DateTime.from_naive(~N[2019-02-22T00:00:00], "Etc/UTC")
+      assert midnight.hour === 0
+      assert TransitNearMe.format_min_time(midnight) === "24:00"
+
+      {:ok, one_thirty} = DateTime.from_naive(~N[2019-02-22T01:30:00], "Etc/UTC")
+      assert one_thirty.hour === 1
+      assert TransitNearMe.format_min_time(one_thirty) === "25:30"
+
+      {:ok, two_fifty_nine} = DateTime.from_naive(~N[2019-02-22T02:59:00], "Etc/UTC")
+      assert two_fifty_nine.hour === 2
+      assert TransitNearMe.format_min_time(two_fifty_nine) === "26:59"
+
+      {:ok, three_am} = DateTime.from_naive(~N[2019-02-22T03:00:00], "Etc/UTC")
+      assert three_am.hour === 3
+      assert TransitNearMe.format_min_time(three_am) === "03:00"
+    end
+  end
 end

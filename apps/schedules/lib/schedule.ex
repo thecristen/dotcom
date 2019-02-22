@@ -5,6 +5,7 @@ defmodule Schedules.Schedule do
             time: nil,
             flag?: false,
             early_departure?: false,
+            last_stop?: false,
             stop_sequence: 0,
             pickup_type: 0
 
@@ -15,6 +16,7 @@ defmodule Schedules.Schedule do
           time: DateTime.t(),
           flag?: boolean,
           early_departure?: boolean,
+          last_stop?: boolean,
           stop_sequence: non_neg_integer,
           pickup_type: integer
         }

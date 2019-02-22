@@ -283,14 +283,14 @@ defmodule Schedules.RepoTest do
     test "keeps parsed schedules with trips" do
       assert has_trip?(
                {"CR-Lowell", "CR-Weekday-Fall-18-348", "Lowell",
-                "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5", false, false, 1, 0}
+                "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5", false, false, false, 1, 0}
              )
     end
 
     test "filters out parsed schedules that returned without trips" do
       refute has_trip?(
                {"CR-Lowell", nil, "Lowell", "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5", false,
-                false, 1, 0}
+                false, false, 1, 0}
              )
     end
   end

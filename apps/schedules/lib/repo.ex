@@ -142,11 +142,11 @@ defmodule Schedules.Repo do
     end
   end
 
-  def has_trip?({_, trip_id, _, _, _, _, _, _}) when is_nil(trip_id) do
+  def has_trip?({_, trip_id, _, _, _, _, _, _, _}) when is_nil(trip_id) do
     false
   end
 
-  def has_trip?(_) do
+  def has_trip?({_, _, _, _, _, _, _, _, _}) do
     true
   end
 
@@ -208,7 +208,7 @@ defmodule Schedules.Repo do
   defp load_from_other_repos(schedules) do
     schedules
     |> Task.async_stream(fn {route_id, trip_id, stop_id, time, flag?, early_departure?,
-                             stop_sequence, pickup_type} ->
+                             last_stop?, stop_sequence, pickup_type} ->
       %Schedules.Schedule{
         route: Routes.Repo.get(route_id),
         trip: trip(trip_id),
@@ -216,6 +216,7 @@ defmodule Schedules.Repo do
         time: time,
         flag?: flag?,
         early_departure?: early_departure?,
+        last_stop?: last_stop?,
         stop_sequence: stop_sequence,
         pickup_type: pickup_type
       }

@@ -7,6 +7,7 @@ defmodule Schedules.Parser do
       time(item),
       flag?(item),
       early_departure?(item),
+      last_stop?(item),
       item.attributes["stop_sequence"] || 0,
       pickup_type(item)
     }
@@ -105,6 +106,15 @@ defmodule Schedules.Parser do
        }) do
     # early departure when the timepoint is false and the pickup_type is not 1
     timepoint == false && pickup_type != 1
+  end
+
+  defp last_stop?(%JsonApi.Item{
+         attributes: %{
+           "drop_off_type" => dropoff,
+           "pickup_type" => pickup
+         }
+       }) do
+    dropoff === 0 and pickup === 1
   end
 
   defp pickup_type(%JsonApi.Item{attributes: %{"pickup_type" => pickup_type}}) do

@@ -61,18 +61,44 @@ defmodule Site.TransitNearMe do
           {:ok, %{Stop.id_t() => [Schedule.t()]}} | {:error, :timeout}
   defp get_schedules(stops, opts) do
     schedules_fn = Keyword.fetch!(opts, :schedules_fn)
+    now = Keyword.fetch!(opts, :now)
 
-    min_time =
-      opts
-      |> Keyword.fetch!(:now)
-      |> Timex.format!("{h24}:{m}")
+    min_time = format_min_time(now)
 
     stops
     |> Task.async_stream(
-      fn stop -> {stop.id, schedules_fn.(stop.id, min_time: min_time)} end,
+      fn stop ->
+        {
+          stop.id,
+          stop.id
+          |> schedules_fn.(min_time: min_time)
+          |> Enum.reject(& &1.last_stop?)
+        }
+      end,
       on_timeout: :kill_task
     )
     |> Enum.reduce_while({:ok, %{}}, &collect_data/2)
+  end
+
+  def format_min_time(%DateTime{hour: hour, minute: minute}) do
+    format_min_hour(hour) <> ":" <> format_time_integer(minute)
+  end
+
+  defp format_min_hour(hour) when hour in [0, 1, 2] do
+    # use integer > 24 to return times after midnight for the service day
+    Integer.to_string(24 + hour)
+  end
+
+  defp format_min_hour(hour) do
+    format_time_integer(hour)
+  end
+
+  defp format_time_integer(num) when num < 10 do
+    "0" <> Integer.to_string(num)
+  end
+
+  defp format_time_integer(num) do
+    Integer.to_string(num)
   end
 
   @spec collect_data({:ok, any} | {:exit, :timeout}, {:ok, map | [any]}) ::
@@ -242,7 +268,6 @@ defmodule Site.TransitNearMe do
     headsigns =
       schedules
       |> Enum.group_by(& &1.trip.headsign)
-      |> Enum.reject(&last_stop?/1)
       |> Task.async_stream(&build_headsign_map/1, on_timeout: :kill_task)
       |> Enum.reduce_while({:ok, []}, &collect_data/2)
       |> sort_data()
@@ -251,14 +276,6 @@ defmodule Site.TransitNearMe do
       direction_id: direction_id,
       headsigns: headsigns
     }
-  end
-
-  @spec last_stop?({String.t(), [Schedule.t()]}) :: boolean
-  defp last_stop?({_headsign, [%{trip: trip, stop: %{id: stop_id}} | _]}) do
-    case Routes.Repo.get_shape(trip.shape_id) do
-      [%{stop_ids: stop_ids}] -> stop_id == List.last(stop_ids)
-      _ -> false
-    end
   end
 
   @spec build_headsign_map({Schedules.Trip.headsign(), [Schedule.t()]}) :: headsign_data
