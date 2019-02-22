@@ -75,18 +75,22 @@ defmodule SiteWeb.TransitNearMeController do
       marker.stop.latitude,
       marker.stop.longitude,
       id: marker.stop.id,
-      icon: marker_for_stop_type(marker.stop),
+      icon: marker_for_routes(marker.routes),
       size: :large,
       tooltip: tooltip(marker)
     )
   end
 
-  def marker_for_stop_type(%{station?: false}) do
-    "map-stop-marker"
-  end
-
-  def marker_for_stop_type(_) do
-    "map-station-marker"
+  @doc """
+  Use a stop marker for bus-only stops, station marker otherwise
+  """
+  @spec marker_for_routes(Keyword.t()) :: String.t()
+  def marker_for_routes(routes) do
+    if Keyword.keys(routes) == [:bus] || Keyword.keys(routes) == [] do
+      "map-stop-marker"
+    else
+      "map-station-marker"
+    end
   end
 
   def add_location_marker(map_data, %{location: {:ok, [%Geocode.Address{} | _]}} = assigns) do

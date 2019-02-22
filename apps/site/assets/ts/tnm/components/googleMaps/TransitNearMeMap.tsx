@@ -31,6 +31,12 @@ class TransitNearMeMap extends React.Component<Props> {
       dispatch(clickMarkerAction(null));
     });
     const styles = mapStyles as google.maps.MapTypeStyle[];
+    // Hide stop icons on the transit layer
+    styles.push({
+      featureType: "transit",
+      elementType: "labels.icon",
+      stylers: [{ visibility: "off" }]
+    });
     map.setOptions({ styles });
     map.setZoom(initialData.zoom || 17);
     this.map = map;

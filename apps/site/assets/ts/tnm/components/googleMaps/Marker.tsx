@@ -33,6 +33,8 @@ class Marker extends React.Component<Props> {
     this.marker!.setMap(map);
 
     this.marker!.addListener("click", this.handleMarkerClick);
+    this.marker!.addListener("mouseover", this.handleMouseover);
+    this.marker!.addListener("mouseout", this.handleMouseout);
 
     const content = data.tooltip;
     this.infoWindow = new window.google.maps.InfoWindow({ content });
@@ -56,6 +58,20 @@ class Marker extends React.Component<Props> {
   public handleInfoWindowClick = () => {
     const { dispatch } = this.props;
     dispatch(clickMarkerAction(null));
+  };
+
+  private handleMouseover = () => {
+    const { data } = this.props;
+    const icon = buildMarkerIcon(data, true);
+    // eslint-disable-next-line no-unused-expressions
+    icon ? this.marker!.setIcon(icon) : null;
+  };
+
+  private handleMouseout = () => {
+    const { data, isSelected } = this.props;
+    const icon = buildMarkerIcon(data, isSelected);
+    // eslint-disable-next-line no-unused-expressions
+    icon ? this.marker!.setIcon(icon) : null;
   };
 
   public render(): ReactElement<HTMLElement> | null {

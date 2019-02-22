@@ -301,7 +301,42 @@ defmodule SiteWeb.TransitNearMeControllerTest do
     end
 
     test "assigns a marker with a bus icon for stops that aren't stations", %{conn: conn} do
-      bus_stop_with_routes = put_in(@stop_with_routes.stop.station?, false)
+      bus_stop_with_routes =
+        put_in(
+          @stop_with_routes.routes,
+          bus: [
+            %Routes.Route{
+              custom_route?: false,
+              description: :key_bus_route,
+              direction_destinations: :unknown,
+              direction_names: %{0 => "Outbound", 1 => "Inbound"},
+              id: "39",
+              long_name: "",
+              name: "39",
+              type: 3
+            },
+            %Routes.Route{
+              custom_route?: false,
+              description: :limited_service,
+              direction_destinations: :unknown,
+              direction_names: %{0 => "Outbound", 1 => "Inbound"},
+              id: "170",
+              long_name: "",
+              name: "170",
+              type: 3
+            },
+            %Routes.Route{
+              custom_route?: false,
+              description: :local_bus,
+              direction_destinations: :unknown,
+              direction_names: %{0 => "Outbound", 1 => "Inbound"},
+              id: "10",
+              long_name: "",
+              name: "10",
+              type: 3
+            }
+          ]
+        )
 
       conn =
         conn
@@ -310,10 +345,9 @@ defmodule SiteWeb.TransitNearMeControllerTest do
         |> TNMController.assign_map_data()
 
       assert %MapData{} = conn.assigns.map_data
-      assert [marker, bus_marker] = conn.assigns.map_data.markers
+      assert [_, bus_marker] = conn.assigns.map_data.markers
       assert %Marker{} = bus_marker
       assert bus_marker.icon == "map-stop-marker"
-      assert put_in(bus_marker.icon, "map-station-marker") == marker
     end
 
     test "assigns a marker for the provided location", %{conn: conn} do
