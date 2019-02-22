@@ -90,6 +90,11 @@ The new face of https://www.mbta.com/
     git config --global url.https://github.com/.insteadOf git://github.com/
     ```
 
+1. Setup React:
+    ```
+    npm run react:setup
+    ```
+
 1. Build the assets:
     ```
     npm run webpack:build
