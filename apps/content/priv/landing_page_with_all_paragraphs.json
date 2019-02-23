@@ -4030,6 +4030,11 @@
                 {
                   "value": "{{ fare:subway:charlie_card }}"
                 }
+              ],
+              "field_fare_media": [
+                {
+                  "value": true
+                }
               ]
             }
           ]
@@ -4310,6 +4315,11 @@
               "field_fare_request": [
                 {
                   "value": "{{ fare:local_bus:charlie_card }}"
+                }
+              ],
+              "field_fare_media": [
+                {
+                  "value": false
                 }
               ]
             }

@@ -45,9 +45,11 @@
             <%= Fares.Format.price(fare) %>
           </div>
 
-          <p class="c-fare-card__media">
-            with a <%= Fares.Format.media(fare) %>
-          </p>
+          <%= if fare_card.show_media do %>
+            <p class="c-fare-card__media">
+              with a <%= Fares.Format.media(fare) %>
+            </p>
+          <% end %>
 
           <%= if fare_card.note do %>
             <div class="c-fare-card__note">

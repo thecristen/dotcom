@@ -7,12 +7,16 @@ defmodule Content.Paragraph.FareCard do
   alias Content.Helpers
   alias Content.Paragraph.CustomHTML
 
-  defstruct [:fare_token, :note, :link]
+  defstruct fare_token: "",
+            note: nil,
+            link: nil,
+            show_media: true
 
   @type t :: %__MODULE__{
           fare_token: String.t(),
           note: CustomHTML.t(),
-          link: Link.t() | nil
+          link: Link.t() | nil,
+          show_media: boolean()
         }
 
   @spec from_api(map) :: t
@@ -22,7 +26,8 @@ defmodule Content.Paragraph.FareCard do
       %__MODULE__{
         fare_token: fare_token,
         note: note,
-        link: nil
+        link: nil,
+        show_media: Helpers.field_value(data, "field_fare_media")
       }
     end
   end

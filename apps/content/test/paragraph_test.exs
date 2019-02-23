@@ -77,6 +77,7 @@ defmodule Content.ParagraphTest do
                    paragraphs: [
                      %FareCard{
                        fare_token: "subway:charlie_card",
+                       show_media: true,
                        note: %CustomHTML{
                          body: {:safe, "<p>{{ fare:subway:cash }} with CharlieTicket</p>\n"}
                        }
@@ -86,6 +87,7 @@ defmodule Content.ParagraphTest do
                  %Column{
                    paragraphs: [
                      %FareCard{
+                       show_media: false,
                        fare_token: "local_bus:charlie_card",
                        note: %CustomHTML{
                          body: {:safe, "<p>{{ fare:local_bus:cash }} with CharlieTicket</p>\n"}

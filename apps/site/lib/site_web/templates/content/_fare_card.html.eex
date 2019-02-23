@@ -57,9 +57,11 @@
     <%= price %>
   </div>
 
-  <p class="c-fare-card__media">
-    with a <%= media %>
-  </p>
+  <%= if @fare_card.show_media do %>
+    <p class="c-fare-card__media">
+      with a <%= media %>
+    </p>
+  <% end %>
 
   <%= if @fare_card.note do %>
     <div class="c-fare-card__note">

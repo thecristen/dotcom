@@ -160,7 +160,13 @@ defmodule SiteWeb.ContentView do
   defp grouped_fare_card_data(paragraphs) when is_list(paragraphs) do
     Enum.map(
       paragraphs,
-      &struct(FareCard, fare_token: &1.fare_token, note: &1.note, link: &1.link)
+      &struct(
+        FareCard,
+        fare_token: &1.fare_token,
+        note: &1.note,
+        link: &1.link,
+        show_media: &1.show_media
+      )
     )
   end
 

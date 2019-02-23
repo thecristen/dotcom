@@ -336,6 +336,7 @@ defmodule SiteWeb.ContentViewTest do
             paragraphs: [
               %FareCard{
                 fare_token: "subway:charlie_card",
+                show_media: true,
                 note: %CustomHTML{
                   body: {:safe, "<p>{{ fare:subway:cash }} with CharlieTicket</p>\n"}
                 }
@@ -345,9 +346,10 @@ defmodule SiteWeb.ContentViewTest do
           %Column{
             paragraphs: [
               %FareCard{
-                fare_token: "local_bus:charlie_card",
+                fare_token: "local_bus:cash",
+                show_media: false,
                 note: %CustomHTML{
-                  body: {:safe, "<p>{{ fare:local_bus:cash }} with CharlieTicket</p>\n"}
+                  body: {:safe, "<p>{{ fare:local_bus:charlie_card }} with a CharlieCard</p>\n"}
                 }
               }
             ]
@@ -367,8 +369,9 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "with a CharlieCard"
       assert rendered =~ "$2.75 with CharlieTicket"
       assert rendered =~ "Local Bus"
-      assert rendered =~ "$1.70"
-      assert rendered =~ "$2.00 with CharlieTicket"
+      assert rendered =~ "$2.00"
+      assert rendered =~ "$1.70 with a CharlieCard"
+      refute rendered =~ "with a CharlieTicket or Cash"
     end
 
     test "renders a grouped FareCard", %{conn: conn} do
@@ -378,6 +381,7 @@ defmodule SiteWeb.ContentViewTest do
             paragraphs: [
               %FareCard{
                 fare_token: "local_bus:charlie_card",
+                show_media: true,
                 note: %CustomHTML{
                   body: {:safe, "<p>1 free transfer to Local Bus within 2 hours</p>\n"}
                 }
@@ -388,6 +392,7 @@ defmodule SiteWeb.ContentViewTest do
             paragraphs: [
               %FareCard{
                 fare_token: "local_bus:cash",
+                show_media: false,
                 note: %CustomHTML{
                   body: {:safe, "<p>a href='/schedules/bus'>Limited transfers</a></p>\n"}
                 }
@@ -411,7 +416,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "with a CharlieCard"
       assert rendered =~ "1 free transfer"
       assert rendered =~ "$2.00"
-      assert rendered =~ "with a CharlieTicket or Cash"
+      refute rendered =~ "with a CharlieTicket or Cash"
       assert rendered =~ "Limited transfers"
     end
 
