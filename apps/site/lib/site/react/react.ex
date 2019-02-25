@@ -31,7 +31,10 @@ defmodule Site.React do
   def render(react_component_name, args) do
     case do_render(react_component_name, args) do
       {:ok, %{"markup" => body}} ->
-        HTML.raw(body)
+        body
+        # Replace zero-width space HTML entities with the Unicode character
+        |> String.replace("&#8203;", "​")
+        |> HTML.raw()
 
       {:error, %{"error" => %{"message" => message}}} ->
         _ = Logger.warn(fn -> "react_renderer component=#{react_component_name} #{message}" end)

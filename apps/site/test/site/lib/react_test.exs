@@ -14,19 +14,23 @@ defmodule Site.ReactTest do
   @date Util.service_date()
 
   describe "render/2" do
-    test "renders a component, even when the component has a lot of data" do
+    setup do
       data =
         @address
         |> TransitNearMe.build(date: @date, now: Util.now())
         |> TransitNearMe.schedules_for_routes()
 
+      {:ok, %{data: data}}
+    end
+
+    test "renders a component, even when the component has a lot of data", %{data: data} do
       assert {:safe, body} =
                React.render("TransitNearMe", %{mapId: "map-id", mapData: %{}, sidebarData: data})
 
       assert body =~ "m-tnm-sidebar"
     end
 
-    test "fail with unknown component" do
+    test "fails with unknown component" do
       log =
         CaptureLog.capture_log(fn ->
           assert "" ==
@@ -41,7 +45,7 @@ defmodule Site.ReactTest do
                "react_renderer component=TransitNearMeError Unknown component: TransitNearMeError"
     end
 
-    test "render" do
+    test "fails with bad data" do
       log =
         CaptureLog.capture_log(fn ->
           assert "" ==
@@ -53,6 +57,19 @@ defmodule Site.ReactTest do
         end)
 
       assert log =~ "react_renderer component=TransitNearMe e.reduce is not a function"
+    end
+
+    test "it translates zero-width space HTML entities into UTF-8 characters", %{data: data} do
+      # There's something between the quotes, really.
+      zero_width_space = "​"
+
+      # Demonstrate that the data going in includes a zero-width space
+      assert Poison.encode!(data) =~ zero_width_space
+
+      assert {:safe, body} =
+               React.render("TransitNearMe", %{mapId: "map-id", mapData: %{}, sidebarData: data})
+
+      assert body =~ zero_width_space
     end
   end
 

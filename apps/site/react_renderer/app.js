@@ -8,6 +8,8 @@ const Components = {
   TransitNearMe
 };
 
+const encodeZeroWidthSpaceAsHtml = str => str.replace(/​/g, "&#8203;");
+
 const makeHtml = ({ name, props }) => {
   try {
     if (!Components[name]) {
@@ -49,5 +51,8 @@ readline
     const input = JSON.parse(line);
     const result = makeHtml(input);
     const jsonResult = JSON.stringify(result) + "\n";
-    process.stdout.write(jsonResult);
+    // Translate zero-width space UTF-8 characters into HTML entities,
+    // otherwise they are getting corrupted somewhere between here and Elixir
+    const encodedJsonResult = encodeZeroWidthSpaceAsHtml(jsonResult);
+    process.stdout.write(encodedJsonResult);
   });
