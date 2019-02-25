@@ -8,16 +8,16 @@ defmodule Site.MapHelpers do
   def map_pdf_url(:subway) do
     static_url(
       SiteWeb.Endpoint,
-      "/sites/default/files/maps/2018-04-map-rapid-transit-key-bus-v31a.pdf"
+      "/sites/default/files/maps/2019-02-rapid-transit-key-bus-routes-map-v33.pdf"
     )
   end
 
   def map_pdf_url(:bus) do
-    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-04-map-system.pdf")
+    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2019-02-mbta-system-map-full.pdf")
   end
 
   def map_pdf_url(:commuter_rail) do
-    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2017-05-map-commuter-rail-v30.pdf")
+    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2019-02-commuter-rail-map-v33.pdf")
   end
 
   def map_pdf_url(:ferry) do
@@ -27,7 +27,7 @@ defmodule Site.MapHelpers do
   def map_pdf_url(:commuter_rail_zones) do
     static_url(
       SiteWeb.Endpoint,
-      "/sites/default/files/maps/2018-commuter-rail-zones-spider-bw.pdf"
+      "/sites/default/files/maps/2019-02-commuter-rail-map-zones.pdf"
     )
   end
 
@@ -54,7 +54,10 @@ defmodule Site.MapHelpers do
 
   @spec image(atom) :: String.t()
   def image(:subway) do
-    static_url(SiteWeb.Endpoint, "/images/map-medium-rapidtransit.png")
+    static_url(
+      SiteWeb.Endpoint,
+      "/sites/default/files/maps/2019-02-rapid-transit-key-bus-routes-map-v33.png"
+    )
   end
 
   def image(:ferry) do
