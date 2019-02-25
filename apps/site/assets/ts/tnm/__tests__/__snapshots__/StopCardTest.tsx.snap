@@ -15,16 +15,15 @@ exports[`it renders a stop card 1`] = `
       className="m-tnm-sidebar__stop-name"
       href="/stops/9983"
     >
+      Stuart St @ Charles St S
       <span
-        className="m-tnm-sidebar__stop-marker"
+        className="m-tnm-sidebar__stop-accessible"
         dangerouslySetInnerHTML={
           Object {
-            "__html": "",
+            "__html": "SVG",
           }
         }
       />
-       
-      Stuart St @ Charles St S
     </a>
     <div
       className="m-tnm-sidebar__stop-distance"

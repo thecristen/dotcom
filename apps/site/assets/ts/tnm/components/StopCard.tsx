@@ -4,6 +4,8 @@ import { clickStopCardAction } from "../state";
 import { Direction, directionIsEmpty } from "./Direction";
 // @ts-ignore
 import stationSymbol from "../../../static/images/icon-circle-t-small.svg";
+// @ts-ignore
+import accessibleIcon from "../../../static/images/icon-accessible-default.svg";
 
 interface Props {
   stop: Stop;
@@ -14,16 +16,20 @@ interface Props {
 export const stopIsEmpty = (stop: Stop): boolean =>
   stop.directions.every(directionIsEmpty);
 
-const renderStopIcon = (stop: Stop): JSX.Element => {
-  const svgText = stop["station?"] ? stationSymbol : "";
-  return (
-    <span
-      className="m-tnm-sidebar__stop-marker"
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{ __html: svgText }}
-    />
+const renderSvg = (svg: string, className: string): JSX.Element => (
+  <span
+    className={className}
+    // eslint-disable-next-line react/no-danger
+    dangerouslySetInnerHTML={{ __html: svg }}
+  />
+);
+
+const renderStopIcon = (stop: Stop): JSX.Element =>
+  stop["station?"] ? (
+    renderSvg(stationSymbol, "m-tnm-sidebar__stop-marker")
+  ) : (
+    <></>
   );
-};
 
 const handleKeyPress = (
   e: KeyboardEvent<HTMLDivElement>,
@@ -57,8 +63,11 @@ export const StopCard = ({
     >
       <div className="m-tnm-sidebar__stop-info">
         <a href={stop.href} className="m-tnm-sidebar__stop-name">
-          {/* eslint-disable-next-line */}
-          {renderStopIcon(stop)} {stop.name}
+          {renderStopIcon(stop)}
+          {stop.name}
+          {!!stop.accessibility.length &&
+            !stop.accessibility.includes("unknown") &&
+            renderSvg(accessibleIcon, "m-tnm-sidebar__stop-accessible")}
         </a>
         <div className="m-tnm-sidebar__stop-distance">{stop.distance}</div>
       </div>

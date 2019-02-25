@@ -27,16 +27,15 @@ exports[`it renders a stop card 1`] = `
         className="m-tnm-sidebar__stop-name"
         href="/stops/9983"
       >
+        Stuart St @ Charles St S
         <span
-          className="m-tnm-sidebar__stop-marker"
+          className="m-tnm-sidebar__stop-accessible"
           dangerouslySetInnerHTML={
             Object {
-              "__html": "",
+              "__html": "SVG",
             }
           }
         />
-         
-        Stuart St @ Charles St S
       </a>
       <div
         className="m-tnm-sidebar__stop-distance"
@@ -128,16 +127,15 @@ exports[`it renders a stop card 1`] = `
         className="m-tnm-sidebar__stop-name"
         href="/stops/6542"
       >
+        Kneeland St @ Washington St
         <span
-          className="m-tnm-sidebar__stop-marker"
+          className="m-tnm-sidebar__stop-accessible"
           dangerouslySetInnerHTML={
             Object {
-              "__html": "",
+              "__html": "SVG",
             }
           }
         />
-         
-        Kneeland St @ Washington St
       </a>
       <div
         className="m-tnm-sidebar__stop-distance"
@@ -253,8 +251,15 @@ exports[`it renders a stop card for the silver line 1`] = `
             }
           }
         />
-         
         Tufts Medical Center
+        <span
+          className="m-tnm-sidebar__stop-accessible"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
       </a>
       <div
         className="m-tnm-sidebar__stop-distance"
@@ -405,16 +410,15 @@ exports[`it renders a stop card for the silver line 1`] = `
         className="m-tnm-sidebar__stop-name"
         href="/stops/6537"
       >
+        Washington St @ Essex St
         <span
-          className="m-tnm-sidebar__stop-marker"
+          className="m-tnm-sidebar__stop-accessible"
           dangerouslySetInnerHTML={
             Object {
-              "__html": "",
+              "__html": "SVG",
             }
           }
         />
-         
-        Washington St @ Essex St
       </a>
       <div
         className="m-tnm-sidebar__stop-distance"

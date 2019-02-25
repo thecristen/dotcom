@@ -78,6 +78,14 @@
   width: 33.333%;
 }
 
+.c-location-card__accessible-icon {
+  @include icon-size-inline(1em);
+  clear: both;
+  margin-bottom: $base-spacing-sm;
+  position: relative;
+  top: -$base-spacing-sm;
+}
+
 .c-location-card__transit-route-icon {
   @include icon-size-inline(1em);
 

@@ -2,6 +2,11 @@
   <%= link SiteWeb.ViewHelpers.break_text_at_slash(@stop.name), to: stop_path(SiteWeb.Endpoint, :show, @stop.id, tab: "schedule") %>
 </div>
 <div class="c-location-card__distance"><%= round_distance(@distance) %></div>
+<%= if length(@stop.accessibility) > 0 && !("unknown" in @stop.accessibility) do %>
+  <div class="c-location-card__accessible-icon">
+    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access, size: :small}) %>
+  </div>
+<% end %>
 
 <%= for {type, routes} <- @routes do %>
   <div class="c-location-card__description">

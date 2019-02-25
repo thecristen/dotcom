@@ -51,16 +51,15 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-name"
             href="/stops/9983"
           >
+            Stuart St @ Charles St S
             <span
-              className="m-tnm-sidebar__stop-marker"
+              className="m-tnm-sidebar__stop-accessible"
               dangerouslySetInnerHTML={
                 Object {
-                  "__html": "",
+                  "__html": "SVG",
                 }
               }
             />
-             
-            Stuart St @ Charles St S
           </a>
           <div
             className="m-tnm-sidebar__stop-distance"
@@ -152,16 +151,15 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-name"
             href="/stops/6542"
           >
+            Kneeland St @ Washington St
             <span
-              className="m-tnm-sidebar__stop-marker"
+              className="m-tnm-sidebar__stop-accessible"
               dangerouslySetInnerHTML={
                 Object {
-                  "__html": "",
+                  "__html": "SVG",
                 }
               }
             />
-             
-            Kneeland St @ Washington St
           </a>
           <div
             className="m-tnm-sidebar__stop-distance"
@@ -266,16 +264,15 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-name"
             href="/stops/9983"
           >
+            Stuart St @ Charles St S
             <span
-              className="m-tnm-sidebar__stop-marker"
+              className="m-tnm-sidebar__stop-accessible"
               dangerouslySetInnerHTML={
                 Object {
-                  "__html": "",
+                  "__html": "SVG",
                 }
               }
             />
-             
-            Stuart St @ Charles St S
           </a>
           <div
             className="m-tnm-sidebar__stop-distance"
@@ -362,15 +359,6 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-name"
             href="/stops/8279"
           >
-            <span
-              className="m-tnm-sidebar__stop-marker"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "",
-                }
-              }
-            />
-             
             Tremont St @ Boylston Station
           </a>
           <div
@@ -471,16 +459,15 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-name"
             href="/stops/9983"
           >
+            Stuart St @ Charles St S
             <span
-              className="m-tnm-sidebar__stop-marker"
+              className="m-tnm-sidebar__stop-accessible"
               dangerouslySetInnerHTML={
                 Object {
-                  "__html": "",
+                  "__html": "SVG",
                 }
               }
             />
-             
-            Stuart St @ Charles St S
           </a>
           <div
             className="m-tnm-sidebar__stop-distance"
@@ -554,16 +541,15 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-name"
             href="/stops/6542"
           >
+            Kneeland St @ Washington St
             <span
-              className="m-tnm-sidebar__stop-marker"
+              className="m-tnm-sidebar__stop-accessible"
               dangerouslySetInnerHTML={
                 Object {
-                  "__html": "",
+                  "__html": "SVG",
                 }
               }
             />
-             
-            Kneeland St @ Washington St
           </a>
           <div
             className="m-tnm-sidebar__stop-distance"
