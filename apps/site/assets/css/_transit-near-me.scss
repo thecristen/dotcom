@@ -25,7 +25,7 @@ $map-height: $base-spacing * 30;
   height: $map-height;
 
   @include media-breakpoint-only(md) {
-    flex: 1 1 auto;
+    flex: 1 0 60%;
     order: 2;
   }
 
@@ -58,9 +58,8 @@ $map-height: $base-spacing * 30;
   }
 
   @include media-breakpoint-only(md) {
-    flex: 1 1 auto;
+    flex: 1 1 40%;
     order: 1;
-    width: 30 * $base-spacing;
   }
 }
 

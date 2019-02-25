@@ -4,6 +4,7 @@ defmodule Site.TransitNearMeTest do
   alias GoogleMaps.Geocode.Address
   alias Predictions.Prediction
   alias Routes.Route
+  alias Schedules.{Schedule, Trip}
   alias Site.TransitNearMe
   alias Stops.Stop
 
@@ -270,24 +271,129 @@ defmodule Site.TransitNearMeTest do
       # …but not other route types
       assert Enum.find(routes, &(&1.id == "Red"))
     end
+
+    test "sorts directions and headsigns within stops" do
+      route = %Route{
+        id: "subway",
+        type: 1,
+        direction_destinations: %{0 => "Direction 0", 1 => "Direction 1"}
+      }
+
+      stop = %Stop{
+        id: "stop",
+        latitude: @address.latitude + 0.01,
+        longitude: @address.longitude - 0.01
+      }
+
+      trips = [
+        %Trip{
+          id: "trip-0",
+          headsign: "Headsign B",
+          direction_id: 0,
+          shape_id: "shape-1"
+        },
+        %Trip{
+          id: "trip-1",
+          headsign: "Headsign A",
+          direction_id: 0,
+          shape_id: "shape-2"
+        },
+        %Trip{
+          id: "trip-2",
+          headsign: "Headsign B",
+          direction_id: 0,
+          shape_id: "shape-1"
+        }
+      ]
+
+      base_schedule = %Schedule{stop: stop, route: route}
+
+      pm_12_00 = DateTime.from_naive!(~N[2019-02-19T12:00:00], "Etc/UTC")
+      pm_12_01 = DateTime.from_naive!(~N[2019-02-19T12:01:00], "Etc/UTC")
+      pm_12_02 = DateTime.from_naive!(~N[2019-02-19T12:02:00], "Etc/UTC")
+
+      input = %TransitNearMe{
+        distances: %{"stop" => 0.1},
+        location: @address,
+        schedules: %{
+          "stop-1" => [
+            %{
+              base_schedule
+              | # Headsign B -- 12:00
+                trip: Enum.at(trips, 0),
+                time: pm_12_00
+            },
+            %{
+              base_schedule
+              | # Headsign A -- 12:01
+                trip: Enum.at(trips, 1),
+                time: pm_12_01
+            },
+            %{
+              base_schedule
+              | # Headsign B -- 12:02
+                trip: Enum.at(trips, 2),
+                time: pm_12_02
+            }
+          ]
+        },
+        stops: [stop]
+      }
+
+      stop_repo_fn = fn "stop" -> stop end
+
+      predictions_fn = fn
+        trip: "trip-0" -> [%Prediction{time: pm_12_00}]
+        trip: "trip-1" -> [%Prediction{time: pm_12_01}]
+        trip: "trip-2" -> [%Prediction{time: pm_12_02}]
+      end
+
+      output =
+        TransitNearMe.schedules_for_routes(
+          input,
+          predictions_fn: predictions_fn,
+          stops_fn: stop_repo_fn
+        )
+
+      assert Enum.count(output) === 1
+      [%{stops: stops}] = output
+
+      assert Enum.count(stops) === 1
+      [stop] = stops
+
+      assert Enum.count(stop.directions) === 1
+      [%{headsigns: headsigns}] = stop.directions
+
+      assert Enum.map(headsigns, fn headsign -> headsign.name end) == [
+               "Headsign B",
+               "Headsign A"
+             ]
+
+      [headsign_b, _headsign_a] = headsigns
+
+      assert [
+               %{prediction: %{time: ["12:00", " ", "PM"]}},
+               %{prediction: %{time: ["12:02", " ", "PM"]}}
+             ] = headsign_b.times
+    end
   end
 
   describe "simple_prediction/2" do
     test "returns nil if no prediction" do
-      assert nil == TransitNearMe.simple_prediction([], :commuter_rail)
+      assert nil == TransitNearMe.simple_prediction(nil, :commuter_rail)
     end
 
     test "returns up to three keys if a prediction is available" do
       assert %{time: _, track: _, status: _} =
                TransitNearMe.simple_prediction(
-                 [%Prediction{time: Util.now(), track: 1, status: "On time"}],
+                 %Prediction{time: Util.now(), track: 1, status: "On time"},
                  :commuter_rail
                )
     end
 
     test "returns a AM/PM time for CR" do
       [time, _, am_pm] =
-        TransitNearMe.simple_prediction([%Prediction{time: Util.now()}], :commuter_rail).time
+        TransitNearMe.simple_prediction(%Prediction{time: Util.now()}, :commuter_rail).time
 
       assert time =~ ~r/\d{1,2}:\d\d/
       assert am_pm =~ ~r/(AM|PM)/
@@ -296,7 +402,7 @@ defmodule Site.TransitNearMeTest do
     test "returns a time difference for modes other than CR" do
       assert [_, _, "min"] =
                TransitNearMe.simple_prediction(
-                 [%Prediction{time: Timex.shift(Util.now(), minutes: 5)}],
+                 %Prediction{time: Timex.shift(Util.now(), minutes: 5)},
                  :subway
                ).time
     end
