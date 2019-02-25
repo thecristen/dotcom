@@ -87,19 +87,30 @@ class PlacesService {
   }
 }
 
+class Geocoder {
+  // eslint-disable-next-line class-methods-use-this
+  geocode() {
+    throw new Error("Geocoder.geocode needs to be stubbed by individual tests");
+  }
+}
+
 export default {
   maps: {
-    Map: Map,
-    LatLng: LatLng,
-    LatLngBounds: LatLngBounds,
-    Marker: Marker,
+    Map,
+    LatLng,
+    LatLngBounds,
+    Marker,
     event: {
       addListenerOnce: sinon.spy()
     },
+    Geocoder,
+    GeocoderStatus: {
+      OK: "OK"
+    },
     places: {
-      AutocompleteSessionToken: AutocompleteSessionToken,
-      AutocompleteService: AutocompleteService,
-      PlacesService: PlacesService,
+      AutocompleteSessionToken,
+      AutocompleteService,
+      PlacesService,
       PlacesServiceStatus: {
         OK: "OK"
       }

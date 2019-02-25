@@ -164,7 +164,7 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   }
 
   _doLocationSearch(placeId, service) {
-    return GoogleMapsHelpers.lookupPlace(placeId, this.sessionToken, service)
+    return GoogleMapsHelpers.lookupPlace(placeId, service)
       .then(result => this._onLocationSearchResult(result))
       .catch(err =>
         console.error("Error looking up place_id from Google Maps.", err)

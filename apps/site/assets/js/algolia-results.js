@@ -160,7 +160,7 @@ export class AlgoliaResults {
 
   _locationSearch(placeId) {
     return () => {
-      GoogleMapsHelpers.lookupPlace(placeId, this._parent.getSessionToken())
+      GoogleMapsHelpers.lookupPlace(placeId)
         .then(result => {
           this._parent.resetSessionToken();
           this._showLocation(

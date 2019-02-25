@@ -5,8 +5,12 @@ import AlgoliaAutocompleteWithGeo from "../algolia-autocomplete-with-geo";
 import * as GoogleMapsHelpers from "../google-maps-helpers";
 import google from "./google-stubs";
 
+/* eslint-disable func-names */
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable no-unused-expressions */
+
 describe("AlgoliaAutocompleteWithGeo", function() {
-  var $;
+  let $;
   jsdom();
   const selectors = {
     input: "autocomplete-input",
@@ -180,14 +184,11 @@ describe("AlgoliaAutocompleteWithGeo", function() {
           );
         });
 
-      this.placesService = new window.google.maps.places.PlacesService(
-        document.createElement("div")
-      );
+      this.geocoder = new window.google.maps.Geocoder();
 
-      sinon
-        .stub(this.placesService, "getDetails")
-        .callsFake((_input, callback) => {
-          return callback(
+      sinon.stub(this.geocoder, "geocode").callsFake((_input, callback) =>
+        callback(
+          [
             {
               geometry: {
                 location: {
@@ -196,10 +197,11 @@ describe("AlgoliaAutocompleteWithGeo", function() {
                 }
               },
               formatted_address: "10 Park Plaza, Boston, MA"
-            },
-            window.google.maps.places.PlacesServiceStatus.OK
-          );
-        });
+            }
+          ],
+          window.google.maps.GeocoderStatus.OK
+        )
+      );
     });
 
     describe("onHitSelected", function() {
@@ -223,23 +225,13 @@ describe("AlgoliaAutocompleteWithGeo", function() {
               ]
             }
           },
-          this.placesService
+          this.geocoder
         );
         Promise.resolve(result).then(() => {
-          expect(this.placesService.getDetails.called).to.be.true;
+          expect(this.geocoder.geocode.called).to.be.true;
 
-          const {
-            sessionToken,
-            fields
-          } = this.placesService.getDetails.args[0][0];
-
-          expect(sessionToken).to.be.an.instanceOf(
-            window.google.maps.places.AutocompleteSessionToken
-          );
-          expect(sessionToken.id).to.equal("SESSION_TOKEN");
-
-          expect(fields.length).to.equal(2);
-          expect(fields).to.include("formatted_address", "geometry");
+          const { placeId } = this.geocoder.geocode.args[0][0];
+          expect(typeof placeId).to.equal("string");
 
           expect(this.ac.showLocation.called).to.be.true;
           expect(this.ac.showLocation.args[0][2]).to.equal(
@@ -325,3 +317,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
     });
   });
 });
+
+/* eslint-enable func-names */
+/* eslint-enable prefer-arrow-callback */
+/* eslint-enable no-unused-expressions */

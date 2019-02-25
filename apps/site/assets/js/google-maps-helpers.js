@@ -51,22 +51,11 @@ function processAutocompleteResults(resolve, reject, hitLimit) {
   };
 }
 
-export function lookupPlace(placeId, sessionToken, service) {
-  const places =
-    service ||
-    new window.google.maps.places.PlacesService(document.createElement("div"));
-
-  const fields = ["formatted_address", "geometry"];
+export function lookupPlace(placeId, service) {
+  const places = service || new window.google.maps.Geocoder();
 
   return new Promise((resolve, reject) => {
-    places.getDetails(
-      {
-        placeId,
-        sessionToken,
-        fields
-      },
-      processPlacesCallback(resolve, reject)
-    );
+    places.geocode({ placeId }, processPlacesCallback(resolve, reject));
   });
 }
 
@@ -98,11 +87,11 @@ function processGeocodeCallback(resolve, reject) {
 }
 
 function processPlacesCallback(resolve, reject) {
-  return (place, status) => {
-    if (status != window.google.maps.places.PlacesServiceStatus.OK) {
+  return (results, status) => {
+    if (status !== window.google.maps.GeocoderStatus.OK) {
       reject(status);
     } else {
-      resolve(place);
+      resolve(results[0]);
     }
   };
 }

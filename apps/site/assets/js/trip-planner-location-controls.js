@@ -296,7 +296,7 @@ export class TripPlannerLocControls {
           );
           break;
         case "locations":
-          GoogleMapsHelpers.lookupPlace(hit.place_id, ac.sessionToken)
+          GoogleMapsHelpers.lookupPlace(hit.place_id)
             .then(res => {
               ac.resetSessionToken();
               const geo = res.geometry.location;
