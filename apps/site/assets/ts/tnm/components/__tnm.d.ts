@@ -4,6 +4,7 @@ export interface DirectionInfo {
 }
 
 export interface Route {
+  alert_count: number;
   description: string;
   direction_destinations: DirectionInfo;
   direction_names: DirectionInfo;

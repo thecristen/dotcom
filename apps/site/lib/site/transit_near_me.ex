@@ -3,6 +3,7 @@ defmodule Site.TransitNearMe do
   Struct and helper functions for gathering data to use on TransitNearMe.
   """
 
+  alias Alerts.{Alert, InformedEntity, Match}
   alias GoogleMaps.Geocode.Address
   alias PredictedSchedule.Display
   alias Predictions.Prediction
@@ -183,7 +184,8 @@ defmodule Site.TransitNearMe do
 
   @type route_data :: %{
           # route_data includes the full %Route{} struct, plus:
-          required(:stops) => [stop_data]
+          required(:stops) => [stop_data],
+          required(:alert_count) => integer
         }
 
   @doc """
@@ -191,13 +193,14 @@ defmodule Site.TransitNearMe do
   a list of stops. Each stop has a list of directions. Each direction has a
   list of headsigns. Each headsign has a schedule, and a prediction if available.
   """
-  @spec schedules_for_routes(t()) :: [route_data]
+  @spec schedules_for_routes(t(), [Alert.t()], Keyword.t()) :: [route_data]
   def schedules_for_routes(
         %__MODULE__{
           schedules: schedules,
           location: location,
           distances: distances
         },
+        alerts,
         opts \\ []
       ) do
     schedules
@@ -205,7 +208,7 @@ defmodule Site.TransitNearMe do
     |> List.flatten()
     |> Enum.filter(&coming_today_if_bus(&1, &1.route.type))
     |> Enum.group_by(& &1.route.id)
-    |> Enum.map(&schedules_for_route(&1, location, distances, opts))
+    |> Enum.map(&schedules_for_route(&1, location, distances, alerts, opts))
     |> Enum.sort_by(&route_sorter(&1, distances))
   end
 
@@ -228,9 +231,10 @@ defmodule Site.TransitNearMe do
           {Route.id_t(), [Schedule.t()]},
           Address.t(),
           distance_hash,
+          [Alert.t()],
           Keyword.t()
         ) :: route_data
-  defp schedules_for_route({_route_id, schedules}, location, distances, opts) do
+  defp schedules_for_route({_route_id, schedules}, location, distances, alerts, opts) do
     [%Schedule{route: route} | _] = schedules
 
     route
@@ -243,6 +247,12 @@ defmodule Site.TransitNearMe do
     end)
     |> Map.update!(:name, fn name -> ViewHelpers.break_text_at_slash(name) end)
     |> Map.put(:stops, get_stops_for_route(schedules, location, distances, opts))
+    |> Map.put(:alert_count, get_alert_count_for_route(route, alerts))
+  end
+
+  @spec get_alert_count_for_route(Route.t(), [Alert.t()]) :: integer
+  defp get_alert_count_for_route(route, alerts) do
+    alerts |> Match.match([%InformedEntity{route: route.id}]) |> length()
   end
 
   @spec get_stops_for_route([Schedule.t()], Address.t(), distance_hash, Keyword.t()) :: [

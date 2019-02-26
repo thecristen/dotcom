@@ -18,7 +18,7 @@ defmodule Site.ReactTest do
       data =
         @address
         |> TransitNearMe.build(date: @date, now: Util.now())
-        |> TransitNearMe.schedules_for_routes()
+        |> TransitNearMe.schedules_for_routes([])
 
       {:ok, %{data: data}}
     end

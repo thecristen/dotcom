@@ -4,15 +4,24 @@ exports[`it renders a stop card 1`] = `
 <div
   className="m-tnm-sidebar__route"
 >
-  <div
+  <a
     className="h3 m-tnm-sidebar__route-name u-bg--bus"
+    href="/schedules/504"
   >
     <span
       className="bus-route-sign"
     >
       504
     </span>
-  </div>
+    <span
+      className="m-tnm-sidebar__route-alert"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+  </a>
   <div
     className="m-tnm-sidebar__stop"
     onClick={[Function]}
@@ -220,15 +229,16 @@ exports[`it renders a stop card for the silver line 1`] = `
 <div
   className="m-tnm-sidebar__route"
 >
-  <div
+  <a
     className="h3 m-tnm-sidebar__route-name u-bg--silver-line"
+    href="/schedules/751"
   >
     <span
       className=""
     >
       SL4
     </span>
-  </div>
+  </a>
   <div
     className="m-tnm-sidebar__stop"
     onClick={[Function]}

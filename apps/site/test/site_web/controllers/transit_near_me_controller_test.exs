@@ -129,7 +129,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
     %TransitNearMe{}
   end
 
-  def to_json_fn(%TransitNearMe{}) do
+  def to_json_fn(%TransitNearMe{}, []) do
     send(self(), :to_json_fn)
     []
   end
@@ -139,7 +139,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       build_conn()
       |> assign(:location_fn, &location_fn/2)
       |> assign(:data_fn, &data_fn/2)
-      |> assign(:to_json_fn, &to_json_fn/1)
+      |> assign(:to_json_fn, &to_json_fn/2)
 
     {:ok, conn: conn}
   end
@@ -193,7 +193,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
                conn.assigns.location
 
       assert conn.assigns.stops_with_routes == [@stop_with_routes]
-      assert conn.assigns.json == to_json_fn(%TransitNearMe{})
+      assert conn.assigns.json == to_json_fn(%TransitNearMe{}, [])
       assert %MapData{} = conn.assigns.map_data
       assert Enum.count(conn.assigns.map_data.markers) == 2
       assert %Marker{} = Enum.find(conn.assigns.map_data.markers, &(&1.id == "current-location"))

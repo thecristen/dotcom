@@ -1,1 +1,2363 @@
-[{"type":3,"stops":[{"station?":false,"parking_lots":[],"note":null,"name":"Stuart St @ Charles St S","longitude":-71.066798,"latitude":42.351039,"is_child?":false,"id":"9983","href":"/stops/9983","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"238 ft","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:38"," ","AM"],"prediction":{"track":null,"time":["14"," ","min"],"status":null}},{"scheduled_time":["12:08"," ","PM"],"prediction":{"track":null,"time":["44"," ","min"],"status":null}}],"name":"Watertown via Copley (Express)"}],"direction_id":0}],"closed_stop_info":null,"address":null,"accessibility":["accessible"]},{"station?":false,"parking_lots":[],"note":null,"name":"Kneeland St @ Washington St","longitude":-71.062868,"latitude":42.350845,"is_child?":false,"id":"6542","href":"/stops/6542","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.2 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:19"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}},{"scheduled_time":["11:49"," ","AM"],"prediction":{"track":null,"time":["14"," ","min"],"status":null}}],"name":"Downtown via Copley (Express)"}],"direction_id":1}],"closed_stop_info":null,"address":null,"accessibility":["accessible"]}],"name":"504","long_name":"Watertown Yard - Downtown Boston","id":"504","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"Downtown Boston","0":"Watertown Yard"},"description":"commuter_bus","custom_route?":false},{"type":3,"stops":[{"station?":false,"parking_lots":[],"note":null,"name":"Stuart St @ Charles St S","longitude":-71.066798,"latitude":42.351039,"is_child?":false,"id":"9983","href":"/stops/9983","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"238 ft","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:58"," ","AM"],"prediction":{"track":null,"time":["39"," ","min"],"status":null}},{"scheduled_time":["12:58"," ","PM"],"prediction":{"track":null,"time":["12:55"," ","PM"],"status":null}}],"name":"Queensberry St"}],"direction_id":0}],"closed_stop_info":null,"address":null,"accessibility":["accessible"]},{"station?":false,"parking_lots":[],"note":null,"name":"Tremont St @ Boylston Station","longitude":-71.064353,"latitude":42.353247,"is_child?":false,"id":"8279","href":"/stops/8279","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.2 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:56"," ","AM"],"prediction":{"track":null,"time":["39"," ","min"],"status":null}},{"scheduled_time":["12:56"," ","PM"],"prediction":{"track":null,"time":["12:55"," ","PM"],"status":null}}],"name":"Queensberry St"}],"direction_id":0}],"closed_stop_info":null,"address":null,"accessibility":["unknown"]}],"name":"55","long_name":"Jersey Street & Queensberry Street - Downtown Boston","id":"55","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"Downtown Boston","0":"Jersey Street & Queensberry Street"},"description":"local_bus","custom_route?":false},{"type":3,"stops":[{"station?":false,"parking_lots":[],"note":null,"name":"Stuart St @ Charles St S","longitude":-71.066798,"latitude":42.351039,"is_child?":false,"id":"9983","href":"/stops/9983","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"238 ft","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["7:07"," ","PM"],"prediction":null}],"name":"Waltham via Copley (Express)"}],"direction_id":0}],"closed_stop_info":null,"address":null,"accessibility":["accessible"]},{"station?":false,"parking_lots":[],"note":null,"name":"Kneeland St @ Washington St","longitude":-71.062868,"latitude":42.350845,"is_child?":false,"id":"6542","href":"/stops/6542","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.2 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["8:24"," ","PM"],"prediction":null}],"name":"Downtown via Copley (Express)"}],"direction_id":1}],"closed_stop_info":null,"address":null,"accessibility":["accessible"]}],"name":"553","long_name":"Roberts - Downtown Boston","id":"553","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"Downtown Boston","0":"Roberts"},"description":"local_bus","custom_route?":false},{"type":3,"stops":[{"station?":false,"parking_lots":[],"note":null,"name":"Charles St S @ Park Plaza","longitude":-71.067101,"latitude":42.351748,"is_child?":false,"id":"1241","href":"/stops/1241","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"444 ft","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:27"," ","AM"],"prediction":{"track":"2","time":["1"," ","min"],"status":null}},{"scheduled_time":["11:52"," ","AM"],"prediction":{"track":"2","time":["24"," ","min"],"status":null}}],"name":"Park St & Tremont St"}],"direction_id":1}],"closed_stop_info":null,"address":null,"accessibility":["accessible"]},{"station?":false,"parking_lots":[],"note":null,"name":"285 Tremont St","longitude":-71.065439,"latitude":42.349606,"is_child?":false,"id":"8281","href":"/stops/8281","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.1 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:36"," ","AM"],"prediction":{"track":null,"time":["17"," ","min"],"status":null}},{"scheduled_time":["12:01"," ","PM"],"prediction":{"track":null,"time":["42"," ","min"],"status":null}}],"name":"Ruggles"}],"direction_id":0}],"closed_stop_info":null,"address":null,"accessibility":["accessible"]}],"name":"43","long_name":"Ruggles - Downtown Boston","id":"43","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"Downtown Boston","0":"Ruggles"},"description":"local_bus","custom_route?":false},{"type":3,"stops":[{"station?":true,"parking_lots":[],"note":null,"name":"Tufts Medical Center","longitude":-71.063917,"latitude":42.349662,"is_child?":false,"id":"place-tumnl","href":"/stops/place-tumnl","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.1 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:28"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}},{"scheduled_time":["11:53"," ","AM"],"prediction":{"track":null,"time":["14"," ","min"],"status":null}}],"name":"Downtown"}],"direction_id":1}],"closed_stop_info":null,"address":"750 Washington St, Boston, MA","accessibility":["accessible","escalator_up","elevator"]},{"station?":false,"parking_lots":[],"note":null,"name":"Washington St @ Essex St","longitude":-71.062581,"latitude":42.352288,"is_child?":false,"id":"6537","href":"/stops/6537","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.2 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:32"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}},{"scheduled_time":["11:57"," ","AM"],"prediction":{"track":null,"time":["14"," ","min"],"status":null}}],"name":"Downtown"}],"direction_id":1}],"closed_stop_info":null,"address":null,"accessibility":["accessible"]}],"name":"11","long_name":"City Point - Downtown Boston","id":"11","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"Downtown Boston","0":"City Point"},"description":"local_bus","custom_route?":false},{"type":3,"stops":[{"station?":true,"parking_lots":[],"note":null,"name":"Tufts Medical Center","longitude":-71.063917,"latitude":42.349662,"is_child?":false,"id":"place-tumnl","href":"/stops/place-tumnl","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.1 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["2:07"," ","AM"],"prediction":null}],"name":"Mattapan via Dudley & Fields Corner"}],"direction_id":0},{"headsigns":[{"train_number":"","times":[{"scheduled_time":["1:52"," ","AM"],"prediction":null}],"name":"Haymarket via Dudley & Fields Corner"}],"direction_id":1}],"closed_stop_info":null,"address":"750 Washington St, Boston, MA","accessibility":["accessible","escalator_up","elevator"]},{"station?":false,"parking_lots":[],"note":null,"name":"Tremont St @ Boylston Station","longitude":-71.064353,"latitude":42.353247,"is_child?":false,"id":"8279","href":"/stops/8279","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.2 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["2:05"," ","AM"],"prediction":null}],"name":"Mattapan via Dudley & Fields Corner"}],"direction_id":0}],"closed_stop_info":null,"address":null,"accessibility":["unknown"]}],"name":"15","long_name":"Kane Square - Ruggles","id":"15","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"Ruggles","0":"Kane Square"},"description":"key_bus_route","custom_route?":false},{"type":3,"stops":[{"station?":true,"parking_lots":[],"note":null,"name":"Tufts Medical Center","longitude":-71.063917,"latitude":42.349662,"is_child?":false,"id":"place-tumnl","href":"/stops/place-tumnl","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.1 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:18"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}},{"scheduled_time":["11:28"," ","AM"],"prediction":{"track":null,"time":["15"," ","min"],"status":null}}],"name":"Dudley"}],"direction_id":0},{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:24"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}},{"scheduled_time":["11:34"," ","AM"],"prediction":{"track":null,"time":["2"," ","min"],"status":null}}],"name":"Downtown"}],"direction_id":1}],"closed_stop_info":null,"address":"750 Washington St, Boston, MA","accessibility":["accessible","escalator_up","elevator"]},{"station?":false,"parking_lots":[],"note":null,"name":"Tremont St @ Boylston Station","longitude":-71.064353,"latitude":42.353247,"is_child?":false,"id":"8279","href":"/stops/8279","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.2 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:15"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}},{"scheduled_time":["11:25"," ","AM"],"prediction":{"track":null,"time":["15"," ","min"],"status":null}}],"name":"Dudley"}],"direction_id":0}],"closed_stop_info":null,"address":null,"accessibility":["unknown"]}],"name":"SL5","long_name":"Dudley - Downtown Crossing","id":"749","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"Downtown Crossing","0":"Dudley"},"description":"key_bus_route","custom_route?":false},{"type":3,"stops":[{"station?":true,"parking_lots":[],"note":null,"name":"Tufts Medical Center","longitude":-71.063917,"latitude":42.349662,"is_child?":false,"id":"place-tumnl","href":"/stops/place-tumnl","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.1 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:22"," ","AM"],"prediction":{"track":null,"time":["4"," ","min"],"status":null}},{"scheduled_time":["11:38"," ","AM"],"prediction":{"track":null,"time":["16"," ","min"],"status":null}}],"name":"Dudley"}],"direction_id":0},{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:20"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}},{"scheduled_time":["11:36"," ","AM"],"prediction":{"track":null,"time":["4"," ","min"],"status":null}}],"name":"South Station"}],"direction_id":1}],"closed_stop_info":null,"address":"750 Washington St, Boston, MA","accessibility":["accessible","escalator_up","elevator"]},{"station?":false,"parking_lots":[],"note":null,"name":"Washington St @ Essex St","longitude":-71.062581,"latitude":42.352288,"is_child?":false,"id":"6537","href":"/stops/6537","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.2 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:22"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}},{"scheduled_time":["11:38"," ","AM"],"prediction":{"track":null,"time":["4"," ","min"],"status":null}}],"name":"South Station"}],"direction_id":1}],"closed_stop_info":null,"address":null,"accessibility":["accessible"]}],"name":"SL4","long_name":"Dudley - South Station","id":"751","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"South Station","0":"Dudley"},"description":"key_bus_route","custom_route?":false},{"type":1,"stops":[{"station?":true,"parking_lots":[],"note":null,"name":"Tufts Medical Center","longitude":-71.063917,"latitude":42.349662,"is_child?":false,"id":"place-tumnl","href":"/stops/place-tumnl","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.1 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:20"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":"Stopped 1 stop away"}},{"scheduled_time":["11:28"," ","AM"],"prediction":{"track":null,"time":["4"," ","min"],"status":null}}],"name":"Forest Hills"}],"direction_id":0},{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:19"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}},{"scheduled_time":["11:27"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}}],"name":"Oak Grove"}],"direction_id":1}],"closed_stop_info":null,"address":"750 Washington St, Boston, MA","accessibility":["accessible","escalator_up","elevator"]}],"name":"Orange Line","long_name":"Orange Line","id":"Orange","direction_names":{"1":"Northbound","0":"Southbound"},"direction_destinations":{"1":"Oak Grove","0":"Forest Hills"},"description":"rapid_transit","custom_route?":false},{"type":0,"stops":[{"station?":true,"parking_lots":[],"note":null,"name":"Boylston","longitude":-71.06459,"latitude":42.35302,"is_child?":false,"id":"place-boyls","href":"/stops/place-boyls","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.2 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:18"," ","AM"],"prediction":{"track":"2","time":["6"," ","min"],"status":null}},{"scheduled_time":["11:24"," ","AM"],"prediction":{"track":"2","time":["12"," ","min"],"status":null}}],"name":"Boston College"}],"direction_id":0},{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:17"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}},{"scheduled_time":["11:24"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}}],"name":"Park Street"}],"direction_id":1}],"closed_stop_info":null,"address":"Boylston St and Tremont St, Boston, MA","accessibility":[]}],"name":"Green Line B","long_name":"Green Line B","id":"Green-B","direction_names":{"1":"Eastbound","0":"Westbound"},"direction_destinations":{"1":"Park Street","0":"Boston College"},"description":"rapid_transit","custom_route?":false},{"type":0,"stops":[{"station?":true,"parking_lots":[],"note":null,"name":"Boylston","longitude":-71.06459,"latitude":42.35302,"is_child?":false,"id":"place-boyls","href":"/stops/place-boyls","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.2 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:21"," ","AM"],"prediction":{"track":null,"time":["4"," ","min"],"status":null}},{"scheduled_time":["11:30"," ","AM"],"prediction":{"track":null,"time":["10"," ","min"],"status":null}}],"name":"Cleveland Circle"}],"direction_id":0},{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:16"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}}],"name":"North Station"}],"direction_id":1}],"closed_stop_info":null,"address":"Boylston St and Tremont St, Boston, MA","accessibility":[]}],"name":"Green Line C","long_name":"Green Line C","id":"Green-C","direction_names":{"1":"Eastbound","0":"Westbound"},"direction_destinations":{"1":"North Station","0":"Cleveland Circle"},"description":"rapid_transit","custom_route?":false},{"type":0,"stops":[{"station?":true,"parking_lots":[],"note":null,"name":"Boylston","longitude":-71.06459,"latitude":42.35302,"is_child?":false,"id":"place-boyls","href":"/stops/place-boyls","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.2 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["6:58"," ","PM"],"prediction":null}],"name":"Reservoir"},{"train_number":"","times":[{"scheduled_time":["11:18"," ","AM"],"prediction":null}],"name":"Riverside"}],"direction_id":0},{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:22"," ","AM"],"prediction":null}],"name":"Government Center"},{"train_number":"","times":[{"scheduled_time":["1:11"," ","PM"],"prediction":null}],"name":"Lechmere"}],"direction_id":1}],"closed_stop_info":null,"address":"Boylston St and Tremont St, Boston, MA","accessibility":[]}],"name":"Green Line D","long_name":"Green Line D","id":"Green-D","direction_names":{"1":"Eastbound","0":"Westbound"},"direction_destinations":{"1":"Government Center","0":"Riverside"},"description":"rapid_transit","custom_route?":false},{"type":0,"stops":[{"station?":true,"parking_lots":[],"note":null,"name":"Boylston","longitude":-71.06459,"latitude":42.35302,"is_child?":false,"id":"place-boyls","href":"/stops/place-boyls","has_fare_machine?":false,"has_charlie_card_vendor?":false,"distance":"0.2 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:15"," ","AM"],"prediction":null}],"name":"Heath Street"}],"direction_id":0},{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:17"," ","AM"],"prediction":null}],"name":"Lechmere"}],"direction_id":1}],"closed_stop_info":null,"address":"Boylston St and Tremont St, Boston, MA","accessibility":[]}],"name":"Green Line E","long_name":"Green Line E","id":"Green-E","direction_names":{"1":"Eastbound","0":"Westbound"},"direction_destinations":{"1":"Lechmere","0":"Heath Street"},"description":"rapid_transit","custom_route?":false},{"type":1,"stops":[{"station?":true,"parking_lots":[],"note":null,"name":"Park Street","longitude":-71.062424,"latitude":42.356395,"is_child?":false,"id":"place-pktrm","href":"/stops/place-pktrm","has_fare_machine?":false,"has_charlie_card_vendor?":true,"distance":"0.4 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:23"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}},{"scheduled_time":["11:37"," ","AM"],"prediction":{"track":null,"time":["2"," ","min"],"status":null}}],"name":"Ashmont"},{"train_number":"","times":[{"scheduled_time":["11:17"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}},{"scheduled_time":["11:30"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}}],"name":"Braintree"}],"direction_id":0},{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:20"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}}],"name":"Alewife"}],"direction_id":1}],"closed_stop_info":null,"address":"Tremont St and Winter St, Boston, MA 02108","accessibility":["accessible","escalator_up","elevator","portable_boarding_lift"]}],"name":"Red Line","long_name":"Red Line","id":"Red","direction_names":{"1":"Northbound","0":"Southbound"},"direction_destinations":{"1":"Alewife","0":"Ashmont/Braintree"},"description":"rapid_transit","custom_route?":false},{"type":3,"stops":[{"station?":true,"parking_lots":[{"utilization":null,"payment":{"monthly_rate":"$150 regular, $445 overnight","mobile_app":null,"methods":["Credit/Debit Card","Cash"],"daily_rate":"Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"},"note":null,"name":"South Station Bus Terminal Garage","manager":{"url":"https://www.propark.com/propark-locator2/south-station-garage/","phone":"617-345-0202","name":"ProPark","contact":"ProPark"},"longitude":-71.055963,"latitude":42.349838,"capacity":{"type":"Garage","total":210,"accessible":4},"address":null}],"note":null,"name":"South Station","longitude":-71.055242,"latitude":42.352271,"is_child?":false,"id":"place-sstat","href":"/stops/place-sstat","has_fare_machine?":true,"has_charlie_card_vendor?":false,"distance":"0.6 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:16"," ","AM"],"prediction":{"track":null,"time":["1"," ","min"],"status":null}},{"scheduled_time":["11:24"," ","AM"],"prediction":{"track":null,"time":["8"," ","min"],"status":null}}],"name":"Logan Airport"}],"direction_id":0},{"headsigns":[],"direction_id":1}],"closed_stop_info":null,"address":"700 Atlantic Ave, Boston, MA 02110","accessibility":["accessible","escalator_both","elevator","fully_elevated_platform"]}],"name":"SL1","long_name":"Logan Airport - South Station","id":"741","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"South Station","0":"Logan Airport"},"description":"key_bus_route","custom_route?":false},{"type":3,"stops":[{"station?":true,"parking_lots":[{"utilization":null,"payment":{"monthly_rate":"$150 regular, $445 overnight","mobile_app":null,"methods":["Credit/Debit Card","Cash"],"daily_rate":"Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"},"note":null,"name":"South Station Bus Terminal Garage","manager":{"url":"https://www.propark.com/propark-locator2/south-station-garage/","phone":"617-345-0202","name":"ProPark","contact":"ProPark"},"longitude":-71.055963,"latitude":42.349838,"capacity":{"type":"Garage","total":210,"accessible":4},"address":null}],"note":null,"name":"South Station","longitude":-71.055242,"latitude":42.352271,"is_child?":false,"id":"place-sstat","href":"/stops/place-sstat","has_fare_machine?":true,"has_charlie_card_vendor?":false,"distance":"0.6 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:19"," ","AM"],"prediction":{"track":null,"time":["3"," ","min"],"status":null}},{"scheduled_time":["11:34"," ","AM"],"prediction":{"track":null,"time":["19"," ","min"],"status":null}}],"name":"Drydock"}],"direction_id":0},{"headsigns":[],"direction_id":1}],"closed_stop_info":null,"address":"700 Atlantic Ave, Boston, MA 02110","accessibility":["accessible","escalator_both","elevator","fully_elevated_platform"]}],"name":"SL2","long_name":"Design Center - South Station","id":"742","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"South Station","0":"Design Center"},"description":"key_bus_route","custom_route?":false},{"type":3,"stops":[{"station?":true,"parking_lots":[{"utilization":null,"payment":{"monthly_rate":"$150 regular, $445 overnight","mobile_app":null,"methods":["Credit/Debit Card","Cash"],"daily_rate":"Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"},"note":null,"name":"South Station Bus Terminal Garage","manager":{"url":"https://www.propark.com/propark-locator2/south-station-garage/","phone":"617-345-0202","name":"ProPark","contact":"ProPark"},"longitude":-71.055963,"latitude":42.349838,"capacity":{"type":"Garage","total":210,"accessible":4},"address":null}],"note":null,"name":"South Station","longitude":-71.055242,"latitude":42.352271,"is_child?":false,"id":"place-sstat","href":"/stops/place-sstat","has_fare_machine?":true,"has_charlie_card_vendor?":false,"distance":"0.6 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:21"," ","AM"],"prediction":{"track":null,"time":["8"," ","min"],"status":null}},{"scheduled_time":["11:36"," ","AM"],"prediction":{"track":null,"time":["20"," ","min"],"status":null}}],"name":"Chelsea"}],"direction_id":0},{"headsigns":[],"direction_id":1}],"closed_stop_info":null,"address":"700 Atlantic Ave, Boston, MA 02110","accessibility":["accessible","escalator_both","elevator","fully_elevated_platform"]}],"name":"SL3","long_name":"Chelsea - South Station","id":"743","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"South Station","0":"Chelsea"},"description":"key_bus_route","custom_route?":false},{"type":3,"stops":[{"station?":true,"parking_lots":[{"utilization":null,"payment":{"monthly_rate":"$150 regular, $445 overnight","mobile_app":null,"methods":["Credit/Debit Card","Cash"],"daily_rate":"Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"},"note":null,"name":"South Station Bus Terminal Garage","manager":{"url":"https://www.propark.com/propark-locator2/south-station-garage/","phone":"617-345-0202","name":"ProPark","contact":"ProPark"},"longitude":-71.055963,"latitude":42.349838,"capacity":{"type":"Garage","total":210,"accessible":4},"address":null}],"note":null,"name":"South Station","longitude":-71.055242,"latitude":42.352271,"is_child?":false,"id":"place-sstat","href":"/stops/place-sstat","has_fare_machine?":true,"has_charlie_card_vendor?":false,"distance":"0.6 mi","directions":[{"headsigns":[{"train_number":"","times":[{"scheduled_time":["11:31"," ","AM"],"prediction":{"track":null,"time":["15"," ","min"],"status":null}},{"scheduled_time":["11:33"," ","AM"],"prediction":{"track":null,"time":["17"," ","min"],"status":null}}],"name":"Silver Line Way"}],"direction_id":0},{"headsigns":[],"direction_id":1}],"closed_stop_info":null,"address":"700 Atlantic Ave, Boston, MA 02110","accessibility":["accessible","escalator_both","elevator","fully_elevated_platform"]}],"name":"Silver Line Way - South Station","long_name":"Silver Line Way - South Station","id":"746","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"South Station","0":"Silver Line Way"},"description":"key_bus_route","custom_route?":false},{"type":2,"stops":[{"station?":true,"parking_lots":[{"utilization":null,"payment":{"monthly_rate":"$150 regular, $445 overnight","mobile_app":null,"methods":["Credit/Debit Card","Cash"],"daily_rate":"Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"},"note":null,"name":"South Station Bus Terminal Garage","manager":{"url":"https://www.propark.com/propark-locator2/south-station-garage/","phone":"617-345-0202","name":"ProPark","contact":"ProPark"},"longitude":-71.055963,"latitude":42.349838,"capacity":{"type":"Garage","total":210,"accessible":4},"address":null}],"note":null,"name":"South Station","longitude":-71.055242,"latitude":42.352271,"is_child?":false,"id":"place-sstat","href":"/stops/place-sstat","has_fare_machine?":true,"has_charlie_card_vendor?":false,"distance":"0.6 mi","directions":[{"headsigns":[{"train_number":"763","times":[{"scheduled_time":["11:45"," ","AM"],"prediction":{"track":null,"time":["29"," ","min"],"status":"On time"}}],"name":"Readville"}],"direction_id":0},{"headsigns":[],"direction_id":1}],"closed_stop_info":null,"address":"700 Atlantic Ave, Boston, MA 02110","accessibility":["accessible","escalator_both","elevator","fully_elevated_platform"]}],"name":"Fairmount Line","long_name":"Fairmount Line","id":"CR-Fairmount","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"South Station","0":"Fairmount"},"description":"commuter_rail","custom_route?":false},{"type":2,"stops":[{"station?":true,"parking_lots":[{"utilization":null,"payment":{"monthly_rate":"$150 regular, $445 overnight","mobile_app":null,"methods":["Credit/Debit Card","Cash"],"daily_rate":"Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"},"note":null,"name":"South Station Bus Terminal Garage","manager":{"url":"https://www.propark.com/propark-locator2/south-station-garage/","phone":"617-345-0202","name":"ProPark","contact":"ProPark"},"longitude":-71.055963,"latitude":42.349838,"capacity":{"type":"Garage","total":210,"accessible":4},"address":null}],"note":null,"name":"South Station","longitude":-71.055242,"latitude":42.352271,"is_child?":false,"id":"place-sstat","href":"/stops/place-sstat","has_fare_machine?":true,"has_charlie_card_vendor?":false,"distance":"0.6 mi","directions":[{"headsigns":[{"train_number":"709","times":[{"scheduled_time":["12:20"," ","PM"],"prediction":{"track":null,"time":["12:20"," ","PM"],"status":"On time"}}],"name":"Forge Park/​495"},{"train_number":"743","times":[{"scheduled_time":["4:15"," ","PM"],"prediction":null}],"name":"Norwood Central"},{"train_number":"745","times":[{"scheduled_time":["5:02"," ","PM"],"prediction":null}],"name":"Walpole"}],"direction_id":0},{"headsigns":[],"direction_id":1}],"closed_stop_info":null,"address":"700 Atlantic Ave, Boston, MA 02110","accessibility":["accessible","escalator_both","elevator","fully_elevated_platform"]}],"name":"Franklin Line","long_name":"Franklin Line","id":"CR-Franklin","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"South Station","0":"Forge Park/495"},"description":"commuter_rail","custom_route?":false},{"type":2,"stops":[{"station?":true,"parking_lots":[{"utilization":null,"payment":{"monthly_rate":"$150 regular, $445 overnight","mobile_app":null,"methods":["Credit/Debit Card","Cash"],"daily_rate":"Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"},"note":null,"name":"South Station Bus Terminal Garage","manager":{"url":"https://www.propark.com/propark-locator2/south-station-garage/","phone":"617-345-0202","name":"ProPark","contact":"ProPark"},"longitude":-71.055963,"latitude":42.349838,"capacity":{"type":"Garage","total":210,"accessible":4},"address":null}],"note":null,"name":"South Station","longitude":-71.055242,"latitude":42.352271,"is_child?":false,"id":"place-sstat","href":"/stops/place-sstat","has_fare_machine?":true,"has_charlie_card_vendor?":false,"distance":"0.6 mi","directions":[{"headsigns":[{"train_number":"077","times":[{"scheduled_time":["12:41"," ","PM"],"prediction":{"track":null,"time":["12:41"," ","PM"],"status":"On time"}}],"name":"Greenbush"}],"direction_id":0},{"headsigns":[],"direction_id":1}],"closed_stop_info":null,"address":"700 Atlantic Ave, Boston, MA 02110","accessibility":["accessible","escalator_both","elevator","fully_elevated_platform"]}],"name":"Greenbush Line","long_name":"Greenbush Line","id":"CR-Greenbush","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"South Station","0":"Greenbush"},"description":"commuter_rail","custom_route?":false},{"type":2,"stops":[{"station?":true,"parking_lots":[{"utilization":null,"payment":{"monthly_rate":"$150 regular, $445 overnight","mobile_app":null,"methods":["Credit/Debit Card","Cash"],"daily_rate":"Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"},"note":null,"name":"South Station Bus Terminal Garage","manager":{"url":"https://www.propark.com/propark-locator2/south-station-garage/","phone":"617-345-0202","name":"ProPark","contact":"ProPark"},"longitude":-71.055963,"latitude":42.349838,"capacity":{"type":"Garage","total":210,"accessible":4},"address":null}],"note":null,"name":"South Station","longitude":-71.055242,"latitude":42.352271,"is_child?":false,"id":"place-sstat","href":"/stops/place-sstat","has_fare_machine?":true,"has_charlie_card_vendor?":false,"distance":"0.6 mi","directions":[{"headsigns":[{"train_number":"041","times":[{"scheduled_time":["2:47"," ","PM"],"prediction":null}],"name":"Kingston"},{"train_number":"065","times":[{"scheduled_time":["12:25"," ","PM"],"prediction":{"track":null,"time":["12:25"," ","PM"],"status":"On time"}}],"name":"Plymouth"}],"direction_id":0},{"headsigns":[],"direction_id":1}],"closed_stop_info":null,"address":"700 Atlantic Ave, Boston, MA 02110","accessibility":["accessible","escalator_both","elevator","fully_elevated_platform"]}],"name":"Kingston/​Plymouth Line","long_name":"Kingston/Plymouth Line","id":"CR-Kingston","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"South Station","0":"Kingston or Plymouth"},"description":"commuter_rail","custom_route?":false},{"type":2,"stops":[{"station?":true,"parking_lots":[{"utilization":null,"payment":{"monthly_rate":"$150 regular, $445 overnight","mobile_app":null,"methods":["Credit/Debit Card","Cash"],"daily_rate":"Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"},"note":null,"name":"South Station Bus Terminal Garage","manager":{"url":"https://www.propark.com/propark-locator2/south-station-garage/","phone":"617-345-0202","name":"ProPark","contact":"ProPark"},"longitude":-71.055963,"latitude":42.349838,"capacity":{"type":"Garage","total":210,"accessible":4},"address":null}],"note":null,"name":"South Station","longitude":-71.055242,"latitude":42.352271,"is_child?":false,"id":"place-sstat","href":"/stops/place-sstat","has_fare_machine?":true,"has_charlie_card_vendor?":false,"distance":"0.6 mi","directions":[{"headsigns":[{"train_number":"009","times":[{"scheduled_time":["11:57"," ","AM"],"prediction":{"track":null,"time":["41"," ","min"],"status":"On time"}}],"name":"Middleborough/​Lakeville"}],"direction_id":0},{"headsigns":[],"direction_id":1}],"closed_stop_info":null,"address":"700 Atlantic Ave, Boston, MA 02110","accessibility":["accessible","escalator_both","elevator","fully_elevated_platform"]}],"name":"Middleborough/​Lakeville Line","long_name":"Middleborough/Lakeville Line","id":"CR-Middleborough","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"South Station","0":"Middleborough/Lakeville"},"description":"commuter_rail","custom_route?":false},{"type":2,"stops":[{"station?":true,"parking_lots":[{"utilization":null,"payment":{"monthly_rate":"$150 regular, $445 overnight","mobile_app":null,"methods":["Credit/Debit Card","Cash"],"daily_rate":"Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"},"note":null,"name":"South Station Bus Terminal Garage","manager":{"url":"https://www.propark.com/propark-locator2/south-station-garage/","phone":"617-345-0202","name":"ProPark","contact":"ProPark"},"longitude":-71.055963,"latitude":42.349838,"capacity":{"type":"Garage","total":210,"accessible":4},"address":null}],"note":null,"name":"South Station","longitude":-71.055242,"latitude":42.352271,"is_child?":false,"id":"place-sstat","href":"/stops/place-sstat","has_fare_machine?":true,"has_charlie_card_vendor?":false,"distance":"0.6 mi","directions":[{"headsigns":[{"train_number":"609","times":[{"scheduled_time":["11:50"," ","AM"],"prediction":{"track":null,"time":["34"," ","min"],"status":"On time"}}],"name":"Needham Heights"}],"direction_id":0},{"headsigns":[],"direction_id":1}],"closed_stop_info":null,"address":"700 Atlantic Ave, Boston, MA 02110","accessibility":["accessible","escalator_both","elevator","fully_elevated_platform"]}],"name":"Needham Line","long_name":"Needham Line","id":"CR-Needham","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"South Station","0":"Needham Heights"},"description":"commuter_rail","custom_route?":false},{"type":2,"stops":[{"station?":true,"parking_lots":[{"utilization":null,"payment":{"monthly_rate":"$150 regular, $445 overnight","mobile_app":null,"methods":["Credit/Debit Card","Cash"],"daily_rate":"Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"},"note":null,"name":"South Station Bus Terminal Garage","manager":{"url":"https://www.propark.com/propark-locator2/south-station-garage/","phone":"617-345-0202","name":"ProPark","contact":"ProPark"},"longitude":-71.055963,"latitude":42.349838,"capacity":{"type":"Garage","total":210,"accessible":4},"address":null}],"note":null,"name":"South Station","longitude":-71.055242,"latitude":42.352271,"is_child?":false,"id":"place-sstat","href":"/stops/place-sstat","has_fare_machine?":true,"has_charlie_card_vendor?":false,"distance":"0.6 mi","directions":[{"headsigns":[{"train_number":"813","times":[{"scheduled_time":["1:43"," ","PM"],"prediction":null}],"name":"Providence"},{"train_number":"911","times":[{"scheduled_time":["1:20"," ","PM"],"prediction":null}],"name":"Stoughton"},{"train_number":"811","times":[{"scheduled_time":["11:25"," ","AM"],"prediction":{"track":null,"time":["9"," ","min"],"status":"On time"}}],"name":"Wickford Junction"}],"direction_id":0},{"headsigns":[],"direction_id":1}],"closed_stop_info":null,"address":"700 Atlantic Ave, Boston, MA 02110","accessibility":["accessible","escalator_both","elevator","fully_elevated_platform"]}],"name":"Providence/​Stoughton Line","long_name":"Providence/Stoughton Line","id":"CR-Providence","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"South Station","0":"Wickford Junction"},"description":"commuter_rail","custom_route?":false},{"type":2,"stops":[{"station?":true,"parking_lots":[{"utilization":null,"payment":{"monthly_rate":"$150 regular, $445 overnight","mobile_app":null,"methods":["Credit/Debit Card","Cash"],"daily_rate":"Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"},"note":null,"name":"South Station Bus Terminal Garage","manager":{"url":"https://www.propark.com/propark-locator2/south-station-garage/","phone":"617-345-0202","name":"ProPark","contact":"ProPark"},"longitude":-71.055963,"latitude":42.349838,"capacity":{"type":"Garage","total":210,"accessible":4},"address":null}],"note":null,"name":"South Station","longitude":-71.055242,"latitude":42.352271,"is_child?":false,"id":"place-sstat","href":"/stops/place-sstat","has_fare_machine?":true,"has_charlie_card_vendor?":false,"distance":"0.6 mi","directions":[{"headsigns":[{"train_number":"591","times":[{"scheduled_time":["4:30"," ","PM"],"prediction":null}],"name":"Framingham"},{"train_number":"513","times":[{"scheduled_time":["11:55"," ","AM"],"prediction":{"track":null,"time":["39"," ","min"],"status":"On time"}}],"name":"Worcester"}],"direction_id":0},{"headsigns":[],"direction_id":1}],"closed_stop_info":null,"address":"700 Atlantic Ave, Boston, MA 02110","accessibility":["accessible","escalator_both","elevator","fully_elevated_platform"]}],"name":"Framingham/​Worcester Line","long_name":"Framingham/Worcester Line","id":"CR-Worcester","direction_names":{"1":"Inbound","0":"Outbound"},"direction_destinations":{"1":"South Station","0":"Worcester"},"description":"commuter_rail","custom_route?":false}]
+[
+  {
+    "alert_count": 1,
+    "type": 3,
+    "stops": [
+      {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Stuart St @ Charles St S",
+        "longitude": -71.066798,
+        "latitude": 42.351039,
+        "is_child?": false,
+        "id": "9983",
+        "href": "/stops/9983",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "238 ft",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:38", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["14", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["12:08", " ", "PM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["44", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Watertown via Copley (Express)"
+              }
+            ],
+            "direction_id": 0
+          }
+        ],
+        "closed_stop_info": null,
+        "address": null,
+        "accessibility": ["accessible"]
+      },
+      {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Kneeland St @ Washington St",
+        "longitude": -71.062868,
+        "latitude": 42.350845,
+        "is_child?": false,
+        "id": "6542",
+        "href": "/stops/6542",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:19", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:49", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["14", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Downtown via Copley (Express)"
+              }
+            ],
+            "direction_id": 1
+          }
+        ],
+        "closed_stop_info": null,
+        "address": null,
+        "accessibility": ["accessible"]
+      }
+    ],
+    "name": "504",
+    "long_name": "Watertown Yard - Downtown Boston",
+    "id": "504",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "Downtown Boston", "0": "Watertown Yard" },
+    "description": "commuter_bus",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 3,
+    "stops": [
+      {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Stuart St @ Charles St S",
+        "longitude": -71.066798,
+        "latitude": 42.351039,
+        "is_child?": false,
+        "id": "9983",
+        "href": "/stops/9983",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "238 ft",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:58", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["39", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["12:58", " ", "PM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["12:55", " ", "PM"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Queensberry St"
+              }
+            ],
+            "direction_id": 0
+          }
+        ],
+        "closed_stop_info": null,
+        "address": null,
+        "accessibility": ["accessible"]
+      },
+      {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Tremont St @ Boylston Station",
+        "longitude": -71.064353,
+        "latitude": 42.353247,
+        "is_child?": false,
+        "id": "8279",
+        "href": "/stops/8279",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:56", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["39", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["12:56", " ", "PM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["12:55", " ", "PM"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Queensberry St"
+              }
+            ],
+            "direction_id": 0
+          }
+        ],
+        "closed_stop_info": null,
+        "address": null,
+        "accessibility": ["unknown"]
+      }
+    ],
+    "name": "55",
+    "long_name": "Jersey Street & Queensberry Street - Downtown Boston",
+    "id": "55",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": {
+      "1": "Downtown Boston",
+      "0": "Jersey Street & Queensberry Street"
+    },
+    "description": "local_bus",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 3,
+    "stops": [
+      {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Stuart St @ Charles St S",
+        "longitude": -71.066798,
+        "latitude": 42.351039,
+        "is_child?": false,
+        "id": "9983",
+        "href": "/stops/9983",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "238 ft",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  { "scheduled_time": ["7:07", " ", "PM"], "prediction": null }
+                ],
+                "name": "Waltham via Copley (Express)"
+              }
+            ],
+            "direction_id": 0
+          }
+        ],
+        "closed_stop_info": null,
+        "address": null,
+        "accessibility": ["accessible"]
+      },
+      {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Kneeland St @ Washington St",
+        "longitude": -71.062868,
+        "latitude": 42.350845,
+        "is_child?": false,
+        "id": "6542",
+        "href": "/stops/6542",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  { "scheduled_time": ["8:24", " ", "PM"], "prediction": null }
+                ],
+                "name": "Downtown via Copley (Express)"
+              }
+            ],
+            "direction_id": 1
+          }
+        ],
+        "closed_stop_info": null,
+        "address": null,
+        "accessibility": ["accessible"]
+      }
+    ],
+    "name": "553",
+    "long_name": "Roberts - Downtown Boston",
+    "id": "553",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "Downtown Boston", "0": "Roberts" },
+    "description": "local_bus",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 3,
+    "stops": [
+      {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Charles St S @ Park Plaza",
+        "longitude": -71.067101,
+        "latitude": 42.351748,
+        "is_child?": false,
+        "id": "1241",
+        "href": "/stops/1241",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "444 ft",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:27", " ", "AM"],
+                    "prediction": {
+                      "track": "2",
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:52", " ", "AM"],
+                    "prediction": {
+                      "track": "2",
+                      "time": ["24", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Park St & Tremont St"
+              }
+            ],
+            "direction_id": 1
+          }
+        ],
+        "closed_stop_info": null,
+        "address": null,
+        "accessibility": ["accessible"]
+      },
+      {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "285 Tremont St",
+        "longitude": -71.065439,
+        "latitude": 42.349606,
+        "is_child?": false,
+        "id": "8281",
+        "href": "/stops/8281",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.1 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:36", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["17", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["12:01", " ", "PM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["42", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Ruggles"
+              }
+            ],
+            "direction_id": 0
+          }
+        ],
+        "closed_stop_info": null,
+        "address": null,
+        "accessibility": ["accessible"]
+      }
+    ],
+    "name": "43",
+    "long_name": "Ruggles - Downtown Boston",
+    "id": "43",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "Downtown Boston", "0": "Ruggles" },
+    "description": "local_bus",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 3,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [],
+        "note": null,
+        "name": "Tufts Medical Center",
+        "longitude": -71.063917,
+        "latitude": 42.349662,
+        "is_child?": false,
+        "id": "place-tumnl",
+        "href": "/stops/place-tumnl",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.1 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:28", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:53", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["14", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Downtown"
+              }
+            ],
+            "direction_id": 1
+          }
+        ],
+        "closed_stop_info": null,
+        "address": "750 Washington St, Boston, MA",
+        "accessibility": ["accessible", "escalator_up", "elevator"]
+      },
+      {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Washington St @ Essex St",
+        "longitude": -71.062581,
+        "latitude": 42.352288,
+        "is_child?": false,
+        "id": "6537",
+        "href": "/stops/6537",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:32", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:57", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["14", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Downtown"
+              }
+            ],
+            "direction_id": 1
+          }
+        ],
+        "closed_stop_info": null,
+        "address": null,
+        "accessibility": ["accessible"]
+      }
+    ],
+    "name": "11",
+    "long_name": "City Point - Downtown Boston",
+    "id": "11",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "Downtown Boston", "0": "City Point" },
+    "description": "local_bus",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 3,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [],
+        "note": null,
+        "name": "Tufts Medical Center",
+        "longitude": -71.063917,
+        "latitude": 42.349662,
+        "is_child?": false,
+        "id": "place-tumnl",
+        "href": "/stops/place-tumnl",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.1 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  { "scheduled_time": ["2:07", " ", "AM"], "prediction": null }
+                ],
+                "name": "Mattapan via Dudley & Fields Corner"
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  { "scheduled_time": ["1:52", " ", "AM"], "prediction": null }
+                ],
+                "name": "Haymarket via Dudley & Fields Corner"
+              }
+            ],
+            "direction_id": 1
+          }
+        ],
+        "closed_stop_info": null,
+        "address": "750 Washington St, Boston, MA",
+        "accessibility": ["accessible", "escalator_up", "elevator"]
+      },
+      {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Tremont St @ Boylston Station",
+        "longitude": -71.064353,
+        "latitude": 42.353247,
+        "is_child?": false,
+        "id": "8279",
+        "href": "/stops/8279",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  { "scheduled_time": ["2:05", " ", "AM"], "prediction": null }
+                ],
+                "name": "Mattapan via Dudley & Fields Corner"
+              }
+            ],
+            "direction_id": 0
+          }
+        ],
+        "closed_stop_info": null,
+        "address": null,
+        "accessibility": ["unknown"]
+      }
+    ],
+    "name": "15",
+    "long_name": "Kane Square - Ruggles",
+    "id": "15",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "Ruggles", "0": "Kane Square" },
+    "description": "key_bus_route",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 3,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [],
+        "note": null,
+        "name": "Tufts Medical Center",
+        "longitude": -71.063917,
+        "latitude": 42.349662,
+        "is_child?": false,
+        "id": "place-tumnl",
+        "href": "/stops/place-tumnl",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.1 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:18", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:28", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["15", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Dudley"
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:24", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:34", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["2", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Downtown"
+              }
+            ],
+            "direction_id": 1
+          }
+        ],
+        "closed_stop_info": null,
+        "address": "750 Washington St, Boston, MA",
+        "accessibility": ["accessible", "escalator_up", "elevator"]
+      },
+      {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Tremont St @ Boylston Station",
+        "longitude": -71.064353,
+        "latitude": 42.353247,
+        "is_child?": false,
+        "id": "8279",
+        "href": "/stops/8279",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:15", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:25", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["15", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Dudley"
+              }
+            ],
+            "direction_id": 0
+          }
+        ],
+        "closed_stop_info": null,
+        "address": null,
+        "accessibility": ["unknown"]
+      }
+    ],
+    "name": "SL5",
+    "long_name": "Dudley - Downtown Crossing",
+    "id": "749",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "Downtown Crossing", "0": "Dudley" },
+    "description": "key_bus_route",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 3,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [],
+        "note": null,
+        "name": "Tufts Medical Center",
+        "longitude": -71.063917,
+        "latitude": 42.349662,
+        "is_child?": false,
+        "id": "place-tumnl",
+        "href": "/stops/place-tumnl",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.1 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:22", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["4", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:38", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["16", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Dudley"
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:20", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:36", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["4", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "South Station"
+              }
+            ],
+            "direction_id": 1
+          }
+        ],
+        "closed_stop_info": null,
+        "address": "750 Washington St, Boston, MA",
+        "accessibility": ["accessible", "escalator_up", "elevator"]
+      },
+      {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Washington St @ Essex St",
+        "longitude": -71.062581,
+        "latitude": 42.352288,
+        "is_child?": false,
+        "id": "6537",
+        "href": "/stops/6537",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:22", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:38", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["4", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "South Station"
+              }
+            ],
+            "direction_id": 1
+          }
+        ],
+        "closed_stop_info": null,
+        "address": null,
+        "accessibility": ["accessible"]
+      }
+    ],
+    "name": "SL4",
+    "long_name": "Dudley - South Station",
+    "id": "751",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "South Station", "0": "Dudley" },
+    "description": "key_bus_route",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 1,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [],
+        "note": null,
+        "name": "Tufts Medical Center",
+        "longitude": -71.063917,
+        "latitude": 42.349662,
+        "is_child?": false,
+        "id": "place-tumnl",
+        "href": "/stops/place-tumnl",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.1 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:20", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": "Stopped 1 stop away"
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:28", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["4", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Forest Hills"
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:19", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:27", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Oak Grove"
+              }
+            ],
+            "direction_id": 1
+          }
+        ],
+        "closed_stop_info": null,
+        "address": "750 Washington St, Boston, MA",
+        "accessibility": ["accessible", "escalator_up", "elevator"]
+      }
+    ],
+    "name": "Orange Line",
+    "long_name": "Orange Line",
+    "id": "Orange",
+    "direction_names": { "1": "Northbound", "0": "Southbound" },
+    "direction_destinations": { "1": "Oak Grove", "0": "Forest Hills" },
+    "description": "rapid_transit",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 0,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [],
+        "note": null,
+        "name": "Boylston",
+        "longitude": -71.06459,
+        "latitude": 42.35302,
+        "is_child?": false,
+        "id": "place-boyls",
+        "href": "/stops/place-boyls",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:18", " ", "AM"],
+                    "prediction": {
+                      "track": "2",
+                      "time": ["6", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:24", " ", "AM"],
+                    "prediction": {
+                      "track": "2",
+                      "time": ["12", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Boston College"
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:17", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:24", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Park Street"
+              }
+            ],
+            "direction_id": 1
+          }
+        ],
+        "closed_stop_info": null,
+        "address": "Boylston St and Tremont St, Boston, MA",
+        "accessibility": []
+      }
+    ],
+    "name": "Green Line B",
+    "long_name": "Green Line B",
+    "id": "Green-B",
+    "direction_names": { "1": "Eastbound", "0": "Westbound" },
+    "direction_destinations": { "1": "Park Street", "0": "Boston College" },
+    "description": "rapid_transit",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 0,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [],
+        "note": null,
+        "name": "Boylston",
+        "longitude": -71.06459,
+        "latitude": 42.35302,
+        "is_child?": false,
+        "id": "place-boyls",
+        "href": "/stops/place-boyls",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:21", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["4", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:30", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["10", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Cleveland Circle"
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:16", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "North Station"
+              }
+            ],
+            "direction_id": 1
+          }
+        ],
+        "closed_stop_info": null,
+        "address": "Boylston St and Tremont St, Boston, MA",
+        "accessibility": []
+      }
+    ],
+    "name": "Green Line C",
+    "long_name": "Green Line C",
+    "id": "Green-C",
+    "direction_names": { "1": "Eastbound", "0": "Westbound" },
+    "direction_destinations": { "1": "North Station", "0": "Cleveland Circle" },
+    "description": "rapid_transit",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 0,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [],
+        "note": null,
+        "name": "Boylston",
+        "longitude": -71.06459,
+        "latitude": 42.35302,
+        "is_child?": false,
+        "id": "place-boyls",
+        "href": "/stops/place-boyls",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  { "scheduled_time": ["6:58", " ", "PM"], "prediction": null }
+                ],
+                "name": "Reservoir"
+              },
+              {
+                "train_number": "",
+                "times": [
+                  { "scheduled_time": ["11:18", " ", "AM"], "prediction": null }
+                ],
+                "name": "Riverside"
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  { "scheduled_time": ["11:22", " ", "AM"], "prediction": null }
+                ],
+                "name": "Government Center"
+              },
+              {
+                "train_number": "",
+                "times": [
+                  { "scheduled_time": ["1:11", " ", "PM"], "prediction": null }
+                ],
+                "name": "Lechmere"
+              }
+            ],
+            "direction_id": 1
+          }
+        ],
+        "closed_stop_info": null,
+        "address": "Boylston St and Tremont St, Boston, MA",
+        "accessibility": []
+      }
+    ],
+    "name": "Green Line D",
+    "long_name": "Green Line D",
+    "id": "Green-D",
+    "direction_names": { "1": "Eastbound", "0": "Westbound" },
+    "direction_destinations": { "1": "Government Center", "0": "Riverside" },
+    "description": "rapid_transit",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 0,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [],
+        "note": null,
+        "name": "Boylston",
+        "longitude": -71.06459,
+        "latitude": 42.35302,
+        "is_child?": false,
+        "id": "place-boyls",
+        "href": "/stops/place-boyls",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  { "scheduled_time": ["11:15", " ", "AM"], "prediction": null }
+                ],
+                "name": "Heath Street"
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  { "scheduled_time": ["11:17", " ", "AM"], "prediction": null }
+                ],
+                "name": "Lechmere"
+              }
+            ],
+            "direction_id": 1
+          }
+        ],
+        "closed_stop_info": null,
+        "address": "Boylston St and Tremont St, Boston, MA",
+        "accessibility": []
+      }
+    ],
+    "name": "Green Line E",
+    "long_name": "Green Line E",
+    "id": "Green-E",
+    "direction_names": { "1": "Eastbound", "0": "Westbound" },
+    "direction_destinations": { "1": "Lechmere", "0": "Heath Street" },
+    "description": "rapid_transit",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 1,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [],
+        "note": null,
+        "name": "Park Street",
+        "longitude": -71.062424,
+        "latitude": 42.356395,
+        "is_child?": false,
+        "id": "place-pktrm",
+        "href": "/stops/place-pktrm",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": true,
+        "distance": "0.4 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:23", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:37", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["2", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Ashmont"
+              },
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:17", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:30", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Braintree"
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:20", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Alewife"
+              }
+            ],
+            "direction_id": 1
+          }
+        ],
+        "closed_stop_info": null,
+        "address": "Tremont St and Winter St, Boston, MA 02108",
+        "accessibility": [
+          "accessible",
+          "escalator_up",
+          "elevator",
+          "portable_boarding_lift"
+        ]
+      }
+    ],
+    "name": "Red Line",
+    "long_name": "Red Line",
+    "id": "Red",
+    "direction_names": { "1": "Northbound", "0": "Southbound" },
+    "direction_destinations": { "1": "Alewife", "0": "Ashmont/Braintree" },
+    "description": "rapid_transit",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 3,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [
+          {
+            "utilization": null,
+            "payment": {
+              "monthly_rate": "$150 regular, $445 overnight",
+              "mobile_app": null,
+              "methods": ["Credit/Debit Card", "Cash"],
+              "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
+            },
+            "note": null,
+            "name": "South Station Bus Terminal Garage",
+            "manager": {
+              "url": "https://www.propark.com/propark-locator2/south-station-garage/",
+              "phone": "617-345-0202",
+              "name": "ProPark",
+              "contact": "ProPark"
+            },
+            "longitude": -71.055963,
+            "latitude": 42.349838,
+            "capacity": { "type": "Garage", "total": 210, "accessible": 4 },
+            "address": null
+          }
+        ],
+        "note": null,
+        "name": "South Station",
+        "longitude": -71.055242,
+        "latitude": 42.352271,
+        "is_child?": false,
+        "id": "place-sstat",
+        "href": "/stops/place-sstat",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.6 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:16", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:24", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["8", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Logan Airport"
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ],
+        "closed_stop_info": null,
+        "address": "700 Atlantic Ave, Boston, MA 02110",
+        "accessibility": [
+          "accessible",
+          "escalator_both",
+          "elevator",
+          "fully_elevated_platform"
+        ]
+      }
+    ],
+    "name": "SL1",
+    "long_name": "Logan Airport - South Station",
+    "id": "741",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "South Station", "0": "Logan Airport" },
+    "description": "key_bus_route",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 3,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [
+          {
+            "utilization": null,
+            "payment": {
+              "monthly_rate": "$150 regular, $445 overnight",
+              "mobile_app": null,
+              "methods": ["Credit/Debit Card", "Cash"],
+              "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
+            },
+            "note": null,
+            "name": "South Station Bus Terminal Garage",
+            "manager": {
+              "url": "https://www.propark.com/propark-locator2/south-station-garage/",
+              "phone": "617-345-0202",
+              "name": "ProPark",
+              "contact": "ProPark"
+            },
+            "longitude": -71.055963,
+            "latitude": 42.349838,
+            "capacity": { "type": "Garage", "total": 210, "accessible": 4 },
+            "address": null
+          }
+        ],
+        "note": null,
+        "name": "South Station",
+        "longitude": -71.055242,
+        "latitude": 42.352271,
+        "is_child?": false,
+        "id": "place-sstat",
+        "href": "/stops/place-sstat",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.6 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:19", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["3", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:34", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["19", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Drydock"
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ],
+        "closed_stop_info": null,
+        "address": "700 Atlantic Ave, Boston, MA 02110",
+        "accessibility": [
+          "accessible",
+          "escalator_both",
+          "elevator",
+          "fully_elevated_platform"
+        ]
+      }
+    ],
+    "name": "SL2",
+    "long_name": "Design Center - South Station",
+    "id": "742",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "South Station", "0": "Design Center" },
+    "description": "key_bus_route",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 3,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [
+          {
+            "utilization": null,
+            "payment": {
+              "monthly_rate": "$150 regular, $445 overnight",
+              "mobile_app": null,
+              "methods": ["Credit/Debit Card", "Cash"],
+              "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
+            },
+            "note": null,
+            "name": "South Station Bus Terminal Garage",
+            "manager": {
+              "url": "https://www.propark.com/propark-locator2/south-station-garage/",
+              "phone": "617-345-0202",
+              "name": "ProPark",
+              "contact": "ProPark"
+            },
+            "longitude": -71.055963,
+            "latitude": 42.349838,
+            "capacity": { "type": "Garage", "total": 210, "accessible": 4 },
+            "address": null
+          }
+        ],
+        "note": null,
+        "name": "South Station",
+        "longitude": -71.055242,
+        "latitude": 42.352271,
+        "is_child?": false,
+        "id": "place-sstat",
+        "href": "/stops/place-sstat",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.6 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:21", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["8", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:36", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["20", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Chelsea"
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ],
+        "closed_stop_info": null,
+        "address": "700 Atlantic Ave, Boston, MA 02110",
+        "accessibility": [
+          "accessible",
+          "escalator_both",
+          "elevator",
+          "fully_elevated_platform"
+        ]
+      }
+    ],
+    "name": "SL3",
+    "long_name": "Chelsea - South Station",
+    "id": "743",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "South Station", "0": "Chelsea" },
+    "description": "key_bus_route",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 3,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [
+          {
+            "utilization": null,
+            "payment": {
+              "monthly_rate": "$150 regular, $445 overnight",
+              "mobile_app": null,
+              "methods": ["Credit/Debit Card", "Cash"],
+              "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
+            },
+            "note": null,
+            "name": "South Station Bus Terminal Garage",
+            "manager": {
+              "url": "https://www.propark.com/propark-locator2/south-station-garage/",
+              "phone": "617-345-0202",
+              "name": "ProPark",
+              "contact": "ProPark"
+            },
+            "longitude": -71.055963,
+            "latitude": 42.349838,
+            "capacity": { "type": "Garage", "total": 210, "accessible": 4 },
+            "address": null
+          }
+        ],
+        "note": null,
+        "name": "South Station",
+        "longitude": -71.055242,
+        "latitude": 42.352271,
+        "is_child?": false,
+        "id": "place-sstat",
+        "href": "/stops/place-sstat",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.6 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "",
+                "times": [
+                  {
+                    "scheduled_time": ["11:31", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["15", " ", "min"],
+                      "status": null
+                    }
+                  },
+                  {
+                    "scheduled_time": ["11:33", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["17", " ", "min"],
+                      "status": null
+                    }
+                  }
+                ],
+                "name": "Silver Line Way"
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ],
+        "closed_stop_info": null,
+        "address": "700 Atlantic Ave, Boston, MA 02110",
+        "accessibility": [
+          "accessible",
+          "escalator_both",
+          "elevator",
+          "fully_elevated_platform"
+        ]
+      }
+    ],
+    "name": "Silver Line Way - South Station",
+    "long_name": "Silver Line Way - South Station",
+    "id": "746",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "South Station", "0": "Silver Line Way" },
+    "description": "key_bus_route",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 2,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [
+          {
+            "utilization": null,
+            "payment": {
+              "monthly_rate": "$150 regular, $445 overnight",
+              "mobile_app": null,
+              "methods": ["Credit/Debit Card", "Cash"],
+              "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
+            },
+            "note": null,
+            "name": "South Station Bus Terminal Garage",
+            "manager": {
+              "url": "https://www.propark.com/propark-locator2/south-station-garage/",
+              "phone": "617-345-0202",
+              "name": "ProPark",
+              "contact": "ProPark"
+            },
+            "longitude": -71.055963,
+            "latitude": 42.349838,
+            "capacity": { "type": "Garage", "total": 210, "accessible": 4 },
+            "address": null
+          }
+        ],
+        "note": null,
+        "name": "South Station",
+        "longitude": -71.055242,
+        "latitude": 42.352271,
+        "is_child?": false,
+        "id": "place-sstat",
+        "href": "/stops/place-sstat",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.6 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "763",
+                "times": [
+                  {
+                    "scheduled_time": ["11:45", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["29", " ", "min"],
+                      "status": "On time"
+                    }
+                  }
+                ],
+                "name": "Readville"
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ],
+        "closed_stop_info": null,
+        "address": "700 Atlantic Ave, Boston, MA 02110",
+        "accessibility": [
+          "accessible",
+          "escalator_both",
+          "elevator",
+          "fully_elevated_platform"
+        ]
+      }
+    ],
+    "name": "Fairmount Line",
+    "long_name": "Fairmount Line",
+    "id": "CR-Fairmount",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "South Station", "0": "Fairmount" },
+    "description": "commuter_rail",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 2,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [
+          {
+            "utilization": null,
+            "payment": {
+              "monthly_rate": "$150 regular, $445 overnight",
+              "mobile_app": null,
+              "methods": ["Credit/Debit Card", "Cash"],
+              "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
+            },
+            "note": null,
+            "name": "South Station Bus Terminal Garage",
+            "manager": {
+              "url": "https://www.propark.com/propark-locator2/south-station-garage/",
+              "phone": "617-345-0202",
+              "name": "ProPark",
+              "contact": "ProPark"
+            },
+            "longitude": -71.055963,
+            "latitude": 42.349838,
+            "capacity": { "type": "Garage", "total": 210, "accessible": 4 },
+            "address": null
+          }
+        ],
+        "note": null,
+        "name": "South Station",
+        "longitude": -71.055242,
+        "latitude": 42.352271,
+        "is_child?": false,
+        "id": "place-sstat",
+        "href": "/stops/place-sstat",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.6 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "709",
+                "times": [
+                  {
+                    "scheduled_time": ["12:20", " ", "PM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["12:20", " ", "PM"],
+                      "status": "On time"
+                    }
+                  }
+                ],
+                "name": "Forge Park/​495"
+              },
+              {
+                "train_number": "743",
+                "times": [
+                  { "scheduled_time": ["4:15", " ", "PM"], "prediction": null }
+                ],
+                "name": "Norwood Central"
+              },
+              {
+                "train_number": "745",
+                "times": [
+                  { "scheduled_time": ["5:02", " ", "PM"], "prediction": null }
+                ],
+                "name": "Walpole"
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ],
+        "closed_stop_info": null,
+        "address": "700 Atlantic Ave, Boston, MA 02110",
+        "accessibility": [
+          "accessible",
+          "escalator_both",
+          "elevator",
+          "fully_elevated_platform"
+        ]
+      }
+    ],
+    "name": "Franklin Line",
+    "long_name": "Franklin Line",
+    "id": "CR-Franklin",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "South Station", "0": "Forge Park/495" },
+    "description": "commuter_rail",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 2,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [
+          {
+            "utilization": null,
+            "payment": {
+              "monthly_rate": "$150 regular, $445 overnight",
+              "mobile_app": null,
+              "methods": ["Credit/Debit Card", "Cash"],
+              "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
+            },
+            "note": null,
+            "name": "South Station Bus Terminal Garage",
+            "manager": {
+              "url": "https://www.propark.com/propark-locator2/south-station-garage/",
+              "phone": "617-345-0202",
+              "name": "ProPark",
+              "contact": "ProPark"
+            },
+            "longitude": -71.055963,
+            "latitude": 42.349838,
+            "capacity": { "type": "Garage", "total": 210, "accessible": 4 },
+            "address": null
+          }
+        ],
+        "note": null,
+        "name": "South Station",
+        "longitude": -71.055242,
+        "latitude": 42.352271,
+        "is_child?": false,
+        "id": "place-sstat",
+        "href": "/stops/place-sstat",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.6 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "077",
+                "times": [
+                  {
+                    "scheduled_time": ["12:41", " ", "PM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["12:41", " ", "PM"],
+                      "status": "On time"
+                    }
+                  }
+                ],
+                "name": "Greenbush"
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ],
+        "closed_stop_info": null,
+        "address": "700 Atlantic Ave, Boston, MA 02110",
+        "accessibility": [
+          "accessible",
+          "escalator_both",
+          "elevator",
+          "fully_elevated_platform"
+        ]
+      }
+    ],
+    "name": "Greenbush Line",
+    "long_name": "Greenbush Line",
+    "id": "CR-Greenbush",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "South Station", "0": "Greenbush" },
+    "description": "commuter_rail",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 2,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [
+          {
+            "utilization": null,
+            "payment": {
+              "monthly_rate": "$150 regular, $445 overnight",
+              "mobile_app": null,
+              "methods": ["Credit/Debit Card", "Cash"],
+              "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
+            },
+            "note": null,
+            "name": "South Station Bus Terminal Garage",
+            "manager": {
+              "url": "https://www.propark.com/propark-locator2/south-station-garage/",
+              "phone": "617-345-0202",
+              "name": "ProPark",
+              "contact": "ProPark"
+            },
+            "longitude": -71.055963,
+            "latitude": 42.349838,
+            "capacity": { "type": "Garage", "total": 210, "accessible": 4 },
+            "address": null
+          }
+        ],
+        "note": null,
+        "name": "South Station",
+        "longitude": -71.055242,
+        "latitude": 42.352271,
+        "is_child?": false,
+        "id": "place-sstat",
+        "href": "/stops/place-sstat",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.6 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "041",
+                "times": [
+                  { "scheduled_time": ["2:47", " ", "PM"], "prediction": null }
+                ],
+                "name": "Kingston"
+              },
+              {
+                "train_number": "065",
+                "times": [
+                  {
+                    "scheduled_time": ["12:25", " ", "PM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["12:25", " ", "PM"],
+                      "status": "On time"
+                    }
+                  }
+                ],
+                "name": "Plymouth"
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ],
+        "closed_stop_info": null,
+        "address": "700 Atlantic Ave, Boston, MA 02110",
+        "accessibility": [
+          "accessible",
+          "escalator_both",
+          "elevator",
+          "fully_elevated_platform"
+        ]
+      }
+    ],
+    "name": "Kingston/​Plymouth Line",
+    "long_name": "Kingston/Plymouth Line",
+    "id": "CR-Kingston",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": {
+      "1": "South Station",
+      "0": "Kingston or Plymouth"
+    },
+    "description": "commuter_rail",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 2,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [
+          {
+            "utilization": null,
+            "payment": {
+              "monthly_rate": "$150 regular, $445 overnight",
+              "mobile_app": null,
+              "methods": ["Credit/Debit Card", "Cash"],
+              "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
+            },
+            "note": null,
+            "name": "South Station Bus Terminal Garage",
+            "manager": {
+              "url": "https://www.propark.com/propark-locator2/south-station-garage/",
+              "phone": "617-345-0202",
+              "name": "ProPark",
+              "contact": "ProPark"
+            },
+            "longitude": -71.055963,
+            "latitude": 42.349838,
+            "capacity": { "type": "Garage", "total": 210, "accessible": 4 },
+            "address": null
+          }
+        ],
+        "note": null,
+        "name": "South Station",
+        "longitude": -71.055242,
+        "latitude": 42.352271,
+        "is_child?": false,
+        "id": "place-sstat",
+        "href": "/stops/place-sstat",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.6 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "009",
+                "times": [
+                  {
+                    "scheduled_time": ["11:57", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["41", " ", "min"],
+                      "status": "On time"
+                    }
+                  }
+                ],
+                "name": "Middleborough/​Lakeville"
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ],
+        "closed_stop_info": null,
+        "address": "700 Atlantic Ave, Boston, MA 02110",
+        "accessibility": [
+          "accessible",
+          "escalator_both",
+          "elevator",
+          "fully_elevated_platform"
+        ]
+      }
+    ],
+    "name": "Middleborough/​Lakeville Line",
+    "long_name": "Middleborough/Lakeville Line",
+    "id": "CR-Middleborough",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": {
+      "1": "South Station",
+      "0": "Middleborough/Lakeville"
+    },
+    "description": "commuter_rail",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 2,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [
+          {
+            "utilization": null,
+            "payment": {
+              "monthly_rate": "$150 regular, $445 overnight",
+              "mobile_app": null,
+              "methods": ["Credit/Debit Card", "Cash"],
+              "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
+            },
+            "note": null,
+            "name": "South Station Bus Terminal Garage",
+            "manager": {
+              "url": "https://www.propark.com/propark-locator2/south-station-garage/",
+              "phone": "617-345-0202",
+              "name": "ProPark",
+              "contact": "ProPark"
+            },
+            "longitude": -71.055963,
+            "latitude": 42.349838,
+            "capacity": { "type": "Garage", "total": 210, "accessible": 4 },
+            "address": null
+          }
+        ],
+        "note": null,
+        "name": "South Station",
+        "longitude": -71.055242,
+        "latitude": 42.352271,
+        "is_child?": false,
+        "id": "place-sstat",
+        "href": "/stops/place-sstat",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.6 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "609",
+                "times": [
+                  {
+                    "scheduled_time": ["11:50", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["34", " ", "min"],
+                      "status": "On time"
+                    }
+                  }
+                ],
+                "name": "Needham Heights"
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ],
+        "closed_stop_info": null,
+        "address": "700 Atlantic Ave, Boston, MA 02110",
+        "accessibility": [
+          "accessible",
+          "escalator_both",
+          "elevator",
+          "fully_elevated_platform"
+        ]
+      }
+    ],
+    "name": "Needham Line",
+    "long_name": "Needham Line",
+    "id": "CR-Needham",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "South Station", "0": "Needham Heights" },
+    "description": "commuter_rail",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 2,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [
+          {
+            "utilization": null,
+            "payment": {
+              "monthly_rate": "$150 regular, $445 overnight",
+              "mobile_app": null,
+              "methods": ["Credit/Debit Card", "Cash"],
+              "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
+            },
+            "note": null,
+            "name": "South Station Bus Terminal Garage",
+            "manager": {
+              "url": "https://www.propark.com/propark-locator2/south-station-garage/",
+              "phone": "617-345-0202",
+              "name": "ProPark",
+              "contact": "ProPark"
+            },
+            "longitude": -71.055963,
+            "latitude": 42.349838,
+            "capacity": { "type": "Garage", "total": 210, "accessible": 4 },
+            "address": null
+          }
+        ],
+        "note": null,
+        "name": "South Station",
+        "longitude": -71.055242,
+        "latitude": 42.352271,
+        "is_child?": false,
+        "id": "place-sstat",
+        "href": "/stops/place-sstat",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.6 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "813",
+                "times": [
+                  { "scheduled_time": ["1:43", " ", "PM"], "prediction": null }
+                ],
+                "name": "Providence"
+              },
+              {
+                "train_number": "911",
+                "times": [
+                  { "scheduled_time": ["1:20", " ", "PM"], "prediction": null }
+                ],
+                "name": "Stoughton"
+              },
+              {
+                "train_number": "811",
+                "times": [
+                  {
+                    "scheduled_time": ["11:25", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["9", " ", "min"],
+                      "status": "On time"
+                    }
+                  }
+                ],
+                "name": "Wickford Junction"
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ],
+        "closed_stop_info": null,
+        "address": "700 Atlantic Ave, Boston, MA 02110",
+        "accessibility": [
+          "accessible",
+          "escalator_both",
+          "elevator",
+          "fully_elevated_platform"
+        ]
+      }
+    ],
+    "name": "Providence/​Stoughton Line",
+    "long_name": "Providence/Stoughton Line",
+    "id": "CR-Providence",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": {
+      "1": "South Station",
+      "0": "Wickford Junction"
+    },
+    "description": "commuter_rail",
+    "custom_route?": false
+  },
+  {
+    "alert_count": 0,
+    "type": 2,
+    "stops": [
+      {
+        "station?": true,
+        "parking_lots": [
+          {
+            "utilization": null,
+            "payment": {
+              "monthly_rate": "$150 regular, $445 overnight",
+              "mobile_app": null,
+              "methods": ["Credit/Debit Card", "Cash"],
+              "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
+            },
+            "note": null,
+            "name": "South Station Bus Terminal Garage",
+            "manager": {
+              "url": "https://www.propark.com/propark-locator2/south-station-garage/",
+              "phone": "617-345-0202",
+              "name": "ProPark",
+              "contact": "ProPark"
+            },
+            "longitude": -71.055963,
+            "latitude": 42.349838,
+            "capacity": { "type": "Garage", "total": 210, "accessible": 4 },
+            "address": null
+          }
+        ],
+        "note": null,
+        "name": "South Station",
+        "longitude": -71.055242,
+        "latitude": 42.352271,
+        "is_child?": false,
+        "id": "place-sstat",
+        "href": "/stops/place-sstat",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": false,
+        "distance": "0.6 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "train_number": "591",
+                "times": [
+                  { "scheduled_time": ["4:30", " ", "PM"], "prediction": null }
+                ],
+                "name": "Framingham"
+              },
+              {
+                "train_number": "513",
+                "times": [
+                  {
+                    "scheduled_time": ["11:55", " ", "AM"],
+                    "prediction": {
+                      "track": null,
+                      "time": ["39", " ", "min"],
+                      "status": "On time"
+                    }
+                  }
+                ],
+                "name": "Worcester"
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ],
+        "closed_stop_info": null,
+        "address": "700 Atlantic Ave, Boston, MA 02110",
+        "accessibility": [
+          "accessible",
+          "escalator_both",
+          "elevator",
+          "fully_elevated_platform"
+        ]
+      }
+    ],
+    "name": "Framingham/​Worcester Line",
+    "long_name": "Framingham/Worcester Line",
+    "id": "CR-Worcester",
+    "direction_names": { "1": "Inbound", "0": "Outbound" },
+    "direction_destinations": { "1": "South Station", "0": "Worcester" },
+    "description": "commuter_rail",
+    "custom_route?": false
+  }
+]

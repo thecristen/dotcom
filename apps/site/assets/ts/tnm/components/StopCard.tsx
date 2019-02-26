@@ -2,6 +2,7 @@ import React, { ReactElement, KeyboardEvent } from "react";
 import { Stop, Route } from "./__tnm";
 import { clickStopCardAction } from "../state";
 import { Direction, directionIsEmpty } from "./Direction";
+import renderSvg from "./helpers";
 // @ts-ignore
 import stationSymbol from "../../../static/images/icon-circle-t-small.svg";
 // @ts-ignore
@@ -16,17 +17,9 @@ interface Props {
 export const stopIsEmpty = (stop: Stop): boolean =>
   stop.directions.every(directionIsEmpty);
 
-const renderSvg = (svg: string, className: string): JSX.Element => (
-  <span
-    className={className}
-    // eslint-disable-next-line react/no-danger
-    dangerouslySetInnerHTML={{ __html: svg }}
-  />
-);
-
 const renderStopIcon = (stop: Stop): JSX.Element =>
   stop["station?"] ? (
-    renderSvg(stationSymbol, "m-tnm-sidebar__stop-marker")
+    renderSvg("m-tnm-sidebar__stop-marker", stationSymbol)
   ) : (
     <></>
   );
@@ -67,7 +60,7 @@ export const StopCard = ({
           {stop.name}
           {!!stop.accessibility.length &&
             !stop.accessibility.includes("unknown") &&
-            renderSvg(accessibleIcon, "m-tnm-sidebar__stop-accessible")}
+            renderSvg("m-tnm-sidebar__stop-accessible", accessibleIcon)}
         </a>
         <div className="m-tnm-sidebar__stop-distance">{stop.distance}</div>
       </div>

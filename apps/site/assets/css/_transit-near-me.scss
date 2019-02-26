@@ -98,11 +98,20 @@ $map-height: $base-spacing * 30;
 }
 
 .m-tnm-sidebar__route-name {
+  align-items: center;
   border-top-left-radius: $default-border-radius;
   border-top-right-radius: $default-border-radius;
+  display: flex;
+  justify-content: space-between;
   margin: 0;
   padding: $base-spacing / 2;
   text-transform: uppercase;
+}
+
+.m-tnm-sidebar__route-alert {
+  display: block;
+  height: $base-spacing * 1.25;
+  width: $base-spacing * 1.25;
 }
 
 .m-tnm-sidebar__stop {

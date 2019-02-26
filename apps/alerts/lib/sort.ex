@@ -82,6 +82,7 @@ defmodule Alerts.Sort do
 
   defp priority(%{priority: :low}), do: 1
   defp priority(%{priority: :high}), do: 0
+  defp priority(%{priority: :system}), do: 1
 
   # atoms are greater than any integer
   defp first_future_active_period_start([], _now), do: :infinity

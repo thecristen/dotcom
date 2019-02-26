@@ -1,6 +1,7 @@
 defmodule Site.TransitNearMeTest do
   use ExUnit.Case
 
+  alias Alerts.Alert
   alias GoogleMaps.Geocode.Address
   alias Predictions.Prediction
   alias Routes.Route
@@ -61,20 +62,29 @@ defmodule Site.TransitNearMeTest do
     end
   end
 
-  describe "schedules_for_routes/1" do
+  describe "schedules_for_routes/3" do
     test "returns a list of custom route structs" do
       data = TransitNearMe.build(@address, date: @date, now: Util.now())
 
-      routes = TransitNearMe.schedules_for_routes(data)
+      alerts = [
+        Alert.new(
+          id: "id",
+          informed_entity: [%Alerts.InformedEntity{route: "504"}]
+        )
+      ]
+
+      routes = TransitNearMe.schedules_for_routes(data, alerts)
 
       [%{id: closest_stop} | _] = data.stops
 
-      assert [route | _] = routes
+      assert [route, route_2 | _] = routes
 
-      assert [:stops | %Route{} |> Map.from_struct() |> Map.keys()] |> Enum.sort() ==
+      assert [:alert_count, :stops | %Route{} |> Map.from_struct() |> Map.keys()] |> Enum.sort() ==
                route |> Map.keys() |> Enum.sort()
 
-      assert %{stops: [stop | _]} = route
+      assert %{stops: [stop | _], alert_count: 1} = route
+
+      assert %{alert_count: 0} = route_2
 
       assert stop.id == closest_stop
 
@@ -264,7 +274,7 @@ defmodule Site.TransitNearMeTest do
         }
       }
 
-      routes = TransitNearMe.schedules_for_routes(data)
+      routes = TransitNearMe.schedules_for_routes(data, [])
 
       # Filter applies to bus routes…
       refute Enum.find(routes, &(&1.id == "553"))
@@ -351,6 +361,7 @@ defmodule Site.TransitNearMeTest do
       output =
         TransitNearMe.schedules_for_routes(
           input,
+          [],
           predictions_fn: predictions_fn,
           stops_fn: stop_repo_fn
         )

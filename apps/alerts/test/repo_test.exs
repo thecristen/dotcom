@@ -97,4 +97,21 @@ defmodule Alerts.RepoTest do
       assert Repo.by_route_id_and_type("66", 3, @now) == [bus_alert]
     end
   end
+
+  describe "by_priority/2" do
+    test "returns the list of alerts filterd by priority from the store" do
+      Store.update(
+        [
+          %Alert{id: "high", priority: :high},
+          %Alert{id: "low", priority: :low},
+          %Alert{id: "system", priority: :system}
+        ],
+        nil
+      )
+
+      assert [%Alert{id: "high"}] = Repo.by_priority(@now, :high)
+      assert [%Alert{id: "low"}] = Repo.by_priority(@now, :low)
+      assert [%Alert{id: "system"}] = Repo.by_priority(@now, :system)
+    end
+  end
 end

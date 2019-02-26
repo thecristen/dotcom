@@ -1,5 +1,6 @@
 defmodule SiteWeb.TransitNearMeController do
   use SiteWeb, :controller
+  alias Alerts.Repo
   alias GoogleMaps.{Geocode, MapData, MapData.Layers, MapData.Marker}
   alias Phoenix.HTML
   alias Plug.Conn
@@ -37,7 +38,10 @@ defmodule SiteWeb.TransitNearMeController do
   defp assign_stops_and_routes(%{assigns: %{location: {:ok, [location | _]}}} = conn) do
     data_fn = Map.get(conn.assigns, :data_fn, &TransitNearMe.build/2)
 
-    to_json_fn = Map.get(conn.assigns, :to_json_fn, &TransitNearMe.schedules_for_routes/1)
+    # only concerned with high priority alerts
+    alerts = Repo.by_priority(conn.assigns.date_time, :high)
+
+    to_json_fn = Map.get(conn.assigns, :to_json_fn, &TransitNearMe.schedules_for_routes/2)
 
     data = data_fn.(location, date: conn.assigns.date, now: conn.assigns.date_time)
 
@@ -45,7 +49,7 @@ defmodule SiteWeb.TransitNearMeController do
 
     conn
     |> assign(:stops_with_routes, stops_with_routes)
-    |> assign(:json, to_json_fn.(data))
+    |> assign(:json, to_json_fn.(data, alerts))
   end
 
   defp assign_stops_and_routes(conn) do

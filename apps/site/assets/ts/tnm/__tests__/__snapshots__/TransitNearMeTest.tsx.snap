@@ -28,15 +28,24 @@ exports[`it renders 1`] = `
     <div
       className="m-tnm-sidebar__route"
     >
-      <div
+      <a
         className="h3 m-tnm-sidebar__route-name u-bg--bus"
+        href="/schedules/504"
       >
         <span
           className="bus-route-sign"
         >
           504
         </span>
-      </div>
+        <span
+          className="m-tnm-sidebar__route-alert"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+      </a>
       <div
         className="m-tnm-sidebar__stop"
         onClick={[Function]}
@@ -241,15 +250,16 @@ exports[`it renders 1`] = `
     <div
       className="m-tnm-sidebar__route"
     >
-      <div
+      <a
         className="h3 m-tnm-sidebar__route-name u-bg--bus"
+        href="/schedules/55"
       >
         <span
           className="bus-route-sign"
         >
           55
         </span>
-      </div>
+      </a>
       <div
         className="m-tnm-sidebar__stop"
         onClick={[Function]}
@@ -436,15 +446,16 @@ exports[`it renders 1`] = `
     <div
       className="m-tnm-sidebar__route"
     >
-      <div
+      <a
         className="h3 m-tnm-sidebar__route-name u-bg--bus"
+        href="/schedules/553"
       >
         <span
           className="bus-route-sign"
         >
           553
         </span>
-      </div>
+      </a>
       <div
         className="m-tnm-sidebar__stop"
         onClick={[Function]}

@@ -2,6 +2,9 @@
 import React, { ReactElement } from "react";
 import { StopCard, stopIsEmpty } from "./StopCard";
 import { Route, Stop } from "./__tnm";
+import renderSvg from "./helpers";
+// @ts-ignore
+import alertIcon from "../../../static/images/icon-alerts-triangle.svg";
 
 interface Props {
   route: Route;
@@ -57,9 +60,15 @@ const RouteCard = ({
 
   return (
     <div className="m-tnm-sidebar__route">
-      <div className={`h3 m-tnm-sidebar__route-name ${bgClass}`}>
+      <a
+        href={`/schedules/${route.id}`}
+        className={`h3 m-tnm-sidebar__route-name ${bgClass}`}
+      >
         <span className={busClass(route)}>{route.name}</span>
-      </div>
+        {route.alert_count
+          ? renderSvg("m-tnm-sidebar__route-alert", alertIcon)
+          : null}
+      </a>
       {filterStops(route).map(stop => (
         <StopCard key={stop.id} stop={stop} route={route} dispatch={dispatch} />
       ))}
