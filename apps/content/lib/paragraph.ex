@@ -30,6 +30,7 @@ defmodule Content.Paragraph do
     FareCard,
     FilesGrid,
     PeopleGrid,
+    PhotoGallery,
     TitleCardSet,
     Unknown,
     UpcomingBoardMeetings
@@ -45,6 +46,7 @@ defmodule Content.Paragraph do
     FareCard,
     FilesGrid,
     PeopleGrid,
+    PhotoGallery,
     TitleCardSet,
     Unknown,
     UpcomingBoardMeetings
@@ -60,6 +62,7 @@ defmodule Content.Paragraph do
           | FareCard.t()
           | FilesGrid.t()
           | PeopleGrid.t()
+          | PhotoGallery.t()
           | TitleCardSet.t()
           | Unknown.t()
           | UpcomingBoardMeetings.t()
@@ -74,6 +77,7 @@ defmodule Content.Paragraph do
           | FareCard
           | FilesGrid
           | PeopleGrid
+          | PhotoGallery
           | TitleCardSet
           | Unknown
           | UpcomingBoardMeetings
@@ -115,6 +119,10 @@ defmodule Content.Paragraph do
 
   def from_api(%{"type" => [%{"target_id" => "people_grid"}]} = para) do
     PeopleGrid.from_api(para)
+  end
+
+  def from_api(%{"type" => [%{"target_id" => "photo_gallery"}]} = para) do
+    PhotoGallery.from_api(para)
   end
 
   def from_api(%{"type" => [%{"target_id" => "tabs"}]} = para) do

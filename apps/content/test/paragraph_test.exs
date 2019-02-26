@@ -22,6 +22,7 @@ defmodule Content.ParagraphTest do
     FareCard,
     FilesGrid,
     PeopleGrid,
+    PhotoGallery,
     TitleCardSet,
     Unknown,
     UpcomingBoardMeetings
@@ -169,6 +170,20 @@ defmodule Content.ParagraphTest do
                  %Person{id: 2605},
                  %Person{id: 2610},
                  %Person{id: 2609}
+               ]
+             } = from_api(api_data)
+    end
+
+    test "returns the correct struct when given a photo gallery paragraph" do
+      api_data = api_paragraph("photo_gallery")
+
+      assert %PhotoGallery{
+               images: [
+                 %Image{},
+                 %Image{},
+                 %Image{},
+                 %Image{},
+                 %Image{}
                ]
              } = from_api(api_data)
     end

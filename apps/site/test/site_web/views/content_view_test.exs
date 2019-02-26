@@ -22,6 +22,7 @@ defmodule SiteWeb.ContentViewTest do
     FareCard,
     FilesGrid,
     PeopleGrid,
+    PhotoGallery,
     TitleCardSet,
     Unknown,
     UpcomingBoardMeetings
@@ -266,6 +267,34 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "c-paragraph--people-grid"
       assert rendered =~ person.name
       assert rendered =~ person.position
+    end
+
+    test "renders a Paragraph.PhotoGallery", %{conn: conn} do
+      images = [
+        %Image{url: "/sites/default/files/styles/example/image1.jpg", alt: "image 1"},
+        %Image{url: "/sites/default/files/styles/example/image2.jpg", alt: "image 2"},
+        %Image{url: "/sites/default/files/styles/example/image3.jpg", alt: "image 3"}
+      ]
+
+      paragraph = %PhotoGallery{
+        images: images
+      }
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "c-paragraph--photo-gallery"
+
+      assert rendered =~
+               ~s(<img alt="image 1" class="img-thumbnail" src="/sites/default/files/styles/example/image1.jpg")
+
+      assert rendered =~
+               ~s(<img alt="image 2" class="img-thumbnail" src="/sites/default/files/styles/example/image2.jpg")
+
+      assert rendered =~
+               ~s(<img alt="image 3" class="img-thumbnail" src="/sites/default/files/styles/example/image3.jpg")
     end
 
     test "renders a Paragraph.Callout", %{conn: conn} do

@@ -5953,7 +5953,8 @@
           "field_image": [
             {
               "url": "http://mbta.offline/sites/default/files/styles/whats_happening/public/projects/parking-prices/beverly-garage.png?itok=OpuWWmbv",
-              "alt": "Beverly parking garage"
+              "alt": "Beverly parking garage",
+              "thumb": null
             }
           ],
           "field_url": [
@@ -5963,6 +5964,120 @@
               "options": []
             }
           ]
+        }
+      ]
+    },
+    {
+      "target_id": 5914,
+      "target_revision_id": 106834,
+      "id": [
+        {
+          "value": 5914
+        }
+      ],
+      "uuid": [
+        {
+          "value": "378035f0-508e-4a0d-a25e-03285d03046e"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 106834
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "photo_gallery",
+          "target_type": "paragraphs_type",
+          "target_uuid": "bce17d68-5fb5-45ac-a9c9-3ea60f3c62ce"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1550676701
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_image": [
+        {
+          "alt": "Green Line train pulls into the Science Park/West End Station, viewed from the tactile edge of the platform, with sunlight in the background.",
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_1300x1300/public/projects/glx/existing-green-line/green-line-train-science-park-viewed-from-below-sunlight.jpg?itok=TMmO6xR4",
+          "thumb": "https://live-mbta.pantheonsite.io/sites/default/files/styles/square_150x150/public/projects/glx/existing-green-line/green-line-train-science-park-viewed-from-below-sunlight.jpg?itok=7A3-rCNc"
+        },
+        {
+          "alt": "A Green Line train arrives at an above-ground platform, and riders board in the background.",
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_1300x1300/public/projects/glx/existing-green-line/green-line-train-platform-head-on.jpg?itok=8U5sR45H",
+          "thumb": "https://live-mbta.pantheonsite.io/sites/default/files/styles/square_150x150/public/projects/glx/existing-green-line/green-line-train-platform-head-on.jpg?itok=C9VDbGDd"
+        },
+        {
+          "alt": "A Green Line train arrives at an above-ground platform.",
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_1300x1300/public/projects/glx/existing-green-line/green-line-train-viewed-from-below.jpg?itok=X6H8SWOL",
+          "thumb": "https://live-mbta.pantheonsite.io/sites/default/files/styles/square_150x150/public/projects/glx/existing-green-line/green-line-train-viewed-from-below.jpg?itok=IpK9aClT"
+        },
+        {
+          "alt": "A Green Line train arrives at an above-ground platform, with riders walking down the platform.",
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_1300x1300/public/projects/glx/existing-green-line/green-line-train-platform-riders-D-branch.jpg?itok=00hJuUo9",
+          "thumb": "https://live-mbta.pantheonsite.io/sites/default/files/styles/square_150x150/public/projects/glx/existing-green-line/green-line-train-platform-riders-D-branch.jpg?itok=aGQdhZGz"
+        },
+        {
+          "alt": "A Green Line train arrives at an above-ground platform, and riders board in the background.",
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_1300x1300/public/projects/glx/existing-green-line/greee-line-train-platform-riders-BU.jpg?itok=fuU9HBUS",
+          "thumb": "https://live-mbta.pantheonsite.io/sites/default/files/styles/square_150x150/public/projects/glx/existing-green-line/greee-line-train-platform-riders-BU.jpg?itok=Gh3L6dGf"
         }
       ]
     },
