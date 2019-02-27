@@ -69,7 +69,7 @@ defmodule Site.TransitNearMeTest do
       alerts = [
         Alert.new(
           id: "id",
-          informed_entity: [%Alerts.InformedEntity{route: "504"}]
+          informed_entity: [%Alerts.InformedEntity{route: "Orange"}]
         )
       ]
 
@@ -77,14 +77,14 @@ defmodule Site.TransitNearMeTest do
 
       [%{id: closest_stop} | _] = data.stops
 
-      assert [route, route_2 | _] = routes
+      assert [route | _] = routes
 
       assert [:alert_count, :stops | %Route{} |> Map.from_struct() |> Map.keys()] |> Enum.sort() ==
                route |> Map.keys() |> Enum.sort()
 
-      assert %{stops: [stop | _], alert_count: 1} = route
+      assert %{stops: [stop | _]} = route
 
-      assert %{alert_count: 0} = route_2
+      assert %{alert_count: 1} = Enum.find(routes, &(&1.id == "Orange"))
 
       assert stop.id == closest_stop
 
