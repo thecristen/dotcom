@@ -1,5 +1,6 @@
 import tnmData from "../tnmData.json";
-import { Route } from "../../components/__tnm";
+import tnmStopData from "../tnmStopData.json";
+import { Route, StopWithRoutes } from "../../components/__tnm";
 
 export const createReactRoot = (): void => {
   document.body.innerHTML =
@@ -7,3 +8,6 @@ export const createReactRoot = (): void => {
 };
 
 export const importData = (): Route[] => JSON.parse(JSON.stringify(tnmData));
+
+export const importStopData = (): StopWithRoutes[] =>
+  JSON.parse(JSON.stringify(tnmStopData));

@@ -1,8 +1,8 @@
 import React, { ReactElement, KeyboardEvent } from "react";
 import { Stop, Route } from "./__tnm";
-import { clickStopCardAction } from "../state";
+import { clickStopCardAction, Dispatch } from "../state";
 import { Direction, directionIsEmpty } from "./Direction";
-import renderSvg from "./helpers";
+import { renderSvg } from "./helpers";
 // @ts-ignore
 import stationSymbol from "../../../static/images/icon-circle-t-small.svg";
 // @ts-ignore
@@ -11,7 +11,7 @@ import accessibleIcon from "../../../static/images/icon-accessible-default.svg";
 interface Props {
   stop: Stop;
   route: Route;
-  dispatch: Function;
+  dispatch: Dispatch;
 }
 
 export const stopIsEmpty = (stop: Stop): boolean =>
@@ -50,7 +50,7 @@ export const StopCard = ({
     <div
       role="button"
       tabIndex={0}
-      className="m-tnm-sidebar__stop"
+      className="m-tnm-sidebar__route-stop"
       onClick={onClick}
       onKeyPress={e => handleKeyPress(e, onClick)}
     >

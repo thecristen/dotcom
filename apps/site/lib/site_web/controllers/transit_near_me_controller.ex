@@ -45,22 +45,20 @@ defmodule SiteWeb.TransitNearMeController do
 
     data = data_fn.(location, date: conn.assigns.date, now: conn.assigns.date_time)
 
-    stops_with_routes = StopsWithRoutes.from_routes_and_stops(data)
-
     conn
-    |> assign(:stops_with_routes, stops_with_routes)
-    |> assign(:json, to_json_fn.(data, alerts))
+    |> assign(:stops_json, StopsWithRoutes.stops_with_routes(data, location))
+    |> assign(:routes_json, to_json_fn.(data, alerts))
   end
 
   defp assign_stops_and_routes(conn) do
     conn
-    |> assign(:stops_with_routes, [])
-    |> assign(:json, [])
+    |> assign(:stops_json, [])
+    |> assign(:routes_json, [])
   end
 
   def assign_map_data(conn) do
     markers =
-      conn.assigns.stops_with_routes
+      conn.assigns.stops_json
       |> Enum.map(&build_stop_marker(&1))
 
     map_data =
@@ -90,7 +88,7 @@ defmodule SiteWeb.TransitNearMeController do
   """
   @spec marker_for_routes(Keyword.t()) :: String.t()
   def marker_for_routes(routes) do
-    if Keyword.keys(routes) == [:bus] || Keyword.keys(routes) == [] do
+    if List.first(routes).group_name == :bus do
       "map-stop-marker"
     else
       "map-station-marker"
@@ -126,7 +124,7 @@ defmodule SiteWeb.TransitNearMeController do
   end
 
   @spec flash_if_error(Conn.t()) :: Plug.Conn.t()
-  def flash_if_error(%Conn{assigns: %{stops_with_routes: [], location: {:ok, _}}} = conn) do
+  def flash_if_error(%Conn{assigns: %{stops_json: [], location: {:ok, _}}} = conn) do
     put_flash(
       conn,
       :info,

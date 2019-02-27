@@ -23,7 +23,7 @@ exports[`it renders a stop card 1`] = `
     />
   </a>
   <div
-    className="m-tnm-sidebar__stop"
+    className="m-tnm-sidebar__route-stop"
     onClick={[Function]}
     onKeyPress={[Function]}
     role="button"
@@ -123,7 +123,7 @@ exports[`it renders a stop card 1`] = `
     </div>
   </div>
   <div
-    className="m-tnm-sidebar__stop"
+    className="m-tnm-sidebar__route-stop"
     onClick={[Function]}
     onKeyPress={[Function]}
     role="button"
@@ -240,7 +240,7 @@ exports[`it renders a stop card for the silver line 1`] = `
     </span>
   </a>
   <div
-    className="m-tnm-sidebar__stop"
+    className="m-tnm-sidebar__route-stop"
     onClick={[Function]}
     onKeyPress={[Function]}
     role="button"
@@ -407,7 +407,7 @@ exports[`it renders a stop card for the silver line 1`] = `
     </div>
   </div>
   <div
-    className="m-tnm-sidebar__stop"
+    className="m-tnm-sidebar__route-stop"
     onClick={[Function]}
     onKeyPress={[Function]}
     role="button"

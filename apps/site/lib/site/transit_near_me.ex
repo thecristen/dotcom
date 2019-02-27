@@ -274,14 +274,20 @@ defmodule Site.TransitNearMe do
   defp get_directions_for_stop({_stop_id, schedules}, location, opts) do
     [%Schedule{stop: schedule_stop} | _] = schedules
     stop_fn = Keyword.get(opts, :stops_fn, &Stops.Repo.get/1)
-    stop = stop_fn.(schedule_stop.id)
 
+    schedule_stop.id
+    |> stop_fn.()
+    |> build_stop_map(location)
+    |> Map.put(:directions, get_direction_map(schedules, opts))
+  end
+
+  @spec build_stop_map(Stop.t(), Address.t()) :: map
+  def build_stop_map(stop, location) do
     distance = Distance.haversine(stop, location)
     href = Helpers.stop_path(SiteWeb.Endpoint, :show, stop.id)
 
     stop
     |> Map.from_struct()
-    |> Map.put(:directions, get_direction_map(schedules, opts))
     |> Map.put(:distance, ViewHelpers.round_distance(distance))
     |> Map.put(:href, href)
   end

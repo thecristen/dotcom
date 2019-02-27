@@ -1,37 +1,54 @@
 import React, { useReducer, ReactElement } from "react";
 import TransitNearMeMap from "./googleMaps/TransitNearMeMap";
 import RoutesSidebar from "./RoutesSidebar";
-import { Route, Stop, MapData } from "./__tnm";
+import StopsSidebar from "./StopsSidebar";
+import { Route, Stop, MapData, StopWithRoutes } from "./__tnm";
 import { reducer, initialState, SelectedStopType } from "../state";
 
 interface Props {
   mapData: MapData;
   mapId: string;
-  sidebarData: Route[];
-  getSidebarOffset: () => number;
+  routeSidebarData: Route[];
+  stopSidebarData: StopWithRoutes[];
 }
 
-const selectedStop = (
-  sidebarData: Route[],
+export const getSelectedStop = (
+  stopSidebarData: StopWithRoutes[],
   selectedStopId: SelectedStopType
 ): Stop | undefined => {
-  const stops = sidebarData.reduce(
-    (acc, route) => acc.concat(route.stops),
-    [] as Stop[]
+  const stopWithRoute = stopSidebarData.find(
+    data => data.stop.id === selectedStopId
   );
-  return stops.find(stop => stop.id === selectedStopId);
+  return stopWithRoute ? stopWithRoute.stop : undefined;
 };
 
 const TransitNearMe = ({
   mapData,
   mapId,
-  sidebarData,
-  getSidebarOffset
+  routeSidebarData,
+  stopSidebarData
 }: Props): ReactElement<HTMLElement> => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  const selectedStop = getSelectedStop(stopSidebarData, state.selectedStopId);
   return (
     <div className="m-tnm">
+      {state.routesView ? (
+        <RoutesSidebar
+          selectedStop={selectedStop}
+          selectedStopId={state.selectedStopId}
+          dispatch={dispatch}
+          data={routeSidebarData}
+          shouldFilterStopCards={state.shouldFilterStopCards}
+        />
+      ) : (
+        <StopsSidebar
+          selectedStop={selectedStop}
+          selectedStopId={state.selectedStopId}
+          dispatch={dispatch}
+          data={stopSidebarData}
+          shouldFilterStopCards={state.shouldFilterStopCards}
+        />
+      )}
       <div
         id={mapId}
         className="m-tnm__map"
@@ -44,14 +61,6 @@ const TransitNearMe = ({
         mapElementId={mapId}
         initialData={mapData}
         shouldCenterMapOnSelectedStop={state.shouldCenterMapOnSelectedStop}
-      />
-      <RoutesSidebar
-        selectedStop={selectedStop(sidebarData, state.selectedStopId)}
-        selectedStopId={state.selectedStopId}
-        dispatch={dispatch}
-        data={sidebarData}
-        shouldFilterStopCards={state.shouldFilterStopCards}
-        getOffset={getSidebarOffset}
       />
     </div>
   );

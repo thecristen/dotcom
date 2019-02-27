@@ -2,7 +2,7 @@
 
 exports[`it renders a stop card 1`] = `
 <div
-  className="m-tnm-sidebar__stop"
+  className="m-tnm-sidebar__route-stop"
   onClick={[Function]}
   onKeyPress={[Function]}
   role="button"

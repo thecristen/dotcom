@@ -13,21 +13,18 @@ $map-height: $base-spacing * 30;
 }
 
 .m-tnm {
+  display: flex;
   margin-top: 1.5 * $base-spacing;
   position: relative;
 
-  @include media-breakpoint-only(md) {
-    display: flex;
+  @include media-breakpoint-down(sm) {
+    flex-direction: column-reverse;
   }
 }
 
 .m-tnm__map {
+  flex: 1 1 auto;
   height: $map-height;
-
-  @include media-breakpoint-only(md) {
-    flex: 1 0 60%;
-    order: 2;
-  }
 
   @include media-breakpoint-down(sm) {
     box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
@@ -45,21 +42,14 @@ $map-height: $base-spacing * 30;
   }
 
   @include media-breakpoint-up(md) {
-    // left is set by RoutesSidebar react component
     height: $map-height;
     overflow: scroll;
     padding: $base-spacing / 2;
-    width: 21 * $base-spacing;
-  }
-
-  @include media-breakpoint-up(lg) {
-    position: absolute;
-    top: 0;
+    width: 30 * $base-spacing;
   }
 
   @include media-breakpoint-only(md) {
-    flex: 1 1 40%;
-    order: 1;
+    width: 21 * $base-spacing;
   }
 }
 
@@ -67,8 +57,22 @@ $map-height: $base-spacing * 30;
   margin-bottom: $base-spacing / 2;
 
   h2 {
+    flex-shrink: 0;
     margin-top: 1.8125 * $base-spacing;
   }
+}
+
+.m-tnm-sidebar__header-title {
+  align-items: baseline;
+  display: flex;
+  justify-content: space-between;
+  white-space: nowrap;
+}
+
+.m-tnm-sidebar__view-change {
+  color: $brand-primary;
+  margin-bottom: .75 * $base-spacing;
+  margin-left: $base-spacing;
 }
 
 .m-tnm-sidebar__pill {
@@ -83,18 +87,31 @@ $map-height: $base-spacing * 30;
   margin-left: $base-spacing / 2;
 }
 
-.m-tnm-sidebar__route {
-  background-color: $white;
-
+.m-tnm-sidebar__route,
+.m-tnm-sidebar__stop-card,
+.m-tnm-sidebar__header {
   @include media-breakpoint-only(sm) {
     @include make-col-span(8);
     margin-left: auto;
     margin-right: auto;
   }
+}
 
+.m-tnm-sidebar__route,
+.m-tnm-sidebar__stop-card {
   & + & {
     margin-top: $base-spacing / 2;
   }
+}
+
+.m-tnm-sidebar__stop-card {
+  background-color: $white;
+  border-radius: $default-border-radius;
+  padding: $base-spacing;
+}
+
+.m-tnm-sidebar__stop-cards {
+  padding: 0;
 }
 
 .m-tnm-sidebar__route-name {
@@ -114,7 +131,8 @@ $map-height: $base-spacing * 30;
   width: $base-spacing * 1.25;
 }
 
-.m-tnm-sidebar__stop {
+.m-tnm-sidebar__route-stop {
+  background: $white;
   cursor: pointer;
   padding: $base-spacing / 2;
 
@@ -209,13 +227,31 @@ $map-height: $base-spacing * 30;
 .m-tnm-sidebar__stop-marker,
 .m-tnm-sidebar__stop-accessible {
   svg {
-    @include center-icon(1rem);
+    @include center-icon($base-spacing);
+    margin-right: $base-spacing / 2;
   }
-}
-.m-tnm-sidebar__stop-marker {
-  margin-right: .5rem;
 }
 
 .m-tnm-sidebar__stop-accessible {
-  margin-left: .5rem;
+  margin-left: $base-spacing / 2;
+}
+
+.m-tnm-sidebar__mode-icon {
+  svg {
+    @include center-icon(1.25em);
+    margin-right: $base-spacing / 2;
+  }
+}
+
+.m-tnm-sidebar__stop-card-name {
+  font-weight: bold;
+}
+
+.m-tnm-sidebar__stop-card-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.m-tnm-sidebar__stop-card-description {
+  margin-top: $base-spacing / 2;
 }

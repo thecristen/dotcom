@@ -5,6 +5,7 @@ defmodule Site.ReactTest do
   alias GoogleMaps.Geocode.Address
   alias Site.{React, TransitNearMe}
   alias Site.React.Worker
+  alias SiteWeb.TransitNearMeController.StopsWithRoutes
 
   @address %Address{
     latitude: 42.352271,
@@ -18,14 +19,25 @@ defmodule Site.ReactTest do
       data =
         @address
         |> TransitNearMe.build(date: @date, now: Util.now())
-        |> TransitNearMe.schedules_for_routes([])
 
-      {:ok, %{data: data}}
+      route_sidebar_data = TransitNearMe.schedules_for_routes(data, [])
+
+      stop_sidebar_data = StopsWithRoutes.stops_with_routes(data, @address)
+
+      {:ok, %{route_sidebar_data: route_sidebar_data, stop_sidebar_data: stop_sidebar_data}}
     end
 
-    test "renders a component, even when the component has a lot of data", %{data: data} do
+    test "renders a component, even when the component has a lot of data", %{
+      route_sidebar_data: route_sidebar_data,
+      stop_sidebar_data: stop_sidebar_data
+    } do
       assert {:safe, body} =
-               React.render("TransitNearMe", %{mapId: "map-id", mapData: %{}, sidebarData: data})
+               React.render("TransitNearMe", %{
+                 mapId: "map-id",
+                 mapData: %{},
+                 routeSidebarData: route_sidebar_data,
+                 stopSidebarData: stop_sidebar_data
+               })
 
       assert body =~ "m-tnm-sidebar"
     end
@@ -37,7 +49,8 @@ defmodule Site.ReactTest do
                    React.render("TransitNearMeError", %{
                      mapId: "map-id",
                      mapData: %{},
-                     sidebarData: []
+                     routeSidebarData: [],
+                     stopSidebarData: []
                    })
         end)
 
@@ -52,22 +65,31 @@ defmodule Site.ReactTest do
                    React.render("TransitNearMe", %{
                      mapId: "map-id",
                      mapData: %{},
-                     sidebarData: "crash"
+                     routeSidebarData: "crash",
+                     stopSidebarData: []
                    })
         end)
 
-      assert log =~ "react_renderer component=TransitNearMe e.reduce is not a function"
+      assert log =~ ~r/react_renderer component=TransitNearMe.* is not a function/
     end
 
-    test "it translates zero-width space HTML entities into UTF-8 characters", %{data: data} do
+    test "it translates zero-width space HTML entities into UTF-8 characters", %{
+      route_sidebar_data: route_sidebar_data,
+      stop_sidebar_data: stop_sidebar_data
+    } do
       # There's something between the quotes, really.
       zero_width_space = "​"
 
       # Demonstrate that the data going in includes a zero-width space
-      assert Poison.encode!(data) =~ zero_width_space
+      assert Poison.encode!(route_sidebar_data) =~ zero_width_space
 
       assert {:safe, body} =
-               React.render("TransitNearMe", %{mapId: "map-id", mapData: %{}, sidebarData: data})
+               React.render("TransitNearMe", %{
+                 mapId: "map-id",
+                 mapData: %{},
+                 routeSidebarData: route_sidebar_data,
+                 stopSidebarData: stop_sidebar_data
+               })
 
       assert body =~ zero_width_space
     end

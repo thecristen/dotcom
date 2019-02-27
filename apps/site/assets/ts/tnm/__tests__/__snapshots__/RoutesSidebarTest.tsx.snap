@@ -3,18 +3,26 @@
 exports[`render it renders 1`] = `
 <div
   className="m-tnm-sidebar"
-  style={
-    Object {
-      "left": "0px",
-    }
-  }
 >
   <div
     className="m-tnm-sidebar__header"
   >
-    <h2>
-      Nearby Routes
-    </h2>
+    <div
+      className="m-tnm-sidebar__header-title"
+    >
+      <h2>
+        Nearby Routes
+      </h2>
+      <div
+        className="m-tnm-sidebar__view-change"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        Change view
+      </div>
+    </div>
   </div>
   <div
     className="m-tnm-sidebar__route"
@@ -38,7 +46,7 @@ exports[`render it renders 1`] = `
       />
     </a>
     <div
-      className="m-tnm-sidebar__stop"
+      className="m-tnm-sidebar__route-stop"
       onClick={[Function]}
       onKeyPress={[Function]}
       role="button"
@@ -138,7 +146,7 @@ exports[`render it renders 1`] = `
       </div>
     </div>
     <div
-      className="m-tnm-sidebar__stop"
+      className="m-tnm-sidebar__route-stop"
       onClick={[Function]}
       onKeyPress={[Function]}
       role="button"
@@ -252,7 +260,7 @@ exports[`render it renders 1`] = `
       </span>
     </a>
     <div
-      className="m-tnm-sidebar__stop"
+      className="m-tnm-sidebar__route-stop"
       onClick={[Function]}
       onKeyPress={[Function]}
       role="button"
@@ -347,7 +355,7 @@ exports[`render it renders 1`] = `
       </div>
     </div>
     <div
-      className="m-tnm-sidebar__stop"
+      className="m-tnm-sidebar__route-stop"
       onClick={[Function]}
       onKeyPress={[Function]}
       role="button"
@@ -448,7 +456,7 @@ exports[`render it renders 1`] = `
       </span>
     </a>
     <div
-      className="m-tnm-sidebar__stop"
+      className="m-tnm-sidebar__route-stop"
       onClick={[Function]}
       onKeyPress={[Function]}
       role="button"
@@ -530,7 +538,7 @@ exports[`render it renders 1`] = `
       </div>
     </div>
     <div
-      className="m-tnm-sidebar__stop"
+      className="m-tnm-sidebar__route-stop"
       onClick={[Function]}
       onKeyPress={[Function]}
       role="button"
@@ -614,5 +622,3 @@ exports[`render it renders 1`] = `
   </div>
 </div>
 `;
-
-exports[`render it returns null when there isn't data 1`] = `null`;

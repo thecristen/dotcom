@@ -31,31 +31,21 @@ export const onError = (error: PositionError): void => {
   }
 };
 
-const getSidebarOffset = (): number => {
-  const containerEl = document
-    .getElementsByClassName("container")
-    .item(0) as HTMLElement;
-
-  if (containerEl) {
-    return containerEl.offsetLeft;
-  }
-
-  return 0;
-};
-
 const render = (): void => {
   const dataEl = document.getElementById("js-tnm-map-dynamic-data");
-  const sidebarDataEl = document.getElementById("js-tnm-sidebar-data");
-  if (!dataEl || !sidebarDataEl) return;
+  const routeSidebarDataEl = document.getElementById("js-tnm-sidebar-data");
+  const stopSidebarDataEl = document.getElementById("js-tnm-stop-sidebar-data");
+  if (!dataEl || !routeSidebarDataEl || !stopSidebarDataEl) return;
   const mapId = dataEl.getAttribute("data-for") as string;
   const mapData = JSON.parse(dataEl.innerHTML) as MapData;
-  const sidebarData = JSON.parse(sidebarDataEl.innerHTML);
+  const routeSidebarData = JSON.parse(routeSidebarDataEl.innerHTML);
+  const stopSidebarData = JSON.parse(stopSidebarDataEl.innerHTML);
   ReactDOM.render(
     <TransitNearMe
       mapData={mapData}
       mapId={mapId}
-      sidebarData={sidebarData}
-      getSidebarOffset={getSidebarOffset}
+      routeSidebarData={routeSidebarData}
+      stopSidebarData={stopSidebarData}
     />,
     document.getElementById("react-root")
   );

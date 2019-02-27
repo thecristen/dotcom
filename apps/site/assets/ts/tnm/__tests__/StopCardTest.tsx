@@ -44,7 +44,7 @@ it("it selects stop when the card is clicked", () => {
     <StopCard stop={stop} route={route} dispatch={mockDispatch} />
   );
 
-  wrapper.find(".m-tnm-sidebar__stop").simulate("click");
+  wrapper.find(".m-tnm-sidebar__route-stop").simulate("click");
   expect(mockDispatch).toHaveBeenCalledWith({
     type: "CLICK_STOP_CARD",
     payload: { stopId: "9983" }
@@ -64,7 +64,9 @@ it("it selects stop when the card is selected via keyboard", () => {
     <StopCard stop={stop} route={route} dispatch={mockDispatch} />
   );
 
-  wrapper.find(".m-tnm-sidebar__stop").simulate("keyPress", { key: "Enter" });
+  wrapper
+    .find(".m-tnm-sidebar__route-stop")
+    .simulate("keyPress", { key: "Enter" });
   expect(mockDispatch).toHaveBeenCalledWith({
     type: "CLICK_STOP_CARD",
     payload: { stopId: "9983" }
@@ -84,6 +86,8 @@ it("it does nothing when the keyboard event is not enter", () => {
     <StopCard stop={stop} route={route} dispatch={mockDispatch} />
   );
 
-  wrapper.find(".m-tnm-sidebar__stop").simulate("keyPress", { key: "Tab" });
+  wrapper
+    .find(".m-tnm-sidebar__route-stop")
+    .simulate("keyPress", { key: "Tab" });
   expect(mockDispatch).not.toHaveBeenCalled();
 });

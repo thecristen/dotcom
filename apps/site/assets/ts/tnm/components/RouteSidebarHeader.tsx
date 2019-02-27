@@ -1,31 +1,28 @@
-import React, { ReactElement, KeyboardEvent } from "react";
+import React, { ReactElement } from "react";
 import { Stop } from "./__tnm";
-import { clickStopPillAction } from "../state";
+import SidebarTitle from "./SidebarTitle";
+import { clickStopPillAction, Dispatch } from "../state";
+import { handleEnterKeyPress } from "./helpers";
 
 interface Props {
   selectedStop: Stop | undefined;
-  dispatch: Function;
+  dispatch: Dispatch;
 }
-
-const handleKeyPress = (e: KeyboardEvent, onClick: Function): void => {
-  if (e.key === "Enter") {
-    onClick();
-  }
-};
 
 const RouteSidebarHeader = (props: Props): ReactElement<HTMLElement> => {
   const { dispatch, selectedStop } = props;
-  const onClick = (): void => dispatch(clickStopPillAction());
+  const onClickPill = (): void => dispatch(clickStopPillAction());
   return (
     <div className="m-tnm-sidebar__header">
-      <h2>Nearby Routes</h2>
+      <SidebarTitle dispatch={dispatch} viewType="Routes" />
       {selectedStop && (
         <span
           role="button"
           tabIndex={0}
           className="m-tnm-sidebar__pill"
-          onClick={onClick}
-          onKeyPress={e => handleKeyPress(e, onClick)}
+          onClick={onClickPill}
+          onKeyPress={e => handleEnterKeyPress(e, onClickPill)}
+          aria-label={`Remove filtering by ${selectedStop.name}`}
         >
           {selectedStop.name}
           <span className="m-tnm-sidebar__pill-close fa fa-times-circle" />

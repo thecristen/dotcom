@@ -8,34 +8,44 @@ defmodule SiteWeb.TransitNearMeControllerTest do
   alias SiteWeb.TransitNearMeController, as: TNMController
   alias Stops.Stop
 
-  @orange_line %Route{id: "Orange", description: :rapid_transit, name: "Orange Line", type: 1}
-  @cr_worcester %Route{
+  @orange_line %{
+    id: "Orange",
+    description: :rapid_transit,
+    name: "Orange Line",
+    type: 1,
+    href: "/ornage-line"
+  }
+  @cr_worcester %{
     id: "CR-Worcester",
     description: :commuter_rail,
     name: "Framingham/Worcester Line",
-    type: 2
+    type: 2,
+    href: "/cr-worcester"
   }
-  @cr_franklin %Route{
+  @cr_franklin %{
     id: "CR-Franklin",
     description: :commuter_rail,
     name: "Franklin Line",
-    type: 2
+    type: 2,
+    href: "/cr-franklin"
   }
-  @cr_needham %Route{
+  @cr_needham %{
     id: "CR-Needham",
     description: :commuter_rail,
     name: "Needham Line",
-    type: 2
+    type: 2,
+    href: "/cr-needham"
   }
-  @cr_providence %Route{
+  @cr_providence %{
     id: "CR-Providence",
     description: :commuter_rail,
     name: "Providence/Stoughton Line",
-    type: 2
+    type: 2,
+    href: "/cr-providence"
   }
-  @bus_10 %Route{id: "10", description: :local_bus, name: "10", type: 3}
-  @bus_39 %Route{id: "39", description: :key_bus_route, name: "39", type: 3}
-  @bus_170 %Route{id: "170", description: :limited_service, name: "170", type: 3}
+  @bus_10 %{id: "10", description: :local_bus, name: "10", type: 3, href: "/bus-10"}
+  @bus_39 %{id: "39", description: :key_bus_route, name: "39", type: 3, href: "/bus-39"}
+  @bus_170 %{id: "170", description: :limited_service, name: "170", type: 3, href: "/bus-170"}
 
   @back_bay %Stop{
     accessibility: ["accessible", "elevator", "tty_phone", "escalator_up"],
@@ -52,14 +62,14 @@ defmodule SiteWeb.TransitNearMeControllerTest do
     stops: [@back_bay],
     schedules: %{
       "place-bbsta" => [
-        %Schedule{stop: @back_bay, route: @orange_line},
-        %Schedule{stop: @back_bay, route: @cr_worcester},
-        %Schedule{stop: @back_bay, route: @cr_franklin},
-        %Schedule{stop: @back_bay, route: @cr_needham},
-        %Schedule{stop: @back_bay, route: @cr_providence},
-        %Schedule{stop: @back_bay, route: @bus_10},
-        %Schedule{stop: @back_bay, route: @bus_39},
-        %Schedule{stop: @back_bay, route: @bus_170}
+        %Schedule{stop: @back_bay, route: struct(Route, @orange_line)},
+        %Schedule{stop: @back_bay, route: struct(Route, @cr_worcester)},
+        %Schedule{stop: @back_bay, route: struct(Route, @cr_franklin)},
+        %Schedule{stop: @back_bay, route: struct(Route, @cr_needham)},
+        %Schedule{stop: @back_bay, route: struct(Route, @cr_providence)},
+        %Schedule{stop: @back_bay, route: struct(Route, @bus_10)},
+        %Schedule{stop: @back_bay, route: struct(Route, @bus_39)},
+        %Schedule{stop: @back_bay, route: struct(Route, @bus_170)}
       ]
     }
   }
@@ -67,9 +77,12 @@ defmodule SiteWeb.TransitNearMeControllerTest do
   @stop_with_routes %{
     distance: 0.52934802,
     routes: [
-      orange_line: [@orange_line],
-      bus: [@bus_39, @bus_170, @bus_10],
-      commuter_rail: [@cr_franklin, @cr_needham, @cr_providence, @cr_worcester]
+      %{group_name: :orange_line, routes: [@orange_line]},
+      %{group_name: :bus, routes: [@bus_39, @bus_170, @bus_10]},
+      %{
+        group_name: :commuter_rail,
+        routes: [@cr_franklin, @cr_needham, @cr_providence, @cr_worcester]
+      }
     ],
     stop: @back_bay
   }
@@ -168,8 +181,8 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       refute_receive :data_fn
 
       assert conn.assigns.location == :no_address
-      assert conn.assigns.stops_with_routes == []
-      assert conn.assigns.json == []
+      assert conn.assigns.routes_json == []
+      assert conn.assigns.stops_json == []
       assert get_flash(conn) == %{}
     end
   end
@@ -192,8 +205,8 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert {:ok, [%Address{formatted: "10 Park Plaza, Boston, MA, 02116"}]} =
                conn.assigns.location
 
-      assert conn.assigns.stops_with_routes == [@stop_with_routes]
-      assert conn.assigns.json == to_json_fn(%TransitNearMe{}, [])
+      assert conn.assigns.routes_json == to_json_fn(%TransitNearMe{}, [])
+      assert conn.assigns.stops_json
       assert %MapData{} = conn.assigns.map_data
       assert Enum.count(conn.assigns.map_data.markers) == 2
       assert %Marker{} = Enum.find(conn.assigns.map_data.markers, &(&1.id == "current-location"))
@@ -218,8 +231,8 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert_receive :data_fn
 
       assert {:ok, [%Address{formatted: "no_stops"}]} = conn.assigns.location
-      assert conn.assigns.stops_with_routes == []
-      assert conn.assigns.json == []
+      assert conn.assigns.routes_json == []
+      assert conn.assigns.stops_json == []
 
       assert get_flash(conn) == %{
                "info" =>
@@ -244,8 +257,8 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       refute_receive :data_fn
 
       assert conn.assigns.location == {:error, :zero_results}
-      assert conn.assigns.stops_with_routes == []
-      assert conn.assigns.json == []
+      assert conn.assigns.routes_json == []
+      assert conn.assigns.stops_json == []
 
       assert get_flash(conn) == %{"info" => "We are unable to locate that address."}
     end
@@ -264,8 +277,8 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       refute_receive :data_fn
 
       assert conn.assigns.location == {:error, :internal_error}
-      assert conn.assigns.stops_with_routes == []
-      assert conn.assigns.json == []
+      assert conn.assigns.stops_json == []
+      assert conn.assigns.routes_json == []
 
       assert get_flash(conn) == %{
                "info" => "There was an error locating that address. Please try again."
@@ -277,7 +290,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
     test "initializes a map with no markers", %{conn: conn} do
       conn =
         conn
-        |> assign(:stops_with_routes, [])
+        |> assign(:stops_json, [])
         |> assign(:location, nil)
         |> TNMController.assign_map_data()
 
@@ -288,7 +301,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
     test "assigns a marker for all stops", %{conn: conn} do
       conn =
         conn
-        |> assign(:stops_with_routes, [@stop_with_routes])
+        |> assign(:stops_json, [@stop_with_routes])
         |> assign(:location, nil)
         |> TNMController.assign_map_data()
 
@@ -304,43 +317,51 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       bus_stop_with_routes =
         put_in(
           @stop_with_routes.routes,
-          bus: [
-            %Routes.Route{
-              custom_route?: false,
-              description: :key_bus_route,
-              direction_destinations: :unknown,
-              direction_names: %{0 => "Outbound", 1 => "Inbound"},
-              id: "39",
-              long_name: "",
-              name: "39",
-              type: 3
-            },
-            %Routes.Route{
-              custom_route?: false,
-              description: :limited_service,
-              direction_destinations: :unknown,
-              direction_names: %{0 => "Outbound", 1 => "Inbound"},
-              id: "170",
-              long_name: "",
-              name: "170",
-              type: 3
-            },
-            %Routes.Route{
-              custom_route?: false,
-              description: :local_bus,
-              direction_destinations: :unknown,
-              direction_names: %{0 => "Outbound", 1 => "Inbound"},
-              id: "10",
-              long_name: "",
-              name: "10",
-              type: 3
+          [
+            %{
+              group_name: :bus,
+              routes: [
+                %{
+                  custom_route?: false,
+                  description: :key_bus_route,
+                  direction_destinations: :unknown,
+                  direction_names: %{"0" => "Outbound", "1" => "Inbound"},
+                  id: "39",
+                  long_name: "",
+                  name: "39",
+                  type: 3,
+                  href: "/39"
+                },
+                %{
+                  custom_route?: false,
+                  description: :limited_service,
+                  direction_destinations: :unknown,
+                  direction_names: %{"0" => "Outbound", "1" => "Inbound"},
+                  id: "170",
+                  long_name: "",
+                  name: "170",
+                  type: 3,
+                  href: "/170"
+                },
+                %{
+                  custom_route?: false,
+                  description: :local_bus,
+                  direction_destinations: :unknown,
+                  direction_names: %{"0" => "Outbound", "1" => "Inbound"},
+                  id: "10",
+                  long_name: "",
+                  name: "10",
+                  type: 3,
+                  href: "/10"
+                }
+              ]
             }
           ]
         )
 
       conn =
         conn
-        |> assign(:stops_with_routes, [@stop_with_routes, bus_stop_with_routes])
+        |> assign(:stops_json, [@stop_with_routes, bus_stop_with_routes])
         |> assign(:location, nil)
         |> TNMController.assign_map_data()
 
@@ -353,7 +374,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
     test "assigns a marker for the provided location", %{conn: conn} do
       conn =
         conn
-        |> assign(:stops_with_routes, [])
+        |> assign(:stops_json, [])
         |> assign(
           :location,
           {:ok,

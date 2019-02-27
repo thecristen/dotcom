@@ -13,6 +13,7 @@ export interface Route {
   name: string;
   type: RouteType;
   stops: Stop[];
+  href?: string;
 }
 
 export interface Stop {
@@ -111,6 +112,19 @@ export interface Schedule {
   stop_sequence: number;
   time: string;
   trip: Trip;
+}
+
+interface StopWithRoutes {
+  distance: string;
+  stop: Stop;
+  routes: RouteGroup[];
+}
+
+type RouteGroupName = "commuter_rail" | "subway" | "bus" | "ferry";
+
+interface RouteGroup {
+  group_name: RouteGroupName;
+  routes: Route[];
 }
 
 interface LatLng {

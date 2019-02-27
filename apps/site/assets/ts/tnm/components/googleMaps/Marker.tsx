@@ -1,13 +1,17 @@
 import React, { ReactElement } from "react";
 import { MarkerData } from "../__tnm";
-import { clickMarkerAction, clickCurrentLocationAction } from "../../state";
+import {
+  clickMarkerAction,
+  clickCurrentLocationAction,
+  Dispatch
+} from "../../state";
 import { buildMarkerIcon } from "./helpers";
 
 interface Props {
   map: google.maps.Map;
   data: MarkerData;
   isSelected: boolean;
-  dispatch: Function;
+  dispatch: Dispatch;
 }
 
 const buildMarkerOpts = (data: MarkerData): google.maps.MarkerOptions => {

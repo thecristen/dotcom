@@ -4,15 +4,19 @@ interface State {
   selectedStopId: SelectedStopType;
   shouldFilterStopCards: boolean;
   shouldCenterMapOnSelectedStop: boolean;
+  routesView: boolean;
 }
+
+export type Dispatch = (action: Action) => void;
 
 type ActionType =
   | "CLICK_MARKER"
   | "CLICK_CURRENT_LOCATION_MARKER"
   | "CLICK_STOP_CARD"
-  | "CLICK_STOP_PILL";
+  | "CLICK_STOP_PILL"
+  | "CLICK_VIEW_CHANGE";
 
-interface Action {
+export interface Action {
   type: ActionType;
   payload: {
     stopId: SelectedStopType;
@@ -41,6 +45,11 @@ export const clickStopPillAction = (): Action => ({
   payload: { stopId: null }
 });
 
+export const clickViewChangeAction = (): Action => ({
+  type: "CLICK_VIEW_CHANGE",
+  payload: { stopId: null }
+});
+
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "CLICK_CURRENT_LOCATION_MARKER":
@@ -53,20 +62,30 @@ export const reducer = (state: State, action: Action): State => {
       return {
         selectedStopId: target,
         shouldFilterStopCards: !!target && action.type === "CLICK_MARKER",
-        shouldCenterMapOnSelectedStop: false
+        shouldCenterMapOnSelectedStop: false,
+        routesView: state.routesView
       };
     }
     case "CLICK_STOP_CARD":
       return {
         selectedStopId: action.payload.stopId,
         shouldFilterStopCards: state.shouldFilterStopCards,
-        shouldCenterMapOnSelectedStop: true
+        shouldCenterMapOnSelectedStop: true,
+        routesView: state.routesView
       };
     case "CLICK_STOP_PILL":
       return {
         selectedStopId: null,
         shouldFilterStopCards: false,
-        shouldCenterMapOnSelectedStop: false
+        shouldCenterMapOnSelectedStop: false,
+        routesView: state.routesView
+      };
+    case "CLICK_VIEW_CHANGE":
+      return {
+        selectedStopId: null,
+        shouldFilterStopCards: false,
+        shouldCenterMapOnSelectedStop: false,
+        routesView: !state.routesView
       };
     default:
       return state;
@@ -76,5 +95,6 @@ export const reducer = (state: State, action: Action): State => {
 export const initialState: State = {
   selectedStopId: null,
   shouldFilterStopCards: false,
-  shouldCenterMapOnSelectedStop: false
+  shouldCenterMapOnSelectedStop: false,
+  routesView: true
 };

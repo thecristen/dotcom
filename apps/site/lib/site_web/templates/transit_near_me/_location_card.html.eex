@@ -8,9 +8,9 @@
   </div>
 <% end %>
 
-<%= for {type, routes} <- @routes do %>
+<%= for %{ group_name: group_name, routes: routes } <- @routes do %>
   <div class="c-location-card__description">
-    <div class="c-location-card__transit-route-icon"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: type, size: :small}) %></div>
-    <div class="c-location-card__transit-route-name"><%= render_routes(type, routes, @stop) %></div>
+    <div class="c-location-card__transit-route-icon"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: group_name, size: :small}) %></div>
+    <div class="c-location-card__transit-route-name"><%= render_routes(group_name, routes) %></div>
   </div>
 <% end %>

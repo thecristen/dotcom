@@ -1,4 +1,4 @@
-<div class="c-location-card">
+<div class="c-location-card c-location-card--flex">
   <div class="c-location-card__name">
     <%= link SiteWeb.ViewHelpers.break_text_at_slash(@stop.name), to: stop_path(@conn, :show, @stop.id, tab: "schedule") %>
   </div>

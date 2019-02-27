@@ -4,10 +4,24 @@ exports[`it renders with a stop selected 1`] = `
 <div
   className="m-tnm-sidebar__header"
 >
-  <h2>
-    Nearby Routes
-  </h2>
+  <div
+    className="m-tnm-sidebar__header-title"
+  >
+    <h2>
+      Nearby Routes
+    </h2>
+    <div
+      className="m-tnm-sidebar__view-change"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      Change view
+    </div>
+  </div>
   <span
+    aria-label="Remove filtering by Stuart St @ Charles St S"
     className="m-tnm-sidebar__pill"
     onClick={[Function]}
     onKeyPress={[Function]}
@@ -26,8 +40,21 @@ exports[`it renders with no stop selected 1`] = `
 <div
   className="m-tnm-sidebar__header"
 >
-  <h2>
-    Nearby Routes
-  </h2>
+  <div
+    className="m-tnm-sidebar__header-title"
+  >
+    <h2>
+      Nearby Routes
+    </h2>
+    <div
+      className="m-tnm-sidebar__view-change"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      Change view
+    </div>
+  </div>
 </div>
 `;

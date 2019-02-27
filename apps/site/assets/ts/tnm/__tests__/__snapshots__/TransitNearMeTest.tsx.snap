@@ -5,25 +5,27 @@ exports[`it renders 1`] = `
   className="m-tnm"
 >
   <div
-    aria-label="Map with stops"
-    className="m-tnm__map"
-    id="test"
-    role="application"
-  />
-  <div
     className="m-tnm-sidebar"
-    style={
-      Object {
-        "left": "3px",
-      }
-    }
   >
     <div
       className="m-tnm-sidebar__header"
     >
-      <h2>
-        Nearby Routes
-      </h2>
+      <div
+        className="m-tnm-sidebar__header-title"
+      >
+        <h2>
+          Nearby Routes
+        </h2>
+        <div
+          className="m-tnm-sidebar__view-change"
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex={0}
+        >
+          Change view
+        </div>
+      </div>
     </div>
     <div
       className="m-tnm-sidebar__route"
@@ -47,7 +49,7 @@ exports[`it renders 1`] = `
         />
       </a>
       <div
-        className="m-tnm-sidebar__stop"
+        className="m-tnm-sidebar__route-stop"
         onClick={[Function]}
         onKeyPress={[Function]}
         role="button"
@@ -147,7 +149,7 @@ exports[`it renders 1`] = `
         </div>
       </div>
       <div
-        className="m-tnm-sidebar__stop"
+        className="m-tnm-sidebar__route-stop"
         onClick={[Function]}
         onKeyPress={[Function]}
         role="button"
@@ -261,7 +263,7 @@ exports[`it renders 1`] = `
         </span>
       </a>
       <div
-        className="m-tnm-sidebar__stop"
+        className="m-tnm-sidebar__route-stop"
         onClick={[Function]}
         onKeyPress={[Function]}
         role="button"
@@ -356,7 +358,7 @@ exports[`it renders 1`] = `
         </div>
       </div>
       <div
-        className="m-tnm-sidebar__stop"
+        className="m-tnm-sidebar__route-stop"
         onClick={[Function]}
         onKeyPress={[Function]}
         role="button"
@@ -457,7 +459,7 @@ exports[`it renders 1`] = `
         </span>
       </a>
       <div
-        className="m-tnm-sidebar__stop"
+        className="m-tnm-sidebar__route-stop"
         onClick={[Function]}
         onKeyPress={[Function]}
         role="button"
@@ -539,7 +541,7 @@ exports[`it renders 1`] = `
         </div>
       </div>
       <div
-        className="m-tnm-sidebar__stop"
+        className="m-tnm-sidebar__route-stop"
         onClick={[Function]}
         onKeyPress={[Function]}
         role="button"
@@ -622,5 +624,11 @@ exports[`it renders 1`] = `
       </div>
     </div>
   </div>
+  <div
+    aria-label="Map with stops"
+    className="m-tnm__map"
+    id="test"
+    role="application"
+  />
 </div>
 `;

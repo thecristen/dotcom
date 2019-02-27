@@ -13,7 +13,6 @@ describe("render", () => {
       .create(
         <RoutesSidebar
           data={data}
-          getOffset={() => 0}
           selectedStopId={null}
           shouldFilterStopCards={false}
           dispatch={() => {}}
@@ -30,7 +29,6 @@ describe("render", () => {
       .create(
         <RoutesSidebar
           data={[]}
-          getOffset={() => 0}
           selectedStopId={null}
           shouldFilterStopCards={false}
           dispatch={() => {}}
@@ -38,7 +36,7 @@ describe("render", () => {
         />
       )
       .toJSON();
-    expect(tree).toMatchSnapshot();
+    expect(tree).toEqual(null);
   });
 });
 

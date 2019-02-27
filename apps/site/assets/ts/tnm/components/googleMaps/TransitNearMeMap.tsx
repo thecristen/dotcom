@@ -1,13 +1,13 @@
 import React, { ReactElement } from "react";
 import Marker from "./Marker";
 import { MapData, MarkerData } from "../__tnm";
-import { clickMarkerAction, SelectedStopType } from "../../state";
+import { clickMarkerAction, SelectedStopType, Dispatch } from "../../state";
 import mapStyles from "../../../../js/google-map/styles";
 
 interface Props {
   initialData: MapData;
   mapElementId: string;
-  dispatch: Function;
+  dispatch: Dispatch;
   selectedStopId: SelectedStopType;
   shouldCenterMapOnSelectedStop: boolean;
 }

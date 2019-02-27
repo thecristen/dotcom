@@ -1,6 +1,7 @@
 defmodule SiteWeb.TransitNearMeController.StopsWithRoutesTest do
   use ExUnit.Case, async: true
 
+  alias GoogleMaps.Geocode.Address
   alias Routes.Route
   alias Schedules.Schedule
   alias Site.TransitNearMe
@@ -16,7 +17,9 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutesTest do
 
   @stop %Stop{
     id: "stop-id",
-    name: "Stop Name"
+    name: "Stop Name",
+    latitude: 42.352,
+    longitude: -71.067
   }
 
   describe "from_routes_and_stops/1" do
@@ -68,6 +71,47 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutesTest do
       ]
 
       assert routes == expected_routes
+    end
+  end
+
+  describe "stops_with_routes/2" do
+    test "returns an encodable map with formatted data" do
+      location = %Address{
+        latitude: 42.351,
+        longitude: -71.066,
+        formatted: "10 Park Plaza, Boston, MA, 02116"
+      }
+
+      stops = %TransitNearMe{
+        schedules: %{
+          "stop-id" => [
+            %Schedule{route: @mattapan, stop: @stop},
+            %Schedule{route: @green_branch, stop: @stop},
+            %Schedule{route: @subway, stop: @stop},
+            %Schedule{route: @cr, stop: @stop},
+            %Schedule{route: @bus, stop: @stop},
+            %Schedule{route: @ferry, stop: @stop}
+          ]
+        },
+        distances: %{
+          "stop-id" => 0.04083664794103045
+        },
+        stops: [@stop]
+      }
+
+      stops_map = StopsWithRoutes.stops_with_routes(stops, location)
+
+      %{stop: stop, routes: routes} = List.first(stops_map)
+      route = routes |> List.first() |> Map.get(:routes) |> List.first()
+
+      assert [:href | %Route{} |> Map.from_struct() |> Map.keys()] |> Enum.sort() ==
+               route |> Map.keys() |> Enum.sort()
+
+      assert [:distance, :href | %Stop{} |> Map.from_struct() |> Map.keys()]
+             |> Enum.sort() == stop |> Map.keys() |> Enum.sort()
+
+      assert stop.distance == "500 ft"
+      assert {:ok, _} = Poison.encode(stops_map)
     end
   end
 end

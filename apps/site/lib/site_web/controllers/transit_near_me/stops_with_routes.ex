@@ -2,8 +2,12 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutes do
   @moduledoc """
   Builds a list of stops near a location, with the routes that go through that stop.
   """
+
+  alias GoogleMaps.Geocode.Address
   alias Routes.Route
   alias Site.TransitNearMe
+  alias SiteWeb.TransitNearMeView
+  alias SiteWeb.ViewHelpers
   alias Stops.Stop
 
   @type route_group :: {
@@ -17,11 +21,54 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutes do
           stop: Stop.t()
         }
 
+  @spec stops_with_routes(TransitNearMe.t(), Address.t()) :: [map]
+  def stops_with_routes(stops_with_routes, %Address{} = location) do
+    stops_with_routes
+    |> from_routes_and_stops()
+    |> Enum.map(&routes_to_map(&1))
+    |> Enum.map(
+      &Map.update!(&1, :stop, fn stop -> TransitNearMe.build_stop_map(stop, location) end)
+    )
+  end
+
   @spec from_routes_and_stops(TransitNearMe.t()) :: [stop_with_routes]
   def from_routes_and_stops(%TransitNearMe{stops: stops} = data) do
     stops
     |> Task.async_stream(&build_stop_with_routes(&1, data))
     |> Enum.map(fn {:ok, map} -> map end)
+  end
+
+  @spec routes_to_map(stop_with_routes) :: map
+  def routes_to_map(stop_with_routes) do
+    Map.update!(stop_with_routes, :routes, fn value ->
+      Enum.map(value, fn {route_group, routes} ->
+        %{
+          group_name: route_group,
+          routes: Enum.map(routes, &build_route_map(&1, route_group, stop_with_routes.stop))
+        }
+      end)
+    end)
+  end
+
+  @spec build_route_map(Route.t(), Routes.Group.t(), Stop.t()) :: map
+  def build_route_map(route, route_group, stop) do
+    route_path = TransitNearMeView.route_path(route, stop, route_group)
+
+    route
+    |> Map.from_struct()
+    |> Map.put(:href, route_path)
+    |> Map.update!(:name, &ViewHelpers.break_text_at_slash(&1))
+    |> Map.update!(:direction_names, &update_map_for_encoding(&1))
+    |> Map.update!(:direction_destinations, &update_map_for_encoding(&1))
+  end
+
+  @spec update_map_for_encoding(:unknown | map) :: map
+  def update_map_for_encoding(:unknown) do
+    :unknown
+  end
+
+  def update_map_for_encoding(map) do
+    Map.new(map, fn {key, val} -> {Integer.to_string(key), val} end)
   end
 
   @spec build_stop_with_routes(Stop.t(), TransitNearMe.t()) :: stop_with_routes
