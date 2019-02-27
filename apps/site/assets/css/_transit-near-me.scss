@@ -159,6 +159,10 @@ $map-height: $base-spacing * 30;
   margin: 0;
 }
 
+.m-tnm-sidebar__headsign-name--small {
+  font-weight: bold;
+}
+
 .m-tnm-sidebar__via {
   font-weight: $font-weight-medium;
 }
@@ -170,6 +174,18 @@ $map-height: $base-spacing * 30;
 .m-tnm-sidebar__schedule {
   font-size: .875 * $base-spacing;
   padding-left: $base-spacing;
+
+  .m-tnm-sidebar__time-number,
+  .m-tnm-sidebar__time-mins {
+    font-weight: normal;
+  }
+
+  &:first-of-type {
+    .m-tnm-sidebar__time-number,
+    .m-tnm-sidebar__time-mins {
+      font-weight: bold;
+    }
+  }
 }
 
 .m-tnm-sidebar__time {
@@ -187,7 +203,6 @@ $map-height: $base-spacing * 30;
 }
 
 .m-tnm-sidebar__time-mins {
-  font-weight: bold;
   line-height: 1em;
 }
 
