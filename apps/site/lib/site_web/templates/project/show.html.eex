@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="c-cms c-cms--no-sidebar">
+  <div class="c-cms c-cms--with-sidebar c-cms--sidebar-right">
 
     <div class="c-cms__header">
       <div class="c-cms__title">
@@ -37,9 +37,10 @@
           <%= Site.ContentRewriter.rewrite(@project.body, @conn) %>
         </div>
 
-        <%= if !Enum.empty?(@project.photo_gallery), do: render "_photos.html", photos: @project.photo_gallery %>
-
+        <%# Project Updates section placement for one-column width %>
         <%= if !Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates %>
+
+        <%= if !Enum.empty?(@project.photo_gallery), do: render "_photos.html", photos: @project.photo_gallery %>
 
         <%= if Content.Project.contact?(@project), do: render "_contact.html", project: @project %>
 
@@ -51,6 +52,10 @@
 
         <%= if !Enum.empty?(@project.files), do: render "_downloads.html", files: @project.files %>
 
+      </div>
+
+      <div class="c-cms__sidebar">
+        <%= if !Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates %>
       </div>
     </div>
   </div>

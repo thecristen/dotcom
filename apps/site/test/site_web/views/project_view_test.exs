@@ -1,6 +1,7 @@
 defmodule SiteWeb.ProjectViewTest do
-  @moduledoc false
   use SiteWeb.ConnCase, async: true
+  alias Content.{Field.Image, ProjectUpdate}
+  alias SiteWeb.ProjectView
 
   @conn %Plug.Conn{}
   @project %Content.Project{
@@ -190,6 +191,68 @@ defmodule SiteWeb.ProjectViewTest do
         |> Phoenix.HTML.safe_to_string()
 
       assert output =~ "contact-element-phone"
+    end
+  end
+
+  describe "includes_photos?/1" do
+    test "returns true if the project update includes photos in its photo gallery" do
+      project_update = %ProjectUpdate{
+        id: 1,
+        project_id: 1,
+        photo_gallery: [
+          %Image{
+            url: "https://example.com/image.jpg",
+            alt: "Example image description"
+          }
+        ]
+      }
+
+      assert ProjectView.includes_photos?(project_update)
+    end
+
+    test "returns false if the project update doesn't include photos in its photo gallery" do
+      project_update = %ProjectUpdate{
+        id: 1,
+        project_id: 1,
+        photo_gallery: []
+      }
+
+      refute ProjectView.includes_photos?(project_update)
+    end
+  end
+
+  describe "first_photo/1" do
+    test "returns the first photo from a project update's photo gallery" do
+      photo1 = %Image{
+        url: "https://example.com/image1.jpg",
+        alt: "Example image description"
+      }
+
+      photo2 = %Image{
+        url: "https://example.com/image2.jpg",
+        alt: "Example image description"
+      }
+
+      project_update = %ProjectUpdate{
+        id: 1,
+        project_id: 1,
+        photo_gallery: [
+          photo1,
+          photo2
+        ]
+      }
+
+      assert ProjectView.first_photo(project_update) == photo1
+    end
+
+    test "returns nil if the project update doesn't include photos in its photo gallery" do
+      project_update = %ProjectUpdate{
+        id: 1,
+        project_id: 1,
+        photo_gallery: []
+      }
+
+      assert ProjectView.first_photo(project_update) == nil
     end
   end
 end
