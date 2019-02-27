@@ -17,13 +17,6 @@ const showLoadingIndicators = (bool: boolean): void => {
   );
 };
 
-export const onLocation = ({ coords }: Position): void => {
-  showLoadingIndicators(false);
-  const { latitude, longitude } = coords;
-  const qs = `?latitude=${latitude}&longitude=${longitude}`;
-  window.Turbolinks.visit(encodeURI(window.location.protocol + qs));
-};
-
 export const onError = (error: PositionError): void => {
   showLoadingIndicators(false);
 
@@ -87,24 +80,9 @@ export interface GeolocationData extends CustomEvent {
   };
 }
 
-export const onLoad = ({ data }: GeolocationData): void => {
+export const onLoad = (): void => {
   renderMap();
   setupSearch();
-
-  if (data && data.url) {
-    const url = window.decodeURIComponent(data.url);
-    if (
-      window.navigator &&
-      window.navigator.geolocation &&
-      url.includes("/transit-near-me") &&
-      url.includes("address") === false &&
-      url.includes("latitude") === false &&
-      url.includes("longitude") === false
-    ) {
-      showLoadingIndicators(true);
-      window.navigator.geolocation.getCurrentPosition(onLocation, onError);
-    }
-  }
 };
 
 export default () => {

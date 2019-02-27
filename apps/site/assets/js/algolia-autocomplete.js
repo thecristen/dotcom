@@ -379,6 +379,7 @@ export class AlgoliaAutocomplete {
   setValue(value) {
     this._autocomplete.autocomplete.setVal(value);
     window.jQuery(this._input).change();
+    this._autocomplete.autocomplete.close();
   }
 
   getValue() {
