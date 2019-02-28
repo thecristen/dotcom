@@ -23,7 +23,7 @@ const renderHeadsignName = ({
 
   const headsignNameClass = `m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--${modifier}`;
 
-  if (headsign.name.includes(" via ")) {
+  if (headsign.name && headsign.name.includes(" via ")) {
     const split = headsign.name.split(" via ");
     return (
       <>
@@ -63,17 +63,18 @@ const renderTimeDefault = (time: string[]): ReactElement<HTMLElement> => (
 const renderTime = (
   tnmTime: TNMTime,
   headsignName: string,
-  routeType: RouteType
+  routeType: RouteType,
+  idx: number
 ): ReactElement<HTMLElement> => {
   // eslint-disable-next-line typescript/camelcase
   const { prediction, scheduled_time } = tnmTime;
   // eslint-disable-next-line typescript/camelcase
-  const time = prediction ? prediction.time : scheduled_time;
+  const time = prediction ? prediction.time : scheduled_time!;
 
   return (
     <div
       // eslint-disable-next-line typescript/camelcase
-      key={`${headsignName}-${scheduled_time.join("")}`}
+      key={`${headsignName}-${idx}`}
       className="m-tnm-sidebar__schedule"
     >
       {routeType === 2
@@ -93,7 +94,9 @@ const Headsign = (props: Props): ReactElement<HTMLElement> => {
         {routeType === 2 && renderTrainName(`Train ${headsign.train_number}`)}
       </div>
       <div className="m-tnm-sidebar__schedules">
-        {headsign.times.map(time => renderTime(time, headsign.name, routeType))}
+        {headsign.times.map((time, idx) =>
+          renderTime(time, headsign.name, routeType, idx)
+        )}
       </div>
     </div>
   );

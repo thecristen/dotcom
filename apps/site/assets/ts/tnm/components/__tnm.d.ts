@@ -84,7 +84,7 @@ export interface TNMHeadsign {
 }
 
 export interface TNMTime {
-  scheduled_time: string[];
+  scheduled_time: string[] | null;
   prediction: TNMPrediction | null;
 }
 

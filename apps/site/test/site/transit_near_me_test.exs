@@ -64,7 +64,8 @@ defmodule Site.TransitNearMeTest do
 
   describe "schedules_for_routes/3" do
     test "returns a list of custom route structs" do
-      data = TransitNearMe.build(@address, date: @date, now: Util.now())
+      now = Util.now()
+      data = TransitNearMe.build(@address, date: @date, now: now)
 
       alerts = [
         Alert.new(
@@ -73,7 +74,7 @@ defmodule Site.TransitNearMeTest do
         )
       ]
 
-      routes = TransitNearMe.schedules_for_routes(data, alerts)
+      routes = TransitNearMe.schedules_for_routes(data, alerts, now: now)
 
       [%{id: closest_stop} | _] = data.stops
 
@@ -119,7 +120,8 @@ defmodule Site.TransitNearMeTest do
     end
 
     test "filters out bus routes which aren't coming in the next 24 hours" do
-      time_too_far_in_future = Timex.shift(Util.now(), hours: 25)
+      now = Util.now()
+      time_too_far_in_future = Timex.shift(now, hours: 25)
 
       data = %TransitNearMe{
         location: @address,
@@ -274,7 +276,7 @@ defmodule Site.TransitNearMeTest do
         }
       }
 
-      routes = TransitNearMe.schedules_for_routes(data, [])
+      routes = TransitNearMe.schedules_for_routes(data, [], now: now)
 
       # Filter applies to bus routes…
       refute Enum.find(routes, &(&1.id == "553"))
@@ -353,9 +355,12 @@ defmodule Site.TransitNearMeTest do
       stop_repo_fn = fn "stop" -> stop end
 
       predictions_fn = fn
-        trip: "trip-0" -> [%Prediction{time: pm_12_00}]
-        trip: "trip-1" -> [%Prediction{time: pm_12_01}]
-        trip: "trip-2" -> [%Prediction{time: pm_12_02}]
+        [route: "subway", stop: "stop", direction_id: 0] ->
+          [
+            %Prediction{route: route, time: pm_12_00, trip: Enum.at(trips, 0)},
+            %Prediction{route: route, time: pm_12_01, trip: Enum.at(trips, 1)},
+            %Prediction{route: route, time: pm_12_02, trip: Enum.at(trips, 2)}
+          ]
       end
 
       output =
@@ -363,7 +368,8 @@ defmodule Site.TransitNearMeTest do
           input,
           [],
           predictions_fn: predictions_fn,
-          stops_fn: stop_repo_fn
+          stops_fn: stop_repo_fn,
+          now: pm_12_00
         )
 
       assert Enum.count(output) === 1
@@ -436,6 +442,256 @@ defmodule Site.TransitNearMeTest do
       {:ok, three_am} = DateTime.from_naive(~N[2019-02-22T03:00:00], "Etc/UTC")
       assert three_am.hour === 3
       assert TransitNearMe.format_min_time(three_am) === "03:00"
+    end
+  end
+
+  describe "late_night?/1" do
+    test "returns true between midnight and 3:00am" do
+      {:ok, midnight} = DateTime.from_naive(~N[2019-02-22T00:00:00], "Etc/UTC")
+      assert DateTime.to_time(midnight) == ~T[00:00:00]
+      # assert Time.compare(~T[03:00:00], midnight |> DateTime.to_time()) == :eq
+      assert midnight.hour === 0
+      assert TransitNearMe.late_night?(midnight) == true
+
+      {:ok, one_thirty} = DateTime.from_naive(~N[2019-02-22T01:30:00], "Etc/UTC")
+      assert one_thirty.hour === 1
+      assert TransitNearMe.late_night?(one_thirty) == true
+
+      {:ok, two_fifty_nine} = DateTime.from_naive(~N[2019-02-22T02:59:00], "Etc/UTC")
+      assert two_fifty_nine.hour === 2
+      assert TransitNearMe.late_night?(two_fifty_nine) == true
+
+      {:ok, three_am} = DateTime.from_naive(~N[2019-02-22T03:00:00], "Etc/UTC")
+      assert three_am.hour === 3
+      assert TransitNearMe.late_night?(three_am) == false
+    end
+  end
+
+  @trips %{
+    "trip-1" => %Trip{
+      id: "trip-1",
+      headsign: "Headsign 1",
+      shape_id: "shape-id",
+      direction_id: 0
+    },
+    "trip-2" => %Trip{
+      id: "trip-2",
+      headsign: "Headsign 2",
+      shape_id: "shape-id",
+      direction_id: 0
+    },
+    "trip-3" => %Trip{
+      id: "trip-3",
+      headsign: "Headsign 1",
+      shape_id: "shape-id",
+      direction_id: 0
+    },
+    "trip-4" => %Trip{
+      id: "trip-4",
+      headsign: "Headsign 2",
+      shape_id: "shape-id",
+      direction_id: 0
+    }
+  }
+
+  describe "build_direction_map/2" do
+    test "returns schedules and predictions for non-subway routes" do
+      stop = %Stop{id: "stop"}
+
+      route = %Route{
+        id: "route",
+        type: 2,
+        direction_destinations: %{0 => "First Stop", 1 => "Last Stop"}
+      }
+
+      base_prediction = %Prediction{route: route, stop: stop}
+
+      time = DateTime.from_naive!(~N[2019-02-21T12:00:00], "Etc/UTC")
+      parent = self()
+
+      predictions_fn = fn [trip: trip_id] = params ->
+        send(parent, {:predictions_fn, params})
+        trip = Map.fetch!(@trips, trip_id)
+        [%{base_prediction | direction_id: 0, trip: trip, time: time}]
+      end
+
+      schedules =
+        Enum.map(
+          1..4,
+          &%Schedule{
+            route: route,
+            stop: stop,
+            time: time,
+            trip: Map.get(@trips, "trip-#{&1}")
+          }
+        )
+
+      assert {%DateTime{}, output} =
+               TransitNearMe.build_direction_map(
+                 {0, schedules},
+                 predictions_fn: predictions_fn,
+                 now: time
+               )
+
+      assert output.direction_id == 0
+
+      assert Enum.count(output.headsigns) === 2
+
+      for headsign <- output.headsigns do
+        assert Enum.count(headsign.times) === TransitNearMe.schedule_count(route)
+
+        for %{scheduled_time: sched} <- headsign.times do
+          assert sched === ["12:00", " ", "PM"]
+        end
+      end
+    end
+
+    test "only uses predictions for subway routes" do
+      stop = %Stop{id: "stop"}
+
+      route = %Route{
+        id: "route",
+        type: 1,
+        direction_destinations: %{0 => "First Stop", 1 => "Last Stop"}
+      }
+
+      base_prediction = %Prediction{route: route, stop: stop}
+
+      time = DateTime.from_naive!(~N[2019-02-21T12:00:00], "Etc/UTC")
+      parent = self()
+
+      predictions_fn = fn
+        [route: "route", stop: "stop", direction_id: 0] = params ->
+          send(parent, {:predictions_fn, params})
+
+          Enum.map(
+            1..4,
+            &%{
+              base_prediction
+              | direction_id: 0,
+                trip: Map.get(@trips, "trip-#{&1}"),
+                time: time
+            }
+          )
+      end
+
+      schedules =
+        Enum.map(
+          1..4,
+          &%Schedule{
+            route: route,
+            stop: stop,
+            time: time,
+            trip: Map.get(@trips, "trip-#{&1}")
+          }
+        )
+
+      assert {%DateTime{}, output} =
+               TransitNearMe.build_direction_map(
+                 {0, schedules},
+                 predictions_fn: predictions_fn,
+                 now: time
+               )
+
+      assert output.direction_id == 0
+
+      assert Enum.count(output.headsigns) === 2
+
+      assert_receive {:predictions_fn, _}
+
+      for headsign <- output.headsigns do
+        assert Enum.count(headsign.times) === TransitNearMe.schedule_count(route)
+
+        for %{scheduled_time: sched} <- headsign.times do
+          assert sched === nil
+        end
+      end
+    end
+  end
+
+  describe "schedules_or_predictions/2" do
+    test "does not return predictions for commuter rail, bus, or ferry" do
+      now = DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
+      prediction_time = DateTime.from_naive!(~N[2019-02-27T12:05:00], "Etc/UTC")
+
+      for type <- 2..4 do
+        route = %Route{id: "route", type: type}
+        stop = %Stop{id: "stop"}
+        trip = %Trip{direction_id: 0}
+        schedule = %Schedule{route: route, stop: stop, trip: trip}
+
+        predictions_fn = fn _ ->
+          send(self(), :predictions_fn)
+          [%Prediction{route: route, stop: stop, trip: trip, time: prediction_time}]
+        end
+
+        assert TransitNearMe.schedules_or_predictions([schedule], predictions_fn, now) == [
+                 schedule
+               ]
+
+        refute_receive :predictions_fn
+      end
+    end
+
+    test "returns predictions for subway if predictions exist" do
+      now = DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
+      prediction_time = DateTime.from_naive!(~N[2019-02-27T12:05:00], "Etc/UTC")
+
+      for type <- [0, 1] do
+        route = %Route{id: "route", type: type}
+        stop = %Stop{id: "stop"}
+        trip = %Trip{direction_id: 0}
+        schedule = %Schedule{route: route, stop: stop, trip: trip}
+        prediction = %Prediction{route: route, stop: stop, trip: trip, time: prediction_time}
+
+        predictions_fn = fn _ ->
+          [prediction]
+        end
+
+        assert TransitNearMe.schedules_or_predictions([schedule], predictions_fn, now) ==
+                 [prediction]
+      end
+    end
+
+    test "returns empty list for subway if no predictions during normal hours" do
+      now = DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
+
+      for type <- [0, 1] do
+        route = %Route{id: "route", type: type}
+        stop = %Stop{id: "stop"}
+        trip = %Trip{direction_id: 0}
+        schedule = %Schedule{route: route, stop: stop, trip: trip}
+
+        predictions_fn = fn _ ->
+          send(self(), :predictions_fn)
+          []
+        end
+
+        assert TransitNearMe.schedules_or_predictions([schedule], predictions_fn, now) == []
+        assert_receive :predictions_fn
+      end
+    end
+
+    test "returns schedules for subway if no predictions during late night" do
+      now = DateTime.from_naive!(~N[2019-02-27T02:00:00], "Etc/UTC")
+
+      for type <- [0, 1] do
+        route = %Route{id: "route", type: type}
+        stop = %Stop{id: "stop"}
+        trip = %Trip{direction_id: 0}
+        schedule = %Schedule{route: route, stop: stop, trip: trip}
+
+        predictions_fn = fn _ ->
+          send(self(), :predictions_fn)
+          []
+        end
+
+        assert TransitNearMe.schedules_or_predictions([schedule], predictions_fn, now) == [
+                 schedule
+               ]
+
+        assert_receive :predictions_fn
+      end
     end
   end
 end

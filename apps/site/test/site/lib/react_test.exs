@@ -16,11 +16,13 @@ defmodule Site.ReactTest do
 
   describe "render/2" do
     setup do
+      now = Util.now()
+
       data =
         @address
-        |> TransitNearMe.build(date: @date, now: Util.now())
+        |> TransitNearMe.build(date: @date, now: now)
 
-      route_sidebar_data = TransitNearMe.schedules_for_routes(data, [])
+      route_sidebar_data = TransitNearMe.schedules_for_routes(data, [], now: now)
 
       stop_sidebar_data = StopsWithRoutes.stops_with_routes(data, @address)
 

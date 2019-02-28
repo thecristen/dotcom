@@ -41,13 +41,13 @@ defmodule SiteWeb.TransitNearMeController do
     # only concerned with high priority alerts
     alerts = Repo.by_priority(conn.assigns.date_time, :high)
 
-    to_json_fn = Map.get(conn.assigns, :to_json_fn, &TransitNearMe.schedules_for_routes/2)
+    to_json_fn = Map.get(conn.assigns, :to_json_fn, &TransitNearMe.schedules_for_routes/3)
 
     data = data_fn.(location, date: conn.assigns.date, now: conn.assigns.date_time)
 
     conn
     |> assign(:stops_json, StopsWithRoutes.stops_with_routes(data, location))
-    |> assign(:routes_json, to_json_fn.(data, alerts))
+    |> assign(:routes_json, to_json_fn.(data, alerts, now: conn.assigns.date_time))
   end
 
   defp assign_stops_and_routes(conn) do
