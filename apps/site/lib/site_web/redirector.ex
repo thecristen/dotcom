@@ -1,7 +1,7 @@
 defmodule SiteWeb.Redirector do
   @behaviour Plug
   import Plug.Conn, only: [put_status: 2, halt: 1]
-  import Phoenix.Controller, only: [redirect: 2, render: 4, put_layout: 2]
+  import Phoenix.Controller, only: [redirect: 2, render: 3, put_layout: 2, put_view: 2]
 
   @impl true
   @spec init(Keyword.t()) :: Keyword.t()
@@ -46,7 +46,8 @@ defmodule SiteWeb.Redirector do
     conn
     |> put_status(:not_found)
     |> put_layout({SiteWeb.LayoutView, "app.html"})
-    |> render(SiteWeb.ErrorView, "404.html", [])
+    |> put_view(SiteWeb.ErrorView)
+    |> render("404.html", [])
     |> halt()
   end
 end

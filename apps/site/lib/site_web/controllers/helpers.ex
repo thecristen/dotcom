@@ -4,7 +4,7 @@ defmodule SiteWeb.ControllerHelpers do
   alias Routes.Route
   alias Timex.Format.DateTime.Formatters.Strftime
   import Plug.Conn, only: [put_status: 2, halt: 1]
-  import Phoenix.Controller, only: [render: 4]
+  import Phoenix.Controller, only: [render: 3, put_view: 2]
 
   @valid_resp_headers [
     "content-type",
@@ -17,12 +17,16 @@ defmodule SiteWeb.ControllerHelpers do
 
   @doc "Find all the assigns which are Tasks, and await_assign them"
   def await_assign_all(conn, timeout \\ 5_000) do
-    task_keys =
-      for {key, %Task{}} <- conn.assigns do
-        key
-      end
+    Enum.reduce(conn.assigns, conn, &await_assign(&1, &2, timeout))
+  end
 
-    Enum.reduce(task_keys, conn, fn key, conn -> Conn.await_assign(conn, key, timeout) end)
+  defp await_assign({key, %Task{} = task}, conn, timeout) do
+    val = Task.await(task, timeout)
+    Conn.assign(conn, key, val)
+  end
+
+  defp await_assign({_key, _non_task}, conn, _timeout) do
+    conn
   end
 
   defmacro call_plug(conn, module) do
@@ -36,7 +40,8 @@ defmodule SiteWeb.ControllerHelpers do
   def render_404(conn) do
     conn
     |> put_status(:not_found)
-    |> render(SiteWeb.ErrorView, "404.html", [])
+    |> put_view(SiteWeb.ErrorView)
+    |> render("404.html", [])
     |> halt()
   end
 

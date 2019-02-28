@@ -34,7 +34,7 @@ defmodule Algolia.Mixfile do
       {:routes, in_umbrella: true},
       {:util, in_umbrella: true},
       {:httpoison, "~> 1.4"},
-      {:plug, "~> 1.3.0"},
+      {:plug, "~> 1.7.2"},
       {:bypass, "~> 0.8", only: :test}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},

@@ -22,8 +22,8 @@ defmodule SiteWeb.StopController do
     {mattapan, stop_info} = get_stop_info()
 
     conn
-    |> async_assign(:mode_hubs, fn -> HubStops.mode_hubs(mode_atom, stop_info) end)
-    |> async_assign(:route_hubs, fn -> HubStops.route_hubs(stop_info) end)
+    |> assign(:mode_hubs, Task.async(fn -> HubStops.mode_hubs(mode_atom, stop_info) end))
+    |> assign(:route_hubs, Task.async(fn -> HubStops.route_hubs(stop_info) end))
     |> assign(:stop_info, stop_info)
     |> assign(:mattapan, mattapan)
     |> assign(:mode, mode_atom)
@@ -47,9 +47,9 @@ defmodule SiteWeb.StopController do
       routes = Routes.Repo.by_stop(stop.id)
 
       conn
-      |> async_assign(:grouped_routes, fn -> grouped_routes(routes) end)
+      |> assign(:grouped_routes, Task.async(fn -> grouped_routes(routes) end))
       |> assign(:fare_types, fare_types(routes))
-      |> async_assign(:zone_number, fn -> Zones.Repo.get(stop.id) end)
+      |> assign(:zone_number, Task.async(fn -> Zones.Repo.get(stop.id) end))
       |> assign(:breadcrumbs, breadcrumbs(stop, routes))
       |> assign(:tab, tab_value(query_params["tab"]))
       |> tab_assigns(stop, routes)
@@ -131,9 +131,9 @@ defmodule SiteWeb.StopController do
   @spec tab_assigns(Plug.Conn.t(), Stop.t(), [Routes.Route.t()]) :: Plug.Conn.t()
   defp tab_assigns(%{assigns: %{tab: "info"}} = conn, stop, routes) do
     conn
-    |> async_assign(:fare_name, fn -> fare_name(stop, routes) end)
-    |> async_assign(:terminal_stations, fn -> terminal_stations(routes) end)
-    |> async_assign(:fare_sales_locations, fn -> Fares.RetailLocations.get_nearby(stop) end)
+    |> assign(:fare_name, Task.async(fn -> fare_name(stop, routes) end))
+    |> assign(:terminal_stations, Task.async(fn -> terminal_stations(routes) end))
+    |> assign(:fare_sales_locations, Task.async(fn -> Fares.RetailLocations.get_nearby(stop) end))
     |> assign(:requires_google_maps?, true)
     |> assign(:map_info, StopMap.map_info(stop))
     |> await_assign_all()
@@ -141,8 +141,8 @@ defmodule SiteWeb.StopController do
 
   defp tab_assigns(%{assigns: %{tab: "departures"}} = conn, stop, _routes) do
     conn
-    |> async_assign(:stop_schedule, fn -> stop_schedule(stop.id, conn.assigns.date) end)
-    |> async_assign(:stop_predictions, fn -> stop_predictions(stop.id) end)
+    |> assign(:stop_schedule, Task.async(fn -> stop_schedule(stop.id, conn.assigns.date) end))
+    |> assign(:stop_predictions, Task.async(fn -> stop_predictions(stop.id) end))
     |> await_assign_all(10_000)
     |> assign_upcoming_route_departures()
   end

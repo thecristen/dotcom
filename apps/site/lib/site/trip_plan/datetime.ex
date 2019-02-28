@@ -43,7 +43,7 @@ defmodule Site.TripPlan.DateTime do
     %{query | time: {:arrive_by, dt}}
   end
 
-  @spec parse(map) :: {:ok, NaiveDateTime.t()} | {:error, any}
+  @spec parse(map | DateTime.t()) :: NaiveDateTime.t() | DateTime.t() | {:error, :invalid_date}
   defp parse(date_params) do
     case date_to_string(date_params) do
       <<str::binary>> ->
@@ -66,6 +66,7 @@ defmodule Site.TripPlan.DateTime do
 
   defp do_parse({:error, _}), do: {:error, :invalid_date}
 
+  @spec date_to_string(map | DateTime.t()) :: String.t() | DateTime.t() | {:error, :invalid_date}
   defp date_to_string(%{
          "year" => year,
          "month" => month,
@@ -85,8 +86,10 @@ defmodule Site.TripPlan.DateTime do
     {:error, :invalid_date}
   end
 
-  @spec future_date_or_error(NaiveDateTime.t() | {:error, :invalid_date}, DateTime.t()) ::
-          date_time
+  @spec future_date_or_error(
+          DateTime.t() | NaiveDateTime.t() | {:error, any},
+          DateTime.t()
+        ) :: DateTime.t() | {:error, {:past, DateTime.t()}}
   defp future_date_or_error({:error, :invalid_date}, %DateTime{}) do
     {:error, :invalid_date}
   end
@@ -125,6 +128,16 @@ defmodule Site.TripPlan.DateTime do
     before
   end
 
+  @spec verify_inside_rating(
+          DateTime.t()
+          | {:error, :invalid_date}
+          | {:error, {:past, DateTime.t()}},
+          Date.t()
+        ) ::
+          DateTime.t()
+          | {:error, :invalid_date}
+          | {:error, {:past, DateTime.t()}}
+          | {:error, {:too_future, DateTime.t()}}
   defp verify_inside_rating({:error, error}, %Date{}) do
     {:error, error}
   end

@@ -1,7 +1,12 @@
 defmodule SiteWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :site
 
-  socket("/socket", SiteWeb.UserSocket)
+  socket(
+    "/socket",
+    SiteWeb.UserSocket,
+    websocket: [check_origin: Application.get_env(:site, :websocket_check_origin, false)],
+    longpoll: [check_origin: Application.get_env(:site, :websocket_check_origin, false)]
+  )
 
   # Serve at "/" the static files from "priv/static" directory.
   #

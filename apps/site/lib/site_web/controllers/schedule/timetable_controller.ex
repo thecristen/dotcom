@@ -26,7 +26,8 @@ defmodule SiteWeb.ScheduleController.TimetableController do
         "schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, " <>
         "and connections."
     )
-    |> render(ScheduleView, "show.html", [])
+    |> put_view(ScheduleView)
+    |> render("show.html", [])
   end
 
   # Plug that assigns trip schedule to the connection

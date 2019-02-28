@@ -42,7 +42,8 @@ config :sentry,
   environment_name: Mix.env(),
   enable_source_code_context: false,
   root_source_code_path: File.cwd!(),
-  included_environments: [:prod, :dev]
+  included_environments: [:prod, :dev],
+  json_library: Poison
 
 config :site, :former_mbta_site, host: "http://old.mbta.com"
 

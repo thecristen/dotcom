@@ -77,13 +77,13 @@ defmodule Site.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.3"},
+      {:phoenix, "~> 1.4.1"},
       {:phoenix_pubsub, "~> 1.0"},
-      {:phoenix_html, "~> 2.6"},
+      {:phoenix_html, "~> 2.13.1"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
-      {:plug, "~> 1.3.0"},
+      {:plug, "~> 1.7.2"},
       {:gettext, "~> 0.9"},
-      {:cowboy, "~> 1.0"},
+      {:plug_cowboy, "~> 1.0"},
       {:timex, ">= 2.0.0"},
       {:ehmon, git: "https://github.com/heroku/ehmon.git", tag: "v4", only: :prod},
       {:distillery, "~> 1.4.1", runtime: false},
@@ -101,13 +101,14 @@ defmodule Site.Mixfile do
       {:excoveralls, "~> 0.5", only: :test},
       {:floki, "~> 0.20.4"},
       {:httpoison, "~> 1.4"},
-      {:mock, "~> 0.2.0", only: :test},
+      {:mock, "~> 0.3.3", only: :test},
       {:polyline, github: "ryan-mahoney/polyline_ex"},
-      {:sentry, github: "mbta/sentry-elixir", tag: "6.0.0"},
+      {:sentry, "~> 7.0"},
       {:recon, "~> 2.3.2", only: :prod},
       {:diskusage_logger, "~> 0.2.0"},
       {:hammer, "~> 4.0"},
       {:poolboy, "~> 1.5"},
+      {:wallaby, "~> 0.22", runtime: false, only: :test},
       {:stops, in_umbrella: true},
       {:routes, in_umbrella: true},
       {:alerts, in_umbrella: true},
@@ -122,16 +123,7 @@ defmodule Site.Mixfile do
       {:google_maps, in_umbrella: true},
       {:util, in_umbrella: true},
       {:predictions, in_umbrella: true},
-      {:trip_plan, in_umbrella: true},
-      # Wallaby has updated their httpoison dependency but have not updated their package version;
-      # this should be changed back to a normal dependency once version 0.21 of Wallaby is released.
-      {:wallaby, "~> 0.20",
-       [
-         runtime: false,
-         only: :test,
-         github: "keathley/wallaby",
-         ref: "720fa41cd1867766d57b1b0e9e8752fad6ff0cf9"
-       ]}
+      {:trip_plan, in_umbrella: true}
     ]
   end
 end

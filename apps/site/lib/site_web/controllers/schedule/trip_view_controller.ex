@@ -17,7 +17,9 @@ defmodule SiteWeb.ScheduleController.TripViewController do
   plug(:zone_map)
 
   def show(conn, _) do
-    render(conn, SiteWeb.ScheduleView, "show.html", [])
+    conn
+    |> put_view(SiteWeb.ScheduleView)
+    |> render("show.html", [])
   end
 
   defp zone_map(%{assigns: %{route: %Route{type: 2}, all_stops: all_stops}} = conn, _) do

@@ -24,7 +24,8 @@ defmodule SiteWeb.ScheduleController.LineController do
   def show(conn, _) do
     conn
     |> assign(:meta_description, route_description(conn.assigns.route))
-    |> render(ScheduleView, "show.html", [])
+    |> put_view(ScheduleView)
+    |> render("show.html", [])
   end
 
   defp tab_name(conn, _), do: assign(conn, :tab, "line")

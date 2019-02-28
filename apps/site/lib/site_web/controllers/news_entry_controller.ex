@@ -58,8 +58,8 @@ defmodule SiteWeb.NewsEntryController do
     conn
     |> ControllerHelpers.unavailable_after_one_year(posted_on)
     |> assign(:breadcrumbs, show_breadcrumbs(conn, news_entry))
+    |> put_view(SiteWeb.NewsEntryView)
     |> render(
-      SiteWeb.NewsEntryView,
       "show.html",
       news_entry: news_entry,
       recent_news: recent_news

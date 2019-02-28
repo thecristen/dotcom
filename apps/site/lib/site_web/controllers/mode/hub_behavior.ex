@@ -39,8 +39,8 @@ defmodule SiteWeb.Mode.HubBehavior do
   defp render_index(conn, mode_strategy, mode_routes, params) do
     conn
     |> filter_recently_visited(mode_strategy.route_type)
-    |> async_assign(:fares, &mode_strategy.fares/0)
-    |> async_assign(:alerts, fn -> alerts(mode_routes, conn.assigns.date_time) end)
+    |> assign(:fares, Task.async(&mode_strategy.fares/0))
+    |> assign(:alerts, Task.async(fn -> alerts(mode_routes, conn.assigns.date_time) end))
     |> assign(:green_routes, green_routes())
     |> assign(:routes, mode_routes)
     |> assign(:route_type, mode_strategy.route_type |> Routes.Route.type_atom())
@@ -48,9 +48,9 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> assign(:mode_icon, mode_strategy.mode_icon())
     |> assign(:fare_description, mode_strategy.fare_description())
     |> assign(:maps, mode_strategy.mode_icon() |> maps())
-    |> async_assign(:guides, fn -> mode_strategy.mode_name() |> guides() end)
-    |> async_assign(:news, fn -> mode_strategy.mode_name() |> teasers(:news_entry) end)
-    |> async_assign(:projects, fn -> mode_strategy.mode_name() |> teasers(:project, 2) end)
+    |> assign(:guides, Task.async(fn -> mode_strategy.mode_name() |> guides() end))
+    |> assign(:news, Task.async(fn -> mode_strategy.mode_name() |> teasers(:news_entry) end))
+    |> assign(:projects, Task.async(fn -> mode_strategy.mode_name() |> teasers(:project, 2) end))
     |> assign(:breadcrumbs, [
       Breadcrumb.build("Schedules & Maps", mode_path(conn, :index)),
       Breadcrumb.build(mode_strategy.mode_name())

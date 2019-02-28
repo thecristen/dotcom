@@ -4,19 +4,6 @@ defmodule SiteWeb.UserSocket do
   ## Channels
   channel("vehicles:*", SiteWeb.VehicleChannel)
 
-  ## Transports
-  transport(
-    :websocket,
-    Phoenix.Transports.WebSocket,
-    check_origin: Application.get_env(:site, :websocket_check_origin, false)
-  )
-
-  transport(
-    :longpoll,
-    Phoenix.Transports.LongPoll,
-    check_origin: Application.get_env(:site, :websocket_check_origin, false)
-  )
-
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
   # verification, you can put default assigns into

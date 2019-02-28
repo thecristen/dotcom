@@ -55,7 +55,8 @@ defmodule SiteWeb.ContentController do
   defp handle_page_response({:error, :timeout}, conn) do
     conn
     |> put_status(503)
-    |> render(SiteWeb.ErrorView, "crash.html", [])
+    |> put_view(SiteWeb.ErrorView)
+    |> render("crash.html", [])
   end
 
   defp handle_page_response(
@@ -78,7 +79,7 @@ defmodule SiteWeb.ContentController do
     conn
     |> assign(:breadcrumbs, page.breadcrumbs)
     |> assign(:page, page)
-    |> render(SiteWeb.ContentView, "page.html", conn: conn)
+    |> render("page.html", conn: conn)
   end
 
   defp render_page(conn, %Content.LandingPage{} = page) do
@@ -91,7 +92,7 @@ defmodule SiteWeb.ContentController do
   defp render_page(conn, %Content.Person{} = person) do
     conn
     |> assign(:breadcrumbs, [Breadcrumb.build("People"), Breadcrumb.build(person.name)])
-    |> render(SiteWeb.ContentView, "person.html", person: person)
+    |> render("person.html", person: person)
   end
 
   defp render_page(conn, %Content.Redirect{link: link}) do

@@ -1,7 +1,7 @@
 <%
   tag_id = case google_tag_manager_id() do
     nil -> "null"
-    id -> raw("\"" <> Phoenix.HTML.escape_javascript(id) <> "\"")
+    id -> raw("\"" <> Phoenix.HTML.javascript_escape(id) <> "\"")
   end
 %>
 <div id="google_translate_element"></div>

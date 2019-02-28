@@ -227,8 +227,12 @@ defmodule SiteWeb.SearchControllerTest do
       conn = get(conn, search_path(conn, :index, params))
       response = html_response(conn, 200)
 
-      assert response =~
-               "<input checked=\"checked\" id=\"content_type_event\" name=\"search[content_type][event]\" type=\"checkbox\" value=\"true\">"
+      assert [{"input", attrs, _}] = Floki.find(response, "#content_type_event")
+      attrs = Map.new(attrs)
+      assert Map.get(attrs, "name") == "search[content_type][event]"
+      assert Map.get(attrs, "type") == "checkbox"
+      assert Map.get(attrs, "value") == "true"
+      assert Map.get(attrs, "checked") == "checked"
     end
 
     test "no matches", %{conn: conn} do

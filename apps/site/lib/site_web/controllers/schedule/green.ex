@@ -44,13 +44,15 @@ defmodule SiteWeb.ScheduleController.Green do
   def trip_view(conn, _params) do
     conn
     |> assign(:tab, "trip-view")
-    |> render(SiteWeb.ScheduleView, "show.html", [])
+    |> put_view(SiteWeb.ScheduleView)
+    |> render("show.html", [])
   end
 
   def alerts(conn, _params) do
     conn
     |> assign(:tab, "alerts")
-    |> render(SiteWeb.ScheduleView, "show.html", [])
+    |> put_view(SiteWeb.ScheduleView)
+    |> render("show.html", [])
   end
 
   def line(conn, _params) do
@@ -64,7 +66,8 @@ defmodule SiteWeb.ScheduleController.Green do
     |> call_plug(SiteWeb.ScheduleController.HoursOfOperation)
     |> call_plug(SiteWeb.ScheduleController.Holidays)
     |> call_plug(SiteWeb.ScheduleController.Line)
-    |> render(SiteWeb.ScheduleView, "show.html", [])
+    |> put_view(SiteWeb.ScheduleView)
+    |> render("show.html", [])
   end
 
   def route(conn, _params) do

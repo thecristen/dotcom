@@ -54,7 +54,8 @@ defmodule SiteWeb.EventController do
     conn
     |> ControllerHelpers.unavailable_after_one_year(start_time)
     |> assign_breadcrumbs(event)
-    |> render(EventView, "show.html", event: event)
+    |> put_view(EventView)
+    |> render("show.html", event: event)
   end
 
   @spec assign_breadcrumbs(Conn.t(), Event.t()) :: Conn.t()

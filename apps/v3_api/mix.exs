@@ -51,7 +51,7 @@ defmodule V3Api.Mixfile do
       {:gen_stage, "~> 0.13"},
       {:json_api, in_umbrella: true},
       {:util, in_umbrella: true},
-      {:sentry, github: "mbta/sentry-elixir", tag: "6.0.0"}
+      {:sentry, "~> 7.0"}
     ]
   end
 end

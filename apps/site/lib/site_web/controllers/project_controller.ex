@@ -65,7 +65,9 @@ defmodule SiteWeb.ProjectController do
     {past_events, upcoming_events} =
       Enum.split_with(events, &Content.Event.past?(&1, conn.assigns.date_time))
 
-    render(conn, SiteWeb.ProjectView, "show.html", %{
+    conn
+    |> put_view(SiteWeb.ProjectView)
+    |> render("show.html", %{
       breadcrumbs: breadcrumbs,
       project: project,
       updates: updates,
@@ -104,7 +106,9 @@ defmodule SiteWeb.ProjectController do
           Breadcrumb.build(update.title)
         ]
 
-        render(conn, SiteWeb.ProjectView, "update.html", %{
+        conn
+        |> put_view(SiteWeb.ProjectView)
+        |> render("update.html", %{
           breadcrumbs: breadcrumbs,
           update: update
         })

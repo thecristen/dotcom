@@ -3,15 +3,15 @@ defmodule SiteWeb.VehicleChannelTest do
 
   alias GoogleMaps.MapData.Marker
   alias Site.MapHelpers.Markers
-  alias SiteWeb.VehicleChannel
+  alias SiteWeb.{VehicleChannel, UserSocket}
   alias Vehicles.Repo
 
   test "sends vehicles and marker data" do
     # subscribes to a random channel name to
     # avoid receiving real data in assert_push
     assert {:ok, _, socket} =
-             ""
-             |> socket(%{some: :assign})
+             UserSocket
+             |> socket("", %{some: :assign})
              |> subscribe_and_join(VehicleChannel, "vehicles:VehicleChannelTest")
 
     assert [vehicle | _] =
@@ -33,8 +33,8 @@ defmodule SiteWeb.VehicleChannelTest do
 
   test "sends vehicle ids for remove event" do
     assert {:ok, _, socket} =
-             ""
-             |> socket(%{some: :assign})
+             UserSocket
+             |> socket("", %{some: :assign})
              |> subscribe_and_join(VehicleChannel, "vehicles:VehicleChannelTest2")
 
     assert {:noreply, %Phoenix.Socket{}} =
@@ -47,8 +47,8 @@ defmodule SiteWeb.VehicleChannelTest do
 
   test "responds to init push by sending data" do
     assert {:ok, _, socket} =
-             ""
-             |> socket(%{some: :assign})
+             UserSocket
+             |> socket("", %{some: :assign})
              |> subscribe_and_join(VehicleChannel, "vehicles:VehicleChannelTest3")
 
     assert {:noreply, %Phoenix.Socket{}} =

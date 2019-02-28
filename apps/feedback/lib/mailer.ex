@@ -14,7 +14,7 @@ defmodule Feedback.Mailer do
     ]
   end
 
-  @spec send_heat_ticket(Feedback.Message.t(), map()) :: {:ok, any} | {:error, any}
+  @spec send_heat_ticket(Feedback.Message.t(), [map()]) :: {:ok, any} | {:error, any}
   def send_heat_ticket(message, photo_info) do
     request_response = if message.request_response, do: "Yes", else: "No"
 

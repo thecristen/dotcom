@@ -183,12 +183,12 @@ defmodule Schedules.HoursOfOperation do
       first_departure:
         Enum.min_by(
           [first.first_departure, second.first_departure],
-          &DateTime.to_unix(&1, :nanoseconds)
+          &DateTime.to_unix(&1, :nanosecond)
         ),
       last_departure:
         Enum.max_by(
           [first.last_departure, second.last_departure],
-          &DateTime.to_unix(&1, :nanoseconds)
+          &DateTime.to_unix(&1, :nanosecond)
         )
     }
   end
@@ -213,7 +213,7 @@ defmodule Schedules.HoursOfOperation do
     {min, max} =
       data
       |> Stream.map(&Timex.parse!(&1.attributes["departure_time"], "{ISO:Extended}"))
-      |> Enum.min_max_by(&DateTime.to_unix(&1, :nanoseconds))
+      |> Enum.min_max_by(&DateTime.to_unix(&1, :nanosecond))
 
     %Departures{
       first_departure: min,

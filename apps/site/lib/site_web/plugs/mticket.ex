@@ -13,7 +13,7 @@ defmodule SiteWeb.Plug.Mticket do
   """
 
   @behaviour Plug
-  import Phoenix.Controller, only: [put_layout: 2, render: 4]
+  import Phoenix.Controller, only: [put_layout: 2, put_view: 2, render: 3]
   import Plug.Conn
 
   @impl true
@@ -30,8 +30,8 @@ defmodule SiteWeb.Plug.Mticket do
 
       conn
       |> put_layout(false)
+      |> put_view(SiteWeb.MticketView)
       |> render(
-        SiteWeb.MticketView,
         "notice.html",
         full_link_path: full_link_path,
         content_description: content_description
