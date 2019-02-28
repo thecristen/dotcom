@@ -278,8 +278,10 @@ defmodule SiteWeb.GlobalSearchTest do
 
       first_link = Wallaby.Query.link("Community College", count: :any, at: 0)
 
-      click(session, first_link)
-      assert_has(session, css(".station__address"))
+      session
+      |> assert_has(first_link)
+      |> click(first_link)
+      |> assert_has(css(".station__address"))
 
       url = current_url(session)
 
