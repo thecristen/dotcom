@@ -3,23 +3,22 @@ import GoogleMap from "./google-map-class";
 
 export class TripPlannerResults {
   constructor() {
-    this.maps = {};
     this.bind();
+    this.maps = {};
+    this.firstMap = null;
     this.addEventListeners();
-
-    this.initMaps();
+    this.initFirstMap();
 
     $("[data-planner-body]").on("hide.bs.collapse", this.toggleIcon);
     $("[data-planner-body]").on("show.bs.collapse", this.toggleIcon);
-    $("[data-planner-body]").on("shown.bs.collapse", this.resetMapBounds);
+    $("[data-planner-body]").on("shown.bs.collapse", this.initPlanMap);
     $(".js-trip-plan-alert-toggle").on("click", this.toggleAlertDropdownText);
   }
 
   bind() {
-    this.initMap = this.initMap.bind(this);
+    this.initPlanMap = this.initPlanMap.bind(this);
     this.onUpdateMarker = this.onUpdateMarker.bind(this);
     this.onRemoveMarker = this.onRemoveMarker.bind(this);
-    this.resetMapBounds = this.resetMapBounds.bind(this);
   }
 
   addEventListeners() {
@@ -28,29 +27,14 @@ export class TripPlannerResults {
     $(document).on("trip-plan:remove-marker", this.onRemoveMarker);
   }
 
-  initMaps() {
-    const dataEls = document.getElementsByClassName(
-      "js-trip-plan-map-dynamic-data"
-    );
-    Array.from(dataEls).forEach(this.initMap);
-  }
-
-  initMap(dataEl) {
-    const id = dataEl.getAttribute("data-for");
-    const data = JSON.parse(dataEl.innerHTML);
-    this.maps[id] = new GoogleMap(id, data);
-  }
-
-  initialMap() {
-    return this.maps["trip-plan-map--initial"];
-  }
-
   onUpdateMarker(ev, { detail }) {
-    const map = this.initialMap();
-    if (map && detail.latitude && detail.longitude) {
+    if (!this.firstMap) {
+      return;
+    }
+    if (detail.latitude && detail.longitude) {
       const id = `marker-${detail.label}`;
       const markerData = {
-        id: id,
+        id,
         latitude: detail.latitude,
         longitude: detail.longitude,
         tooltip: detail.title,
@@ -65,18 +49,18 @@ export class TripPlannerResults {
         },
         "visible?": true
       };
-      map.addOrUpdateMarker(markerData);
-      this.updateMapCenter(map);
+      this.firstMap.addOrUpdateMarker(markerData);
+      this.updateMapCenter(this.firstMap);
     }
   }
 
   onRemoveMarker(ev, { detail }) {
-    const map = this.initialMap();
-    if (map) {
-      map.removeMarker(`marker-${detail.label}`);
-      this.updateMapCenter(map);
-      this.updateMapZoom(map);
+    if (!this.firstMap) {
+      return;
     }
+    this.firstMap.removeMarker(`marker-${detail.label}`);
+    this.updateMapCenter(this.firstMap);
+    this.updateMapZoom(this.firstMap);
   }
 
   updateMapCenter(map) {
@@ -114,19 +98,26 @@ export class TripPlannerResults {
     icon.toggleClass("fa-plus-circle fa-minus-circle");
   }
 
-  resetMapBounds(ev) {
-    // There is a race condition that sometimes occurs on the initial render of the google map. It can't render properly
-    // because it's container is being resized. This function is called after an itinerary is expanded to redraw the map
-    // if necessary.
-    const $ = window.jQuery;
-    const id = $(ev.target)
-      .parents(".trip-plan-itinerary-container")
-      .find(".js-google-map")
-      .attr("id");
-
-    if (this.maps[id]) {
-      this.maps[id].panToBounds();
+  initFirstMap() {
+    const id = "trip-plan-map--initial";
+    if (!document.getElementById(id)) {
+      return;
     }
+    const data = JSON.parse(
+      document.querySelector("[data-for=trip-plan-map--initial]").innerHTML
+    );
+    this.firstMap = new GoogleMap(id, data);
+  }
+
+  initPlanMap(ev) {
+    const el = ev.target.querySelector(".js-trip-plan-map-dynamic-data");
+    const id = el.getAttribute("data-for");
+    // check if map was already initialized
+    if (this.maps[id]) {
+      return;
+    }
+    const data = JSON.parse(el.innerHTML);
+    this.maps[id] = new GoogleMap(id, data);
   }
 }
 
