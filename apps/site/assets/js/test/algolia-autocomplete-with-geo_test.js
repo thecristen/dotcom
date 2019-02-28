@@ -92,10 +92,12 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       const callback = sinon.spy();
       const result = source("location query", callback);
       Promise.resolve(result).then(() => {
-        expect(GoogleMapsHelpers.autocomplete.called).to.be.true;
-        expect(callback.called).to.be.true;
-        GoogleMapsHelpers.autocomplete.restore();
-        done();
+        setTimeout(() => {
+          expect(GoogleMapsHelpers.autocomplete.called).to.be.true;
+          expect(callback.called).to.be.true;
+          GoogleMapsHelpers.autocomplete.restore();
+          done();
+        }, this.ac.debounceInterval + 500);
       });
     });
 

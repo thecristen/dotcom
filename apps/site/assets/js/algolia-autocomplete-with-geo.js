@@ -2,12 +2,14 @@ import { AlgoliaAutocomplete } from "./algolia-autocomplete";
 import * as GoogleMapsHelpers from "./google-maps-helpers";
 import * as QueryStringHelpers from "./query-string-helpers";
 import geolocationPromise from "./geolocation-promise";
+import debounce from "../ts/helpers/debounce.ts";
 import * as AlgoliaResult from "./algolia-result";
 
 class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   constructor({ id, selectors, indices, locationParams, popular, parent }) {
     super(id, selectors, indices, parent);
     this.sessionToken = null;
+    this.debounceInterval = 250;
     if (!this._parent.getParams) {
       this._parent.getParams = () => {
         return {};
@@ -62,13 +64,16 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   _datasetSource(index) {
     switch (index) {
       case "locations":
-        return this._locationSource("locations");
+        return debounce(
+          this._locationSource("locations"),
+          this.debounceInterval
+        );
       case "usemylocation":
         return this._useMyLocationSource();
       case "popular":
         return this._popularSource();
       default:
-        return super._datasetSource(index);
+        return debounce(super._datasetSource(index), this.debounceInterval);
     }
   }
 
