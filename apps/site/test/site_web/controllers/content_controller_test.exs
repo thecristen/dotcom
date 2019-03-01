@@ -85,7 +85,7 @@ defmodule SiteWeb.ContentControllerTest do
       conn = get(conn, "/node/3004")
 
       assert html_response(conn, 200) =~
-               "<p>Currently the only non ADA-accessible station on the Red Line, Wollaston will be transformed"
+               "<title>Wollaston Station Improvements | Transforming the T | MBTA</title>"
     end
 
     test "redirects a raw, ID-based project update path when it has a CMS alias", %{conn: conn} do

@@ -1,6 +1,7 @@
 defmodule SiteWeb.ProjectViewTest do
   use SiteWeb.ConnCase, async: true
-  alias Content.{Event, Field.Image, Project, ProjectUpdate}
+
+  alias Content.{Event, Field.Image, Paragraph.CustomHTML, Project, ProjectUpdate}
   alias Phoenix.HTML
   alias Plug.Conn
   alias SiteWeb.ProjectView
@@ -24,6 +25,30 @@ defmodule SiteWeb.ProjectViewTest do
       image: nil
     }
   ]
+
+  describe "show.html" do
+    test "if paragraphs are present, hide body, gallery, and download components" do
+      project =
+        @project
+        |> Map.put(:paragraphs, [%CustomHTML{body: "Paragraph content"}])
+
+      output =
+        "show.html"
+        |> ProjectView.render(
+          project: project,
+          updates: @updates,
+          conn: @conn,
+          upcoming_events: @events,
+          past_events: @events
+        )
+        |> HTML.safe_to_string()
+
+      assert output =~ "Paragraph content"
+      refute output =~ "state-of-the-art safety features"
+      refute output =~ "wollaston-stairs-and-elevators-to-access-platform-800_1.jpeg"
+      refute output =~ "l-content-files"
+    end
+  end
 
   describe "_contact.html" do
     test ".project-contact is not rendered if no data is available" do

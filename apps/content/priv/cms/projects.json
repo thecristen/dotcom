@@ -156,6 +156,107 @@
       }
     ],
     "field_page_type": [],
+    "field_paragraphs": [
+      {
+        "target_id": 6000,
+        "target_revision_id": 108826,
+        "id": [
+          {
+            "value": 6000
+          }
+        ],
+        "uuid": [
+          {
+            "value": "9d1e39f3-c3f6-469d-8ef9-01ef0c790f4d"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 108826
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "type": [
+          {
+            "target_id": "custom_html",
+            "target_type": "paragraphs_type",
+            "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+          }
+        ],
+        "uid": [
+          {
+            "target_id": 29,
+            "target_type": "user",
+            "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+            "url": "/user/29"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1551306663
+          }
+        ],
+        "revision_uid": [
+          {
+            "target_id": 29,
+            "target_type": "user",
+            "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+            "url": "/user/29"
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "3164"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": []
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [
+          {
+            "value": true
+          }
+        ],
+        "field_custom_html_body": [
+          {
+            "value": "<p>Testing</p>\r\n",
+            "format": "full_html",
+            "processed": "<p>Testing</p>\n"
+          }
+        ],
+        "field_right_rail": [
+          {
+            "value": false
+          }
+        ]
+      }
+    ],
     "field_photo_gallery": [
       {
         "target_id": 685,
@@ -405,6 +506,7 @@
     "field_media_email": [],
     "field_media_phone": [],
     "field_page_type": [],
+    "field_paragraphs": [],
     "field_photo_gallery": [
       {
         "target_id": 3236,
@@ -610,6 +712,7 @@
       }
     ],
     "field_page_type": [],
+    "field_paragraphs": [],
     "field_photo_gallery": [],
     "field_project_status": [
       {
@@ -764,6 +867,7 @@
     "field_media_email": [],
     "field_media_phone": [],
     "field_page_type": [],
+    "field_paragraphs": [],
     "field_photo_gallery": [],
     "field_project_status": [
       {
@@ -930,6 +1034,7 @@
     ],
     "field_media_phone": [],
     "field_page_type": [],
+    "field_paragraphs": [],
     "field_photo_gallery": [
       {
         "target_id": 2932,

@@ -3,6 +3,10 @@ defmodule Content.Project do
   Represents the Project content type in the CMS.
   """
 
+  alias Content.{Field, Paragraph}
+  alias Field.{File, Image}
+  alias Phoenix.HTML
+
   import Content.Helpers,
     only: [
       field_value: 2,
@@ -12,20 +16,22 @@ defmodule Content.Project do
       parse_files: 2,
       parse_image: 2,
       parse_images: 2,
+      parse_paragraphs: 1,
       path_alias: 1
     ]
 
   @enforce_keys [:id]
   defstruct [
     :id,
-    body: Phoenix.HTML.raw(""),
+    body: HTML.raw(""),
     contact_information: nil,
     end_year: nil,
     featured: false,
-    featured_image: %Content.Field.Image{},
+    featured_image: nil,
     files: [],
     media_email: nil,
     media_phone: nil,
+    paragraphs: [],
     photo_gallery: [],
     posted_on: "",
     start_year: nil,
@@ -38,15 +44,16 @@ defmodule Content.Project do
 
   @type t :: %__MODULE__{
           id: integer,
-          body: Phoenix.HTML.safe(),
+          body: HTML.safe(),
           contact_information: String.t() | nil,
           end_year: String.t() | nil,
           featured: boolean,
-          featured_image: Content.Field.Image.t() | nil,
-          files: [Content.Field.File.t()] | [],
+          featured_image: Image.t() | nil,
+          files: [File.t()],
           media_email: String.t() | nil,
           media_phone: String.t() | nil,
-          photo_gallery: [Content.Field.Image.t()] | [],
+          paragraphs: [Paragraph.t()],
+          photo_gallery: [Image.t()],
           start_year: String.t() | nil,
           status: String.t() | nil,
           teaser: String.t(),
@@ -67,6 +74,7 @@ defmodule Content.Project do
       files: parse_files(data, "field_files"),
       media_email: field_value(data, "field_media_email"),
       media_phone: field_value(data, "field_media_phone"),
+      paragraphs: parse_paragraphs(data),
       photo_gallery: parse_images(data, "field_photo_gallery"),
       start_year: field_value(data, "field_start_year"),
       status: field_value(data, "field_project_status"),

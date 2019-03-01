@@ -28,6 +28,7 @@ defmodule Content.ProjectTest do
                files: [],
                media_email: media_email,
                media_phone: media_phone,
+               paragraphs: [paragraph | _],
                photo_gallery: [%Content.Field.Image{} | _],
                start_year: start_year,
                status: status,
@@ -50,6 +51,7 @@ defmodule Content.ProjectTest do
       assert title == "Wollaston Station Improvements"
       assert updated_on == ~D[2018-04-02]
       assert path_alias == nil
+      assert %Content.Paragraph.CustomHTML{} = paragraph
     end
 
     test "maps project api data with path alias to a struct", %{

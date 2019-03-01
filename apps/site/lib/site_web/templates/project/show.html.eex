@@ -33,24 +33,40 @@
           </div>
         <% end %>
 
-        <div class="page-section project-body">
-          <%= Site.ContentRewriter.rewrite(@project.body, @conn) %>
-        </div>
+        <%# If there are any paragraphs, hide "old" static fields: %>
 
-        <%# Project Updates section placement for one-column width %>
-        <%= if !Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates %>
+        <%= if !Enum.empty?(@project.paragraphs) do %>
 
-        <%= if !Enum.empty?(@project.photo_gallery), do: render "_photos.html", photos: @project.photo_gallery %>
+          <%= for paragraph <- @project.paragraphs do %>
+            <%= SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
+          <% end %>
 
-        <%= if Content.Project.contact?(@project), do: render "_contact.html", project: @project %>
+        <% else %>
 
-        <%= if !Enum.empty?(@upcoming_events), do: SiteWeb.EventView.render "_event_list.html",
-          events: @upcoming_events, title: "Upcoming Meetings", conn: @conn%>
+          <%# Components that can be replaced by paragraphs: %>
 
-        <%= if !Enum.empty?(@past_events), do: SiteWeb.EventView.render "_event_list.html",
-          events: @past_events, title: "Past Meetings", conn: @conn %>
+          <div class="page-section project-body">
+            <%= Site.ContentRewriter.rewrite(@project.body, @conn) %>
+          </div>
 
-        <%= if !Enum.empty?(@project.files), do: render "_downloads.html", files: @project.files %>
+          <%= if !Enum.empty?(@project.photo_gallery), do: render "_photos.html", photos: @project.photo_gallery %>
+
+          <%= if !Enum.empty?(@project.files), do: render "_downloads.html", files: @project.files %>
+
+        <% end %>
+
+        <%# Components w/o paragraph replacements: %>
+
+          <%= if Content.Project.contact?(@project), do: render "_contact.html", project: @project %>
+
+          <%= if !Enum.empty?(@upcoming_events), do: SiteWeb.EventView.render "_event_list.html",
+            events: @upcoming_events, title: "Upcoming Meetings", conn: @conn%>
+
+          <%= if !Enum.empty?(@past_events), do: SiteWeb.EventView.render "_event_list.html",
+            events: @past_events, title: "Past Meetings", conn: @conn %>
+
+          <%# Project Updates section placement for one-column width: %>
+          <%= if !Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates %>
 
       </div>
 
