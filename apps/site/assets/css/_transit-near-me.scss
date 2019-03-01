@@ -1,4 +1,7 @@
-$map-height: $base-spacing * 30;
+$sm-map-height: $base-spacing * 30;
+// Aspect ratios of 3:2 and 16:9
+$md-map-height: map-get($container-max-widths, md) * (2 / 3);
+$xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 
 .transitnearmeview {
   @include media-breakpoint-down(sm) {
@@ -20,14 +23,25 @@ $map-height: $base-spacing * 30;
   @include media-breakpoint-down(sm) {
     flex-direction: column-reverse;
   }
+
+  @include media-breakpoint-only(xxl) {
+    @include make-container();
+    max-width: map-get($container-max-widths, xxl);
+    padding: 0;
+  }
 }
 
 .m-tnm__map {
   flex: 1 1 auto;
-  height: $map-height;
+  height: $md-map-height;
 
   @include media-breakpoint-down(sm) {
     box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
+    height: $sm-map-height;
+  }
+
+  @include media-breakpoint-only(xxl) {
+    height: $xxl-map-height;
   }
 }
 
@@ -42,10 +56,14 @@ $map-height: $base-spacing * 30;
   }
 
   @include media-breakpoint-up(md) {
-    height: $map-height;
+    height: $md-map-height;
     overflow: scroll;
     padding: $base-spacing / 2;
-    width: 30 * $base-spacing;
+    width: 28 * $base-spacing;
+  }
+
+  @include media-breakpoint-only(xxl) {
+    height: $xxl-map-height;
   }
 
   @include media-breakpoint-only(md) {
