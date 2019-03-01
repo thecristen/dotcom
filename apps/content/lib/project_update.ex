@@ -2,6 +2,7 @@ defmodule Content.ProjectUpdate do
   @moduledoc """
   Represents the Project Update content type in the CMS.
   """
+  alias Content.Field.Image
 
   import Content.Helpers,
     only: [
@@ -9,6 +10,7 @@ defmodule Content.ProjectUpdate do
       int_or_string_to_int: 1,
       parse_body: 1,
       parse_date: 2,
+      parse_image: 2,
       parse_images: 2,
       path_alias: 1
     ]
@@ -20,6 +22,7 @@ defmodule Content.ProjectUpdate do
     :path_alias,
     project_url: "",
     body: Phoenix.HTML.raw(""),
+    image: nil,
     photo_gallery: [],
     posted_on: "",
     teaser: "",
@@ -29,6 +32,7 @@ defmodule Content.ProjectUpdate do
   @type t :: %__MODULE__{
           id: integer,
           body: Phoenix.HTML.safe(),
+          image: Image.t() | nil,
           photo_gallery: [Content.Field.Image.t()],
           posted_on: Date.t(),
           project_id: integer,
@@ -45,6 +49,7 @@ defmodule Content.ProjectUpdate do
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
       body: parse_body(data),
+      image: parse_image(data, "field_image"),
       photo_gallery: parse_images(data, "field_photo_gallery"),
       posted_on: parse_date(data, "field_posted_on"),
       project_id: project_id,

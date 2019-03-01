@@ -1,24 +1,27 @@
 defmodule SiteWeb.ProjectViewTest do
   use SiteWeb.ConnCase, async: true
-  alias Content.{Field.Image, ProjectUpdate}
+  alias Content.{Event, Field.Image, Project, ProjectUpdate}
+  alias Phoenix.HTML
+  alias Plug.Conn
   alias SiteWeb.ProjectView
 
-  @conn %Plug.Conn{}
-  @project %Content.Project{
+  @conn %Conn{}
+  @project %Project{
     id: 1,
     updated_on: Timex.now(),
     posted_on: Timex.now(),
     path_alias: nil
   }
-  @events [%Content.Event{id: 1, start_time: Timex.now(), end_time: Timex.now(), path_alias: nil}]
+  @events [%Event{id: 1, start_time: Timex.now(), end_time: Timex.now(), path_alias: nil}]
   @updates [
-    %Content.ProjectUpdate{
+    %ProjectUpdate{
       id: 1,
       title: "title",
       teaser: "teaser",
       posted_on: Timex.now(),
       path_alias: nil,
-      project_id: 1
+      project_id: 1,
+      image: nil
     }
   ]
 
@@ -28,14 +31,14 @@ defmodule SiteWeb.ProjectViewTest do
 
       output =
         "show.html"
-        |> SiteWeb.ProjectView.render(
+        |> ProjectView.render(
           project: project,
           updates: @updates,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
         )
-        |> Phoenix.HTML.safe_to_string()
+        |> HTML.safe_to_string()
 
       refute output =~ "project-contact"
     end
@@ -45,14 +48,14 @@ defmodule SiteWeb.ProjectViewTest do
 
       output =
         "show.html"
-        |> SiteWeb.ProjectView.render(
+        |> ProjectView.render(
           project: project,
           updates: @updates,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
         )
-        |> Phoenix.HTML.safe_to_string()
+        |> HTML.safe_to_string()
 
       assert output =~ "project-contact"
     end
@@ -62,14 +65,14 @@ defmodule SiteWeb.ProjectViewTest do
 
       output =
         "show.html"
-        |> SiteWeb.ProjectView.render(
+        |> ProjectView.render(
           project: project,
           updates: @updates,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
         )
-        |> Phoenix.HTML.safe_to_string()
+        |> HTML.safe_to_string()
 
       assert output =~ "project-contact"
     end
@@ -79,14 +82,14 @@ defmodule SiteWeb.ProjectViewTest do
 
       output =
         "show.html"
-        |> SiteWeb.ProjectView.render(
+        |> ProjectView.render(
           project: project,
           updates: @updates,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
         )
-        |> Phoenix.HTML.safe_to_string()
+        |> HTML.safe_to_string()
 
       assert output =~ "project-contact"
     end
@@ -96,14 +99,14 @@ defmodule SiteWeb.ProjectViewTest do
 
       output =
         "show.html"
-        |> SiteWeb.ProjectView.render(
+        |> ProjectView.render(
           project: project,
           updates: @updates,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
         )
-        |> Phoenix.HTML.safe_to_string()
+        |> HTML.safe_to_string()
 
       refute output =~ "contact-element-contact"
     end
@@ -113,14 +116,14 @@ defmodule SiteWeb.ProjectViewTest do
 
       output =
         "show.html"
-        |> SiteWeb.ProjectView.render(
+        |> ProjectView.render(
           project: project,
           updates: @updates,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
         )
-        |> Phoenix.HTML.safe_to_string()
+        |> HTML.safe_to_string()
 
       refute output =~ "contact-element-email"
     end
@@ -130,14 +133,14 @@ defmodule SiteWeb.ProjectViewTest do
 
       output =
         "show.html"
-        |> SiteWeb.ProjectView.render(
+        |> ProjectView.render(
           project: project,
           updates: @updates,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
         )
-        |> Phoenix.HTML.safe_to_string()
+        |> HTML.safe_to_string()
 
       refute output =~ "contact-element-phone"
     end
@@ -147,14 +150,14 @@ defmodule SiteWeb.ProjectViewTest do
 
       output =
         "show.html"
-        |> SiteWeb.ProjectView.render(
+        |> ProjectView.render(
           project: project,
           updates: @updates,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
         )
-        |> Phoenix.HTML.safe_to_string()
+        |> HTML.safe_to_string()
 
       assert output =~ "contact-element-contact"
     end
@@ -164,14 +167,14 @@ defmodule SiteWeb.ProjectViewTest do
 
       output =
         "show.html"
-        |> SiteWeb.ProjectView.render(
+        |> ProjectView.render(
           project: project,
           updates: @updates,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
         )
-        |> Phoenix.HTML.safe_to_string()
+        |> HTML.safe_to_string()
 
       assert output =~ "contact-element-email"
     end
@@ -181,78 +184,75 @@ defmodule SiteWeb.ProjectViewTest do
 
       output =
         "show.html"
-        |> SiteWeb.ProjectView.render(
+        |> ProjectView.render(
           project: project,
           updates: @updates,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
         )
-        |> Phoenix.HTML.safe_to_string()
+        |> HTML.safe_to_string()
 
       assert output =~ "contact-element-phone"
     end
   end
 
-  describe "includes_photos?/1" do
-    test "returns true if the project update includes photos in its photo gallery" do
-      project_update = %ProjectUpdate{
-        id: 1,
-        project_id: 1,
-        photo_gallery: [
-          %Image{
-            url: "https://example.com/image.jpg",
-            alt: "Example image description"
-          }
-        ]
-      }
+  describe "_updates.html" do
+    test "renders project updates" do
+      updates = @updates
 
-      assert ProjectView.includes_photos?(project_update)
+      output =
+        "show.html"
+        |> ProjectView.render(
+          project: @project,
+          updates: updates,
+          conn: @conn,
+          upcoming_events: @events,
+          past_events: @events
+        )
+        |> HTML.safe_to_string()
+
+      assert output =~ "c-project-updates-list"
+      assert output =~ "c-project-update"
     end
 
-    test "returns false if the project update doesn't include photos in its photo gallery" do
-      project_update = %ProjectUpdate{
-        id: 1,
-        project_id: 1,
-        photo_gallery: []
-      }
+    test "does not render an image if the update does not include one" do
+      updates = @updates
 
-      refute ProjectView.includes_photos?(project_update)
-    end
-  end
+      output =
+        "show.html"
+        |> ProjectView.render(
+          project: @project,
+          updates: updates,
+          conn: @conn,
+          upcoming_events: @events,
+          past_events: @events
+        )
+        |> HTML.safe_to_string()
 
-  describe "first_photo/1" do
-    test "returns the first photo from a project update's photo gallery" do
-      photo1 = %Image{
-        url: "https://example.com/image1.jpg",
-        alt: "Example image description"
-      }
-
-      photo2 = %Image{
-        url: "https://example.com/image2.jpg",
-        alt: "Example image description"
-      }
-
-      project_update = %ProjectUpdate{
-        id: 1,
-        project_id: 1,
-        photo_gallery: [
-          photo1,
-          photo2
-        ]
-      }
-
-      assert ProjectView.first_photo(project_update) == photo1
+      refute output =~ "c-project-update__photo"
     end
 
-    test "returns nil if the project update doesn't include photos in its photo gallery" do
-      project_update = %ProjectUpdate{
-        id: 1,
-        project_id: 1,
-        photo_gallery: []
-      }
+    test "renders an image if the update includes one" do
+      updates = [
+        %{
+          List.first(@updates)
+          | image: %Image{url: "http://example.com/img.jpg", alt: "Alt text"}
+        }
+      ]
 
-      assert ProjectView.first_photo(project_update) == nil
+      output =
+        "show.html"
+        |> ProjectView.render(
+          project: @project,
+          updates: updates,
+          conn: @conn,
+          upcoming_events: @events,
+          past_events: @events
+        )
+        |> HTML.safe_to_string()
+
+      assert output =~ "c-project-update__photo"
     end
   end
 end
