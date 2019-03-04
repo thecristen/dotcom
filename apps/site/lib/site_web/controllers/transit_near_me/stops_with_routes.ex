@@ -22,6 +22,8 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutes do
         }
 
   @spec stops_with_routes(TransitNearMe.t(), Address.t()) :: [map]
+  def stops_with_routes({:stops, []}, _), do: []
+
   def stops_with_routes(stops_with_routes, %Address{} = location) do
     stops_with_routes
     |> from_routes_and_stops()

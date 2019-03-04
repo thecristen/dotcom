@@ -5,6 +5,7 @@ defmodule SiteWeb.TransitNearMeController do
   alias Phoenix.HTML
   alias Plug.Conn
   alias Site.TransitNearMe
+  alias SiteWeb.PartialView.FullscreenError
 
   alias SiteWeb.TransitNearMeController.{
     Location,
@@ -41,19 +42,25 @@ defmodule SiteWeb.TransitNearMeController do
     # only concerned with high priority alerts
     alerts = Repo.by_priority(conn.assigns.date_time, :high)
 
-    to_json_fn = Map.get(conn.assigns, :to_json_fn, &TransitNearMe.schedules_for_routes/3)
-
     data = data_fn.(location, date: conn.assigns.date, now: conn.assigns.date_time)
+
+    do_assign_stops_and_routes(conn, data, location, alerts)
+  end
+
+  defp assign_stops_and_routes(conn), do: do_assign_stops_and_routes(conn, {:stops, []}, nil, nil)
+
+  defp do_assign_stops_and_routes(conn, {:stops, []}, _, _) do
+    conn
+    |> assign(:stops_json, [])
+    |> assign(:routes_json, [])
+  end
+
+  defp do_assign_stops_and_routes(conn, data, location, alerts) do
+    to_json_fn = Map.get(conn.assigns, :to_json_fn, &TransitNearMe.schedules_for_routes/3)
 
     conn
     |> assign(:stops_json, StopsWithRoutes.stops_with_routes(data, location))
     |> assign(:routes_json, to_json_fn.(data, alerts, now: conn.assigns.date_time))
-  end
-
-  defp assign_stops_and_routes(conn) do
-    conn
-    |> assign(:stops_json, [])
-    |> assign(:routes_json, [])
   end
 
   def assign_map_data(conn) do
@@ -128,7 +135,11 @@ defmodule SiteWeb.TransitNearMeController do
     put_flash(
       conn,
       :info,
-      "There doesn't seem to be any stations found near the given address. Please try a different address to continue."
+      %FullscreenError{
+        heading: "No MBTA service nearby",
+        body:
+          "There doesn't seem to be any stations found near the given address. Please try a different address to continue."
+      }
     )
   end
 
@@ -136,7 +147,7 @@ defmodule SiteWeb.TransitNearMeController do
     put_flash(
       conn,
       :info,
-      "We are unable to locate that address."
+      %FullscreenError{heading: "We’re sorry", body: "We are unable to locate that address."}
     )
   end
 
@@ -144,7 +155,10 @@ defmodule SiteWeb.TransitNearMeController do
     put_flash(
       conn,
       :info,
-      "There was an error locating that address. Please try again."
+      %FullscreenError{
+        heading: "We’re sorry",
+        body: "There was an error locating that address. Please try again."
+      }
     )
   end
 

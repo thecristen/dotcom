@@ -48,6 +48,7 @@ import routeMap from "./route-map";
 import channels from "./channels";
 import CRTrains from "./cr-timetable-trains";
 import alertItem from "./alert-item";
+import dismissFullscreenError from "./../ts/app/dismiss-fullscreen-error";
 
 // Extra steps for non-modular javascript
 Turbolinks.start();
@@ -318,3 +319,4 @@ fullstory();
 routeMap();
 channels();
 CRTrains();
+dismissFullscreenError();

@@ -59,3 +59,21 @@
   padding: .375rem .75rem;
 }
 
+.c-fullscreen-error__container {
+  @extend %error-message;
+}
+
+.c-fullscreen-error__heading {
+  margin: $base-spacing 0 0;
+}
+
+.c-fullscreen-error__dismiss {
+  color: $error-text;
+  cursor: pointer;
+  float: right;
+  text-decoration: none;
+
+  @include hover-focus-active {
+    color: $error-text;
+  }
+}

@@ -237,9 +237,11 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert conn.assigns.stops_json == []
 
       assert get_flash(conn) == %{
-               "info" =>
-                 "There doesn't seem to be any stations found near the given address. " <>
-                   "Please try a different address to continue."
+               "info" => %SiteWeb.PartialView.FullscreenError{
+                 body:
+                   "There doesn't seem to be any stations found near the given address. Please try a different address to continue.",
+                 heading: "No MBTA service nearby"
+               }
              }
     end
   end
@@ -262,7 +264,12 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert conn.assigns.routes_json == []
       assert conn.assigns.stops_json == []
 
-      assert get_flash(conn) == %{"info" => "We are unable to locate that address."}
+      assert get_flash(conn) == %{
+               "info" => %SiteWeb.PartialView.FullscreenError{
+                 body: "We are unable to locate that address.",
+                 heading: "We’re sorry"
+               }
+             }
     end
 
     test "flashes an error for any other error", %{conn: conn} do
@@ -283,7 +290,10 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert conn.assigns.routes_json == []
 
       assert get_flash(conn) == %{
-               "info" => "There was an error locating that address. Please try again."
+               "info" => %SiteWeb.PartialView.FullscreenError{
+                 body: "There was an error locating that address. Please try again.",
+                 heading: "We’re sorry"
+               }
              }
     end
   end
