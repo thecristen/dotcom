@@ -38,7 +38,7 @@ defmodule Predictions.Mixfile do
       {:v3_api, in_umbrella: true},
       {:timex, ">= 0.0.0"},
       {:excoveralls, "~> 0.5", only: :test},
-      {:bypass, "~> 0.8", only: :test},
+      {:bypass, "~> 1.0", only: :test},
       {:repo_cache, in_umbrella: true},
       {:schedules, in_umbrella: true},
       {:stops, in_umbrella: true},

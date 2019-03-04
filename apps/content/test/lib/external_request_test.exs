@@ -1,6 +1,8 @@
 defmodule Content.ExternaRequestTest do
   use ExUnit.Case
+  import Mock
   import Content.ExternalRequest
+  alias Content.CMS.TimeRequest
 
   describe "process/4" do
     test "issues a request with the provided information" do
@@ -156,15 +158,15 @@ defmodule Content.ExternaRequestTest do
       assert url == [to: "/redirect"]
     end
 
+    def mock_timeout(_method, _url, _body, _headers, _opts) do
+      {:error, %HTTPoison.Error{reason: :timeout}}
+    end
+
     @tag :capture_log
     test "returns {:error, :timeout} when CMS times out" do
-      bypass = bypass_cms()
-
-      Bypass.expect(bypass, fn _conn ->
-        :timer.sleep(500)
-      end)
-
-      assert process(:get, "/path?_format=json", "", recv_timeout: 100) == {:error, :timeout}
+      Mock.with_mock TimeRequest, time_request: &mock_timeout/5 do
+        assert process(:get, "/path?_format=json", "", recv_timeout: 100) == {:error, :timeout}
+      end
     end
 
     test "path retains query params and removes _format=json when CMS issues a native redirect" do

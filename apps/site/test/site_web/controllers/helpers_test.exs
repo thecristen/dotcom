@@ -267,7 +267,6 @@ defmodule SiteWeb.ControllerHelpersTest do
       headers = [
         {"Content-Type", "text/plain"},
         {"ETag", "tag"},
-        {"Date", "date"},
         {"Content-Length", "6"}
       ]
 
@@ -288,7 +287,8 @@ defmodule SiteWeb.ControllerHelpersTest do
       assert response.resp_body == "a file"
       assert get_resp_header(response, "content-type") == ["text/plain"]
       assert get_resp_header(response, "etag") == ["tag"]
-      assert get_resp_header(response, "date") == ["date"]
+      assert [date] = get_resp_header(response, "date")
+      assert [_wkday, _day, _month, _year, _time, _tz] = String.split(date, " ")
       # we don't pass content-length cuz it causes problems with gzip
       assert get_resp_header(response, "content-length") == []
     end

@@ -28,9 +28,9 @@ config :site, SiteWeb.Endpoint,
        [
          {"/socket/websocket", Phoenix.Endpoint.CowboyWebSocket,
           {Phoenix.Transports.WebSocket, {SiteWeb.Endpoint, SiteWeb.UserSocket, :websocket}}},
-         {"/socket/longpoll", Plug.Adapters.Cowboy.Handler,
+         {"/socket/longpoll", Plug.Cowboy.Handler,
           {Phoenix.Transports.LongPoll, {SiteWeb.Endpoint, SiteWeb.UserSocket, :longpoll}}},
-         {:_, Plug.Adapters.Cowboy.Handler, {SiteWeb.Endpoint, []}}
+         {:_, Plug.Cowboy.Handler, {SiteWeb.Endpoint, []}}
        ]}
     ]
   ],

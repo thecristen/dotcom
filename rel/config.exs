@@ -46,7 +46,6 @@ release :site do
       schedules: :permanent,
       site: :permanent,
       stops: :permanent,
-      system_metrics: :permanent,
       trip_plan: :permanent,
       util: :permanent,
       v3_api: :permanent,

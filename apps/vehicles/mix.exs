@@ -42,7 +42,7 @@ defmodule Vehicles.Mixfile do
       {:v3_api, in_umbrella: true},
       {:repo_cache, in_umbrella: true},
       {:routes, in_umbrella: true},
-      {:bypass, "~> 0.8", only: :test},
+      {:bypass, "~> 1.0", only: :test},
       {:phoenix_pubsub, "~> 1.0"},
       {:server_sent_event_stage, "~> 0.3"},
       {:gen_stage, "~> 0.13"}
