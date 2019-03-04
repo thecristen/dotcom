@@ -55,6 +55,10 @@ defmodule Content.CMS.HTTPClient do
     stringify_params({key, Atom.to_string(val)}, acc)
   end
 
+  defp stringify_params({key, val}, acc) when is_integer(val) do
+    stringify_params({key, Integer.to_string(val)}, acc)
+  end
+
   defp stringify_params({key, val}, acc) when is_binary(key) and is_binary(val) do
     [{key, val} | acc]
   end

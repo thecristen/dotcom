@@ -46,6 +46,21 @@ defmodule Content.CMS.HTTPClientTest do
       end
     end
 
+    test "accepts integers as param values" do
+      with_mock ExternalRequest, process: fn _method, _path, _body, _params -> {:ok, []} end do
+        view("/path", foo: 1)
+
+        assert called(
+                 ExternalRequest.process(
+                   :get,
+                   "/path",
+                   "",
+                   params: [{"_format", "json"}, {"foo", "1"}]
+                 )
+               )
+      end
+    end
+
     test "accepts atoms as param values" do
       with_mock ExternalRequest, process: fn _, _, _, _ -> {:ok, []} end do
         view("/path", foo: :bar)
