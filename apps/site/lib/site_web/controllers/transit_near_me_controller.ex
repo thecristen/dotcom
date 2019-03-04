@@ -93,7 +93,11 @@ defmodule SiteWeb.TransitNearMeController do
   @doc """
   Use a stop marker for bus-only stops, station marker otherwise
   """
-  @spec marker_for_routes(Keyword.t()) :: String.t()
+  @spec marker_for_routes([map]) :: String.t() | nil
+  def marker_for_routes([]) do
+    "map-stop-marker"
+  end
+
   def marker_for_routes(routes) do
     if List.first(routes).group_name == :bus do
       "map-stop-marker"

@@ -383,6 +383,30 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert bus_marker.icon == "map-stop-marker"
     end
 
+    test "defaults to a bus icon when no routes", %{conn: conn} do
+      bus_stop_with_routes =
+        put_in(
+          @stop_with_routes.routes,
+          [
+            %{
+              group_name: :bus,
+              routes: []
+            }
+          ]
+        )
+
+      conn =
+        conn
+        |> assign(:stops_json, [@stop_with_routes, bus_stop_with_routes])
+        |> assign(:location, nil)
+        |> TNMController.assign_map_data()
+
+      assert %MapData{} = conn.assigns.map_data
+      assert [_, bus_marker] = conn.assigns.map_data.markers
+      assert %Marker{} = bus_marker
+      assert bus_marker.icon == "map-stop-marker"
+    end
+
     test "assigns a marker for the provided location", %{conn: conn} do
       conn =
         conn
