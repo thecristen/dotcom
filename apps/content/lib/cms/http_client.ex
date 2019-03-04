@@ -28,7 +28,7 @@ defmodule Content.CMS.HTTPClient do
   def view(path, params) do
     params = [
       {"_format", "json"}
-      | Enum.map(params, fn {key, val} -> {to_string(key), to_string(val)} end)
+      | Enum.reduce(params, [], &stringify_params/2)
     ]
 
     ExternalRequest.process(:get, path, "", params: params)
@@ -42,5 +42,25 @@ defmodule Content.CMS.HTTPClient do
   @impl true
   def update(path, body) do
     ExternalRequest.process(:patch, path, body)
+  end
+
+  @spec stringify_params({String.t() | atom, String.t() | atom}, [{String.t(), String.t()}]) :: [
+          {String.t(), String.t()}
+        ]
+  defp stringify_params({key, val}, acc) when is_atom(key) do
+    stringify_params({Atom.to_string(key), val}, acc)
+  end
+
+  defp stringify_params({key, val}, acc) when is_atom(val) do
+    stringify_params({key, Atom.to_string(val)}, acc)
+  end
+
+  defp stringify_params({key, val}, acc) when is_binary(key) and is_binary(val) do
+    [{key, val} | acc]
+  end
+
+  defp stringify_params(_, acc) do
+    # drop invalid param
+    acc
   end
 end

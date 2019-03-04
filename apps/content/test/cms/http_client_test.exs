@@ -46,7 +46,22 @@ defmodule Content.CMS.HTTPClientTest do
       end
     end
 
-    test "illegal List() param values are converted to strings" do
+    test "accepts atoms as param values" do
+      with_mock ExternalRequest, process: fn _, _, _, _ -> {:ok, []} end do
+        view("/path", foo: :bar)
+
+        assert called(
+                 ExternalRequest.process(
+                   :get,
+                   "/path",
+                   "",
+                   params: [{"_format", "json"}, {"foo", "bar"}]
+                 )
+               )
+      end
+    end
+
+    test "illegal param values are dropped" do
       with_mock ExternalRequest, process: fn _method, _path, _body, _params -> {:ok, []} end do
         view("/path", %{"foo" => ["bar", "baz"]})
 
@@ -55,7 +70,18 @@ defmodule Content.CMS.HTTPClientTest do
                    :get,
                    "/path",
                    "",
-                   params: [{"_format", "json"}, {"foo", "barbaz"}]
+                   params: [{"_format", "json"}]
+                 )
+               )
+
+        view("/path", %{"foo" => %{"bar" => "baz"}})
+
+        assert called(
+                 ExternalRequest.process(
+                   :get,
+                   "/path",
+                   "",
+                   params: [{"_format", "json"}]
                  )
                )
       end
