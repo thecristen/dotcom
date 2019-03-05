@@ -34,18 +34,16 @@ describe("TransitNearMeSearch", () => {
     it("submits the form with lat, lng, and formatted address", () => {
       const search = new TransitNearMeSearch();
       search.submit = jest.fn();
-      search.showLocation("42.1", "-71.2", "10 Park Plaza, Boston MA");
+      search.showLocation("42.1", "-71.2");
       expect(search.submit).toHaveBeenCalled();
       const { input, latitude, longitude } = TransitNearMeSearch.SELECTORS;
-      const inputElement = document.getElementById(input);
-      const latElement = document.getElementById(latitude);
-      const longElement = document.getElementById(longitude);
+      const latElement = document.getElementById(latitude) as HTMLInputElement;
+      const longElement = document.getElementById(
+        longitude
+      ) as HTMLInputElement;
 
-      expect((inputElement as HTMLInputElement)!.value).toBe(
-        "10 Park Plaza, Boston MA"
-      );
-      expect((latElement as HTMLInputElement)!.value).toBe("42.1");
-      expect((longElement as HTMLInputElement)!.value).toBe("-71.2");
+      expect(latElement.value).toBe("42.1");
+      expect(longElement.value).toBe("-71.2");
     });
   });
 });

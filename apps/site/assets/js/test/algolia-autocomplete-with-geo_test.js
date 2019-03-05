@@ -236,9 +236,6 @@ describe("AlgoliaAutocompleteWithGeo", function() {
           expect(typeof placeId).to.equal("string");
 
           expect(this.ac.showLocation.called).to.be.true;
-          expect(this.ac.showLocation.args[0][2]).to.equal(
-            "10 Park Plaza, Boston, MA"
-          );
           expect($(`#${selectors.input}`).val()).to.equal(
             "10 Park Plaza, Boston, MA"
           );

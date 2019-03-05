@@ -42,9 +42,7 @@ export default class TransitNearMeSearch {
     this.showLocation = this.showLocation.bind(this);
   }
 
-  public showLocation(lat: string, lng: string, address: string): void {
-    this.input.value = address;
-
+  public showLocation(lat: string, lng: string): void {
     this.latInput.value = lat;
 
     this.lngInput.value = lng;

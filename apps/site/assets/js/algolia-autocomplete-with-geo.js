@@ -180,8 +180,7 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     this.resetSessionToken();
     return this.showLocation(
       result.geometry.location.lat(),
-      result.geometry.location.lng(),
-      result.formatted_address
+      result.geometry.location.lng()
     );
   }
 
@@ -198,14 +197,15 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     this._input.disabled = false;
     this.setValue(result);
     this._loadingIndicator.style.visibility = "hidden";
-    this.showLocation(latitude, longitude, result);
+    this._input.value = result;
+    this.showLocation(latitude, longitude);
   }
 
-  showLocation(latitude, longitude, address) {
+  showLocation(latitude, longitude) {
     const params = this._parent.getParams();
     params.latitude = latitude;
     params.longitude = longitude;
-    params.address = address;
+    params.address = this._input.value;
     window.Turbolinks.visit(
       "/transit-near-me" + QueryStringHelpers.parseParams(params)
     );

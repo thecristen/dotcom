@@ -89,6 +89,8 @@ describe("AlgoliaEmbeddedSearch", () => {
 
       window.encodeURIComponent = string =>
         string.replace(/\s/g, "%20").replace(/\&/g, "%26");
+
+      ac.input.value = "Park Plaza";
       ac.autocomplete.showLocation(
         "42.0",
         "-71.0",
@@ -99,7 +101,7 @@ describe("AlgoliaEmbeddedSearch", () => {
       expect(window.Turbolinks.visit.args[0][0]).to.contain("latitude=42.0");
       expect(window.Turbolinks.visit.args[0][0]).to.contain("longitude=-71.0");
       expect(window.Turbolinks.visit.args[0][0]).to.contain(
-        "address=10%20Park%20Plaza,%20Boston,%20MA"
+        "address=Park%20Plaza"
       );
     });
   });

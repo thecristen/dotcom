@@ -271,9 +271,10 @@ export class TripPlannerLocControls {
   }
 
   useMyLocation(ac) {
-    return (lat, lng, address) => {
+    return (lat, lng) => {
       document.getElementById(ac._selectors.lat).value = lat;
       document.getElementById(ac._selectors.lng).value = lng;
+      const address = ac._input.value;
       this.updateMarker(ac, lat, lng, address);
     };
   }
