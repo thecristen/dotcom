@@ -26,11 +26,7 @@ config :site, SiteWeb.Endpoint,
     dispatch: [
       {:_,
        [
-         {"/socket/websocket", Phoenix.Endpoint.CowboyWebSocket,
-          {Phoenix.Transports.WebSocket, {SiteWeb.Endpoint, SiteWeb.UserSocket, :websocket}}},
-         {"/socket/longpoll", Plug.Cowboy.Handler,
-          {Phoenix.Transports.LongPoll, {SiteWeb.Endpoint, SiteWeb.UserSocket, :longpoll}}},
-         {:_, Plug.Cowboy.Handler, {SiteWeb.Endpoint, []}}
+         {:_, Phoenix.Endpoint.Cowboy2Handler, {SiteWeb.Endpoint, []}}
        ]}
     ]
   ],

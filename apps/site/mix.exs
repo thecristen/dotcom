@@ -84,7 +84,7 @@ defmodule Site.Mixfile do
       {:gettext, "~> 0.9"},
       {:plug_cowboy, "~> 2.0"},
       {:timex, ">= 2.0.0"},
-      {:ehmon, git: "https://github.com/heroku/ehmon.git", tag: "v4", only: :prod},
+      {:ehmon, github: "mbta/ehmon", only: :prod},
       {:distillery, "~> 2.0"},
       {:inflex, "~> 1.8.0"},
       {:html_sanitize_ex, "~> 1.3.0"},
