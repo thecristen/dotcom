@@ -6,20 +6,23 @@ defmodule SiteWeb.ProjectViewTest do
   alias Plug.Conn
   alias SiteWeb.ProjectView
 
+  @now Timex.now()
   @conn %Conn{}
   @project %Project{
     id: 1,
-    updated_on: Timex.now(),
-    posted_on: Timex.now(),
-    path_alias: nil
+    updated_on: @now,
+    posted_on: @now,
+    path_alias: nil,
+    start_year: @now.year,
+    status: "In Progress"
   }
-  @events [%Event{id: 1, start_time: Timex.now(), end_time: Timex.now(), path_alias: nil}]
+  @events [%Event{id: 1, start_time: @now, end_time: @now, path_alias: nil}]
   @updates [
     %ProjectUpdate{
       id: 1,
       title: "title",
       teaser: "teaser",
-      posted_on: Timex.now(),
+      posted_on: @now,
       path_alias: nil,
       project_id: 1,
       image: nil
@@ -27,7 +30,7 @@ defmodule SiteWeb.ProjectViewTest do
   ]
 
   describe "show.html" do
-    test "if paragraphs are present, hide body, gallery, and download components" do
+    test "if paragraphs are present, hide timeline, status, body, gallery, and download components" do
       project =
         @project
         |> Map.put(:paragraphs, [%CustomHTML{body: "Paragraph content"}])
@@ -47,6 +50,47 @@ defmodule SiteWeb.ProjectViewTest do
       refute output =~ "state-of-the-art safety features"
       refute output =~ "wollaston-stairs-and-elevators-to-access-platform-800_1.jpeg"
       refute output =~ "l-content-files"
+      refute output =~ "Timeline:"
+      refute output =~ "Status:"
+    end
+
+    test "if paragraphs are not present, show timeline, status" do
+      project = @project
+
+      output =
+        "show.html"
+        |> ProjectView.render(
+          project: project,
+          updates: @updates,
+          conn: @conn,
+          upcoming_events: @events,
+          past_events: @events
+        )
+        |> HTML.safe_to_string()
+
+      assert output =~ "Timeline:"
+      assert output =~ "Status:"
+    end
+
+    test "timeline, status, and contact blocks are not required" do
+      output =
+        "show.html"
+        |> ProjectView.render(
+          project: %Project{
+            id: 1,
+            updated_on: @now,
+            posted_on: @now,
+            path_alias: nil
+          },
+          updates: @updates,
+          conn: @conn,
+          upcoming_events: @events,
+          past_events: @events
+        )
+        |> HTML.safe_to_string()
+
+      assert output =~ "About the Project"
+      assert output =~ "Project Updates"
     end
   end
 

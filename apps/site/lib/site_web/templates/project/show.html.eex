@@ -22,17 +22,6 @@
 
         <h2>About the Project</h2>
 
-        <%= if @project.start_year || @project.status do %>
-          <div class="page-section project-summary">
-            <%= if @project.start_year do %>
-              <div><strong>Timeline:</strong> <%= @project.start_year %><%= if @project.end_year, do: " – #{@project.end_year}" %></div>
-            <% end %>
-            <%= if @project.status do %>
-              <div><strong>Status:</strong> <%= @project.status %></div>
-            <% end %>
-          </div>
-        <% end %>
-
         <%# If there are any paragraphs, hide "old" static fields: %>
 
         <%= if !Enum.empty?(@project.paragraphs) do %>
@@ -42,6 +31,16 @@
           <% end %>
 
         <% else %>
+          <%= if @project.start_year || @project.status do %>
+            <div class="page-section project-summary">
+              <%= if @project.start_year do %>
+                <div><strong>Timeline:</strong> <%= @project.start_year %><%= if @project.end_year, do: " – #{@project.end_year}" %></div>
+              <% end %>
+              <%= if @project.status do %>
+                <div><strong>Status:</strong> <%= @project.status %></div>
+              <% end %>
+            </div>
+          <% end %>
 
           <%# Components that can be replaced by paragraphs: %>
 
@@ -57,17 +56,16 @@
 
         <%# Components w/o paragraph replacements: %>
 
-          <%= if Content.Project.contact?(@project), do: render "_contact.html", project: @project %>
-
           <%= if !Enum.empty?(@upcoming_events), do: SiteWeb.EventView.render "_event_list.html",
             events: @upcoming_events, title: "Upcoming Meetings", conn: @conn%>
 
           <%= if !Enum.empty?(@past_events), do: SiteWeb.EventView.render "_event_list.html",
             events: @past_events, title: "Past Meetings", conn: @conn %>
 
+          <%= if Content.Project.contact?(@project), do: render "_contact.html", project: @project %>
+
           <%# Project Updates section placement for one-column width: %>
           <%= if !Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates %>
-
       </div>
 
       <div class="c-cms__sidebar">
