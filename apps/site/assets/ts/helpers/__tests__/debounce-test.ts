@@ -12,7 +12,7 @@ describe("debounce", () => {
       debounce((ev: KeyboardEvent) => callback(ev.key), 10),
       { passive: true }
     );
-    const dispatchEvent = (num: number) => {
+    const dispatchEvent = (num: number): void => {
       const ev: KeyboardEvent = new KeyboardEvent("keydown", {
         key: num.toString()
       });

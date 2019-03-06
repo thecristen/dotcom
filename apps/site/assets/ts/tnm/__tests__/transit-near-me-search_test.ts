@@ -36,7 +36,7 @@ describe("TransitNearMeSearch", () => {
       search.submit = jest.fn();
       search.showLocation("42.1", "-71.2");
       expect(search.submit).toHaveBeenCalled();
-      const { input, latitude, longitude } = TransitNearMeSearch.SELECTORS;
+      const { latitude, longitude } = TransitNearMeSearch.SELECTORS;
       const latElement = document.getElementById(latitude) as HTMLInputElement;
       const longElement = document.getElementById(
         longitude
