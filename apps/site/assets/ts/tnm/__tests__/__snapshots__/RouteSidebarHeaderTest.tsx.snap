@@ -28,7 +28,11 @@ exports[`it renders with a stop selected 1`] = `
     role="button"
     tabIndex={0}
   >
-    Stuart St @ Charles St S
+    <span
+      className="m-tnm-sidebar__pill-name"
+    >
+      Stuart St @ Charles St S
+    </span>
     <span
       className="m-tnm-sidebar__pill-close fa fa-times-circle"
     />

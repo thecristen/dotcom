@@ -24,7 +24,7 @@ const RouteSidebarHeader = (props: Props): ReactElement<HTMLElement> => {
           onKeyPress={e => handleEnterKeyPress(e, onClickPill)}
           aria-label={`Remove filtering by ${selectedStop.name}`}
         >
-          {selectedStop.name}
+          <span className="m-tnm-sidebar__pill-name">{selectedStop.name}</span>
           <span className="m-tnm-sidebar__pill-close fa fa-times-circle" />
         </span>
       )}

@@ -98,7 +98,16 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   border-radius: 17px;
   color: $brand-primary;
   cursor: pointer;
+  display: inline-flex;
+  max-width: 100%;
   padding: .2 * $base-spacing .7 * $base-spacing;
+}
+
+.m-tnm-sidebar__pill-name {
+  line-height: 1.1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .m-tnm-sidebar__pill-close {
