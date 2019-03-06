@@ -565,7 +565,8 @@ defmodule SiteWeb.StopListViewTest do
         |> ScheduleView.render(featured_content: featured, news: news, conn: conn)
         |> safe_to_string()
 
-      assert rendered =~ featured.image_path
+      assert rendered =~ featured.image.url
+      assert rendered =~ featured.image.alt
       assert rendered =~ featured.title
 
       for item <- news do

@@ -1,6 +1,8 @@
 defmodule Content.TeaserTest do
   use ExUnit.Case, async: true
+
   alias Content.CMS.Static
+  alias Content.Field.Image
   alias Content.Teaser
 
   test "parses a teaser item into %Content.Teaser{}" do
@@ -10,7 +12,7 @@ defmodule Content.TeaserTest do
     assert %Teaser{
              type: type,
              path: path,
-             image_path: image,
+             image: image,
              text: text,
              title: title,
              date: date,
@@ -19,7 +21,7 @@ defmodule Content.TeaserTest do
 
     assert type == :project
     assert path == "/projects/green-line-d-track-and-signal-replacement"
-    assert "http://" <> _ = image
+    assert %Image{url: "http://" <> _, alt: "Tracks at Riverside"} = image
     assert text =~ "This project is part of"
     assert title == "Green Line D Track and Signal Replacement"
     assert topic == ""

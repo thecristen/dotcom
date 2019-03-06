@@ -1,6 +1,6 @@
 defmodule Content.Teaser do
   defstruct [
-    :image_path,
+    :image,
     :path,
     :text,
     :title,
@@ -10,6 +10,8 @@ defmodule Content.Teaser do
     :date
   ]
 
+  alias Content.Field.Image
+
   @type type ::
           :news_entry
           | :event
@@ -18,7 +20,7 @@ defmodule Content.Teaser do
           | :project_update
 
   @type t :: %__MODULE__{
-          image_path: String.t(),
+          image: Image.t() | nil,
           path: String.t(),
           text: String.t(),
           title: String.t(),
@@ -32,6 +34,7 @@ defmodule Content.Teaser do
   def from_api(
         %{
           "image_uri" => image_path,
+          "image_alt" => image_alt,
           "path" => path,
           "text" => text,
           "title" => title,
@@ -41,7 +44,7 @@ defmodule Content.Teaser do
         } = data
       ) do
     %__MODULE__{
-      image_path: image_path,
+      image: image(image_path, image_alt),
       path: path,
       text: text,
       title: title,
@@ -75,6 +78,10 @@ defmodule Content.Teaser do
       {:error, _} -> nil
     end
   end
+
+  @spec image(String.t(), String.t()) :: Image.t() | nil
+  defp image("", _), do: nil
+  defp image(uri, alt), do: struct(Image, url: uri, alt: alt)
 
   @spec type(String.t()) :: type
   for atom <- ~w(

@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-4">
-    <%= if @project.image_path do %>
-      <%= img_tag @project.image_path, alt: "", class: "featured-project-image" %>
+    <%= if @project.image do %>
+      <%= img_tag @project.image.url, alt: @project.image.alt, class: "featured-project-image" %>
     <% end %>
   </div>
   <div class="col-sm-8">

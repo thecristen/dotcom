@@ -79,10 +79,7 @@ defmodule SiteWeb.PartialView do
   @spec teaser(Teaser.t()) :: Phoenix.HTML.Safe.t()
   def teaser(%Teaser{} = teaser, opts \\ []) do
     link(
-      [
-        img_tag(teaser.image_path, class: teaser_image_class(teaser)),
-        teaser_content(teaser)
-      ],
+      teaser_link_content(teaser),
       to: teaser.path,
       class: teaser_class(opts)
     )
@@ -99,6 +96,18 @@ defmodule SiteWeb.PartialView do
     )
   end
 
+  @spec teaser_link_content(Teaser.t()) :: Phoenix.HTML.Safe.t() | [Phoenix.HTML.Safe.t()]
+  defp teaser_link_content(%Teaser{image: nil} = teaser) do
+    teaser_text(teaser)
+  end
+
+  defp teaser_link_content(%Teaser{image: image} = teaser) do
+    [
+      img_tag(image.url, alt: image.alt, class: teaser_image_class(teaser)),
+      teaser_text(teaser)
+    ]
+  end
+
   @spec teaser_image_class(Teaser.t()) :: String.t()
   defp teaser_image_class(teaser) do
     Enum.join(
@@ -110,14 +119,14 @@ defmodule SiteWeb.PartialView do
     )
   end
 
-  @spec teaser_content(Teaser.t()) :: [Phoenix.HTML.Safe.t()]
-  defp teaser_content(%Teaser{topic: "Guides", title: title}) do
+  @spec teaser_text(Teaser.t()) :: [Phoenix.HTML.Safe.t()]
+  defp teaser_text(%Teaser{topic: "Guides", title: title}) do
     [
       content_tag(:span, [title], class: "sr-only")
     ]
   end
 
-  defp teaser_content(teaser) do
+  defp teaser_text(teaser) do
     [
       content_tag(:div, [teaser.topic], class: "u-small-caps"),
       content_tag(:h3, [raw(teaser.title)], class: "h3 c-content-teaser__title"),

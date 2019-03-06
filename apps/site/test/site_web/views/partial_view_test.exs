@@ -128,7 +128,8 @@ defmodule SiteWeb.PartialViewTest do
       assert [teaser | _] = Repo.teasers(route_id: "Red", sidebar: 1)
       assert %Teaser{topic: ""} = teaser
       rendered = teaser |> PartialView.teaser() |> safe_to_string()
-      assert rendered =~ teaser.image_path
+      assert rendered =~ teaser.image.url
+      assert rendered =~ teaser.image.alt
       assert rendered =~ teaser.title
       assert rendered =~ teaser.text
     end
@@ -142,7 +143,8 @@ defmodule SiteWeb.PartialViewTest do
         |> PartialView.teaser()
         |> safe_to_string()
 
-      assert rendered =~ teaser.image_path
+      assert rendered =~ teaser.image.url
+      assert rendered =~ teaser.image.alt
 
       assert Floki.find(rendered, ".sr-only") == [
                {"span", [{"class", "sr-only"}], [teaser.title]}
