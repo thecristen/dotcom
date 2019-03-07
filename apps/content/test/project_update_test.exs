@@ -1,9 +1,12 @@
 defmodule Content.ProjectUpdateTest do
   use ExUnit.Case
+
   import Content.CMSTestHelpers, only: [update_api_response_whole_field: 3]
 
+  alias Content.CMS.Static
+
   setup do
-    %{api_data: Content.CMS.Static.project_updates_response()}
+    %{api_data: Static.project_update_repo()}
   end
 
   describe "from_api/1" do

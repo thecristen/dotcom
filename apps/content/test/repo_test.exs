@@ -2,8 +2,9 @@ defmodule Content.RepoTest do
   use ExUnit.Case, async: true
 
   import Phoenix.HTML, only: [safe_to_string: 1]
+  import Mock
 
-  alias Content.{Paragraph, Repo}
+  alias Content.{CMS.Static, Paragraph, Repo}
 
   describe "recent_news" do
     test "returns list of Content.NewsEntry" do
@@ -174,43 +175,6 @@ defmodule Content.RepoTest do
     end
   end
 
-  describe "projects/1" do
-    test "returns list of Content.Project" do
-      assert [
-               %Content.Project{
-                 id: id,
-                 body: body
-               },
-               %Content.Project{} | _
-             ] = Repo.projects()
-
-      assert id == 3004
-      assert safe_to_string(body) =~ "Wollaston Station Improvements"
-    end
-
-    test "returns empty list if error" do
-      assert [] = Repo.projects(error: true)
-    end
-  end
-
-  describe "project_updates/1" do
-    test "returns a list of Content.ProjectUpdate" do
-      assert [
-               %Content.ProjectUpdate{body: body, id: id},
-               %Content.ProjectUpdate{body: body_2, id: id_2} | _
-             ] = Repo.project_updates()
-
-      assert id == 3005
-      assert id_2 == 3174
-      assert safe_to_string(body) =~ "What's the bus shuttle schedule?"
-      assert safe_to_string(body_2) =~ "Wollaston Station on the Red Line closed for renovation"
-    end
-
-    test "returns empty list if error" do
-      assert [] = Repo.project_updates(error: true)
-    end
-  end
-
   describe "whats_happening" do
     test "returns a list of Content.WhatsHappeningItem" do
       assert [
@@ -353,6 +317,18 @@ defmodule Content.RepoTest do
       all_teasers = Repo.teasers(route_id: "Red", sidebar: 1)
       assert Enum.count(all_teasers) > 1
       assert [%Content.Teaser{}] = Repo.teasers(route_id: "Red", items_per_page: 1)
+    end
+
+    test "takes a :related_to option" do
+      mock_view = fn _path, _params -> {:ok, []} end
+
+      with_mock Static, view: mock_view do
+        Repo.teasers(related_to: 123)
+
+        "/cms/teasers"
+        |> Static.view(%{related_to: 123})
+        |> assert_called()
+      end
     end
 
     test "returns an empty list and logs a warning if there is an error" do

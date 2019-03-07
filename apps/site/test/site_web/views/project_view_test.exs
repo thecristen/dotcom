@@ -1,7 +1,7 @@
 defmodule SiteWeb.ProjectViewTest do
   use SiteWeb.ConnCase, async: true
 
-  alias Content.{Event, Field.Image, Paragraph.CustomHTML, Project, ProjectUpdate}
+  alias Content.{Event, Field.Image, Paragraph.CustomHTML, Project, Teaser}
   alias Phoenix.HTML
   alias Plug.Conn
   alias SiteWeb.ProjectView
@@ -18,14 +18,25 @@ defmodule SiteWeb.ProjectViewTest do
   }
   @events [%Event{id: 1, start_time: @now, end_time: @now, path_alias: nil}]
   @updates [
-    %ProjectUpdate{
-      id: 1,
+    %Teaser{
+      type: "project_update",
+      path: "/cms/path/alias",
+      image: nil,
+      text: "teaser",
       title: "title",
-      teaser: "teaser",
-      posted_on: @now,
-      path_alias: nil,
-      project_id: 1,
-      image: nil
+      date: @now,
+      topic: "Projects",
+      id: 1
+    },
+    %Teaser{
+      type: "project_update",
+      path: "/cms/path/alias2",
+      image: nil,
+      text: "teaser2",
+      title: "title2",
+      date: @now,
+      topic: "Projects",
+      id: 2
     }
   ]
 

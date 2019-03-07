@@ -1,10 +1,12 @@
 defmodule Content.NewsEntryTest do
   use ExUnit.Case
 
+  alias Content.CMS.Static
+
   setup do
     %{
-      api_page_no_path_alias: Content.CMS.Static.news_response() |> Enum.at(0),
-      api_page_path_alias: Content.CMS.Static.news_response() |> Enum.at(1)
+      api_page_no_path_alias: Static.news_repo() |> Enum.at(0),
+      api_page_path_alias: Static.news_repo() |> Enum.at(1)
     }
   end
 

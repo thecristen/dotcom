@@ -9,7 +9,7 @@
       <% end %>
 
       <div class="c-project-update__date u-small-caps">
-        <%= format_full_date(update.posted_on) %>
+        <%= format_full_date(update.date) %>
       </div>
 
       <h3 class="c-project-update__title">

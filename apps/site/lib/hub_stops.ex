@@ -91,7 +91,7 @@ defmodule HubStops do
   defp build_hub_stop({stop_id, path, alt_text}, detailed_stops) do
     %HubStop{
       detailed_stop: Enum.find(detailed_stops, &(&1.stop.id == stop_id)),
-      image_path: path,
+      image: path,
       alt_text: alt_text
     }
   end

@@ -12,23 +12,15 @@ defmodule Content.Factory do
 
   @spec news_entry_factory(integer, map) :: NewsEntry.t()
   def news_entry_factory(index, opts \\ []) when is_integer(index) do
-    Static.news_response()
+    Static.news_repo()
     |> Enum.at(index)
     |> NewsEntry.from_api()
     |> Map.merge(Enum.into(opts, %{}))
   end
 
-  @spec news_entry_teaser_factory(integer, map) :: Teaser.t()
-  def news_entry_teaser_factory(index, opts \\ []) when is_integer(index) do
-    Static.news_teaser_response()
-    |> Enum.at(index)
-    |> Teaser.from_api()
-    |> Map.merge(Enum.into(opts, %{}))
-  end
-
   @spec project_factory(integer, map) :: Project.t()
   def project_factory(index, opts \\ []) when is_integer(index) do
-    Static.projects_response()
+    Static.project_repo()
     |> Enum.at(index)
     |> Project.from_api()
     |> Map.merge(Enum.into(opts, %{}))
@@ -36,7 +28,7 @@ defmodule Content.Factory do
 
   @spec project_update_factory(integer, map) :: ProjectUpdate.t()
   def project_update_factory(index, opts \\ []) when is_integer(index) do
-    Static.project_updates_response()
+    Static.project_update_repo()
     |> Enum.at(index)
     |> ProjectUpdate.from_api()
     |> Map.merge(Enum.into(opts, %{}))
@@ -48,4 +40,18 @@ defmodule Content.Factory do
     |> Person.from_api()
     |> Map.merge(Enum.into(opts, %{}))
   end
+
+  @spec teaser_factory(atom, integer, map) :: Teaser.t()
+  def teaser_factory(content_type, index, opts \\ []) when is_integer(index) do
+    content_type
+    |> get_teasers()
+    |> Enum.at(index)
+    |> Teaser.from_api()
+    |> Map.merge(Enum.into(opts, %{}))
+  end
+
+  @spec get_teasers(atom) :: [Map.t()]
+  defp get_teasers(:news), do: Static.teaser_news_entry_response()
+  defp get_teasers(:projects), do: Static.teaser_project_response()
+  defp get_teasers(:project_updates), do: Static.teaser_project_update_response()
 end

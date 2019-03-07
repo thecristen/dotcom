@@ -7,10 +7,12 @@ defmodule Content.ProjectTest do
       update_api_response_whole_field: 3
     ]
 
+  alias Content.CMS.Static
+
   setup do
     %{
-      api_data_without_path_alias: Content.CMS.Static.projects_response() |> Enum.at(0),
-      api_data_with_path_alias: Content.CMS.Static.projects_response() |> Enum.at(1)
+      api_data_without_path_alias: Static.project_repo() |> Enum.at(0),
+      api_data_with_path_alias: Static.project_repo() |> Enum.at(1)
     }
   end
 

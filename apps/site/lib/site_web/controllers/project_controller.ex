@@ -124,6 +124,8 @@ defmodule SiteWeb.ProjectController do
   @spec get_events_async(integer) :: (() -> [Content.Event.t()])
   def get_events_async(id), do: fn -> Repo.events(project_id: id) end
 
-  @spec get_updates_async(integer) :: (() -> [Content.Project.t()])
-  def get_updates_async(id), do: fn -> Repo.project_updates(project_id: id) end
+  @spec get_updates_async(integer) :: (() -> [Content.Teaser.t()])
+  def get_updates_async(id) do
+    fn -> Repo.teasers(related_to: id, type: "project_update") end
+  end
 end

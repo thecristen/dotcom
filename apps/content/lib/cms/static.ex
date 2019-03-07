@@ -10,30 +10,14 @@ defmodule Content.CMS.Static do
   alias Content.NewsEntry
   alias Poison.Parser
 
-  # Views REST export responses
+  # Views REST export responses with fully-loaded objects
 
   def events_response do
     parse_json("cms/events.json")
   end
 
-  def news_response do
-    parse_json("cms/news.json")
-  end
-
-  def news_teaser_response do
-    parse_json("cms/teasers_news_entry.json")
-  end
-
   def banners_response do
     parse_json("cms/banners.json")
-  end
-
-  def projects_response do
-    parse_json("cms/projects.json")
-  end
-
-  def project_updates_response do
-    parse_json("cms/project-updates.json")
   end
 
   def search_response do
@@ -52,11 +36,21 @@ defmodule Content.CMS.Static do
     parse_json("cms/route-pdfs.json")
   end
 
-  def teasers_response do
+  # Small, teaser-based responses from CMS API
+
+  def teaser_response do
     parse_json("cms/teasers.json")
   end
 
-  def teaser_projects_response do
+  def teaser_news_entry_response do
+    parse_json("cms/teasers_news_entry.json")
+  end
+
+  def teaser_guides_response do
+    parse_json("cms/teasers_guides.json")
+  end
+
+  def teaser_project_response do
     parse_json("cms/teasers_project.json")
   end
 
@@ -64,8 +58,22 @@ defmodule Content.CMS.Static do
     parse_json("cms/teasers_project_featured.json")
   end
 
-  def guides_response do
-    parse_json("cms/guides.json")
+  def teaser_project_update_response do
+    parse_json("cms/teasers_project_update.json")
+  end
+
+  # Repositories of multiple, full-object responses for convenience
+
+  def news_repo do
+    parse_json("repo/news.json")
+  end
+
+  def project_repo do
+    parse_json("repo/projects.json")
+  end
+
+  def project_update_repo do
+    parse_json("repo/project-updates.json")
   end
 
   # Core (entity:node) responses
@@ -112,8 +120,7 @@ defmodule Content.CMS.Static do
   def view(path, params)
 
   def view("/cms/recent-news", current_id: id) do
-    filtered_recent_news =
-      Enum.reject(news_response(), &match?(%{"nid" => [%{"value" => ^id}]}, &1))
+    filtered_recent_news = Enum.reject(news_repo(), &match?(%{"nid" => [%{"value" => ^id}]}, &1))
 
     recent_news = Enum.take(filtered_recent_news, NewsEntry.number_of_recent_news_suggestions())
 
@@ -121,7 +128,7 @@ defmodule Content.CMS.Static do
   end
 
   def view("/cms/recent-news", _) do
-    {:ok, Enum.take(news_response(), NewsEntry.number_of_recent_news_suggestions())}
+    {:ok, Enum.take(news_repo(), NewsEntry.number_of_recent_news_suggestions())}
   end
 
   def view("/basic_page_no_sidebar", _) do
@@ -129,34 +136,34 @@ defmodule Content.CMS.Static do
   end
 
   def view("/cms/news", id: id) do
-    news_entry = filter_by(news_response(), "nid", id)
+    news_entry = filter_by(news_repo(), "nid", id)
     {:ok, news_entry}
   end
 
   def view("/cms/news", migration_id: "multiple-records") do
-    {:ok, news_response()}
+    {:ok, news_repo()}
   end
 
   def view("/cms/news", migration_id: id) do
-    news = filter_by(news_response(), "field_migration_id", id)
+    news = filter_by(news_repo(), "field_migration_id", id)
     {:ok, news}
   end
 
   def view("/cms/news", page: _page) do
-    record = List.first(news_response())
+    record = List.first(news_repo())
     {:ok, [record]}
   end
 
   def view("/news/incorrect-pattern", _) do
-    {:ok, Enum.at(news_response(), 1)}
+    {:ok, Enum.at(news_repo(), 1)}
   end
 
   def view("/news/date/title", _) do
-    {:ok, Enum.at(news_response(), 1)}
+    {:ok, Enum.at(news_repo(), 1)}
   end
 
   def view("/news/2018/news-entry", _) do
-    {:ok, List.first(news_response())}
+    {:ok, List.first(news_repo())}
   end
 
   def view("/news/redirected-url", params) do
@@ -200,36 +207,12 @@ defmodule Content.CMS.Static do
     {:ok, search_response()}
   end
 
-  def view("/cms/projects", id: id) do
-    {:ok, filter_by(projects_response(), "nid", id)}
-  end
-
-  def view("/cms/projects", opts) do
-    if Keyword.get(opts, :error) do
-      {:error, "Something happened"}
-    else
-      {:ok, projects_response()}
-    end
-  end
-
-  def view("/cms/project-updates", id: id) do
-    {:ok, filter_by(project_updates_response(), "nid", id)}
-  end
-
-  def view("/cms/project-updates", opts) do
-    if Keyword.get(opts, :error) do
-      {:error, "Something happened"}
-    else
-      {:ok, project_updates_response()}
-    end
-  end
-
   def view("/projects/project-name", _) do
-    {:ok, Enum.at(projects_response(), 1)}
+    {:ok, Enum.at(project_repo(), 1)}
   end
 
   def view("/porjects/project-name", _) do
-    {:ok, Enum.at(projects_response(), 1)}
+    {:ok, Enum.at(project_repo(), 1)}
   end
 
   def view("/projects/redirected-project", params) do
@@ -237,11 +220,11 @@ defmodule Content.CMS.Static do
   end
 
   def view("/projects/3004/update/3174", _) do
-    {:ok, Enum.at(project_updates_response(), 1)}
+    {:ok, Enum.at(project_update_repo(), 1)}
   end
 
   def view("/projects/project-name/update/project-progress", _) do
-    {:ok, Enum.at(project_updates_response(), 1)}
+    {:ok, Enum.at(project_update_repo(), 1)}
   end
 
   def view("/projects/project-deleted/update/project-deleted-progress", _) do
@@ -257,13 +240,13 @@ defmodule Content.CMS.Static do
     }
 
     {:ok,
-     project_updates_response()
+     project_update_repo()
      |> Enum.at(0)
      |> Map.merge(project_info)}
   end
 
   def view("/projects/redirected-project/update/not-redirected-update", _) do
-    {:ok, Enum.at(project_updates_response(), 2)}
+    {:ok, Enum.at(project_update_repo(), 2)}
   end
 
   def view("/projects/project-name/update/redirected-update", params) do
@@ -312,7 +295,7 @@ defmodule Content.CMS.Static do
   end
 
   def view("/node/3519", _) do
-    {:ok, Enum.at(news_response(), 0)}
+    {:ok, Enum.at(news_repo(), 0)}
   end
 
   def view("/node/3268", _) do
@@ -320,11 +303,11 @@ defmodule Content.CMS.Static do
   end
 
   def view("/node/3004", _) do
-    {:ok, Enum.at(projects_response(), 0)}
+    {:ok, Enum.at(project_repo(), 0)}
   end
 
   def view("/node/3005", _) do
-    {:ok, Enum.at(project_updates_response(), 0)}
+    {:ok, Enum.at(project_update_repo(), 0)}
   end
 
   # Paths that return CMS redirects (path alias exists)
@@ -357,7 +340,7 @@ defmodule Content.CMS.Static do
   end
 
   def view("/cms/teasers/guides", _) do
-    {:ok, guides_response()}
+    {:ok, teaser_guides_response()}
   end
 
   def view("/cms/teasers", %{type: "project", sticky: 1}) do
@@ -365,16 +348,20 @@ defmodule Content.CMS.Static do
   end
 
   def view("/cms/teasers", %{type: "project"}) do
-    {:ok, teaser_projects_response()}
+    {:ok, teaser_project_response()}
+  end
+
+  def view("/cms/teasers", %{type: "project_update"}) do
+    {:ok, teaser_project_update_response()}
   end
 
   def view("/cms/teasers", %{type: "news_entry"}) do
-    {:ok, news_teaser_response()}
+    {:ok, teaser_news_entry_response()}
   end
 
   def view("/cms/teasers/" <> route_id, params) when route_id != "NotFound" do
     filtered =
-      teasers_response()
+      teaser_response()
       |> filter_teasers(params)
 
     case Map.fetch(params, :items_per_page) do
@@ -408,10 +395,10 @@ defmodule Content.CMS.Static do
 
   @impl true
   def preview(node_id, revision_id)
-  def preview(3518, vid), do: {:ok, do_preview(Enum.at(news_response(), 1), vid)}
+  def preview(3518, vid), do: {:ok, do_preview(Enum.at(news_repo(), 1), vid)}
   def preview(5, vid), do: {:ok, do_preview(Enum.at(events_response(), 1), vid)}
-  def preview(3480, vid), do: {:ok, do_preview(Enum.at(projects_response(), 1), vid)}
-  def preview(3174, vid), do: {:ok, do_preview(Enum.at(project_updates_response(), 1), vid)}
+  def preview(3480, vid), do: {:ok, do_preview(Enum.at(project_repo(), 1), vid)}
+  def preview(3174, vid), do: {:ok, do_preview(Enum.at(project_update_repo(), 1), vid)}
   def preview(6, vid), do: {:ok, do_preview(basic_page_response(), vid)}
 
   @impl true
@@ -444,7 +431,7 @@ defmodule Content.CMS.Static do
   end
 
   defp successful_response("news_entry") do
-    [news_entry | _] = news_response()
+    [news_entry | _] = news_repo()
     {:ok, news_entry}
   end
 

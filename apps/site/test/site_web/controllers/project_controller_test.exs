@@ -1,6 +1,10 @@
 defmodule SiteWeb.ProjectControllerTest do
   use SiteWeb.ConnCase
 
+  import Mock
+
+  alias Content.{CMS.Static, Project}
+
   describe "index" do
     test "renders the list of projects", %{conn: conn} do
       conn = get(conn, project_path(conn, :index))
@@ -9,6 +13,27 @@ defmodule SiteWeb.ProjectControllerTest do
   end
 
   describe "show" do
+    test "project calls all secondary endpoints correctly", %{conn: conn} do
+      mock_view = fn
+        "/node/3004", [] -> {:ok, %Project{id: 3004}}
+        "/cms/teasers", %{related_to: 3004, type: "project_update"} -> {:ok, []}
+        "/cms/events", [project_id: 3004] -> {:ok, []}
+      end
+
+      with_mock Static, view: mock_view do
+        conn = conn |> get("/node/3004")
+        assert html_response(conn, 200) =~ "Wollaston Station Improvements"
+
+        "/cms/teasers"
+        |> Static.view(%{related_to: 3004, type: "project_update"})
+        |> assert_called()
+
+        "/cms/events"
+        |> Static.view(project_id: 3004)
+        |> assert_called()
+      end
+    end
+
     test "renders and does not rewrite an unaliased project response", %{conn: conn} do
       project = project_factory(0)
       assert project.path_alias == nil

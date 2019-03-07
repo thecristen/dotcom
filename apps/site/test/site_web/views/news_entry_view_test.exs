@@ -1,12 +1,12 @@
 defmodule SiteWeb.NewsEntryViewTest do
-  use Site.ViewCase, async: true
-  import Site.PageHelpers, only: [refute_text_visible?: 2]
   use Quixir
+  use Site.ViewCase, async: true
+
   import Site.PageHelpers, only: [refute_text_visible?: 2]
 
   describe "index.html" do
     test "does not display a Next link when additional content is not available", %{conn: conn} do
-      news_entry = news_entry_teaser_factory(0)
+      news_entry = teaser_factory(:news, 0)
 
       body =
         SiteWeb.NewsEntryView
@@ -23,7 +23,7 @@ defmodule SiteWeb.NewsEntryViewTest do
     end
 
     test "does not display a Previous link on the first page", %{conn: conn} do
-      news_entry = news_entry_teaser_factory(0)
+      news_entry = teaser_factory(:news, 0)
 
       body =
         SiteWeb.NewsEntryView

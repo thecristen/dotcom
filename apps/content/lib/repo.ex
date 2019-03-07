@@ -33,6 +33,7 @@ defmodule Content.Repo do
     |> get_page(params)
   end
 
+  # DEPRECATED: Use teasers/1 instead (type: "news_entry")
   @spec news(Keyword.t()) :: [Content.NewsEntry.t()] | []
   def news(opts \\ []) do
     cache(opts, fn _ ->
@@ -82,22 +83,6 @@ defmodule Content.Repo do
     case events(opts) do
       [record] -> record
       [] -> :not_found
-    end
-  end
-
-  @spec projects(Keyword.t()) :: [Content.Project.t()]
-  def projects(opts \\ []) do
-    case @cms_api.view("/cms/projects", opts) do
-      {:ok, api_data} -> Enum.map(api_data, &Content.Project.from_api/1)
-      _ -> []
-    end
-  end
-
-  @spec project_updates(Keyword.t()) :: [Content.ProjectUpdate.t()]
-  def project_updates(opts \\ []) do
-    case @cms_api.view("/cms/project-updates", opts) do
-      {:ok, api_data} -> Enum.map(api_data, &Content.ProjectUpdate.from_api/1)
-      _ -> []
     end
   end
 
@@ -247,6 +232,9 @@ defmodule Content.Repo do
   To fetch all items that are NOT of a specific type,
   use [type: _type, type_op: "not in"]
 
+  To fetch items related to a given ID, use the "related_to"
+  parameter with an integer value (usually a content ID).
+
   Opts can also include :items_per_page, which sets
   the number of items to return. Default is 5 items.
   The number can only be 1-10, 20, or 50, otherwise
@@ -279,6 +267,7 @@ defmodule Content.Repo do
           optional(:sidebar) => integer,
           optional(:type) => atom,
           optional(:type_op) => String.t(),
+          optional(:related_to) => integer,
           optional(:items_per_page) => 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 20 | 50
         }
   defp teaser_params(opts) do

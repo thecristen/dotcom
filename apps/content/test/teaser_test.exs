@@ -6,7 +6,7 @@ defmodule Content.TeaserTest do
   alias Content.Teaser
 
   test "parses a teaser item into %Content.Teaser{}" do
-    [raw | _] = Static.teasers_response()
+    [raw | _] = Static.teaser_response()
     teaser = Teaser.from_api(raw)
 
     assert %Teaser{
@@ -30,7 +30,7 @@ defmodule Content.TeaserTest do
 
   test "uses field_posted_on date for news entries" do
     raw =
-      Static.teasers_response()
+      Static.teaser_response()
       |> List.first()
       |> Map.put("type", "news_entry")
       |> Map.put("changed", "2018-10-18")
@@ -41,7 +41,7 @@ defmodule Content.TeaserTest do
   end
 
   test "sets date to null if date is invalid" do
-    assert Static.teasers_response()
+    assert Static.teaser_response()
            |> List.last()
            |> Map.put("changed", "invalid")
            |> Teaser.from_api()
@@ -49,14 +49,14 @@ defmodule Content.TeaserTest do
   end
 
   test "uses updated field as date for projects" do
-    assert Static.teasers_response()
+    assert Static.teaser_response()
            |> List.first()
            |> Teaser.from_api()
            |> Map.get(:date) == ~D[2018-10-10]
   end
 
   test "uses changed field as date for project when updated is blank" do
-    assert Static.teasers_response()
+    assert Static.teaser_response()
            |> Enum.at(1)
            |> Teaser.from_api()
            |> Map.get(:date) == ~D[2018-10-04]
