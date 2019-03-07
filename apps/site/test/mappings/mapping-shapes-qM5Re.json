@@ -1,0 +1,22 @@
+{
+  "id" : "8b4e700e-3665-321b-9560-85314c5667ce",
+  "request" : {
+    "url" : "/shapes/?route=CR-Foxboro&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-qM5Re.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:34:15 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 15:45:44 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mni49s4hjk36lsg00d7v3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8b4e700e-3665-321b-9560-85314c5667ce"
+}

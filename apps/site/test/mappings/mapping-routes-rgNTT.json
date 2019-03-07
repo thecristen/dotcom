@@ -1,0 +1,22 @@
+{
+  "id" : "82f56bd4-4223-3047-921c-d83a77c02c7e",
+  "request" : {
+    "url" : "/routes/?stop=West+Roxbury",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-rgNTT.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:39:59 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 15:42:57 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mo63u73raove80o00gsd2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "82f56bd4-4223-3047-921c-d83a77c02c7e"
+}

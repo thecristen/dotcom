@@ -1,0 +1,22 @@
+{
+  "id" : "e3df97fb-32ab-3722-8884-404bd6ac8c8a",
+  "request" : {
+    "url" : "/stops/?route=CR-Lowell&include=parent_station%2Cfacilities&direction_id=0&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-OAqxf.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:39:57 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 15:42:58 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mo61b6u511b9ad000feh3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e3df97fb-32ab-3722-8884-404bd6ac8c8a"
+}

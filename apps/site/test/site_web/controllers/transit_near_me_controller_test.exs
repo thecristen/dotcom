@@ -157,17 +157,6 @@ defmodule SiteWeb.TransitNearMeControllerTest do
     {:ok, conn: conn}
   end
 
-  test "index is under a flag", %{conn: conn} do
-    assert conn
-           |> get(transit_near_me_path(conn, :index))
-           |> Map.fetch!(:status) == 404
-
-    assert conn
-           |> put_req_cookie("transit_near_me_redesign", "true")
-           |> get(transit_near_me_path(conn, :index))
-           |> Map.fetch!(:status) == 200
-  end
-
   describe "with no location params" do
     test "does not attempt to calculate stops with routes", %{conn: conn} do
       conn =

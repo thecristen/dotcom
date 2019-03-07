@@ -1,0 +1,22 @@
+{
+  "id" : "6fa15635-0c71-340a-b2f7-ba4ddc2449e6",
+  "request" : {
+    "url" : "/routes/?stop=Blue+Hill+Avenue",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-HBFeG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:39:57 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 15:42:57 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mo61l0eakk3hqc000d4q4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "6fa15635-0c71-340a-b2f7-ba4ddc2449e6"
+}

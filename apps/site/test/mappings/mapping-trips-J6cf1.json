@@ -1,0 +1,22 @@
+{
+  "id" : "42b98a85-1e2c-3ccb-b1cb-e221d07b2f9e",
+  "request" : {
+    "url" : "/trips/?route=Green-C&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-J6cf1.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:34:05 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 16:34:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mnhhko1i15qoov000gvn1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "42b98a85-1e2c-3ccb-b1cb-e221d07b2f9e"
+}

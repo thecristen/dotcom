@@ -1,0 +1,22 @@
+{
+  "id" : "3abfd4b6-e643-392f-921c-386d2b94750d",
+  "request" : {
+    "url" : "/stops/5302?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-5302-TmhUW.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:36:33 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 15:42:58 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mnq50v8aevl4ces00jjo1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3abfd4b6-e643-392f-921c-386d2b94750d"
+}

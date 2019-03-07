@@ -1,0 +1,22 @@
+{
+  "id" : "67cb49c0-301c-3484-ad66-5097a92c5e86",
+  "request" : {
+    "url" : "/stops/7564?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-7564-OoxGF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:36:40 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 15:42:58 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mnqhk6hpc25lgk000g2i2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "67cb49c0-301c-3484-ad66-5097a92c5e86"
+}

@@ -1,5 +1,0 @@
-<div class="c-location-cards <%= result_container_classes(@class, @stops_with_routes) %>">
-  <%= for %{stop: stop, distance: distance, routes: routes} <- @stops_with_routes do %>
-    <%= render "_location_card.html", stop: stop, distance: distance, routes: routes, conn: @conn %>
-  <% end %>
-</div>

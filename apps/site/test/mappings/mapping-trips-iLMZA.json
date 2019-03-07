@@ -1,0 +1,22 @@
+{
+  "id" : "3074a49b-48e3-390c-a6da-be12f7688e20",
+  "request" : {
+    "url" : "/trips/?route=Mattapan&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-iLMZA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:34:04 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 16:34:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mnhf5te13h4h2to00b9k4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3074a49b-48e3-390c-a6da-be12f7688e20"
+}

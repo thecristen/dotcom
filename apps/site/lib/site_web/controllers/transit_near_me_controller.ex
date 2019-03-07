@@ -15,17 +15,13 @@ defmodule SiteWeb.TransitNearMeController do
   alias SiteWeb.TransitNearMeView
 
   def index(conn, _params) do
-    if Laboratory.enabled?(conn, :transit_near_me_redesign) do
-      conn
-      |> assign(:requires_google_maps?, true)
-      |> assign_location()
-      |> assign_stops_and_routes()
-      |> assign_map_data()
-      |> flash_if_error()
-      |> render("index.html", breadcrumbs: [Breadcrumb.build("Transit Near Me")])
-    else
-      render_404(conn)
-    end
+    conn
+    |> assign(:requires_google_maps?, true)
+    |> assign_location()
+    |> assign_stops_and_routes()
+    |> assign_map_data()
+    |> flash_if_error()
+    |> render("index.html", breadcrumbs: [Breadcrumb.build("Transit Near Me")])
   end
 
   defp assign_location(conn) do

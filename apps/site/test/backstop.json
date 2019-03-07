@@ -138,9 +138,9 @@
     },
     {
       "label": "Transit Near Me",
-      "url": "http://host.docker.internal:8082/transit-near-me?_utf8=✓&latitude=42.351310&longitude=-71.066159&location[client_width]=0",
+      "url": "http://host.docker.internal:8082/transit-near-me?date=2019-03-16&date_time=2019-03-16T16:00:31-00:00&_utf8=✓&location%5Baddress%5D=Oak+Grove%2C+Malden%2C+MA+02148%2C+USA&location%5Blatitude%5D=42.43667310000001&location%5Blongitude%5D=-71.07110769999997",
       "selectors": ["main"],
-      "hideSelectors": ["#address-search-input"],
+      "hideSelectors": [".m-tnm__map"],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },

@@ -1,0 +1,22 @@
+{
+  "id" : "7dc4b150-ea7b-38fe-8b51-bba90629251e",
+  "request" : {
+    "url" : "/predictions/?direction_id=0&stop=place-mlmnl&route=Orange&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-1iCHM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:36:41 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 16:36:29 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mnqk10k9shovago00k301",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "7dc4b150-ea7b-38fe-8b51-bba90629251e"
+}

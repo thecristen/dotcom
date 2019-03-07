@@ -1,0 +1,22 @@
+{
+  "id" : "abac649b-8f11-38af-a38f-890d5436f6f5",
+  "request" : {
+    "url" : "/routes/?stop=45411&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-goctn.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:36:30 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 15:42:57 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mnq08df43lk910000jdu1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "abac649b-8f11-38af-a38f-890d5436f6f5"
+}

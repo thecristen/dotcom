@@ -1,0 +1,22 @@
+{
+  "id" : "db237533-13c3-396b-b95d-71b20a8b0129",
+  "request" : {
+    "url" : "/trips/?route=17&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-pnada.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:34:21 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 16:34:14 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mnie9olu13lbqec00bou4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "db237533-13c3-396b-b95d-71b20a8b0129"
+}

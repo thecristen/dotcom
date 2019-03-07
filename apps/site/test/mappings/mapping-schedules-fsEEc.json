@@ -1,0 +1,22 @@
+{
+  "id" : "14d2b026-7950-3f5b-a717-213908a2bb6d",
+  "request" : {
+    "url" : "/schedules/?stop=Framingham&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id%2Cbikes_allowed&date=2019-03-16",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-fsEEc.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:39:31 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 15:44:09 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mo4hdv7j0fqso0k00l3j1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "14d2b026-7950-3f5b-a717-213908a2bb6d"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "9d0aa0d6-6ca1-32a9-b4ac-9c8f205fa08e",
+  "request" : {
+    "url" : "/shapes/?route=714&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-TFVaz.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:35:06 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 15:45:44 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mnl3o4nmol02vo400fk02",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "9d0aa0d6-6ca1-32a9-b4ac-9c8f205fa08e"
+}

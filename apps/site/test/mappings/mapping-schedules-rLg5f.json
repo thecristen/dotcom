@@ -1,0 +1,22 @@
+{
+  "id" : "d887890d-e5ca-3dc0-9fb7-2c7a222c146a",
+  "request" : {
+    "url" : "/schedules/?route=Red&date=1970-01-01",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-rLg5f.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json",
+      "Date" : "Wed, 06 Mar 2019 16:34:03 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 15:44:09 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mnhcs5lu7figovg00gud1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d887890d-e5ca-3dc0-9fb7-2c7a222c146a"
+}

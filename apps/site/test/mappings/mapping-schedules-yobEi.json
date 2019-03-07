@@ -1,0 +1,22 @@
+{
+  "id" : "eb635e3e-473a-31af-a779-31b1e5760b16",
+  "request" : {
+    "url" : "/schedules/?route=CR-Worcester&date=2019-03-17&direction_id=0&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-yobEi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:40:45 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 15:44:09 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mo8qno4b4kfm3jg00fk03",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "eb635e3e-473a-31af-a779-31b1e5760b16"
+}

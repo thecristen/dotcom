@@ -1,0 +1,22 @@
+{
+  "id" : "103cda06-6a3a-35db-835c-ecd398b148b2",
+  "request" : {
+    "url" : "/routes/?stop=Natick+Center",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FBeRb.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:39:58 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 15:42:57 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mo622o8t132u50g00d504",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "103cda06-6a3a-35db-835c-ecd398b148b2"
+}

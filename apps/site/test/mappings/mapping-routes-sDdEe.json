@@ -1,0 +1,22 @@
+{
+  "id" : "b5f1f547-6b40-3a04-bf84-154f253f996f",
+  "request" : {
+    "url" : "/routes/?stop=place-chncl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-sDdEe.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 06 Mar 2019 16:39:57 GMT",
+      "last-modified" : "Wed, 06 Mar 2019 15:42:57 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m4mo61j0vedqjrqc000lhv1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b5f1f547-6b40-3a04-bf84-154f253f996f"
+}
