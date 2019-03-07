@@ -52,13 +52,6 @@ defmodule SiteWeb.ContentController do
     |> redirect(opts)
   end
 
-  defp handle_page_response({:error, :timeout}, conn) do
-    conn
-    |> put_status(503)
-    |> put_view(SiteWeb.ErrorView)
-    |> render("crash.html", [])
-  end
-
   defp handle_page_response(
          {:error, :not_found},
          %Plug.Conn{assigns: %{try_encoded_on_404?: true}} = conn
@@ -72,6 +65,13 @@ defmodule SiteWeb.ContentController do
 
   defp handle_page_response({:error, :not_found}, %Plug.Conn{} = conn) do
     render_404(conn)
+  end
+
+  defp handle_page_response({:error, _}, conn) do
+    conn
+    |> put_status(503)
+    |> put_view(SiteWeb.ErrorView)
+    |> render("crash.html", [])
   end
 
   @spec render_page(Plug.Conn.t(), Content.Page.t()) :: Plug.Conn.t()

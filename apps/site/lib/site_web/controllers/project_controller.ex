@@ -54,7 +54,7 @@ defmodule SiteWeb.ProjectController do
     [updates, events] =
       Util.async_with_timeout(
         [get_updates_async(project.id), get_events_async(project.id)],
-        nil
+        []
       )
 
     breadcrumbs = [
