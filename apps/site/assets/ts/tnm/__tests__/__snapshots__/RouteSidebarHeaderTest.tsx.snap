@@ -21,7 +21,7 @@ exports[`it renders with a stop selected 1`] = `
     </div>
   </div>
   <span
-    aria-label="Remove filtering by Stuart St @ Charles St S"
+    aria-label="Remove filtering by Stop Name"
     className="m-tnm-sidebar__pill"
     onClick={[Function]}
     onKeyPress={[Function]}
@@ -31,7 +31,7 @@ exports[`it renders with a stop selected 1`] = `
     <span
       className="m-tnm-sidebar__pill-name"
     >
-      Stuart St @ Charles St S
+      Stop Name
     </span>
     <span
       className="m-tnm-sidebar__pill-close fa fa-times-circle"

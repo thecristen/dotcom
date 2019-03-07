@@ -12,11 +12,6 @@ exports[`it renders 2 predictions 1`] = `
     >
       Watertown
     </div>
-    <div
-      className="m-tnm-sidebar__via"
-    >
-      via Copley (Express)
-    </div>
   </div>
   <div
     className="m-tnm-sidebar__schedules"
@@ -96,7 +91,7 @@ exports[`it renders a status and train name for Commuter Rail 1`] = `
         <div
           className="m-tnm-sidebar__status"
         >
-          On Time
+          On time
         </div>
       </div>
     </div>
@@ -139,68 +134,7 @@ exports[`it renders a status and train name for Commuter Rail with track number 
         <div
           className="m-tnm-sidebar__status"
         >
-          On time track 1
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`it renders prediction time string 1`] = `
-<div
-  className="m-tnm-sidebar__headsign-schedule"
->
-  <div
-    className="m-tnm-sidebar__headsign"
-  >
-    <div
-      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
-    >
-      Watertown
-    </div>
-    <div
-      className="m-tnm-sidebar__via"
-    >
-      via Copley (Express)
-    </div>
-  </div>
-  <div
-    className="m-tnm-sidebar__schedules"
-  >
-    <div
-      className="m-tnm-sidebar__schedule"
-    >
-      <div
-        className="m-tnm-sidebar__time"
-      >
-        <div
-          className="m-tnm-sidebar__time-number"
-        >
-          14
-        </div>
-        <div
-          className="m-tnm-sidebar__time-mins"
-        >
-          min
-        </div>
-      </div>
-    </div>
-    <div
-      className="m-tnm-sidebar__schedule"
-    >
-      <div
-        className="m-tnm-sidebar__time"
-      >
-        <div
-          className="m-tnm-sidebar__time-number"
-        >
-          10:35
-        </div>
-        <div
-          className="m-tnm-sidebar__time-mins"
-        >
-          PM
+          Now boarding track 1
         </div>
       </div>
     </div>
@@ -220,11 +154,6 @@ exports[`it renders scheduled time when prediction is null 1`] = `
     >
       Watertown
     </div>
-    <div
-      className="m-tnm-sidebar__via"
-    >
-      via Copley (Express)
-    </div>
   </div>
   <div
     className="m-tnm-sidebar__schedules"
@@ -238,25 +167,7 @@ exports[`it renders scheduled time when prediction is null 1`] = `
         <div
           className="m-tnm-sidebar__time-number"
         >
-          14
-        </div>
-        <div
-          className="m-tnm-sidebar__time-mins"
-        >
-          min
-        </div>
-      </div>
-    </div>
-    <div
-      className="m-tnm-sidebar__schedule"
-    >
-      <div
-        className="m-tnm-sidebar__time"
-      >
-        <div
-          className="m-tnm-sidebar__time-number"
-        >
-          12:08
+          4:30
         </div>
         <div
           className="m-tnm-sidebar__time-mins"

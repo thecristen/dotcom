@@ -90,8 +90,8 @@ export interface TNMTime {
 
 export interface TNMPrediction {
   time: string[];
-  status: string;
-  track: string;
+  status: string | null;
+  track: string | null;
 }
 
 export interface Trip {

@@ -2,8 +2,29 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { shallow } from "enzyme";
 import RouteSidebarHeader from "../components/RouteSidebarHeader";
-import { createReactRoot, importData } from "./helpers/testUtils";
+import { createReactRoot } from "./helpers/testUtils";
 import { Stop } from "../components/__tnm";
+
+/* eslint-disable typescript/camelcase */
+
+const stop: Stop = {
+  accessibility: ["wheelchair"],
+  address: "123 Main St., Boston MA",
+  closed_stop_info: null,
+  "has_charlie_card_vendor?": false,
+  "has_fare_machine?": false,
+  id: "stop-id",
+  "is_child?": false,
+  latitude: 41.0,
+  longitude: -71.0,
+  name: "Stop Name",
+  note: null,
+  parking_lots: [],
+  "station?": true,
+  distance: "238 ft",
+  directions: [],
+  href: "/stops/stop-id"
+};
 
 it("it renders with no stop selected", () => {
   createReactRoot();
@@ -17,10 +38,6 @@ it("it renders with no stop selected", () => {
 it("it renders with a stop selected", () => {
   createReactRoot();
 
-  const data = importData();
-
-  const stop: Stop = data[0].stops[0];
-
   const tree = renderer
     .create(<RouteSidebarHeader selectedStop={stop} dispatch={() => {}} />)
     .toJSON();
@@ -29,10 +46,6 @@ it("it renders with a stop selected", () => {
 
 it("it deselects a stop when the pill is clicked", () => {
   createReactRoot();
-
-  const data = importData();
-
-  const stop: Stop = data[0].stops[0];
 
   const mockDispatch = jest.fn();
 
@@ -50,10 +63,6 @@ it("it deselects a stop when the pill is clicked", () => {
 it("it deselects a stop when the pill is selected via keyboard ENTER", () => {
   createReactRoot();
 
-  const data = importData();
-
-  const stop: Stop = data[0].stops[0];
-
   const mockDispatch = jest.fn();
 
   const wrapper = shallow(
@@ -69,10 +78,6 @@ it("it deselects a stop when the pill is selected via keyboard ENTER", () => {
 
 it("it deselects a stop when the pill is selected via a different keyboard event", () => {
   createReactRoot();
-
-  const data = importData();
-
-  const stop: Stop = data[0].stops[0];
 
   const mockDispatch = jest.fn();
 

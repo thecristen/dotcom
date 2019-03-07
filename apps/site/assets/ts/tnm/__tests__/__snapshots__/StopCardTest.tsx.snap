@@ -13,9 +13,17 @@ exports[`it renders a stop card 1`] = `
   >
     <a
       className="m-tnm-sidebar__stop-name"
-      href="/stops/9983"
+      href="/stops/stop-id"
     >
-      Stuart St @ Charles St S
+      <span
+        className="m-tnm-sidebar__stop-marker"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      Stop Name
       <span
         className="m-tnm-sidebar__stop-accessible"
         dangerouslySetInnerHTML={
@@ -50,12 +58,7 @@ exports[`it renders a stop card 1`] = `
         <div
           className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
         >
-          Watertown
-        </div>
-        <div
-          className="m-tnm-sidebar__via"
-        >
-          via Copley (Express)
+          Headsign
         </div>
       </div>
       <div
@@ -70,30 +73,12 @@ exports[`it renders a stop card 1`] = `
             <div
               className="m-tnm-sidebar__time-number"
             >
-              14
+              4:30
             </div>
             <div
               className="m-tnm-sidebar__time-mins"
             >
-              min
-            </div>
-          </div>
-        </div>
-        <div
-          className="m-tnm-sidebar__schedule"
-        >
-          <div
-            className="m-tnm-sidebar__time"
-          >
-            <div
-              className="m-tnm-sidebar__time-number"
-            >
-              44
-            </div>
-            <div
-              className="m-tnm-sidebar__time-mins"
-            >
-              min
+              PM
             </div>
           </div>
         </div>

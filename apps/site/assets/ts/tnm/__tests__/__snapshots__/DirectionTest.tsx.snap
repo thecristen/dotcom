@@ -20,12 +20,7 @@ exports[`it does not display the direction destination when there is only one he
       <div
         className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
       >
-        Watertown
-      </div>
-      <div
-        className="m-tnm-sidebar__via"
-      >
-        via Copley (Express)
+        Headsign
       </div>
     </div>
     <div
@@ -40,30 +35,12 @@ exports[`it does not display the direction destination when there is only one he
           <div
             className="m-tnm-sidebar__time-number"
           >
-            14
+            4:30
           </div>
           <div
             className="m-tnm-sidebar__time-mins"
           >
-            min
-          </div>
-        </div>
-      </div>
-      <div
-        className="m-tnm-sidebar__schedule"
-      >
-        <div
-          className="m-tnm-sidebar__time"
-        >
-          <div
-            className="m-tnm-sidebar__time-number"
-          >
-            44
-          </div>
-          <div
-            className="m-tnm-sidebar__time-mins"
-          >
-            min
+            PM
           </div>
         </div>
       </div>
@@ -92,7 +69,7 @@ exports[`it does not display the route direction for commuter rail 1`] = `
       <div
         className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
       >
-        Framingham
+        Headsign 1
       </div>
       <div
         className="m-tnm-sidebar__headsign-train"
@@ -132,12 +109,12 @@ exports[`it does not display the route direction for commuter rail 1`] = `
       <div
         className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
       >
-        Worcester
+        Headsign 2
       </div>
       <div
         className="m-tnm-sidebar__headsign-train"
       >
-        Train 513
+        Train 592
       </div>
     </div>
     <div
@@ -152,7 +129,7 @@ exports[`it does not display the route direction for commuter rail 1`] = `
           <div
             className="m-tnm-sidebar__time-number"
           >
-            39 min
+            4:30 PM
           </div>
           <div
             className="m-tnm-sidebar__status"
@@ -174,7 +151,7 @@ exports[`it renders 1`] = `
     <div
       className="m-tnm-sidebar__direction-name u-small-caps"
     >
-      Westbound
+      Outbound
     </div>
   </div>
   <div
@@ -186,7 +163,7 @@ exports[`it renders 1`] = `
       <div
         className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
       >
-        Reservoir
+        Headsign 1
       </div>
     </div>
     <div
@@ -201,7 +178,7 @@ exports[`it renders 1`] = `
           <div
             className="m-tnm-sidebar__time-number"
           >
-            6:58
+            4:30
           </div>
           <div
             className="m-tnm-sidebar__time-mins"
@@ -221,7 +198,7 @@ exports[`it renders 1`] = `
       <div
         className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
       >
-        Riverside
+        Headsign 2
       </div>
     </div>
     <div
@@ -236,12 +213,12 @@ exports[`it renders 1`] = `
           <div
             className="m-tnm-sidebar__time-number"
           >
-            11:18
+            4:30
           </div>
           <div
             className="m-tnm-sidebar__time-mins"
           >
-            AM
+            PM
           </div>
         </div>
       </div>

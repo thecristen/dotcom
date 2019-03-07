@@ -2,14 +2,65 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { shallow } from "enzyme";
 import StopCard from "../components/StopCard";
-import { createReactRoot, importData } from "./helpers/testUtils";
-import { Route, Stop } from "../components/__tnm";
+import { createReactRoot } from "./helpers/testUtils";
+import {
+  Route,
+  Stop,
+  TNMDirection,
+  TNMHeadsign,
+  TNMTime
+} from "../components/__tnm";
+
+/* eslint-disable typescript/camelcase */
+
+const time: TNMTime = {
+  scheduled_time: ["4:30", " ", "PM"],
+  prediction: null
+};
+
+const headsign: TNMHeadsign = {
+  name: "Headsign",
+  times: [time],
+  train_number: null
+};
+
+const direction: TNMDirection = {
+  direction_id: 0,
+  headsigns: [headsign]
+};
+
+const stop: Stop = {
+  accessibility: ["wheelchair"],
+  address: "123 Main St., Boston MA",
+  closed_stop_info: null,
+  "has_charlie_card_vendor?": false,
+  "has_fare_machine?": false,
+  id: "stop-id",
+  "is_child?": false,
+  latitude: 41.0,
+  longitude: -71.0,
+  name: "Stop Name",
+  note: null,
+  parking_lots: [],
+  "station?": true,
+  distance: "238 ft",
+  directions: [direction],
+  href: "/stops/stop-id"
+};
+
+const route: Route = {
+  alert_count: 0,
+  direction_destinations: ["Outbound Destination", "Inbound Destination"],
+  direction_names: ["Outbound", "Inbound"],
+  id: "route-id",
+  name: "Route Name",
+  long_name: "Route Long Name",
+  description: "Route Description",
+  stops: [stop],
+  type: 1
+};
 
 it("it renders a stop card", () => {
-  const data = importData();
-  const route: Route = data[0] as Route;
-  const stop: Stop = route.stops[0];
-
   createReactRoot();
   const tree = renderer
     .create(<StopCard stop={stop} route={route} dispatch={() => {}} />)
@@ -18,25 +69,20 @@ it("it renders a stop card", () => {
 });
 
 it("returns null if stop has no schedules", () => {
-  const data = importData();
-  const route: Route = data[0];
-  const stop: Stop = route.stops[0];
-
-  expect(stop.directions.length).toBe(1);
-  stop.directions[0].headsigns = [];
-
+  const stopWithoutSchedules: Stop = {
+    ...stop,
+    directions: [{ ...direction, headsigns: [] }]
+  };
   const tree = renderer
-    .create(<StopCard stop={stop} route={route} dispatch={() => {}} />)
+    .create(
+      <StopCard stop={stopWithoutSchedules} route={route} dispatch={() => {}} />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 it("it selects stop when the card is clicked", () => {
   createReactRoot();
-
-  const data = importData();
-  const route: Route = data[0];
-  const stop: Stop = route.stops[0];
 
   const mockDispatch = jest.fn();
 
@@ -47,16 +93,12 @@ it("it selects stop when the card is clicked", () => {
   wrapper.find(".m-tnm-sidebar__route-stop").simulate("click");
   expect(mockDispatch).toHaveBeenCalledWith({
     type: "CLICK_STOP_CARD",
-    payload: { stopId: "9983" }
+    payload: { stopId: "stop-id" }
   });
 });
 
 it("it selects stop when the card is selected via keyboard", () => {
   createReactRoot();
-
-  const data = importData();
-  const route: Route = data[0];
-  const stop: Stop = route.stops[0];
 
   const mockDispatch = jest.fn();
 
@@ -69,16 +111,12 @@ it("it selects stop when the card is selected via keyboard", () => {
     .simulate("keyPress", { key: "Enter" });
   expect(mockDispatch).toHaveBeenCalledWith({
     type: "CLICK_STOP_CARD",
-    payload: { stopId: "9983" }
+    payload: { stopId: "stop-id" }
   });
 });
 
 it("it does nothing when the keyboard event is not enter", () => {
   createReactRoot();
-
-  const data = importData();
-  const route: Route = data[0];
-  const stop: Stop = route.stops[0];
 
   const mockDispatch = jest.fn();
 

@@ -6,13 +6,64 @@ import RouteCard, {
   busClass
 } from "../components/RouteCard";
 import { createReactRoot } from "./helpers/testUtils";
-import { Route, Stop, TNMDirection } from "../components/__tnm";
-import tnmData from "./tnmData.json";
+import {
+  Route,
+  Stop,
+  TNMDirection,
+  TNMHeadsign,
+  TNMTime
+} from "../components/__tnm";
+
+/* eslint-disable typescript/camelcase */
+
+const time: TNMTime = {
+  scheduled_time: ["4:30", " ", "PM"],
+  prediction: null
+};
+
+const headsign: TNMHeadsign = {
+  name: "Headsign",
+  times: [time],
+  train_number: null
+};
+
+const direction: TNMDirection = {
+  direction_id: 0,
+  headsigns: [headsign]
+};
+
+const stop: Stop = {
+  accessibility: ["wheelchair"],
+  address: "123 Main St., Boston MA",
+  closed_stop_info: null,
+  "has_charlie_card_vendor?": false,
+  "has_fare_machine?": false,
+  id: "stop-id",
+  "is_child?": false,
+  latitude: 41.0,
+  longitude: -71.0,
+  name: "Stop Name",
+  note: null,
+  parking_lots: [],
+  "station?": true,
+  distance: "238 ft",
+  directions: [direction],
+  href: "/stops/stop-id"
+};
+
+const route: Route = {
+  alert_count: 1,
+  direction_destinations: ["Outbound Destination", "Inbound Destination"],
+  direction_names: ["Outbound", "Inbound"],
+  id: "route-id",
+  name: "Route Name",
+  long_name: "Route Long Name",
+  description: "Route Description",
+  stops: [stop],
+  type: 3
+};
 
 it("it renders a stop card", () => {
-  const data = JSON.parse(JSON.stringify(tnmData));
-  const route: Route = data[0] as Route;
-
   createReactRoot();
   const tree = renderer
     .create(<RouteCard route={route} dispatch={() => {}} />)
@@ -21,91 +72,70 @@ it("it renders a stop card", () => {
 });
 
 it("returns null if route has no schedules", () => {
-  const data = JSON.parse(JSON.stringify(tnmData));
-  const route: Route = data[0];
-
-  const stop: Stop = route.stops[0];
-  expect(stop.directions.length).toBe(1);
-
-  const direction: TNMDirection = stop.directions[0];
-
-  direction.headsigns = [];
-  route.stops = [stop];
-
+  const stopWithoutSchedules: Stop = { ...stop, directions: [] };
+  const routeWithoutSchedules: Route = {
+    ...route,
+    stops: [stopWithoutSchedules]
+  };
   createReactRoot();
   const tree = renderer
-    .create(<RouteCard route={route} dispatch={() => {}} />)
+    .create(<RouteCard route={routeWithoutSchedules} dispatch={() => {}} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 it("it renders a stop card for the silver line", () => {
-  const data: Route[] = JSON.parse(JSON.stringify(tnmData));
-  const route = data.find(r => r.id === "751") as Route;
-
-  expect(route).not.toBeNull();
-
   createReactRoot();
+  const sl: Route = { ...route, id: "751" };
   const tree = renderer
-    .create(<RouteCard route={route} dispatch={() => {}} />)
+    .create(<RouteCard route={sl} dispatch={() => {}} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 describe("isSilverLine", () => {
   it("identifies silver line routes", () => {
-    const data = JSON.parse(JSON.stringify(tnmData));
-    const route: Route = data[0] as Route;
-
-    ["741", "742", "743", "746", "749", "751"].forEach(sl => {
-      route.id = sl;
-      expect(isSilverLine(route)).toBe(true);
+    ["741", "742", "743", "746", "749", "751"].forEach(id => {
+      const sl: Route = { ...route, id };
+      expect(isSilverLine(sl)).toBe(true);
     });
   });
 });
 
 describe("routeBgColor", () => {
   it("determines the background color by route", () => {
-    const data = JSON.parse(JSON.stringify(tnmData));
-    const route: Route = data[0] as Route;
+    const cr: Route = { ...route, type: 2 };
+    expect(routeBgColor(cr)).toBe("commuter-rail");
 
-    route.type = 2;
-    expect(routeBgColor(route)).toBe("commuter-rail");
+    const ferry: Route = { ...route, type: 4 };
+    expect(routeBgColor(ferry)).toBe("ferry");
 
-    route.type = 4;
-    expect(routeBgColor(route)).toBe("ferry");
-
-    route.type = 1;
     ["Red", "Orange", "Blue"].forEach(id => {
-      route.id = id;
-      expect(routeBgColor(route)).toBe(`${id.toLowerCase()}-line`);
+      const subway: Route = { ...route, type: 1, id };
+      expect(routeBgColor(subway)).toBe(`${id.toLowerCase()}-line`);
     });
 
-    route.type = 0;
-    route.id = "Green-B";
-    expect(routeBgColor(route)).toBe("green-line");
+    const greenLine: Route = {
+      ...route,
+      type: 0,
+      id: "Green-B"
+    };
+    expect(routeBgColor(greenLine)).toBe("green-line");
 
-    route.type = 3;
-    route.id = "1";
-    expect(routeBgColor(route)).toBe("bus");
+    const bus: Route = { ...route, type: 3, id: "1" };
+    expect(routeBgColor(bus)).toBe("bus");
 
-    route.type = 0;
-    route.id = "fakeID";
-    expect(routeBgColor(route)).toBe("unknown");
+    const fake: Route = { ...route, type: 0, id: "fakeID" };
+    expect(routeBgColor(fake)).toBe("unknown");
   });
 });
 
 describe("busClass", () => {
   it("determines a route is a bus route", () => {
-    const data = JSON.parse(JSON.stringify(tnmData));
-    const route: Route = data[0] as Route;
+    const bus: Route = { ...route, type: 3, id: "1" };
+    expect(busClass(bus)).toBe("bus-route-sign");
 
-    route.type = 3;
-    route.id = "1";
-    expect(busClass(route)).toBe("bus-route-sign");
-
-    route.type = 1;
-    route.id = "Red";
-    expect(busClass(route)).toBe("");
+    const notBus: Route = { ...route, type: 1, id: "Red" };
+    expect(busClass(notBus)).toBe("");
   });
 });
