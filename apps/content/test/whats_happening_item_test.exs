@@ -15,8 +15,7 @@ defmodule Content.WhatsHappeningItemTest do
              blurb: blurb,
              category: category,
              link: %Content.Field.Link{url: url},
-             thumb: %Content.Field.Image{},
-             thumb_2x: nil
+             image: %Content.Field.Image{}
            } = Content.WhatsHappeningItem.from_api(item)
 
     assert blurb =~ "Visiting Boston? Find your way around with our new Visitor's Guide to the T."
@@ -24,18 +23,17 @@ defmodule Content.WhatsHappeningItemTest do
     assert url == "/guides/boston-visitor-guide"
   end
 
-  test "it prefers field_image media image values, if present", %{api_items: [_, item | _]} do
+  test "it uses field_image media image values", %{api_items: [_, item | _]} do
     assert %Content.WhatsHappeningItem{
-             thumb: %Content.Field.Image{
-               alt: thumb_alt,
-               url: thumb_url
-             },
-             thumb_2x: nil
+             image: %Content.Field.Image{
+               alt: alt,
+               url: url
+             }
            } = Content.WhatsHappeningItem.from_api(item)
 
-    assert thumb_alt == "A bus at night in downtown Boston, Photo by Osman Rana, via Unsplash."
+    assert alt == "A bus at night in downtown Boston, Photo by Osman Rana, via Unsplash."
 
-    assert thumb_url =~
+    assert url =~
              "http://localhost:4002/sites/default/files/styles/whats_happening" <>
                "/public/projects/late-night-bus/night-bus-by-osman-rana-unsplash.jpg?itok=K3LGpv53"
   end
