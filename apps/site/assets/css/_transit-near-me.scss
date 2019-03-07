@@ -134,6 +134,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 .m-tnm-sidebar__stop-card {
   background-color: $white;
   border-radius: $default-border-radius;
+  box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
   padding: $base-spacing;
 }
 
@@ -145,6 +146,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   align-items: center;
   border-top-left-radius: $default-border-radius;
   border-top-right-radius: $default-border-radius;
+  box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
   display: flex;
   justify-content: space-between;
   margin: 0;
@@ -160,11 +162,12 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 
 .m-tnm-sidebar__route-stop {
   background: $white;
+  box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
   cursor: pointer;
   padding: $base-spacing / 2;
 
   & + & {
-    border-top: 5px solid $gray-lightest;
+    margin-top: 5px;
   }
 }
 
