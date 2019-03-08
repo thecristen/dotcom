@@ -57,6 +57,7 @@ const route: Route = {
   direction_names: ["Outbound", "Inbound"],
   id: "route-id",
   name: "Route Name",
+  header: "Route Header",
   long_name: "Route Long Name",
   description: "Route Description",
   stops: [stop],

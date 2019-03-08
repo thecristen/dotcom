@@ -11,7 +11,7 @@ exports[`it renders a stop card 1`] = `
     <span
       className="bus-route-sign"
     >
-      Route Name
+      Route Header
     </span>
     <span
       className="m-tnm-sidebar__route-alert"
@@ -121,7 +121,7 @@ exports[`it renders a stop card for the silver line 1`] = `
     <span
       className=""
     >
-      Route Name
+      Route Header
     </span>
     <span
       className="m-tnm-sidebar__route-alert"

@@ -6,6 +6,8 @@ defmodule SiteWeb.ScheduleView do
   import SiteWeb.ScheduleView.Timetable
 
   require Routes.Route
+  alias Content.RoutePdf
+  alias Phoenix.HTML.Safe
   alias Plug.Conn
   alias Routes.Route
   alias Stops.Stop
@@ -152,10 +154,10 @@ defmodule SiteWeb.ScheduleView do
     direction
   end
 
-  @spec route_pdf_link([Content.RoutePdf] | nil, Route.t(), Date.t()) :: Phoenix.HTML.Safe.t()
+  @spec route_pdf_link([RoutePdf.t()] | nil, Route.t(), Date.t()) :: Safe.t()
   def route_pdf_link(route_pdfs, route, today) do
     route_pdfs = route_pdfs || []
-    all_current? = Enum.all?(route_pdfs, &Content.RoutePdf.started?(&1, today))
+    all_current? = Enum.all?(route_pdfs, &RoutePdf.started?(&1, today))
 
     content_tag :div, class: "pdf-links" do
       for pdf <- route_pdfs do
@@ -170,24 +172,24 @@ defmodule SiteWeb.ScheduleView do
     end
   end
 
-  @spec text_for_route_pdf(Content.RoutePdf.t(), Route.t(), Date.t(), boolean) :: iodata
+  @spec text_for_route_pdf(RoutePdf.t(), Route.t(), Date.t(), boolean) :: iodata
   defp text_for_route_pdf(pdf, route, today, all_current?) do
     current_or_upcoming_text =
       cond do
         all_current? -> ""
-        Content.RoutePdf.started?(pdf, today) -> "current "
+        RoutePdf.started?(pdf, today) -> "current "
         true -> "upcoming "
       end
 
     pdf_name =
-      if Content.RoutePdf.custom?(pdf) do
+      if RoutePdf.custom?(pdf) do
         pdf.link_text_override
       else
         [pretty_route_name(route), " schedule"]
       end
 
     effective_date_text =
-      if Content.RoutePdf.started?(pdf, today) do
+      if RoutePdf.started?(pdf, today) do
         ""
       else
         [" — effective ", pretty_date(pdf.date_start)]
@@ -229,7 +231,7 @@ defmodule SiteWeb.ScheduleView do
   end
 
   @spec render_trip_info_stops([PredictedSchedule.t()], map, Keyword.t()) :: [
-          Phoenix.HTML.Safe.t()
+          Safe.t()
         ]
   def render_trip_info_stops(schedule_list, assigns, opts \\ [])
 
@@ -278,6 +280,7 @@ defmodule SiteWeb.ScheduleView do
   end
 
   @doc "Prefix route name with route for bus lines"
+  @spec route_header_text(Route.t()) :: [String.t()] | Safe.t()
   def route_header_text(%Route{type: 3, name: name} = route) do
     if Route.silver_line?(route) do
       ["Silver Line ", name]

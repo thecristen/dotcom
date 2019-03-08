@@ -80,7 +80,8 @@ defmodule Site.TransitNearMeTest do
 
       assert [route | _] = routes
 
-      assert [:alert_count, :stops | %Route{} |> Map.from_struct() |> Map.keys()] |> Enum.sort() ==
+      assert [:alert_count, :stops, :header | %Route{} |> Map.from_struct() |> Map.keys()]
+             |> Enum.sort() ==
                route |> Map.keys() |> Enum.sort()
 
       assert %{stops: [stop | _]} = route
@@ -392,6 +393,192 @@ defmodule Site.TransitNearMeTest do
                %{prediction: %{time: ["12:00", " ", "PM"]}},
                %{prediction: %{time: ["12:02", " ", "PM"]}}
              ] = headsign_b.times
+    end
+
+    test "Adds a formatted header to each route" do
+      now = Util.now()
+
+      data = %TransitNearMe{
+        location: @address,
+        stops: [
+          %Stops.Stop{
+            accessibility: ["accessible", "escalator_both", "elevator", "fully_elevated_platform"],
+            address: "700 Atlantic Ave, Boston, MA 02110",
+            closed_stop_info: nil,
+            has_charlie_card_vendor?: false,
+            has_fare_machine?: true,
+            id: "place-sstat",
+            is_child?: false,
+            latitude: 42.352271,
+            longitude: -71.055242,
+            name: "South Station",
+            note: nil,
+            parking_lots: [
+              %Stops.Stop.ParkingLot{
+                address: nil,
+                capacity: %Stops.Stop.ParkingLot.Capacity{
+                  accessible: 4,
+                  total: 210,
+                  type: "Garage"
+                },
+                latitude: 42.349838,
+                longitude: -71.055963,
+                manager: %Stops.Stop.ParkingLot.Manager{
+                  contact: "ProPark",
+                  name: "ProPark",
+                  phone: "617-345-0202",
+                  url: "https://www.propark.com/propark-locator2/south-station-garage/"
+                },
+                name: "South Station Bus Terminal Garage",
+                note: nil,
+                payment: %Stops.Stop.ParkingLot.Payment{
+                  daily_rate:
+                    "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10",
+                  methods: ["Credit/Debit Card", "Cash"],
+                  mobile_app: nil,
+                  monthly_rate: "$150 regular, $445 overnight"
+                },
+                utilization: nil
+              }
+            ],
+            station?: true
+          }
+        ],
+        distances: %{
+          "place-sstat" => 0.5562971500164419
+        },
+        schedules: %{
+          "place-sstat" => [
+            %Schedules.Schedule{
+              early_departure?: true,
+              flag?: false,
+              pickup_type: 0,
+              route: %Routes.Route{
+                custom_route?: false,
+                description: :rapid_transit,
+                direction_destinations: %{0 => "Ashmont/Braintree", 1 => "Alewife"},
+                direction_names: %{0 => "South", 1 => "North"},
+                id: "Red",
+                long_name: "Red Line",
+                name: "Red Line",
+                type: 1
+              },
+              stop: %Stops.Stop{
+                accessibility: ["accessible"],
+                address: nil,
+                closed_stop_info: nil,
+                has_charlie_card_vendor?: false,
+                has_fare_machine?: false,
+                id: "place-sstat",
+                is_child?: true,
+                latitude: 42.352271,
+                longitude: -71.055242,
+                name: "South Station",
+                note: nil,
+                parking_lots: [],
+                station?: false
+              },
+              stop_sequence: 90,
+              time: now,
+              trip: %Schedules.Trip{
+                bikes_allowed?: false,
+                direction_id: 0,
+                headsign: "Ashmont",
+                id: "38899812-21:00-LL",
+                name: "",
+                shape_id: "931_0009"
+              }
+            },
+            %Schedules.Schedule{
+              early_departure?: true,
+              flag?: false,
+              pickup_type: 0,
+              route: %Routes.Route{
+                custom_route?: false,
+                description: :local_bus,
+                direction_destinations: %{0 => "Roberts", 1 => "Downtown Boston"},
+                direction_names: %{0 => "Outbound", 1 => "Inbound"},
+                id: "553",
+                long_name: "Roberts - Downtown Boston",
+                name: "553",
+                type: 3
+              },
+              stop: %Stops.Stop{
+                accessibility: ["accessible"],
+                address: nil,
+                closed_stop_info: nil,
+                has_charlie_card_vendor?: false,
+                has_fare_machine?: false,
+                id: "place-sstat",
+                is_child?: true,
+                latitude: 42.352271,
+                longitude: -71.055242,
+                name: "South Station",
+                note: nil,
+                parking_lots: [],
+                station?: false
+              },
+              stop_sequence: 90,
+              time: now,
+              trip: %Schedules.Trip{
+                bikes_allowed?: false,
+                direction_id: 0,
+                headsign: "Ashmont",
+                id: "38899812-21:00-LL",
+                name: "",
+                shape_id: "931_0009"
+              }
+            },
+            %Schedules.Schedule{
+              early_departure?: true,
+              flag?: false,
+              pickup_type: 0,
+              route: %Routes.Route{
+                custom_route?: false,
+                description: :key_bus_route,
+                direction_destinations: %{0 => "Logan Airport", 1 => "South Station"},
+                direction_names: %{0 => "Outbound", 1 => "Inbound"},
+                id: "741",
+                long_name: "Logan Airport - South Station",
+                name: "SL1",
+                type: 3
+              },
+              stop: %Stops.Stop{
+                accessibility: ["accessible"],
+                address: nil,
+                closed_stop_info: nil,
+                has_charlie_card_vendor?: false,
+                has_fare_machine?: false,
+                id: "place-sstat",
+                is_child?: true,
+                latitude: 42.352271,
+                longitude: -71.055242,
+                name: "South Station",
+                note: nil,
+                parking_lots: [],
+                station?: false
+              },
+              stop_sequence: 90,
+              time: now,
+              trip: %Schedules.Trip{
+                bikes_allowed?: false,
+                direction_id: 0,
+                headsign: "Ashmont",
+                id: "38899812-21:00-LL",
+                name: "",
+                shape_id: "931_0009"
+              }
+            }
+          ]
+        }
+      }
+
+      [bus_route, silver_line_route, subway_route] =
+        TransitNearMe.schedules_for_routes(data, [], now: now)
+
+      assert bus_route.header == "553"
+      assert silver_line_route.header == "Silver Line SL1"
+      assert subway_route.header == "Red Line"
     end
   end
 

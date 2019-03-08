@@ -97,6 +97,7 @@
       }
     ],
     "name": "504",
+    "header": "504",
     "long_name": "Watertown Yard - Downtown Boston",
     "id": "504",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -202,6 +203,7 @@
       }
     ],
     "name": "55",
+    "header": "55",
     "long_name": "Jersey Street & Queensberry Street - Downtown Boston",
     "id": "55",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -280,6 +282,7 @@
       }
     ],
     "name": "553",
+    "header": "553",
     "long_name": "Roberts - Downtown Boston",
     "id": "553",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -385,6 +388,7 @@
       }
     ],
     "name": "43",
+    "header": "43",
     "long_name": "Ruggles - Downtown Boston",
     "id": "43",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -490,6 +494,7 @@
       }
     ],
     "name": "11",
+    "header": "11",
     "long_name": "City Point - Downtown Boston",
     "id": "11",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -577,6 +582,7 @@
       }
     ],
     "name": "15",
+    "header": "15",
     "long_name": "Kane Square - Ruggles",
     "id": "15",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -709,6 +715,7 @@
       }
     ],
     "name": "SL5",
+    "nheader": "Silver Line SL5",
     "long_name": "Dudley - Downtown Crossing",
     "id": "749",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -841,6 +848,7 @@
       }
     ],
     "name": "SL4",
+    "header": "Silver Line SL4",
     "long_name": "Dudley - South Station",
     "id": "751",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -927,6 +935,7 @@
       }
     ],
     "name": "Orange Line",
+    "header": "Orange Line",
     "long_name": "Orange Line",
     "id": "Orange",
     "direction_names": { "1": "Northbound", "0": "Southbound" },
@@ -1013,6 +1022,7 @@
       }
     ],
     "name": "Green Line B",
+    "header": "Green Line B",
     "long_name": "Green Line B",
     "id": "Green-B",
     "direction_names": { "1": "Eastbound", "0": "Westbound" },
@@ -1091,6 +1101,7 @@
       }
     ],
     "name": "Green Line C",
+    "header": "Green Line C",
     "long_name": "Green Line C",
     "id": "Green-C",
     "direction_names": { "1": "Eastbound", "0": "Westbound" },
@@ -1161,6 +1172,7 @@
       }
     ],
     "name": "Green Line D",
+    "header": "Green Line D",
     "long_name": "Green Line D",
     "id": "Green-D",
     "direction_names": { "1": "Eastbound", "0": "Westbound" },
@@ -1217,6 +1229,7 @@
       }
     ],
     "name": "Green Line E",
+    "header": "Green Line E",
     "long_name": "Green Line E",
     "id": "Green-E",
     "direction_names": { "1": "Eastbound", "0": "Westbound" },
@@ -1322,6 +1335,7 @@
       }
     ],
     "name": "Red Line",
+    "header": "Red Line",
     "long_name": "Red Line",
     "id": "Red",
     "direction_names": { "1": "Northbound", "0": "Southbound" },
@@ -1409,6 +1423,7 @@
       }
     ],
     "name": "SL1",
+    "header": "Silver Line SL1",
     "long_name": "Logan Airport - South Station",
     "id": "741",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -1496,6 +1511,7 @@
       }
     ],
     "name": "SL2",
+    "header": "Silver Line SL2",
     "long_name": "Design Center - South Station",
     "id": "742",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -1583,6 +1599,7 @@
       }
     ],
     "name": "SL3",
+    "header": "Silver Line SL3",
     "long_name": "Chelsea - South Station",
     "id": "743",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -1749,6 +1766,7 @@
       }
     ],
     "name": "Fairmount Line",
+    "header": "Fairmount Line",
     "long_name": "Fairmount Line",
     "id": "CR-Fairmount",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -1842,6 +1860,7 @@
       }
     ],
     "name": "Franklin Line",
+    "header": "Franklin Line",
     "long_name": "Franklin Line",
     "id": "CR-Franklin",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -1921,6 +1940,7 @@
       }
     ],
     "name": "Greenbush Line",
+    "header": "Greenbush Line",
     "long_name": "Greenbush Line",
     "id": "CR-Greenbush",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -2007,6 +2027,7 @@
       }
     ],
     "name": "Kingston/​Plymouth Line",
+    "header": "Kingston/​Plymouth Line",
     "long_name": "Kingston/Plymouth Line",
     "id": "CR-Kingston",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -2089,6 +2110,7 @@
       }
     ],
     "name": "Middleborough/​Lakeville Line",
+    "header": "Middleborough/​Lakeville Line",
     "long_name": "Middleborough/Lakeville Line",
     "id": "CR-Middleborough",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -2171,6 +2193,7 @@
       }
     ],
     "name": "Needham Line",
+    "header": "Needham Line",
     "long_name": "Needham Line",
     "id": "CR-Needham",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -2264,6 +2287,7 @@
       }
     ],
     "name": "Providence/​Stoughton Line",
+    "header": "Providence/​Stoughton Line",
     "long_name": "Providence/Stoughton Line",
     "id": "CR-Providence",
     "direction_names": { "1": "Inbound", "0": "Outbound" },
@@ -2353,6 +2377,7 @@
       }
     ],
     "name": "Framingham/​Worcester Line",
+    "header": "Framingham/​Worcester Line",
     "long_name": "Framingham/Worcester Line",
     "id": "CR-Worcester",
     "direction_names": { "1": "Inbound", "0": "Outbound" },

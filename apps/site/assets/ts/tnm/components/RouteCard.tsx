@@ -65,7 +65,7 @@ const RouteCard = ({
         href={`/schedules/${route.id}`}
         className={`h3 m-tnm-sidebar__route-name ${bgClass}`}
       >
-        <span className={busClass(route)}>{route.name}</span>
+        <span className={busClass(route)}>{route.header}</span>
         {route.alert_count
           ? renderSvg("m-tnm-sidebar__route-alert", alertIcon)
           : null}
