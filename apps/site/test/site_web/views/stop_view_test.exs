@@ -1,6 +1,6 @@
-defmodule SiteWeb.StopViewTest do
+defmodule SiteWeb.StopV1ViewTest do
   @moduledoc false
-  import SiteWeb.StopView
+  import SiteWeb.StopV1View
   import Phoenix.HTML, only: [safe_to_string: 1]
   alias Stops.Stop
   alias Routes.Route

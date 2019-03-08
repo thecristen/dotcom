@@ -3,9 +3,11 @@ import React from "react";
 import readline from "readline";
 
 import TransitNearMe from "../assets/ts/tnm/components/TransitNearMe";
+import StopPage from "../assets/ts/stop/components/StopPage";
 
 const Components = {
-  TransitNearMe
+  TransitNearMe,
+  StopPage
 };
 
 const encodeZeroWidthSpaceAsHtml = str => str.replace(/​/g, "&#8203;");

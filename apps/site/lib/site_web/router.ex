@@ -96,8 +96,9 @@ defmodule SiteWeb.Router do
 
     get("/redirect/*path", RedirectController, :show)
     get("/stops/Boat-George", Redirector, to: "/stops/ferry")
-    resources("/stops", StopController, only: [:index, :show])
-    get("/stops/*path", StopController, :stop_with_slash_redirect)
+    resources("/stops", StopV1Controller, only: [:index, :show])
+    get("/stops/*path", StopV1Controller, :stop_with_slash_redirect)
+    get("/stops-v2/:stop", StopController, :show)
     get("/schedules", ModeController, :index)
     get("/schedules/subway", ModeController, :subway)
     get("/schedules/bus", ModeController, :bus)

@@ -1,6 +1,6 @@
 defmodule SiteWeb.ViewHelpers do
   import Site.ContentRewriters.LiquidObjects.Fare, only: [fare_object_request: 1]
-  import SiteWeb.Router.Helpers, only: [redirect_path: 3, stop_path: 3]
+  import SiteWeb.Router.Helpers, only: [redirect_path: 3, stop_v1_path: 3]
   import Phoenix.HTML, only: [raw: 1]
   import Phoenix.HTML.Link, only: [link: 2]
   import Phoenix.HTML.Tag, only: [content_tag: 3, tag: 2]
@@ -310,7 +310,7 @@ defmodule SiteWeb.ViewHelpers do
   @doc "Link a stop's name to its page."
   @spec stop_link(Stops.Stop.t() | String.t()) :: Phoenix.HTML.Safe.t()
   def stop_link(%Stops.Stop{} = stop) do
-    link(stop.name, to: stop_path(SiteWeb.Endpoint, :show, stop.id))
+    link(stop.name, to: stop_v1_path(SiteWeb.Endpoint, :show, stop.id))
   end
 
   def stop_link(stop_id) do

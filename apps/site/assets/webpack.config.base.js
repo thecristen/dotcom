@@ -10,7 +10,8 @@ module.exports = {
   entry: {
     app: ["./js/app.js"],
     core: ["./js/core.js"], // For core.css only, not js
-    tnm: ["./ts/transit-near-me-entry.ts"]
+    tnm: ["./ts/transit-near-me-entry.ts"],
+    stop: ["./ts/stop-entry.ts"]
   },
 
   node: {

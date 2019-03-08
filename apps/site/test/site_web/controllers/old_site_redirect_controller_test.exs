@@ -34,28 +34,28 @@ defmodule SiteWeb.OldSiteRedirectControllerTest do
       old_url = "/schedules_and_maps/subway/lines/stations/"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
-               stop_path(SiteWeb.Endpoint, :show, :subway)
+               stop_v1_path(SiteWeb.Endpoint, :show, :subway)
     end
 
     test "Commuter stop redirected to commuter rail stops page", %{conn: conn} do
       old_url = "schedules_and_maps/rail/lines/stations/"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
-               stop_path(SiteWeb.Endpoint, :show, :commuter_rail)
+               stop_v1_path(SiteWeb.Endpoint, :show, :commuter_rail)
     end
 
     test "Ferry stop redirected to ferry stops page", %{conn: conn} do
       old_url = "schedules_and_maps/boats/lines/stations/"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
-               stop_path(SiteWeb.Endpoint, :show, :ferry)
+               stop_v1_path(SiteWeb.Endpoint, :show, :ferry)
     end
 
     test "Specific stops redirect to corresponding stop page", %{conn: conn} do
       old_url = "schedules_and_maps/rail/lines/stations/?stopId=19"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
-               stop_path(SiteWeb.Endpoint, :show, "Beverly")
+               stop_v1_path(SiteWeb.Endpoint, :show, "Beverly")
     end
 
     test "Other rail routes redirected to commuter rail stops page", %{conn: conn} do
@@ -91,10 +91,10 @@ defmodule SiteWeb.OldSiteRedirectControllerTest do
       north_station_rail = "schedules_and_maps/rail/lines/stations?stopId=13610"
 
       assert redirected_to(get(conn, north_station_subway), :moved_permanently) =~
-               stop_path(SiteWeb.Endpoint, :show, "place-north")
+               stop_v1_path(SiteWeb.Endpoint, :show, "place-north")
 
       assert redirected_to(get(conn, north_station_rail), :moved_permanently) =~
-               stop_path(SiteWeb.Endpoint, :show, "place-north")
+               stop_v1_path(SiteWeb.Endpoint, :show, "place-north")
     end
 
     test "Redirects to /schedules if stopId is not found", %{conn: conn} do

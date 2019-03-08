@@ -1,6 +1,11 @@
-<%= render "_header.html", assigns %>
-<div class="container">
-  <div class="page-section station">
-    <%= render template_for_tab(@tab), forward_assigns(@conn) %>
-  </div>
+<script data-for="stop" id="js-stop-data" type="text/plain"><%= raw Poison.encode!(%{stop: @stop}) %></script>
+<div id="react-root">
+  <%= Site.React.render("StopPage", %{stop: @stop }) %>
 </div>
+
+<%= if Application.get_env(:site, :dev_server?) do %>
+  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/stop.js" %>"></script>
+<% else %>
+  <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+  <script defer src="<%= static_url(@conn, "/js/stop.js") %>"></script>
+<% end %>

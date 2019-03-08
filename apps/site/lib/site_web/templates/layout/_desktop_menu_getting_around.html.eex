@@ -41,7 +41,7 @@
           <% end %>
         </li>
         <li>
-          <%= link to: stop_path(@conn, :index) do %>
+          <%= link to: stop_v1_path(@conn, :index) do %>
             Station Info
           <% end %>
         </li>

@@ -38,7 +38,7 @@ defmodule SiteWeb.TransitNearMeView do
   end
 
   def route_path(%Route{}, stop, :commuter_rail) do
-    stop_path(SiteWeb.Endpoint, :show, stop, tab: "schedule")
+    stop_v1_path(SiteWeb.Endpoint, :show, stop, tab: "schedule")
   end
 
   def route_path(%Route{} = route, stop, _route_group) do
@@ -46,6 +46,6 @@ defmodule SiteWeb.TransitNearMeView do
   end
 
   def stop_path(%Stop{} = stop) do
-    stop_path(SiteWeb.Endpoint, :show, stop.id, tab: "schedule")
+    stop_v1_path(SiteWeb.Endpoint, :show, stop.id, tab: "schedule")
   end
 end

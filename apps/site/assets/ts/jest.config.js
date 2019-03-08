@@ -4,7 +4,8 @@ module.exports = {
   collectCoverageFrom: [
     "**/*.{ts,tsx}",
     "!**/node_modules/**",
-    "!**/transit-near-me*.ts*", // transit-near-me entry (not necessary to test), and also transit-near-me.tsx for now
+    "!**/*-entry.ts", // not necessary to test entry files
+    "!**/*-loader.tsx", // not necessary to test loader files
     "!**/search.ts" // for now
   ],
   coverageReporters: ["html"],

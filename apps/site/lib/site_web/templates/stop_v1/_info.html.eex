@@ -13,7 +13,7 @@
   <h2 id="parking">Parking</h2>
   <%= if !Enum.empty?(@stop.parking_lots) do %>
     <%= for lot <- @stop.parking_lots do %>
-      <%= SiteWeb.StopView.Parking.parking_lot(lot) %>
+      <%= SiteWeb.StopV1View.Parking.parking_lot(lot) %>
     <% end %>
   <% else %>
     <p>No parking information is available for this station.</p>

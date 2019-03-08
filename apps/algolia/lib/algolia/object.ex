@@ -6,7 +6,7 @@ end
 
 defimpl Algolia.Object, for: Stops.Stop do
   def object_id(stop), do: "stop-" <> stop.id
-  def url(stop), do: Util.site_path(:stop_path, [:show, stop])
+  def url(stop), do: Util.site_path(:stop_v1_path, [:show, stop])
 
   def data(stop) do
     routes_for_stop = Routes.Repo.by_stop(stop.id)

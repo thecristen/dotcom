@@ -25,7 +25,9 @@ config :logster, :allowed_headers, ["referer"]
 config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
 
 config :laboratory,
-  features: [],
+  features: [
+    {:stop_page_redesign, "Stop Page Redesign", ""}
+  ],
   cookie: [
     # one month,
     max_age: 3600 * 24 * 30,

@@ -1,7 +1,7 @@
 defmodule SiteWeb.Stop.ParkingViewTest do
   @moduledoc false
   use ExUnit.Case, async: true
-  import SiteWeb.StopView.Parking
+  import SiteWeb.StopV1View.Parking
   alias Stops.Stop.ParkingLot
   import Phoenix.HTML, only: [safe_to_string: 1]
 

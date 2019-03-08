@@ -1,4 +1,7 @@
-defmodule SiteWeb.StopView.Parking do
+defmodule SiteWeb.StopV1View.Parking do
+  @moduledoc """
+  Parking display functions
+  """
   alias Stops.Stop.ParkingLot
   import Phoenix.HTML.Tag
   import Phoenix.HTML.Link
@@ -6,7 +9,8 @@ defmodule SiteWeb.StopView.Parking do
 
   @spec parking_lot(ParkingLot.t()) :: Phoenix.HTML.Safe.t()
   def parking_lot(lot) do
-    SiteWeb.StopView.render("_parking_lot.html", %{lot: lot})
+    # credo:disable-for-next-line
+    SiteWeb.StopV1View.render("_parking_lot.html", %{lot: lot})
   end
 
   # 4 items are needed to make a summary for utilization:

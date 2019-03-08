@@ -206,7 +206,7 @@ defmodule SiteWeb.AlertView do
   end
 
   def group_header_path(%Stop{id: stop_id}) do
-    stop_path(SiteWeb.Endpoint, :show, stop_id)
+    stop_v1_path(SiteWeb.Endpoint, :show, stop_id)
   end
 
   @spec group_header_name(Route.t() | Stop.t()) :: Phoenix.HTML.Safe.t()
