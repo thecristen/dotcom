@@ -3,7 +3,7 @@ defmodule SiteWeb.ProjectControllerTest do
 
   import Mock
 
-  alias Content.{CMS.Static, Project}
+  alias Content.CMS.Static
 
   describe "index" do
     test "renders the list of projects", %{conn: conn} do
@@ -14,8 +14,11 @@ defmodule SiteWeb.ProjectControllerTest do
 
   describe "show" do
     test "project calls all secondary endpoints correctly", %{conn: conn} do
+      project = Static.project_repo() |> List.first()
+      assert %{"nid" => [%{"value" => 3004}]} = project
+
       mock_view = fn
-        "/node/3004", [] -> {:ok, %Project{id: 3004}}
+        "/node/3004", %{} -> {:ok, project}
         "/cms/teasers", %{related_to: 3004, type: "project_update"} -> {:ok, []}
         "/cms/events", [project_id: 3004] -> {:ok, []}
       end
