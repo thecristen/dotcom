@@ -126,7 +126,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
         visit: sinon.spy()
       };
       window.navigator.geolocation = {
-        getCurrentPosition: (resolve, reject) => {
+        getCurrentPosition: (resolve, _reject) => {
           resolve({ coords: { latitude: 42.0, longitude: -71.0 } });
         }
       };
@@ -145,7 +145,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
     });
     it("resets search if geolocation fails", function(done) {
       window.navigator.geolocation = {
-        getCurrentPosition: (resolve, reject) => {
+        getCurrentPosition: (_resolve, reject) => {
           reject({ code: 1, message: "User denied Geolocation" });
         }
       };
@@ -169,44 +169,26 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       window.google = google;
 
       sinon.spy(this.ac, "showLocation");
-
-      this.autocompleteService = new window.google.maps.places.AutocompleteService();
-
-      sinon
-        .stub(this.autocompleteService, "getPlacePredictions")
-        .callsFake((_input, callback) => {
-          return callback(
-            [
-              {
-                description: "10 Park Plaza, Boston, MA",
-                place_id: "10_PARK_PLAZA"
-              }
-            ],
-            window.google.maps.places.PlacesServiceStatus.OK
-          );
-        });
-
-      this.geocoder = new window.google.maps.Geocoder();
-
-      sinon.stub(this.geocoder, "geocode").callsFake((_input, callback) =>
-        callback(
-          [
-            {
-              geometry: {
-                location: {
-                  lat: () => 42.1,
-                  lng: () => -72.0
-                }
-              },
-              formatted_address: "10 Park Plaza, Boston, MA"
-            }
-          ],
-          window.google.maps.GeocoderStatus.OK
-        )
-      );
     });
 
     describe("onHitSelected", function() {
+      let getJSONStub;
+
+      beforeEach(function() {
+        getJSONStub = sinon.stub(window.jQuery, "getJSON");
+        getJSONStub.callsFake(_url => {
+          const deferred = window.jQuery.Deferred();
+          deferred.resolve(
+            {
+              result:
+                '{"longitude":-71.0679696,"latitude":42.3517525,"formatted":"Park Plaza, Boston, MA 02116, USA"}'
+            },
+            "success"
+          );
+          return deferred.promise();
+        });
+      });
+
       it('does a location search when index is "locations"', function(done) {
         window.Turbolinks = {
           visit: sinon.spy()
@@ -218,44 +200,70 @@ describe("AlgoliaAutocompleteWithGeo", function() {
         this.ac.init(this.client);
         this.ac.onFocus(); // initialize session token
         this.ac.sessionToken.id = "SESSION_TOKEN";
-        const result = this.ac.onHitSelected(
-          {
-            originalEvent: {
-              _args: [
-                { id: "hitId", description: "10 Park Plaza, Boston, MA" },
-                "locations"
-              ]
-            }
-          },
-          this.geocoder
-        );
-        Promise.resolve(result).then(() => {
-          expect(this.geocoder.geocode.called).to.be.true;
 
-          const { placeId } = this.geocoder.geocode.args[0][0];
-          expect(typeof placeId).to.equal("string");
+        const result = this.ac.onHitSelected({
+          originalEvent: {
+            _args: [
+              {
+                id:
+                  "EhtQYXJrIFBsYXphLCBCb3N0b24sIE1BLCBVU0EiLiosChQKEgkT7NAzdHrjiREVMn",
+                description: "Boston, MA 02128, USA"
+              },
+              "locations"
+            ]
+          }
+        });
+
+        Promise.resolve(result).then(() => {
+          expect(
+            getJSONStub.calledWith(
+              "/places/details/EhtQYXJrIFBsYXphLCBCb3N0b24sIE1BLCBVU0EiLiosChQKEgkT7NAzdHrjiREVMn"
+            )
+          ).to.be.true;
 
           expect(this.ac.showLocation.called).to.be.true;
           expect($(`#${selectors.input}`).val()).to.equal(
-            "10 Park Plaza, Boston, MA"
+            "Boston, MA 02128, USA"
           );
 
           expect(window.Turbolinks.visit.called).to.be.true;
           expect(window.Turbolinks.visit.args[0][0]).to.contain(
-            "latitude=42.1"
+            "latitude=42.3517525"
           );
           expect(window.Turbolinks.visit.args[0][0]).to.contain(
-            "longitude=-72"
+            "longitude=-71.0679696"
           );
           expect(window.Turbolinks.visit.args[0][0]).to.contain(
-            "address=10%20Park%20Plaza,%20Boston,%20MA"
+            "address=Boston,%20MA%2002128,%20USA"
           );
+
           done();
         });
       });
     });
 
     describe("google session token", function() {
+      let getJSONStub;
+
+      beforeEach(function() {
+        getJSONStub = sinon.stub(window.jQuery, "getJSON");
+        getJSONStub.callsFake(_url => {
+          const deferred = window.jQuery.Deferred();
+          deferred.resolve(
+            {
+              predictions: JSON.stringify([
+                {
+                  description: "10 Park Plaza, Boston, MA",
+                  place_id: "10_PARK_PLAZA"
+                }
+              ])
+            },
+            "success"
+          );
+          return deferred.promise();
+        });
+      });
+
       it("gets set on focus if a token doesn't already exist", function() {
         expect(this.ac.sessionToken).to.equal(null);
 
@@ -282,36 +290,29 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       });
 
       it("includes session token with location autocomplete queries", function(done) {
-        window.Turbolinks = {
-          visit: sinon.spy()
-        };
-        window.encodeURIComponent = params => {
-          const forceString = params.toString();
-          return forceString.replace(/\s/g, "%20").replace(/\&/g, "%26");
-        };
         this.ac.init(this.client);
         this.ac.onFocus(); // initialize the session token
-        this.ac.sessionToken.id = "SESSION_TOKEN";
+        this.ac.sessionToken.Pf = "SESSION_TOKEN";
 
-        const result = this.ac._locationSource(
-          "locations",
-          this.autocompleteService
-        )("10 park plaza", sinon.spy());
+        const resultsCallbackSpy = sinon.spy();
+        const result = this.ac._locationSource("locations")(
+          "10 park plaza",
+          resultsCallbackSpy
+        );
 
-        Promise.resolve(result).then(() => {
-          expect(this.autocompleteService.getPlacePredictions.called).to.be
-            .true;
+        Promise.resolve(result)
+          .then(() => {
+            expect(resultsCallbackSpy.called).to.be.true;
 
-          const args = this.autocompleteService.getPlacePredictions.args[0][0];
+            expect(
+              getJSONStub.calledWith(
+                "/places/autocomplete/10%20park%20plaza/3/SESSION_TOKEN"
+              )
+            ).to.be.true;
 
-          expect(args.sessionToken).to.be.an.instanceOf(
-            window.google.maps.places.AutocompleteSessionToken
-          );
-
-          expect(args.sessionToken.id).to.equal("SESSION_TOKEN");
-
-          done();
-        });
+            done();
+          })
+          .catch(err => done(err));
       });
     });
   });

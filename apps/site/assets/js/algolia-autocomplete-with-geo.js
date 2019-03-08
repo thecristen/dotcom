@@ -77,25 +77,15 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     }
   }
 
-  _locationSource(index, service) {
-    // service can be injected in tests
-    return (input, callback) => {
-      const searchBounds = {
-        west: 41.3193,
-        north: -71.938,
-        east: 42.8266,
-        south: -69.6189
-      };
-      return GoogleMapsHelpers.autocomplete({
+  _locationSource(index) {
+    return (input, callback) =>
+      GoogleMapsHelpers.autocomplete({
         input,
-        searchBounds,
-        service,
         sessionToken: this.sessionToken,
         hitLimit: this._locationParams.hitLimit
       })
         .then(results => this._onResults(callback, index, results))
         .catch(err => console.error(err));
-    };
   }
 
   _popularSource() {
@@ -132,14 +122,14 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     }
   }
 
-  onHitSelected(ev, placesService) {
+  onHitSelected(ev) {
     // placesService can be injected in tests
     const hit = ev.originalEvent;
     const index = hit._args[1];
     switch (index) {
       case "locations":
         this._input.value = hit._args[0].description;
-        this._doLocationSearch(hit._args[0].id, placesService);
+        this._doLocationSearch(hit._args[0].id);
         break;
       case "usemylocation":
         this.useMyLocationSearch();
@@ -168,8 +158,8 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     }
   }
 
-  _doLocationSearch(placeId, service) {
-    return GoogleMapsHelpers.lookupPlace(placeId, service)
+  _doLocationSearch(placeId) {
+    return GoogleMapsHelpers.lookupPlace(placeId)
       .then(result => this._onLocationSearchResult(result))
       .catch(err =>
         console.error("Error looking up place_id from Google Maps.", err)
@@ -178,10 +168,7 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
 
   _onLocationSearchResult(result) {
     this.resetSessionToken();
-    return this.showLocation(
-      result.geometry.location.lat(),
-      result.geometry.location.lng()
-    );
+    return this.showLocation(result.latitude, result.longitude);
   }
 
   onUseMyLocationResults({ coords: { latitude, longitude } }) {
