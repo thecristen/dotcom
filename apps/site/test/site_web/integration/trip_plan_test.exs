@@ -57,18 +57,5 @@ defmodule TripPlanIntegrationTest do
       click(session, @arrive)
       assert Browser.text(session, @title) =~ "Arrive by"
     end
-
-    @tag :wallaby
-    test "departure hour updates tab title", %{session: session} do
-      session =
-        session
-        |> visit("/trip-planner")
-        |> click(@title)
-        |> click(@arrive)
-
-      Browser.fill_in(session, css("#plan_date_time_hour"), with: 10)
-      click(session, css("#main"))
-      assert Browser.text(session, @title) =~ "Arrive by 10:"
-    end
   end
 end
