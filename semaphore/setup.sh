@@ -56,6 +56,4 @@ npm run webpack:build
 npm run react:setup
 npm run react:build
 
-MIX_ENV=test mix compile --warnings-as-errors --force
-
 mix format --check-formatted
