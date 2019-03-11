@@ -20,7 +20,7 @@ module.exports = {
       // The Google Maps API is difficult to test, so we consider a lower
       // threshold acceptable for these modules. However, callbacks in
       // these modules should always use named functions, and have unit tests.
-      branches: 60,
+      branches: 55,
       functions: 60,
       lines: 60,
       statements: -25
@@ -31,7 +31,7 @@ module.exports = {
     "^.+\\.ts?$": "ts-jest"
   },
   testEnvironment: "jsdom",
-  setupTestFrameworkScriptFile: "./tnm/__tests__/setupTests.ts",
+  setupFilesAfterEnv: ["./tnm/__tests__/setupTests.ts"],
   testPathIgnorePatterns: [
     "/node_modules/",
     "./ts-build",

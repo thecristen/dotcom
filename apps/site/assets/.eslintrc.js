@@ -9,7 +9,8 @@ module.exports = {
     "prettier/prettier": "error",
     "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
     "react/prop-types": "off",
-    "react-hooks/rules-of-hooks": "error"
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   env: {
     browser: true,
