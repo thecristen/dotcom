@@ -17,11 +17,15 @@ defmodule SiteWeb.ScheduleController.Schedules do
   def init(_), do: []
 
   @impl true
-  def call(%Plug.Conn{assigns: %{origin: nil}} = conn, _) do
+  def call(conn, opts) do
+    Util.log_duration(__MODULE__, :do_call, [conn, opts])
+  end
+
+  def do_call(%Plug.Conn{assigns: %{origin: nil}} = conn, _) do
     conn
   end
 
-  def call(conn, []) do
+  def do_call(conn, []) do
     schedules = schedules(conn)
 
     conn

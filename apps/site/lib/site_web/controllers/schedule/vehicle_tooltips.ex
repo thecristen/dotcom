@@ -10,6 +10,10 @@ defmodule SiteWeb.ScheduleController.VehicleTooltips do
 
   @impl true
   def call(conn, []) do
+    Util.log_duration(__MODULE__, :do_call, [conn])
+  end
+
+  def do_call(conn) do
     assign(
       conn,
       :vehicle_tooltips,

@@ -233,4 +233,20 @@ defmodule Util do
         value
     end
   end
+
+  @doc """
+  Logs how long a function call took.
+  """
+  @spec log_duration(atom, atom, [any]) :: any
+  def log_duration(module, function, args) do
+    {time, result} = :timer.tc(module, function, args)
+    time = time / :timer.seconds(1)
+
+    _ =
+      Logger.info(fn ->
+        "#{module}.#{function} duration=#{time}"
+      end)
+
+    result
+  end
 end

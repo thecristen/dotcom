@@ -74,7 +74,9 @@ defmodule V3Api do
     entry = fn ->
       "V3Api.get_json_response url=#{inspect(url)} " <>
         "params=#{params |> Map.new() |> Poison.encode!()} " <>
-        log_body(response) <> " duration=#{time / 1000}"
+        log_body(response) <>
+        " duration=#{time / 1000}" <>
+        " request_id=#{Logger.metadata() |> Keyword.get(:request_id)}"
     end
 
     _ = log_context("api-response", entry)

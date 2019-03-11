@@ -383,4 +383,29 @@ defmodule UtilTest do
   test "config/3 raises if config isn't found" do
     assert_raise ArgumentError, fn -> Util.config(:util, :config_test, :nested) end
   end
+
+  def log_duration_test(arg_1, arg_2) do
+    send(self(), {:log_duration_test, arg_1, arg_2})
+    []
+  end
+
+  describe "log_duration/2" do
+    test "logs how long a function took, and returns the result" do
+      old_level = Logger.level()
+
+      on_exit(fn ->
+        Logger.configure(level: old_level)
+      end)
+
+      Logger.configure(level: :info)
+
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          assert Util.log_duration(__MODULE__, :log_duration_test, [1, 2]) == []
+          assert_receive {:log_duration_test, 1, 2}
+        end)
+
+      assert log =~ "duration="
+    end
+  end
 end

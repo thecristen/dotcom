@@ -15,6 +15,10 @@ defmodule SiteWeb.ScheduleController.CMS do
 
   @impl Plug
   def call(conn, _) do
+    Util.log_duration(__MODULE__, :do_call, [conn])
+  end
+
+  def do_call(conn) do
     {featured, news} = get_sidebar_content(conn.assigns.route)
 
     conn

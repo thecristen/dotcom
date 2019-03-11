@@ -9,7 +9,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   plug(:all_stops)
   plug(SiteWeb.ScheduleController.RoutePdfs)
   plug(SiteWeb.ScheduleController.Core)
-  plug(:assign_trip_schedules)
+  plug(:do_assign_trip_schedules)
   plug(SiteWeb.ScheduleController.Offset)
   plug(SiteWeb.ScheduleController.ScheduleError)
   plug(:channel_id)
@@ -31,7 +31,11 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   end
 
   # Plug that assigns trip schedule to the connection
-  defp assign_trip_schedules(conn, _) do
+  defp do_assign_trip_schedules(conn, _) do
+    Util.log_duration(__MODULE__, :assign_trip_schedules, [conn])
+  end
+
+  def assign_trip_schedules(conn) do
     timetable_schedules = timetable_schedules(conn)
     header_schedules = header_schedules(timetable_schedules)
     vehicle_schedules = vehicle_schedules(timetable_schedules)

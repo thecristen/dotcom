@@ -29,6 +29,10 @@ defmodule SiteWeb.ScheduleController.TripInfo do
 
   @impl true
   def call(conn, opts) do
+    Util.log_duration(__MODULE__, :do_call, [conn, opts])
+  end
+
+  def do_call(conn, opts) do
     case trip_id(conn) do
       nil ->
         assign(conn, :trip_info, nil)

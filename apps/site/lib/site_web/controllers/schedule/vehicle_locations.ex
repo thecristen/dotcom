@@ -18,6 +18,10 @@ defmodule SiteWeb.ScheduleController.VehicleLocations do
   end
 
   def call(conn, opts) do
+    Util.log_duration(__MODULE__, :do_call, [conn, opts])
+  end
+
+  def do_call(conn, opts) do
     locations =
       if should_fetch_vehicles?(conn) do
         find_locations(conn, opts)

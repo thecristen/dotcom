@@ -21,6 +21,10 @@ defmodule SiteWeb.ScheduleController.Predictions do
 
   @impl true
   def call(conn, opts) do
+    Util.log_duration(__MODULE__, :do_call, [conn, opts])
+  end
+
+  def do_call(conn, opts) do
     if should_fetch_predictions?(conn) do
       predictions_task = fn -> predictions(conn, opts[:predictions_fn]) end
       vehicle_predictions_task = fn -> vehicle_predictions(conn, opts[:predictions_fn]) end

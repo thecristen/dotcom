@@ -24,7 +24,11 @@ defmodule SiteWeb.ScheduleController.Line do
   def init([]), do: []
 
   @impl true
-  def call(
+  def call(conn, opts) do
+    Util.log_duration(__MODULE__, :do_call, [conn, opts])
+  end
+
+  def do_call(
         %Plug.Conn{assigns: %{route: %Route{} = route, direction_id: direction_id}} = conn,
         args
       ) do

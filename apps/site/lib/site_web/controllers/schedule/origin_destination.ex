@@ -9,8 +9,16 @@ defmodule SiteWeb.ScheduleController.OriginDestination do
   import UrlHelpers
   import Phoenix.Controller, only: [redirect: 2]
 
-  plug(:assign_origin)
-  plug(:assign_destination)
+  plug(:do_assign_origin)
+  plug(:do_assign_destination)
+
+  defp do_assign_origin(conn, opts) do
+    Util.log_duration(__MODULE__, :assign_origin, [conn, opts])
+  end
+
+  defp do_assign_destination(conn, opts) do
+    Util.log_duration(__MODULE__, :assign_destination, [conn, opts])
+  end
 
   def assign_origin(%Conn{query_params: %{"origin" => _}, assigns: %{route: route}} = conn, _) do
     origin = get_stop(conn, :origin)

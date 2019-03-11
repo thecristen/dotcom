@@ -11,8 +11,12 @@ defmodule SiteWeb.ScheduleController.Journeys do
   require Routes.Route
   alias Routes.Route
 
-  plug(:assign_journeys)
+  plug(:do_assign_journeys)
   plug(:validate_direction_id)
+
+  defp do_assign_journeys(conn, opts) do
+    Util.log_duration(__MODULE__, :assign_journeys, [conn, opts])
+  end
 
   def assign_journeys(
         %Plug.Conn{

@@ -9,6 +9,10 @@ defmodule SiteWeb.ScheduleController.AllStops do
 
   @impl true
   def call(conn, opts) do
+    Util.log_duration(__MODULE__, :do_call, [conn, opts])
+  end
+
+  def do_call(conn, opts) do
     repo_fn = Keyword.get(opts, :repo_fn, &Stops.Repo.by_route/3)
     stops = get_all_stops(conn, repo_fn)
     assign_all_stops(conn, stops)
