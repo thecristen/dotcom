@@ -158,9 +158,11 @@ gem install pronto-credo
 
 Run it by calling `pronto run` in the `mbta/dotcom` directory. If there is no output, that means it passed.
 
-### Javascript formatting
+### Javascript and Typescript formatting
 
-Our javascript is linted by eslint and formatted by prettier. At this time, only prettier formatting is enforced in CI. You can auto-format your javascript via `npm run format`, or set it up to autoformat on save in your editor of choice.
+Our javascript is linted by eslint and formatted by prettier. At this time, only prettier formatting is enforced in CI for javascript. For Typescript, both eslint and prettier are enforced in CI. You can auto-format your javascript and Typescript via `npm run format`, or set it up to autoformat on save in your editor of choice.
+
+If you are using the Prettier plugin for Visual Studio Code, you will want to configure it to use the ignore file  in `apps/site/assets/.prettierignore`. 
 
 ### Backstop Tests
 
@@ -218,7 +220,8 @@ This will ensure any part of the site that uses Google's API will not get rate l
 
 1. Obtain a Google API key:
     * Go to [Google's API documentation](https://developers.google.com/maps/documentation/javascript/get-api-key)
-    * Click on "GET STARTED", create a personal project (e.g. "mbtadotcom") and exit this flow before entering any billing information (it's not necessary!)
+    * Click on "GET STARTED", create a personal project (e.g. "mbtadotcom"). 
+        * You have to enter personal billing information for your API key but Google gives you $200 of free credit per month. You can set up budget alerts to email you if you are approaching your free credit limit or set up daily quotas for each API. However, our costs accumulate very slowly in local development so it's not likely that you will approach this limit.
     * Go to [the Google developer credentials page](https://console.developers.google.com/apis/credentials)
     * Use the "Select Project" button at the top of the page to choose your project and then hit "Create Credentials" -> "API Key"
 2. Enable specific APIs:
