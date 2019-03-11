@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import { Stop } from "./__tnm";
 import SidebarTitle from "./SidebarTitle";
 import { clickStopPillAction, Dispatch } from "../state";
-import { handleEnterKeyPress } from "./helpers";
+import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 
 interface Props {
   selectedStop: Stop | undefined;
@@ -21,7 +21,7 @@ const RouteSidebarHeader = (props: Props): ReactElement<HTMLElement> => {
           tabIndex={0}
           className="m-tnm-sidebar__pill"
           onClick={onClickPill}
-          onKeyPress={e => handleEnterKeyPress(e, onClickPill)}
+          onKeyPress={e => handleReactEnterKeyPress(e, onClickPill)}
           aria-label={`Remove filtering by ${selectedStop.name}`}
         >
           <span className="m-tnm-sidebar__pill-name">{selectedStop.name}</span>

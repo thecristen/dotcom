@@ -2,7 +2,7 @@ import React, { ReactElement, KeyboardEvent } from "react";
 import { Stop, Route } from "./__tnm";
 import { clickStopCardAction, Dispatch } from "../state";
 import { Direction, directionIsEmpty } from "./Direction";
-import { renderSvg } from "./helpers";
+import renderSvg from "../../helpers/render-svg";
 // @ts-ignore
 import stationSymbol from "../../../static/images/icon-circle-t-small.svg";
 // @ts-ignore

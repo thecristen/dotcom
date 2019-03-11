@@ -1,6 +1,6 @@
 <script data-for="stop" id="js-stop-data" type="text/plain"><%= raw Poison.encode!(%{stop: @stop}) %></script>
 <div id="react-root">
-  <%= Site.React.render("StopPage", %{stop: @stop }) %>
+  <%= Site.React.render("StopPage", %{stopPageData: %{stop: @stop }}) %>
 </div>
 
 <%= if Application.get_env(:site, :dev_server?) do %>

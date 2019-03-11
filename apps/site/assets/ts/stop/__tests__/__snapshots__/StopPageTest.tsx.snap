@@ -90,7 +90,37 @@ Array [
         <div
           className="col-lg-3"
         >
-          Sidebar
+          <p>
+            Sidebar
+          </p>
+          <div
+            aria-controls="panel-accessibility"
+            aria-expanded={false}
+            className="c-expandable-block__header"
+            id="header-accessibility"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <span
+              className="c-expandable-block__header-icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
+              }
+            />
+            Accessibility
+            <span
+              className="c-expandable-block__header-caret"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "&#xF106;",
+                }
+              }
+            />
+          </div>
         </div>
       </div>
     </div>

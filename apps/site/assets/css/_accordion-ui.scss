@@ -78,3 +78,33 @@
   // Borders on this element are hidden while collapsed
   border-bottom: solid $border-width $brand-primary-dark;
 }
+
+.c-expandable-block__header {
+  background-color: $brand-primary-lightest-contrast;
+  cursor: pointer;
+  font-weight: bold;
+  padding: $base-spacing $base-spacing / 2;
+}
+
+.c-expandable-block__header-icon {
+  display: block;
+  float: left;
+  height: $base-spacing * 1.5;
+  margin-right: $base-spacing;
+  width: $base-spacing * 1.25;
+}
+
+.c-expandable-block__header-caret {
+  color: $brand-primary;
+  float: right;
+  font-family: FontAwesome;
+}
+
+.c-expandable-block__panel {
+  border: 1px solid $gray-lightest;
+  padding: $base-spacing $base-spacing / 2;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}

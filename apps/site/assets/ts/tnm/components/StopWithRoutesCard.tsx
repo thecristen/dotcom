@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import { Stop, RouteGroup, RouteGroupName, Route } from "./__tnm";
 import { Dispatch, clickStopCardAction } from "../state";
 import ModeIcon from "./ModeIcon";
-import { handleEnterKeyPress } from "./helpers";
+import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 
 export const renderRoutesLabel = (
   routes: Route[],
@@ -53,7 +53,7 @@ const StopWithRoutesCard = ({
       role="button"
       tabIndex={0}
       onClick={onClick}
-      onKeyPress={e => handleEnterKeyPress(e, onClick)}
+      onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
     >
       <div className="m-tnm-sidebar__stop-card-header">
         <a className="m-tnm-sidebar__stop-card-name" href={stop.href}>

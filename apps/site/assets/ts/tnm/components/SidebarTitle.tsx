@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { handleEnterKeyPress } from "./helpers";
+import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 import { clickViewChangeAction, Dispatch } from "../state";
 
 interface Props {
@@ -23,7 +23,7 @@ const SidebarTitle = ({
         role="button"
         tabIndex={0}
         onClick={onClick}
-        onKeyPress={e => handleEnterKeyPress(e, onClick)}
+        onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
       >
         Change view
       </div>

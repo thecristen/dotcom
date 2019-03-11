@@ -1,5 +1,8 @@
 import React, { ReactElement } from "react";
 import StopPageData from "./__stop";
+import ExpandableBlock from "../../app/ExpandableBlock";
+// @ts-ignore
+import accessibleIcon from "../../../static/images/icon-accessible-default.svg";
 
 interface Props {
   stopPageData: StopPageData;
@@ -40,7 +43,25 @@ export default ({
       <div className="page-section">
         <div className="row">
           <div className="col-lg-8 col-lg-offset-1">Main Column</div>
-          <div className="col-lg-3">Sidebar</div>
+          <div className="col-lg-3">
+            <p>Sidebar</p>
+            <ExpandableBlock
+              initiallyExpanded={false}
+              id="accessibility"
+              header={{
+                text: "Accessibility",
+                iconSvgText: accessibleIcon
+              }}
+            >
+              <div
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{
+                  __html:
+                    "<p>South Station is accessible. It has the following features:</p><p>This is a test</p>"
+                }}
+              />
+            </ExpandableBlock>
+          </div>
         </div>
       </div>
     </div>

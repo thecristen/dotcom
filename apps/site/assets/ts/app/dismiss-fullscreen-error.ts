@@ -1,4 +1,4 @@
-import { doOnReturnKey } from "../helpers/keyboard-events";
+import { handleNativeEnterKeyPress } from "../helpers/keyboard-events";
 
 const hideAlert = (containerEl: HTMLElement): void => {
   containerEl.setAttribute("style", "display: none");
@@ -16,7 +16,7 @@ export default (): void => {
   }
   dismissEl.addEventListener("click", () => hideAlert(containerEl));
   dismissEl.addEventListener("keydown", (e: KeyboardEvent) =>
-    doOnReturnKey(e, () => {
+    handleNativeEnterKeyPress(e, () => {
       hideAlert(containerEl);
     })
   );

@@ -2,7 +2,7 @@
 import React, { ReactElement } from "react";
 import { StopCard, stopIsEmpty } from "./StopCard";
 import { Route, Stop } from "./__tnm";
-import { renderSvg } from "./helpers";
+import renderSvg from "../../helpers/render-svg";
 // @ts-ignore
 import alertIcon from "../../../static/images/icon-alerts-triangle.svg";
 import { Dispatch } from "../state";
