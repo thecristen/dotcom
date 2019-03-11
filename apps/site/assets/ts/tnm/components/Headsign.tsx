@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { RouteType, TNMHeadsign, TNMTime, TNMPrediction } from "./__tnm";
+import { RouteType, TNMHeadsign, TNMTime } from "./__tnm";
 
 interface Props {
   headsign: TNMHeadsign;
@@ -39,15 +39,50 @@ const renderTrainName = (trainName: string): ReactElement<HTMLElement> => (
   <div className="m-tnm-sidebar__headsign-train">{trainName}</div>
 );
 
-const renderTimeCommuterRail = (
-  time: string[],
-  prediction: TNMPrediction | null
-): ReactElement<HTMLElement> => (
+const crDelayedTime = (data: TNMTime): ReactElement<HTMLElement> => (
+  <>
+    <div className="m-tnm-sidebar__time-number--delayed">
+      {data.scheduled_time!.join("")}
+    </div>
+    <div className="m-tnm-sidebar__time-number">
+      {data.prediction && data.prediction.time.join("")}
+    </div>
+  </>
+);
+
+const crTime = (data: TNMTime): ReactElement<HTMLElement> => {
+  // eslint-disable-next-line typescript/camelcase
+  const { delay, prediction, scheduled_time } = data;
+  if (delay > 0 && prediction) {
+    return crDelayedTime(data);
+  }
+
+  // eslint-disable-next-line typescript/camelcase
+  const time = prediction ? prediction.time : scheduled_time;
+
+  return <div className="m-tnm-sidebar__time-number">{time!.join("")}</div>;
+};
+
+const crStatus = ({ delay, prediction }: TNMTime): string => {
+  if (delay > 0) {
+    return `Delayed ${delay} min`;
+  }
+
+  if (prediction && prediction.status) {
+    return prediction.status;
+  }
+
+  return "On time";
+};
+
+const renderTimeCommuterRail = (data: TNMTime): ReactElement<HTMLElement> => (
   <div className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail">
-    <div className="m-tnm-sidebar__time-number">{time.join("")}</div>
+    {crTime(data)}
     <div className="m-tnm-sidebar__status">
-      {`${prediction ? prediction.status : "On time"}${
-        prediction && prediction.track ? ` track ${prediction.track}` : ""
+      {`${crStatus(data)}${
+        data.prediction && data.prediction.track
+          ? ` track ${data.prediction.track}`
+          : ""
       }`}
     </div>
   </div>
@@ -78,7 +113,7 @@ const renderTime = (
       className="m-tnm-sidebar__schedule"
     >
       {routeType === 2
-        ? renderTimeCommuterRail(time, prediction)
+        ? renderTimeCommuterRail(tnmTime)
         : renderTimeDefault(time)}
     </div>
   );

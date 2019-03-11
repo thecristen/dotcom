@@ -109,7 +109,7 @@ defmodule Site.TransitNearMeTest do
 
       assert %{times: [time | _]} = headsign
 
-      assert Map.keys(time) == [:prediction, :scheduled_time]
+      assert Map.keys(time) == [:delay, :prediction, :scheduled_time]
 
       assert %{scheduled_time: scheduled_time, prediction: prediction} = time
 

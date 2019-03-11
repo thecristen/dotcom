@@ -7,7 +7,8 @@ import { Route, TNMDirection, TNMHeadsign, TNMTime } from "../components/__tnm";
 /* eslint-disable typescript/camelcase */
 const time: TNMTime = {
   scheduled_time: ["4:30", " ", "PM"],
-  prediction: null
+  prediction: null,
+  delay: 0
 };
 
 const headsign: TNMHeadsign = {

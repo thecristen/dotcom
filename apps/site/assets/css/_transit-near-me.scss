@@ -248,6 +248,11 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   @include h3();
   line-height: 1em;
   margin: 0;
+
+  &--delayed {
+    font-weight: bold;
+    text-decoration: line-through;
+  }
 }
 
 .m-tnm-sidebar__time-mins {

@@ -181,7 +181,8 @@ defmodule Site.TransitNearMe do
 
   @type time_data :: %{
           required(:scheduled_time) => [String.t()] | nil,
-          required(:prediction) => simple_prediction | nil
+          required(:prediction) => simple_prediction | nil,
+          required(:delay) => integer
         }
 
   @type headsign_data :: %{
@@ -482,9 +483,16 @@ defmodule Site.TransitNearMe do
         [prediction | _] -> prediction
       end
 
+    delay =
+      PredictedSchedule.delay(%PredictedSchedule{
+        prediction: prediction,
+        schedule: schedule
+      })
+
     {
       {prediction_time(prediction), schedule.time},
       %{
+        delay: delay,
         scheduled_time: format_time(schedule.time),
         prediction: simple_prediction(prediction, route_type)
       }

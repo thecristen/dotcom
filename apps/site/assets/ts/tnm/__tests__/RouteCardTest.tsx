@@ -18,7 +18,8 @@ import {
 
 const time: TNMTime = {
   scheduled_time: ["4:30", " ", "PM"],
-  prediction: null
+  prediction: null,
+  delay: 0
 };
 
 const headsign: TNMHeadsign = {
