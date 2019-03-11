@@ -1,0 +1,22 @@
+{
+  "id" : "0a59c8f1-6b20-3426-9f61-538bdead3e59",
+  "request" : {
+    "url" : "/schedules/?stop=place-sstat&direction_id=1&date=2019-03-16&route=Red&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id%2Cbikes_allowed",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-ZWb9F.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:28:34 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:25:10 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i097uddpl0se3400urf1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0a59c8f1-6b20-3426-9f61-538bdead3e59"
+}

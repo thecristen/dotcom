@@ -1,0 +1,22 @@
+{
+  "id" : "4c8597d8-7102-3c09-880a-a2e0d1978127",
+  "request" : {
+    "url" : "/routes/?stop=Manchester",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-JGOpr.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i46oe2569u8a7c00v2e1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4c8597d8-7102-3c09-880a-a2e0d1978127"
+}

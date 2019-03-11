@@ -1,0 +1,22 @@
+{
+  "id" : "727fa756-2c94-30bd-85c6-ac102636b75f",
+  "request" : {
+    "url" : "/routes/?stop=152&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-pIKI6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:25:59 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hn9c8db6p33n9800icp3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "727fa756-2c94-30bd-85c6-ac102636b75f"
+}

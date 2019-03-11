@@ -1,0 +1,22 @@
+{
+  "id" : "bd51655d-437f-39a7-95b5-e5eff4a9fb3e",
+  "request" : {
+    "url" : "/routes/?stop=249&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-duNEh.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:26:00 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hnaceja49k13b400jv02",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "bd51655d-437f-39a7-95b5-e5eff4a9fb3e"
+}

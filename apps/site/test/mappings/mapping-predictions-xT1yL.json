@@ -1,0 +1,22 @@
+{
+  "id" : "d7892833-45a1-383b-a01e-746ec0b2a6a6",
+  "request" : {
+    "url" : "/predictions/?direction_id=0&stop=place-pktrm&route=Green-C&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-xT1yL.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:26:09 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 21:26:06 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hnrn8qt73u92q400k152",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d7892833-45a1-383b-a01e-746ec0b2a6a6"
+}

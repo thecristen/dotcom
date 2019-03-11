@@ -1,0 +1,22 @@
+{
+  "id" : "5bf762f7-71c7-322e-add6-4f1752d0f62b",
+  "request" : {
+    "url" : "/stops/70020?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70020-ebnee.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:26:03 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:57 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hngfm9j791h8so00ukp1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "5bf762f7-71c7-322e-add6-4f1752d0f62b"
+}

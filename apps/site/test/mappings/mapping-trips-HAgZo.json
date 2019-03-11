@@ -1,0 +1,22 @@
+{
+  "id" : "dc899011-41ca-3e56-8987-333a350d6a1d",
+  "request" : {
+    "url" : "/trips/?route=19&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-HAgZo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:23:52 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 21:23:46 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hfs1sqf8mfcakg00f314",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "dc899011-41ca-3e56-8987-333a350d6a1d"
+}

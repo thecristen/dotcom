@@ -1,0 +1,22 @@
+{
+  "id" : "9c21cedf-7bec-3e93-959c-285eaad07c15",
+  "request" : {
+    "url" : "/routes/?stop=place-shmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Q1mxI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:25:55 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hn0ncn513frlkc00uct1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "9c21cedf-7bec-3e93-959c-285eaad07c15"
+}

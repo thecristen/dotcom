@@ -1,0 +1,22 @@
+{
+  "id" : "3cf12d3d-d84a-337d-aeb1-cbea1fb01f62",
+  "request" : {
+    "url" : "/shapes/?route=CR-Fairmount&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-2wu1g.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:23:43 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:26:51 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hfblh26c1mtb7k00f0l4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3cf12d3d-d84a-337d-aeb1-cbea1fb01f62"
+}

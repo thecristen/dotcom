@@ -1,0 +1,22 @@
+{
+  "id" : "8feb9a51-4f1f-3ca9-bcd6-03f6ea1d6960",
+  "request" : {
+    "url" : "/shapes/?route=Green-C&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-UVRHr.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:23:40 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:26:51 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hf5jou3g8kik3000tmf1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8feb9a51-4f1f-3ca9-bcd6-03f6ea1d6960"
+}

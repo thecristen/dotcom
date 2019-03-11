@@ -1,0 +1,22 @@
+{
+  "id" : "db31f668-3b60-307b-9f3c-5c20705bfd71",
+  "request" : {
+    "url" : "/routes/?stop=Lynn",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ULJFv.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i46o384sp75ljk00v2d1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "db31f668-3b60-307b-9f3c-5c20705bfd71"
+}

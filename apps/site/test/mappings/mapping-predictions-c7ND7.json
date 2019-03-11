@@ -1,0 +1,22 @@
+{
+  "id" : "2a8f99cd-3abf-3f39-b805-fc471a1a5b2b",
+  "request" : {
+    "url" : "/predictions/?trip=39231402&stop=place-tumnl&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-c7ND7.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:26:10 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 21:26:06 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hnt5n6e7ep5ae000k1o2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "2a8f99cd-3abf-3f39-b805-fc471a1a5b2b"
+}

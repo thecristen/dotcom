@@ -1,0 +1,22 @@
+{
+  "id" : "18a16ad0-a1db-3de5-be81-086069540a00",
+  "request" : {
+    "url" : "/routes/?stop=11219&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-VATIR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:25:58 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hn657nmshlul2g00iar3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "18a16ad0-a1db-3de5-be81-086069540a00"
+}

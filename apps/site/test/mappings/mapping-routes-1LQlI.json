@@ -1,0 +1,22 @@
+{
+  "id" : "446e6c07-615b-39e7-9e8a-b497f56ef462",
+  "request" : {
+    "url" : "/routes/?stop=Blue+Hill+Avenue",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-1LQlI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:40 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i45d1b1ao6inr000k3l2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "446e6c07-615b-39e7-9e8a-b497f56ef462"
+}

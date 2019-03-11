@@ -1,0 +1,22 @@
+{
+  "id" : "bb359642-1ace-3af8-bd12-cde939e6f64b",
+  "request" : {
+    "url" : "/routes/?stop=place-bndhl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-nxYfw.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i463tevl6jb09c00uvn1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "bb359642-1ace-3af8-bd12-cde939e6f64b"
+}

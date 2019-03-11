@@ -1,0 +1,22 @@
+{
+  "id" : "99f12010-ba06-3ebb-9ff5-9f1a49e44ba4",
+  "request" : {
+    "url" : "/routes/?stop=TF+Green+Airport",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-UVCw6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i46sff2dvddkv000v2v1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "99f12010-ba06-3ebb-9ff5-9f1a49e44ba4"
+}

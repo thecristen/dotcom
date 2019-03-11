@@ -1,0 +1,22 @@
+{
+  "id" : "61fa1e72-1e83-32eb-9f73-f6aad9e22623",
+  "request" : {
+    "url" : "/routes/?stop=Ayer",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-STYr9.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i45fpo91po51d800usv1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "61fa1e72-1e83-32eb-9f73-f6aad9e22623"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "6318fafb-27bc-3219-b8f1-1e6c28f3e153",
+  "request" : {
+    "url" : "/routes/?stop=Campello",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-8Gk9l.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i46fdme3kbg85400v171",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "6318fafb-27bc-3219-b8f1-1e6c28f3e153"
+}

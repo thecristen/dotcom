@@ -1,0 +1,22 @@
+{
+  "id" : "d397a2b5-1a51-3fa9-a86e-2ad3f115e4f5",
+  "request" : {
+    "url" : "/routes/?stop=6555&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-El1ly.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:25:57 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hn5eoo7oj0o4rc00iak3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d397a2b5-1a51-3fa9-a86e-2ad3f115e4f5"
+}

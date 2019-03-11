@@ -1,0 +1,22 @@
+{
+  "id" : "d84b0456-fd18-356c-8bcf-d33fa6d9d2a2",
+  "request" : {
+    "url" : "/routes/?stop=Westborough",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-DObOy.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i45v485gptehl400uv21",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d84b0456-fd18-356c-8bcf-d33fa6d9d2a2"
+}

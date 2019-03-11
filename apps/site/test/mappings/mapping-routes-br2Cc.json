@@ -1,0 +1,22 @@
+{
+  "id" : "e77067fb-c73a-3fc7-89ac-a180fce29d8d",
+  "request" : {
+    "url" : "/routes/?stop=Waltham",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-br2Cc.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i467q610veksuo00k3r2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e77067fb-c73a-3fc7-89ac-a180fce29d8d"
+}

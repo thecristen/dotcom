@@ -1,0 +1,22 @@
+{
+  "id" : "ab0f2196-5c92-383b-9b9b-cd268f3f4f2c",
+  "request" : {
+    "url" : "/routes/?stop=Rockport",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-mivqg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i46tgqmc8hraak00v341",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ab0f2196-5c92-383b-9b9b-cd268f3f4f2c"
+}

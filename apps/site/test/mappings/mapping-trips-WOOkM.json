@@ -1,0 +1,22 @@
+{
+  "id" : "6861344d-07d1-39a4-81e1-f090293f3a0c",
+  "request" : {
+    "url" : "/trips/?route=71&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-WOOkM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:24:02 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 21:24:01 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hgfmfpijh9gsls00jkt2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "6861344d-07d1-39a4-81e1-f090293f3a0c"
+}

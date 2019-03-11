@@ -1,0 +1,22 @@
+{
+  "id" : "f4a637d2-c3cf-3cab-a400-9fea31ef5ec7",
+  "request" : {
+    "url" : "/routes/?stop=place-mvbcl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-kaYYG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:25:54 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hmup1223puem0400ubd1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f4a637d2-c3cf-3cab-a400-9fea31ef5ec7"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "5c9cffbe-cdbb-3f6e-bcc1-dbf89313cc12",
+  "request" : {
+    "url" : "/trips/38797174",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-38797174-1ZLto.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:31:02 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 21:30:55 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i8thqmr9gdig3o00k4q2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "5c9cffbe-cdbb-3f6e-bcc1-dbf89313cc12"
+}

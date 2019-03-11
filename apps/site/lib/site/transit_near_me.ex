@@ -383,8 +383,7 @@ defmodule Site.TransitNearMe do
       when route_type in [0, 1] do
     # subway routes should only use predictions
     [route: route_id, stop: stop_id, direction_id: direction_id]
-    |> get_predictions(predictions_fn)
-    |> Enum.reject(&Timex.before?(&1.time, now))
+    |> get_predictions(predictions_fn, now)
     |> case do
       [_ | _] = predictions ->
         predictions
@@ -444,11 +443,15 @@ defmodule Site.TransitNearMe do
   def schedule_count(%Route{type: 2}), do: 1
   def schedule_count(%Route{}), do: 2
 
-  defp get_predictions(params, predictions_fn) do
+  @spec get_predictions(Keyword.t(), (Keyword.t() -> [Prediction.t()]), DateTime.t()) :: [
+          Prediction.t()
+        ]
+  defp get_predictions(params, predictions_fn, now) do
     params
     |> predictions_fn.()
     # occasionally, a prediction will not have a time; discard if that happens
     |> Enum.filter(& &1.time)
+    |> Enum.reject(&Timex.before?(&1.time, now))
   end
 
   @type predicted_schedule_and_time_data :: {{DateTime.t() | nil, DateTime.t()}, time_data}
@@ -469,10 +472,11 @@ defmodule Site.TransitNearMe do
   defp build_time_map(%Schedule{} = schedule, opts) do
     route_type = Route.type_atom(schedule.route)
     predictions_fn = Keyword.get(opts, :predictions_fn, &Predictions.Repo.all/1)
+    now = Keyword.fetch!(opts, :now)
 
     prediction =
-      [trip: schedule.trip.id]
-      |> get_predictions(predictions_fn)
+      [trip: schedule.trip.id, stop: schedule.stop.id]
+      |> get_predictions(predictions_fn, now)
       |> case do
         [] -> nil
         [prediction | _] -> prediction

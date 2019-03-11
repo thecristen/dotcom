@@ -1,0 +1,22 @@
+{
+  "id" : "cd15b6b7-de11-3548-b7d0-437b6364f6d4",
+  "request" : {
+    "url" : "/routes/?stop=Gloucester",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ybd3h.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i46kt3m2vpb0fk00v1u1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "cd15b6b7-de11-3548-b7d0-437b6364f6d4"
+}

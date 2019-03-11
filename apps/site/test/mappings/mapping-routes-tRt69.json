@@ -1,0 +1,22 @@
+{
+  "id" : "0c0bc305-0be6-3a17-9bbb-67c61ffd3bad",
+  "request" : {
+    "url" : "/routes/?stop=place-fenwy&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-tRt69.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:25:54 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hn09cs8h1fbdmc00uck1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0c0bc305-0be6-3a17-9bbb-67c61ffd3bad"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "5e3456dd-a2c6-3a47-9eab-b8a09aca8fdd",
+  "request" : {
+    "url" : "/stops/?route=Green-E&include=parent_station%2Cfacilities&direction_id=0&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type&date=2019-04-09",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-hdZTa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:23:53 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:57 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hfu6ov278tobgs00tqd1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "5e3456dd-a2c6-3a47-9eab-b8a09aca8fdd"
+}

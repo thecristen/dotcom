@@ -1,0 +1,22 @@
+{
+  "id" : "0d907ed0-57b0-3a11-b0b0-f21fe6db8d61",
+  "request" : {
+    "url" : "/routes/?stop=16538&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LneM2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:25:57 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hn530q9q40pvf800ug11",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0d907ed0-57b0-3a11-b0b0-f21fe6db8d61"
+}

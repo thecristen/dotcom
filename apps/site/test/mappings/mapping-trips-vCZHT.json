@@ -1,0 +1,22 @@
+{
+  "id" : "3460ac61-3862-3938-9598-2efe6616ed75",
+  "request" : {
+    "url" : "/trips/?route=CR-Franklin&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-vCZHT.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:23:44 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 21:23:32 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hfcfk28f4p9hf400f0p4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3460ac61-3862-3938-9598-2efe6616ed75"
+}

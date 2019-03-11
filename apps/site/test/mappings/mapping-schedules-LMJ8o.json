@@ -1,0 +1,22 @@
+{
+  "id" : "50415ed9-c025-3e0e-aa01-0f915569f47c",
+  "request" : {
+    "url" : "/schedules/?route=1&date=2019-03-18&direction_id=0&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-LMJ8o.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:28:26 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:25:10 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hvr6cvmp1do72s00uqd1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "50415ed9-c025-3e0e-aa01-0f915569f47c"
+}

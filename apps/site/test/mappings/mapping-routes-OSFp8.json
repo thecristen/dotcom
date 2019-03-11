@@ -1,0 +1,22 @@
+{
+  "id" : "3257274b-49b5-3dfe-8c95-7bfe397e0786",
+  "request" : {
+    "url" : "/routes/?stop=Plymouth",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-OSFp8.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i46cd27jlol79o00v0q1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3257274b-49b5-3dfe-8c95-7bfe397e0786"
+}

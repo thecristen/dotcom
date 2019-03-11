@@ -1,0 +1,22 @@
+{
+  "id" : "0b13eed0-d1b6-30f0-a0bd-a50ef094aeb8",
+  "request" : {
+    "url" : "/routes/?stop=place-mispk",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Q0FRd.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i46tb5ar236un400v331",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0b13eed0-d1b6-30f0-a0bd-a50ef094aeb8"
+}

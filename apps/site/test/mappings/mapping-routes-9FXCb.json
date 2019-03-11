@@ -1,0 +1,22 @@
+{
+  "id" : "68749da7-95c9-3b98-8a4b-4cfe3f95cd49",
+  "request" : {
+    "url" : "/routes/?stop=Canton+Center",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-9FXCb.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i46mvkl62s6m7s00v271",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "68749da7-95c9-3b98-8a4b-4cfe3f95cd49"
+}

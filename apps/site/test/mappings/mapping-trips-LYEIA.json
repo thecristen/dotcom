@@ -1,0 +1,22 @@
+{
+  "id" : "ba5858ef-423a-31be-8c9f-8d2c7af6c9fa",
+  "request" : {
+    "url" : "/trips/?route=351&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-LYEIA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:24:22 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 21:24:15 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hhjrjvo5f8eto000jsl2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ba5858ef-423a-31be-8c9f-8d2c7af6c9fa"
+}

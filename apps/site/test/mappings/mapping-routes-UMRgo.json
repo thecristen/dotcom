@@ -1,0 +1,22 @@
+{
+  "id" : "7f08ebf5-4a9d-3ec3-949d-64655874eadc",
+  "request" : {
+    "url" : "/routes/?stop=place-buwst&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-UMRgo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:25:55 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hn0um5r22s3oa000ud31",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "7f08ebf5-4a9d-3ec3-949d-64655874eadc"
+}

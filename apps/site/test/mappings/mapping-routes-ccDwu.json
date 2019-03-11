@@ -1,0 +1,22 @@
+{
+  "id" : "a2bdd19e-19a4-3c3b-af4d-43226828af11",
+  "request" : {
+    "url" : "/routes/?stop=place-harvd",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ccDwu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i46oj8dsp8lcac00v2f1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a2bdd19e-19a4-3c3b-af4d-43226828af11"
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "5b627ac7-c5de-3f66-a90b-f3c782f1f26a",
+  "request" : {
+    "url" : "/trips/?route=CR-Kingston&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-xTrTX.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:23:44 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 21:23:32 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hfdtuj4naqen9c00f104",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "5b627ac7-c5de-3f66-a90b-f3c782f1f26a"
+}

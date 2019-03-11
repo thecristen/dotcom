@@ -1,0 +1,22 @@
+{
+  "id" : "c46bcad8-cf6e-366f-94c0-48ace0986c44",
+  "request" : {
+    "url" : "/routes/?stop=46&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-NLsYC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:26:02 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hndo63efkknses00f834",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c46bcad8-cf6e-366f-94c0-48ace0986c44"
+}

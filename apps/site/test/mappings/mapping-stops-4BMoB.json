@@ -1,0 +1,22 @@
+{
+  "id" : "4037198e-7a23-3ba9-867e-af81df4f8a7f",
+  "request" : {
+    "url" : "/stops/?route=Green-C&include=parent_station%2Cfacilities&direction_id=1&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type&date=2019-03-28",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-4BMoB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:23:48 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:57 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hflcabj1748k9s00f294",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4037198e-7a23-3ba9-867e-af81df4f8a7f"
+}

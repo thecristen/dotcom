@@ -1,0 +1,22 @@
+{
+  "id" : "caa6a5d6-00e7-3d96-98af-9b07f69d2db4",
+  "request" : {
+    "url" : "/routes/?stop=18&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Ovefy.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:26:02 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hne5a9naiel4m800f8d4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "caa6a5d6-00e7-3d96-98af-9b07f69d2db4"
+}

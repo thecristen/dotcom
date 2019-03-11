@@ -1,0 +1,22 @@
+{
+  "id" : "e9638c2f-bd86-3f9c-8a71-9cc515f9c8ad",
+  "request" : {
+    "url" : "/shapes/?route=119&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-Sfium.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:24:13 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:26:51 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hh3aau5te7gjh800i3p3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e9638c2f-bd86-3f9c-8a71-9cc515f9c8ad"
+}

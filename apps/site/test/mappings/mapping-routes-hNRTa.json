@@ -1,0 +1,22 @@
+{
+  "id" : "c4cb1cda-35fb-3014-85b9-2068259bddaa",
+  "request" : {
+    "url" : "/routes/?stop=Wellesley+Hills",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-hNRTa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i45nohvl3u2cfs00k3m2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c4cb1cda-35fb-3014-85b9-2068259bddaa"
+}

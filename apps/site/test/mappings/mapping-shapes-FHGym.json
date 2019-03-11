@@ -1,0 +1,22 @@
+{
+  "id" : "c4a1e9e9-f7d8-35a9-ba1e-30635eed0f26",
+  "request" : {
+    "url" : "/shapes/?route=77&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-FHGym.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:24:04 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:26:51 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hgiglrugigt7eg00jln2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c4a1e9e9-f7d8-35a9-ba1e-30635eed0f26"
+}

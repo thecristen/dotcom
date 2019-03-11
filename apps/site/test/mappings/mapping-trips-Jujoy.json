@@ -1,0 +1,22 @@
+{
+  "id" : "ec48189f-512a-335b-91f1-58300ee4459a",
+  "request" : {
+    "url" : "/trips/?route=88&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-Jujoy.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:24:06 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 21:24:01 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hglp4g2bsa0il000u051",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ec48189f-512a-335b-91f1-58300ee4459a"
+}

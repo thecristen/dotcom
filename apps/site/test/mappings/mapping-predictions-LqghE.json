@@ -1,0 +1,22 @@
+{
+  "id" : "0d999f6d-c3f0-3fe5-82d6-664695df7277",
+  "request" : {
+    "url" : "/predictions/?trip=&stop=&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-LqghE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:30:15 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 21:30:13 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i66gedhhd4605c00v4b1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0d999f6d-c3f0-3fe5-82d6-664695df7277"
+}

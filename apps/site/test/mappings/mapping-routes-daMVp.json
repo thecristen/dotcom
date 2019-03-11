@@ -1,0 +1,22 @@
+{
+  "id" : "f1e9e6e7-7022-3dc7-b314-f9c1bfe8e41b",
+  "request" : {
+    "url" : "/routes/?stop=223&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-daMVp.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:25:58 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hn682a57p7fg3k00ug81",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f1e9e6e7-7022-3dc7-b314-f9c1bfe8e41b"
+}

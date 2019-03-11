@@ -696,7 +696,7 @@ defmodule Site.TransitNearMeTest do
       time = DateTime.from_naive!(~N[2019-02-21T12:00:00], "Etc/UTC")
       parent = self()
 
-      predictions_fn = fn [trip: trip_id] = params ->
+      predictions_fn = fn [trip: trip_id, stop: "stop"] = params ->
         send(parent, {:predictions_fn, params})
         trip = Map.fetch!(@trips, trip_id)
         [%{base_prediction | direction_id: 0, trip: trip, time: time}]

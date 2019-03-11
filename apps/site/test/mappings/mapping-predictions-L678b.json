@@ -1,0 +1,22 @@
+{
+  "id" : "eff00338-e72b-326b-9e80-03b195e7af59",
+  "request" : {
+    "url" : "/predictions/?trip=CR-Weekday-Fall-18-513&stop=place-sstat&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-L678b.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:26:05 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 21:25:52 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hnjuurorhhd20o00ule1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "eff00338-e72b-326b-9e80-03b195e7af59"
+}

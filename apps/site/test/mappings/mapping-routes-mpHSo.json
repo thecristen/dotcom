@@ -1,0 +1,22 @@
+{
+  "id" : "04e77e5c-bf6e-38c8-8357-8322fa707499",
+  "request" : {
+    "url" : "/routes/?stop=Fitchburg",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-mpHSo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:29:41 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i45kubc6u665b000utn1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "04e77e5c-bf6e-38c8-8357-8322fa707499"
+}

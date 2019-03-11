@@ -1,0 +1,22 @@
+{
+  "id" : "b764b436-7bc5-304b-84ff-fd30fb04286a",
+  "request" : {
+    "url" : "/stops/70198?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70198-hFRMR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:26:04 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:57 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hnhg9hvgj04mfg00ul31",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b764b436-7bc5-304b-84ff-fd30fb04286a"
+}

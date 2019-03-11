@@ -1,0 +1,22 @@
+{
+  "id" : "9e5941ca-8229-38d5-be9c-cbd7c297babe",
+  "request" : {
+    "url" : "/routes/?stop=36539&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CuNOJ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:26:00 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:23:56 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hnao7s1a631su000ui51",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "9e5941ca-8229-38d5-be9c-cbd7c297babe"
+}

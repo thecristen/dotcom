@@ -1,0 +1,22 @@
+{
+  "id" : "f0d40660-0f7f-3105-bfaa-ce55cecb3f3f",
+  "request" : {
+    "url" : "/schedules/?stop=102&direction_id=0&date=2019-03-16&route=1&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id%2Cbikes_allowed",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-zGltx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:28:10 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 19:25:10 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51hutj22scqvl3j800uq71",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f0d40660-0f7f-3105-bfaa-ce55cecb3f3f"
+}

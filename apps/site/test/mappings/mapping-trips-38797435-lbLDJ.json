@@ -1,0 +1,22 @@
+{
+  "id" : "f469f7b8-b00a-3edc-ba72-347176fd00e4",
+  "request" : {
+    "url" : "/trips/38797435",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-38797435-lbLDJ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 08 Mar 2019 21:31:02 GMT",
+      "last-modified" : "Fri, 08 Mar 2019 21:30:55 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m51i8tdk4j79hemcs00k4p2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f469f7b8-b00a-3edc-ba72-347176fd00e4"
+}
