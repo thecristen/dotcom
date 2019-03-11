@@ -13,6 +13,10 @@ defmodule Content.ConfigTest do
       end)
     end
 
+    test "removes duplicate leading forward slashes from the path" do
+      assert Config.url("//my-path") == "http://cms.test/my-path"
+    end
+
     test "supports the root url being assessed at runtime" do
       env_var_name = "DRUPAL_ROOT"
 

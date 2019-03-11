@@ -1,10 +1,21 @@
 defmodule Content.Config do
+  @moduledoc """
+  Manage configuration details for the CMS.
+  """
+
   @doc "Returns a full URL for the given path. Raises if the root URL is not defined."
   @spec url(String.t()) :: String.t() | no_return
+  def url("//" <> path) do
+    url("/" <> path)
+  end
+
   def url(path) when is_binary(path) do
     case root() do
-      nil -> raise "Drupal root is not configured"
-      base_url -> base_url |> URI.merge(path) |> URI.to_string()
+      nil ->
+        raise "Drupal root is not configured"
+
+      base_url ->
+        base_url |> URI.merge(path) |> URI.to_string()
     end
   end
 
