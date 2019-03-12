@@ -1,19 +1,19 @@
 import React, { ReactElement } from "react";
 import RouteCard from "./RouteCard";
 import RouteSidebarHeader from "./RouteSidebarHeader";
-import { Route, Stop } from "./__tnm";
+import { TNMRoute, TNMStop } from "./__tnm";
 import { Dispatch } from "../state";
 
 interface Props {
-  data: Route[];
+  data: TNMRoute[];
   dispatch: Dispatch;
   selectedStopId: string | null;
   shouldFilterStopCards: boolean;
-  selectedStop: Stop | undefined;
+  selectedStop: TNMStop | undefined;
 }
 
-const filterDataByStopId = (data: Route[], stopId: string): Route[] =>
-  data.reduce((accumulator: Route[], route: Route): Route[] => {
+const filterDataByStopId = (data: TNMRoute[], stopId: string): TNMRoute[] =>
+  data.reduce((accumulator: TNMRoute[], route: TNMRoute): TNMRoute[] => {
     const stops = route.stops.filter(stop => stop.id === stopId);
     if (stops.length === 0) {
       return accumulator;
@@ -22,10 +22,10 @@ const filterDataByStopId = (data: Route[], stopId: string): Route[] =>
   }, []);
 
 export const filterData = (
-  data: Route[],
+  data: TNMRoute[],
   selectedStopId: string | null,
   shouldFilter: boolean
-): Route[] => {
+): TNMRoute[] => {
   if (shouldFilter === false || selectedStopId === null) {
     return data;
   }

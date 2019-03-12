@@ -5,7 +5,7 @@ import StopWithRoutesCard, {
   renderRoutesLabel
 } from "../components/StopWithRoutesCard";
 import { createReactRoot, importStopData } from "./helpers/testUtils";
-import { StopWithRoutes, Route } from "../components/__tnm";
+import { StopWithRoutes, TNMRoute } from "../components/__tnm";
 
 describe("StopWithRoutesCard", () => {
   it("it renders a stop card", () => {
@@ -62,7 +62,7 @@ describe("StopWithRoutesCard", () => {
 it("renderRoutesLabel with commuter rail specific label", () => {
   const data = importStopData();
   const { routes } = data[0] as StopWithRoutes;
-  const routesForStop = routes[0].routes as Route[];
+  const routesForStop = routes[0].routes as TNMRoute[];
   const wrapper = shallow(renderRoutesLabel(routesForStop, "commuter_rail"));
   expect(wrapper.text()).toEqual("Commuter Rail");
 });
@@ -70,7 +70,7 @@ it("renderRoutesLabel with commuter rail specific label", () => {
 it("renderRoutesLabel with commuter rail specific label", () => {
   const data = importStopData();
   const { routes } = data[0] as StopWithRoutes;
-  const routesForStop = routes[0].routes as Route[];
+  const routesForStop = routes[0].routes as TNMRoute[];
   const wrapper = shallow(renderRoutesLabel(routesForStop, "bus"));
   expect(wrapper.contains("Bus: ")).toBeTruthy();
 });
@@ -78,7 +78,7 @@ it("renderRoutesLabel with commuter rail specific label", () => {
 it("renderRoutesLabel for subway", () => {
   const data = importStopData();
   const { routes } = data[0] as StopWithRoutes;
-  const routesForStop = routes[0].routes as Route[];
+  const routesForStop = routes[0].routes as TNMRoute[];
   const wrapper = shallow(renderRoutesLabel(routesForStop, "subway"));
   expect(wrapper.text()).not.toEqual("Commuter Rail");
   expect(wrapper.contains("Bus: ")).toBeFalsy();

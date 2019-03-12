@@ -1,11 +1,11 @@
 import React, { ReactElement } from "react";
-import { Stop, RouteGroup, RouteGroupName, Route } from "./__tnm";
+import { TNMRoute, TNMStop, RouteGroup, RouteGroupName } from "./__tnm";
 import { Dispatch, clickStopCardAction } from "../state";
 import ModeIcon from "./ModeIcon";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 
 export const renderRoutesLabel = (
-  routes: Route[],
+  routes: TNMRoute[],
   type: RouteGroupName
 ): ReactElement<HTMLElement> =>
   type === "commuter_rail" ? (
@@ -23,7 +23,7 @@ export const renderRoutesLabel = (
   );
 
 export const renderRoutes = (
-  routes: Route[],
+  routes: TNMRoute[],
   type: RouteGroupName
 ): ReactElement<HTMLElement> => (
   <div key={type} className="m-tnm-sidebar__stop-card-description">
@@ -35,7 +35,7 @@ export const renderRoutes = (
 );
 
 interface Props {
-  stop: Stop;
+  stop: TNMStop;
   routes: RouteGroup[];
   dispatch: Dispatch;
 }

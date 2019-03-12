@@ -1,1 +1,44 @@
-{ "stop": "place-ogmnl" }
+{
+  "stop": {
+    "station?": true,
+    "parking_lots": [
+      {
+        "utilization": null,
+        "payment": {
+          "monthly_rate": "$150 regular, $445 overnight",
+          "mobile_app": null,
+          "methods": ["Credit/Debit Card", "Cash"],
+          "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
+        },
+        "note": null,
+        "name": "South Station Bus Terminal Garage",
+        "manager": {
+          "url": "https://www.propark.com/propark-locator2/south-station-garage/",
+          "phone": "617-345-0202",
+          "name": "ProPark",
+          "contact": "ProPark"
+        },
+        "longitude": -71.055963,
+        "latitude": 42.349838,
+        "capacity": { "type": "Garage", "total": 210, "accessible": 4 },
+        "address": null
+      }
+    ],
+    "note": null,
+    "name": "South Station",
+    "longitude": -71.055242,
+    "latitude": 42.352271,
+    "is_child?": false,
+    "id": "place-sstat",
+    "has_fare_machine?": true,
+    "has_charlie_card_vendor?": false,
+    "closed_stop_info": null,
+    "address": "700 Atlantic Ave, Boston, MA 02110",
+    "accessibility": [
+      "accessible",
+      "escalator_both",
+      "elevator",
+      "fully_elevated_platform"
+    ]
+  }
+}

@@ -1,10 +1,10 @@
 import React, { ReactElement } from "react";
 import Headsign from "./Headsign";
-import { Route, TNMDirection } from "./__tnm";
+import { TNMDirection, TNMRoute } from "./__tnm";
 
 interface Props {
   direction: TNMDirection;
-  route: Route;
+  route: TNMRoute;
   stopId: string;
 }
 

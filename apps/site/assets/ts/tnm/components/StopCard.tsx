@@ -1,5 +1,5 @@
 import React, { ReactElement, KeyboardEvent } from "react";
-import { Stop, Route } from "./__tnm";
+import { TNMRoute, TNMStop } from "./__tnm";
 import { clickStopCardAction, Dispatch } from "../state";
 import { Direction, directionIsEmpty } from "./Direction";
 import renderSvg from "../../helpers/render-svg";
@@ -9,15 +9,15 @@ import stationSymbol from "../../../static/images/icon-circle-t-small.svg";
 import accessibleIcon from "../../../static/images/icon-accessible-default.svg";
 
 interface Props {
-  stop: Stop;
-  route: Route;
+  stop: TNMStop;
+  route: TNMRoute;
   dispatch: Dispatch;
 }
 
-export const stopIsEmpty = (stop: Stop): boolean =>
+export const stopIsEmpty = (stop: TNMStop): boolean =>
   stop.directions.every(directionIsEmpty);
 
-const renderStopIcon = (stop: Stop): JSX.Element =>
+const renderStopIcon = (stop: TNMStop): JSX.Element =>
   stop["station?"] ? (
     renderSvg("m-tnm-sidebar__stop-marker", stationSymbol)
   ) : (

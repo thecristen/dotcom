@@ -2,7 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import RoutesSidebar, { filterData } from "../components/RoutesSidebar";
 import { createReactRoot, importData } from "./helpers/testUtils";
-import { Route } from "../components/__tnm";
+import { TNMRoute } from "../components/__tnm";
 
 describe("render", () => {
   it("it renders", () => {
@@ -52,11 +52,13 @@ describe("filterData", () => {
     expect(filteredData).toHaveLength(3);
 
     // Every route should only have one stop
-    expect(filteredData.every((route: Route) => route.stops.length === 1));
+    expect(filteredData.every((route: TNMRoute) => route.stops.length === 1));
 
     // Every stop should match the selected stop
     expect(
-      filteredData.every((route: Route) => route.stops[0].id === selectedStopId)
+      filteredData.every(
+        (route: TNMRoute) => route.stops[0].id === selectedStopId
+      )
     );
   });
 });

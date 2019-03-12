@@ -2,7 +2,12 @@ import React from "react";
 import renderer from "react-test-renderer";
 import Direction from "../components/Direction";
 import { createReactRoot } from "./helpers/testUtils";
-import { Route, TNMDirection, TNMHeadsign, TNMTime } from "../components/__tnm";
+import {
+  TNMDirection,
+  TNMHeadsign,
+  TNMRoute,
+  TNMTime
+} from "../components/__tnm";
 
 /* eslint-disable typescript/camelcase */
 const time: TNMTime = {
@@ -22,7 +27,7 @@ const direction: TNMDirection = {
   headsigns: [headsign]
 };
 
-const route: Route = {
+const route: TNMRoute = {
   alert_count: 0,
   direction_destinations: ["Outbound Destination", "Inbound Destination"],
   direction_names: ["Outbound", "Inbound"],

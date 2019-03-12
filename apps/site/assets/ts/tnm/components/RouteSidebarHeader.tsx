@@ -1,11 +1,11 @@
 import React, { ReactElement } from "react";
-import { Stop } from "./__tnm";
+import { TNMStop } from "./__tnm";
 import SidebarTitle from "./SidebarTitle";
 import { clickStopPillAction, Dispatch } from "../state";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 
 interface Props {
-  selectedStop: Stop | undefined;
+  selectedStop: TNMStop | undefined;
   dispatch: Dispatch;
 }
 

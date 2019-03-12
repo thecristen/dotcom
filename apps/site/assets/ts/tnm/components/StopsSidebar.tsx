@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { StopWithRoutes, Stop } from "./__tnm";
+import { StopWithRoutes, TNMStop } from "./__tnm";
 import { Dispatch } from "../state";
 import SidebarTitle from "./SidebarTitle";
 import StopWithRoutesCard from "./StopWithRoutesCard";
@@ -9,7 +9,7 @@ interface Props {
   dispatch: Dispatch;
   selectedStopId: string | null;
   shouldFilterStopCards: boolean;
-  selectedStop: Stop | undefined;
+  selectedStop: TNMStop | undefined;
 }
 
 const filterDataByStopId = (

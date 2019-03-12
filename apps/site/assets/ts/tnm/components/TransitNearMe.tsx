@@ -2,20 +2,20 @@ import React, { useReducer, ReactElement } from "react";
 import TransitNearMeMap from "./googleMaps/TransitNearMeMap";
 import RoutesSidebar from "./RoutesSidebar";
 import StopsSidebar from "./StopsSidebar";
-import { Route, Stop, MapData, StopWithRoutes } from "./__tnm";
+import { TNMRoute, TNMStop, MapData, StopWithRoutes } from "./__tnm";
 import { reducer, initialState, SelectedStopType } from "../state";
 
 interface Props {
   mapData: MapData;
   mapId: string;
-  routeSidebarData: Route[];
+  routeSidebarData: TNMRoute[];
   stopSidebarData: StopWithRoutes[];
 }
 
 export const getSelectedStop = (
   stopSidebarData: StopWithRoutes[],
   selectedStopId: SelectedStopType
-): Stop | undefined => {
+): TNMStop | undefined => {
   const stopWithRoute = stopSidebarData.find(
     data => data.stop.id === selectedStopId
   );

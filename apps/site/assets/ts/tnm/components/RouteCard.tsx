@@ -1,27 +1,28 @@
 /* eslint-disable react/prefer-stateless-function */
 import React, { ReactElement } from "react";
 import { StopCard, stopIsEmpty } from "./StopCard";
-import { Route, Stop } from "./__tnm";
+import { TNMRoute, TNMStop } from "./__tnm";
 import renderSvg from "../../helpers/render-svg";
 // @ts-ignore
 import alertIcon from "../../../static/images/icon-alerts-triangle.svg";
 import { Dispatch } from "../state";
 
 interface Props {
-  route: Route;
+  route: TNMRoute;
   dispatch: Dispatch;
 }
 
-const routeIsEmpty = (route: Route): boolean => route.stops.every(stopIsEmpty);
+const routeIsEmpty = (route: TNMRoute): boolean =>
+  route.stops.every(stopIsEmpty);
 
-const filterStops = (route: Route): Stop[] => {
+const filterStops = (route: TNMRoute): TNMStop[] => {
   // show the closest two stops for bus, in order to display both inbound and outbound stops
 
   const count = route.type === 3 ? 2 : 1;
   return route.stops.slice(0, count);
 };
 
-export const isSilverLine = (route: Route): boolean => {
+export const isSilverLine = (route: TNMRoute): boolean => {
   const mapSet: { [routeId: string]: boolean } = {
     "741": true,
     "742": true,
@@ -34,7 +35,7 @@ export const isSilverLine = (route: Route): boolean => {
   return mapSet[route.id] || false;
 };
 
-export const routeBgColor = (route: Route): string => {
+export const routeBgColor = (route: TNMRoute): string => {
   if (route.type === 2) return "commuter-rail";
   if (route.type === 4) return "ferry";
   if (route.id === "Red") return "red-line";
@@ -46,7 +47,7 @@ export const routeBgColor = (route: Route): string => {
   return "unknown";
 };
 
-export const busClass = (route: Route): string =>
+export const busClass = (route: TNMRoute): string =>
   route.type === 3 && !isSilverLine(route) ? "bus-route-sign" : "";
 
 const RouteCard = ({

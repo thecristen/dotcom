@@ -4,10 +4,10 @@ import { shallow } from "enzyme";
 import StopCard from "../components/StopCard";
 import { createReactRoot } from "./helpers/testUtils";
 import {
-  Route,
-  Stop,
   TNMDirection,
   TNMHeadsign,
+  TNMRoute,
+  TNMStop,
   TNMTime
 } from "../components/__tnm";
 
@@ -30,7 +30,7 @@ const direction: TNMDirection = {
   headsigns: [headsign]
 };
 
-const stop: Stop = {
+const stop: TNMStop = {
   accessibility: ["wheelchair"],
   address: "123 Main St., Boston MA",
   closed_stop_info: null,
@@ -49,7 +49,7 @@ const stop: Stop = {
   href: "/stops/stop-id"
 };
 
-const route: Route = {
+const route: TNMRoute = {
   alert_count: 0,
   direction_destinations: ["Outbound Destination", "Inbound Destination"],
   direction_names: ["Outbound", "Inbound"],
@@ -71,7 +71,7 @@ it("it renders a stop card", () => {
 });
 
 it("returns null if stop has no schedules", () => {
-  const stopWithoutSchedules: Stop = {
+  const stopWithoutSchedules: TNMStop = {
     ...stop,
     directions: [{ ...direction, headsigns: [] }]
   };

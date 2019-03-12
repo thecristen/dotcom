@@ -3,11 +3,11 @@ import renderer from "react-test-renderer";
 import { shallow } from "enzyme";
 import RouteSidebarHeader from "../components/RouteSidebarHeader";
 import { createReactRoot } from "./helpers/testUtils";
-import { Stop } from "../components/__tnm";
+import { TNMStop } from "../components/__tnm";
 
 /* eslint-disable typescript/camelcase */
 
-const stop: Stop = {
+const stop: TNMStop = {
   accessibility: ["wheelchair"],
   address: "123 Main St., Boston MA",
   closed_stop_info: null,

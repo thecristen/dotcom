@@ -22,12 +22,12 @@ export default ({
           <a href="/stops/subway">Stations</a>
           <i className="fa fa-angle-right" aria-hidden="true" />
         </span>
-        {stop}
+        {stop.name}
       </div>
     </div>
     <div className="station__header">
       <div className="station__header-container">
-        <h1 className="station__name station__name--upcase">{stop}</h1>
+        <h1 className="station__name station__name--upcase">{stop.name}</h1>
         <div className="h6 station__header-features" />
         <div className="header-tabs" />
       </div>

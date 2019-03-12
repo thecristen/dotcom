@@ -1,77 +1,15 @@
-export interface DirectionInfo {
-  0: string;
-  1: string;
+// eslint-disable-next-line typescript/no-unused-vars
+import { Route, Stop } from "../../v3api";
+
+export interface TNMRoute extends Route {
+  stops: TNMStop[];
 }
 
-export interface Route {
-  alert_count: number;
-  description: string;
-  direction_destinations: DirectionInfo;
-  direction_names: DirectionInfo;
-  header: string;
-  id: string;
-  long_name: string;
-  name: string;
-  type: RouteType;
-  stops: Stop[];
-  href?: string;
-}
-
-export interface Stop {
-  accessibility: string[];
-  address: string | null;
-  closed_stop_info: string | null;
-  "has_charlie_card_vendor?": boolean;
-  "has_fare_machine?": boolean;
-  id: string;
-  "is_child?": boolean;
-  latitude: number;
-  longitude: number;
-  name: string;
-  note: string | null;
-  parking_lots: ParkingLot[];
-  "station?": boolean;
-  distance: string;
+export interface TNMStop extends Stop {
   directions: TNMDirection[];
-  href: string;
-}
-
-interface ParkingLot {
-  name: string;
-  address: string;
-  capacity?: {
-    total?: number;
-    accessible?: number;
-    type?: string;
-  };
-  payment?: {
-    methods: string[];
-    mobile_app?: {
-      name?: string;
-      id?: string;
-      url?: string;
-    };
-    daily_rate?: string;
-    monthly_rate?: string;
-  };
-  manager?: {
-    name?: string;
-    contact?: string;
-    phone?: string;
-    url?: string;
-  };
-  utilization?: {
-    arrive_before?: string;
-    typical?: number;
-  };
-  note?: string;
-  latitude?: number;
-  longitude?: number;
 }
 
 type DirectionId = 0 | 1;
-
-type RouteType = 0 | 1 | 2 | 3 | 4;
 
 export interface TNMDirection {
   direction_id: DirectionId;
@@ -110,7 +48,7 @@ export interface Schedule {
   "flag?": boolean;
   pickup_type: number;
   route: Route;
-  stop: Stop;
+  stop: TNMStop;
   stop_sequence: number;
   time: string;
   trip: Trip;
@@ -118,7 +56,7 @@ export interface Schedule {
 
 interface StopWithRoutes {
   distance: string;
-  stop: Stop;
+  stop: TNMStop;
   routes: RouteGroup[];
 }
 
@@ -126,7 +64,7 @@ type RouteGroupName = "commuter_rail" | "subway" | "bus" | "ferry";
 
 interface RouteGroup {
   group_name: RouteGroupName;
-  routes: Route[];
+  routes: TNMRoute[];
 }
 
 interface LatLng {
