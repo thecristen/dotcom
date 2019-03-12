@@ -2,6 +2,7 @@ defmodule GoogleMaps.Place do
   @moduledoc """
   Perform place-related lookups against the Google Maps API.
   """
+  require Logger
   use RepoCache, ttl: :timer.hours(24)
   alias GoogleMaps.Place.{AutocompleteQuery, Prediction}
 
@@ -18,7 +19,6 @@ defmodule GoogleMaps.Place do
     cache(query, fn query ->
       query
       |> autocomplete_url()
-      |> GoogleMaps.signed_url()
       |> HTTPoison.get()
       |> parse_autocomplete_response(hit_limit)
     end)
@@ -26,39 +26,58 @@ defmodule GoogleMaps.Place do
 
   @spec autocomplete_url(AutocompleteQuery.t()) :: String.t()
   defp autocomplete_url(%AutocompleteQuery{input: input, session_token: session_token}) do
-    URI.to_string(%URI{
+    :google_maps
+    |> Application.get_env(:domain, "https://maps.googleapis.com")
+    |> URI.parse()
+    |> URI.merge(%URI{
       path: "/maps/api/place/autocomplete/json",
       query:
         URI.encode_query(
           input: input,
           sessiontoken: session_token,
           location: "42.07295,-70.77845",
-          radius: "167600"
+          radius: "167600",
+          key: Application.get_env(:google_maps, :google_api_key)
         )
     })
+    |> URI.to_string()
   end
 
   @spec parse_autocomplete_response(tuple, integer) :: t
-  defp parse_autocomplete_response({:error, _error}, _hit_limit) do
+  defp parse_autocomplete_response({:error, error}, _hit_limit) do
+    _ = Logger.info("module=#{__MODULE__} error=request_failed response=#{inspect(error)}")
     internal_error()
   end
 
-  defp parse_autocomplete_response({:ok, %{status_code: 200, body: body}}, hit_limit) do
+  defp parse_autocomplete_response(
+         {:ok, %{status_code: 200, body: body, request_url: url}},
+         hit_limit
+       ) do
     case Poison.decode(body) do
       {:ok, json} ->
-        parse_autocomplete_json(json, hit_limit)
+        parse_autocomplete_json(json, hit_limit, url)
 
       {:error, _} ->
         internal_error()
     end
   end
 
-  defp parse_autocomplete_response({:ok, %{status_code: _code, body: _body}}, _hit_limit) do
+  defp parse_autocomplete_response(
+         {:ok, %{status_code: code, body: body, request_url: url}},
+         _hit_limit
+       ) do
+    _ =
+      Logger.info(
+        "module=#{__MODULE__} error=bad_response status_code=#{code} response=#{body} url=#{url}"
+      )
+
     internal_error()
   end
 
-  @spec parse_autocomplete_json(map, integer) :: t
-  defp parse_autocomplete_json(%{"status" => "OK", "predictions" => predictions}, hit_limit) do
+  @spec parse_autocomplete_json(map, integer, String.t()) :: t
+  defp parse_autocomplete_json(%{"status" => "OK", "predictions" => predictions}, hit_limit, url) do
+    _ = Logger.info("module=#{__MODULE__} status_code=200 status=OK url=#{url}")
+
     results =
       predictions
       |> Enum.map(&Prediction.new/1)
@@ -68,11 +87,19 @@ defmodule GoogleMaps.Place do
     {:ok, results}
   end
 
-  defp parse_autocomplete_json(%{"status" => "ZERO_RESULTS"}, _hit_limit) do
+  defp parse_autocomplete_json(%{"status" => "ZERO_RESULTS"}, _hit_limit, url) do
+    _ = Logger.info("module=#{__MODULE__} status_code=200 status=OK url=#{url}")
     {:ok, []}
   end
 
-  defp parse_autocomplete_json(_response, _hit_limit) do
+  defp parse_autocomplete_json(%{"status" => status, "error_message" => error}, _hit_limit, url) do
+    _ =
+      Logger.info(
+        "module=#{__MODULE__} error=bad_request status_code=200 status=#{status} message=#{error} url=#{
+          url
+        }"
+      )
+
     internal_error()
   end
 
