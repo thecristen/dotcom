@@ -24,7 +24,8 @@ class TransitNearMeMap extends React.Component<Props> {
       center: new window.google.maps.LatLng(
         initialData.default_center.latitude,
         initialData.default_center.longitude
-      )
+      ),
+      ...initialData.dynamic_options
     };
     const map = new window.google.maps.Map(mapElement, options);
     map.addListener("click", () => {
