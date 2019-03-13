@@ -14,7 +14,7 @@ npm run webpack:build
 
 npm run wiremock &
 
-npm run server:mocked:nocompile 1>/dev/null 2>/dev/null &
+SENTRY_REPORTING_ENV="test" npm run server:mocked:nocompile 1>/dev/null 2>/dev/null &
 
 until $(curl --output /dev/null --silent --head --fail http://localhost:8082/_health); do
   printf 'waiting for server...\n'

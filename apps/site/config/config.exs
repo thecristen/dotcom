@@ -39,10 +39,14 @@ config :site, Site.BodyTag, mticket_header: "x-mticket"
 # Centralize Error reporting
 config :sentry,
   dsn: System.get_env("SENTRY_DSN") || "",
-  environment_name: Mix.env(),
+  environment_name:
+    (case System.get_env("SENTRY_REPORTING_ENV") do
+       nil -> Mix.env()
+       env -> String.to_existing_atom(env)
+     end),
   enable_source_code_context: false,
   root_source_code_path: File.cwd!(),
-  included_environments: [:prod, :dev],
+  included_environments: [:prod],
   json_library: Poison
 
 config :site, :former_mbta_site, host: "http://old.mbta.com"
