@@ -41,7 +41,7 @@ defmodule SiteWeb.ScheduleController.CMS do
     end
 
     conn
-    |> async_assign_default(:featured_content, featured_fn, [])
+    |> async_assign_default(:featured_content, featured_fn, nil)
     |> async_assign_default(:news, news_fn, [])
   end
 
