@@ -65,7 +65,9 @@ defmodule SiteWeb.HomepageSearchTest do
   end
 
   @tag :wallaby
-  test "tracks clicks", %{session: session, bypass: bypass} do
+  test "tracks clicks", %{session: session} do
+    bypass = Bypass.open()
+
     old_url = Application.get_env(:algolia, :click_analytics_url)
     Application.put_env(:algolia, :track_clicks?, true)
     Application.put_env(:algolia, :click_analytics_url, "http://localhost:#{bypass.port}")

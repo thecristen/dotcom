@@ -8,8 +8,7 @@ defmodule GoogleMaps.Application do
 
     # Define workers and child supervisors to be supervised
     children = [
-      GoogleMaps.Geocode,
-      GoogleMaps.Place
+      GoogleMaps.Geocode
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
