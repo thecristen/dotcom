@@ -22,15 +22,8 @@
 
         <h2>About the Project</h2>
 
-        <%# If there are any paragraphs, hide "old" static fields: %>
-
-        <%= if !Enum.empty?(@project.paragraphs) do %>
-
-          <%= for paragraph <- @project.paragraphs do %>
-            <%= SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
-          <% end %>
-
-        <% else %>
+        <%# If there are no paragraphs, use static fields: %>
+        <%= if Enum.empty?(@project.paragraphs) do %>
           <%= if @project.start_year || @project.status do %>
             <div class="page-section project-summary">
               <%= if @project.start_year do %>
@@ -42,34 +35,33 @@
             </div>
           <% end %>
 
-          <%# Components that can be replaced by paragraphs: %>
-
           <div class="page-section project-body">
             <%= Site.ContentRewriter.rewrite(@project.body, @conn) %>
           </div>
 
-          <%= if !Enum.empty?(@project.photo_gallery), do: render "_photos.html", photos: @project.photo_gallery %>
-
-          <%= if !Enum.empty?(@project.files), do: render "_downloads.html", files: @project.files %>
-
+          <%= unless Enum.empty?(@project.photo_gallery), do: render "_photos.html", photos: @project.photo_gallery %>
+          <%= unless Enum.empty?(@project.files), do: render "_downloads.html", files: @project.files %>
+        <% else %>
+          <%= for paragraph <- @project.paragraphs do %>
+            <%= SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
+          <% end %>
         <% end %>
 
-        <%# Components w/o paragraph replacements: %>
+        <%= unless Enum.empty?(@upcoming_events), do: SiteWeb.EventView.render "_event_list.html",
+          events: @upcoming_events, title: "Upcoming Meetings", conn: @conn%>
 
-          <%= if !Enum.empty?(@upcoming_events), do: SiteWeb.EventView.render "_event_list.html",
-            events: @upcoming_events, title: "Upcoming Meetings", conn: @conn%>
+        <%= unless Enum.empty?(@past_events), do: SiteWeb.EventView.render "_event_list.html",
+          events: @past_events, title: "Past Meetings", conn: @conn %>
 
-          <%= if !Enum.empty?(@past_events), do: SiteWeb.EventView.render "_event_list.html",
-            events: @past_events, title: "Past Meetings", conn: @conn %>
+        <%= if Content.Project.contact?(@project), do: render "_contact.html", project: @project %>
 
-          <%= if Content.Project.contact?(@project), do: render "_contact.html", project: @project %>
-
-          <%# Project Updates section placement for one-column width: %>
-          <%= if !Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates %>
+        <%# Project Updates section placement for one-column width: %>
+        <%= unless Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates %>
       </div>
 
       <div class="c-cms__sidebar">
-        <%= if !Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates %>
+        <%# Project Updates section placement for two-column width: %>
+        <%= unless Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates %>
       </div>
     </div>
   </div>
