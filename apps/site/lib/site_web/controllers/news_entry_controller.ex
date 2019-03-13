@@ -13,25 +13,28 @@ defmodule SiteWeb.NewsEntryController do
     zero_based_current_page = page - 1
     zero_based_next_page = page
 
-    news_entry_teasers =
+    news_entry_teasers_fn = fn ->
       Repo.teasers(
         type: "news_entry",
         items_per_page: items_per_page,
         offset: items_per_page * zero_based_current_page
       )
+    end
 
-    upcoming_news_entry_teasers =
+    upcoming_news_entry_teasers_fn = fn ->
       Repo.teasers(
         type: "news_entry",
         items_per_page: items_per_page,
         offset: items_per_page * zero_based_next_page
       )
+    end
 
     conn
     |> assign(:breadcrumbs, index_breadcrumbs())
-    |> assign(:news_entries, news_entry_teasers)
-    |> assign(:upcoming_news_entries, upcoming_news_entry_teasers)
     |> assign(:page, page)
+    |> async_assign_default(:news_entries, news_entry_teasers_fn, [])
+    |> async_assign_default(:upcoming_news_entries, upcoming_news_entry_teasers_fn, [])
+    |> await_assign_all_default(__MODULE__)
     |> render(:index)
   end
 

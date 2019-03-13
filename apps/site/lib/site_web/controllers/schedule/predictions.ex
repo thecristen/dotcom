@@ -7,6 +7,7 @@ defmodule SiteWeb.ScheduleController.Predictions do
   @behaviour Plug
   import Plug.Conn
   alias Predictions.Prediction
+  alias Util.AsyncAssign
 
   @default_opts [
     predictions_fn: &Predictions.Repo.all/1
@@ -30,9 +31,9 @@ defmodule SiteWeb.ScheduleController.Predictions do
       vehicle_predictions_task = fn -> vehicle_predictions(conn, opts[:predictions_fn]) end
 
       conn
-      |> Util.AsyncAssign.async_assign_default(:predictions, predictions_task, [])
-      |> Util.AsyncAssign.async_assign_default(:vehicle_predictions, vehicle_predictions_task, [])
-      |> Util.AsyncAssign.await_assign_all_default()
+      |> AsyncAssign.async_assign_default(:predictions, predictions_task, [])
+      |> AsyncAssign.async_assign_default(:vehicle_predictions, vehicle_predictions_task, [])
+      |> AsyncAssign.await_assign_all_default(__MODULE__)
     else
       conn
       |> assign(:predictions, [])

@@ -25,6 +25,7 @@ defmodule SiteWeb.ScheduleController.LineController do
     conn
     |> assign(:meta_description, route_description(conn.assigns.route))
     |> put_view(ScheduleView)
+    |> await_assign_all_default(__MODULE__)
     |> render("show.html", [])
   end
 

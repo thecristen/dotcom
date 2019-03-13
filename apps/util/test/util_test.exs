@@ -2,6 +2,7 @@ defmodule UtilTest do
   use ExUnit.Case, async: true
   use Quixir
   import Util
+  import ExUnit.CaptureLog, only: [capture_log: 1]
   doctest Util
   doctest Util.Polygon
 
@@ -308,23 +309,47 @@ defmodule UtilTest do
 
   describe "async_with_timeout/3" do
     test "returns the value of a task if it ends in time" do
-      assert async_with_timeout([fn -> 5 end, fn -> 6 end], nil, 1000) == [5, 6]
+      assert async_with_timeout([fn -> 5 end, fn -> 6 end], nil, __MODULE__, 1000) == [5, 6]
+      assert async_with_timeout([fn -> 5 end, fn -> 6 end], nil, __MODULE__) == [5, 6]
     end
 
     test "returns the default for a task that runs too long and logs a warning" do
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
+        capture_log(fn ->
           assert async_with_timeout(
                    [
                      fn -> 5 end,
                      fn -> :timer.sleep(60_000) end
                    ],
                    :default,
+                   __MODULE__,
                    10
                  ) == [5, :default]
         end)
 
       assert log =~ "async task timed out"
+    end
+  end
+
+  describe "yield_or_default/4" do
+    test "returns result when task does not timeout" do
+      task = Task.async(fn -> :success end)
+      assert yield_or_default(task, 1_000, :fail, __MODULE__) == :success
+    end
+
+    test "returns default when task times out" do
+      task =
+        Task.async(fn ->
+          :timer.sleep(60_000)
+          :async
+        end)
+
+      log =
+        capture_log(fn ->
+          assert yield_or_default(task, 10, :default, __MODULE__) == :default
+        end)
+
+      assert log =~ "error=async_error"
     end
   end
 
@@ -344,8 +369,8 @@ defmodule UtilTest do
       Process.exit(aborted_task.pid, :kill)
 
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
-          assert Util.yield_or_default_many(task_map, 500) == %{
+        capture_log(fn ->
+          assert Util.yield_or_default_many(task_map, __MODULE__, 500) == %{
                    short: :task_result,
                    long: :long_default,
                    aborted: :aborted_default
@@ -400,7 +425,7 @@ defmodule UtilTest do
       Logger.configure(level: :info)
 
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
+        capture_log(fn ->
           assert Util.log_duration(__MODULE__, :log_duration_test, [1, 2]) == []
           assert_receive {:log_duration_test, 1, 2}
         end)

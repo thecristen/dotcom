@@ -79,7 +79,8 @@ defmodule Site.TripPlan.Query do
             fn -> TripPlan.plan(from, to, opts, pid) end,
             fn -> TripPlan.plan(from, to, accessible_opts, pid) end
           ],
-          {:error, :timeout}
+          {:error, :timeout},
+          __MODULE__
         )
 
       dedup_itineraries(mixed_results, accessible_results)

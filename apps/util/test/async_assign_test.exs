@@ -8,7 +8,7 @@ defmodule Util.AsyncAssignTest do
     conn = conn(:get, "/")
     assert conn.assigns[:hello] == nil
     conn = async_assign_default(conn, :hello, fn -> :world end, :default)
-    conn = await_assign_all_default(conn)
+    conn = await_assign_all_default(conn, __MODULE__)
     assert conn.assigns[:hello] == :world
   end
 
@@ -24,10 +24,13 @@ defmodule Util.AsyncAssignTest do
     log =
       ExUnit.CaptureLog.capture_log(fn ->
         conn = async_assign_default(conn, :hello, fun, :default)
-        conn = await_assign_all_default(conn, 1)
+        conn = await_assign_all_default(conn, __MODULE__, 1)
         assert conn.assigns[:hello] == :default
       end)
 
+    assert log =~ "module=#{__MODULE__}"
+    assert log =~ "key=hello"
+    assert log =~ "error=async_error"
     assert log =~ "async task timed out"
   end
 end

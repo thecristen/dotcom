@@ -25,14 +25,14 @@ defmodule SiteWeb.StopV1Controller do
     {mattapan, stop_info} = get_stop_info()
 
     conn
-    |> assign(:mode_hubs, Task.async(fn -> HubStops.mode_hubs(mode_atom, stop_info) end))
-    |> assign(:route_hubs, Task.async(fn -> HubStops.route_hubs(stop_info) end))
+    |> async_assign_default(:mode_hubs, fn -> HubStops.mode_hubs(mode_atom, stop_info) end, [])
+    |> async_assign_default(:route_hubs, fn -> HubStops.route_hubs(stop_info) end, [])
     |> assign(:stop_info, stop_info)
     |> assign(:mattapan, mattapan)
     |> assign(:mode, mode_atom)
     |> assign(:breadcrumbs, [Breadcrumb.build("Stations")])
     |> assign(:requires_google_maps?, true)
-    |> await_assign_all
+    |> await_assign_all_default(__MODULE__)
     |> render("index.html")
   end
 
@@ -50,14 +50,14 @@ defmodule SiteWeb.StopV1Controller do
       routes = Routes.Repo.by_stop(stop.id)
 
       conn
-      |> assign(:grouped_routes, Task.async(fn -> grouped_routes(routes) end))
+      |> async_assign_default(:grouped_routes, fn -> grouped_routes(routes) end, [])
       |> assign(:fare_types, fare_types(routes))
-      |> assign(:zone_number, Task.async(fn -> Zones.Repo.get(stop.id) end))
+      |> async_assign_default(:zone_number, fn -> Zones.Repo.get(stop.id) end, nil)
       |> assign(:breadcrumbs, breadcrumbs(stop, routes))
       |> assign(:tab, tab_value(query_params["tab"]))
       |> tab_assigns(stop, routes)
       |> meta_description(stop, routes)
-      |> await_assign_all()
+      |> await_assign_all_default(__MODULE__)
       |> render("show.html", stop: stop)
     else
       check_cms_or_404(conn)
@@ -134,19 +134,23 @@ defmodule SiteWeb.StopV1Controller do
   @spec tab_assigns(Plug.Conn.t(), Stop.t(), [Route.t()]) :: Plug.Conn.t()
   defp tab_assigns(%{assigns: %{tab: "info"}} = conn, stop, routes) do
     conn
-    |> assign(:fare_name, Task.async(fn -> fare_name(stop, routes) end))
-    |> assign(:terminal_stations, Task.async(fn -> terminal_stations(routes) end))
-    |> assign(:fare_sales_locations, Task.async(fn -> RetailLocations.get_nearby(stop) end))
+    |> async_assign_default(:fare_name, fn -> fare_name(stop, routes) end, nil)
+    |> async_assign_default(:terminal_stations, fn -> terminal_stations(routes) end, %{})
+    |> async_assign_default(:fare_sales_locations, fn -> RetailLocations.get_nearby(stop) end, [])
     |> assign(:requires_google_maps?, true)
     |> assign(:map_info, StopMap.map_info(stop))
-    |> await_assign_all()
+    |> await_assign_all_default(__MODULE__)
   end
 
   defp tab_assigns(%{assigns: %{tab: "departures"}} = conn, stop, _routes) do
     conn
-    |> assign(:stop_schedule, Task.async(fn -> stop_schedule(stop.id, conn.assigns.date) end))
-    |> assign(:stop_predictions, Task.async(fn -> stop_predictions(stop.id) end))
-    |> await_assign_all(10_000)
+    |> async_assign_default(
+      :stop_schedule,
+      fn -> stop_schedule(stop.id, conn.assigns.date) end,
+      []
+    )
+    |> async_assign_default(:stop_predictions, fn -> stop_predictions(stop.id) end, [])
+    |> await_assign_all_default(__MODULE__, 10_000)
     |> assign_upcoming_route_departures()
   end
 

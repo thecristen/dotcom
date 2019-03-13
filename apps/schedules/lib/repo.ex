@@ -56,6 +56,7 @@ defmodule Schedules.Repo do
           origin_task => {:origin, {:error, :timeout}},
           dest_task => {:dest, {:error, :timeout}}
         },
+        __MODULE__,
         @default_timeout
       )
 

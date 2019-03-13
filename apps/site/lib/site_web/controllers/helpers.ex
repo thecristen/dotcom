@@ -15,20 +15,6 @@ defmodule SiteWeb.ControllerHelpers do
     "cache-control"
   ]
 
-  @doc "Find all the assigns which are Tasks, and await_assign them"
-  def await_assign_all(conn, timeout \\ 5_000) do
-    Enum.reduce(conn.assigns, conn, &await_assign(&1, &2, timeout))
-  end
-
-  defp await_assign({key, %Task{} = task}, conn, timeout) do
-    val = Task.await(task, timeout)
-    Conn.assign(conn, key, val)
-  end
-
-  defp await_assign({_key, _non_task}, conn, _timeout) do
-    conn
-  end
-
   defmacro call_plug(conn, module) do
     opts = Macro.expand(module, __ENV__).init([])
 

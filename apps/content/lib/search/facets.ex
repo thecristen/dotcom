@@ -37,6 +37,7 @@ defmodule Content.Search.Facets do
           fn -> do_perform_search(query, offset, [], search_fn) end
         ],
         :error,
+        __MODULE__,
         opts[:response_timeout]
       )
 

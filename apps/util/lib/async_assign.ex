@@ -37,13 +37,14 @@ defmodule Util.AsyncAssign do
   `Plug.Conn.await_assign/3`:
   https://github.com/elixir-plug/plug/blob/3d48af2b97d58c183a7b8390abc42ac5367b0770/lib/plug/conn.ex#L332
   """
-  @spec await_assign_all_default(Conn.t(), timeout) :: Conn.t()
-  def await_assign_all_default(conn, timeout \\ 5000) do
+  @spec await_assign_all_default(Conn.t(), atom, timeout) :: Conn.t()
+  def await_assign_all_default(%Conn{} = conn, module, timeout \\ 5000)
+      when is_atom(module) and is_integer(timeout) do
     async_tasks =
       for {key, {%Task{} = task, default}} <- conn.assigns, into: %{}, do: {task, {key, default}}
 
     async_tasks
-    |> Util.yield_or_default_many(timeout)
+    |> Util.yield_or_default_many(module, timeout)
     |> Enum.reduce(conn, fn {key, result}, conn -> Conn.assign(conn, key, result) end)
   end
 end

@@ -1,7 +1,6 @@
 defmodule SiteWeb.PageController do
   use SiteWeb, :controller
 
-  import Util.AsyncAssign
   alias Content.{Banner, NewsEntry, WhatsHappeningItem}
 
   plug(SiteWeb.Plugs.TransitNearMe)
@@ -22,7 +21,7 @@ defmodule SiteWeb.PageController do
     |> async_assign_default(:promoted_items, fn -> promoted end)
     |> async_assign_default(:whats_happening_items, fn -> remainder end)
     |> async_assign_default(:alerts, fn -> Alerts.Repo.all(conn.assigns.date_time) end)
-    |> await_assign_all_default()
+    |> await_assign_all_default(__MODULE__)
     |> render("index.html")
   end
 

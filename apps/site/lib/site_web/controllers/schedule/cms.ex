@@ -5,10 +5,17 @@ defmodule SiteWeb.ScheduleController.CMS do
 
   @behaviour Plug
 
+  import Util.AsyncAssign, only: [async_assign_default: 4]
+
   alias Routes.Route
   alias Content.{Repo, Teaser}
 
-  import Plug.Conn, only: [assign: 3]
+  @featured_opts [
+    type: :news_entry,
+    type_op: "not in",
+    items_per_page: 1,
+    sidebar: 1
+  ]
 
   @impl Plug
   def init([]), do: []
@@ -18,36 +25,24 @@ defmodule SiteWeb.ScheduleController.CMS do
     Util.log_duration(__MODULE__, :do_call, [conn])
   end
 
-  def do_call(conn) do
-    {featured, news} = get_sidebar_content(conn.assigns.route)
-
-    conn
-    |> assign(:featured_content, featured)
-    |> assign(:news, news)
-  end
-
-  @featured_opts [
-    type: :news_entry,
-    type_op: "not in",
-    items_per_page: 1,
-    sidebar: 1
-  ]
-
-  @spec get_sidebar_content(Route.t()) :: {Teaser.t(), [Teaser.t()]}
-  defp get_sidebar_content(%Route{} = route) do
-    featured =
+  def do_call(%{assigns: %{route: route}} = conn) do
+    featured_fn = fn ->
       @featured_opts
       |> Keyword.put(:route_id, route.id)
       |> Repo.teasers()
       |> List.first()
       |> set_utm_params(route)
+    end
 
-    news =
+    news_fn = fn ->
       [route_id: route.id, type: :news_entry, sidebar: 1]
       |> Repo.teasers()
       |> Enum.map(&set_utm_params(&1, route))
+    end
 
-    {featured, news}
+    conn
+    |> async_assign_default(:featured_content, featured_fn, [])
+    |> async_assign_default(:news, news_fn, [])
   end
 
   defp set_utm_params(nil, %Route{}) do

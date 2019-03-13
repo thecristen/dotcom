@@ -14,12 +14,18 @@ defmodule SiteWeb.EventController do
   def index(conn, params) do
     {:ok, current_month} = Date.new(Util.today().year, Util.today().month, 1)
     date_range = EventDateRange.build(params, current_month)
-    events = Repo.events(Enum.into(date_range, []))
+
+    events_fn = fn ->
+      date_range
+      |> Enum.into([])
+      |> Repo.events()
+    end
 
     conn
     |> assign(:month, date_range.start_time_gt)
-    |> assign(:events, events)
+    |> async_assign_default(:events, events_fn, [])
     |> assign(:breadcrumbs, [Breadcrumb.build("Events")])
+    |> await_assign_all_default(__MODULE__)
     |> render("index.html", conn: conn)
   end
 

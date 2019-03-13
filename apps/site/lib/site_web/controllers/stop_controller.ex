@@ -20,9 +20,9 @@ defmodule SiteWeb.StopController do
         routes = Routes.Repo.by_stop(stop.id)
 
         conn
-        |> assign(:grouped_routes, Task.async(fn -> grouped_routes(routes) end))
+        |> async_assign_default(:grouped_routes, fn -> grouped_routes(routes) end, [])
         |> meta_description(stop, routes)
-        |> await_assign_all()
+        |> await_assign_all_default(__MODULE__)
         |> render("show.html", stop: stop)
       else
         check_cms_or_404(conn)

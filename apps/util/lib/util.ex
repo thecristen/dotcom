@@ -128,23 +128,25 @@ defmodule Util do
   Calls all the functions asynchronously, and returns a list of results.
   If a function times out, its result will be the provided default.
   """
-  @spec async_with_timeout([(() -> any)], any, non_neg_integer) :: [any]
-  def async_with_timeout(functions, default, timeout \\ 5000) do
-    tasks = Enum.map(functions, &Task.async/1)
-
-    for task <- tasks do
-      yield_or_default(task, timeout, default)
-    end
+  @spec async_with_timeout([(() -> any)], any, atom, non_neg_integer) :: [any]
+  def async_with_timeout(functions, default, module, timeout \\ 5000)
+      when is_list(functions) and is_atom(module) do
+    functions
+    |> Enum.map(&Task.async/1)
+    |> Enum.with_index()
+    |> Map.new(fn {task, idx} -> {task, {idx, default}} end)
+    |> yield_or_default_many(module, timeout)
+    |> Enum.map(fn {_, result} -> result end)
   end
 
   @doc """
   Yields the value from a task, or returns a default value.
   """
-  @spec yield_or_default(Task.t(), non_neg_integer, any) :: any
-  def yield_or_default(task, timeout, default) do
+  @spec yield_or_default(Task.t(), non_neg_integer, any, atom) :: any
+  def yield_or_default(%Task{} = task, timeout, default, module) when is_atom(module) do
     task
     |> Task.yield(timeout)
-    |> task_result_or_default(default, task)
+    |> task_result_or_default(default, task, {"", module})
   end
 
   @doc """
@@ -152,38 +154,55 @@ defmodule Util do
   either the result of the task, or the default if the task times out or exits early.
   """
   @type task_map :: %{optional(Task.t()) => {atom, any}}
-  @spec yield_or_default_many(task_map, non_neg_integer) :: map
-  def yield_or_default_many(%{} = task_map, timeout \\ 5000) do
+  @spec yield_or_default_many(task_map, atom, non_neg_integer) :: map
+  def yield_or_default_many(%{} = task_map, module, timeout \\ 5000) when is_atom(module) do
     task_map
     |> Map.keys()
     |> Task.yield_many(timeout)
-    |> Map.new(&do_yield_or_default_many(&1, task_map))
+    |> Map.new(&do_yield_or_default_many(&1, task_map, module))
   end
 
-  @spec do_yield_or_default_many({Task.t(), {:ok, any} | {:exit, term} | nil}, task_map) ::
+  @spec do_yield_or_default_many({Task.t(), {:ok, any} | {:exit, term} | nil}, task_map, atom) ::
           {atom, any}
-  defp do_yield_or_default_many({%Task{} = task, result}, task_map) do
+  defp do_yield_or_default_many({%Task{} = task, result}, task_map, module) do
     {key, default} = Map.get(task_map, task)
-    {key, task_result_or_default(result, default, task)}
+    {key, task_result_or_default(result, default, task, {key, module})}
   end
 
-  @spec task_result_or_default({:ok, any} | {:exit, term} | nil, any, Task.t()) :: any
-  defp task_result_or_default({:ok, result}, _default, %Task{}) do
+  @spec task_result_or_default({:ok, any} | {:exit, term} | nil, any, Task.t(), {any, atom}) ::
+          any
+  defp task_result_or_default({:ok, result}, _default, %Task{}, _module) do
     result
   end
 
-  defp task_result_or_default({:exit, _reason}, default, %Task{}) do
-    _ = Logger.warn("Async task exited unexpectedly. Returning: #{inspect(default)}")
+  defp task_result_or_default({:exit, _reason}, default, %Task{}, {key, module}) do
+    _ =
+      Logger.warn(
+        "module=#{module} " <>
+          "key=#{key} " <>
+          "error=async_error " <>
+          "error_type=timeout " <>
+          "Async task exited unexpectedly. Returning: #{inspect(default)}"
+      )
+
     default
   end
 
-  defp task_result_or_default(nil, default, %Task{} = task) do
+  defp task_result_or_default(nil, default, %Task{} = task, {key, module}) do
     case Task.shutdown(task, :brutal_kill) do
       {:ok, result} ->
         result
 
       _ ->
-        _ = Logger.warn(fn -> "async task timed out. Returning: #{inspect(default)}" end)
+        _ =
+          Logger.warn(
+            "module=#{module} " <>
+              "key=#{key} " <>
+              "error=async_error " <>
+              "error_type=timeout " <>
+              "async task timed out. Returning: #{inspect(default)}"
+          )
+
         default
     end
   end

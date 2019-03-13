@@ -21,7 +21,6 @@ defmodule SiteWeb.ScheduleController.Green do
   plug(SiteWeb.ScheduleController.VehicleTooltips)
   plug(SiteWeb.ScheduleController.ExcludedStops)
   plug(SiteWeb.ScheduleController.Journeys)
-  plug(SiteWeb.ScheduleController.CMS)
   plug(:validate_journeys)
   plug(:hide_destination_selector)
   plug(SiteWeb.ScheduleController.TripInfo)
@@ -66,6 +65,8 @@ defmodule SiteWeb.ScheduleController.Green do
     |> call_plug(SiteWeb.ScheduleController.HoursOfOperation)
     |> call_plug(SiteWeb.ScheduleController.Holidays)
     |> call_plug(SiteWeb.ScheduleController.Line)
+    |> call_plug(SiteWeb.ScheduleController.CMS)
+    |> await_assign_all_default(__MODULE__)
     |> put_view(SiteWeb.ScheduleView)
     |> render("show.html", [])
   end

@@ -5,6 +5,7 @@ defmodule SiteWeb.ScheduleController.CMSTest do
   alias Plug.Conn
   alias Routes.Route
   alias SiteWeb.ScheduleController.CMS
+  alias Util.AsyncAssign
 
   describe "call/1" do
     test "assigns CMS content to conn", %{conn: conn} do
@@ -12,6 +13,7 @@ defmodule SiteWeb.ScheduleController.CMSTest do
         conn
         |> Conn.assign(:route, %Route{id: "Red", type: 1})
         |> CMS.call([])
+        |> AsyncAssign.await_assign_all_default(__MODULE__)
 
       assert %Teaser{} = conn.assigns.featured_content
       assert %URI{query: query} = URI.parse(conn.assigns.featured_content.path)

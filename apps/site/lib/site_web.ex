@@ -43,6 +43,7 @@ defmodule SiteWeb do
       import SiteWeb.CmsRouterHelpers
       import SiteWeb.ControllerHelpers
       import SiteWeb.Gettext
+      import Util.AsyncAssign
       alias Util.Breadcrumb
     end
   end

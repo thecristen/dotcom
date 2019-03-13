@@ -1,25 +1,30 @@
 defmodule SiteWeb.ProjectController do
   use SiteWeb, :controller
-  @breadcrumb_base "Transforming the T"
+
   alias Content.Repo
   alias Plug.Conn
 
+  @breadcrumb_base "Transforming the T"
+
   def index(conn, _) do
-    project_teasers =
+    project_teasers_fn = fn ->
       [type: "project", items_per_page: 50]
       |> Repo.teasers()
       |> sort_by_date()
+    end
 
-    featured_project_teasers =
+    featured_project_teasers_fn = fn ->
       [type: "project", sticky: 1, items_per_page: 5]
       |> Repo.teasers()
       |> sort_by_date()
+    end
 
-    render(conn, "index.html", %{
-      breadcrumbs: [Breadcrumb.build(@breadcrumb_base)],
-      project_teasers: project_teasers,
-      featured_project_teasers: featured_project_teasers
-    })
+    conn
+    |> async_assign_default(:project_teasers, project_teasers_fn, [])
+    |> async_assign_default(:featured_project_teasers, featured_project_teasers_fn, [])
+    |> assign(:breadcrumbs, [Breadcrumb.build(@breadcrumb_base)])
+    |> await_assign_all_default(__MODULE__)
+    |> render("index.html")
   end
 
   @spec sort_by_date([Content.Teaser.t()]) :: [Content.Teaser.t()]
@@ -54,7 +59,8 @@ defmodule SiteWeb.ProjectController do
     [updates, events] =
       Util.async_with_timeout(
         [get_updates_async(project.id), get_events_async(project.id)],
-        []
+        [],
+        __MODULE__
       )
 
     breadcrumbs = [

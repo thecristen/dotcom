@@ -1,12 +1,12 @@
 defmodule SiteWeb.ModeController do
   use SiteWeb, :controller
+
   alias Content.Teaser
+  alias SiteWeb.Mode
 
   plug(SiteWeb.Plugs.RecentlyVisited)
   plug(SiteWeb.Plug.Mticket)
   plug(:require_google_maps)
-
-  alias SiteWeb.Mode
 
   defdelegate subway(conn, params), to: Mode.SubwayController, as: :index
   defdelegate bus(conn, params), to: Mode.BusController, as: :index
@@ -20,12 +20,10 @@ defmodule SiteWeb.ModeController do
   end
 
   def index(conn, _params) do
-    grouped_routes = filtered_grouped_routes([:bus])
-
     conn
-    |> assign(:alerts, Task.async(fn -> Alerts.Repo.all(conn.assigns.date_time) end))
-    |> assign(:green_routes, green_routes())
-    |> assign(:grouped_routes, grouped_routes)
+    |> async_assign_default(:alerts, fn -> Alerts.Repo.all(conn.assigns.date_time) end, [])
+    |> async_assign_default(:green_routes, fn -> green_routes() end)
+    |> async_assign_default(:grouped_routes, fn -> filtered_grouped_routes([:bus]) end)
     |> assign(:breadcrumbs, [Breadcrumb.build("Schedules & Maps")])
     |> assign(:home, false)
     |> assign(:guides, guides())
@@ -34,7 +32,7 @@ defmodule SiteWeb.ModeController do
       "Schedule information for MBTA subway, bus, Commuter Rail, and ferry in the Greater Boston region, " <>
         "including real-time updates and arrival predictions."
     )
-    |> await_assign_all()
+    |> await_assign_all_default(__MODULE__)
     |> render("index.html")
   end
 
