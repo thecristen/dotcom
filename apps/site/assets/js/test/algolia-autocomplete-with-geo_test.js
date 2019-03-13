@@ -120,44 +120,6 @@ describe("AlgoliaAutocompleteWithGeo", function() {
     });
   });
 
-  describe("useMyLocationSearch", function() {
-    it("redirects to Transit Near Me if geocode succeeds", function(done) {
-      window.Turbolinks = {
-        visit: sinon.spy()
-      };
-      window.navigator.geolocation = {
-        getCurrentPosition: (resolve, _reject) => {
-          resolve({ coords: { latitude: 42.0, longitude: -71.0 } });
-        }
-      };
-      window.encodeURIComponent = str => str;
-      sinon
-        .stub(GoogleMapsHelpers, "reverseGeocode")
-        .resolves("10 Park Plaza, Boston MA");
-      const result = this.ac.useMyLocationSearch();
-      Promise.resolve(result).then(() => {
-        expect(window.Turbolinks.visit.called).to.be.true;
-        expect(window.Turbolinks.visit.args[0][0]).to.equal(
-          "/transit-near-me?latitude=42&longitude=-71&address=10 Park Plaza, Boston MA"
-        );
-        done();
-      });
-    });
-    it("resets search if geolocation fails", function(done) {
-      window.navigator.geolocation = {
-        getCurrentPosition: (_resolve, reject) => {
-          reject({ code: 1, message: "User denied Geolocation" });
-        }
-      };
-      const result = this.ac.useMyLocationSearch();
-      Promise.resolve(result).then(() => {
-        expect(this.ac._input.value).to.equal("");
-        expect(this.ac._input.disabled).to.be.false;
-        done();
-      });
-    });
-  });
-
   describe("location searches", function() {
     beforeEach(function() {
       this.locationSearchResults = {
@@ -220,22 +182,6 @@ describe("AlgoliaAutocompleteWithGeo", function() {
               "/places/details/EhtQYXJrIFBsYXphLCBCb3N0b24sIE1BLCBVU0EiLiosChQKEgkT7NAzdHrjiREVMn"
             )
           ).to.be.true;
-
-          expect(this.ac.showLocation.called).to.be.true;
-          expect($(`#${selectors.input}`).val()).to.equal(
-            "Boston, MA 02128, USA"
-          );
-
-          expect(window.Turbolinks.visit.called).to.be.true;
-          expect(window.Turbolinks.visit.args[0][0]).to.contain(
-            "latitude=42.3517525"
-          );
-          expect(window.Turbolinks.visit.args[0][0]).to.contain(
-            "longitude=-71.0679696"
-          );
-          expect(window.Turbolinks.visit.args[0][0]).to.contain(
-            "address=Boston,%20MA%2002128,%20USA"
-          );
 
           done();
         });
