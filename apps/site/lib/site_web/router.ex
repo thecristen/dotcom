@@ -148,14 +148,6 @@ defmodule SiteWeb.Router do
     end
   end
 
-  scope "/places", SiteWeb do
-    pipe_through([:api])
-
-    get("/autocomplete/:input/:hit_limit/:token", PlacesController, :autocomplete)
-    get("/details/:place_id", PlacesController, :details)
-    get("/reverse-geocode/:latitude/:longitude", PlacesController, :reverse_geocode)
-  end
-
   # static files
   scope "/", SiteWeb do
     pipe_through([:secure, :browser])
