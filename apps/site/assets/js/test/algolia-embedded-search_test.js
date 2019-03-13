@@ -83,6 +83,29 @@ describe("AlgoliaEmbeddedSearch", () => {
     });
   });
 
+  describe("showLocation", () => {
+    xit("adds query parameters for analytics", () => {
+      const ac = setup(0);
+
+      window.encodeURIComponent = string =>
+        string.replace(/\s/g, "%20").replace(/\&/g, "%26");
+
+      ac.input.value = "Park Plaza";
+      ac.autocomplete.showLocation(
+        "42.0",
+        "-71.0",
+        "10 Park Plaza, Boston, MA"
+      );
+      expect(window.Turbolinks.visit.called).to.be.true;
+      expect(window.Turbolinks.visit.args[0][0]).to.contain("from=search-stop");
+      expect(window.Turbolinks.visit.args[0][0]).to.contain("latitude=42.0");
+      expect(window.Turbolinks.visit.args[0][0]).to.contain("longitude=-71.0");
+      expect(window.Turbolinks.visit.args[0][0]).to.contain(
+        "address=Park%20Plaza"
+      );
+    });
+  });
+
   describe("buildSearchParams", () => {
     it("builds a string of query params", () => {
       expect(PAGE_IDS).to.have.a.lengthOf(6);

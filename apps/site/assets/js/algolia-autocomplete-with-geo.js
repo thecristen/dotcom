@@ -197,7 +197,12 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
       window.location.host
     }/transit-near-me`;
     const qs = QueryStringHelpers.parseParams(params);
-    window.location.href = encodeURI(path + qs);
+    this.visit(encodeURI(path + qs));
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  visit(path) {
+    window.location.href = path;
   }
 }
 

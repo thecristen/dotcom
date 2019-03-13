@@ -458,4 +458,19 @@ describe("AlgoliaResults", () => {
       );
     });
   });
+
+  describe("_showLocation", () => {
+    xit("adds query parameters for analytics", () => {
+      search._showLocation("42.0", "-71.0", "10 Park Plaza, Boston, MA");
+      expect(window.Turbolinks.visit.called).to.be.true;
+      expect(window.Turbolinks.visit.args[0][0]).to.contain(
+        "from=global-search"
+      );
+      expect(window.Turbolinks.visit.args[0][0]).to.contain("latitude=42.0");
+      expect(window.Turbolinks.visit.args[0][0]).to.contain("longitude=-71.0");
+      expect(window.Turbolinks.visit.args[0][0]).to.contain(
+        "address=10%20Park%20Plaza,%20Boston,%20MA"
+      );
+    });
+  });
 });

@@ -56,6 +56,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       indices,
       locationParams
     });
+    sinon.stub(this.ac, "visit");
     this.ac.init(this.client);
   });
 
@@ -120,6 +121,41 @@ describe("AlgoliaAutocompleteWithGeo", function() {
     });
   });
 
+  describe("useMyLocationSearch", function() {
+    it("redirects to Transit Near Me if geocode succeeds", function(done) {
+      window.navigator.geolocation = {
+        getCurrentPosition: (resolve, _reject) => {
+          resolve({ coords: { latitude: 42.0, longitude: -71.0 } });
+        }
+      };
+      window.encodeURIComponent = str => str;
+      sinon
+        .stub(GoogleMapsHelpers, "reverseGeocode")
+        .resolves("10 Park Plaza, Boston MA");
+      const result = this.ac.useMyLocationSearch();
+      Promise.resolve(result).then(() => {
+        expect(this.ac.visit.called).to.be.true;
+        expect(this.ac.visit.args[0][0]).to.equal(
+          "about:///transit-near-me?latitude=42&longitude=-71&address=10%20Park%20Plaza,%20Boston%20MA"
+        );
+        done();
+      });
+    });
+    it("resets search if geolocation fails", function(done) {
+      window.navigator.geolocation = {
+        getCurrentPosition: (_resolve, reject) => {
+          reject({ code: 1, message: "User denied Geolocation" });
+        }
+      };
+      const result = this.ac.useMyLocationSearch();
+      Promise.resolve(result).then(() => {
+        expect(this.ac._input.value).to.equal("");
+        expect(this.ac._input.disabled).to.be.false;
+        done();
+      });
+    });
+  });
+
   describe("location searches", function() {
     beforeEach(function() {
       this.locationSearchResults = {
@@ -152,9 +188,6 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       });
 
       it('does a location search when index is "locations"', function(done) {
-        window.Turbolinks = {
-          visit: sinon.spy()
-        };
         window.encodeURIComponent = params => {
           const forceString = params.toString();
           return forceString.replace(/\s/g, "%20").replace(/\&/g, "%26");
@@ -182,6 +215,18 @@ describe("AlgoliaAutocompleteWithGeo", function() {
               "/places/details/EhtQYXJrIFBsYXphLCBCb3N0b24sIE1BLCBVU0EiLiosChQKEgkT7NAzdHrjiREVMn"
             )
           ).to.be.true;
+
+          expect(this.ac.showLocation.called).to.be.true;
+          expect($(`#${selectors.input}`).val()).to.equal(
+            "Boston, MA 02128, USA"
+          );
+
+          expect(this.ac.visit.called).to.be.true;
+          expect(this.ac.visit.args[0][0]).to.contain("latitude=42.3517525");
+          expect(this.ac.visit.args[0][0]).to.contain("longitude=-71.0679696");
+          expect(this.ac.visit.args[0][0]).to.contain(
+            "address=Boston,%2520MA%252002128,%2520USA"
+          );
 
           done();
         });
