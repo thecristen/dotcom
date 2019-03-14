@@ -95,7 +95,15 @@ defmodule RepoCache.LogTest do
     test "brings the counts down to 0" do
       Repo.always(5)
       reset_table(all())
-      assert [{{Repo, :always}, 0, 0}] = all()
+
+      updated = all()
+
+      refute Enum.empty?(updated)
+
+      for {key, hit, miss} <- updated do
+        assert hit === 0, "hits were not reset for #{inspect(key)}"
+        assert miss === 0, "misses were not reset for #{inspect(key)}"
+      end
     end
   end
 
