@@ -1,7 +1,13 @@
 defmodule SiteWeb.PartialView do
   use SiteWeb, :view
 
-  alias Content.{NewsEntry, Repo, Teaser}
+  alias Content.{
+    Field.Image,
+    NewsEntry,
+    Repo,
+    Teaser
+  }
+
   alias Plug.Conn
   alias SiteWeb.PartialView.SvgIconWithCircle
 
@@ -97,14 +103,20 @@ defmodule SiteWeb.PartialView do
   end
 
   @spec teaser_link_content(Teaser.t()) :: Phoenix.HTML.Safe.t() | [Phoenix.HTML.Safe.t()]
-  defp teaser_link_content(%Teaser{image: nil} = teaser) do
-    teaser_text(teaser)
+  defp teaser_link_content(%Teaser{} = teaser) do
+    [
+      render_teaser_image(teaser),
+      teaser_text(teaser)
+    ]
   end
 
-  defp teaser_link_content(%Teaser{image: image} = teaser) do
+  def render_teaser_image(%Teaser{image: nil}) do
+    []
+  end
+
+  def render_teaser_image(%Teaser{image: %Image{}} = teaser) do
     [
-      img_tag(image.url, alt: image.alt, class: teaser_image_class(teaser)),
-      teaser_text(teaser)
+      img_tag(teaser.image.url, alt: teaser.image.alt, class: teaser_image_class(teaser))
     ]
   end
 

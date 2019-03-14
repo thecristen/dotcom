@@ -7,7 +7,7 @@ defmodule Content.ProjectTest do
       update_api_response_whole_field: 3
     ]
 
-  alias Content.CMS.Static
+  alias Content.{CMS.Static, Project}
 
   setup do
     %{
@@ -118,6 +118,17 @@ defmodule Content.ProjectTest do
     test "when media_phone is provided, returns true" do
       project = %Content.Project{id: 1, media_phone: "provided"}
       assert Content.Project.contact?(project)
+    end
+  end
+
+  describe "alias/1" do
+    test "returns the bare project alias when a path_alias exists" do
+      project = %Project{id: 1234, path_alias: "/projects/alias"}
+      assert Project.alias(project) == "alias"
+    end
+
+    test "returns project id when path alias does not exist" do
+      assert Project.alias(%Project{id: 1234}) == 1234
     end
   end
 

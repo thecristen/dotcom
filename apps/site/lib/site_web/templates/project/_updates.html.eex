@@ -1,7 +1,7 @@
 <div class="c-project-updates-list c-paragraph c-paragraph--right-rail u-full-bleed">
   <h2>Project Updates</h2>
 
-  <%= for update <- @updates do %>
+  <%= for update <- Enum.take(@updates, 2) do %>
     <%= link to: project_update_path(@conn, :project_update, update), class: "c-project-update" do %>
 
       <%= if update.image do %>
@@ -17,4 +17,14 @@
       </h3>
     <% end %>
   <% end %>
+
+  <%=
+    if show_all_updates_link?(@updates) do
+      link(
+        "View all project updates",
+        class: "c-call-to-action",
+        to: project_updates_path(@conn, :project_updates, Project.alias(@project))
+      )
+    end
+  %>
 </div>

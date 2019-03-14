@@ -40,6 +40,27 @@ defmodule SiteWeb.ProjectViewTest do
     }
   ]
 
+  describe "show_all_updates_link?" do
+    test "returns false if there are 3 items or less" do
+      assert ProjectView.show_all_updates_link?(@updates) == false
+      assert @updates |> Enum.take(1) |> ProjectView.show_all_updates_link?() == false
+    end
+
+    test "returns true if there are 4 items or more" do
+      updates = [
+        %Teaser{},
+        %Teaser{},
+        %Teaser{},
+        %Teaser{},
+        %Teaser{}
+      ]
+
+      assert updates |> Enum.take(3) |> ProjectView.show_all_updates_link?() == true
+      assert updates |> Enum.take(4) |> ProjectView.show_all_updates_link?() == true
+      assert ProjectView.show_all_updates_link?(updates) == true
+    end
+  end
+
   describe "show.html" do
     test "if paragraphs are present, hide timeline, status, body, gallery, and download components" do
       project =

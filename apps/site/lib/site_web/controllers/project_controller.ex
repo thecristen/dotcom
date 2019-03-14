@@ -1,8 +1,9 @@
 defmodule SiteWeb.ProjectController do
   use SiteWeb, :controller
 
-  alias Content.Repo
+  alias Content.{Event, Project, ProjectUpdate, Repo, Teaser}
   alias Plug.Conn
+  alias SiteWeb.ProjectView
 
   @breadcrumb_base "Transforming the T"
 
@@ -27,20 +28,20 @@ defmodule SiteWeb.ProjectController do
     |> render("index.html")
   end
 
-  @spec sort_by_date([Content.Teaser.t()]) :: [Content.Teaser.t()]
+  @spec sort_by_date([Teaser.t()]) :: [Teaser.t()]
   defp sort_by_date(teasers) do
     Enum.sort(teasers, fn %{date: d1}, %{date: d2} ->
       {d1.year, d1.month, d1.day} >= {d2.year, d2.month, d2.day}
     end)
   end
 
-  def show(%Plug.Conn{} = conn, _) do
+  def show(%Conn{} = conn, _) do
     conn.request_path
     |> Repo.get_page(conn.query_params)
     |> do_show(conn)
   end
 
-  defp do_show(%Content.Project{} = project, conn) do
+  defp do_show(%Project{} = project, conn) do
     show_project(conn, project)
   end
 
@@ -54,7 +55,7 @@ defmodule SiteWeb.ProjectController do
     render_404(conn)
   end
 
-  @spec show_project(Conn.t(), Content.Project.t()) :: Conn.t()
+  @spec show_project(Conn.t(), Project.t()) :: Conn.t()
   def show_project(conn, project) do
     [updates, events] =
       Util.async_with_timeout(
@@ -72,7 +73,7 @@ defmodule SiteWeb.ProjectController do
       Enum.split_with(events, &Content.Event.past?(&1, conn.assigns.date_time))
 
     conn
-    |> put_view(SiteWeb.ProjectView)
+    |> put_view(ProjectView)
     |> render("show.html", %{
       breadcrumbs: breadcrumbs,
       project: project,
@@ -82,13 +83,58 @@ defmodule SiteWeb.ProjectController do
     })
   end
 
-  def project_update(%Plug.Conn{} = conn, _params) do
+  def project_updates(conn, %{"project_alias" => project_alias}) do
+    get_page_fn = Map.get(conn.assigns, :get_page_fn, &Repo.get_page/1)
+    teasers_fn = Map.get(conn.assigns, :teasers_fn, &Repo.teasers/1)
+
+    "/projects"
+    |> Path.join(project_alias)
+    |> get_page_fn.()
+    |> case do
+      %Project{} = project ->
+        breadcrumbs = [
+          Breadcrumb.build(@breadcrumb_base, project_path(conn, :index)),
+          Breadcrumb.build(project.title, project_path(conn, :show, project)),
+          Breadcrumb.build("Updates")
+        ]
+
+        conn
+        |> put_view(ProjectView)
+        |> render("updates.html", %{
+          breadcrumbs: breadcrumbs,
+          project: project,
+          updates:
+            teasers_fn.(
+              related_to: project.id,
+              type: "project_update",
+              items_per_page: 50
+            )
+        })
+
+      {:error, {:redirect, status, [to: "/projects/" <> redirect_alias]}} ->
+        conn
+        |> put_status(status)
+        |> redirect(to: project_updates_path(conn, :project_updates, redirect_alias))
+
+      {:error, :not_found} ->
+        render_404(conn)
+
+      _ ->
+        conn
+        |> put_status(:bad_gateway)
+        |> put_view(SiteWeb.ErrorView)
+        |> render("crash.html", [])
+        |> halt()
+    end
+  end
+
+  def project_update(%Conn{} = conn, _params) do
     conn.request_path
     |> Repo.get_page(conn.query_params)
     |> do_project_update(conn)
   end
 
-  defp do_project_update(%Content.ProjectUpdate{} = update, conn) do
+  defp do_project_update(%ProjectUpdate{} = update, conn) do
     show_project_update(conn, update)
   end
 
@@ -102,18 +148,22 @@ defmodule SiteWeb.ProjectController do
     render_404(conn)
   end
 
-  @spec show_project_update(Conn.t(), Content.ProjectUpdate.t()) :: Conn.t()
-  def show_project_update(%Conn{} = conn, %Content.ProjectUpdate{} = update) do
+  @spec show_project_update(Conn.t(), ProjectUpdate.t()) :: Conn.t()
+  def show_project_update(%Conn{} = conn, %ProjectUpdate{} = update) do
     case Repo.get_page(update.project_url) do
-      %Content.Project{} = project ->
+      %Project{} = project ->
         breadcrumbs = [
           Breadcrumb.build(@breadcrumb_base, project_path(conn, :index, [])),
           Breadcrumb.build(project.title, project_path(conn, :show, project)),
+          Breadcrumb.build(
+            "Updates",
+            project_updates_path(conn, :project_updates, Project.alias(project))
+          ),
           Breadcrumb.build(update.title)
         ]
 
         conn
-        |> put_view(SiteWeb.ProjectView)
+        |> put_view(ProjectView)
         |> render("update.html", %{
           breadcrumbs: breadcrumbs,
           update: update
@@ -127,11 +177,11 @@ defmodule SiteWeb.ProjectController do
     end
   end
 
-  @spec get_events_async(integer) :: (() -> [Content.Event.t()])
+  @spec get_events_async(integer) :: (() -> [Event.t()])
   def get_events_async(id), do: fn -> Repo.events(project_id: id) end
 
-  @spec get_updates_async(integer) :: (() -> [Content.Teaser.t()])
+  @spec get_updates_async(integer) :: (() -> [Teaser.t()])
   def get_updates_async(id) do
-    fn -> Repo.teasers(related_to: id, type: "project_update") end
+    fn -> Repo.teasers(related_to: id, type: "project_update", items_per_page: 5) end
   end
 end

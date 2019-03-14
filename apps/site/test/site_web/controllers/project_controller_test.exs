@@ -3,7 +3,7 @@ defmodule SiteWeb.ProjectControllerTest do
 
   import Mock
 
-  alias Content.CMS.Static
+  alias Content.{CMS.Static, Project}
 
   describe "index" do
     test "renders the list of projects", %{conn: conn} do
@@ -82,6 +82,104 @@ defmodule SiteWeb.ProjectControllerTest do
     test "renders a 404 given an invalid id", %{conn: conn} do
       conn = get(conn, project_path(conn, :show, "this-does-not-exist"))
       assert conn.status == 404
+    end
+  end
+
+  describe "project_updates" do
+    test "renders a list of updates related to a project", %{conn: conn} do
+      project = project_factory(0)
+      project_id = project.id
+
+      teaser = teaser_factory(:project_updates, 0)
+
+      teasers_fn = fn [related_to: ^project_id, type: "project_update", items_per_page: 50] ->
+        [teaser]
+      end
+
+      resp =
+        conn
+        |> assign(:get_page_fn, fn _ -> project end)
+        |> assign(:teasers_fn, teasers_fn)
+        |> get(project_updates_path(conn, :project_updates, Project.alias(project)))
+        |> html_response(200)
+
+      assert [update] = Floki.find(resp, ".m-project-updates__teaser")
+      assert Floki.text(update) =~ "How the Wollaston Station Closure Affects Your Trip"
+      assert {"a", attrs, _} = update
+      assert attrs |> Map.new() |> Map.get("href") == teaser.path
+
+      assert [view_project] = Floki.find(resp, ".c-descriptive-link")
+      assert Floki.text(view_project) =~ project.title
+      assert {"a", attrs, _} = view_project
+      assert attrs |> Map.new() |> Map.get("href") == project_path(conn, :show, project)
+    end
+
+    test "renders an empty page when project has no updates", %{conn: conn} do
+      project = project_factory(0)
+      project_id = project.id
+
+      teasers_fn = fn [related_to: ^project_id, type: "project_update", items_per_page: 50] ->
+        []
+      end
+
+      resp =
+        conn
+        |> assign(:get_page_fn, fn _ -> project end)
+        |> assign(:teasers_fn, teasers_fn)
+        |> get(project_updates_path(conn, :project_updates, Project.alias(project)))
+        |> html_response(200)
+
+      assert Floki.find(resp, ".m-project-updates__teaser") == []
+
+      assert Floki.text(resp) =~ "no updates"
+
+      assert [view_project] = Floki.find(resp, ".c-descriptive-link")
+      assert Floki.text(view_project) =~ project.title
+      assert {"a", attrs, _} = view_project
+      assert attrs |> Map.new() |> Map.get("href") == project_path(conn, :show, project)
+    end
+
+    test "redirects when project returns a redirect", %{conn: conn} do
+      project = project_factory(1)
+
+      for status <- [301, 302] do
+        conn
+        |> assign(:get_page_fn, fn _ -> {:error, {:redirect, status, to: project.path_alias}} end)
+        |> assign(:teasers_fn, fn _ ->
+          send(self(), :teasers_fn)
+          []
+        end)
+        |> get(project_updates_path(conn, :project_updates, Project.alias(project)))
+        |> html_response(status)
+
+        refute_received :teasers_fn
+      end
+    end
+
+    test "404s when project 404s", %{conn: conn} do
+      conn
+      |> assign(:get_page_fn, fn _ -> {:error, :not_found} end)
+      |> assign(:teasers_fn, fn _ ->
+        send(self(), :teasers_fn)
+        []
+      end)
+      |> get(project_updates_path(conn, :project_updates, "does-not-exist"))
+      |> html_response(404)
+
+      refute_received :teasers_fn
+    end
+
+    test "returns 502 when repo returns error", %{conn: conn} do
+      conn
+      |> assign(:get_page_fn, fn _ -> {:error, :invalid_response} end)
+      |> assign(:teasers_fn, fn _ ->
+        send(self(), :teasers_fn)
+        []
+      end)
+      |> get(project_updates_path(conn, :project_updates, "error"))
+      |> html_response(:bad_gateway)
+
+      refute_received :teasers_fn
     end
   end
 

@@ -56,7 +56,7 @@ defmodule Content.Teaser do
   end
 
   @spec date(map) :: Date.t() | nil
-  defp date(%{"type" => "news_entry", "posted" => date}) do
+  defp date(%{"type" => type, "posted" => date}) when type in ["news_entry", "project_update"] do
     do_date(date)
   end
 
