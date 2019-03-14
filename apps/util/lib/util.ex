@@ -263,7 +263,7 @@ defmodule Util do
 
     _ =
       Logger.info(fn ->
-        "#{module}.#{function} duration=#{time}"
+        "module=#{module} function=#{function} duration=#{time}"
       end)
 
     result
