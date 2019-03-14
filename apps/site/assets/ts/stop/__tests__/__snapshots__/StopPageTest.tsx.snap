@@ -68,7 +68,40 @@ Array [
   >
     <div
       className="station__hero-map"
-    />
+    >
+      <div
+        className="station__hero-map-container"
+        id="test"
+      />
+      <noscript>
+        <style>
+          #test { display: none; }
+        </style>
+        <div
+          className="station__hero-map-container"
+        >
+          <a
+            href="https://maps.google.com/?q=700 Atlantic Ave, Boston, MA 02110"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <img
+              alt="Map of South Station and surrounding area"
+              className="map-static map-static-img"
+              sizes="(min-width: 1344px) 1099w,
+        (min-width: 1088px) 734w,
+        (min-width: 800px) 694w,
+        calc(100vw - 1.5rem)"
+              src=""
+              srcSet=""
+            />
+          </a>
+        </div>
+      </noscript>
+      <div
+        className="current-stop"
+      />
+    </div>
     <div
       className="station__hero-photo"
     />

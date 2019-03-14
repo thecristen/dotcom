@@ -2,7 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { shallow } from "enzyme";
 import StopCard from "../components/StopCard";
-import { createReactRoot } from "./helpers/testUtils";
+import { createReactRoot } from "../../app/helpers/testUtils";
 import {
   TNMDirection,
   TNMHeadsign,

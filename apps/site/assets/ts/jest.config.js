@@ -11,12 +11,12 @@ module.exports = {
   coverageReporters: ["html"],
   coverageThreshold: {
     global: {
-      branches: 95,
+      branches: 94,
       functions: 95,
       lines: 95,
       statements: -25 // No idea what good default is for this, this means "up to 25 uncovered statements allowed"
     },
-    "./ts/tnm/components/googleMaps/": {
+    "./ts/app/googleMaps/": {
       // The Google Maps API is difficult to test, so we consider a lower
       // threshold acceptable for these modules. However, callbacks in
       // these modules should always use named functions, and have unit tests.

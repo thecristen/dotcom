@@ -226,9 +226,12 @@ This will ensure any part of the site that uses Google's API will not get rate l
     * Use the "Select Project" button at the top of the page to choose your project and then hit "Create Credentials" -> "API Key"
 2. Enable specific APIs:
     * Go to the API library for your project (e.g. https://console.developers.google.com/apis/library?project=mbtadotcom)
-    * Using the search box at the top of the page, find 'Google Maps Geolocation API'
+    * Using the search box at the top of the page, find "Google Maps Geolocation API"
     * Click "Enable"
-    * Depending on what you're working on, you may need to enable other APIs (several of them are enabled by default).
+    * Repeat for
+        * "Places API"
+        * "Maps Javascript API"
+        * "Maps Static API"
 
 ### `DRUPAL_ROOT`
 

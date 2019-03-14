@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
-import Marker from "./Marker";
-import { MapData, MarkerData } from "../__tnm";
-import { clickMarkerAction, SelectedStopType, Dispatch } from "../../state";
-import mapStyles from "../../../../js/google-map/styles";
+import Marker from "../../app/googleMaps/Marker";
+import { MapData, MarkerData } from "../../app/googleMaps/__googleMaps";
+import { clickMarkerAction, SelectedStopType, Dispatch } from "../state";
+import { setMapDefaults } from "../../app/googleMaps/helpers";
 
 interface Props {
   initialData: MapData;
@@ -20,33 +20,13 @@ class TransitNearMeMap extends React.Component<Props> {
     const mapElement = document.getElementById(mapElementId);
     if (!mapElement) return;
 
-    const options = {
-      center: new window.google.maps.LatLng(
-        initialData.default_center.latitude,
-        initialData.default_center.longitude
-      ),
-      ...initialData.dynamic_options
-    };
-    const map = new window.google.maps.Map(mapElement, options);
+    const map = new window.google.maps.Map(mapElement);
     map.addListener("click", () => {
       dispatch(clickMarkerAction(null));
     });
-    const styles = mapStyles as google.maps.MapTypeStyle[];
-    // Hide stop icons on the transit layer
-    styles.push({
-      featureType: "transit",
-      elementType: "labels.icon",
-      stylers: [{ visibility: "off" }]
-    });
-    map.setOptions({ styles });
-    map.setZoom(initialData.zoom || 17);
+    setMapDefaults(map, initialData);
     this.map = map;
-
     this.setBounds();
-    if (initialData.layers.transit) {
-      const layer = new window.google.maps.TransitLayer();
-      layer!.setMap(map);
-    }
 
     this.forceUpdate();
   }
@@ -91,19 +71,15 @@ class TransitNearMeMap extends React.Component<Props> {
       initialData
     } = this.props;
     if (this.map) {
-      const markers = initialData.markers.map((marker: MarkerData) => {
-        const isSelected = selectedStopId === marker.id;
-
-        return (
-          <Marker
-            key={marker.id}
-            data={marker}
-            map={this.map!}
-            dispatch={dispatch}
-            isSelected={isSelected}
-          />
-        );
-      });
+      const markers = initialData.markers.map((marker: MarkerData) => (
+        <Marker
+          key={marker.id}
+          data={marker}
+          map={this.map!}
+          dispatch={dispatch}
+          isSelected={selectedStopId === marker.id}
+        />
+      ));
 
       // eslint-disable-next-line no-unused-expressions
       shouldCenterMapOnSelectedStop && selectedStopId && this.centerMap();

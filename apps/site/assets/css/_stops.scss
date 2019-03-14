@@ -281,3 +281,13 @@
 .station__address {
   margin: $base-spacing 0;
 }
+
+.station__hero-map-container {
+  flex: 1 1 auto;
+  height: $base-spacing * 35;
+
+  @include media-breakpoint-only(xxl) {
+    @include make-container();
+    max-width: map-get($container-max-widths, xxl);
+  }
+}

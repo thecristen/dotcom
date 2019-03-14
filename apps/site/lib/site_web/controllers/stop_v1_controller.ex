@@ -10,7 +10,7 @@ defmodule SiteWeb.StopV1Controller do
   alias Alerts.Stop, as: AlertsStop
   alias Fares.RetailLocations
   alias Routes.{Group, Route}
-  alias SiteWeb.StopController.StopMap
+  alias SiteWeb.StopController.StopV1Map
   alias Stops.{Repo, Stop}
   alias Util.AndOr
 
@@ -138,7 +138,7 @@ defmodule SiteWeb.StopV1Controller do
     |> async_assign_default(:terminal_stations, fn -> terminal_stations(routes) end, %{})
     |> async_assign_default(:fare_sales_locations, fn -> RetailLocations.get_nearby(stop) end, [])
     |> assign(:requires_google_maps?, true)
-    |> assign(:map_info, StopMap.map_info(stop))
+    |> assign(:map_info, StopV1Map.map_info(stop))
     |> await_assign_all_default(__MODULE__)
   end
 

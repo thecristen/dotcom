@@ -5,7 +5,7 @@ import RouteCard, {
   routeBgColor,
   busClass
 } from "../components/RouteCard";
-import { createReactRoot } from "./helpers/testUtils";
+import { createReactRoot } from "../../app/helpers/testUtils";
 import {
   TNMDirection,
   TNMHeadsign,

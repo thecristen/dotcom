@@ -1,7 +1,4 @@
-import {
-  buildIconFromSVG,
-  buildMarkerIcon
-} from "../../components/googleMaps/helpers";
+import { buildIconFromSVG, buildMarkerIcon } from "../googleMaps/helpers";
 
 const defaultMarkerData = {
   id: "1",

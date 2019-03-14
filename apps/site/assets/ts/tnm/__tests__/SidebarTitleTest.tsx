@@ -2,7 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { shallow } from "enzyme";
 import SidebarTitle from "../components/SidebarTitle";
-import { createReactRoot } from "./helpers/testUtils";
+import { createReactRoot } from "../../app/helpers/testUtils";
 
 it("it renders", () => {
   createReactRoot();

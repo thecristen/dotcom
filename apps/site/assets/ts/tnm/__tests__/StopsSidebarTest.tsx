@@ -1,7 +1,8 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import StopsSidebar, { filterData } from "../components/StopsSidebar";
-import { createReactRoot, importStopData } from "./helpers/testUtils";
+import { createReactRoot } from "../../app/helpers/testUtils";
+import { importStopData } from "./helpers/testUtils";
 import { StopWithRoutes } from "../components/__tnm";
 
 describe("StopsSidebar", () => {

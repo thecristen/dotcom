@@ -1,7 +1,8 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import RoutesSidebar, { filterData } from "../components/RoutesSidebar";
-import { createReactRoot, importData } from "./helpers/testUtils";
+import { createReactRoot } from "../../app/helpers/testUtils";
+import { importData } from "./helpers/testUtils";
 import { TNMRoute } from "../components/__tnm";
 
 describe("render", () => {

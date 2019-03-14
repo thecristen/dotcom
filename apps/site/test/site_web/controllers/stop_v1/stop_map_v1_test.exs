@@ -1,6 +1,6 @@
-defmodule SiteWeb.StopController.StopMapTest do
+defmodule SiteWeb.StopController.StopV1MapTest do
   use ExUnit.Case
-  import SiteWeb.StopController.StopMap
+  import SiteWeb.StopController.StopV1Map
   alias Stops.Stop
 
   describe "map_info/1" do

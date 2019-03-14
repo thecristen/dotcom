@@ -5,14 +5,13 @@ defmodule SiteWeb.TransitNearMeController do
   alias Phoenix.HTML
   alias Plug.Conn
   alias Site.TransitNearMe
-  alias SiteWeb.PartialView.FullscreenError
+  alias SiteWeb.PartialView
+  alias SiteWeb.PartialView.{FullscreenError}
 
   alias SiteWeb.TransitNearMeController.{
     Location,
     StopsWithRoutes
   }
-
-  alias SiteWeb.TransitNearMeView
 
   def index(conn, _params) do
     conn
@@ -126,7 +125,7 @@ defmodule SiteWeb.TransitNearMeController do
 
   defp tooltip(marker) do
     "_location_card.html"
-    |> TransitNearMeView.render(marker)
+    |> PartialView.render(marker)
     |> HTML.safe_to_string()
   end
 

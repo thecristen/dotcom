@@ -1,13 +1,18 @@
 import React, { ReactElement } from "react";
-import StopPageData from "./__stop";
+import StopMapContainer from "./StopMapContainer";
+import { StopPageData, StopMapData } from "./__stop";
 import Sidebar from "./Sidebar";
 
 interface Props {
   stopPageData: StopPageData;
+  mapData: StopMapData;
+  mapId: string;
 }
 
 export default ({
-  stopPageData: { stop }
+  stopPageData: { stop },
+  mapData,
+  mapId
 }: Props): ReactElement<HTMLElement> => (
   <>
     <div className="breadcrumb-container">
@@ -34,7 +39,7 @@ export default ({
       <div className="station__details-container">Station Details</div>
     </div>
     <div className="station__hero">
-      <div className="station__hero-map" />
+      <StopMapContainer initialData={mapData} mapId={mapId} stop={stop} />
       <div className="station__hero-photo" />
     </div>
     <div className="container">

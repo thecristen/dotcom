@@ -1,7 +1,7 @@
-defmodule SiteWeb.TransitNearMeViewTest do
+defmodule SiteWeb.LocationCardTest do
   use SiteWeb.ConnCase, async: true
   import Phoenix.HTML, only: [safe_to_string: 1]
-  alias SiteWeb.TransitNearMeView, as: View
+  alias SiteWeb.PartialView.LocationCard
 
   @stop %Stops.Stop{
     accessibility: ["accessible", "elevator", "tty_phone", "escalator_up"],
@@ -43,13 +43,19 @@ defmodule SiteWeb.TransitNearMeViewTest do
           type: 2,
           href: "/cr-franklin"
         },
-        %{id: "CR-Needham", description: :commuter_rail, name: "Needham Line", type: 2},
+        %{
+          id: "CR-Needham",
+          description: :commuter_rail,
+          name: "Needham Line",
+          type: 2,
+          href: "/cr-needham"
+        },
         %{
           id: "CR-Providence",
           description: :commuter_rail,
           name: "Providence/Stoughton Line",
           type: 2,
-          href: "/cr-needham"
+          href: "/cr-providence"
         }
       ]
     },
@@ -68,7 +74,7 @@ defmodule SiteWeb.TransitNearMeViewTest do
   end
 
   defp test_render_routes(:bus, routes) do
-    assert :bus |> View.render_routes(routes) |> safe_to_string =~ "Bus: "
+    assert :bus |> LocationCard.render_routes(routes, @stop) |> safe_to_string =~ "Bus: "
   end
 
   defp test_render_routes(mode_name, routes) do
@@ -81,16 +87,20 @@ defmodule SiteWeb.TransitNearMeViewTest do
 
     actual =
       mode_name
-      |> View.render_routes(routes)
+      |> LocationCard.render_routes(routes, @stop)
       |> List.first()
       |> safe_to_string()
 
     assert actual =~ expected
+
+    if mode_name == :commuter_rail do
+      assert actual =~ "/stops/"
+    end
   end
 
   describe "route_path/3" do
     test "route path for commuter rail goes to the stop" do
-      assert View.route_path(
+      assert LocationCard.route_path(
                %Routes.Route{
                  id: "CR-Providence",
                  description: :commuter_rail,
@@ -103,7 +113,7 @@ defmodule SiteWeb.TransitNearMeViewTest do
     end
 
     test "route path for others returns the route with the stop set the origin" do
-      assert View.route_path(
+      assert LocationCard.route_path(
                %Routes.Route{
                  id: "Orange",
                  description: :rapid_transit,
@@ -118,7 +128,7 @@ defmodule SiteWeb.TransitNearMeViewTest do
 
   describe "stop_path/1" do
     test "returns the path to the stop page with the schedules tab" do
-      assert View.stop_path(@stop) == "/stops/place-bbsta?tab=schedule"
+      assert LocationCard.stop_path(@stop) == "/stops/place-bbsta?tab=schedule"
     end
   end
 end

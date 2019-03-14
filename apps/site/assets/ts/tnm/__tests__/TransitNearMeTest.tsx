@@ -2,12 +2,9 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import TransitNearMe, { getSelectedStop } from "../components/TransitNearMe";
-import {
-  createReactRoot,
-  importData,
-  importStopData
-} from "./helpers/testUtils";
-import { MapData } from "../components/__tnm";
+import { createReactRoot } from "../../app/helpers/testUtils";
+import { importData, importStopData } from "./helpers/testUtils";
+import { MapData } from "../../app/googleMaps/__googleMaps";
 
 it("it renders", () => {
   /* eslint-disable typescript/camelcase */

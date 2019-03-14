@@ -1,4 +1,10 @@
+import * as googleMaps from "../app/googleMaps/state";
+
 export type SelectedStopType = string | null;
+
+export const { clickMarkerAction } = googleMaps;
+
+export const { clickCurrentLocationAction } = googleMaps;
 
 interface State {
   selectedStopId: SelectedStopType;
@@ -10,8 +16,7 @@ interface State {
 export type Dispatch = (action: Action) => void;
 
 type ActionType =
-  | "CLICK_MARKER"
-  | "CLICK_CURRENT_LOCATION_MARKER"
+  | googleMaps.MapActionType
   | "CLICK_STOP_CARD"
   | "CLICK_STOP_PILL"
   | "CLICK_VIEW_CHANGE";
@@ -22,18 +27,6 @@ export interface Action {
     stopId: SelectedStopType;
   };
 }
-
-export const clickMarkerAction = (stopId: SelectedStopType): Action => ({
-  type: "CLICK_MARKER",
-  payload: { stopId }
-});
-
-export const clickCurrentLocationAction = (
-  stopId: SelectedStopType
-): Action => ({
-  type: "CLICK_CURRENT_LOCATION_MARKER",
-  payload: { stopId }
-});
 
 export const clickStopCardAction = (stopId: SelectedStopType): Action => ({
   type: "CLICK_STOP_CARD",

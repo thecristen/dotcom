@@ -4,7 +4,8 @@ import { shallow } from "enzyme";
 import StopWithRoutesCard, {
   renderRoutesLabel
 } from "../components/StopWithRoutesCard";
-import { createReactRoot, importStopData } from "./helpers/testUtils";
+import { createReactRoot } from "../../app/helpers/testUtils";
+import { importStopData } from "./helpers/testUtils";
 import { StopWithRoutes, TNMRoute } from "../components/__tnm";
 
 describe("StopWithRoutesCard", () => {

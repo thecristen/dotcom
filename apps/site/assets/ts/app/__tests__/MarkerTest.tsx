@@ -1,8 +1,8 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Marker from "../../components/googleMaps/Marker";
-import { createReactRoot } from "../helpers/testUtils";
-import { MarkerData } from "../../components/__tnm";
+import Marker from "../googleMaps/Marker";
+import { createReactRoot } from "../../app/helpers/testUtils";
+import { MarkerData } from "../googleMaps/__googleMaps";
 
 const createData = (id: string): MarkerData => ({
   id,

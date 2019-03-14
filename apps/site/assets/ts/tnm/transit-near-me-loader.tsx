@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { MapData } from "./components/__tnm";
+import { MapData } from "../app/googleMaps/__googleMaps";
 import { doWhenGoogleMapsIsReady } from "../../js/google-maps-loaded";
 import TransitNearMeSearch from "./search";
 import TransitNearMe from "./components/TransitNearMe";

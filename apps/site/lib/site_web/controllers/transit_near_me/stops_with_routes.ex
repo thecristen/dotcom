@@ -3,10 +3,11 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutes do
   Builds a list of stops near a location, with the routes that go through that stop.
   """
 
+  alias GoogleMaps
   alias GoogleMaps.Geocode.Address
   alias Routes.Route
   alias Site.TransitNearMe
-  alias SiteWeb.TransitNearMeView
+  alias SiteWeb.PartialView.LocationCard
   alias SiteWeb.ViewHelpers
   alias Stops.Stop
 
@@ -21,7 +22,8 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutes do
           stop: Stop.t()
         }
 
-  @spec stops_with_routes(TransitNearMe.t(), Address.t()) :: [map]
+  @spec stops_with_routes(TransitNearMe.t(), Address.t()) ::
+          [map] | []
   def stops_with_routes({:stops, []}, _), do: []
 
   def stops_with_routes(stops_with_routes, %Address{} = location) do
@@ -54,7 +56,7 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutes do
 
   @spec build_route_map(Route.t(), Routes.Group.t(), Stop.t()) :: map
   def build_route_map(route, route_group, stop) do
-    route_path = TransitNearMeView.route_path(route, stop, route_group)
+    route_path = LocationCard.route_path(route, stop, route_group)
 
     route
     |> Map.from_struct()

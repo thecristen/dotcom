@@ -2,7 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { shallow } from "enzyme";
 import RouteSidebarHeader from "../components/RouteSidebarHeader";
-import { createReactRoot } from "./helpers/testUtils";
+import { createReactRoot } from "../../app/helpers/testUtils";
 import { TNMStop } from "../components/__tnm";
 
 /* eslint-disable typescript/camelcase */

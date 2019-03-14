@@ -1,8 +1,9 @@
 import React, { useReducer, ReactElement } from "react";
-import TransitNearMeMap from "./googleMaps/TransitNearMeMap";
+import TransitNearMeMap from "./TransitNearMeMap";
 import RoutesSidebar from "./RoutesSidebar";
 import StopsSidebar from "./StopsSidebar";
-import { TNMRoute, TNMStop, MapData, StopWithRoutes } from "./__tnm";
+import { TNMRoute, TNMStop, StopWithRoutes } from "./__tnm";
+import { MapData } from "../../app/googleMaps/__googleMaps";
 import { reducer, initialState, SelectedStopType } from "../state";
 
 interface Props {

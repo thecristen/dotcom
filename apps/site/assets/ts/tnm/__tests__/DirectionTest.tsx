@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import Direction from "../components/Direction";
-import { createReactRoot } from "./helpers/testUtils";
+import { createReactRoot } from "../../app/helpers/testUtils";
 import {
   TNMDirection,
   TNMHeadsign,
