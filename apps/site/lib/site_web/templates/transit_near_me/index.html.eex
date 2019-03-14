@@ -11,9 +11,7 @@
 <script id="js-tnm-sidebar-data" type="text/plain"><%= @routes_json |> Poison.encode!() |> raw()  %></script>
 <script id="js-tnm-stop-sidebar-data" type="text/plain"><%= @stops_json |> Poison.encode!() |> raw()  %></script>
 <div id="react-root">
-  <%= unless Enum.empty?(@routes_json) do %>
-    <%= Site.React.render("TransitNearMe", %{routeSidebarData: @routes_json, stopSidebarData: @stops_json, mapData: @map_data, mapId: "js-tnm-map-dynamic-data" }) %>
-  <% end %>
+  <%= unless Enum.empty?(@routes_json) do render_react(assigns) end %>
 </div>
 
 <%= if Application.get_env(:site, :dev_server?) do %>
