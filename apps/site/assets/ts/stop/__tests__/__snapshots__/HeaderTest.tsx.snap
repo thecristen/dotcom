@@ -1,0 +1,499 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div
+  className="station__header"
+>
+  <div
+    className="station__header-container"
+  >
+    <h1
+      className="station__name station__name--upcase"
+    >
+      South Station
+    </h1>
+    <div
+      className="station__header-features"
+    >
+      <a
+        className="station__header-feature"
+        href="/stops/place-sstat?tab=departures#subway-schedule"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-red-line-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="/stops/place-sstat?tab=departures#bus-schedule"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-bus-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="/stops/place-sstat?tab=departures#commuter-rail-schedule"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-commuter-rail-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="/stops/place-sstat?tab=info#commuter-fares"
+      >
+        <span
+          className="station__header-icon c-icon__cr-zone"
+        >
+          Zone 1A
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="#accessibility"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-accessible-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="#parking"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-parking-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+    </div>
+    <div
+      className="header-tabs"
+    >
+      <a
+        className="
+      header-tab
+      header-tab--dark
+      header-tab--selected
+      
+      details
+    "
+        href="/stops-v2/place-sstat"
+      >
+        Station Details
+      </a>
+      <a
+        className="
+      header-tab
+      header-tab--dark
+      
+      
+      alerts
+    "
+        href="/stops/place-sstat?tab=alerts"
+      >
+        Alerts
+        <div
+          aria-label="1 alert"
+          className="m-alert-badge"
+        >
+          1
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders all subway routes 1`] = `
+<div
+  className="station__header"
+>
+  <div
+    className="station__header-container"
+  >
+    <h1
+      className="station__name station__name--upcase"
+    >
+      South Station
+    </h1>
+    <div
+      className="station__header-features"
+    >
+      <a
+        className="station__header-feature"
+        href="/stops/place-sstat?tab=departures#subway-schedule"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-red-line-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="/stops/place-sstat?tab=departures#subway-schedule"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-orange-line-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="/stops/place-sstat?tab=departures#subway-schedule"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-blue-line-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="/stops/place-sstat?tab=departures#subway-schedule"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-mattapan-line-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="/stops/place-sstat?tab=info#commuter-fares"
+      >
+        <span
+          className="station__header-icon c-icon__cr-zone"
+        >
+          Zone 1A
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="#accessibility"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-accessible-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="#parking"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-parking-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+    </div>
+    <div
+      className="header-tabs"
+    >
+      <a
+        className="
+      header-tab
+      header-tab--dark
+      header-tab--selected
+      
+      details
+    "
+        href="/stops-v2/place-sstat"
+      >
+        Station Details
+      </a>
+      <a
+        className="
+      header-tab
+      header-tab--dark
+      
+      
+      alerts
+    "
+        href="/stops/place-sstat?tab=alerts"
+      >
+        Alerts
+        <div
+          aria-label="1 alert"
+          className="m-alert-badge"
+        >
+          1
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders with green line routes 1`] = `
+<div
+  className="station__header"
+>
+  <div
+    className="station__header-container"
+  >
+    <h1
+      className="station__name station__name--upcase"
+    >
+      South Station
+    </h1>
+    <div
+      className="station__header-features"
+    >
+      <a
+        className="station__header-feature"
+        href="/stops/place-sstat?tab=departures#subway-schedule"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-green-line-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="/stops/place-sstat?tab=departures#subway-schedule"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-green-b-line-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="/stops/place-sstat?tab=departures#subway-schedule"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-green-c-line-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="/stops/place-sstat?tab=departures#subway-schedule"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-green-d-line-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="/stops/place-sstat?tab=departures#subway-schedule"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-green-e-line-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="/stops/place-sstat?tab=info#commuter-fares"
+      >
+        <span
+          className="station__header-icon c-icon__cr-zone"
+        >
+          Zone 1A
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="#accessibility"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-accessible-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="station__header-feature"
+        href="#parking"
+      >
+        <span
+          className="station__header-icon"
+        >
+          <span
+            className="c-svg__icon-parking-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+    </div>
+    <div
+      className="header-tabs"
+    >
+      <a
+        className="
+      header-tab
+      header-tab--dark
+      header-tab--selected
+      
+      details
+    "
+        href="/stops-v2/place-sstat"
+      >
+        Station Details
+      </a>
+      <a
+        className="
+      header-tab
+      header-tab--dark
+      
+      
+      alerts
+    "
+        href="/stops/place-sstat?tab=alerts"
+      >
+        Alerts
+        <div
+          aria-label="1 alert"
+          className="m-alert-badge"
+        >
+          1
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+`;

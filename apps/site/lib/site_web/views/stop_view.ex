@@ -1,9 +1,11 @@
 defmodule SiteWeb.StopView do
+  @moduledoc """
+  View helpers for the Stop controller
+  """
   use SiteWeb, :view
 
   alias Phoenix.HTML
   alias Site.React
-  alias Stops.Stop
 
   @spec render_react(map) :: HTML.safe()
   def render_react(assigns) do
@@ -11,13 +13,13 @@ defmodule SiteWeb.StopView do
   end
 
   @spec do_render_react(map) :: HTML.safe()
-  def do_render_react(%{stop: %Stop{} = stop, map_data: map_data}) do
+  def do_render_react(%{stop_page_data: stop_page_data, map_data: map_data, map_id: map_id}) do
     React.render(
       "StopPage",
       %{
-        stopPageData: %{stop: stop},
+        stopPageData: stop_page_data,
         mapData: map_data,
-        mapId: "map"
+        mapId: map_id
       }
     )
   end

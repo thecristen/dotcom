@@ -202,6 +202,40 @@ defmodule Routes.Route do
   def silver_line?(%__MODULE__{id: id}), do: id in @silver_line_set
 
   def silver_line, do: @silver_line
+
+  @spec to_json_safe(t) :: map
+  def to_json_safe(%__MODULE__{
+        id: id,
+        type: type,
+        name: name,
+        long_name: long_name,
+        direction_names: direction_names,
+        direction_destinations: direction_destinations,
+        description: description,
+        custom_route?: custom_route?
+      }) do
+    direction_destinations_value =
+      if direction_destinations == :unknown,
+        do: nil,
+        else: %{
+          "0" => direction_destinations[0],
+          "1" => direction_destinations[1]
+        }
+
+    %{
+      id: id,
+      type: type,
+      name: name,
+      long_name: long_name,
+      direction_names: %{
+        "0" => direction_names[0],
+        "1" => direction_names[1]
+      },
+      direction_destinations: direction_destinations_value,
+      description: description,
+      custom_route?: custom_route?
+    }
+  end
 end
 
 defimpl Phoenix.Param, for: Routes.Route do

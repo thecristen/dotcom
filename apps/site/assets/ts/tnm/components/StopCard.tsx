@@ -3,10 +3,9 @@ import { TNMRoute, TNMStop } from "./__tnm";
 import { clickStopCardAction, Dispatch } from "../state";
 import { Direction, directionIsEmpty } from "./Direction";
 import renderSvg from "../../helpers/render-svg";
+import { accessibleIcon } from "../../helpers/icon";
 // @ts-ignore
 import stationSymbol from "../../../static/images/icon-circle-t-small.svg";
-// @ts-ignore
-import accessibleIcon from "../../../static/images/icon-accessible-default.svg";
 
 interface Props {
   stop: TNMStop;
@@ -60,7 +59,7 @@ export const StopCard = ({
           {stop.name}
           {!!stop.accessibility.length &&
             !stop.accessibility.includes("unknown") &&
-            renderSvg("m-tnm-sidebar__stop-accessible", accessibleIcon)}
+            accessibleIcon("m-tnm-sidebar__stop-accessible")}
         </a>
         <div className="m-tnm-sidebar__stop-distance">{stop.distance}</div>
       </div>

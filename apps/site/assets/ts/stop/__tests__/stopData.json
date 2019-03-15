@@ -40,5 +40,187 @@
       "elevator",
       "fully_elevated_platform"
     ]
-  }
+  },
+  "routes": [
+    {
+      "group_name": "subway",
+      "routes": [
+        {
+          "custom_route?": false,
+          "description": "rapid_transit",
+          "direction_destinations": {
+            "0": "Ashmont/Braintree",
+            "1": "Alewife"
+          },
+          "direction_names": { "0": "South", "1": "North" },
+          "id": "Red",
+          "long_name": "Red Line",
+          "name": "Red Line",
+          "type": 1
+        }
+      ]
+    },
+    {
+      "group_name": "bus",
+      "routes": [
+        {
+          "custom_route?": false,
+          "description": "key_bus_route",
+          "direction_destinations": {
+            "0": "Logan Airport",
+            "1": "South Station"
+          },
+          "direction_names": { "0": "Outbound", "1": "Inbound" },
+          "id": "741",
+          "long_name": "Logan Airport - South Station",
+          "name": "SL1",
+          "type": 3
+        },
+        {
+          "custom_route?": false,
+          "description": "key_bus_route",
+          "direction_destinations": {
+            "0": "Design Center",
+            "1": "South Station"
+          },
+          "direction_names": { "0": "Outbound", "1": "Inbound" },
+          "id": "742",
+          "long_name": "Design Center - South Station",
+          "name": "SL2",
+          "type": 3
+        },
+        {
+          "custom_route?": false,
+          "description": "key_bus_route",
+          "direction_destinations": { "0": "Chelsea", "1": "South Station" },
+          "direction_names": { "0": "Outbound", "1": "Inbound" },
+          "id": "743",
+          "long_name": "Chelsea - South Station",
+          "name": "SL3",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "group_name": "commuter_rail",
+      "routes": [
+        {
+          "custom_route?": false,
+          "description": "commuter_rail",
+          "direction_destinations": { "0": "Fairmount", "1": "South Station" },
+          "direction_names": { "0": "Outbound", "1": "Inbound" },
+          "id": "CR-Fairmount",
+          "long_name": "Fairmount Line",
+          "name": "Fairmount Line",
+          "type": 2
+        },
+        {
+          "custom_route?": false,
+          "description": "commuter_rail",
+          "direction_destinations": { "0": "Worcester", "1": "South Station" },
+          "direction_names": { "0": "Outbound", "1": "Inbound" },
+          "id": "CR-Worcester",
+          "long_name": "Framingham/Worcester Line",
+          "name": "Framingham/Worcester Line",
+          "type": 2
+        },
+        {
+          "custom_route?": false,
+          "description": "commuter_rail",
+          "direction_destinations": {
+            "0": "Forge Park/495",
+            "1": "South Station"
+          },
+          "direction_names": { "0": "Outbound", "1": "Inbound" },
+          "id": "CR-Franklin",
+          "long_name": "Franklin Line",
+          "name": "Franklin Line",
+          "type": 2
+        },
+        {
+          "custom_route?": false,
+          "description": "commuter_rail",
+          "direction_destinations": { "0": "Greenbush", "1": "South Station" },
+          "direction_names": { "0": "Outbound", "1": "Inbound" },
+          "id": "CR-Greenbush",
+          "long_name": "Greenbush Line",
+          "name": "Greenbush Line",
+          "type": 2
+        },
+        {
+          "custom_route?": false,
+          "description": "commuter_rail",
+          "direction_destinations": {
+            "0": "Kingston or Plymouth",
+            "1": "South Station"
+          },
+          "direction_names": { "0": "Outbound", "1": "Inbound" },
+          "id": "CR-Kingston",
+          "long_name": "Kingston/Plymouth Line",
+          "name": "Kingston/Plymouth Line",
+          "type": 2
+        },
+        {
+          "custom_route?": false,
+          "description": "commuter_rail",
+          "direction_destinations": {
+            "0": "Middleborough/Lakeville",
+            "1": "South Station"
+          },
+          "direction_names": { "0": "Outbound", "1": "Inbound" },
+          "id": "CR-Middleborough",
+          "long_name": "Middleborough/Lakeville Line",
+          "name": "Middleborough/Lakeville Line",
+          "type": 2
+        },
+        {
+          "custom_route?": false,
+          "description": "commuter_rail",
+          "direction_destinations": {
+            "0": "Needham Heights",
+            "1": "South Station"
+          },
+          "direction_names": { "0": "Outbound", "1": "Inbound" },
+          "id": "CR-Needham",
+          "long_name": "Needham Line",
+          "name": "Needham Line",
+          "type": 2
+        },
+        {
+          "custom_route?": false,
+          "description": "commuter_rail",
+          "direction_destinations": {
+            "0": "Wickford Junction",
+            "1": "South Station"
+          },
+          "direction_names": { "0": "Outbound", "1": "Inbound" },
+          "id": "CR-Providence",
+          "long_name": "Providence/Stoughton Line",
+          "name": "Providence/Stoughton Line",
+          "type": 2
+        }
+      ]
+    }
+  ],
+  "tabs": [
+    {
+      "badge": null,
+      "class": "",
+      "href": "/stops-v2/place-sstat",
+      "id": "details",
+      "name": "Station Details"
+    },
+    {
+      "badge": {
+        "content": "1",
+        "class": "m-alert-badge",
+        "aria_label": "1 alert"
+      },
+      "class": "",
+      "href": "/stops/place-sstat?tab=alerts",
+      "id": "alerts",
+      "name": "Alerts"
+    }
+  ],
+  "zone_number": "1A"
 }

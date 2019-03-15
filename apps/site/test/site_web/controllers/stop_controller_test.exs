@@ -18,7 +18,16 @@ defmodule SiteWeb.StopControllerTest do
       |> put_req_cookie("stop_page_redesign", "true")
       |> get(stop_path(conn, :show, "place-sstat"))
 
-    assert conn.assigns.grouped_routes
+    assert conn.assigns.routes
+  end
+
+  test "assigns the zone number for the current stop", %{conn: conn} do
+    conn =
+      conn
+      |> put_req_cookie("stop_page_redesign", "true")
+      |> get(stop_path(conn, :show, "Worcester"))
+
+    assert conn.assigns.zone_number == "8"
   end
 
   test "sets a custom meta description for stops", %{conn: conn} do

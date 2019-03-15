@@ -1,7 +1,10 @@
-<script data-for="stop" id="js-stop-data" type="text/plain"><%= raw Poison.encode!(%{stop: @stop}) %></script>
+<script data-for="stop-page" id="js-stop-page-data" type="text/plain">
+  <%= raw Poison.encode!(@stop_page_data) %>
+</script>
 <script data-for="map" id="js-stop-map-data" type="text/plain"><%= raw Poison.encode!(@map_data) %></script>
+
 <div id="react-root">
-  <%= Site.React.render("StopPage", %{stopPageData: %{stop: @stop}, mapData: @map_data, mapId: "map" }) %>
+  <%= Site.React.render("StopPage", %{stop_page_data: @stop_page_data, map_data: @map_data, map_id: "map" }) %>
 </div>
 
 <%= if Application.get_env(:site, :dev_server?) do %>

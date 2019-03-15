@@ -1,6 +1,8 @@
 import React, { ReactElement } from "react";
 import StopMapContainer from "./StopMapContainer";
 import { StopPageData, StopMapData } from "./__stop";
+import BreadcrumbContainer from "./BreadcrumbContainer";
+import Header from "./Header";
 import Sidebar from "./Sidebar";
 
 interface Props {
@@ -10,31 +12,22 @@ interface Props {
 }
 
 export default ({
-  stopPageData: { stop },
+  // eslint-disable-next-line typescript/camelcase
+  stopPageData: { stop, routes, tabs, zone_number },
   mapData,
   mapId
 }: Props): ReactElement<HTMLElement> => (
   <>
-    <div className="breadcrumb-container">
-      <div className="container">
-        <span className="focusable-sm-down">
-          <a href="/">Home</a>
-          <i className="fa fa-angle-right" aria-hidden="true" />
-        </span>
-        <span>
-          <a href="/stops/subway">Stations</a>
-          <i className="fa fa-angle-right" aria-hidden="true" />
-        </span>
-        {stop.name}
-      </div>
-    </div>
-    <div className="station__header">
-      <div className="station__header-container">
-        <h1 className="station__name station__name--upcase">{stop.name}</h1>
-        <div className="h6 station__header-features" />
-        <div className="header-tabs" />
-      </div>
-    </div>
+    <BreadcrumbContainer stop={stop} />
+
+    <Header
+      stop={stop}
+      routes={routes}
+      // eslint-disable-next-line typescript/camelcase
+      zoneNumber={zone_number}
+      tabs={tabs}
+    />
+
     <div className="station__details">
       <div className="station__details-container">Station Details</div>
     </div>

@@ -185,6 +185,34 @@ defmodule Routes.RouteTest do
     end
   end
 
+  describe "to_json_safe/1" do
+    test "converts a Route to a Json string with safe object keys" do
+      route = %Route{
+        custom_route?: false,
+        description: :rapid_transit,
+        direction_destinations: %{0 => "Ashmont/Braintree", 1 => "Alewife"},
+        direction_names: %{0 => "South", 1 => "North"},
+        id: "Red",
+        long_name: "Red Line",
+        name: "Red Line",
+        type: 1
+      }
+
+      expected = %{
+        custom_route?: false,
+        description: :rapid_transit,
+        direction_destinations: %{"0" => "Ashmont/Braintree", "1" => "Alewife"},
+        direction_names: %{"0" => "South", "1" => "North"},
+        id: "Red",
+        long_name: "Red Line",
+        name: "Red Line",
+        type: 1
+      }
+
+      assert Route.to_json_safe(route) == expected
+    end
+  end
+
   describe "Phoenix.Param.to_param" do
     test "Green routes are normalized to Green" do
       green_e = %Route{id: "Green-E"}
