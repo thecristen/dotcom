@@ -2,7 +2,6 @@
 <%= if error, do: SiteWeb.PartialView.FullscreenError.render_error(error) %>
 <div class="container">
   <h1>Transit Near Me</h1>
-  <p>View stations and stops near your location and preview information on schedules, alerts, fares, and other station details.</p>
 
   <%= render "_input.html", location: @location, conn: @conn %>
 </div>
