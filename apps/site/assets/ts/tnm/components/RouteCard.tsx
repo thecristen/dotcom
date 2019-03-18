@@ -38,7 +38,7 @@ export const isSilverLine = (route: TNMRoute): boolean => {
 export const routeBgColor = (route: TNMRoute): string => {
   if (route.type === 2) return "commuter-rail";
   if (route.type === 4) return "ferry";
-  if (route.id === "Red") return "red-line";
+  if (route.id === "Red" || route.id === "Mattapan") return "red-line";
   if (route.id === "Orange") return "orange-line";
   if (route.id === "Blue") return "blue-line";
   if (route.id.startsWith("Green-")) return "green-line";
