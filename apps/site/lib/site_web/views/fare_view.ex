@@ -446,7 +446,7 @@ defmodule SiteWeb.FareView do
     content_tag(:p, [
       link(
         "Ferry Fare Finder",
-        to: cms_static_page_path(conn, "/fares/commuter-rail"),
+        to: cms_static_page_path(conn, "/fares/ferry"),
         class: "c-call-to-action"
       )
     ])
