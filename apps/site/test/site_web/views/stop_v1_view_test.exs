@@ -2,10 +2,12 @@ defmodule SiteWeb.StopV1ViewTest do
   @moduledoc false
   import SiteWeb.StopV1View
   import Phoenix.HTML, only: [safe_to_string: 1]
-  alias Stops.Stop
+  alias Phoenix.HTML
+  alias PredictedSchedule.Display
+  alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.Schedule
-  alias Predictions.Prediction
+  alias Stops.Stop
   use SiteWeb.ConnCase, async: true
 
   describe "template_for_tab/1" do
@@ -125,8 +127,8 @@ defmodule SiteWeb.StopV1ViewTest do
     defp has_text?(unsafe, text) do
       safe =
         unsafe
-        |> Phoenix.HTML.html_escape()
-        |> Phoenix.HTML.safe_to_string()
+        |> HTML.html_escape()
+        |> HTML.safe_to_string()
 
       assert safe =~ text
     end
@@ -134,8 +136,8 @@ defmodule SiteWeb.StopV1ViewTest do
     defp no_text?(unsafe, text) do
       safe =
         unsafe
-        |> Phoenix.HTML.html_escape()
-        |> Phoenix.HTML.safe_to_string()
+        |> HTML.html_escape()
+        |> HTML.safe_to_string()
 
       refute safe =~ text
     end
@@ -244,7 +246,7 @@ defmodule SiteWeb.StopV1ViewTest do
       ps = %PredictedSchedule{schedule: %Schedule{time: ~N[2017-01-01T12:00:00]}}
 
       assert time_differences([ps], date_time) ==
-               [PredictedSchedule.Display.time_difference(ps, date_time)]
+               [Display.time_difference(ps, date_time)]
     end
 
     test "time differences are in order from smallest to largest" do

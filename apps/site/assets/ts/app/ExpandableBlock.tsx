@@ -15,7 +15,7 @@ interface Props {
 }
 
 const caret = (expanded: boolean): ReactElement<HTMLElement> => {
-  const unicodeCharacter = expanded ? "&#xF107;" : "&#xF106;";
+  const unicodeCharacter = expanded ? "&#xF106;" : "&#xF107;";
   return (
     <span
       className="c-expandable-block__header-caret"
@@ -39,12 +39,13 @@ export default ({
 
   return (
     <>
-      <div
+      <h3
         className="c-expandable-block__header"
         tabIndex={0}
         id={headerId}
         aria-expanded={expanded}
         aria-controls={panelId}
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
         role="button"
         onClick={onClick}
         onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
@@ -54,7 +55,7 @@ export default ({
           : null}
         {text}
         {caret(expanded)}
-      </div>
+      </h3>
       {expanded ? (
         <div
           className="c-expandable-block__panel"
@@ -68,6 +69,20 @@ export default ({
           {children}
         </div>
       ) : null}
+      {/* No javascript support */}
+      <noscript>
+        <style>{`#${headerId} { display: none; }`}</style>
+        <h3 className="c-expandable-block__header">
+          {iconSvgText
+            ? renderSvg("c-expandable-block__header-icon", iconSvgText)
+            : null}
+          {text}
+          {caret(true)}
+        </h3>
+        <div className="c-expandable-block__panel" role="region">
+          {children}
+        </div>
+      </noscript>
     </>
   );
 };

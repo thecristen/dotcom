@@ -38,9 +38,9 @@ export default ({
     <div className="container">
       <div className="page-section">
         <div className="row">
-          <div className="col-lg-8 col-lg-offset-1">Main Column</div>
-          <div className="col-lg-3">
-            <Sidebar />
+          <div className="col-lg-7 col-lg-offset-1">Main Column</div>
+          <div className="col-lg-4">
+            <Sidebar stop={stop} />
           </div>
         </div>
       </div>

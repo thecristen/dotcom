@@ -7,6 +7,7 @@ defmodule SiteWeb.StopController do
   alias Routes.{Group, Route}
   alias SiteWeb.PartialView.HeaderTab
   alias SiteWeb.StopController.StopMap
+  alias SiteWeb.StopView.Parking
   alias SiteWeb.Views.Helpers.AlertHelpers
   alias Stops.{Repo, Stop}
   alias Util.AndOr
@@ -40,7 +41,7 @@ defmodule SiteWeb.StopController do
         |> assign(:zone_number, Zones.Repo.get(stop.id))
         |> assign_stop_page_data()
         |> meta_description(stop, routes_by_stop)
-        |> render("show.html", stop: stop)
+        |> render("show.html")
       else
         check_cms_or_404(conn)
       end
@@ -98,7 +99,7 @@ defmodule SiteWeb.StopController do
          } = conn
        ) do
     assign(conn, :stop_page_data, %{
-      stop: stop,
+      stop: %{stop | parking_lots: Enum.map(stop.parking_lots, &Parking.parking_lot(&1))},
       routes: routes,
       tabs: [
         %HeaderTab{
@@ -109,6 +110,7 @@ defmodule SiteWeb.StopController do
         %HeaderTab{
           id: "alerts",
           name: "Alerts",
+          class: "header-tab--alert",
           href: stop_v1_path(conn, :show, stop.id, tab: "alerts"),
           badge: AlertHelpers.alert_badge(all_alerts_count)
         }

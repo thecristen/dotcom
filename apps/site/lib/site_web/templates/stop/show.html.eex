@@ -4,7 +4,7 @@
 <script data-for="map" id="js-stop-map-data" type="text/plain"><%= raw Poison.encode!(@map_data) %></script>
 
 <div id="react-root">
-  <%= Site.React.render("StopPage", %{stop_page_data: @stop_page_data, map_data: @map_data, map_id: "map" }) %>
+  <%= Site.React.render("StopPage", %{stopPageData: @stop_page_data, mapData: @map_data, mapId: "map" }) %>
 </div>
 
 <%= if Application.get_env(:site, :dev_server?) do %>

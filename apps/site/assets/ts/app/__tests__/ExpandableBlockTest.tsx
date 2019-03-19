@@ -33,6 +33,8 @@ test("render expandable block expanded by default", () => {
 test("handle click to expand and enter to collapse", () => {
   document.body.innerHTML = body;
 
+  const id = "#header-accessibility";
+
   const wrapper = mount(
     <ExpandableBlock
       initiallyExpanded={false}
@@ -49,21 +51,13 @@ test("handle click to expand and enter to collapse", () => {
     </ExpandableBlock>
   );
 
-  expect(
-    wrapper.find(".c-expandable-block__header").prop("aria-expanded")
-  ).toEqual(false);
+  expect(wrapper.find(id).prop("aria-expanded")).toEqual(false);
 
-  wrapper.find(".c-expandable-block__header").simulate("click");
+  wrapper.find(id).simulate("click");
 
-  expect(
-    wrapper.find(".c-expandable-block__header").prop("aria-expanded")
-  ).toEqual(true);
+  expect(wrapper.find(id).prop("aria-expanded")).toEqual(true);
 
-  wrapper
-    .find(".c-expandable-block__header")
-    .simulate("keypress", { key: "Enter" });
+  wrapper.find(id).simulate("keypress", { key: "Enter" });
 
-  expect(
-    wrapper.find(".c-expandable-block__header").prop("aria-expanded")
-  ).toEqual(false);
+  expect(wrapper.find(id).prop("aria-expanded")).toEqual(false);
 });

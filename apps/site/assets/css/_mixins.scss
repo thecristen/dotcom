@@ -103,7 +103,7 @@
   @include base-heading();
   @include after-heading-space();
   font-size: $font-size-h4;
-  font-weight: $font-weight-medium;
+  font-weight: bold;
 
   + h5,
   + .h5 {

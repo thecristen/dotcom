@@ -8,6 +8,7 @@ erl_crash.dump
 .DS_Store
 .ruby-version
 .vscode
+.elixir_ls
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

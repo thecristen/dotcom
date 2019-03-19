@@ -82,16 +82,18 @@
 .c-expandable-block__header {
   background-color: $brand-primary-lightest-contrast;
   cursor: pointer;
-  font-weight: bold;
+  margin-bottom: 0;
   padding: $base-spacing $base-spacing / 2;
 }
 
 .c-expandable-block__header-icon {
   display: block;
   float: left;
-  height: $base-spacing * 1.5;
+  height: 1em;
   margin-right: $base-spacing;
-  width: $base-spacing * 1.25;
+  position: relative;
+  top: .125em;
+  width: 1em;
 }
 
 .c-expandable-block__header-caret {

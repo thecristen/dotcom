@@ -4,6 +4,7 @@ module.exports = {
   collectCoverageFrom: [
     "**/*.{ts,tsx}",
     "!**/node_modules/**",
+    "!./app/helpers/testUtils.ts", // test utilities
     "!**/*-entry.ts", // not necessary to test entry files
     "!**/*-loader.tsx", // not necessary to test loader files
     "!**/search.ts" // for now

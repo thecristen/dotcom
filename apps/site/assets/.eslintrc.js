@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ["airbnb", "prettier"],
+  extends: ["airbnb", "prettier", "prettier/react"],
   parserOptions: {
     ecmaVersion: 6,
     sourceType: "module"

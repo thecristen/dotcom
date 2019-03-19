@@ -2,8 +2,13 @@ import React, { ReactElement } from "react";
 import ExpandableBlock from "../../app/ExpandableBlock";
 // @ts-ignore
 import accessibleIcon from "../../../static/images/icon-accessible-default.svg";
+import ParkingInfo from "./ParkingInfo";
+import { Stop } from "../../v3api";
 
-const Sidebar = (): ReactElement<HTMLElement> => (
+interface Props {
+  stop: Stop;
+}
+const Sidebar = ({ stop }: Props): ReactElement<HTMLElement> => (
   <>
     <p>Sidebar</p>
     <ExpandableBlock
@@ -22,6 +27,7 @@ const Sidebar = (): ReactElement<HTMLElement> => (
         }}
       />
     </ExpandableBlock>
+    <ParkingInfo stop={stop} />
   </>
 );
 

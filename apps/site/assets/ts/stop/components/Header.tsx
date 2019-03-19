@@ -52,10 +52,11 @@ const accessible = ({
     </a>
   );
 
-// eslint-disable-next-line typescript/camelcase
-const parking = ({ parking_lots }: Stop): ReactElement<HTMLElement> | false =>
+const parking = ({
   // eslint-disable-next-line typescript/camelcase
-  parking_lots.length > 0 && (
+  parking_lots: parkingLots
+}: Stop): ReactElement<HTMLElement> | false =>
+  parkingLots.length > 0 && (
     <a href="#parking" className="station__header-feature">
       <span className="station__header-icon">
         {parkingIcon("c-svg__icon-parking-default")}

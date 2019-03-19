@@ -5,33 +5,33 @@ interface DirectionInfo {
 
 export interface ParkingLot {
   name: string;
-  address: string;
-  capacity?: {
+  address: string | null;
+  capacity: {
     total?: number;
     accessible?: number;
     type?: string;
-  };
-  payment?: {
+  } | null;
+  payment: {
     methods: string[];
     mobile_app?: {
       name?: string;
       id?: string;
-      url?: string;
-    };
+      url: string | null;
+    } | null;
     daily_rate?: string;
     monthly_rate?: string;
-  };
-  manager?: {
+  } | null;
+  manager: {
     name?: string;
     contact?: string;
-    phone?: string;
-    url?: string;
-  };
+    phone: string | null;
+    url: string | null;
+  } | null;
   utilization?: {
     arrive_before?: string;
     typical?: number;
-  };
-  note?: string;
+  } | null;
+  note?: string | null;
   latitude?: number;
   longitude?: number;
 }
@@ -66,6 +66,6 @@ export interface Stop {
   note: string | null;
   parking_lots: ParkingLot[];
   "station?": boolean;
-  distance: string;
-  href: string;
+  distance?: string;
+  href?: string;
 }
