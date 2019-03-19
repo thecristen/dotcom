@@ -148,21 +148,6 @@ defmodule SiteWeb.FareView do
 
   def callout_description(%Fare{}), do: ""
 
-  @spec vending_machine_stations :: [HTML.safe()]
-  def vending_machine_stations do
-    stop_link_list(Stops.Repo.vending_machine_stations())
-  end
-
-  def charlie_card_stations do
-    stop_link_list(Stops.Repo.charlie_card_stations())
-  end
-
-  defp stop_link_list(stops) do
-    stops
-    |> Enum.map(&stop_link/1)
-    |> Enum.intersperse(", ")
-  end
-
   @doc "Returns the svg icons for the modes passed in"
   @spec fare_mode_icons([:bus | :subway | :commuter_rail | :ferry]) :: HTML.safe()
   def fare_mode_icons(modes) do

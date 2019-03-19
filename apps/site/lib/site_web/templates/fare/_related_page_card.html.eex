@@ -1,8 +1,0 @@
-<%= link to: @href, class: "c-title-card c-title-card--link", target: @target do %>
-  <div class="c-title-card__title c-title-card--link__title"><%= @title %></div>
-  <ul>
-    <%= for topic <- @body do %>
-      <li><%= topic %></li>
-    <% end %>
-  </ul>
-<% end %>
