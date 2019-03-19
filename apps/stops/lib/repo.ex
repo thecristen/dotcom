@@ -33,18 +33,6 @@ defmodule Stops.Repo do
     nil
   end
 
-  def charlie_card_stations do
-    cache([], fn _ ->
-      Enum.map(Stop.charlie_card_stations(), &get/1)
-    end)
-  end
-
-  def vending_machine_stations do
-    cache([], fn _ ->
-      Enum.map(Stop.vending_machine_stations(), &get/1)
-    end)
-  end
-
   @spec get(Stop.id_t()) :: Stop.t() | nil
   def get(id) when is_binary(id) do
     case stop(id) do

@@ -2,11 +2,28 @@ defmodule Stops.Api do
   @moduledoc """
   Wrapper around the remote stop information service.
   """
+  require Logger
+  alias JsonApi.Item
   alias Stops.Stop
+
+  @type fare_facility ::
+          :fare_vending_retailer
+          | :fare_vending_machine
+          | :fare_media_assistant
+          | :fare_media_assistance_facility
+          | :ticket_window
 
   @accessible_facilities ~w(elevator escalator ramp portable_boarding_lift
                             tty_phone elevated_subplatform fully_elevated_platform
                             escalator_up escalator_down escalator_both)a
+
+  @fare_facilities ~w(
+    fare_vending_retailer
+    fare_vending_machine
+    fare_media_assistant
+    fare_media_assistance_facility
+    ticket_window
+  )a
 
   @doc """
   Returns a Stop by its GTFS ID.
@@ -78,8 +95,8 @@ defmodule Stops.Api do
     |> Enum.map(fn {:ok, stop} -> stop end)
   end
 
-  @spec v3_id(JsonApi.Item.t()) :: Stop.id_t()
-  defp v3_id(%JsonApi.Item{relationships: %{"parent_station" => [%JsonApi.Item{id: parent_id}]}}) do
+  @spec v3_id(Item.t()) :: Stop.id_t()
+  defp v3_id(%Item{relationships: %{"parent_station" => [%Item{id: parent_id}]}}) do
     parent_id
   end
 
@@ -87,14 +104,14 @@ defmodule Stops.Api do
     item.id
   end
 
-  @spec is_child?(JsonApi.Item.t()) :: boolean
-  defp is_child?(%JsonApi.Item{relationships: %{"parent_station" => [%JsonApi.Item{}]}}), do: true
+  @spec is_child?(Item.t()) :: boolean
+  defp is_child?(%Item{relationships: %{"parent_station" => [%Item{}]}}), do: true
   defp is_child?(_), do: false
 
-  @spec v3_name(JsonApi.Item.t()) :: String.t()
-  defp v3_name(%JsonApi.Item{
+  @spec v3_name(Item.t()) :: String.t()
+  defp v3_name(%Item{
          relationships: %{
-           "parent_station" => [%JsonApi.Item{attributes: %{"name" => parent_name}}]
+           "parent_station" => [%Item{attributes: %{"name" => parent_name}}]
          }
        }) do
     parent_name
@@ -104,7 +121,7 @@ defmodule Stops.Api do
     item.attributes["name"]
   end
 
-  @spec extract_v3_response(JsonApi.t()) :: {:ok, JsonApi.Item.t()} | {:error, any}
+  @spec extract_v3_response(JsonApi.t()) :: {:ok, Item.t()} | {:error, any}
   defp extract_v3_response(%JsonApi{data: [item | _]}) do
     {:ok, item}
   end
@@ -113,24 +130,27 @@ defmodule Stops.Api do
     error
   end
 
-  @spec parse_v3_response(JsonApi.Item.t() | {:ok, JsonApi.Item.t()} | {:error, any}) ::
+  @spec parse_v3_response(Item.t() | {:ok, Item.t()} | {:error, any}) ::
           {:ok, Stops.Stop.t() | nil}
           | {:error, any}
-  defp parse_v3_response({:ok, %JsonApi.Item{} = item}), do: parse_v3_response(item)
+  defp parse_v3_response({:ok, %Item{} = item}), do: parse_v3_response(item)
   defp parse_v3_response({:error, [%JsonApi.Error{code: "not_found"} | _]}), do: {:ok, nil}
   defp parse_v3_response({:error, _} = error), do: error
 
-  defp parse_v3_response(%JsonApi.Item{} = item) do
+  defp parse_v3_response(%Item{} = item) do
+    fare_facilities = fare_facilities(item)
+
     stop = %Stop{
       id: v3_id(item),
       name: v3_name(item),
       address: item.attributes["address"],
       accessibility: merge_accessibility(v3_accessibility(item), item.attributes),
       parking_lots: v3_parking(item),
+      fare_facilities: fare_facilities,
       is_child?: is_child?(item),
       station?: is_station?(item),
-      has_fare_machine?: Enum.member?(Stop.vending_machine_stations(), item.id),
-      has_charlie_card_vendor?: Enum.member?(Stop.charlie_card_stations(), item.id),
+      has_fare_machine?: MapSet.member?(fare_facilities, :fare_vending_machine),
+      has_charlie_card_vendor?: MapSet.member?(fare_facilities, :fare_media_assistant),
       latitude: item.attributes["latitude"],
       longitude: item.attributes["longitude"]
     }
@@ -138,12 +158,12 @@ defmodule Stops.Api do
     {:ok, stop}
   end
 
-  @spec is_station?(JsonApi.Item.t()) :: boolean
-  defp is_station?(%JsonApi.Item{} = item) do
+  @spec is_station?(Item.t()) :: boolean
+  defp is_station?(%Item{} = item) do
     item.attributes["location_type"] == 1 or item.relationships["facilities"] != []
   end
 
-  @spec v3_accessibility(JsonApi.Item.t()) :: [String.t()]
+  @spec v3_accessibility(Item.t()) :: [String.t()]
   defp v3_accessibility(item) do
     {escalators, others} =
       Enum.split_with(item.relationships["facilities"], &(&1.attributes["type"] == "ESCALATOR"))
@@ -154,7 +174,7 @@ defmodule Stops.Api do
     Enum.map(escalators ++ MapSet.to_list(matching_others), &Atom.to_string/1)
   end
 
-  @spec parse_escalator_direction([JsonApi.Item.t()]) :: [
+  @spec parse_escalator_direction([Item.t()]) :: [
           :escalator | :escalator_up | :escalator_down | :escalator_both
         ]
   defp parse_escalator_direction([]), do: []
@@ -178,14 +198,14 @@ defmodule Stops.Api do
   defp do_escalator(true, true), do: :escalator_both
   defp do_escalator(false, false), do: :escalator
 
-  @spec v3_parking(JsonApi.Item.t()) :: [Stops.Stop.ParkingLot.t()]
+  @spec v3_parking(Item.t()) :: [Stops.Stop.ParkingLot.t()]
   defp v3_parking(item) do
     item.relationships["facilities"]
     |> Enum.filter(&(&1.attributes["type"] == "PARKING_AREA"))
     |> Enum.map(&parse_parking_area/1)
   end
 
-  @spec parse_parking_area(JsonApi.Item.t()) :: Stops.Stop.ParkingLot.t()
+  @spec parse_parking_area(Item.t()) :: Stops.Stop.ParkingLot.t()
   defp parse_parking_area(parking_area) do
     parking_area.attributes["properties"]
     |> Enum.reduce(%{}, &property_acc/2)
@@ -288,6 +308,35 @@ defmodule Stops.Api do
   defp facility_atom_from_string("FARE_VENDING_RETAILER"), do: :fare_vending_retailer
   defp facility_atom_from_string("FARE_VENDING_MACHINE"), do: :fare_vending_machine
   defp facility_atom_from_string("FARE_MEDIA_ASSISTANT"), do: :fare_media_assistant
+  defp facility_atom_from_string("TICKET_WINDOW"), do: :ticket_window
   defp facility_atom_from_string("OTHER"), do: :other
-  defp facility_atom_from_string(_), do: :other
+
+  defp facility_atom_from_string("FARE_MEDIA_ASSISTANCE_FACILITY"),
+    do: :fare_media_assistance_facility
+
+  defp facility_atom_from_string(other) do
+    _ = Logger.warn("module=#{__MODULE__} unknown facility type: #{other}")
+    :other
+  end
+
+  @spec fare_facilities(Item.t()) :: MapSet.t(fare_facility)
+  defp fare_facilities(%Item{relationships: %{"facilities" => facilities}}) do
+    Enum.reduce(facilities, MapSet.new(), &add_facility_type/2)
+  end
+
+  @spec add_facility_type(Item.t(), MapSet.t(fare_facility)) ::
+          MapSet.t(fare_facility)
+  defp add_facility_type(%Item{attributes: %{"type" => type_str}}, acc) do
+    type = facility_atom_from_string(type_str)
+
+    if @fare_facilities |> MapSet.new() |> MapSet.member?(type) do
+      MapSet.put(acc, type)
+    else
+      acc
+    end
+  end
+
+  defp add_facility_type(%Item{}, acc) do
+    acc
+  end
 end

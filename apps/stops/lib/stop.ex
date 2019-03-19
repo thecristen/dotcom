@@ -2,7 +2,7 @@ defmodule Stops.Stop do
   @moduledoc """
   Domain model for a Stop.
   """
-  alias Stops.Stop
+  alias Stops.{Api, Stop}
 
   defstruct id: nil,
             name: nil,
@@ -10,6 +10,7 @@ defmodule Stops.Stop do
             accessibility: [],
             address: nil,
             parking_lots: [],
+            fare_facilities: [],
             latitude: nil,
             longitude: nil,
             is_child?: false,
@@ -19,6 +20,7 @@ defmodule Stops.Stop do
             closed_stop_info: nil
 
   @type id_t :: String.t()
+
   @type t :: %Stop{
           id: id_t,
           name: String.t(),
@@ -26,6 +28,7 @@ defmodule Stops.Stop do
           accessibility: [String.t()],
           address: String.t() | nil,
           parking_lots: [Stop.ParkingLot.t()],
+          fare_facilities: MapSet.t(Api.fare_facility()),
           latitude: float,
           longitude: float,
           is_child?: boolean,
@@ -34,39 +37,6 @@ defmodule Stops.Stop do
           has_charlie_card_vendor?: boolean,
           closed_stop_info: Stops.Stop.ClosedStopInfo.t() | nil
         }
-
-  def vending_machine_stations do
-    [
-      "place-bbsta",
-      "place-brntn",
-      "place-forhl",
-      "place-jfk",
-      "Lynn",
-      "place-mlmnl",
-      "place-north",
-      "place-portr",
-      "place-qnctr",
-      "place-rugg",
-      "place-sstat",
-      "Worcester"
-    ]
-  end
-
-  def charlie_card_stations do
-    [
-      "place-alfcl",
-      "place-armnl",
-      "place-asmnl",
-      "place-bbsta",
-      "64000",
-      "place-forhl",
-      "place-harsq",
-      "place-north",
-      "place-ogmnl",
-      "place-pktrm",
-      "place-rugg"
-    ]
-  end
 
   defimpl Util.Position do
     def latitude(stop), do: stop.latitude

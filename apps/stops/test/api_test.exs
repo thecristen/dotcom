@@ -21,6 +21,23 @@ defmodule Stops.ApiTest do
       end
     end
 
+    test "parses fare facilities" do
+      assert {:ok, north_station} = by_gtfs_id("place-north")
+
+      assert north_station.fare_facilities ==
+               MapSet.new([:fare_media_assistant, :fare_vending_machine, :ticket_window])
+
+      assert north_station.has_fare_machine?
+      assert north_station.has_charlie_card_vendor?
+
+      assert {:ok, bu_east} = by_gtfs_id("place-buest")
+
+      assert bu_east.fare_facilities == MapSet.new([])
+
+      refute bu_east.has_fare_machine?
+      refute bu_east.has_charlie_card_vendor?
+    end
+
     test "can use the GTFS accessibility data" do
       {:ok, stop} = by_gtfs_id("Yawkey")
       assert ["accessible" | _] = stop.accessibility
