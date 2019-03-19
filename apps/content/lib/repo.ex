@@ -257,6 +257,7 @@ defmodule Content.Repo do
         %{topic: topic} -> "/#{topic}"
         %{mode: mode} -> "/#{mode}"
         %{route_id: route_id} -> "/#{route_id}"
+        %{args: args} -> "/" <> Enum.join(args, "/")
         _ -> nil
       end
 
@@ -268,6 +269,8 @@ defmodule Content.Repo do
           optional(:type) => atom,
           optional(:type_op) => String.t(),
           optional(:related_to) => integer,
+          optional(:except) => integer,
+          optional(:only) => integer,
           optional(:items_per_page) => 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 20 | 50
         }
   defp teaser_params(opts) do

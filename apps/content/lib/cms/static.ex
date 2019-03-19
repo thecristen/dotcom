@@ -343,6 +343,10 @@ defmodule Content.CMS.Static do
     {:ok, teaser_guides_response()}
   end
 
+  def view("/cms/teasers/Guides/Red", sticky: 0) do
+    {:ok, []}
+  end
+
   def view("/cms/teasers", %{type: "project", sticky: 1}) do
     {:ok, teaser_featured_projects_response()}
   end

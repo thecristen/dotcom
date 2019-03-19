@@ -15,6 +15,7 @@ defmodule SiteWeb.ContentViewTest do
     Column,
     ColumnMulti,
     ColumnMultiHeader,
+    ContentList,
     CustomHTML,
     Description,
     DescriptionList,
@@ -356,6 +357,30 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "Header copy"
       assert rendered =~ "Day pass"
       assert rendered =~ "Week pass"
+    end
+
+    test "renders a ContentList", %{conn: conn} do
+      paragraph = %ContentList{
+        header: %ColumnMultiHeader{
+          text: HTML.raw("<p>Header copy.</p>\n")
+        },
+        ingredients: %{type: "project_update"},
+        recipe: [
+          type: "project_update",
+          date: "now",
+          date_op: ">="
+        ]
+      }
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "c-paragraph--content-list"
+      assert rendered =~ "c-content-list--project-update"
+      assert rendered =~ "c-teaser--project-update"
+      assert rendered =~ "Header copy"
     end
 
     test "renders a FareCard", %{conn: conn} do

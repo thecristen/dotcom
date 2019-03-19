@@ -2,7 +2,9 @@ defmodule Content.Paragraph.ColumnMulti do
   @moduledoc """
   A set of columns to organize layout on the page.
   """
-  alias Content.Helpers
+  import Content.Helpers, only: [field_value: 2]
+  import Content.Paragraph, only: [parse_header: 1]
+
   alias Content.Paragraph.{Column, ColumnMultiHeader, DescriptiveLink, FareCard}
 
   defstruct header: nil,
@@ -19,27 +21,16 @@ defmodule Content.Paragraph.ColumnMulti do
 
   @spec from_api(map) :: t
   def from_api(data) do
-    header =
-      data
-      |> Map.get("field_multi_column_header", [])
-      |> Enum.map(&ColumnMultiHeader.from_api/1)
-      # There is only ever 1 header element
-      |> List.first()
-
     columns =
       data
       |> Map.get("field_column", [])
       |> Enum.map(&Column.from_api/1)
 
-    display_options = Helpers.field_value(data, "field_display_options")
-
-    right_rail = Helpers.field_value(data, "field_right_rail")
-
     %__MODULE__{
-      header: header,
+      header: parse_header(data),
       columns: columns,
-      display_options: display_options,
-      right_rail: right_rail
+      display_options: field_value(data, "field_display_options"),
+      right_rail: field_value(data, "field_right_rail")
     }
   end
 

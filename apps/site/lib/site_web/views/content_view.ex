@@ -1,11 +1,14 @@
 defmodule SiteWeb.ContentView do
+  @moduledoc """
+  Handles rendering of partial content from the CMS
+  """
   use SiteWeb, :view
 
   import SiteWeb.TimeHelpers
 
   alias Content.Field.{File, Image, Link}
   alias Content.Paragraph
-  alias Content.Paragraph.{Callout, ColumnMulti, FareCard}
+  alias Content.Paragraph.{Callout, ColumnMulti, ContentList, FareCard}
   alias Site.ContentRewriter
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
@@ -61,6 +64,22 @@ defmodule SiteWeb.ContentView do
       "_fare_card.html",
       fare_card: paragraph,
       element: fare_card_element(paragraph.link),
+      conn: conn
+    )
+  end
+
+  def render_content(%ContentList{recipe: opts} = paragraph, conn) do
+    [teasers] =
+      Util.async_with_timeout(
+        [ContentList.get_teasers_async(opts)],
+        [],
+        ContentList
+      )
+
+    render(
+      "_content_list.html",
+      content: paragraph,
+      teasers: teasers,
       conn: conn
     )
   end
@@ -179,7 +198,16 @@ defmodule SiteWeb.ContentView do
   defp fare_card_element(nil), do: %{tag: :div, attrs: []}
 
   @spec paragraph_classes(Paragraph.t()) :: iodata()
-  defp paragraph_classes(paragraph)
-  defp paragraph_classes(%Callout{image: %Image{}}), do: ["c-callout--with-image"]
-  defp paragraph_classes(_), do: []
+  defp paragraph_classes(%Callout{image: %Image{}}) do
+    ["c-callout--with-image"]
+  end
+
+  defp paragraph_classes(%ContentList{ingredients: %{type: type}}) do
+    classy_type = String.replace(type, "_", "-")
+    ["c-content-list--#{classy_type}"]
+  end
+
+  defp paragraph_classes(_) do
+    []
+  end
 end

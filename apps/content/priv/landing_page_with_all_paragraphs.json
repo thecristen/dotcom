@@ -6924,6 +6924,238 @@
           "moderation_state": []
         }
       ]
+    },
+    {
+      "target_id": 6295,
+      "target_revision_id": 115404,
+      "id": [
+        {
+          "value": 6295
+        }
+      ],
+      "uuid": [
+        {
+          "value": "070ed03c-9aaf-40fc-b453-a5634e58a75e"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 115404
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "content_list",
+          "target_type": "paragraphs_type",
+          "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1552667044
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [],
+      "field_content_logic": [],
+      "field_content_reference": [
+        {
+          "target_id": 3004,
+          "target_type": "node",
+          "target_uuid": "6c72a458-6158-4080-9282-52387841237e",
+          "url": "/projects/wollaston-station-improvements"
+        }
+      ],
+      "field_content_type": [
+        {
+          "value": "project_update"
+        }
+      ],
+      "field_date": [],
+      "field_date_logic": [
+        {
+          "value": "<"
+        }
+      ],
+      "field_multi_column_header": [
+        {
+          "target_id": 6296,
+          "target_revision_id": 115403,
+          "id": [
+            {
+              "value": 6296
+            }
+          ],
+          "uuid": [
+            {
+              "value": "7ba16cdc-be03-44b6-b1ac-668af3920469"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 115403
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1552667354
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "6295"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "field_header_text": [
+            {
+              "value": "<hr />\r\n<h2 id=\"list\">Content List</h2>\r\n\r\n<p>Provides a dynamic list of content to render on the front-end. Please carefully read the help text associated with each field option when building the list's \"recipe.\" A preview of the list will be shown upon saving and viewing the page.</p>\r\n\r\n<p><em>Note: This is not intended for showing a list of specifically chosen items.</em></p>\r\n",
+              "format": "full_html",
+              "processed": "<hr /><h2 id=\"list\">Content List</h2>\n\n<p>Provides a dynamic list of content to render on the front-end. Please carefully read the help text associated with each field option when building the list's \"recipe.\" A preview of the list will be shown upon saving and viewing the page.</p>\n\n<p><em>Note: This is not intended for showing a list of specifically chosen items.</em></p>\n"
+            }
+          ]
+        }
+      ],
+      "field_number_of_items": [
+        {
+          "value": 5
+        }
+      ],
+      "field_promoted": [],
+      "field_relationship": [
+        {
+          "value": "related_to"
+        }
+      ],
+      "field_sorting": [
+        {
+          "value": "field_updated_on_value"
+        }
+      ],
+      "field_sorting_logic": [
+        {
+          "value": "DESC"
+        }
+      ],
+      "field_sticky": [
+        {
+          "value": "0"
+        }
+      ],
+      "field_term_depth": [
+        {
+          "value": 4
+        }
+      ],
+      "field_terms": [],
+      "field_type_logic": []
     }
   ],
   "field_subtitle": [

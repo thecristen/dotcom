@@ -299,6 +299,20 @@ defmodule Content.RepoTest do
       assert types == [:event, :news_entry, :project]
     end
 
+    test "converts generic arguments into path parts for API request" do
+      mock_view = fn
+        "/cms/teasers/Guides/Red", %{sticky: 0} -> {:ok, []}
+      end
+
+      with_mock Static, view: mock_view do
+        Repo.teasers(args: ["Guides", "Red"], sticky: 0)
+
+        "/cms/teasers/Guides/Red"
+        |> Static.view(%{sticky: 0})
+        |> assert_called()
+      end
+    end
+
     test "takes a :type option" do
       teasers = Repo.teasers(route_id: "Red", type: :project, sidebar: 1)
       assert Enum.all?(teasers, &(&1.type == :project))
@@ -320,13 +334,43 @@ defmodule Content.RepoTest do
     end
 
     test "takes a :related_to option" do
-      mock_view = fn _path, _params -> {:ok, []} end
+      mock_view = fn
+        "/cms/teasers", %{related_to: 123} -> {:ok, []}
+      end
 
       with_mock Static, view: mock_view do
         Repo.teasers(related_to: 123)
 
         "/cms/teasers"
         |> Static.view(%{related_to: 123})
+        |> assert_called()
+      end
+    end
+
+    test "takes an :except option" do
+      mock_view = fn
+        "/cms/teasers", %{except: 123} -> {:ok, []}
+      end
+
+      with_mock Static, view: mock_view do
+        Repo.teasers(except: 123)
+
+        "/cms/teasers"
+        |> Static.view(%{except: 123})
+        |> assert_called()
+      end
+    end
+
+    test "takes an :only option" do
+      mock_view = fn
+        "/cms/teasers", %{only: 123} -> {:ok, []}
+      end
+
+      with_mock Static, view: mock_view do
+        Repo.teasers(only: 123)
+
+        "/cms/teasers"
+        |> Static.view(%{only: 123})
         |> assert_called()
       end
     end

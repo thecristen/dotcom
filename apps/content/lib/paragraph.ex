@@ -24,6 +24,8 @@ defmodule Content.Paragraph do
     Accordion,
     Callout,
     ColumnMulti,
+    ColumnMultiHeader,
+    ContentList,
     CustomHTML,
     DescriptionList,
     DescriptiveLink,
@@ -40,6 +42,7 @@ defmodule Content.Paragraph do
     Accordion,
     Callout,
     ColumnMulti,
+    ContentList,
     CustomHTML,
     DescriptionList,
     DescriptiveLink,
@@ -56,6 +59,8 @@ defmodule Content.Paragraph do
           Accordion.t()
           | Callout.t()
           | ColumnMulti.t()
+          | ColumnMultiHeader.t()
+          | ContentList.t()
           | CustomHTML.t()
           | DescriptionList.t()
           | DescriptiveLink.t()
@@ -71,6 +76,7 @@ defmodule Content.Paragraph do
           Accordion
           | Callout
           | ColumnMulti
+          | ContentList
           | CustomHTML
           | DescriptionList
           | DescriptiveLink
@@ -87,6 +93,14 @@ defmodule Content.Paragraph do
     Callout.from_api(para)
   end
 
+  def from_api(%{"type" => [%{"target_id" => "multi_column"}]} = para) do
+    ColumnMulti.from_api(para)
+  end
+
+  def from_api(%{"type" => [%{"target_id" => "content_list"}]} = para) do
+    ContentList.from_api(para)
+  end
+
   def from_api(%{"type" => [%{"target_id" => "custom_html"}]} = para) do
     CustomHTML.from_api(para)
   end
@@ -101,20 +115,6 @@ defmodule Content.Paragraph do
 
   def from_api(%{"type" => [%{"target_id" => "files_grid"}]} = para) do
     FilesGrid.from_api(para)
-  end
-
-  @doc "This ¶ type has a single paragraph reference within. Get the nested paragraph."
-  def from_api(%{"type" => [%{"target_id" => "from_library"}]} = para) do
-    parse_library_item(para)
-  end
-
-  @doc "For directly accessing a reusable paragraph (from paragraphs API endpoint)"
-  def from_api(%{"paragraphs" => [para]}) do
-    from_api(para)
-  end
-
-  def from_api(%{"type" => [%{"target_id" => "multi_column"}]} = para) do
-    ColumnMulti.from_api(para)
   end
 
   def from_api(%{"type" => [%{"target_id" => "people_grid"}]} = para) do
@@ -141,6 +141,16 @@ defmodule Content.Paragraph do
     UpcomingBoardMeetings.from_api(para)
   end
 
+  @doc "This ¶ type has a single paragraph reference within. Get the nested paragraph."
+  def from_api(%{"type" => [%{"target_id" => "from_library"}]} = para) do
+    parse_library_item(para)
+  end
+
+  @doc "For directly accessing a reusable paragraph (from paragraphs API endpoint)"
+  def from_api(%{"paragraphs" => [para]}) do
+    from_api(para)
+  end
+
   def from_api(unknown_paragraph_type) do
     Unknown.from_api(unknown_paragraph_type)
   end
@@ -157,13 +167,24 @@ defmodule Content.Paragraph do
   @spec get_types() :: [name]
   def get_types, do: @types
 
+  @spec parse_header(map) :: t
+  def parse_header(%{} = data) do
+    data
+    |> Map.get("field_multi_column_header", [])
+    |> Enum.map(&ColumnMultiHeader.from_api/1)
+    # There is only ever 1 header element
+    |> List.first()
+  end
+
+  # Pass through the nested paragraph and host ID
   @spec parse_library_item(map) :: t
   defp parse_library_item(data) do
     data
-    |> Map.get("field_reusable_paragraph", [])
+    |> Map.get("field_reusable_paragraph")
     |> List.first()
-    |> Map.get("paragraphs", [])
+    |> Map.get("paragraphs")
     |> List.first()
+    |> Map.put("parent_id", Map.get(data, "parent_id"))
     |> from_api()
   end
 end

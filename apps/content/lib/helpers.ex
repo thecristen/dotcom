@@ -1,9 +1,14 @@
 defmodule Content.Helpers do
+  @moduledoc """
+  Various helper functions that aid in parsing CMS JSON data.
+  """
+
   @spec field_value(map, String.t()) :: any
   def field_value(parsed, field) do
     case parsed[field] do
       [%{"processed" => value}] -> value
       [%{"value" => value}] -> value
+      [%{"target_id" => value}] -> value
       _ -> nil
     end
   end

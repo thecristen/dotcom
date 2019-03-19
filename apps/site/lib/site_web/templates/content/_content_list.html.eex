@@ -1,0 +1,23 @@
+<%= if @content.header do %>
+  <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
+<% end %>
+
+<%= for teaser <- @teasers do %>
+  <% type = CSSHelpers.atom_to_class(teaser.type) %>
+
+  <%= link to: cms_static_page_path(@conn, teaser.path), class: "c-teaser c-teaser--#{type}" do %>
+
+    <%= if teaser.image do %>
+      <img src="<%= teaser.image.url %>" alt="<%= teaser.image.alt %>" class="c-teaser__image">
+    <% end %>
+
+    <div class="c-teaser__date u-small-caps">
+      <%= format_full_date(teaser.date) %>
+    </div>
+
+    <h3 class="c-teaser__title">
+      <%= teaser.title %>
+    </h3>
+
+  <% end %>
+<% end %>

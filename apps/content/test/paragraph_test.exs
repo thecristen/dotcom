@@ -15,6 +15,7 @@ defmodule Content.ParagraphTest do
     Column,
     ColumnMulti,
     ColumnMultiHeader,
+    ContentList,
     CustomHTML,
     Description,
     DescriptionList,
@@ -285,6 +286,46 @@ defmodule Content.ParagraphTest do
                type: "unsupported_paragraph_type"
              } = from_api(api_data)
     end
+  end
+
+  test "parses a content list paragraph" do
+    content_list_data = api_paragraph("content_list")
+
+    assert %ContentList{
+             header: header,
+             ingredients: ingredients,
+             recipe: recipe
+           } = from_api(content_list_data)
+
+    assert %ColumnMultiHeader{} = header
+
+    assert %{
+             terms: [],
+             term_depth: 4,
+             items_per_page: 5,
+             type: "project_update",
+             type_op: nil,
+             promoted: nil,
+             sticky: "0",
+             relationship: "related_to",
+             except: nil,
+             content_id: 3004,
+             host_id: 2617,
+             date: nil,
+             date_op: "<",
+             sort_by: "field_updated_on_value",
+             sort_order: "DESC"
+           } == ingredients
+
+    assert [
+             date: "now",
+             date_op: "<",
+             related_to: 3004,
+             sort_by: "field_updated_on_value",
+             sort_order: "DESC",
+             sticky: "0",
+             type: "project_update"
+           ] == recipe
   end
 
   describe "right_rail?" do
