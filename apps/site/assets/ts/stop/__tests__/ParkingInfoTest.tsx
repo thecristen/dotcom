@@ -7,38 +7,57 @@ import {
   createReactRoot,
   enzymeToJsonWithoutProps
 } from "../../app/helpers/testUtils";
+import {
+  ParkingLotUtilization,
+  ParkingLotMobileApp,
+  ParkingLotPayment,
+  ParkingLot,
+  ParkingLotManager,
+  ParkingLotCapacity,
+  Stop
+} from "../../v3api";
 /* eslint-disable typescript/camelcase */
 
-const parkingLot = {
-  utilization: {
-    typical: 200,
-    arrive_before: "6:00 AM"
-  },
-  payment: {
-    monthly_rate: "$150 regular, $445 overnight",
-    mobile_app: {
-      name: "ProParkApp",
-      url: "http://www.propark.com/madeupapp"
-    },
-    methods: ["Credit/Debit Card", "Cash"],
-    daily_rate:
-      "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
-  },
+const utilization: ParkingLotUtilization = {
+  typical: 200,
+  arrive_before: "6:00 AM"
+};
+
+const mobileApp: ParkingLotMobileApp = {
+  name: "ProParkApp",
+  url: "http://www.propark.com/madeupapp"
+};
+
+const payment: ParkingLotPayment = {
+  monthly_rate: "$150 regular, $445 overnight",
+  mobile_app: mobileApp,
+  methods: ["Credit/Debit Card", "Cash"],
+  daily_rate:
+    "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
+};
+
+const manager: ParkingLotManager = {
+  url: "https://www.propark.com/propark-locator2/south-station-garage/",
+  phone: "617-345-0202",
+  name: "ProPark",
+  contact: "ProPark"
+};
+
+const capacity: ParkingLotCapacity = {
+  type: "Garage",
+  total: 210,
+  accessible: 4
+};
+
+const parkingLot: ParkingLot = {
+  utilization,
+  payment,
   note: "An example note",
   name: "South Station Bus Terminal Garage",
-  manager: {
-    url: "https://www.propark.com/propark-locator2/south-station-garage/",
-    phone: "617-345-0202",
-    name: "ProPark",
-    contact: "ProPark"
-  },
+  manager,
   longitude: -71.055963,
   latitude: 42.349838,
-  capacity: {
-    type: "Garage",
-    total: 210,
-    accessible: 4
-  },
+  capacity,
   address: null
 };
 
@@ -80,7 +99,7 @@ describe("ParkingInfo", () => {
   });
 
   it("handles cases where no parking information is listed for a station", () => {
-    const stopWithNoLots = { ...stop, parking_lots: [] };
+    const stopWithNoLots: Stop = { ...stop, parking_lots: [] };
     createReactRoot();
     const wrapper = mount(<ParkingInfo stop={stopWithNoLots} />);
     wrapper.find(id).simulate("click");
@@ -91,7 +110,7 @@ describe("ParkingInfo", () => {
   });
 
   it("handles cases where no parking information is listed for a stop", () => {
-    const stationWithNoLots = {
+    const stationWithNoLots: Stop = {
       ...stop,
       parking_lots: [],
       "station?": false
@@ -103,12 +122,12 @@ describe("ParkingInfo", () => {
   });
 
   it("handles cases where utilization data shows parking is not in high demand", () => {
-    const stopWithNoParkingDemand = {
+    const stopWithNoParkingDemand: Stop = {
       ...stop,
       parking_lots: [
         {
           ...parkingLot,
-          utilization: { ...parkingLot.capacity, typical: 100 },
+          utilization: { ...utilization, typical: 100 },
           capacity: { total: 200 }
         }
       ]
@@ -122,7 +141,7 @@ describe("ParkingInfo", () => {
   });
 
   it("handles cases where utilization data is not available", () => {
-    const stopWithNoUtilization = {
+    const stopWithNoUtilization: Stop = {
       ...stop,
       parking_lots: [{ ...parkingLot, utilization: null }]
     };
@@ -148,12 +167,12 @@ describe("ParkingInfo", () => {
   });
 
   it("handles cases where mobile app data is not available", () => {
-    const stopWithNoMobile = {
+    const stopWithNoMobile: Stop = {
       ...stop,
       parking_lots: [
         {
           ...parkingLot,
-          payment: { ...stop.parking_lots[0].payment, mobile_app: null }
+          payment: { ...payment, mobile_app: null }
         }
       ]
     };
@@ -166,14 +185,14 @@ describe("ParkingInfo", () => {
   });
 
   it("handles cases where mobile app url is not available", () => {
-    const stopWithMobileId = {
+    const stopWithMobileId: Stop = {
       ...stop,
       parking_lots: [
         {
           ...parkingLot,
           payment: {
-            ...parkingLot.payment,
-            mobile_app: { ...parkingLot.payment.mobile_app, url: null }
+            ...payment,
+            mobile_app: { ...mobileApp, url: null }
           }
         }
       ]
@@ -187,14 +206,14 @@ describe("ParkingInfo", () => {
   });
 
   it("handles cases where mobile app id data is available", () => {
-    const stopWithMobileId = {
+    const stopWithMobileId: Stop = {
       ...stop,
       parking_lots: [
         {
           ...parkingLot,
           payment: {
-            ...parkingLot.payment,
-            mobile_app: { ...parkingLot.payment.mobile_app, id: "234" }
+            ...payment,
+            mobile_app: { ...mobileApp, id: "234" }
           }
         }
       ]
@@ -208,7 +227,7 @@ describe("ParkingInfo", () => {
   });
 
   it("handles cases where payment info is not available", () => {
-    const stopWithNoMobile = {
+    const stopWithNoMobile: Stop = {
       ...stop,
       parking_lots: [{ ...parkingLot, payment: null }]
     };
@@ -224,7 +243,7 @@ describe("ParkingInfo", () => {
 });
 
 it("handles cases where manager info is not available", () => {
-  const stopWithNoMobile = {
+  const stopWithNoMobile: Stop = {
     ...stop,
     parking_lots: [{ ...parkingLot, manager: null }]
   };
@@ -242,7 +261,7 @@ it("doesn't add a link for manager contact info if not available", () => {
     parking_lots: [
       {
         ...parkingLot,
-        manager: { ...parkingLot.manager, url: null }
+        manager: { ...manager, url: null }
       }
     ]
   };
@@ -255,12 +274,12 @@ it("doesn't add a link for manager contact info if not available", () => {
 });
 
 it("adds a url link for a manager if available", () => {
-  const stopWithNoMobile = {
+  const stopWithNoMobile: Stop = {
     ...stop,
     parking_lots: [
       {
         ...parkingLot,
-        manager: { ...parkingLot.manager, phone: "tel:+123456789" }
+        manager: { ...manager, phone: "tel:+123456789" }
       }
     ]
   };
@@ -274,12 +293,12 @@ it("adds a url link for a manager if available", () => {
 });
 
 it("handles case where manager telephone is not avaiable", () => {
-  const stopWithNoPhone = {
+  const stopWithNoPhone: Stop = {
     ...stop,
     parking_lots: [
       {
         ...parkingLot,
-        manager: { ...parkingLot.manager, phone: null }
+        manager: { ...manager, phone: null }
       }
     ]
   };
@@ -292,7 +311,7 @@ it("handles case where manager telephone is not avaiable", () => {
 });
 
 it("handles cases where there is no note", () => {
-  const stopWithNoMobile = {
+  const stopWithNoMobile: Stop = {
     ...stop,
     parking_lots: [{ ...parkingLot, note: null }]
   };

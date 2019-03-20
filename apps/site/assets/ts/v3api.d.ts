@@ -3,34 +3,44 @@ interface DirectionInfo {
   1: string;
 }
 
+export interface ParkingLotCapacity {
+  total?: number;
+  accessible?: number;
+  type?: string;
+}
+
+export interface ParkingLotMobileApp {
+  name?: string;
+  id?: string;
+  url: string | null;
+}
+
+export interface ParkingLotPayment {
+  methods: string[];
+  mobile_app?: ParkingLotMobileApp | null;
+  daily_rate?: string;
+  monthly_rate?: string;
+}
+
+export interface ParkingLotManager {
+  name?: string;
+  contact?: string;
+  phone: string | null;
+  url: string | null;
+}
+
+export interface ParkingLotUtilization {
+  arrive_before?: string;
+  typical?: number;
+}
+
 export interface ParkingLot {
   name: string;
   address: string | null;
-  capacity: {
-    total?: number;
-    accessible?: number;
-    type?: string;
-  } | null;
-  payment: {
-    methods: string[];
-    mobile_app?: {
-      name?: string;
-      id?: string;
-      url: string | null;
-    } | null;
-    daily_rate?: string;
-    monthly_rate?: string;
-  } | null;
-  manager: {
-    name?: string;
-    contact?: string;
-    phone: string | null;
-    url: string | null;
-  } | null;
-  utilization?: {
-    arrive_before?: string;
-    typical?: number;
-  } | null;
+  capacity: ParkingLotCapacity | null;
+  payment: ParkingLotPayment | null;
+  manager: ParkingLotManager | null;
+  utilization?: ParkingLotUtilization | null;
   note?: string | null;
   latitude?: number;
   longitude?: number;
