@@ -99,7 +99,7 @@ defmodule Site.Mixfile do
       {:benchfella, "~> 0.3", only: :dev},
       {:excoveralls, "~> 0.5", only: :test},
       {:floki, "~> 0.20.4"},
-      {:httpoison, "~> 1.4"},
+      {:httpoison, "~> 1.5"},
       {:mock, "~> 0.3.3", only: :test},
       {:polyline, github: "ryan-mahoney/polyline_ex"},
       {:sentry, "~> 7.0"},

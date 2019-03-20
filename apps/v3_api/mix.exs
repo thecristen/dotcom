@@ -42,9 +42,9 @@ defmodule V3Api.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:httpoison, "~> 1.4"},
+      {:httpoison, "~> 1.5"},
       {:poison, "~> 2.2", override: true},
-      {:hackney, "~> 1.8.0"},
+      {:hackney, "~> 1.15.1"},
       {:excoveralls, "~> 0.5", only: :test},
       {:bypass, "~> 1.0", only: :test},
       {:server_sent_event_stage, "~> 0.3"},

@@ -33,7 +33,7 @@ defmodule Algolia.Mixfile do
       {:stops, in_umbrella: true},
       {:routes, in_umbrella: true},
       {:util, in_umbrella: true},
-      {:httpoison, "~> 1.4"},
+      {:httpoison, "~> 1.5"},
       {:plug, "~> 1.7.2"},
       {:bypass, "~> 1.0", only: :test}
       # {:dep_from_hexpm, "~> 0.3.0"},
