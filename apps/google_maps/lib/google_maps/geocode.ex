@@ -14,13 +14,15 @@ defmodule GoogleMaps.Geocode do
     south: -69.6189
   }
 
+  @http_pool Application.get_env(:google_maps, :http_pool)
+
   @spec geocode(String.t()) :: t
   def geocode(address) when is_binary(address) do
     cache(address, fn address ->
       address
       |> geocode_url
       |> GoogleMaps.signed_url()
-      |> HTTPoison.get()
+      |> HTTPoison.get([], hackney: [pool: @http_pool])
       |> parse_google_response(%Input{address: address})
     end)
   end
@@ -41,7 +43,7 @@ defmodule GoogleMaps.Geocode do
     latitude
     |> reverse_geocode_url(longitude)
     |> GoogleMaps.signed_url()
-    |> HTTPoison.get()
+    |> HTTPoison.get([], hackney: [pool: @http_pool])
     |> parse_google_response(%Input{latitude: latitude, longitude: longitude})
   end
 

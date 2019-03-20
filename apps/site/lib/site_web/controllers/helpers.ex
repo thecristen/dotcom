@@ -6,6 +6,8 @@ defmodule SiteWeb.ControllerHelpers do
   import Plug.Conn, only: [put_status: 2, halt: 1]
   import Phoenix.Controller, only: [render: 3, put_view: 2]
 
+  @content_http_pool Application.get_env(:content, :http_pool)
+
   @valid_resp_headers [
     "content-type",
     "date",
@@ -102,7 +104,7 @@ defmodule SiteWeb.ControllerHelpers do
   """
   @spec forward_static_file(Conn.t(), String.t()) :: Conn.t()
   def forward_static_file(conn, url) do
-    case HTTPoison.get(url) do
+    case HTTPoison.get(url, [], hackney: [pool: @content_http_pool]) do
       {:ok, %{status_code: 200, body: body, headers: headers}} ->
         conn
         |> add_headers_if_valid(headers)

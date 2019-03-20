@@ -5,6 +5,7 @@ defmodule V3Api do
   alias V3Api.Cache
 
   @default_timeout Application.get_env(:v3_api, :default_timeout)
+  @http_pool Application.get_env(:v3_api, :http_pool)
 
   @spec get_json(String.t(), Keyword.t()) :: JsonApi.t() | {:error, any}
   def get_json(url, params \\ [], opts \\ []) do
@@ -52,7 +53,12 @@ defmodule V3Api do
 
     {time, response} =
       :timer.tc(fn ->
-        get(url, headers, params: params, timeout: timeout, recv_timeout: timeout)
+        get(url, headers,
+          params: params,
+          timeout: timeout,
+          recv_timeout: timeout,
+          hackney: [pool: @http_pool]
+        )
       end)
 
     {time, response}

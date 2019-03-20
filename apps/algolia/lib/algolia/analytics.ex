@@ -1,6 +1,8 @@
 defmodule Algolia.Analytics do
   require Logger
 
+  @http_pool Application.get_env(:algolia, :http_pool)
+
   @spec click(%{String.t() => String.t() | integer}) :: :ok | {:error, any}
   def click(%{"position" => <<pos::binary>>} = params) do
     case Integer.parse(pos) do
@@ -39,7 +41,7 @@ defmodule Algolia.Analytics do
     _ = Logger.info("module=#{__MODULE__} path=#{path} method=POST params=#{json}")
 
     path
-    |> HTTPoison.post(json, post_headers())
+    |> HTTPoison.post(json, post_headers(), hackney: [pool: @http_pool])
     |> handle_click_response(json)
   end
 

@@ -3,6 +3,8 @@ defmodule Content.CMS.TimeRequest do
 
   require Logger
 
+  @http_pool Application.get_env(:content, :http_pool)
+
   @doc """
 
   Wraps an HTTP call and times how long the request takes.  Returns the HTTP response.
@@ -12,6 +14,11 @@ defmodule Content.CMS.TimeRequest do
           {:ok, HTTPoison.Response.t()}
           | {:error, HTTPoison.Error.t()}
   def time_request(method, url, body \\ "", headers \\ [], opts \\ []) do
+    opts =
+      opts
+      |> Keyword.put_new(:hackney, [])
+      |> Keyword.update!(:hackney, &Keyword.put(&1, :pool, @http_pool))
+
     {time, response} =
       :timer.tc(HTTPoison, :request, [
         method,

@@ -20,6 +20,8 @@ config :algolia, :track_clicks?, false
 
 config :algolia, :index_suffix, ""
 
+config :algolia, :http_pool, :algolia_http_pool
+
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
 # file won't be loaded nor affect the parent project. For this reason,

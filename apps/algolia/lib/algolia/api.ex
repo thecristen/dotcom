@@ -4,6 +4,8 @@ defmodule Algolia.Api do
 
   defstruct [:host, :index, :action, :body]
 
+  @http_pool Application.get_env(:algolia, :http_pool)
+
   @type t :: %__MODULE__{
           host: String.t() | nil,
           index: String.t() | nil,
@@ -29,9 +31,14 @@ defmodule Algolia.Api do
 
   defp do_post(%__MODULE__{index: index, action: action, body: body} = opts, %Config{} = config)
        when is_binary(index) and is_binary(action) and is_binary(body) do
+    hackney =
+      opts
+      |> hackney_opts()
+      |> Keyword.put(:pool, @http_pool)
+
     opts
     |> generate_url(config)
-    |> HTTPoison.post(body, headers(config), hackney: hackney_opts(opts))
+    |> HTTPoison.post(body, headers(config), hackney: hackney)
   end
 
   @spec generate_url(t, Config.t()) :: String.t()

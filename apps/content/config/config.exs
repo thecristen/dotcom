@@ -29,6 +29,7 @@ use Mix.Config
 #
 
 config :content,
+  http_pool: :content_http_pool,
   drupal: [
     root: {:system, "DRUPAL_ROOT"},
     static_path: "/sites/default/files"
