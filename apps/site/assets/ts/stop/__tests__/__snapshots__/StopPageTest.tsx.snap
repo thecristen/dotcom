@@ -36,25 +36,25 @@ Array [
     </div>
   </div>,
   <div
-    className="station__header"
+    className="m-stop-page__header"
   >
     <div
-      className="station__header-container"
+      className="m-stop-page__header-container"
     >
       <h1
-        className="station__name station__name--upcase"
+        className="m-stop-page__name station__name--upcase"
       >
         South Station
       </h1>
       <div
-        className="station__header-features"
+        className="m-stop-page__header-features"
       >
         <a
-          className="station__header-feature"
+          className="m-stop-page__header-feature"
           href="/stops/place-sstat?tab=departures#subway-schedule"
         >
           <span
-            className="station__header-icon"
+            className="m-stop-page__header-icon"
           >
             <span
               className="c-svg__icon-red-line-default"
@@ -67,11 +67,11 @@ Array [
           </span>
         </a>
         <a
-          className="station__header-feature"
+          className="m-stop-page__header-feature"
           href="/stops/place-sstat?tab=departures#bus-schedule"
         >
           <span
-            className="station__header-icon"
+            className="m-stop-page__header-icon"
           >
             <span
               className="c-svg__icon-bus-default"
@@ -84,11 +84,11 @@ Array [
           </span>
         </a>
         <a
-          className="station__header-feature"
+          className="m-stop-page__header-feature"
           href="/stops/place-sstat?tab=departures#commuter-rail-schedule"
         >
           <span
-            className="station__header-icon"
+            className="m-stop-page__header-icon"
           >
             <span
               className="c-svg__icon-commuter-rail-default"
@@ -101,21 +101,21 @@ Array [
           </span>
         </a>
         <a
-          className="station__header-feature"
+          className="m-stop-page__header-feature"
           href="/stops/place-sstat?tab=info#commuter-fares"
         >
           <span
-            className="station__header-icon c-icon__cr-zone"
+            className="m-stop-page__header-icon c-icon__cr-zone"
           >
             Zone 1A
           </span>
         </a>
         <a
-          className="station__header-feature"
+          className="m-stop-page__header-feature"
           href="#accessibility"
         >
           <span
-            className="station__header-icon"
+            className="m-stop-page__header-icon"
           >
             <span
               className="c-svg__icon-accessible-default"
@@ -128,11 +128,11 @@ Array [
           </span>
         </a>
         <a
-          className="station__header-feature"
+          className="m-stop-page__header-feature"
           href="#parking"
         >
           <span
-            className="station__header-icon"
+            className="m-stop-page__header-icon"
           >
             <span
               className="c-svg__icon-parking-default"
@@ -182,22 +182,22 @@ Array [
     </div>
   </div>,
   <div
-    className="station__details"
+    className="m-stop-page__details"
   >
     <div
-      className="station__details-container"
+      className="m-stop-page__details-container"
     >
       Station Details
     </div>
   </div>,
   <div
-    className="station__hero"
+    className="m-stop-page__hero"
   >
     <div
-      className="station__hero-map"
+      className="m-stop-page__hero-map"
     >
       <div
-        className="station__hero-map-container"
+        className="m-stop-page__hero-map-container"
         id="test"
       />
       <noscript>
@@ -205,7 +205,7 @@ Array [
           #test { display: none; }
         </style>
         <div
-          className="station__hero-map-container"
+          className="m-stop-page__hero-map-container"
         >
           <a
             href="https://maps.google.com/?q=700 Atlantic Ave, Boston, MA 02110"
@@ -230,7 +230,7 @@ Array [
       />
     </div>
     <div
-      className="station__hero-photo"
+      className="m-stop-page__hero-photo"
     />
   </div>,
   <div

@@ -45,8 +45,8 @@ const accessible = ({
   accessibility
 }: Stop): ReactElement<HTMLElement> | false =>
   accessibility.includes("accessible") && (
-    <a href="#accessibility" className="station__header-feature">
-      <span className="station__header-icon">
+    <a href="#accessibility" className="m-stop-page__header-feature">
+      <span className="m-stop-page__header-icon">
         {accessibleIcon("c-svg__icon-accessible-default")}
       </span>
     </a>
@@ -57,8 +57,8 @@ const parking = ({
   parking_lots: parkingLots
 }: Stop): ReactElement<HTMLElement> | false =>
   parkingLots.length > 0 && (
-    <a href="#parking" className="station__header-feature">
-      <span className="station__header-icon">
+    <a href="#parking" className="m-stop-page__header-feature">
+      <span className="m-stop-page__header-icon">
         {parkingIcon("c-svg__icon-parking-default")}
       </span>
     </a>
@@ -105,8 +105,12 @@ const modeLink = (modeId: string): string => {
 };
 
 const modeIconFeature = ({ id }: Route): ReactElement<HTMLElement> => (
-  <a href={modeLink(id)} key={modeType(id)} className="station__header-feature">
-    <span className="station__header-icon">{modeIcon(id)}</span>
+  <a
+    href={modeLink(id)}
+    key={modeType(id)}
+    className="m-stop-page__header-feature"
+  >
+    <span className="m-stop-page__header-icon">{modeIcon(id)}</span>
   </a>
 );
 
@@ -139,9 +143,9 @@ const crZone = (zoneNumber: string): ReactElement<HTMLElement> | false =>
   zoneNumber.length > 0 && (
     <a
       href="/stops/place-sstat?tab=info#commuter-fares"
-      className="station__header-feature"
+      className="m-stop-page__header-feature"
     >
-      <span className="station__header-icon c-icon__cr-zone">
+      <span className="m-stop-page__header-icon c-icon__cr-zone">
         {`Zone ${zoneNumber}`}
       </span>
     </a>
@@ -152,7 +156,7 @@ const features = (
   routes: TypedRoutes[],
   zoneNumber: string
 ): ReactElement<HTMLElement> => (
-  <div className="station__header-features">
+  <div className="m-stop-page__header-features">
     {modes(routes)}
     {crZone(zoneNumber)}
     {accessible(stop)}
@@ -166,9 +170,9 @@ const Header = ({
   tabs,
   zoneNumber
 }: Props): ReactElement<HTMLElement> => (
-  <div className="station__header">
-    <div className="station__header-container">
-      <h1 className="station__name station__name--upcase">{stop.name}</h1>
+  <div className="m-stop-page__header">
+    <div className="m-stop-page__header-container">
+      <h1 className="m-stop-page__name station__name--upcase">{stop.name}</h1>
 
       {features(stop, routes, zoneNumber)}
 

@@ -28,12 +28,12 @@ export default ({
       tabs={tabs}
     />
 
-    <div className="station__details">
-      <div className="station__details-container">Station Details</div>
+    <div className="m-stop-page__details">
+      <div className="m-stop-page__details-container">Station Details</div>
     </div>
-    <div className="station__hero">
+    <div className="m-stop-page__hero">
       <StopMapContainer initialData={mapData} mapId={mapId} stop={stop} />
-      <div className="station__hero-photo" />
+      <div className="m-stop-page__hero-photo" />
     </div>
     <div className="container">
       <div className="page-section">

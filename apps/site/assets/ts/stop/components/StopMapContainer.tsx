@@ -14,11 +14,11 @@ const StopMapContainer = (props: Props): ReactElement<HTMLElement> => {
   const { initialData, mapId, stop } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <div className="station__hero-map">
-      <div id={mapId} className="station__hero-map-container" />
+    <div className="m-stop-page__hero-map">
+      <div id={mapId} className="m-stop-page__hero-map-container" />
       <noscript>
         <style>{`#${mapId} { display: none; }`}</style>
-        <div className="station__hero-map-container">
+        <div className="m-stop-page__hero-map-container">
           <a
             href={`https://maps.google.com/?q=${stop.address}`}
             rel="noopener noreferrer"

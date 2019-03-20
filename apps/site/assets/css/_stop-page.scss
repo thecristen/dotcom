@@ -1,0 +1,90 @@
+.m-stop-page__header {
+  background: $gray-bordered-background;
+  border-bottom: 0;
+
+  // required to prevent h2 margin-top from creating space between
+  // header and breadcrumbs
+  // https://stackoverflow.com/questions/13573653
+  overflow: auto;
+}
+
+.m-stop-page__header-container {
+  @include make-container-max-widths();
+  margin-left: auto;
+  margin-right: auto;
+
+  @include media-breakpoint-down(sm) {
+    padding-left: $grid-gutter-width / 2;
+    padding-right: $grid-gutter-width / 2;
+  }
+
+  .m-stop-page__name {
+    margin-bottom: $base-spacing / 2;
+  }
+}
+
+.m-stop-page__header-features {
+  align-items: center;
+  display: flex;
+  height: $base-spacing * 2;
+  margin-bottom: $base-spacing;
+  margin-top: $base-spacing / 2;
+}
+
+.m-stop-page__header-feature {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  font-weight: 700;
+  height: 100%;
+  margin-right: $base-spacing / 2;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.m-stop-page__header-icon {
+  @include icon-size-inline(1.75em, .125em);
+
+  flex: 0 0 auto;
+
+  .c-icon__cr-zone {
+    padding: $base-spacing;
+  }
+}
+
+.m-stop-page__header-description {
+  border-radius: $base-spacing * 3;
+  color: $white;
+  flex: 0 0 auto;
+  padding: $base-spacing / 4 $base-spacing / 2;
+  text-transform: uppercase;
+  vertical-align: middle;
+
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+}
+
+.m-stop-page__name--upcase {
+  text-transform: uppercase;
+}
+
+.m-stop-page__address {
+  margin: $base-spacing 0;
+}
+
+.m-stop-page__hero-map-container {
+  flex: 1 1 auto;
+  height: $base-spacing * 35;
+
+  @include media-breakpoint-only(xxl) {
+    @include make-container();
+    max-width: map-get($container-max-widths, xxl);
+  }
+}
