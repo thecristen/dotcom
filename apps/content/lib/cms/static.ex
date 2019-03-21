@@ -347,19 +347,19 @@ defmodule Content.CMS.Static do
     {:ok, []}
   end
 
-  def view("/cms/teasers", %{type: "project", sticky: 1}) do
+  def view("/cms/teasers", %{type: :project, sticky: 1}) do
     {:ok, teaser_featured_projects_response()}
   end
 
-  def view("/cms/teasers", %{type: "project"}) do
+  def view("/cms/teasers", %{type: :project}) do
     {:ok, teaser_project_response()}
   end
 
-  def view("/cms/teasers", %{type: "project_update"}) do
+  def view("/cms/teasers", %{type: :project_update}) do
     {:ok, teaser_project_update_response()}
   end
 
-  def view("/cms/teasers", %{type: "news_entry"}) do
+  def view("/cms/teasers", %{type: :news_entry}) do
     {:ok, teaser_news_entry_response()}
   end
 

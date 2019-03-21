@@ -18,9 +18,20 @@ defmodule SiteWeb.ProjectControllerTest do
       assert %{"nid" => [%{"value" => 3004}]} = project
 
       mock_view = fn
-        "/node/3004", %{} -> {:ok, project}
-        "/cms/teasers", %{related_to: 3004, type: "project_update"} -> {:ok, []}
-        "/cms/events", [project_id: 3004] -> {:ok, []}
+        "/node/3004", %{} ->
+          {:ok, project}
+
+        "/cms/teasers",
+        %{
+          related_to: 3004,
+          sort_by: "field_posted_on_value",
+          sort_order: :DESC,
+          type: :project_update
+        } ->
+          {:ok, []}
+
+        "/cms/events", [project_id: 3004] ->
+          {:ok, []}
       end
 
       with_mock Static, view: mock_view do
@@ -28,7 +39,12 @@ defmodule SiteWeb.ProjectControllerTest do
         assert html_response(conn, 200) =~ "Wollaston Station Improvements"
 
         "/cms/teasers"
-        |> Static.view(%{related_to: 3004, type: "project_update"})
+        |> Static.view(%{
+          related_to: 3004,
+          sort_by: "field_posted_on_value",
+          sort_order: :DESC,
+          type: :project_update
+        })
         |> assert_called()
 
         "/cms/events"

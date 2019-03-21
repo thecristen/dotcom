@@ -161,4 +161,18 @@ defmodule Content.Helpers do
     |> Enum.at(0, %{})
     |> Map.get("name", "")
   end
+
+  @spec content_type(String.t()) :: Content.CMS.type()
+  for atom <- ~w(
+    event
+    news_entry
+    page
+    project
+    project_update
+    )a do
+    str = Atom.to_string(atom)
+    def content_type(unquote(str)), do: unquote(atom)
+  end
+
+  def content_type(_), do: nil
 end

@@ -4,7 +4,7 @@ defmodule Content.Paragraph.ContentList do
   This paragraph provides a formula for retreiving a dynamic list of
   content items from the CMS via the `/cms/teasers` API endpoint.
   """
-  import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1]
+  import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1, content_type: 1]
   import Content.Paragraph, only: [parse_header: 1]
 
   alias Content.{Paragraph.ColumnMultiHeader, Repo, Teaser}
@@ -12,6 +12,8 @@ defmodule Content.Paragraph.ContentList do
   defstruct header: nil,
             ingredients: %{},
             recipe: []
+
+  @type order :: :DESC | :ASC
 
   @type t :: %__MODULE__{
           header: ColumnMultiHeader.t() | nil,
@@ -31,7 +33,7 @@ defmodule Content.Paragraph.ContentList do
       terms: terms,
       term_depth: field_value(data, "field_term_depth"),
       items_per_page: field_value(data, "field_number_of_items"),
-      type: field_value(data, "field_content_type"),
+      type: data |> field_value("field_content_type") |> content_type(),
       type_op: field_value(data, "field_type_logic"),
       promoted: field_value(data, "field_promoted"),
       sticky: field_value(data, "field_sticky"),
@@ -41,8 +43,7 @@ defmodule Content.Paragraph.ContentList do
       host_id: data |> field_value("parent_id") |> int_or_string_to_int(),
       date: field_value(data, "field_date"),
       date_op: field_value(data, "field_date_logic"),
-      sort_by: field_value(data, "field_sorting"),
-      sort_order: field_value(data, "field_sorting_logic")
+      sort_order: data |> field_value("field_sorting_logic") |> order()
     }
 
     recipe = combine(ingredients)
@@ -156,4 +157,10 @@ defmodule Content.Paragraph.ContentList do
   defp combine(ingredients) do
     Enum.reject(ingredients, fn {_k, v} -> is_nil(v) end)
   end
+
+  # Convert order value strings to atoms
+  @spec order(String.t() | nil) :: order()
+  def order("ASC"), do: :ASC
+  def order("DESC"), do: :DESC
+  def order(_), do: nil
 end

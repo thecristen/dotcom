@@ -364,9 +364,9 @@ defmodule SiteWeb.ContentViewTest do
         header: %ColumnMultiHeader{
           text: HTML.raw("<p>Header copy.</p>\n")
         },
-        ingredients: %{type: "project_update"},
+        ingredients: %{type: :project_update},
         recipe: [
-          type: "project_update",
+          type: :project_update,
           date: "now",
           date_op: ">="
         ]

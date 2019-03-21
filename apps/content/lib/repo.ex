@@ -10,7 +10,7 @@ defmodule Content.Repo do
 
   use RepoCache, ttl: :timer.minutes(1)
 
-  alias Content.Paragraph
+  alias Content.{Paragraph, Teaser}
 
   @cms_api Application.get_env(:content, :cms_api)
 
@@ -226,6 +226,8 @@ defmodule Content.Repo do
     :page
     :project_update
 
+  If no type is specified, results can be of mixed types.
+
   To filter by a route include :route_id, for example:
     "/guides/subway" or just "subway"
 
@@ -239,8 +241,38 @@ defmodule Content.Repo do
   the number of items to return. Default is 5 items.
   The number can only be 1-10, 20, or 50, otherwise
   it will be ignored.
+
+  DATE
+
+  If :date is specified, a valid :date_op of ">=" or "<" must
+  also be specified -- both params must always be used together.
+  You may specify a date of "now" to use the current date.
+
+  SORTING
+
+  Projects, Project Updates, News and Events can all be sorted
+  using the :sort_order and :sort_by filters. Other content types
+  like Basic Page (:page) default to creation date, descending.
+
+  :sort_by is set automatically when :type requires it.
+  :sort_order is DESC by default; only used with :sort_by.
   """
-  @spec teasers(Keyword.t()) :: [Content.Teaser.t()]
+
+  @type teaser_filters :: %{
+          optional(:sidebar) => integer,
+          optional(:type) => Content.CMS.type() | nil,
+          optional(:type_op) => String.t(),
+          optional(:related_to) => integer,
+          optional(:except) => integer,
+          optional(:only) => integer,
+          optional(:items_per_page) => 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 20 | 50,
+          optional(:date) => String.t(),
+          optional(:date_op) => String.t(),
+          optional(:sort_order) => :DESC | :ASC,
+          optional(:sort_by) => String.t()
+        }
+
+  @spec teasers(Keyword.t()) :: [Teaser.t()]
   def teasers(opts \\ []) when is_list(opts) do
     opts
     |> teaser_path()
@@ -264,22 +296,35 @@ defmodule Content.Repo do
     "/cms/teasers#{path}"
   end
 
-  @spec teaser_params(Keyword.t()) :: %{
-          optional(:sidebar) => integer,
-          optional(:type) => atom,
-          optional(:type_op) => String.t(),
-          optional(:related_to) => integer,
-          optional(:except) => integer,
-          optional(:only) => integer,
-          optional(:items_per_page) => 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 20 | 50
-        }
+  @spec teaser_params(Keyword.t()) :: teaser_filters
   defp teaser_params(opts) do
-    Map.new(opts)
+    opts
+    |> Map.new()
+    |> teaser_sort()
   end
 
-  @spec do_teasers({:ok, [map]} | {:error, any}, Keyword.t()) :: [Content.Teaser.t()]
+  @spec teaser_sort(teaser_filters) :: teaser_filters
+  defp teaser_sort(%{type: type} = params)
+       when type in [:news_entry, :event, :project_update, :project] do
+    order = Map.get(params, :sort_order, :DESC)
+
+    field =
+      case type do
+        type when type in [:project_update, :news_entry] -> "field_posted_on_value"
+        :project -> "field_updated_on_value"
+        :event -> "field_start_time_value"
+      end
+
+    Map.merge(params, %{sort_by: field, sort_order: order})
+  end
+
+  defp teaser_sort(params) do
+    Map.drop(params, [:sort_order, :sort_by])
+  end
+
+  @spec do_teasers({:ok, [map]} | {:error, any}, Keyword.t()) :: [Teaser.t()]
   defp do_teasers({:ok, teasers}, _) do
-    Enum.map(teasers, &Content.Teaser.from_api/1)
+    Enum.map(teasers, &Teaser.from_api/1)
   end
 
   defp do_teasers({:error, error}, opts) do

@@ -6,6 +6,13 @@ defmodule Content.CMS do
   @type error :: :not_found | :timeout | :invalid_response | {:redirect, integer, Keyword.t()}
   @type response :: {:ok, map() | [map()]} | {:error, error}
 
+  @type type ::
+          :event
+          | :news_entry
+          | :page
+          | :project
+          | :project_update
+
   @doc """
   Issues a request for a given path, with optional parameters
   for the request. Parses the JSON result but does not do anything

@@ -15,7 +15,7 @@ defmodule SiteWeb.NewsEntryController do
 
     news_entry_teasers_fn = fn ->
       Repo.teasers(
-        type: "news_entry",
+        type: :news_entry,
         items_per_page: items_per_page,
         offset: items_per_page * zero_based_current_page
       )
@@ -23,7 +23,7 @@ defmodule SiteWeb.NewsEntryController do
 
     upcoming_news_entry_teasers_fn = fn ->
       Repo.teasers(
-        type: "news_entry",
+        type: :news_entry,
         items_per_page: items_per_page,
         offset: items_per_page * zero_based_next_page
       )

@@ -45,7 +45,7 @@ defmodule Content.CMS.StaticTest do
     end
 
     test "/cms/teasers?type=news_entry" do
-      assert {:ok, news_entries} = view("/cms/teasers", %{type: "news_entry"})
+      assert {:ok, news_entries} = view("/cms/teasers", %{type: :news_entry})
       refute Enum.empty?(news_entries)
 
       for news_entry <- news_entries do
@@ -54,7 +54,7 @@ defmodule Content.CMS.StaticTest do
     end
 
     test "/cms/teasers?type=project_update" do
-      assert {:ok, updates} = view("/cms/teasers", %{type: "project_update"})
+      assert {:ok, updates} = view("/cms/teasers", %{type: :project_update})
       refute Enum.empty?(updates)
 
       for update <- updates do

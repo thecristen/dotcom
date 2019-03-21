@@ -1,4 +1,12 @@
 defmodule Content.Teaser do
+  @moduledoc """
+  A short, simplified representation of any content type.
+  """
+
+  import Content.Helpers, only: [content_type: 1]
+
+  alias Content.{CMS, Field.Image}
+
   defstruct [
     :image,
     :path,
@@ -10,15 +18,6 @@ defmodule Content.Teaser do
     :date
   ]
 
-  alias Content.Field.Image
-
-  @type type ::
-          :news_entry
-          | :event
-          | :project
-          | :page
-          | :project_update
-
   @type t :: %__MODULE__{
           image: Image.t() | nil,
           path: String.t(),
@@ -26,7 +25,7 @@ defmodule Content.Teaser do
           title: String.t(),
           topic: String.t(),
           id: String.t(),
-          type: type,
+          type: CMS.type(),
           date: Date.t() | nil
         }
 
@@ -50,7 +49,7 @@ defmodule Content.Teaser do
       title: title,
       topic: topic,
       id: id,
-      type: type(type),
+      type: content_type(type),
       date: date(data)
     }
   end
@@ -82,16 +81,4 @@ defmodule Content.Teaser do
   @spec image(String.t(), String.t()) :: Image.t() | nil
   defp image("", _), do: nil
   defp image(uri, alt), do: struct(Image, url: uri, alt: alt)
-
-  @spec type(String.t()) :: type
-  for atom <- ~w(
-    news_entry
-    event
-    project
-    page
-    project_update
-  )a do
-    str = Atom.to_string(atom)
-    defp type(unquote(str)), do: unquote(atom)
-  end
 end

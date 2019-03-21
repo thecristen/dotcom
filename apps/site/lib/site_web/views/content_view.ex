@@ -1,6 +1,6 @@
 defmodule SiteWeb.ContentView do
   @moduledoc """
-  Handles rendering of partial content from the CMS
+  Handles rendering of partial content from the CMS.
   """
   use SiteWeb, :view
 
@@ -203,8 +203,8 @@ defmodule SiteWeb.ContentView do
   end
 
   defp paragraph_classes(%ContentList{ingredients: %{type: type}}) do
-    classy_type = String.replace(type, "_", "-")
-    ["c-content-list--#{classy_type}"]
+    class = if is_nil(type), do: "mixed", else: CSSHelpers.atom_to_class(type)
+    ["c-content-list--#{class}"]
   end
 
   defp paragraph_classes(_) do

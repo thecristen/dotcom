@@ -131,7 +131,7 @@ defmodule Content.Paragraph.ContentListTest do
         sorting_logic: nil
       )
 
-    assert opts == [type: "event"]
+    assert opts == [type: :event]
   end
 
   defp cms_map(fields) do

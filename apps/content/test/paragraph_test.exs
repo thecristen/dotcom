@@ -303,7 +303,7 @@ defmodule Content.ParagraphTest do
              terms: [],
              term_depth: 4,
              items_per_page: 5,
-             type: "project_update",
+             type: :project_update,
              type_op: nil,
              promoted: nil,
              sticky: "0",
@@ -313,18 +313,16 @@ defmodule Content.ParagraphTest do
              host_id: 2617,
              date: nil,
              date_op: "<",
-             sort_by: "field_updated_on_value",
-             sort_order: "DESC"
+             sort_order: :DESC
            } == ingredients
 
     assert [
              date: "now",
              date_op: "<",
              related_to: 3004,
-             sort_by: "field_updated_on_value",
-             sort_order: "DESC",
+             sort_order: :DESC,
              sticky: "0",
-             type: "project_update"
+             type: :project_update
            ] == recipe
   end
 
