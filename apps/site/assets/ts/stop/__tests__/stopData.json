@@ -33,6 +33,7 @@
     "id": "place-sstat",
     "has_fare_machine?": true,
     "has_charlie_card_vendor?": false,
+    "fare_facilities": ["fare_media_assistant", "fare_vending_machine", "ticket_window"],
     "closed_stop_info": null,
     "address": "700 Atlantic Ave, Boston, MA 02110",
     "accessibility": [
@@ -223,5 +224,20 @@
       "name": "Alerts"
     }
   ],
-  "zone_number": "1A"
+  "zone_number": "1A",
+  "retail_locations": [
+    {
+      "location": {
+        "name": "Store Name",
+        "address": "1234 Main St., Boston MA",
+        "latitude": 42.0,
+        "longitude": -71.0,
+        "payment": [
+          "credit_card"
+        ],
+        "phone": "617-555-1234"
+      },
+      "distance": "500 ft"
+    }
+  ]
 }

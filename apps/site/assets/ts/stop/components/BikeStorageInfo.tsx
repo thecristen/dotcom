@@ -36,21 +36,19 @@ const pedalAndParkInfo = (): ReactElement<HTMLElement> => (
 const renderStorage = (stop: Stop): ReactElement<HTMLElement> => (
   <>
     <p>{`${stop.name} has the following bike storage features:`}</p>
-    <ul className="m-stop-page__bike-storage-list">
+    <ul className="m-stop-page__sidebar-list">
       {stop.bike_storage.map((storage: BikeStorage) => {
         const bikeStorage = bikeStorageType(storage);
         if (bikeStorage === "Pedal and Park") {
           return (
             <div key="pedal-and-park">
-              <li className="m-stop-page__bike-storage-list-item">
-                {bikeStorage}
-              </li>
+              <li className="m-stop-page__sidebar-list-item">{bikeStorage}</li>
               {pedalAndParkInfo()}
             </div>
           );
         }
         return (
-          <li className="m-stop-page__bike-storage-list-item" key={storage}>
+          <li className="m-stop-page__sidebar-list-item" key={storage}>
             {bikeStorage}
           </li>
         );

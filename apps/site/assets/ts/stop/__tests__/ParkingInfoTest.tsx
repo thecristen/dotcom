@@ -61,7 +61,7 @@ const parkingLot: ParkingLot = {
   address: null
 };
 
-const stop = {
+const stop: Stop = {
   "station?": true,
   parking_lots: [{ ...parkingLot }],
   note: null,
@@ -71,6 +71,11 @@ const stop = {
   latitude: 42.352271,
   "is_child?": false,
   id: "place-sstat",
+  fare_facilities: [
+    "fare_vending_machine",
+    "fare_media_assistant",
+    "ticket_window"
+  ],
   "has_fare_machine?": true,
   "has_charlie_card_vendor?": false,
   closed_stop_info: null,

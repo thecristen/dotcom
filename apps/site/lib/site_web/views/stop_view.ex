@@ -13,7 +13,11 @@ defmodule SiteWeb.StopView do
   end
 
   @spec do_render_react(map) :: HTML.safe()
-  def do_render_react(%{stop_page_data: stop_page_data, map_data: map_data, map_id: map_id}) do
+  def do_render_react(%{
+        stop_page_data: stop_page_data,
+        map_data: map_data,
+        map_id: map_id
+      }) do
     React.render(
       "StopPage",
       %{

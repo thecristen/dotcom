@@ -17,6 +17,7 @@ export interface StopPageData {
   routes: TypedRoutes[];
   tabs: Tab[];
   zone_number: string;
+  retail_locations: RetailLocationWithDistance[];
 }
 
 export interface Tab {
@@ -31,4 +32,18 @@ export interface TabBadge {
   content: string;
   aria_label: string;
   class?: string;
+}
+
+export interface RetailLocation {
+  address: string;
+  latitude: number;
+  longitude: number;
+  name: string;
+  payment: string[];
+  phone: string;
+}
+
+export interface RetailLocationWithDistance {
+  distance: string;
+  location: RetailLocation;
 }

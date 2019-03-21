@@ -63,11 +63,11 @@ Array [
         South Station has the following bike storage features:
       </p>
       <ul
-        className="m-stop-page__bike-storage-list"
+        className="m-stop-page__sidebar-list"
       >
         <div>
           <li
-            className="m-stop-page__bike-storage-list-item"
+            className="m-stop-page__sidebar-list-item"
           >
             Pedal and Park
           </li>
@@ -85,12 +85,12 @@ Array [
           </div>
         </div>
         <li
-          className="m-stop-page__bike-storage-list-item"
+          className="m-stop-page__sidebar-list-item"
         >
           Regular bike racks
         </li>
         <li
-          className="m-stop-page__bike-storage-list-item"
+          className="m-stop-page__sidebar-list-item"
         >
           Covered bike racks
         </li>
@@ -148,13 +148,13 @@ exports[`ParkingInfo via enzyme-to-json it displays parking info when opened and
         South Station has the following bike storage features:
       </p>
       <ul
-        className="m-stop-page__bike-storage-list"
+        className="m-stop-page__sidebar-list"
       >
         <div
           key="pedal-and-park"
         >
           <li
-            className="m-stop-page__bike-storage-list-item"
+            className="m-stop-page__sidebar-list-item"
           >
             Pedal and Park
           </li>
@@ -172,13 +172,13 @@ exports[`ParkingInfo via enzyme-to-json it displays parking info when opened and
           </div>
         </div>
         <li
-          className="m-stop-page__bike-storage-list-item"
+          className="m-stop-page__sidebar-list-item"
           key="bike_storage_rack"
         >
           Regular bike racks
         </li>
         <li
-          className="m-stop-page__bike-storage-list-item"
+          className="m-stop-page__sidebar-list-item"
           key="bike_storage_rack_covered"
         >
           Covered bike racks

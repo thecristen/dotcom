@@ -12,6 +12,7 @@ const stop: TNMStop = {
   address: "123 Main St., Boston MA",
   bike_storage: [],
   closed_stop_info: null,
+  fare_facilities: [],
   "has_charlie_card_vendor?": false,
   "has_fare_machine?": false,
   id: "stop-id",

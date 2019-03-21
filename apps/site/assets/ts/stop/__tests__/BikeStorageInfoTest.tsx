@@ -21,6 +21,7 @@ const stop: Stop = {
   note: null,
   name: "South Station",
   bike_storage: bikeStorages,
+  fare_facilities: [],
   longitude: -71.055242,
   latitude: 42.352271,
   "is_child?": false,

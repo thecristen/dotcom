@@ -41,6 +41,7 @@ it("it renders", () => {
     map_srcset: "",
     map_url: ""
   };
+
   /* eslint-enable typescript/camelcase */
 
   createReactRoot();

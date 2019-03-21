@@ -1,6 +1,7 @@
 defmodule SiteWeb.StopViewTest do
   use ExUnit.Case, async: false
 
+  alias Fares.RetailLocations.Location
   alias SiteWeb.PartialView.{HeaderTab, HeaderTabBadge}
   alias SiteWeb.StopView
   alias Stops.Stop
@@ -231,7 +232,19 @@ defmodule SiteWeb.StopViewTest do
         name: "Alerts"
       }
     ],
-    zone_number: "1A"
+    zone_number: "1A",
+    retail_locations: [
+      %{
+        distance: "123 ft",
+        location: %Location{
+          name: "Store Name",
+          address: "1234 Main St., Boston MA",
+          latitude: 41.0,
+          longitude: -72.0,
+          phone: "617-555-1234"
+        }
+      }
+    ]
   }
 
   test "render_react returns HTML" do

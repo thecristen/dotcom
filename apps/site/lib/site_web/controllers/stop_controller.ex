@@ -4,10 +4,12 @@ defmodule SiteWeb.StopController do
   """
   use SiteWeb, :controller
   alias Plug.Conn
+  alias Fares.{RetailLocations, RetailLocations.Location}
   alias Routes.{Group, Route}
   alias SiteWeb.PartialView.HeaderTab
   alias SiteWeb.StopController.StopMap
   alias SiteWeb.StopView.Parking
+  alias SiteWeb.ViewHelpers
   alias SiteWeb.Views.Helpers.AlertHelpers
   alias Stops.{Repo, Stop}
   alias Util.AndOr
@@ -37,9 +39,20 @@ defmodule SiteWeb.StopController do
         |> assign(:stop, stop)
         |> assign(:routes, json_safe_routes)
         |> assign(:requires_google_maps?, true)
+        |> async_assign_default(
+          :retail_locations,
+          fn ->
+            stop
+            |> RetailLocations.get_nearby()
+            |> Enum.map(&format_retail_location/1)
+          end,
+          []
+        )
         |> assign(:map_data, StopMap.map_info(stop, routes_map))
         |> assign(:zone_number, Zones.Repo.get(stop.id))
         |> assign_stop_page_data()
+        |> await_assign_all_default(__MODULE__)
+        |> combine_stop_data()
         |> meta_description(stop, routes_by_stop)
         |> render("show.html")
       else
@@ -143,5 +156,28 @@ defmodule SiteWeb.StopController do
     else
       ""
     end
+  end
+
+  @spec format_retail_location({Location.t(), float}) :: %{
+          distance: String.t(),
+          location: Location.t()
+        }
+  defp format_retail_location({%Location{} = location, distance}) do
+    %{
+      distance: ViewHelpers.round_distance(distance),
+      location: location
+    }
+  end
+
+  defp combine_stop_data(conn) do
+    merged_stop_data =
+      Map.put(conn.assigns.stop_page_data, :retail_locations, conn.assigns.retail_locations)
+
+    assigns =
+      conn.assigns
+      |> Map.put(:stop_page_data, merged_stop_data)
+      |> Map.delete(:retail_locations)
+
+    %{conn | assigns: assigns}
   end
 end

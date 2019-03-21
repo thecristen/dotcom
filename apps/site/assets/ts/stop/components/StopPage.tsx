@@ -14,7 +14,7 @@ interface Props {
 
 export default ({
   // eslint-disable-next-line typescript/camelcase
-  stopPageData: { stop, routes, tabs, zone_number },
+  stopPageData: { stop, routes, tabs, zone_number, retail_locations },
   mapData,
   mapId
 }: Props): ReactElement<HTMLElement> => (
@@ -44,7 +44,12 @@ export default ({
             <AddressBlock routes={routes} />
           </div>
           <div className="col-lg-4">
-            <Sidebar stop={stop} routes={routes} />
+            <Sidebar
+              stop={stop}
+              routes={routes}
+              // eslint-disable-next-line typescript/camelcase
+              retailLocations={retail_locations}
+            />
           </div>
         </div>
       </div>

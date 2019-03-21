@@ -67,6 +67,13 @@ export type BikeStorage =
   | "bike_storage_rack_covered"
   | "bike_storage_cage";
 
+export type FareFacilityType =
+  | "fare_vending_retailer"
+  | "fare_vending_machine"
+  | "fare_media_assistant"
+  | "fare_media_assistance_facility"
+  | "ticket_window";
+
 export interface Stop {
   accessibility: string[];
   address: string | null;
@@ -74,6 +81,7 @@ export interface Stop {
   closed_stop_info: string | null;
   "has_charlie_card_vendor?": boolean;
   "has_fare_machine?": boolean;
+  fare_facilities: FareFacilityType[];
   id: string;
   "is_child?": boolean;
   latitude: number;
