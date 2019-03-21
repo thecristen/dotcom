@@ -8,6 +8,8 @@ import busIconSvg from "../../static/images/icon-mode-bus-default.svg";
 // @ts-ignore
 import commuterRailIconSvg from "../../static/images/icon-mode-commuter-rail-default.svg";
 // @ts-ignore
+import ferryIconSvg from "../../static/images/icon-mode-ferry-default.svg";
+// @ts-ignore
 import greenLineIconSvg from "../../static/images/icon-green-line-default.svg";
 // @ts-ignore
 import greenBLineIconSvg from "../../static/images/icon-green-line-b-default.svg";
@@ -37,6 +39,9 @@ export const busIcon = (className: string = ""): JSX.Element =>
 
 export const commuterRailIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, commuterRailIconSvg);
+
+export const ferryIcon = (className: string = ""): JSX.Element =>
+  renderSvg(className, ferryIconSvg);
 
 export const greenLineIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, greenLineIconSvg);

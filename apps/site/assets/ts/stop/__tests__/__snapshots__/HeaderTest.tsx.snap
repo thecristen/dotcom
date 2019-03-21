@@ -149,6 +149,121 @@ exports[`renders 1`] = `
 </div>
 `;
 
+exports[`renders a ferry route 1`] = `
+<div
+  className="m-stop-page__header"
+>
+  <div
+    className="m-stop-page__header-container"
+  >
+    <h1
+      className="m-stop-page__name station__name--upcase"
+    >
+      South Station
+    </h1>
+    <div
+      className="m-stop-page__header-features"
+    >
+      <a
+        className="m-stop-page__header-feature"
+        href="/stops/place-sstat?tab=departures#bus-schedule"
+      >
+        <span
+          className="m-stop-page__header-icon"
+        >
+          <span
+            className="c-svg__icon-ferry-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="m-stop-page__header-feature"
+        href="/stops/place-sstat?tab=info#commuter-fares"
+      >
+        <span
+          className="m-stop-page__header-icon c-icon__cr-zone"
+        >
+          Zone 1A
+        </span>
+      </a>
+      <a
+        className="m-stop-page__header-feature"
+        href="#accessibility"
+      >
+        <span
+          className="m-stop-page__header-icon"
+        >
+          <span
+            className="c-svg__icon-accessible-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+      <a
+        className="m-stop-page__header-feature"
+        href="#parking"
+      >
+        <span
+          className="m-stop-page__header-icon"
+        >
+          <span
+            className="c-svg__icon-parking-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </a>
+    </div>
+    <div
+      className="header-tabs"
+    >
+      <a
+        className="
+      header-tab
+      header-tab--dark
+      header-tab--selected
+      
+      details
+    "
+        href="/stops-v2/place-sstat"
+      >
+        Station Details
+      </a>
+      <a
+        className="
+      header-tab
+      header-tab--dark
+      
+      
+      alerts
+    "
+        href="/stops/place-sstat?tab=alerts"
+      >
+        Alerts
+        <div
+          aria-label="1 alert"
+          className="m-alert-badge"
+        >
+          1
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`renders all subway routes 1`] = `
 <div
   className="m-stop-page__header"

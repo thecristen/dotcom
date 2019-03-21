@@ -234,3 +234,40 @@ it("renders all subway routes", () => {
 
   expect(tree).toMatchSnapshot();
 });
+
+it("renders a ferry route", () => {
+  /* eslint-disable typescript/camelcase */
+  const routes: TypedRoutes[] = [
+    {
+      group_name: "ferry",
+      routes: [
+        {
+          type: 4,
+          name: "Charlestown Ferry",
+          header: "Charlestown Ferry",
+          long_name: "Charlestown Ferry",
+          id: "Boat-F4",
+          direction_names: { "0": "Outbound", "1": "Inbound" },
+          direction_destinations: { "0": "Charlestown", "1": "Long Wharf" },
+          description: "ferry",
+          alert_count: 0,
+          stops: []
+        }
+      ]
+    }
+  ];
+  /* eslint-enable typescript/camelcase */
+
+  const tree = renderer
+    .create(
+      <Header
+        stop={data.stop}
+        routes={routes}
+        zoneNumber={data.zone_number}
+        tabs={data.tabs}
+      />
+    )
+    .toJSON();
+
+  expect(tree).toMatchSnapshot();
+});

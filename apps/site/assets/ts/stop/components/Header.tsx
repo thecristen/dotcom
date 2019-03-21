@@ -15,7 +15,8 @@ import {
   greenDLineIcon,
   greenCLineIcon,
   busIcon,
-  commuterRailIcon
+  commuterRailIcon,
+  ferryIcon
 } from "../../helpers/icon";
 
 interface Props {
@@ -23,10 +24,6 @@ interface Props {
   routes: TypedRoutes[];
   tabs: Tab[];
   zoneNumber: string;
-}
-
-interface ModeIconType {
-  [propName: string]: ReactElement<HTMLElement>;
 }
 
 const subwayModeIds = [
@@ -75,6 +72,7 @@ const modeType = (modeId: string): string => {
 const modeIcon = (modeId: string): JSX.Element | undefined => {
   if (modeId.startsWith("CR-"))
     return commuterRailIcon("c-svg__icon-commuter-rail-default");
+  if (modeId.startsWith("Boat-")) return ferryIcon("c-svg__icon-ferry-default");
   if (modeId === "Blue") return blueLineIcon("c-svg__icon-blue-line-default");
   if (modeId === "Green")
     return greenLineIcon("c-svg__icon-green-line-default");
