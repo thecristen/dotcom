@@ -14,9 +14,10 @@ interface Props {
 }
 
 const Sidebar = ({ stop, routes }: Props): ReactElement<HTMLElement> => (
-  <div className="m-stop-page__sidebar">
-    <RoutePillList routes={routes} />
-
+  <>
+    <div className="m-stop-page__sidebar-pills">
+      <RoutePillList routes={routes} />
+    </div>
     <h2>Features</h2>
 
     <ExpandableBlock
@@ -37,7 +38,7 @@ const Sidebar = ({ stop, routes }: Props): ReactElement<HTMLElement> => (
     </ExpandableBlock>
     <ParkingInfo stop={stop} />
     <BikeStorageInfo stop={stop} />
-  </div>
+  </>
 );
 
 export default Sidebar;

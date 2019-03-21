@@ -396,7 +396,7 @@ Array [
           className="col-lg-4"
         >
           <div
-            className="m-stop-page__sidebar"
+            className="m-stop-page__sidebar-pills"
           >
             <div
               className="m-route-pills"
@@ -534,18 +534,44 @@ Array [
                 </div>
               </div>
             </div>
-            <h2>
-              Features
-            </h2>
+          </div>
+          <h2>
+            Features
+          </h2>
+          <h3
+            aria-controls="panel-accessibility"
+            aria-expanded={false}
+            className="c-expandable-block__header"
+            id="header-accessibility"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <span
+              className="c-expandable-block__header-icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
+              }
+            />
+            Accessibility
+            <span
+              className="c-expandable-block__header-caret"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "&#xF107;",
+                }
+              }
+            />
+          </h3>
+          <noscript>
+            <style>
+              #header-accessibility { display: none; }
+            </style>
             <h3
-              aria-controls="panel-accessibility"
-              aria-expanded={false}
               className="c-expandable-block__header"
-              id="header-accessibility"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex={0}
             >
               <span
                 className="c-expandable-block__header-icon"
@@ -560,58 +586,58 @@ Array [
                 className="c-expandable-block__header-caret"
                 dangerouslySetInnerHTML={
                   Object {
-                    "__html": "&#xF107;",
+                    "__html": "&#xF106;",
                   }
                 }
               />
             </h3>
-            <noscript>
-              <style>
-                #header-accessibility { display: none; }
-              </style>
-              <h3
-                className="c-expandable-block__header"
-              >
-                <span
-                  className="c-expandable-block__header-icon"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "SVG",
-                    }
-                  }
-                />
-                Accessibility
-                <span
-                  className="c-expandable-block__header-caret"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "&#xF106;",
-                    }
-                  }
-                />
-              </h3>
+            <div
+              className="c-expandable-block__panel"
+              role="region"
+            >
               <div
-                className="c-expandable-block__panel"
-                role="region"
-              >
-                <div
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "<p>South Station is accessible. It has the following features:</p><p>This is a test</p>",
-                    }
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "<p>South Station is accessible. It has the following features:</p><p>This is a test</p>",
                   }
-                />
-              </div>
-            </noscript>
+                }
+              />
+            </div>
+          </noscript>
+          <h3
+            aria-controls="panel-parking"
+            aria-expanded={false}
+            className="c-expandable-block__header"
+            id="header-parking"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <span
+              className="c-expandable-block__header-icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
+              }
+            />
+            Parking
+            <span
+              className="c-expandable-block__header-caret"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "&#xF107;",
+                }
+              }
+            />
+          </h3>
+          <noscript>
+            <style>
+              #header-parking { display: none; }
+            </style>
             <h3
-              aria-controls="panel-parking"
-              aria-expanded={false}
               className="c-expandable-block__header"
-              id="header-parking"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex={0}
             >
               <span
                 className="c-expandable-block__header-icon"
@@ -626,169 +652,169 @@ Array [
                 className="c-expandable-block__header-caret"
                 dangerouslySetInnerHTML={
                   Object {
-                    "__html": "&#xF107;",
+                    "__html": "&#xF106;",
                   }
                 }
               />
             </h3>
-            <noscript>
-              <style>
-                #header-parking { display: none; }
-              </style>
-              <h3
-                className="c-expandable-block__header"
-              >
-                <span
-                  className="c-expandable-block__header-icon"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "SVG",
-                    }
-                  }
-                />
-                Parking
-                <span
-                  className="c-expandable-block__header-caret"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "&#xF106;",
-                    }
-                  }
-                />
-              </h3>
-              <div
-                className="c-expandable-block__panel"
-                role="region"
-              >
-                <div>
-                  <h4>
-                    South Station Bus Terminal Garage
-                  </h4>
-                  <p>
-                    <a
-                      className="c-call-to-action"
-                      href="https://maps.google.com/?q=42.349838,-71.055963"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Get directions to this parking facility
-                    </a>
-                  </p>
-                  <div
-                    id="parking-capacity"
+            <div
+              className="c-expandable-block__panel"
+              role="region"
+            >
+              <div>
+                <h4>
+                  South Station Bus Terminal Garage
+                </h4>
+                <p>
+                  <a
+                    className="c-call-to-action"
+                    href="https://maps.google.com/?q=42.349838,-71.055963"
+                    rel="noopener noreferrer"
+                    target="_blank"
                   >
-                    <div
-                      className="u-small-caps"
-                    >
-                      Capacity
-                    </div>
-                    <ul
-                      className="list-unstyled"
-                    >
-                      <li>
-                        <strong>
-                          Total parking spaces: 
-                        </strong>
-                        210
-                      </li>
-                      <li>
-                        <strong>
-                          Accessible spaces: 
-                        </strong>
-                        4
-                      </li>
-                      <li>
-                        <strong>
-                          Type: 
-                        </strong>
-                        Garage
-                      </li>
-                    </ul>
-                  </div>
-                  <div
-                    id="parking-payment"
-                  >
-                    <div
-                      className="u-small-caps"
-                    >
-                      Payment
-                    </div>
-                    <ul
-                      className="list-unstyled"
-                    >
-                      <li>
-                        <strong>
-                          Payment Methods: 
-                        </strong>
-                        Credit/Debit Card, Cash
-                      </li>
-                      <li>
-                        <strong>
-                          Daily fee: 
-                        </strong>
-                        Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10
-                      </li>
-                      <li>
-                        <strong>
-                          Monthly pass: 
-                        </strong>
-                        $150 regular, $445 overnight
-                      </li>
-                    </ul>
-                  </div>
-                  <div
-                    id="parking-manager"
-                  >
-                    <div
-                      className="u-small-caps"
-                    >
-                      Management
-                    </div>
-                    <ul
-                      className="list-unstyled"
-                    >
-                      <li>
-                        <strong>
-                          Managed by: 
-                        </strong>
-                        ProPark
-                      </li>
-                      <li>
-                        <strong>
-                          Contact: 
-                        </strong>
-                        <a
-                          href="https://www.propark.com/propark-locator2/south-station-garage/"
-                        >
-                          ProPark
-                        </a>
-                      </li>
-                      <li>
-                        <strong>
-                          Contact phone: 
-                        </strong>
-                        617-345-0202
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <a
-                  className="c-call-to-action"
-                  href="/parking"
+                    Get directions to this parking facility
+                  </a>
+                </p>
+                <div
+                  id="parking-capacity"
                 >
-                  Learn more about parking
-                </a>
+                  <div
+                    className="u-small-caps"
+                  >
+                    Capacity
+                  </div>
+                  <ul
+                    className="list-unstyled"
+                  >
+                    <li>
+                      <strong>
+                        Total parking spaces: 
+                      </strong>
+                      210
+                    </li>
+                    <li>
+                      <strong>
+                        Accessible spaces: 
+                      </strong>
+                      4
+                    </li>
+                    <li>
+                      <strong>
+                        Type: 
+                      </strong>
+                      Garage
+                    </li>
+                  </ul>
+                </div>
+                <div
+                  id="parking-payment"
+                >
+                  <div
+                    className="u-small-caps"
+                  >
+                    Payment
+                  </div>
+                  <ul
+                    className="list-unstyled"
+                  >
+                    <li>
+                      <strong>
+                        Payment Methods: 
+                      </strong>
+                      Credit/Debit Card, Cash
+                    </li>
+                    <li>
+                      <strong>
+                        Daily fee: 
+                      </strong>
+                      Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10
+                    </li>
+                    <li>
+                      <strong>
+                        Monthly pass: 
+                      </strong>
+                      $150 regular, $445 overnight
+                    </li>
+                  </ul>
+                </div>
+                <div
+                  id="parking-manager"
+                >
+                  <div
+                    className="u-small-caps"
+                  >
+                    Management
+                  </div>
+                  <ul
+                    className="list-unstyled"
+                  >
+                    <li>
+                      <strong>
+                        Managed by: 
+                      </strong>
+                      ProPark
+                    </li>
+                    <li>
+                      <strong>
+                        Contact: 
+                      </strong>
+                      <a
+                        href="https://www.propark.com/propark-locator2/south-station-garage/"
+                      >
+                        ProPark
+                      </a>
+                    </li>
+                    <li>
+                      <strong>
+                        Contact phone: 
+                      </strong>
+                      617-345-0202
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </noscript>
+              <a
+                className="c-call-to-action"
+                href="/parking"
+              >
+                Learn more about parking
+              </a>
+            </div>
+          </noscript>
+          <h3
+            aria-controls="panel-bikes"
+            aria-expanded={false}
+            className="c-expandable-block__header"
+            id="header-bikes"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <span
+              className="c-expandable-block__header-icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
+              }
+            />
+            Bikes
+            <span
+              className="c-expandable-block__header-caret"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "&#xF107;",
+                }
+              }
+            />
+          </h3>
+          <noscript>
+            <style>
+              #header-bikes { display: none; }
+            </style>
             <h3
-              aria-controls="panel-bikes"
-              aria-expanded={false}
               className="c-expandable-block__header"
-              id="header-bikes"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex={0}
             >
               <span
                 className="c-expandable-block__header-icon"
@@ -803,75 +829,49 @@ Array [
                 className="c-expandable-block__header-caret"
                 dangerouslySetInnerHTML={
                   Object {
-                    "__html": "&#xF107;",
+                    "__html": "&#xF106;",
                   }
                 }
               />
             </h3>
-            <noscript>
-              <style>
-                #header-bikes { display: none; }
-              </style>
-              <h3
-                className="c-expandable-block__header"
+            <div
+              className="c-expandable-block__panel"
+              role="region"
+            >
+              <p>
+                South Station has the following bike storage features:
+              </p>
+              <ul
+                className="m-stop-page__bike-storage-list"
               >
-                <span
-                  className="c-expandable-block__header-icon"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "SVG",
-                    }
-                  }
-                />
-                Bikes
-                <span
-                  className="c-expandable-block__header-caret"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "&#xF106;",
-                    }
-                  }
-                />
-              </h3>
-              <div
-                className="c-expandable-block__panel"
-                role="region"
-              >
-                <p>
-                  South Station has the following bike storage features:
-                </p>
-                <ul
-                  className="m-stop-page__bike-storage-list"
-                >
-                  <div>
-                    <li
-                      className="m-stop-page__bike-storage-list-item"
-                    >
-                      Pedal and Park
-                    </li>
-                    <div
-                      className="m-stop-page__pedal-and-park"
-                    >
-                      Access to secure bike parking is available for registered CharlieCard holders.
-                      <div>
-                        <a
-                          href="https://bc.mbta.com/riding_the_t/bikes/register/Default.asp"
-                        >
-                          Register your CharlieCard for bike parking
-                        </a>
-                      </div>
+                <div>
+                  <li
+                    className="m-stop-page__bike-storage-list-item"
+                  >
+                    Pedal and Park
+                  </li>
+                  <div
+                    className="m-stop-page__pedal-and-park"
+                  >
+                    Access to secure bike parking is available for registered CharlieCard holders.
+                    <div>
+                      <a
+                        href="https://bc.mbta.com/riding_the_t/bikes/register/Default.asp"
+                      >
+                        Register your CharlieCard for bike parking
+                      </a>
                     </div>
                   </div>
-                </ul>
-                <a
-                  className="c-call-to-action"
-                  href="/bikes"
-                >
-                  Learn more about bikes and the T
-                </a>
-              </div>
-            </noscript>
-          </div>
+                </div>
+              </ul>
+              <a
+                className="c-call-to-action"
+                href="/bikes"
+              >
+                Learn more about bikes and the T
+              </a>
+            </div>
+          </noscript>
         </div>
       </div>
     </div>
