@@ -46,6 +46,11 @@
   &:hover {
     text-decoration: none;
   }
+
+  .m-route-pills & {
+    display: inline-flex;
+    margin-bottom: $base-spacing / 2;
+  }
 }
 
 .m-stop-page__header-icon {
@@ -71,8 +76,22 @@
   }
 }
 
+.m-stop-page__sidebar {
+  @include media-breakpoint-down(md) {
+    display: none;
+  }
+}
+
 .m-stop-page__name--upcase {
   text-transform: uppercase;
+}
+
+.m-stop-page__address-block {
+  .m-route-pills {
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+  }
 }
 
 .m-stop-page__address {
@@ -86,5 +105,12 @@
   @include media-breakpoint-only(xxl) {
     @include make-container();
     max-width: map-get($container-max-widths, xxl);
+  }
+}
+
+.m-route-pills {
+  .u-bg--bus,
+  .u-bg--silver-line {
+    border-radius: $base-spacing / 4;
   }
 }

@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div
+  className="m-stop-page__address-block"
+>
+  <div
+    className="u-small-caps"
+  >
+    Address
+  </div>
+  <div
+    className="m-route-pills"
+  >
+    <div
+      className="m-route-pills--subway"
+    >
+      <div
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--red-line
+    "
+      >
+        Red Line
+      </div>
+    </div>
+    <div
+      className="m-route-pills--bus"
+    >
+      <div
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--silver-line
+    "
+      >
+        SL1
+      </div>
+      <div
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--silver-line
+    "
+      >
+        SL2
+      </div>
+      <div
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--silver-line
+    "
+      >
+        SL3
+      </div>
+    </div>
+    <div
+      className="m-route-pills--commuter_rail"
+    >
+      <div
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      >
+        Fairmount Line
+      </div>
+      <div
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      >
+        Framingham/​Worcester Line
+      </div>
+      <div
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      >
+        Franklin Line
+      </div>
+      <div
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      >
+        Greenbush Line
+      </div>
+      <div
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      >
+        Kingston/​Plymouth Line
+      </div>
+      <div
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      >
+        Middleborough/​Lakeville Line
+      </div>
+      <div
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      >
+        Needham Line
+      </div>
+      <div
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      >
+        Providence/​Stoughton Line
+      </div>
+    </div>
+  </div>
+</div>
+`;

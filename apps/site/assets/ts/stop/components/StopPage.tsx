@@ -4,6 +4,7 @@ import { StopPageData, StopMapData } from "./__stop";
 import BreadcrumbContainer from "./BreadcrumbContainer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import AddressBlock from "./AddressBlock";
 
 interface Props {
   stopPageData: StopPageData;
@@ -38,9 +39,12 @@ export default ({
     <div className="container">
       <div className="page-section">
         <div className="row">
-          <div className="col-lg-7 col-lg-offset-1">Main Column</div>
+          <div className="col-lg-7 col-lg-offset-1">
+            Main Column
+            <AddressBlock routes={routes} />
+          </div>
           <div className="col-lg-4">
-            <Sidebar stop={stop} />
+            <Sidebar stop={stop} routes={routes} />
           </div>
         </div>
       </div>
