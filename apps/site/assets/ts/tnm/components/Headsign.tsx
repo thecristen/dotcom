@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { RouteType } from "../../v3api";
+import { RouteType } from "../../__v3api";
 import { TNMHeadsign, TNMTime } from "./__tnm";
 
 interface Props {

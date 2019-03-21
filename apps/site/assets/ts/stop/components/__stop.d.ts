@@ -1,4 +1,4 @@
-import { Stop, Route } from "../../v3api";
+import { Stop, Route } from "../../__v3api";
 import { MapData } from "../../app/googleMaps/__googleMaps";
 
 export interface TypedRoutes {

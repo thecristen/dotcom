@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Stop, Route } from "../../v3api";
+import { Stop, Route } from "../../__v3api";
 import TabComponent from "./Tab";
 import { Tab, TypedRoutes } from "./__stop";
 import {

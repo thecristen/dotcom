@@ -1,5 +1,5 @@
 // eslint-disable-next-line typescript/no-unused-vars
-import { Route, Stop } from "../../v3api";
+import { Route, Stop } from "../../__v3api";
 
 export interface TNMRoute extends Route {
   stops: TNMStop[];

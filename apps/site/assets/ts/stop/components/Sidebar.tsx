@@ -3,7 +3,7 @@ import ExpandableBlock from "../../app/ExpandableBlock";
 // @ts-ignore
 import accessibleIcon from "../../../static/images/icon-accessible-default.svg";
 import ParkingInfo from "./ParkingInfo";
-import { Stop } from "../../v3api";
+import { Stop } from "../../__v3api";
 
 interface Props {
   stop: Stop;

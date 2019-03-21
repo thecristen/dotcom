@@ -15,7 +15,7 @@ import {
   ParkingLotManager,
   ParkingLotCapacity,
   Stop
-} from "../../v3api";
+} from "../../__v3api";
 /* eslint-disable typescript/camelcase */
 
 const utilization: ParkingLotUtilization = {

@@ -2,7 +2,7 @@ import React, { ReactElement, useReducer } from "react";
 import StopMap from "./StopMap";
 import { reducer, initialState } from "../state";
 import { StopMapData } from "../components/__stop";
-import { Stop } from "../../v3api";
+import { Stop } from "../../__v3api";
 
 interface Props {
   initialData: StopMapData;

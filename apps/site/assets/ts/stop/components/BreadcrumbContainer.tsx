@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Stop } from "../../v3api";
+import { Stop } from "../../__v3api";
 
 interface Props {
   stop: Stop;
