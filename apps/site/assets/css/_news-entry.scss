@@ -10,6 +10,50 @@
     color: $brand-primary;
     text-decoration: none;
   }
+
+  &--orange-line {
+    border-color: $brand-orange-line;
+  }
+
+  &--green-line {
+    border-color: $brand-green-line;
+  }
+
+  &--red-line {
+    border-color: $brand-red-line;
+  }
+
+  &--blue-line {
+    border-color: $brand-blue-line;
+  }
+
+  &--silver-line {
+    border-color: $brand-silver-line;
+  }
+
+  &--mattapan-line {
+    border-color: $brand-red-line;
+  }
+
+  &--commuter-rail {
+    border-color: $brand-commuter-rail;
+  }
+
+  &--bus {
+    border-color: $brand-bus;
+  }
+
+  &--ferry {
+    border-color: $brand-ferry;
+  }
+
+  &--subway {
+    border-color: $brand-subway;
+  }
+
+  &--the-ride {
+    border-color: $brand-the-ride;
+  }
 }
 
 .c-news-entry--small {

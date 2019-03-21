@@ -1,10 +1,13 @@
 defmodule SiteWeb.PageController do
   use SiteWeb, :controller
 
-  alias Content.{Banner, NewsEntry, WhatsHappeningItem}
+  alias Content.{Banner, Teaser, WhatsHappeningItem}
 
   plug(SiteWeb.Plugs.TransitNearMe)
   plug(SiteWeb.Plugs.RecentlyVisited)
+
+  @type content :: Banner.t() | Teaser.t() | WhatsHappeningItem.t()
+  @type whats_happening_set :: {nil | [WhatsHappeningItem.t()], nil | [WhatsHappeningItem.t()]}
 
   def index(conn, _params) do
     {promoted, remainder} = whats_happening_items()
@@ -25,6 +28,7 @@ defmodule SiteWeb.PageController do
     |> render("index.html")
   end
 
+  @spec banner :: Banner.t() | nil
   defp banner do
     case Content.Repo.banner() do
       nil -> nil
@@ -32,19 +36,21 @@ defmodule SiteWeb.PageController do
     end
   end
 
+  @spec news :: [Teaser.t()]
   defp news do
-    [limit: 5]
-    |> Content.Repo.news()
-    |> Enum.take(5)
+    [items_per_page: 5, type: :news_entry]
+    |> Content.Repo.teasers()
     |> Enum.map(&add_utm_url/1)
   end
 
+  @spec whats_happening_items :: whats_happening_set
   defp whats_happening_items do
     Content.Repo.whats_happening()
     |> split_whats_happening()
     |> split_add_utm_url()
   end
 
+  @spec split_whats_happening([WhatsHappeningItem.t()]) :: whats_happening_set
   def split_whats_happening(whats_happening) do
     case whats_happening do
       [_, _, _, _, _ | _] = items ->
@@ -59,6 +65,7 @@ defmodule SiteWeb.PageController do
     end
   end
 
+  @spec split_add_utm_url(whats_happening_set) :: whats_happening_set
   defp split_add_utm_url({nil, nil}) do
     {nil, nil}
   end
@@ -70,6 +77,7 @@ defmodule SiteWeb.PageController do
     }
   end
 
+  @spec add_utm_url(content, boolean) :: content
   def add_utm_url(%{} = item, promoted? \\ false) do
     url =
       UrlHelpers.build_utm_url(
@@ -79,14 +87,20 @@ defmodule SiteWeb.PageController do
         source: "homepage"
       )
 
-    %{item | utm_url: url}
+    do_add_utm_url(item, url)
   end
 
+  @spec utm_type(content, boolean) :: String.t()
   defp utm_type(%Banner{}, _), do: "banner"
-  defp utm_type(%NewsEntry{}, _), do: "news"
+  defp utm_type(%Teaser{type: :news_entry}, _), do: "news"
   defp utm_type(%WhatsHappeningItem{}, true), do: "whats-happening"
   defp utm_type(%WhatsHappeningItem{}, false), do: "whats-happening-secondary"
 
+  @spec utm_term(content) :: String.t()
   defp utm_term(%{mode: mode}), do: mode
   defp utm_term(_), do: "null"
+
+  @spec do_add_utm_url(content, String.t()) :: content
+  defp do_add_utm_url(%Teaser{} = item, url), do: %{item | path: url}
+  defp do_add_utm_url(item, url), do: %{item | utm_url: url}
 end

@@ -1,15 +1,36 @@
 defmodule Content.RepoTest do
   use ExUnit.Case, async: true
 
+  import ExUnit.CaptureLog, only: [capture_log: 1]
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Mock
 
-  alias Content.{CMS.Static, Paragraph, Repo}
+  # Content Types
+  alias Content.{
+    Banner,
+    BasicPage,
+    Event,
+    LandingPage,
+    NewsEntry,
+    Project,
+    ProjectUpdate,
+    Redirect,
+    WhatsHappeningItem
+  }
+
+  # Misc
+  alias Content.{
+    CMS.Static,
+    Paragraph,
+    Repo,
+    RoutePdf,
+    Teaser
+  }
 
   describe "recent_news" do
-    test "returns list of Content.NewsEntry" do
+    test "returns list of NewsEntry" do
       [
-        %Content.NewsEntry{
+        %NewsEntry{
           body: body,
           media_contact: media_contact
         }
@@ -33,7 +54,7 @@ defmodule Content.RepoTest do
 
   describe "news_entry_by/1" do
     test "returns the news entry for the given id" do
-      assert %Content.NewsEntry{id: 3519} = Repo.news_entry_by(id: 3519)
+      assert %NewsEntry{id: 3519} = Repo.news_entry_by(id: 3519)
     end
 
     test "returns :not_found given no record is found" do
@@ -56,7 +77,7 @@ defmodule Content.RepoTest do
           ConCache.dirty_delete(Repo, cache_key)
       end
 
-      assert %Content.NewsEntry{} = Repo.get_page(path, params)
+      assert %NewsEntry{} = Repo.get_page(path, params)
       assert {:ok, %{"type" => [%{"target_id" => "news_entry"}]}} = ConCache.get(Repo, cache_key)
     end
 
@@ -65,45 +86,44 @@ defmodule Content.RepoTest do
       params = %{"preview" => "", "vid" => "112", "nid" => "6"}
       cache_key = {:view_or_preview, path: path, params: params}
       assert ConCache.get(Repo, cache_key) == nil
-      assert %Content.BasicPage{} = Repo.get_page(path, params)
+      assert %BasicPage{} = Repo.get_page(path, params)
       assert ConCache.get(Repo, cache_key) == nil
     end
 
     test "given the path for a Basic page" do
       result = Repo.get_page("/basic_page_with_sidebar")
-      assert %Content.BasicPage{} = result
+      assert %BasicPage{} = result
     end
 
     test "returns a NewsEntry" do
-      assert %Content.NewsEntry{} = Repo.get_page("/news/2018/news-entry")
+      assert %NewsEntry{} = Repo.get_page("/news/2018/news-entry")
     end
 
     test "returns an Event" do
-      assert %Content.Event{} = Repo.get_page("/events/date/title")
+      assert %Event{} = Repo.get_page("/events/date/title")
     end
 
     test "returns a Project" do
-      assert %Content.Project{} = Repo.get_page("/projects/project-name")
+      assert %Project{} = Repo.get_page("/projects/project-name")
     end
 
     test "returns a ProjectUpdate" do
-      assert %Content.ProjectUpdate{} =
-               Repo.get_page("/projects/project-name/update/project-progress")
+      assert %ProjectUpdate{} = Repo.get_page("/projects/project-name/update/project-progress")
     end
 
     test "given the path for a Basic page with tracking params" do
       result = Repo.get_page("/basic_page_with_sidebar", %{"from" => "search"})
-      assert %Content.BasicPage{} = result
+      assert %BasicPage{} = result
     end
 
     test "given the path for a Landing page" do
       result = Repo.get_page("/landing_page")
-      assert %Content.LandingPage{} = result
+      assert %LandingPage{} = result
     end
 
     test "given the path for a Redirect page" do
       result = Repo.get_page("/redirect_node")
-      assert %Content.Redirect{} = result
+      assert %Redirect{} = result
     end
 
     test "returns {:error, :not_found} when the path does not match an existing page" do
@@ -122,7 +142,7 @@ defmodule Content.RepoTest do
       result =
         Repo.get_page("/basic_page_no_sidebar", %{"preview" => "", "vid" => "112", "nid" => "6"})
 
-      assert %Content.BasicPage{} = result
+      assert %BasicPage{} = result
       assert result.title == "Arts on the T 112"
     end
 
@@ -134,7 +154,7 @@ defmodule Content.RepoTest do
           "nid" => "6"
         })
 
-      assert %Content.BasicPage{} = result
+      assert %BasicPage{} = result
       assert result.title == "Arts on the T 113"
     end
   end
@@ -143,15 +163,15 @@ defmodule Content.RepoTest do
     test "encodes the id param into the request" do
       assert Repo.get_page("/redirect_node_with_query", %{"id" => "5"}) == {:error, :not_found}
 
-      assert %Content.Redirect{} =
+      assert %Redirect{} =
                Repo.get_page_with_encoded_id("/redirect_node_with_query", %{"id" => "5"})
     end
   end
 
   describe "events/1" do
-    test "returns list of Content.Event" do
+    test "returns list of Event" do
       assert [
-               %Content.Event{
+               %Event{
                  id: id,
                  body: body
                }
@@ -167,7 +187,7 @@ defmodule Content.RepoTest do
 
   describe "event_by/1" do
     test "returns the event for the given id" do
-      assert %Content.Event{id: 3268} = Repo.event_by(id: 3268)
+      assert %Event{id: 3268} = Repo.event_by(id: 3268)
     end
 
     test "returns :not_found given no record is found" do
@@ -176,9 +196,9 @@ defmodule Content.RepoTest do
   end
 
   describe "whats_happening" do
-    test "returns a list of Content.WhatsHappeningItem" do
+    test "returns a list of WhatsHappeningItem" do
       assert [
-               %Content.WhatsHappeningItem{
+               %WhatsHappeningItem{
                  blurb: blurb
                }
                | _
@@ -190,8 +210,8 @@ defmodule Content.RepoTest do
   end
 
   describe "banner" do
-    test "returns a Content.Banner" do
-      assert %Content.Banner{
+    test "returns a Banner" do
+      assert %Banner{
                blurb: blurb
              } = Repo.banner()
 
@@ -213,12 +233,12 @@ defmodule Content.RepoTest do
 
   describe "get_route_pdfs/1" do
     test "returns list of RoutePdfs" do
-      assert [%Content.RoutePdf{}, _, _] = Repo.get_route_pdfs("87")
+      assert [%RoutePdf{}, _, _] = Repo.get_route_pdfs("87")
     end
 
     test "returns empty list if there's an error" do
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
+        capture_log(fn ->
           assert [] = Repo.get_route_pdfs("error")
         end)
 
@@ -246,7 +266,7 @@ defmodule Content.RepoTest do
         [type: :project, sticky: 1]
         |> Repo.teasers()
 
-      assert [%Content.Teaser{}, %Content.Teaser{}, %Content.Teaser{}] = teasers
+      assert [%Teaser{}, %Teaser{}, %Teaser{}] = teasers
     end
 
     test "returns all teasers for a route" do
@@ -330,7 +350,7 @@ defmodule Content.RepoTest do
     test "takes an :items_per_page option" do
       all_teasers = Repo.teasers(route_id: "Red", sidebar: 1)
       assert Enum.count(all_teasers) > 1
-      assert [%Content.Teaser{}] = Repo.teasers(route_id: "Red", items_per_page: 1)
+      assert [%Teaser{}] = Repo.teasers(route_id: "Red", items_per_page: 1)
     end
 
     test "takes a :related_to option" do
@@ -469,7 +489,7 @@ defmodule Content.RepoTest do
 
     test "returns an empty list and logs a warning if there is an error" do
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
+        capture_log(fn ->
           assert Repo.teasers(route_id: "NotFound", sidebar: 1) == []
         end)
 

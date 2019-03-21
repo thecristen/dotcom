@@ -1,7 +1,7 @@
 defmodule SiteWeb.PageControllerTest do
   use SiteWeb.ConnCase
   import SiteWeb.PageController
-  alias Content.{Banner, Field.Link, NewsEntry, WhatsHappeningItem}
+  alias Content.{Banner, Field.Link, Teaser, WhatsHappeningItem}
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")
@@ -68,10 +68,10 @@ defmodule SiteWeb.PageControllerTest do
   end
 
   test "adds utm params to url for news entries" do
-    with_utm = add_utm_url(%NewsEntry{path_alias: "/path", title: "title"})
+    with_utm = add_utm_url(%Teaser{path: "/path", title: "title", type: :news_entry})
 
     assert %{
-             utm_url:
+             path:
                "/path?utm_campaign=curated-content&utm_content=title&utm_medium=news&utm_source=homepage&utm_term=null"
            } = with_utm
   end

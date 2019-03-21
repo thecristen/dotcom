@@ -1,17 +1,13 @@
 defmodule SiteWeb.PartialView do
   use SiteWeb, :view
 
-  alias Content.{
-    Field.Image,
-    NewsEntry,
-    Repo,
-    Teaser
-  }
-
+  alias Content.{Field.Image, Repo, Teaser}
   alias Plug.Conn
+  alias Routes.Route
   alias SiteWeb.PartialView.SvgIconWithCircle
 
   import SiteWeb.ContentView, only: [file_description: 1, render_paragraph: 2]
+  import SiteWeb.ContentHelpers, only: [cms_route_to_class: 1]
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 
@@ -37,7 +33,7 @@ defmodule SiteWeb.PartialView do
   @spec stop_selector_suffix(Conn.t(), Stops.Stop.id_t(), String.t() | nil) :: iodata
   def stop_selector_suffix(conn, stop_id, text \\ "")
 
-  def stop_selector_suffix(%Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, stop_id, text) do
+  def stop_selector_suffix(%Conn{assigns: %{route: %Route{type: 2}}} = conn, stop_id, text) do
     if zone = conn.assigns.zone_map[stop_id] do
       ["Zone ", zone]
     else
@@ -46,7 +42,7 @@ defmodule SiteWeb.PartialView do
   end
 
   def stop_selector_suffix(
-        %Conn{assigns: %{route: %Routes.Route{id: "Green"}, stops_on_routes: stops}},
+        %Conn{assigns: %{route: %Route{id: "Green"}, stops_on_routes: stops}},
         stop_id,
         text
       ) do
@@ -65,7 +61,7 @@ defmodule SiteWeb.PartialView do
   defp green_line_stop_selector_suffix([], <<text::binary>>), do: text
   defp green_line_stop_selector_suffix(iodata, _), do: iodata
 
-  @spec green_branch_name(boolean, Routes.Route.id_t()) :: [String.t() | nil]
+  @spec green_branch_name(boolean, Route.id_t()) :: [String.t() | nil]
   defp green_branch_name(stop_on_green_line?, route_id)
   defp green_branch_name(true, route_id), do: [display_branch_name(route_id)]
   defp green_branch_name(false, _), do: []
@@ -73,7 +69,7 @@ defmodule SiteWeb.PartialView do
   @doc """
   Pulls out the branch name of a Green Line route ID.
   """
-  @spec display_branch_name(Routes.Route.id_t()) :: String.t() | nil
+  @spec display_branch_name(Route.id_t()) :: String.t() | nil
   def display_branch_name(<<"Green-", branch::binary>>), do: branch
   def display_branch_name(_), do: nil
 
@@ -151,9 +147,11 @@ defmodule SiteWeb.PartialView do
     size: :large | :small
     class: class to apply to the link
   """
-  @spec news_entry(NewsEntry.t() | Teaser.t(), Conn.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
+  @spec news_entry(Teaser.t(), Conn.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
   def news_entry(entry, %Conn{} = conn, opts \\ []) do
     size = Keyword.get(opts, :size, :small)
+    color = news_color(entry)
+    opts = [{:color, color} | opts]
 
     link(
       [
@@ -170,23 +168,22 @@ defmodule SiteWeb.PartialView do
     )
   end
 
-  @spec news_path(NewsEntry.t() | Teaser.t(), Conn.t()) :: String.t()
-  defp news_path(%NewsEntry{utm_url: url}, conn) do
-    cms_static_page_path(conn, url)
+  @spec news_color(Teaser.t()) :: String.t()
+  defp news_color(%Teaser{routes: []}) do
+    "unknown"
   end
 
-  defp news_path(%Teaser{path: url}, conn) do
-    cms_static_page_path(conn, url)
+  defp news_color(%Teaser{routes: routes}) do
+    routes
+    |> List.first()
+    |> cms_route_to_class()
   end
 
-  @spec news_date(NewsEntry.t(), :large | :small) :: Phoenix.HTML.Safe.t()
-  defp news_date(%NewsEntry{posted_on: date}, size) do
-    do_news_date(date, size)
-  end
+  @spec news_path(Teaser.t(), Conn.t()) :: String.t()
+  defp news_path(%Teaser{path: url}, conn), do: cms_static_page_path(conn, url)
 
-  defp news_date(%Teaser{date: date}, size) do
-    do_news_date(date, size)
-  end
+  @spec news_date(Teaser.t(), :large | :small) :: Phoenix.HTML.Safe.t()
+  defp news_date(%Teaser{date: date}, size), do: do_news_date(date, size)
 
   @spec do_news_date(Date.t(), :large | :small) :: Phoenix.HTML.Safe.t()
   defp do_news_date(date, size) do
@@ -212,11 +209,13 @@ defmodule SiteWeb.PartialView do
   defp news_entry_class(opts) do
     size = Keyword.get(opts, :size, :small)
     class = Keyword.get(opts, :class, "")
+    color = Keyword.get(opts, :color)
 
     Enum.join(
       [
         "c-news-entry",
         "c-news-entry--#{size}",
+        "c-news-entry--#{color}",
         class
       ],
       " "

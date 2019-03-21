@@ -5,7 +5,7 @@ defmodule SiteWeb.PartialViewTest do
   import SiteWeb.PartialView
   import SiteWeb.PartialView.{HeaderTabs, SvgIconWithCircle}
 
-  alias Content.{NewsEntry, Repo, Teaser}
+  alias Content.{Repo, Teaser}
   alias SiteWeb.PartialView
   alias SiteWeb.PartialView.{HeaderTab, HeaderTabBadge, SvgIconWithCircle, FullscreenError}
 
@@ -155,35 +155,16 @@ defmodule SiteWeb.PartialViewTest do
   end
 
   describe "news_entry/3" do
-    test "takes a NewsEntry struct", %{conn: conn} do
-      assert {:ok, date} = Date.new(2018, 11, 30)
-
-      news = %NewsEntry{
-        id: "id",
-        posted_on: date,
-        title: "title",
-        utm_url: "/url"
-      }
-
-      rendered =
-        news
-        |> news_entry(conn)
-        |> safe_to_string()
-
-      assert rendered =~ "title"
-      assert rendered =~ "Nov"
-      assert rendered =~ "30"
-      assert rendered =~ ~s(href="/url")
-    end
-
     test "takes a Teaser struct", %{conn: conn} do
       assert {:ok, date} = Date.new(2018, 11, 30)
 
       news = %Teaser{
         id: "id",
+        type: :news_entry,
         date: date,
         title: "title",
-        path: "/url"
+        path: "/url",
+        routes: []
       }
 
       rendered =

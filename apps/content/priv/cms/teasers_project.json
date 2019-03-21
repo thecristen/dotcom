@@ -11,7 +11,28 @@
     "updated": "2018-11-30",
     "posted": "",
     "created": "2018-06-21",
-    "changed": "2018-11-30"
+    "changed": "2018-11-30",
+    "field_related_transit": [
+      {
+        "id": 223,
+        "name": "Green-D",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Green-D",
+          "gtfs_group": "branch",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": [
+              "Green"
+            ],
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
   },
   {
     "nid": "3445",
@@ -25,7 +46,26 @@
     "updated": "2018-09-13",
     "posted": "",
     "created": "2018-02-23",
-    "changed": "2018-11-09"
+    "changed": "2018-11-09",
+    "field_related_transit": [
+      {
+        "id": 249,
+        "name": "Bus",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "bus",
+          "gtfs_group": "mode",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
   },
   {
     "nid": "3721",
@@ -39,7 +79,43 @@
     "updated": "2018-08-13",
     "posted": "",
     "created": "2018-08-08",
-    "changed": "2018-11-29"
+    "changed": "2018-11-29",
+    "field_related_transit": [
+      {
+        "id": 219,
+        "name": "Red",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Red",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 220,
+        "name": "Orange",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Orange",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
   },
   {
     "nid": "3169",
@@ -53,7 +129,43 @@
     "updated": "2018-11-29",
     "posted": "",
     "created": "2017-11-30",
-    "changed": "2018-11-29"
+    "changed": "2018-11-29",
+    "field_related_transit": [
+      {
+        "id": 219,
+        "name": "Red",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Red",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 207,
+        "name": "CR-Greenbush",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "CR-Greenbush",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
   },
   {
     "nid": "3004",
@@ -67,7 +179,26 @@
     "updated": "2018-11-29",
     "posted": "",
     "created": "2017-09-28",
-    "changed": "2018-11-29"
+    "changed": "2018-11-29",
+    "field_related_transit": [
+      {
+        "id": 219,
+        "name": "Red",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Red",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
   },
   {
     "nid": "3601",
@@ -81,7 +212,28 @@
     "updated": "2018-11-27",
     "posted": "",
     "created": "2018-05-29",
-    "changed": "2018-11-27"
+    "changed": "2018-11-27",
+    "field_related_transit": [
+      {
+        "id": 223,
+        "name": "Green-D",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Green-D",
+          "gtfs_group": "branch",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": [
+              "Green"
+            ],
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
   },
   {
     "nid": "3628",
@@ -95,7 +247,28 @@
     "updated": "2018-11-22",
     "posted": "",
     "created": "2018-06-07",
-    "changed": "2018-11-22"
+    "changed": "2018-11-22",
+    "field_related_transit": [
+      {
+        "id": 223,
+        "name": "Green-D",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Green-D",
+          "gtfs_group": "branch",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": [
+              "Green"
+            ],
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
   },
   {
     "nid": "3064",
@@ -109,7 +282,43 @@
     "updated": "2018-11-22",
     "posted": "",
     "created": "2017-10-23",
-    "changed": "2018-11-22"
+    "changed": "2018-11-22",
+    "field_related_transit": [
+      {
+        "id": 210,
+        "name": "CR-Lowell",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "CR-Lowell",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 250,
+        "name": "Commuter Rail",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "commuter_rail",
+          "gtfs_group": "mode",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
   },
   {
     "nid": "3869",
@@ -123,7 +332,386 @@
     "updated": "2018-11-21",
     "posted": "",
     "created": "2018-10-31",
-    "changed": "2018-11-21"
+    "changed": "2018-11-21",
+    "field_related_transit": [
+      {
+        "id": 91,
+        "name": "77",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "77",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "key_bus_routes",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 81,
+        "name": "79",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "79",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 151,
+        "name": "350",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "350",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 49,
+        "name": "30",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "30",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 52,
+        "name": "34E",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "34E",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "late_night",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 53,
+        "name": "34",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "34",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 54,
+        "name": "35",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "35",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 55,
+        "name": "36",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "36",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 56,
+        "name": "37",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "37",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "limited_service",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 59,
+        "name": "40",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "40",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "limited_service",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 60,
+        "name": "50",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "50",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "limited_service",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 67,
+        "name": "51",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "51",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 86,
+        "name": "71",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "71",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "key_bus_routes",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 88,
+        "name": "73",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "73",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "key_bus_routes",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 112,
+        "name": "104",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "104",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "late_night",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 117,
+        "name": "110",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "110",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 119,
+        "name": "112",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "112",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 194,
+        "name": "701",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "701",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 108,
+        "name": "97",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "97",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      }
+    ]
   },
   {
     "nid": "3508",
@@ -137,6 +725,25 @@
     "updated": "2018-11-21",
     "posted": "",
     "created": "2018-03-23",
-    "changed": "2018-11-21"
+    "changed": "2018-11-21",
+    "field_related_transit": [
+      {
+        "id": 250,
+        "name": "Commuter Rail",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "commuter_rail",
+          "gtfs_group": "mode",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
   }
 ]

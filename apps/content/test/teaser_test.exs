@@ -16,7 +16,8 @@ defmodule Content.TeaserTest do
              text: text,
              title: title,
              date: date,
-             topic: topic
+             topic: topic,
+             routes: routes
            } = teaser
 
     assert type == :project
@@ -26,6 +27,7 @@ defmodule Content.TeaserTest do
     assert title == "Green Line D Track and Signal Replacement"
     assert topic == ""
     assert %Date{} = date
+    assert [%{id: "Green-D"}] = routes
   end
 
   test "uses field_posted_on date for news entries" do
@@ -60,5 +62,15 @@ defmodule Content.TeaserTest do
            |> Enum.at(1)
            |> Teaser.from_api()
            |> Map.get(:date) == ~D[2018-10-04]
+  end
+
+  test "stores a list of all attached gtfs ids for later usage" do
+    routes =
+      Static.teaser_response()
+      |> Enum.at(1)
+      |> Teaser.from_api()
+      |> Map.get(:routes)
+
+    assert [%{id: "CR-Lowell"}, %{id: "CR-Providence"}] = routes
   end
 end

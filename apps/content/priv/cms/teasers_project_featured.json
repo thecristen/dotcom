@@ -11,7 +11,28 @@
     "updated": "2018-11-30",
     "posted": "",
     "created": "2018-06-21",
-    "changed": "2018-11-30"
+    "changed": "2018-11-30",
+    "field_related_transit": [
+      {
+        "id": 223,
+        "name": "Green-D",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Green-D",
+          "gtfs_group": "branch",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": [
+              "Green"
+            ],
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
   },
   {
     "nid": "3445",
@@ -25,7 +46,26 @@
     "updated": "2018-09-13",
     "posted": "",
     "created": "2018-02-23",
-    "changed": "2018-11-09"
+    "changed": "2018-11-09",
+    "field_related_transit": [
+      {
+        "id": 249,
+        "name": "Bus",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "bus",
+          "gtfs_group": "mode",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
   },
   {
     "nid": "3721",
@@ -39,6 +79,42 @@
     "updated": "2018-08-13",
     "posted": "",
     "created": "2018-08-08",
-    "changed": "2018-11-29"
+    "changed": "2018-11-29",
+    "field_related_transit": [
+      {
+        "id": 219,
+        "name": "Red",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Red",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 220,
+        "name": "Orange",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Orange",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
   }
 ]
