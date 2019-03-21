@@ -12,6 +12,17 @@ defmodule SiteWeb.StopControllerTest do
            |> Map.fetch!(:status) == 200
   end
 
+  test "renders react content server-side", %{conn: conn} do
+    assert [{"div", _, content}] =
+             conn
+             |> put_req_cookie("stop_page_redesign", "true")
+             |> get(stop_path(conn, :show, "place-sstat"))
+             |> html_response(200)
+             |> Floki.find("#react-root")
+
+    assert [_ | _] = content
+  end
+
   test "assigns routes for this stop", %{conn: conn} do
     conn =
       conn
