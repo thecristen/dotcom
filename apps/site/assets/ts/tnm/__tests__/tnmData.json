@@ -6,6 +6,7 @@
       {
         "station?": false,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Stuart St @ Charles St S",
         "longitude": -71.066798,
@@ -52,6 +53,7 @@
       {
         "station?": false,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Kneeland St @ Washington St",
         "longitude": -71.062868,
@@ -112,6 +114,7 @@
       {
         "station?": false,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Stuart St @ Charles St S",
         "longitude": -71.066798,
@@ -158,6 +161,7 @@
       {
         "station?": false,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Tremont St @ Boylston Station",
         "longitude": -71.064353,
@@ -221,6 +225,7 @@
       {
         "station?": false,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Stuart St @ Charles St S",
         "longitude": -71.066798,
@@ -252,6 +257,7 @@
       {
         "station?": false,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Kneeland St @ Washington St",
         "longitude": -71.062868,
@@ -297,6 +303,7 @@
       {
         "station?": false,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Charles St S @ Park Plaza",
         "longitude": -71.067101,
@@ -343,6 +350,7 @@
       {
         "station?": false,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "285 Tremont St",
         "longitude": -71.065439,
@@ -403,6 +411,7 @@
       {
         "station?": true,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Tufts Medical Center",
         "longitude": -71.063917,
@@ -449,6 +458,7 @@
       {
         "station?": false,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Washington St @ Essex St",
         "longitude": -71.062581,
@@ -509,6 +519,7 @@
       {
         "station?": true,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Tufts Medical Center",
         "longitude": -71.063917,
@@ -552,6 +563,7 @@
       {
         "station?": false,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Tremont St @ Boylston Station",
         "longitude": -71.064353,
@@ -597,6 +609,7 @@
       {
         "station?": true,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Tufts Medical Center",
         "longitude": -71.063917,
@@ -670,6 +683,7 @@
       {
         "station?": false,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Tremont St @ Boylston Station",
         "longitude": -71.064353,
@@ -730,6 +744,7 @@
       {
         "station?": true,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Tufts Medical Center",
         "longitude": -71.063917,
@@ -803,6 +818,7 @@
       {
         "station?": false,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Washington St @ Essex St",
         "longitude": -71.062581,
@@ -863,6 +879,7 @@
       {
         "station?": true,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Tufts Medical Center",
         "longitude": -71.063917,
@@ -950,6 +967,7 @@
       {
         "station?": true,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Boylston",
         "longitude": -71.06459,
@@ -1037,6 +1055,7 @@
       {
         "station?": true,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Boylston",
         "longitude": -71.06459,
@@ -1116,6 +1135,7 @@
       {
         "station?": true,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Boylston",
         "longitude": -71.06459,
@@ -1187,6 +1207,7 @@
       {
         "station?": true,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Boylston",
         "longitude": -71.06459,
@@ -1244,6 +1265,7 @@
       {
         "station?": true,
         "parking_lots": [],
+        "bike_storage": [],
         "note": null,
         "name": "Park Street",
         "longitude": -71.062424,

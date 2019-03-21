@@ -4,6 +4,7 @@ import RoutePillList from "./RoutePillList";
 // @ts-ignore
 import accessibleIcon from "../../../static/images/icon-accessible-default.svg";
 import ParkingInfo from "./ParkingInfo";
+import BikeStorageInfo from "./BikeStorageInfo";
 import { Stop } from "../../__v3api";
 import { TypedRoutes } from "./__stop";
 
@@ -34,8 +35,8 @@ const Sidebar = ({ stop, routes }: Props): ReactElement<HTMLElement> => (
         }}
       />
     </ExpandableBlock>
-
     <ParkingInfo stop={stop} />
+    <BikeStorageInfo stop={stop} />
   </div>
 );
 

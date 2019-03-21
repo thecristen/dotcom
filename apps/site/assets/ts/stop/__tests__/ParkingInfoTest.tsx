@@ -66,6 +66,7 @@ const stop = {
   parking_lots: [{ ...parkingLot }],
   note: null,
   name: "South Station",
+  bike_storage: [],
   longitude: -71.055242,
   latitude: 42.352271,
   "is_child?": false,

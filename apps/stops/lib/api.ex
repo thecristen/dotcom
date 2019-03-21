@@ -147,6 +147,7 @@ defmodule Stops.Api do
       accessibility: merge_accessibility(v3_accessibility(item), item.attributes),
       parking_lots: v3_parking(item),
       fare_facilities: fare_facilities,
+      bike_storage: bike_storage(item),
       is_child?: is_child?(item),
       station?: is_station?(item),
       has_fare_machine?: MapSet.member?(fare_facilities, :fare_vending_machine),
@@ -172,6 +173,37 @@ defmodule Stops.Api do
     other = MapSet.new(others, &facility_atom_from_string(&1.attributes["type"]))
     matching_others = MapSet.intersection(other, MapSet.new(@accessible_facilities))
     Enum.map(escalators ++ MapSet.to_list(matching_others), &Atom.to_string/1)
+  end
+
+  @type bike_storage_types ::
+          :bike_storage_rack
+          | :bike_storage_rack_covered
+          | :bike_storage_cage
+
+  defp bike_storage(item) do
+    item
+    |> filter_facilities(MapSet.new([:bike_storage]))
+    |> Enum.map(&bike_storage_type/1)
+    |> MapSet.new()
+  end
+
+  @spec bike_storage_type(Item.t()) :: bike_storage_types
+  def bike_storage_type(%Item{attributes: %{"properties" => properties}}) do
+    properties
+    |> Map.new(fn %{"name" => key, "value" => value} -> {key, value} end)
+    |> do_bike_storage_type()
+  end
+
+  def do_bike_storage_type(%{"enclosed" => 1, "secured" => 1}) do
+    :bike_storage_cage
+  end
+
+  def do_bike_storage_type(%{"enclosed" => 2, "secured" => 2}) do
+    :bike_storage_rack
+  end
+
+  def do_bike_storage_type(%{"enclosed" => 1, "secured" => 2}) do
+    :bike_storage_rack_covered
   end
 
   @spec parse_escalator_direction([Item.t()]) :: [
@@ -338,5 +370,14 @@ defmodule Stops.Api do
 
   defp add_facility_type(%Item{}, acc) do
     acc
+  end
+
+  @spec filter_facilities(Item.t(), MapSet.t()) :: [Item.t()]
+  defp filter_facilities(%Item{relationships: %{"facilities" => facilities}}, facility_types) do
+    Enum.filter(facilities, &filter_facility_types(&1, facility_types))
+  end
+
+  def filter_facility_types(%Item{attributes: %{"type" => type_str}}, facility_types) do
+    MapSet.member?(facility_types, facility_atom_from_string(type_str))
   end
 end

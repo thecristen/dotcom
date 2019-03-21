@@ -62,9 +62,15 @@ export interface Route {
 
 export type RouteType = 0 | 1 | 2 | 3 | 4;
 
+export type BikeStorage =
+  | "bike_storage_rack"
+  | "bike_storage_rack_covered"
+  | "bike_storage_cage";
+
 export interface Stop {
   accessibility: string[];
   address: string | null;
+  bike_storage: BikeStorage[];
   closed_stop_info: string | null;
   "has_charlie_card_vendor?": boolean;
   "has_fare_machine?": boolean;

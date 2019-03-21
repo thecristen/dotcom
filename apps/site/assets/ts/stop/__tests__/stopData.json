@@ -24,6 +24,7 @@
         "address": null
       }
     ],
+    "bike_storage": ["bike_storage_cage"],
     "note": null,
     "name": "South Station",
     "longitude": -71.055242,

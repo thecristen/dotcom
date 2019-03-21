@@ -108,6 +108,24 @@
   }
 }
 
+.m-stop-page__bike-storage-list {
+  list-style: none; // Remove default bullets
+}
+
+.m-stop-page__bike-storage-list-item::before {
+  color: $brand-primary-light;
+  content: '\2022';  // \2022 is unicode for a bullet
+  display: inline-block;
+  font-size: $base-spacing * 1.25;
+  font-weight: bold;
+  margin-left: -$base-spacing;
+  width: $base-spacing;
+}
+
+.m-stop-page__pedal-and-park {
+  padding-left: $base-spacing;
+}
+
 .m-route-pills {
   .u-bg--bus,
   .u-bg--silver-line {

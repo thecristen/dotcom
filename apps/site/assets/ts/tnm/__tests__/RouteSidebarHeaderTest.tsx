@@ -10,6 +10,7 @@ import { TNMStop } from "../components/__tnm";
 const stop: TNMStop = {
   accessibility: ["wheelchair"],
   address: "123 Main St., Boston MA",
+  bike_storage: [],
   closed_stop_info: null,
   "has_charlie_card_vendor?": false,
   "has_fare_machine?": false,

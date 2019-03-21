@@ -202,7 +202,6 @@ const ParkingInfo = ({ stop }: Props): ReactElement<HTMLElement> => (
       id="parking"
       header={{
         text: "Parking",
-
         iconSvgText: parkingIconSvg
       }}
     >
