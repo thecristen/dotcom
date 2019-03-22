@@ -108,7 +108,7 @@ defmodule SiteWeb.ProjectControllerTest do
 
       teaser = teaser_factory(:project_updates, 0)
 
-      teasers_fn = fn [related_to: ^project_id, type: "project_update", items_per_page: 50] ->
+      teasers_fn = fn [related_to: ^project_id, type: :project_update, items_per_page: 50] ->
         [teaser]
       end
 
@@ -134,7 +134,7 @@ defmodule SiteWeb.ProjectControllerTest do
       project = project_factory(0)
       project_id = project.id
 
-      teasers_fn = fn [related_to: ^project_id, type: "project_update", items_per_page: 50] ->
+      teasers_fn = fn [related_to: ^project_id, type: :project_update, items_per_page: 50] ->
         []
       end
 

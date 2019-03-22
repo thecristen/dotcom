@@ -106,7 +106,7 @@ defmodule SiteWeb.ProjectController do
           updates:
             teasers_fn.(
               related_to: project.id,
-              type: "project_update",
+              type: :project_update,
               items_per_page: 50
             )
         })

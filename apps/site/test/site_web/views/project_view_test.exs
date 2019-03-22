@@ -19,7 +19,7 @@ defmodule SiteWeb.ProjectViewTest do
   @events [%Event{id: 1, start_time: @now, end_time: @now, path_alias: nil}]
   @updates [
     %Teaser{
-      type: "project_update",
+      type: :project_update,
       path: "/cms/path/alias",
       image: nil,
       text: "teaser",
@@ -29,7 +29,7 @@ defmodule SiteWeb.ProjectViewTest do
       id: 1
     },
     %Teaser{
-      type: "project_update",
+      type: :project_update,
       path: "/cms/path/alias2",
       image: nil,
       text: "teaser2",

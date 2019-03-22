@@ -70,8 +70,7 @@ defmodule Content.Mixfile do
       {:phoenix_html, "~> 2.6"},
       {:repo_cache, in_umbrella: true},
       {:mailgun, "~> 0.1.2"},
-      {:util, in_umbrella: true},
-      {:routes, in_umbrella: true}
+      {:util, in_umbrella: true}
     ]
   end
 end

@@ -33,7 +33,7 @@ defmodule Content.Repo do
     |> get_page(params)
   end
 
-  # DEPRECATED: Use teasers/1 instead (type: "news_entry")
+  # DEPRECATED: Use teasers/1 instead (type: :news_entry)
   @spec news(Keyword.t()) :: [Content.NewsEntry.t()] | []
   def news(opts \\ []) do
     cache(opts, fn _ ->
