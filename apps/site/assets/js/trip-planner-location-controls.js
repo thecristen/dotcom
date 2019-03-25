@@ -432,8 +432,8 @@ TripPlannerLocControls.POPULAR = [
     icon: "airplane",
     name: "Boston Logan Airport",
     features: [],
-    latitude: 42.374262,
-    longitude: -71.030395,
+    latitude: 42.365396,
+    longitude: -71.017547,
     url: "#"
   },
   {
