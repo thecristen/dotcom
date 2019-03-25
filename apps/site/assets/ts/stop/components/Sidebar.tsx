@@ -1,11 +1,11 @@
 import React, { ReactElement } from "react";
 import ExpandableBlock from "../../app/ExpandableBlock";
 import RoutePillList from "./RoutePillList";
-import Fares from "./sidebar/Fares";
 // @ts-ignore
 import accessibleIcon from "../../../static/images/icon-accessible-default.svg";
-import ParkingInfo from "./ParkingInfo";
-import BikeStorageInfo from "./BikeStorageInfo";
+import ParkingInfo from "./sidebar/ParkingInfo";
+import BikeStorageInfo from "./sidebar/BikeStorageInfo";
+import Fares from "./sidebar/Fares";
 import { Stop } from "../../__v3api";
 import { TypedRoutes, RetailLocationWithDistance } from "./__stop";
 

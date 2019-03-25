@@ -1,12 +1,12 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { mount } from "enzyme";
-import BikeStorageInfo from "../components/BikeStorageInfo";
-import { BikeStorage, Stop } from "../../__v3api";
+import BikeStorageInfo from "../../components/sidebar/BikeStorageInfo";
+import { BikeStorage, Stop } from "../../../__v3api";
 import {
   createReactRoot,
   enzymeToJsonWithoutProps
-} from "../../app/helpers/testUtils";
+} from "../../../app/helpers/testUtils";
 /* eslint-disable typescript/camelcase */
 
 const bikeStorages: BikeStorage[] = [

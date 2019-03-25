@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
-import ExpandableBlock from "../../app/ExpandableBlock";
-import { BikeStorage, Stop } from "../../__v3api";
+import ExpandableBlock from "../../../app/ExpandableBlock";
+import { BikeStorage, Stop } from "../../../__v3api";
 // @ts-ignore
-import bikeIconSvg from "../../../static/images/icon-bikes-default.svg";
+import bikeIconSvg from "../../../../static/images/icon-bikes-default.svg";
 
 interface Props {
   stop: Stop;

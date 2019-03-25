@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
-import ExpandableBlock from "../../app/ExpandableBlock";
+import ExpandableBlock from "../../../app/ExpandableBlock";
 // @ts-ignore
-import parkingIconSvg from "../../../static/images/icon-parking-default.svg";
-import { Stop, ParkingLot } from "../../__v3api";
+import parkingIconSvg from "../../../../static/images/icon-parking-default.svg";
+import { Stop, ParkingLot } from "../../../__v3api";
 
 const renderUtilization = (
   lot: ParkingLot

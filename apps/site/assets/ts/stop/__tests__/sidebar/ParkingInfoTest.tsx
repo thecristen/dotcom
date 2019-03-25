@@ -1,12 +1,14 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { mount } from "enzyme";
-import ParkingInfo, { maybeAddLinkPrefix } from "../components/ParkingInfo";
+import ParkingInfo, {
+  maybeAddLinkPrefix
+} from "../../components/sidebar/ParkingInfo";
 
 import {
   createReactRoot,
   enzymeToJsonWithoutProps
-} from "../../app/helpers/testUtils";
+} from "../../../app/helpers/testUtils";
 import {
   ParkingLotUtilization,
   ParkingLotMobileApp,
@@ -15,7 +17,7 @@ import {
   ParkingLotManager,
   ParkingLotCapacity,
   Stop
-} from "../../__v3api";
+} from "../../../__v3api";
 /* eslint-disable typescript/camelcase */
 
 const utilization: ParkingLotUtilization = {
