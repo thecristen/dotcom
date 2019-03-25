@@ -22,7 +22,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     conn
     |> assign(
       :meta_description,
-      "MBTA #{ScheduleView.route_header_text(conn.assigns.route)} Line Commuter Rail stations and " <>
+      "MBTA #{conn.assigns.route.name} Commuter Rail stations and " <>
         "schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, " <>
         "and connections."
     )
