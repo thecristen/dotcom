@@ -44,7 +44,11 @@ const RoutesSidebar = (props: Props): ReactElement<HTMLElement> | null => {
 
   return data.length ? (
     <div className="m-tnm-sidebar">
-      <RouteSidebarHeader selectedStop={selectedStop} dispatch={dispatch} />
+      <RouteSidebarHeader
+        showPill={shouldFilterStopCards}
+        selectedStop={selectedStop}
+        dispatch={dispatch}
+      />
       {filterData(data, selectedStopId, shouldFilterStopCards).map(route => (
         <RouteCard key={route.id} route={route} dispatch={dispatch} />
       ))}

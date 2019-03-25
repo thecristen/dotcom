@@ -32,7 +32,13 @@ it("it renders with no stop selected", () => {
   createReactRoot();
 
   const tree = renderer
-    .create(<RouteSidebarHeader selectedStop={undefined} dispatch={() => {}} />)
+    .create(
+      <RouteSidebarHeader
+        showPill={false}
+        selectedStop={undefined}
+        dispatch={() => {}}
+      />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -41,7 +47,24 @@ it("it renders with a stop selected", () => {
   createReactRoot();
 
   const tree = renderer
-    .create(<RouteSidebarHeader selectedStop={stop} dispatch={() => {}} />)
+    .create(
+      <RouteSidebarHeader showPill selectedStop={stop} dispatch={() => {}} />
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it("it does not show a pill when showPill is false", () => {
+  createReactRoot();
+
+  const tree = renderer
+    .create(
+      <RouteSidebarHeader
+        showPill={false}
+        selectedStop={stop}
+        dispatch={() => {}}
+      />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -52,7 +75,7 @@ it("it deselects a stop when the pill is clicked", () => {
   const mockDispatch = jest.fn();
 
   const wrapper = shallow(
-    <RouteSidebarHeader selectedStop={stop} dispatch={mockDispatch} />
+    <RouteSidebarHeader showPill selectedStop={stop} dispatch={mockDispatch} />
   );
 
   wrapper.find(".m-tnm-sidebar__pill").simulate("click");
@@ -68,7 +91,7 @@ it("it deselects a stop when the pill is selected via keyboard ENTER", () => {
   const mockDispatch = jest.fn();
 
   const wrapper = shallow(
-    <RouteSidebarHeader selectedStop={stop} dispatch={mockDispatch} />
+    <RouteSidebarHeader showPill selectedStop={stop} dispatch={mockDispatch} />
   );
 
   wrapper.find(".m-tnm-sidebar__pill").simulate("keyPress", { key: "Enter" });
@@ -84,7 +107,7 @@ it("it deselects a stop when the pill is selected via a different keyboard event
   const mockDispatch = jest.fn();
 
   const wrapper = shallow(
-    <RouteSidebarHeader selectedStop={stop} dispatch={mockDispatch} />
+    <RouteSidebarHeader showPill selectedStop={stop} dispatch={mockDispatch} />
   );
 
   wrapper.find(".m-tnm-sidebar__pill").simulate("keyPress", { key: "Tab" });

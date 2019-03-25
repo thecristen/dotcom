@@ -7,15 +7,16 @@ import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 interface Props {
   selectedStop: TNMStop | undefined;
   dispatch: Dispatch;
+  showPill: boolean;
 }
 
 const RouteSidebarHeader = (props: Props): ReactElement<HTMLElement> => {
-  const { dispatch, selectedStop } = props;
+  const { dispatch, selectedStop, showPill } = props;
   const onClickPill = (): void => dispatch(clickStopPillAction());
   return (
     <div className="m-tnm-sidebar__header">
       <SidebarTitle dispatch={dispatch} viewType="Routes" />
-      {selectedStop && (
+      {showPill && selectedStop && (
         <span
           role="button"
           tabIndex={0}
