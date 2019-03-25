@@ -68,22 +68,6 @@ defmodule SiteWeb.ContentView do
     )
   end
 
-  def render_content(%ContentList{recipe: opts} = paragraph, conn) do
-    [teasers] =
-      Util.async_with_timeout(
-        [ContentList.get_teasers_async(opts)],
-        [],
-        ContentList
-      )
-
-    render(
-      "_content_list.html",
-      content: paragraph,
-      teasers: teasers,
-      conn: conn
-    )
-  end
-
   def render_content(paragraph, conn) do
     paragraph
     |> get_template()

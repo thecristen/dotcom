@@ -2,7 +2,7 @@
   <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
 <% end %>
 
-<%= for teaser <- @teasers do %>
+<%= for teaser <- @content.teasers do %>
   <% type = CSSHelpers.atom_to_class(teaser.type) %>
 
   <%= link to: cms_static_page_path(@conn, teaser.path), class: "c-teaser c-teaser--#{type}" do %>

@@ -11,14 +11,16 @@ defmodule Content.Paragraph.ContentList do
 
   defstruct header: nil,
             ingredients: %{},
-            recipe: []
+            recipe: [],
+            teasers: []
 
   @type order :: :DESC | :ASC
 
   @type t :: %__MODULE__{
           header: ColumnMultiHeader.t() | nil,
           ingredients: map(),
-          recipe: Keyword.t()
+          recipe: Keyword.t(),
+          teasers: [Teaser.t()]
         }
 
   @spec from_api(map) :: t
@@ -55,9 +57,9 @@ defmodule Content.Paragraph.ContentList do
     }
   end
 
-  @spec get_teasers_async(Keyword.t()) :: (() -> [Teaser.t()])
-  def get_teasers_async(opts) do
-    fn -> Repo.teasers(opts) end
+  @spec fetch_teasers(t()) :: t()
+  def fetch_teasers(%__MODULE__{recipe: opts} = content_list) do
+    %{content_list | teasers: Repo.teasers(opts)}
   end
 
   # Some ingredients need to be pre-processed/merged before using

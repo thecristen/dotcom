@@ -360,17 +360,18 @@ defmodule SiteWeb.ContentViewTest do
     end
 
     test "renders a ContentList", %{conn: conn} do
-      paragraph = %ContentList{
-        header: %ColumnMultiHeader{
-          text: HTML.raw("<p>Header copy.</p>\n")
-        },
-        ingredients: %{type: :project_update},
-        recipe: [
-          type: :project_update,
-          date: "now",
-          date_op: ">="
-        ]
-      }
+      paragraph =
+        ContentList.fetch_teasers(%ContentList{
+          header: %ColumnMultiHeader{
+            text: HTML.raw("<p>Header copy.</p>\n")
+          },
+          ingredients: %{type: :project_update},
+          recipe: [
+            type: :project_update,
+            date: "now",
+            date_op: ">="
+          ]
+        })
 
       rendered =
         paragraph
