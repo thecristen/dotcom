@@ -18,6 +18,7 @@ describe("render", () => {
           shouldFilterStopCards={false}
           dispatch={() => {}}
           selectedStop={undefined}
+          selectedModes={[]}
         />
       )
       .toJSON();
@@ -34,6 +35,7 @@ describe("render", () => {
           shouldFilterStopCards={false}
           dispatch={() => {}}
           selectedStop={undefined}
+          selectedModes={[]}
         />
       )
       .toJSON();
@@ -48,7 +50,7 @@ describe("filterData", () => {
 
     expect(data).toHaveLength(26);
 
-    const filteredData = filterData(data, selectedStopId, true);
+    const filteredData = filterData(data, selectedStopId, [], true);
 
     expect(filteredData).toHaveLength(3);
 
@@ -59,6 +61,27 @@ describe("filterData", () => {
     expect(
       filteredData.every(
         (route: TNMRoute) => route.stops[0].id === selectedStopId
+      )
+    );
+  });
+
+  it("should filter by modes", () => {
+    const data = importData();
+    expect(data).toHaveLength(26);
+
+    const filteredBusData = filterData(data, null, ["bus"], true);
+    expect(filteredBusData).toHaveLength(12);
+    expect(filteredBusData.every((route: TNMRoute) => route.type === 3));
+
+    const filteredRailData = filterData(data, null, ["rail"], true);
+    expect(filteredRailData).toHaveLength(8);
+    expect(filteredRailData.every((route: TNMRoute) => route.type === 2));
+
+    const filteredSubwayData = filterData(data, null, ["subway"], true);
+    expect(filteredSubwayData).toHaveLength(6);
+    expect(
+      filteredSubwayData.every(
+        (route: TNMRoute) => route.type === 0 || route.type === 1
       )
     );
   });

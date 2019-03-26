@@ -49,6 +49,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   background-color: $gray-lightest;
   padding-bottom: $base-spacing * 2;
   padding-top: $base-spacing * 2;
+  position: relative;
 
   @include media-breakpoint-down(xs) {
     padding-left: $base-spacing;
@@ -71,12 +72,62 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   }
 }
 
+.m-tnm-sidebar__filter-bar {
+  box-shadow: 0 4px 4px -2px $gray-lighter;
+  left: 0;
+  padding: $base-spacing / 2;
+  position: absolute;
+  top: 0;
+  width: 100%;
+
+  @include media-breakpoint-only(sm) {
+    padding: $base-spacing / 2 0;
+  }
+}
+
+.m-tnm-sidebar__filter-header {
+  display: none;
+  font-weight: bold;
+  margin-right: $base-spacing / 2;
+
+  @include media-breakpoint-only(xxl) {
+    display: inline;
+  }
+
+  @include media-breakpoint-only(sm) {
+    display: inline;
+  }
+}
+
+.m-tnm-sidebar__filter-btn {
+  background-color: transparent;
+  font-weight: $font-weight-medium;
+  margin-left: $base-spacing / 2;
+
+  &.active {
+    background-color: $brand-primary-lightest;
+  }
+
+  // override existing rule that would make inactive but focused appear active
+  &.inactive {
+    &:active,
+    &:focus,
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &:first-of-type {
+    margin-left: 0;
+  }
+}
+
 .m-tnm-sidebar__header {
   margin-bottom: $base-spacing / 2;
 
   h2 {
     flex-shrink: 0;
-    margin-top: 1.8125 * $base-spacing;
+    margin-top: $base-spacing * 4;
   }
 }
 
@@ -114,6 +165,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   margin-left: $base-spacing / 2;
 }
 
+.m-tnm-sidebar__filter-bar-inner,
 .m-tnm-sidebar__route,
 .m-tnm-sidebar__stop-card,
 .m-tnm-sidebar__header {

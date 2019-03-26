@@ -36,6 +36,7 @@ const TransitNearMe = ({
       {state.routesView ? (
         <RoutesSidebar
           selectedStop={selectedStop}
+          selectedModes={state.selectedModes}
           selectedStopId={state.selectedStopId}
           dispatch={dispatch}
           data={routeSidebarData}
@@ -44,6 +45,7 @@ const TransitNearMe = ({
       ) : (
         <StopsSidebar
           selectedStop={selectedStop}
+          selectedModes={state.selectedModes}
           selectedStopId={state.selectedStopId}
           dispatch={dispatch}
           data={stopSidebarData}

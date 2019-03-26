@@ -18,6 +18,7 @@ describe("StopsSidebar", () => {
           shouldFilterStopCards={false}
           dispatch={() => {}}
           selectedStop={undefined}
+          selectedModes={[]}
         />
       )
       .toJSON();
@@ -34,6 +35,7 @@ describe("StopsSidebar", () => {
           shouldFilterStopCards={false}
           dispatch={() => {}}
           selectedStop={undefined}
+          selectedModes={[]}
         />
       )
       .toJSON();
@@ -48,7 +50,7 @@ describe("filterData", () => {
 
     expect(data).toHaveLength(12);
 
-    const filteredData = filterData(data, selectedStopId, true);
+    const filteredData = filterData(data, selectedStopId, [], true);
 
     expect(filteredData).toHaveLength(1);
 
@@ -66,9 +68,23 @@ describe("filterData", () => {
 
     expect(data).toHaveLength(12);
 
-    const filteredData = filterData(data, selectedStopId, true);
+    const filteredData = filterData(data, selectedStopId, [], true);
 
     // Every stop should be shown
     expect(filteredData).toHaveLength(12);
+  });
+
+  it("should filter by modes", () => {
+    const data = importStopData();
+    expect(data).toHaveLength(12);
+
+    const filteredBusData = filterData(data, null, ["bus"], true);
+    expect(filteredBusData).toHaveLength(10);
+
+    const filteredRailData = filterData(data, null, ["rail"], true);
+    expect(filteredRailData).toHaveLength(1);
+
+    const filteredSubwayData = filterData(data, null, ["subway"], true);
+    expect(filteredSubwayData).toHaveLength(4);
   });
 });

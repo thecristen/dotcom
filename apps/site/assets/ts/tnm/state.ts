@@ -1,5 +1,7 @@
 import * as googleMaps from "../app/googleMaps/state";
 
+import { TNMMode } from "./components/__tnm";
+
 export type SelectedStopType = string | null;
 
 export const { clickMarkerAction } = googleMaps;
@@ -8,42 +10,59 @@ export const { clickCurrentLocationAction } = googleMaps;
 
 interface State {
   selectedStopId: SelectedStopType;
+  selectedModes: TNMMode[];
   shouldFilterStopCards: boolean;
   shouldCenterMapOnSelectedStop: boolean;
   routesView: boolean;
 }
 
-export type Dispatch = (action: Action) => void;
+export type Dispatch = (action: StopAction | ModeAction) => void;
 
-type ActionType =
+type StopActionType =
   | googleMaps.MapActionType
   | "CLICK_STOP_CARD"
   | "CLICK_STOP_PILL"
   | "CLICK_VIEW_CHANGE";
 
-export interface Action {
-  type: ActionType;
+type ModeActionType = "CLICK_MODE_FILTER";
+
+export interface ModeAction {
+  type: ModeActionType;
+  payload: {
+    modes: TNMMode[];
+  };
+}
+
+export interface StopAction {
+  type: StopActionType;
   payload: {
     stopId: SelectedStopType;
   };
 }
 
-export const clickStopCardAction = (stopId: SelectedStopType): Action => ({
+type Action = StopAction | ModeAction;
+
+export const clickStopCardAction = (stopId: SelectedStopType): StopAction => ({
   type: "CLICK_STOP_CARD",
   payload: { stopId }
 });
 
-export const clickStopPillAction = (): Action => ({
+export const clickStopPillAction = (): StopAction => ({
   type: "CLICK_STOP_PILL",
   payload: { stopId: null }
 });
 
-export const clickViewChangeAction = (): Action => ({
+export const clickViewChangeAction = (): StopAction => ({
   type: "CLICK_VIEW_CHANGE",
   payload: { stopId: null }
 });
 
-export const reducer = (state: State, action: Action): State => {
+export const clickModeAction = (modes: TNMMode[]): ModeAction => ({
+  type: "CLICK_MODE_FILTER",
+  payload: { modes }
+});
+
+const stopReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "CLICK_CURRENT_LOCATION_MARKER":
     case "CLICK_MARKER": {
@@ -53,31 +72,33 @@ export const reducer = (state: State, action: Action): State => {
           : action.payload.stopId;
 
       return {
+        ...state,
         selectedStopId: target,
         shouldFilterStopCards: !!target && action.type === "CLICK_MARKER",
-        shouldCenterMapOnSelectedStop: false,
-        routesView: state.routesView
+        shouldCenterMapOnSelectedStop: false
       };
     }
     case "CLICK_STOP_CARD":
       return {
+        ...state,
         selectedStopId: action.payload.stopId,
         shouldFilterStopCards: state.shouldFilterStopCards,
-        shouldCenterMapOnSelectedStop: true,
-        routesView: state.routesView
+        shouldCenterMapOnSelectedStop: true
       };
     case "CLICK_STOP_PILL":
       return {
+        ...state,
         selectedStopId: null,
         shouldFilterStopCards: false,
-        shouldCenterMapOnSelectedStop: false,
-        routesView: state.routesView
+        shouldCenterMapOnSelectedStop: false
       };
     case "CLICK_VIEW_CHANGE":
       return {
+        ...state,
         selectedStopId: null,
         shouldFilterStopCards: false,
         shouldCenterMapOnSelectedStop: false,
+        selectedModes: [],
         routesView: !state.routesView
       };
     default:
@@ -85,9 +106,29 @@ export const reducer = (state: State, action: Action): State => {
   }
 };
 
+const modeReducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "CLICK_MODE_FILTER":
+      return {
+        ...state,
+        selectedModes: action.payload.modes,
+        shouldFilterStopCards: true
+      };
+    default:
+      return state;
+  }
+};
+
+export const reducer = (state: State, action: Action): State =>
+  [stopReducer, modeReducer].reduce(
+    (accumulator, fn) => fn(accumulator, action),
+    state
+  );
+
 export const initialState: State = {
   selectedStopId: null,
   shouldFilterStopCards: false,
   shouldCenterMapOnSelectedStop: false,
-  routesView: true
+  routesView: true,
+  selectedModes: []
 };

@@ -15,6 +15,8 @@ import BusIconSmall from "../../../static/images/icon-mode-bus-small.svg";
 import FerryIconSmall from "../../../static/images/icon-mode-ferry-small.svg";
 // @ts-ignore
 import StationSmall from "../../../static/images/icon-circle-t-small.svg";
+// @ts-ignore
+import SubwaySmall from "../../../static/images/icon-mode-subway-small.svg";
 
 interface Props {
   type: string;
@@ -27,7 +29,8 @@ const icons = {
   "blue_line-small": BlueLineIconSmall,
   "commuter_rail-small": CommuterRailIconSmall,
   "bus-small": BusIconSmall,
-  "ferry-small": FerryIconSmall
+  "ferry-small": FerryIconSmall,
+  "subway-small": SubwaySmall
 };
 
 const ModeIcon = ({ type }: Props): ReactElement<HTMLElement> => {
