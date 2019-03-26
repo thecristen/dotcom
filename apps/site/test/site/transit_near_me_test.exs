@@ -851,6 +851,38 @@ defmodule Site.TransitNearMeTest do
       end
     end
 
+    test "returns predictions sorted by time" do
+      now = DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
+      first_prediction_time = DateTime.from_naive!(~N[2019-02-27T12:05:00], "Etc/UTC")
+      last_prediction_time = DateTime.from_naive!(~N[2019-02-27T13:05:00], "Etc/UTC")
+
+      route = %Route{id: "route", type: 0}
+      stop = %Stop{id: "stop"}
+      trip = %Trip{direction_id: 0}
+      schedule = %Schedule{route: route, stop: stop, trip: trip}
+
+      last_prediction = %Prediction{
+        route: route,
+        stop: stop,
+        trip: trip,
+        time: last_prediction_time
+      }
+
+      first_prediction = %Prediction{
+        route: route,
+        stop: stop,
+        trip: trip,
+        time: first_prediction_time
+      }
+
+      predictions_fn = fn _ ->
+        [last_prediction, first_prediction]
+      end
+
+      assert TransitNearMe.schedules_or_predictions([schedule], predictions_fn, now) ==
+               [first_prediction, last_prediction]
+    end
+
     test "returns empty list for subway if no predictions during normal hours" do
       now = DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
 

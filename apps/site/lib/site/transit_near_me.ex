@@ -460,6 +460,7 @@ defmodule Site.TransitNearMe do
     # occasionally, a prediction will not have a time; discard if that happens
     |> Enum.filter(& &1.time)
     |> Enum.reject(&Timex.before?(&1.time, now))
+    |> Enum.sort(&(&1.time <= &2.time))
   end
 
   @type predicted_schedule_and_time_data :: {{DateTime.t() | nil, DateTime.t()}, time_data}
