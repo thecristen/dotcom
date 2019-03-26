@@ -1,97 +1,54 @@
-export function autocomplete({
-  input,
-  searchBounds,
-  hitLimit,
-  sessionToken,
-  service
-}) {
+export function autocomplete({ input, hitLimit, sessionToken }) {
   if (input.length === 0) {
     return Promise.resolve({});
   }
 
   return new Promise((resolve, reject) => {
-    // service can be stubbed in tests
-    const autocompleteService =
-      service || new window.google.maps.places.AutocompleteService();
-
-    autocompleteService.getPlacePredictions(
-      {
-        input,
-        sessionToken,
-        bounds: new window.google.maps.LatLngBounds(
-          new window.google.maps.LatLng(searchBounds.west, searchBounds.north),
-          new window.google.maps.LatLng(searchBounds.east, searchBounds.south)
-        )
-      },
-      processAutocompleteResults(resolve, reject, hitLimit)
-    );
+    window.jQuery
+      .getJSON(
+        `/places/autocomplete/${encodeURIComponent(input)}/${hitLimit}/${
+          sessionToken.Pf
+        }`
+      )
+      .done(processAutocompleteResults(resolve))
+      .fail(reject);
   });
 }
 
-const BANNED_PLACES = ["ChIJN0na1RRw44kRRFEtH8OUkww"]; // Unreachable location @ Boston Logan International Airport
-
-function processAutocompleteResults(resolve, reject, hitLimit) {
-  return (predictions, status) => {
-    const results = {
-      locations: {
-        hits: [],
-        nbHits: 0
-      }
-    };
-    if (status != window.google.maps.places.PlacesServiceStatus.OK) {
-      return resolve(results);
-    }
-    results.locations = {
-      hits: predictions
-        .filter(p => BANNED_PLACES.indexOf(p.place_id) == -1)
-        .slice(0, hitLimit),
-      nbHits: predictions.length
-    };
-    return resolve(results);
-  };
-}
-
-export function lookupPlace(placeId, service) {
-  const places = service || new window.google.maps.Geocoder();
-
-  return new Promise((resolve, reject) => {
-    places.geocode({ placeId }, processPlacesCallback(resolve, reject));
+export const lookupPlace = placeId =>
+  new Promise((resolve, reject) => {
+    window.jQuery
+      .getJSON(`/places/details/${placeId}`)
+      .done(processPlacesCallback(resolve))
+      .fail(reject);
   });
-}
 
-export function reverseGeocode(latitude, longitude) {
-  const geocoder = new google.maps.Geocoder();
-  return new Promise((resolve, reject) => {
-    geocoder.geocode(
-      {
-        location: {
-          lat: latitude,
-          lng: longitude
-        }
-      },
-      processGeocodeCallback(resolve, reject)
-    );
+export const reverseGeocode = (latitude, longitude) =>
+  new Promise((resolve, reject) => {
+    window.jQuery
+      .getJSON(`/places/reverse-geocode/${latitude}/${longitude}`)
+      .done(processGeocodeCallback(resolve, reject))
+      .fail(reject);
   });
-}
 
-function processGeocodeCallback(resolve, reject) {
-  return (results, status) => {
-    if (status != "OK") {
-      reject(status);
-    } else {
-      if (results[0]) {
-        resolve(results[0].formatted_address);
-      }
-    }
-  };
-}
+const processAutocompleteResults = resolve => ({ predictions }) =>
+  resolve(predictionResults(JSON.parse(predictions)));
 
-function processPlacesCallback(resolve, reject) {
-  return (results, status) => {
-    if (status !== window.google.maps.GeocoderStatus.OK) {
-      reject(status);
-    } else {
-      resolve(results[0]);
-    }
-  };
-}
+const predictionResults = predictions => ({
+  locations: {
+    hits: predictions,
+    nbHits: predictions.length
+  }
+});
+
+const processPlacesCallback = resolve => ({ result }) =>
+  resolve(JSON.parse(result));
+
+const processGeocodeCallback = (resolve, reject) => ({ results }) => {
+  const parsedResults = JSON.parse(results);
+  if (parsedResults[0]) {
+    resolve(parsedResults[0].formatted);
+  } else {
+    reject("No results");
+  }
+};

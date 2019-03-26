@@ -1,4 +1,7 @@
 defmodule GoogleMaps.Geocode.Address do
+  @moduledoc """
+  An address provided by a Google Maps Geocode lookup.
+  """
   @type t :: %__MODULE__{
           formatted: String.t(),
           latitude: float,
