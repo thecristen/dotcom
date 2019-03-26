@@ -359,6 +359,10 @@ defmodule Content.CMS.Static do
     {:ok, teaser_project_update_response()}
   end
 
+  def view("/cms/teasers", %{type: :news_entry, except: 3518, items_per_page: 4}) do
+    {:ok, teaser_news_entry_response() |> Enum.take(4)}
+  end
+
   def view("/cms/teasers", %{type: :news_entry}) do
     {:ok, teaser_news_entry_response()}
   end

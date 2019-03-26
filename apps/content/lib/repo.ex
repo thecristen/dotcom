@@ -4,26 +4,39 @@ defmodule Content.Repo do
   @moduledoc """
 
   Interface for the content CMS. Returns a variety of content
-  related structs, like %Content.Event{} or %Content.BasicPage{}
+  related structs, like %Event{} or %BasicPage{}
 
   """
 
   use RepoCache, ttl: :timer.minutes(1)
 
-  alias Content.{Paragraph, Teaser}
+  alias Content.{
+    Banner,
+    CMS,
+    Event,
+    NewsEntry,
+    Page,
+    Paragraph,
+    RoutePdf,
+    Search,
+    Teaser,
+    WhatsHappeningItem
+  }
+
+  alias Routes.Route
 
   @cms_api Application.get_env(:content, :cms_api)
 
-  @spec get_page(String.t(), map) :: Content.Page.t() | {:error, Content.CMS.error()}
+  @spec get_page(String.t(), map) :: Page.t() | {:error, CMS.error()}
   def get_page(path, query_params \\ %{}) do
     case view_or_preview(path, query_params) do
-      {:ok, api_data} -> Content.Page.from_api(api_data)
+      {:ok, api_data} -> Page.from_api(api_data)
       {:error, error} -> {:error, error}
     end
   end
 
   @spec get_page_with_encoded_id(String.t(), map) ::
-          Content.Page.t() | {:error, Content.CMS.error()}
+          Page.t() | {:error, CMS.error()}
   def get_page_with_encoded_id(path, %{"id" => _} = query_params) do
     {id, params} = Map.pop(query_params, "id")
     encoded_id = URI.encode_www_form("?id=#{id}")
@@ -33,44 +46,31 @@ defmodule Content.Repo do
     |> get_page(params)
   end
 
-  # DEPRECATED: Use teasers/1 instead (type: :news_entry)
-  @spec news(Keyword.t()) :: [Content.NewsEntry.t()] | []
-  def news(opts \\ []) do
-    cache(opts, fn _ ->
-      case @cms_api.view("/cms/news", opts) do
-        {:ok, api_data} -> Enum.map(api_data, &Content.NewsEntry.from_api/1)
-        _ -> []
-      end
-    end)
-  end
-
-  @spec news_entry_by(Keyword.t()) :: Content.NewsEntry.t() | :not_found
+  @spec news_entry_by(Keyword.t()) :: NewsEntry.t() | :not_found
   def news_entry_by(opts) do
-    case news(opts) do
+    news =
+      cache(opts, fn _ ->
+        case @cms_api.view("/cms/news", opts) do
+          {:ok, api_data} -> Enum.map(api_data, &NewsEntry.from_api/1)
+          _ -> []
+        end
+      end)
+
+    case news do
       [record] -> record
       [] -> :not_found
     end
   end
 
-  @spec recent_news(Keyword.t()) :: [Content.NewsEntry.t()]
-  def recent_news(opts \\ []) do
-    cache(opts, fn _ ->
-      case @cms_api.view("/cms/recent-news", opts) do
-        {:ok, api_data} -> Enum.map(api_data, &Content.NewsEntry.from_api/1)
-        _ -> []
-      end
-    end)
-  end
-
-  @spec events(Keyword.t()) :: [Content.Event.t()]
+  @spec events(Keyword.t()) :: [Event.t()]
   def events(opts \\ []) do
     case @cms_api.view("/cms/events", opts) do
-      {:ok, api_data} -> Enum.map(api_data, &Content.Event.from_api/1)
+      {:ok, api_data} -> Enum.map(api_data, &Event.from_api/1)
       _ -> []
     end
   end
 
-  @spec event(integer) :: Content.Event.t() | :not_found
+  @spec event(integer) :: Event.t() | :not_found
   def event(id) do
     case events(id: id) do
       [record] -> record
@@ -78,7 +78,7 @@ defmodule Content.Repo do
     end
   end
 
-  @spec event_by(Keyword.t()) :: Content.Event.t() | :not_found
+  @spec event_by(Keyword.t()) :: Event.t() | :not_found
   def event_by(opts) do
     case events(opts) do
       [record] -> record
@@ -86,23 +86,23 @@ defmodule Content.Repo do
     end
   end
 
-  @spec whats_happening() :: [Content.WhatsHappeningItem.t()]
+  @spec whats_happening() :: [WhatsHappeningItem.t()]
   def whats_happening do
     cache([], fn _ ->
       case @cms_api.view("/cms/whats-happening", []) do
-        {:ok, api_data} -> Enum.map(api_data, &Content.WhatsHappeningItem.from_api/1)
+        {:ok, api_data} -> Enum.map(api_data, &WhatsHappeningItem.from_api/1)
         _ -> []
       end
     end)
   end
 
-  @spec banner() :: Content.Banner.t() | nil
+  @spec banner() :: Banner.t() | nil
   def banner do
     cached_value =
       cache([], fn _ ->
         # Banners were previously called Important Notices
         case @cms_api.view("/cms/important-notices", []) do
-          {:ok, [api_data | _]} -> Content.Banner.from_api(api_data)
+          {:ok, [api_data | _]} -> Banner.from_api(api_data)
           {:ok, _} -> :empty
           {:error, _} -> :error
         end
@@ -112,34 +112,34 @@ defmodule Content.Repo do
   end
 
   @spec create_event(String.t()) ::
-          {:ok, Content.Event.t()} | {:error, map} | {:error, String.t()}
+          {:ok, Event.t()} | {:error, map} | {:error, String.t()}
   def create_event(body) do
     with {:ok, api_data} <- @cms_api.post("entity/node", body) do
-      {:ok, Content.Event.from_api(api_data)}
+      {:ok, Event.from_api(api_data)}
     end
   end
 
   @spec update_event(integer, String.t()) ::
-          {:ok, Content.Event.t()} | {:error, map} | {:error, String.t()}
+          {:ok, Event.t()} | {:error, map} | {:error, String.t()}
   def update_event(id, body) do
     with {:ok, api_data} <- @cms_api.update("node/#{id}", body) do
-      {:ok, Content.Event.from_api(api_data)}
+      {:ok, Event.from_api(api_data)}
     end
   end
 
   @spec create_news_entry(String.t()) ::
-          {:ok, Content.NewsEntry.t()} | {:error, map} | {:error, String.t()}
+          {:ok, NewsEntry.t()} | {:error, map} | {:error, String.t()}
   def create_news_entry(body) do
     with {:ok, api_data} <- @cms_api.post("entity/node", body) do
-      {:ok, Content.NewsEntry.from_api(api_data)}
+      {:ok, NewsEntry.from_api(api_data)}
     end
   end
 
   @spec update_news_entry(integer, String.t()) ::
-          {:ok, Content.NewsEntry.t()} | {:error, map} | {:error, String.t()}
+          {:ok, NewsEntry.t()} | {:error, map} | {:error, String.t()}
   def update_news_entry(id, body) do
     with {:ok, api_data} <- @cms_api.update("node/#{id}", body) do
-      {:ok, Content.NewsEntry.from_api(api_data)}
+      {:ok, NewsEntry.from_api(api_data)}
     end
   end
 
@@ -148,11 +148,11 @@ defmodule Content.Repo do
     params = [q: query, page: offset] ++ Enum.map(content_types, &{:"type[]", &1})
 
     with {:ok, api_data} <- @cms_api.view("/cms/search", params) do
-      {:ok, Content.Search.from_api(api_data)}
+      {:ok, Search.from_api(api_data)}
     end
   end
 
-  @spec get_route_pdfs(Routes.Route.id_t()) :: [Content.RoutePdf.t()]
+  @spec get_route_pdfs(Route.id_t()) :: [RoutePdf.t()]
   def get_route_pdfs(route_id) do
     case cache(route_id, &do_get_route_pdfs/1, timeout: :timer.hours(6)) do
       {:ok, pdfs} ->
@@ -177,7 +177,7 @@ defmodule Content.Repo do
         pdfs =
           api_data
           |> Map.get("field_pdfs")
-          |> Enum.map(&Content.RoutePdf.from_api/1)
+          |> Enum.map(&RoutePdf.from_api/1)
 
         {:ok, pdfs}
 
@@ -186,7 +186,7 @@ defmodule Content.Repo do
     end
   end
 
-  @spec view_or_preview(String.t(), map) :: {:ok, map} | {:error, Content.CMS.error()}
+  @spec view_or_preview(String.t(), map) :: {:ok, map} | {:error, CMS.error()}
   defp view_or_preview(path, %{"preview" => _, "vid" => "latest"} = params) do
     # "preview" value is deprecated. Use empty string or nil to get latest revision.
     view_or_preview(path, Map.put(params, "vid", nil))
@@ -260,7 +260,7 @@ defmodule Content.Repo do
 
   @type teaser_filters :: %{
           optional(:sidebar) => integer,
-          optional(:type) => Content.CMS.type() | nil,
+          optional(:type) => CMS.type() | nil,
           optional(:type_op) => String.t(),
           optional(:related_to) => integer,
           optional(:except) => integer,

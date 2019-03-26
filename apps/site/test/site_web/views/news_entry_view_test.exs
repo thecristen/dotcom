@@ -119,8 +119,8 @@ defmodule SiteWeb.NewsEntryViewTest do
       recent_news_count = Content.NewsEntry.number_of_recent_news_suggestions()
 
       recent_news =
-        Enum.map(1..recent_news_count, fn integer ->
-          news_entry_factory(0, id: integer, title: "News Entry #{integer}")
+        Enum.map(1..recent_news_count, fn index ->
+          teaser_factory(:news, index)
         end)
 
       rendered =
@@ -131,9 +131,9 @@ defmodule SiteWeb.NewsEntryViewTest do
           recent_news: recent_news
         )
 
-      Enum.each(recent_news, fn news_entry ->
-        assert rendered =~ "/node/#{news_entry.id}"
-        assert rendered =~ news_entry.title
+      Enum.each(recent_news, fn teaser ->
+        assert rendered =~ teaser.path
+        assert rendered =~ teaser.title
       end)
     end
   end

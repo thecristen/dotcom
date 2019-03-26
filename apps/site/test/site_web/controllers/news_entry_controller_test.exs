@@ -77,10 +77,11 @@ defmodule SiteWeb.NewsEntryControllerTest do
       conn = get(conn, news_entry_path(conn, :show, news_entry))
 
       body = html_response(conn, 200)
-      assert body =~ "New Early Morning Bus Routes Begin April 1"
-      assert body =~ "Art by Boston-Area Teens to Premiere"
-      assert body =~ "Extra Transit Service Saturday"
-      assert body =~ "AFC 2.0 to Support Faster Trips"
+
+      assert body =~ "Quincy Adams Station Entrance at Independence Avenue Reopened"
+      assert body =~ "Fitchburg Train 404 Update"
+      assert body =~ "MassDOT Issues RFP for Lynn Transit Action Plan Study"
+      assert body =~ "T launches MBTA.com/Weekend for Upcoming Weekend Work"
     end
 
     test "retains params and redirects with correct status code when CMS returns a native redirect",

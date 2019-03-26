@@ -27,31 +27,6 @@ defmodule Content.RepoTest do
     Teaser
   }
 
-  describe "recent_news" do
-    test "returns list of NewsEntry" do
-      [
-        %NewsEntry{
-          body: body,
-          media_contact: media_contact
-        }
-        | _
-      ] = Repo.recent_news()
-
-      assert safe_to_string(body) =~
-               "<p>Beginning Sunday, April 1, the MBTA will begin a one-year"
-
-      assert media_contact == "MassDOT Press Office"
-    end
-
-    test "allows the current News Entry to be excluded" do
-      current_id = 3519
-      recent_news = Repo.recent_news(current_id: current_id)
-
-      recent_news_ids = Enum.map(recent_news, & &1.id)
-      refute Enum.member?(recent_news_ids, current_id)
-    end
-  end
-
   describe "news_entry_by/1" do
     test "returns the news entry for the given id" do
       assert %NewsEntry{id: 3519} = Repo.news_entry_by(id: 3519)

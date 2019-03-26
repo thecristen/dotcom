@@ -56,7 +56,7 @@ defmodule SiteWeb.NewsEntryController do
 
   @spec show_news_entry(Conn.t(), NewsEntry.t()) :: Conn.t()
   def show_news_entry(conn, %NewsEntry{posted_on: posted_on} = news_entry) do
-    recent_news = Repo.recent_news(current_id: news_entry.id)
+    recent_news = Repo.teasers(type: :news_entry, except: news_entry.id, items_per_page: 4)
 
     conn
     |> ControllerHelpers.unavailable_after_one_year(posted_on)

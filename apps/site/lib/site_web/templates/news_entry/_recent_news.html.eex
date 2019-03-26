@@ -1,13 +1,13 @@
 <div class="recent-news">
   <h2>Recent News on the T</h2>
   <div class="l-title-cards">
-    <%= for news_entry <- @recent_news do %>
-      <%= link to: news_entry_path(@conn, :show, news_entry), class: "c-title-card c-title-card--link" do %>
+    <%= for teaser <- @recent_news do %>
+      <%= link to: news_entry_path(@conn, :show, teaser), class: "c-title-card c-title-card--link" do %>
         <p class="news-metadata">
-          <%= format_date(news_entry.posted_on) %>
+          <%= format_date(teaser.date) %>
         </p>
         <div class="c-title-card__title c-title-card--link__title">
-          <%= news_entry.title %>
+          <%= teaser.title %>
         </div>
       <% end %>
     <% end %>
