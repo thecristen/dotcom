@@ -206,6 +206,10 @@ defmodule Stops.Api do
     :bike_storage_rack_covered
   end
 
+  def do_bike_storage_type(_unknown) do
+    :bike_storage_rack
+  end
+
   @spec parse_escalator_direction([Item.t()]) :: [
           :escalator | :escalator_up | :escalator_down | :escalator_both
         ]
