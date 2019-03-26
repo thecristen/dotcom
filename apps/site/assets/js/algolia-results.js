@@ -135,11 +135,8 @@ export class AlgoliaResults {
     params.latitude = latitude;
     params.longitude = longitude;
     params.address = address;
-    const path = `${window.location.protocol}//${
-      window.location.host
-    }/transit-near-me`;
     const qs = QueryStringHelpers.parseParams(params);
-    window.location.href = encodeURI(path + qs);
+    window.Turbolinks.visit(`/transit-near-me${qs}`);
   }
 
   _locationSearchByGeo(latitude, longitude) {

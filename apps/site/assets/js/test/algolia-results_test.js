@@ -460,9 +460,10 @@ describe("AlgoliaResults", () => {
   });
 
   describe("_showLocation", () => {
-    xit("adds query parameters for analytics", () => {
+    it("adds query parameters for analytics", () => {
+      // eslint-disable-next-line no-underscore-dangle
       search._showLocation("42.0", "-71.0", "10 Park Plaza, Boston, MA");
-      expect(window.Turbolinks.visit.called).to.be.true;
+      expect(window.Turbolinks.visit.called).to.equal(true);
       expect(window.Turbolinks.visit.args[0][0]).to.contain(
         "from=global-search"
       );

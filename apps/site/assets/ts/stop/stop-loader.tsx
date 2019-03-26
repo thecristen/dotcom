@@ -27,7 +27,4 @@ export const onLoad = (): void => {
   renderMap();
 };
 
-export default () => {
-  document.addEventListener("turbolinks:load", onLoad as EventListener);
-  return true;
-};
+export default onLoad;

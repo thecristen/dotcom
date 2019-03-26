@@ -16,6 +16,7 @@ defmodule SiteWeb.TransitNearMeController do
   def index(conn, _params) do
     conn
     |> assign(:requires_google_maps?, true)
+    |> assign(:disable_turbolinks, true)
     |> assign_location()
     |> assign_stops_and_routes()
     |> assign_map_data()

@@ -84,7 +84,7 @@ describe("AlgoliaEmbeddedSearch", () => {
   });
 
   describe("showLocation", () => {
-    xit("adds query parameters for analytics", () => {
+    it("adds query parameters for analytics", () => {
       const ac = setup(0);
 
       window.encodeURIComponent = string =>
@@ -96,7 +96,7 @@ describe("AlgoliaEmbeddedSearch", () => {
         "-71.0",
         "10 Park Plaza, Boston, MA"
       );
-      expect(window.Turbolinks.visit.called).to.be.true;
+      expect(window.Turbolinks.visit.called).to.equal(true);
       expect(window.Turbolinks.visit.args[0][0]).to.contain("from=search-stop");
       expect(window.Turbolinks.visit.args[0][0]).to.contain("latitude=42.0");
       expect(window.Turbolinks.visit.args[0][0]).to.contain("longitude=-71.0");

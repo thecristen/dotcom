@@ -36,6 +36,7 @@ defmodule SiteWeb.StopController do
         json_safe_routes = json_safe_routes(routes_map)
 
         conn
+        |> assign(:disable_turbolinks, true)
         |> assign(:stop, stop)
         |> assign(:routes, json_safe_routes)
         |> assign(:requires_google_maps?, true)
