@@ -1,9 +1,8 @@
 import React, { ReactElement } from "react";
-import { RouteType } from "../../__v3api";
-import { TNMHeadsign, TNMTime } from "./__tnm";
+import { RouteType, PredictedOrScheduledTime, Headsign } from "../../__v3api";
 
 interface Props {
-  headsign: TNMHeadsign;
+  headsign: Headsign;
   routeType: RouteType;
   condensed: boolean;
 }
@@ -40,7 +39,9 @@ const renderTrainName = (trainName: string): ReactElement<HTMLElement> => (
   <div className="m-tnm-sidebar__headsign-train">{trainName}</div>
 );
 
-const crDelayedTime = (data: TNMTime): ReactElement<HTMLElement> => (
+const crDelayedTime = (
+  data: PredictedOrScheduledTime
+): ReactElement<HTMLElement> => (
   <>
     <div className="m-tnm-sidebar__time-number--delayed">
       {data.scheduled_time!.join("")}
@@ -51,7 +52,7 @@ const crDelayedTime = (data: TNMTime): ReactElement<HTMLElement> => (
   </>
 );
 
-const crTime = (data: TNMTime): ReactElement<HTMLElement> => {
+const crTime = (data: PredictedOrScheduledTime): ReactElement<HTMLElement> => {
   // eslint-disable-next-line typescript/camelcase
   const { delay, prediction, scheduled_time } = data;
   if (delay > 0 && prediction) {
@@ -64,7 +65,7 @@ const crTime = (data: TNMTime): ReactElement<HTMLElement> => {
   return <div className="m-tnm-sidebar__time-number">{time!.join("")}</div>;
 };
 
-const crStatus = ({ delay, prediction }: TNMTime): string => {
+const crStatus = ({ delay, prediction }: PredictedOrScheduledTime): string => {
   if (delay > 0) {
     return `Delayed ${delay} min`;
   }
@@ -76,7 +77,9 @@ const crStatus = ({ delay, prediction }: TNMTime): string => {
   return "On time";
 };
 
-const renderTimeCommuterRail = (data: TNMTime): ReactElement<HTMLElement> => (
+const renderTimeCommuterRail = (
+  data: PredictedOrScheduledTime
+): ReactElement<HTMLElement> => (
   <div className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail">
     {crTime(data)}
     <div className="m-tnm-sidebar__status">
@@ -97,7 +100,7 @@ const renderTimeDefault = (time: string[]): ReactElement<HTMLElement> => (
 );
 
 const renderTime = (
-  tnmTime: TNMTime,
+  tnmTime: PredictedOrScheduledTime,
   headsignName: string,
   routeType: RouteType,
   idx: number
@@ -120,7 +123,7 @@ const renderTime = (
   );
 };
 
-const Headsign = (props: Props): ReactElement<HTMLElement> => {
+const HeadsignComponent = (props: Props): ReactElement<HTMLElement> => {
   const { headsign, routeType, condensed } = props;
   return (
     <div className={headsignClass(condensed)}>
@@ -138,4 +141,4 @@ const Headsign = (props: Props): ReactElement<HTMLElement> => {
   );
 };
 
-export default Headsign;
+export default HeadsignComponent;

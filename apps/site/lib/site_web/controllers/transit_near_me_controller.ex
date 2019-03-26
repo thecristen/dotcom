@@ -7,6 +7,7 @@ defmodule SiteWeb.TransitNearMeController do
   alias Site.TransitNearMe
   alias SiteWeb.PartialView
   alias SiteWeb.PartialView.{FullscreenError}
+  alias Stops.Stop
 
   alias SiteWeb.TransitNearMeController.{
     Location,
@@ -75,6 +76,19 @@ defmodule SiteWeb.TransitNearMeController do
     assign(conn, :map_data, map_data)
   end
 
+  def build_stop_marker(
+        %{stop: %{stop: %Stop{id: id, latitude: latitude, longitude: longitude}}} = marker
+      ) do
+    Marker.new(
+      latitude,
+      longitude,
+      id: id,
+      icon: marker_for_routes(marker.routes),
+      size: :large,
+      tooltip: tooltip(marker)
+    )
+  end
+
   def build_stop_marker(marker) do
     Marker.new(
       marker.stop.latitude,
@@ -122,6 +136,16 @@ defmodule SiteWeb.TransitNearMeController do
 
   def add_location_marker(map_data, _) do
     map_data
+  end
+
+  defp tooltip(%{stop: %{stop: %Stop{} = stop}, distance: distance, routes: routes}) do
+    "_location_card.html"
+    |> PartialView.render(%{
+      stop: stop,
+      distance: distance,
+      routes: routes
+    })
+    |> HTML.safe_to_string()
   end
 
   defp tooltip(marker) do

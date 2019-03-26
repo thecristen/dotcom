@@ -78,24 +78,35 @@ defmodule Site.TransitNearMeTest do
 
       [%{id: closest_stop} | _] = data.stops
 
-      assert [route | _] = routes
+      assert [route_with_stops_with_directions | _] = routes
 
-      assert [:alert_count, :stops, :header | %Route{} |> Map.from_struct() |> Map.keys()]
-             |> Enum.sort() ==
-               route |> Map.keys() |> Enum.sort()
+      assert route_with_stops_with_directions |> Map.keys() |> Enum.sort() == [
+               :alert_count,
+               :route,
+               :stops_with_directions
+             ]
 
-      assert %{stops: [stop | _]} = route
+      assert %Route{} = route_with_stops_with_directions.route
 
-      assert %{alert_count: 1} = Enum.find(routes, &(&1.id == "Orange"))
+      assert %{stops_with_directions: [stop_with_directions | _]} =
+               route_with_stops_with_directions
 
+      assert %{alert_count: 1} = Enum.find(routes, &(&1.route.id == "Orange"))
+
+      stop = stop_with_directions.stop
+      assert %Stop{} = stop
       assert stop.id == closest_stop
 
-      assert [:distance, :directions, :href | %Stop{} |> Map.from_struct() |> Map.keys()]
-             |> Enum.sort() == stop |> Map.keys() |> Enum.sort()
+      assert stop_with_directions |> Map.keys() |> Enum.sort() == [
+               :directions,
+               :distance,
+               :href,
+               :stop
+             ]
 
-      assert stop.distance == "238 ft"
+      assert stop_with_directions.distance == "238 ft"
 
-      assert %{directions: [direction | _]} = stop
+      assert %{directions: [direction | _]} = stop_with_directions
 
       assert direction.direction_id in [0, 1]
 
@@ -280,9 +291,9 @@ defmodule Site.TransitNearMeTest do
       routes = TransitNearMe.schedules_for_routes(data, [], now: now)
 
       # Filter applies to bus routes…
-      refute Enum.find(routes, &(&1.id == "553"))
+      refute Enum.find(routes, &(&1.route.id == "553"))
       # …but not other route types
-      assert Enum.find(routes, &(&1.id == "Red"))
+      assert Enum.find(routes, &(&1.route.id == "Red"))
     end
 
     test "sorts directions and headsigns within stops" do
@@ -374,10 +385,10 @@ defmodule Site.TransitNearMeTest do
         )
 
       assert Enum.count(output) === 1
-      [%{stops: stops}] = output
+      [%{stops_with_directions: stops_with_directions}] = output
 
-      assert Enum.count(stops) === 1
-      [stop] = stops
+      assert Enum.count(stops_with_directions) === 1
+      [stop] = stops_with_directions
 
       assert Enum.count(stop.directions) === 1
       [%{headsigns: headsigns}] = stop.directions
@@ -576,9 +587,9 @@ defmodule Site.TransitNearMeTest do
       [bus_route, silver_line_route, subway_route] =
         TransitNearMe.schedules_for_routes(data, [], now: now)
 
-      assert bus_route.header == "553"
-      assert silver_line_route.header == "Silver Line SL1"
-      assert subway_route.header == "Red Line"
+      assert bus_route.route.header == "553"
+      assert silver_line_route.route.header == "Silver Line SL1"
+      assert subway_route.route.header == "Red Line"
     end
   end
 

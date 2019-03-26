@@ -13,15 +13,12 @@ exports[`StopWithRoutesCard it renders a stop card 1`] = `
   >
     <a
       className="m-tnm-sidebar__stop-card-name"
-      href="/stops/9983"
     >
-      Stuart St @ Charles St S
+      Charles St S @ Park Plaza
     </a>
     <div
       className="m-tnm-sidebar__stop-distance"
-    >
-      238 ft
-    </div>
+    />
   </div>
   <div
     className="m-tnm-sidebar__stop-card-description"
@@ -40,21 +37,9 @@ exports[`StopWithRoutesCard it renders a stop card 1`] = `
       <span>
         Bus: 
         <a
-          href="/schedules/504?origin=9983"
+          href="/schedules/43?origin=1241"
         >
-          504
-        </a>
-        , 
-        <a
-          href="/schedules/55?origin=9983"
-        >
-          55
-        </a>
-        , 
-        <a
-          href="/schedules/553?origin=9983"
-        >
-          553
+          43
         </a>
         
       </span>

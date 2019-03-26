@@ -101,16 +101,17 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutesTest do
 
       stops_map = StopsWithRoutes.stops_with_routes(stops, location)
 
-      %{stop: stop, routes: routes} = List.first(stops_map)
+      %{stop: stop_with_data, routes: routes} = List.first(stops_map)
       route = routes |> List.first() |> Map.get(:routes) |> List.first()
 
       assert [:href | %Route{} |> Map.from_struct() |> Map.keys()] |> Enum.sort() ==
                route |> Map.keys() |> Enum.sort()
 
-      assert [:distance, :href | %Stop{} |> Map.from_struct() |> Map.keys()]
-             |> Enum.sort() == stop |> Map.keys() |> Enum.sort()
+      assert stop_with_data |> Map.keys() |> Enum.sort() == [:distance, :href, :stop]
 
-      assert stop.distance == "500 ft"
+      assert %Stop{} = stop_with_data.stop
+
+      assert stop_with_data.distance == "500 ft"
       assert {:ok, _} = Poison.encode(stops_map)
     end
   end

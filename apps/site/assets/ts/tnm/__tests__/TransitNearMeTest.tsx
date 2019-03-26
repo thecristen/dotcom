@@ -81,7 +81,9 @@ it("it switches view on click", () => {
 
 it("getSelectedStop returns the stop if found", () => {
   const data = importStopData();
-  expect(getSelectedStop(data, data[0].stop.id)).toEqual(data[0].stop);
+  expect(getSelectedStop(data, data[0].stop.stop.id)).toEqual(
+    data[0].stop.stop
+  );
 });
 
 it("getSelectedStop returns undefined if not found", () => {

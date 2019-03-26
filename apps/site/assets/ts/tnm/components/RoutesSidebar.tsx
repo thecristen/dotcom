@@ -2,15 +2,16 @@ import React, { ReactElement } from "react";
 import RouteCard from "./RouteCard";
 import RouteSidebarHeader from "./RouteSidebarHeader";
 import { ModeFilter, tnmModeByV3ModeType } from "./ModeFilter";
-import { TNMMode, TNMRoute, TNMStop } from "./__tnm";
+import { TNMMode } from "./__tnm";
 import { Dispatch } from "../state";
+import { RouteWithStopsWithDirections, Stop } from "../../__v3api";
 
 interface Props {
-  data: TNMRoute[];
+  data: RouteWithStopsWithDirections[];
   dispatch: Dispatch;
   selectedStopId: string | null;
   shouldFilterStopCards: boolean;
-  selectedStop: TNMStop | undefined;
+  selectedStop: Stop | undefined;
   selectedModes: TNMMode[];
 }
 
@@ -20,9 +21,9 @@ interface FilterOptions {
 }
 
 const filterDataByModes = (
-  data: TNMRoute[],
+  data: RouteWithStopsWithDirections[],
   { modes }: FilterOptions
-): TNMRoute[] => {
+): RouteWithStopsWithDirections[] => {
   // if there are no selections or all selections, do not filter
   if (modes.length === 0 || modes.length === 3) {
     return data;
@@ -32,33 +33,43 @@ const filterDataByModes = (
       if (accumulator === true) {
         return accumulator;
       }
-      return tnmModeByV3ModeType[route.type] === mode;
+      return tnmModeByV3ModeType[route.route.type] === mode;
     }, false)
   );
 };
 
 const filterDataByStopId = (
-  data: TNMRoute[],
+  data: RouteWithStopsWithDirections[],
   { stopId }: FilterOptions
-): TNMRoute[] => {
+): RouteWithStopsWithDirections[] => {
   if (stopId === null) {
     return data;
   }
-  return data.reduce((accumulator: TNMRoute[], route: TNMRoute): TNMRoute[] => {
-    const stops = route.stops.filter(stop => stop.id === stopId);
-    if (stops.length === 0) {
-      return accumulator;
-    }
-    return accumulator.concat(Object.assign({}, route, { stops }));
-  }, []);
+  return data.reduce(
+    (
+      accumulator: RouteWithStopsWithDirections[],
+      route: RouteWithStopsWithDirections
+    ): RouteWithStopsWithDirections[] => {
+      // eslint-disable-next-line typescript/camelcase
+      const stops = route.stops_with_directions.filter(
+        // eslint-disable-next-line typescript/camelcase
+        stop_with_directions => stop_with_directions.stop.id === stopId
+      );
+      if (stops.length === 0) {
+        return accumulator;
+      }
+      return accumulator.concat(Object.assign({}, route, { stops }));
+    },
+    []
+  );
 };
 
 export const filterData = (
-  data: TNMRoute[],
+  data: RouteWithStopsWithDirections[],
   selectedStopId: string | null,
   selectedModes: TNMMode[],
   shouldFilter: boolean
-): TNMRoute[] => {
+): RouteWithStopsWithDirections[] => {
   if (shouldFilter === false) {
     return data;
   }
@@ -98,7 +109,7 @@ const RoutesSidebar = (props: Props): ReactElement<HTMLElement> | null => {
         selectedModes,
         shouldFilterStopCards
       ).map(route => (
-        <RouteCard key={route.id} route={route} dispatch={dispatch} />
+        <RouteCard key={route.route.id} route={route} dispatch={dispatch} />
       ))}
     </div>
   ) : null;

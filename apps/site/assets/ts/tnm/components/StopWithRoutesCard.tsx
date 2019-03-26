@@ -1,11 +1,12 @@
 import React, { ReactElement } from "react";
-import { TNMRoute, TNMStop, RouteGroup, RouteGroupName } from "./__tnm";
+import { Stop, Route } from "../../__v3api";
+import { RouteGroup, RouteGroupName } from "./__tnm";
 import { Dispatch, clickStopCardAction } from "../state";
 import ModeIcon from "./ModeIcon";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 
 export const renderRoutesLabel = (
-  routes: TNMRoute[],
+  routes: Route[],
   type: RouteGroupName
 ): ReactElement<HTMLElement> =>
   type === "commuter_rail" ? (
@@ -13,9 +14,9 @@ export const renderRoutesLabel = (
   ) : (
     <span>
       {type === "bus" ? "Bus: " : null}
-      {routes.map((r, i: number) => (
-        <React.Fragment key={r.id}>
-          <a href={r.href}>{r.name}</a>
+      {routes.map((route, i: number) => (
+        <React.Fragment key={route.id}>
+          <a href={route.href}>{route.name}</a>
           {i !== routes.length - 1 ? ", " : ""}
         </React.Fragment>
       ))}
@@ -23,7 +24,7 @@ export const renderRoutesLabel = (
   );
 
 export const renderRoutes = (
-  routes: TNMRoute[],
+  routes: Route[],
   type: RouteGroupName
 ): ReactElement<HTMLElement> => (
   <div key={type} className="m-tnm-sidebar__stop-card-description">
@@ -35,7 +36,7 @@ export const renderRoutes = (
 );
 
 interface Props {
-  stop: TNMStop;
+  stop: Stop;
   routes: RouteGroup[];
   dispatch: Dispatch;
 }

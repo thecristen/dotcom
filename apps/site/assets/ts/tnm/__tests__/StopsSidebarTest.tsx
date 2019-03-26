@@ -46,7 +46,7 @@ describe("StopsSidebar", () => {
 describe("filterData", () => {
   it("should filter by stop ID", () => {
     const data = importStopData();
-    const selectedStopId = data[0].stop.id;
+    const selectedStopId = data[0].stop.stop.id;
 
     expect(data).toHaveLength(12);
 
@@ -57,7 +57,11 @@ describe("filterData", () => {
     // Only the selected stop should be shown
     expect(
       filteredData.every(
-        ({ stop: { id } }: StopWithRoutes) => id === selectedStopId
+        ({
+          stop: {
+            stop: { id }
+          }
+        }: StopWithRoutes) => id === selectedStopId
       )
     );
   });

@@ -1,17 +1,17 @@
 import React, { ReactElement } from "react";
 import Headsign from "./Headsign";
-import { TNMDirection, TNMRoute } from "./__tnm";
+import { Direction, Route } from "../../__v3api";
 
 interface Props {
-  direction: TNMDirection;
-  route: TNMRoute;
+  direction: Direction;
+  route: Route;
   stopId: string;
 }
 
-export const directionIsEmpty = (dir: TNMDirection): boolean =>
+export const directionIsEmpty = (dir: Direction): boolean =>
   dir.headsigns.length === 0;
 
-export const Direction = ({
+export const DirectionComponent = ({
   direction,
   route
 }: Props): ReactElement<HTMLElement> | null => {
@@ -48,4 +48,4 @@ export const Direction = ({
   );
 };
 
-export default Direction;
+export default DirectionComponent;

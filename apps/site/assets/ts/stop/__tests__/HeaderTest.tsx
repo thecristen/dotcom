@@ -45,8 +45,7 @@ it("renders with green line routes", () => {
             "1": "Alewife"
           },
           description: "rapid_transit",
-          alert_count: 0,
-          stops: []
+          alert_count: 0
         },
         {
           type: 1,
@@ -63,8 +62,7 @@ it("renders with green line routes", () => {
             "1": "Alewife"
           },
           description: "rapid_transit",
-          alert_count: 0,
-          stops: []
+          alert_count: 0
         },
         {
           type: 1,
@@ -81,8 +79,7 @@ it("renders with green line routes", () => {
             "1": "Alewife"
           },
           description: "rapid_transit",
-          alert_count: 0,
-          stops: []
+          alert_count: 0
         },
         {
           type: 1,
@@ -99,8 +96,7 @@ it("renders with green line routes", () => {
             "1": "Alewife"
           },
           description: "rapid_transit",
-          alert_count: 0,
-          stops: []
+          alert_count: 0
         },
         {
           type: 1,
@@ -117,8 +113,7 @@ it("renders with green line routes", () => {
             "1": "Alewife"
           },
           description: "rapid_transit",
-          alert_count: 0,
-          stops: []
+          alert_count: 0
         }
       ]
     }
@@ -160,8 +155,7 @@ it("renders all subway routes", () => {
             "1": "Alewife"
           },
           description: "rapid_transit",
-          alert_count: 0,
-          stops: []
+          alert_count: 0
         },
         {
           type: 1,
@@ -178,8 +172,7 @@ it("renders all subway routes", () => {
             "1": "Alewife"
           },
           description: "rapid_transit",
-          alert_count: 0,
-          stops: []
+          alert_count: 0
         },
         {
           type: 1,
@@ -196,8 +189,7 @@ it("renders all subway routes", () => {
             "1": "Alewife"
           },
           description: "rapid_transit",
-          alert_count: 0,
-          stops: []
+          alert_count: 0
         },
         {
           type: 1,
@@ -214,8 +206,7 @@ it("renders all subway routes", () => {
             "1": "Alewife"
           },
           description: "rapid_transit",
-          alert_count: 0,
-          stops: []
+          alert_count: 0
         }
       ]
     }
@@ -251,8 +242,7 @@ it("renders a ferry route", () => {
           direction_names: { "0": "Outbound", "1": "Inbound" },
           direction_destinations: { "0": "Charlestown", "1": "Long Wharf" },
           description: "ferry",
-          alert_count: 0,
-          stops: []
+          alert_count: 0
         }
       ]
     }
@@ -294,8 +284,7 @@ it("upcases name of non-bus stops", () => {
             "1": "Alewife"
           },
           description: "rapid_transit",
-          alert_count: 0,
-          stops: []
+          alert_count: 0
         }
       ]
     },
@@ -317,8 +306,7 @@ it("upcases name of non-bus stops", () => {
             "1": "Alewife"
           },
           description: "rapid_transit",
-          alert_count: 0,
-          stops: []
+          alert_count: 0
         }
       ]
     }
@@ -358,8 +346,7 @@ it("does not upcase name of bus-only stops", () => {
             "1": "Alewife"
           },
           description: "rapid_transit",
-          alert_count: 0,
-          stops: []
+          alert_count: 0
         }
       ]
     }

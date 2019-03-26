@@ -1,13 +1,13 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import Headsign from "../components/Headsign";
+import HeadsignComponent from "../components/Headsign";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import { TNMHeadsign } from "../components/__tnm";
+import { Headsign } from "../../__v3api";
 
 /* eslint-disable typescript/camelcase */
 
 it("it renders 2 predictions", () => {
-  const headsign: TNMHeadsign = {
+  const headsign: Headsign = {
     name: "Watertown",
     times: [
       {
@@ -34,13 +34,15 @@ it("it renders 2 predictions", () => {
 
   createReactRoot();
   const tree = renderer
-    .create(<Headsign headsign={headsign} condensed={false} routeType={1} />)
+    .create(
+      <HeadsignComponent headsign={headsign} condensed={false} routeType={1} />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 it("it renders scheduled time when prediction is null", () => {
-  const headsign: TNMHeadsign = {
+  const headsign: Headsign = {
     name: "Watertown",
     times: [
       {
@@ -54,13 +56,15 @@ it("it renders scheduled time when prediction is null", () => {
 
   createReactRoot();
   const tree = renderer
-    .create(<Headsign headsign={headsign} condensed={false} routeType={1} />)
+    .create(
+      <HeadsignComponent headsign={headsign} condensed={false} routeType={1} />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 it("it splits the headsign name when it contains 'via' ", () => {
-  const headsign: TNMHeadsign = {
+  const headsign: Headsign = {
     name: "Watertown via Harvard Square",
     times: [
       {
@@ -87,13 +91,15 @@ it("it splits the headsign name when it contains 'via' ", () => {
 
   createReactRoot();
   const tree = renderer
-    .create(<Headsign headsign={headsign} condensed={false} routeType={1} />)
+    .create(
+      <HeadsignComponent headsign={headsign} condensed={false} routeType={1} />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 it("it renders a status and train name for Commuter Rail", () => {
-  const headsign: TNMHeadsign = {
+  const headsign: Headsign = {
     name: "Framingham",
     times: [
       {
@@ -111,13 +117,15 @@ it("it renders a status and train name for Commuter Rail", () => {
 
   createReactRoot();
   const tree = renderer
-    .create(<Headsign headsign={headsign} condensed={false} routeType={2} />)
+    .create(
+      <HeadsignComponent headsign={headsign} condensed={false} routeType={2} />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 it("it renders a status and train name for Commuter Rail with track number if available", () => {
-  const headsign: TNMHeadsign = {
+  const headsign: Headsign = {
     name: "Framingham",
     times: [
       {
@@ -135,13 +143,15 @@ it("it renders a status and train name for Commuter Rail with track number if av
 
   createReactRoot();
   const tree = renderer
-    .create(<Headsign headsign={headsign} condensed={false} routeType={2} />)
+    .create(
+      <HeadsignComponent headsign={headsign} condensed={false} routeType={2} />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 it("it renders uncondensed bus headsign name as --small", () => {
-  const headsign: TNMHeadsign = {
+  const headsign: Headsign = {
     name: "Watertown via Copley (Express)",
     times: [
       {
@@ -168,13 +178,15 @@ it("it renders uncondensed bus headsign name as --small", () => {
 
   createReactRoot();
   const tree = renderer
-    .create(<Headsign headsign={headsign} condensed={false} routeType={3} />)
+    .create(
+      <HeadsignComponent headsign={headsign} condensed={false} routeType={3} />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 it("it displays delayed status for CR", () => {
-  const headsign: TNMHeadsign = {
+  const headsign: Headsign = {
     name: "Delayed Train",
     train_number: "404",
     times: [
@@ -191,7 +203,9 @@ it("it displays delayed status for CR", () => {
   };
   createReactRoot();
   const tree = renderer
-    .create(<Headsign headsign={headsign} condensed={false} routeType={2} />)
+    .create(
+      <HeadsignComponent headsign={headsign} condensed={false} routeType={2} />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });

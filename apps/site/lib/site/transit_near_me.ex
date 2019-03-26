@@ -196,18 +196,18 @@ defmodule Site.TransitNearMe do
           required(:headsigns) => [headsign_data]
         }
 
-  @type stop_data :: %{
-          # stop_data includes the full %Stop{} struct, plus:
+  @type stop_with_data :: %{
+          required(:stop) => Stop.t(),
           required(:directions) => [direction_data],
           required(:distance) => String.t(),
           required(:href) => String.t()
         }
 
   @type route_data :: %{
-          # route_data includes the full %Route{} struct, plus:
-          required(:stops) => [stop_data],
-          required(:alert_count) => integer,
-          required(:header) => String.t()
+          # route is a Route struct with an additional `header` attribute
+          required(:route) => map,
+          required(:stops_with_directions) => [stop_with_data],
+          required(:alert_count) => integer
         }
 
   @doc """
@@ -247,7 +247,7 @@ defmodule Site.TransitNearMe do
     true
   end
 
-  defp route_sorter(%{stops: [%{id: stop_id} | _]}, distances) do
+  defp route_sorter(%{stops_with_directions: [%{stop: %{id: stop_id}} | _]}, distances) do
     Map.fetch!(distances, stop_id)
   end
 
@@ -261,8 +261,16 @@ defmodule Site.TransitNearMe do
   defp schedules_for_route({_route_id, schedules}, location, distances, alerts, opts) do
     [%Schedule{route: route} | _] = schedules
 
+    %{
+      route: stringified_route(route),
+      stops_with_directions: get_stops_for_route(schedules, location, distances, opts),
+      alert_count: get_alert_count_for_route(route, alerts)
+    }
+  end
+
+  @spec stringified_route(Route.t()) :: map
+  defp stringified_route(route) do
     route
-    |> Map.from_struct()
     |> Map.update!(:direction_names, fn map ->
       Map.new(map, fn {key, val} ->
         {Integer.to_string(key), Route.add_direction_suffix(val)}
@@ -272,8 +280,6 @@ defmodule Site.TransitNearMe do
       Map.new(map, fn {key, val} -> {Integer.to_string(key), val} end)
     end)
     |> Map.put(:header, route_header(route))
-    |> Map.put(:stops, get_stops_for_route(schedules, location, distances, opts))
-    |> Map.put(:alert_count, get_alert_count_for_route(route, alerts))
   end
 
   @spec route_header(Route.t()) :: String.t()
@@ -297,7 +303,7 @@ defmodule Site.TransitNearMe do
   end
 
   @spec get_stops_for_route([Schedule.t()], Address.t(), distance_hash, Keyword.t()) :: [
-          stop_data
+          stop_with_data
         ]
   defp get_stops_for_route(schedules, location, distances, opts) do
     schedules
@@ -306,12 +312,12 @@ defmodule Site.TransitNearMe do
     |> Enum.reduce_while({:ok, []}, &collect_data/2)
     |> case do
       {:error, :timeout} -> []
-      {:ok, results} -> Enum.sort_by(results, &Map.fetch!(distances, &1.id))
+      {:ok, results} -> Enum.sort_by(results, &Map.fetch!(distances, &1.stop.id))
     end
   end
 
   @spec get_directions_for_stop({Stop.id_t(), [Schedule.t()]}, Address.t(), Keyword.t()) ::
-          stop_data
+          stop_with_data
   defp get_directions_for_stop({_stop_id, schedules}, location, opts) do
     [%Schedule{stop: schedule_stop} | _] = schedules
     stop_fn = Keyword.get(opts, :stops_fn, &Stops.Repo.get/1)
@@ -327,10 +333,11 @@ defmodule Site.TransitNearMe do
     distance = Distance.haversine(stop, location)
     href = Helpers.stop_v1_path(SiteWeb.Endpoint, :show, stop.id)
 
-    stop
-    |> Map.from_struct()
-    |> Map.put(:distance, ViewHelpers.round_distance(distance))
-    |> Map.put(:href, href)
+    %{
+      stop: stop,
+      distance: ViewHelpers.round_distance(distance),
+      href: href
+    }
   end
 
   @spec get_direction_map([Schedule.t()], Keyword.t()) :: [direction_data]

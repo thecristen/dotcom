@@ -1,13 +1,13 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { shallow } from "enzyme";
+import { Stop } from "../../__v3api";
 import RouteSidebarHeader from "../components/RouteSidebarHeader";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import { TNMStop } from "../components/__tnm";
 
 /* eslint-disable typescript/camelcase */
 
-const stop: TNMStop = {
+const stop: Stop = {
   accessibility: ["wheelchair"],
   address: "123 Main St., Boston MA",
   bike_storage: [],
@@ -24,7 +24,6 @@ const stop: TNMStop = {
   parking_lots: [],
   "station?": true,
   distance: "238 ft",
-  directions: [],
   href: "/stops/stop-id"
 };
 

@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
-import { StopWithRoutes, TNMStop, TNMMode } from "./__tnm";
+import { Stop } from "../../__v3api";
+import { StopWithRoutes, TNMMode } from "./__tnm";
 import { Dispatch } from "../state";
 import { ModeFilter, tnmModeByV3ModeType } from "./ModeFilter";
 import SidebarTitle from "./SidebarTitle";
@@ -10,7 +11,7 @@ interface Props {
   dispatch: Dispatch;
   selectedStopId: string | null;
   shouldFilterStopCards: boolean;
-  selectedStop: TNMStop | undefined;
+  selectedStop: Stop | undefined;
   selectedModes: TNMMode[];
 }
 
@@ -26,7 +27,7 @@ const filterDataByStopId = (
   if (stopId === null) {
     return data;
   }
-  const stopWithRoutes = data.find(d => d.stop.id === stopId);
+  const stopWithRoutes = data.find(d => d.stop.stop.id === stopId);
   return stopWithRoutes ? [stopWithRoutes] : data;
 };
 
@@ -95,8 +96,8 @@ const StopsSidebar = ({
           shouldFilterStopCards
         ).map(({ stop, routes }) => (
           <StopWithRoutesCard
-            key={stop.id}
-            stop={stop}
+            key={stop.stop.id}
+            stop={stop.stop}
             routes={routes}
             dispatch={dispatch}
           />

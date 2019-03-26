@@ -1,22 +1,20 @@
 import React, { ReactElement, KeyboardEvent } from "react";
-import { TNMRoute, TNMStop } from "./__tnm";
-import { clickStopCardAction, Dispatch } from "../state";
-import { Direction, directionIsEmpty } from "./Direction";
-import renderSvg from "../../helpers/render-svg";
-import { accessibleIcon } from "../../helpers/icon";
+import { Direction, Route, Stop } from "../__v3api";
+import { clickStopCardAction, Dispatch } from "../tnm/state";
+import { DirectionComponent } from "../tnm/components/Direction";
+import renderSvg from "../helpers/render-svg";
+import { accessibleIcon } from "../helpers/icon";
 // @ts-ignore
-import stationSymbol from "../../../static/images/icon-circle-t-small.svg";
+import stationSymbol from "../../static/images/icon-circle-t-small.svg";
 
 interface Props {
-  stop: TNMStop;
-  route: TNMRoute;
+  stop: Stop;
+  directions: Direction[];
+  route: Route;
   dispatch: Dispatch;
 }
 
-export const stopIsEmpty = (stop: TNMStop): boolean =>
-  stop.directions.every(directionIsEmpty);
-
-const renderStopIcon = (stop: TNMStop): JSX.Element =>
+const renderStopIcon = (stop: Stop): JSX.Element =>
   stop["station?"] ? (
     renderSvg("m-tnm-sidebar__stop-marker", stationSymbol)
   ) : (
@@ -34,16 +32,13 @@ const handleKeyPress = (
 
 export const StopCard = ({
   stop,
+  directions,
   route,
   dispatch
 }: Props): ReactElement<HTMLElement> | null => {
-  const key = `${route.id}-${stop.id}`;
-
-  if (stopIsEmpty(stop)) {
-    return null;
-  }
-
   const onClick = (): void => dispatch(clickStopCardAction(stop.id));
+
+  const key = `${route.id}-${stop.id}`;
 
   return (
     <div
@@ -63,8 +58,8 @@ export const StopCard = ({
         </a>
         <div className="m-tnm-sidebar__stop-distance">{stop.distance}</div>
       </div>
-      {stop.directions.map(direction => (
-        <Direction
+      {directions.map(direction => (
+        <DirectionComponent
           key={`${key}-${direction.direction_id}`}
           direction={direction}
           route={route}

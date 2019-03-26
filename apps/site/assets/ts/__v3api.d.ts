@@ -1,12 +1,44 @@
+export interface Direction {
+  direction_id: DirectionId;
+  headsigns: Headsign[];
+}
+
+type DirectionId = 0 | 1;
+
 interface DirectionInfo {
   0: string;
   1: string;
+}
+
+export interface Headsign {
+  name: string;
+  times: PredictedOrScheduledTime[];
+  train_number: string | null;
+}
+
+export interface ParkingLot {
+  name: string;
+  address: string | null;
+  capacity: ParkingLotCapacity | null;
+  payment: ParkingLotPayment | null;
+  manager: ParkingLotManager | null;
+  utilization?: ParkingLotUtilization | null;
+  note?: string | null;
+  latitude?: number;
+  longitude?: number;
 }
 
 export interface ParkingLotCapacity {
   total?: number;
   accessible?: number;
   type?: string;
+}
+
+export interface ParkingLotManager {
+  name?: string;
+  contact?: string;
+  phone: string | null;
+  url: string | null;
 }
 
 export interface ParkingLotMobileApp {
@@ -22,28 +54,21 @@ export interface ParkingLotPayment {
   monthly_rate?: string;
 }
 
-export interface ParkingLotManager {
-  name?: string;
-  contact?: string;
-  phone: string | null;
-  url: string | null;
-}
-
 export interface ParkingLotUtilization {
   arrive_before?: string;
   typical?: number;
 }
 
-export interface ParkingLot {
-  name: string;
-  address: string | null;
-  capacity: ParkingLotCapacity | null;
-  payment: ParkingLotPayment | null;
-  manager: ParkingLotManager | null;
-  utilization?: ParkingLotUtilization | null;
-  note?: string | null;
-  latitude?: number;
-  longitude?: number;
+export interface PredictedOrScheduledTime {
+  delay: number;
+  scheduled_time: string[] | null;
+  prediction: Prediction | null;
+}
+
+export interface Prediction {
+  time: string[];
+  status: string | null;
+  track: string | null;
 }
 
 export interface Route {
@@ -56,8 +81,12 @@ export interface Route {
   long_name: string;
   name: string;
   type: RouteType;
-  stops: Stop[];
   href?: string;
+}
+
+export interface RouteWithStopsWithDirections {
+  route: Route;
+  stops_with_directions: StopWithDirections[];
 }
 
 export type RouteType = 0 | 1 | 2 | 3 | 4;
@@ -92,4 +121,9 @@ export interface Stop {
   "station?": boolean;
   distance?: string;
   href?: string;
+}
+
+export interface StopWithDirections {
+  stop: Stop;
+  directions: Direction[];
 }

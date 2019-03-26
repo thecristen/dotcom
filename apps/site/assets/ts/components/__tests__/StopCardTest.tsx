@@ -1,36 +1,38 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { shallow } from "enzyme";
-import StopCard from "../components/StopCard";
+import StopCard from "../StopCard";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import {
-  TNMDirection,
-  TNMHeadsign,
-  TNMRoute,
-  TNMStop,
-  TNMTime
-} from "../components/__tnm";
+  Direction,
+  Headsign,
+  PredictedOrScheduledTime,
+  Stop,
+  Route
+} from "../../__v3api";
 
 /* eslint-disable typescript/camelcase */
 
-const time: TNMTime = {
+const time: PredictedOrScheduledTime = {
   scheduled_time: ["4:30", " ", "PM"],
   prediction: null,
   delay: 0
 };
 
-const headsign: TNMHeadsign = {
+const headsign: Headsign = {
   name: "Headsign",
   times: [time],
   train_number: null
 };
 
-const direction: TNMDirection = {
-  direction_id: 0,
-  headsigns: [headsign]
-};
+const directions: Direction[] = [
+  {
+    direction_id: 0,
+    headsigns: [headsign]
+  }
+];
 
-const stop: TNMStop = {
+const stop: Stop = {
   accessibility: ["wheelchair"],
   address: "123 Main St., Boston MA",
   bike_storage: [],
@@ -47,11 +49,10 @@ const stop: TNMStop = {
   parking_lots: [],
   "station?": true,
   distance: "238 ft",
-  directions: [direction],
   href: "/stops/stop-id"
 };
 
-const route: TNMRoute = {
+const route: Route = {
   alert_count: 0,
   direction_destinations: ["Outbound Destination", "Inbound Destination"],
   direction_names: ["Outbound", "Inbound"],
@@ -60,26 +61,19 @@ const route: TNMRoute = {
   header: "Route Header",
   long_name: "Route Long Name",
   description: "Route Description",
-  stops: [stop],
   type: 1
 };
 
 it("it renders a stop card", () => {
   createReactRoot();
   const tree = renderer
-    .create(<StopCard stop={stop} route={route} dispatch={() => {}} />)
-    .toJSON();
-  expect(tree).toMatchSnapshot();
-});
-
-it("returns null if stop has no schedules", () => {
-  const stopWithoutSchedules: TNMStop = {
-    ...stop,
-    directions: [{ ...direction, headsigns: [] }]
-  };
-  const tree = renderer
     .create(
-      <StopCard stop={stopWithoutSchedules} route={route} dispatch={() => {}} />
+      <StopCard
+        stop={stop}
+        directions={directions}
+        route={route}
+        dispatch={() => {}}
+      />
     )
     .toJSON();
   expect(tree).toMatchSnapshot();
@@ -91,7 +85,12 @@ it("it selects stop when the card is clicked", () => {
   const mockDispatch = jest.fn();
 
   const wrapper = shallow(
-    <StopCard stop={stop} route={route} dispatch={mockDispatch} />
+    <StopCard
+      stop={stop}
+      directions={directions}
+      route={route}
+      dispatch={mockDispatch}
+    />
   );
 
   wrapper.find(".m-tnm-sidebar__route-stop").simulate("click");
@@ -107,7 +106,12 @@ it("it selects stop when the card is selected via keyboard", () => {
   const mockDispatch = jest.fn();
 
   const wrapper = shallow(
-    <StopCard stop={stop} route={route} dispatch={mockDispatch} />
+    <StopCard
+      stop={stop}
+      directions={directions}
+      route={route}
+      dispatch={mockDispatch}
+    />
   );
 
   wrapper
@@ -125,7 +129,12 @@ it("it does nothing when the keyboard event is not enter", () => {
   const mockDispatch = jest.fn();
 
   const wrapper = shallow(
-    <StopCard stop={stop} route={route} dispatch={mockDispatch} />
+    <StopCard
+      stop={stop}
+      directions={directions}
+      route={route}
+      dispatch={mockDispatch}
+    />
   );
 
   wrapper

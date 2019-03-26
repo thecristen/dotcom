@@ -1,28 +1,42 @@
 /* eslint-disable react/prefer-stateless-function */
 import React, { ReactElement } from "react";
-import { StopCard, stopIsEmpty } from "./StopCard";
-import { TNMRoute, TNMStop } from "./__tnm";
+import StopCard from "../../components/StopCard";
+import {
+  Direction,
+  StopWithDirections,
+  RouteWithStopsWithDirections
+} from "../../__v3api";
 import renderSvg from "../../helpers/render-svg";
 // @ts-ignore
 import alertIcon from "../../../static/images/icon-alerts-triangle.svg";
 import { Dispatch } from "../state";
+import { directionIsEmpty } from "./Direction";
 
 interface Props {
-  route: TNMRoute;
+  route: RouteWithStopsWithDirections;
   dispatch: Dispatch;
 }
 
-const routeIsEmpty = (route: TNMRoute): boolean =>
-  route.stops.every(stopIsEmpty);
+const everyDirectionIsEmpty = (directions: Direction[]): boolean =>
+  directions.every(directionIsEmpty);
 
-const filterStops = (route: TNMRoute): TNMStop[] => {
+const routeIsEmpty = (route: RouteWithStopsWithDirections): boolean =>
+  route.stops_with_directions.every(stop =>
+    everyDirectionIsEmpty(stop.directions)
+  );
+
+const filterStops = (
+  route: RouteWithStopsWithDirections
+): StopWithDirections[] => {
   // show the closest two stops for bus, in order to display both inbound and outbound stops
 
-  const count = route.type === 3 ? 2 : 1;
-  return route.stops.slice(0, count);
+  const count = route.route.type === 3 ? 2 : 1;
+  return route.stops_with_directions.slice(0, count);
 };
 
-export const isSilverLine = (route: TNMRoute): boolean => {
+export const isSilverLine = ({
+  route
+}: RouteWithStopsWithDirections): boolean => {
   const mapSet: { [routeId: string]: boolean } = {
     "741": true,
     "742": true,
@@ -35,20 +49,21 @@ export const isSilverLine = (route: TNMRoute): boolean => {
   return mapSet[route.id] || false;
 };
 
-export const routeBgColor = (route: TNMRoute): string => {
-  if (route.type === 2) return "commuter-rail";
-  if (route.type === 4) return "ferry";
-  if (route.id === "Red" || route.id === "Mattapan") return "red-line";
-  if (route.id === "Orange") return "orange-line";
-  if (route.id === "Blue") return "blue-line";
-  if (route.id.startsWith("Green-")) return "green-line";
+export const routeBgColor = (route: RouteWithStopsWithDirections): string => {
+  if (route.route.type === 2) return "commuter-rail";
+  if (route.route.type === 4) return "ferry";
+  if (route.route.id === "Red" || route.route.id === "Mattapan")
+    return "red-line";
+  if (route.route.id === "Orange") return "orange-line";
+  if (route.route.id === "Blue") return "blue-line";
+  if (route.route.id.startsWith("Green-")) return "green-line";
   if (isSilverLine(route)) return "silver-line";
-  if (route.type === 3) return "bus";
+  if (route.route.type === 3) return "bus";
   return "unknown";
 };
 
-export const busClass = (route: TNMRoute): string =>
-  route.type === 3 && !isSilverLine(route) ? "bus-route-sign" : "";
+export const busClass = (route: RouteWithStopsWithDirections): string =>
+  route.route.type === 3 && !isSilverLine(route) ? "bus-route-sign" : "";
 
 const RouteCard = ({
   route,
@@ -63,17 +78,26 @@ const RouteCard = ({
   return (
     <div className="m-tnm-sidebar__route">
       <a
-        href={`/schedules/${route.id}`}
+        href={`/schedules/${route.route.id}`}
         className={`h3 m-tnm-sidebar__route-name ${bgClass}`}
       >
-        <span className={busClass(route)}>{route.header}</span>
-        {route.alert_count
+        <span className={busClass(route)}>{route.route.header}</span>
+        {route.route.alert_count
           ? renderSvg("m-tnm-sidebar__route-alert", alertIcon)
           : null}
       </a>
-      {filterStops(route).map(stop => (
-        <StopCard key={stop.id} stop={stop} route={route} dispatch={dispatch} />
-      ))}
+      {filterStops(route).map(
+        stopWithDirections =>
+          !everyDirectionIsEmpty(stopWithDirections.directions) && (
+            <StopCard
+              key={stopWithDirections.stop.id}
+              stop={stopWithDirections.stop}
+              directions={stopWithDirections.directions}
+              route={route.route}
+              dispatch={dispatch}
+            />
+          )
+      )}
     </div>
   );
 };

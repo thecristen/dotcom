@@ -3,11 +3,11 @@ import renderer from "react-test-renderer";
 import RoutesSidebar, { filterData } from "../components/RoutesSidebar";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { importData } from "./helpers/testUtils";
-import { TNMRoute } from "../components/__tnm";
+import { RouteWithStopsWithDirections } from "../../__v3api";
 
 describe("render", () => {
   it("it renders", () => {
-    const data = importData().slice(0, 3);
+    const data: RouteWithStopsWithDirections[] = importData().slice(0, 3);
 
     createReactRoot();
     const tree = renderer
@@ -45,43 +45,58 @@ describe("render", () => {
 
 describe("filterData", () => {
   it("should filter by stop ID", () => {
-    const data = importData();
-    const selectedStopId = data[0].stops[0].id;
+    const data: RouteWithStopsWithDirections[] = importData();
+    const selectedStopId = data[0].stops_with_directions[0].stop.id;
 
-    expect(data).toHaveLength(26);
+    expect(data).toHaveLength(22);
 
     const filteredData = filterData(data, selectedStopId, [], true);
 
-    expect(filteredData).toHaveLength(3);
+    expect(filteredData).toHaveLength(1);
 
     // Every route should only have one stop
-    expect(filteredData.every((route: TNMRoute) => route.stops.length === 1));
+    expect(
+      filteredData.every(
+        (route: RouteWithStopsWithDirections) =>
+          route.stops_with_directions.length === 1
+      )
+    );
 
     // Every stop should match the selected stop
     expect(
       filteredData.every(
-        (route: TNMRoute) => route.stops[0].id === selectedStopId
+        (route: RouteWithStopsWithDirections) =>
+          route.stops_with_directions[0].stop.id === selectedStopId
       )
     );
   });
 
   it("should filter by modes", () => {
     const data = importData();
-    expect(data).toHaveLength(26);
+    expect(data).toHaveLength(22);
 
     const filteredBusData = filterData(data, null, ["bus"], true);
     expect(filteredBusData).toHaveLength(12);
-    expect(filteredBusData.every((route: TNMRoute) => route.type === 3));
+    expect(
+      filteredBusData.every(
+        (route: RouteWithStopsWithDirections) => route.route.type === 3
+      )
+    );
 
     const filteredRailData = filterData(data, null, ["rail"], true);
-    expect(filteredRailData).toHaveLength(8);
-    expect(filteredRailData.every((route: TNMRoute) => route.type === 2));
+    expect(filteredRailData).toHaveLength(4);
+    expect(
+      filteredRailData.every(
+        (route: RouteWithStopsWithDirections) => route.route.type === 2
+      )
+    );
 
     const filteredSubwayData = filterData(data, null, ["subway"], true);
     expect(filteredSubwayData).toHaveLength(6);
     expect(
       filteredSubwayData.every(
-        (route: TNMRoute) => route.type === 0 || route.type === 1
+        (route: RouteWithStopsWithDirections) =>
+          route.route.type === 0 || route.route.type === 1
       )
     );
   });

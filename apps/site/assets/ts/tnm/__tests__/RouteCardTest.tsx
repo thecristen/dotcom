@@ -7,33 +7,35 @@ import RouteCard, {
 } from "../components/RouteCard";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import {
-  TNMDirection,
-  TNMHeadsign,
-  TNMRoute,
-  TNMStop,
-  TNMTime
-} from "../components/__tnm";
+  Direction,
+  Headsign,
+  PredictedOrScheduledTime,
+  Stop,
+  RouteWithStopsWithDirections
+} from "../../__v3api";
 
 /* eslint-disable typescript/camelcase */
 
-const time: TNMTime = {
+const time: PredictedOrScheduledTime = {
   scheduled_time: ["4:30", " ", "PM"],
   prediction: null,
   delay: 0
 };
 
-const headsign: TNMHeadsign = {
+const headsign: Headsign = {
   name: "Headsign",
   times: [time],
   train_number: null
 };
 
-const direction: TNMDirection = {
-  direction_id: 0,
-  headsigns: [headsign]
-};
+const directions: Direction[] = [
+  {
+    direction_id: 0,
+    headsigns: [headsign]
+  }
+];
 
-const stop: TNMStop = {
+const stop: Stop = {
   accessibility: ["wheelchair"],
   address: "123 Main St., Boston MA",
   bike_storage: [],
@@ -50,21 +52,22 @@ const stop: TNMStop = {
   parking_lots: [],
   "station?": true,
   distance: "238 ft",
-  directions: [direction],
   href: "/stops/stop-id"
 };
 
-const route: TNMRoute = {
-  alert_count: 1,
-  direction_destinations: ["Outbound Destination", "Inbound Destination"],
-  direction_names: ["Outbound", "Inbound"],
-  id: "route-id",
-  name: "Route Name",
-  header: "Route Header",
-  long_name: "Route Long Name",
-  description: "Route Description",
-  stops: [stop],
-  type: 3
+const route: RouteWithStopsWithDirections = {
+  route: {
+    alert_count: 1,
+    direction_destinations: ["Outbound Destination", "Inbound Destination"],
+    direction_names: ["Outbound", "Inbound"],
+    id: "route-id",
+    name: "Route Name",
+    header: "Route Header",
+    long_name: "Route Long Name",
+    description: "Route Description",
+    type: 3
+  },
+  stops_with_directions: [{ stop, directions }]
 };
 
 it("it renders a stop card", () => {
@@ -76,10 +79,14 @@ it("it renders a stop card", () => {
 });
 
 it("returns null if route has no schedules", () => {
-  const stopWithoutSchedules: TNMStop = { ...stop, directions: [] };
-  const routeWithoutSchedules: TNMRoute = {
+  const routeWithoutSchedules: RouteWithStopsWithDirections = {
     ...route,
-    stops: [stopWithoutSchedules]
+    stops_with_directions: [
+      {
+        stop,
+        directions: []
+      }
+    ]
   };
   createReactRoot();
   const tree = renderer
@@ -90,7 +97,10 @@ it("returns null if route has no schedules", () => {
 
 it("it renders a stop card for the silver line", () => {
   createReactRoot();
-  const sl: TNMRoute = { ...route, id: "751" };
+  const sl: RouteWithStopsWithDirections = {
+    route: { ...route.route, id: "751" },
+    stops_with_directions: route.stops_with_directions
+  };
   const tree = renderer
     .create(<RouteCard route={sl} dispatch={() => {}} />)
     .toJSON();
@@ -100,7 +110,10 @@ it("it renders a stop card for the silver line", () => {
 describe("isSilverLine", () => {
   it("identifies silver line routes", () => {
     ["741", "742", "743", "746", "749", "751"].forEach(id => {
-      const sl: TNMRoute = { ...route, id };
+      const sl: RouteWithStopsWithDirections = {
+        route: { ...route.route, id },
+        stops_with_directions: route.stops_with_directions
+      };
       expect(isSilverLine(sl)).toBe(true);
     });
   });
@@ -108,38 +121,58 @@ describe("isSilverLine", () => {
 
 describe("routeBgColor", () => {
   it("determines the background color by route", () => {
-    const cr: TNMRoute = { ...route, type: 2 };
+    const cr: RouteWithStopsWithDirections = {
+      route: { ...route.route, type: 2 },
+      stops_with_directions: route.stops_with_directions
+    };
     expect(routeBgColor(cr)).toBe("commuter-rail");
 
-    const ferry: TNMRoute = { ...route, type: 4 };
+    const ferry: RouteWithStopsWithDirections = {
+      route: { ...route.route, type: 4 },
+      stops_with_directions: route.stops_with_directions
+    };
     expect(routeBgColor(ferry)).toBe("ferry");
 
     ["Red", "Orange", "Blue"].forEach(id => {
-      const subway: TNMRoute = { ...route, type: 1, id };
+      const subway: RouteWithStopsWithDirections = {
+        route: { ...route.route, type: 1, id },
+        stops_with_directions: route.stops_with_directions
+      };
       expect(routeBgColor(subway)).toBe(`${id.toLowerCase()}-line`);
     });
 
-    const greenLine: TNMRoute = {
-      ...route,
-      type: 0,
-      id: "Green-B"
+    const greenLine: RouteWithStopsWithDirections = {
+      route: { ...route.route, type: 0, id: "Green-B" },
+      stops_with_directions: route.stops_with_directions
     };
     expect(routeBgColor(greenLine)).toBe("green-line");
 
-    const bus: TNMRoute = { ...route, type: 3, id: "1" };
+    const bus: RouteWithStopsWithDirections = {
+      route: { ...route.route, type: 3, id: "1" },
+      stops_with_directions: route.stops_with_directions
+    };
     expect(routeBgColor(bus)).toBe("bus");
 
-    const fake: TNMRoute = { ...route, type: 0, id: "fakeID" };
+    const fake: RouteWithStopsWithDirections = {
+      route: { ...route.route, type: 0, id: "fakeID" },
+      stops_with_directions: route.stops_with_directions
+    };
     expect(routeBgColor(fake)).toBe("unknown");
   });
 });
 
 describe("busClass", () => {
   it("determines a route is a bus route", () => {
-    const bus: TNMRoute = { ...route, type: 3, id: "1" };
+    const bus: RouteWithStopsWithDirections = {
+      route: { ...route.route, type: 3, id: "1" },
+      stops_with_directions: route.stops_with_directions
+    };
     expect(busClass(bus)).toBe("bus-route-sign");
 
-    const notBus: TNMRoute = { ...route, type: 1, id: "Red" };
+    const notBus: RouteWithStopsWithDirections = {
+      route: { ...route.route, type: 1, id: "Red" },
+      stops_with_directions: route.stops_with_directions
+    };
     expect(busClass(notBus)).toBe("");
   });
 });
