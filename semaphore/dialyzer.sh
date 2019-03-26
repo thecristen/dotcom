@@ -1,6 +1,12 @@
 #/usr/bin/env bash
 set -e
 
+# Add more swap memory. Default is ~200m, our setup made it 2G, now make it 4G
+sudo swapoff -a
+sudo dd if=/dev/zero of=/swapfile bs=1M count=4096
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
 mix compile --force --warnings-as-errors
 
 # copy any pre-built PLTs to the right directory

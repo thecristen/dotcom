@@ -4,12 +4,7 @@ ERLANG_VERSION=21
 
 mkdir -p $SEMAPHORE_CACHE_DIR/gems $SEMAPHORE_CACHE_DIR/npm $SEMAPHORE_CACHE_DIR/mix
 
-SERVICES="cassandra elasticsearch mysql mongod docker memcached postgresql apache2 redis-server"
-if ! grep 1706 /etc/hostname > /dev/null; then
-    # Platform version 1706 has a bug with stopping RabbitMQ.  If we're not
-    # on that version, we can stop that service.
-    SERVICES="rabbitmq-server $SERVICES"
-fi
+SERVICES="apache2 cassandra docker elasticsearch memcached mongod mysql postgresql sphinxsearch rabbitmq-server redis-server"
 # Turn off some high-memory apps
 for service in $SERVICES; do
     sudo service $service stop
