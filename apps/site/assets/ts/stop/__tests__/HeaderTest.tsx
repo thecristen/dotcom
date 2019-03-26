@@ -1,5 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import { shallow } from "enzyme";
 import stopData from "./stopData.json";
 import { StopPageData, TypedRoutes } from "../components/__stop";
 import Header from "../components/Header";
@@ -270,4 +271,109 @@ it("renders a ferry route", () => {
     .toJSON();
 
   expect(tree).toMatchSnapshot();
+});
+
+it("upcases name of non-bus stops", () => {
+  /* eslint-disable typescript/camelcase */
+  const routes: TypedRoutes[] = [
+    {
+      group_name: "bus",
+      routes: [
+        {
+          type: 3,
+          name: "Bus",
+          header: "Bus",
+          long_name: "Bus",
+          id: "Bus",
+          direction_names: {
+            "0": "South",
+            "1": "North"
+          },
+          direction_destinations: {
+            "0": "Ashmont/Braintree",
+            "1": "Alewife"
+          },
+          description: "rapid_transit",
+          alert_count: 0,
+          stops: []
+        }
+      ]
+    },
+    {
+      group_name: "subway",
+      routes: [
+        {
+          type: 1,
+          name: "Orange Line",
+          header: "Orange Line",
+          long_name: "Orange Line",
+          id: "Orange",
+          direction_names: {
+            "0": "South",
+            "1": "North"
+          },
+          direction_destinations: {
+            "0": "Ashmont/Braintree",
+            "1": "Alewife"
+          },
+          description: "rapid_transit",
+          alert_count: 0,
+          stops: []
+        }
+      ]
+    }
+  ];
+  /* eslint-enable typescript/camelcase */
+
+  const wrapper = shallow(
+    <Header
+      stop={data.stop}
+      routes={routes}
+      zoneNumber={data.zone_number}
+      tabs={data.tabs}
+    />
+  );
+  expect(wrapper.find(".m-stop-page__name")).toHaveLength(1);
+  expect(wrapper.find(".m-stop-page__name--upcase")).toHaveLength(1);
+});
+
+it("does not upcase name of bus-only stops", () => {
+  /* eslint-disable typescript/camelcase */
+  const routes: TypedRoutes[] = [
+    {
+      group_name: "bus",
+      routes: [
+        {
+          type: 3,
+          name: "Bus",
+          header: "Bus",
+          long_name: "Bus",
+          id: "Bus",
+          direction_names: {
+            "0": "South",
+            "1": "North"
+          },
+          direction_destinations: {
+            "0": "Ashmont/Braintree",
+            "1": "Alewife"
+          },
+          description: "rapid_transit",
+          alert_count: 0,
+          stops: []
+        }
+      ]
+    }
+  ];
+  /* eslint-enable typescript/camelcase */
+
+  const wrapper = shallow(
+    <Header
+      stop={data.stop}
+      routes={routes}
+      zoneNumber={data.zone_number}
+      tabs={data.tabs}
+    />
+  );
+  expect(wrapper.find(".m-stop-page__name")).toHaveLength(1);
+  expect(wrapper.find(".m-stop-page__name--upcase")).toHaveLength(0);
 });

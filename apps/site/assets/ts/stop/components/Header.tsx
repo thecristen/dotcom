@@ -162,6 +162,11 @@ const features = (
   </div>
 );
 
+const nameUpcaseClass = (routes: TypedRoutes[]): string =>
+  routes.length === 1 && routes[0].group_name === "bus"
+    ? ""
+    : "m-stop-page__name--upcase";
+
 const Header = ({
   stop,
   routes,
@@ -170,7 +175,9 @@ const Header = ({
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-stop-page__header">
     <div className="m-stop-page__header-container">
-      <h1 className="m-stop-page__name station__name--upcase">{stop.name}</h1>
+      <h1 className={`m-stop-page__name ${nameUpcaseClass(routes)}`}>
+        {stop.name}
+      </h1>
 
       {features(stop, routes, zoneNumber)}
 

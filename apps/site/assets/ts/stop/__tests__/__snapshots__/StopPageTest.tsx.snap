@@ -42,7 +42,7 @@ Array [
       className="m-stop-page__header-container"
     >
       <h1
-        className="m-stop-page__name station__name--upcase"
+        className="m-stop-page__name m-stop-page__name--upcase"
       >
         South Station
       </h1>
