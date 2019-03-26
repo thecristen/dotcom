@@ -52,6 +52,10 @@ defmodule Routes.PopulateCachesTest do
     test "populate_all: gets headsigns and shapes for each route" do
       assert {:noreply, FakeRepo} = handle_info(:populate_all, FakeRepo)
 
+      fn -> :timer.sleep(50) end
+      |> Task.async()
+      |> Task.await()
+
       # get the calls that were made
       set = Agent.get(FakeRepo, & &1)
       assert MapSet.member?(set, {:headsigns, "1"})

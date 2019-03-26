@@ -1,4 +1,5 @@
 defmodule Routes.Repo do
+  require Logger
   use RepoCache, ttl: :timer.hours(1)
 
   import Routes.Parser
@@ -140,15 +141,7 @@ defmodule Routes.Repo do
   @spec headsigns(String.t()) :: %{0 => [String.t()], 1 => [String.t()]}
   def headsigns(id) do
     cache(id, fn id ->
-      [zero_task, one_task] =
-        for direction_id <- [0, 1] do
-          Task.async(__MODULE__, :fetch_headsigns, [id, direction_id])
-        end
-
-      %{
-        0 => Task.await(zero_task),
-        1 => Task.await(one_task)
-      }
+      Map.new([0, 1], &{&1, fetch_headsigns(id, &1)})
     end)
   end
 
@@ -169,7 +162,8 @@ defmodule Routes.Repo do
     |> order_by_frequency
   end
 
-  def calculate_headsigns(_) do
+  def calculate_headsigns(error, _route_id) do
+    _ = Logger.error("module=#{__MODULE__} function=calculate_headsigns error=#{inspect(error)}")
     []
   end
 

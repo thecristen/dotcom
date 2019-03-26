@@ -152,7 +152,7 @@ defmodule Routes.RepoTest do
   describe "calculate_headsigns" do
     test "returns an empty list for an error" do
       error = %JsonApi.Error{}
-      assert Repo.calculate_headsigns(error) == []
+      assert Repo.calculate_headsigns(error, "route_id") == []
     end
 
     test "returns headsigns sorted by frequency" do
