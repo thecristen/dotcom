@@ -16,6 +16,15 @@ defmodule SiteWeb.CustomerSupportControllerTest do
       assert response =~ "Customer Support"
     end
 
+    test "shows the support form and accepts a comment param", %{conn: conn} do
+      conn =
+        get(conn, customer_support_path(conn, :index, %{comments: "A comment about the MBTA"}))
+
+      response = html_response(conn, 200)
+      assert response =~ "Customer Support"
+      assert response =~ "A comment about the MBTA"
+    end
+
     test "sets the service options on the connection", %{conn: conn} do
       conn = get(conn, customer_support_path(conn, :index))
 

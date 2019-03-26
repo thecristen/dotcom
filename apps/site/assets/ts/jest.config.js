@@ -27,6 +27,7 @@ module.exports = {
       statements: -25
     }
   },
+  testURL: "https://mbta.com",
   transform: {
     "^.+\\.js?$": "babel-jest",
     "^.+\\.ts?$": "ts-jest"

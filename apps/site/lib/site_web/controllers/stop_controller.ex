@@ -51,6 +51,7 @@ defmodule SiteWeb.StopController do
         )
         |> assign(:map_data, StopMap.map_info(stop, routes_map))
         |> assign(:zone_number, Zones.Repo.get(stop.id))
+        |> assign(:breadcrumbs_title, breadcrumbs(stop, routes_by_stop))
         |> assign_stop_page_data()
         |> await_assign_all_default(__MODULE__)
         |> combine_stop_data()
@@ -131,6 +132,34 @@ defmodule SiteWeb.StopController do
       ],
       zone_number: zone_number
     })
+  end
+
+  @spec breadcrumbs(Stop.t(), [Route.t()]) :: [Util.Breadcrumb.t()]
+  def breadcrumbs(%Stop{name: name}, []) do
+    breadcrumbs_for_station_type(nil, name)
+  end
+
+  def breadcrumbs(%Stop{station?: true, name: name}, routes) do
+    routes
+    |> Enum.min_by(& &1.type)
+    |> Route.path_atom()
+    |> breadcrumbs_for_station_type(name)
+  end
+
+  def breadcrumbs(%Stop{name: name}, _routes) do
+    breadcrumbs_for_station_type(nil, name)
+  end
+
+  defp breadcrumbs_for_station_type(breadcrumb_tab, name)
+       when breadcrumb_tab in ~w(subway commuter-rail ferry)a do
+    [
+      Breadcrumb.build("Stations", stop_path(SiteWeb.Endpoint, :show, breadcrumb_tab)),
+      Breadcrumb.build(name)
+    ]
+  end
+
+  defp breadcrumbs_for_station_type(_, name) do
+    [Breadcrumb.build(name)]
   end
 
   @spec meta_description(Conn.t(), Stop.t(), [Route.t()]) :: Conn.t()

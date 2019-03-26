@@ -1,9 +1,10 @@
 defmodule Util.BreadcrumbHTMLTest do
   use ExUnit.Case, async: true
   import Util.BreadcrumbHTML
+  alias Plug.Conn
 
   setup do
-    {:ok, conn: %Plug.Conn{}}
+    {:ok, conn: %Conn{}}
   end
 
   describe "title_breadcrumbs/1" do
@@ -15,7 +16,7 @@ defmodule Util.BreadcrumbHTMLTest do
         %Util.Breadcrumb{text: "Third", url: "/second/third"}
       ]
 
-      conn = Plug.Conn.assign(conn, :breadcrumbs, breadcrumbs)
+      conn = Conn.assign(conn, :breadcrumbs, breadcrumbs)
 
       breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
       assert breadcrumbs =~ "Third | Second | MBTA"
@@ -28,7 +29,7 @@ defmodule Util.BreadcrumbHTMLTest do
         %Util.Breadcrumb{text: "Second", url: "/first/second"}
       ]
 
-      conn = Plug.Conn.assign(conn, :breadcrumbs, breadcrumbs)
+      conn = Conn.assign(conn, :breadcrumbs, breadcrumbs)
 
       breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
       assert breadcrumbs =~ "Second | First | MBTA"
@@ -40,14 +41,26 @@ defmodule Util.BreadcrumbHTMLTest do
         %Util.Breadcrumb{text: "First", url: "/first"}
       ]
 
-      conn = Plug.Conn.assign(conn, :breadcrumbs, breadcrumbs)
+      conn = Conn.assign(conn, :breadcrumbs, breadcrumbs)
+
+      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
+      assert breadcrumbs == "First | MBTA"
+    end
+
+    test "also returns breadcrumb title text when breadscrumbs_title is set", %{conn: conn} do
+      breadcrumbs = [
+        %Util.Breadcrumb{text: "Home", url: "/"},
+        %Util.Breadcrumb{text: "First", url: "/first"}
+      ]
+
+      conn = Conn.assign(conn, :breadcrumbs_title, breadcrumbs)
 
       breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
       assert breadcrumbs == "First | MBTA"
     end
 
     test "returns the MBTA's full name when breadcrumbs are empty", %{conn: conn} do
-      conn = Plug.Conn.assign(conn, :breadcrumbs, [])
+      conn = Conn.assign(conn, :breadcrumbs, [])
       breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
       assert breadcrumbs == "MBTA - Massachusetts Bay Transportation Authority"
     end
@@ -65,7 +78,7 @@ defmodule Util.BreadcrumbHTMLTest do
         %Util.Breadcrumb{text: "Second", url: ""}
       ]
 
-      conn = Plug.Conn.assign(conn, :breadcrumbs, breadcrumbs)
+      conn = Conn.assign(conn, :breadcrumbs, breadcrumbs)
 
       assert breadcrumb_trail(conn) ==
                {:safe,
@@ -77,7 +90,7 @@ defmodule Util.BreadcrumbHTMLTest do
 
     test "adds a link to the root path if one is not provided", %{conn: conn} do
       breadcrumbs = [%Util.Breadcrumb{text: "Not Home", url: "/not-home"}]
-      conn = Plug.Conn.assign(conn, :breadcrumbs, breadcrumbs)
+      conn = Conn.assign(conn, :breadcrumbs, breadcrumbs)
 
       result = breadcrumb_trail(conn)
 
@@ -88,7 +101,7 @@ defmodule Util.BreadcrumbHTMLTest do
     end
 
     test "when the breadcrumbs are empty", %{conn: conn} do
-      conn = Plug.Conn.assign(conn, :breadcrumbs, [])
+      conn = Conn.assign(conn, :breadcrumbs, [])
       assert breadcrumb_trail(conn) == {:safe, ""}
     end
 

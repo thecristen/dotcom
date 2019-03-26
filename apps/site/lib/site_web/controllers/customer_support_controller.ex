@@ -7,8 +7,12 @@ defmodule SiteWeb.CustomerSupportController do
   plug(:assign_ip)
   plug(:meta_description)
 
+  def index(conn, %{"comments" => comments}) do
+    render_form(conn, %{comments: comments})
+  end
+
   def index(conn, _params) do
-    render_form(conn, [])
+    render_form(conn, %{comments: nil})
   end
 
   def thanks(conn, _params) do
@@ -28,7 +32,7 @@ defmodule SiteWeb.CustomerSupportController do
       errors ->
         conn
         |> put_status(400)
-        |> render_form(errors)
+        |> render_form(%{errors: errors, comments: Map.get(data, "comments")})
     end
   end
 
@@ -45,17 +49,39 @@ defmodule SiteWeb.CustomerSupportController do
 
         conn
         |> put_status(:too_many_requests)
-        |> render_form(["rate limit"])
+        |> render_form(%{errors: ["rate limit"]})
     end
   end
 
-  defp render_form(conn, errors) do
+  defp render_form(conn, %{errors: errors, comments: comments}) do
+    render(
+      conn,
+      "index.html",
+      breadcrumbs: [Breadcrumb.build("Customer Support")],
+      errors: errors,
+      show_form: true,
+      comments: comments
+    )
+  end
+
+  defp render_form(conn, %{errors: errors}) do
     render(
       conn,
       "index.html",
       breadcrumbs: [Breadcrumb.build("Customer Support")],
       errors: errors,
       show_form: true
+    )
+  end
+
+  defp render_form(conn, %{comments: comments}) do
+    render(
+      conn,
+      "index.html",
+      breadcrumbs: [Breadcrumb.build("Customer Support")],
+      errors: [],
+      show_form: true,
+      comments: comments
     )
   end
 

@@ -991,6 +991,20 @@ Array [
               </div>
             </div>
           </noscript>
+          <div
+            className="c-feedback"
+          >
+            <h3>
+              Feedback
+            </h3>
+            Please report issues with cleanliness, signage, and any other concerns you may have. We will do our best to address the issues as soon as possible.
+            <a
+              className="btn btn-secondary c-feedback__button"
+              href="/customer-support?comments=MBTA"
+            >
+              Contact us
+            </a>
+          </div>
         </div>
       </div>
     </div>

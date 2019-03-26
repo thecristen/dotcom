@@ -53,8 +53,21 @@ defmodule Util.BreadcrumbHTML do
   end
 
   @spec title_breadcrumbs(%Plug.Conn{}) :: Phoenix.HTML.Safe.t()
+  def title_breadcrumbs(%Plug.Conn{assigns: %{breadcrumbs_title: title}})
+      when length(title) > 0 do
+    do_title_breadcrumbs(title)
+  end
+
   def title_breadcrumbs(%Plug.Conn{assigns: %{breadcrumbs: breadcrumbs}})
       when length(breadcrumbs) > 0 do
+    do_title_breadcrumbs(breadcrumbs)
+  end
+
+  def title_breadcrumbs(%Plug.Conn{}) do
+    default_title()
+  end
+
+  def do_title_breadcrumbs(breadcrumbs) do
     breadcrumbs
     |> Enum.map(fn breadcrumb -> breadcrumb.text end)
     |> Enum.drop_while(fn b -> b == "Home" end)
@@ -62,10 +75,6 @@ defmodule Util.BreadcrumbHTML do
     # put the default title at the end
     |> Enum.reverse(["MBTA"])
     |> Enum.intersperse(" | ")
-  end
-
-  def title_breadcrumbs(%Plug.Conn{}) do
-    default_title()
   end
 
   defp default_title do

@@ -1,5 +1,9 @@
 defmodule SiteWeb.StopControllerTest do
   use SiteWeb.ConnCase
+  alias Routes.Route
+  alias SiteWeb.StopController
+  alias Stops.Stop
+  alias Util.Breadcrumb
 
   test "view is under a flag", %{conn: conn} do
     assert conn
@@ -57,5 +61,31 @@ defmodule SiteWeb.StopControllerTest do
       |> get(stop_path(conn, :show, "unknown"))
 
     assert Map.fetch!(conn, :status) == 404
+  end
+
+  describe "breadcrumbs/2" do
+    test "returns station breadcrumbs if the stop is served by more than buses" do
+      stop = %Stop{name: "Name", station?: true}
+      routes = [%Route{id: "CR-Lowell", type: 2}]
+
+      assert StopController.breadcrumbs(stop, routes) == [
+               %Breadcrumb{text: "Stations", url: "/stops-v2/commuter-rail"},
+               %Breadcrumb{text: "Name", url: ""}
+             ]
+    end
+
+    test "returns simple breadcrumb if the stop is served by only buses" do
+      stop = %Stop{name: "Dudley Station"}
+      routes = [%Route{id: "28", type: 3}]
+
+      assert StopController.breadcrumbs(stop, routes) == [
+               %Breadcrumb{text: "Dudley Station", url: ""}
+             ]
+    end
+
+    test "returns simple breadcrumb if we have no route info for the stop" do
+      stop = %Stop{name: "Name", station?: true}
+      assert StopController.breadcrumbs(stop, []) == [%Breadcrumb{text: "Name", url: ""}]
+    end
   end
 end

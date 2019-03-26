@@ -19,6 +19,8 @@ window.jQuery = require("jquery");
 window.autocomplete = require("autocomplete.js");
 window.Turbolinks = require("turbolinks");
 
+document.title = "MBTA";
+
 window.google = {
   maps: createGoogleMapsMock()
 };

@@ -8,6 +8,7 @@ import BikeStorageInfo from "./sidebar/BikeStorageInfo";
 import Fares from "./sidebar/Fares";
 import { Stop } from "../../__v3api";
 import { TypedRoutes, RetailLocationWithDistance } from "./__stop";
+import Feedback from "../../app/Feedback";
 
 interface Props {
   stop: Stop;
@@ -44,6 +45,7 @@ const Sidebar = ({
     <ParkingInfo stop={stop} />
     <BikeStorageInfo stop={stop} />
     <Fares stop={stop} retailLocations={retailLocations} />
+    <Feedback />
   </>
 );
 
