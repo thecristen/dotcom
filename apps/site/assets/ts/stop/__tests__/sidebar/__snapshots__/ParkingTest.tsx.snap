@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ParkingInfo it renders 1`] = `
+exports[`Parking it renders 1`] = `
 Array [
   <h3
     aria-controls="panel-parking"
@@ -198,19 +198,21 @@ Array [
           An example note
         </div>
       </div>
-      <a
-        className="c-call-to-action"
-        href="/parking"
-      >
-        Learn more about parking
-      </a>
+      <p>
+        <a
+          className="c-call-to-action"
+          href="/parking"
+        >
+          Learn more about parking
+        </a>
+      </p>
     </div>
   </noscript>,
 ]
 `;
 
-exports[`ParkingInfo via enzyme-to-json it displays parking info when opened and inner html 1`] = `
-<ParkingInfo>
+exports[`Parking via enzyme-to-json it displays parking info when opened and inner html 1`] = `
+<Parking>
   <Component>
     <h3
       aria-controls="panel-parking"
@@ -387,12 +389,14 @@ exports[`ParkingInfo via enzyme-to-json it displays parking info when opened and
           </div>
         </div>
       </Lot>
-      <a
-        className="c-call-to-action"
-        href="/parking"
-      >
-        Learn more about parking
-      </a>
+      <p>
+        <a
+          className="c-call-to-action"
+          href="/parking"
+        >
+          Learn more about parking
+        </a>
+      </p>
     </div>
     <noscript>
       <style />
@@ -405,5 +409,5 @@ exports[`ParkingInfo via enzyme-to-json it displays parking info when opened and
       />
     </noscript>
   </Component>
-</ParkingInfo>
+</Parking>
 `;

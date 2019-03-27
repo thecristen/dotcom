@@ -540,7 +540,7 @@ Array [
           </h2>
           <h3
             aria-controls="panel-accessibility"
-            aria-expanded={false}
+            aria-expanded={true}
             className="c-expandable-block__header"
             id="header-accessibility"
             onClick={[Function]}
@@ -561,11 +561,65 @@ Array [
               className="c-expandable-block__header-caret"
               dangerouslySetInnerHTML={
                 Object {
-                  "__html": "&#xF107;",
+                  "__html": "&#xF106;",
                 }
               }
             />
           </h3>
+          <div
+            aria-labelledby="header-accessibility"
+            className="c-expandable-block__panel"
+            id="panel-accessibility"
+            role="region"
+            tabIndex={0}
+          >
+            <p
+              id="accessibility-level"
+            >
+              South Station is accessible. 
+            </p>
+            <div
+              id="accessibility-features"
+            >
+              It 
+              has the following features:
+              <ul
+                className="m-stop-page__sidebar-list"
+              >
+                <li
+                  className="m-stop-page__sidebar-list-item"
+                >
+                  Escalator (up and down)
+                </li>
+                <li
+                  className="m-stop-page__sidebar-list-item"
+                >
+                  Elevator
+                </li>
+                <li
+                  className="m-stop-page__sidebar-list-item"
+                >
+                  Full high level platform to provide level boarding to every car in a train set
+                </li>
+              </ul>
+            </div>
+            <p>
+              <a
+                className="c-call-to-action"
+                href="/customer-support?comments=MBTA | Accessibility issue "
+              >
+                Report an elevator, escalator, or other accessibility issue
+              </a>
+            </p>
+            <p>
+              <a
+                className="c-call-to-action"
+                href="/accessibility"
+              >
+                Learn more about accessibility
+              </a>
+            </p>
+          </div>
           <noscript>
             <style>
               #header-accessibility { display: none; }
@@ -595,13 +649,52 @@ Array [
               className="c-expandable-block__panel"
               role="region"
             >
+              <p
+                id="accessibility-level"
+              >
+                South Station is accessible. 
+              </p>
               <div
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "<p>South Station is accessible. It has the following features:</p><p>This is a test</p>",
-                  }
-                }
-              />
+                id="accessibility-features"
+              >
+                It 
+                has the following features:
+                <ul
+                  className="m-stop-page__sidebar-list"
+                >
+                  <li
+                    className="m-stop-page__sidebar-list-item"
+                  >
+                    Escalator (up and down)
+                  </li>
+                  <li
+                    className="m-stop-page__sidebar-list-item"
+                  >
+                    Elevator
+                  </li>
+                  <li
+                    className="m-stop-page__sidebar-list-item"
+                  >
+                    Full high level platform to provide level boarding to every car in a train set
+                  </li>
+                </ul>
+              </div>
+              <p>
+                <a
+                  className="c-call-to-action"
+                  href="/customer-support?comments=MBTA | Accessibility issue "
+                >
+                  Report an elevator, escalator, or other accessibility issue
+                </a>
+              </p>
+              <p>
+                <a
+                  className="c-call-to-action"
+                  href="/accessibility"
+                >
+                  Learn more about accessibility
+                </a>
+              </p>
             </div>
           </noscript>
           <h3
@@ -773,12 +866,14 @@ Array [
                   </ul>
                 </div>
               </div>
-              <a
-                className="c-call-to-action"
-                href="/parking"
-              >
-                Learn more about parking
-              </a>
+              <p>
+                <a
+                  className="c-call-to-action"
+                  href="/parking"
+                >
+                  Learn more about parking
+                </a>
+              </p>
             </div>
           </noscript>
           <h3

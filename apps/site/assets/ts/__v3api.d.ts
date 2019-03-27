@@ -91,7 +91,7 @@ export interface RouteWithStopsWithDirections {
 
 export type RouteType = 0 | 1 | 2 | 3 | 4;
 
-export type BikeStorage =
+export type BikeStorageType =
   | "bike_storage_rack"
   | "bike_storage_rack_covered"
   | "bike_storage_cage";
@@ -103,10 +103,24 @@ export type FareFacilityType =
   | "fare_media_assistance_facility"
   | "ticket_window";
 
+export type AccessibilityType =
+  | "tty_phone"
+  | "escalator_both"
+  | "escalator_up"
+  | "escalator_down"
+  | "ramp"
+  | "fully_elevated_platform"
+  | "elevated_subplatform"
+  | "unknown"
+  | "accessibile"
+  | "elevator"
+  | "portable_boarding_lift"
+  | string;
+
 export interface Stop {
-  accessibility: string[];
+  accessibility: AccessibilityType[];
   address: string | null;
-  bike_storage: BikeStorage[];
+  bike_storage: BikeStorageType[];
   closed_stop_info: string | null;
   "has_charlie_card_vendor?": boolean;
   "has_fare_machine?": boolean;

@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import ExpandableBlock from "../../../app/ExpandableBlock";
-import { BikeStorage, Stop } from "../../../__v3api";
+import { BikeStorageType, Stop } from "../../../__v3api";
 // @ts-ignore
 import bikeIconSvg from "../../../../static/images/icon-bikes-default.svg";
 
@@ -8,18 +8,13 @@ interface Props {
   stop: Stop;
 }
 
-const bikeStorageType = (storage: BikeStorage): string => {
-  switch (storage) {
-    case "bike_storage_rack":
-      return "Regular bike racks";
-    case "bike_storage_rack_covered":
-      return "Covered bike racks";
-    case "bike_storage_cage":
-      return "Pedal and Park";
-    default:
-      return "Regular bike racks";
-  }
+/* eslint-disable typescript/camelcase */
+const bikeStorageType: { [BikeStorage in BikeStorageType]: string } = {
+  bike_storage_rack: "Regular bike racks",
+  bike_storage_rack_covered: "Covered bike racks",
+  bike_storage_cage: "Pedal and Park"
 };
+/* eslint-enable typescript/camelcase */
 
 const pedalAndParkInfo = (): ReactElement<HTMLElement> => (
   <div className="m-stop-page__pedal-and-park">
@@ -37,8 +32,8 @@ const renderStorage = (stop: Stop): ReactElement<HTMLElement> => (
   <>
     <p>{`${stop.name} has the following bike storage features:`}</p>
     <ul className="m-stop-page__sidebar-list">
-      {stop.bike_storage.map((storage: BikeStorage) => {
-        const bikeStorage = bikeStorageType(storage);
+      {stop.bike_storage.map((storage: BikeStorageType) => {
+        const bikeStorage = bikeStorageType[storage];
         if (bikeStorage === "Pedal and Park") {
           return (
             <div key="pedal-and-park">

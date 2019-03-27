@@ -195,7 +195,7 @@ interface Props {
   stop: Stop;
 }
 
-const ParkingInfo = ({ stop }: Props): ReactElement<HTMLElement> => (
+const Parking = ({ stop }: Props): ReactElement<HTMLElement> => (
   <>
     <ExpandableBlock
       initiallyExpanded={false}
@@ -215,12 +215,14 @@ const ParkingInfo = ({ stop }: Props): ReactElement<HTMLElement> => (
             stop
           )}.`}</p>
         )}
-        <a href="/parking" className="c-call-to-action">
-          Learn more about parking
-        </a>
+        <p>
+          <a href="/parking" className="c-call-to-action">
+            Learn more about parking
+          </a>
+        </p>
       </>
     </ExpandableBlock>
   </>
 );
 
-export default ParkingInfo;
+export default Parking;

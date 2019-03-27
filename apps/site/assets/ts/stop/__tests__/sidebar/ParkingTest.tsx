@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import ParkingInfo, {
   maybeAddLinkPrefix
-} from "../../components/sidebar/ParkingInfo";
+} from "../../components/sidebar/Parking";
 
 import {
   createReactRoot,
@@ -92,7 +92,7 @@ const stop: Stop = {
 
 const id = "#header-parking";
 
-describe("ParkingInfo", () => {
+describe("Parking", () => {
   it("it renders", () => {
     createReactRoot();
     const tree = renderer.create(<ParkingInfo stop={stop} />).toJSON();
