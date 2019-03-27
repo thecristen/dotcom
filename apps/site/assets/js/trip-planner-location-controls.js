@@ -300,15 +300,14 @@ export class TripPlannerLocControls {
           GoogleMapsHelpers.lookupPlace(hit.place_id)
             .then(res => {
               ac.resetSessionToken();
-
-              const { latitude, longitude } = res;
+              const geo = res.geometry.location;
               this.setAutocompleteValue(
                 ac,
                 hit.description,
                 lat,
                 lng,
-                latitude,
-                longitude
+                geo.lat(),
+                geo.lng()
               );
               ac._input.blur();
             })

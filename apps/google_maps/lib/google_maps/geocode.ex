@@ -1,7 +1,4 @@
 defmodule GoogleMaps.Geocode do
-  @moduledoc """
-  Perform geocoding-related lookups against the Google Maps API.
-  """
   use RepoCache, ttl: :timer.hours(24)
 
   alias GoogleMaps.Geocode.Address
@@ -18,7 +15,6 @@ defmodule GoogleMaps.Geocode do
   }
 
   @http_pool Application.get_env(:google_maps, :http_pool)
-  @path "/maps/api/geocode/json"
 
   @spec geocode(String.t()) :: t
   def geocode(address) when is_binary(address) do
@@ -31,31 +27,9 @@ defmodule GoogleMaps.Geocode do
     end)
   end
 
-  @spec geocode_by_place_id(String.t()) :: t
-  def geocode_by_place_id(place_id) do
-    cache(place_id, fn place_id ->
-      place_id
-      |> geocode_by_place_id_url()
-      |> GoogleMaps.signed_url()
-      |> HTTPoison.get([], hackney: [pool: @http_pool])
-      |> parse_google_response(%Input{address: place_id})
-    end)
-  end
-
-  @spec reverse_geocode(float, float) :: t
-  def reverse_geocode(latitude, longitude) when is_float(latitude) and is_float(longitude) do
-    cache({latitude, longitude}, fn {latitude, longitude} ->
-      {latitude, longitude}
-      |> reverse_geocode_url()
-      |> GoogleMaps.signed_url()
-      |> HTTPoison.get([], hackney: [pool: @http_pool])
-      |> parse_google_response(%Input{latitude: latitude, longitude: longitude})
-    end)
-  end
-
   defp geocode_url(address) do
     URI.to_string(%URI{
-      path: @path,
+      path: "/maps/api/geocode/json",
       query:
         URI.encode_query(
           address: address,
@@ -64,16 +38,18 @@ defmodule GoogleMaps.Geocode do
     })
   end
 
-  defp geocode_by_place_id_url(place_id) do
-    URI.to_string(%URI{
-      path: @path,
-      query: URI.encode_query(place_id: place_id)
-    })
+  @spec reverse_geocode(float, float) :: t
+  def reverse_geocode(latitude, longitude) when is_float(latitude) and is_float(longitude) do
+    latitude
+    |> reverse_geocode_url(longitude)
+    |> GoogleMaps.signed_url()
+    |> HTTPoison.get([], hackney: [pool: @http_pool])
+    |> parse_google_response(%Input{latitude: latitude, longitude: longitude})
   end
 
-  defp reverse_geocode_url({latitude, longitude}) do
+  defp reverse_geocode_url(latitude, longitude) do
     URI.to_string(%URI{
-      path: @path,
+      path: "/maps/api/geocode/json",
       query: URI.encode_query(latlng: "#{latitude},#{longitude}")
     })
   end
