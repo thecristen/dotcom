@@ -1,8 +1,8 @@
 defmodule SiteWeb.EventView do
   use SiteWeb, :view
+
   import Site.FontAwesomeHelpers
   import SiteWeb.ContentView, only: [file_description: 1, render_duration: 2]
-  import SiteWeb.ContentHelpers, only: [content: 1]
 
   @spec shift_date_range(String.t(), integer) :: String.t()
   def shift_date_range(iso_string, shift_value) do

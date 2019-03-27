@@ -27,7 +27,7 @@ defmodule Content.TeaserTest do
     assert %Image{url: "http://" <> _, alt: "Tracks at Riverside"} = image
     assert text =~ "This project is part of"
     assert title == "Green Line D Track and Signal Replacement"
-    assert topic == ""
+    assert topic == nil
     assert %Date{} = date
     assert [%{id: "Green-D"}] = routes
   end

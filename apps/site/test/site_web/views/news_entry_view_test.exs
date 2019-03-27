@@ -59,7 +59,7 @@ defmodule SiteWeb.NewsEntryViewTest do
     test "does not display more information when the more_information field is empty", %{
       conn: conn
     } do
-      news_entry = news_entry_factory(0, more_information: "")
+      news_entry = news_entry_factory(0, more_information: nil)
 
       SiteWeb.NewsEntryView
       |> render_to_string("show.html", conn: conn, news_entry: news_entry, recent_news: [])

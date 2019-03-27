@@ -1,6 +1,5 @@
 defmodule Site.IcalendarGenerator do
   import SiteWeb.CmsRouterHelpers, only: [event_path: 3]
-  import SiteWeb.ContentHelpers, only: [content: 1]
 
   @spec to_ical(Plug.Conn.t(), Content.Event.t()) :: iodata
   def to_ical(%Plug.Conn{} = conn, %Content.Event{} = event) do
@@ -41,7 +40,7 @@ defmodule Site.IcalendarGenerator do
   end
 
   defp address(event) do
-    if content(event.location) do
+    if event.location do
       full_address(event)
     else
       imported_address(event)

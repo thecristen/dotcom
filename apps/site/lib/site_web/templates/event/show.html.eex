@@ -34,20 +34,20 @@
           </div>
         </div>
 
-        <%= if agenda = content(@event.agenda) do %>
+        <%= if @event.agenda do %>
           <div class="page-section">
             <div class="event-hr-row">
               <h2><%= "Agenda" %></h2>
-              <%= Site.ContentRewriter.rewrite(agenda, @conn) %>
+              <%= Site.ContentRewriter.rewrite(@event.agenda, @conn) %>
             </div>
           </div>
         <% end %>
 
-        <%= if notes = content(@event.notes) do %>
+        <%= if @event.notes do %>
           <div class="page-section">
             <div class="event-hr-row">
               <h2><%= "Notes" %></h2>
-              <%= Site.ContentRewriter.rewrite(notes, @conn) %>
+              <%= Site.ContentRewriter.rewrite(@event.notes, @conn) %>
             </div>
           </div>
         <% end %>

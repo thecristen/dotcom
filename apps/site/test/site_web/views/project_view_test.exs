@@ -50,10 +50,11 @@ defmodule SiteWeb.ProjectViewTest do
       updates =
         for idx <- 1..5 do
           %Content.Teaser{
-            id: idx,
-            type: :news_entry,
-            title: "News Item #{idx}",
-            path: "/path"
+            id: idx * 1000,
+            title: "Update #{idx}",
+            type: :project_update,
+            path: "http://example.com/news?utm=stuff",
+            routes: []
           }
         end
 

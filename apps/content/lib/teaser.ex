@@ -1,9 +1,9 @@
 defmodule Content.Teaser do
   @moduledoc """
-  A short, simplified representation of any content type.
+  A short, simplified representation of any our content types.
+  Fed by the /cms/teasers CMS API endpoint.
   """
-
-  import Content.Helpers, only: [content_type: 1, int_or_string_to_int: 1]
+  import Content.Helpers, only: [content_type: 1, content: 1, int_or_string_to_int: 1]
 
   alias Content.{CMS, Field.Image}
 
@@ -14,10 +14,10 @@ defmodule Content.Teaser do
     :path,
     :title,
     image: nil,
-    text: "",
-    location: "",
-    topic: "",
+    text: nil,
+    topic: nil,
     date: nil,
+    location: nil,
     routes: []
   ]
 
@@ -27,10 +27,10 @@ defmodule Content.Teaser do
           path: String.t(),
           title: String.t(),
           image: Image.t() | nil,
-          text: String.t(),
-          location: String.t(),
-          topic: String.t(),
+          text: String.t() | nil,
+          topic: String.t() | nil,
           date: Date.t() | DateTime.t() | nil,
+          location: String.t() | nil,
           routes: [String.t()]
         }
 
@@ -52,11 +52,11 @@ defmodule Content.Teaser do
       id: int_or_string_to_int(id),
       type: content_type(type),
       path: path,
-      title: title,
+      title: content(title),
       image: image(image_path, image_alt),
-      text: text,
-      topic: topic,
-      location: location(data),
+      text: content(text),
+      topic: content(topic),
+      location: data |> location() |> content(),
       date: date(data),
       routes: routes(route_data)
     }

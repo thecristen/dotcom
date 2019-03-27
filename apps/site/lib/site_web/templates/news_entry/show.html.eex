@@ -14,10 +14,10 @@
           <%= Site.ContentRewriter.rewrite(@news_entry.body, @conn) %>
         </div>
 
-        <%= if more_information = content(@news_entry.more_information) do %>
+        <%= if @news_entry.more_information do %>
           <div class="page-section">
             <h2>More Information</h2>
-            <%= more_information %>
+            <%= @news_entry.more_information %>
           </div>
         <% end %>
 

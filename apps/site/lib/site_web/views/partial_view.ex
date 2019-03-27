@@ -117,6 +117,10 @@ defmodule SiteWeb.PartialView do
   end
 
   @spec teaser_image_class(Teaser.t()) :: String.t()
+  defp teaser_image_class(%Teaser{topic: nil}) do
+    "c-content-teaser__image"
+  end
+
   defp teaser_image_class(%Teaser{topic: topic}) do
     Enum.join(
       [
@@ -131,6 +135,13 @@ defmodule SiteWeb.PartialView do
   defp teaser_text(%Teaser{topic: "Guides"} = teaser) do
     [
       content_tag(:span, [teaser.title], class: "sr-only")
+    ]
+  end
+
+  defp teaser_text(%Teaser{topic: nil} = teaser) do
+    [
+      content_tag(:h3, [teaser.title], class: "h3 c-content-teaser__title"),
+      content_tag(:div, [teaser.text], class: "c-content-teaser__text")
     ]
   end
 

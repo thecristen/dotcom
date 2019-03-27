@@ -124,14 +124,26 @@ defmodule SiteWeb.PartialViewTest do
   end
 
   describe "teaser/1" do
-    test "renders the title and description for non-guide teasers" do
-      assert [teaser | _] = Repo.teasers(route_id: "Red", sidebar: 1)
-      assert %Teaser{topic: ""} = teaser
+    test "renders the title, topic and description for teasers with topic" do
+      assert [teaser | _] = Repo.teasers(type: :project)
+      assert %Teaser{topic: "Projects"} = teaser
       rendered = teaser |> PartialView.teaser() |> safe_to_string()
       assert rendered =~ teaser.image.url
       assert rendered =~ teaser.image.alt
       assert rendered =~ teaser.title
       assert rendered =~ teaser.text
+      assert rendered =~ teaser.topic
+    end
+
+    test "renders the title and description for teasers w/o topic" do
+      assert [teaser | _] = Repo.teasers(route_id: "Red", sidebar: 1)
+      assert %Teaser{topic: nil} = teaser
+      rendered = teaser |> PartialView.teaser() |> safe_to_string()
+      assert rendered =~ teaser.image.url
+      assert rendered =~ teaser.image.alt
+      assert rendered =~ teaser.title
+      assert rendered =~ teaser.text
+      refute rendered =~ "u-small-caps"
     end
 
     test "only shows image for guide teasers" do
