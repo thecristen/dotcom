@@ -168,8 +168,7 @@ describe("Accessibility", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alert_count: 0,
-            stops: []
+            alert_count: 0
           }
         ]
       }
