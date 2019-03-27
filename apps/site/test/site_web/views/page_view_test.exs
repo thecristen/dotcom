@@ -48,22 +48,15 @@ defmodule SiteWeb.PageViewTest do
     test "renders news entries", %{conn: conn} do
       now = Util.now()
 
-      routes = [
-        %{id: "Red", group: "line", mode: "subway"},
-        %{id: "commuter_rail", group: "mode", mode: "subway"},
-        %{id: "66", group: "route", mode: "bus"},
-        %{id: "silver_line", group: "line", mode: "bus"},
-        %{id: "local_bus", group: "custom", mode: "bus"}
-      ]
-
       entries =
         for idx <- 1..5 do
           %Content.Teaser{
+            id: idx * 1000,
             title: "News Entry #{idx}",
             type: :news_entry,
             date: Timex.shift(now, hours: -idx),
             path: "http://example.com/news?utm=stuff",
-            routes: [Enum.at(routes, idx - 1)]
+            routes: []
           }
         end
 
@@ -76,12 +69,7 @@ defmodule SiteWeb.PageViewTest do
       assert rendered |> Floki.find(".c-news-entry") |> Enum.count() == 5
       assert rendered |> Floki.find(".c-news-entry--large") |> Enum.count() == 2
       assert rendered |> Floki.find(".c-news-entry--small") |> Enum.count() == 3
-
-      assert rendered =~ "c-news-entry--red-line"
-      assert rendered =~ "c-news-entry--commuter-rail"
-      assert rendered =~ "c-news-entry--bus"
-      assert rendered =~ "c-news-entry--silver-line"
-      assert rendered =~ "c-news-entry--bus"
+      assert rendered =~ "2000"
     end
   end
 end

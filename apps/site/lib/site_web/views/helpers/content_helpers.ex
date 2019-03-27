@@ -4,6 +4,7 @@ defmodule SiteWeb.ContentHelpers do
   """
 
   import SiteWeb.ViewHelpers, only: [route_to_class: 1]
+  import CSSHelpers, only: [string_to_class: 1]
 
   alias Routes.Repo
 
@@ -38,7 +39,7 @@ defmodule SiteWeb.ContentHelpers do
   @spec cms_route_to_class(map()) :: String.t()
   def cms_route_to_class(%{id: "silver_line"}), do: "silver-line"
   def cms_route_to_class(%{id: "mattapan"}), do: "red-line"
-  def cms_route_to_class(%{group: "custom", mode: mode}), do: String.replace(mode, "_", "-")
-  def cms_route_to_class(%{group: "mode", id: mode}), do: String.replace(mode, "_", "-")
+  def cms_route_to_class(%{group: "custom", mode: mode}), do: string_to_class(mode)
+  def cms_route_to_class(%{group: "mode", id: mode}), do: string_to_class(mode)
   def cms_route_to_class(%{id: id}), do: id |> Repo.get() |> route_to_class()
 end

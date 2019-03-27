@@ -47,13 +47,15 @@ defmodule SiteWeb.ProjectViewTest do
     end
 
     test "returns true if there are 4 items or more" do
-      updates = [
-        %Teaser{},
-        %Teaser{},
-        %Teaser{},
-        %Teaser{},
-        %Teaser{}
-      ]
+      updates =
+        for idx <- 1..5 do
+          %Content.Teaser{
+            id: idx,
+            type: :news_entry,
+            title: "News Item #{idx}",
+            path: "/path"
+          }
+        end
 
       assert updates |> Enum.take(3) |> ProjectView.show_all_updates_link?() == true
       assert updates |> Enum.take(4) |> ProjectView.show_all_updates_link?() == true

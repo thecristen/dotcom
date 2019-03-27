@@ -36,18 +36,22 @@ defmodule Content.CMS.Static do
     parse_json("cms/route-pdfs.json")
   end
 
-  # Small, teaser-based responses from CMS API
+  # Teaser responses from CMS API (minimal data)
 
   def teaser_response do
     parse_json("cms/teasers.json")
+  end
+
+  def teaser_basic_page_response do
+    parse_json("cms/teasers_page.json")
   end
 
   def teaser_news_entry_response do
     parse_json("cms/teasers_news_entry.json")
   end
 
-  def teaser_guides_response do
-    parse_json("cms/teasers_guides.json")
+  def teaser_event_response do
+    parse_json("cms/teasers_event.json")
   end
 
   def teaser_project_response do
@@ -62,7 +66,7 @@ defmodule Content.CMS.Static do
     parse_json("cms/teasers_project_update.json")
   end
 
-  # Repositories of multiple, full-object responses for convenience
+  # Repositories of multiple, full-object responses (maximum data)
 
   def news_repo do
     parse_json("repo/news.json")
@@ -340,10 +344,10 @@ defmodule Content.CMS.Static do
   end
 
   def view("/cms/teasers/guides", _) do
-    {:ok, teaser_guides_response()}
+    {:ok, teaser_basic_page_response()}
   end
 
-  def view("/cms/teasers/Guides/Red", sticky: 0) do
+  def view("/cms/teasers/guides/red", sticky: 0) do
     {:ok, []}
   end
 
@@ -365,6 +369,10 @@ defmodule Content.CMS.Static do
 
   def view("/cms/teasers", %{type: :news_entry}) do
     {:ok, teaser_news_entry_response()}
+  end
+
+  def view("/cms/teasers", %{type: :event}) do
+    {:ok, teaser_event_response()}
   end
 
   def view("/cms/teasers/" <> route_id, params) when route_id != "NotFound" do

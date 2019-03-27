@@ -117,28 +117,28 @@ defmodule SiteWeb.PartialView do
   end
 
   @spec teaser_image_class(Teaser.t()) :: String.t()
-  defp teaser_image_class(teaser) do
+  defp teaser_image_class(%Teaser{topic: topic}) do
     Enum.join(
       [
         "c-content-teaser__image",
-        "c-content-teaser__image--" <> String.downcase(teaser.topic)
+        "c-content-teaser__image--" <> CSSHelpers.string_to_class(topic)
       ],
       " "
     )
   end
 
   @spec teaser_text(Teaser.t()) :: [Phoenix.HTML.Safe.t()]
-  defp teaser_text(%Teaser{topic: "Guides", title: title}) do
+  defp teaser_text(%Teaser{topic: "Guides"} = teaser) do
     [
-      content_tag(:span, [title], class: "sr-only")
+      content_tag(:span, [teaser.title], class: "sr-only")
     ]
   end
 
   defp teaser_text(teaser) do
     [
       content_tag(:div, [teaser.topic], class: "u-small-caps"),
-      content_tag(:h3, [raw(teaser.title)], class: "h3 c-content-teaser__title"),
-      content_tag(:div, [raw(teaser.text)], class: "c-content-teaser__text")
+      content_tag(:h3, [teaser.title], class: "h3 c-content-teaser__title"),
+      content_tag(:div, [teaser.text], class: "c-content-teaser__text")
     ]
   end
 

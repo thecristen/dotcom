@@ -159,7 +159,7 @@ defmodule SiteWeb.PartialViewTest do
       assert {:ok, date} = Date.new(2018, 11, 30)
 
       news = %Teaser{
-        id: "id",
+        id: 7999,
         type: :news_entry,
         date: date,
         title: "title",
@@ -175,6 +175,7 @@ defmodule SiteWeb.PartialViewTest do
       assert rendered =~ "title"
       assert rendered =~ "Nov"
       assert rendered =~ "30"
+      assert rendered =~ "7999"
       assert rendered =~ ~s(href="/url")
     end
   end

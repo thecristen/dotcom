@@ -62,6 +62,24 @@ defmodule Content.CMS.StaticTest do
       end
     end
 
+    test "/cms/teasers?type=project" do
+      assert {:ok, projects} = view("/cms/teasers", %{type: :project})
+      refute Enum.empty?(projects)
+
+      for project <- projects do
+        assert Map.fetch(project, "type") == {:ok, "project"}
+      end
+    end
+
+    test "/cms/teasers?type=event" do
+      assert {:ok, events} = view("/cms/teasers", %{type: :event})
+      refute Enum.empty?(events)
+
+      for event <- events do
+        assert Map.fetch(event, "type") == {:ok, "event"}
+      end
+    end
+
     test "/admin/content/paragraphs/30" do
       assert {:ok, library_paragraph_item} = view("/admin/content/paragraphs/30", %{})
       assert %{"id" => [%{"value" => 30}]}

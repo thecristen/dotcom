@@ -96,7 +96,7 @@ defmodule SiteWeb.Mode.HubBehavior do
 
   @spec guides(String.t()) :: [Teaser.t()]
   defp guides(mode) do
-    Content.Repo.teasers(topic: "guides", sidebar: 1, mode: mode_to_param(mode))
+    Content.Repo.teasers(type: :page, topic: "guides", sidebar: 1, mode: mode_to_param(mode))
   end
 
   @spec mode_to_param(String.t()) :: String.t()

@@ -68,7 +68,7 @@ defmodule SiteWeb.PageControllerTest do
   end
 
   test "adds utm params to url for news entries" do
-    with_utm = add_utm_url(%Teaser{path: "/path", title: "title", type: :news_entry})
+    with_utm = add_utm_url(%Teaser{id: 1234, path: "/path", title: "title", type: :news_entry})
 
     assert %{
              path:

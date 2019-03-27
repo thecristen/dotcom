@@ -6,6 +6,15 @@ defmodule CSSHelpers do
   so this module provides helper functions to share between them.
   """
 
+  @doc "Formats arbitrary strings as CSS-friendly"
+  @spec string_to_class(String.t()) :: String.t()
+  def string_to_class(string) do
+    string
+    |> String.downcase()
+    |> String.replace(~r/[ _]/, "-")
+    |> String.replace(~r/[^a-zA-Z0-9-]/, "")
+  end
+
   @doc "Returns a css class: a string with hyphens."
   @spec atom_to_class(atom) :: String.t()
   def atom_to_class(atom) do

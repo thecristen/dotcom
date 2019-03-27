@@ -3,31 +3,34 @@ defmodule Content.Teaser do
   A short, simplified representation of any content type.
   """
 
-  import Content.Helpers, only: [content_type: 1]
+  import Content.Helpers, only: [content_type: 1, int_or_string_to_int: 1]
 
   alias Content.{CMS, Field.Image}
 
+  @enforce_keys [:id, :type, :path, :title]
   defstruct [
-    :image,
-    :path,
-    :text,
-    :title,
-    :topic,
     :id,
     :type,
-    :date,
-    :routes
+    :path,
+    :title,
+    image: nil,
+    text: "",
+    location: "",
+    topic: "",
+    date: nil,
+    routes: []
   ]
 
   @type t :: %__MODULE__{
-          image: Image.t() | nil,
-          path: String.t(),
-          text: String.t(),
-          title: String.t(),
-          topic: String.t(),
-          id: String.t(),
+          id: integer,
           type: CMS.type(),
-          date: Date.t() | nil,
+          path: String.t(),
+          title: String.t(),
+          image: Image.t() | nil,
+          text: String.t(),
+          location: String.t(),
+          topic: String.t(),
+          date: Date.t() | DateTime.t() | nil,
           routes: [String.t()]
         }
 
@@ -46,31 +49,40 @@ defmodule Content.Teaser do
         } = data
       ) do
     %__MODULE__{
-      image: image(image_path, image_alt),
-      path: path,
-      text: text,
-      title: title,
-      topic: topic,
-      id: id,
+      id: int_or_string_to_int(id),
       type: content_type(type),
+      path: path,
+      title: title,
+      image: image(image_path, image_alt),
+      text: text,
+      topic: topic,
+      location: location(data),
       date: date(data),
       routes: routes(route_data)
     }
   end
 
   @spec date(map) :: Date.t() | nil
+  # news_entry and project_update types share a common "Posted On" date field (both are required).
   defp date(%{"type" => type, "posted" => date}) when type in ["news_entry", "project_update"] do
     do_date(date)
   end
 
-  defp date(%{"type" => "project", "updated" => updated, "changed" => changed}) do
-    case updated do
-      "" -> do_date(changed)
-      _ -> do_date(updated)
-    end
+  # project types have a required "Updated On" date field.
+  defp date(%{"type" => "project", "updated" => date}) do
+    do_date(date)
   end
 
-  defp date(%{"changed" => date}) do
+  # event types have a required "Start Time" date field.
+  defp date(%{"type" => "event", "start" => date}) do
+    do_datetime(date)
+  end
+
+  # Emulate /cms/teasers endpoint and fall back to creation date when:
+  # A: :sort_by and :sort_order have not been set OR
+  # B: The results are all basic page type content items.
+  # *: All content types have this core field date.
+  defp date(%{"created" => date}) do
     do_date(date)
   end
 
@@ -82,9 +94,28 @@ defmodule Content.Teaser do
     end
   end
 
+  # The Event start time includes time and timezone data
+  @spec do_datetime(String.t()) :: DateTime.t() | nil
+  defp do_datetime(date) do
+    case DateTime.from_iso8601(date) do
+      {:ok, dt, offset} -> DateTime.add(dt, offset)
+      {:error, _} -> nil
+    end
+  end
+
   @spec image(String.t(), String.t()) :: Image.t() | nil
   defp image("", _), do: nil
   defp image(uri, alt), do: struct(Image, url: uri, alt: alt)
+
+  # Event location is sent in the form of a pipe-separated string:
+  # Ex: "place|address|city|state" (any of the slots may be "").
+  @spec location(map()) :: String.t()
+  defp location(%{"location" => piped_string}) do
+    piped_string
+    |> String.split("|", trim: true)
+    |> Enum.intersperse(" • ")
+    |> List.to_string()
+  end
 
   @spec routes([map()]) :: [map()]
   defp routes(route_data) do
