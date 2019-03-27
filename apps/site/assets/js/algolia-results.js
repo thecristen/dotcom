@@ -163,9 +163,9 @@ export class AlgoliaResults {
         .then(result => {
           this._parent.resetSessionToken();
           this._showLocation(
-            result.geometry.location.lat(),
-            result.geometry.location.lng(),
-            result.formatted_address
+            result.latitude,
+            result.longitude,
+            result.formatted
           );
         })
         .catch(err => {
