@@ -1,5 +1,6 @@
 defmodule SiteWeb.PlacesControllerTest do
   use SiteWeb.ConnCase
+  alias GoogleMaps.Place.AutocompleteQuery
   alias Plug.Conn
 
   @prediction_results Poison.encode!([
@@ -249,6 +250,20 @@ defmodule SiteWeb.PlacesControllerTest do
       body = json_response(conn, 400)
       assert body["error"] == "Invalid arguments"
     end
+
+    test "responds with 500 error when google returns an error", %{conn: conn} do
+      autocomplete_fn = fn %AutocompleteQuery{input: "input"} ->
+        {:error, :internal_error}
+      end
+
+      conn =
+        conn
+        |> assign(:autocomplete_fn, autocomplete_fn)
+        |> get(places_path(conn, :autocomplete, "input", "3", "123"))
+
+      assert conn.status == 500
+      assert %{"error" => "Internal error"} = json_response(conn, 500)
+    end
   end
 
   describe "details" do
@@ -272,6 +287,34 @@ defmodule SiteWeb.PlacesControllerTest do
       assert is_map(result)
 
       Map.has_key?(result, "place_id")
+    end
+
+    test "responds with 500 error when google returns an error", %{conn: conn} do
+      geocode_by_place_id_fn = fn "PLACE_ID" ->
+        {:error, :internal_error}
+      end
+
+      conn =
+        conn
+        |> assign(:geocode_by_place_id_fn, geocode_by_place_id_fn)
+        |> get(places_path(conn, :details, "PLACE_ID"))
+
+      assert conn.status == 500
+      assert %{"error" => "Internal error"} = json_response(conn, 500)
+    end
+
+    test "responds with 500 error when google returns zero_results", %{conn: conn} do
+      geocode_by_place_id_fn = fn "PLACE_ID" ->
+        {:error, :zero_results}
+      end
+
+      conn =
+        conn
+        |> assign(:geocode_by_place_id_fn, geocode_by_place_id_fn)
+        |> get(places_path(conn, :details, "PLACE_ID"))
+
+      assert conn.status == 500
+      assert %{"error" => "Zero results"} = json_response(conn, 500)
     end
   end
 
@@ -300,8 +343,55 @@ defmodule SiteWeb.PlacesControllerTest do
       conn = get(conn, places_path(conn, :reverse_geocode, "latitude", "longitude"))
 
       assert conn.status == 400
-      body = json_response(conn, 400)
-      assert body["error"] == "Invalid arguments"
+      assert %{"error" => "Invalid arguments"} = json_response(conn, 400)
+    end
+
+    test "responds with 500 if google returns an error", %{conn: conn} do
+      latitude = 42.3484012
+      longitude = -71.039176
+
+      reverse_geocode_fn = fn ^latitude, ^longitude ->
+        {:error, :internal_error}
+      end
+
+      conn =
+        conn
+        |> assign(:reverse_geocode_fn, reverse_geocode_fn)
+        |> get(
+          places_path(
+            conn,
+            :reverse_geocode,
+            Float.to_string(latitude),
+            Float.to_string(longitude)
+          )
+        )
+
+      assert conn.status == 500
+      assert %{"error" => "Internal error"} = json_response(conn, 500)
+    end
+
+    test "responds with 500 if google returns zero_results", %{conn: conn} do
+      latitude = 42.3484012
+      longitude = -71.039176
+
+      reverse_geocode_fn = fn ^latitude, ^longitude ->
+        {:error, :zero_results}
+      end
+
+      conn =
+        conn
+        |> assign(:reverse_geocode_fn, reverse_geocode_fn)
+        |> get(
+          places_path(
+            conn,
+            :reverse_geocode,
+            Float.to_string(latitude),
+            Float.to_string(longitude)
+          )
+        )
+
+      assert conn.status == 500
+      assert %{"error" => "Zero results"} = json_response(conn, 500)
     end
   end
 end

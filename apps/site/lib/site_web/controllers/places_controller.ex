@@ -8,9 +8,11 @@ defmodule SiteWeb.PlacesController do
 
   @spec autocomplete(Conn.t(), map) :: Conn.t()
   def autocomplete(conn, %{"input" => input, "hit_limit" => hit_limit_str, "token" => token}) do
+    autocomplete_fn = Map.get(conn.assigns, :autocomplete_fn, &Place.autocomplete/1)
+
     with {hit_limit, ""} <- Integer.parse(hit_limit_str),
          {:ok, predictions} <-
-           Place.autocomplete(%AutocompleteQuery{
+           autocomplete_fn.(%AutocompleteQuery{
              input: input,
              hit_limit: hit_limit,
              session_token: token
@@ -20,9 +22,6 @@ defmodule SiteWeb.PlacesController do
       {:error, :internal_error} ->
         return_internal_error(conn)
 
-      {:error, :zero_results} ->
-        return_zero_results_error(conn)
-
       _ ->
         return_invalid_arguments_error(conn)
     end
@@ -30,7 +29,10 @@ defmodule SiteWeb.PlacesController do
 
   @spec details(Conn.t(), map) :: Conn.t()
   def details(conn, %{"place_id" => place_id}) do
-    with {:ok, results} <- Geocode.geocode_by_place_id(place_id) do
+    geocode_by_place_id_fn =
+      Map.get(conn.assigns, :geocode_by_place_id_fn, &Geocode.geocode_by_place_id/1)
+
+    with {:ok, results} <- geocode_by_place_id_fn.(place_id) do
       json(conn, %{result: results |> List.first() |> Poison.encode!()})
     else
       {:error, :internal_error} ->
@@ -43,8 +45,10 @@ defmodule SiteWeb.PlacesController do
 
   @spec reverse_geocode(Conn.t(), map) :: Conn.t()
   def reverse_geocode(conn, params) do
-    with {:ok, latitude, longitude} <- parse_location(params) do
-      {:ok, results} = Geocode.reverse_geocode(latitude, longitude)
+    reverse_geocode_fn = Map.get(conn.assigns, :reverse_geocode_fn, &Geocode.reverse_geocode/2)
+
+    with {:ok, latitude, longitude} <- parse_location(params),
+         {:ok, results} <- reverse_geocode_fn.(latitude, longitude) do
       json(conn, %{results: Poison.encode!(results)})
     else
       :invalid_lat_lng ->
