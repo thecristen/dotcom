@@ -319,6 +319,7 @@ defmodule Content.ParagraphTest do
     assert [
              date: "now",
              date_op: "<",
+             items_per_page: 2,
              related_to: 3004,
              sort_order: :DESC,
              sticky: "0",

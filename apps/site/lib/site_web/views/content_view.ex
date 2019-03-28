@@ -8,7 +8,7 @@ defmodule SiteWeb.ContentView do
 
   alias Content.Field.{File, Image, Link}
   alias Content.Paragraph
-  alias Content.Paragraph.{Callout, ColumnMulti, ContentList, FareCard}
+  alias Content.Paragraph.{Callout, ColumnMulti, FareCard}
   alias Site.ContentRewriter
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
@@ -182,16 +182,6 @@ defmodule SiteWeb.ContentView do
   defp fare_card_element(nil), do: %{tag: :div, attrs: []}
 
   @spec paragraph_classes(Paragraph.t()) :: iodata()
-  defp paragraph_classes(%Callout{image: %Image{}}) do
-    ["c-callout--with-image"]
-  end
-
-  defp paragraph_classes(%ContentList{ingredients: %{type: type}}) do
-    class = if is_nil(type), do: "mixed", else: CSSHelpers.atom_to_class(type)
-    ["c-content-list--#{class}"]
-  end
-
-  defp paragraph_classes(_) do
-    []
-  end
+  defp paragraph_classes(%Callout{image: %Image{}}), do: ["c-callout--with-image"]
+  defp paragraph_classes(_), do: []
 end

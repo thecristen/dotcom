@@ -379,8 +379,8 @@ defmodule SiteWeb.ContentViewTest do
         |> HTML.safe_to_string()
 
       assert rendered =~ "c-paragraph--content-list"
-      assert rendered =~ "c-content-list--project-update"
-      assert rendered =~ "c-teaser--project-update"
+      assert rendered =~ "c-teaser-list--project-update"
+      assert rendered =~ "c-content-teaser--project-update"
       assert rendered =~ "Header copy"
     end
 

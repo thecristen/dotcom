@@ -21,6 +21,19 @@ defmodule Content.Teaser do
     routes: []
   ]
 
+  @type cms_route :: %{
+          id: String.t(),
+          group: String.t(),
+          mode: String.t()
+        }
+
+  @type location :: [
+          place: String.t() | nil,
+          address: String.t() | nil,
+          city: String.t() | nil,
+          state: String.t() | nil
+        ]
+
   @type t :: %__MODULE__{
           id: integer,
           type: CMS.type(),
@@ -30,11 +43,11 @@ defmodule Content.Teaser do
           text: String.t() | nil,
           topic: String.t() | nil,
           date: Date.t() | DateTime.t() | nil,
-          location: String.t() | nil,
-          routes: [String.t()]
+          location: location() | nil,
+          routes: [cms_route()]
         }
 
-  @spec from_api(map) :: __MODULE__.t()
+  @spec from_api(map()) :: __MODULE__.t()
   def from_api(
         %{
           "image_uri" => image_path,
@@ -56,7 +69,7 @@ defmodule Content.Teaser do
       image: image(image_path, image_alt),
       text: content(text),
       topic: content(topic),
-      location: data |> location() |> content(),
+      location: data |> location(),
       date: date(data),
       routes: routes(route_data)
     }
@@ -109,15 +122,22 @@ defmodule Content.Teaser do
 
   # Event location is sent in the form of a pipe-separated string:
   # Ex: "place|address|city|state" (any of the slots may be "").
-  @spec location(map()) :: String.t()
-  defp location(%{"location" => piped_string}) do
-    piped_string
-    |> String.split("|", trim: true)
-    |> Enum.intersperse(" • ")
-    |> List.to_string()
+  @spec location(map()) :: location() | nil
+  defp location(%{"type" => "event", "location" => piped_string}) do
+    location =
+      piped_string
+      |> String.split("|")
+      |> Enum.zip([:place, :address, :city, :state])
+      |> Keyword.new(fn {v, k} -> {k, content(v)} end)
+
+    if Enum.all?(location, &match?({_, nil}, &1)), do: nil, else: location
   end
 
-  @spec routes([map()]) :: [map()]
+  defp location(_not_an_event) do
+    nil
+  end
+
+  @spec routes([map()]) :: [cms_route()]
   defp routes(route_data) do
     route_data
     |> Enum.map(& &1["data"])
@@ -128,7 +148,7 @@ defmodule Content.Teaser do
   # Maps the tagged CMS route term, it's group, and it's parent mode.
   # Parent mode is useful for "misc" group terms that don't have matching
   # route IDs in Elixir's route repository, such as "local_bus".
-  @spec route_metadata(map()) :: map()
+  @spec route_metadata(map()) :: cms_route()
   defp route_metadata(route_data) do
     Map.new(
       id: route_data["gtfs_id"],

@@ -10,6 +10,7 @@ defmodule Content.Paragraph.ContentList do
   alias Content.{Paragraph.ColumnMultiHeader, Repo, Teaser}
 
   defstruct header: nil,
+            right_rail: false,
             ingredients: %{},
             recipe: [],
             teasers: []
@@ -18,6 +19,7 @@ defmodule Content.Paragraph.ContentList do
 
   @type t :: %__MODULE__{
           header: ColumnMultiHeader.t() | nil,
+          right_rail: boolean(),
           ingredients: map(),
           recipe: Keyword.t(),
           teasers: [Teaser.t()]
@@ -52,6 +54,7 @@ defmodule Content.Paragraph.ContentList do
 
     %__MODULE__{
       header: parse_header(data),
+      right_rail: field_value(data, "field_right_rail"),
       ingredients: ingredients,
       recipe: recipe
     }
@@ -157,7 +160,20 @@ defmodule Content.Paragraph.ContentList do
   # Ingredients are ready to bake into opts for endpoint call. Discard
   # all nil values and converts remaining ingredients to a list
   defp combine(ingredients) do
-    Enum.reject(ingredients, fn {_k, v} -> is_nil(v) end)
+    ingredients
+    |> limit_count_by_type()
+    |> Enum.reject(fn {_k, v} -> is_nil(v) end)
+  end
+
+  # Limit amount of teasers when certain types are requested
+  @spec limit_count_by_type(map) :: map
+  defp limit_count_by_type(%{type: type} = ingredients)
+       when type in [:project_update, :project] do
+    Map.put(ingredients, :items_per_page, 2)
+  end
+
+  defp limit_count_by_type(ingredients) do
+    ingredients
   end
 
   # Convert order value strings to atoms

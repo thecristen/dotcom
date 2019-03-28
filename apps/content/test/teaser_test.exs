@@ -101,7 +101,7 @@ defmodule Content.TeaserTest do
     assert teaser.date == ~D[2018-10-30]
   end
 
-  test "parses a complete location into a bullet-separated string" do
+  test "parses a complete location for an event" do
     teaser =
       Static.teaser_event_response()
       |> List.first()
@@ -109,16 +109,20 @@ defmodule Content.TeaserTest do
 
     assert teaser.id == 3911
 
-    assert teaser.location ==
-             "State Transportation Building • 10 Park Plaza, 2nd Floor, Transportation Board Room • Boston • MA"
+    assert teaser.location == [
+             place: "State Transportation Building",
+             address: "10 Park Plaza, 2nd Floor, Transportation Board Room",
+             city: "Boston",
+             state: "MA"
+           ]
   end
 
-  test "parses an incomplete location into a bullet-separated string" do
+  test "parses an incomplete location for an event" do
     assert Static.teaser_event_response()
            |> List.first()
            |> Map.put("location", "||Quincy|MA")
            |> Teaser.from_api()
-           |> Map.get(:location) == "Quincy • MA"
+           |> Map.get(:location) == [place: nil, address: nil, city: "Quincy", state: "MA"]
   end
 
   test "stores a list of all attached gtfs ids for later usage" do

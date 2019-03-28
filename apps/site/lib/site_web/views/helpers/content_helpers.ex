@@ -6,6 +6,7 @@ defmodule SiteWeb.ContentHelpers do
   import SiteWeb.ViewHelpers, only: [route_to_class: 1]
   import CSSHelpers, only: [string_to_class: 1]
 
+  alias Content.Teaser
   alias Routes.Repo
 
   @doc """
@@ -16,7 +17,7 @@ defmodule SiteWeb.ContentHelpers do
   "commuter_rail" or "silver_line" to indicate the content item
   is related to all routes on that mode or line.
   """
-  @spec cms_route_to_class(map()) :: String.t()
+  @spec cms_route_to_class(Teaser.cms_route()) :: String.t()
   def cms_route_to_class(%{id: "silver_line"}), do: "silver-line"
   def cms_route_to_class(%{id: "mattapan"}), do: "red-line"
   def cms_route_to_class(%{group: "custom", mode: mode}), do: string_to_class(mode)
