@@ -1,5 +1,5 @@
 import * as AlgoliaResult from "./algolia-result";
-import * as QueryStringHelpers from "./query-string-helpers";
+import * as QueryHelpers from "../ts/helpers/query";
 
 export class AlgoliaAutocomplete {
   constructor(id, selectors, indices, parent) {
@@ -314,7 +314,8 @@ export class AlgoliaAutocomplete {
 
   onHitSelectedCallback(hit, type, params) {
     window.Turbolinks.visit(
-      AlgoliaResult.getUrl(hit, type) + QueryStringHelpers.parseParams(params)
+      AlgoliaResult.getUrl(hit, type) +
+        QueryHelpers.paramsToString(params, window.encodeURIComponent)
     );
   }
 

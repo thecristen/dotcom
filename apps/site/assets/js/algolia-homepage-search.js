@@ -1,6 +1,6 @@
 import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import { AlgoliaEmbeddedSearch } from "./algolia-embedded-search";
-import * as QueryStringHelpers from "./query-string-helpers";
+import * as QueryHelpers from "../ts/helpers/query";
 
 const INDICES = {
   routes: {
@@ -79,9 +79,12 @@ export const doInit = () => {
     });
 
     search.buildSearchParams = () =>
-      QueryStringHelpers.parseParams({
-        query: search.input.value
-      });
+      QueryHelpers.paramsToString(
+        {
+          query: search.input.value
+        },
+        window.encodeURIComponent
+      );
 
     return search;
   }

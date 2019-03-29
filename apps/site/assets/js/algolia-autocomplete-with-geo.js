@@ -1,6 +1,6 @@
 import { AlgoliaAutocomplete } from "./algolia-autocomplete";
 import * as GoogleMapsHelpers from "./google-maps-helpers";
-import * as QueryStringHelpers from "./query-string-helpers";
+import * as QueryHelpers from "../ts/helpers/query";
 import geolocationPromise from "./geolocation-promise";
 import debounce from "../ts/helpers/debounce.ts";
 import * as AlgoliaResult from "./algolia-result";
@@ -193,7 +193,7 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     params.latitude = latitude;
     params.longitude = longitude;
     params.address = this._input.value;
-    const qs = QueryStringHelpers.parseParams(params);
+    const qs = QueryHelpers.paramsToString(params, window.encodeURIComponent);
     window.Turbolinks.visit(`/transit-near-me${qs}`);
   }
 }

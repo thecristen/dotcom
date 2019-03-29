@@ -1,7 +1,7 @@
 import hogan from "hogan.js";
 import * as AlgoliaResult from "./algolia-result";
 import * as GoogleMapsHelpers from "./google-maps-helpers";
-import * as QueryStringHelpers from "./query-string-helpers";
+import * as QueryHelpers from "../ts/helpers/query";
 
 const TEMPLATES = {
   contentResults: hogan.compile(`
@@ -121,7 +121,11 @@ export class AlgoliaResults {
     return response => {
       this.reset();
       window.Turbolinks.visit(
-        href + QueryStringHelpers.parseParams(this._parent.getParams())
+        href +
+          QueryHelpers.paramsToString(
+            this._parent.getParams(),
+            window.encodeURIComponent
+          )
       );
     };
   }
@@ -135,7 +139,7 @@ export class AlgoliaResults {
     params.latitude = latitude;
     params.longitude = longitude;
     params.address = address;
-    const qs = QueryStringHelpers.parseParams(params);
+    const qs = QueryHelpers.paramsToString(params, window.encodeURIComponent);
     window.Turbolinks.visit(`/transit-near-me${qs}`);
   }
 

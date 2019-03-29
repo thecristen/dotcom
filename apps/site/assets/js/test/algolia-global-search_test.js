@@ -4,6 +4,9 @@ import jsdom from "mocha-jsdom";
 import Algolia from "../algolia-search";
 import { AlgoliaGlobalSearch } from "../algolia-global-search";
 
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable func-names */
+
 describe("AlgoliaGlobalSearch", function() {
   jsdom({
     scripts: [
@@ -14,6 +17,12 @@ describe("AlgoliaGlobalSearch", function() {
   beforeEach(function() {
     window.jQuery = jsdom.rerequire("jquery");
     window.$ = window.jQuery;
+    window.encodeURIComponent = string =>
+      string
+        .replace(/\s/g, "%20")
+        .replace(/&/g, "%26")
+        .replace(/,/g, "%2C");
+
     document.body.innerHTML = "";
     Object.keys(AlgoliaGlobalSearch.SELECTORS).forEach(key => {
       document.body.innerHTML += `<div id="${
@@ -143,3 +152,6 @@ describe("AlgoliaGlobalSearch", function() {
     });
   });
 });
+
+/* eslint-enable prefer-arrow-callback */
+/* eslint-enable func-names */

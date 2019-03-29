@@ -2,7 +2,7 @@ import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import Algolia from "./algolia-search";
 import * as AlgoliaResult from "./algolia-result";
 import AlgoliaAutocompleteWithGeo from "./algolia-autocomplete-with-geo";
-import * as QueryStringHelpers from "./query-string-helpers";
+import * as QueryHelpers from "../ts/helpers/query";
 
 import {
   PAGE_IDS,
@@ -57,11 +57,14 @@ export class AlgoliaEmbeddedSearch {
   }
 
   buildSearchParams() {
-    return QueryStringHelpers.parseParams({
-      query: this.input.value,
-      facets: this.facets(),
-      showmore: this.indexNames()
-    });
+    return QueryHelpers.paramsToString(
+      {
+        query: this.input.value,
+        facets: this.facets(),
+        showmore: this.indexNames()
+      },
+      window.encodeURIComponent
+    );
   }
 
   onClickGoBtn() {

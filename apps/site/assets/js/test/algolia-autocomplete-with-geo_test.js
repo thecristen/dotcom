@@ -29,6 +29,9 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       </div>
       <div id="${selectors.locationLoadingIndicator}"></div>
     `;
+    window.encodeURIComponent = string => {
+      return string.replace(/\s/g, "%20").replace(/\&/g, "%26");
+    };
     window.autocomplete = jsdom.rerequire("autocomplete.js");
     window.jQuery = jsdom.rerequire("jquery");
     window.Turbolinks = {

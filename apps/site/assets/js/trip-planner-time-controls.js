@@ -1,5 +1,5 @@
 import DatePickerInput from "./datepicker-input";
-import { parseQuery } from "./query-string-helpers";
+import * as QueryHelpers from "../ts/helpers/query";
 
 export class TripPlannerTimeControls {
   constructor() {
@@ -46,8 +46,12 @@ export class TripPlannerTimeControls {
       .addEventListener("change", this.updateTime.bind(this));
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getStateFromQuery() {
-    return parseQuery(window.location.search);
+    return QueryHelpers.parseQuery(
+      window.location.search,
+      window.decodeURIComponent
+    );
   }
 
   formatQueryPlanType() {

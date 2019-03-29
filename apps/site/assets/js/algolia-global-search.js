@@ -2,7 +2,7 @@ import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import { AlgoliaWithGeo } from "./algolia-search-with-geo";
 import { AlgoliaFacets } from "./algolia-facets";
 import { AlgoliaResults } from "./algolia-results";
-import * as QueryStringHelpers from "./query-string-helpers";
+import * as QueryHelpers from "../ts/helpers/query";
 
 export function init() {
   const search = new AlgoliaGlobalSearch();
@@ -88,7 +88,10 @@ export class AlgoliaGlobalSearch {
   }
 
   loadState(query) {
-    this._queryParams = QueryStringHelpers.parseQuery(query);
+    this._queryParams = QueryHelpers.parseQuery(
+      query,
+      window.decodeURIComponent
+    );
     this.container.value = this._queryParams.query || "";
 
     const showMoreState = this._queryParams.showmore || "";
@@ -149,7 +152,10 @@ export class AlgoliaGlobalSearch {
       window.history.state,
       "",
       window.location.pathname +
-        QueryStringHelpers.parseParams(this._queryParams)
+        QueryHelpers.paramsToString(
+          this._queryParams,
+          window.encodeURIComponent
+        )
     );
   }
 
