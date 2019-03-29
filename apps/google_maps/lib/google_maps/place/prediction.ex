@@ -26,16 +26,17 @@ defmodule GoogleMaps.Place.Prediction do
   ]
 
   @spec new(map) :: t()
-  def new(%{
-        "description" => description,
-        "id" => id,
-        "matched_substrings" => matched_substrings,
-        "place_id" => place_id,
-        "reference" => reference,
-        "structured_formatting" => structured_formatting,
-        "terms" => terms,
-        "types" => types
-      }) do
+  def new(
+        %{
+          "description" => description,
+          "id" => id,
+          "matched_substrings" => matched_substrings,
+          "place_id" => place_id,
+          "reference" => reference,
+          "structured_formatting" => structured_formatting,
+          "terms" => terms
+        } = data
+      ) do
     %__MODULE__{
       description: description,
       id: id,
@@ -44,7 +45,7 @@ defmodule GoogleMaps.Place.Prediction do
       reference: reference,
       structured_formatting: structured_formatting,
       terms: terms,
-      types: types
+      types: Map.get(data, "types", [])
     }
   end
 end
