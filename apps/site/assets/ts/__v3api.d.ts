@@ -16,6 +16,8 @@ export interface Headsign {
   train_number: string | null;
 }
 
+export type Mode = "commuter_rail" | "subway" | "bus" | "ferry";
+
 export interface ParkingLot {
   name: string;
   address: string | null;

@@ -1,6 +1,6 @@
 import * as googleMaps from "../app/googleMaps/state";
 
-import { TNMMode } from "./components/__tnm";
+import { Mode } from "../__v3api";
 
 export type SelectedStopType = string | null;
 
@@ -10,7 +10,7 @@ export const { clickCurrentLocationAction } = googleMaps;
 
 interface State {
   selectedStopId: SelectedStopType;
-  selectedModes: TNMMode[];
+  selectedModes: Mode[];
   shouldFilterStopCards: boolean;
   shouldCenterMapOnSelectedStop: boolean;
   routesView: boolean;
@@ -29,7 +29,7 @@ type ModeActionType = "CLICK_MODE_FILTER";
 export interface ModeAction {
   type: ModeActionType;
   payload: {
-    modes: TNMMode[];
+    modes: Mode[];
   };
 }
 
@@ -57,7 +57,7 @@ export const clickViewChangeAction = (): StopAction => ({
   payload: { stopId: null }
 });
 
-export const clickModeAction = (modes: TNMMode[]): ModeAction => ({
+export const clickModeAction = (modes: Mode[]): ModeAction => ({
   type: "CLICK_MODE_FILTER",
   payload: { modes }
 });

@@ -1,13 +1,13 @@
 import React, { ReactElement } from "react";
-import { Stop, Route } from "../../__v3api";
-import { RouteGroup, RouteGroupName } from "./__tnm";
+import { Mode, Route, Stop } from "../../__v3api";
+import { RouteGroup } from "./__tnm";
 import { Dispatch, clickStopCardAction } from "../state";
 import ModeIcon from "./ModeIcon";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 
 export const renderRoutesLabel = (
   routes: Route[],
-  type: RouteGroupName
+  type: Mode
 ): ReactElement<HTMLElement> =>
   type === "commuter_rail" ? (
     <a href={routes[0].href}>Commuter Rail</a>
@@ -25,7 +25,7 @@ export const renderRoutesLabel = (
 
 export const renderRoutes = (
   routes: Route[],
-  type: RouteGroupName
+  type: Mode
 ): ReactElement<HTMLElement> => (
   <div key={type} className="m-tnm-sidebar__stop-card-description">
     <span className="m-tnm-sidebar__stop-route-name">

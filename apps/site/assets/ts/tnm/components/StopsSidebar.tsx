@@ -1,10 +1,11 @@
 import React, { ReactElement } from "react";
-import { Stop } from "../../__v3api";
-import { StopWithRoutes, TNMMode } from "./__tnm";
+import { Mode, Stop } from "../../__v3api";
+import { StopWithRoutes } from "./__tnm";
 import { Dispatch } from "../state";
-import { ModeFilter, tnmModeByV3ModeType } from "./ModeFilter";
+import { modeByV3ModeType } from "../../components/ModeFilter";
 import SidebarTitle from "./SidebarTitle";
 import StopWithRoutesCard from "./StopWithRoutesCard";
+import ModeFilterContainer from "./ModeFilterContainer";
 
 interface Props {
   data: StopWithRoutes[];
@@ -12,12 +13,12 @@ interface Props {
   selectedStopId: string | null;
   shouldFilterStopCards: boolean;
   selectedStop: Stop | undefined;
-  selectedModes: TNMMode[];
+  selectedModes: Mode[];
 }
 
 interface FilterOptions {
   stopId: string | null;
-  modes: TNMMode[];
+  modes: Mode[];
 }
 
 const filterDataByStopId = (
@@ -41,13 +42,13 @@ const filterDataByModes = (
   }
 
   return data.filter(stop =>
-    modes.reduce((accumulator: boolean, mode: TNMMode) => {
+    modes.reduce((accumulator: boolean, mode: Mode) => {
       if (accumulator === true) {
         return accumulator;
       }
       return stop.routes.some(routeGroup =>
         routeGroup.routes.some(
-          subroute => tnmModeByV3ModeType[subroute.type] === mode
+          subroute => modeByV3ModeType[subroute.type] === mode
         )
       );
     }, false)
@@ -57,7 +58,7 @@ const filterDataByModes = (
 export const filterData = (
   data: StopWithRoutes[],
   selectedStopId: string | null,
-  selectedModes: TNMMode[],
+  selectedModes: Mode[],
   shouldFilter: boolean
 ): StopWithRoutes[] => {
   if (shouldFilter === false) {
@@ -84,7 +85,7 @@ const StopsSidebar = ({
 }: Props): ReactElement<HTMLElement> | null =>
   data.length ? (
     <div className="m-tnm-sidebar" id="tnm-sidebar-by-stops">
-      <ModeFilter selectedModes={selectedModes} dispatch={dispatch} />
+      <ModeFilterContainer selectedModes={selectedModes} dispatch={dispatch} />
       <div className="m-tnm-sidebar__header">
         <SidebarTitle dispatch={dispatch} viewType="Stops" />
       </div>

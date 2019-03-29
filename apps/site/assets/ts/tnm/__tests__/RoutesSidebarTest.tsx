@@ -83,7 +83,7 @@ describe("filterData", () => {
       )
     );
 
-    const filteredRailData = filterData(data, null, ["rail"], true);
+    const filteredRailData = filterData(data, null, ["commuter_rail"], true);
     expect(filteredRailData).toHaveLength(4);
     expect(
       filteredRailData.every(

@@ -85,7 +85,7 @@ describe("filterData", () => {
     const filteredBusData = filterData(data, null, ["bus"], true);
     expect(filteredBusData).toHaveLength(10);
 
-    const filteredRailData = filterData(data, null, ["rail"], true);
+    const filteredRailData = filterData(data, null, ["commuter_rail"], true);
     expect(filteredRailData).toHaveLength(1);
 
     const filteredSubwayData = filterData(data, null, ["subway"], true);

@@ -20,7 +20,7 @@ exports[`it renders 1`] = `
         </span>
         <button
           aria-label="add filter by subway"
-          className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+          className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn u-small-caps inactive"
           onClick={[Function]}
           type="button"
         >
@@ -36,7 +36,7 @@ exports[`it renders 1`] = `
         </button>
         <button
           aria-label="add filter by bus"
-          className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+          className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn u-small-caps inactive"
           onClick={[Function]}
           type="button"
         >
@@ -51,8 +51,8 @@ exports[`it renders 1`] = `
           Bus
         </button>
         <button
-          aria-label="add filter by rail"
-          className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+          aria-label="add filter by commuter_rail"
+          className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn u-small-caps inactive"
           onClick={[Function]}
           type="button"
         >

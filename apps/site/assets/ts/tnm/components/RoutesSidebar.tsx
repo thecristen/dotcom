@@ -1,10 +1,10 @@
 import React, { ReactElement } from "react";
 import RouteCard from "./RouteCard";
 import RouteSidebarHeader from "./RouteSidebarHeader";
-import { ModeFilter, tnmModeByV3ModeType } from "./ModeFilter";
-import { TNMMode } from "./__tnm";
+import { modeByV3ModeType } from "../../components/ModeFilter";
 import { Dispatch } from "../state";
-import { RouteWithStopsWithDirections, Stop } from "../../__v3api";
+import { Mode, RouteWithStopsWithDirections, Stop } from "../../__v3api";
+import ModeFilterContainer from "./ModeFilterContainer";
 
 interface Props {
   data: RouteWithStopsWithDirections[];
@@ -12,12 +12,12 @@ interface Props {
   selectedStopId: string | null;
   shouldFilterStopCards: boolean;
   selectedStop: Stop | undefined;
-  selectedModes: TNMMode[];
+  selectedModes: Mode[];
 }
 
 interface FilterOptions {
   stopId: string | null;
-  modes: TNMMode[];
+  modes: Mode[];
 }
 
 const filterDataByModes = (
@@ -29,11 +29,11 @@ const filterDataByModes = (
     return data;
   }
   return data.filter(route =>
-    modes.reduce((accumulator: boolean, mode: TNMMode) => {
+    modes.reduce((accumulator: boolean, mode: Mode) => {
       if (accumulator === true) {
         return accumulator;
       }
-      return tnmModeByV3ModeType[route.route.type] === mode;
+      return modeByV3ModeType[route.route.type] === mode;
     }, false)
   );
 };
@@ -67,7 +67,7 @@ const filterDataByStopId = (
 export const filterData = (
   data: RouteWithStopsWithDirections[],
   selectedStopId: string | null,
-  selectedModes: TNMMode[],
+  selectedModes: Mode[],
   shouldFilter: boolean
 ): RouteWithStopsWithDirections[] => {
   if (shouldFilter === false) {
@@ -85,19 +85,17 @@ export const filterData = (
   );
 };
 
-const RoutesSidebar = (props: Props): ReactElement<HTMLElement> | null => {
-  const {
-    data,
-    dispatch,
-    selectedModes,
-    selectedStopId,
-    selectedStop,
-    shouldFilterStopCards
-  } = props;
-
-  return data.length ? (
+const RoutesSidebar = ({
+  data,
+  dispatch,
+  selectedModes,
+  selectedStopId,
+  selectedStop,
+  shouldFilterStopCards
+}: Props): ReactElement<HTMLElement> | null =>
+  data.length ? (
     <div className="m-tnm-sidebar">
-      <ModeFilter selectedModes={selectedModes} dispatch={dispatch} />
+      <ModeFilterContainer selectedModes={selectedModes} dispatch={dispatch} />
       <RouteSidebarHeader
         selectedStop={selectedStop}
         showPill={shouldFilterStopCards}
@@ -113,6 +111,5 @@ const RoutesSidebar = (props: Props): ReactElement<HTMLElement> | null => {
       ))}
     </div>
   ) : null;
-};
 
 export default RoutesSidebar;
