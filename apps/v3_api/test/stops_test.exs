@@ -14,7 +14,8 @@ defmodule V3Api.StopsTest do
         Plug.Conn.resp(conn, 200, ~s({"data": []}))
       end)
 
-      assert %JsonApi{} = V3Api.Stops.by_gtfs_id("123", base_url: url)
+      assert %JsonApi{} =
+               V3Api.Stops.by_gtfs_id("123", [include: "parent_station,facilities"], base_url: url)
     end
   end
 end

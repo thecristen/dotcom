@@ -13,6 +13,12 @@ defmodule Stops.Api do
           | :fare_media_assistance_facility
           | :ticket_window
 
+  @default_params [
+    include: "parent_station,facilities",
+    "fields[facility]": "name,type,properties,latitude,longitude",
+    "fields[stop]": "address,name,latitude,longitude,address,wheelchair_boarding,location_type"
+  ]
+
   @accessible_facilities ~w(elevator escalator ramp portable_boarding_lift
                             tty_phone elevated_subplatform fully_elevated_platform
                             escalator_up escalator_down escalator_both)a
@@ -35,37 +41,22 @@ defmodule Stops.Api do
   @spec by_gtfs_id(String.t()) :: {:ok, Stop.t() | nil} | {:error, any}
   def by_gtfs_id(gtfs_id) do
     gtfs_id
-    |> V3Api.Stops.by_gtfs_id()
+    |> V3Api.Stops.by_gtfs_id(@default_params)
     |> extract_v3_response()
     |> parse_v3_response()
   end
 
   def all do
-    V3Api.Stops.all()
+    @default_params
+    |> V3Api.Stops.all()
     |> parse_v3_multiple()
   end
 
-  @spec by_route({Routes.Route.id_t(), 0 | 1, Keyword.t()}) :: [Stop.t()]
-  def by_route({"Red" = route_id, direction_id, opts}) do
-    route_id
-    |> get_stops(direction_id, opts)
-  end
-
+  @spec by_route({Routes.Route.id_t(), 0 | 1, Keyword.t()}) :: [Stops.Stop.t()]
   def by_route({route_id, direction_id, opts}) do
-    get_stops(route_id, direction_id, opts)
-  end
-
-  @spec get_stops(Routes.Route.id_t(), 0 | 1, Keyword.t()) :: [Stops.Stop.t()]
-  defp get_stops(route_id, direction_id, opts) do
-    params = [
-      route: route_id,
-      include: "parent_station,facilities",
-      direction_id: direction_id,
-      "fields[facility]": "name,type,properties,latitude,longitude",
-      "fields[stop]": "address,name,latitude,longitude,address,wheelchair_boarding,location_type"
-    ]
-
-    params
+    @default_params
+    |> Keyword.put(:route, route_id)
+    |> Keyword.put(:direction_id, direction_id)
     |> Keyword.merge(opts)
     |> V3Api.Stops.all()
     |> parse_v3_multiple()
@@ -73,12 +64,8 @@ defmodule Stops.Api do
 
   @spec by_route_type({0..4, Keyword.t()}) :: [Stop.t()]
   def by_route_type({route_type, opts}) do
-    [
-      route_type: route_type,
-      include: "parent_station,facilities",
-      "fields[facility]": "name,type,properties,latitude,longitude",
-      "fields[stop]": "address,name,latitude,longitude,address,wheelchair_boarding,location_type"
-    ]
+    @default_params
+    |> Keyword.put(:route_type, route_type)
     |> Keyword.merge(opts)
     |> V3Api.Stops.all()
     |> parse_v3_multiple()
