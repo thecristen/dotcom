@@ -137,15 +137,15 @@ it("sets mode filters based on query", () => {
     "bus",
     "bus",
     "bus",
-    "rail",
-    "rail",
-    "rail",
-    "rail"
+    "commuter_rail",
+    "commuter_rail",
+    "commuter_rail",
+    "commuter_rail"
   ]);
 
   const withFilter = mount(
     <TransitNearMe
-      query={{ filter: "rail" }}
+      query={{ filter: "commuter_rail" }}
       mapData={mapData}
       mapId={mapId}
       routeSidebarData={routeSidebarData}
@@ -157,7 +157,12 @@ it("sets mode filters based on query", () => {
     .find(".m-tnm-sidebar__route")
     .map(card => card.prop("data-mode"));
 
-  expect(rail).toEqual(["rail", "rail", "rail", "rail"]);
+  expect(rail).toEqual([
+    "commuter_rail",
+    "commuter_rail",
+    "commuter_rail",
+    "commuter_rail"
+  ]);
 });
 
 it("getSelectedStop returns the stop if found", () => {

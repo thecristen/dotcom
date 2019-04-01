@@ -2,8 +2,8 @@ import React, { useReducer, ReactElement } from "react";
 import TransitNearMeMap from "./TransitNearMeMap";
 import RoutesSidebar from "./RoutesSidebar";
 import StopsSidebar from "./StopsSidebar";
-import { Stop, RouteWithStopsWithDirections } from "../../__v3api";
-import { StopWithRoutes, TNMMode } from "./__tnm";
+import { Stop, RouteWithStopsWithDirections, Mode } from "../../__v3api";
+import { StopWithRoutes } from "./__tnm";
 import { MapData } from "../../app/googleMaps/__googleMaps";
 import { reducer, initialState, SelectedStopType, State } from "../state";
 import { QueryParams } from "../../helpers/query";
@@ -26,12 +26,12 @@ export const getSelectedStop = (
   return stopWithRoute ? stopWithRoute.stop.stop : undefined;
 };
 
-const validateModeFilter = (acc: TNMMode[], mode: string): TNMMode[] =>
-  mode === "subway" || mode === "bus" || mode === "rail"
+const validateModeFilter = (acc: Mode[], mode: string): Mode[] =>
+  mode === "subway" || mode === "bus" || mode === "commuter_rail"
     ? acc.concat([mode])
     : acc;
 
-export const modesFromQuery = (query: QueryParams): TNMMode[] =>
+export const modesFromQuery = (query: QueryParams): Mode[] =>
   query.filter ? query.filter.split(",").reduce(validateModeFilter, []) : [];
 
 const TransitNearMe = ({

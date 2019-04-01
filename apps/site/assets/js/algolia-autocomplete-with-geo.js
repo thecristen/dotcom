@@ -8,7 +8,7 @@ export const addFilterParam = (params, path) => {
   switch (path) {
     case "/schedules/commuter-rail":
     case "/schedules/commuter-rail/":
-      return Object.assign(params, { filter: "rail" });
+      return Object.assign(params, { filter: "commuter_rail" });
 
     case "/schedules/subway":
     case "/schedules/subway/":

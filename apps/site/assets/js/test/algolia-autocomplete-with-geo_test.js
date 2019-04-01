@@ -324,10 +324,10 @@ describe("AlgoliaAutocompleteWithGeo", function() {
   describe("addFilterParam", () => {
     it("adds filter param on schedule pages", () => {
       const cr = addFilterParam({}, "/schedules/commuter-rail");
-      expect(cr.filter).to.equal("rail");
+      expect(cr.filter).to.equal("commuter_rail");
 
       const cr2 = addFilterParam({}, "/schedules/commuter-rail/");
-      expect(cr2.filter).to.equal("rail");
+      expect(cr2.filter).to.equal("commuter_rail");
 
       const subway = addFilterParam({}, "/schedules/subway");
       expect(subway.filter).to.equal("subway");
