@@ -3,6 +3,7 @@
 exports[`it renders a stop card 1`] = `
 <div
   className="m-tnm-sidebar__route"
+  data-mode="bus"
 >
   <a
     className="h3 m-tnm-sidebar__route-name u-bg--bus"
@@ -113,6 +114,7 @@ exports[`it renders a stop card 1`] = `
 exports[`it renders a stop card for the silver line 1`] = `
 <div
   className="m-tnm-sidebar__route"
+  data-mode="bus"
 >
   <a
     className="h3 m-tnm-sidebar__route-name u-bg--silver-line"

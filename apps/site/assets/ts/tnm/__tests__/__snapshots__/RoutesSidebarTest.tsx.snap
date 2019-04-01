@@ -87,6 +87,7 @@ exports[`render it renders 1`] = `
   </div>
   <div
     className="m-tnm-sidebar__route"
+    data-mode="bus"
   >
     <a
       className="h3 m-tnm-sidebar__route-name u-bg--bus"
@@ -285,6 +286,7 @@ exports[`render it renders 1`] = `
   </div>
   <div
     className="m-tnm-sidebar__route"
+    data-mode="bus"
   >
     <a
       className="h3 m-tnm-sidebar__route-name u-bg--bus"
@@ -493,6 +495,7 @@ exports[`render it renders 1`] = `
   </div>
   <div
     className="m-tnm-sidebar__route"
+    data-mode="bus"
   >
     <a
       className="h3 m-tnm-sidebar__route-name u-bg--bus"

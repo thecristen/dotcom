@@ -3,13 +3,15 @@ import TransitNearMeMap from "./TransitNearMeMap";
 import RoutesSidebar from "./RoutesSidebar";
 import StopsSidebar from "./StopsSidebar";
 import { Stop, RouteWithStopsWithDirections } from "../../__v3api";
-import { StopWithRoutes } from "./__tnm";
+import { StopWithRoutes, TNMMode } from "./__tnm";
 import { MapData } from "../../app/googleMaps/__googleMaps";
-import { reducer, initialState, SelectedStopType } from "../state";
+import { reducer, initialState, SelectedStopType, State } from "../state";
+import { QueryParams } from "../../helpers/query";
 
 interface Props {
   mapData: MapData;
   mapId: string;
+  query: QueryParams;
   routeSidebarData: RouteWithStopsWithDirections[];
   stopSidebarData: StopWithRoutes[];
 }
@@ -24,13 +26,28 @@ export const getSelectedStop = (
   return stopWithRoute ? stopWithRoute.stop.stop : undefined;
 };
 
+const validateModeFilter = (acc: TNMMode[], mode: string): TNMMode[] =>
+  mode === "subway" || mode === "bus" || mode === "rail"
+    ? acc.concat([mode])
+    : acc;
+
+export const modesFromQuery = (query: QueryParams): TNMMode[] =>
+  query.filter ? query.filter.split(",").reduce(validateModeFilter, []) : [];
+
 const TransitNearMe = ({
   mapData,
   mapId,
   routeSidebarData,
+  query,
   stopSidebarData
 }: Props): ReactElement<HTMLElement> => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const modes = modesFromQuery(query);
+  const initialStateWithModes: State = {
+    ...initialState,
+    selectedModes: modes,
+    shouldFilterStopCards: modes.length > 0
+  };
+  const [state, dispatch] = useReducer(reducer, initialStateWithModes);
   const selectedStop = getSelectedStop(stopSidebarData, state.selectedStopId);
   return (
     <div className="m-tnm">

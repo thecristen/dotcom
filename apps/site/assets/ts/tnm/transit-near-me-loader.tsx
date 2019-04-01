@@ -4,6 +4,7 @@ import { MapData } from "../app/googleMaps/__googleMaps";
 import { doWhenGoogleMapsIsReady } from "../../js/google-maps-loaded";
 import TransitNearMeSearch from "./search";
 import TransitNearMe from "./components/TransitNearMe";
+import { parseQuery } from "../helpers/query";
 
 let search = null; // eslint-disable-line
 
@@ -40,10 +41,12 @@ const render = (): void => {
   const mapData = JSON.parse(dataEl.innerHTML) as MapData;
   const routeSidebarData = JSON.parse(routeSidebarDataEl.innerHTML);
   const stopSidebarData = JSON.parse(stopSidebarDataEl.innerHTML);
+  const query = parseQuery(window.location.search, window.decodeURIComponent);
   ReactDOM.render(
     <TransitNearMe
       mapData={mapData}
       mapId={mapId}
+      query={query}
       routeSidebarData={routeSidebarData}
       stopSidebarData={stopSidebarData}
     />,

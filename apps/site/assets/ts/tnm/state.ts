@@ -8,7 +8,7 @@ export const { clickMarkerAction } = googleMaps;
 
 export const { clickCurrentLocationAction } = googleMaps;
 
-interface State {
+export interface State {
   selectedStopId: SelectedStopType;
   selectedModes: Mode[];
   shouldFilterStopCards: boolean;

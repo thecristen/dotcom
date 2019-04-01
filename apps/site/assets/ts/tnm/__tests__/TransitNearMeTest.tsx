@@ -33,6 +33,7 @@ it("it renders", () => {
   const tree = renderer
     .create(
       <TransitNearMe
+        query={{}}
         mapData={mapData}
         mapId={mapId}
         routeSidebarData={routeSidebarData}
@@ -69,6 +70,7 @@ it("it switches view on click", () => {
 
   const wrapper = mount(
     <TransitNearMe
+      query={{}}
       mapData={mapData}
       mapId={mapId}
       routeSidebarData={routeSidebarData}
@@ -77,6 +79,85 @@ it("it switches view on click", () => {
   );
   wrapper.find(".m-tnm-sidebar__view-change").simulate("click");
   expect(wrapper.exists("#tnm-sidebar-by-stops")).toBeTruthy();
+});
+
+it("sets mode filters based on query", () => {
+  /* eslint-disable typescript/camelcase */
+  const mapData: MapData = {
+    zoom: 14,
+    width: 630,
+    scale: 1,
+    reset_bounds_on_update: false, // eslint-disable-line
+    paths: [],
+    markers: [],
+    default_center: { latitude: 0, longitude: 0 },
+    height: 500,
+    dynamic_options: {},
+    layers: { transit: false },
+    auto_init: false,
+    bound_padding: null
+  };
+  /* eslint-enable typescript/camelcase */
+
+  const mapId = "test";
+  const routeSidebarData = importData();
+  const stopSidebarData = importStopData();
+
+  createReactRoot();
+
+  const noFilter = mount(
+    <TransitNearMe
+      query={{}}
+      mapData={mapData}
+      mapId={mapId}
+      routeSidebarData={routeSidebarData}
+      stopSidebarData={stopSidebarData}
+    />
+  );
+  const allModes = noFilter
+    .find(".m-tnm-sidebar__route")
+    .map(card => card.prop("data-mode"));
+  expect(allModes).toHaveLength(22);
+  expect(allModes).toEqual([
+    "bus",
+    "bus",
+    "bus",
+    "bus",
+    "subway",
+    "subway",
+    "subway",
+    "subway",
+    "bus",
+    "bus",
+    "bus",
+    "bus",
+    "bus",
+    "subway",
+    "subway",
+    "bus",
+    "bus",
+    "bus",
+    "rail",
+    "rail",
+    "rail",
+    "rail"
+  ]);
+
+  const withFilter = mount(
+    <TransitNearMe
+      query={{ filter: "rail" }}
+      mapData={mapData}
+      mapId={mapId}
+      routeSidebarData={routeSidebarData}
+      stopSidebarData={stopSidebarData}
+    />
+  );
+
+  const rail = withFilter
+    .find(".m-tnm-sidebar__route")
+    .map(card => card.prop("data-mode"));
+
+  expect(rail).toEqual(["rail", "rail", "rail", "rail"]);
 });
 
 it("getSelectedStop returns the stop if found", () => {

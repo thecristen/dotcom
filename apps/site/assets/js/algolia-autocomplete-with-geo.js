@@ -3,7 +3,25 @@ import * as GoogleMapsHelpers from "./google-maps-helpers";
 import * as QueryHelpers from "../ts/helpers/query";
 import geolocationPromise from "./geolocation-promise";
 import debounce from "../ts/helpers/debounce.ts";
-import * as AlgoliaResult from "./algolia-result";
+
+export const addFilterParam = (params, path) => {
+  switch (path) {
+    case "/schedules/commuter-rail":
+    case "/schedules/commuter-rail/":
+      return Object.assign(params, { filter: "rail" });
+
+    case "/schedules/subway":
+    case "/schedules/subway/":
+      return Object.assign(params, { filter: "subway" });
+
+    case "/schedules/bus":
+    case "/schedules/bus/":
+      return Object.assign(params, { filter: "bus" });
+
+    default:
+      return params;
+  }
+};
 
 class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   constructor({ id, selectors, indices, locationParams, popular, parent }) {
@@ -193,7 +211,10 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     params.latitude = latitude;
     params.longitude = longitude;
     params.address = this._input.value;
-    const qs = QueryHelpers.paramsToString(params, window.encodeURIComponent);
+    const qs = QueryHelpers.paramsToString(
+      addFilterParam(params, window.location.pathname),
+      window.encodeURIComponent
+    );
     window.Turbolinks.visit(`/transit-near-me${qs}`);
   }
 }

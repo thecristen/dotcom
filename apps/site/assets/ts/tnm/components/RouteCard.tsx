@@ -11,6 +11,7 @@ import renderSvg from "../../helpers/render-svg";
 import alertIcon from "../../../static/images/icon-alerts-triangle.svg";
 import { Dispatch } from "../state";
 import { directionIsEmpty } from "./Direction";
+import { tnmModeByV3ModeType } from "./ModeFilter";
 
 interface Props {
   route: RouteWithStopsWithDirections;
@@ -69,6 +70,7 @@ const RouteCard = ({
   route,
   dispatch
 }: Props): ReactElement<HTMLElement> | null => {
+  const mode = tnmModeByV3ModeType[route.route.type];
   const bgClass = `u-bg--${routeBgColor(route)}`;
 
   if (routeIsEmpty(route)) {
@@ -76,7 +78,7 @@ const RouteCard = ({
   }
 
   return (
-    <div className="m-tnm-sidebar__route">
+    <div className="m-tnm-sidebar__route" data-mode={mode}>
       <a
         href={`/schedules/${route.route.id}`}
         className={`h3 m-tnm-sidebar__route-name ${bgClass}`}

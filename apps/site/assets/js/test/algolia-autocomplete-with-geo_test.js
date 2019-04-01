@@ -1,7 +1,9 @@
 import jsdom from "mocha-jsdom";
 import sinon from "sinon";
 import { expect } from "chai";
-import AlgoliaAutocompleteWithGeo from "../algolia-autocomplete-with-geo";
+import AlgoliaAutocompleteWithGeo, {
+  addFilterParam
+} from "../algolia-autocomplete-with-geo";
 import * as GoogleMapsHelpers from "../google-maps-helpers";
 import google from "./google-stubs";
 
@@ -316,6 +318,34 @@ describe("AlgoliaAutocompleteWithGeo", function() {
           })
           .catch(err => done(err));
       });
+    });
+  });
+
+  describe("addFilterParam", () => {
+    it("adds filter param on schedule pages", () => {
+      const cr = addFilterParam({}, "/schedules/commuter-rail");
+      expect(cr.filter).to.equal("rail");
+
+      const cr2 = addFilterParam({}, "/schedules/commuter-rail/");
+      expect(cr2.filter).to.equal("rail");
+
+      const subway = addFilterParam({}, "/schedules/subway");
+      expect(subway.filter).to.equal("subway");
+
+      const subway2 = addFilterParam({}, "/schedules/subway/");
+      expect(subway2.filter).to.equal("subway");
+
+      const bus = addFilterParam({}, "/schedules/bus");
+      expect(bus.filter).to.equal("bus");
+
+      const bus2 = addFilterParam({}, "/schedules/bus/");
+      expect(bus2.filter).to.equal("bus");
+
+      const homepage = addFilterParam({}, "/");
+      expect(homepage).not.to.have.key("filter");
+
+      const tripPlanner = addFilterParam({}, "/trip-planner");
+      expect(tripPlanner).not.to.have.key("filter");
     });
   });
 });

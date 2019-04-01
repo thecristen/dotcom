@@ -5,6 +5,7 @@ defmodule SiteWeb.TransitNearMeViewTest do
   test "render_react returns HTML" do
     assert {:safe, "<div class=\"m-tnm\"" <> _} =
              TransitNearMeView.render_react(%{
+               conn: %{query_params: %{}},
                routes_json: [],
                stops_json: [],
                map_data: %{}

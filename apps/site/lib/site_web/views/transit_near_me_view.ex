@@ -11,6 +11,7 @@ defmodule SiteWeb.TransitNearMeView do
 
   @spec do_render_react(map) :: HTML.safe()
   def do_render_react(%{
+        conn: %{query_params: %{} = query},
         routes_json: routes_json,
         stops_json: stops_json,
         map_data: map_data
@@ -18,6 +19,7 @@ defmodule SiteWeb.TransitNearMeView do
     React.render(
       "TransitNearMe",
       %{
+        query: query,
         routeSidebarData: routes_json,
         stopSidebarData: stops_json,
         mapData: map_data,

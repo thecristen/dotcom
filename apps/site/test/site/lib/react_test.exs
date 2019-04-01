@@ -35,6 +35,7 @@ defmodule Site.ReactTest do
     } do
       assert {:safe, body} =
                React.render("TransitNearMe", %{
+                 query: %{},
                  mapId: "map-id",
                  mapData: %{},
                  routeSidebarData: route_sidebar_data,
@@ -49,6 +50,7 @@ defmodule Site.ReactTest do
         CaptureLog.capture_log(fn ->
           assert "" ==
                    React.render("TransitNearMeError", %{
+                     query: %{},
                      mapId: "map-id",
                      mapData: %{},
                      routeSidebarData: [],
@@ -65,6 +67,7 @@ defmodule Site.ReactTest do
         CaptureLog.capture_log(fn ->
           assert "" ==
                    React.render("TransitNearMe", %{
+                     query: %{},
                      mapId: "map-id",
                      mapData: %{},
                      routeSidebarData: "crash",
@@ -87,6 +90,7 @@ defmodule Site.ReactTest do
 
       assert {:safe, body} =
                React.render("TransitNearMe", %{
+                 query: %{},
                  mapId: "map-id",
                  mapData: %{},
                  routeSidebarData: route_sidebar_data,
