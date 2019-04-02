@@ -1,34 +1,36 @@
 import renderSvg from "./render-svg";
 // @ts-ignore
-import accessibleIconSvg from "../../static/images/icon-accessible-default.svg";
+import accessibleIconSvg from "../../static/images/icon-accessible-small.svg";
 // @ts-ignore
 import alertIconSvg from "../../static/images/icon-alerts-triangle.svg";
 // @ts-ignore
 import blueLineIconSvg from "../../static/images/icon-blue-line-default.svg";
 // @ts-ignore
-import busIconSvg from "../../static/images/icon-mode-bus-default.svg";
+import busIconSvg from "../../static/images/icon-mode-bus-small.svg";
 // @ts-ignore
-import commuterRailIconSvg from "../../static/images/icon-mode-commuter-rail-default.svg";
+import commuterRailIconSvg from "../../static/images/icon-mode-commuter-rail-small.svg";
 // @ts-ignore
-import ferryIconSvg from "../../static/images/icon-mode-ferry-default.svg";
+import ferryIconSvg from "../../static/images/icon-mode-ferry-small.svg";
 // @ts-ignore
-import greenLineIconSvg from "../../static/images/icon-green-line-default.svg";
+import greenLineIconSvg from "../../static/images/icon-green-line-small.svg";
 // @ts-ignore
-import greenBLineIconSvg from "../../static/images/icon-green-line-b-default.svg";
+import greenBLineIconSvg from "../../static/images/icon-green-line-b-small.svg";
 // @ts-ignore
-import greenCLineIconSvg from "../../static/images/icon-green-line-c-default.svg";
+import greenCLineIconSvg from "../../static/images/icon-green-line-c-small.svg";
 // @ts-ignore
-import greenDLineIconSvg from "../../static/images/icon-green-line-d-default.svg";
+import greenDLineIconSvg from "../../static/images/icon-green-line-d-small.svg";
 // @ts-ignore
-import greenELineIconSvg from "../../static/images/icon-green-line-e-default.svg";
+import greenELineIconSvg from "../../static/images/icon-green-line-e-small.svg";
 // @ts-ignore
-import mattapanLineIconSvg from "../../static/images/icon-mattapan-line-default.svg";
+import mattapanLineIconSvg from "../../static/images/icon-mattapan-line-small.svg";
 // @ts-ignore
-import orangeLineIconSvg from "../../static/images/icon-orange-line-default.svg";
+import orangeLineIconSvg from "../../static/images/icon-orange-line-small.svg";
 // @ts-ignore
-import parkingIconSvg from "../../static/images/icon-parking-default.svg";
+import parkingIconSvg from "../../static/images/icon-parking-small.svg";
 // @ts-ignore
-import redLineIconSvg from "../../static/images/icon-red-line-default.svg";
+import redLineIconSvg from "../../static/images/icon-red-line-small.svg";
+// @ts-ignore
+import silverLineIconSvg from "../../static/images/icon-silver-line-small.svg";
 
 export const accessibleIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, accessibleIconSvg);
@@ -74,3 +76,31 @@ export const parkingIcon = (className: string = ""): JSX.Element =>
 
 export const redLineIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, redLineIconSvg);
+
+export const silverLineIcon = (className: string = ""): JSX.Element =>
+  renderSvg(className, silverLineIconSvg);
+
+const isSilverRoute = (routeId: string): boolean =>
+  routeId === "741" ||
+  routeId === "742" ||
+  routeId === "743" ||
+  routeId === "746" ||
+  routeId === "749" ||
+  routeId === "751";
+
+export const modeIcon = (routeId: string): JSX.Element | undefined => {
+  if (routeId.startsWith("CR-")) return commuterRailIcon("c-svg__icon");
+  if (routeId.startsWith("Boat-")) return ferryIcon("c-svg__icon");
+  if (routeId === "Blue") return blueLineIcon("c-svg__icon");
+  if (routeId === "Green") return greenLineIcon("c-svg__icon");
+  if (routeId === "Green-B") return greenBLineIcon("c-svg__icon");
+  if (routeId === "Green-C") return greenCLineIcon("c-svg__icon");
+  if (routeId === "Green-D") return greenDLineIcon("c-svg__icon");
+  if (routeId === "Green-E") return greenELineIcon("c-svg__icon");
+  if (routeId === "Mattapan") return mattapanLineIcon("c-svg__icon");
+  if (routeId === "Orange") return orangeLineIcon("c-svg__icon");
+  if (routeId === "Red") return redLineIcon("c-svg__icon");
+  if (isSilverRoute(routeId)) return silverLineIcon("c-svg__icon");
+
+  return busIcon("c-svg__icon-bus-small");
+};

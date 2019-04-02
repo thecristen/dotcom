@@ -3,14 +3,15 @@ defmodule SiteWeb.Plugs.TransitNearMe do
   import Plug.Conn
   import Phoenix.Controller, only: [put_flash: 3]
   alias GoogleMaps.Geocode
-  alias Routes.Route
-  alias Stops.Stop
+  alias Plug.Conn
+  alias Routes.{Group, Repo, Route}
+  alias Stops.{Nearby, Stop}
 
   defmodule Options do
-    defstruct geocode_fn: &GoogleMaps.Geocode.geocode/1,
-              reverse_geocode_fn: &GoogleMaps.Geocode.reverse_geocode/2,
-              nearby_fn: &Stops.Nearby.nearby/1,
-              routes_by_stop_fn: &Routes.Repo.by_stop/1
+    defstruct geocode_fn: &Geocode.geocode/1,
+              reverse_geocode_fn: &Geocode.reverse_geocode/2,
+              nearby_fn: &Nearby.nearby_with_varying_radius_by_mode/1,
+              routes_by_stop_fn: &Repo.by_stop/1
   end
 
   @impl true
@@ -88,7 +89,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
   @doc """
     Retrieves stops close to a location and parses into the correct configuration
   """
-  @spec get_stops_nearby(GoogleMaps.Geocode.t(), Plug.Conn.t()) :: [Stop.t()]
+  @spec get_stops_nearby(Geocode.t(), Conn.t()) :: [Stop.t()]
   def get_stops_nearby({:ok, [location | _]}, nearby_fn) do
     nearby_fn.(location)
   end
@@ -98,7 +99,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
   end
 
   @spec stops_with_routes([Stop.t()], Geocode.t(), (String.t() -> [Route.t()])) :: [
-          %{stop: Stop.t(), distance: String.t(), routes: [Routes.Group.t()]}
+          %{stop: Stop.t(), distance: String.t(), routes: [Group.t()]}
         ]
   def stops_with_routes(stops, {:ok, [location | _]}, routes_by_stop_fn) do
     stops
@@ -120,7 +121,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
     |> stops_with_routes(location, options.routes_by_stop_fn)
   end
 
-  @spec get_route_groups([Route.t()]) :: [Routes.Group.t()]
+  @spec get_route_groups([Route.t()]) :: [Group.t()]
   def get_route_groups(route_list) do
     route_list
     |> Enum.group_by(&Route.type_atom/1)
@@ -136,8 +137,8 @@ defmodule SiteWeb.Plugs.TransitNearMe do
       # =>   [commuter: [commuter_lines], bus: [bus_lines], orange: [orange_line], red: [red_line]]
 
   """
-  @spec separate_subway_lines([Routes.Group.t()]) :: [
-          {Routes.Route.gtfs_route_type() | Route.subway_lines_type(), [Route.t()]}
+  @spec separate_subway_lines([Group.t()]) :: [
+          {Route.gtfs_route_type() | Route.subway_lines_type(), [Route.t()]}
         ]
   def separate_subway_lines(routes) do
     routes
@@ -145,8 +146,8 @@ defmodule SiteWeb.Plugs.TransitNearMe do
     |> Enum.reduce(routes, &subway_reducer/2)
   end
 
-  @spec subway_reducer(Route.t(), [Routes.Group.t()]) :: [
-          {Routes.Route.subway_lines_type(), [Route.t()]}
+  @spec subway_reducer(Route.t(), [Group.t()]) :: [
+          {Route.subway_lines_type(), [Route.t()]}
         ]
   defp subway_reducer(%Route{id: id, type: 1} = route, routes) do
     Keyword.put(routes, id |> Kernel.<>("_line") |> String.downcase() |> String.to_atom(), [route])
@@ -188,7 +189,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
     |> assign(:location, nil)
   end
 
-  @spec flash_if_error(Plug.Conn.t()) :: Plug.Conn.t()
+  @spec flash_if_error(Conn.t()) :: Conn.t()
   def flash_if_error(%Plug.Conn{assigns: %{stops_with_routes: [], tnm_address: address}} = conn)
       when address != "" do
     put_flash(

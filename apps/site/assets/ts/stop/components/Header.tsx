@@ -2,22 +2,8 @@ import React, { ReactElement } from "react";
 import { Stop, Route } from "../../__v3api";
 import TabComponent from "./Tab";
 import { Tab, TypedRoutes, RouteWithDirections } from "./__stop";
-import {
-  accessibleIcon,
-  parkingIcon,
-  redLineIcon,
-  mattapanLineIcon,
-  orangeLineIcon,
-  blueLineIcon,
-  greenLineIcon,
-  greenBLineIcon,
-  greenELineIcon,
-  greenDLineIcon,
-  greenCLineIcon,
-  busIcon,
-  commuterRailIcon,
-  ferryIcon
-} from "../../helpers/icon";
+import { parkingIcon, modeIcon } from "../../helpers/icon";
+import accessible from "./StopAccessibilityIcon";
 
 interface Props {
   stop: Stop;
@@ -38,24 +24,13 @@ const subwayModeIds = [
   "Red"
 ];
 
-const accessible = ({
-  accessibility
-}: Stop): ReactElement<HTMLElement> | false =>
-  accessibility.includes("accessible") && (
-    <a href="#accessibility" className="m-stop-page__header-feature">
-      <span className="m-stop-page__header-icon">
-        {accessibleIcon("c-svg__icon-accessible-default")}
-      </span>
-    </a>
-  );
-
 const parking = ({
   // eslint-disable-next-line typescript/camelcase
   parking_lots: parkingLots
 }: Stop): ReactElement<HTMLElement> | false =>
   parkingLots.length > 0 && (
     <a href="#parking" className="m-stop-page__header-feature">
-      <span className="m-stop-page__header-icon">
+      <span className="m-stop-page__icon">
         {parkingIcon("c-svg__icon-parking-default")}
       </span>
     </a>
@@ -67,30 +42,6 @@ const modeType = (modeId: string): string => {
   if (subwayModeIds.includes(modeId)) return modeId;
 
   return "Bus";
-};
-
-const modeIcon = (modeId: string): JSX.Element | undefined => {
-  if (modeId.startsWith("CR-"))
-    return commuterRailIcon("c-svg__icon-commuter-rail-default");
-  if (modeId.startsWith("Boat-")) return ferryIcon("c-svg__icon-ferry-default");
-  if (modeId === "Blue") return blueLineIcon("c-svg__icon-blue-line-default");
-  if (modeId === "Green")
-    return greenLineIcon("c-svg__icon-green-line-default");
-  if (modeId === "Green-B")
-    return greenBLineIcon("c-svg__icon-green-b-line-default");
-  if (modeId === "Green-C")
-    return greenCLineIcon("c-svg__icon-green-c-line-default");
-  if (modeId === "Green-D")
-    return greenDLineIcon("c-svg__icon-green-d-line-default");
-  if (modeId === "Green-E")
-    return greenELineIcon("c-svg__icon-green-e-line-default");
-  if (modeId === "Mattapan")
-    return mattapanLineIcon("c-svg__icon-mattapan-line-default");
-  if (modeId === "Orange")
-    return orangeLineIcon("c-svg__icon-orange-line-default");
-  if (modeId === "Red") return redLineIcon("c-svg__icon-red-line-default");
-
-  return busIcon("c-svg__icon-bus-default");
 };
 
 const modeLink = (modeId: string): string => {
@@ -108,7 +59,7 @@ const modeIconFeature = ({ id }: Route): ReactElement<HTMLElement> => (
     key={modeType(id)}
     className="m-stop-page__header-feature"
   >
-    <span className="m-stop-page__header-icon">{modeIcon(id)}</span>
+    <span className="m-stop-page__icon">{modeIcon(id)}</span>
   </a>
 );
 
@@ -143,7 +94,7 @@ const crZone = (zoneNumber: string): ReactElement<HTMLElement> | false =>
       href="/stops/place-sstat?tab=info#commuter-fares"
       className="m-stop-page__header-feature"
     >
-      <span className="m-stop-page__header-icon c-icon__cr-zone">
+      <span className="m-stop-page__icon c-icon__cr-zone">
         {`Zone ${zoneNumber}`}
       </span>
     </a>

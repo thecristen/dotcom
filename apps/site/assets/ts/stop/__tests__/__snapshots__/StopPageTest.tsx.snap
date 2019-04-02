@@ -54,10 +54,10 @@ Array [
           href="/stops/place-sstat?tab=departures#subway-schedule"
         >
           <span
-            className="m-stop-page__header-icon"
+            className="m-stop-page__icon"
           >
             <span
-              className="c-svg__icon-red-line-default"
+              className="c-svg__icon"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
@@ -71,10 +71,10 @@ Array [
           href="/stops/place-sstat?tab=departures#bus-schedule"
         >
           <span
-            className="m-stop-page__header-icon"
+            className="m-stop-page__icon"
           >
             <span
-              className="c-svg__icon-bus-default"
+              className="c-svg__icon"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
@@ -88,10 +88,10 @@ Array [
           href="/stops/place-sstat?tab=departures#commuter-rail-schedule"
         >
           <span
-            className="m-stop-page__header-icon"
+            className="m-stop-page__icon"
           >
             <span
-              className="c-svg__icon-commuter-rail-default"
+              className="c-svg__icon"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
@@ -105,17 +105,17 @@ Array [
           href="/stops/place-sstat?tab=info#commuter-fares"
         >
           <span
-            className="m-stop-page__header-icon c-icon__cr-zone"
+            className="m-stop-page__icon c-icon__cr-zone"
           >
             Zone 1A
           </span>
         </a>
         <a
-          className="m-stop-page__header-feature"
+          className="m-stop-page__access-icon"
           href="#accessibility"
         >
           <span
-            className="m-stop-page__header-icon"
+            className="m-stop-page__icon"
           >
             <span
               className="c-svg__icon-accessible-default"
@@ -132,7 +132,7 @@ Array [
           href="#parking"
         >
           <span
-            className="m-stop-page__header-icon"
+            className="m-stop-page__icon"
           >
             <span
               className="c-svg__icon-parking-default"
@@ -2294,6 +2294,264 @@ Array [
               </div>
             </div>
           </div>
+          <div>
+            <h2>
+              Suggested Transfers Nearby
+            </h2>
+            <div
+              className="m-stop-page__transfers"
+            >
+              <div
+                className="m-stop-page__transfer"
+              >
+                <span
+                  className="m-stop-page__transfer-distance"
+                >
+                  128
+                   ft
+                </span>
+                <a
+                  className="m-stop-page__transfer-stop-name"
+                  href="/stops-v2/102"
+                >
+                  Massachusetts Ave @ Prospect St
+                </a>
+                <a
+                  className="m-stop-page__access-icon"
+                  href="#accessibility"
+                >
+                  <span
+                    className="m-stop-page__icon"
+                  >
+                    <span
+                      className="c-svg__icon-accessible-default"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "SVG",
+                        }
+                      }
+                    />
+                  </span>
+                </a>
+                <div
+                  className="m-stop-page__transfer-route"
+                >
+                  <div
+                    className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+                  >
+                    1
+                  </div>
+                  <a
+                    className="m-stop-page__transfer-route-link"
+                    href="/schedules/1?direction_id=0"
+                  >
+                    Harvard
+                  </a>
+                </div>
+              </div>
+              <div
+                className="m-stop-page__transfer"
+              >
+                <span
+                  className="m-stop-page__transfer-distance"
+                >
+                  192
+                   ft
+                </span>
+                <a
+                  className="m-stop-page__transfer-stop-name"
+                  href="/stops-v2/1060"
+                >
+                  Magazine St @ Green St
+                </a>
+                <a
+                  className="m-stop-page__access-icon"
+                  href="#accessibility"
+                >
+                  <span
+                    className="m-stop-page__icon"
+                  >
+                    <span
+                      className="c-svg__icon-accessible-default"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "SVG",
+                        }
+                      }
+                    />
+                  </span>
+                </a>
+                <div
+                  className="m-stop-page__transfer-route"
+                >
+                  <div
+                    className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+                  >
+                    64
+                  </div>
+                  <a
+                    className="m-stop-page__transfer-route-link"
+                    href="/schedules/64"
+                  >
+                    Oak Square - University Park or Kendall/MIT
+                  </a>
+                </div>
+                <div
+                  className="m-stop-page__transfer-route"
+                >
+                  <div
+                    className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+                  >
+                    701
+                  </div>
+                  <a
+                    className="m-stop-page__transfer-route-link"
+                    href="/schedules/701?direction_id=1"
+                  >
+                    Boston Medical Center
+                  </a>
+                </div>
+                <div
+                  className="m-stop-page__transfer-route"
+                >
+                  <div
+                    className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+                  >
+                    83
+                  </div>
+                  <a
+                    className="m-stop-page__transfer-route-link"
+                    href="/schedules/83"
+                  >
+                    Rindge Avenue - Central Square, Cambridge
+                  </a>
+                </div>
+                <div
+                  className="m-stop-page__transfer-route"
+                >
+                  <div
+                    className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+                  >
+                    91
+                  </div>
+                  <a
+                    className="m-stop-page__transfer-route-link"
+                    href="/schedules/91"
+                  >
+                    Sullivan - Central Square, Cambridge
+                  </a>
+                </div>
+              </div>
+              <div
+                className="m-stop-page__transfer"
+              >
+                <span
+                  className="m-stop-page__transfer-distance"
+                >
+                  258
+                   ft
+                </span>
+                <a
+                  className="m-stop-page__transfer-stop-name"
+                  href="/stops-v2/1123"
+                >
+                  Green St @ Magazine St
+                </a>
+                <a
+                  className="m-stop-page__access-icon"
+                  href="#accessibility"
+                >
+                  <span
+                    className="m-stop-page__icon"
+                  >
+                    <span
+                      className="c-svg__icon-accessible-default"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "SVG",
+                        }
+                      }
+                    />
+                  </span>
+                </a>
+                <div
+                  className="m-stop-page__transfer-route"
+                >
+                  <div
+                    className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+                  >
+                    47
+                  </div>
+                  <a
+                    className="m-stop-page__transfer-route-link"
+                    href="/schedules/47?direction_id=0"
+                  >
+                    Central Square, Cambridge
+                  </a>
+                </div>
+                <div
+                  className="m-stop-page__transfer-route"
+                >
+                  <div
+                    className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+                  >
+                    64
+                  </div>
+                  <a
+                    className="m-stop-page__transfer-route-link"
+                    href="/schedules/64?direction_id=0"
+                  >
+                    Oak Square
+                  </a>
+                </div>
+                <div
+                  className="m-stop-page__transfer-route"
+                >
+                  <div
+                    className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+                  >
+                    70
+                  </div>
+                  <a
+                    className="m-stop-page__transfer-route-link"
+                    href="/schedules/70"
+                  >
+                    Cedarwood - Central Square, Cambridge
+                  </a>
+                </div>
+                <div
+                  className="m-stop-page__transfer-route"
+                >
+                  <div
+                    className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+                  >
+                    701
+                  </div>
+                  <a
+                    className="m-stop-page__transfer-route-link"
+                    href="/schedules/701?direction_id=0"
+                  >
+                    Central Square, Cambridge
+                  </a>
+                </div>
+                <div
+                  className="m-stop-page__transfer-route"
+                >
+                  <div
+                    className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+                  >
+                    70A
+                  </div>
+                  <a
+                    className="m-stop-page__transfer-route-link"
+                    href="/schedules/70A?direction_id=0"
+                  >
+                    North Waltham
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div
           className="col-12 col-sm-10 col-sm-offset-1 col-lg-4 col-lg-offset-1"
@@ -2948,6 +3206,49 @@ Array [
               >
                 For fare prices see fares overview
               </a>
+              <div
+                className="c-location-cards m-stop-page__retail-locations"
+              >
+                <h4
+                  className="m-stop-page__sidebar-header"
+                >
+                  Retail Sales Locations
+                </h4>
+                <p>
+                  MBTA riders can purchase tickets and passes for the Commuter Rail, bus, subway, and ferry at stores located throughout the Greater Boston and Providence areas.
+                </p>
+                <h5
+                  className="u-small-caps"
+                >
+                  Stores near 
+                  South Station
+                </h5>
+                <a
+                  className="c-location-card m-stop-page__retail-location"
+                  href="https://maps.google.com/maps/dir/42.352271,-71.055242/42,-71/"
+                  target="blank"
+                >
+                  <div
+                    className="clearfix"
+                  >
+                    <div
+                      className="c-location-card__name m-stop-page__retail-location-name"
+                    >
+                      Store Name
+                    </div>
+                    <div
+                      className="c-location-card__distance m-stop-page__retail-location-distance"
+                    >
+                      500 ft
+                    </div>
+                  </div>
+                  <div
+                    className="c-location-card__address m-stop-page__retail-location-distance"
+                  >
+                    1234 Main St., Boston MA
+                  </div>
+                </a>
+              </div>
             </div>
           </noscript>
           <div

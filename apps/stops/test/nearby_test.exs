@@ -2,15 +2,74 @@ defmodule Stops.NearbyTest do
   use ExUnit.Case, async: true
   doctest Stops.Nearby
 
-  alias Util.Distance
+  alias Routes.Route
   alias Stops.Stop
+  alias Util.Distance
   import Stops.Nearby
 
   @latitude 42.577
   @longitude -71.225
   @position {@latitude, @longitude}
 
-  describe "nearby/1" do
+  describe "nearby_with_routes/3" do
+    test "nearby stop is returned with a list of routes" do
+      stop = %Stop{id: "stop", longitude: -71.103404, latitude: 42.365291}
+      route = %Route{id: "route"}
+
+      api_fn = fn _, _opts -> [%{id: "stop", latitude: 0, longitude: 0}] end
+      fetch_fn = fn _id -> stop end
+      routes_fn = fn _id, _direction -> [route] end
+
+      actual =
+        nearby_with_routes(@position, 0.002,
+          api_fn: api_fn,
+          fetch_fn: fetch_fn,
+          routes_fn: routes_fn
+        )
+
+      expected = [
+        %{
+          stop: stop,
+          distance: 15.886258832510926,
+          routes_with_direction: [
+            %{
+              direction_id: nil,
+              route: route
+            }
+          ]
+        }
+      ]
+
+      assert expected == actual
+    end
+
+    test "handles routes timeout gracefully" do
+      stop = %Stop{id: "stop", longitude: -71.103404, latitude: 42.365291}
+
+      api_fn = fn _, _opts -> [%{id: "stop", latitude: 0, longitude: 0}] end
+      fetch_fn = fn _id -> stop end
+      routes_fn = fn _id, _direction -> :error end
+
+      actual =
+        nearby_with_routes(@position, 0.002,
+          api_fn: api_fn,
+          fetch_fn: fetch_fn,
+          routes_fn: routes_fn
+        )
+
+      expected = [
+        %{
+          distance: 15.886258832510926,
+          routes_with_direction: [],
+          stop: stop
+        }
+      ]
+
+      assert expected == actual
+    end
+  end
+
+  describe "nearby_with_varying_radius_by_mode/2" do
     test "gets CR/subway/bus stops, gathers then, and fetches them" do
       commuter = random_stops(5)
       subway = random_stops(5)
@@ -26,7 +85,12 @@ defmodule Stops.NearbyTest do
       keys_fn = fn %{id: id} -> [id] end
       fetch_fn = fn id -> {:fetch, id} end
 
-      actual = nearby(@position, api_fn: api_fn, keys_fn: keys_fn, fetch_fn: fetch_fn)
+      actual =
+        nearby_with_varying_radius_by_mode(@position,
+          api_fn: api_fn,
+          keys_fn: keys_fn,
+          fetch_fn: fetch_fn
+        )
 
       expected =
         @position
@@ -49,7 +113,13 @@ defmodule Stops.NearbyTest do
       keys_fn = fn %{keys: keys} -> keys end
       fetch_fn = fn id -> id end
 
-      actual = nearby(@position, api_fn: api_fn, keys_fn: keys_fn, fetch_fn: fetch_fn)
+      actual =
+        nearby_with_varying_radius_by_mode(@position,
+          api_fn: api_fn,
+          keys_fn: keys_fn,
+          fetch_fn: fetch_fn
+        )
+
       expected = [1, 2, 4]
 
       assert expected == actual
@@ -66,7 +136,13 @@ defmodule Stops.NearbyTest do
       keys_fn = fn %{keys: keys} -> keys end
       fetch_fn = fn id -> id end
 
-      actual = nearby(@position, api_fn: api_fn, keys_fn: keys_fn, fetch_fn: fetch_fn)
+      actual =
+        nearby_with_varying_radius_by_mode(@position,
+          api_fn: api_fn,
+          keys_fn: keys_fn,
+          fetch_fn: fetch_fn
+        )
+
       expected = [1]
 
       assert expected == actual

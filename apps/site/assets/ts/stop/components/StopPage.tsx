@@ -6,6 +6,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import AddressBlock from "./AddressBlock";
 import Departures from "./Departures";
+import SuggestedTransfers from "./SuggestedTransfers";
 
 interface Props {
   stopPageData: StopPageData;
@@ -14,8 +15,17 @@ interface Props {
 }
 
 export default ({
-  // eslint-disable-next-line typescript/camelcase
-  stopPageData: { stop, routes, tabs, zone_number, retail_locations },
+  stopPageData: {
+    stop,
+    routes,
+    tabs,
+    // eslint-disable-next-line typescript/camelcase
+    zone_number: zoneNumber,
+    // eslint-disable-next-line typescript/camelcase
+    retail_locations: retailLocations,
+    // eslint-disable-next-line typescript/camelcase
+    suggested_transfers: suggestedTransfers
+  },
   mapData,
   mapId
 }: Props): ReactElement<HTMLElement> => (
@@ -25,7 +35,7 @@ export default ({
       stop={stop}
       routes={routes}
       // eslint-disable-next-line typescript/camelcase
-      zoneNumber={zone_number}
+      zoneNumber={zoneNumber}
       tabs={tabs}
     />
     <div className="container">
@@ -41,15 +51,14 @@ export default ({
         <div className="row">
           <div className="col-12 col-sm-10 col-sm-offset-1 col-lg-7 col-lg-offset-0">
             <AddressBlock routes={routes} />
-
             <Departures routes={routes} stop={stop} />
+            <SuggestedTransfers suggestedTransfers={suggestedTransfers} />
           </div>
           <div className="col-12 col-sm-10 col-sm-offset-1 col-lg-4 col-lg-offset-1">
             <Sidebar
               stop={stop}
               routes={routes}
-              // eslint-disable-next-line typescript/camelcase
-              retailLocations={retail_locations}
+              retailLocations={retailLocations}
             />
           </div>
         </div>

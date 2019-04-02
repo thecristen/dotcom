@@ -839,7 +839,8 @@ defmodule SiteWeb.StopViewTest do
           phone: "617-555-1234"
         }
       }
-    ]
+    ],
+    suggested_transfers: []
   }
 
   test "render_react returns HTML" do

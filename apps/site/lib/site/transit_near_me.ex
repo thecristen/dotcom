@@ -5,13 +5,13 @@ defmodule Site.TransitNearMe do
 
   alias Alerts.{Alert, InformedEntity, Match}
   alias GoogleMaps.Geocode.Address
-  alias Phoenix.HTML.Safe
+  alias Site.JsonHelpers
   alias PredictedSchedule.Display
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
   alias SiteWeb.Router.Helpers
-  alias SiteWeb.{ScheduleView, ViewHelpers}
+  alias SiteWeb.ViewHelpers
   alias Stops.{Nearby, Stop}
   alias Util.Distance
 
@@ -40,7 +40,7 @@ defmodule Site.TransitNearMe do
   @typep prediction_fn :: (String.t() -> [Prediction.t()])
 
   @default_opts [
-    stops_nearby_fn: &Nearby.nearby/1,
+    stops_nearby_fn: &Nearby.nearby_with_varying_radius_by_mode/1,
     schedules_fn: &Schedules.Repo.schedule_for_stop/2
   ]
 
@@ -262,40 +262,11 @@ defmodule Site.TransitNearMe do
     [%Schedule{route: route} | _] = schedules
 
     %{
-      route: stringified_route(route),
+      route: JsonHelpers.stringified_route(route),
       stops_with_directions: get_stops_for_route(schedules, location, distances, opts),
       alert_count: get_alert_count_for_route(route, alerts)
     }
   end
-
-  @spec stringified_route(Route.t()) :: map
-  defp stringified_route(route) do
-    route
-    |> Map.update!(:direction_names, fn map ->
-      Map.new(map, fn {key, val} ->
-        {Integer.to_string(key), Route.add_direction_suffix(val)}
-      end)
-    end)
-    |> Map.update!(:direction_destinations, fn map ->
-      Map.new(map, fn {key, val} -> {Integer.to_string(key), val} end)
-    end)
-    |> Map.put(:header, route_header(route))
-  end
-
-  @spec route_header(Route.t()) :: String.t()
-  defp route_header(%Route{} = route) do
-    route
-    |> ScheduleView.route_header_text()
-    |> parse_header()
-    |> Enum.join()
-    |> ViewHelpers.break_text_at_slash()
-  end
-
-  @spec parse_header(Safe.t() | [String.t()]) :: [String.t()]
-  defp parse_header(header) when is_list(header), do: header
-
-  # Strip the <div class="bus-route-sign"> added by route_header_text
-  defp parse_header({:safe, html_content}), do: [Enum.at(html_content, 4)]
 
   @spec get_alert_count_for_route(Route.t(), [Alert.t()]) :: integer
   defp get_alert_count_for_route(route, alerts) do

@@ -31,7 +31,8 @@
   margin-top: $base-spacing / 2;
 }
 
-.m-stop-page__header-feature {
+.m-stop-page__header-feature,
+.m-stop-page__access-icon {
   align-items: center;
   display: flex;
   flex: 0 0 auto;
@@ -53,10 +54,14 @@
   }
 }
 
-.m-stop-page__header-icon {
-  @include icon-size-inline(1.75em, .125em);
+.m-stop-page__icon {
+  @include icon-size-inline(1.25em, .125em);
 
   flex: 0 0 auto;
+
+  @include media-breakpoint-up(lg) {
+    @include icon-size-inline(1.5em, .125em);
+  }
 
   .c-icon__cr-zone {
     padding: $base-spacing;
@@ -178,3 +183,56 @@
     margin-bottom: 0;
   }
 }
+
+.m-stop-page__transfers {
+  background-color: $gray-bordered-background;
+  padding: $base-spacing * .75;
+}
+
+.m-stop-page__transfer {
+  @include icon-size-inline(1.25em, 0);
+
+  background-color: $white;
+  border-radius: $base-spacing / 4;
+  box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
+  margin-top: $base-spacing;
+  padding: $base-spacing / 2;
+
+  @include media-breakpoint-up(lg) {
+    @include icon-size-inline(1.5em, 0);
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.m-stop-page__transfer-stop-name {
+  color: $brand-primary;
+  font-weight: bold;
+}
+
+.m-stop-page__transfer-route {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  padding: $base-spacing / 3 0;
+}
+
+.m-stop-page__transfer-route-link {
+  display: block;
+  padding-left: $base-spacing / 2;
+}
+
+.m-stop-page__transfer-bus-pill {
+  border-radius: $base-spacing / 4;
+  font-weight: bold;
+  min-width: 2rem;
+  padding: 0 $base-spacing / 4;
+  text-align: center;
+}
+
+.m-stop-page__transfer-distance {
+  float: right;
+}
+

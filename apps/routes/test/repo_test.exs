@@ -231,6 +231,16 @@ defmodule Routes.RepoTest do
     end
   end
 
+  describe "by_stop_and_direction/2" do
+    test "fetching routes for the same stop, but different direction" do
+      oakgrove_outbound_routes = Repo.by_stop_and_direction("place-ogmnl", 0)
+      oakgrove_inbound_routes = Repo.by_stop_and_direction("place-ogmnl", 1)
+
+      assert Enum.any?(oakgrove_outbound_routes, &(&1.id == "132"))
+      refute Enum.any?(oakgrove_inbound_routes, &(&1.id == "132"))
+    end
+  end
+
   describe "route_hidden?/1" do
     test "Returns true for hidden routes" do
       hidden_routes = [

@@ -5,6 +5,7 @@ defmodule SiteWeb.StopController do
   use SiteWeb, :controller
   alias Plug.Conn
   alias Fares.{RetailLocations, RetailLocations.Location}
+  alias Site.JsonHelpers
   alias Routes.{Group, Route}
   alias Site.TransitNearMe
   alias SiteWeb.PartialView.HeaderTab
@@ -12,10 +13,13 @@ defmodule SiteWeb.StopController do
   alias SiteWeb.StopView.Parking
   alias SiteWeb.ViewHelpers
   alias SiteWeb.Views.Helpers.AlertHelpers
-  alias Stops.{Repo, Stop}
+  alias Stops.{Nearby, Repo, Stop}
   alias Util.AndOr
 
   plug(:alerts)
+
+  @distance_tenth_of_a_mile 0.002
+  @nearby_stop_limit 3
 
   @type routes_map_t :: %{
           group_name: atom,
@@ -64,6 +68,27 @@ defmodule SiteWeb.StopController do
     else
       render_404(conn)
     end
+  end
+
+  @spec nearby_stops(Stop.t()) :: [
+          %{
+            stop: Stop.t(),
+            distance: float,
+            routes_with_direction: [Nearby.route_with_direction()]
+          }
+        ]
+  defp nearby_stops(%{latitude: latitude, longitude: longitude}) do
+    %{latitude: latitude, longitude: longitude}
+    |> Nearby.nearby_with_routes(@distance_tenth_of_a_mile, limit: @nearby_stop_limit)
+    |> Enum.map(fn %{routes_with_direction: routes_with_direction} = nearby_stops ->
+      %{
+        nearby_stops
+        | routes_with_direction:
+            Enum.map(routes_with_direction, fn %{route: route} = route_with_direction ->
+              %{route_with_direction | route: JsonHelpers.stringified_route(route)}
+            end)
+      }
+    end)
   end
 
   @spec grouped_routes([Route.t()]) :: [{Route.gtfs_route_type(), [Route.t()]}]
@@ -211,6 +236,7 @@ defmodule SiteWeb.StopController do
     assign(conn, :stop_page_data, %{
       stop: %{stop | parking_lots: Enum.map(stop.parking_lots, &Parking.parking_lot(&1))},
       routes: routes,
+      suggested_transfers: nearby_stops(stop),
       tabs: [
         %HeaderTab{
           id: "info",

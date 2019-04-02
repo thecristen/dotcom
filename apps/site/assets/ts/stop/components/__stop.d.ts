@@ -1,4 +1,4 @@
-import { Direction, Route, Stop } from "../../__v3api";
+import { Direction, DirectionId, Route, Stop } from "../../__v3api";
 import { MapData } from "../../app/googleMaps/__googleMaps";
 
 export interface TypedRoutes {
@@ -12,9 +12,21 @@ export interface StopMapData {
   map_url: string;
 }
 
+export interface RouteWithDirection {
+  direction_id: DirectionId | null;
+  route: Route;
+}
+
+export interface SuggestedTransfer {
+  stop: Stop;
+  distance: number;
+  routes_with_direction: RouteWithDirection[];
+}
+
 export interface StopPageData {
   stop: Stop;
   routes: TypedRoutes[];
+  suggested_transfers: SuggestedTransfer[];
   tabs: Tab[];
   zone_number: string;
   retail_locations: RetailLocationWithDistance[];

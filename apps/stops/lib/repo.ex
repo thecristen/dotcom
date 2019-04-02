@@ -3,7 +3,7 @@ defmodule Stops.Repo do
   Matches the Ecto API, but fetches Stops from the Stop Info API instead.
   """
   use RepoCache, ttl: :timer.hours(1)
-  alias Stops.Stop
+  alias Stops.{Api, Stop}
   alias Routes.Route
 
   @type stop_feature ::
@@ -74,18 +74,13 @@ defmodule Stops.Repo do
     # the `cache` macro uses the function name as part of the key, and :stop
     # makes more sense for this than :get, since other functions in this
     # module will be working with those cache rows as well.
-    cache(id, &Stops.Api.by_gtfs_id/1)
-  end
-
-  @spec closest(Util.Position.t()) :: [Stop.t()]
-  def closest(position) do
-    Stops.Nearby.nearby(position)
+    cache(id, &Api.by_gtfs_id/1)
   end
 
   @spec by_route(Route.id_t(), 0 | 1, Keyword.t()) :: stops_response
   def by_route(route_id, direction_id, opts \\ []) do
     cache({route_id, direction_id, opts}, fn args ->
-      with stops when is_list(stops) <- Stops.Api.by_route(args) do
+      with stops when is_list(stops) <- Api.by_route(args) do
         for stop <- stops do
           # Put the stop in the cache under {:stop, id} key as well so it will
           # also be cached for Stops.Repo.get/1 calls
@@ -168,8 +163,8 @@ defmodule Stops.Repo do
   def consolidate_silver_line_route_feature(:silver_line), do: :bus
   def consolidate_silver_line_route_feature(icon_atom), do: icon_atom
 
-  @spec get_stop_connections([Routes.Route.t()] | {:error, :not_fetched} | nil, Stops.Stop.id_t()) ::
-          [Routes.Route.t()]
+  @spec get_stop_connections([Route.t()] | {:error, :not_fetched} | nil, Stop.id_t()) ::
+          [Route.t()]
   defp get_stop_connections(connections, _stop_id) when is_list(connections) do
     connections
   end

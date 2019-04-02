@@ -4,15 +4,20 @@ defmodule Routes.Repo do
 
   import Routes.Parser
 
+  alias JsonApi
+  alias JsonApi.{Error, Item}
+  alias Routes.{Route, Shape}
+  alias V3Api.{Routes, Shapes, Trips}
+
   @doc """
 
   Returns a list of all the routes
 
   """
-  @spec all() :: [Routes.Route.t()]
+  @spec all() :: [Route.t()]
   def all do
     case cache([], fn _ ->
-           result = handle_response(V3Api.Routes.all())
+           result = handle_response(Routes.all())
 
            for {:ok, routes} <- [result],
                route <- routes do
@@ -31,10 +36,10 @@ defmodule Routes.Repo do
   Returns a single route by ID
 
   """
-  @spec get(String.t()) :: Routes.Route.t() | nil
+  @spec get(String.t()) :: Route.t() | nil
   def get(id) when is_binary(id) do
     case cache(id, fn id ->
-           with %{data: [route]} <- V3Api.Routes.get(id) do
+           with %{data: [route]} <- Routes.get(id) do
              {:ok, parse_route(route)}
            end
          end) do
@@ -43,11 +48,11 @@ defmodule Routes.Repo do
     end
   end
 
-  @spec get_shapes(String.t(), 0 | 1, boolean) :: [Routes.Shape.t()]
+  @spec get_shapes(String.t(), 0 | 1, boolean) :: [Shape.t()]
   def get_shapes(route_id, direction_id, filter_negative_priority? \\ true) do
     shapes =
       cache({route_id, direction_id}, fn _ ->
-        case V3Api.Shapes.all(route: route_id, direction_id: direction_id) do
+        case Shapes.all(route: route_id, direction_id: direction_id) do
           {:error, _} ->
             []
 
@@ -65,7 +70,7 @@ defmodule Routes.Repo do
     filter_shapes_by_priority(shapes, filter_negative_priority?)
   end
 
-  @spec filter_shapes_by_priority([Routes.Shape.t()], boolean) :: [Routes.Shape.t()]
+  @spec filter_shapes_by_priority([Shape.t()], boolean) :: [Shape.t()]
   defp filter_shapes_by_priority(shapes, true) do
     for shape <- shapes,
         shape.priority >= 0 do
@@ -77,10 +82,10 @@ defmodule Routes.Repo do
     shapes
   end
 
-  @spec get_shape(String.t()) :: [Routes.Shape.t()]
+  @spec get_shape(String.t()) :: [Shape.t()]
   def get_shape(shape_id) do
     cache(shape_id, fn _ ->
-      case V3Api.Shapes.by_id(shape_id) do
+      case Shapes.by_id(shape_id) do
         {:error, _} ->
           []
 
@@ -95,7 +100,7 @@ defmodule Routes.Repo do
   Given a route_type (or list of route types), returns the list of routes matching that type.
 
   """
-  @spec by_type([0..4] | 0..4) :: [Routes.Route.t()]
+  @spec by_type([0..4] | 0..4) :: [Route.t()]
   def by_type(types) when is_list(types) do
     types = Enum.sort(types)
 
@@ -109,7 +114,7 @@ defmodule Routes.Repo do
     by_type([type])
   end
 
-  @spec by_type_uncached([0..4]) :: {:ok, [Routes.Route.t()]} | {:error, any}
+  @spec by_type_uncached([0..4]) :: {:ok, [Route.t()]} | {:error, any}
   defp by_type_uncached(types) do
     case all() do
       [] -> {:error, "no routes"}
@@ -122,10 +127,27 @@ defmodule Routes.Repo do
   Given a stop ID, returns the list of routes which stop there.
 
   """
-  @spec by_stop(String.t(), Keyword.t()) :: [Routes.Route.t()]
+  @spec by_stop(String.t(), Keyword.t()) :: [Route.t()]
   def by_stop(stop_id, opts \\ []) do
     case cache({stop_id, opts}, fn {stop_id, opts} ->
-           stop_id |> V3Api.Routes.by_stop(opts) |> handle_response
+           stop_id |> Routes.by_stop(opts) |> handle_response
+         end) do
+      {:ok, routes} -> routes
+      {:error, _} -> []
+    end
+  end
+
+  @doc """
+
+  Given a stop ID and direction ID, returns the list of routes which stop there in that direction.
+
+  """
+  @spec by_stop_and_direction(String.t(), 0 | 1, Keyword.t()) :: [Route.t()]
+  def by_stop_and_direction(stop_id, direction_id, opts \\ []) do
+    case cache({stop_id, direction_id, opts}, fn {stop_id, direction_id, opts} ->
+           stop_id
+           |> Routes.by_stop_and_direction(direction_id, opts)
+           |> handle_response
          end) do
       {:ok, routes} -> routes
       {:error, _} -> []
@@ -145,15 +167,15 @@ defmodule Routes.Repo do
     end)
   end
 
-  @spec fetch_headsigns(Routes.Route.id_t(), non_neg_integer) :: [String.t()]
+  @spec fetch_headsigns(Route.id_t(), non_neg_integer) :: [String.t()]
   def fetch_headsigns(route_id, direction_id) do
     route_id
-    |> V3Api.Trips.by_route("fields[trip]": "headsign", direction_id: direction_id)
+    |> Trips.by_route("fields[trip]": "headsign", direction_id: direction_id)
     |> calculate_headsigns(route_id)
   end
 
-  @spec calculate_headsigns(JsonApi.t() | JsonApi.Error.t(), Routes.Route.id_t()) :: [
-          Routes.Route.id_t()
+  @spec calculate_headsigns(JsonApi.t() | Error.t(), Route.id_t()) :: [
+          Route.id_t()
         ]
   def calculate_headsigns(%JsonApi{data: data}, route_id) do
     data
@@ -170,17 +192,17 @@ defmodule Routes.Repo do
   defp get_headsign(%{attributes: %{"headsign" => ""}}), do: []
   defp get_headsign(%{attributes: %{"headsign" => headsign}}), do: [headsign]
 
-  @spec filter_non_primary_routes([JsonApi.Item.t()], Routes.Route.id_t()) :: [
-          JsonApi.t() | JsonApi.Error.t()
+  @spec filter_non_primary_routes([Item.t()], Route.id_t()) :: [
+          JsonApi.t() | Error.t()
         ]
   defp filter_non_primary_routes(trips, route_id),
     do: Enum.filter(trips, &route_id_matches?(&1, route_id))
 
-  @spec route_id_matches?(JsonApi.Item.t(), Routes.Route.id_t()) :: boolean
+  @spec route_id_matches?(Item.t(), Route.id_t()) :: boolean
   defp route_id_matches?(trip, route_id),
     do: Enum.any?(trip.relationships["route"], fn trip -> trip.id == route_id end)
 
-  @spec handle_response(JsonApi.t() | {:error, any}) :: {:ok, [Routes.Route.t()]} | {:error, any}
+  @spec handle_response(JsonApi.t() | {:error, any}) :: {:ok, [Route.t()]} | {:error, any}
   def handle_response({:error, reason}) do
     {:error, reason}
   end
@@ -235,9 +257,9 @@ defmodule Routes.Repo do
   @doc """
   The Green Line.
   """
-  @spec green_line :: Routes.Route.t()
+  @spec green_line :: Route.t()
   def green_line do
-    %Routes.Route{
+    %Route{
       id: "Green",
       name: "Green Line",
       long_name: "Green Line",

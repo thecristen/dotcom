@@ -20,10 +20,10 @@ exports[`renders 1`] = `
         href="/stops/place-sstat?tab=departures#subway-schedule"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-red-line-default"
+            className="c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -37,10 +37,10 @@ exports[`renders 1`] = `
         href="/stops/place-sstat?tab=departures#bus-schedule"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-bus-default"
+            className="c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -54,10 +54,10 @@ exports[`renders 1`] = `
         href="/stops/place-sstat?tab=departures#commuter-rail-schedule"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-commuter-rail-default"
+            className="c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -71,17 +71,17 @@ exports[`renders 1`] = `
         href="/stops/place-sstat?tab=info#commuter-fares"
       >
         <span
-          className="m-stop-page__header-icon c-icon__cr-zone"
+          className="m-stop-page__icon c-icon__cr-zone"
         >
           Zone 1A
         </span>
       </a>
       <a
-        className="m-stop-page__header-feature"
+        className="m-stop-page__access-icon"
         href="#accessibility"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
             className="c-svg__icon-accessible-default"
@@ -98,7 +98,7 @@ exports[`renders 1`] = `
         href="#parking"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
             className="c-svg__icon-parking-default"
@@ -169,10 +169,10 @@ exports[`renders a ferry route 1`] = `
         href="/stops/place-sstat?tab=departures#bus-schedule"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-ferry-default"
+            className="c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -186,17 +186,17 @@ exports[`renders a ferry route 1`] = `
         href="/stops/place-sstat?tab=info#commuter-fares"
       >
         <span
-          className="m-stop-page__header-icon c-icon__cr-zone"
+          className="m-stop-page__icon c-icon__cr-zone"
         >
           Zone 1A
         </span>
       </a>
       <a
-        className="m-stop-page__header-feature"
+        className="m-stop-page__access-icon"
         href="#accessibility"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
             className="c-svg__icon-accessible-default"
@@ -213,7 +213,7 @@ exports[`renders a ferry route 1`] = `
         href="#parking"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
             className="c-svg__icon-parking-default"
@@ -284,10 +284,10 @@ exports[`renders all subway routes 1`] = `
         href="/stops/place-sstat?tab=departures#subway-schedule"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-red-line-default"
+            className="c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -301,10 +301,10 @@ exports[`renders all subway routes 1`] = `
         href="/stops/place-sstat?tab=departures#subway-schedule"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-orange-line-default"
+            className="c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -318,10 +318,10 @@ exports[`renders all subway routes 1`] = `
         href="/stops/place-sstat?tab=departures#subway-schedule"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-blue-line-default"
+            className="c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -335,10 +335,10 @@ exports[`renders all subway routes 1`] = `
         href="/stops/place-sstat?tab=departures#subway-schedule"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-mattapan-line-default"
+            className="c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -352,17 +352,17 @@ exports[`renders all subway routes 1`] = `
         href="/stops/place-sstat?tab=info#commuter-fares"
       >
         <span
-          className="m-stop-page__header-icon c-icon__cr-zone"
+          className="m-stop-page__icon c-icon__cr-zone"
         >
           Zone 1A
         </span>
       </a>
       <a
-        className="m-stop-page__header-feature"
+        className="m-stop-page__access-icon"
         href="#accessibility"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
             className="c-svg__icon-accessible-default"
@@ -379,7 +379,7 @@ exports[`renders all subway routes 1`] = `
         href="#parking"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
             className="c-svg__icon-parking-default"
@@ -450,10 +450,10 @@ exports[`renders with green line routes 1`] = `
         href="/stops/place-sstat?tab=departures#subway-schedule"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-green-line-default"
+            className="c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -467,10 +467,10 @@ exports[`renders with green line routes 1`] = `
         href="/stops/place-sstat?tab=departures#subway-schedule"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-green-b-line-default"
+            className="c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -484,10 +484,10 @@ exports[`renders with green line routes 1`] = `
         href="/stops/place-sstat?tab=departures#subway-schedule"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-green-c-line-default"
+            className="c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -501,10 +501,10 @@ exports[`renders with green line routes 1`] = `
         href="/stops/place-sstat?tab=departures#subway-schedule"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-green-d-line-default"
+            className="c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -518,10 +518,10 @@ exports[`renders with green line routes 1`] = `
         href="/stops/place-sstat?tab=departures#subway-schedule"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-green-e-line-default"
+            className="c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -535,17 +535,17 @@ exports[`renders with green line routes 1`] = `
         href="/stops/place-sstat?tab=info#commuter-fares"
       >
         <span
-          className="m-stop-page__header-icon c-icon__cr-zone"
+          className="m-stop-page__icon c-icon__cr-zone"
         >
           Zone 1A
         </span>
       </a>
       <a
-        className="m-stop-page__header-feature"
+        className="m-stop-page__access-icon"
         href="#accessibility"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
             className="c-svg__icon-accessible-default"
@@ -562,7 +562,7 @@ exports[`renders with green line routes 1`] = `
         href="#parking"
       >
         <span
-          className="m-stop-page__header-icon"
+          className="m-stop-page__icon"
         >
           <span
             className="c-svg__icon-parking-default"
