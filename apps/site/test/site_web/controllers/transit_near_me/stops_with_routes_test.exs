@@ -1,7 +1,6 @@
 defmodule SiteWeb.TransitNearMeController.StopsWithRoutesTest do
   use ExUnit.Case, async: true
 
-  alias GoogleMaps.Geocode.Address
   alias Routes.Route
   alias Schedules.Schedule
   alias Site.TransitNearMe
@@ -76,12 +75,6 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutesTest do
 
   describe "stops_with_routes/2" do
     test "returns an encodable map with formatted data" do
-      location = %Address{
-        latitude: 42.351,
-        longitude: -71.066,
-        formatted: "10 Park Plaza, Boston, MA, 02116"
-      }
-
       stops = %TransitNearMe{
         schedules: %{
           "stop-id" => [
@@ -94,13 +87,12 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutesTest do
           ]
         },
         distances: %{
-          "stop-id" => 0.04083664794103045
+          "stop-id" => 0.05
         },
         stops: [@stop]
       }
 
-      stops_map = StopsWithRoutes.stops_with_routes(stops, location)
-
+      stops_map = StopsWithRoutes.stops_with_routes(stops)
       %{stop: stop_with_data, routes: routes} = List.first(stops_map)
       route = routes |> List.first() |> Map.get(:routes) |> List.first()
 
@@ -111,7 +103,7 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutesTest do
 
       assert %Stop{} = stop_with_data.stop
 
-      assert stop_with_data.distance == "500 ft"
+      assert stop_with_data.distance == "291 ft"
       assert {:ok, _} = Poison.encode(stops_map)
     end
   end

@@ -23,8 +23,6 @@ defmodule Site.TransitNearMeTest do
 
       assert %TransitNearMe{} = data
 
-      assert data.location == @address
-
       assert Enum.map(data.stops, & &1.name) == [
                "Stuart St @ Charles St S",
                "Charles St S @ Park Plaza",
@@ -44,6 +42,156 @@ defmodule Site.TransitNearMeTest do
 
       # stops are in order of distance from location
       assert ordered_distances == Enum.sort(ordered_distances)
+    end
+
+    test "filters out bus routes which are more than 24 hours from now" do
+      now = Util.now()
+      time_tomorrow_within_24 = Timex.shift(now, hours: 23)
+      time_too_far_in_future = Timex.shift(now, hours: 25)
+      api_now = TransitNearMe.format_min_time(now)
+      api_tomorrow = TransitNearMe.tomorrow_date(now)
+
+      schedules_fn = fn _stop, time ->
+        case time do
+          # always within service date, so within 24 hours
+          [min_time: ^api_now] ->
+            []
+
+          # when search is expanded to tomorrow's service date, limit buses to within 24 hours
+          [date: ^api_tomorrow] ->
+            [
+              %Schedules.Schedule{
+                early_departure?: true,
+                flag?: false,
+                pickup_type: 0,
+                route: %Routes.Route{
+                  custom_route?: false,
+                  description: :local_bus,
+                  direction_destinations: %{0 => "Roberts", 1 => "Downtown Boston"},
+                  direction_names: %{0 => "Outbound", 1 => "Inbound"},
+                  id: "fakeID",
+                  long_name: "Roberts - Downtown Boston",
+                  name: "553",
+                  type: 3
+                },
+                stop: %Stops.Stop{
+                  accessibility: ["accessible"],
+                  address: nil,
+                  closed_stop_info: nil,
+                  has_charlie_card_vendor?: false,
+                  has_fare_machine?: false,
+                  id: "6542",
+                  is_child?: false,
+                  latitude: 42.350845,
+                  longitude: -71.062868,
+                  name: "Kneeland St @ Washington St",
+                  note: nil,
+                  parking_lots: [],
+                  station?: false
+                },
+                stop_sequence: 32,
+                time: time_tomorrow_within_24,
+                trip: %Schedules.Trip{
+                  bikes_allowed?: true,
+                  direction_id: 1,
+                  headsign: "Downtown via Copley (Express)",
+                  id: "39426144",
+                  name: "",
+                  shape_id: "5530078"
+                }
+              },
+              %Schedules.Schedule{
+                early_departure?: true,
+                flag?: false,
+                pickup_type: 0,
+                route: %Routes.Route{
+                  custom_route?: false,
+                  description: :local_bus,
+                  direction_destinations: %{0 => "Roberts", 1 => "Downtown Boston"},
+                  direction_names: %{0 => "Outbound", 1 => "Inbound"},
+                  id: "553",
+                  long_name: "Roberts - Downtown Boston",
+                  name: "553",
+                  type: 3
+                },
+                stop: %Stops.Stop{
+                  accessibility: ["accessible"],
+                  address: nil,
+                  closed_stop_info: nil,
+                  has_charlie_card_vendor?: false,
+                  has_fare_machine?: false,
+                  id: "6542",
+                  is_child?: false,
+                  latitude: 42.350845,
+                  longitude: -71.062868,
+                  name: "Kneeland St @ Washington St",
+                  note: nil,
+                  parking_lots: [],
+                  station?: false
+                },
+                stop_sequence: 32,
+                time: time_too_far_in_future,
+                trip: %Schedules.Trip{
+                  bikes_allowed?: true,
+                  direction_id: 1,
+                  headsign: "Downtown via Copley (Express)",
+                  id: "39426144",
+                  name: "",
+                  shape_id: "5530078"
+                }
+              },
+              %Schedules.Schedule{
+                early_departure?: true,
+                flag?: false,
+                pickup_type: 0,
+                route: %Routes.Route{
+                  custom_route?: false,
+                  description: :rapid_transit,
+                  direction_destinations: %{0 => "Ashmont/Braintree", 1 => "Alewife"},
+                  direction_names: %{0 => "South", 1 => "North"},
+                  id: "Red",
+                  long_name: "Red Line",
+                  name: "Red Line",
+                  type: 1
+                },
+                stop: %Stops.Stop{
+                  accessibility: ["accessible"],
+                  address: nil,
+                  closed_stop_info: nil,
+                  has_charlie_card_vendor?: false,
+                  has_fare_machine?: false,
+                  id: "place-sstat",
+                  is_child?: true,
+                  latitude: 42.352271,
+                  longitude: -71.055242,
+                  name: "South Station",
+                  note: nil,
+                  parking_lots: [],
+                  station?: false
+                },
+                stop_sequence: 90,
+                time: time_too_far_in_future,
+                trip: %Schedules.Trip{
+                  bikes_allowed?: false,
+                  direction_id: 0,
+                  headsign: "Ashmont",
+                  id: "38899812-21:00-LL",
+                  name: "",
+                  shape_id: "931_0009"
+                }
+              }
+            ]
+        end
+      end
+
+      %{schedules: schedules} =
+        TransitNearMe.build(@address, date: @date, now: now, schedules_fn: schedules_fn)
+
+      # Filter applies to bus routes…
+      assert Enum.find(Map.get(schedules, "6542"), &(&1.route.id == "fakeID"))
+      refute Enum.find(Map.get(schedules, "6542"), &(&1.route.id == "553"))
+      # …but not other route types
+      assert Enum.find(Map.get(schedules, "place-sstat"), &(&1.route.id == "Red"))
     end
   end
 
@@ -131,171 +279,6 @@ defmodule Site.TransitNearMeTest do
       end
     end
 
-    test "filters out bus routes which aren't coming in the next 24 hours" do
-      now = Util.now()
-      time_too_far_in_future = Timex.shift(now, hours: 25)
-
-      data = %TransitNearMe{
-        location: @address,
-        stops: [
-          %Stops.Stop{
-            accessibility: ["accessible"],
-            address: nil,
-            closed_stop_info: nil,
-            has_charlie_card_vendor?: false,
-            has_fare_machine?: false,
-            id: "6542",
-            is_child?: false,
-            latitude: 42.350845,
-            longitude: -71.062868,
-            name: "Kneeland St @ Washington St",
-            note: nil,
-            parking_lots: [],
-            station?: false
-          },
-          %Stops.Stop{
-            accessibility: ["accessible", "escalator_both", "elevator", "fully_elevated_platform"],
-            address: "700 Atlantic Ave, Boston, MA 02110",
-            closed_stop_info: nil,
-            has_charlie_card_vendor?: false,
-            has_fare_machine?: true,
-            id: "place-sstat",
-            is_child?: false,
-            latitude: 42.352271,
-            longitude: -71.055242,
-            name: "South Station",
-            note: nil,
-            parking_lots: [
-              %Stops.Stop.ParkingLot{
-                address: nil,
-                capacity: %Stops.Stop.ParkingLot.Capacity{
-                  accessible: 4,
-                  total: 210,
-                  type: "Garage"
-                },
-                latitude: 42.349838,
-                longitude: -71.055963,
-                manager: %Stops.Stop.ParkingLot.Manager{
-                  contact: "ProPark",
-                  name: "ProPark",
-                  phone: "617-345-0202",
-                  url: "https://www.propark.com/propark-locator2/south-station-garage/"
-                },
-                name: "South Station Bus Terminal Garage",
-                note: nil,
-                payment: %Stops.Stop.ParkingLot.Payment{
-                  daily_rate:
-                    "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10",
-                  methods: ["Credit/Debit Card", "Cash"],
-                  mobile_app: nil,
-                  monthly_rate: "$150 regular, $445 overnight"
-                },
-                utilization: nil
-              }
-            ],
-            station?: true
-          }
-        ],
-        distances: %{
-          "6542" => 0.16028527858228725,
-          "place-sstat" => 0.5562971500164419
-        },
-        schedules: %{
-          "6542" => [
-            %Schedules.Schedule{
-              early_departure?: true,
-              flag?: false,
-              pickup_type: 0,
-              route: %Routes.Route{
-                custom_route?: false,
-                description: :local_bus,
-                direction_destinations: %{0 => "Roberts", 1 => "Downtown Boston"},
-                direction_names: %{0 => "Outbound", 1 => "Inbound"},
-                id: "553",
-                long_name: "Roberts - Downtown Boston",
-                name: "553",
-                type: 3
-              },
-              stop: %Stops.Stop{
-                accessibility: ["accessible"],
-                address: nil,
-                closed_stop_info: nil,
-                has_charlie_card_vendor?: false,
-                has_fare_machine?: false,
-                id: "6542",
-                is_child?: false,
-                latitude: 42.350845,
-                longitude: -71.062868,
-                name: "Kneeland St @ Washington St",
-                note: nil,
-                parking_lots: [],
-                station?: false
-              },
-              stop_sequence: 32,
-              time: time_too_far_in_future,
-              trip: %Schedules.Trip{
-                bikes_allowed?: true,
-                direction_id: 1,
-                headsign: "Downtown via Copley (Express)",
-                id: "39426144",
-                name: "",
-                shape_id: "5530078"
-              }
-            }
-          ],
-          "place-sstat" => [
-            %Schedules.Schedule{
-              early_departure?: true,
-              flag?: false,
-              pickup_type: 0,
-              route: %Routes.Route{
-                custom_route?: false,
-                description: :rapid_transit,
-                direction_destinations: %{0 => "Ashmont/Braintree", 1 => "Alewife"},
-                direction_names: %{0 => "South", 1 => "North"},
-                id: "Red",
-                long_name: "Red Line",
-                name: "Red Line",
-                type: 1
-              },
-              stop: %Stops.Stop{
-                accessibility: ["accessible"],
-                address: nil,
-                closed_stop_info: nil,
-                has_charlie_card_vendor?: false,
-                has_fare_machine?: false,
-                id: "place-sstat",
-                is_child?: true,
-                latitude: 42.352271,
-                longitude: -71.055242,
-                name: "South Station",
-                note: nil,
-                parking_lots: [],
-                station?: false
-              },
-              stop_sequence: 90,
-              time: time_too_far_in_future,
-              trip: %Schedules.Trip{
-                bikes_allowed?: false,
-                direction_id: 0,
-                headsign: "Ashmont",
-                id: "38899812-21:00-LL",
-                name: "",
-                shape_id: "931_0009"
-              }
-            }
-          ]
-        }
-      }
-
-      routes = TransitNearMe.schedules_for_routes(data, [], now: now)
-
-      # Filter applies to bus routes…
-      refute Enum.find(routes, &(&1.route.id == "553"))
-      # …but not other route types
-      assert Enum.find(routes, &(&1.route.id == "Red"))
-    end
-
     test "sorts directions and headsigns within stops" do
       route = %Route{
         id: "subway",
@@ -338,7 +321,6 @@ defmodule Site.TransitNearMeTest do
 
       input = %TransitNearMe{
         distances: %{"stop" => 0.1},
-        location: @address,
         schedules: %{
           "stop-1" => [
             %{
@@ -410,7 +392,6 @@ defmodule Site.TransitNearMeTest do
       now = Util.now()
 
       data = %TransitNearMe{
-        location: @address,
         stops: [
           %Stops.Stop{
             accessibility: ["accessible", "escalator_both", "elevator", "fully_elevated_platform"],

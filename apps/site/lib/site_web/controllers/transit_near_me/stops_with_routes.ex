@@ -4,7 +4,6 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutes do
   """
 
   alias GoogleMaps
-  alias GoogleMaps.Geocode.Address
   alias Routes.Route
   alias Site.TransitNearMe
   alias SiteWeb.PartialView.LocationCard
@@ -22,16 +21,17 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutes do
           stop: Stop.t()
         }
 
-  @spec stops_with_routes(TransitNearMe.t(), Address.t()) ::
+  @spec stops_with_routes(TransitNearMe.t()) ::
           [map] | []
-  def stops_with_routes({:stops, []}, _), do: []
+  def stops_with_routes(%TransitNearMe{stops: []}), do: []
 
-  def stops_with_routes(stops_with_routes, %Address{} = location) do
-    stops_with_routes
+  def stops_with_routes(data) do
+    data
     |> from_routes_and_stops()
+    |> Enum.reject(&Enum.empty?(&1.routes))
     |> Enum.map(&routes_to_map(&1))
     |> Enum.map(
-      &Map.update!(&1, :stop, fn stop -> TransitNearMe.build_stop_map(stop, location) end)
+      &Map.update!(&1, :stop, fn stop -> TransitNearMe.build_stop_map(stop, data.distances) end)
     )
   end
 

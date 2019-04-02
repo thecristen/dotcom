@@ -18,13 +18,11 @@ defmodule Site.ReactTest do
     setup do
       now = Util.now()
 
-      data =
-        @address
-        |> TransitNearMe.build(date: @date, now: now)
+      data = TransitNearMe.build(@address, date: @date, now: now)
 
       route_sidebar_data = TransitNearMe.schedules_for_routes(data, [], now: now)
 
-      stop_sidebar_data = StopsWithRoutes.stops_with_routes(data, @address)
+      stop_sidebar_data = StopsWithRoutes.stops_with_routes(data)
 
       {:ok, %{route_sidebar_data: route_sidebar_data, stop_sidebar_data: stop_sidebar_data}}
     end

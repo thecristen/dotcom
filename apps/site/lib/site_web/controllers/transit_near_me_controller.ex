@@ -41,22 +41,22 @@ defmodule SiteWeb.TransitNearMeController do
 
     data = data_fn.(location, date: conn.assigns.date, now: conn.assigns.date_time)
 
-    do_assign_stops_and_routes(conn, data, location, alerts)
+    do_assign_stops_and_routes(conn, data, alerts)
   end
 
-  defp assign_stops_and_routes(conn), do: do_assign_stops_and_routes(conn, {:stops, []}, nil, nil)
+  defp assign_stops_and_routes(conn), do: do_assign_stops_and_routes(conn, {:stops, []}, nil)
 
-  defp do_assign_stops_and_routes(conn, {:stops, []}, _, _) do
+  defp do_assign_stops_and_routes(conn, {:stops, []}, _) do
     conn
     |> assign(:stops_json, [])
     |> assign(:routes_json, [])
   end
 
-  defp do_assign_stops_and_routes(conn, data, location, alerts) do
+  defp do_assign_stops_and_routes(conn, data, alerts) do
     to_json_fn = Map.get(conn.assigns, :to_json_fn, &TransitNearMe.schedules_for_routes/3)
 
     conn
-    |> assign(:stops_json, StopsWithRoutes.stops_with_routes(data, location))
+    |> assign(:stops_json, StopsWithRoutes.stops_with_routes(data))
     |> assign(:routes_json, to_json_fn.(data, alerts, now: conn.assigns.date_time))
   end
 
