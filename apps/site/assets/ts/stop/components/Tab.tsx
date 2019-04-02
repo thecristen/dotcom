@@ -6,7 +6,7 @@ interface Props {
 }
 
 const selectedClass = ({ id }: Tab): string =>
-  id === "details" ? "header-tab--selected" : "";
+  id === "info" ? "header-tab--selected" : "";
 
 const BadgeComponent = (badge: TabBadge): ReactElement<HTMLElement> => (
   <div className={badge.class} aria-label={badge.aria_label}>

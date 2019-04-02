@@ -70,6 +70,7 @@ const TransitNearMe = ({
           shouldFilterStopCards={state.shouldFilterStopCards}
         />
       )}
+      <h3 className="sr-only">Map</h3>
       <div
         id={mapId}
         className="m-tnm__map"

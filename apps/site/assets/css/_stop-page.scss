@@ -100,7 +100,7 @@
 
 .m-stop-page__hero-map-container {
   flex: 1 1 auto;
-  height: $base-spacing * 35;
+  height: $base-spacing * 25;
 
   @include media-breakpoint-only(xxl) {
     @include make-container();

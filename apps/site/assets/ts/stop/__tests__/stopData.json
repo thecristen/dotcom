@@ -2,18 +2,22 @@
   "zone_number": "1A",
   "tabs": [
     {
-      "name": "Station Details",
-      "id": "details",
-      "href": "/stops-v2/place-sstat",
+      "badge": null,
       "class": "",
-      "badge": null
+      "href": "/stops-v2/place-sstat",
+      "id": "info",
+      "name": "Station Info"
     },
     {
-      "name": "Alerts",
-      "id": "alerts",
-      "href": "/stops/place-sstat?tab=alerts",
+      "badge": {
+        "content": "1",
+        "class": "m-alert-badge",
+        "aria_label": "1 alert"
+      },
       "class": "header-tab--alert",
-      "badge": null
+      "href": "/stops/place-sstat?tab=alerts",
+      "id": "alerts",
+      "name": "Alerts"
     }
   ],
   "stop": {

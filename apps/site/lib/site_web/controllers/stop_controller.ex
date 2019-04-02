@@ -213,8 +213,8 @@ defmodule SiteWeb.StopController do
       routes: routes,
       tabs: [
         %HeaderTab{
-          id: "details",
-          name: "Station Details",
+          id: "info",
+          name: "Station Info",
           href: stop_path(conn, :show, stop.id)
         },
         %HeaderTab{

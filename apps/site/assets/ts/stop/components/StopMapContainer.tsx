@@ -15,7 +15,13 @@ const StopMapContainer = (props: Props): ReactElement<HTMLElement> => {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <div className="m-stop-page__hero-map">
-      <div id={mapId} className="m-stop-page__hero-map-container" />
+      <h3 className="sr-only">Map</h3>
+      <div
+        id={mapId}
+        role="application"
+        aria-label="Map with stop"
+        className="m-stop-page__hero-map-container"
+      />
       <noscript>
         <style>{`#${mapId} { display: none; }`}</style>
         <div className="m-stop-page__hero-map-container">

@@ -120,11 +120,11 @@ exports[`renders 1`] = `
       header-tab--dark
       header-tab--selected
       
-      details
+      info
     "
         href="/stops-v2/place-sstat"
       >
-        Station Details
+        Station Info
       </a>
       <a
         className="
@@ -137,6 +137,12 @@ exports[`renders 1`] = `
         href="/stops/place-sstat?tab=alerts"
       >
         Alerts
+        <div
+          aria-label="1 alert"
+          className="m-alert-badge"
+        >
+          1
+        </div>
       </a>
     </div>
   </div>
@@ -229,11 +235,11 @@ exports[`renders a ferry route 1`] = `
       header-tab--dark
       header-tab--selected
       
-      details
+      info
     "
         href="/stops-v2/place-sstat"
       >
-        Station Details
+        Station Info
       </a>
       <a
         className="
@@ -246,6 +252,12 @@ exports[`renders a ferry route 1`] = `
         href="/stops/place-sstat?tab=alerts"
       >
         Alerts
+        <div
+          aria-label="1 alert"
+          className="m-alert-badge"
+        >
+          1
+        </div>
       </a>
     </div>
   </div>
@@ -389,11 +401,11 @@ exports[`renders all subway routes 1`] = `
       header-tab--dark
       header-tab--selected
       
-      details
+      info
     "
         href="/stops-v2/place-sstat"
       >
-        Station Details
+        Station Info
       </a>
       <a
         className="
@@ -406,6 +418,12 @@ exports[`renders all subway routes 1`] = `
         href="/stops/place-sstat?tab=alerts"
       >
         Alerts
+        <div
+          aria-label="1 alert"
+          className="m-alert-badge"
+        >
+          1
+        </div>
       </a>
     </div>
   </div>
@@ -566,11 +584,11 @@ exports[`renders with green line routes 1`] = `
       header-tab--dark
       header-tab--selected
       
-      details
+      info
     "
         href="/stops-v2/place-sstat"
       >
-        Station Details
+        Station Info
       </a>
       <a
         className="
@@ -583,6 +601,12 @@ exports[`renders with green line routes 1`] = `
         href="/stops/place-sstat?tab=alerts"
       >
         Alerts
+        <div
+          aria-label="1 alert"
+          className="m-alert-badge"
+        >
+          1
+        </div>
       </a>
     </div>
   </div>

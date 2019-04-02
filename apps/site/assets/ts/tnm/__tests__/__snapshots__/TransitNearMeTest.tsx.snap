@@ -700,6 +700,11 @@ exports[`it renders 1`] = `
       </div>
     </div>
   </div>
+  <h3
+    className="sr-only"
+  >
+    Map
+  </h3>
   <div
     aria-label="Map with stops"
     className="m-tnm__map"

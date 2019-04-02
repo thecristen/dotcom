@@ -154,11 +154,11 @@ Array [
       header-tab--dark
       header-tab--selected
       
-      details
+      info
     "
           href="/stops-v2/place-sstat"
         >
-          Station Details
+          Station Info
         </a>
         <a
           className="
@@ -171,18 +171,25 @@ Array [
           href="/stops/place-sstat?tab=alerts"
         >
           Alerts
+          <div
+            aria-label="1 alert"
+            className="m-alert-badge"
+          >
+            1
+          </div>
         </a>
       </div>
     </div>
   </div>,
   <div
-    className="m-stop-page__details"
+    className="container"
   >
-    <div
-      className="m-stop-page__details-container"
-    >
-      Station Details
-    </div>
+    <h2>
+      Station Information
+    </h2>
+    <p>
+      See upcoming departures, maps, and other features at this location.
+    </p>
   </div>,
   <div
     className="m-stop-page__hero"
@@ -190,9 +197,16 @@ Array [
     <div
       className="m-stop-page__hero-map"
     >
+      <h3
+        className="sr-only"
+      >
+        Map
+      </h3>
       <div
+        aria-label="Map with stop"
         className="m-stop-page__hero-map-container"
         id="test"
+        role="application"
       />
       <noscript>
         <style>

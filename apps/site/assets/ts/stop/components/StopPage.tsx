@@ -21,7 +21,6 @@ export default ({
 }: Props): ReactElement<HTMLElement> => (
   <>
     <BreadcrumbContainer stop={stop} />
-
     <Header
       stop={stop}
       routes={routes}
@@ -29,9 +28,9 @@ export default ({
       zoneNumber={zone_number}
       tabs={tabs}
     />
-
-    <div className="m-stop-page__details">
-      <div className="m-stop-page__details-container">Station Details</div>
+    <div className="container">
+      <h2>Station Information</h2>
+      <p>See upcoming departures, maps, and other features at this location.</p>
     </div>
     <div className="m-stop-page__hero">
       <StopMapContainer initialData={mapData} mapId={mapId} stop={stop} />
