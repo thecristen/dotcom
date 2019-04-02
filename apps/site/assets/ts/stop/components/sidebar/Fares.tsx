@@ -100,7 +100,9 @@ const Fares = ({
       <h4 className="m-stop-page__sidebar-header">Fare Vending</h4>
       <p>{fareVendingDescription(stop)}</p>
       {stop.fare_facilities.length && fareFacilityList(stop.fare_facilities)}
-      {retailLocations.length && nearbyLocations(retailLocations, stop)}
+      {retailLocations &&
+        retailLocations.length &&
+        nearbyLocations(retailLocations, stop)}
     </>
   </ExpandableBlock>
 );

@@ -131,18 +131,12 @@ exports[`renders 1`] = `
       header-tab
       header-tab--dark
       
-      
+      header-tab--alert
       alerts
     "
         href="/stops/place-sstat?tab=alerts"
       >
         Alerts
-        <div
-          aria-label="1 alert"
-          className="m-alert-badge"
-        >
-          1
-        </div>
       </a>
     </div>
   </div>
@@ -246,18 +240,12 @@ exports[`renders a ferry route 1`] = `
       header-tab
       header-tab--dark
       
-      
+      header-tab--alert
       alerts
     "
         href="/stops/place-sstat?tab=alerts"
       >
         Alerts
-        <div
-          aria-label="1 alert"
-          className="m-alert-badge"
-        >
-          1
-        </div>
       </a>
     </div>
   </div>
@@ -412,18 +400,12 @@ exports[`renders all subway routes 1`] = `
       header-tab
       header-tab--dark
       
-      
+      header-tab--alert
       alerts
     "
         href="/stops/place-sstat?tab=alerts"
       >
         Alerts
-        <div
-          aria-label="1 alert"
-          className="m-alert-badge"
-        >
-          1
-        </div>
       </a>
     </div>
   </div>
@@ -595,18 +577,12 @@ exports[`renders with green line routes 1`] = `
       header-tab
       header-tab--dark
       
-      
+      header-tab--alert
       alerts
     "
         href="/stops/place-sstat?tab=alerts"
       >
         Alerts
-        <div
-          aria-label="1 alert"
-          className="m-alert-badge"
-        >
-          1
-        </div>
       </a>
     </div>
   </div>

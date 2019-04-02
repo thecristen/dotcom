@@ -14,17 +14,97 @@ defmodule SiteWeb.StopViewTest do
         group_name: :subway,
         routes: [
           %{
-            custom_route?: false,
-            description: :rapid_transit,
-            direction_destinations: %{
-              "0" => "Ashmont/Braintree",
-              "1" => "Alewife"
-            },
-            direction_names: %{"0" => "South", "1" => "North"},
-            id: "Red",
-            long_name: "Red Line",
-            name: "Red Line",
-            type: 1
+            directions: [
+              %{
+                direction_id: 0,
+                headsigns: [
+                  %{
+                    name: "Ashmont",
+                    times: [
+                      %{
+                        prediction: %{
+                          status: nil,
+                          time: ["1", " ", "min"],
+                          track: "2"
+                        },
+                        scheduled_time: nil
+                      },
+                      %{
+                        prediction: %{
+                          status: nil,
+                          time: ["9", " ", "min"],
+                          track: nil
+                        },
+                        scheduled_time: nil
+                      }
+                    ],
+                    train_number: ""
+                  },
+                  %{
+                    name: "Braintree",
+                    times: [
+                      %{
+                        prediction: %{
+                          status: nil,
+                          time: ["3", " ", "min"],
+                          track: nil
+                        },
+                        scheduled_time: nil
+                      },
+                      %{
+                        prediction: %{
+                          status: nil,
+                          time: ["6", " ", "min"],
+                          track: nil
+                        },
+                        scheduled_time: nil
+                      }
+                    ],
+                    train_number: ""
+                  }
+                ]
+              },
+              %{
+                direction_id: 1,
+                headsigns: [
+                  %{
+                    name: "Alewife",
+                    times: [
+                      %{
+                        prediction: %{
+                          status: nil,
+                          time: ["3", " ", "min"],
+                          track: "2"
+                        },
+                        scheduled_time: nil
+                      },
+                      %{
+                        prediction: %{
+                          status: nil,
+                          time: ["11", " ", "min"],
+                          track: nil
+                        },
+                        scheduled_time: nil
+                      }
+                    ],
+                    train_number: ""
+                  }
+                ]
+              }
+            ],
+            route: %{
+              custom_route?: false,
+              description: :rapid_transit,
+              direction_destinations: %{
+                "0" => "Ashmont/Braintree",
+                "1" => "Alewife"
+              },
+              direction_names: %{"0" => "South", "1" => "North"},
+              id: "Red",
+              long_name: "Red Line",
+              name: "Red Line",
+              type: 1
+            }
           }
         ]
       },
@@ -32,40 +112,181 @@ defmodule SiteWeb.StopViewTest do
         group_name: :bus,
         routes: [
           %{
-            custom_route?: false,
-            description: :key_bus_route,
-            direction_destinations: %{
-              "0" => "Logan Airport",
-              "1" => "South Station"
-            },
-            direction_names: %{"0" => "Outbound", "1" => "Inbound"},
-            id: "741",
-            long_name: "Logan Airport - South Station",
-            name: "SL1",
-            type: 3
+            directions: [
+              %{
+                direction_id: 1,
+                headsigns: [
+                  %{
+                    name: "South Station",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["2:30", " ", "AM"]
+                      }
+                    ],
+                    train_number: ""
+                  }
+                ]
+              },
+              %{
+                direction_id: 0,
+                headsigns: [
+                  %{
+                    name: "Silver Line Way",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["5:36", " ", "AM"]
+                      }
+                    ],
+                    train_number: ""
+                  },
+                  %{
+                    name: "Logan Airport",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["5:40", " ", "AM"]
+                      }
+                    ],
+                    train_number: ""
+                  }
+                ]
+              }
+            ],
+            route: %{
+              custom_route?: false,
+              description: :key_bus_route,
+              direction_destinations: %{
+                "0" => "Logan Airport",
+                "1" => "South Station"
+              },
+              direction_names: %{"0" => "Outbound", "1" => "Inbound"},
+              id: "741",
+              long_name: "Logan Airport - South Station",
+              name: "SL1",
+              type: 3
+            }
           },
           %{
-            custom_route?: false,
-            description: :key_bus_route,
-            direction_destinations: %{
-              "0" => "Design Center",
-              "1" => "South Station"
-            },
-            direction_names: %{"0" => "Outbound", "1" => "Inbound"},
-            id: "742",
-            long_name: "Design Center - South Station",
-            name: "SL2",
-            type: 3
+            directions: [
+              %{
+                direction_id: 1,
+                headsigns: [
+                  %{
+                    name: "South Station",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["4:17", " ", "AM"]
+                      }
+                    ],
+                    train_number: ""
+                  }
+                ]
+              },
+              %{
+                direction_id: 0,
+                headsigns: [
+                  %{
+                    name: "Silver Line Way",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["5:36", " ", "AM"]
+                      }
+                    ],
+                    train_number: ""
+                  },
+                  %{
+                    name: "Drydock",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["5:46", " ", "AM"]
+                      }
+                    ],
+                    train_number: ""
+                  }
+                ]
+              }
+            ],
+            route: %{
+              custom_route?: false,
+              description: :key_bus_route,
+              direction_destinations: %{
+                "0" => "Design Center",
+                "1" => "South Station"
+              },
+              direction_names: %{"0" => "Outbound", "1" => "Inbound"},
+              id: "742",
+              long_name: "Design Center - South Station",
+              name: "SL2",
+              type: 3
+            }
           },
           %{
-            custom_route?: false,
-            description: :key_bus_route,
-            direction_destinations: %{"0" => "Chelsea", "1" => "South Station"},
-            direction_names: %{"0" => "Outbound", "1" => "Inbound"},
-            id: "743",
-            long_name: "Chelsea - South Station",
-            name: "SL3",
-            type: 3
+            directions: [
+              %{
+                direction_id: 1,
+                headsigns: [
+                  %{
+                    name: "South Station",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["4:17", " ", "AM"]
+                      }
+                    ],
+                    train_number: ""
+                  }
+                ]
+              },
+              %{
+                direction_id: 0,
+                headsigns: [
+                  %{
+                    name: "Chelsea",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["4:25", " ", "AM"]
+                      }
+                    ],
+                    train_number: ""
+                  },
+                  %{
+                    name: "Silver Line Way",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["5:36", " ", "AM"]
+                      }
+                    ],
+                    train_number: ""
+                  }
+                ]
+              }
+            ],
+            route: %{
+              custom_route?: false,
+              description: :key_bus_route,
+              direction_destinations: %{"0" => "Chelsea", "1" => "South Station"},
+              direction_names: %{"0" => "Outbound", "1" => "Inbound"},
+              id: "743",
+              long_name: "Chelsea - South Station",
+              name: "SL3",
+              type: 3
+            }
           }
         ]
       },
@@ -73,99 +294,473 @@ defmodule SiteWeb.StopViewTest do
         group_name: :commuter_rail,
         routes: [
           %{
-            custom_route?: false,
-            description: :commuter_rail,
-            direction_destinations: %{"0" => "Fairmount", "1" => "South Station"},
-            direction_names: %{"0" => "Outbound", "1" => "Inbound"},
-            id: "CR-Fairmount",
-            long_name: "Fairmount Line",
-            name: "Fairmount Line",
-            type: 2
+            directions: [
+              %{
+                direction_id: 1,
+                headsigns: [
+                  %{
+                    name: "South Station",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["4:55", " ", "AM"]
+                      }
+                    ],
+                    train_number: "790"
+                  }
+                ]
+              },
+              %{
+                direction_id: 0,
+                headsigns: [
+                  %{
+                    name: "Readville",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["6:24", " ", "AM"]
+                      }
+                    ],
+                    train_number: "751"
+                  }
+                ]
+              }
+            ],
+            route: %{
+              custom_route?: false,
+              description: :commuter_rail,
+              direction_destinations: %{
+                "0" => "Fairmount",
+                "1" => "South Station"
+              },
+              direction_names: %{"0" => "Outbound", "1" => "Inbound"},
+              id: "CR-Fairmount",
+              long_name: "Fairmount Line",
+              name: "Fairmount Line",
+              type: 2
+            }
           },
           %{
-            custom_route?: false,
-            description: :commuter_rail,
-            direction_destinations: %{"0" => "Worcester", "1" => "South Station"},
-            direction_names: %{"0" => "Outbound", "1" => "Inbound"},
-            id: "CR-Worcester",
-            long_name: "Framingham/Worcester Line",
-            name: "Framingham/Worcester Line",
-            type: 2
+            directions: [
+              %{
+                direction_id: 0,
+                headsigns: [
+                  %{
+                    name: "Worcester",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["4:40", " ", "AM"]
+                      }
+                    ],
+                    train_number: "501"
+                  },
+                  %{
+                    name: "Framingham",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["5:30", " ", "AM"]
+                      }
+                    ],
+                    train_number: "583"
+                  },
+                  %{
+                    name: "Ashland",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["7:30", " ", "AM"]
+                      }
+                    ],
+                    train_number: "589"
+                  }
+                ]
+              },
+              %{
+                direction_id: 1,
+                headsigns: [
+                  %{
+                    name: "South Station",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["4:45", " ", "AM"]
+                      }
+                    ],
+                    train_number: "500"
+                  }
+                ]
+              }
+            ],
+            route: %{
+              custom_route?: false,
+              description: :commuter_rail,
+              direction_destinations: %{
+                "0" => "Worcester",
+                "1" => "South Station"
+              },
+              direction_names: %{"0" => "Outbound", "1" => "Inbound"},
+              id: "CR-Worcester",
+              long_name: "Framingham/Worcester Line",
+              name: "Framingham/Worcester Line",
+              type: 2
+            }
           },
           %{
-            custom_route?: false,
-            description: :commuter_rail,
-            direction_destinations: %{
-              "0" => "Forge Park/495",
-              "1" => "South Station"
-            },
-            direction_names: %{"0" => "Outbound", "1" => "Inbound"},
-            id: "CR-Franklin",
-            long_name: "Franklin Line",
-            name: "Franklin Line",
-            type: 2
+            directions: [
+              %{
+                direction_id: 0,
+                headsigns: [
+                  %{
+                    name: "Forge Park/​495",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["3:50", " ", "AM"]
+                      }
+                    ],
+                    train_number: "701"
+                  },
+                  %{
+                    name: "Walpole",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["6:40", " ", "AM"]
+                      }
+                    ],
+                    train_number: "741"
+                  },
+                  %{
+                    name: "Norwood Central",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["4:15", " ", "PM"]
+                      }
+                    ],
+                    train_number: "743"
+                  }
+                ]
+              },
+              %{
+                direction_id: 1,
+                headsigns: [
+                  %{
+                    name: "South Station",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["4:55", " ", "AM"]
+                      }
+                    ],
+                    train_number: "790"
+                  }
+                ]
+              }
+            ],
+            route: %{
+              custom_route?: false,
+              description: :commuter_rail,
+              direction_destinations: %{
+                "0" => "Forge Park/495",
+                "1" => "South Station"
+              },
+              direction_names: %{"0" => "Outbound", "1" => "Inbound"},
+              id: "CR-Franklin",
+              long_name: "Franklin Line",
+              name: "Franklin Line",
+              type: 2
+            }
           },
           %{
-            custom_route?: false,
-            description: :commuter_rail,
-            direction_destinations: %{"0" => "Greenbush", "1" => "South Station"},
-            direction_names: %{"0" => "Outbound", "1" => "Inbound"},
-            id: "CR-Greenbush",
-            long_name: "Greenbush Line",
-            name: "Greenbush Line",
-            type: 2
+            directions: [
+              %{
+                direction_id: 1,
+                headsigns: [
+                  %{
+                    name: "South Station",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["5:40", " ", "AM"]
+                      }
+                    ],
+                    train_number: "070"
+                  }
+                ]
+              },
+              %{
+                direction_id: 0,
+                headsigns: [
+                  %{
+                    name: "Greenbush",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["6:54", " ", "AM"]
+                      }
+                    ],
+                    train_number: "071"
+                  }
+                ]
+              }
+            ],
+            route: %{
+              custom_route?: false,
+              description: :commuter_rail,
+              direction_destinations: %{
+                "0" => "Greenbush",
+                "1" => "South Station"
+              },
+              direction_names: %{"0" => "Outbound", "1" => "Inbound"},
+              id: "CR-Greenbush",
+              long_name: "Greenbush Line",
+              name: "Greenbush Line",
+              type: 2
+            }
           },
           %{
-            custom_route?: false,
-            description: :commuter_rail,
-            direction_destinations: %{
-              "0" => "Kingston or Plymouth",
-              "1" => "South Station"
-            },
-            direction_names: %{"0" => "Outbound", "1" => "Inbound"},
-            id: "CR-Kingston",
-            long_name: "Kingston/Plymouth Line",
-            name: "Kingston/Plymouth Line",
-            type: 2
+            directions: [
+              %{
+                direction_id: 1,
+                headsigns: [
+                  %{
+                    name: "South Station",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["5:30", " ", "AM"]
+                      }
+                    ],
+                    train_number: "032"
+                  }
+                ]
+              },
+              %{
+                direction_id: 0,
+                headsigns: [
+                  %{
+                    name: "Kingston",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["7:11", " ", "AM"]
+                      }
+                    ],
+                    train_number: "033"
+                  },
+                  %{
+                    name: "Plymouth",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["10:50", " ", "AM"]
+                      }
+                    ],
+                    train_number: "063"
+                  }
+                ]
+              }
+            ],
+            route: %{
+              custom_route?: false,
+              description: :commuter_rail,
+              direction_destinations: %{
+                "0" => "Kingston or Plymouth",
+                "1" => "South Station"
+              },
+              direction_names: %{"0" => "Outbound", "1" => "Inbound"},
+              id: "CR-Kingston",
+              long_name: "Kingston/Plymouth Line",
+              name: "Kingston/Plymouth Line",
+              type: 2
+            }
           },
           %{
-            custom_route?: false,
-            description: :commuter_rail,
-            direction_destinations: %{
-              "0" => "Middleborough/Lakeville",
-              "1" => "South Station"
-            },
-            direction_names: %{"0" => "Outbound", "1" => "Inbound"},
-            id: "CR-Middleborough",
-            long_name: "Middleborough/Lakeville Line",
-            name: "Middleborough/Lakeville Line",
-            type: 2
+            directions: [
+              %{
+                direction_id: 1,
+                headsigns: [
+                  %{
+                    name: "South Station",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["5:20", " ", "AM"]
+                      }
+                    ],
+                    train_number: "002"
+                  }
+                ]
+              },
+              %{
+                direction_id: 0,
+                headsigns: [
+                  %{
+                    name: "Middleborough/​Lakeville",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["6:35", " ", "AM"]
+                      }
+                    ],
+                    train_number: "003"
+                  }
+                ]
+              }
+            ],
+            route: %{
+              custom_route?: false,
+              description: :commuter_rail,
+              direction_destinations: %{
+                "0" => "Middleborough/Lakeville",
+                "1" => "South Station"
+              },
+              direction_names: %{"0" => "Outbound", "1" => "Inbound"},
+              id: "CR-Middleborough",
+              long_name: "Middleborough/Lakeville Line",
+              name: "Middleborough/Lakeville Line",
+              type: 2
+            }
           },
           %{
-            custom_route?: false,
-            description: :commuter_rail,
-            direction_destinations: %{
-              "0" => "Needham Heights",
-              "1" => "South Station"
-            },
-            direction_names: %{"0" => "Outbound", "1" => "Inbound"},
-            id: "CR-Needham",
-            long_name: "Needham Line",
-            name: "Needham Line",
-            type: 2
+            directions: [
+              %{
+                direction_id: 1,
+                headsigns: [
+                  %{
+                    name: "South Station",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["6:05", " ", "AM"]
+                      }
+                    ],
+                    train_number: "600"
+                  }
+                ]
+              },
+              %{
+                direction_id: 0,
+                headsigns: [
+                  %{
+                    name: "Needham Heights",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["7:05", " ", "AM"]
+                      }
+                    ],
+                    train_number: "601"
+                  }
+                ]
+              }
+            ],
+            route: %{
+              custom_route?: false,
+              description: :commuter_rail,
+              direction_destinations: %{
+                "0" => "Needham Heights",
+                "1" => "South Station"
+              },
+              direction_names: %{"0" => "Outbound", "1" => "Inbound"},
+              id: "CR-Needham",
+              long_name: "Needham Line",
+              name: "Needham Line",
+              type: 2
+            }
           },
           %{
-            custom_route?: false,
-            description: :commuter_rail,
-            direction_destinations: %{
-              "0" => "Wickford Junction",
-              "1" => "South Station"
-            },
-            direction_names: %{"0" => "Outbound", "1" => "Inbound"},
-            id: "CR-Providence",
-            long_name: "Providence/Stoughton Line",
-            name: "Providence/Stoughton Line",
-            type: 2
+            directions: [
+              %{
+                direction_id: 1,
+                headsigns: [
+                  %{
+                    name: "South Station",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["4:45", " ", "AM"]
+                      }
+                    ],
+                    train_number: "802"
+                  }
+                ]
+              },
+              %{
+                direction_id: 0,
+                headsigns: [
+                  %{
+                    name: "Wickford Junction",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["4:58", " ", "AM"]
+                      }
+                    ],
+                    train_number: "8801"
+                  },
+                  %{
+                    name: "Providence",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["6:31", " ", "AM"]
+                      }
+                    ],
+                    train_number: "803"
+                  },
+                  %{
+                    name: "Stoughton",
+                    times: [
+                      %{
+                        delay: 0,
+                        prediction: nil,
+                        scheduled_time: ["6:57", " ", "AM"]
+                      }
+                    ],
+                    train_number: "903"
+                  }
+                ]
+              }
+            ],
+            route: %{
+              custom_route?: false,
+              description: :commuter_rail,
+              direction_destinations: %{
+                "0" => "Wickford Junction",
+                "1" => "South Station"
+              },
+              direction_names: %{"0" => "Outbound", "1" => "Inbound"},
+              id: "CR-Providence",
+              long_name: "Providence/Stoughton Line",
+              name: "Providence/Stoughton Line",
+              type: 2
+            }
           }
         ]
       }

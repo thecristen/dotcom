@@ -61,46 +61,48 @@ exports[`it renders a stop card 1`] = `
         238 ft
       </div>
     </div>
-    <div>
+    <div
+      className="m-tnm-sidebar__direction"
+    >
       <div
-        className="m-tnm-sidebar__direction"
+        className="m-tnm-sidebar__direction-name u-small-caps"
       >
-        <div
-          className="m-tnm-sidebar__direction-name u-small-caps"
-        >
-          Outbound
-        </div>
+        Outbound
       </div>
       <div
-        className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+        className="m-tnm-sidebar__direction-headsigns"
       >
         <div
-          className="m-tnm-sidebar__headsign"
+          className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
         >
           <div
-            className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
-          >
-            Headsign
-          </div>
-        </div>
-        <div
-          className="m-tnm-sidebar__schedules"
-        >
-          <div
-            className="m-tnm-sidebar__schedule"
+            className="m-tnm-sidebar__headsign"
           >
             <div
-              className="m-tnm-sidebar__time"
+              className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+            >
+              Headsign
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__schedules"
+          >
+            <div
+              className="m-tnm-sidebar__schedule"
             >
               <div
-                className="m-tnm-sidebar__time-number"
+                className="m-tnm-sidebar__time"
               >
-                4:30
-              </div>
-              <div
-                className="m-tnm-sidebar__time-mins"
-              >
-                PM
+                <div
+                  className="m-tnm-sidebar__time-number"
+                >
+                  4:30
+                </div>
+                <div
+                  className="m-tnm-sidebar__time-mins"
+                >
+                  PM
+                </div>
               </div>
             </div>
           </div>
@@ -172,46 +174,48 @@ exports[`it renders a stop card for the silver line 1`] = `
         238 ft
       </div>
     </div>
-    <div>
+    <div
+      className="m-tnm-sidebar__direction"
+    >
       <div
-        className="m-tnm-sidebar__direction"
+        className="m-tnm-sidebar__direction-name u-small-caps"
       >
-        <div
-          className="m-tnm-sidebar__direction-name u-small-caps"
-        >
-          Outbound
-        </div>
+        Outbound
       </div>
       <div
-        className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+        className="m-tnm-sidebar__direction-headsigns"
       >
         <div
-          className="m-tnm-sidebar__headsign"
+          className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
         >
           <div
-            className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
-          >
-            Headsign
-          </div>
-        </div>
-        <div
-          className="m-tnm-sidebar__schedules"
-        >
-          <div
-            className="m-tnm-sidebar__schedule"
+            className="m-tnm-sidebar__headsign"
           >
             <div
-              className="m-tnm-sidebar__time"
+              className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+            >
+              Headsign
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__schedules"
+          >
+            <div
+              className="m-tnm-sidebar__schedule"
             >
               <div
-                className="m-tnm-sidebar__time-number"
+                className="m-tnm-sidebar__time"
               >
-                4:30
-              </div>
-              <div
-                className="m-tnm-sidebar__time-mins"
-              >
-                PM
+                <div
+                  className="m-tnm-sidebar__time-number"
+                >
+                  4:30
+                </div>
+                <div
+                  className="m-tnm-sidebar__time-mins"
+                >
+                  PM
+                </div>
               </div>
             </div>
           </div>

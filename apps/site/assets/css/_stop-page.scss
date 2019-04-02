@@ -108,6 +108,24 @@
   }
 }
 
+.m-stop-page__departures {
+  background-color: $gray-lightest;
+  padding: .75 * $base-spacing;
+}
+
+.m-stop-page__departures-route {
+  background: $white;
+  box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
+
+  & + & {
+    margin-top: $base-spacing / 2;
+  }
+}
+
+.m-tnm-sidebar__direction {
+  padding: $base-spacing / 2;
+}
+
 .m-stop-page__sidebar-list {
   list-style: none; // Remove default bullets
 }

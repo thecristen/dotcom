@@ -2,6 +2,8 @@ import renderSvg from "./render-svg";
 // @ts-ignore
 import accessibleIconSvg from "../../static/images/icon-accessible-default.svg";
 // @ts-ignore
+import alertIconSvg from "../../static/images/icon-alerts-triangle.svg";
+// @ts-ignore
 import blueLineIconSvg from "../../static/images/icon-blue-line-default.svg";
 // @ts-ignore
 import busIconSvg from "../../static/images/icon-mode-bus-default.svg";
@@ -30,6 +32,9 @@ import redLineIconSvg from "../../static/images/icon-red-line-default.svg";
 
 export const accessibleIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, accessibleIconSvg);
+
+export const alertIcon = (className: string = ""): JSX.Element =>
+  renderSvg(className, alertIconSvg);
 
 export const blueLineIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, blueLineIconSvg);

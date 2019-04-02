@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { RouteType, PredictedOrScheduledTime, Headsign } from "../../__v3api";
+import { RouteType, PredictedOrScheduledTime, Headsign } from "../__v3api";
 
 interface Props {
   headsign: Headsign;

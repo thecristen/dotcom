@@ -88,8 +88,19 @@ defmodule SiteWeb.StopController.StopMap do
   end
 
   defp tooltip(stop, routes) do
+    grouped_routes =
+      Enum.map(routes, fn grouped_routes_with_directions ->
+        %{
+          group_name: grouped_routes_with_directions.group_name,
+          routes:
+            Enum.map(grouped_routes_with_directions.routes, fn route_with_directions ->
+              route_with_directions.route
+            end)
+        }
+      end)
+
     "_location_card.html"
-    |> PartialView.render(%{stop: stop, routes: routes})
+    |> PartialView.render(%{stop: stop, routes: grouped_routes})
     |> HTML.safe_to_string()
   end
 end

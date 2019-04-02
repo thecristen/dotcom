@@ -129,64 +129,66 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-distance"
           />
         </div>
-        <div>
+        <div
+          className="m-tnm-sidebar__direction"
+        >
           <div
-            className="m-tnm-sidebar__direction"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
-            <div
-              className="m-tnm-sidebar__direction-name u-small-caps"
-            >
-              Inbound
-            </div>
+            Inbound
           </div>
           <div
-            className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+            className="m-tnm-sidebar__direction-headsigns"
           >
             <div
-              className="m-tnm-sidebar__headsign"
+              className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
             >
               <div
-                className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
-              >
-                Park St & Tremont St
-              </div>
-            </div>
-            <div
-              className="m-tnm-sidebar__schedules"
-            >
-              <div
-                className="m-tnm-sidebar__schedule"
+                className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__time"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                 >
-                  <div
-                    className="m-tnm-sidebar__time-number"
-                  >
-                    18
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__time-mins"
-                  >
-                    min
-                  </div>
+                  Park St & Tremont St
                 </div>
               </div>
               <div
-                className="m-tnm-sidebar__schedule"
+                className="m-tnm-sidebar__schedules"
               >
                 <div
-                  className="m-tnm-sidebar__time"
+                  className="m-tnm-sidebar__schedule"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time"
                   >
-                    51
+                    <div
+                      className="m-tnm-sidebar__time-number"
+                    >
+                      18
+                    </div>
+                    <div
+                      className="m-tnm-sidebar__time-mins"
+                    >
+                      min
+                    </div>
                   </div>
+                </div>
+                <div
+                  className="m-tnm-sidebar__schedule"
+                >
                   <div
-                    className="m-tnm-sidebar__time-mins"
+                    className="m-tnm-sidebar__time"
                   >
-                    min
+                    <div
+                      className="m-tnm-sidebar__time-number"
+                    >
+                      51
+                    </div>
+                    <div
+                      className="m-tnm-sidebar__time-mins"
+                    >
+                      min
+                    </div>
                   </div>
                 </div>
               </div>
@@ -221,64 +223,66 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-distance"
           />
         </div>
-        <div>
+        <div
+          className="m-tnm-sidebar__direction"
+        >
           <div
-            className="m-tnm-sidebar__direction"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
-            <div
-              className="m-tnm-sidebar__direction-name u-small-caps"
-            >
-              Outbound
-            </div>
+            Outbound
           </div>
           <div
-            className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+            className="m-tnm-sidebar__direction-headsigns"
           >
             <div
-              className="m-tnm-sidebar__headsign"
+              className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
             >
               <div
-                className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
-              >
-                Ruggles
-              </div>
-            </div>
-            <div
-              className="m-tnm-sidebar__schedules"
-            >
-              <div
-                className="m-tnm-sidebar__schedule"
+                className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__time"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                 >
-                  <div
-                    className="m-tnm-sidebar__time-number"
-                  >
-                    6
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__time-mins"
-                  >
-                    min
-                  </div>
+                  Ruggles
                 </div>
               </div>
               <div
-                className="m-tnm-sidebar__schedule"
+                className="m-tnm-sidebar__schedules"
               >
                 <div
-                  className="m-tnm-sidebar__time"
+                  className="m-tnm-sidebar__schedule"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time"
                   >
-                    42
+                    <div
+                      className="m-tnm-sidebar__time-number"
+                    >
+                      6
+                    </div>
+                    <div
+                      className="m-tnm-sidebar__time-mins"
+                    >
+                      min
+                    </div>
                   </div>
+                </div>
+                <div
+                  className="m-tnm-sidebar__schedule"
+                >
                   <div
-                    className="m-tnm-sidebar__time-mins"
+                    className="m-tnm-sidebar__time"
                   >
-                    min
+                    <div
+                      className="m-tnm-sidebar__time-number"
+                    >
+                      42
+                    </div>
+                    <div
+                      className="m-tnm-sidebar__time-mins"
+                    >
+                      min
+                    </div>
                   </div>
                 </div>
               </div>
@@ -328,69 +332,71 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-distance"
           />
         </div>
-        <div>
+        <div
+          className="m-tnm-sidebar__direction"
+        >
           <div
-            className="m-tnm-sidebar__direction"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
-            <div
-              className="m-tnm-sidebar__direction-name u-small-caps"
-            >
-              Outbound
-            </div>
+            Outbound
           </div>
           <div
-            className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+            className="m-tnm-sidebar__direction-headsigns"
           >
             <div
-              className="m-tnm-sidebar__headsign"
+              className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
             >
               <div
-                className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
-              >
-                Watertown
-              </div>
-              <div
-                className="m-tnm-sidebar__via"
-              >
-                via Copley (Express)
-              </div>
-            </div>
-            <div
-              className="m-tnm-sidebar__schedules"
-            >
-              <div
-                className="m-tnm-sidebar__schedule"
+                className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__time"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                 >
-                  <div
-                    className="m-tnm-sidebar__time-number"
-                  >
-                    7
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__time-mins"
-                  >
-                    min
-                  </div>
+                  Watertown
+                </div>
+                <div
+                  className="m-tnm-sidebar__via"
+                >
+                  via Copley (Express)
                 </div>
               </div>
               <div
-                className="m-tnm-sidebar__schedule"
+                className="m-tnm-sidebar__schedules"
               >
                 <div
-                  className="m-tnm-sidebar__time"
+                  className="m-tnm-sidebar__schedule"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time"
                   >
-                    42
+                    <div
+                      className="m-tnm-sidebar__time-number"
+                    >
+                      7
+                    </div>
+                    <div
+                      className="m-tnm-sidebar__time-mins"
+                    >
+                      min
+                    </div>
                   </div>
+                </div>
+                <div
+                  className="m-tnm-sidebar__schedule"
+                >
                   <div
-                    className="m-tnm-sidebar__time-mins"
+                    className="m-tnm-sidebar__time"
                   >
-                    min
+                    <div
+                      className="m-tnm-sidebar__time-number"
+                    >
+                      42
+                    </div>
+                    <div
+                      className="m-tnm-sidebar__time-mins"
+                    >
+                      min
+                    </div>
                   </div>
                 </div>
               </div>
@@ -425,69 +431,71 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-distance"
           />
         </div>
-        <div>
+        <div
+          className="m-tnm-sidebar__direction"
+        >
           <div
-            className="m-tnm-sidebar__direction"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
-            <div
-              className="m-tnm-sidebar__direction-name u-small-caps"
-            >
-              Outbound
-            </div>
+            Outbound
           </div>
           <div
-            className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+            className="m-tnm-sidebar__direction-headsigns"
           >
             <div
-              className="m-tnm-sidebar__headsign"
+              className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
             >
               <div
-                className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
-              >
-                Watertown
-              </div>
-              <div
-                className="m-tnm-sidebar__via"
-              >
-                via Copley (Express)
-              </div>
-            </div>
-            <div
-              className="m-tnm-sidebar__schedules"
-            >
-              <div
-                className="m-tnm-sidebar__schedule"
+                className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__time"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                 >
-                  <div
-                    className="m-tnm-sidebar__time-number"
-                  >
-                    10
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__time-mins"
-                  >
-                    min
-                  </div>
+                  Watertown
+                </div>
+                <div
+                  className="m-tnm-sidebar__via"
+                >
+                  via Copley (Express)
                 </div>
               </div>
               <div
-                className="m-tnm-sidebar__schedule"
+                className="m-tnm-sidebar__schedules"
               >
                 <div
-                  className="m-tnm-sidebar__time"
+                  className="m-tnm-sidebar__schedule"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time"
                   >
-                    44
+                    <div
+                      className="m-tnm-sidebar__time-number"
+                    >
+                      10
+                    </div>
+                    <div
+                      className="m-tnm-sidebar__time-mins"
+                    >
+                      min
+                    </div>
                   </div>
+                </div>
+                <div
+                  className="m-tnm-sidebar__schedule"
+                >
                   <div
-                    className="m-tnm-sidebar__time-mins"
+                    className="m-tnm-sidebar__time"
                   >
-                    min
+                    <div
+                      className="m-tnm-sidebar__time-number"
+                    >
+                      44
+                    </div>
+                    <div
+                      className="m-tnm-sidebar__time-mins"
+                    >
+                      min
+                    </div>
                   </div>
                 </div>
               </div>
@@ -537,64 +545,66 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-distance"
           />
         </div>
-        <div>
+        <div
+          className="m-tnm-sidebar__direction"
+        >
           <div
-            className="m-tnm-sidebar__direction"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
-            <div
-              className="m-tnm-sidebar__direction-name u-small-caps"
-            >
-              Outbound
-            </div>
+            Outbound
           </div>
           <div
-            className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+            className="m-tnm-sidebar__direction-headsigns"
           >
             <div
-              className="m-tnm-sidebar__headsign"
+              className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
             >
               <div
-                className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
-              >
-                Queensberry St
-              </div>
-            </div>
-            <div
-              className="m-tnm-sidebar__schedules"
-            >
-              <div
-                className="m-tnm-sidebar__schedule"
+                className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__time"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                 >
-                  <div
-                    className="m-tnm-sidebar__time-number"
-                  >
-                    19
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__time-mins"
-                  >
-                    min
-                  </div>
+                  Queensberry St
                 </div>
               </div>
               <div
-                className="m-tnm-sidebar__schedule"
+                className="m-tnm-sidebar__schedules"
               >
                 <div
-                  className="m-tnm-sidebar__time"
+                  className="m-tnm-sidebar__schedule"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time"
                   >
-                    2:00
+                    <div
+                      className="m-tnm-sidebar__time-number"
+                    >
+                      19
+                    </div>
+                    <div
+                      className="m-tnm-sidebar__time-mins"
+                    >
+                      min
+                    </div>
                   </div>
+                </div>
+                <div
+                  className="m-tnm-sidebar__schedule"
+                >
                   <div
-                    className="m-tnm-sidebar__time-mins"
+                    className="m-tnm-sidebar__time"
                   >
-                    PM
+                    <div
+                      className="m-tnm-sidebar__time-number"
+                    >
+                      2:00
+                    </div>
+                    <div
+                      className="m-tnm-sidebar__time-mins"
+                    >
+                      PM
+                    </div>
                   </div>
                 </div>
               </div>
@@ -621,64 +631,66 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__stop-distance"
           />
         </div>
-        <div>
+        <div
+          className="m-tnm-sidebar__direction"
+        >
           <div
-            className="m-tnm-sidebar__direction"
+            className="m-tnm-sidebar__direction-name u-small-caps"
           >
-            <div
-              className="m-tnm-sidebar__direction-name u-small-caps"
-            >
-              Outbound
-            </div>
+            Outbound
           </div>
           <div
-            className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+            className="m-tnm-sidebar__direction-headsigns"
           >
             <div
-              className="m-tnm-sidebar__headsign"
+              className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
             >
               <div
-                className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
-              >
-                Queensberry St
-              </div>
-            </div>
-            <div
-              className="m-tnm-sidebar__schedules"
-            >
-              <div
-                className="m-tnm-sidebar__schedule"
+                className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__time"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                 >
-                  <div
-                    className="m-tnm-sidebar__time-number"
-                  >
-                    16
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__time-mins"
-                  >
-                    min
-                  </div>
+                  Queensberry St
                 </div>
               </div>
               <div
-                className="m-tnm-sidebar__schedule"
+                className="m-tnm-sidebar__schedules"
               >
                 <div
-                  className="m-tnm-sidebar__time"
+                  className="m-tnm-sidebar__schedule"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time"
                   >
-                    1:57
+                    <div
+                      className="m-tnm-sidebar__time-number"
+                    >
+                      16
+                    </div>
+                    <div
+                      className="m-tnm-sidebar__time-mins"
+                    >
+                      min
+                    </div>
                   </div>
+                </div>
+                <div
+                  className="m-tnm-sidebar__schedule"
+                >
                   <div
-                    className="m-tnm-sidebar__time-mins"
+                    className="m-tnm-sidebar__time"
                   >
-                    PM
+                    <div
+                      className="m-tnm-sidebar__time-number"
+                    >
+                      1:57
+                    </div>
+                    <div
+                      className="m-tnm-sidebar__time-mins"
+                    >
+                      PM
+                    </div>
                   </div>
                 </div>
               </div>

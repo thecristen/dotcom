@@ -6,12 +6,10 @@ import {
   StopWithDirections,
   RouteWithStopsWithDirections
 } from "../../__v3api";
-import renderSvg from "../../helpers/render-svg";
-// @ts-ignore
-import alertIcon from "../../../static/images/icon-alerts-triangle.svg";
 import { Dispatch } from "../state";
-import { directionIsEmpty } from "./Direction";
+import { directionIsEmpty } from "../../components/Direction";
 import { modeByV3ModeType } from "../../components/ModeFilter";
+import { alertIcon } from "../../helpers/icon";
 
 interface Props {
   route: RouteWithStopsWithDirections;
@@ -85,7 +83,7 @@ const RouteCard = ({
       >
         <span className={busClass(route)}>{route.route.header}</span>
         {route.route.alert_count
-          ? renderSvg("m-tnm-sidebar__route-alert", alertIcon)
+          ? alertIcon("m-tnm-sidebar__route-alert")
           : null}
       </a>
       {filterStops(route).map(

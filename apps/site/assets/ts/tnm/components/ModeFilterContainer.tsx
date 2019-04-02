@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { Mode } from "../../__v3api";
 import { Dispatch, clickModeAction } from "../state";
 import { ModeFilter } from "../../components/ModeFilter";
@@ -8,7 +8,10 @@ interface Props {
   dispatch: Dispatch;
 }
 
-const ModeFilterContainer = ({ selectedModes, dispatch }: Props) => {
+const ModeFilterContainer = ({
+  selectedModes,
+  dispatch
+}: Props): ReactElement<HTMLElement> => {
   const isModeSelected = (mode: Mode): boolean => selectedModes.includes(mode);
 
   const handleModeClick = (mode: Mode): void => {

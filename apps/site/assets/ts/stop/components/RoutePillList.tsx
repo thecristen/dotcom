@@ -55,8 +55,11 @@ const RoutePillList = ({
         key={typedRoute.group_name}
         className={`m-route-pills--${typedRoute.group_name}`}
       >
-        {typedRoute.routes.map(route => (
-          <RoutePill key={route.id} route={route} />
+        {typedRoute.routes.map(routeWithDirections => (
+          <RoutePill
+            key={routeWithDirections.route.id}
+            route={routeWithDirections.route}
+          />
         ))}
       </div>
     ))}

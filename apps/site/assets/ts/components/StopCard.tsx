@@ -1,7 +1,7 @@
 import React, { ReactElement, KeyboardEvent } from "react";
-import { Direction, Route, Stop } from "../__v3api";
+import { Direction as DirectionType, Route, Stop } from "../__v3api";
 import { clickStopCardAction, Dispatch } from "../tnm/state";
-import { DirectionComponent } from "../tnm/components/Direction";
+import Direction from "./Direction";
 import renderSvg from "../helpers/render-svg";
 import { accessibleIcon } from "../helpers/icon";
 // @ts-ignore
@@ -9,7 +9,7 @@ import stationSymbol from "../../static/images/icon-circle-t-small.svg";
 
 interface Props {
   stop: Stop;
-  directions: Direction[];
+  directions: DirectionType[];
   route: Route;
   dispatch: Dispatch;
 }
@@ -59,7 +59,7 @@ export const StopCard = ({
         <div className="m-tnm-sidebar__stop-distance">{stop.distance}</div>
       </div>
       {directions.map(direction => (
-        <DirectionComponent
+        <Direction
           key={`${key}-${direction.direction_id}`}
           direction={direction}
           route={route}

@@ -5,6 +5,7 @@ import BreadcrumbContainer from "./BreadcrumbContainer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import AddressBlock from "./AddressBlock";
+import Departures from "./Departures";
 
 interface Props {
   stopPageData: StopPageData;
@@ -39,11 +40,12 @@ export default ({
     <div className="container">
       <div className="page-section">
         <div className="row">
-          <div className="col-lg-7 col-lg-offset-1">
-            Main Column
+          <div className="col-12 col-sm-10 col-sm-offset-1 col-lg-7 col-lg-offset-0">
             <AddressBlock routes={routes} />
+
+            <Departures routes={routes} stop={stop} />
           </div>
-          <div className="col-lg-4">
+          <div className="col-12 col-sm-10 col-sm-offset-1 col-lg-4 col-lg-offset-1">
             <Sidebar
               stop={stop}
               routes={routes}

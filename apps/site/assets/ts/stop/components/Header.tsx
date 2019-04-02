@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { Stop, Route } from "../../__v3api";
 import TabComponent from "./Tab";
-import { Tab, TypedRoutes } from "./__stop";
+import { Tab, TypedRoutes, RouteWithDirections } from "./__stop";
 import {
   accessibleIcon,
   parkingIcon,
@@ -116,16 +116,16 @@ const iconableRoutesForType = ({
   // eslint-disable-next-line typescript/camelcase
   group_name,
   routes
-}: TypedRoutes): Route[] => {
+}: TypedRoutes): RouteWithDirections[] => {
   // eslint-disable-next-line typescript/camelcase
   if (group_name === "subway") return routes;
 
   return [routes[0]];
 };
 
-const iconableRoutes = (typedRoutes: TypedRoutes[]): Route[] =>
+const iconableRoutes = (typedRoutes: TypedRoutes[]): RouteWithDirections[] =>
   typedRoutes.reduce(
-    (acc: Route[], typeAndRoutes: TypedRoutes) =>
+    (acc: RouteWithDirections[], typeAndRoutes: TypedRoutes) =>
       acc.concat(iconableRoutesForType(typeAndRoutes)),
     []
   );
@@ -133,7 +133,7 @@ const iconableRoutes = (typedRoutes: TypedRoutes[]): Route[] =>
 const modes = (
   typedRoutes: TypedRoutes[]
 ): ReactElement<HTMLElement> | null => (
-  <>{iconableRoutes(typedRoutes).map(route => modeIconFeature(route))}</>
+  <>{iconableRoutes(typedRoutes).map(({ route }) => modeIconFeature(route))}</>
 );
 
 const crZone = (zoneNumber: string): ReactElement<HTMLElement> | false =>

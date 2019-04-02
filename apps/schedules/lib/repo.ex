@@ -23,6 +23,7 @@ defmodule Schedules.Repo do
     |> add_optional_param(opts, :direction_id)
     |> add_optional_param(opts, :stop_sequences, :stop_sequence)
     |> add_optional_param(opts, :stop_ids, :stop)
+    |> add_optional_param(opts, :min_time)
     |> cache(&all_from_params/1)
     |> load_from_other_repos
   end

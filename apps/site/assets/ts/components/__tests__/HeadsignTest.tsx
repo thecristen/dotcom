@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import HeadsignComponent from "../components/Headsign";
+import HeadsignComponent from "../Headsign";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { Headsign } from "../../__v3api";
 

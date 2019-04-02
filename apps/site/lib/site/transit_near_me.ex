@@ -114,7 +114,7 @@ defmodule Site.TransitNearMe do
     Integer.to_string(num)
   end
 
-  defp tomorrow_date(%DateTime{} = datetime) do
+  def tomorrow_date(%DateTime{} = datetime) do
     datetime
     |> DateTime.to_date()
     |> Date.add(1)
@@ -341,7 +341,7 @@ defmodule Site.TransitNearMe do
   end
 
   @spec get_direction_map([Schedule.t()], Keyword.t()) :: [direction_data]
-  defp get_direction_map(schedules, opts) do
+  def get_direction_map(schedules, opts) do
     schedules
     |> Enum.group_by(& &1.trip.direction_id)
     |> Task.async_stream(&build_direction_map(&1, opts), on_timeout: :kill_task)

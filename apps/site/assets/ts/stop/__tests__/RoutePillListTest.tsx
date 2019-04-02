@@ -22,15 +22,18 @@ it("renders a ferry route", () => {
       group_name: "ferry",
       routes: [
         {
-          type: 4,
-          name: "Charlestown Ferry",
-          header: "Charlestown Ferry",
-          long_name: "Charlestown Ferry",
-          id: "Boat-F4",
-          direction_names: { "0": "Outbound", "1": "Inbound" },
-          direction_destinations: { "0": "Charlestown", "1": "Long Wharf" },
-          description: "ferry",
-          alert_count: 0
+          route: {
+            type: 4,
+            name: "Charlestown Ferry",
+            header: "Charlestown Ferry",
+            long_name: "Charlestown Ferry",
+            id: "Boat-F4",
+            direction_names: { "0": "Outbound", "1": "Inbound" },
+            direction_destinations: { "0": "Charlestown", "1": "Long Wharf" },
+            description: "ferry",
+            alert_count: 0
+          },
+          directions: []
         }
       ]
     }

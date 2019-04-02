@@ -1,9 +1,9 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import DirectionComponent from "../components/Direction";
+import Direction from "../Direction";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import {
-  Direction,
+  Direction as DirectionType,
   Headsign,
   PredictedOrScheduledTime,
   Route
@@ -22,7 +22,7 @@ const headsign: Headsign = {
   train_number: null
 };
 
-const direction: Direction = {
+const direction: DirectionType = {
   direction_id: 0,
   headsigns: [headsign]
 };
@@ -43,7 +43,7 @@ it("it renders", () => {
   createReactRoot();
   const tree = renderer
     .create(
-      <DirectionComponent
+      <Direction
         direction={{
           ...direction,
           headsigns: [1, 2].map(i => ({ ...headsign, name: `Headsign ${i}` }))
@@ -60,7 +60,7 @@ it("returns null if direction has no schedules", () => {
   createReactRoot();
   const tree = renderer
     .create(
-      <DirectionComponent
+      <Direction
         direction={{ ...direction, headsigns: [] }}
         route={route}
         stopId="stop-id"
@@ -79,7 +79,7 @@ it("it does not display the route direction for commuter rail", () => {
   }));
   const tree = renderer
     .create(
-      <DirectionComponent
+      <Direction
         direction={{ ...direction, headsigns }}
         route={{ ...route, type: 2 }}
         stopId="stop-id"
@@ -92,13 +92,7 @@ it("it does not display the route direction for commuter rail", () => {
 it("it does not display the direction destination when there is only one headsign", () => {
   createReactRoot();
   const tree = renderer
-    .create(
-      <DirectionComponent
-        direction={direction}
-        route={route}
-        stopId="stop-id"
-      />
-    )
+    .create(<Direction direction={direction} route={route} stopId="stop-id" />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });

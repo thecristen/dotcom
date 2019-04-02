@@ -154,21 +154,24 @@ describe("Accessibility", () => {
         group_name: "subway",
         routes: [
           {
-            type: 1,
-            name: "Orange Line",
-            header: "Orange Line",
-            long_name: "Orange Line",
-            id: "Orange",
-            direction_names: {
-              "0": "South",
-              "1": "North"
+            route: {
+              type: 1,
+              name: "Orange Line",
+              header: "Orange Line",
+              long_name: "Orange Line",
+              id: "Orange",
+              direction_names: {
+                "0": "South",
+                "1": "North"
+              },
+              direction_destinations: {
+                "0": "Ashmont/Braintree",
+                "1": "Alewife"
+              },
+              description: "rapid_transit",
+              alert_count: 0
             },
-            direction_destinations: {
-              "0": "Ashmont/Braintree",
-              "1": "Alewife"
-            },
-            description: "rapid_transit",
-            alert_count: 0
+            directions: []
           }
         ]
       }

@@ -1,9 +1,9 @@
-import { Stop, Route } from "../../__v3api";
+import { Direction, Route, Stop } from "../../__v3api";
 import { MapData } from "../../app/googleMaps/__googleMaps";
 
 export interface TypedRoutes {
   group_name: string;
-  routes: Route[];
+  routes: RouteWithDirections[];
 }
 
 export interface StopMapData {
@@ -46,4 +46,9 @@ export interface RetailLocation {
 export interface RetailLocationWithDistance {
   distance: string;
   location: RetailLocation;
+}
+
+export interface RouteWithDirections {
+  route: Route;
+  directions: Direction[];
 }

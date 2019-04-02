@@ -1,4 +1,21 @@
 {
+  "zone_number": "1A",
+  "tabs": [
+    {
+      "name": "Station Details",
+      "id": "details",
+      "href": "/stops-v2/place-sstat",
+      "class": "",
+      "badge": null
+    },
+    {
+      "name": "Alerts",
+      "id": "alerts",
+      "href": "/stops/place-sstat?tab=alerts",
+      "class": "header-tab--alert",
+      "badge": null
+    }
+  ],
   "stop": {
     "station?": true,
     "parking_lots": [
@@ -14,7 +31,7 @@
         "name": "South Station Bus Terminal Garage",
         "manager": {
           "url": "https://www.propark.com/propark-locator2/south-station-garage/",
-          "phone": "617-345-0202",
+          "phone": "tel:+1-617-345-0202",
           "name": "ProPark",
           "contact": "ProPark"
         },
@@ -24,7 +41,6 @@
         "address": null
       }
     ],
-    "bike_storage": ["bike_storage_cage"],
     "note": null,
     "name": "South Station",
     "longitude": -71.055242,
@@ -32,9 +48,14 @@
     "is_child?": false,
     "id": "place-sstat",
     "has_fare_machine?": true,
-    "has_charlie_card_vendor?": false,
-    "fare_facilities": ["fare_media_assistant", "fare_vending_machine", "ticket_window"],
+    "has_charlie_card_vendor?": true,
+    "fare_facilities": [
+      "fare_media_assistant",
+      "fare_vending_machine",
+      "ticket_window"
+    ],
     "closed_stop_info": null,
+    "bike_storage": ["bike_storage_cage"],
     "address": "700 Atlantic Ave, Boston, MA 02110",
     "accessibility": [
       "accessible",
@@ -45,199 +66,762 @@
   },
   "routes": [
     {
-      "group_name": "subway",
       "routes": [
         {
-          "custom_route?": false,
-          "description": "rapid_transit",
-          "direction_destinations": {
-            "0": "Ashmont/Braintree",
-            "1": "Alewife"
+          "route": {
+            "type": 1,
+            "name": "Red Line",
+            "long_name": "Red Line",
+            "id": "Red",
+            "direction_names": { "1": "North", "0": "South" },
+            "direction_destinations": {
+              "1": "Alewife",
+              "0": "Ashmont/Braintree"
+            },
+            "description": "rapid_transit",
+            "custom_route?": false
           },
-          "direction_names": { "0": "South", "1": "North" },
-          "id": "Red",
-          "long_name": "Red Line",
-          "name": "Red Line",
-          "type": 1
+          "directions": [
+            {
+              "headsigns": [
+                {
+                  "train_number": "",
+                  "times": [
+                    {
+                      "scheduled_time": null,
+                      "prediction": {
+                        "track": "2",
+                        "time": ["3", " ", "min"],
+                        "status": null
+                      }
+                    },
+                    {
+                      "scheduled_time": null,
+                      "prediction": {
+                        "track": null,
+                        "time": ["13", " ", "min"],
+                        "status": null
+                      }
+                    }
+                  ],
+                  "name": "Ashmont"
+                },
+                {
+                  "train_number": "",
+                  "times": [
+                    {
+                      "scheduled_time": null,
+                      "prediction": {
+                        "track": null,
+                        "time": ["9", " ", "min"],
+                        "status": null
+                      }
+                    },
+                    {
+                      "scheduled_time": null,
+                      "prediction": {
+                        "track": null,
+                        "time": ["21", " ", "min"],
+                        "status": null
+                      }
+                    }
+                  ],
+                  "name": "Braintree"
+                }
+              ],
+              "direction_id": 0
+            },
+            {
+              "headsigns": [
+                {
+                  "train_number": "",
+                  "times": [
+                    {
+                      "scheduled_time": null,
+                      "prediction": {
+                        "track": "2",
+                        "time": ["7", " ", "min"],
+                        "status": null
+                      }
+                    },
+                    {
+                      "scheduled_time": null,
+                      "prediction": {
+                        "track": null,
+                        "time": ["13", " ", "min"],
+                        "status": null
+                      }
+                    }
+                  ],
+                  "name": "Alewife"
+                }
+              ],
+              "direction_id": 1
+            }
+          ]
         }
-      ]
+      ],
+      "group_name": "subway"
     },
     {
-      "group_name": "bus",
       "routes": [
         {
-          "custom_route?": false,
-          "description": "key_bus_route",
-          "direction_destinations": {
-            "0": "Logan Airport",
-            "1": "South Station"
+          "route": {
+            "type": 3,
+            "name": "SL1",
+            "long_name": "Logan Airport - South Station",
+            "id": "741",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "South Station",
+              "0": "Logan Airport"
+            },
+            "description": "key_bus_route",
+            "custom_route?": false
           },
-          "direction_names": { "0": "Outbound", "1": "Inbound" },
-          "id": "741",
-          "long_name": "Logan Airport - South Station",
-          "name": "SL1",
-          "type": 3
+          "directions": [
+            {
+              "headsigns": [
+                {
+                  "train_number": "",
+                  "times": [
+                    {
+                      "scheduled_time": ["2:30", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "South Station"
+                }
+              ],
+              "direction_id": 1
+            },
+            {
+              "headsigns": [
+                {
+                  "train_number": "",
+                  "times": [
+                    {
+                      "scheduled_time": ["5:36", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Silver Line Way"
+                },
+                {
+                  "train_number": "",
+                  "times": [
+                    {
+                      "scheduled_time": ["5:40", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Logan Airport"
+                }
+              ],
+              "direction_id": 0
+            }
+          ]
         },
         {
-          "custom_route?": false,
-          "description": "key_bus_route",
-          "direction_destinations": {
-            "0": "Design Center",
-            "1": "South Station"
+          "route": {
+            "type": 3,
+            "name": "SL2",
+            "long_name": "Design Center - South Station",
+            "id": "742",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "South Station",
+              "0": "Design Center"
+            },
+            "description": "key_bus_route",
+            "custom_route?": false
           },
-          "direction_names": { "0": "Outbound", "1": "Inbound" },
-          "id": "742",
-          "long_name": "Design Center - South Station",
-          "name": "SL2",
-          "type": 3
+          "directions": [
+            {
+              "headsigns": [
+                {
+                  "train_number": "",
+                  "times": [
+                    {
+                      "scheduled_time": ["4:17", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "South Station"
+                }
+              ],
+              "direction_id": 1
+            },
+            {
+              "headsigns": [
+                {
+                  "train_number": "",
+                  "times": [
+                    {
+                      "scheduled_time": ["5:36", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Silver Line Way"
+                },
+                {
+                  "train_number": "",
+                  "times": [
+                    {
+                      "scheduled_time": ["5:46", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Drydock"
+                }
+              ],
+              "direction_id": 0
+            }
+          ]
         },
         {
-          "custom_route?": false,
-          "description": "key_bus_route",
-          "direction_destinations": { "0": "Chelsea", "1": "South Station" },
-          "direction_names": { "0": "Outbound", "1": "Inbound" },
-          "id": "743",
-          "long_name": "Chelsea - South Station",
-          "name": "SL3",
-          "type": 3
+          "route": {
+            "type": 3,
+            "name": "SL3",
+            "long_name": "Chelsea - South Station",
+            "id": "743",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": { "1": "South Station", "0": "Chelsea" },
+            "description": "key_bus_route",
+            "custom_route?": false
+          },
+          "directions": [
+            {
+              "headsigns": [
+                {
+                  "train_number": "",
+                  "times": [
+                    {
+                      "scheduled_time": ["4:17", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "South Station"
+                }
+              ],
+              "direction_id": 1
+            },
+            {
+              "headsigns": [
+                {
+                  "train_number": "",
+                  "times": [
+                    {
+                      "scheduled_time": ["4:25", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Chelsea"
+                },
+                {
+                  "train_number": "",
+                  "times": [
+                    {
+                      "scheduled_time": ["5:36", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Silver Line Way"
+                }
+              ],
+              "direction_id": 0
+            }
+          ]
         }
-      ]
+      ],
+      "group_name": "bus"
     },
     {
-      "group_name": "commuter_rail",
       "routes": [
         {
-          "custom_route?": false,
-          "description": "commuter_rail",
-          "direction_destinations": { "0": "Fairmount", "1": "South Station" },
-          "direction_names": { "0": "Outbound", "1": "Inbound" },
-          "id": "CR-Fairmount",
-          "long_name": "Fairmount Line",
-          "name": "Fairmount Line",
-          "type": 2
-        },
-        {
-          "custom_route?": false,
-          "description": "commuter_rail",
-          "direction_destinations": { "0": "Worcester", "1": "South Station" },
-          "direction_names": { "0": "Outbound", "1": "Inbound" },
-          "id": "CR-Worcester",
-          "long_name": "Framingham/Worcester Line",
-          "name": "Framingham/Worcester Line",
-          "type": 2
-        },
-        {
-          "custom_route?": false,
-          "description": "commuter_rail",
-          "direction_destinations": {
-            "0": "Forge Park/495",
-            "1": "South Station"
+          "route": {
+            "type": 2,
+            "name": "Fairmount Line",
+            "long_name": "Fairmount Line",
+            "id": "CR-Fairmount",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "South Station",
+              "0": "Fairmount"
+            },
+            "description": "commuter_rail",
+            "custom_route?": false
           },
-          "direction_names": { "0": "Outbound", "1": "Inbound" },
-          "id": "CR-Franklin",
-          "long_name": "Franklin Line",
-          "name": "Franklin Line",
-          "type": 2
+          "directions": [
+            {
+              "headsigns": [
+                {
+                  "train_number": "790",
+                  "times": [
+                    {
+                      "scheduled_time": ["4:55", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "South Station"
+                }
+              ],
+              "direction_id": 1
+            },
+            {
+              "headsigns": [
+                {
+                  "train_number": "751",
+                  "times": [
+                    {
+                      "scheduled_time": ["6:24", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Readville"
+                }
+              ],
+              "direction_id": 0
+            }
+          ]
         },
         {
-          "custom_route?": false,
-          "description": "commuter_rail",
-          "direction_destinations": { "0": "Greenbush", "1": "South Station" },
-          "direction_names": { "0": "Outbound", "1": "Inbound" },
-          "id": "CR-Greenbush",
-          "long_name": "Greenbush Line",
-          "name": "Greenbush Line",
-          "type": 2
-        },
-        {
-          "custom_route?": false,
-          "description": "commuter_rail",
-          "direction_destinations": {
-            "0": "Kingston or Plymouth",
-            "1": "South Station"
+          "route": {
+            "type": 2,
+            "name": "Framingham/Worcester Line",
+            "long_name": "Framingham/Worcester Line",
+            "id": "CR-Worcester",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "South Station",
+              "0": "Worcester"
+            },
+            "description": "commuter_rail",
+            "custom_route?": false
           },
-          "direction_names": { "0": "Outbound", "1": "Inbound" },
-          "id": "CR-Kingston",
-          "long_name": "Kingston/Plymouth Line",
-          "name": "Kingston/Plymouth Line",
-          "type": 2
+          "directions": [
+            {
+              "headsigns": [
+                {
+                  "train_number": "501",
+                  "times": [
+                    {
+                      "scheduled_time": ["4:40", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Worcester"
+                },
+                {
+                  "train_number": "583",
+                  "times": [
+                    {
+                      "scheduled_time": ["5:30", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Framingham"
+                },
+                {
+                  "train_number": "589",
+                  "times": [
+                    {
+                      "scheduled_time": ["7:30", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Ashland"
+                }
+              ],
+              "direction_id": 0
+            },
+            {
+              "headsigns": [
+                {
+                  "train_number": "500",
+                  "times": [
+                    {
+                      "scheduled_time": ["4:45", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "South Station"
+                }
+              ],
+              "direction_id": 1
+            }
+          ]
         },
         {
-          "custom_route?": false,
-          "description": "commuter_rail",
-          "direction_destinations": {
-            "0": "Middleborough/Lakeville",
-            "1": "South Station"
+          "route": {
+            "type": 2,
+            "name": "Franklin Line",
+            "long_name": "Franklin Line",
+            "id": "CR-Franklin",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "South Station",
+              "0": "Forge Park/495"
+            },
+            "description": "commuter_rail",
+            "custom_route?": false
           },
-          "direction_names": { "0": "Outbound", "1": "Inbound" },
-          "id": "CR-Middleborough",
-          "long_name": "Middleborough/Lakeville Line",
-          "name": "Middleborough/Lakeville Line",
-          "type": 2
+          "directions": [
+            {
+              "headsigns": [
+                {
+                  "train_number": "701",
+                  "times": [
+                    {
+                      "scheduled_time": ["3:50", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Forge Park/​495"
+                },
+                {
+                  "train_number": "741",
+                  "times": [
+                    {
+                      "scheduled_time": ["6:40", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Walpole"
+                },
+                {
+                  "train_number": "743",
+                  "times": [
+                    {
+                      "scheduled_time": ["4:15", " ", "PM"],
+                      "prediction": {
+                        "track": null,
+                        "time": ["4:15", " ", "PM"],
+                        "status": "On time"
+                      },
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Norwood Central"
+                }
+              ],
+              "direction_id": 0
+            },
+            {
+              "headsigns": [
+                {
+                  "train_number": "790",
+                  "times": [
+                    {
+                      "scheduled_time": ["4:55", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "South Station"
+                }
+              ],
+              "direction_id": 1
+            }
+          ]
         },
         {
-          "custom_route?": false,
-          "description": "commuter_rail",
-          "direction_destinations": {
-            "0": "Needham Heights",
-            "1": "South Station"
+          "route": {
+            "type": 2,
+            "name": "Greenbush Line",
+            "long_name": "Greenbush Line",
+            "id": "CR-Greenbush",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "South Station",
+              "0": "Greenbush"
+            },
+            "description": "commuter_rail",
+            "custom_route?": false
           },
-          "direction_names": { "0": "Outbound", "1": "Inbound" },
-          "id": "CR-Needham",
-          "long_name": "Needham Line",
-          "name": "Needham Line",
-          "type": 2
+          "directions": [
+            {
+              "headsigns": [
+                {
+                  "train_number": "070",
+                  "times": [
+                    {
+                      "scheduled_time": ["5:40", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "South Station"
+                }
+              ],
+              "direction_id": 1
+            },
+            {
+              "headsigns": [
+                {
+                  "train_number": "071",
+                  "times": [
+                    {
+                      "scheduled_time": ["6:54", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Greenbush"
+                }
+              ],
+              "direction_id": 0
+            }
+          ]
         },
         {
-          "custom_route?": false,
-          "description": "commuter_rail",
-          "direction_destinations": {
-            "0": "Wickford Junction",
-            "1": "South Station"
+          "route": {
+            "type": 2,
+            "name": "Kingston/Plymouth Line",
+            "long_name": "Kingston/Plymouth Line",
+            "id": "CR-Kingston",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "South Station",
+              "0": "Kingston or Plymouth"
+            },
+            "description": "commuter_rail",
+            "custom_route?": false
           },
-          "direction_names": { "0": "Outbound", "1": "Inbound" },
-          "id": "CR-Providence",
-          "long_name": "Providence/Stoughton Line",
-          "name": "Providence/Stoughton Line",
-          "type": 2
+          "directions": [
+            {
+              "headsigns": [
+                {
+                  "train_number": "032",
+                  "times": [
+                    {
+                      "scheduled_time": ["5:30", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "South Station"
+                }
+              ],
+              "direction_id": 1
+            },
+            {
+              "headsigns": [
+                {
+                  "train_number": "033",
+                  "times": [
+                    {
+                      "scheduled_time": ["7:11", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Kingston"
+                },
+                {
+                  "train_number": "063",
+                  "times": [
+                    {
+                      "scheduled_time": ["10:50", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Plymouth"
+                }
+              ],
+              "direction_id": 0
+            }
+          ]
+        },
+        {
+          "route": {
+            "type": 2,
+            "name": "Middleborough/Lakeville Line",
+            "long_name": "Middleborough/Lakeville Line",
+            "id": "CR-Middleborough",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "South Station",
+              "0": "Middleborough/Lakeville"
+            },
+            "description": "commuter_rail",
+            "custom_route?": false
+          },
+          "directions": [
+            {
+              "headsigns": [
+                {
+                  "train_number": "002",
+                  "times": [
+                    {
+                      "scheduled_time": ["5:20", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "South Station"
+                }
+              ],
+              "direction_id": 1
+            },
+            {
+              "headsigns": [
+                {
+                  "train_number": "003",
+                  "times": [
+                    {
+                      "scheduled_time": ["6:35", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Middleborough/​Lakeville"
+                }
+              ],
+              "direction_id": 0
+            }
+          ]
+        },
+        {
+          "route": {
+            "type": 2,
+            "name": "Needham Line",
+            "long_name": "Needham Line",
+            "id": "CR-Needham",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "South Station",
+              "0": "Needham Heights"
+            },
+            "description": "commuter_rail",
+            "custom_route?": false
+          },
+          "directions": [
+            {
+              "headsigns": [
+                {
+                  "train_number": "600",
+                  "times": [
+                    {
+                      "scheduled_time": ["6:05", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "South Station"
+                }
+              ],
+              "direction_id": 1
+            },
+            {
+              "headsigns": [
+                {
+                  "train_number": "601",
+                  "times": [
+                    {
+                      "scheduled_time": ["7:05", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Needham Heights"
+                }
+              ],
+              "direction_id": 0
+            }
+          ]
+        },
+        {
+          "route": {
+            "type": 2,
+            "name": "Providence/Stoughton Line",
+            "long_name": "Providence/Stoughton Line",
+            "id": "CR-Providence",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "South Station",
+              "0": "Wickford Junction"
+            },
+            "description": "commuter_rail",
+            "custom_route?": false
+          },
+          "directions": [
+            {
+              "headsigns": [
+                {
+                  "train_number": "802",
+                  "times": [
+                    {
+                      "scheduled_time": ["4:45", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "South Station"
+                }
+              ],
+              "direction_id": 1
+            },
+            {
+              "headsigns": [
+                {
+                  "train_number": "8801",
+                  "times": [
+                    {
+                      "scheduled_time": ["4:58", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Wickford Junction"
+                },
+                {
+                  "train_number": "803",
+                  "times": [
+                    {
+                      "scheduled_time": ["6:31", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Providence"
+                },
+                {
+                  "train_number": "903",
+                  "times": [
+                    {
+                      "scheduled_time": ["6:57", " ", "AM"],
+                      "prediction": null,
+                      "delay": 0
+                    }
+                  ],
+                  "name": "Stoughton"
+                }
+              ],
+              "direction_id": 0
+            }
+          ]
         }
-      ]
-    }
-  ],
-  "tabs": [
-    {
-      "badge": null,
-      "class": "",
-      "href": "/stops-v2/place-sstat",
-      "id": "details",
-      "name": "Station Details"
-    },
-    {
-      "badge": {
-        "content": "1",
-        "class": "m-alert-badge",
-        "aria_label": "1 alert"
-      },
-      "class": "",
-      "href": "/stops/place-sstat?tab=alerts",
-      "id": "alerts",
-      "name": "Alerts"
-    }
-  ],
-  "zone_number": "1A",
-  "retail_locations": [
-    {
-      "location": {
-        "name": "Store Name",
-        "address": "1234 Main St., Boston MA",
-        "latitude": 42.0,
-        "longitude": -71.0,
-        "payment": [
-          "credit_card"
-        ],
-        "phone": "617-555-1234"
-      },
-      "distance": "500 ft"
+      ],
+      "group_name": "commuter_rail"
     }
   ]
 }
