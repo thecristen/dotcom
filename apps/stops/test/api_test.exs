@@ -21,6 +21,47 @@ defmodule Stops.ApiTest do
       end
     end
 
+    test "parses parent_id and child_ids" do
+      assert {:ok, %Stop{} = parent} = by_gtfs_id("place-sstat")
+      assert parent.parent_id == nil
+      assert parent.is_child? == false
+
+      assert parent.child_ids == [
+               "70079",
+               "70080",
+               "74611",
+               "74617",
+               "South Station",
+               "South Station-01",
+               "South Station-02",
+               "South Station-03",
+               "South Station-04",
+               "South Station-05",
+               "South Station-06",
+               "South Station-07",
+               "South Station-08",
+               "South Station-09",
+               "South Station-10",
+               "South Station-11",
+               "South Station-12",
+               "South Station-13",
+               "door-sstat-atlantic",
+               "door-sstat-bus",
+               "door-sstat-dewey",
+               "door-sstat-finctr",
+               "door-sstat-main",
+               "door-sstat-outmain",
+               "door-sstat-reserve",
+               "door-sstat-summer",
+               "door-sstat-usps"
+             ]
+
+      assert {:ok, %Stop{} = child} = by_gtfs_id("70079")
+      assert child.parent_id == "place-sstat"
+      assert child.child_ids == []
+      assert child.is_child? == true
+    end
+
     test "parses fare facilities" do
       assert {:ok, north_station} = by_gtfs_id("place-north")
 

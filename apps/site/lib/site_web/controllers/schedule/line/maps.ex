@@ -29,7 +29,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
 
   defp build_stop_marker(%RouteStop{} = stop) do
     stop.id
-    |> Stops.Repo.get()
+    |> Stops.Repo.get_parent()
     |> MapHelpers.Markers.stop(stop.is_terminus?)
   end
 

@@ -315,7 +315,7 @@ defmodule SiteWeb.ViewHelpers do
 
   def stop_link(stop_id) do
     stop_id
-    |> Stops.Repo.get()
+    |> Stops.Repo.get_parent()
     |> stop_link
   end
 

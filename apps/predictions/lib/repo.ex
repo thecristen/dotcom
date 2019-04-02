@@ -84,7 +84,7 @@ defmodule Predictions.Repo do
 
   defp record_to_structs({_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _} = record) do
     stop_id
-    |> Stops.Repo.get()
+    |> Stops.Repo.get_parent()
     |> do_record_to_structs(record)
   end
 

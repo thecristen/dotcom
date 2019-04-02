@@ -13,7 +13,7 @@ defmodule Site.TripPlan.ItineraryRow do
     @type trip_mapper :: (Schedules.Trip.id_t() -> Schedules.Trip.t() | nil)
     @type alerts_repo :: (DateTime.t() -> [Alerts.Alert.t()] | nil)
 
-    defstruct stop_mapper: &Stops.Repo.get/1,
+    defstruct stop_mapper: &Stops.Repo.get_parent/1,
               route_mapper: &Routes.Repo.get/1,
               trip_mapper: &Schedules.Repo.trip/1,
               alerts_repo: &Alerts.Repo.all/1

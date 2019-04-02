@@ -44,7 +44,7 @@ defmodule VehicleHelpers do
           {nil, nil}
         end
 
-      parent_stop = Stops.Repo.get(child_stop_id)
+      parent_stop = Stops.Repo.get_parent(child_stop_id)
       stop_id = stop_id(parent_stop, child_stop_id)
 
       tooltip = %VehicleTooltip{
@@ -131,7 +131,7 @@ defmodule VehicleHelpers do
     # Get stop name from vehicle if present, otherwise use provided predicted stop_name
     stop_name =
       if vehicle.stop_id do
-        case Stops.Repo.get(vehicle.stop_id) do
+        case Stops.Repo.get_parent(vehicle.stop_id) do
           nil -> stop_name
           %Stops.Stop{name: name} -> name
         end

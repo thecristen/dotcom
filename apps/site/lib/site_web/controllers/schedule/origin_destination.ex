@@ -95,7 +95,7 @@ defmodule SiteWeb.ScheduleController.OriginDestination do
     stop_id = Map.get(conn.query_params, Atom.to_string(key))
 
     if Enum.find(conn.assigns.all_stops, &(&1.id == stop_id)) do
-      Stops.Repo.get(stop_id)
+      Stops.Repo.get_parent(stop_id)
     else
       nil
     end

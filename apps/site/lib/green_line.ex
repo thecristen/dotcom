@@ -66,7 +66,7 @@ defmodule GreenLine do
   def naive_headsign(branch_name, direction_id) do
     @termini
     |> Map.get({branch_name, direction_id})
-    |> Stops.Repo.get()
+    |> Stops.Repo.get_parent()
     |> Map.get(:name)
   end
 

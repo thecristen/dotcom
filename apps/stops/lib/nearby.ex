@@ -23,7 +23,7 @@ defmodule Stops.Nearby do
   defmodule Options do
     defstruct api_fn: &Stops.Nearby.api_around/2,
               keys_fn: &Stops.Nearby.keys/1,
-              fetch_fn: &Stops.Repo.get/1
+              fetch_fn: &Stops.Repo.get_parent/1
   end
 
   @spec nearby(Position.t()) :: [Stops.Stop.t()]

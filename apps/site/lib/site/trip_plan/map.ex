@@ -12,7 +12,7 @@ defmodule Site.TripPlan.Map do
 
   @default_opts [
     route_mapper: &Routes.Repo.get/1,
-    stop_mapper: &Stops.Repo.get/1
+    stop_mapper: &Stops.Repo.get_parent/1
   ]
 
   @moduledoc """

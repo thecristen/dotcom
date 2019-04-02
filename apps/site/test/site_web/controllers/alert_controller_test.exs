@@ -222,7 +222,7 @@ defmodule SiteWeb.AlertControllerTest do
         )
       ]
 
-      assert Repo.get("70061").id == "place-alfcl"
+      assert Repo.get_parent("70061").id == "place-alfcl"
 
       grouped = group_access_alerts(alerts)
       assert Enum.map(grouped, fn {stop, _} -> stop.id end) == ["place-alfcl"]

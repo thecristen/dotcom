@@ -47,7 +47,7 @@ defmodule SiteWeb.ScheduleController.VehicleLocations do
 
   @spec stop_name(String.t()) :: String.t()
   defp stop_name(<<stop_id::binary>>) do
-    stop = Stops.Repo.get(stop_id)
+    stop = Stops.Repo.get_parent(stop_id)
 
     if stop do
       stop.name

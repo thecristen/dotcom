@@ -320,7 +320,7 @@ defmodule Site.TransitNearMe do
           stop_with_data
   defp get_directions_for_stop({_stop_id, schedules}, location, opts) do
     [%Schedule{stop: schedule_stop} | _] = schedules
-    stop_fn = Keyword.get(opts, :stops_fn, &Stops.Repo.get/1)
+    stop_fn = Keyword.get(opts, :stops_fn, &Stops.Repo.get_parent/1)
 
     schedule_stop.id
     |> stop_fn.()

@@ -49,6 +49,26 @@ defmodule Stops.Repo do
     end
   end
 
+  @spec get_parent(Stop.t() | Stop.id_t() | nil) :: Stop.t() | nil
+  def get_parent(nil), do: nil
+
+  def get_parent(%Stop{parent_id: nil} = stop) do
+    stop
+  end
+
+  def get_parent(%Stop{parent_id: parent_id}) when is_binary(parent_id) do
+    case stop(parent_id) do
+      {:ok, %Stop{} = stop} -> stop
+      _ -> nil
+    end
+  end
+
+  def get_parent(id) when is_binary(id) do
+    id
+    |> get()
+    |> get_parent()
+  end
+
   @spec stop(Stop.id_t()) :: {:ok, Stop.t() | nil} | {:error, any}
   defp stop(id) do
     # the `cache` macro uses the function name as part of the key, and :stop
@@ -91,7 +111,14 @@ defmodule Stops.Repo do
 
   @spec by_route_type(Route.route_type(), Keyword.t()) :: stops_response
   def by_route_type(route_type, opts \\ []) do
-    cache({route_type, opts}, &Stops.Api.by_route_type/1)
+    cache(
+      {route_type, opts},
+      fn stop ->
+        stop
+        |> Stops.Api.by_route_type()
+        |> Enum.map(&get_parent/1)
+      end
+    )
   end
 
   def stop_exists_on_route?(stop_id, route, direction_id) do

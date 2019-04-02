@@ -65,7 +65,7 @@ defmodule SiteWeb.AlertController do
     |> Enum.filter(&MapSet.member?(access_effects, &1.effect))
     |> Enum.reduce(%{}, &group_access_alerts_by_stop/2)
     |> Enum.map(fn {stop_id, alerts} ->
-      stop = Stops.Repo.get(stop_id)
+      stop = Stops.Repo.get_parent(stop_id)
       {stop, alerts}
     end)
     |> Enum.sort_by(fn {stop, _} -> stop.name end)
@@ -80,7 +80,7 @@ defmodule SiteWeb.AlertController do
   defp do_group_access_alerts_by_stop(stop_id, alert, acc) do
     # stop_ids are sometimes child stops.
     # Fetch the stop_id from the repo to get the parent id.
-    case Stops.Repo.get(stop_id) do
+    case Stops.Repo.get_parent(stop_id) do
       %Stop{id: parent_stop_id} ->
         Map.update(acc, parent_stop_id, MapSet.new([alert]), &MapSet.put(&1, alert))
 

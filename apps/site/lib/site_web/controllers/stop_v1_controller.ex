@@ -44,7 +44,7 @@ defmodule SiteWeb.StopV1Controller do
     stop =
       id
       |> URI.decode_www_form()
-      |> Repo.get()
+      |> Repo.get_parent()
 
     if stop do
       routes = Routes.Repo.by_stop(stop.id)

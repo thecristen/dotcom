@@ -5,6 +5,8 @@ defmodule Stops.Stop do
   alias Stops.{Api, Stop}
 
   defstruct id: nil,
+            parent_id: nil,
+            child_ids: [],
             name: nil,
             note: nil,
             accessibility: [],
@@ -24,6 +26,8 @@ defmodule Stops.Stop do
 
   @type t :: %Stop{
           id: id_t,
+          parent_id: id_t | nil,
+          child_ids: [id_t],
           name: String.t(),
           note: String.t() | nil,
           accessibility: [String.t()],

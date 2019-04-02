@@ -26,6 +26,25 @@ defmodule Stops.RepoTest do
     end
   end
 
+  describe "get_parent/1" do
+    test "returns the parent stop for a child stop" do
+      north_station_cr = get("North Station")
+      assert north_station_cr.is_child? == true
+      assert north_station_cr.parent_id == "place-north"
+      assert %Stop{id: "place-north"} = get_parent(north_station_cr)
+    end
+
+    test "returns the same stop for a parent stop" do
+      north_station = get("place-north")
+      assert get_parent(north_station) == north_station
+    end
+
+    test "takes ids" do
+      assert %Stop{id: "place-north"} = get_parent("North Station")
+      assert %Stop{id: "place-north"} = get_parent("place-north")
+    end
+  end
+
   describe "by_route/3" do
     test "returns a list of stops in order of their stop_sequence" do
       response = by_route("CR-Lowell", 1)
@@ -37,13 +56,29 @@ defmodule Stops.RepoTest do
     end
 
     test "uses the parent station name" do
-      response = by_route("Green-B", 1)
+      response = by_route("CR-Fitchburg", 1)
 
-      assert response != []
-      assert match?(%Stop{id: "place-lake", name: "Boston College"}, List.first(response))
-
-      assert Enum.filter(response, &match?(%Stop{name: "South Street", id: "place-sougr"}, &1)) !=
-               []
+      assert Enum.map(response, &{&1.id, &1.name}) == [
+               {"Wachusett", "Wachusett"},
+               {"Fitchburg", "Fitchburg"},
+               {"North Leominster", "North Leominster"},
+               {"Shirley", "Shirley"},
+               {"Ayer", "Ayer"},
+               {"Littleton / Rte 495", "Littleton/Rte 495"},
+               {"South Acton", "South Acton"},
+               {"West Concord", "West Concord"},
+               {"Concord", "Concord"},
+               {"Lincoln", "Lincoln"},
+               {"Silver Hill", "Silver Hill"},
+               {"Hastings", "Hastings"},
+               {"Kendal Green", "Kendal Green"},
+               {"Brandeis/ Roberts", "Brandeis/Roberts"},
+               {"Waltham", "Waltham"},
+               {"Waverley", "Waverley"},
+               {"Belmont", "Belmont"},
+               {"place-portr", "Porter"},
+               {"place-north", "North Station"}
+             ]
     end
 
     test "does not include a parent station multiple times" do
@@ -87,8 +122,16 @@ defmodule Stops.RepoTest do
     test "can returns stops filtered by route type" do
       # commuter rail
       response = by_route_type(2)
+
       assert Enum.find(response, &(&1.id == "Lowell"))
-      assert Enum.find(response, &(&1.id == "place-north"))
+
+      # uses parent stop
+      assert Enum.find(response, &(&1.id == "North Station")) == nil
+      assert %Stop{} = Enum.find(response, &(&1.id == "place-north"))
+
+      # doesn't duplicate stops
+      assert Enum.uniq(response) == response
+
       # doesn't include non-CR stops
       refute Enum.find(response, &(&1.id == "place-boyls"))
     end

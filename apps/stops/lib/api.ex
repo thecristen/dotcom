@@ -14,7 +14,7 @@ defmodule Stops.Api do
           | :ticket_window
 
   @default_params [
-    include: "parent_station,facilities",
+    include: "parent_station,facilities,child_stops",
     "fields[facility]": "name,type,properties,latitude,longitude",
     "fields[stop]": "address,name,latitude,longitude,address,wheelchair_boarding,location_type"
   ]
@@ -82,13 +82,21 @@ defmodule Stops.Api do
     |> Enum.map(fn {:ok, stop} -> stop end)
   end
 
-  @spec v3_id(Item.t()) :: Stop.id_t()
-  defp v3_id(%Item{relationships: %{"parent_station" => [%Item{id: parent_id}]}}) do
+  @spec parent_id(Item.t()) :: Stop.id_t() | nil
+  defp parent_id(%Item{relationships: %{"parent_station" => [%Item{id: parent_id}]}}) do
     parent_id
   end
 
-  defp v3_id(item) do
-    item.id
+  defp parent_id(_) do
+    nil
+  end
+
+  defp child_ids(%Item{relationships: %{"child_stops" => children}}) do
+    Enum.map(children, & &1.id)
+  end
+
+  defp child_ids(%Item{}) do
+    []
   end
 
   @spec is_child?(Item.t()) :: boolean
@@ -128,7 +136,9 @@ defmodule Stops.Api do
     fare_facilities = fare_facilities(item)
 
     stop = %Stop{
-      id: v3_id(item),
+      id: item.id,
+      parent_id: parent_id(item),
+      child_ids: child_ids(item),
       name: v3_name(item),
       address: item.attributes["address"],
       accessibility: merge_accessibility(v3_accessibility(item), item.attributes),
