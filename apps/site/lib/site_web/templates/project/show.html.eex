@@ -46,17 +46,17 @@
 
           <%= unless Enum.empty?(@project.photo_gallery), do: render "_photos.html", photos: @project.photo_gallery %>
           <%= unless Enum.empty?(@project.files), do: render "_downloads.html", files: @project.files %>
+
+          <%= unless Enum.empty?(@upcoming_events), do: SiteWeb.EventView.render "_event_list.html",
+            events: @upcoming_events, title: "Upcoming Meetings", conn: @conn %>
+
+          <%= unless Enum.empty?(@past_events), do: SiteWeb.EventView.render "_event_list.html",
+            events: @past_events, title: "Past Meetings", conn: @conn %>
         <% else %>
           <%= for paragraph <- @project.paragraphs do %>
             <%= SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
           <% end %>
         <% end %>
-
-        <%= unless Enum.empty?(@upcoming_events), do: SiteWeb.EventView.render "_event_list.html",
-          events: @upcoming_events, title: "Upcoming Meetings", conn: @conn%>
-
-        <%= unless Enum.empty?(@past_events), do: SiteWeb.EventView.render "_event_list.html",
-          events: @past_events, title: "Past Meetings", conn: @conn %>
 
         <%= if Content.Project.contact?(@project), do: render "_contact.html", project: @project %>
 
