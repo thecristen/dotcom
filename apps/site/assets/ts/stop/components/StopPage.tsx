@@ -12,6 +12,7 @@ interface Props {
   stopPageData: StopPageData;
   mapData: StopMapData;
   mapId: string;
+  encoder?: (component: string) => string;
 }
 
 export default ({
@@ -27,7 +28,8 @@ export default ({
     suggested_transfers: suggestedTransfers
   },
   mapData,
-  mapId
+  mapId,
+  encoder
 }: Props): ReactElement<HTMLElement> => (
   <>
     <BreadcrumbContainer stop={stop} />
@@ -50,7 +52,7 @@ export default ({
       <div className="page-section">
         <div className="row">
           <div className="col-12 col-sm-10 col-sm-offset-1 col-lg-7 col-lg-offset-0">
-            <AddressBlock routes={routes} />
+            <AddressBlock stop={stop} routes={routes} encoder={encoder} />
             <Departures routes={routes} stop={stop} />
             <SuggestedTransfers suggestedTransfers={suggestedTransfers} />
           </div>

@@ -5,9 +5,53 @@ exports[`renders 1`] = `
   className="m-stop-page__address-block"
 >
   <div
-    className="u-small-caps"
+    className="m-stop-page__address"
   >
-    Address
+    <h3
+      className="u-small-caps"
+    >
+      Address
+    </h3>
+    <div
+      className="h3"
+    >
+      700 Atlantic Ave, Boston, MA 02110
+    </div>
+  </div>
+  <div
+    className="m-stop-page__address-links"
+  >
+    <div
+      className="m-stop-page__address-link"
+    >
+      <a
+        className="btn btn-primary"
+        href="https://www.google.com/maps/dir/?api=1&destination=700%20Atlantic%20Ave%2C%20Boston%2C%20MA%2002110"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Get directions to this station
+      </a>
+    </div>
+    <div
+      className="m-stop-page__address-link"
+    >
+      <a
+        href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.352271,-71.055242"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span
+          className="c-svg__icon-street-view m-stop-page__street-view-icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        Street View
+      </a>
+    </div>
   </div>
   <div
     className="m-route-pills"

@@ -50,7 +50,7 @@
 
   .m-route-pills & {
     display: inline-flex;
-    margin-bottom: $base-spacing / 2;
+    margin-top: $base-spacing / 2;
   }
 }
 
@@ -92,15 +92,44 @@
 }
 
 .m-stop-page__address-block {
+  background: $white;
+  border: 1px solid $gray-lightest;
+  display: flex;
+  margin-top: -$base-spacing * 3;
+  padding: $base-spacing;
+
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+  }
+
   .m-route-pills {
     @include media-breakpoint-up(lg) {
       display: none;
     }
   }
+
+  h3,
+  .h3 {
+    margin-top: 0;
+  }
 }
 
 .m-stop-page__address {
-  margin: $base-spacing 0;
+  flex: 1 1 auto;
+  padding-right: $base-spacing;
+}
+
+.m-stop-page__address-links {
+  flex: 0 0 auto;
+}
+
+.m-stop-page__address-link {
+  display: block;
+  margin-bottom: $base-spacing / 2;
+}
+
+.m-stop-page__street-view-icon {
+  margin-right: $base-spacing / 2;
 }
 
 .m-stop-page__hero-map-container {
