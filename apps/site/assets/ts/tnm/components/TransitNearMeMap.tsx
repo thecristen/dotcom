@@ -1,15 +1,20 @@
 import React, { ReactElement } from "react";
-import Marker from "../../app/googleMaps/Marker";
+import Marker from "./Marker";
 import { MapData, MarkerData } from "../../app/googleMaps/__googleMaps";
+import { Mode } from "../../__v3api";
 import { clickMarkerAction, SelectedStopType, Dispatch } from "../state";
 import { setMapDefaults } from "../../app/googleMaps/helpers";
+import { StopWithRoutes } from "./__tnm";
 
 interface Props {
   initialData: MapData;
   mapElementId: string;
   dispatch: Dispatch;
   selectedStopId: SelectedStopType;
+  selectedModes: Mode[];
   shouldCenterMapOnSelectedStop: boolean;
+  shouldFilterMarkers: boolean;
+  stopData: StopWithRoutes[];
 }
 
 class TransitNearMeMap extends React.Component<Props> {
@@ -68,7 +73,10 @@ class TransitNearMeMap extends React.Component<Props> {
       dispatch,
       selectedStopId,
       shouldCenterMapOnSelectedStop,
-      initialData
+      initialData,
+      shouldFilterMarkers,
+      selectedModes,
+      stopData
     } = this.props;
     if (this.map) {
       const markers = initialData.markers.map((marker: MarkerData) => (
@@ -77,7 +85,10 @@ class TransitNearMeMap extends React.Component<Props> {
           data={marker}
           map={this.map!}
           dispatch={dispatch}
+          stopData={stopData.find(stop => stop.stop.stop.id === marker.id)}
           isSelected={selectedStopId === marker.id}
+          shouldFilterMarkers={shouldFilterMarkers}
+          selectedModes={selectedModes}
         />
       ));
 

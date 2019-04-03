@@ -82,6 +82,9 @@ const TransitNearMe = ({
         dispatch={dispatch}
         mapElementId={mapId}
         initialData={mapData}
+        selectedModes={state.selectedModes}
+        stopData={stopSidebarData}
+        shouldFilterMarkers={state.shouldFilterStopCards}
         shouldCenterMapOnSelectedStop={state.shouldCenterMapOnSelectedStop}
       />
     </div>

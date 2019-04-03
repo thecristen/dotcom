@@ -11,6 +11,9 @@ it("it renders without initial markers", () => {
         mapElementId="test"
         dispatch={() => {}}
         selectedStopId={null}
+        stopData={[]}
+        selectedModes={[]}
+        shouldFilterMarkers={false}
         shouldCenterMapOnSelectedStop={false}
         /* eslint-disable typescript/camelcase */
         initialData={{
@@ -45,6 +48,9 @@ it("it renders with initial markers", () => {
         mapElementId="test"
         dispatch={() => {}}
         selectedStopId={null}
+        stopData={[]}
+        selectedModes={[]}
+        shouldFilterMarkers={false}
         shouldCenterMapOnSelectedStop={false}
         initialData={{
           zoom: 14,

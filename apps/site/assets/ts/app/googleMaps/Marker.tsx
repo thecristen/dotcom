@@ -80,6 +80,7 @@ class Marker extends React.Component<Props> {
       const icon = buildMarkerIcon(data, isSelected);
       /* eslint-disable no-unused-expressions */
       icon ? this.marker!.setIcon(icon) : null;
+      this.marker!.setVisible(data["visible?"]);
       isSelected
         ? this.infoWindow!.open(map!, this.marker!)
         : this.infoWindow!.close();

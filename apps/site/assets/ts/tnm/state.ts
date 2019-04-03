@@ -71,10 +71,16 @@ const stopReducer = (state: State, action: Action): State => {
           ? null
           : action.payload.stopId;
 
+      // selecting a stop pin can turn on filtering,
+      // but unselecting a stop pin should not turn off mode filtering
+      const shouldFilterStopCards = target
+        ? action.type === "CLICK_MARKER"
+        : state.shouldFilterStopCards;
+
       return {
         ...state,
+        shouldFilterStopCards,
         selectedStopId: target,
-        shouldFilterStopCards: !!target && action.type === "CLICK_MARKER",
         shouldCenterMapOnSelectedStop: false
       };
     }

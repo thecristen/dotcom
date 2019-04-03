@@ -2,10 +2,10 @@ import React, { ReactElement } from "react";
 import { Mode, Stop } from "../../__v3api";
 import { StopWithRoutes } from "./__tnm";
 import { Dispatch } from "../state";
-import { modeByV3ModeType } from "../../components/ModeFilter";
 import SidebarTitle from "./SidebarTitle";
 import StopWithRoutesCard from "./StopWithRoutesCard";
 import ModeFilterContainer from "./ModeFilterContainer";
+import stopIncludesModes from "../helpers/stop-includes-modes";
 
 interface Props {
   data: StopWithRoutes[];
@@ -35,25 +35,7 @@ const filterDataByStopId = (
 const filterDataByModes = (
   data: StopWithRoutes[],
   { modes }: FilterOptions
-): StopWithRoutes[] => {
-  // if there are no selections or all selections, do not filter
-  if (modes.length === 0 || modes.length === 3) {
-    return data;
-  }
-
-  return data.filter(stop =>
-    modes.reduce((accumulator: boolean, mode: Mode) => {
-      if (accumulator === true) {
-        return accumulator;
-      }
-      return stop.routes.some(routeGroup =>
-        routeGroup.routes.some(
-          subroute => modeByV3ModeType[subroute.type] === mode
-        )
-      );
-    }, false)
-  );
-};
+): StopWithRoutes[] => data.filter(stop => stopIncludesModes(stop, modes));
 
 export const filterData = (
   data: StopWithRoutes[],
