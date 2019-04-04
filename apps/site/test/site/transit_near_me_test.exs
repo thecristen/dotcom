@@ -905,4 +905,49 @@ defmodule Site.TransitNearMeTest do
       end
     end
   end
+
+  describe "filter_headsign_schedules/2" do
+    @predicted_schedule {DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC"),
+                         DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")}
+    @time_data_with_prediction %{
+      delay: 0,
+      prediction: %{status: nil, time: ["5", " ", "min"], track: nil},
+      scheduled_time: ["3:50", " ", "PM"]
+    }
+
+    @time_data_without_prediction %{
+      delay: 0,
+      prediction: nil,
+      scheduled_time: ["3:50", " ", "PM"]
+    }
+
+    test "result contains a predictions, one result returned" do
+      schedules = [
+        {@predicted_schedule, @time_data_without_prediction},
+        {@predicted_schedule, @time_data_with_prediction},
+        {@predicted_schedule, @time_data_without_prediction},
+        {@predicted_schedule, @time_data_without_prediction}
+      ]
+
+      [{_predicted_schedule, time_data}] =
+        TransitNearMe.filter_headsign_schedules(schedules, %Route{type: 3})
+
+      assert time_data.prediction != nil
+    end
+
+    test "neither result contains a prediction" do
+      schedules = [
+        {@predicted_schedule, @time_data_without_prediction},
+        {@predicted_schedule, @time_data_without_prediction},
+        {@predicted_schedule, @time_data_without_prediction},
+        {@predicted_schedule, @time_data_without_prediction}
+      ]
+
+      [{_predicted_schedule, time_data}, {_predicted_schedule2, time_data2}] =
+        TransitNearMe.filter_headsign_schedules(schedules, %Route{type: 3})
+
+      assert time_data.prediction == nil
+      assert time_data2.prediction == nil
+    end
+  end
 end

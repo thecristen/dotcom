@@ -262,4 +262,34 @@ defmodule JsonApiTest do
              data: [%JsonApi.Item{id: "20761", type: "stop", attributes: %{}, relationships: %{}}]
            }
   end
+
+  describe "empty/0" do
+    test "empty generates the correct struct" do
+      assert JsonApi.empty() == %JsonApi{
+               links: %{},
+               data: []
+             }
+    end
+  end
+
+  describe "merge/2" do
+    test "merged item contains all data" do
+      expected = %JsonApi{
+        links: %{"a" => "a", "b" => "b"},
+        data: ["a", "b"]
+      }
+
+      first = %JsonApi{
+        links: %{"a" => "a"},
+        data: ["a"]
+      }
+
+      second = %JsonApi{
+        links: %{"b" => "b"},
+        data: ["b"]
+      }
+
+      assert JsonApi.merge(first, second) == expected
+    end
+  end
 end

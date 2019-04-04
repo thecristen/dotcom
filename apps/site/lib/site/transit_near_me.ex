@@ -404,7 +404,7 @@ defmodule Site.TransitNearMe do
       schedules
       |> Enum.take(schedule_count(route))
       |> Enum.map(&build_time_map(&1, opts))
-      |> filter_headsign_schedules()
+      |> filter_headsign_schedules(route)
       |> Enum.unzip()
 
     {
@@ -422,6 +422,8 @@ defmodule Site.TransitNearMe do
   defp get_closest_time_for_headsign([{%DateTime{} = pred, _} | _]), do: pred
 
   def schedule_count(%Route{type: 2}), do: 1
+  # get more bus schedules because some will be dropped later
+  def schedule_count(%Route{type: 3}), do: 4
   def schedule_count(%Route{}), do: 2
 
   @spec get_predictions(Keyword.t(), (Keyword.t() -> [Prediction.t()]), DateTime.t()) :: [
@@ -438,15 +440,31 @@ defmodule Site.TransitNearMe do
 
   @type predicted_schedule_and_time_data :: {{DateTime.t() | nil, DateTime.t()}, time_data}
 
-  @spec filter_headsign_schedules([predicted_schedule_and_time_data]) :: [
+  @spec filter_headsign_schedules([predicted_schedule_and_time_data], Route.t() | nil) :: [
           predicted_schedule_and_time_data
         ]
-  defp filter_headsign_schedules([{{_, _}, _} = keep, {{nil, _}, _}]) do
+  def filter_headsign_schedules(schedules, %Route{type: 3}) do
+    # for bus, remove items with a nil prediction when at least one item has a prediction
+    prediction_available? =
+      Enum.any?(schedules, fn {_, %{prediction: prediction}} -> prediction != nil end)
+
+    if prediction_available? do
+      schedules
+      |> Enum.reject(fn {_, %{prediction: prediction}} -> prediction == nil end)
+      |> Enum.take(2)
+    else
+      schedules
+      |> Enum.take(2)
+      |> filter_headsign_schedules(nil)
+    end
+  end
+
+  def filter_headsign_schedules([{{_, _}, _} = keep, {{nil, _}, _}], _) do
     # only show one schedule if the second schedule has no prediction
     [keep]
   end
 
-  defp filter_headsign_schedules(schedules) do
+  def filter_headsign_schedules(schedules, _) do
     schedules
   end
 
@@ -512,7 +530,7 @@ defmodule Site.TransitNearMe do
   end
 
   defp format_prediction_time(%DateTime{} = time, _) do
-    Display.do_time_difference(time, Util.now(), &format_time/1)
+    Display.do_time_difference(time, Util.now(), &format_time/1, 120)
   end
 
   @spec format_time(DateTime.t()) :: [String.t()]
