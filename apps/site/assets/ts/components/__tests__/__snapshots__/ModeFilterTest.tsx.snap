@@ -8,13 +8,13 @@ exports[`render renders 1`] = `
     className="m-tnm-sidebar__filter-bar-inner"
   >
     <span
-      className="m-tnm-sidebar__filter-header"
+      className="m-tnm-sidebar__filter-header u-small-caps"
     >
       Filter
     </span>
     <button
       aria-label="remove filter by subway"
-      className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn u-small-caps active"
+      className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn active"
       onClick={[Function]}
       type="button"
     >
@@ -30,7 +30,7 @@ exports[`render renders 1`] = `
     </button>
     <button
       aria-label="remove filter by bus"
-      className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn u-small-caps active"
+      className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn active"
       onClick={[Function]}
       type="button"
     >
@@ -46,7 +46,7 @@ exports[`render renders 1`] = `
     </button>
     <button
       aria-label="remove filter by commuter_rail"
-      className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn u-small-caps active"
+      className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn active"
       onClick={[Function]}
       type="button"
     >

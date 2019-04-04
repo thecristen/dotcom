@@ -36,7 +36,7 @@ const ModeButton = ({
   onClick
 }: ModeButtonProps): ReactElement<HTMLElement> => (
   <button
-    className={`btn btn-secondary btn-sm m-tnm-sidebar__filter-btn u-small-caps ${
+    className={`btn btn-secondary btn-sm m-tnm-sidebar__filter-btn ${
       isModeSelected(mode) ? "active" : "inactive"
     }`}
     onClick={onClick(mode)}
@@ -58,7 +58,7 @@ export const ModeFilter = ({
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-tnm-sidebar__filter-bar">
     <div className="m-tnm-sidebar__filter-bar-inner">
-      <span className="m-tnm-sidebar__filter-header">Filter</span>
+      <span className="m-tnm-sidebar__filter-header u-small-caps">Filter</span>
       <ModeButton
         mode="subway"
         icon="subway"
