@@ -20,9 +20,15 @@ defmodule Stops.Stop do
             station?: false,
             has_fare_machine?: false,
             has_charlie_card_vendor?: false,
-            closed_stop_info: nil
+            closed_stop_info: nil,
+            type: nil,
+            platform_name: nil,
+            platform_code: nil,
+            description: nil
 
   @type id_t :: String.t()
+
+  @type stop_type :: :stop | :station | :entrance
 
   @type t :: %Stop{
           id: id_t,
@@ -41,7 +47,11 @@ defmodule Stops.Stop do
           station?: boolean,
           has_fare_machine?: boolean,
           has_charlie_card_vendor?: boolean,
-          closed_stop_info: Stops.Stop.ClosedStopInfo.t() | nil
+          closed_stop_info: Stops.Stop.ClosedStopInfo.t() | nil,
+          type: stop_type,
+          platform_name: String.t() | nil,
+          platform_code: String.t() | nil,
+          description: String.t() | nil
         }
 
   defimpl Util.Position do

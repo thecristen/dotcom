@@ -87,7 +87,8 @@ const stop: Stop = {
     "escalator_both",
     "elevator",
     "fully_elevated_platform"
-  ]
+  ],
+  type: "station"
 };
 
 const id = "#header-parking";

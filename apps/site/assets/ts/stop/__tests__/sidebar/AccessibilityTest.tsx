@@ -11,6 +11,7 @@ const data = JSON.parse(JSON.stringify(stopData)) as StopPageData;
 /* eslint-disable typescript/camelcase */
 
 const stop: Stop = {
+  type: "station",
   "station?": true,
   parking_lots: [],
   note: null,

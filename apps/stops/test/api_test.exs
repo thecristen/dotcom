@@ -25,6 +25,11 @@ defmodule Stops.ApiTest do
       assert {:ok, %Stop{} = parent} = by_gtfs_id("place-sstat")
       assert parent.parent_id == nil
       assert parent.is_child? == false
+      assert parent.name == "South Station"
+      assert parent.type == :station
+      assert parent.platform_name == nil
+      assert parent.platform_code == nil
+      assert parent.description == nil
 
       assert parent.child_ids == [
                "70079",
@@ -56,7 +61,12 @@ defmodule Stops.ApiTest do
                "door-sstat-usps"
              ]
 
-      assert {:ok, %Stop{} = child} = by_gtfs_id("70079")
+      assert {:ok, %Stop{} = child} = by_gtfs_id("South Station-01")
+      assert child.name == "South Station"
+      assert child.type == :stop
+      assert child.platform_name == "Commuter Rail - Track 1"
+      assert child.platform_code == "1"
+      assert child.description == "South Station - Commuter Rail - Track 1"
       assert child.parent_id == "place-sstat"
       assert child.child_ids == []
       assert child.is_child? == true

@@ -9,6 +9,7 @@ import { RetailLocationWithDistance } from "../../components/__stop";
 /* eslint-disable typescript/camelcase */
 
 const stop: Stop = {
+  type: "station",
   "station?": true,
   parking_lots: [],
   note: null,

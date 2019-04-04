@@ -24,7 +24,8 @@ const stop: Stop = {
   parking_lots: [],
   "station?": true,
   distance: "238 ft",
-  href: "/stops/stop-id"
+  href: "/stops/stop-id",
+  type: "station"
 };
 
 it("it renders with no stop selected", () => {

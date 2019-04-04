@@ -119,6 +119,8 @@ export type AccessibilityType =
   | "portable_boarding_lift"
   | string;
 
+export type StopType = "station" | "stop" | "entrance";
+
 export interface Stop {
   accessibility: AccessibilityType[];
   address: string | null;
@@ -135,8 +137,12 @@ export interface Stop {
   note: string | null;
   parking_lots: ParkingLot[];
   "station?": boolean;
+  type: StopType;
   distance?: string;
   href?: string;
+  platform_name?: string;
+  platform_code?: string;
+  description?: string;
 }
 
 export interface StopWithDirections {

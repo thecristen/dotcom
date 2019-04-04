@@ -16,7 +16,10 @@ defmodule Stops.Api do
   @default_params [
     include: "parent_station,facilities,child_stops",
     "fields[facility]": "name,type,properties,latitude,longitude",
-    "fields[stop]": "address,name,latitude,longitude,address,wheelchair_boarding,location_type"
+    "fields[stop]":
+      "address,name,latitude,longitude,address," <>
+        "wheelchair_boarding,location_type," <>
+        "platform_name,platform_code,description"
   ]
 
   @accessible_facilities ~w(elevator escalator ramp portable_boarding_lift
@@ -104,17 +107,7 @@ defmodule Stops.Api do
   defp is_child?(_), do: false
 
   @spec v3_name(Item.t()) :: String.t()
-  defp v3_name(%Item{
-         relationships: %{
-           "parent_station" => [%Item{attributes: %{"name" => parent_name}}]
-         }
-       }) do
-    parent_name
-  end
-
-  defp v3_name(item) do
-    item.attributes["name"]
-  end
+  defp v3_name(%Item{attributes: %{"name" => name}}), do: name
 
   @spec extract_v3_response(JsonApi.t()) :: {:ok, Item.t()} | {:error, any}
   defp extract_v3_response(%JsonApi{data: [item | _]}) do
@@ -150,7 +143,11 @@ defmodule Stops.Api do
       has_fare_machine?: MapSet.member?(fare_facilities, :fare_vending_machine),
       has_charlie_card_vendor?: MapSet.member?(fare_facilities, :fare_media_assistant),
       latitude: item.attributes["latitude"],
-      longitude: item.attributes["longitude"]
+      longitude: item.attributes["longitude"],
+      type: type(item),
+      platform_name: platform_name(item),
+      platform_code: platform_code(item),
+      description: description(item)
     }
 
     {:ok, stop}
@@ -160,6 +157,27 @@ defmodule Stops.Api do
   defp is_station?(%Item{} = item) do
     item.attributes["location_type"] == 1 or item.relationships["facilities"] != []
   end
+
+  defp type(%Item{attributes: %{"location_type" => 0}}) do
+    # A location where passengers board or disembark from a transit vehicle
+    :stop
+  end
+
+  defp type(%Item{attributes: %{"location_type" => 1}}) do
+    # A physical structure or area that contains one or more stops.
+    :station
+  end
+
+  defp type(%Item{attributes: %{"location_type" => 2}}) do
+    # A location where passengers can enter or exit a station from the street.
+    :entrance
+  end
+
+  defp platform_name(%Item{attributes: %{"platform_name" => name}}), do: name
+
+  defp platform_code(%Item{attributes: %{"platform_code" => code}}), do: code
+
+  defp description(%Item{attributes: %{"description" => description}}), do: description
 
   @spec v3_accessibility(Item.t()) :: [String.t()]
   defp v3_accessibility(item) do
