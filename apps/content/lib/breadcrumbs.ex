@@ -3,14 +3,19 @@ defmodule Content.Breadcrumbs do
   Maps CMS breadcrumbs to a breadcrumb struct.
   """
 
-  @spec build(map) :: [Util.Breadcrumb.t()]
+  alias Util.Breadcrumb
+
+  @spec build(map) :: [Breadcrumb.t()]
   def build(%{"breadcrumbs" => breadcrumbs}) do
     Enum.map(breadcrumbs, fn crumb ->
-      Util.Breadcrumb.build(crumb["text"], crumb["uri"])
+      Breadcrumb.build(crumb["text"], crumb["uri"])
     end)
   end
 
-  def build(_missing_breadcrumbs) do
-    []
+  def build(%{"title" => [%{"value" => title}]}) do
+    [
+      Breadcrumb.build("Home", "/"),
+      Breadcrumb.build(title)
+    ]
   end
 end

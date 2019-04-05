@@ -4,7 +4,7 @@ defmodule Content.Repo do
   @moduledoc """
 
   Interface for the content CMS. Returns a variety of content
-  related structs, like %Event{} or %BasicPage{}
+  related structs, like %Event{} or %GenericPage{}
 
   """
 

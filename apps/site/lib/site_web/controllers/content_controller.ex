@@ -1,9 +1,22 @@
 defmodule SiteWeb.ContentController do
+  @moduledoc """
+  Handles rendering of CMS content based on content type.
+  """
+
   use SiteWeb, :controller
   require Logger
 
+  alias Content.Repo
+  alias Plug.Conn
+
+  alias SiteWeb.{
+    EventController,
+    NewsEntryController,
+    ProjectController
+  }
+
   @generic_page_types [
-    Content.BasicPage,
+    Content.GenericPage,
     Content.Person,
     Content.LandingPage,
     Content.Redirect
@@ -16,26 +29,26 @@ defmodule SiteWeb.ContentController do
     Content.ProjectUpdate
   ]
 
-  @spec page(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def page(%Plug.Conn{request_path: path, query_params: query_params} = conn, _params) do
-    conn = Plug.Conn.assign(conn, :try_encoded_on_404?, Map.has_key?(query_params, "id"))
+  @spec page(Conn.t(), map) :: Conn.t()
+  def page(%Conn{request_path: path, query_params: query_params} = conn, _params) do
+    conn = Conn.assign(conn, :try_encoded_on_404?, Map.has_key?(query_params, "id"))
 
     path
-    |> Content.Repo.get_page(query_params)
+    |> Repo.get_page(query_params)
     |> handle_page_response(conn)
   end
 
-  @spec handle_page_response(Content.Page.t() | {:error, Content.CMS.error()}, Plug.Conn.t()) ::
+  @spec handle_page_response(Content.Page.t() | {:error, Content.CMS.error()}, Conn.t()) ::
           Plug.Conn.t()
   defp handle_page_response(%{__struct__: struct} = page, conn)
        when struct in @routed_page_types do
     # If these content types reach this point with a 200, something is wrong with their path alias
     # (the type-specific route controller is not being invoked due to the path not matching).
     case struct do
-      Content.NewsEntry -> SiteWeb.NewsEntryController.show_news_entry(conn, page)
-      Content.Event -> SiteWeb.EventController.show_event(conn, page)
-      Content.Project -> SiteWeb.ProjectController.show_project(conn, page)
-      Content.ProjectUpdate -> SiteWeb.ProjectController.show_project_update(conn, page)
+      Content.NewsEntry -> NewsEntryController.show_news_entry(conn, page)
+      Content.Event -> EventController.show_event(conn, page)
+      Content.Project -> ProjectController.show_project(conn, page)
+      Content.ProjectUpdate -> ProjectController.show_project_update(conn, page)
     end
   end
 
@@ -54,16 +67,16 @@ defmodule SiteWeb.ContentController do
 
   defp handle_page_response(
          {:error, :not_found},
-         %Plug.Conn{assigns: %{try_encoded_on_404?: true}} = conn
+         %Conn{assigns: %{try_encoded_on_404?: true}} = conn
        ) do
-    conn = Plug.Conn.assign(conn, :try_encoded_on_404?, false)
+    conn = Conn.assign(conn, :try_encoded_on_404?, false)
 
     conn.request_path
-    |> Content.Repo.get_page_with_encoded_id(conn.query_params)
+    |> Repo.get_page_with_encoded_id(conn.query_params)
     |> handle_page_response(conn)
   end
 
-  defp handle_page_response({:error, :not_found}, %Plug.Conn{} = conn) do
+  defp handle_page_response({:error, :not_found}, %Conn{} = conn) do
     render_404(conn)
   end
 
@@ -74,8 +87,8 @@ defmodule SiteWeb.ContentController do
     |> render("crash.html", [])
   end
 
-  @spec render_page(Plug.Conn.t(), Content.Page.t()) :: Plug.Conn.t()
-  defp render_page(conn, %Content.BasicPage{} = page) do
+  @spec render_page(Conn.t(), Content.Page.t()) :: Conn.t()
+  defp render_page(conn, %Content.GenericPage{} = page) do
     conn
     |> assign(:breadcrumbs, page.breadcrumbs)
     |> assign(:page, page)

@@ -4,7 +4,7 @@ defmodule SiteWeb.ContentViewTest do
   import Content.Factory, only: [event_factory: 1, person_factory: 0]
   import SiteWeb.ContentView
 
-  alias Content.BasicPage
+  alias Content.GenericPage
   alias Content.CMS.Static
   alias Content.Field.{File, Image, Link}
 
@@ -33,7 +33,7 @@ defmodule SiteWeb.ContentViewTest do
 
   describe "Basic Page" do
     setup do
-      basic_page = BasicPage.from_api(Static.basic_page_with_sidebar_response())
+      basic_page = GenericPage.from_api(Static.basic_page_with_sidebar_response())
       %{basic_page: basic_page}
     end
 
@@ -72,7 +72,7 @@ defmodule SiteWeb.ContentViewTest do
     end
 
     test "renders a page with a right rail" do
-      page_with_right_rail = %BasicPage{
+      page_with_right_rail = %GenericPage{
         paragraphs: [
           %CustomHTML{body: HTML.raw("<p>Hello</p>"), right_rail: false},
           %CustomHTML{body: HTML.raw("<p>world</p>"), right_rail: true}

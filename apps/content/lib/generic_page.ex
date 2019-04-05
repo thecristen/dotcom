@@ -1,6 +1,7 @@
-defmodule Content.BasicPage do
+defmodule Content.GenericPage do
   @moduledoc """
-  Represents a basic "page" type in the Drupal CMS.
+  Represents a basic "page" type in the Drupal CMS. Multiple
+  content types can use this struct, as defined in Content.Page.generic
   """
 
   alias Content.{Breadcrumbs, MenuLinks, Paragraph}

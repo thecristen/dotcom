@@ -8,8 +8,8 @@ defmodule Content.RepoTest do
   # Content Types
   alias Content.{
     Banner,
-    BasicPage,
     Event,
+    GenericPage,
     LandingPage,
     NewsEntry,
     Project,
@@ -61,13 +61,13 @@ defmodule Content.RepoTest do
       params = %{"preview" => "", "vid" => "112", "nid" => "6"}
       cache_key = {:view_or_preview, path: path, params: params}
       assert ConCache.get(Repo, cache_key) == nil
-      assert %BasicPage{} = Repo.get_page(path, params)
+      assert %GenericPage{} = Repo.get_page(path, params)
       assert ConCache.get(Repo, cache_key) == nil
     end
 
     test "given the path for a Basic page" do
       result = Repo.get_page("/basic_page_with_sidebar")
-      assert %BasicPage{} = result
+      assert %GenericPage{} = result
     end
 
     test "returns a NewsEntry" do
@@ -88,7 +88,7 @@ defmodule Content.RepoTest do
 
     test "given the path for a Basic page with tracking params" do
       result = Repo.get_page("/basic_page_with_sidebar", %{"from" => "search"})
-      assert %BasicPage{} = result
+      assert %GenericPage{} = result
     end
 
     test "given the path for a Landing page" do
@@ -117,7 +117,7 @@ defmodule Content.RepoTest do
       result =
         Repo.get_page("/basic_page_no_sidebar", %{"preview" => "", "vid" => "112", "nid" => "6"})
 
-      assert %BasicPage{} = result
+      assert %GenericPage{} = result
       assert result.title == "Arts on the T 112"
     end
 
@@ -129,7 +129,7 @@ defmodule Content.RepoTest do
           "nid" => "6"
         })
 
-      assert %BasicPage{} = result
+      assert %GenericPage{} = result
       assert result.title == "Arts on the T 113"
     end
   end

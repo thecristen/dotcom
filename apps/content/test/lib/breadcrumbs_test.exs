@@ -24,7 +24,12 @@ defmodule Content.BreadcrumbsTest do
     end
 
     test "when breadcrumbs are missing" do
-      assert [] = build(%{})
+      data = %{"title" => [%{"value" => "Page without breadcrumb array"}]}
+
+      assert [
+               %Util.Breadcrumb{text: "Home", url: "/"},
+               %Util.Breadcrumb{text: "Page without breadcrumb array", url: ""}
+             ] = build(data)
     end
   end
 end

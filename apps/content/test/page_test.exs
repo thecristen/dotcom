@@ -10,7 +10,7 @@ defmodule Content.PageTest do
 
   describe "from_api/1" do
     test "switches on the node type in the json response and returns the proper page struct" do
-      assert %Content.BasicPage{} = Page.from_api(Static.basic_page_response())
+      assert %Content.GenericPage{} = Page.from_api(Static.basic_page_response())
       assert %Content.Event{} = Page.from_api(List.first(Static.events_response()))
       assert %Content.LandingPage{} = Page.from_api(Static.landing_page_response())
       assert %Content.NewsEntry{} = Page.from_api(List.first(Static.news_repo()))
