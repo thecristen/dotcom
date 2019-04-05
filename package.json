@@ -13,7 +13,6 @@
     "test:jest": "cd apps/site/assets && npm run test:jest",
     "test:jest:update": "cd apps/site/assets && npm run test:jest:update",
     "test:jest:cov": "open apps/site/assets/ts/coverage/index.html",
-    "backstop:ci": "docker run --net=host --rm -it --mount type=bind,source=\"/home/runner/dotcom/apps/site/test\",target=/src backstopjs/backstopjs:3.9.4 test \"--moby/\"",
     "backstop": "./semaphore/backstop.sh",
     "backstop:test": "cd apps/site/test && ../assets/node_modules/.bin/backstop test --docker",
     "backstop:reference": "cd apps/site/test && ../assets/node_modules/.bin/backstop reference --docker",

@@ -2,19 +2,23 @@
 
 exports[`it renders 1`] = `
 <div
-  className="m-tnm-sidebar__header-title"
+  className="m-tnm-sidebar__header"
 >
-  <h2>
-    Nearby Routes
-  </h2>
   <div
-    className="m-tnm-sidebar__view-change"
-    onClick={[Function]}
-    onKeyPress={[Function]}
-    role="button"
-    tabIndex={0}
+    className="m-tnm-sidebar__header-title"
   >
-    Change view
+    <h2>
+      Nearby Routes
+    </h2>
+    <div
+      className="m-tnm-sidebar__view-change"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      Change view
+    </div>
   </div>
 </div>
 `;

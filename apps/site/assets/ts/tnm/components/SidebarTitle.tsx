@@ -16,16 +16,18 @@ const SidebarTitle = ({
 }: Props): ReactElement<HTMLElement> => {
   const onClick = (): void => onClickViewChange(dispatch);
   return (
-    <div className="m-tnm-sidebar__header-title">
-      <h2>{`Nearby ${viewType}`}</h2>
-      <div
-        className="m-tnm-sidebar__view-change"
-        role="button"
-        tabIndex={0}
-        onClick={onClick}
-        onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
-      >
-        Change view
+    <div className="m-tnm-sidebar__header">
+      <div className="m-tnm-sidebar__header-title">
+        <h2>{`Nearby ${viewType}`}</h2>
+        <div
+          className="m-tnm-sidebar__view-change"
+          role="button"
+          tabIndex={0}
+          onClick={onClick}
+          onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
+        >
+          Change view
+        </div>
       </div>
     </div>
   );

@@ -67,25 +67,32 @@ const StopsSidebar = ({
 }: Props): ReactElement<HTMLElement> | null =>
   data.length ? (
     <div className="m-tnm-sidebar" id="tnm-sidebar-by-stops">
-      <ModeFilterContainer selectedModes={selectedModes} dispatch={dispatch} />
-      <div className="m-tnm-sidebar__header">
-        <SidebarTitle dispatch={dispatch} viewType="Stops" />
-      </div>
-      <>
-        {filterData(
-          data,
-          selectedStopId,
-          selectedModes,
-          shouldFilterStopCards
-        ).map(({ stop, routes }) => (
-          <StopWithRoutesCard
-            key={stop.stop.id}
-            stop={stop.stop}
-            routes={routes}
+      <div className="m-tnm-sidebar__fixed-header">
+        <div className="m-tnm-sidebar__fixed-header-inner">
+          <ModeFilterContainer
+            selectedModes={selectedModes}
             dispatch={dispatch}
           />
-        ))}
-      </>
+        </div>
+      </div>
+      <div className="m-tnm-sidebar__inner">
+        <SidebarTitle dispatch={dispatch} viewType="Stops" />
+        <div className="m-tnm-sidebar__cards">
+          {filterData(
+            data,
+            selectedStopId,
+            selectedModes,
+            shouldFilterStopCards
+          ).map(({ stop, routes }) => (
+            <StopWithRoutesCard
+              key={stop.stop.id}
+              stop={stop.stop}
+              routes={routes}
+              dispatch={dispatch}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   ) : null;
 

@@ -1,10 +1,11 @@
 import React, { ReactElement } from "react";
-import RouteCard from "./RouteCard";
-import RouteSidebarHeader from "./RouteSidebarHeader";
 import { modeByV3ModeType } from "../../components/ModeFilter";
 import { Dispatch } from "../state";
 import { Mode, RouteWithStopsWithDirections, Stop } from "../../__v3api";
+import RouteCard from "./RouteCard";
+import RouteSidebarPills from "./RouteSidebarPills";
 import ModeFilterContainer from "./ModeFilterContainer";
+import SidebarTitle from "./SidebarTitle";
 
 interface Props {
   data: RouteWithStopsWithDirections[];
@@ -95,20 +96,32 @@ const RoutesSidebar = ({
 }: Props): ReactElement<HTMLElement> | null =>
   data.length ? (
     <div className="m-tnm-sidebar">
-      <ModeFilterContainer selectedModes={selectedModes} dispatch={dispatch} />
-      <RouteSidebarHeader
-        selectedStop={selectedStop}
-        showPill={shouldFilterStopCards}
-        dispatch={dispatch}
-      />
-      {filterData(
-        data,
-        selectedStopId,
-        selectedModes,
-        shouldFilterStopCards
-      ).map(route => (
-        <RouteCard key={route.route.id} route={route} dispatch={dispatch} />
-      ))}
+      <div className="m-tnm-sidebar__fixed-header">
+        <div className="m-tnm-sidebar__fixed-header-inner">
+          <ModeFilterContainer
+            selectedModes={selectedModes}
+            dispatch={dispatch}
+          />
+          <RouteSidebarPills
+            selectedStop={selectedStop}
+            showPill={shouldFilterStopCards}
+            dispatch={dispatch}
+          />
+        </div>
+      </div>
+      <div className="m-tnm-sidebar__inner">
+        <SidebarTitle dispatch={dispatch} viewType="Routes" />
+        <div className="m-tnm-sidebar__cards">
+          {filterData(
+            data,
+            selectedStopId,
+            selectedModes,
+            shouldFilterStopCards
+          ).map(route => (
+            <RouteCard key={route.route.id} route={route} dispatch={dispatch} />
+          ))}
+        </div>
+      </div>
     </div>
   ) : null;
 

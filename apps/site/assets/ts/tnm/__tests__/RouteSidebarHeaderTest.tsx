@@ -2,7 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { shallow } from "enzyme";
 import { Stop } from "../../__v3api";
-import RouteSidebarHeader from "../components/RouteSidebarHeader";
+import RouteSidebarPills from "../components/RouteSidebarPills";
 import { createReactRoot } from "../../app/helpers/testUtils";
 
 /* eslint-disable typescript/camelcase */
@@ -28,12 +28,12 @@ const stop: Stop = {
   type: "station"
 };
 
-it("it renders with no stop selected", () => {
+it("it doesn't render with no stop selected", () => {
   createReactRoot();
 
   const tree = renderer
     .create(
-      <RouteSidebarHeader
+      <RouteSidebarPills
         showPill={false}
         selectedStop={undefined}
         dispatch={() => {}}
@@ -48,18 +48,18 @@ it("it renders with a stop selected", () => {
 
   const tree = renderer
     .create(
-      <RouteSidebarHeader showPill selectedStop={stop} dispatch={() => {}} />
+      <RouteSidebarPills showPill selectedStop={stop} dispatch={() => {}} />
     )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
-it("it does not show a pill when showPill is false", () => {
+it("it does not render a pill when showPill is false", () => {
   createReactRoot();
 
   const tree = renderer
     .create(
-      <RouteSidebarHeader
+      <RouteSidebarPills
         showPill={false}
         selectedStop={stop}
         dispatch={() => {}}
@@ -75,7 +75,7 @@ it("it deselects a stop when the pill is clicked", () => {
   const mockDispatch = jest.fn();
 
   const wrapper = shallow(
-    <RouteSidebarHeader showPill selectedStop={stop} dispatch={mockDispatch} />
+    <RouteSidebarPills showPill selectedStop={stop} dispatch={mockDispatch} />
   );
 
   wrapper.find(".m-tnm-sidebar__pill").simulate("click");
@@ -91,7 +91,7 @@ it("it deselects a stop when the pill is selected via keyboard ENTER", () => {
   const mockDispatch = jest.fn();
 
   const wrapper = shallow(
-    <RouteSidebarHeader showPill selectedStop={stop} dispatch={mockDispatch} />
+    <RouteSidebarPills showPill selectedStop={stop} dispatch={mockDispatch} />
   );
 
   wrapper.find(".m-tnm-sidebar__pill").simulate("keyPress", { key: "Enter" });
@@ -107,7 +107,7 @@ it("it deselects a stop when the pill is selected via a different keyboard event
   const mockDispatch = jest.fn();
 
   const wrapper = shallow(
-    <RouteSidebarHeader showPill selectedStop={stop} dispatch={mockDispatch} />
+    <RouteSidebarPills showPill selectedStop={stop} dispatch={mockDispatch} />
   );
 
   wrapper.find(".m-tnm-sidebar__pill").simulate("keyPress", { key: "Tab" });
