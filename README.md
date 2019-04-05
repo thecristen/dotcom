@@ -122,7 +122,7 @@ the following scripts in succession:
 
 * `mix test` — Phoenix tests
 * `npm run test:js` — JS tests
-* `mix backstop.tests` — Backstop tests (see section below for details)
+* `npm run backstop` — Backstop tests (see section below for details)
 
 Note that all tests will run even if one of them fails, and there is no final
 summary at the end, so pay attention to the output while they're running to
@@ -182,12 +182,7 @@ work consistently and do not depend on a specific schedule or realtime vehicle l
 To run the tests, do the following:
 
 * Make sure docker is [installed](https://docs.docker.com/docker-for-mac/install/) and running: we run the tests in docker to ensure we get consistent images across platforms.
-* Start wiremock
-`npm run wiremock`
-* Start a mocked server ready for docker:
-`npm run server:mocked`
-* Run backstop tests in docker:
-`npm run backstop:test`
+* Run `npm run backstop` which starts up wiremock, a mocked phoenix server, and when those are up, kicks off backstop testing in docker
 
 Note: If you are not running on OSX or Windows, you'll need to modify the `STATIC_HOST=host.docker.internal` in the commands.
 
@@ -197,6 +192,7 @@ For more information about the initial setup, running the tests, and adding new 
 
 All run from the main folder:
 
+* `mix backstop.update` - takes any failed backstop diffs and marks them as new reference images
 * `npm run backstop:reference` — create new backstop reference images
 * `npm run webpack:watch` — run webpack-dev-server for local development
 * `npm run webpack:build` — builds the static files for production

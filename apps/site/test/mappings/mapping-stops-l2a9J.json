@@ -1,7 +1,7 @@
 {
   "id" : "0cee578c-0bc3-3d7e-9baf-b80b19bf6a55",
   "request" : {
-    "url" : "/stops/?direction_id=0&route=Green-C&include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type&date=2019-03-26",
+    "url" : "/stops/?direction_id=0&route=Green-C&include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type&date=2019-03-30",
     "method" : "GET"
   },
   "response" : {

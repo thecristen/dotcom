@@ -358,7 +358,7 @@
       "selectors": [
         ".scheduleview > main > .container"
       ],
-      "delay": 1000,
+      "delay": 3000,
       "misMatchThreshold": 0.03
     },
     {
@@ -500,6 +500,7 @@
   "id": "MBTA_Backstop",
   "fileNameTemplate": "{scenarioLabel}_{selectorLabel}_{viewportIndex}_{viewportLabel}",
   "engine": "puppet",
+  "dockerCommandTemplate": "docker run --net=host --rm -it --mount type=bind,source=\"{cwd}\",target=/src backstopjs/backstopjs:{version} {backstopCommand} {args}",
   "report": [
     "browser"
   ],

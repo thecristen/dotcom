@@ -31,7 +31,11 @@ defmodule Site.GreenLine.Cache do
 
   @impl true
   def init({start_date_fn, end_date_fn, reset_fn}) do
-    send(self(), :populate_caches)
+    case System.get_env("WARM_CACHES") do
+      "false" -> :ok
+      _ -> send(self(), :populate_caches)
+    end
+
     {:ok, {start_date_fn, end_date_fn, reset_fn}}
   end
 
