@@ -12,7 +12,12 @@
     <% end %>
     <%= for fare <- @fares do %>
       <div class="fare-mode-row">
-        <strong><%= Fares.Format.media(fare) %></strong>
+        <%= if !Enum.empty?(fare.media) do %>
+          <strong><%= Fares.Format.media(fare) %></strong>
+        <% end %>
+        <%= if fare.price_label != nil do %>
+          <strong><%= fare.price_label %></strong>
+        <% end %>
         <span class="fare-price"><%= Fares.Format.price(fare) %></span>
       </div>
       <p><%= description(fare, @conn.assigns) %></p>

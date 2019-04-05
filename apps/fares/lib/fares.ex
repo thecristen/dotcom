@@ -12,7 +12,11 @@ defmodule Fares do
   @outer_express_route_set MapSet.new(@outer_express_routes)
 
   @type ferry_name ::
-          :ferry_cross_harbor | :ferry_inner_harbor | :commuter_ferry_logan | :commuter_ferry
+          :ferry_cross_harbor
+          | :ferry_inner_harbor
+          | :commuter_ferry_logan
+          | :commuter_ferry
+          | :ferry_george
 
   @spec fare_for_stops(:commuter_rail | :ferry, Stops.Stop.id_t(), Stops.Stop.id_t()) ::
           {:ok, Fares.Fare.fare_name()}
@@ -53,6 +57,11 @@ defmodule Fares do
   end
 
   @spec calculate_ferry(String.t(), String.t()) :: ferry_name
+  defp calculate_ferry(origin, destination)
+       when "Boat-George" in [origin, destination] do
+    :ferry_george
+  end
+
   defp calculate_ferry(origin, destination)
        when "Boat-Charlestown" in [origin, destination] and "Boat-Logan" in [origin, destination] do
     :ferry_cross_harbor

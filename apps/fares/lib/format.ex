@@ -6,6 +6,7 @@ defmodule Fares.Format do
   @doc "Formats the price of a fare as a traditional $dollar.cents value"
   @spec price(Fare.t() | non_neg_integer | nil) :: String.t()
   def price(nil), do: ""
+  def price(%Fare{cents: 0.0}), do: "FREE"
   def price(%Fare{cents: cents}), do: price(cents)
   def price(cents), do: "$#{:erlang.float_to_binary(cents / 100, decimals: 2)}"
 
@@ -78,6 +79,7 @@ defmodule Fares.Format do
   def name(:outer_express_bus), do: "Outer Express Bus"
   def name(:ferry_inner_harbor), do: "Inner Harbor Ferry"
   def name(:ferry_cross_harbor), do: "Cross Harbor Ferry"
+  def name(:ferry_george), do: "Georges Island"
   def name(:commuter_ferry), do: "Commuter Ferry"
   def name(:commuter_ferry_logan), do: "Commuter Ferry to Logan Airport"
   def name({:zone, zone}), do: "Zone #{zone}"

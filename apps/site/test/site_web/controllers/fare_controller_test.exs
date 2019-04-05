@@ -26,6 +26,20 @@ defmodule SiteWeb.FareControllerTest do
       assert response =~ "Logan"
     end
 
+    test "renders georges island ferry", %{conn: conn} do
+      conn =
+        get(
+          conn,
+          fare_path(conn, :show, :ferry, origin: "Boat-George", destination: "Boat-Logan")
+        )
+
+      response = html_response(conn, 200)
+
+      assert response =~ "Georges Island Fare"
+      assert response =~ "Child under 3"
+      assert response =~ "Family 4-pack"
+    end
+
     test "renders ferry when no destinations", %{conn: conn} do
       conn = get(conn, fare_path(conn, :show, :ferry))
       response = html_response(conn, 200)

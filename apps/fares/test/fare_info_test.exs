@@ -81,7 +81,7 @@ defmodule Fares.FareInfoTest do
 
     test "does not include subway or ferry modes for interzone fares" do
       assert mapper(["commuter", "interzone_5", "4.50", "2.25", "148.00"]) == [
-               %Fares.Fare{
+               %Fare{
                  additional_valid_modes: [],
                  cents: 450,
                  duration: :single_trip,
@@ -90,7 +90,7 @@ defmodule Fares.FareInfoTest do
                  name: {:interzone, "5"},
                  reduced: nil
                },
-               %Fares.Fare{
+               %Fare{
                  additional_valid_modes: [],
                  cents: 225,
                  duration: :single_trip,
@@ -99,7 +99,7 @@ defmodule Fares.FareInfoTest do
                  name: {:interzone, "5"},
                  reduced: :any
                },
-               %Fares.Fare{
+               %Fare{
                  additional_valid_modes: [],
                  cents: 900,
                  duration: :round_trip,
@@ -108,7 +108,7 @@ defmodule Fares.FareInfoTest do
                  name: {:interzone, "5"},
                  reduced: nil
                },
-               %Fares.Fare{
+               %Fare{
                  additional_valid_modes: [],
                  cents: 450,
                  duration: :round_trip,
@@ -117,7 +117,7 @@ defmodule Fares.FareInfoTest do
                  name: {:interzone, "5"},
                  reduced: :any
                },
-               %Fares.Fare{
+               %Fare{
                  additional_valid_modes: [:bus],
                  cents: 14_800,
                  duration: :month,
@@ -126,7 +126,7 @@ defmodule Fares.FareInfoTest do
                  name: {:interzone, "5"},
                  reduced: nil
                },
-               %Fares.Fare{
+               %Fare{
                  additional_valid_modes: [],
                  cents: 13_800,
                  duration: :month,
@@ -142,6 +142,14 @@ defmodule Fares.FareInfoTest do
   describe "mticket_price/1" do
     test "subtracts 10 dollars from the monthly price" do
       assert mticket_price(2000) == 1000
+    end
+  end
+
+  describe "georges_island_ferry_fares/0" do
+    test "returns 7 Fare structs with name :ferry_george" do
+      fares = georges_island_ferry_fares()
+      assert length(fares) == 7
+      assert Enum.all?(fares, fn %Fare{name: :ferry_george} -> true end)
     end
   end
 end

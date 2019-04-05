@@ -22,7 +22,8 @@ defmodule Fares.Fare do
           reduced: reduced,
           duration: duration,
           cents: non_neg_integer,
-          additional_valid_modes: [Routes.Route.route_type()]
+          additional_valid_modes: [Routes.Route.route_type()],
+          price_label: String.t() | nil
         }
 
   defstruct mode: nil,
@@ -31,5 +32,6 @@ defmodule Fares.Fare do
             reduced: nil,
             duration: nil,
             cents: 0,
-            additional_valid_modes: []
+            additional_valid_modes: [],
+            price_label: nil
 end
