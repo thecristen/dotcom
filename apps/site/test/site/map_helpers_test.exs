@@ -8,7 +8,7 @@ defmodule MapHelpersTest do
       assert map_pdf_url(:subway) ==
                static_url(
                  SiteWeb.Endpoint,
-                 "/sites/default/files/maps/2019-02-rapid-transit-key-bus-routes-map-v33.pdf"
+                 "/sites/default/files/maps/2019-04-08-rapid-transit-key-bus-routes-map-v33.pdf"
                )
     end
 
@@ -21,7 +21,7 @@ defmodule MapHelpersTest do
       assert map_pdf_url(:bus) ==
                static_url(
                  SiteWeb.Endpoint,
-                 "/sites/default/files/maps/2019-02-mbta-system-map-full.pdf"
+                 "/sites/default/files/maps/2019-04-08-mbta-system-map-full.pdf"
                )
     end
 
@@ -29,7 +29,7 @@ defmodule MapHelpersTest do
       assert map_pdf_url(:commuter_rail) ==
                static_url(
                  SiteWeb.Endpoint,
-                 "/sites/default/files/maps/2019-02-commuter-rail-map-v33.pdf"
+                 "/sites/default/files/maps/2019-04-08-commuter-rail-map-v33.pdf"
                )
     end
   end
