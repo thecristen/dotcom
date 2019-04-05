@@ -291,3 +291,8 @@
     max-width: map-get($container-max-widths, xxl);
   }
 }
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}

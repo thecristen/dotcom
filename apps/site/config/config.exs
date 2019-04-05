@@ -26,7 +26,8 @@ config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE
 
 config :laboratory,
   features: [
-    {:stop_page_redesign, "Stop Page Redesign", ""}
+    {:stop_page_redesign, "Stop Page Redesign", ""},
+    {:open_street_maps, "Use OpenStreetMaps for map data", ""}
   ],
   cookie: [
     # one month,
@@ -50,6 +51,7 @@ config :sentry,
   json_library: Poison
 
 config :site, :former_mbta_site, host: "http://old.mbta.com"
+config :site, tile_server_url: "http://dev.tile-server.mbtace.com"
 
 config :site, OldSiteFileController,
   response_fn: {SiteWeb.OldSiteFileController, :send_file},

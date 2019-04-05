@@ -11,7 +11,8 @@ module.exports = {
     app: ["./js/app.js"],
     core: ["./js/core.js"], // For core.css only, not js
     tnm: ["./ts/transit-near-me-entry.ts"],
-    stop: ["./ts/stop-entry.ts"]
+    stop: ["./ts/stop-entry.ts"],
+    leaflet: ["./ts/leaflet-entry.ts"]
   },
 
   node: {

@@ -7,7 +7,13 @@
       <% end %>
     <% end %>
   </div>
-  <%= render "_map.html", forward_assigns(@conn) %>
+  <%=
+    if Laboratory.enabled?(@conn, :open_street_maps) do
+      render("_leaflet_map.html", forward_assigns(@conn))
+    else
+      render "_map.html", forward_assigns(@conn)
+    end
+  %>
 </div>
 <div id="station-info" class="page-section">
   <h2 id="parking">Parking</h2>

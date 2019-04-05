@@ -122,6 +122,8 @@ config :site, OldSiteFileController,
 config :site, StaticFileController,
   response_fn: {SiteWeb.StaticFileController, :redirect_through_cdn}
 
+config :site, tile_server_url: "http://tile-server.mbtace.com"
+
 config :site, :react,
   source_path: nil,
   build_path: System.get_env("REACT_BUILD_PATH") || "/root/rel/site/app.js"
