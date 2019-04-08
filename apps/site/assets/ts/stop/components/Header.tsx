@@ -71,7 +71,7 @@ const iconableRoutesForType = ({
   // eslint-disable-next-line typescript/camelcase
   if (group_name === "subway") return routes;
 
-  return [routes[0]];
+  return routes.length ? [routes[0]] : [];
 };
 
 const iconableRoutes = (typedRoutes: TypedRoutes[]): RouteWithDirections[] =>

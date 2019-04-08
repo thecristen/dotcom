@@ -145,11 +145,20 @@
 .m-stop-page__departures {
   background-color: $gray-lightest;
   padding: .75 * $base-spacing;
+  position: relative;
+
+  .m-tnm-sidebar__filter-header {
+    display: inline;
+  }
 }
 
 .m-stop-page__departures-route {
   background: $white;
   box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
+
+  .m-tnm-sidebar__filter-bar + & {
+    margin-top: 4rem;
+  }
 
   & + & {
     margin-top: $base-spacing / 2;

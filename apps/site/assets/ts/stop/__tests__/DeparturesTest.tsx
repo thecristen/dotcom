@@ -10,7 +10,31 @@ it("it renders", () => {
 
   createReactRoot();
   const tree = renderer
-    .create(<Departures routes={data.routes} stop={data.stop} />)
+    .create(
+      <Departures
+        routes={data.routes}
+        stop={data.stop}
+        selectedModes={[]}
+        dispatch={() => {}}
+      />
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it("it renders filtered data", () => {
+  const data = JSON.parse(JSON.stringify(stopData)) as StopPageData;
+
+  createReactRoot();
+  const tree = renderer
+    .create(
+      <Departures
+        routes={data.routes}
+        stop={data.stop}
+        selectedModes={["subway"]}
+        dispatch={() => {}}
+      />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });

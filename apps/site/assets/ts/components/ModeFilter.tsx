@@ -7,6 +7,7 @@ type IsModeSelectedFunction = (mode: Mode) => boolean;
 interface Props {
   isModeSelected: IsModeSelectedFunction;
   onModeClickAction: (mode: Mode) => void;
+  modeButtonsToShow?: string[];
 }
 
 interface ModeButtonProps {
@@ -52,32 +53,46 @@ const ModeButton = ({
   </button>
 );
 
+const shouldShowModeButton = (
+  mode: string,
+  modeButtonsToShow?: string[]
+): boolean =>
+  modeButtonsToShow === undefined || modeButtonsToShow.includes(mode);
+
 export const ModeFilter = ({
   isModeSelected,
-  onModeClickAction
+  onModeClickAction,
+  modeButtonsToShow
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-tnm-sidebar__filter-bar">
     <span className="m-tnm-sidebar__filter-header u-small-caps">Filter</span>
-    <ModeButton
-      mode="subway"
-      icon="subway"
-      name="Subway"
-      isModeSelected={isModeSelected}
-      onClick={mode => () => onModeClickAction(mode)}
-    />
-    <ModeButton
-      mode="bus"
-      icon="bus"
-      name="Bus"
-      isModeSelected={isModeSelected}
-      onClick={mode => () => onModeClickAction(mode)}
-    />
-    <ModeButton
-      mode="commuter_rail"
-      icon="commuter_rail"
-      name="Rail"
-      isModeSelected={isModeSelected}
-      onClick={mode => () => onModeClickAction(mode)}
-    />
+
+    {shouldShowModeButton("subway", modeButtonsToShow) && (
+      <ModeButton
+        mode="subway"
+        icon="subway"
+        name="Subway"
+        isModeSelected={isModeSelected}
+        onClick={mode => () => onModeClickAction(mode)}
+      />
+    )}
+    {shouldShowModeButton("bus", modeButtonsToShow) && (
+      <ModeButton
+        mode="bus"
+        icon="bus"
+        name="Bus"
+        isModeSelected={isModeSelected}
+        onClick={mode => () => onModeClickAction(mode)}
+      />
+    )}
+    {shouldShowModeButton("commuter_rail", modeButtonsToShow) && (
+      <ModeButton
+        mode="commuter_rail"
+        icon="commuter_rail"
+        name="Rail"
+        isModeSelected={isModeSelected}
+        onClick={mode => () => onModeClickAction(mode)}
+      />
+    )}
   </div>
 );

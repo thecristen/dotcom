@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
 import { Stop } from "../../__v3api";
-import SidebarTitle from "./SidebarTitle";
 import { clickStopPillAction, Dispatch } from "../state";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 

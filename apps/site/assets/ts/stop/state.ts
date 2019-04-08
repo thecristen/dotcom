@@ -1,24 +1,44 @@
+import { Mode } from "../__v3api";
+
 export type SelectedStopType = string | null;
 export type Dispatch = (action: Action) => void;
 
-interface State {
+export interface State {
   selectedStopId: SelectedStopType;
+  selectedModes: Mode[];
+  shouldFilterStopCards: boolean;
 }
-type ActionType = "CLICK_MARKER";
 
-export interface Action {
-  type: ActionType;
+type StopActionType = "CLICK_MARKER";
+type ModeActionType = "CLICK_MODE_FILTER";
+
+export interface StopAction {
+  type: StopActionType;
   payload: {
     stopId: SelectedStopType;
   };
 }
 
-export const clickMarkerAction = (stopId: SelectedStopType): Action => ({
+export interface ModeAction {
+  type: ModeActionType;
+  payload: {
+    mode: Mode;
+  };
+}
+
+type Action = StopAction | ModeAction;
+
+export const clickMarkerAction = (stopId: SelectedStopType): StopAction => ({
   type: "CLICK_MARKER",
   payload: { stopId }
 });
 
-export const reducer = (state: State, action: Action): State => {
+export const clickModeAction = (mode: Mode): ModeAction => ({
+  type: "CLICK_MODE_FILTER",
+  payload: { mode }
+});
+
+const stopReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "CLICK_MARKER": {
       const target =
@@ -27,7 +47,9 @@ export const reducer = (state: State, action: Action): State => {
           : action.payload.stopId;
 
       return {
-        selectedStopId: target
+        ...state,
+        selectedStopId: target,
+        shouldFilterStopCards: !!target
       };
     }
     default:
@@ -35,6 +57,29 @@ export const reducer = (state: State, action: Action): State => {
   }
 };
 
+const updateModes = (selectedModes: Mode[], mode: Mode): Mode[] =>
+  selectedModes.includes(mode)
+    ? selectedModes.filter(existingMode => !(existingMode === mode))
+    : [...selectedModes, mode];
+
+const modeReducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "CLICK_MODE_FILTER":
+      return {
+        ...state,
+        selectedModes: updateModes(state.selectedModes, action.payload.mode),
+        shouldFilterStopCards: true
+      };
+    default:
+      return state;
+  }
+};
+
+export const reducer = (state: State, action: Action): State =>
+  [stopReducer, modeReducer].reduce((acc, fn) => fn(acc, action), state);
+
 export const initialState: State = {
-  selectedStopId: null
+  selectedStopId: null,
+  selectedModes: [],
+  shouldFilterStopCards: false
 };
