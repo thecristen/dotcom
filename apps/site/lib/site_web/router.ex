@@ -100,6 +100,8 @@ defmodule SiteWeb.Router do
     get("/projects/:project_id/update/:update_id", ProjectController, :project_update)
 
     get("/redirect/*path", RedirectController, :show)
+    # stop redirects
+    get("/stops/Lansdowne", Redirector, to: "/stops/Yawkey")
     get("/stops/Boat-George", Redirector, to: "/stops/ferry")
     resources("/stops", StopV1Controller, only: [:index, :show])
     get("/stops/*path", StopV1Controller, :stop_with_slash_redirect)

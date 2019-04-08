@@ -13,7 +13,10 @@ defmodule Site.MapHelpers do
   end
 
   def map_pdf_url(:bus) do
-    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2019-04-08-mbta-system-map-full.pdf")
+    static_url(
+      SiteWeb.Endpoint,
+      "/sites/default/files/maps/2019-04-08-mbta-system-map-full-revised.pdf"
+    )
   end
 
   def map_pdf_url(:commuter_rail) do

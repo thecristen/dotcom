@@ -21,7 +21,7 @@ defmodule MapHelpersTest do
       assert map_pdf_url(:bus) ==
                static_url(
                  SiteWeb.Endpoint,
-                 "/sites/default/files/maps/2019-04-08-mbta-system-map-full.pdf"
+                 "/sites/default/files/maps/2019-04-08-mbta-system-map-full-revised.pdf"
                )
     end
 
