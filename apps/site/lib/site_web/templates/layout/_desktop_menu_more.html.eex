@@ -108,7 +108,7 @@
           <% end %>
         </li>
         <li>
-          <%= link to: "http://greenlineextension.eot.state.ma.us/", target: "_blank" do %>
+          <%= link to: "https://www.mass.gov/green-line-extension-project-glx", target: "_blank" do %>
             Green Line Extension
           <% end %>
         </li>
