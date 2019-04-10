@@ -2,6 +2,8 @@ import React, { ReactElement } from "react";
 import { Stop, FareFacilityType } from "../../../__v3api";
 import ExpandableBlock from "../../../app/ExpandableBlock";
 import { RetailLocationWithDistance, RetailLocation } from "../__stop";
+// @ts-ignore
+import fareIconSvg from "../../../../static/images/icon-fares-default.svg";
 
 /* eslint-disable typescript/camelcase */
 interface Props {
@@ -91,18 +93,20 @@ const Fares = ({
   <ExpandableBlock
     id="fares"
     header={{
-      text: "Where to Buy Fares",
-      iconSvgText: null
+      text: "Fare Sales",
+      iconSvgText: fareIconSvg
     }}
     initiallyExpanded={false}
   >
     <>
       <h4 className="m-stop-page__sidebar-header">Fare Vending</h4>
       <p>{fareVendingDescription(stop)}</p>
-      {stop.fare_facilities.length && fareFacilityList(stop.fare_facilities)}
-      {retailLocations &&
-        retailLocations.length &&
-        nearbyLocations(retailLocations, stop)}
+      {stop.fare_facilities.length
+        ? fareFacilityList(stop.fare_facilities)
+        : null}
+      {retailLocations && retailLocations.length
+        ? nearbyLocations(retailLocations, stop)
+        : null}
     </>
   </ExpandableBlock>
 );

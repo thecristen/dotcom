@@ -3243,7 +3243,15 @@ Array [
             role="button"
             tabIndex={0}
           >
-            Where to Buy Fares
+            <span
+              className="c-expandable-block__header-icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
+              }
+            />
+            Fare Sales
             <span
               className="c-expandable-block__header-caret"
               dangerouslySetInnerHTML={
@@ -3260,7 +3268,15 @@ Array [
             <h3
               className="c-expandable-block__header"
             >
-              Where to Buy Fares
+              <span
+                className="c-expandable-block__header-icon"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+              Fare Sales
               <span
                 className="c-expandable-block__header-caret"
                 dangerouslySetInnerHTML={

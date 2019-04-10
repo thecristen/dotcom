@@ -358,7 +358,7 @@
       "selectors": [
         ".scheduleview > main > .container"
       ],
-      "delay": 3000,
+      "delay": 5000,
       "misMatchThreshold": 0.03
     },
     {
