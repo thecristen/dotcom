@@ -7,7 +7,8 @@ defmodule Content.CMS do
   @type response :: {:ok, map() | [map()]} | {:error, error}
 
   @type type ::
-          :event
+          :diversion
+          | :event
           | :news_entry
           | :page
           | :project

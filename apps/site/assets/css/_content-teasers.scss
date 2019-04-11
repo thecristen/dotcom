@@ -105,9 +105,13 @@
 
 .c-content-teaser__date,
 .c-content-teaser__topic {
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .c-content-teaser__title {
   margin-top: 0;
+
+  .c-content-teaser--diversion & {
+    margin-bottom: 0;
+  }
 }

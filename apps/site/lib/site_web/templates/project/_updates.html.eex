@@ -1,4 +1,4 @@
-<div class="c-project-updates-list c-paragraph c-paragraph--right-rail u-full-bleed">
+<div class="c-project-updates-list c-paragraph <%= @class %>">
   <h2>Project Updates</h2>
 
   <%= for update <- Enum.take(@updates, 2) do %>

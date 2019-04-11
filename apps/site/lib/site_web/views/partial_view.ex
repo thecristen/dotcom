@@ -147,7 +147,7 @@ defmodule SiteWeb.PartialView do
 
   defp teaser_text(teaser) do
     [
-      content_tag(:div, [teaser.topic], class: "u-small-caps"),
+      content_tag(:div, [teaser.topic], class: "c-content-teaser__topic u-small-caps"),
       content_tag(:h3, [teaser.title], class: "h3 c-content-teaser__title"),
       content_tag(:div, [teaser.text], class: "c-content-teaser__text")
     ]

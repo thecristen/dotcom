@@ -1,7 +1,7 @@
 <div class="container">
-  <% sidebar_class = case @updates do
-    [] -> "c-cms--no-sidebar"
-    [_ | _] -> "c-cms--with-sidebar c-cms--sidebar-right"
+  <% sidebar_class = case {@updates, @diversions} do
+    {[], []} -> "c-cms--no-sidebar"
+    {_, _} -> "c-cms--with-sidebar c-cms--sidebar-right"
     end
   %>
   <div class="c-cms <%= sidebar_class %>">
@@ -61,17 +61,16 @@
         <%= if Content.Project.contact?(@project), do: render "_contact.html", project: @project %>
 
           <%# Project Updates section placement for one-column width: %>
-          <%= unless Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates, project: @project %>
+          <%= unless Enum.empty?(@diversions), do: render("_diversions.html", conn: @conn, teasers: @diversions, class: "c-paragraph--right-rail u-full-bleed") %>
+          <%= unless Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates, project: @project, class: "c-paragraph--right-rail u-full-bleed" %>
       </div>
 
-      <%=
-        # Project Updates section placement for two-column width:
-        unless Enum.empty?(@updates) do
-          content_tag(:div, [
-            render("_updates.html", conn: @conn, updates: @updates, project: @project)
-          ], class: "c-cms__sidebar")
-        end
-      %>
+      <%= unless Enum.empty?(@updates) && Enum.empty?(@diversions) do %>
+        <div class="c-cms__sidebar">
+          <%= unless Enum.empty?(@diversions), do: render("_diversions.html", conn: @conn, teasers: @diversions, class: "") %>
+          <%= unless Enum.empty?(@updates), do: render("_updates.html", conn: @conn, updates: @updates, project: @project, class: "") %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

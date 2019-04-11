@@ -93,6 +93,25 @@ defmodule SiteWeb.ContentViewTest do
     end
   end
 
+  describe "Diversion" do
+    setup do
+      diversion = GenericPage.from_api(Static.diversion_response())
+      %{diversion: diversion}
+    end
+
+    test "renders a diversion as a generic page", %{diversion: diversion} do
+      fake_conn = %{request_path: "/"}
+
+      rendered =
+        "page.html"
+        |> render(page: diversion, conn: fake_conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ ~s(<h1 class=\"c-cms__title-text\">\nDiversion Test 2)
+      assert rendered =~ "<p><strong>Start date: January 1, 2020</strong></p>"
+    end
+  end
+
   describe "render_paragraph/2" do
     test "renders a Content.Paragraph.CustomHTML", %{conn: conn} do
       paragraph = %CustomHTML{body: HTML.raw("<p>Hello</p>")}

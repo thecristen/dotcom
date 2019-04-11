@@ -164,6 +164,7 @@ defmodule Content.Helpers do
 
   @spec content_type(String.t()) :: Content.CMS.type()
   for atom <- ~w(
+    diversion
     event
     news_entry
     page

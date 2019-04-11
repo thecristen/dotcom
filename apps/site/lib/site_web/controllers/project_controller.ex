@@ -57,9 +57,13 @@ defmodule SiteWeb.ProjectController do
 
   @spec show_project(Conn.t(), Project.t()) :: Conn.t()
   def show_project(conn, project) do
-    [updates, events] =
+    [events, updates, diversions] =
       Util.async_with_timeout(
-        [get_updates_async(project.id), get_events_async(project.id)],
+        [
+          get_events_async(project.id),
+          get_updates_async(project.id),
+          get_diversions_async(project.id)
+        ],
         [],
         __MODULE__
       )
@@ -70,7 +74,7 @@ defmodule SiteWeb.ProjectController do
     ]
 
     {past_events, upcoming_events} =
-      Enum.split_with(events, &Content.Event.past?(&1, conn.assigns.date_time))
+      Enum.split_with(events, &Event.past?(&1, conn.assigns.date_time))
 
     conn
     |> put_view(ProjectView)
@@ -79,7 +83,8 @@ defmodule SiteWeb.ProjectController do
       project: project,
       updates: updates,
       past_events: past_events,
-      upcoming_events: upcoming_events
+      upcoming_events: upcoming_events,
+      diversions: diversions
     })
   end
 
@@ -183,5 +188,10 @@ defmodule SiteWeb.ProjectController do
   @spec get_updates_async(integer) :: (() -> [Teaser.t()])
   def get_updates_async(id) do
     fn -> Repo.teasers(related_to: id, type: :project_update) end
+  end
+
+  @spec get_diversions_async(integer) :: (() -> [Teaser.t()])
+  def get_diversions_async(id) do
+    fn -> Repo.teasers(related_to: id, type: :diversion) end
   end
 end

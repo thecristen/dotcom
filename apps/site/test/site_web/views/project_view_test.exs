@@ -39,6 +39,17 @@ defmodule SiteWeb.ProjectViewTest do
       id: 2
     }
   ]
+  @diversions [
+    %Teaser{
+      type: :diversion,
+      path: "/cms/path/alias3",
+      text: "teaser3",
+      title: "title3",
+      date: nil,
+      topic: nil,
+      id: 3
+    }
+  ]
 
   describe "show_all_updates_link?" do
     test "returns false if there are 3 items or less" do
@@ -75,6 +86,7 @@ defmodule SiteWeb.ProjectViewTest do
         |> ProjectView.render(
           project: project,
           updates: @updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
@@ -90,13 +102,12 @@ defmodule SiteWeb.ProjectViewTest do
     end
 
     test "if paragraphs are not present, show timeline, status" do
-      project = @project
-
       output =
         "show.html"
         |> ProjectView.render(
-          project: project,
+          project: @project,
           updates: @updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
@@ -118,6 +129,7 @@ defmodule SiteWeb.ProjectViewTest do
             path_alias: nil
           },
           updates: @updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
@@ -131,13 +143,12 @@ defmodule SiteWeb.ProjectViewTest do
 
   describe "_contact.html" do
     test ".project-contact is not rendered if no data is available" do
-      project = @project
-
       output =
         "show.html"
         |> ProjectView.render(
-          project: project,
+          project: @project,
           updates: @updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
@@ -155,6 +166,7 @@ defmodule SiteWeb.ProjectViewTest do
         |> ProjectView.render(
           project: project,
           updates: @updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
@@ -172,6 +184,7 @@ defmodule SiteWeb.ProjectViewTest do
         |> ProjectView.render(
           project: project,
           updates: @updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
@@ -189,6 +202,7 @@ defmodule SiteWeb.ProjectViewTest do
         |> ProjectView.render(
           project: project,
           updates: @updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
@@ -206,6 +220,7 @@ defmodule SiteWeb.ProjectViewTest do
         |> ProjectView.render(
           project: project,
           updates: @updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
@@ -223,6 +238,7 @@ defmodule SiteWeb.ProjectViewTest do
         |> ProjectView.render(
           project: project,
           updates: @updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
@@ -240,6 +256,7 @@ defmodule SiteWeb.ProjectViewTest do
         |> ProjectView.render(
           project: project,
           updates: @updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
@@ -257,6 +274,7 @@ defmodule SiteWeb.ProjectViewTest do
         |> ProjectView.render(
           project: project,
           updates: @updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
@@ -274,6 +292,7 @@ defmodule SiteWeb.ProjectViewTest do
         |> ProjectView.render(
           project: project,
           updates: @updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
@@ -291,6 +310,7 @@ defmodule SiteWeb.ProjectViewTest do
         |> ProjectView.render(
           project: project,
           updates: @updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
@@ -301,15 +321,34 @@ defmodule SiteWeb.ProjectViewTest do
     end
   end
 
-  describe "_updates.html" do
-    test "renders project updates" do
-      updates = @updates
-
+  describe "_diversions.html" do
+    test "renders project diversions" do
       output =
         "show.html"
         |> ProjectView.render(
           project: @project,
-          updates: updates,
+          updates: @updates,
+          diversions: @diversions,
+          conn: @conn,
+          upcoming_events: @events,
+          past_events: @events
+        )
+        |> HTML.safe_to_string()
+
+      assert output =~ "c-paragraph--content-list"
+      assert output =~ "c-teaser-list--diversion"
+      assert output =~ "c-content-teaser--diversion"
+    end
+  end
+
+  describe "_updates.html" do
+    test "renders project updates" do
+      output =
+        "show.html"
+        |> ProjectView.render(
+          project: @project,
+          updates: @updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
@@ -321,13 +360,12 @@ defmodule SiteWeb.ProjectViewTest do
     end
 
     test "does not render an image if the update does not include one" do
-      updates = @updates
-
       output =
         "show.html"
         |> ProjectView.render(
           project: @project,
-          updates: updates,
+          updates: @updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events
@@ -350,6 +388,7 @@ defmodule SiteWeb.ProjectViewTest do
         |> ProjectView.render(
           project: @project,
           updates: updates,
+          diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
           past_events: @events

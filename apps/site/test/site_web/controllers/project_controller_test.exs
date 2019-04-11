@@ -30,6 +30,13 @@ defmodule SiteWeb.ProjectControllerTest do
         } ->
           {:ok, []}
 
+        "/cms/teasers",
+        %{
+          related_to: 3004,
+          type: :diversion
+        } ->
+          {:ok, []}
+
         "/cms/events", [project_id: 3004] ->
           {:ok, []}
       end
@@ -44,6 +51,13 @@ defmodule SiteWeb.ProjectControllerTest do
           sort_by: "field_posted_on_value",
           sort_order: :DESC,
           type: :project_update
+        })
+        |> assert_called()
+
+        "/cms/teasers"
+        |> Static.view(%{
+          related_to: 3004,
+          type: :diversion
         })
         |> assert_called()
 

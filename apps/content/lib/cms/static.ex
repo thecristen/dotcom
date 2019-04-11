@@ -66,6 +66,10 @@ defmodule Content.CMS.Static do
     parse_json("cms/teasers_project_update.json")
   end
 
+  def teaser_diversion_response do
+    parse_json("cms/teasers_diversion.json")
+  end
+
   # Repositories of multiple, full-object responses (maximum data)
 
   def news_repo do
@@ -96,6 +100,10 @@ defmodule Content.CMS.Static do
 
   def basic_page_no_alias_response do
     parse_json("basic_page_with_sidebar_no_alias.json")
+  end
+
+  def diversion_response do
+    parse_json("diversion.json")
   end
 
   def landing_page_response do
@@ -277,6 +285,10 @@ defmodule Content.CMS.Static do
     {:ok, basic_page_with_sidebar_response()}
   end
 
+  def view("/diversions/diversion", _) do
+    {:ok, diversion_response()}
+  end
+
   def view("/redirect_node", _) do
     {:ok, redirect_response()}
   end
@@ -361,6 +373,10 @@ defmodule Content.CMS.Static do
 
   def view("/cms/teasers", %{type: :project_update}) do
     {:ok, teaser_project_update_response()}
+  end
+
+  def view("/cms/teasers", %{type: :diversion}) do
+    {:ok, teaser_diversion_response()}
   end
 
   def view("/cms/teasers", %{type: :news_entry, except: 3518, items_per_page: 4}) do

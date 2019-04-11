@@ -20,6 +20,11 @@ defmodule Content.CMS.StaticTest do
       assert %{"value" => "d78c7dbe-9474-41df-816a-e0f670ba01f3"} = uuid
     end
 
+    test "diversion page" do
+      assert {:ok, %{"uuid" => [uuid]}} = view("/diversions/diversion", %{})
+      assert %{"value" => "a1a62980-4a8f-4de8-baab-2beb6a95659b"} = uuid
+    end
+
     test "redirects" do
       assert {:error, {:redirect, 302, _}} = view("/redirected-url", %{})
       assert {:error, {:redirect, 301, _}} = view("/news/redirected-url", %{})
@@ -77,6 +82,15 @@ defmodule Content.CMS.StaticTest do
 
       for event <- events do
         assert Map.fetch(event, "type") == {:ok, "event"}
+      end
+    end
+
+    test "/cms/teasers?type=diversion" do
+      assert {:ok, diversions} = view("/cms/teasers", %{type: :diversion})
+      refute Enum.empty?(diversions)
+
+      for diversion <- diversions do
+        assert Map.fetch(diversion, "type") == {:ok, "diversion"}
       end
     end
 

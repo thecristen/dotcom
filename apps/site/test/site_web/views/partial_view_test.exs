@@ -143,7 +143,7 @@ defmodule SiteWeb.PartialViewTest do
       assert rendered =~ teaser.image.alt
       assert rendered =~ teaser.title
       assert rendered =~ teaser.text
-      refute rendered =~ "u-small-caps"
+      refute rendered =~ "c-content-teaser__topic"
     end
 
     test "only shows image for guide teasers" do
