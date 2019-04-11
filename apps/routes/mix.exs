@@ -40,7 +40,6 @@ defmodule Routes.Mixfile do
   defp deps do
     [
       {:v3_api, in_umbrella: true},
-      {:csv, "~> 1.4.2"},
       {:excoveralls, "~> 0.5", only: :test},
       {:mock, "~> 0.3.3", only: :test},
       {:repo_cache, in_umbrella: true}

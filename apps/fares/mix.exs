@@ -39,7 +39,7 @@ defmodule Fares.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:csv, "~> 1.4.2"},
+      {:csv, "~> 2.3"},
       {:excoveralls, "~> 0.5", only: :test},
       {:sweet_xml, "~> 0.6.2", only: [:dev, :test]},
       {:repo_cache, in_umbrella: true},

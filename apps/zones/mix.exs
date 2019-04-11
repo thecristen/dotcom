@@ -40,7 +40,7 @@ defmodule Zones.Mixfile do
   defp deps do
     [
       {:excoveralls, "~> 0.5", only: :test},
-      {:csv, "~> 1.4.2"}
+      {:csv, "~> 2.3"}
     ]
   end
 end

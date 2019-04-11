@@ -21,7 +21,7 @@ defmodule Stops.Repo do
   for {old_id, gtfs_id} <-
         "priv/stop_id_to_gtfs.csv"
         |> File.stream!()
-        |> CSV.decode(headers: true)
+        |> CSV.decode!(headers: true)
         |> Enum.map(&{&1 |> Map.get("atisId") |> String.split(","), Map.get(&1, "stopID")})
         |> Enum.flat_map(fn {ids, gtfs_id} -> Enum.map(ids, &{&1, gtfs_id}) end) do
     def old_id_to_gtfs_id(unquote(old_id)) do

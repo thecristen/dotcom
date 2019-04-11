@@ -44,7 +44,7 @@ defmodule Stops.Mixfile do
       {:repo_cache, in_umbrella: true},
       {:timex, ">= 0.0.0"},
       {:bypass, "~> 1.0", only: :test},
-      {:csv, ">= 0.0.0"},
+      {:csv, "~> 2.3"},
       {:util, in_umbrella: true},
       {:zones, in_umbrella: true}
     ]

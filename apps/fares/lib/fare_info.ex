@@ -406,7 +406,7 @@ defmodule Fares.FareInfo do
     |> Application.app_dir()
     |> Path.join(filename)
     |> File.stream!()
-    |> CSV.decode()
+    |> CSV.decode!()
   end
 
   defp monthly_commuter_modes("interzone_" <> _) do

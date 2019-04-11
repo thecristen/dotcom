@@ -5,7 +5,7 @@ defmodule Zones.Repo.StationZones do
   def zone_info do
     @filename
     |> File.stream!()
-    |> CSV.decode()
+    |> CSV.decode!()
     |> Enum.reduce(Map.new(), fn [station, zone], station_zone_map ->
       Map.put(station_zone_map, station, zone)
     end)
