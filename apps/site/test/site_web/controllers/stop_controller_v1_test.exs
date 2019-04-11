@@ -83,6 +83,11 @@ defmodule SiteWeb.StopV1ControllerTest do
     assert breadcrumbs_include?(body, "E Broadway @ H St")
   end
 
+  test "redirects to a parent stop page for a child stop", %{conn: conn} do
+    conn = get(conn, stop_v1_path(conn, :show, 9_070_130))
+    assert redirected_to(conn) == stop_v1_path(conn, :show, "place-harvd")
+  end
+
   test "sets a custom meta description for stops", %{conn: conn} do
     conn = get(conn, stop_v1_path(conn, :show, "22"))
     assert conn.assigns.meta_description

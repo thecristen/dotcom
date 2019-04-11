@@ -54,6 +54,15 @@ defmodule SiteWeb.StopControllerTest do
     assert conn.assigns.meta_description
   end
 
+  test "redirects to a parent stop page for a child stop", %{conn: conn} do
+    conn =
+      conn
+      |> put_req_cookie("stop_page_redesign", "true")
+      |> get(stop_path(conn, :show, 9_070_130))
+
+    assert redirected_to(conn) == stop_path(conn, :show, "place-harvd")
+  end
+
   test "404s for an unknown stop", %{conn: conn} do
     conn =
       conn

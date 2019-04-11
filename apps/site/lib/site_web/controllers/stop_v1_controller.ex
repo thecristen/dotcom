@@ -44,21 +44,27 @@ defmodule SiteWeb.StopV1Controller do
     stop =
       id
       |> URI.decode_www_form()
-      |> Repo.get_parent()
+      |> Repo.get()
 
     if stop do
-      routes = Routes.Repo.by_stop(stop.id)
+      if Repo.has_parent?(stop) do
+        conn
+        |> redirect(to: stop_v1_path(conn, :show, Repo.get_parent(stop)))
+        |> halt()
+      else
+        routes = Routes.Repo.by_stop(stop.id)
 
-      conn
-      |> async_assign_default(:grouped_routes, fn -> grouped_routes(routes) end, [])
-      |> assign(:fare_types, fare_types(routes))
-      |> async_assign_default(:zone_number, fn -> Zones.Repo.get(stop.id) end, nil)
-      |> assign(:breadcrumbs, breadcrumbs(stop, routes))
-      |> assign(:tab, tab_value(query_params["tab"]))
-      |> tab_assigns(stop, routes)
-      |> meta_description(stop, routes)
-      |> await_assign_all_default(__MODULE__)
-      |> render("show.html", stop: stop)
+        conn
+        |> async_assign_default(:grouped_routes, fn -> grouped_routes(routes) end, [])
+        |> assign(:fare_types, fare_types(routes))
+        |> async_assign_default(:zone_number, fn -> Zones.Repo.get(stop.id) end, nil)
+        |> assign(:breadcrumbs, breadcrumbs(stop, routes))
+        |> assign(:tab, tab_value(query_params["tab"]))
+        |> tab_assigns(stop, routes)
+        |> meta_description(stop, routes)
+        |> await_assign_all_default(__MODULE__)
+        |> render("show.html", stop: stop)
+      end
     else
       check_cms_or_404(conn)
     end

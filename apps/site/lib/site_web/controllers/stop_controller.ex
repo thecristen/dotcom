@@ -32,36 +32,42 @@ defmodule SiteWeb.StopController do
       stop =
         stop
         |> URI.decode_www_form()
-        |> Repo.get_parent()
+        |> Repo.get()
 
       if stop do
-        routes_by_stop = Routes.Repo.by_stop(stop.id)
-        grouped_routes = grouped_routes(routes_by_stop)
-        routes_map = routes_map(grouped_routes, stop.id)
-        json_safe_routes = json_safe_routes(routes_map)
+        if Repo.has_parent?(stop) do
+          conn
+          |> redirect(to: stop_path(conn, :show, Repo.get_parent(stop)))
+          |> halt()
+        else
+          routes_by_stop = Routes.Repo.by_stop(stop.id)
+          grouped_routes = grouped_routes(routes_by_stop)
+          routes_map = routes_map(grouped_routes, stop.id)
+          json_safe_routes = json_safe_routes(routes_map)
 
-        conn
-        |> assign(:disable_turbolinks, true)
-        |> assign(:stop, stop)
-        |> assign(:routes, json_safe_routes)
-        |> assign(:requires_google_maps?, true)
-        |> async_assign_default(
-          :retail_locations,
-          fn ->
-            stop
-            |> RetailLocations.get_nearby()
-            |> Enum.map(&format_retail_location/1)
-          end,
-          []
-        )
-        |> assign(:map_data, StopMap.map_info(stop, routes_map))
-        |> assign(:zone_number, Zones.Repo.get(stop.id))
-        |> assign(:breadcrumbs_title, breadcrumbs(stop, routes_by_stop))
-        |> assign_stop_page_data()
-        |> await_assign_all_default(__MODULE__)
-        |> combine_stop_data()
-        |> meta_description(stop, routes_by_stop)
-        |> render("show.html")
+          conn
+          |> assign(:disable_turbolinks, true)
+          |> assign(:stop, stop)
+          |> assign(:routes, json_safe_routes)
+          |> assign(:requires_google_maps?, true)
+          |> async_assign_default(
+            :retail_locations,
+            fn ->
+              stop
+              |> RetailLocations.get_nearby()
+              |> Enum.map(&format_retail_location/1)
+            end,
+            []
+          )
+          |> assign(:map_data, StopMap.map_info(stop, routes_map))
+          |> assign(:zone_number, Zones.Repo.get(stop.id))
+          |> assign(:breadcrumbs_title, breadcrumbs(stop, routes_by_stop))
+          |> assign_stop_page_data()
+          |> await_assign_all_default(__MODULE__)
+          |> combine_stop_data()
+          |> meta_description(stop, routes_by_stop)
+          |> render("show.html")
+        end
       else
         check_cms_or_404(conn)
       end

@@ -49,6 +49,11 @@ defmodule Stops.Repo do
     end
   end
 
+  @spec has_parent?(Stop.t() | Stop.id_t() | nil) :: boolean
+  def has_parent?(nil), do: false
+  def has_parent?(%Stop{parent_id: nil}), do: false
+  def has_parent?(%Stop{parent_id: _}), do: true
+
   @spec get_parent(Stop.t() | Stop.id_t() | nil) :: Stop.t() | nil
   def get_parent(nil), do: nil
 
