@@ -121,6 +121,7 @@ defmodule Routes.RouteTest do
       assert direction_name(%Route{direction_names: %{0 => "South"}}, 0) == "Southbound"
       assert direction_name(%Route{direction_names: %{0 => "East"}}, 0) == "Eastbound"
       assert direction_name(%Route{direction_names: %{0 => "West"}}, 0) == "Westbound"
+      assert direction_name(%Route{direction_names: %{0 => nil}}, 0) == ""
     end
   end
 

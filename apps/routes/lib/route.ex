@@ -165,6 +165,7 @@ defmodule Routes.Route do
   def add_direction_suffix("South"), do: "Southbound"
   def add_direction_suffix("East"), do: "Eastbound"
   def add_direction_suffix("West"), do: "Westbound"
+  def add_direction_suffix(nil), do: ""
   def add_direction_suffix(direction), do: direction
 
   @spec vehicle_name(t) :: String.t()

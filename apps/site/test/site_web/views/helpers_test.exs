@@ -280,6 +280,31 @@ defmodule SiteWeb.ViewHelpersTest do
       assert actual =~ "arrow-right"
       assert actual =~ "Harvard"
     end
+
+    test "returns an empty value for the direction_names and direction_destinations if not included" do
+      actual =
+        safe_to_string(
+          html_escape(
+            direction_with_headsign(
+              %Routes.Route{
+                custom_route?: false,
+                description: :rail_replacement_bus,
+                direction_destinations: %{0 => nil, 1 => nil},
+                direction_names: %{0 => nil, 1 => nil},
+                id: "Shuttle-NewtonHighlandsRiverside",
+                long_name: "Green Line D Shuttle",
+                name: "Green Line D Shuttle",
+                type: 3
+              },
+              0,
+              "Riverside (Shuttle)"
+            )
+          )
+        )
+
+      assert actual =~ "arrow-right"
+      assert actual =~ "Riverside (Shuttle)"
+    end
   end
 
   describe "pretty_date/2" do
