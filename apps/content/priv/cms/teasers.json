@@ -225,6 +225,24 @@
     "posted": "",
     "created": "2018-06-06",
     "changed": "2018-10-11",
-    "field_related_transit": []
+    "field_related_transit": [
+      {
+        "id": 256,
+        "name": "Late Night",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "late_night",
+          "gtfs_group": "custom",
+          "gtfs_ancestry": {
+            "mode": null,
+            "line": null,
+            "branch": null,
+            "custom": [
+              "misc"
+            ]
+          }
+        }
+      }
+    ]
   }
 ]

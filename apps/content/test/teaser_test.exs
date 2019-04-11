@@ -134,4 +134,17 @@ defmodule Content.TeaserTest do
 
     assert [%{id: "CR-Lowell"}, %{id: "CR-Providence"}] = routes
   end
+
+  test "handles route tags without mode ancestry" do
+    teaser =
+      Static.teaser_response()
+      |> Enum.at(6)
+      |> Teaser.from_api()
+
+    assert teaser.id == 3617
+
+    routes = Map.get(teaser, :routes)
+
+    assert [%{id: "late_night", mode: nil, group: "custom"}] = routes
+  end
 end

@@ -153,7 +153,13 @@ defmodule Content.Teaser do
     Map.new(
       id: route_data["gtfs_id"],
       group: route_data["gtfs_group"],
-      mode: route_data["gtfs_ancestry"]["mode"] |> List.first()
+      mode: route_data["gtfs_ancestry"]["mode"] |> route_mode()
     )
   end
+
+  # Some CMS routes are actually custom groups that may
+  # not have any single mode associated with them.
+  @spec route_mode([String.t()] | nil) :: String.t()
+  defp route_mode(nil), do: nil
+  defp route_mode([initial_mode | _]), do: initial_mode
 end

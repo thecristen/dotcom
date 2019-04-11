@@ -20,6 +20,7 @@ defmodule SiteWeb.ContentHelpers do
   @spec cms_route_to_class(Teaser.cms_route()) :: String.t()
   def cms_route_to_class(%{id: "silver_line"}), do: "silver-line"
   def cms_route_to_class(%{id: "mattapan"}), do: "red-line"
+  def cms_route_to_class(%{group: "custom", mode: nil}), do: "unknown"
   def cms_route_to_class(%{group: "custom", mode: mode}), do: string_to_class(mode)
   def cms_route_to_class(%{group: "mode", id: mode}), do: string_to_class(mode)
   def cms_route_to_class(%{id: id}), do: id |> Repo.get() |> route_to_class()
