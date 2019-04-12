@@ -18,6 +18,7 @@ defmodule SiteWeb.ContentHelpers do
   is related to all routes on that mode or line.
   """
   @spec cms_route_to_class(Teaser.cms_route()) :: String.t()
+  def cms_route_to_class(%{id: "Green"}), do: "green-line"
   def cms_route_to_class(%{id: "silver_line"}), do: "silver-line"
   def cms_route_to_class(%{id: "mattapan"}), do: "red-line"
   def cms_route_to_class(%{group: "custom", mode: nil}), do: "unknown"

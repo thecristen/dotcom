@@ -11,6 +11,7 @@ defmodule SiteWeb.ContentHelpersTest do
       assert cms_route_to_class(%{id: "66", group: "route", mode: "bus"}) == "bus"
       assert cms_route_to_class(%{id: "silver_line", group: "line", mode: "bus"}) == "silver-line"
       assert cms_route_to_class(%{id: "local_bus", group: "custom", mode: "bus"}) == "bus"
+      assert cms_route_to_class(%{id: "Green", group: "line", mode: "subway"}) == "green-line"
     end
 
     test "handles custom groups without mode ancestry" do
