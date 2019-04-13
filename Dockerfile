@@ -29,7 +29,7 @@ WORKDIR /root/apps/site/
 RUN mix do deps.get, deps.compile
 
 WORKDIR /root/apps/site/assets/
-RUN npm install && npm run webpack:build
+RUN npm install && npm run webpack:build -- --env.SENTRY_DSN="https://23b9a84dd83e417ea104fab305f78dd3@sentry.io/194344"
 
 WORKDIR /root/apps/site/react_renderer/
 RUN npm install && npx webpack

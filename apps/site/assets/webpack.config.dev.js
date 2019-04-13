@@ -9,7 +9,8 @@ module.exports = env =>
     devtool: "cheap-inline-source-map",
 
     output: {
-      path: path.resolve(__dirname, "../priv/static/css"),
+      publicPath: "http://localhost:8090/",
+      path: path.resolve(__dirname, "../priv/static/css")
     },
 
     devServer: {
@@ -17,12 +18,10 @@ module.exports = env =>
       headers: {
         "Access-Control-Allow-Origin": "*"
       },
-      writeToDisk: (path) => {
-        return /\.css$/.test(path)
-      },
+      writeToDisk: path => /\.css$/.test(path),
       port: env.port,
       contentBase: path.resolve(__dirname, "../priv/static/"),
       watchContentBase: true,
       compress: true
-    },
+    }
   });

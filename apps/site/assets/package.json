@@ -1,10 +1,12 @@
 {
   "repository": {},
   "dependencies": {
-    "@babel/polyfill": "^7.0.0",
+    "@babel/polyfill": "^7.4.0",
+    "@sentry/browser": "^5.0.5",
     "algoliasearch": "^3.25.1",
     "autocomplete.js": "git+https://github.com/mbta/autocomplete.js.git#ad94896",
     "bootstrap": "4.0.0-alpha.2",
+    "core-js": "^2.6.5",
     "email-validation": "^0.1.2",
     "filesize": "^3.3.0",
     "form-data": "^1.0.1",
@@ -23,9 +25,9 @@
     "turbolinks": "git+https://github.com/paulswartz/turbolinks.git#82b188e"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/register": "^7.0.0",
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/register": "^7.4.0",
     "@types/core-js": "^2.5.0",
     "@types/enzyme": "^3.1.18",
     "@types/enzyme-adapter-react-16": "^1.0.4",
@@ -37,7 +39,7 @@
     "@types/react-leaflet": "^2.2.1",
     "@types/react-test-renderer": "^16.8.0",
     "autoprefixer": "^9.4.7",
-    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
     "babel-jest": "^24.1.0",
     "babel-loader": "^8.0.4",
     "backstopjs": "^4.0.3",

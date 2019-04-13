@@ -1,14 +1,12 @@
 document.body.className = document.body.className.replace("no-js", "js");
 
-import "@babel/polyfill";
-import "../css/app.scss";
 import "../vendor/fixedsticky";
 import "../vendor/accessible-date-picker";
 import "bootstrap/dist/js/umd/collapse";
 import "bootstrap/dist/js/umd/modal";
 import "bootstrap/dist/js/umd/tooltip";
-import googleAnalytics from "./google-analytics";
 import objectFitImages from "object-fit-images";
+import googleAnalytics from "./google-analytics";
 import googleMapsLoaded from "./google-maps-loaded";
 import submitOnEvents from "./submit-on-events";
 import selectModal from "./select-modal";
@@ -48,7 +46,14 @@ import routeMap from "./route-map";
 import channels from "./channels";
 import CRTrains from "./cr-timetable-trains";
 import alertItem from "./alert-item";
-import dismissFullscreenError from "./../ts/app/dismiss-fullscreen-error";
+import dismissFullscreenError from "../ts/app/dismiss-fullscreen-error";
+import * as Sentry from "@sentry/browser";
+
+if (process.env.NODE_ENV === "production" && SENTRY_DSN) {
+  Sentry.init({
+    dsn: SENTRY_DSN
+  });
+}
 
 // Extra steps for non-modular javascript
 Turbolinks.start();
@@ -100,7 +105,9 @@ if (!("nextElementSibling" in document.documentElement)) {
 // Reference: http://es5.github.io/#x15.4.4.19
 if (!Array.prototype.map) {
   Array.prototype.map = function(callback /* , thisArg */) {
-    let T, A, k;
+    let T;
+    let A;
+    let k;
     if (this == null) {
       throw new TypeError("this is null or not defined");
     }
@@ -115,7 +122,8 @@ if (!Array.prototype.map) {
     A = new Array(len);
     // 7. Let k be 0
     while (k < len) {
-      var kValue, mappedValue;
+      var kValue;
+      var mappedValue;
       if (k in O) {
         kValue = O[k];
         mappedValue = callback.call(T, kValue, k, O);
@@ -266,7 +274,7 @@ if (!Array.prototype.find) {
 
 if ("outerHTML" in SVGElement.prototype) {
   Object.defineProperty(SVGElement.prototype, "outerHTML", {
-    get: function() {
+    get() {
       const container = document.createElement("div");
       container.appendChild(this.cloneNode(true));
       return container.innerHTML;

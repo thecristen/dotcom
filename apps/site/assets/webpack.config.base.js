@@ -8,7 +8,7 @@ const postcssPresetEnv = require("postcss-preset-env");
 
 module.exports = {
   entry: {
-    app: ["./js/app.js"],
+    app: ["./js/app-entry.js"],
     core: ["./js/core.js"], // For core.css only, not js
     tnm: ["./ts/transit-near-me-entry.ts"],
     stop: ["./ts/stop-entry.ts"],
