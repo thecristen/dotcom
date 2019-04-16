@@ -47,13 +47,6 @@ import channels from "./channels";
 import CRTrains from "./cr-timetable-trains";
 import alertItem from "./alert-item";
 import dismissFullscreenError from "../ts/app/dismiss-fullscreen-error";
-import * as Sentry from "@sentry/browser";
-
-if (process.env.NODE_ENV === "production" && SENTRY_DSN) {
-  Sentry.init({
-    dsn: SENTRY_DSN
-  });
-}
 
 // Extra steps for non-modular javascript
 Turbolinks.start();
