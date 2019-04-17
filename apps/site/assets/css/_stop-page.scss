@@ -157,7 +157,7 @@
   box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
 
   .m-tnm-sidebar__filter-bar + & {
-    margin-top: 4rem;
+    margin-top: $base-spacing / 2;
   }
 
   & + & {
