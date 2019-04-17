@@ -14,6 +14,11 @@ interface Props {
   id: string;
 }
 
+interface State {
+  expanded: boolean;
+  focused: boolean;
+}
+
 const caret = (expanded: boolean): ReactElement<HTMLElement> => {
   const unicodeCharacter = expanded ? "&#xF106;" : "&#xF107;";
   return (
@@ -31,11 +36,16 @@ export default ({
   children,
   id
 }: Props): ReactElement<HTMLElement> => {
-  const [expanded, toggleExpanded] = useState(initiallyExpanded);
+  const [state, toggleExpanded] = useState({
+    expanded: initiallyExpanded,
+    focused: false
+  });
+  const { expanded, focused }: State = state;
   const headerId = `header-${id}`;
   const panelId = `panel-${id}`;
 
-  const onClick = (): void => toggleExpanded(!expanded);
+  const onClick = (): void =>
+    toggleExpanded({ expanded: !expanded, focused: true });
 
   return (
     <>
@@ -64,7 +74,7 @@ export default ({
           role="region"
           id={panelId}
           aria-labelledby={headerId}
-          ref={panel => panel && panel.focus()}
+          ref={panel => panel && focused && panel.focus()}
         >
           {children}
         </div>
