@@ -224,7 +224,7 @@ defmodule Content.HelpersTest do
              ]
     end
 
-    test "it skips paragraphs that are unpublished" do
+    test "it skips normal paragraphs that are unpublished" do
       map_data = %{
         "field_paragraphs" => [
           %{
@@ -276,6 +276,67 @@ defmodule Content.HelpersTest do
                      parent: nil
                    }
                  ]
+               }
+             ]
+    end
+
+    test "it skips reusable paragraphs that are unpublished" do
+      map_data = %{
+        "field_paragraphs" => [
+          %{
+            "type" => [%{"target_id" => "from_library"}],
+            "field_reusable_paragraph" => [
+              %{
+                "status" => [%{"value" => true}],
+                "paragraphs" => [
+                  %{
+                    "status" => [%{"value" => false}],
+                    "type" => [%{"target_id" => "custom_html"}],
+                    "field_custom_html_body" => [%{"value" => "I am not published"}]
+                  }
+                ]
+              }
+            ]
+          },
+          %{
+            "type" => [%{"target_id" => "from_library"}],
+            "field_reusable_paragraph" => [
+              %{
+                "status" => [%{"value" => false}],
+                "paragraphs" => [
+                  %{
+                    "status" => [%{"value" => true}],
+                    "type" => [%{"target_id" => "custom_html"}],
+                    "field_custom_html_body" => [%{"value" => "I am not published"}]
+                  }
+                ]
+              }
+            ]
+          },
+          %{
+            "type" => [%{"target_id" => "from_library"}],
+            "field_reusable_paragraph" => [
+              %{
+                "status" => [%{"value" => true}],
+                "paragraphs" => [
+                  %{
+                    "status" => [%{"value" => true}],
+                    "type" => [%{"target_id" => "custom_html"}],
+                    "field_custom_html_body" => [%{"value" => "I am published"}]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+
+      parsed_map = parse_paragraphs(map_data)
+
+      assert parsed_map == [
+               %Content.Paragraph.CustomHTML{
+                 body: HTML.raw("I am published"),
+                 right_rail: nil
                }
              ]
     end

@@ -101,6 +101,15 @@ defmodule Content.Helpers do
   end
 
   @spec para_is_published(map) :: boolean
+  defp para_is_published(%{"field_reusable_paragraph" => reusable}) do
+    [%{"status" => status, "paragraphs" => data}] = reusable
+
+    case status do
+      [%{"value" => false}] -> false
+      _ -> data |> List.first() |> para_is_published()
+    end
+  end
+
   defp para_is_published(%{"status" => [%{"value" => value}]}) do
     value
   end
