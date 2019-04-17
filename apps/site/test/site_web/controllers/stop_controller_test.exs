@@ -36,6 +36,16 @@ defmodule SiteWeb.StopControllerTest do
     assert conn.assigns.routes
   end
 
+  test "assigns ferry routes", %{conn: conn} do
+    conn =
+      conn
+      |> put_req_cookie("stop_page_redesign", "true")
+      |> get(stop_path(conn, :show, "Boat-Charlestown"))
+
+    assert [ferry] = conn.assigns.routes
+    assert %{group_name: :ferry, routes: [%{route: %Route{id: "Boat-F4"}}]}
+  end
+
   test "assigns the zone number for the current stop", %{conn: conn} do
     conn =
       conn

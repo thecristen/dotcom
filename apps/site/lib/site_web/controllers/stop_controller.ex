@@ -179,6 +179,8 @@ defmodule SiteWeb.StopController do
   end
 
   @spec no_directions_include_headsigns?(route_with_directions) :: boolean
+  defp no_directions_include_headsigns?(%{route: %Route{type: 4}}), do: false
+
   defp no_directions_include_headsigns?(%{directions: directions}),
     do: !Enum.any?(directions, &any_headsign_includes_predictions?/1)
 
