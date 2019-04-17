@@ -20,17 +20,19 @@ defmodule Vehicles.StreamTest do
     ]
   }
 
-  setup do
+  setup tags do
     {:ok, mock_api} =
       GenStage.from_enumerable([
         %V3Api.Stream.Event{event: :reset, data: @vehicles}
       ])
 
-    {:ok, mock_api: mock_api}
+    name = :"stream_test_#{tags.line}"
+
+    {:ok, mock_api: mock_api, name: name}
   end
 
   describe "start_link/1" do
-    test "starts a GenServer that publishes vehicles", %{mock_api: mock_api} do
+    test "starts a GenServer that publishes vehicles", %{mock_api: mock_api, name: name} do
       test_pid = self()
 
       broadcast_fn = fn Vehicles.PubSub, "vehicles", {type, data} ->
@@ -40,7 +42,7 @@ defmodule Vehicles.StreamTest do
 
       assert {:ok, _} =
                Vehicles.Stream.start_link(
-                 name: __MODULE__.Test1,
+                 name: name,
                  broadcast_fn: broadcast_fn,
                  subscribe_to: mock_api
                )
@@ -48,7 +50,7 @@ defmodule Vehicles.StreamTest do
       assert_receive {:reset, [%Vehicles.Vehicle{id: "vehicle1"}]}
     end
 
-    test "publishes :remove events as a list of IDs" do
+    test "publishes :remove events as a list of IDs", %{name: name} do
       {:ok, mock_api} =
         GenStage.from_enumerable([
           %V3Api.Stream.Event{event: :remove, data: @vehicles}
@@ -63,7 +65,7 @@ defmodule Vehicles.StreamTest do
 
       assert {:ok, _} =
                Vehicles.Stream.start_link(
-                 name: __MODULE__.Test2,
+                 name: name,
                  broadcast_fn: broadcast_fn,
                  subscribe_to: mock_api
                )
@@ -73,7 +75,7 @@ defmodule Vehicles.StreamTest do
       assert data == ["vehicle1"]
     end
 
-    test "logs an error when broadcast fails", %{mock_api: mock_api} do
+    test "logs an error when broadcast fails", %{mock_api: mock_api, name: name} do
       test_pid = self()
 
       broadcast_fn = fn Vehicles.PubSub, "vehicles", {_type, _data} ->
@@ -85,7 +87,7 @@ defmodule Vehicles.StreamTest do
         CaptureLog.capture_log(fn ->
           assert {:ok, _} =
                    Vehicles.Stream.start_link(
-                     name: __MODULE__.Test2,
+                     name: name,
                      broadcast_fn: broadcast_fn,
                      subscribe_to: mock_api
                    )
