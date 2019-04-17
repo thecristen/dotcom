@@ -17,7 +17,8 @@ exports[`renders 1`] = `
     >
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=departures#subway-schedule"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon"
@@ -34,7 +35,8 @@ exports[`renders 1`] = `
       </a>
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=departures#bus-schedule"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon"
@@ -51,7 +53,8 @@ exports[`renders 1`] = `
       </a>
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=departures#commuter-rail-schedule"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon"
@@ -68,7 +71,8 @@ exports[`renders 1`] = `
       </a>
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=info#commuter-fares"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon c-icon__cr-zone"
@@ -166,7 +170,8 @@ exports[`renders a ferry route 1`] = `
     >
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=departures#bus-schedule"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon"
@@ -183,7 +188,8 @@ exports[`renders a ferry route 1`] = `
       </a>
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=info#commuter-fares"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon c-icon__cr-zone"
@@ -281,7 +287,8 @@ exports[`renders all subway routes 1`] = `
     >
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=departures#subway-schedule"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon"
@@ -298,7 +305,8 @@ exports[`renders all subway routes 1`] = `
       </a>
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=departures#subway-schedule"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon"
@@ -315,7 +323,8 @@ exports[`renders all subway routes 1`] = `
       </a>
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=departures#subway-schedule"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon"
@@ -332,7 +341,8 @@ exports[`renders all subway routes 1`] = `
       </a>
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=departures#subway-schedule"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon"
@@ -349,7 +359,8 @@ exports[`renders all subway routes 1`] = `
       </a>
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=info#commuter-fares"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon c-icon__cr-zone"
@@ -447,7 +458,8 @@ exports[`renders with green line routes 1`] = `
     >
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=departures#subway-schedule"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon"
@@ -464,7 +476,8 @@ exports[`renders with green line routes 1`] = `
       </a>
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=departures#subway-schedule"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon"
@@ -481,7 +494,8 @@ exports[`renders with green line routes 1`] = `
       </a>
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=departures#subway-schedule"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon"
@@ -498,7 +512,8 @@ exports[`renders with green line routes 1`] = `
       </a>
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=departures#subway-schedule"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon"
@@ -515,7 +530,8 @@ exports[`renders with green line routes 1`] = `
       </a>
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=departures#subway-schedule"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon"
@@ -532,7 +548,8 @@ exports[`renders with green line routes 1`] = `
       </a>
       <a
         className="m-stop-page__header-feature"
-        href="/stops/place-sstat?tab=info#commuter-fares"
+        href="#route-card-list"
+        onClick={[Function]}
       >
         <span
           className="m-stop-page__icon c-icon__cr-zone"

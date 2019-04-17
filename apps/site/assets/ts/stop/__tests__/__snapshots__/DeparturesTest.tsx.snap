@@ -1,10 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`it renders 1`] = `
-Array [
+<div
+  id="route-card-list"
+>
   <h2>
     Departures
-  </h2>,
+  </h2>
   <div
     className="m-stop-page__departures"
   >
@@ -1954,15 +1956,17 @@ Array [
         </div>
       </div>
     </div>
-  </div>,
-]
+  </div>
+</div>
 `;
 
 exports[`it renders filtered data 1`] = `
-Array [
+<div
+  id="route-card-list"
+>
   <h2>
     Departures
-  </h2>,
+  </h2>
   <div
     className="m-stop-page__departures"
   >
@@ -2222,6 +2226,6 @@ Array [
         </div>
       </div>
     </div>
-  </div>,
-]
+  </div>
+</div>
 `;

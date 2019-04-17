@@ -4,12 +4,15 @@ import TabComponent from "./Tab";
 import { Tab, TypedRoutes, RouteWithDirections } from "./__stop";
 import { parkingIcon, modeIcon } from "../../helpers/icon";
 import accessible from "./StopAccessibilityIcon";
+import { Dispatch, clickRoutePillAction } from "../state";
+import { modeByV3ModeType } from "../../components/ModeFilter";
 
 interface Props {
   stop: Stop;
   routes: TypedRoutes[];
   tabs: Tab[];
   zoneNumber: string;
+  dispatch?: Dispatch;
 }
 
 const subwayModeIds = [
@@ -44,18 +47,15 @@ const modeType = (modeId: string): string => {
   return "Bus";
 };
 
-const modeLink = (modeId: string): string => {
-  if (modeId.startsWith("CR-"))
-    return "/stops/place-sstat?tab=departures#commuter-rail-schedule";
-  if (subwayModeIds.includes(modeId))
-    return "/stops/place-sstat?tab=departures#subway-schedule";
-
-  return "/stops/place-sstat?tab=departures#bus-schedule";
-};
-
-const modeIconFeature = ({ id }: Route): ReactElement<HTMLElement> => (
+const modeIconFeature = (
+  { id, type }: Route,
+  dispatch?: Dispatch
+): ReactElement<HTMLElement> => (
   <a
-    href={modeLink(id)}
+    href="#route-card-list"
+    onClick={() =>
+      dispatch && dispatch(clickRoutePillAction(modeByV3ModeType[type]))
+    }
     key={modeType(id)}
     className="m-stop-page__header-feature"
   >
@@ -82,16 +82,27 @@ const iconableRoutes = (typedRoutes: TypedRoutes[]): RouteWithDirections[] =>
   );
 
 const modes = (
-  typedRoutes: TypedRoutes[]
+  typedRoutes: TypedRoutes[],
+  dispatch?: Dispatch
 ): ReactElement<HTMLElement> | null => (
-  <>{iconableRoutes(typedRoutes).map(({ route }) => modeIconFeature(route))}</>
+  <>
+    {iconableRoutes(typedRoutes).map(({ route }) =>
+      modeIconFeature(route, dispatch)
+    )}
+  </>
 );
 
-const crZone = (zoneNumber: string): ReactElement<HTMLElement> | false =>
+const crZone = (
+  zoneNumber: string,
+  dispatch?: Dispatch
+): ReactElement<HTMLElement> | false =>
   !!zoneNumber &&
   zoneNumber.length > 0 && (
     <a
-      href="/stops/place-sstat?tab=info#commuter-fares"
+      href="#route-card-list"
+      onClick={() =>
+        dispatch && dispatch(clickRoutePillAction("commuter_rail"))
+      }
       className="m-stop-page__header-feature"
     >
       <span className="m-stop-page__icon c-icon__cr-zone">
@@ -103,11 +114,12 @@ const crZone = (zoneNumber: string): ReactElement<HTMLElement> | false =>
 const features = (
   stop: Stop,
   routes: TypedRoutes[],
-  zoneNumber: string
+  zoneNumber: string,
+  dispatch?: Dispatch
 ): ReactElement<HTMLElement> => (
   <div className="m-stop-page__header-features">
-    {modes(routes)}
-    {crZone(zoneNumber)}
+    {modes(routes, dispatch)}
+    {crZone(zoneNumber, dispatch)}
     {accessible(stop)}
     {parking(stop)}
   </div>
@@ -122,7 +134,8 @@ const Header = ({
   stop,
   routes,
   tabs,
-  zoneNumber
+  zoneNumber,
+  dispatch
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-stop-page__header">
     <div className="m-stop-page__header-container">
@@ -130,7 +143,7 @@ const Header = ({
         {stop.name}
       </h1>
 
-      {features(stop, routes, zoneNumber)}
+      {features(stop, routes, zoneNumber, dispatch)}
 
       <div className="header-tabs">
         {tabs.map(tab => (

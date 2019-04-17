@@ -11,6 +11,7 @@ export interface State {
 
 type StopActionType = "CLICK_MARKER";
 type ModeActionType = "CLICK_MODE_FILTER";
+type RoutePillActionType = "CLICK_ROUTE_PILL";
 
 export interface StopAction {
   type: StopActionType;
@@ -26,7 +27,14 @@ export interface ModeAction {
   };
 }
 
-type Action = StopAction | ModeAction;
+export interface RoutePillAction {
+  type: RoutePillActionType;
+  payload: {
+    mode: Mode;
+  };
+}
+
+type Action = StopAction | ModeAction | RoutePillAction;
 
 export const clickMarkerAction = (stopId: SelectedStopType): StopAction => ({
   type: "CLICK_MARKER",
@@ -35,6 +43,11 @@ export const clickMarkerAction = (stopId: SelectedStopType): StopAction => ({
 
 export const clickModeAction = (mode: Mode): ModeAction => ({
   type: "CLICK_MODE_FILTER",
+  payload: { mode }
+});
+
+export const clickRoutePillAction = (mode: Mode): RoutePillAction => ({
+  type: "CLICK_ROUTE_PILL",
   payload: { mode }
 });
 
@@ -70,6 +83,14 @@ const modeReducer = (state: State, action: Action): State => {
         selectedModes: updateModes(state.selectedModes, action.payload.mode),
         shouldFilterStopCards: true
       };
+
+    case "CLICK_ROUTE_PILL":
+      return {
+        ...state,
+        selectedModes: [action.payload.mode],
+        shouldFilterStopCards: true
+      };
+
     default:
       return state;
   }

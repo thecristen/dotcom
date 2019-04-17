@@ -3,7 +3,8 @@ import {
   clickMarkerAction,
   StopAction,
   clickModeAction,
-  State
+  State,
+  clickRoutePillAction
 } from "../state";
 
 describe("reducer", () => {
@@ -72,6 +73,21 @@ describe("reducer", () => {
 
     const newState = reducer(initialState, clickModeAction("bus"));
 
+    expect(newState).toEqual(expectedState);
+  });
+
+  it("handles clickRoutePillAction by replacing mode to filter by", () => {
+    const initialState: State = {
+      selectedStopId: null,
+      selectedModes: ["subway"],
+      shouldFilterStopCards: true
+    };
+    const expectedState: State = {
+      ...initialState,
+      selectedModes: ["bus"]
+    };
+
+    const newState = reducer(initialState, clickRoutePillAction("bus"));
     expect(newState).toEqual(expectedState);
   });
 

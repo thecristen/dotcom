@@ -51,7 +51,7 @@ const Departures = ({
   const filteredRoutes = filteredByModes(allRoutes(routes), selectedModes);
 
   return (
-    <>
+    <div id="route-card-list">
       <h2>Departures</h2>
 
       <div className="m-stop-page__departures">
@@ -72,7 +72,7 @@ const Departures = ({
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

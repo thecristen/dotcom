@@ -403,3 +403,77 @@ it("does not upcase name of bus-only stops", () => {
   expect(wrapper.find(".m-stop-page__name")).toHaveLength(1);
   expect(wrapper.find(".m-stop-page__name--upcase")).toHaveLength(0);
 });
+
+it("dispatches clickRoutePillAction when route pill is clicked", () => {
+  /* eslint-disable typescript/camelcase */
+  const routes: TypedRoutes[] = [
+    {
+      group_name: "bus",
+      routes: [
+        {
+          route: {
+            type: 3,
+            name: "Bus",
+            header: "Bus",
+            long_name: "Bus",
+            id: "Bus",
+            direction_names: {
+              "0": "South",
+              "1": "North"
+            },
+            direction_destinations: {
+              "0": "Ashmont/Braintree",
+              "1": "Alewife"
+            },
+            description: "rapid_transit",
+            alert_count: 0
+          },
+          directions: []
+        }
+      ]
+    }
+  ];
+  /* eslint-enable typescript/camelcase */
+  const spy = jest.fn();
+  const wrapper = shallow(
+    <Header
+      stop={data.stop}
+      routes={routes}
+      zoneNumber={data.zone_number}
+      tabs={data.tabs}
+      dispatch={spy}
+    />
+  );
+
+  const pills = wrapper.find(".m-stop-page__header-feature");
+  expect(pills).toHaveLength(3);
+  pills.at(0).simulate("click");
+  expect(spy).toHaveBeenCalledWith({
+    type: "CLICK_ROUTE_PILL",
+    payload: { mode: "bus" }
+  });
+});
+
+it("dispatches clickRoutePillAction when zone pill is clicked", () => {
+  const spy = jest.fn();
+  const wrapper = shallow(
+    <Header
+      stop={data.stop}
+      routes={data.routes}
+      zoneNumber={data.zone_number}
+      tabs={data.tabs}
+      dispatch={spy}
+    />
+  );
+
+  const pills = wrapper
+    .find(".m-stop-page__header-feature")
+    .filterWhere(pill => pill.prop("href") === "#route-card-list");
+  expect(pills).toHaveLength(4);
+  expect(pills.last().text()).toEqual("Zone 1A");
+  pills.last().simulate("click");
+  expect(spy).toHaveBeenCalledWith({
+    type: "CLICK_ROUTE_PILL",
+    payload: { mode: "commuter_rail" }
+  });
+});

@@ -38,6 +38,7 @@ export default ({
     <>
       <BreadcrumbContainer stop={stop} />
       <Header
+        dispatch={dispatch}
         stop={stop}
         routes={routes}
         // eslint-disable-next-line typescript/camelcase
