@@ -1,7 +1,10 @@
 defmodule SiteWeb.StopViewTest do
   use ExUnit.Case, async: false
+  use SiteWeb.ConnCase
 
+  import SiteWeb.StopView
   alias Fares.RetailLocations.Location
+  alias Phoenix.HTML
   alias SiteWeb.PartialView.{HeaderTab, HeaderTabBadge}
   alias SiteWeb.StopView
   alias Stops.Stop
@@ -851,5 +854,109 @@ defmodule SiteWeb.StopViewTest do
                map_data: %{},
                map_id: "map"
              })
+  end
+
+  @high_priority_alerts [
+    %Alerts.Alert{
+      active_period: [{~N[2017-04-12T20:00:00], ~N[2017-05-12T20:00:00]}],
+      description: "description",
+      effect: :delay,
+      header: "header",
+      id: "1",
+      lifecycle: :ongoing,
+      priority: :high
+    }
+  ]
+
+  @low_priority_alerts [
+    %Alerts.Alert{
+      active_period: [{~N[2017-04-12T20:00:00], ~N[2017-05-12T20:00:00]}],
+      description: "description",
+      effect: :access_issue,
+      header: "header",
+      id: "1",
+      priority: :low
+    }
+  ]
+
+  describe "render_alerts/4" do
+    test "displays an alert" do
+      response =
+        StopView.render_alerts(
+          @high_priority_alerts,
+          ~D[2017-05-11],
+          %Stop{id: "2438"},
+          priority_filter: :high
+        )
+
+      assert HTML.safe_to_string(response) =~ "c-alert-item"
+    end
+
+    test "does not display an alert" do
+      response =
+        StopView.render_alerts(
+          @low_priority_alerts,
+          ~D[2017-05-11],
+          %Stop{id: "2438"},
+          priority_filter: :high
+        )
+
+      assert response == ""
+    end
+  end
+
+  describe "feature_icons/1" do
+    test "returns list of featured icons" do
+      [red_icon, access_icon | _] =
+        StopView.feature_icons(%DetailedStop{features: [:red_line, :access]})
+
+      assert HTML.safe_to_string(red_icon) =~ "icon-red-line"
+      assert HTML.safe_to_string(access_icon) =~ "icon-access"
+    end
+  end
+
+  describe "stop_feature_icon" do
+    test "sets a default size" do
+      green = stop_feature_icon(:"Green-B")
+
+      assert HTML.safe_to_string(green) =~ "default"
+    end
+  end
+
+  describe "_detailed_stop_list.html" do
+    test "renders a list of stops", %{conn: conn} do
+      stops = [
+        %DetailedStop{stop: %Stop{name: "Alewife", id: "place-alfcl"}},
+        %DetailedStop{stop: %Stop{name: "Davis", id: "place-davis"}},
+        %DetailedStop{stop: %Stop{name: "Porter", id: "place-porter"}}
+      ]
+
+      html =
+        "_detailed_stop_list.html"
+        |> render(detailed_stops: stops, conn: conn)
+        |> HTML.safe_to_string()
+
+      assert [alewife, davis, porter] = Floki.find(html, ".stop-btn")
+      assert Floki.text(alewife) =~ "Alewife"
+      assert Floki.text(davis) =~ "Davis"
+      assert Floki.text(porter) =~ "Porter"
+    end
+  end
+
+  describe "_search_bar.html" do
+    test "renders a search bar", %{conn: conn} do
+      stops = [
+        %DetailedStop{stop: %Stop{name: "Alewife", id: "place-alfcl"}},
+        %DetailedStop{stop: %Stop{name: "Davis", id: "place-davis"}},
+        %DetailedStop{stop: %Stop{name: "Porter", id: "place-porter"}}
+      ]
+
+      html =
+        "_search_bar.html"
+        |> render(stop_info: stops, conn: conn)
+        |> HTML.safe_to_string()
+
+      assert [{"div", _, _}] = Floki.find(html, ".c-search-bar")
+    end
   end
 end

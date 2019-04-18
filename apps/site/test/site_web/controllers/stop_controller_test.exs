@@ -27,6 +27,44 @@ defmodule SiteWeb.StopControllerTest do
     assert [_ | _] = content
   end
 
+  test "redirects to subway stops on index", %{conn: conn} do
+    conn = conn |> put_req_cookie("stop_page_redesign", "true") |> get(stop_path(conn, :index))
+    assert redirected_to(conn) == stop_path(conn, :show, :subway)
+  end
+
+  test "shows stations by mode", %{conn: conn} do
+    conn =
+      conn
+      |> put_req_cookie("stop_page_redesign", "true")
+      |> get(stop_path(conn, :show, :subway))
+
+    response = html_response(conn, 200)
+
+    for line <- ["Green", "Red", "Blue", "Orange", "Mattapan"] do
+      assert response =~ line
+    end
+  end
+
+  test "assigns stop_info for each mode", %{conn: conn} do
+    for mode <- [:subway, :ferry, "commuter-rail"] do
+      conn =
+        conn
+        |> put_req_cookie("stop_page_redesign", "true")
+        |> get(stop_path(conn, :show, mode))
+
+      assert conn.assigns.stop_info
+    end
+  end
+
+  test "redirects stations with slashes to the right URL", %{conn: conn} do
+    conn =
+      conn
+      |> put_req_cookie("stop_page_redesign", "true")
+      |> get("/stops-v2/Four%20Corners%20/%20Geneva")
+
+    assert redirected_to(conn) == stop_path(conn, :show, "Four Corners / Geneva")
+  end
+
   test "assigns routes for this stop", %{conn: conn} do
     conn =
       conn

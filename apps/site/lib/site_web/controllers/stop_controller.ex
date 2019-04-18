@@ -19,8 +19,6 @@ defmodule SiteWeb.StopController do
   alias Stops.{Nearby, Repo, Stop}
   alias Util.AndOr
 
-  plug(:alerts)
-
   @distance_tenth_of_a_mile 0.002
   @nearby_stop_limit 3
 
@@ -29,8 +27,27 @@ defmodule SiteWeb.StopController do
           routes: [route_with_directions]
         }
 
+  def index(conn, _params) do
+    redirect(conn, to: stop_path(conn, :show, :subway))
+  end
+
+  def show(conn, %{"id" => mode}) when mode in ["subway", "commuter-rail", "ferry"] do
+    mode_atom = Route.type_atom(mode)
+    {mattapan, stop_info} = get_stop_info()
+
+    conn
+    |> async_assign_default(:mode_hubs, fn -> HubStops.mode_hubs(mode_atom, stop_info) end, [])
+    |> async_assign_default(:route_hubs, fn -> HubStops.route_hubs(stop_info) end, [])
+    |> assign(:stop_info, stop_info)
+    |> assign(:mattapan, mattapan)
+    |> assign(:mode, mode_atom)
+    |> assign(:breadcrumbs, [Breadcrumb.build("Stations")])
+    |> await_assign_all_default(__MODULE__)
+    |> render("index.html")
+  end
+
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def show(conn, %{"stop" => stop}) do
+  def show(conn, %{"id" => stop}) do
     if Laboratory.enabled?(conn, :stop_page_redesign) do
       stop =
         stop
@@ -49,6 +66,7 @@ defmodule SiteWeb.StopController do
           json_safe_routes = json_safe_routes(routes_map)
 
           conn
+          |> alerts(stop)
           |> assign(:disable_turbolinks, true)
           |> assign(:stop, stop)
           |> assign(:routes, json_safe_routes)
@@ -76,6 +94,33 @@ defmodule SiteWeb.StopController do
       end
     else
       render_404(conn)
+    end
+  end
+
+  @doc "Redirect users who type in a URL with a slash to the correct URL"
+  def stop_with_slash_redirect(conn, %{"path" => path}) do
+    real_id = Enum.join(path, "/")
+
+    conn
+    |> redirect(to: stop_path(conn, :show, real_id))
+    |> halt
+  end
+
+  @spec get_stop_info :: {DetailedStopGroup.t(), [DetailedStopGroup.t()]}
+  defp get_stop_info do
+    [:subway, :commuter_rail, :ferry]
+    |> Task.async_stream(&DetailedStopGroup.from_mode/1)
+    |> Enum.flat_map(fn {:ok, stops} -> stops end)
+    |> separate_mattapan()
+  end
+
+  # Separates mattapan from stop_info list
+  @spec separate_mattapan([DetailedStopGroup.t()]) ::
+          {DetailedStopGroup.t(), [DetailedStopGroup.t()]}
+  defp separate_mattapan(stop_info) do
+    case Enum.find(stop_info, fn {route, _stops} -> route.id == "Mattapan" end) do
+      nil -> {nil, stop_info}
+      mattapan -> {mattapan, List.delete(stop_info, mattapan)}
     end
   end
 
@@ -196,13 +241,12 @@ defmodule SiteWeb.StopController do
   @spec includes_predictions?(TransitNearMe.headsign_data()) :: boolean
   defp includes_predictions?(%{times: times}), do: Enum.any?(times, &(&1.prediction != nil))
 
-  defp alerts(%{path_params: %{"stop" => stop}} = conn, _opts) do
-    stop_id = URI.decode_www_form(stop)
-
+  @spec alerts(Conn.t(), Stop.t()) :: Conn.t()
+  defp alerts(conn, %Stop{id: id}) do
     alerts =
       conn.assigns.date_time
       |> Alerts.Repo.all()
-      |> Alerts.Stop.match(stop_id)
+      |> Alerts.Stop.match(id)
 
     conn
     |> assign(:alerts, json_safe_alerts(alerts, conn.assigns.date))

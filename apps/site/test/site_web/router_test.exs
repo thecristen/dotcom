@@ -7,9 +7,27 @@ defmodule Phoenix.Router.RoutingTest do
       assert redirected_to(conn, 301) == "/stops/Yawkey"
     end
 
+    test "yawkey redirect for stops-v2", %{conn: conn} do
+      conn =
+        conn
+        |> put_req_cookie("stop_page_redesign", "true")
+        |> get("/stops-v2/Lansdowne")
+
+      assert redirected_to(conn, 301) == "/stops-v2/Yawkey"
+    end
+
     test "Boat-George", %{conn: conn} do
       conn = get(conn, "/stops/Boat-George")
       assert redirected_to(conn, 301) == "/stops/ferry"
+    end
+
+    test "Boat-George for stops-v2", %{conn: conn} do
+      conn =
+        conn
+        |> put_req_cookie("stop_page_redesign", "true")
+        |> get("/stops-v2/Boat-George")
+
+      assert redirected_to(conn, 301) == "/stops-v2/ferry"
     end
 
     test "SL", %{conn: conn} do
