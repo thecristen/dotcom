@@ -20,6 +20,7 @@ interface Props {
 export default ({
   stopPageData: {
     stop,
+    street_view_url: streetViewUrl,
     routes,
     tabs,
     // eslint-disable-next-line typescript/camelcase
@@ -70,7 +71,12 @@ export default ({
         <div className="page-section">
           <div className="row">
             <div className="col-12 col-sm-10 col-sm-offset-1 col-lg-7 col-lg-offset-0">
-              <AddressBlock stop={stop} routes={routes} encoder={encoder} />
+              <AddressBlock
+                stop={stop}
+                routes={routes}
+                encoder={encoder}
+                streetViewUrl={streetViewUrl}
+              />
               <Departures
                 routes={routes}
                 stop={stop}

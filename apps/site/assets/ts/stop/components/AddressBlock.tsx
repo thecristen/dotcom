@@ -11,6 +11,7 @@ interface Props {
   routes: TypedRoutes[];
   stop: Stop;
   encoder?: (str: string) => string;
+  streetViewUrl: string | null;
 }
 
 const renderAddress = (address: string): ReactElement<HTMLElement> => (
@@ -40,7 +41,8 @@ const streetViewLink = (stop: Stop): string =>
 const AddressBlock = ({
   routes,
   stop,
-  encoder
+  encoder,
+  streetViewUrl
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-stop-page__address-block">
     {stop.address && renderAddress(stop.address)}
@@ -57,7 +59,7 @@ const AddressBlock = ({
       </div>
       <div className="m-stop-page__address-link">
         <a
-          href={streetViewLink(stop)}
+          href={streetViewUrl || streetViewLink(stop)}
           target="_blank"
           rel="noopener noreferrer"
         >

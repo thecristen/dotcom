@@ -12,7 +12,7 @@ defmodule SiteWeb.StopController do
   alias Site.TransitNearMe
   alias SiteWeb.AlertView
   alias SiteWeb.PartialView.HeaderTab
-  alias SiteWeb.StopController.StopMap
+  alias SiteWeb.StopController.{CuratedStreetView, StopMap}
   alias SiteWeb.StopView.Parking
   alias SiteWeb.ViewHelpers
   alias SiteWeb.Views.Helpers.AlertHelpers
@@ -327,6 +327,7 @@ defmodule SiteWeb.StopController do
        ) do
     assign(conn, :stop_page_data, %{
       stop: %{stop | parking_lots: Enum.map(stop.parking_lots, &Parking.parking_lot(&1))},
+      street_view_url: CuratedStreetView.url(stop.id),
       routes: routes,
       suggested_transfers: nearby_stops(stop),
       tabs: [

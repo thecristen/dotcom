@@ -18,6 +18,7 @@ it("renders", () => {
         routes={data.routes}
         stop={data.stop}
         encoder={window.encodeURIComponent}
+        streetViewUrl={null}
       />
     )
     .toJSON();
@@ -37,6 +38,7 @@ it("uses lat/lng when window.encodeURIComponent isn't available", () => {
         routes={[]}
         stop={data.stop}
         encoder={window.encodeURIComponent}
+        streetViewUrl={null}
       />
     )
       .find(".btn.btn-primary")
@@ -46,7 +48,7 @@ it("uses lat/lng when window.encodeURIComponent isn't available", () => {
   );
 
   expect(
-    shallow(<AddressBlock routes={[]} stop={data.stop} />)
+    shallow(<AddressBlock routes={[]} stop={data.stop} streetViewUrl={null} />)
       .find(".btn.btn-primary")
       .prop("href")
   ).toEqual(`https://www.google.com/maps/dir/?api=1&destination=${latLng}`);
@@ -54,7 +56,7 @@ it("uses lat/lng when window.encodeURIComponent isn't available", () => {
 
 it("does not render address if stop has no address", () => {
   expect(
-    shallow(<AddressBlock routes={[]} stop={data.stop} />)
+    shallow(<AddressBlock routes={[]} stop={data.stop} streetViewUrl={null} />)
       .find(".m-stop-page__address")
       .exists()
   ).toEqual(true);
@@ -62,7 +64,7 @@ it("does not render address if stop has no address", () => {
   const stopWithoutAddress: Stop = { ...data.stop, address: null };
 
   const wrapper = shallow(
-    <AddressBlock routes={[]} stop={stopWithoutAddress} />
+    <AddressBlock routes={[]} stop={stopWithoutAddress} streetViewUrl={null} />
   );
 
   expect(wrapper.find(".m-stop-page__address").exists()).toEqual(false);

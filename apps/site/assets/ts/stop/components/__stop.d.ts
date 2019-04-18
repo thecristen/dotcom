@@ -25,6 +25,7 @@ export interface SuggestedTransfer {
 
 export interface StopPageData {
   stop: Stop;
+  street_view_url: string | null;
   routes: TypedRoutes[];
   suggested_transfers: SuggestedTransfer[];
   tabs: Tab[];
