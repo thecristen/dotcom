@@ -149,3 +149,46 @@ export interface StopWithDirections {
   stop: Stop;
   directions: Direction[];
 }
+
+export type Activity =
+  | "board"
+  | "exit"
+  | "ride"
+  | "park_car"
+  | "bringing_bike"
+  | "store_bike"
+  | "using_wheelchair"
+  | "using_escalator";
+
+export type Lifecycle =
+  | "ongoing"
+  | "upcoming"
+  | "ongoing_upcoming"
+  | "new"
+  | "unknown";
+
+export type Priority = "high" | "low" | "system";
+
+export interface InformedEntity {
+  route: string | null;
+  route_type: string | null;
+  stop: string | null;
+  trip: string | null;
+  direction_id: DirectionId | null;
+  activities: Activity[];
+}
+
+export type TimePeriodPairs = [string, string];
+
+export interface Alert {
+  id: string;
+  active_period: TimePeriodPairs[];
+  header: string;
+  informed_entity: InformedEntity[];
+  effect: string;
+  severity: number;
+  lifecycle: Lifecycle;
+  updated_at: string;
+  description: string;
+  priority: Priority;
+}

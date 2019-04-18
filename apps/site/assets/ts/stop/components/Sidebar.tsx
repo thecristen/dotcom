@@ -6,7 +6,7 @@ import BikeStorage from "./sidebar/BikeStorage";
 import Fares from "./sidebar/Fares";
 import { Stop } from "../../__v3api";
 import { TypedRoutes, RetailLocationWithDistance } from "./__stop";
-import Feedback from "../../app/Feedback";
+import Feedback from "../../components/Feedback";
 
 interface Props {
   stop: Stop;

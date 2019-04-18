@@ -193,6 +193,17 @@ Array [
   <div
     className="container"
   >
+    <div
+      className="page-section"
+    >
+      <ul
+        className="c-alert-group"
+      />
+    </div>
+  </div>,
+  <div
+    className="container"
+  >
     <h2>
       Station Information
     </h2>

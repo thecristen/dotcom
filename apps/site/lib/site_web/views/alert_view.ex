@@ -146,15 +146,19 @@ defmodule SiteWeb.AlertView do
     class_list
   end
 
-  def alert_updated(alert, relative_to) do
+  def alert_updated(%Alert{updated_at: updated_at}, relative_to) do
+    alert_updated(updated_at, relative_to)
+  end
+
+  def alert_updated(updated_at, relative_to) do
     date =
-      if Timex.equal?(relative_to, alert.updated_at) do
+      if Timex.equal?(relative_to, updated_at) do
         "Today at"
       else
-        Timex.format!(alert.updated_at, "{M}/{D}/{YYYY}")
+        Timex.format!(updated_at, "{M}/{D}/{YYYY}")
       end
 
-    time = format_schedule_time(alert.updated_at)
+    time = format_schedule_time(updated_at)
 
     ["Updated: ", date, 32, time]
   end

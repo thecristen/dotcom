@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { handleReactEnterKeyPress } from "../helpers/keyboard-events";
 import renderSvg from "../helpers/render-svg";
+import { caret } from "../helpers/icon";
 
 export interface ExpandableBlockHeader {
   text: string;
@@ -18,17 +19,6 @@ interface State {
   expanded: boolean;
   focused: boolean;
 }
-
-const caret = (expanded: boolean): ReactElement<HTMLElement> => {
-  const unicodeCharacter = expanded ? "&#xF106;" : "&#xF107;";
-  return (
-    <span
-      className="c-expandable-block__header-caret"
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{ __html: unicodeCharacter }}
-    />
-  );
-};
 
 export default ({
   initiallyExpanded,
@@ -64,7 +54,7 @@ export default ({
           ? renderSvg("c-expandable-block__header-icon", iconSvgText)
           : null}
         {text}
-        {caret(expanded)}
+        {caret("c-expandable-block__header-caret", expanded)}
       </h3>
       {expanded ? (
         <div
@@ -87,7 +77,7 @@ export default ({
             ? renderSvg("c-expandable-block__header-icon", iconSvgText)
             : null}
           {text}
-          {caret(true)}
+          {caret("c-expandable-block__header-caret", true)}
         </h3>
         <div className="c-expandable-block__panel" role="region">
           {children}

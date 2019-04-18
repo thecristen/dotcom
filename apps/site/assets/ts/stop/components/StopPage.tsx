@@ -4,6 +4,7 @@ import { StopPageData, StopMapData } from "./__stop";
 import { reducer, initialState } from "../state";
 import BreadcrumbContainer from "./BreadcrumbContainer";
 import Header from "./Header";
+import Alerts from "../../components/Alerts";
 import Sidebar from "./Sidebar";
 import AddressBlock from "./AddressBlock";
 import Departures from "./Departures";
@@ -26,13 +27,16 @@ export default ({
     // eslint-disable-next-line typescript/camelcase
     retail_locations: retailLocations,
     // eslint-disable-next-line typescript/camelcase
-    suggested_transfers: suggestedTransfers
+    suggested_transfers: suggestedTransfers,
+    alerts
   },
   mapData,
   mapId,
   encoder
 }: Props): ReactElement<HTMLElement> => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const highPriorityAlerts = alerts.filter(alert => alert.priority === "high");
 
   return (
     <>
@@ -45,6 +49,7 @@ export default ({
         zoneNumber={zoneNumber}
         tabs={tabs}
       />
+      <Alerts alerts={highPriorityAlerts} />
       <div className="container">
         <h2>Station Information</h2>
         <p>

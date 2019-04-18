@@ -3,11 +3,14 @@ defmodule SiteWeb.StopController do
   Page for display of information about in individual stop or station.
   """
   use SiteWeb, :controller
+  alias Alerts.Alert
   alias Plug.Conn
   alias Fares.{RetailLocations, RetailLocations.Location}
+  alias Phoenix.HTML
   alias Site.JsonHelpers
   alias Routes.{Group, Route}
   alias Site.TransitNearMe
+  alias SiteWeb.AlertView
   alias SiteWeb.PartialView.HeaderTab
   alias SiteWeb.StopController.StopMap
   alias SiteWeb.StopView.Parking
@@ -202,8 +205,44 @@ defmodule SiteWeb.StopController do
       |> Alerts.Stop.match(stop_id)
 
     conn
-    |> assign(:alerts, alerts)
+    |> assign(:alerts, json_safe_alerts(alerts, conn.assigns.date))
     |> assign(:all_alerts_count, length(alerts))
+  end
+
+  @spec json_safe_alerts([Alert.t()], DateTime.t()) :: [map]
+  def json_safe_alerts(alerts, date) do
+    alerts
+    |> Enum.map(&Map.from_struct/1)
+    |> Enum.map(
+      &Map.update!(&1, :active_period, fn active ->
+        Enum.map(active, fn periods -> active_period_to_string(periods) end)
+      end)
+    )
+    |> Enum.map(
+      &Map.update!(&1, :updated_at, fn updated ->
+        IO.iodata_to_binary(AlertView.alert_updated(updated, date))
+      end)
+    )
+    |> Enum.map(
+      &Map.update!(&1, :description, fn desc ->
+        HTML.safe_to_string(AlertView.format_alert_description(desc))
+      end)
+    )
+  end
+
+  def active_period_to_string({first, last}) do
+    [
+      format_time(first),
+      format_time(last)
+    ]
+  end
+
+  def format_time(nil) do
+    nil
+  end
+
+  def format_time(time) do
+    Timex.format!(time, "{YYYY}-{M}-{D} {h12}:{m}")
   end
 
   @type json_safe_routes :: %{
@@ -236,6 +275,7 @@ defmodule SiteWeb.StopController do
            assigns: %{
              stop: stop,
              routes: routes,
+             alerts: alerts,
              all_alerts_count: all_alerts_count,
              zone_number: zone_number
            }
@@ -259,7 +299,8 @@ defmodule SiteWeb.StopController do
           badge: AlertHelpers.alert_badge(all_alerts_count)
         }
       ],
-      zone_number: zone_number
+      zone_number: zone_number,
+      alerts: alerts
     })
   end
 

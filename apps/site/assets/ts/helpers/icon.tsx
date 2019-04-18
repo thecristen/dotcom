@@ -1,3 +1,4 @@
+import React, { ReactElement } from "react";
 import renderSvg from "./render-svg";
 // @ts-ignore
 import accessibleIconSvg from "../../static/images/icon-accessible-small.svg";
@@ -103,4 +104,18 @@ export const modeIcon = (routeId: string): JSX.Element | undefined => {
   if (isSilverRoute(routeId)) return silverLineIcon("c-svg__icon");
 
   return busIcon("c-svg__icon-bus-small");
+};
+
+export const caret = (
+  className: string,
+  expanded: boolean
+): ReactElement<HTMLElement> => {
+  const unicodeCharacter = expanded ? "&#xF106;" : "&#xF107;";
+  return (
+    <span
+      className={className}
+      // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{ __html: unicodeCharacter }}
+    />
+  );
 };

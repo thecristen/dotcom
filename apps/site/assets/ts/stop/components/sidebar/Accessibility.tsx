@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import ExpandableBlock from "../../../app/ExpandableBlock";
+import ExpandableBlock from "../../../components/ExpandableBlock";
 // @ts-ignore
 import accessibleIcon from "../../../../static/images/icon-accessible-default.svg";
 import { Stop, AccessibilityType } from "../../../__v3api";

@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import Marker from "../googleMaps/Marker";
-import { createReactRoot } from "../../app/helpers/testUtils";
+import { createReactRoot } from "../helpers/testUtils";
 import { MarkerData } from "../googleMaps/__googleMaps";
 
 const createData = (id: string): MarkerData => ({

@@ -4,7 +4,7 @@
     class="c-alert-item c-alert-item--<%= @alert.priority %>
            <%= if @alert.description, do: "js-toggle-alert" %>
            <%= if @alert.description, do: "c-alert-item--expandable" %>"
-           <%= if @alert.description, do: raw("aria-expanded=\"false\" aria-role=\"button\"") %>>
+           <%= if @alert.description, do: raw("aria-expanded=\"false\" role=\"button\"") %>>
   <div class="c-alert-item__icon">
     <%= alert_icon(alert_icon_type) %>
   </div>

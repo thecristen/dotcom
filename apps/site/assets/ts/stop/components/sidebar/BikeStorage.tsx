@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import ExpandableBlock from "../../../app/ExpandableBlock";
+import ExpandableBlock from "../../../components/ExpandableBlock";
 import { BikeStorageType, Stop } from "../../../__v3api";
 // @ts-ignore
 import bikeIconSvg from "../../../../static/images/icon-bikes-default.svg";

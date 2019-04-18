@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { Stop, FareFacilityType } from "../../../__v3api";
-import ExpandableBlock from "../../../app/ExpandableBlock";
+import ExpandableBlock from "../../../components/ExpandableBlock";
 import { RetailLocationWithDistance, RetailLocation } from "../__stop";
 // @ts-ignore
 import fareIconSvg from "../../../../static/images/icon-fares-default.svg";

@@ -840,7 +840,8 @@ defmodule SiteWeb.StopViewTest do
         }
       }
     ],
-    suggested_transfers: []
+    suggested_transfers: [],
+    alerts: []
   }
 
   test "render_react returns HTML" do
