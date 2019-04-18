@@ -127,7 +127,8 @@ exports[`it renders 1`] = `
               >
                 Charles St S @ Park Plaza
                 <span
-                  className="m-tnm-sidebar__stop-accessible"
+                  aria-hidden="true"
+                  className="notranslate m-tnm-sidebar__stop-accessible"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "SVG",
@@ -221,7 +222,8 @@ exports[`it renders 1`] = `
               >
                 285 Tremont St
                 <span
-                  className="m-tnm-sidebar__stop-accessible"
+                  aria-hidden="true"
+                  className="notranslate m-tnm-sidebar__stop-accessible"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "SVG",
@@ -330,7 +332,8 @@ exports[`it renders 1`] = `
               >
                 Stuart St @ Charles St S
                 <span
-                  className="m-tnm-sidebar__stop-accessible"
+                  aria-hidden="true"
+                  className="notranslate m-tnm-sidebar__stop-accessible"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "SVG",
@@ -429,7 +432,8 @@ exports[`it renders 1`] = `
               >
                 Saint James Ave @ Arlington St
                 <span
-                  className="m-tnm-sidebar__stop-accessible"
+                  aria-hidden="true"
+                  className="notranslate m-tnm-sidebar__stop-accessible"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "SVG",
@@ -543,7 +547,8 @@ exports[`it renders 1`] = `
               >
                 Stuart St @ Charles St S
                 <span
-                  className="m-tnm-sidebar__stop-accessible"
+                  aria-hidden="true"
+                  className="notranslate m-tnm-sidebar__stop-accessible"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "SVG",

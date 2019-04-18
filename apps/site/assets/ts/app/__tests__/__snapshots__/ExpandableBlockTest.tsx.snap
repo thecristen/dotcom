@@ -13,7 +13,8 @@ Array [
     tabIndex={0}
   >
     <span
-      className="c-expandable-block__header-icon"
+      aria-hidden="true"
+      className="notranslate c-expandable-block__header-icon"
       dangerouslySetInnerHTML={
         Object {
           "__html": "SVG",
@@ -54,7 +55,8 @@ Array [
       className="c-expandable-block__header"
     >
       <span
-        className="c-expandable-block__header-icon"
+        aria-hidden="true"
+        className="notranslate c-expandable-block__header-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",

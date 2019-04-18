@@ -9,7 +9,8 @@ it("renders the given svg content in a span element with a class name", () => {
 
   const expected = (
     <span
-      className={className}
+      aria-hidden="true"
+      className={`notranslate ${className}`}
       dangerouslySetInnerHTML={{
         __html: "svg text"
       }}

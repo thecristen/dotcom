@@ -16,7 +16,8 @@ exports[`it renders a stop card 1`] = `
       href="/stops/stop-id"
     >
       <span
-        className="m-tnm-sidebar__stop-marker"
+        aria-hidden="true"
+        className="notranslate m-tnm-sidebar__stop-marker"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -25,7 +26,8 @@ exports[`it renders a stop card 1`] = `
       />
       Stop Name
       <span
-        className="m-tnm-sidebar__stop-accessible"
+        aria-hidden="true"
+        className="notranslate m-tnm-sidebar__stop-accessible"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",

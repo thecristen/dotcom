@@ -31,7 +31,8 @@ exports[`renders 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-accessible-default"
+            aria-hidden="true"
+            className="notranslate c-svg__icon-accessible-default"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -79,7 +80,8 @@ exports[`renders 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-accessible-default"
+            aria-hidden="true"
+            className="notranslate c-svg__icon-accessible-default"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -172,7 +174,8 @@ exports[`renders 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            className="c-svg__icon-accessible-default"
+            aria-hidden="true"
+            className="notranslate c-svg__icon-accessible-default"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
