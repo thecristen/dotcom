@@ -9,14 +9,14 @@ import {
 
 describe("reducer", () => {
   it("handles clickMarkerAction by selecting a stop", () => {
-    const initialState = {
+    const initialState: State = {
       selectedStopId: null,
       selectedModes: [],
       shouldFilterStopCards: false
     };
-    const expectedState = {
+    const expectedState: State = {
+      ...initialState,
       selectedStopId: "1",
-      selectedModes: [],
       shouldFilterStopCards: true
     };
 
@@ -26,14 +26,14 @@ describe("reducer", () => {
   });
 
   it("handles clickMarkerAction by deselecting a stop", () => {
-    const initialState = {
+    const initialState: State = {
       selectedStopId: "1",
       selectedModes: [],
       shouldFilterStopCards: true
     };
-    const expectedState = {
+    const expectedState: State = {
+      ...initialState,
       selectedStopId: null,
-      selectedModes: [],
       shouldFilterStopCards: false
     };
 
@@ -48,8 +48,8 @@ describe("reducer", () => {
       selectedModes: ["subway"],
       shouldFilterStopCards: false
     };
-    const expectedState = {
-      selectedStopId: null,
+    const expectedState: State = {
+      ...initialState,
       selectedModes: ["subway", "bus"],
       shouldFilterStopCards: true
     };
@@ -65,8 +65,8 @@ describe("reducer", () => {
       selectedModes: ["subway", "bus"],
       shouldFilterStopCards: false
     };
-    const expectedState = {
-      selectedStopId: null,
+    const expectedState: State = {
+      ...initialState,
       selectedModes: ["subway"],
       shouldFilterStopCards: true
     };
@@ -92,12 +92,7 @@ describe("reducer", () => {
   });
 
   it("would return default state if provided unknown type (but type is enforced by TS)", () => {
-    const initialState = {
-      selectedStopId: "1",
-      selectedModes: [],
-      shouldFilterStopCards: false
-    };
-    const expectedState = {
+    const initialState: State = {
       selectedStopId: "1",
       selectedModes: [],
       shouldFilterStopCards: false
@@ -110,6 +105,6 @@ describe("reducer", () => {
     };
     const newState = reducer(initialState, action);
 
-    expect(newState).toEqual(expectedState);
+    expect(newState).toEqual(initialState);
   });
 });
