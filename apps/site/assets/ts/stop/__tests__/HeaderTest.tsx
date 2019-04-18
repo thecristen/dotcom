@@ -5,6 +5,7 @@ import stopData from "./stopData.json";
 import { StopPageData, TypedRoutes } from "../components/__stop";
 import Header from "../components/Header";
 import { createReactRoot } from "../../app/helpers/testUtils";
+import { Route } from "../../__v3api";
 
 const data = JSON.parse(JSON.stringify(stopData)) as StopPageData;
 
@@ -402,6 +403,74 @@ it("does not upcase name of bus-only stops", () => {
   );
   expect(wrapper.find(".m-stop-page__name")).toHaveLength(1);
   expect(wrapper.find(".m-stop-page__name--upcase")).toHaveLength(0);
+});
+
+it("separates bus and silver line pills", () => {
+  /* eslint-disable typescript/camelcase */
+  const busRoute: Route = {
+    type: 3,
+    name: "Bus",
+    header: "Bus",
+    long_name: "Bus",
+    id: "Bus",
+    direction_names: {
+      "0": "South",
+      "1": "North"
+    },
+    direction_destinations: {
+      "0": "Ashmont/Braintree",
+      "1": "Alewife"
+    },
+    description: "rapid_transit",
+    alert_count: 0
+  };
+
+  const routesWithoutSilverLine: TypedRoutes[] = [
+    {
+      group_name: "bus",
+      routes: [
+        { route: { ...busRoute, id: "1" }, directions: [] },
+        { route: { ...busRoute, id: "2" }, directions: [] }
+      ]
+    }
+  ];
+
+  const routesWithSilverLine: TypedRoutes[] = [
+    {
+      group_name: "bus",
+      routes: [
+        { route: busRoute, directions: [] },
+        { route: { ...busRoute, id: "746", name: "SL1" }, directions: [] }
+      ]
+    }
+  ];
+  /* eslint-enable typescript/camelcase */
+
+  expect(
+    shallow(
+      <Header
+        stop={data.stop}
+        routes={routesWithoutSilverLine}
+        zoneNumber=""
+        tabs={[]}
+      />
+    )
+      .find(".m-stop-page__header-feature")
+      .filterWhere(pill => pill.prop("href") === "#route-card-list").length
+  ).toEqual(1);
+
+  expect(
+    shallow(
+      <Header
+        stop={data.stop}
+        routes={routesWithSilverLine}
+        zoneNumber=""
+        tabs={[]}
+      />
+    )
+      .find(".m-stop-page__header-feature")
+      .filterWhere(pill => pill.prop("href") === "#route-card-list").length
+  ).toEqual(2);
 });
 
 it("dispatches clickRoutePillAction when route pill is clicked", () => {

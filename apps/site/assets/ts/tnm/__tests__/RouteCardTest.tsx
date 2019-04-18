@@ -1,10 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import RouteCard, {
-  isSilverLine,
-  routeBgColor,
-  busClass
-} from "../components/RouteCard";
+import RouteCard, { routeBgColor, busClass } from "../components/RouteCard";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import {
   Direction,
@@ -106,18 +102,6 @@ it("it renders a stop card for the silver line", () => {
     .create(<RouteCard route={sl} dispatch={() => {}} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
-});
-
-describe("isSilverLine", () => {
-  it("identifies silver line routes", () => {
-    ["741", "742", "743", "746", "749", "751"].forEach(id => {
-      const sl: RouteWithStopsWithDirections = {
-        route: { ...route.route, id },
-        stops_with_directions: route.stops_with_directions
-      };
-      expect(isSilverLine(sl)).toBe(true);
-    });
-  });
 });
 
 describe("routeBgColor", () => {

@@ -1,15 +1,13 @@
 import React, { ReactElement } from "react";
 import { Direction as DirectionType, Route, Stop } from "../../__v3api";
 import Direction from "../../components/Direction";
+import { isSilverLine } from "../../helpers/silver-line";
 
 interface Props {
   route: Route;
   directions: DirectionType[];
   stop: Stop;
 }
-
-const isSilverLine = ({ id: routeId }: Route): boolean =>
-  ["741", "742", "743", "746", "749", "751"].includes(routeId);
 
 const routeBgColor = (route: Route): string => {
   if (route.type === 2) return "commuter-rail";
@@ -18,7 +16,7 @@ const routeBgColor = (route: Route): string => {
   if (route.id === "Orange") return "orange-line";
   if (route.id === "Blue") return "blue-line";
   if (route.id.startsWith("Green-")) return "green-line";
-  if (isSilverLine(route)) return "silver-line";
+  if (isSilverLine(route.id)) return "silver-line";
   if (route.type === 3) return "bus";
   return "unknown";
 };
@@ -26,10 +24,10 @@ const routeBgColor = (route: Route): string => {
 const routeBgClass = (route: Route): string => `u-bg--${routeBgColor(route)}`;
 
 const busClass = (route: Route): string =>
-  route.type === 3 && !isSilverLine(route) ? "bus-route-sign" : "";
+  route.type === 3 && !isSilverLine(route.id) ? "bus-route-sign" : "";
 
 const routeHeader = (route: Route): string =>
-  isSilverLine(route) ? `Silver Line ${route.name}` : route.name;
+  isSilverLine(route.id) ? `Silver Line ${route.name}` : route.name;
 
 const Header = ({ route }: { route: Route }): ReactElement<HTMLElement> => (
   <a

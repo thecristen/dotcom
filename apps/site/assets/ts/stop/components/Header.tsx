@@ -3,6 +3,7 @@ import { Stop, Route } from "../../__v3api";
 import TabComponent from "./Tab";
 import { Tab, TypedRoutes, RouteWithDirections } from "./__stop";
 import { parkingIcon, modeIcon } from "../../helpers/icon";
+import { isSilverLine } from "../../helpers/silver-line";
 import accessible from "./StopAccessibilityIcon";
 import { Dispatch, clickRoutePillAction } from "../state";
 import { modeByV3ModeType } from "../../components/ModeFilter";
@@ -63,6 +64,27 @@ const modeIconFeature = (
   </a>
 );
 
+interface BusRoutesAcc {
+  bus: RouteWithDirections[];
+  silverLine: RouteWithDirections[];
+}
+
+const doSplitSilverLine = (
+  acc: BusRoutesAcc,
+  route: RouteWithDirections
+): BusRoutesAcc =>
+  isSilverLine(route.route.id)
+    ? { ...acc, silverLine: acc.silverLine.concat([route]) }
+    : { ...acc, bus: acc.bus.concat([route]) };
+
+const splitSilverLine = (
+  routes: RouteWithDirections[]
+): RouteWithDirections[] => {
+  const acc: BusRoutesAcc = { bus: [], silverLine: [] };
+  const { bus, silverLine } = routes.reduce(doSplitSilverLine, acc);
+  return bus.slice(0, 1).concat(silverLine.slice(0, 1));
+};
+
 const iconableRoutesForType = ({
   // eslint-disable-next-line typescript/camelcase
   group_name,
@@ -70,6 +92,9 @@ const iconableRoutesForType = ({
 }: TypedRoutes): RouteWithDirections[] => {
   // eslint-disable-next-line typescript/camelcase
   if (group_name === "subway") return routes;
+
+  // eslint-disable-next-line typescript/camelcase
+  if (group_name === "bus") return splitSilverLine(routes);
 
   return routes.length ? [routes[0]] : [];
 };
