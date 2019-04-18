@@ -138,7 +138,7 @@ defmodule SiteWeb.AlertView do
   end
 
   defp do_alert_label_class(class_list, %Alert{lifecycle: lifecycle})
-       when lifecycle in [:upcoming, :upcoming_ongoing] do
+       when lifecycle in [:upcoming, :ongoing_upcoming] do
     ["c-alert-item__badge--upcoming" | class_list]
   end
 

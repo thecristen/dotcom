@@ -215,15 +215,15 @@ defmodule Alerts.Alert do
   def human_label(%__MODULE__{effect: :delay, severity: 7}), do: "up to 30 minutes"
   def human_label(%__MODULE__{effect: :delay, severity: 8}), do: "30+ minutes"
   def human_label(%__MODULE__{effect: :delay, severity: 9}), do: "more than an hour"
-  def human_label(alert), do: do_upcoming_ongoing(alert)
+  def human_label(alert), do: do_ongoing_upcoming(alert)
 
-  @spec do_upcoming_ongoing(t) :: String.t()
-  defp do_upcoming_ongoing(%{lifecycle: lifecycle})
+  @spec do_ongoing_upcoming(t) :: String.t()
+  defp do_ongoing_upcoming(%{lifecycle: lifecycle})
        when lifecycle not in [:new, :unknown] do
     do_human_lifecycle(lifecycle)
   end
 
-  defp do_upcoming_ongoing(_), do: ""
+  defp do_ongoing_upcoming(_), do: ""
 
   @spec icon(t) :: icon_type
   def icon(%{priority: :low}), do: :none
