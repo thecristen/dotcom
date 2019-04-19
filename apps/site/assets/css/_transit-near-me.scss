@@ -259,6 +259,8 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   border-top: $border;
   display: flex;
   justify-content: space-between;
+  margin-bottom: $space-2;
+  margin-top: $space-2;
 }
 
 .m-tnm-sidebar__headsign-schedule--condensed {
@@ -272,10 +274,14 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 
 .m-tnm-sidebar__headsign-name--small {
   font-weight: bold;
+  line-height: 1;
+  margin-top: $base-spacing / 4;
 }
 
 .m-tnm-sidebar__via {
   font-weight: $font-weight-medium;
+  line-height: 1;
+  margin-top: $base-spacing / 4;
 }
 
 .m-tnm-sidebar__schedules {
@@ -310,7 +316,8 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 .m-tnm-sidebar__time-number {
   @include h3();
   line-height: 1em;
-  margin: 0;
+  margin-bottom: 0;
+  margin-top: $base-spacing / 4;
 
   &--delayed {
     font-weight: bold;
@@ -320,6 +327,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 
 .m-tnm-sidebar__time-mins {
   line-height: 1em;
+  margin-top: $space-2;
 }
 
 .m-tnm-sidebar__stop-marker,
