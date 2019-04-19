@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import StopPage from "../components/StopPage";
 import stopData from "./stopData.json";
 import { StopPageData } from "../components/__stop";
-import { MapData } from "../../app/googleMaps/__googleMaps";
+import { MapData } from "../../leaflet/components/__mapdata";
 import { createReactRoot } from "../../app/helpers/testUtils";
 
 it("it renders", () => {
@@ -12,9 +12,6 @@ it("it renders", () => {
   const mapData: MapData = {
     zoom: 14,
     width: 630,
-    scale: 1,
-    reset_bounds_on_update: false, // eslint-disable-line
-    paths: [],
     markers: [
       {
         id: "current-stop",
@@ -24,16 +21,12 @@ it("it renders", () => {
         "visible?": true,
         size: "medium",
         tooltip: null,
-        z_index: 1,
-        label: null
+        z_index: 1
       }
     ],
     default_center: { latitude: 0, longitude: 0 },
     height: 500,
-    dynamic_options: {},
-    layers: { transit: false },
-    auto_init: false,
-    bound_padding: null
+    tile_server_url: ""
   };
 
   const initialData = {

@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { mount } from "enzyme";
 import Marker from "../googleMaps/Marker";
 import { createReactRoot } from "../helpers/testUtils";
 import { MarkerData } from "../googleMaps/__googleMaps";
@@ -19,13 +19,14 @@ const createData = (id: string): MarkerData => ({
 describe("Marker", () => {
   const map = new window.google.maps.Map();
   const id = "id";
-  it("it renders", () => {
+  it("it renders and unmounts", () => {
     const data = createData(id);
     createReactRoot();
-    const wrapper = shallow(
+    const wrapper = mount(
       <Marker map={map} data={data} isSelected={false} dispatch={() => {}} />
     );
     expect(wrapper.find(`.${id}`)).toHaveLength(1);
+    wrapper.unmount();
   });
 
   it("handles marker clicks", () => {

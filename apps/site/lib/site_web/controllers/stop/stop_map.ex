@@ -2,7 +2,8 @@ defmodule SiteWeb.StopController.StopMap do
   @moduledoc """
   Module for building map info for Google Maps on stop pages
   """
-  alias GoogleMaps.{MapData, MapData.Marker, ViewHelpers}
+  alias GoogleMaps.ViewHelpers
+  alias Leaflet.{MapData, MapData.Marker}
   alias Phoenix.HTML
   alias SiteWeb.PartialView
   alias Stops.Stop
@@ -26,7 +27,7 @@ defmodule SiteWeb.StopController.StopMap do
           map_url: String.t()
         }
   def map_info(stop, grouped_routes) do
-    map_data = build_map_data(stop, grouped_routes, 2, 735, 250)
+    map_data = build_map_data(stop, grouped_routes, 735, 250)
 
     %{
       map_data: map_data,
@@ -47,22 +48,23 @@ defmodule SiteWeb.StopController.StopMap do
           {String.t(), String.t()}
   defp do_map_srcset({width, height, scale}, stop, routes) do
     size = "#{width * scale}"
-    stop_map_src = stop |> build_map_data(routes, scale, width, height) |> map_url()
+    stop_map_src = stop |> build_map_data(routes, width, height) |> map_url()
     {size, stop_map_src}
   end
 
   @spec map_url(MapData.t()) :: String.t()
   defp map_url(map_data) do
-    GoogleMaps.static_map_url(map_data)
+    map_data
+    |> MapData.to_google_map_data()
+    |> GoogleMaps.static_map_url()
   end
 
-  @spec build_map_data(Stop.t(), grouped_routes_map, 1 | 2, integer, integer) :: MapData.t()
-  defp build_map_data(stop, routes, scale, width, height) do
+  @spec build_map_data(Stop.t(), grouped_routes_map, integer, integer) :: MapData.t()
+  defp build_map_data(stop, routes, width, height) do
     {width, height}
-    |> MapData.new(16, scale)
-    |> MapData.disable_map_type_controls()
-    |> MapData.add_layers(%MapData.Layers{transit: true})
+    |> MapData.new(16)
     |> add_stop_marker(stop, routes)
+    |> Map.put(:tile_server_url, Application.fetch_env!(:site, :tile_server_url))
   end
 
   @spec add_stop_marker(MapData.t(), Stop.t(), grouped_routes_map) :: MapData.t()
@@ -74,15 +76,13 @@ defmodule SiteWeb.StopController.StopMap do
   @spec build_current_stop_marker(
           Stop.t(),
           grouped_routes_map
-        ) :: GoogleMaps.MapData.Marker.t()
+        ) :: Marker.t()
   def build_current_stop_marker(stop, routes) do
     Marker.new(
       stop.latitude,
       stop.longitude,
-      id: "current-stop",
-      icon: ViewHelpers.marker_for_routes([]),
-      visible?: !stop.station?,
-      size: :large,
+      id: stop.id,
+      icon: ViewHelpers.marker_for_routes(routes),
       tooltip: tooltip(stop, routes)
     )
   end

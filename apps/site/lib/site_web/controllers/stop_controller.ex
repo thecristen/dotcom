@@ -70,7 +70,6 @@ defmodule SiteWeb.StopController do
           |> assign(:disable_turbolinks, true)
           |> assign(:stop, stop)
           |> assign(:routes, json_safe_routes)
-          |> assign(:requires_google_maps?, true)
           |> async_assign_default(
             :retail_locations,
             fn ->

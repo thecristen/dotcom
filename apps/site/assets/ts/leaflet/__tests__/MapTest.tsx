@@ -15,7 +15,6 @@ const data: MapData = {
       size: "mid",
       longitude: -71.071097,
       latitude: 42.43668,
-      label: null,
       id: null,
       icon: null
     }

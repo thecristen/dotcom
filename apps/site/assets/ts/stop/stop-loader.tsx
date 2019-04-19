@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import StopPage from "./components/StopPage";
 import { StopPageData, StopMapData } from "./components/__stop";
-import { doWhenGoogleMapsIsReady } from "../../js/google-maps-loaded";
 
 const render = (): void => {
   const stopPageDataEl = document.getElementById("js-stop-page-data");
@@ -22,14 +21,8 @@ const render = (): void => {
   );
 };
 
-const renderMap = (): void => {
-  doWhenGoogleMapsIsReady(() => {
-    render();
-  });
-};
-
 export const onLoad = (): void => {
-  renderMap();
+  render();
 };
 
 export default onLoad;

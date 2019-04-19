@@ -1,6 +1,7 @@
 export type TileServerUrl =
   | "http://tile-server.mbtace.com"
-  | "http://dev.tile-server.mbtace.com";
+  | "http://dev.tile-server.mbtace.com"
+  | "";
 
 export interface MapMarker {
   z_index: number;
@@ -9,9 +10,9 @@ export interface MapMarker {
   size: string;
   longitude: number;
   latitude: number;
-  label: string | null;
   id: string | null;
   icon: string | null;
+  onClick?: Function;
 }
 
 export interface MapData {

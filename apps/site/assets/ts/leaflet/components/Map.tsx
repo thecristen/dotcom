@@ -1,5 +1,4 @@
 import React, { ReactElement } from "react";
-import { Map as LeafletMap, TileLayer } from "react-leaflet";
 import { MapData, MapMarker } from "./__mapdata";
 
 interface Props {
@@ -14,25 +13,47 @@ const mapCenter = (
     ? [markers[0].latitude, markers[0].longitude]
     : [latitude, longitude];
 
-/* eslint-disable typescript/camelcase */
 export default ({
-  mapData: { default_center: defaultCenter, zoom, markers, tile_server_url }
-}: Props): ReactElement<HTMLElement> => {
-  if (
-    tile_server_url === "http://tile-server.mbtace.com" ||
-    tile_server_url === "http://dev.tile-server.mbtace.com"
-  ) {
+  mapData: {
+    default_center: defaultCenter,
+    zoom,
+    markers,
+    tile_server_url: tileServerUrl
+  }
+}: Props): ReactElement<HTMLElement> | null => {
+  if (typeof window !== "undefined" && tileServerUrl !== "") {
+    /* eslint-disable */
+    const icon = require("../icon").default;
+    const leaflet = require("react-leaflet");
+    /* eslint-enable */
+    const { Map, TileLayer, Marker, Popup } = leaflet;
     const position = mapCenter(markers, defaultCenter);
     return (
-      <LeafletMap center={position} zoom={zoom}>
+      <Map center={position} zoom={zoom} maxZoom={18}>
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url={`${tile_server_url}/osm_tiles/{z}/{x}/{y}.png`}
+          url={`${tileServerUrl}/osm_tiles/{z}/{x}/{y}.png`}
         />
-      </LeafletMap>
+        {markers.map(marker => (
+          <Marker
+            key={marker.id}
+            position={[marker.latitude, marker.longitude]}
+            icon={icon(marker.icon)}
+            onClick={marker.onClick}
+          >
+            {marker.tooltip && (
+              <Popup minWidth={200} maxHeight={200}>
+                <div
+                  style={{ paddingBottom: "10px" }}
+                  // eslint-disable-next-line react/no-danger
+                  dangerouslySetInnerHTML={{ __html: marker.tooltip }}
+                />
+              </Popup>
+            )}
+          </Marker>
+        ))}
+      </Map>
     );
   }
-
-  throw new Error(`unexpected tile_server_url: ${tile_server_url}`);
+  return null;
 };
-/* eslint-enable typescript/camelcase */

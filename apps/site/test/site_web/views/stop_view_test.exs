@@ -851,8 +851,20 @@ defmodule SiteWeb.StopViewTest do
     assert {:safe, "<div" <> _} =
              StopView.render_react(%{
                stop_page_data: @stop_page_data,
-               map_data: %{},
-               map_id: "map"
+               map_id: "map",
+               map_data: %{
+                 map_srcset: "",
+                 map_url: "",
+                 map_data: %{
+                   default_center: %{longitude: -71.05891, latitude: 42.360718},
+                   scale: 2,
+                   width: 735,
+                   height: 250,
+                   zoom: 16,
+                   markers: [],
+                   tile_server_url: ""
+                 }
+               }
              })
   end
 

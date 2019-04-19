@@ -97,6 +97,8 @@
   display: flex;
   margin-top: -$base-spacing * 3;
   padding: $base-spacing;
+  position: relative;
+  z-index: $z-index-above-leaflet;
 
   @include media-breakpoint-down(md) {
     flex-direction: column;
@@ -135,11 +137,6 @@
 .m-stop-page__hero-map-container {
   flex: 1 1 auto;
   height: $base-spacing * 25;
-
-  @include media-breakpoint-only(xxl) {
-    @include make-container();
-    max-width: map-get($container-max-widths, xxl);
-  }
 }
 
 .m-stop-page__departures {

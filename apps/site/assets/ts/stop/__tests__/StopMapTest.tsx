@@ -9,9 +9,6 @@ const initialData: StopMapData = {
   map_data: {
     zoom: 14,
     width: 630,
-    scale: 1,
-    reset_bounds_on_update: false, // eslint-disable-line
-    paths: [],
     /* eslint-disable typescript/camelcase */
     markers: [
       {
@@ -22,8 +19,7 @@ const initialData: StopMapData = {
         "visible?": true,
         size: "medium",
         tooltip: null,
-        z_index: 1,
-        label: null
+        z_index: 1
       }
     ],
     default_center: {
@@ -31,10 +27,7 @@ const initialData: StopMapData = {
       longitude: 0
     },
     height: 630,
-    dynamic_options: {},
-    layers: { transit: true },
-    auto_init: true,
-    bound_padding: null
+    tile_server_url: ""
   },
   map_srcset: "",
   map_url: ""

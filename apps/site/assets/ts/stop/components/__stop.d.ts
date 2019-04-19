@@ -1,5 +1,5 @@
 import { Direction, DirectionId, Route, Stop, Alert } from "../../__v3api";
-import { MapData } from "../../app/googleMaps/__googleMaps";
+import { MapData } from "../../leaflet/components/__mapdata";
 
 export interface TypedRoutes {
   group_name: string;

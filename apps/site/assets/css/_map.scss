@@ -73,6 +73,7 @@
 .map-static-img {
   @include img-fluid();
   height: auto;
+  margin: auto;
   max-height: 100%;
   width: auto;
 }
