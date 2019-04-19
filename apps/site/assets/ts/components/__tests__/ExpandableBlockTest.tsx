@@ -61,3 +61,35 @@ test("handle click to expand and enter to collapse", () => {
 
   expect(wrapper.find(id).prop("aria-expanded")).toEqual(false);
 });
+
+test("dispatches click when dispatch is provided", () => {
+  document.body.innerHTML = body;
+  const spy = jest.fn();
+  const wrapper = mount(
+    <ExpandableBlock
+      dispatch={spy}
+      initiallyExpanded={false}
+      initiallyFocused={false}
+      id="test"
+      header={{
+        text: "Test",
+        iconSvgText: null
+      }}
+    >
+      <div>Hello!</div>
+    </ExpandableBlock>
+  );
+
+  const id = "#header-test";
+  expect(wrapper.find(id).prop("aria-expanded")).toEqual(false);
+  wrapper.find(id).simulate("click");
+  expect(spy).toHaveBeenCalledWith({
+    type: "CLICK_EXPANDABLE_BLOCK",
+    payload: {
+      id: "test",
+      expanded: false,
+      focused: false
+    }
+  });
+  expect(wrapper.find(id).prop("aria-expanded")).toEqual(false);
+});

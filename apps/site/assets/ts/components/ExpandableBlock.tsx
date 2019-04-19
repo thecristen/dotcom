@@ -8,8 +8,16 @@ export interface ExpandableBlockHeader {
   iconSvgText: string | null;
 }
 
+// If dispatch is provided in Props, the block will not
+// track its own state -- the parent is fully responsible
+// for tracking the expanded/collapsed state.
+// If dispatch is not provided, the block will
+// track its own state.
 interface Props {
+  // eslint-disable-next-line typescript/no-explicit-any
+  dispatch?: React.Dispatch<{ type: string; payload: any }>;
   initiallyExpanded: boolean;
+  initiallyFocused?: boolean;
   header: ExpandableBlockHeader;
   children: ReactElement<HTMLElement>;
   id: string;
@@ -17,25 +25,57 @@ interface Props {
 
 interface State {
   expanded: boolean;
-  focused: boolean;
+  focused?: boolean;
 }
 
-export default ({
-  initiallyExpanded,
-  header: { text, iconSvgText },
-  children,
-  id
-}: Props): ReactElement<HTMLElement> => {
-  const [state, toggleExpanded] = useState({
+export interface ClickExpandableBlockAction {
+  type: "CLICK_EXPANDABLE_BLOCK";
+  payload: {
+    expanded: boolean;
+    focused: boolean;
+    id: string;
+  };
+}
+
+const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
+  const {
+    header: { text, iconSvgText },
+    dispatch,
+    initiallyExpanded,
+    initiallyFocused,
+    children,
+    id
+  } = props;
+
+  const initialState = {
     expanded: initiallyExpanded,
-    focused: false
-  });
+    focused: initiallyFocused
+  };
+
+  const action: ClickExpandableBlockAction = {
+    type: "CLICK_EXPANDABLE_BLOCK",
+    payload: {
+      expanded: initiallyExpanded === true,
+      focused: initiallyFocused === true,
+      id
+    }
+  };
+
+  const [hookedState, toggleExpanded] = useState(initialState);
+  const { state, onClick } = dispatch
+    ? {
+        state: initialState,
+        onClick: () => dispatch(action)
+      }
+    : {
+        state: hookedState,
+        onClick: () =>
+          toggleExpanded({ expanded: !hookedState.expanded, focused: true })
+      };
+
   const { expanded, focused }: State = state;
   const headerId = `header-${id}`;
   const panelId = `panel-${id}`;
-
-  const onClick = (): void =>
-    toggleExpanded({ expanded: !expanded, focused: true });
 
   return (
     <>
@@ -86,3 +126,5 @@ export default ({
     </>
   );
 };
+
+export default ExpandableBlock;

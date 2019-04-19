@@ -110,7 +110,7 @@ Array [
 
 exports[`BikeStorage via enzyme-to-json it displays parking info when opened and inner html 1`] = `
 <BikeStorageInfo>
-  <Component>
+  <ExpandableBlock>
     <h3
       aria-controls="panel-bikes"
       aria-expanded={true}
@@ -204,6 +204,6 @@ exports[`BikeStorage via enzyme-to-json it displays parking info when opened and
         role="region"
       />
     </noscript>
-  </Component>
+  </ExpandableBlock>
 </BikeStorageInfo>
 `;
