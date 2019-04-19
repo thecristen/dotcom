@@ -34,7 +34,8 @@ const modeNameForBg = ({ name, type }: Route): string => {
 const modeBgClass = (route: Route): string => `u-bg--${modeNameForBg(route)}`;
 
 const RoutePill = ({ route }: RoutePillProps): ReactElement<HTMLElement> => (
-  <div
+  <a
+    href={`/schedules/${route.id}`}
     className={`
       m-stop-page__header-feature
       m-stop-page__header-description
@@ -43,7 +44,7 @@ const RoutePill = ({ route }: RoutePillProps): ReactElement<HTMLElement> => (
     `}
   >
     {breakTextAtSlash(route.name)}
-  </div>
+  </a>
 );
 
 const RoutePillList = ({

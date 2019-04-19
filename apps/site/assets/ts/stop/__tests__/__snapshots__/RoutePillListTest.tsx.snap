@@ -7,134 +7,146 @@ exports[`renders 1`] = `
   <div
     className="m-route-pills--subway"
   >
-    <div
+    <a
       className="
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
       u-bg--red-line
     "
+      href="/schedules/Red"
     >
       Red Line
-    </div>
+    </a>
   </div>
   <div
     className="m-route-pills--bus"
   >
-    <div
+    <a
       className="
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
       u-bg--silver-line
     "
+      href="/schedules/741"
     >
       SL1
-    </div>
-    <div
+    </a>
+    <a
       className="
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
       u-bg--silver-line
     "
+      href="/schedules/742"
     >
       SL2
-    </div>
-    <div
+    </a>
+    <a
       className="
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
       u-bg--silver-line
     "
+      href="/schedules/743"
     >
       SL3
-    </div>
+    </a>
   </div>
   <div
     className="m-route-pills--commuter_rail"
   >
-    <div
+    <a
       className="
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
       u-bg--commuter-rail
     "
+      href="/schedules/CR-Fairmount"
     >
       Fairmount Line
-    </div>
-    <div
+    </a>
+    <a
       className="
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
       u-bg--commuter-rail
     "
+      href="/schedules/CR-Worcester"
     >
       Framingham/​Worcester Line
-    </div>
-    <div
+    </a>
+    <a
       className="
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
       u-bg--commuter-rail
     "
+      href="/schedules/CR-Franklin"
     >
       Franklin Line
-    </div>
-    <div
+    </a>
+    <a
       className="
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
       u-bg--commuter-rail
     "
+      href="/schedules/CR-Greenbush"
     >
       Greenbush Line
-    </div>
-    <div
+    </a>
+    <a
       className="
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
       u-bg--commuter-rail
     "
+      href="/schedules/CR-Kingston"
     >
       Kingston/​Plymouth Line
-    </div>
-    <div
+    </a>
+    <a
       className="
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
       u-bg--commuter-rail
     "
+      href="/schedules/CR-Middleborough"
     >
       Middleborough/​Lakeville Line
-    </div>
-    <div
+    </a>
+    <a
       className="
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
       u-bg--commuter-rail
     "
+      href="/schedules/CR-Needham"
     >
       Needham Line
-    </div>
-    <div
+    </a>
+    <a
       className="
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
       u-bg--commuter-rail
     "
+      href="/schedules/CR-Providence"
     >
       Providence/​Stoughton Line
-    </div>
+    </a>
   </div>
 </div>
 `;
@@ -146,16 +158,17 @@ exports[`renders a ferry route 1`] = `
   <div
     className="m-route-pills--ferry"
   >
-    <div
+    <a
       className="
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
       u-bg--ferry
     "
+      href="/schedules/Boat-F4"
     >
       Charlestown Ferry
-    </div>
+    </a>
   </div>
 </div>
 `;
