@@ -46,8 +46,8 @@ defmodule Content.Event do
           state: String.t() | nil,
           who: String.t() | nil,
           body: Phoenix.HTML.safe(),
-          notes: Phoenix.HTML.safe(),
-          agenda: Phoenix.HTML.safe(),
+          notes: Phoenix.HTML.safe() | nil,
+          agenda: Phoenix.HTML.safe() | nil,
           meeting_id: String.t() | nil,
           imported_address: Phoenix.HTML.safe(),
           files: [Content.Field.File.t()],
@@ -69,8 +69,8 @@ defmodule Content.Event do
       state: field_value(data, "field_state"),
       who: field_value(data, "field_who"),
       body: parse_body(data),
-      notes: handle_html(field_value(data, "field_notes")),
-      agenda: handle_html(field_value(data, "field_agenda")),
+      notes: data |> field_value("field_notes") |> parse_optional_html(),
+      agenda: data |> field_value("field_agenda") |> parse_optional_html(),
       imported_address: handle_html(field_value(data, "field_imported_address")),
       meeting_id: field_value(data, "field_meeting_id"),
       files: parse_files(data, "field_other_files"),
@@ -84,4 +84,8 @@ defmodule Content.Event do
   def past?(event, now) do
     Date.compare(event.start_time, now) == :lt
   end
+
+  @spec parse_optional_html(String.t() | nil) :: Phoenix.HTML.safe() | nil
+  defp parse_optional_html(nil), do: nil
+  defp parse_optional_html(value), do: handle_html(value)
 end
