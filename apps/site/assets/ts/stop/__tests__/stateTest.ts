@@ -12,12 +12,14 @@ describe("reducer", () => {
     const initialState: State = {
       selectedStopId: null,
       selectedModes: [],
-      shouldFilterStopCards: false
+      shouldFilterStopCards: false,
+      selectedTab: "info"
     };
     const expectedState: State = {
       ...initialState,
       selectedStopId: "1",
-      shouldFilterStopCards: true
+      shouldFilterStopCards: true,
+      selectedTab: "info"
     };
 
     const newState = reducer(initialState, clickMarkerAction("1"));
@@ -29,12 +31,14 @@ describe("reducer", () => {
     const initialState: State = {
       selectedStopId: "1",
       selectedModes: [],
-      shouldFilterStopCards: true
+      shouldFilterStopCards: true,
+      selectedTab: "info"
     };
     const expectedState: State = {
       ...initialState,
       selectedStopId: null,
-      shouldFilterStopCards: false
+      shouldFilterStopCards: false,
+      selectedTab: "info"
     };
 
     const newState = reducer(initialState, clickMarkerAction("1"));
@@ -46,12 +50,14 @@ describe("reducer", () => {
     const initialState: State = {
       selectedStopId: null,
       selectedModes: ["subway"],
-      shouldFilterStopCards: false
+      shouldFilterStopCards: false,
+      selectedTab: "alerts"
     };
     const expectedState: State = {
       ...initialState,
       selectedModes: ["subway", "bus"],
-      shouldFilterStopCards: true
+      shouldFilterStopCards: true,
+      selectedTab: "info"
     };
 
     const newState = reducer(initialState, clickModeAction("bus"));
@@ -63,12 +69,14 @@ describe("reducer", () => {
     const initialState: State = {
       selectedStopId: null,
       selectedModes: ["subway", "bus"],
-      shouldFilterStopCards: false
+      shouldFilterStopCards: false,
+      selectedTab: "info"
     };
     const expectedState: State = {
       ...initialState,
       selectedModes: ["subway"],
-      shouldFilterStopCards: true
+      shouldFilterStopCards: true,
+      selectedTab: "info"
     };
 
     const newState = reducer(initialState, clickModeAction("bus"));
@@ -80,11 +88,13 @@ describe("reducer", () => {
     const initialState: State = {
       selectedStopId: null,
       selectedModes: ["subway"],
-      shouldFilterStopCards: true
+      shouldFilterStopCards: true,
+      selectedTab: "alerts"
     };
     const expectedState: State = {
       ...initialState,
-      selectedModes: ["bus"]
+      selectedModes: ["bus"],
+      selectedTab: "info"
     };
 
     const newState = reducer(initialState, clickRoutePillAction("bus"));
@@ -95,7 +105,8 @@ describe("reducer", () => {
     const initialState: State = {
       selectedStopId: "1",
       selectedModes: [],
-      shouldFilterStopCards: false
+      shouldFilterStopCards: false,
+      selectedTab: "info"
     };
 
     const action: StopAction = {

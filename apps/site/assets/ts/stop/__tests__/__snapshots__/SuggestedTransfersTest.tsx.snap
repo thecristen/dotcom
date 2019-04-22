@@ -25,7 +25,7 @@ exports[`renders 1`] = `
       </a>
       <a
         className="m-stop-page__access-icon"
-        href="#accessibility"
+        href="#header-accessibility"
       >
         <span
           className="m-stop-page__icon"
@@ -74,7 +74,7 @@ exports[`renders 1`] = `
       </a>
       <a
         className="m-stop-page__access-icon"
-        href="#accessibility"
+        href="#header-accessibility"
       >
         <span
           className="m-stop-page__icon"
@@ -168,7 +168,7 @@ exports[`renders 1`] = `
       </a>
       <a
         className="m-stop-page__access-icon"
-        href="#accessibility"
+        href="#header-accessibility"
       >
         <span
           className="m-stop-page__icon"

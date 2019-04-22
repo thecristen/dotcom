@@ -4,6 +4,8 @@ defmodule SiteWeb.StopController do
   """
   use SiteWeb, :controller
   alias Alerts.Alert
+  alias Alerts.Repo, as: AlertsRepo
+  alias Alerts.Stop, as: AlertsStop
   alias Plug.Conn
   alias Fares.{RetailLocations, RetailLocations.Location}
   alias Phoenix.HTML
@@ -18,6 +20,9 @@ defmodule SiteWeb.StopController do
   alias SiteWeb.Views.Helpers.AlertHelpers
   alias Stops.{Nearby, Repo, Stop}
   alias Util.AndOr
+
+  plug(:alerts)
+  plug(SiteWeb.Plugs.AlertsByTimeframe)
 
   @distance_tenth_of_a_mile 0.002
   @nearby_stop_limit 3
@@ -47,7 +52,7 @@ defmodule SiteWeb.StopController do
   end
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def show(conn, %{"id" => stop}) do
+  def show(%Plug.Conn{query_params: query_params} = conn, %{"id" => stop}) do
     if Laboratory.enabled?(conn, :stop_page_redesign) do
       stop =
         stop
@@ -66,10 +71,14 @@ defmodule SiteWeb.StopController do
           json_safe_routes = json_safe_routes(routes_map)
 
           conn
-          |> alerts(stop)
           |> assign(:disable_turbolinks, true)
+          |> alerts(stop)
           |> assign(:stop, stop)
           |> assign(:routes, json_safe_routes)
+          |> assign(:zone_number, Zones.Repo.get(stop.id))
+          |> assign(:breadcrumbs_title, breadcrumbs(stop, routes_by_stop))
+          |> assign(:tab, tab_value(query_params["tab"]))
+          |> assign(:requires_google_maps?, true)
           |> async_assign_default(
             :retail_locations,
             fn ->
@@ -79,9 +88,14 @@ defmodule SiteWeb.StopController do
             end,
             []
           )
+          |> async_assign_default(
+            :suggested_transfers,
+            fn ->
+              nearby_stops(stop)
+            end,
+            []
+          )
           |> assign(:map_data, StopMap.map_info(stop, routes_map))
-          |> assign(:zone_number, Zones.Repo.get(stop.id))
-          |> assign(:breadcrumbs_title, breadcrumbs(stop, routes_by_stop))
           |> assign_stop_page_data()
           |> await_assign_all_default(__MODULE__)
           |> combine_stop_data()
@@ -95,6 +109,10 @@ defmodule SiteWeb.StopController do
       render_404(conn)
     end
   end
+
+  @spec tab_value(String.t() | nil) :: String.t()
+  defp tab_value("alerts"), do: "alerts"
+  defp tab_value(_), do: "info"
 
   @doc "Redirect users who type in a URL with a slash to the correct URL"
   def stop_with_slash_redirect(conn, %{"path" => path}) do
@@ -240,16 +258,25 @@ defmodule SiteWeb.StopController do
   @spec includes_predictions?(TransitNearMe.headsign_data()) :: boolean
   defp includes_predictions?(%{times: times}), do: Enum.any?(times, &(&1.prediction != nil))
 
-  @spec alerts(Conn.t(), Stop.t()) :: Conn.t()
-  defp alerts(conn, %Stop{id: id}) do
+  defp alerts(%{assigns: %{alerts: alerts}} = conn, _opts) do
+    assign(conn, :all_alerts_count, length(alerts))
+  end
+
+  defp alerts(%{path_params: %{"id" => id}} = conn, _opts) do
+    stop_id = URI.decode_www_form(id)
+
     alerts =
       conn.assigns.date_time
-      |> Alerts.Repo.all()
-      |> Alerts.Stop.match(id)
+      |> AlertsRepo.all()
+      |> AlertsStop.match(stop_id)
 
     conn
-    |> assign(:alerts, json_safe_alerts(alerts, conn.assigns.date))
+    |> assign(:alerts, alerts)
     |> assign(:all_alerts_count, length(alerts))
+  end
+
+  defp alerts(conn, _opts) do
+    assign(conn, :alerts, AlertsRepo.all(conn.assigns.date_time))
   end
 
   @spec json_safe_alerts([Alert.t()], DateTime.t()) :: [map]
@@ -320,7 +347,9 @@ defmodule SiteWeb.StopController do
              routes: routes,
              alerts: alerts,
              all_alerts_count: all_alerts_count,
-             zone_number: zone_number
+             zone_number: zone_number,
+             tab: tab,
+             date: date
            }
          } = conn
        ) do
@@ -328,7 +357,6 @@ defmodule SiteWeb.StopController do
       stop: %{stop | parking_lots: Enum.map(stop.parking_lots, &Parking.parking_lot(&1))},
       street_view_url: CuratedStreetView.url(stop.id),
       routes: routes,
-      suggested_transfers: nearby_stops(stop),
       tabs: [
         %HeaderTab{
           id: "info",
@@ -339,13 +367,35 @@ defmodule SiteWeb.StopController do
           id: "alerts",
           name: "Alerts",
           class: "header-tab--alert",
-          href: stop_v1_path(conn, :show, stop.id, tab: "alerts"),
+          href: stop_path(conn, :show, stop.id, tab: "alerts"),
           badge: AlertHelpers.alert_badge(all_alerts_count)
         }
       ],
+      tab: tab,
+      alerts_tab: alerts_tab(conn, date),
       zone_number: zone_number,
-      alerts: alerts
+      alerts: json_safe_alerts(alerts, date)
     })
+  end
+
+  def alerts_tab(conn, date) do
+    stop = conn.assigns.stop
+
+    %{
+      all: %{
+        alerts: json_safe_alerts(conn.assigns.alerts, date),
+        empty_message: IO.iodata_to_binary(AlertView.no_alerts_message(stop, true, nil))
+      },
+      upcoming: %{
+        alerts: json_safe_alerts(conn.assigns.upcoming_alerts, date),
+        empty_message: IO.iodata_to_binary(AlertView.no_alerts_message(stop, true, :upcoming))
+      },
+      current: %{
+        alerts: json_safe_alerts(conn.assigns.current_alerts, date),
+        empty_message: IO.iodata_to_binary(AlertView.no_alerts_message(stop, true, :current))
+      },
+      initial_selected: conn.assigns.alerts_timeframe
+    }
   end
 
   @spec breadcrumbs(Stop.t(), [Route.t()]) :: [Util.Breadcrumb.t()]
@@ -415,7 +465,9 @@ defmodule SiteWeb.StopController do
 
   defp combine_stop_data(conn) do
     merged_stop_data =
-      Map.put(conn.assigns.stop_page_data, :retail_locations, conn.assigns.retail_locations)
+      conn.assigns.stop_page_data
+      |> Map.put(:retail_locations, conn.assigns.retail_locations)
+      |> Map.put(:suggested_transfers, conn.assigns.suggested_transfers)
 
     assigns =
       conn.assigns

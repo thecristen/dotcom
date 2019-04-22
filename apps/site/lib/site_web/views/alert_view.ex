@@ -74,6 +74,10 @@ defmodule SiteWeb.AlertView do
     "planned"
   end
 
+  def format_alerts_timeframe(:all_timeframes) do
+    ""
+  end
+
   def format_alerts_timeframe(nil) do
     ""
   end

@@ -36,20 +36,43 @@ defmodule SiteWeb.Plugs.AlertsByTimeframe do
   defp filter_by_timeframe(%{assigns: %{alerts_timeframe: :current}} = conn) do
     alerts = Enum.filter(conn.assigns.alerts, &Match.any_time_match?(&1, conn.assigns.date_time))
 
-    assign(conn, :alerts, alerts)
+    conn
+    |> assign(:alerts, alerts)
+    |> assign_all_timeframes()
   end
 
   defp filter_by_timeframe(%{assigns: %{alerts_timeframe: :upcoming}} = conn) do
-    alerts =
-      Enum.filter(
-        conn.assigns.alerts,
-        &(Match.any_time_match?(&1, conn.assigns.date_time) == false)
-      )
+    alerts = alerts_upcoming(conn)
 
-    assign(conn, :alerts, alerts)
+    conn
+    |> assign(:alerts, alerts)
+    |> assign_all_timeframes()
+  end
+
+  defp filter_by_timeframe(%{assigns: %{alerts_timeframe: nil, alerts: _}} = conn) do
+    conn
+    |> assign_all_timeframes()
   end
 
   defp filter_by_timeframe(%{assigns: %{alerts_timeframe: nil}} = conn) do
     conn
+  end
+
+  def assign_all_timeframes(conn) do
+    conn
+    |> assign(:upcoming_alerts, alerts_upcoming(conn))
+    |> assign(:current_alerts, alerts_current(conn))
+    |> assign(:all_alerts, conn.assigns.alerts)
+  end
+
+  def alerts_current(conn) do
+    Enum.filter(conn.assigns.alerts, &Match.any_time_match?(&1, conn.assigns.date_time))
+  end
+
+  def alerts_upcoming(conn) do
+    Enum.filter(
+      conn.assigns.alerts,
+      &(Match.any_time_match?(&1, conn.assigns.date_time) == false)
+    )
   end
 end

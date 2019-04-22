@@ -27,11 +27,26 @@ export interface StopPageData {
   stop: Stop;
   street_view_url: string | null;
   routes: TypedRoutes[];
-  suggested_transfers: SuggestedTransfer[];
   tabs: Tab[];
   zone_number: string;
-  retail_locations: RetailLocationWithDistance[];
   alerts: Alert[];
+  suggested_transfers: SuggestedTransfer[];
+  retail_locations: RetailLocationWithDistance[];
+  tab: string;
+  alerts_tab: AlertsTab;
+}
+
+interface AlertData {
+  alerts: Alert[];
+  empty_message: string;
+}
+
+export interface AlertsTab {
+  [key: string]: AlertData | string;
+  upcoming: AlertData;
+  current: AlertData;
+  all: AlertData;
+  initial_selected: string;
 }
 
 export interface Tab {
@@ -40,6 +55,7 @@ export interface Tab {
   href: string;
   id: string;
   name: string;
+  selected: string;
 }
 
 export interface TabBadge {

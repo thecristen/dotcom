@@ -13,7 +13,8 @@ interface Props {
   routes: TypedRoutes[];
   tabs: Tab[];
   zoneNumber: string;
-  dispatch?: Dispatch;
+  dispatch: Dispatch | undefined;
+  selectedTab: string;
 }
 
 const subwayModeIds = [
@@ -33,7 +34,7 @@ const parking = ({
   parking_lots: parkingLots
 }: Stop): ReactElement<HTMLElement> | false =>
   parkingLots.length > 0 && (
-    <a href="#parking" className="m-stop-page__header-feature">
+    <a href="#header-parking" className="m-stop-page__header-feature">
       <span className="m-stop-page__icon">
         {parkingIcon("c-svg__icon-parking-default")}
       </span>
@@ -50,13 +51,11 @@ const modeType = (modeId: string): string => {
 
 const modeIconFeature = (
   { id, type }: Route,
-  dispatch?: Dispatch
+  dispatch: Dispatch
 ): ReactElement<HTMLElement> => (
   <a
     href="#route-card-list"
-    onClick={() =>
-      dispatch && dispatch(clickRoutePillAction(modeByV3ModeType[type]))
-    }
+    onClick={() => dispatch(clickRoutePillAction(modeByV3ModeType[type]))}
     key={modeType(id)}
     className="m-stop-page__header-feature"
   >
@@ -108,7 +107,7 @@ const iconableRoutes = (typedRoutes: TypedRoutes[]): RouteWithDirections[] =>
 
 const modes = (
   typedRoutes: TypedRoutes[],
-  dispatch?: Dispatch
+  dispatch: Dispatch
 ): ReactElement<HTMLElement> | null => (
   <>
     {iconableRoutes(typedRoutes).map(({ route }) =>
@@ -119,15 +118,13 @@ const modes = (
 
 const crZone = (
   zoneNumber: string,
-  dispatch?: Dispatch
+  dispatch: Dispatch
 ): ReactElement<HTMLElement> | false =>
   !!zoneNumber &&
   zoneNumber.length > 0 && (
     <a
       href="#route-card-list"
-      onClick={() =>
-        dispatch && dispatch(clickRoutePillAction("commuter_rail"))
-      }
+      onClick={() => dispatch(clickRoutePillAction("commuter_rail"))}
       className="m-stop-page__header-feature"
     >
       <span className="m-stop-page__icon c-icon__cr-zone">
@@ -140,7 +137,7 @@ const features = (
   stop: Stop,
   routes: TypedRoutes[],
   zoneNumber: string,
-  dispatch?: Dispatch
+  dispatch: Dispatch
 ): ReactElement<HTMLElement> => (
   <div className="m-stop-page__header-features">
     {modes(routes, dispatch)}
@@ -160,23 +157,33 @@ const Header = ({
   routes,
   tabs,
   zoneNumber,
-  dispatch
-}: Props): ReactElement<HTMLElement> => (
-  <div className="m-stop-page__header">
-    <div className="m-stop-page__header-container">
-      <h1 className={`m-stop-page__name ${nameUpcaseClass(routes)}`}>
-        {stop.name}
-      </h1>
+  dispatch,
+  selectedTab
+}: Props): ReactElement<HTMLElement> => {
+  const emptyFunc = (): void => {};
+  const dispatchOrEmptyFunc = dispatch || emptyFunc;
+  return (
+    <div className="m-stop-page__header">
+      <div className="m-stop-page__header-container">
+        <h1 className={`m-stop-page__name ${nameUpcaseClass(routes)}`}>
+          {stop.name}
+        </h1>
 
-      {features(stop, routes, zoneNumber, dispatch)}
+        {features(stop, routes, zoneNumber, dispatchOrEmptyFunc)}
 
-      <div className="header-tabs">
-        {tabs.map(tab => (
-          <TabComponent key={tab.id} tab={tab} />
-        ))}
+        <div className="header-tabs">
+          {tabs.map(tab => (
+            <TabComponent
+              selected={selectedTab === tab.id}
+              dispatch={dispatchOrEmptyFunc}
+              key={tab.id}
+              tab={tab}
+            />
+          ))}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Header;

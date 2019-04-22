@@ -18,6 +18,8 @@ it("renders", () => {
         routes={data.routes}
         zoneNumber={data.zone_number}
         tabs={data.tabs}
+        dispatch={undefined}
+        selectedTab="info"
       />
     )
     .toJSON();
@@ -143,6 +145,8 @@ it("renders with green line routes", () => {
         routes={routes}
         zoneNumber={data.zone_number}
         tabs={data.tabs}
+        dispatch={undefined}
+        selectedTab="info"
       />
     )
     .toJSON();
@@ -248,6 +252,8 @@ it("renders all subway routes", () => {
         routes={routes}
         zoneNumber={data.zone_number}
         tabs={data.tabs}
+        dispatch={undefined}
+        selectedTab="info"
       />
     )
     .toJSON();
@@ -287,6 +293,8 @@ it("renders a ferry route", () => {
         routes={routes}
         zoneNumber={data.zone_number}
         tabs={data.tabs}
+        dispatch={undefined}
+        selectedTab="info"
       />
     )
     .toJSON();
@@ -356,6 +364,8 @@ it("upcases name of non-bus stops", () => {
       routes={routes}
       zoneNumber={data.zone_number}
       tabs={data.tabs}
+      dispatch={undefined}
+      selectedTab="info"
     />
   );
   expect(wrapper.find(".m-stop-page__name")).toHaveLength(1);
@@ -399,6 +409,8 @@ it("does not upcase name of bus-only stops", () => {
       routes={routes}
       zoneNumber={data.zone_number}
       tabs={data.tabs}
+      dispatch={undefined}
+      selectedTab="info"
     />
   );
   expect(wrapper.find(".m-stop-page__name")).toHaveLength(1);
@@ -453,6 +465,8 @@ it("separates bus and silver line pills", () => {
         routes={routesWithoutSilverLine}
         zoneNumber=""
         tabs={[]}
+        dispatch={undefined}
+        selectedTab="info"
       />
     )
       .find(".m-stop-page__header-feature")
@@ -466,6 +480,8 @@ it("separates bus and silver line pills", () => {
         routes={routesWithSilverLine}
         zoneNumber=""
         tabs={[]}
+        dispatch={undefined}
+        selectedTab="info"
       />
     )
       .find(".m-stop-page__header-feature")
@@ -511,6 +527,7 @@ it("dispatches clickRoutePillAction when route pill is clicked", () => {
       zoneNumber={data.zone_number}
       tabs={data.tabs}
       dispatch={spy}
+      selectedTab="info"
     />
   );
 
@@ -532,6 +549,7 @@ it("dispatches clickRoutePillAction when zone pill is clicked", () => {
       zoneNumber={data.zone_number}
       tabs={data.tabs}
       dispatch={spy}
+      selectedTab="info"
     />
   );
 
