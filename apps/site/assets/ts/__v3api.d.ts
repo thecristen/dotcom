@@ -148,6 +148,7 @@ export interface Stop {
 export interface StopWithDirections {
   stop: Stop;
   directions: Direction[];
+  distance: string;
 }
 
 export type Activity =

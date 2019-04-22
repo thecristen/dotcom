@@ -135,7 +135,9 @@ exports[`render it renders 1`] = `
             </a>
             <div
               className="m-tnm-sidebar__stop-distance"
-            />
+            >
+              115 ft
+            </div>
           </div>
           <div
             className="m-tnm-sidebar__direction"
@@ -230,7 +232,9 @@ exports[`render it renders 1`] = `
             </a>
             <div
               className="m-tnm-sidebar__stop-distance"
-            />
+            >
+              0.2 mi
+            </div>
           </div>
           <div
             className="m-tnm-sidebar__direction"
@@ -340,7 +344,9 @@ exports[`render it renders 1`] = `
             </a>
             <div
               className="m-tnm-sidebar__stop-distance"
-            />
+            >
+              199 ft
+            </div>
           </div>
           <div
             className="m-tnm-sidebar__direction"
@@ -440,7 +446,9 @@ exports[`render it renders 1`] = `
             </a>
             <div
               className="m-tnm-sidebar__stop-distance"
-            />
+            >
+              0.2 mi
+            </div>
           </div>
           <div
             className="m-tnm-sidebar__direction"
@@ -555,7 +563,9 @@ exports[`render it renders 1`] = `
             </a>
             <div
               className="m-tnm-sidebar__stop-distance"
-            />
+            >
+              199 ft
+            </div>
           </div>
           <div
             className="m-tnm-sidebar__direction"
@@ -641,7 +651,9 @@ exports[`render it renders 1`] = `
             </a>
             <div
               className="m-tnm-sidebar__stop-distance"
-            />
+            >
+              0.2 mi
+            </div>
           </div>
           <div
             className="m-tnm-sidebar__direction"

@@ -18,7 +18,9 @@ exports[`StopWithRoutesCard it renders a stop card 1`] = `
     </a>
     <div
       className="m-tnm-sidebar__stop-distance"
-    />
+    >
+      .1 mi
+    </div>
   </div>
   <div
     className="m-tnm-sidebar__stop-card-description"

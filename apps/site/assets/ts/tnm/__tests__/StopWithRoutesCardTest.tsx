@@ -17,7 +17,12 @@ describe("StopWithRoutesCard", () => {
     createReactRoot();
     const tree = renderer
       .create(
-        <StopWithRoutesCard stop={stop} routes={routes} dispatch={() => {}} />
+        <StopWithRoutesCard
+          stop={stop}
+          routes={routes}
+          distance=".1 mi"
+          dispatch={() => {}}
+        />
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
@@ -30,7 +35,12 @@ describe("StopWithRoutesCard", () => {
     const { stop } = data[0].stop;
 
     const wrapper = shallow(
-      <StopWithRoutesCard stop={stop} routes={routes} dispatch={mockDispatch} />
+      <StopWithRoutesCard
+        stop={stop}
+        routes={routes}
+        distance=".1 mi"
+        dispatch={mockDispatch}
+      />
     );
 
     wrapper.find(".m-tnm-sidebar__stop-card").simulate("click");
@@ -47,7 +57,12 @@ describe("StopWithRoutesCard", () => {
     const { stop } = data[0].stop;
 
     const wrapper = shallow(
-      <StopWithRoutesCard stop={stop} routes={routes} dispatch={mockDispatch} />
+      <StopWithRoutesCard
+        stop={stop}
+        routes={routes}
+        distance=".1 mi"
+        dispatch={mockDispatch}
+      />
     );
 
     wrapper

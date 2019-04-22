@@ -92,6 +92,7 @@ const RouteCard = ({
             <StopCard
               key={stopWithDirections.stop.id}
               stop={stopWithDirections.stop}
+              distance={stopWithDirections.distance}
               directions={stopWithDirections.directions}
               route={route.route}
               dispatch={dispatch}

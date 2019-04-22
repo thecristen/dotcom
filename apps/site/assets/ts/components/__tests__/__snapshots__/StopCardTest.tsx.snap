@@ -38,7 +38,7 @@ exports[`it renders a stop card 1`] = `
     <div
       className="m-tnm-sidebar__stop-distance"
     >
-      238 ft
+      .1 mi
     </div>
   </div>
   <div

@@ -23,7 +23,6 @@ const stop: Stop = {
   note: null,
   parking_lots: [],
   "station?": true,
-  distance: "238 ft",
   href: "/stops/stop-id",
   type: "station"
 };

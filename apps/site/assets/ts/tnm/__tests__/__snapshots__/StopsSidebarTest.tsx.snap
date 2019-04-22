@@ -113,7 +113,9 @@ exports[`StopsSidebar it renders 1`] = `
           </a>
           <div
             className="m-tnm-sidebar__stop-distance"
-          />
+          >
+            0.1 mi
+          </div>
         </div>
         <div
           className="m-tnm-sidebar__stop-card-description"
@@ -158,7 +160,9 @@ exports[`StopsSidebar it renders 1`] = `
           </a>
           <div
             className="m-tnm-sidebar__stop-distance"
-          />
+          >
+            46 ft
+          </div>
         </div>
         <div
           className="m-tnm-sidebar__stop-card-description"
@@ -215,7 +219,9 @@ exports[`StopsSidebar it renders 1`] = `
           </a>
           <div
             className="m-tnm-sidebar__stop-distance"
-          />
+          >
+            .02 mi
+          </div>
         </div>
         <div
           className="m-tnm-sidebar__stop-card-description"

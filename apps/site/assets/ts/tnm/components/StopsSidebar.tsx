@@ -83,12 +83,13 @@ const StopsSidebar = ({
             selectedStopId,
             selectedModes,
             shouldFilterStopCards
-          ).map(({ stop, routes }) => (
+          ).map(({ stop, routes, distance }) => (
             <StopWithRoutesCard
               key={stop.stop.id}
               stop={stop.stop}
               routes={routes}
               dispatch={dispatch}
+              distance={distance}
             />
           ))}
         </div>

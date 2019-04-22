@@ -42,7 +42,7 @@
         "group_name": "bus"
       }
     ],
-    "distance": 0.01982230667340653
+    "distance": "0.1 mi"
   },
   {
     "stop": {
@@ -115,7 +115,7 @@
         "group_name": "bus"
       }
     ],
-    "distance": 0.03416199740896638
+    "distance": "46 ft"
   },
   {
     "stop": {
@@ -160,7 +160,7 @@
         "group_name": "bus"
       }
     ],
-    "distance": 0.1512223217921009
+    "distance": ".02 mi"
   },
   {
     "stop": {
@@ -205,7 +205,7 @@
         "group_name": "green_line"
       }
     ],
-    "distance": 0.15436166002118046
+    "distance": ".03 mi"
   },
   {
     "stop": {
@@ -289,7 +289,7 @@
         "group_name": "bus"
       }
     ],
-    "distance": 0.17387220156211136
+    "distance": ".03 mi"
   },
   {
     "stop": {
@@ -331,7 +331,7 @@
         "group_name": "bus"
       }
     ],
-    "distance": 0.18601645197661307
+    "distance": ".05 mi"
   },
   {
     "stop": {
@@ -404,7 +404,7 @@
         "group_name": "bus"
       }
     ],
-    "distance": 0.18980754408503273
+    "distance": ".5 mi"
   },
   {
     "stop": {
@@ -501,7 +501,7 @@
         "group_name": "bus"
       }
     ],
-    "distance": 0.1976210182255903
+    "distance": ".7 mi"
   },
   {
     "stop": {
@@ -560,7 +560,7 @@
         "group_name": "bus"
       }
     ],
-    "distance": 0.20856076589236286
+    "distance": ".03 mi"
   },
   {
     "stop": {
@@ -627,7 +627,7 @@
         "group_name": "bus"
       }
     ],
-    "distance": 0.2239110441113343
+    "distance": "204 ft"
   },
   {
     "stop": {
@@ -696,7 +696,7 @@
         "group_name": "red_line"
       }
     ],
-    "distance": 0.40478228676570943
+    "distance": ".5 mi"
   },
   {
     "stop": {
@@ -850,6 +850,6 @@
         "group_name": "commuter_rail"
       }
     ],
-    "distance": 0.5377676170556486
+    "distance": ".7 mi"
   }
 ]

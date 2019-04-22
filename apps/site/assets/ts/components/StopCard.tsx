@@ -12,6 +12,7 @@ interface Props {
   directions: DirectionType[];
   route: Route;
   dispatch: Dispatch;
+  distance: string;
 }
 
 const renderStopIcon = (stop: Stop): JSX.Element =>
@@ -34,10 +35,10 @@ export const StopCard = ({
   stop,
   directions,
   route,
-  dispatch
+  dispatch,
+  distance
 }: Props): ReactElement<HTMLElement> | null => {
   const onClick = (): void => dispatch(clickStopCardAction(stop.id));
-
   const key = `${route.id}-${stop.id}`;
 
   return (
@@ -56,7 +57,7 @@ export const StopCard = ({
             !stop.accessibility.includes("unknown") &&
             accessibleIcon("m-tnm-sidebar__stop-accessible")}
         </a>
-        <div className="m-tnm-sidebar__stop-distance">{stop.distance}</div>
+        <div className="m-tnm-sidebar__stop-distance">{distance}</div>
       </div>
       {directions.map(direction => (
         <Direction

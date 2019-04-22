@@ -39,11 +39,13 @@ interface Props {
   stop: Stop;
   routes: RouteGroup[];
   dispatch: Dispatch;
+  distance: string;
 }
 
 const StopWithRoutesCard = ({
   stop,
   routes,
+  distance,
   dispatch
 }: Props): ReactElement<HTMLElement> => {
   const onClick = (): void => dispatch(clickStopCardAction(stop.id));
@@ -60,7 +62,7 @@ const StopWithRoutesCard = ({
         <a className="m-tnm-sidebar__stop-card-name" href={stop.href}>
           {stop.name}
         </a>
-        <div className="m-tnm-sidebar__stop-distance">{stop.distance}</div>
+        <div className="m-tnm-sidebar__stop-distance">{distance}</div>
       </div>
       {routes.map(
         ({ group_name: groupName, routes: routesForStop }: RouteGroup) =>

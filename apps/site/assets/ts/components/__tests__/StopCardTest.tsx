@@ -48,7 +48,6 @@ const stop: Stop = {
   note: null,
   parking_lots: [],
   "station?": true,
-  distance: "238 ft",
   href: "/stops/stop-id",
   type: "station"
 };
@@ -73,6 +72,7 @@ it("it renders a stop card", () => {
         stop={stop}
         directions={directions}
         route={route}
+        distance=".1 mi"
         dispatch={() => {}}
       />
     )
@@ -90,6 +90,7 @@ it("it selects stop when the card is clicked", () => {
       stop={stop}
       directions={directions}
       route={route}
+      distance=".1 mi"
       dispatch={mockDispatch}
     />
   );
@@ -111,6 +112,7 @@ it("it selects stop when the card is selected via keyboard", () => {
       stop={stop}
       directions={directions}
       route={route}
+      distance=".1 mi"
       dispatch={mockDispatch}
     />
   );
@@ -134,6 +136,7 @@ it("it does nothing when the keyboard event is not enter", () => {
       stop={stop}
       directions={directions}
       route={route}
+      distance=".1 mi"
       dispatch={mockDispatch}
     />
   );

@@ -1,7 +1,7 @@
 <div class="c-location-card__name">
   <%= link SiteWeb.ViewHelpers.break_text_at_slash(@stop.name), to: stop_v1_path(SiteWeb.Endpoint, :show, @stop.id, tab: "schedule") %>
 </div>
-<div class="c-location-card__distance"><%= if assigns[:distance], do: round_distance(@distance) %></div>
+<div class="c-location-card__distance"><%= if assigns[:distance], do: @distance %></div>
 <%= if length(@stop.accessibility) > 0 && !("unknown" in @stop.accessibility) do %>
   <div class="c-location-card__accessible-icon">
     <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access, size: :small}) %>

@@ -30,9 +30,13 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutes do
     |> from_routes_and_stops()
     |> Enum.reject(&Enum.empty?(&1.routes))
     |> Enum.map(&routes_to_map(&1))
-    |> Enum.map(
-      &Map.update!(&1, :stop, fn stop -> TransitNearMe.build_stop_map(stop, data.distances) end)
-    )
+    |> Enum.map(fn stop_with_route ->
+      stop_with_route
+      |> Map.update!(:stop, fn stop ->
+        TransitNearMe.build_stop_map(stop, data.distances)
+      end)
+      |> Map.update!(:distance, &ViewHelpers.round_distance(&1))
+    end)
   end
 
   @spec from_routes_and_stops(TransitNearMe.t()) :: [stop_with_routes]

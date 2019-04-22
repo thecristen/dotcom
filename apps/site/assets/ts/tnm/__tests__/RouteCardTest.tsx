@@ -47,7 +47,6 @@ const stop: Stop = {
   note: null,
   parking_lots: [],
   "station?": true,
-  distance: "238 ft",
   href: "/stops/stop-id",
   type: "station"
 };
@@ -64,7 +63,7 @@ const route: RouteWithStopsWithDirections = {
     description: "Route Description",
     type: 3
   },
-  stops_with_directions: [{ stop, directions }]
+  stops_with_directions: [{ stop, directions, distance: "238 ft" }]
 };
 
 it("it renders a stop card", () => {
@@ -81,7 +80,8 @@ it("returns null if route has no schedules", () => {
     stops_with_directions: [
       {
         stop,
-        directions: []
+        directions: [],
+        distance: "1 mi"
       }
     ]
   };
