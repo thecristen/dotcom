@@ -3,6 +3,7 @@ import ExpandableBlock from "../../../components/ExpandableBlock";
 // @ts-ignore
 import parkingIconSvg from "../../../../static/images/icon-parking-default.svg";
 import { Stop, ParkingLot } from "../../../__v3api";
+import { Dispatch } from "../../state";
 
 const renderUtilization = (
   lot: ParkingLot
@@ -192,13 +193,23 @@ const stopOrStation = (stop: Stop): string =>
   stop["station?"] ? "station" : "stop";
 
 interface Props {
+  dispatch: Dispatch;
+  isExpanded: boolean;
+  isFocused: boolean;
   stop: Stop;
 }
 
-const Parking = ({ stop }: Props): ReactElement<HTMLElement> => (
+const Parking = ({
+  dispatch,
+  isExpanded,
+  isFocused,
+  stop
+}: Props): ReactElement<HTMLElement> => (
   <>
     <ExpandableBlock
-      initiallyExpanded={false}
+      dispatch={dispatch}
+      initiallyExpanded={isExpanded}
+      initiallyFocused={isFocused}
       id="parking"
       header={{
         text: "Parking",

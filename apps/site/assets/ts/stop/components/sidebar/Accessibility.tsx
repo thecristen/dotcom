@@ -4,6 +4,15 @@ import ExpandableBlock from "../../../components/ExpandableBlock";
 import accessibleIcon from "../../../../static/images/icon-accessible-default.svg";
 import { Stop, AccessibilityType } from "../../../__v3api";
 import { TypedRoutes } from "../__stop";
+import { Dispatch } from "../../state";
+
+interface Props {
+  dispatch: Dispatch;
+  isExpanded: boolean;
+  isFocused: boolean;
+  stop: Stop;
+  routes: TypedRoutes[];
+}
 
 /* eslint-disable typescript/camelcase */
 export const accessibilityNames: {
@@ -128,14 +137,16 @@ const renderLearnMore = (): ReactElement<HTMLElement> => (
 );
 
 const Accessibility = ({
+  dispatch,
+  isExpanded,
+  isFocused,
   stop,
   routes
-}: {
-  stop: Stop;
-  routes: TypedRoutes[];
-}): ReactElement<HTMLElement> => (
+}: Props): ReactElement<HTMLElement> => (
   <ExpandableBlock
-    initiallyExpanded
+    dispatch={dispatch}
+    initiallyExpanded={isExpanded}
+    initiallyFocused={isFocused}
     id="accessibility"
     header={{
       text: "Accessibility",

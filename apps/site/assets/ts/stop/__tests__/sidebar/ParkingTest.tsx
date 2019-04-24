@@ -96,13 +96,29 @@ const id = "#header-parking";
 describe("Parking", () => {
   it("it renders", () => {
     createReactRoot();
-    const tree = renderer.create(<ParkingInfo stop={stop} />).toJSON();
+    const tree = renderer
+      .create(
+        <ParkingInfo
+          stop={stop}
+          isExpanded={false}
+          isFocused={false}
+          dispatch={() => {}}
+        />
+      )
+      .toJSON();
     expect(tree).toMatchSnapshot();
   });
 
   it("via enzyme-to-json it displays parking info when opened and inner html", () => {
     createReactRoot();
-    const wrapper = mount(<ParkingInfo stop={stop} />);
+    const wrapper = mount(
+      <ParkingInfo
+        stop={stop}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
+    );
     wrapper.find(id).simulate("click");
     expect(enzymeToJsonWithoutProps(wrapper)).toMatchSnapshot();
   });
@@ -110,7 +126,14 @@ describe("Parking", () => {
   it("handles cases where no parking information is listed for a station", () => {
     const stopWithNoLots: Stop = { ...stop, parking_lots: [] };
     createReactRoot();
-    const wrapper = mount(<ParkingInfo stop={stopWithNoLots} />);
+    const wrapper = mount(
+      <ParkingInfo
+        stop={stopWithNoLots}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
+    );
     wrapper.find(id).simulate("click");
     const utilizationWrapper = wrapper.find("#parking");
     expect(utilizationWrapper.text()).toContain(
@@ -124,7 +147,14 @@ describe("Parking", () => {
       parking_lots: [],
       "station?": false
     };
-    const wrapper = mount(<ParkingInfo stop={stationWithNoLots} />);
+    const wrapper = mount(
+      <ParkingInfo
+        stop={stationWithNoLots}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
+    );
     wrapper.find(id).simulate("click");
     const utilizationWrapper = wrapper.find("#parking");
     expect(utilizationWrapper.text()).toContain("for this stop");
@@ -143,7 +173,14 @@ describe("Parking", () => {
     };
 
     createReactRoot();
-    const wrapper = mount(<ParkingInfo stop={stopWithNoParkingDemand} />);
+    const wrapper = mount(
+      <ParkingInfo
+        stop={stopWithNoParkingDemand}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
+    );
     wrapper.find(id).simulate("click");
     const utilizationWrapper = wrapper.find("#parking-utilization");
     expect(utilizationWrapper.text()).toContain("is generally available");
@@ -156,7 +193,14 @@ describe("Parking", () => {
     };
 
     createReactRoot();
-    const wrapper = mount(<ParkingInfo stop={stopWithNoUtilization} />);
+    const wrapper = mount(
+      <ParkingInfo
+        stop={stopWithNoUtilization}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
+    );
     wrapper.find(id).simulate("click");
     const utilizationWrapper = wrapper.find("#parking-utilization");
     expect(enzymeToJsonWithoutProps(utilizationWrapper)).toEqual(null);
@@ -169,7 +213,14 @@ describe("Parking", () => {
     };
 
     createReactRoot();
-    const wrapper = mount(<ParkingInfo stop={stopWithNoCapacity} />);
+    const wrapper = mount(
+      <ParkingInfo
+        stop={stopWithNoCapacity}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
+    );
     wrapper.find(id).simulate("click");
     const capacityWrapper = wrapper.find("#parking-capacity");
     expect(capacityWrapper.text()).toContain("No MBTA parking.");
@@ -187,7 +238,14 @@ describe("Parking", () => {
     };
 
     createReactRoot();
-    const wrapper = mount(<ParkingInfo stop={stopWithNoMobile} />);
+    const wrapper = mount(
+      <ParkingInfo
+        stop={stopWithNoMobile}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
+    );
     wrapper.find(id).simulate("click");
     const capacityWrapper = wrapper.find("#parking-mobile-app");
     expect(enzymeToJsonWithoutProps(capacityWrapper)).toEqual(null);
@@ -208,7 +266,14 @@ describe("Parking", () => {
     };
 
     createReactRoot();
-    const wrapper = mount(<ParkingInfo stop={stopWithMobileId} />);
+    const wrapper = mount(
+      <ParkingInfo
+        stop={stopWithMobileId}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
+    );
     wrapper.find(id).simulate("click");
     const capacityWrapper = wrapper.find("#parking-mobile-app");
     expect(capacityWrapper.html()).not.toContain("<a>");
@@ -229,7 +294,14 @@ describe("Parking", () => {
     };
 
     createReactRoot();
-    const wrapper = mount(<ParkingInfo stop={stopWithMobileId} />);
+    const wrapper = mount(
+      <ParkingInfo
+        stop={stopWithMobileId}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
+    );
     wrapper.find(id).simulate("click");
     const capacityWrapper = wrapper.find("#parking-mobile-app");
     expect(capacityWrapper.text()).toContain("#234");
@@ -242,7 +314,14 @@ describe("Parking", () => {
     };
 
     createReactRoot();
-    const wrapper = mount(<ParkingInfo stop={stopWithNoMobile} />);
+    const wrapper = mount(
+      <ParkingInfo
+        stop={stopWithNoMobile}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
+    );
     wrapper.find(id).simulate("click");
     const capacityWrapper = wrapper.find("#parking-payment");
     expect(capacityWrapper.text()).toContain(
@@ -258,7 +337,14 @@ it("handles cases where manager info is not available", () => {
   };
 
   createReactRoot();
-  const wrapper = mount(<ParkingInfo stop={stopWithNoMobile} />);
+  const wrapper = mount(
+    <ParkingInfo
+      stop={stopWithNoMobile}
+      isExpanded
+      isFocused={false}
+      dispatch={() => {}}
+    />
+  );
   wrapper.find(id).simulate("click");
   const capacityWrapper = wrapper.find("#parking-manager");
   expect(capacityWrapper.text()).toContain("No contact information");
@@ -276,7 +362,14 @@ it("doesn't add a link for manager contact info if not available", () => {
   };
 
   createReactRoot();
-  const wrapper = mount(<ParkingInfo stop={stopWithNoMobile} />);
+  const wrapper = mount(
+    <ParkingInfo
+      stop={stopWithNoMobile}
+      isExpanded
+      isFocused={false}
+      dispatch={() => {}}
+    />
+  );
   wrapper.find(id).simulate("click");
   const capacityWrapper = wrapper.find("#parking-manager");
   expect(capacityWrapper.html()).not.toContain(`Contact: </strong><a`);
@@ -294,7 +387,14 @@ it("adds a url link for a manager if available", () => {
   };
 
   createReactRoot();
-  const wrapper = mount(<ParkingInfo stop={stopWithNoMobile} />);
+  const wrapper = mount(
+    <ParkingInfo
+      stop={stopWithNoMobile}
+      isExpanded
+      isFocused={false}
+      dispatch={() => {}}
+    />
+  );
   wrapper.find(id).simulate("click");
   const capacityWrapper = wrapper.find("#parking-manager");
   expect(capacityWrapper.text()).toContain("phone: 123456789");
@@ -313,7 +413,14 @@ it("handles case where manager telephone is not avaiable", () => {
   };
 
   createReactRoot();
-  const wrapper = mount(<ParkingInfo stop={stopWithNoPhone} />);
+  const wrapper = mount(
+    <ParkingInfo
+      stop={stopWithNoPhone}
+      isExpanded
+      isFocused={false}
+      dispatch={() => {}}
+    />
+  );
   wrapper.find(id).simulate("click");
   const capacityWrapper = wrapper.find("#parking-manager");
   expect(capacityWrapper.text()).not.toContain("phone:");
@@ -326,7 +433,14 @@ it("handles cases where there is no note", () => {
   };
 
   createReactRoot();
-  const wrapper = mount(<ParkingInfo stop={stopWithNoMobile} />);
+  const wrapper = mount(
+    <ParkingInfo
+      stop={stopWithNoMobile}
+      isExpanded
+      isFocused={false}
+      dispatch={() => {}}
+    />
+  );
   wrapper.find(id).simulate("click");
   const capacityWrapper = wrapper.find("#parking-note");
   expect(enzymeToJsonWithoutProps(capacityWrapper)).toEqual(null);

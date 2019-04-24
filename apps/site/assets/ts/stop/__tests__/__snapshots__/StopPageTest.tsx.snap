@@ -120,6 +120,7 @@ Array [
         <a
           className="m-stop-page__access-icon"
           href="#header-accessibility"
+          onClick={[Function]}
         >
           <span
             className="m-stop-page__icon"
@@ -138,6 +139,7 @@ Array [
         <a
           className="m-stop-page__header-feature"
           href="#header-parking"
+          onClick={[Function]}
         >
           <span
             className="m-stop-page__icon"
@@ -2458,6 +2460,7 @@ Array [
                 <a
                   className="m-stop-page__access-icon"
                   href="#header-accessibility"
+                  onClick={[Function]}
                 >
                   <span
                     className="m-stop-page__icon"
@@ -2507,6 +2510,7 @@ Array [
                 <a
                   className="m-stop-page__access-icon"
                   href="#header-accessibility"
+                  onClick={[Function]}
                 >
                   <span
                     className="m-stop-page__icon"
@@ -2601,6 +2605,7 @@ Array [
                 <a
                   className="m-stop-page__access-icon"
                   href="#header-accessibility"
+                  onClick={[Function]}
                 >
                   <span
                     className="m-stop-page__icon"

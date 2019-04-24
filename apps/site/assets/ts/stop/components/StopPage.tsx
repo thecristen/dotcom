@@ -89,6 +89,9 @@ export default ({
                 </div>
                 <div className="col-12 col-sm-10 col-sm-offset-1 col-lg-4 col-lg-offset-1">
                   <Sidebar
+                    dispatch={dispatch}
+                    expandedBlocks={state.expandedBlocks}
+                    focusedBlock={state.focusedBlock}
                     stop={stop}
                     routes={routes}
                     retailLocations={retailLocations}

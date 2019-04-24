@@ -1,10 +1,18 @@
 import { Mode } from "../__v3api";
+import { ClickExpandableBlockAction } from "../components/ExpandableBlock";
 
 export type SelectedStopType = string | null;
 export type SelectedTabType = string;
 export type Dispatch = (action: Action) => void;
+export type ExpandableBlockName = "parking" | "accessibility";
+export interface ExpandableBlockState {
+  parking: boolean;
+  accessibility: boolean;
+}
 
 export interface State {
+  expandedBlocks: ExpandableBlockState;
+  focusedBlock?: ExpandableBlockName;
   selectedStopId: SelectedStopType;
   selectedModes: Mode[];
   shouldFilterStopCards: boolean;
@@ -15,6 +23,7 @@ type StopActionType = "CLICK_MARKER";
 type ModeActionType = "CLICK_MODE_FILTER";
 type RoutePillActionType = "CLICK_ROUTE_PILL";
 type TabActionType = "SWITCH_TAB";
+type FeaturePillActionType = "CLICK_FEATURE_PILL";
 
 export interface StopAction {
   type: StopActionType;
@@ -44,7 +53,20 @@ export interface TabAction {
   };
 }
 
-type Action = StopAction | ModeAction | RoutePillAction | TabAction;
+export interface FeaturePillAction {
+  type: FeaturePillActionType;
+  payload: {
+    name: ExpandableBlockName;
+  };
+}
+
+type Action =
+  | StopAction
+  | ModeAction
+  | RoutePillAction
+  | FeaturePillAction
+  | ClickExpandableBlockAction
+  | TabAction;
 
 export const clickMarkerAction = (stopId: SelectedStopType): StopAction => ({
   type: "CLICK_MARKER",
@@ -66,6 +88,13 @@ export const clickTabAction = (tab: string): TabAction => ({
   payload: { tab }
 });
 
+export const clickFeaturePillAction = (
+  name: ExpandableBlockName
+): FeaturePillAction => ({
+  type: "CLICK_FEATURE_PILL",
+  payload: { name }
+});
+
 const stopReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "CLICK_MARKER": {
@@ -76,6 +105,7 @@ const stopReducer = (state: State, action: Action): State => {
 
       return {
         ...state,
+        focusedBlock: undefined,
         selectedStopId: target,
         shouldFilterStopCards: !!target
       };
@@ -95,6 +125,7 @@ const modeReducer = (state: State, action: Action): State => {
     case "CLICK_MODE_FILTER":
       return {
         ...state,
+        focusedBlock: undefined,
         selectedTab: "info",
         selectedModes: updateModes(state.selectedModes, action.payload.mode),
         shouldFilterStopCards: true
@@ -103,6 +134,7 @@ const modeReducer = (state: State, action: Action): State => {
     case "CLICK_ROUTE_PILL":
       return {
         ...state,
+        focusedBlock: undefined,
         selectedTab: "info",
         selectedModes: [action.payload.mode],
         shouldFilterStopCards: true
@@ -118,20 +150,58 @@ const tabReducer = (state: State, action: Action): State => {
     case "SWITCH_TAB":
       return {
         ...state,
+        focusedBlock: undefined,
         selectedTab: action.payload.tab
       };
+
+    default:
+      return state;
+  }
+};
+const sidebarReducer = (state: State, action: Action): State => {
+  const { expandedBlocks } = state;
+
+  switch (action.type) {
+    case "CLICK_FEATURE_PILL":
+      expandedBlocks[action.payload.name] = true;
+      return {
+        ...state,
+        expandedBlocks,
+        focusedBlock: action.payload.name,
+        selectedTab: "info"
+      };
+
+    case "CLICK_EXPANDABLE_BLOCK":
+      if (
+        action.payload.id === "parking" ||
+        action.payload.id === "accessibility"
+      ) {
+        expandedBlocks[action.payload.id] = !action.payload.expanded;
+        return {
+          ...state,
+          expandedBlocks,
+          selectedTab: "info"
+        };
+      }
+
+      return state;
+
     default:
       return state;
   }
 };
 
 export const reducer = (state: State, action: Action): State =>
-  [tabReducer, stopReducer, modeReducer].reduce(
+  [tabReducer, stopReducer, modeReducer, sidebarReducer].reduce(
     (acc, fn) => fn(acc, action),
     state
   );
 
 export const initialState = (tab: string): State => ({
+  expandedBlocks: {
+    accessibility: true,
+    parking: false
+  },
   selectedStopId: null,
   selectedModes: [],
   shouldFilterStopCards: false,

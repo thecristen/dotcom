@@ -38,7 +38,15 @@ describe("Accessibility", () => {
   it("it renders", () => {
     createReactRoot();
     const tree = renderer
-      .create(<Accessibility routes={data.routes} stop={stop} />)
+      .create(
+        <Accessibility
+          routes={data.routes}
+          stop={stop}
+          isExpanded
+          isFocused={false}
+          dispatch={() => {}}
+        />
+      )
       .toJSON();
     expect(tree).toMatchSnapshot();
   });
@@ -47,7 +55,13 @@ describe("Accessibility", () => {
     createReactRoot();
     const stopWithoutFeatures = { ...stop, accessibility: ["accessible"] };
     const wrapper = mount(
-      <Accessibility routes={data.routes} stop={stopWithoutFeatures} />
+      <Accessibility
+        routes={data.routes}
+        stop={stopWithoutFeatures}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
     );
     expect(wrapper.find("#accessibility-level").text()).toContain(
       "South Station is accessible."
@@ -59,7 +73,13 @@ describe("Accessibility", () => {
     createReactRoot();
     const stopWithoutFeatures = { ...stop, accessibility: ["unknown"] };
     const wrapper = mount(
-      <Accessibility routes={data.routes} stop={stopWithoutFeatures} />
+      <Accessibility
+        routes={data.routes}
+        stop={stopWithoutFeatures}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
     );
     expect(wrapper.find("#accessibility-level").text()).toContain(
       "Minor to moderate accessibility barriers exist at South Station. Bus operator may need to relocate bus for safe boarding and exiting."
@@ -71,7 +91,13 @@ describe("Accessibility", () => {
     createReactRoot();
     const stopWithoutFeatures = { ...stop, accessibility: [] };
     const wrapper = mount(
-      <Accessibility routes={data.routes} stop={stopWithoutFeatures} />
+      <Accessibility
+        routes={data.routes}
+        stop={stopWithoutFeatures}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
     );
     expect(wrapper.find("#accessibility-level").text()).toContain(
       "Significant accessibility barriers exist at South Station. Customers using wheeled mobility devices may need to board at street level. Bus operator will need to relocate bus for safe boarding and exiting."
@@ -83,7 +109,13 @@ describe("Accessibility", () => {
     createReactRoot();
     const stopWithoutFeatures = { ...stop, accessibility: ["tty_phone"] };
     const wrapper = mount(
-      <Accessibility routes={data.routes} stop={stopWithoutFeatures} />
+      <Accessibility
+        routes={data.routes}
+        stop={stopWithoutFeatures}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
     );
     expect(wrapper.find("#accessibility-level").text()).toContain(
       "Significant accessibility barriers exist at South Station. Customers using wheeled mobility devices may need to board at street level. Bus operator will need to relocate bus for safe boarding and exiting."
@@ -95,7 +127,13 @@ describe("Accessibility", () => {
     createReactRoot();
     const stopAshmont = { ...stop, id: "place-asmnl" };
     const wrapper = mount(
-      <Accessibility routes={data.routes} stop={stopAshmont} />
+      <Accessibility
+        routes={data.routes}
+        stop={stopAshmont}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
     );
     expect(wrapper.find("#accessibility-level").text()).toContain(
       "Significant accessibility barriers exist at South Station but customers can board or exit the Mattapan Trolley using a mobile lift."
@@ -109,7 +147,13 @@ describe("Accessibility", () => {
     createReactRoot();
     const stopAshmont = { ...stop, id: "place-lech" };
     const wrapper = mount(
-      <Accessibility routes={data.routes} stop={stopAshmont} />
+      <Accessibility
+        routes={data.routes}
+        stop={stopAshmont}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
     );
     expect(wrapper.find("#accessibility-level").text()).toContain(
       "Significant accessibility barriers exist at South Station but customers can board or exit the train using a mobile lift."
@@ -126,7 +170,13 @@ describe("Accessibility", () => {
       accessibility: ["accessible", "unknown_accessible_feature"]
     };
     const wrapper = mount(
-      <Accessibility routes={data.routes} stop={stopNewFeature} />
+      <Accessibility
+        routes={data.routes}
+        stop={stopNewFeature}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
     );
     expect(wrapper.find("#accessibility-features").text()).toContain(
       "unknown accessible feature"
@@ -140,7 +190,13 @@ describe("Accessibility", () => {
       accessibility: ["escalator_up"]
     };
     const wrapper = mount(
-      <Accessibility routes={data.routes} stop={stopNoLevel} />
+      <Accessibility
+        routes={data.routes}
+        stop={stopNoLevel}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
     );
     expect(wrapper.find("#accessibility-level").text()).toContain(
       "Significant accessibility barriers exist"
@@ -182,7 +238,13 @@ describe("Accessibility", () => {
       accessibility: ["escalator_up"]
     };
     const wrapper = mount(
-      <Accessibility routes={routesNoBus} stop={stopNoLevel} />
+      <Accessibility
+        routes={routesNoBus}
+        stop={stopNoLevel}
+        isExpanded
+        isFocused={false}
+        dispatch={() => {}}
+      />
     );
     const accessLevel = wrapper.find("#accessibility-level").text();
     expect(accessLevel).toContain("Significant accessibility barriers exist");

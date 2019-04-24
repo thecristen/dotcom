@@ -15,7 +15,7 @@ export interface ExpandableBlockHeader {
 // track its own state.
 interface Props {
   // eslint-disable-next-line typescript/no-explicit-any
-  dispatch?: React.Dispatch<{ type: string; payload: any }>;
+  dispatch?: React.Dispatch<any>;
   initiallyExpanded: boolean;
   initiallyFocused?: boolean;
   header: ExpandableBlockHeader;

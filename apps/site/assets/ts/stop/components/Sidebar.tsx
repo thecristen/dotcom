@@ -7,14 +7,21 @@ import Fares from "./sidebar/Fares";
 import { Stop } from "../../__v3api";
 import { TypedRoutes, RetailLocationWithDistance } from "./__stop";
 import Feedback from "../../components/Feedback";
+import { Dispatch, ExpandableBlockState, ExpandableBlockName } from "../state";
 
 interface Props {
+  dispatch: Dispatch;
+  expandedBlocks: ExpandableBlockState;
+  focusedBlock?: ExpandableBlockName;
   stop: Stop;
   routes: TypedRoutes[];
   retailLocations: RetailLocationWithDistance[];
 }
 
 const Sidebar = ({
+  dispatch,
+  expandedBlocks,
+  focusedBlock,
   stop,
   routes,
   retailLocations
@@ -24,8 +31,19 @@ const Sidebar = ({
       <RoutePillList routes={routes} />
     </div>
     <h2>Features</h2>
-    <Accessibility stop={stop} routes={routes} />
-    <Parking stop={stop} />
+    <Accessibility
+      stop={stop}
+      routes={routes}
+      dispatch={dispatch}
+      isExpanded={expandedBlocks.accessibility}
+      isFocused={focusedBlock === "accessibility"}
+    />
+    <Parking
+      stop={stop}
+      dispatch={dispatch}
+      isExpanded={expandedBlocks.parking}
+      isFocused={focusedBlock === "parking"}
+    />
     <BikeStorage stop={stop} />
     <Fares stop={stop} retailLocations={retailLocations} />
     <Feedback />

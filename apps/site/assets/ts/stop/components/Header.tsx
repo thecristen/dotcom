@@ -5,7 +5,11 @@ import { Tab, TypedRoutes, RouteWithDirections } from "./__stop";
 import { parkingIcon, modeIcon } from "../../helpers/icon";
 import { isSilverLine } from "../../helpers/silver-line";
 import accessible from "./StopAccessibilityIcon";
-import { Dispatch, clickRoutePillAction } from "../state";
+import {
+  Dispatch,
+  clickRoutePillAction,
+  clickFeaturePillAction
+} from "../state";
 import { modeByV3ModeType } from "../../components/ModeFilter";
 
 interface Props {
@@ -29,12 +33,16 @@ const subwayModeIds = [
   "Red"
 ];
 
-const parking = ({
-  // eslint-disable-next-line typescript/camelcase
-  parking_lots: parkingLots
-}: Stop): ReactElement<HTMLElement> | false =>
+const parking = (
+  { parking_lots: parkingLots }: Stop,
+  dispatch?: Dispatch
+): ReactElement<HTMLElement> | false =>
   parkingLots.length > 0 && (
-    <a href="#header-parking" className="m-stop-page__header-feature">
+    <a
+      className="m-stop-page__header-feature"
+      href="#header-parking"
+      onClick={() => dispatch && dispatch(clickFeaturePillAction("parking"))}
+    >
       <span className="m-stop-page__icon">
         {parkingIcon("c-svg__icon-parking-default")}
       </span>
@@ -142,8 +150,8 @@ const features = (
   <div className="m-stop-page__header-features">
     {modes(routes, dispatch)}
     {crZone(zoneNumber, dispatch)}
-    {accessible(stop)}
-    {parking(stop)}
+    {accessible(stop, dispatch)}
+    {parking(stop, dispatch)}
   </div>
 );
 
