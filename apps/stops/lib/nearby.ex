@@ -40,7 +40,7 @@ defmodule Stops.Nearby do
       |> Map.merge(Map.new(opts))
 
     commuter_rail_stops = api_task(position, opts, radius: @mile_in_degrees * 50, route_type: 2)
-    subway_stops = api_task(position, opts, radius: @mile_in_degrees * 30, route_type: "0,1")
+    subway_stops = api_task(position, opts, radius: @mile_in_degrees * 10, route_type: "0,1")
     bus_stops = api_task(position, opts, radius: @mile_in_degrees, route_type: 3)
 
     position
