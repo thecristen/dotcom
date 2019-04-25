@@ -17,7 +17,7 @@
       <div class="c-cms__body">
         <div class="page-section project-hero-image">
           <%= if @project.featured_image do %>
-            <figure class="c-media c-media--type-image c-media--size-wide">
+            <figure class="c-media c-media--image c-media--wide">
               <div class="c-media__content">
                 <%= img_tag @project.featured_image.url, alt: @project.featured_image.alt, class: "c-media__element img-fluid" %>
               </div>

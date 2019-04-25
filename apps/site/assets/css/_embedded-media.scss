@@ -150,10 +150,10 @@ $layout-media: (
   // NOTE: These keys must match the ones found in $layout-media (_layout.scss).
   $supported-media: (
     wide: (
-      '.c-media--size-wide'
+      '.c-media--wide'
     ),
     text: (
-      '.c-media--type-table'
+      '.c-media--table'
     ),
     left: (
       '.c-media--align-left'
@@ -162,10 +162,10 @@ $layout-media: (
       '.c-media--align-right'
     ),
     callout: (
-      '.c-media--type-callout'
+      '.c-media--callout'
     ),
     cards: (
-      '.c-media--type-cards'
+      '.c-media--cards'
     )
   );
 
@@ -201,8 +201,8 @@ $layout-media: (
   // @TODO: Use elixir content_rewriter.ex to tag the media element so
   // that we can push the media down to match the heading margin-top.
   @each $heading in $headings {
-    p + .c-media--size-half + #{$heading},
-    p + .c-media--size-half + .#{$heading} {
+    p + .c-media--half + #{$heading},
+    p + .c-media--half + .#{$heading} {
       margin-top: 0;
     }
   }
@@ -240,7 +240,7 @@ $layout-media: (
 
   // Floated media above xs handles margins within structure, not on figure
   @include media-breakpoint-up(sm) {
-    &.c-media--size-half {
+    &.c-media--half {
       -webkit-margin-after: 0;
       -webkit-margin-before: 0;
       margin-bottom: 0;
@@ -270,7 +270,7 @@ $layout-media: (
     // Margin-bottom doesn't work on floated elements,
     // so it needs to be moved inside the structure (it
     // should only be enough to clear 1 additional line).
-    .c-media--size-half & {
+    .c-media--half & {
       margin-bottom: $base-spacing / 2;
 
       // Emulates the space between the top of an inline text element
@@ -292,7 +292,7 @@ $layout-media: (
     }
   }
 
-  .c-media.c-media--type-cards & {
+  .c-media.c-media--cards & {
     .c-cms__body & {
       float: none;
     }
@@ -310,7 +310,7 @@ $layout-media: (
 
   @include media-breakpoint-up(sm) {
 
-    .c-media--size-half & {
+    .c-media--half & {
       background-image: $gray-stripe-pattern;
       box-sizing: content-box;
     }

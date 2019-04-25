@@ -860,7 +860,7 @@ defmodule SiteWeb.ContentViewTest do
     test "wraps content with media divs if the condition is true" do
       rendered = extend_width_if(true, :table, do: "foo") |> HTML.safe_to_string()
 
-      assert rendered =~ "c-media c-media--type-table"
+      assert rendered =~ "c-media c-media--table"
       assert rendered =~ "c-media__content"
       assert rendered =~ "c-media__element"
       assert rendered =~ "foo"

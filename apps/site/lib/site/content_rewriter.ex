@@ -48,7 +48,7 @@ defmodule Site.ContentRewriter do
       |> ResponsiveTables.rewrite_table()
       |> rewrite_children(conn, context)
 
-    {"figure", [{"class", "c-media c-media--type-table"}],
+    {"figure", [{"class", "c-media c-media--table"}],
      [
        {"div", [{"class", "c-media__content"}],
         [

@@ -172,7 +172,7 @@
   // If an author floats media between a heading and body copy, we lose
   // the heading + copy relationship. Add this scenario back here:
   @include media-breakpoint-up(sm) {
-    + .c-media--size-half + p {
+    + .c-media--half + p {
       margin-top: -$after-heading-adjustment;
     }
   }
@@ -185,7 +185,7 @@
   }
   // Make floated media items align with the top of adjacent wrapped text characters
   @include media-breakpoint-up(sm) {
-    + .c-media--size-half .c-media__content {
+    + .c-media--half .c-media__content {
       margin-top: $after-heading-adjustment;
     }
   }
@@ -219,7 +219,7 @@
     .c-cms__body & {
       // Reset row
       &.c-media {
-        margin: 1rem 0 1.5rem; // Defaults for .c-media--size-wide
+        margin: 1rem 0 1.5rem; // Defaults for .c-media--wide
 
         &::after {
           content: none;

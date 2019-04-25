@@ -58,7 +58,7 @@
   padding: ($base-spacing / 1.5) $base-spacing;
 
   // Prevent tables from breaking out of accordion boxes:
-  .c-media--type-table {
+  .c-media--table {
     @include media-breakpoint-up(sm) {
       .c-media__content {
         max-width: 100%;

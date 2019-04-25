@@ -62,7 +62,7 @@ defmodule Site.ContentRewriterTest do
       expected = ~s(
         <div>
           Test 1 <i aria-hidden="true" class=" notranslate fa fa-test "></i>, Test 2 <i aria-hidden="true" class=" notranslate fa fa-test-two "></i>
-          <figure class="c-media c-media--type-table">
+          <figure class="c-media c-media--table">
             <div class="c-media__content">
               <table class="c-media__element responsive-table">
                 <caption>The caption</caption>
@@ -161,7 +161,7 @@ defmodule Site.ContentRewriterTest do
     test "wraps supported iframes as embedded media structures and sets aspect class for a supported source",
          %{conn: conn} do
       rewritten =
-        ~s(<figure class="c-media c-media--type-embed c-media--size-wide">) <>
+        ~s(<figure class="c-media c-media--embed c-media--wide">) <>
           ~s(<div class="c-media__content">) <>
           ~s(<div class="c-media__element c-media__element--fixed-aspect c-media__element--aspect-wide">) <>
           ~s(<iframe class="c-media__embed" src="https://www.youtu.be/abcd1234"></iframe></div></div></figure>)
@@ -210,7 +210,7 @@ defmodule Site.ContentRewriterTest do
         |> safe_to_string()
 
       assert rewritten =~
-               ~s(<figure class="c-media c-media--type-image c-media--size-half c-media--align-right c-media--with-caption"><div class="c-media__content">)
+               ~s(<figure class="c-media c-media--image c-media--half c-media--align-right c-media--with-caption"><div class="c-media__content">)
 
       assert rewritten =~
                ~s(<img class="image-style-max-650x650 c-media__element img-fluid" alt="My Image Alt Text")
@@ -236,7 +236,7 @@ defmodule Site.ContentRewriterTest do
         |> safe_to_string()
 
       assert rewritten =~
-               ~s(<figure class="c-media c-media--type-image c-media--size-wide"><div class="c-media__content">)
+               ~s(<figure class="c-media c-media--image c-media--wide"><div class="c-media__content">)
 
       assert rewritten =~
                ~s(<a class="c-media__link" href="/projects/wollaston-station-improvements" target="_blank">)

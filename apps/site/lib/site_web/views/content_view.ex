@@ -122,7 +122,7 @@ defmodule SiteWeb.ContentView do
 
   @spec extend_width(atom, Keyword.t()) :: Phoenix.HTML.safe()
   def extend_width(type, do: content) do
-    content_tag :div, class: "c-media c-media--type-#{type} c-media--extended" do
+    content_tag :div, class: "c-media c-media--#{type} c-media--extended" do
       content_tag :div, class: "c-media__content" do
         content_tag(:div, [class: "c-media__element"], do: content)
       end

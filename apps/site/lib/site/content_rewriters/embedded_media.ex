@@ -91,8 +91,8 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
         {
           "class",
           "c-media " <>
-            "c-media--type-#{media.type} " <>
-            "c-media--size-#{media.size}" <> "#{alignment_modifier}" <> "#{caption_modifier}"
+            "c-media--#{media.type} " <>
+            "c-media--#{media.size}" <> "#{alignment_modifier}" <> "#{caption_modifier}"
         }
       ],
       [

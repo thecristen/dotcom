@@ -92,7 +92,7 @@
 
     // Ensure margins below paragraph are collapsed
     // (multi-classed to beat media system specificty)
-    .c-media.c-media--type-cards::after {
+    .c-media.c-media--cards::after {
       content: none;
     }
   }
