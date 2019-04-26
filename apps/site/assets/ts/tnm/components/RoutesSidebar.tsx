@@ -59,7 +59,8 @@ const filterDataByStopId = (
       if (stops.length === 0) {
         return accumulator;
       }
-      return accumulator.concat(Object.assign({}, route, { stops }));
+      // eslint-disable-next-line typescript/camelcase
+      return accumulator.concat({ ...route, stops_with_directions: stops });
     },
     []
   );

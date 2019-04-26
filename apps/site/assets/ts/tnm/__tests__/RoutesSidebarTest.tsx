@@ -60,7 +60,7 @@ describe("filterData", () => {
         (route: RouteWithStopsWithDirections) =>
           route.stops_with_directions.length === 1
       )
-    );
+    ).toEqual(true);
 
     // Every stop should match the selected stop
     expect(
@@ -68,7 +68,7 @@ describe("filterData", () => {
         (route: RouteWithStopsWithDirections) =>
           route.stops_with_directions[0].stop.id === selectedStopId
       )
-    );
+    ).toEqual(true);
   });
 
   it("should filter by modes", () => {
@@ -81,7 +81,7 @@ describe("filterData", () => {
       filteredBusData.every(
         (route: RouteWithStopsWithDirections) => route.route.type === 3
       )
-    );
+    ).toEqual(true);
 
     const filteredRailData = filterData(data, null, ["commuter_rail"], true);
     expect(filteredRailData).toHaveLength(4);
@@ -89,7 +89,7 @@ describe("filterData", () => {
       filteredRailData.every(
         (route: RouteWithStopsWithDirections) => route.route.type === 2
       )
-    );
+    ).toEqual(true);
 
     const filteredSubwayData = filterData(data, null, ["subway"], true);
     expect(filteredSubwayData).toHaveLength(6);
@@ -98,6 +98,6 @@ describe("filterData", () => {
         (route: RouteWithStopsWithDirections) =>
           route.route.type === 0 || route.route.type === 1
       )
-    );
+    ).toEqual(true);
   });
 });
