@@ -4,7 +4,6 @@ import { clickStopCardAction, Dispatch } from "../tnm/state";
 import Direction from "./Direction";
 import renderSvg from "../helpers/render-svg";
 import { accessibleIcon } from "../helpers/icon";
-// @ts-ignore
 import stationSymbol from "../../static/images/icon-circle-t-small.svg";
 
 interface Props {

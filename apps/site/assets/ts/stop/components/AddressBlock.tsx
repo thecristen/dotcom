@@ -4,7 +4,6 @@ import { Stop } from "../../__v3api";
 import { TypedRoutes } from "./__stop";
 import renderSvg from "../../helpers/render-svg";
 
-// @ts-ignore
 import streetViewSvg from "../../../static/images/icon-street-view-default.svg";
 
 interface Props {

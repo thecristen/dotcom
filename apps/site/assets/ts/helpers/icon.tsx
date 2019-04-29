@@ -1,36 +1,20 @@
 import React, { ReactElement } from "react";
 import renderSvg from "./render-svg";
-// @ts-ignore
 import accessibleIconSvg from "../../static/images/icon-accessible-small.svg";
-// @ts-ignore
 import alertIconSvg from "../../static/images/icon-alerts-triangle.svg";
-// @ts-ignore
 import blueLineIconSvg from "../../static/images/icon-blue-line-default.svg";
-// @ts-ignore
 import busIconSvg from "../../static/images/icon-mode-bus-small.svg";
-// @ts-ignore
 import commuterRailIconSvg from "../../static/images/icon-mode-commuter-rail-small.svg";
-// @ts-ignore
 import ferryIconSvg from "../../static/images/icon-mode-ferry-small.svg";
-// @ts-ignore
 import greenLineIconSvg from "../../static/images/icon-green-line-small.svg";
-// @ts-ignore
 import greenBLineIconSvg from "../../static/images/icon-green-line-b-small.svg";
-// @ts-ignore
 import greenCLineIconSvg from "../../static/images/icon-green-line-c-small.svg";
-// @ts-ignore
 import greenDLineIconSvg from "../../static/images/icon-green-line-d-small.svg";
-// @ts-ignore
 import greenELineIconSvg from "../../static/images/icon-green-line-e-small.svg";
-// @ts-ignore
 import mattapanLineIconSvg from "../../static/images/icon-mattapan-line-small.svg";
-// @ts-ignore
 import orangeLineIconSvg from "../../static/images/icon-orange-line-small.svg";
-// @ts-ignore
 import parkingIconSvg from "../../static/images/icon-parking-small.svg";
-// @ts-ignore
 import redLineIconSvg from "../../static/images/icon-red-line-small.svg";
-// @ts-ignore
 import silverLineIconSvg from "../../static/images/icon-silver-line-small.svg";
 
 export const accessibleIcon = (className: string = ""): JSX.Element =>

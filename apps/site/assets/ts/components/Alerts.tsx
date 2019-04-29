@@ -3,15 +3,10 @@ import { Alert as AlertType, Lifecycle } from "../__v3api";
 import { handleReactEnterKeyPress } from "../helpers/keyboard-events";
 import { caret } from "../helpers/icon";
 import renderSVG from "../helpers/render-svg";
-// @ts-ignore
 import shuttleIcon from "../../static/images/icon-shuttle-default.svg";
-// @ts-ignore
 import cancelIcon from "../../static/images/icon-cancelled-default.svg";
-// @ts-ignore
 import snowIcon from "../../static/images/icon-snow-default.svg";
-// @ts-ignore
 import alertIcon from "../../static/images/icon-alerts-triangle.svg";
-// @ts-ignore
 
 interface Props {
   alerts: AlertType[];

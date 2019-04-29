@@ -5,3 +5,8 @@ interface Window {
   encodeURIComponent(component: string): string;
   google: any;
 }
+
+declare module "*.svg" {
+  const content: any;
+  export default content;
+}
