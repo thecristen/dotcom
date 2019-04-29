@@ -101,19 +101,23 @@ const renderPayment = (lot: ParkingLot): ReactElement<HTMLElement> => {
       <div id="parking-payment">
         <div className="u-small-caps">Payment</div>
         <ul className="list-unstyled">
-          <li>
-            <strong>Payment Methods: </strong>
-            {methods.join(", ")}
-          </li>
+          {methods.length ? (
+            <li>
+              <strong>Payment Methods: </strong>
+              {methods.join(", ")}
+            </li>
+          ) : null}
           {renderMobileApp(mobileApp)}
           <li>
             <strong>Daily fee: </strong>
             {dailyRate}
           </li>
-          <li>
-            <strong>Monthly pass: </strong>
-            {monthlyRate}
-          </li>
+          {monthlyRate ? (
+            <li>
+              <strong>Monthly pass: </strong>
+              {monthlyRate}
+            </li>
+          ) : null}
         </ul>
       </div>
     );

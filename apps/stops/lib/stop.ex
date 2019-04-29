@@ -125,7 +125,7 @@ defmodule Stops.Stop.ParkingLot.Payment do
   @spec parse(map) :: t
   def parse(props) do
     %__MODULE__{
-      methods: Map.get(props, "payment-form-accepted"),
+      methods: Map.get(props, "payment-form-accepted", []),
       mobile_app:
         Stops.Helpers.struct_or_nil(Stops.Stop.ParkingLot.Payment.MobileApp.parse(props)),
       daily_rate: Map.get(props, "fee-daily"),
