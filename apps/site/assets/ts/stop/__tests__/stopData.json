@@ -5,7 +5,7 @@
     {
       "badge": null,
       "class": "",
-      "href": "/stops-v2/place-sstat",
+      "href": "/stops/place-sstat",
       "id": "info",
       "name": "Station Info"
     },

@@ -19,7 +19,7 @@ exports[`renders 1`] = `
       </span>
       <a
         className="c-stop-card__stop-name"
-        href="/stops-v2/102"
+        href="/stops/102"
       >
         Massachusetts Ave @ Prospect St
       </a>
@@ -69,7 +69,7 @@ exports[`renders 1`] = `
       </span>
       <a
         className="c-stop-card__stop-name"
-        href="/stops-v2/1060"
+        href="/stops/1060"
       >
         Magazine St @ Green St
       </a>
@@ -164,7 +164,7 @@ exports[`renders 1`] = `
       </span>
       <a
         className="c-stop-card__stop-name"
-        href="/stops-v2/1123"
+        href="/stops/1123"
       >
         Green St @ Magazine St
       </a>

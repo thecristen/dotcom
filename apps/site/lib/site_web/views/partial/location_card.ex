@@ -26,7 +26,7 @@ defmodule SiteWeb.PartialView.LocationCard do
 
   @spec route_path(Routes.Route.t(), any(), any()) :: any()
   def route_path(%Route{}, stop, :commuter_rail) do
-    stop_v1_path(SiteWeb.Endpoint, :show, stop, tab: "schedule")
+    stop_path(SiteWeb.Endpoint, :show, stop, tab: "schedule")
   end
 
   def route_path(%Route{} = route, stop, _route_group) do
@@ -39,11 +39,11 @@ defmodule SiteWeb.PartialView.LocationCard do
   end
 
   def stop_path(%Stop{} = stop) do
-    stop_v1_path(SiteWeb.Endpoint, :show, stop.id, tab: "schedule")
+    stop_path(SiteWeb.Endpoint, :show, stop.id, tab: "schedule")
   end
 
   def stop_path(stop) do
-    stop_v1_path(SiteWeb.Endpoint, :show, stop.id, tab: "schedule")
+    stop_path(SiteWeb.Endpoint, :show, stop.id, tab: "schedule")
   end
 
   @spec route_links([map] | [%Route{}]) :: [HTML.Safe.t()]

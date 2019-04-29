@@ -31,7 +31,7 @@ defmodule SiteWeb.PageView do
   end
 
   @spec shortcut_link(atom) :: String.t()
-  defp shortcut_link(:stations), do: stop_v1_path(SiteWeb.Endpoint, :index)
+  defp shortcut_link(:stations), do: stop_path(SiteWeb.Endpoint, :index)
 
   defp shortcut_link(:the_ride),
     do: cms_static_page_path(SiteWeb.Endpoint, "/accessibility/the-ride")

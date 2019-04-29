@@ -260,7 +260,7 @@ defmodule SiteWeb.ScheduleView do
         bubbles: [{route_name, if(terminus?, do: :terminus, else: :stop)}],
         direction_id: direction_id,
         stop: route_stop,
-        href: stop_v1_path(SiteWeb.Endpoint, :show, route_stop.id),
+        href: stop_path(SiteWeb.Endpoint, :show, route_stop.id),
         route: route,
         vehicle_tooltip: vehicle_tooltip,
         terminus?: terminus?,

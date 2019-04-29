@@ -304,7 +304,7 @@ defmodule Site.TransitNearMe do
   @spec build_stop_map(Stop.t(), distance_hash) :: map
   def build_stop_map(stop, distances) do
     distance = Map.fetch!(distances, stop.id)
-    href = Helpers.stop_v1_path(SiteWeb.Endpoint, :show, stop.id)
+    href = Helpers.stop_path(SiteWeb.Endpoint, :show, stop.id)
 
     %{
       stop: stop,

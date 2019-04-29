@@ -13,7 +13,7 @@ defmodule SiteWeb.OldSiteRedirectController do
   def schedules_and_maps(conn, %{"path" => [_mode, "lines", "stations" | _], "stopId" => stop_id}) do
     case Stops.Repo.old_id_to_gtfs_id(stop_id) do
       nil -> permanent_redirect(conn, mode_path(conn, :index))
-      gtfs_id -> permanent_redirect(conn, stop_v1_path(conn, :show, gtfs_id))
+      gtfs_id -> permanent_redirect(conn, stop_path(conn, :show, gtfs_id))
     end
   end
 
@@ -25,7 +25,7 @@ defmodule SiteWeb.OldSiteRedirectController do
         _ -> :subway
       end
 
-    permanent_redirect(conn, stop_v1_path(conn, :show, redirect_mode))
+    permanent_redirect(conn, stop_path(conn, :show, redirect_mode))
   end
 
   def schedules_and_maps(conn, %{"path" => ["rail" | _]}) do

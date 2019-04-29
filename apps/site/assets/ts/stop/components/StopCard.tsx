@@ -44,7 +44,7 @@ const StopCard = ({
           {formatMilesToFeet(distance)} ft
         </span>
       )}
-      <a className="c-stop-card__stop-name" href={`/stops-v2/${stop.id}`}>
+      <a className="c-stop-card__stop-name" href={`/stops/${stop.id}`}>
         {stop.name}
       </a>
       {accessible(stop)}

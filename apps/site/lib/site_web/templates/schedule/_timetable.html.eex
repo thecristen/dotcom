@@ -75,7 +75,7 @@
                 cell_background
             ] do %>
               <div class="m-timetable__row-header m-timetable__stop-name">
-                <%= link to: stop_v1_path(@conn, :show, stop.id), class: "m-timetable__stop-link" do %>
+                <%= link to: stop_path(@conn, :show, stop.id), class: "m-timetable__stop-link" do %>
                   <%= break_text_at_slash(stop.name) %>
                 <% end %>
                 <div class="m-timetable__stop-icons">

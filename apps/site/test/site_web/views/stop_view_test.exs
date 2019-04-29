@@ -814,7 +814,7 @@ defmodule SiteWeb.StopViewTest do
       %HeaderTab{
         badge: nil,
         class: "",
-        href: "/stops-v2/place-sstat",
+        href: "/stops/place-sstat",
         id: "details",
         name: "Station Details"
       },

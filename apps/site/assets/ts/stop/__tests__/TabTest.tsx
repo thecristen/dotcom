@@ -11,7 +11,7 @@ describe("Tab", () => {
       tab: {
         badge: undefined,
         class: "",
-        href: "/stops-v2/place-sstat",
+        href: "/stops/place-sstat",
         id: "info",
         name: "Station Info",
         selected: "info"
@@ -33,7 +33,7 @@ describe("Tab", () => {
       tab: {
         badge: undefined,
         class: "",
-        href: "/stops-v2/place-sstat",
+        href: "/stops/place-sstat",
         id: "info",
         name: "Station Info",
         selected: "info"

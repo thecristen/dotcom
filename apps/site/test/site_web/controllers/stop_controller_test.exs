@@ -5,17 +5,6 @@ defmodule SiteWeb.StopControllerTest do
   alias Stops.Stop
   alias Util.Breadcrumb
 
-  test "view is under a flag", %{conn: conn} do
-    assert conn
-           |> get(stop_path(conn, :show, "place-sstat"))
-           |> Map.fetch!(:status) == 404
-
-    assert conn
-           |> put_req_cookie("stop_page_redesign", "true")
-           |> get(stop_path(conn, :show, "place-sstat"))
-           |> Map.fetch!(:status) == 200
-  end
-
   test "renders react content server-side", %{conn: conn} do
     assert [{"div", _, content}] =
              conn
@@ -60,7 +49,7 @@ defmodule SiteWeb.StopControllerTest do
     conn =
       conn
       |> put_req_cookie("stop_page_redesign", "true")
-      |> get("/stops-v2/Four%20Corners%20/%20Geneva")
+      |> get("/stops/Four%20Corners%20/%20Geneva")
 
     assert redirected_to(conn) == stop_path(conn, :show, "Four Corners / Geneva")
   end
@@ -126,7 +115,7 @@ defmodule SiteWeb.StopControllerTest do
       routes = [%Route{id: "CR-Lowell", type: 2}]
 
       assert StopController.breadcrumbs(stop, routes) == [
-               %Breadcrumb{text: "Stations", url: "/stops-v2/commuter-rail"},
+               %Breadcrumb{text: "Stations", url: "/stops/commuter-rail"},
                %Breadcrumb{text: "Name", url: ""}
              ]
     end

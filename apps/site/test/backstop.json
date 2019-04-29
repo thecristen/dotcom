@@ -219,30 +219,6 @@
       "onReadyScript": "header.js"
     },
     {
-      "label": "Station Info Tab South Station",
-      "url": "http://host.docker.internal:8082/stops/place-sstat?tab=info&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
-      "hideSelectors": [
-        ".map"
-      ],
-      "selectors": [
-        ".station__header"
-      ],
-      "delay": 1000,
-      "misMatchThreshold": 0.03
-    },
-    {
-      "label": "Station Info Tab South Station",
-      "url": "http://host.docker.internal:8082/stops/place-sstat?tab=info&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
-      "hideSelectors": [
-        ".map"
-      ],
-      "selectors": [
-        "main"
-      ],
-      "delay": 1000,
-      "misMatchThreshold": 0.03
-    },
-    {
       "label": "Commuter Rail Fares",
       "url": "http://host.docker.internal:8082/fares/commuter-rail?destination=Framingham&fare_type=adult&origin=place-sstat&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
       "selectors": [
@@ -359,45 +335,6 @@
         ".scheduleview > main > .container"
       ],
       "delay": 5000,
-      "misMatchThreshold": 0.03
-    },
-    {
-      "label": "Station Info Framingham",
-      "url": "http://host.docker.internal:8082/stops/Framingham?tab=departures&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
-      "hideSelectors": [
-        ".map",
-        ".animate"
-      ],
-      "selectors": [
-        ".station__header"
-      ],
-      "delay": 1000,
-      "misMatchThreshold": 0.03
-    },
-    {
-      "label": "Station Info Framingham",
-      "url": "http://host.docker.internal:8082/stops/Framingham?tab=departures&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
-      "hideSelectors": [
-        ".map",
-        ".animate"
-      ],
-      "selectors": [
-        "main"
-      ],
-      "delay": 1000,
-      "misMatchThreshold": 0.03
-    },
-    {
-      "label": "Station Info South Station",
-      "url": "http://host.docker.internal:8082/stops/place-sstat?tab=departures&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
-      "hideSelectors": [
-        ".station-info-map",
-        ".animate"
-      ],
-      "selectors": [
-        "main"
-      ],
-      "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {

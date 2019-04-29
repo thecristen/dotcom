@@ -104,13 +104,8 @@ defmodule SiteWeb.Router do
     # stop redirects
     get("/stops/Lansdowne", Redirector, to: "/stops/Yawkey")
     get("/stops/Boat-George", Redirector, to: "/stops/ferry")
-    resources("/stops", StopV1Controller, only: [:index, :show])
-    get("/stops/*path", StopV1Controller, :stop_with_slash_redirect)
-
-    get("/stops-v2/Lansdowne", Redirector, to: "/stops-v2/Yawkey")
-    get("/stops-v2/Boat-George", Redirector, to: "/stops-v2/ferry")
-    resources("/stops-v2", StopController, only: [:index, :show])
-    get("/stops-v2/*path", StopController, :stop_with_slash_redirect)
+    resources("/stops", StopController, only: [:index, :show])
+    get("/stops/*path", StopController, :stop_with_slash_redirect)
 
     get("/schedules", ModeController, :index)
     get("/schedules/subway", ModeController, :subway)
