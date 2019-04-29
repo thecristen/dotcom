@@ -20,7 +20,7 @@ const data: MapData = {
     }
   ],
   height: 250,
-  tile_server_url: "http://dev.tile-server.mbtace.com",
+  tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com",
   default_center: {
     longitude: -72.05891,
     latitude: 44.360718

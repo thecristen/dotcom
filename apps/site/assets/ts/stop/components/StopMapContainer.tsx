@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import StopMap from "./StopMap";
-import { Stop } from "../../__v3api";
+import { Stop, Route } from "../../__v3api";
 import { StopMapData } from "../components/__stop";
 import { SelectedStopType, Dispatch } from "../state";
 
@@ -8,6 +8,7 @@ interface Props {
   initialData: StopMapData;
   mapId: string;
   stop: Stop;
+  routes: Route[];
   selectedStopId: SelectedStopType;
   dispatch: Dispatch;
 }
@@ -16,6 +17,7 @@ const StopMapContainer = ({
   initialData,
   mapId,
   stop,
+  routes,
   selectedStopId,
   dispatch
 }: Props): ReactElement<HTMLElement> => (
@@ -53,6 +55,8 @@ const StopMapContainer = ({
         dispatch={dispatch}
         selectedStopId={selectedStopId}
         initialData={initialData}
+        stop={stop}
+        routes={routes}
       />
     </div>
   </div>

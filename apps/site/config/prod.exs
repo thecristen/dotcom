@@ -122,7 +122,7 @@ config :site, OldSiteFileController,
 config :site, StaticFileController,
   response_fn: {SiteWeb.StaticFileController, :redirect_through_cdn}
 
-config :site, tile_server_url: "http://tile-server.mbtace.com"
+config :site, tile_server_url: "https://cdn.mbta.com"
 
 config :site, :react,
   source_path: nil,

@@ -4,8 +4,6 @@ defmodule SiteWeb.StopController.StopMap do
   """
   alias GoogleMaps.ViewHelpers
   alias Leaflet.{MapData, MapData.Marker}
-  alias Phoenix.HTML
-  alias SiteWeb.PartialView
   alias Stops.Stop
 
   @srcset_sizes [
@@ -82,25 +80,7 @@ defmodule SiteWeb.StopController.StopMap do
       stop.latitude,
       stop.longitude,
       id: stop.id,
-      icon: ViewHelpers.marker_for_routes(routes),
-      tooltip: tooltip(stop, routes)
+      icon: ViewHelpers.marker_for_routes(routes)
     )
-  end
-
-  defp tooltip(stop, routes) do
-    grouped_routes =
-      Enum.map(routes, fn grouped_routes_with_directions ->
-        %{
-          group_name: grouped_routes_with_directions.group_name,
-          routes:
-            Enum.map(grouped_routes_with_directions.routes, fn route_with_directions ->
-              route_with_directions.route
-            end)
-        }
-      end)
-
-    "_location_card.html"
-    |> PartialView.render(%{stop: stop, routes: grouped_routes})
-    |> HTML.safe_to_string()
   end
 end

@@ -51,7 +51,7 @@ config :sentry,
   json_library: Poison
 
 config :site, :former_mbta_site, host: "http://old.mbta.com"
-config :site, tile_server_url: "http://dev.tile-server.mbtace.com"
+config :site, tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com"
 
 config :site, OldSiteFileController,
   response_fn: {SiteWeb.OldSiteFileController, :send_file},

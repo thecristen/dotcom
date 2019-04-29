@@ -1,6 +1,7 @@
 import React, { ReactElement, useReducer } from "react";
 import StopMapContainer from "./StopMapContainer";
-import { StopPageData, StopMapData } from "./__stop";
+import { StopPageData, StopMapData, TypedRoutes } from "./__stop";
+import { Route } from "../../__v3api";
 import { reducer, initialState } from "../state";
 import StopPageHeader from "./StopPageHeader";
 import Alerts from "../../components/Alerts";
@@ -64,6 +65,13 @@ export default ({
               initialData={mapData}
               mapId={mapId}
               stop={stop}
+              routes={routes.reduce(
+                (accumulator: Route[], groupedRoutes: TypedRoutes): Route[] =>
+                  accumulator.concat(
+                    groupedRoutes.routes.map(typedRoute => typedRoute.route)
+                  ),
+                []
+              )}
               selectedStopId={state.selectedStopId}
               dispatch={dispatch}
             />

@@ -5,7 +5,7 @@ $grid-breakpoints: (
   sm: 544px,
   md: 800px,
   lg: 1088px,
-  xxl: 1344px,
+  xxl: 1344px
 );
 
 $container-max-widths: (
@@ -19,22 +19,23 @@ $container-max-widths: (
 @import 'node_modules/bootstrap/scss/variables';
 $spacers: (
   0: (
-    x:   0,
-    y:   0
+    x: 0,
+    y: 0
   ),
   1: (
-    x:   $spacer-x,
-    y:   $spacer-y
+    x: $spacer-x,
+    y: $spacer-y
   ),
   2: (
-    x:   ($spacer-x * 1.5),
-    y:   ($spacer-y * 1.5)
+    x: ($spacer-x * 1.5),
+    y: ($spacer-y * 1.5)
   ),
   3: (
-    x:   ($spacer-x * 3),
-    y:   ($spacer-y * 3)
+    x: ($spacer-x * 3),
+    y: ($spacer-y * 3)
   ),
-  g: ( // for grid
+  g: (
+    // for grid
     x: $grid-gutter-width,
     y: $grid-gutter-width
   )
@@ -110,7 +111,15 @@ $tab-border: $border-width solid $btn-primary-bg;
 $btn-padding-x: $base-spacing * 1.6;
 $btn-padding-y: $base-spacing * .6;
 
-$z-index-above-leaflet: 1001;
+$z-index-above-leaflet: 23;
+$z-index-leaflet-level-8: 21;
+$z-index-leaflet-level-7: 21;
+$z-index-leaflet-level-6: 20;
+$z-index-leaflet-level-5: 19;
+$z-index-leaflet-level-4: 18;
+$z-index-leaflet-level-3: 17;
+$z-index-leaflet-level-2: 16;
+$z-index-leaflet-level-1: 15;
 $z-index-desktop-menu: 14;
 $zindex-sticky: 13;
 $z-index-datepicker-content: 12;
@@ -128,8 +137,8 @@ $after-heading-adjustment: .25em;
 $gray-stripe-pattern: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAAXNSR0IArs4c6QAAABZJREFUCB1jYMAC7t279x9DmG6CQJsBUrkVl6gmw/kAAAAASUVORK5CYII=');
 
 // form variables
-$form-check-margin-bottom:  $base-spacing-sm;
-$form-check-input-gutter:   $base-spacing;
+$form-check-margin-bottom: $base-spacing-sm;
+$form-check-input-gutter: $base-spacing;
 $form-check-input-margin-y: 0;
 
 // Font-awesome settings

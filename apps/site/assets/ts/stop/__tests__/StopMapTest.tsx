@@ -3,13 +3,13 @@ import renderer from "react-test-renderer";
 import StopMap from "../components/StopMap";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { StopMapData } from "../components/__stop";
+import { Stop } from "../../__v3api";
+/* eslint-disable typescript/camelcase */
 
 const initialData: StopMapData = {
-  // eslint-disable-next-line typescript/camelcase
   map_data: {
     zoom: 14,
     width: 630,
-    /* eslint-disable typescript/camelcase */
     markers: [
       {
         id: "current-stop",
@@ -31,7 +31,34 @@ const initialData: StopMapData = {
   },
   map_srcset: "",
   map_url: ""
-  /* eslint-enable typescript/camelcase */
+};
+
+const stop: Stop = {
+  type: "station",
+  "station?": true,
+  parking_lots: [],
+  note: null,
+  name: "South Station",
+  longitude: -71.055242,
+  latitude: 42.352271,
+  "is_child?": false,
+  id: "place-sstat",
+  "has_fare_machine?": true,
+  "has_charlie_card_vendor?": false,
+  closed_stop_info: null,
+  address: "700 Atlantic Ave, Boston, MA 02110",
+  bike_storage: [],
+  fare_facilities: [
+    "fare_vending_machine",
+    "fare_media_assistant",
+    "ticket_window"
+  ],
+  accessibility: [
+    "accessible",
+    "escalator_both",
+    "elevator",
+    "fully_elevated_platform"
+  ]
 };
 
 it("it renders with initial markers", () => {
@@ -43,6 +70,8 @@ it("it renders with initial markers", () => {
         dispatch={() => {}}
         selectedStopId={null}
         initialData={initialData}
+        routes={[]}
+        stop={stop}
       />
     )
     .toJSON();
@@ -58,6 +87,8 @@ it("it doesn't render if it can't find it's mapElement div", () => {
         dispatch={() => {}}
         selectedStopId={null}
         initialData={initialData}
+        routes={[]}
+        stop={stop}
       />
     )
     .toJSON();

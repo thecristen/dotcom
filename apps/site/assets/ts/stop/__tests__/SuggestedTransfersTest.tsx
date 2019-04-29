@@ -35,13 +35,11 @@ it("renders the correct link and route name based on direction", () => {
     <SuggestedTransfers suggestedTransfers={data.suggested_transfers} />
   );
 
-  expect(wrapper.find(".m-stop-page__transfer").length).toBe(3);
+  expect(wrapper.find(".c-stop-card").length).toBe(3);
 
   // show direction_destinations at index 0 because direction is 0, include direction in link
-  const firstTransfer = wrapper.find(".m-stop-page__transfer").at(0);
-  const firstTransferRoute = firstTransfer
-    .find(".m-stop-page__transfer-route")
-    .at(0);
+  const firstTransfer = wrapper.find(".c-stop-card").at(0);
+  const firstTransferRoute = firstTransfer.find(".c-stop-card__route").at(0);
   expect(
     data.suggested_transfers[0].routes_with_direction[0].direction_id
   ).toBe(0);
@@ -54,10 +52,8 @@ it("renders the correct link and route name based on direction", () => {
   );
 
   // show route name because direction is null, do not include link
-  const secondTransfer = wrapper.find(".m-stop-page__transfer").at(1);
-  const secondTransferRoute = secondTransfer
-    .find(".m-stop-page__transfer-route")
-    .at(0);
+  const secondTransfer = wrapper.find(".c-stop-card").at(1);
+  const secondTransferRoute = secondTransfer.find(".c-stop-card__route").at(0);
   expect(
     data.suggested_transfers[1].routes_with_direction[0].direction_id
   ).toBe(null);

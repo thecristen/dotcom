@@ -1,12 +1,14 @@
+import { ReactElement } from "react";
+
 export type TileServerUrl =
-  | "http://tile-server.mbtace.com"
-  | "http://dev.tile-server.mbtace.com"
+  | "https://cdn.mbta.com"
+  | "https://mbta-map-tiles-dev.s3.amazonaws.com"
   | "";
 
 export interface MapMarker {
   z_index: number;
   "visible?": boolean;
-  tooltip: string | null;
+  tooltip: ReactElement<HTMLElement> | null;
   size: string;
   longitude: number;
   latitude: number;

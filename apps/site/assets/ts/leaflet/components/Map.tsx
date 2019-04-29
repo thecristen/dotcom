@@ -42,12 +42,8 @@ export default ({
             onClick={marker.onClick}
           >
             {marker.tooltip && (
-              <Popup minWidth={200} maxHeight={200}>
-                <div
-                  style={{ paddingBottom: "10px" }}
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{ __html: marker.tooltip }}
-                />
+              <Popup minWidth={320} maxHeight={175}>
+                {marker.tooltip}
               </Popup>
             )}
           </Marker>

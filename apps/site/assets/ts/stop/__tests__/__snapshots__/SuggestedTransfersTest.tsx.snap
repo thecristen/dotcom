@@ -9,16 +9,16 @@ exports[`renders 1`] = `
     className="m-stop-page__transfers"
   >
     <div
-      className="m-stop-page__transfer"
+      className="c-stop-card"
     >
       <span
-        className="m-stop-page__transfer-distance"
+        className="c-stop-card__distance"
       >
         128
          ft
       </span>
       <a
-        className="m-stop-page__transfer-stop-name"
+        className="c-stop-card__stop-name"
         href="/stops-v2/102"
       >
         Massachusetts Ave @ Prospect St
@@ -43,15 +43,15 @@ exports[`renders 1`] = `
         </span>
       </a>
       <div
-        className="m-stop-page__transfer-route"
+        className="c-stop-card__route"
       >
         <div
-          className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+          className="c-stop-card__bus-pill u-bg--bus u-small-class"
         >
           1
         </div>
         <a
-          className="m-stop-page__transfer-route-link"
+          className="c-stop-card__route-link"
           href="/schedules/1?direction_id=0"
         >
           Harvard
@@ -59,16 +59,16 @@ exports[`renders 1`] = `
       </div>
     </div>
     <div
-      className="m-stop-page__transfer"
+      className="c-stop-card"
     >
       <span
-        className="m-stop-page__transfer-distance"
+        className="c-stop-card__distance"
       >
         192
          ft
       </span>
       <a
-        className="m-stop-page__transfer-stop-name"
+        className="c-stop-card__stop-name"
         href="/stops-v2/1060"
       >
         Magazine St @ Green St
@@ -93,60 +93,60 @@ exports[`renders 1`] = `
         </span>
       </a>
       <div
-        className="m-stop-page__transfer-route"
+        className="c-stop-card__route"
       >
         <div
-          className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+          className="c-stop-card__bus-pill u-bg--bus u-small-class"
         >
           64
         </div>
         <a
-          className="m-stop-page__transfer-route-link"
+          className="c-stop-card__route-link"
           href="/schedules/64"
         >
           Oak Square - University Park or Kendall/MIT
         </a>
       </div>
       <div
-        className="m-stop-page__transfer-route"
+        className="c-stop-card__route"
       >
         <div
-          className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+          className="c-stop-card__bus-pill u-bg--bus u-small-class"
         >
-          701
+          CT1
         </div>
         <a
-          className="m-stop-page__transfer-route-link"
+          className="c-stop-card__route-link"
           href="/schedules/701?direction_id=1"
         >
           Boston Medical Center
         </a>
       </div>
       <div
-        className="m-stop-page__transfer-route"
+        className="c-stop-card__route"
       >
         <div
-          className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+          className="c-stop-card__bus-pill u-bg--bus u-small-class"
         >
           83
         </div>
         <a
-          className="m-stop-page__transfer-route-link"
+          className="c-stop-card__route-link"
           href="/schedules/83"
         >
           Rindge Avenue - Central Square, Cambridge
         </a>
       </div>
       <div
-        className="m-stop-page__transfer-route"
+        className="c-stop-card__route"
       >
         <div
-          className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+          className="c-stop-card__bus-pill u-bg--bus u-small-class"
         >
           91
         </div>
         <a
-          className="m-stop-page__transfer-route-link"
+          className="c-stop-card__route-link"
           href="/schedules/91"
         >
           Sullivan - Central Square, Cambridge
@@ -154,16 +154,16 @@ exports[`renders 1`] = `
       </div>
     </div>
     <div
-      className="m-stop-page__transfer"
+      className="c-stop-card"
     >
       <span
-        className="m-stop-page__transfer-distance"
+        className="c-stop-card__distance"
       >
         258
          ft
       </span>
       <a
-        className="m-stop-page__transfer-stop-name"
+        className="c-stop-card__stop-name"
         href="/stops-v2/1123"
       >
         Green St @ Magazine St
@@ -188,75 +188,75 @@ exports[`renders 1`] = `
         </span>
       </a>
       <div
-        className="m-stop-page__transfer-route"
+        className="c-stop-card__route"
       >
         <div
-          className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+          className="c-stop-card__bus-pill u-bg--bus u-small-class"
         >
           47
         </div>
         <a
-          className="m-stop-page__transfer-route-link"
+          className="c-stop-card__route-link"
           href="/schedules/47?direction_id=0"
         >
           Central Square, Cambridge
         </a>
       </div>
       <div
-        className="m-stop-page__transfer-route"
+        className="c-stop-card__route"
       >
         <div
-          className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+          className="c-stop-card__bus-pill u-bg--bus u-small-class"
         >
           64
         </div>
         <a
-          className="m-stop-page__transfer-route-link"
+          className="c-stop-card__route-link"
           href="/schedules/64?direction_id=0"
         >
           Oak Square
         </a>
       </div>
       <div
-        className="m-stop-page__transfer-route"
+        className="c-stop-card__route"
       >
         <div
-          className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+          className="c-stop-card__bus-pill u-bg--bus u-small-class"
         >
           70
         </div>
         <a
-          className="m-stop-page__transfer-route-link"
+          className="c-stop-card__route-link"
           href="/schedules/70"
         >
           Cedarwood - Central Square, Cambridge
         </a>
       </div>
       <div
-        className="m-stop-page__transfer-route"
+        className="c-stop-card__route"
       >
         <div
-          className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+          className="c-stop-card__bus-pill u-bg--bus u-small-class"
         >
-          701
+          CT1
         </div>
         <a
-          className="m-stop-page__transfer-route-link"
+          className="c-stop-card__route-link"
           href="/schedules/701?direction_id=0"
         >
           Central Square, Cambridge
         </a>
       </div>
       <div
-        className="m-stop-page__transfer-route"
+        className="c-stop-card__route"
       >
         <div
-          className="m-stop-page__transfer-bus-pill u-bg--bus u-small-class"
+          className="c-stop-card__bus-pill u-bg--bus u-small-class"
         >
           70A
         </div>
         <a
-          className="m-stop-page__transfer-route-link"
+          className="c-stop-card__route-link"
           href="/schedules/70A?direction_id=0"
         >
           North Waltham
