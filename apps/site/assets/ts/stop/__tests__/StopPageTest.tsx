@@ -114,7 +114,7 @@ describe("fetchData", () => {
     );
 
     return fetchData("place-sstat", spy).then(() => {
-      expect(window.fetch).toHaveBeenCalledWith("/stops-v2/api?id=place-sstat");
+      expect(window.fetch).toHaveBeenCalledWith("/stops/api?id=place-sstat");
       expect(spy).toHaveBeenCalledWith({
         payload: { routes: [] },
         type: "UPDATE_ROUTES"
@@ -137,7 +137,7 @@ describe("fetchData", () => {
     );
 
     return fetchData("place-sstat", spy).then(() => {
-      expect(window.fetch).toHaveBeenCalledWith("/stops-v2/api?id=place-sstat");
+      expect(window.fetch).toHaveBeenCalledWith("/stops/api?id=place-sstat");
       expect(spy).not.toHaveBeenCalled();
     });
   });
