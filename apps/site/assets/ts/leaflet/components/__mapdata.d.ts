@@ -6,25 +6,34 @@ export type TileServerUrl =
   | "";
 
 export interface MapMarker {
-  z_index: number;
-  "visible?": boolean;
-  tooltip: ReactElement<HTMLElement> | null;
-  size: string;
+  icon: string | null;
+  id: string | null;
   longitude: number;
   latitude: number;
-  id: string | null;
-  icon: string | null;
   onClick?: Function;
+  size: string;
+  tooltip: ReactElement<HTMLElement> | null;
+  "visible?": boolean;
+  z_index: number;
+}
+
+export interface Polyline {
+  color: string;
+  "dotted?": boolean;
+  id: string;
+  positions: [number, number][];
+  weight: number;
 }
 
 export interface MapData {
-  zoom: number;
-  width: number;
-  markers: MapMarker[];
-  height: number;
-  tile_server_url: TileServerUrl;
   default_center: {
     longitude: number;
     latitude: number;
   };
+  height: number;
+  markers: MapMarker[];
+  polylines: Polyline[];
+  tile_server_url: TileServerUrl;
+  width: number;
+  zoom: number;
 }

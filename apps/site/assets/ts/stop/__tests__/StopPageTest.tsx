@@ -10,9 +10,8 @@ import { createReactRoot } from "../../app/helpers/testUtils";
 
 /* eslint-disable typescript/camelcase */
 const mapData: MapData = {
-  zoom: 14,
-  width: 630,
-  tile_server_url: "",
+  default_center: { latitude: 0, longitude: 0 },
+  height: 500,
   markers: [
     {
       id: "current-stop",
@@ -25,8 +24,10 @@ const mapData: MapData = {
       z_index: 1
     }
   ],
-  default_center: { latitude: 0, longitude: 0 },
-  height: 500
+  polylines: [],
+  tile_server_url: "",
+  width: 630,
+  zoom: 14
 };
 
 const initialData: StopMapData = {

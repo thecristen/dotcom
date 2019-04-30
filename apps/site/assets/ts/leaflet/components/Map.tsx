@@ -16,9 +16,10 @@ const mapCenter = (
 export default ({
   mapData: {
     default_center: defaultCenter,
-    zoom,
     markers,
-    tile_server_url: tileServerUrl
+    polylines,
+    tile_server_url: tileServerUrl,
+    zoom
   }
 }: Props): ReactElement<HTMLElement> | null => {
   if (typeof window !== "undefined" && tileServerUrl !== "") {
@@ -26,7 +27,7 @@ export default ({
     const icon = require("../icon").default;
     const leaflet = require("react-leaflet");
     /* eslint-enable */
-    const { Map, TileLayer, Marker, Popup } = leaflet;
+    const { Map, Marker, Polyline, Popup, TileLayer } = leaflet;
     const position = mapCenter(markers, defaultCenter);
     return (
       <Map center={position} zoom={zoom} maxZoom={18}>
@@ -34,6 +35,14 @@ export default ({
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url={`${tileServerUrl}/osm_tiles/{z}/{x}/{y}.png`}
         />
+        {polylines.map(polyline => (
+          <Polyline
+            key={polyline.id}
+            positions={polyline.positions}
+            color={polyline.color}
+            weight={polyline.weight}
+          />
+        ))}
         {markers.map(marker => (
           <Marker
             key={marker.id}

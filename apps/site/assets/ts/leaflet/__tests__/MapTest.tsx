@@ -5,8 +5,11 @@ import { MapData } from "../components/__mapdata";
 
 /* eslint-disable typescript/camelcase */
 const data: MapData = {
-  zoom: 16,
-  width: 735,
+  default_center: {
+    longitude: -72.05891,
+    latitude: 44.360718
+  },
+  height: 250,
   markers: [
     {
       z_index: 0,
@@ -19,12 +22,10 @@ const data: MapData = {
       icon: null
     }
   ],
-  height: 250,
+  polylines: [],
   tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com",
-  default_center: {
-    longitude: -72.05891,
-    latitude: 44.360718
-  }
+  width: 735,
+  zoom: 16
 };
 
 it("it renders using the marker's position", () => {

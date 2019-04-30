@@ -8,8 +8,11 @@ import { Stop } from "../../__v3api";
 
 const initialData: StopMapData = {
   map_data: {
-    zoom: 14,
-    width: 630,
+    default_center: {
+      latitude: 0,
+      longitude: 0
+    },
+    height: 630,
     markers: [
       {
         id: "current-stop",
@@ -22,12 +25,10 @@ const initialData: StopMapData = {
         z_index: 1
       }
     ],
-    default_center: {
-      latitude: 0,
-      longitude: 0
-    },
-    height: 630,
-    tile_server_url: ""
+    polylines: [],
+    tile_server_url: "",
+    width: 630,
+    zoom: 14
   },
   map_srcset: "",
   map_url: ""

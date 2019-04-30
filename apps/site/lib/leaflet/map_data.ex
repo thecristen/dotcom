@@ -4,24 +4,30 @@ defmodule Leaflet.MapData do
   """
   alias GoogleMaps.MapData, as: GoogleMapData
   alias GoogleMaps.MapData.Marker, as: GoogleMapsMarker
-  alias Leaflet.MapData.Marker
+
+  alias Leaflet.MapData.{
+    Marker,
+    Polyline
+  }
 
   @type lat_lng :: %{latitude: float, longitude: float}
 
   defstruct default_center: %{latitude: 42.360718, longitude: -71.05891},
-            markers: [],
-            width: 0,
             height: 0,
-            zoom: nil,
-            tile_server_url: ""
+            markers: [],
+            polylines: [],
+            tile_server_url: "",
+            width: 0,
+            zoom: nil
 
   @type t :: %__MODULE__{
           default_center: lat_lng,
-          markers: [Marker.t()],
-          width: integer,
           height: integer,
-          zoom: integer | nil,
-          tile_server_url: String.t()
+          markers: [Marker.t()],
+          polylines: [Polyline.t()],
+          tile_server_url: String.t(),
+          width: integer,
+          zoom: integer | nil
         }
 
   @spec new({integer, integer}, integer | nil) :: t
@@ -36,6 +42,16 @@ defmodule Leaflet.MapData do
   @spec add_marker(t, Marker.t()) :: t
   def add_marker(map_data, marker) do
     %{map_data | markers: [marker | map_data.markers]}
+  end
+
+  @spec add_polyline(t, Polyline.t()) :: t
+  def add_polyline(map_data, %Polyline{} = polyline) do
+    %{map_data | polylines: [polyline | map_data.polylines]}
+  end
+
+  @spec add_polylines(t, [Polyline.t()]) :: t
+  def add_polylines(map_data, polylines) do
+    Enum.reduce(polylines, map_data, &add_polyline(&2, &1))
   end
 
   def to_google_map_data(%{
