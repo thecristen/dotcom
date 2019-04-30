@@ -22,7 +22,7 @@ interface Props {
 export const fetchData = (stopId: string, dispatch: Dispatch): Promise<void> =>
   window.fetch &&
   window
-    .fetch(`/stops-v2/api?id=${stopId}`)
+    .fetch(`/stops/api?id=${stopId}`)
     .then((response: Response) => {
       if (response.ok) return response.json();
       throw new Error(response.statusText);
