@@ -2,14 +2,15 @@ import React, { ReactElement, useReducer } from "react";
 import StopMapContainer from "./StopMapContainer";
 import { StopPageData, StopMapData, TypedRoutes } from "./__stop";
 import { Route } from "../../__v3api";
-import { reducer, initialState } from "../state";
 import StopPageHeader from "./StopPageHeader";
+import { reducer, initialState, Dispatch, updateRoutesAction } from "../state";
 import Alerts from "../../components/Alerts";
 import AlertsTab from "./AlertsTab";
 import Sidebar from "./Sidebar";
 import AddressBlock from "./AddressBlock";
 import Departures from "./Departures";
 import SuggestedTransfers from "./SuggestedTransfers";
+import useInterval from "../../helpers/use-interval";
 
 interface Props {
   stopPageData: StopPageData;
@@ -17,6 +18,17 @@ interface Props {
   mapId: string;
   encoder?: (component: string) => string;
 }
+
+export const fetchData = (stopId: string, dispatch: Dispatch): Promise<void> =>
+  window.fetch &&
+  window
+    .fetch(`/stops-v2/api?id=${stopId}`)
+    .then((response: Response) => {
+      if (response.ok) return response.json();
+      throw new Error(response.statusText);
+    })
+    .then((routes: TypedRoutes[]) => dispatch(updateRoutesAction(routes)))
+    .catch(() => {});
 
 export default ({
   stopPageData,
@@ -37,7 +49,11 @@ export default ({
     tab
   } = stopPageData;
 
-  const [state, dispatch] = useReducer(reducer, initialState(tab));
+  const [state, dispatch] = useReducer(reducer, initialState(tab, routes));
+
+  useInterval(() => {
+    fetchData(stop.id, dispatch);
+  }, 15000);
 
   const highPriorityAlerts = alerts.filter(alert => alert.priority === "high");
 
@@ -88,7 +104,7 @@ export default ({
                     streetViewUrl={streetViewUrl}
                   />
                   <Departures
-                    routes={routes}
+                    routes={state.routes}
                     stop={stop}
                     selectedModes={state.selectedModes}
                     dispatch={dispatch}

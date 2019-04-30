@@ -1,6 +1,6 @@
 import * as googleMaps from "../app/googleMaps/state";
 
-import { Mode } from "../__v3api";
+import { Mode, RouteWithStopsWithDirections } from "../__v3api";
 
 export type SelectedStopType = string | null;
 
@@ -13,10 +13,11 @@ export interface State {
   selectedModes: Mode[];
   shouldFilterStopCards: boolean;
   shouldCenterMapOnSelectedStop: boolean;
+  routeSidebarData: RouteWithStopsWithDirections[];
   routesView: boolean;
 }
 
-export type Dispatch = (action: StopAction | ModeAction) => void;
+export type Dispatch = (action: Action) => void;
 
 type StopActionType =
   | googleMaps.MapActionType
@@ -25,6 +26,8 @@ type StopActionType =
   | "CLICK_VIEW_CHANGE";
 
 type ModeActionType = "CLICK_MODE_FILTER";
+
+type RouteSidebarDataActionType = "UPDATE_ROUTE_SIDEBAR_DATA";
 
 export interface ModeAction {
   type: ModeActionType;
@@ -40,7 +43,14 @@ export interface StopAction {
   };
 }
 
-type Action = StopAction | ModeAction;
+export interface RouteSidebarDataAction {
+  type: RouteSidebarDataActionType;
+  payload: {
+    data: RouteWithStopsWithDirections[];
+  };
+}
+
+type Action = StopAction | ModeAction | RouteSidebarDataAction;
 
 export const clickStopCardAction = (stopId: SelectedStopType): StopAction => ({
   type: "CLICK_STOP_CARD",
@@ -60,6 +70,13 @@ export const clickViewChangeAction = (): StopAction => ({
 export const clickModeAction = (modes: Mode[]): ModeAction => ({
   type: "CLICK_MODE_FILTER",
   payload: { modes }
+});
+
+export const routeSidebarDataAction = (
+  data: RouteWithStopsWithDirections[]
+): RouteSidebarDataAction => ({
+  type: "UPDATE_ROUTE_SIDEBAR_DATA",
+  payload: { data }
 });
 
 const stopReducer = (state: State, action: Action): State => {
@@ -125,8 +142,21 @@ const modeReducer = (state: State, action: Action): State => {
   }
 };
 
+const routeSidebarDataReducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "UPDATE_ROUTE_SIDEBAR_DATA":
+      return {
+        ...state,
+        routeSidebarData: action.payload.data
+      };
+
+    default:
+      return state;
+  }
+};
+
 export const reducer = (state: State, action: Action): State =>
-  [stopReducer, modeReducer].reduce(
+  [stopReducer, modeReducer, routeSidebarDataReducer].reduce(
     (accumulator, fn) => fn(accumulator, action),
     state
   );
@@ -135,6 +165,7 @@ export const initialState: State = {
   selectedStopId: null,
   shouldFilterStopCards: false,
   shouldCenterMapOnSelectedStop: false,
+  routeSidebarData: [],
   routesView: true,
   selectedModes: []
 };

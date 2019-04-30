@@ -5,8 +5,16 @@ import StopsSidebar from "./StopsSidebar";
 import { Stop, RouteWithStopsWithDirections, Mode } from "../../__v3api";
 import { StopWithRoutes } from "./__tnm";
 import { MapData } from "../../app/googleMaps/__googleMaps";
-import { reducer, initialState, SelectedStopType, State } from "../state";
-import { QueryParams } from "../../helpers/query";
+import useInterval from "../../helpers/use-interval";
+import {
+  reducer,
+  initialState,
+  SelectedStopType,
+  State,
+  Dispatch,
+  routeSidebarDataAction
+} from "../state";
+import { QueryParams, paramsToString } from "../../helpers/query";
 
 interface Props {
   mapData: MapData;
@@ -34,6 +42,35 @@ const validateModeFilter = (acc: Mode[], mode: string): Mode[] =>
 export const modesFromQuery = (query: QueryParams): Mode[] =>
   query.filter ? query.filter.split(",").reduce(validateModeFilter, []) : [];
 
+export const fetchData = (
+  query: QueryParams,
+  dispatch: Dispatch
+): Promise<void> => {
+  if (
+    (query.latitude || query["location[latitude]"]) &&
+    (query.longitude || query["location[longitude]"]) &&
+    window.fetch
+  ) {
+    return window
+      .fetch(
+        `/transit-near-me/api${paramsToString(
+          query,
+          window.encodeURIComponent
+        )}`
+      )
+      .then((response: Response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then((routes: RouteWithStopsWithDirections[]) =>
+        dispatch(routeSidebarDataAction(routes))
+      )
+      .catch(() => {});
+  }
+
+  return new Promise(resolve => resolve());
+};
+
 const TransitNearMe = ({
   mapData,
   mapId,
@@ -41,14 +78,18 @@ const TransitNearMe = ({
   query,
   stopSidebarData
 }: Props): ReactElement<HTMLElement> => {
-  const modes = modesFromQuery(query);
+  const selectedModes = modesFromQuery(query);
   const initialStateWithModes: State = {
     ...initialState,
-    selectedModes: modes,
-    shouldFilterStopCards: modes.length > 0
+    selectedModes,
+    routeSidebarData,
+    shouldFilterStopCards: selectedModes.length > 0
   };
   const [state, dispatch] = useReducer(reducer, initialStateWithModes);
   const selectedStop = getSelectedStop(stopSidebarData, state.selectedStopId);
+
+  useInterval(() => fetchData(query, dispatch), 15000);
+
   return (
     <div className="m-tnm">
       {state.routesView ? (
@@ -57,7 +98,7 @@ const TransitNearMe = ({
           selectedModes={state.selectedModes}
           selectedStopId={state.selectedStopId}
           dispatch={dispatch}
-          data={routeSidebarData}
+          data={state.routeSidebarData}
           shouldFilterStopCards={state.shouldFilterStopCards}
         />
       ) : (

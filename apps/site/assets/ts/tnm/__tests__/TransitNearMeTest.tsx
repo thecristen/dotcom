@@ -1,7 +1,10 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { mount } from "enzyme";
-import TransitNearMe, { getSelectedStop } from "../components/TransitNearMe";
+import TransitNearMe, {
+  getSelectedStop,
+  fetchData
+} from "../components/TransitNearMe";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { importData, importStopData } from "./helpers/testUtils";
 import { MapData } from "../../app/googleMaps/__googleMaps";
@@ -175,4 +178,83 @@ it("getSelectedStop returns the stop if found", () => {
 it("getSelectedStop returns undefined if not found", () => {
   const data = importStopData();
   expect(getSelectedStop(data, "unknown")).toEqual(undefined);
+});
+
+describe("fetchData", () => {
+  it("fetches data", () => {
+    window.fetch = jest.fn().mockImplementation(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => [],
+            ok: true,
+            status: 200,
+            statusText: "OK"
+          })
+        )
+    );
+
+    const spy = jest.fn();
+    return fetchData({ latitude: "41.0", longitude: "-71.0" }, spy).then(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        "/transit-near-me/api?latitude=41.0&longitude=-71.0"
+      );
+      expect(spy).toHaveBeenCalledWith({
+        payload: { data: [] },
+        type: "UPDATE_ROUTE_SIDEBAR_DATA"
+      });
+    });
+  });
+
+  it("fails gracefully when request fails", () => {
+    window.fetch = jest.fn().mockImplementation(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => "Internal Server Error",
+            ok: false,
+            status: 500,
+            statusText: "INTERNAL SERVER ERROR"
+          })
+        )
+    );
+
+    const spy = jest.fn();
+    return fetchData({ latitude: "41.0", longitude: "-71.0" }, spy).then(() => {
+      expect(spy).not.toHaveBeenCalled();
+    });
+  });
+  it("fetches data with Phoenix form param structure", () => {
+    window.fetch = jest.fn().mockImplementation(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => [],
+            ok: true,
+            status: 200,
+            statusText: "OK"
+          })
+        )
+    );
+    const spy = jest.fn();
+    return fetchData(
+      { "location[latitude]": "41.0", "location[longitude]": "-71.0" },
+      spy
+    ).then(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        "/transit-near-me/api?location[latitude]=41.0&location[longitude]=-71.0"
+      );
+      expect(spy).toHaveBeenCalledWith({
+        payload: { data: [] },
+        type: "UPDATE_ROUTE_SIDEBAR_DATA"
+      });
+    });
+  });
+
+  it("does not fetch data if query doesn't have lat/lng", () => {
+    const spy = jest.fn();
+    return fetchData({}, spy).then(() => {
+      expect(spy).not.toHaveBeenCalled();
+    });
+  });
 });

@@ -110,6 +110,15 @@ defmodule SiteWeb.StopController do
   defp tab_value("alerts"), do: "alerts"
   defp tab_value(_), do: "info"
 
+  @spec api(Conn.t(), map) :: Conn.t()
+  def api(conn, %{"id" => stop_id}) do
+    routes_by_stop = Routes.Repo.by_stop(stop_id)
+    grouped_routes = grouped_routes(routes_by_stop)
+    routes_map = routes_map(grouped_routes, stop_id)
+    json_safe_routes = json_safe_routes(routes_map)
+    json(conn, json_safe_routes)
+  end
+
   @doc "Redirect users who type in a URL with a slash to the correct URL"
   def stop_with_slash_redirect(conn, %{"path" => path}) do
     real_id = Enum.join(path, "/")

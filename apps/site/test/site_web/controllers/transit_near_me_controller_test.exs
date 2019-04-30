@@ -418,4 +418,32 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert marker.tooltip == "10 Park Plaza"
     end
   end
+
+  describe "api" do
+    test "returns json with departure data", %{conn: conn} do
+      path =
+        transit_near_me_path(conn, :api,
+          address: [
+            latitude: "valid",
+            longitude: "valid"
+          ]
+        )
+
+      assert path ==
+               "/transit-near-me/api" <>
+                 "?address[latitude]=valid" <>
+                 "&address[longitude]=valid"
+
+      response =
+        conn
+        |> get(path)
+        |> json_response(200)
+
+      assert_receive :location_fn
+      assert_receive :data_fn
+      assert_receive :to_json_fn
+
+      assert response == []
+    end
+  end
 end

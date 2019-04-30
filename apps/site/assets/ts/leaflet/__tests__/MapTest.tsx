@@ -4,24 +4,24 @@ import Map from "../components/Map";
 import { MapData } from "../components/__mapdata";
 
 /* eslint-disable typescript/camelcase */
+const marker = {
+  z_index: 0,
+  "visible?": false,
+  tooltip: null,
+  size: "mid",
+  longitude: -71.071097,
+  latitude: 42.43668,
+  id: "marker",
+  icon: null
+};
+
 const data: MapData = {
   default_center: {
     longitude: -72.05891,
     latitude: 44.360718
   },
   height: 250,
-  markers: [
-    {
-      z_index: 0,
-      "visible?": false,
-      tooltip: null,
-      size: "mid",
-      longitude: -71.071097,
-      latitude: 42.43668,
-      id: null,
-      icon: null
-    }
-  ],
+  markers: [marker],
   polylines: [],
   tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com",
   width: 735,

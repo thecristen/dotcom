@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { mount } from "enzyme";
-import StopPage from "../components/StopPage";
+import StopPage, { fetchData } from "../components/StopPage";
 import stopData from "./stopData.json";
 import { Alert } from "../../__v3api";
 import { StopPageData, AlertsTab, StopMapData } from "../components/__stop";
@@ -96,4 +96,49 @@ it("it renders the alert tab", () => {
   );
   expect(wrapper.find(".m-alerts__time-filters").exists()).toBeTruthy();
   /* eslint-enable typescript/camelcase */
+});
+
+describe("fetchData", () => {
+  it("fetches data", () => {
+    const spy = jest.fn();
+    window.fetch = jest.fn().mockImplementation(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => [],
+            ok: true,
+            status: 200,
+            statusText: "OK"
+          })
+        )
+    );
+
+    return fetchData("place-sstat", spy).then(() => {
+      expect(window.fetch).toHaveBeenCalledWith("/stops-v2/api?id=place-sstat");
+      expect(spy).toHaveBeenCalledWith({
+        payload: { routes: [] },
+        type: "UPDATE_ROUTES"
+      });
+    });
+  });
+
+  it("fails gracefully if fetch is unsuccessful", () => {
+    const spy = jest.fn();
+    window.fetch = jest.fn().mockImplementation(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => "Internal Server Error",
+            ok: false,
+            status: 500,
+            statusText: "INTERNAL SERVER ERROR"
+          })
+        )
+    );
+
+    return fetchData("place-sstat", spy).then(() => {
+      expect(window.fetch).toHaveBeenCalledWith("/stops-v2/api?id=place-sstat");
+      expect(spy).not.toHaveBeenCalled();
+    });
+  });
 });

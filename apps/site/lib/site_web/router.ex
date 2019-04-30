@@ -104,6 +104,7 @@ defmodule SiteWeb.Router do
     # stop redirects
     get("/stops/Lansdowne", Redirector, to: "/stops/Yawkey")
     get("/stops/Boat-George", Redirector, to: "/stops/ferry")
+    get("/stops/api", StopController, :api)
     resources("/stops", StopController, only: [:index, :show])
     get("/stops/*path", StopController, :stop_with_slash_redirect)
 
@@ -141,6 +142,7 @@ defmodule SiteWeb.Router do
     get("/style-guide/:section", StyleGuideController, :index)
     get("/style-guide/:section/:subpage", StyleGuideController, :show)
     get("/transit-near-me", TransitNearMeController, :index)
+    get("/transit-near-me/api", TransitNearMeController, :api)
     resources("/alerts", AlertController, only: [:index, :show])
     get("/trip-planner", TripPlanController, :index)
     get("/customer-support", CustomerSupportController, :index)

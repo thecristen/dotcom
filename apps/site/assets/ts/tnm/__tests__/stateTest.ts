@@ -6,24 +6,27 @@ import {
   clickStopPillAction,
   clickViewChangeAction,
   clickModeAction,
-  StopAction
+  StopAction,
+  State,
+  routeSidebarDataAction
 } from "../state";
+import { RouteWithStopsWithDirections } from "../../__v3api";
 
 describe("reducer", () => {
   it("handles clickMarkerAction by selecting a stop", () => {
-    const initialState = {
+    const initialState: State = {
       selectedStopId: null,
       shouldFilterStopCards: false,
       shouldCenterMapOnSelectedStop: true,
+      routeSidebarData: [],
       routesView: true,
       selectedModes: []
     };
-    const expectedState = {
+    const expectedState: State = {
+      ...initialState,
       selectedStopId: "1",
       shouldFilterStopCards: true,
-      shouldCenterMapOnSelectedStop: false,
-      routesView: true,
-      selectedModes: []
+      shouldCenterMapOnSelectedStop: false
     };
 
     const newState = reducer(initialState, clickMarkerAction("1"));
@@ -32,19 +35,18 @@ describe("reducer", () => {
   });
 
   it("handles clickMarkerAction by deselecting a stop", () => {
-    const initialState = {
+    const initialState: State = {
       selectedStopId: "1",
       shouldFilterStopCards: false,
       shouldCenterMapOnSelectedStop: true,
+      routeSidebarData: [],
       routesView: true,
       selectedModes: []
     };
-    const expectedState = {
+    const expectedState: State = {
+      ...initialState,
       selectedStopId: null,
-      shouldFilterStopCards: false,
-      shouldCenterMapOnSelectedStop: false,
-      routesView: true,
-      selectedModes: []
+      shouldCenterMapOnSelectedStop: false
     };
 
     const newState = reducer(initialState, clickMarkerAction("1"));
@@ -53,19 +55,19 @@ describe("reducer", () => {
   });
 
   it("handles clickCurrentLocationAction", () => {
-    const initialState = {
+    const initialState: State = {
       selectedStopId: null,
       shouldFilterStopCards: true,
       shouldCenterMapOnSelectedStop: true,
+      routeSidebarData: [],
       routesView: true,
       selectedModes: []
     };
-    const expectedState = {
+    const expectedState: State = {
+      ...initialState,
       selectedStopId: "1",
       shouldFilterStopCards: false,
-      shouldCenterMapOnSelectedStop: false,
-      routesView: true,
-      selectedModes: []
+      shouldCenterMapOnSelectedStop: false
     };
 
     const newState = reducer(initialState, clickCurrentLocationAction("1"));
@@ -74,19 +76,18 @@ describe("reducer", () => {
   });
 
   it("handles clickStopCardAction", () => {
-    const initialState = {
+    const initialState: State = {
       selectedStopId: null,
       shouldFilterStopCards: true,
       shouldCenterMapOnSelectedStop: false,
+      routeSidebarData: [],
       routesView: true,
       selectedModes: []
     };
-    const expectedState = {
+    const expectedState: State = {
+      ...initialState,
       selectedStopId: "1",
-      shouldFilterStopCards: true,
-      shouldCenterMapOnSelectedStop: true,
-      routesView: true,
-      selectedModes: []
+      shouldCenterMapOnSelectedStop: true
     };
 
     const newState = reducer(initialState, clickStopCardAction("1"));
@@ -95,19 +96,19 @@ describe("reducer", () => {
   });
 
   it("handles clickStopPillAction", () => {
-    const initialState = {
+    const initialState: State = {
       selectedStopId: "1",
       shouldFilterStopCards: true,
       shouldCenterMapOnSelectedStop: true,
+      routeSidebarData: [],
       routesView: true,
       selectedModes: []
     };
-    const expectedState = {
+    const expectedState: State = {
+      ...initialState,
       selectedStopId: null,
       shouldFilterStopCards: false,
-      shouldCenterMapOnSelectedStop: false,
-      routesView: true,
-      selectedModes: []
+      shouldCenterMapOnSelectedStop: false
     };
 
     const newState = reducer(initialState, clickStopPillAction());
@@ -116,19 +117,20 @@ describe("reducer", () => {
   });
 
   it("handles clickViewChangeAction", () => {
-    const initialState = {
+    const initialState: State = {
       selectedStopId: "1",
       shouldFilterStopCards: true,
       shouldCenterMapOnSelectedStop: true,
+      routeSidebarData: [],
       routesView: true,
       selectedModes: []
     };
-    const expectedState = {
+    const expectedState: State = {
+      ...initialState,
       selectedStopId: null,
       shouldFilterStopCards: false,
       shouldCenterMapOnSelectedStop: false,
-      routesView: false,
-      selectedModes: []
+      routesView: false
     };
 
     const newState = reducer(initialState, clickViewChangeAction());
@@ -137,17 +139,11 @@ describe("reducer", () => {
   });
 
   it("would return default state if provided unknown type (but type is enforced by TS)", () => {
-    const initialState = {
+    const initialState: State = {
       selectedStopId: "1",
       shouldFilterStopCards: true,
       shouldCenterMapOnSelectedStop: false,
-      routesView: true,
-      selectedModes: []
-    };
-    const expectedState = {
-      selectedStopId: "1",
-      shouldFilterStopCards: true,
-      shouldCenterMapOnSelectedStop: false,
+      routeSidebarData: [],
       routesView: true,
       selectedModes: []
     };
@@ -159,28 +155,68 @@ describe("reducer", () => {
     };
     const newState = reducer(initialState, action);
 
-    expect(newState).toEqual(expectedState);
+    expect(newState).toEqual(initialState);
   });
 
   it("handles clickModeAction", () => {
-    const initialState = {
+    const initialState: State = {
       selectedStopId: null,
       shouldFilterStopCards: false,
       shouldCenterMapOnSelectedStop: true,
+      routeSidebarData: [],
       routesView: true,
       selectedModes: []
     };
 
-    const expectedState = {
-      selectedStopId: null,
+    const expectedState: State = {
+      ...initialState,
       shouldFilterStopCards: true,
-      shouldCenterMapOnSelectedStop: true,
-      routesView: true,
       selectedModes: ["subway", "bus"]
     };
 
     const newState = reducer(initialState, clickModeAction(["subway", "bus"]));
 
+    expect(newState).toEqual(expectedState);
+  });
+
+  it("handles routeSidebarDataAction by updating route sidebar data", () => {
+    const initialState: State = {
+      selectedStopId: null,
+      shouldFilterStopCards: false,
+      shouldCenterMapOnSelectedStop: false,
+      routeSidebarData: [],
+      routesView: true,
+      selectedModes: []
+    };
+
+    /* eslint-disable typescript/camelcase */
+    const routeSidebarData: RouteWithStopsWithDirections[] = [
+      {
+        route: {
+          id: "id",
+          alert_count: 0,
+          description: "",
+          direction_destinations: { 0: "", 1: "" },
+          direction_names: { 0: "", 1: "" },
+          header: "",
+          long_name: "",
+          name: "",
+          type: 1
+        },
+        stops_with_directions: []
+      }
+    ];
+    /* eslint-enable typescript/camelcase */
+
+    const expectedState = {
+      ...initialState,
+      routeSidebarData
+    };
+
+    const newState = reducer(
+      initialState,
+      routeSidebarDataAction(routeSidebarData)
+    );
     expect(newState).toEqual(expectedState);
   });
 });

@@ -25,6 +25,15 @@ defmodule SiteWeb.TransitNearMeController do
     |> render("index.html", breadcrumbs: [Breadcrumb.build("Transit Near Me")])
   end
 
+  def api(conn, _) do
+    conn =
+      conn
+      |> assign_location()
+      |> assign_stops_and_routes()
+
+    json(conn, conn.assigns.routes_json)
+  end
+
   defp assign_location(conn) do
     location_fn = Map.get(conn.assigns, :location_fn, &Location.get/2)
 

@@ -261,4 +261,23 @@ defmodule SiteWeb.StopControllerTest do
                )
     end
   end
+
+  describe "api" do
+    test "returns json with departure data", %{conn: conn} do
+      path = stop_path(conn, :api, id: "place-sstat")
+      assert path == "/stops/api?id=place-sstat"
+
+      response =
+        conn
+        |> get(path)
+        |> json_response(200)
+
+      assert is_list(response)
+      refute Enum.empty?(response)
+
+      for item <- response do
+        assert %{"group_name" => _, "routes" => _} = item
+      end
+    end
+  end
 end

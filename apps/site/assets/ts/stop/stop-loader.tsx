@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import "whatwg-fetch";
 import StopPage from "./components/StopPage";
 import { StopPageData, StopMapData } from "./components/__stop";
 

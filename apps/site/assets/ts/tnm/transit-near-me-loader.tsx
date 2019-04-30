@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import "whatwg-fetch";
 import { MapData } from "../app/googleMaps/__googleMaps";
 import { doWhenGoogleMapsIsReady } from "../../js/google-maps-loaded";
 import TransitNearMeSearch from "./search";

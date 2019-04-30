@@ -5,14 +5,17 @@ import {
   clickModeAction,
   State,
   clickRoutePillAction,
-  clickFeaturePillAction
+  clickFeaturePillAction,
+  updateRoutesAction
 } from "../state";
 import { ClickExpandableBlockAction } from "../../components/ExpandableBlock";
+import { TypedRoutes } from "../components/__stop";
 
 describe("reducer", () => {
   it("handles clickMarkerAction by selecting a stop", () => {
     const initialState: State = {
       expandedBlocks: { parking: false, accessibility: false },
+      routes: [],
       selectedStopId: null,
       selectedModes: [],
       shouldFilterStopCards: false,
@@ -33,6 +36,7 @@ describe("reducer", () => {
   it("handles clickMarkerAction by deselecting a stop", () => {
     const initialState: State = {
       expandedBlocks: { parking: false, accessibility: false },
+      routes: [],
       selectedStopId: "1",
       selectedModes: [],
       shouldFilterStopCards: true,
@@ -53,6 +57,7 @@ describe("reducer", () => {
   it("handles clickModeAction by adding a mode to filter by", () => {
     const initialState: State = {
       expandedBlocks: { parking: false, accessibility: false },
+      routes: [],
       selectedStopId: null,
       selectedModes: ["subway"],
       shouldFilterStopCards: false,
@@ -73,6 +78,7 @@ describe("reducer", () => {
   it("handles clickModeAction by removing a mode to filter by", () => {
     const initialState: State = {
       expandedBlocks: { parking: false, accessibility: false },
+      routes: [],
       selectedStopId: null,
       selectedModes: ["subway", "bus"],
       shouldFilterStopCards: false,
@@ -93,6 +99,7 @@ describe("reducer", () => {
   it("handles clickRoutePillAction by replacing mode to filter by", () => {
     const initialState: State = {
       expandedBlocks: { parking: false, accessibility: false },
+      routes: [],
       selectedStopId: null,
       selectedModes: ["subway"],
       shouldFilterStopCards: true,
@@ -113,6 +120,7 @@ describe("reducer", () => {
 
     const initialState: State = {
       expandedBlocks,
+      routes: [],
       selectedStopId: "1",
       selectedModes: [],
       selectedTab: "info",
@@ -134,6 +142,7 @@ describe("reducer", () => {
 
     const initialState: State = {
       expandedBlocks,
+      routes: [],
       selectedStopId: "1",
       selectedModes: [],
       selectedTab: "info",
@@ -163,6 +172,7 @@ describe("reducer", () => {
 
     const initialState: State = {
       expandedBlocks,
+      routes: [],
       selectedStopId: "1",
       selectedModes: [],
       selectedTab: "info",
@@ -182,22 +192,48 @@ describe("reducer", () => {
     expect(newState).toEqual(initialState);
   });
 
-  it("would return default state if provided unknown type (but type is enforced by TS)", () => {
+  it("handles routeSidebarDataAction by updating the route list", () => {
     const initialState: State = {
       expandedBlocks: { parking: false, accessibility: false },
-      selectedStopId: "1",
+      routes: [],
+      selectedStopId: null,
       selectedModes: [],
-      shouldFilterStopCards: false,
-      selectedTab: "info"
+      selectedTab: "info",
+      shouldFilterStopCards: false
     };
 
-    const action: StopAction = {
-      // @ts-ignore
-      type: "unknown",
-      payload: { stopId: "null" }
+    /* eslint-disable typescript/camelcase */
+    const routes: TypedRoutes[] = [
+      {
+        group_name: "subway",
+        routes: []
+      }
+    ];
+    /* eslint-disable typescript/camelcase */
+    const expectedState: State = {
+      ...initialState,
+      routes
     };
-    const newState = reducer(initialState, action);
 
-    expect(newState).toEqual(initialState);
+    const newState = reducer(initialState, updateRoutesAction(routes));
+    expect(newState).toEqual(expectedState);
   });
+
+  const initialState: State = {
+    expandedBlocks: { parking: false, accessibility: false },
+    routes: [],
+    selectedStopId: "1",
+    selectedModes: [],
+    shouldFilterStopCards: false,
+    selectedTab: "info"
+  };
+
+  const action: StopAction = {
+    // @ts-ignore
+    type: "unknown",
+    payload: { stopId: "null" }
+  };
+  const newState = reducer(initialState, action);
+
+  expect(newState).toEqual(initialState);
 });

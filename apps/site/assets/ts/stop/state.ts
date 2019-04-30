@@ -1,5 +1,6 @@
 import { Mode } from "../__v3api";
 import { ClickExpandableBlockAction } from "../components/ExpandableBlock";
+import { TypedRoutes } from "./components/__stop";
 
 export type SelectedStopType = string | null;
 export type SelectedTabType = string;
@@ -13,6 +14,7 @@ export interface ExpandableBlockState {
 export interface State {
   expandedBlocks: ExpandableBlockState;
   focusedBlock?: ExpandableBlockName;
+  routes: TypedRoutes[];
   selectedStopId: SelectedStopType;
   selectedModes: Mode[];
   shouldFilterStopCards: boolean;
@@ -24,6 +26,7 @@ type ModeActionType = "CLICK_MODE_FILTER";
 type RoutePillActionType = "CLICK_ROUTE_PILL";
 type TabActionType = "SWITCH_TAB";
 type FeaturePillActionType = "CLICK_FEATURE_PILL";
+type UpdateRoutesType = "UPDATE_ROUTES";
 
 export interface StopAction {
   type: StopActionType;
@@ -59,6 +62,12 @@ export interface FeaturePillAction {
     name: ExpandableBlockName;
   };
 }
+export interface UpdateRoutesAction {
+  type: UpdateRoutesType;
+  payload: {
+    routes: TypedRoutes[];
+  };
+}
 
 type Action =
   | StopAction
@@ -66,6 +75,7 @@ type Action =
   | RoutePillAction
   | FeaturePillAction
   | ClickExpandableBlockAction
+  | UpdateRoutesAction
   | TabAction;
 
 export const clickMarkerAction = (stopId: SelectedStopType): StopAction => ({
@@ -93,6 +103,13 @@ export const clickFeaturePillAction = (
 ): FeaturePillAction => ({
   type: "CLICK_FEATURE_PILL",
   payload: { name }
+});
+
+export const updateRoutesAction = (
+  routes: TypedRoutes[]
+): UpdateRoutesAction => ({
+  type: "UPDATE_ROUTES",
+  payload: { routes }
 });
 
 const stopReducer = (state: State, action: Action): State => {
@@ -191,17 +208,31 @@ const sidebarReducer = (state: State, action: Action): State => {
   }
 };
 
+const routesReducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "UPDATE_ROUTES":
+      return {
+        ...state,
+        routes: action.payload.routes
+      };
+
+    default:
+      return state;
+  }
+};
+
 export const reducer = (state: State, action: Action): State =>
-  [tabReducer, stopReducer, modeReducer, sidebarReducer].reduce(
+  [tabReducer, stopReducer, modeReducer, routesReducer, sidebarReducer].reduce(
     (acc, fn) => fn(acc, action),
     state
   );
 
-export const initialState = (tab: string): State => ({
+export const initialState = (tab: string, routes: TypedRoutes[]): State => ({
   expandedBlocks: {
     accessibility: true,
     parking: false
   },
+  routes,
   selectedStopId: null,
   selectedModes: [],
   shouldFilterStopCards: false,

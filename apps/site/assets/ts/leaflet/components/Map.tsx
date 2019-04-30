@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import deepEqual from "fast-deep-equal";
 import { MapData, MapMarker } from "./__mapdata";
 
 interface Props {
@@ -13,7 +14,7 @@ const mapCenter = (
     ? [markers[0].latitude, markers[0].longitude]
     : [latitude, longitude];
 
-export default ({
+const Component = ({
   mapData: {
     default_center: defaultCenter,
     markers,
@@ -62,3 +63,5 @@ export default ({
   }
   return null;
 };
+
+export default React.memo(Component, deepEqual);

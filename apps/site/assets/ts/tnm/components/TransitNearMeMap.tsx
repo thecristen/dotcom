@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import deepEqual from "fast-deep-equal";
 import Marker from "./Marker";
 import { MapData, MarkerData } from "../../app/googleMaps/__googleMaps";
 import { Mode } from "../../__v3api";
@@ -101,4 +102,4 @@ class TransitNearMeMap extends React.Component<Props> {
   }
 }
 
-export default TransitNearMeMap;
+export default React.memo(TransitNearMeMap, deepEqual);
