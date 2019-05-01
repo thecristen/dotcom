@@ -1,5 +1,7 @@
 import React, { ReactElement } from "react";
 import deepEqual from "fast-deep-equal";
+import Leaflet from "react-leaflet";
+import { IconType } from "../icon";
 import { MapData, MapMarker } from "./__mapdata";
 
 interface Props {
@@ -25,8 +27,8 @@ const Component = ({
 }: Props): ReactElement<HTMLElement> | null => {
   if (typeof window !== "undefined" && tileServerUrl !== "") {
     /* eslint-disable */
-    const icon = require("../icon").default;
-    const leaflet = require("react-leaflet");
+    const leaflet: typeof Leaflet = require("react-leaflet");
+    const icon: IconType = require("../icon").default;
     /* eslint-enable */
     const { Map, Marker, Polyline, Popup, TileLayer } = leaflet;
     const position = mapCenter(markers, defaultCenter);
@@ -46,7 +48,7 @@ const Component = ({
         ))}
         {markers.map(marker => (
           <Marker
-            key={marker.id}
+            key={marker.id || `marker-${Math.floor(Math.random() * 1000)}`}
             position={[marker.latitude, marker.longitude]}
             icon={icon(marker.icon)}
             onClick={marker.onClick}
