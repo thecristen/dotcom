@@ -246,7 +246,9 @@ defmodule Content.Repo do
 
   If :date is specified, a valid :date_op of ">=" or "<" must
   also be specified -- both params must always be used together.
-  You may specify a date of "now" to use the current date.
+  You may specify a date of "now" to use the current date. You
+  may use "between" as the :date_op value to show all items with
+  compatible dates between :date[min] and :date[max].
 
   SORTING
 
@@ -260,14 +262,15 @@ defmodule Content.Repo do
 
   @type teaser_filters :: %{
           optional(:sidebar) => integer,
-          optional(:type) => CMS.type() | nil,
+          optional(:type) => CMS.type(),
           optional(:type_op) => String.t(),
           optional(:related_to) => integer,
           optional(:except) => integer,
           optional(:only) => integer,
           optional(:items_per_page) => 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 20 | 50,
-          optional(:date) => String.t(),
           optional(:date_op) => String.t(),
+          optional(:date) =>
+            String.t() | [value: String.t()] | [min: String.t(), max: String.t()],
           optional(:sort_order) => :DESC | :ASC,
           optional(:sort_by) => String.t()
         }

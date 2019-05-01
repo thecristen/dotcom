@@ -10,12 +10,6 @@ defmodule Content.Paragraph.ContentListTest do
   alias Content.Paragraph.ContentList
 
   describe "from_api/1" do
-    test "Drops default value for items_per_page" do
-      opts = cms_map(number_of_items: 5)
-
-      assert opts == []
-    end
-
     test "If no relationship data is found, discard all related data" do
       opts =
         cms_map(
@@ -91,27 +85,73 @@ defmodule Content.Paragraph.ContentListTest do
     end
   end
 
-  test "Discard date information if no date operator has been set" do
-    opts =
-      cms_map(
-        date: "2019-03-14",
-        date_logic: nil
-      )
-
-    assert opts == []
-  end
-
-  test "Use relative time if date operator is specified without specific date" do
+  test "Supports old date param format (prior to CMS feature synchronization)" do
     opts =
       cms_map(
         date: nil,
         date_logic: ">="
       )
 
+    # In absence of new field_date_max, use old format for date value
     assert opts == [date: "now", date_op: ">="]
   end
 
-  test "Discards all nil values" do
+  test "Discard date information if no date operator has been set" do
+    opts =
+      cms_map(
+        date: "2019-03-14",
+        date_max: nil,
+        date_logic: nil
+      )
+
+    assert opts == []
+  end
+
+  test "Use absolute date if date operator and date are specified" do
+    opts =
+      cms_map(
+        date: "2018-08-08",
+        date_max: nil,
+        date_logic: ">="
+      )
+
+    assert opts == [date: [value: "2018-08-08"], date_op: ">="]
+  end
+
+  test "Use relative time if date operator is specified without specific date" do
+    opts =
+      cms_map(
+        date: nil,
+        date_max: nil,
+        date_logic: ">="
+      )
+
+    assert opts == [date: [value: "now"], date_op: ">="]
+  end
+
+  test "Use min and max date range when operator is 'between'" do
+    opts =
+      cms_map(
+        date: "2020-02-20",
+        date_max: "2030-03-30",
+        date_logic: "between"
+      )
+
+    assert opts == [date: [min: "2020-02-20", max: "2030-03-30"], date_op: "between"]
+  end
+
+  test "Discard date criteria when 'between' operator is specified without min/max values" do
+    opts =
+      cms_map(
+        date: "2020-02-20",
+        date_max: nil,
+        date_logic: "between"
+      )
+
+    assert opts == []
+  end
+
+  test "Discards all nil and irrelevant values" do
     opts =
       cms_map(
         terms: nil,
@@ -126,12 +166,13 @@ defmodule Content.Paragraph.ContentListTest do
         content_reference: nil,
         parent_id: 5678,
         date: nil,
+        date_max: nil,
         date_logic: nil,
         sorting: nil,
         sorting_logic: nil
       )
 
-    assert opts == [type: :event]
+    assert opts == [items_per_page: 5, type: :event]
   end
 
   defp cms_map(fields) do

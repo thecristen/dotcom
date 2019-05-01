@@ -45,9 +45,11 @@ defmodule Content.Paragraph.ContentList do
       except: field_value(data, "field_content_logic"),
       content_id: field_value(data, "field_content_reference"),
       host_id: data |> field_value("parent_id") |> int_or_string_to_int(),
-      date: field_value(data, "field_date"),
       date_op: field_value(data, "field_date_logic"),
-      sort_order: data |> field_value("field_sorting_logic") |> order()
+      date_min: field_value(data, "field_date"),
+      date_max: field_value(data, "field_date_max"),
+      sort_order: data |> field_value("field_sorting_logic") |> order(),
+      new_format?: Map.has_key?(data, "field_date_max")
     }
 
     recipe = combine(ingredients)
@@ -65,16 +67,9 @@ defmodule Content.Paragraph.ContentList do
     %{content_list | teasers: Repo.teasers(opts)}
   end
 
-  # Some ingredients need to be pre-processed/merged before using
-  # as CMS API-compatible path arguments or query parameters.
+  # Some ingredients need to be transformed, merged, or otherwise
+  # post-processed in order to be compatible with the CMS endpoint.
   @spec combine(map) :: Keyword.t()
-  # Drop default value for items_per_page (default for the CMS API)
-  defp combine(%{items_per_page: 5} = ingredients) do
-    ingredients
-    |> Map.drop([:items_per_page])
-    |> combine()
-  end
-
   # If no relationship data is found, discard all related data
   defp combine(%{relationship: nil, except: nil} = ingredients) do
     ingredients
@@ -143,17 +138,47 @@ defmodule Content.Paragraph.ContentList do
     |> combine()
   end
 
-  # Discard date information if no date operator has been set
-  defp combine(%{date: _date, date_op: nil} = ingredients) do
+  # Discard all date criteria if no date operator has been set
+  defp combine(%{date_op: nil} = ingredients) do
     ingredients
-    |> Map.drop([:date, :date_op])
+    |> Map.drop([:date_op, :date_min, :date_min])
     |> combine()
   end
 
-  # Use relative time if date operator is specified without specific date
-  defp combine(%{date: nil, date_op: operator} = ingredients) when is_binary(operator) do
+  # Check if required min and max values are present when using :between.
+  # If either or both min and max are nil, discard all date information.
+  defp combine(%{date_op: "between", date_min: min, date_max: max} = ingredients)
+       when is_nil(min) or is_nil(max) do
     ingredients
-    |> Map.put(:date, "now")
+    |> Map.drop([:date_op, :date_min, :date_max])
+    |> combine()
+  end
+
+  # For valid date range, add and format :date param
+  defp combine(%{date_op: "between", date_min: min, date_max: max} = ingredients) do
+    ingredients
+    |> Map.drop([:date_min, :date_max])
+    |> Map.put(:date, min: min, max: max)
+    |> combine()
+  end
+
+  # Use relative time "now" if date operator is specified without specific date.
+  defp combine(%{date_op: op, date_min: nil, new_format?: f} = ingredients)
+       when op in ["<", ">="] do
+    ingredients
+    |> Map.drop([:date_min, :date_max])
+    |> Map.put(:date, value: "now")
+    |> check_date_format(f)
+    |> combine()
+  end
+
+  # Otherwise, use the specific date the author provided for the date value.
+  defp combine(%{date_op: op, date_min: date, new_format?: f} = ingredients)
+       when op in ["<", ">="] do
+    ingredients
+    |> Map.drop([:date_min, :date_max])
+    |> Map.put(:date, value: date)
+    |> check_date_format(f)
     |> combine()
   end
 
@@ -161,6 +186,7 @@ defmodule Content.Paragraph.ContentList do
   # all nil values and converts remaining ingredients to a list
   defp combine(ingredients) do
     ingredients
+    |> Map.drop([:new_format?])
     |> limit_count_by_type()
     |> Enum.reject(fn {_k, v} -> is_nil(v) end)
   end
@@ -178,7 +204,17 @@ defmodule Content.Paragraph.ContentList do
 
   # Convert order value strings to atoms
   @spec order(String.t() | nil) :: order()
-  def order("ASC"), do: :ASC
-  def order("DESC"), do: :DESC
-  def order(_), do: nil
+  defp order("ASC"), do: :ASC
+  defp order("DESC"), do: :DESC
+  defp order(_), do: nil
+
+  # Temporarily support both old and new date param formats
+  @spec check_date_format(map, boolean) :: map
+  defp check_date_format(%{date: [value: value]} = ingredients, false) do
+    Map.put(ingredients, :date, value)
+  end
+
+  defp check_date_format(ingredients, _) do
+    ingredients
+  end
 end

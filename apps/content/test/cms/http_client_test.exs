@@ -89,6 +89,17 @@ defmodule Content.CMS.HTTPClientTest do
                  )
                )
 
+        view("/path", %{"foo" => [bar: "baz"]})
+
+        assert called(
+                 ExternalRequest.process(
+                   :get,
+                   "/path",
+                   "",
+                   params: [{"_format", "json"}]
+                 )
+               )
+
         view("/path", %{"foo" => %{"bar" => "baz"}})
 
         assert called(
@@ -97,6 +108,25 @@ defmodule Content.CMS.HTTPClientTest do
                    "/path",
                    "",
                    params: [{"_format", "json"}]
+                 )
+               )
+      end
+    end
+
+    test "certain nested params are allowed, ordered, and keys are replaced by key[nested_key]" do
+      with_mock ExternalRequest, process: fn _method, _path, _body, _params -> {:ok, []} end do
+        view("/path", %{"foo" => [bar: "baz", min: :should_be_string, max: "string"]})
+
+        assert called(
+                 ExternalRequest.process(
+                   :get,
+                   "/path",
+                   "",
+                   params: [
+                     {"_format", "json"},
+                     {"foo[min]", "should_be_string"},
+                     {"foo[max]", "string"}
+                   ]
                  )
                )
       end

@@ -306,6 +306,7 @@
         }
       ],
       "field_date": [],
+      "field_date_max": [],
       "field_date_logic": [],
       "field_multi_column_header": [
         {

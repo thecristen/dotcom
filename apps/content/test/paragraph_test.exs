@@ -311,13 +311,15 @@ defmodule Content.ParagraphTest do
              except: nil,
              content_id: 3004,
              host_id: 2617,
-             date: nil,
              date_op: "<",
-             sort_order: :DESC
+             date_min: nil,
+             date_max: nil,
+             sort_order: :DESC,
+             new_format?: true
            } == ingredients
 
     assert [
-             date: "now",
+             date: [value: "now"],
              date_op: "<",
              items_per_page: 2,
              related_to: 3004,
