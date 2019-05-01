@@ -1,0 +1,11 @@
+.m-schedule-sidebar__pdfs {
+  display: flex;
+  margin-bottom: $base-spacing / 2;
+
+  .c-svg__icon-pdf {
+    fill: $brand-primary;
+    height: $base-spacing * 1.5;
+    margin-right: $base-spacing / 2;
+    width: $base-spacing * 1.5;
+  }
+}

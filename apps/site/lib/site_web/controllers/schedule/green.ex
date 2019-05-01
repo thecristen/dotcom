@@ -3,6 +3,7 @@ defmodule SiteWeb.ScheduleController.Green do
 
   import UrlHelpers, only: [update_url: 2]
   alias Schedules.Schedule
+  alias SiteWeb.ScheduleView
 
   plug(:route)
   plug(SiteWeb.Plugs.DateInRating)
@@ -68,6 +69,13 @@ defmodule SiteWeb.ScheduleController.Green do
     |> call_plug(SiteWeb.ScheduleController.CMS)
     |> await_assign_all_default(__MODULE__)
     |> put_view(SiteWeb.ScheduleView)
+    |> assign(
+      :schedule_page_data,
+      %{
+        pdfs:
+          ScheduleView.route_pdfs(conn.assigns.route_pdfs, conn.assigns.route, conn.assigns.date)
+      }
+    )
     |> render("show.html", [])
   end
 

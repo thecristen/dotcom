@@ -25,6 +25,13 @@ defmodule SiteWeb.ScheduleController.LineController do
     conn
     |> assign(:meta_description, route_description(conn.assigns.route))
     |> put_view(ScheduleView)
+    |> assign(
+      :schedule_page_data,
+      %{
+        pdfs:
+          ScheduleView.route_pdfs(conn.assigns.route_pdfs, conn.assigns.route, conn.assigns.date)
+      }
+    )
     |> await_assign_all_default(__MODULE__)
     |> render("show.html", [])
   end

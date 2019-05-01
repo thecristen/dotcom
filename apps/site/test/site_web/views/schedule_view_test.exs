@@ -1,9 +1,13 @@
 defmodule SiteWeb.ScheduleViewTest do
   use SiteWeb.ConnCase, async: true
 
+  alias Content.RoutePdf
+  alias Plug.Conn
   alias Schedules.Trip
   alias Stops.{Stop, RouteStop}
   alias Routes.Route
+  alias SiteWeb.ScheduleView
+
   import SiteWeb.ScheduleView
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
@@ -225,7 +229,8 @@ defmodule SiteWeb.ScheduleViewTest do
           direction_id: 0,
           conn: conn,
           route: route,
-          expanded: nil
+          expanded: nil,
+          schedule_page_data: %{pdfs: []}
         )
 
       assert safe_to_string(actual) =~ "30 minutes"
@@ -250,7 +255,8 @@ defmodule SiteWeb.ScheduleViewTest do
           direction_id: 0,
           conn: conn,
           route: route,
-          expanded: nil
+          expanded: nil,
+          schedule_page_data: %{pdfs: []}
         )
 
       refute safe_to_string(actual) =~ "minutes"
@@ -274,7 +280,8 @@ defmodule SiteWeb.ScheduleViewTest do
           direction_id: 0,
           conn: conn,
           route: route,
-          expanded: nil
+          expanded: nil,
+          schedule_page_data: %{pdfs: []}
         )
 
       expected = trip_info |> TripInfo.full_status() |> IO.iodata_to_binary()
@@ -296,7 +303,8 @@ defmodule SiteWeb.ScheduleViewTest do
           direction_id: 0,
           route: route,
           conn: conn,
-          expanded: nil
+          expanded: nil,
+          schedule_page_data: %{pdfs: []}
         )
 
       assert safe_to_string(actual) =~
@@ -318,7 +326,8 @@ defmodule SiteWeb.ScheduleViewTest do
           direction_id: 0,
           route: route,
           conn: conn,
-          expanded: nil
+          expanded: nil,
+          schedule_page_data: %{pdfs: []}
         )
 
       assert safe_to_string(actual) =~ "Round trip fare:"
@@ -339,7 +348,8 @@ defmodule SiteWeb.ScheduleViewTest do
           direction_id: 0,
           route: route,
           conn: conn,
-          expanded: nil
+          expanded: nil,
+          schedule_page_data: %{pdfs: []}
         )
 
       rendered = safe_to_string(actual)
@@ -361,7 +371,8 @@ defmodule SiteWeb.ScheduleViewTest do
           direction_id: 0,
           route: route,
           conn: conn,
-          expanded: "Franklin Line"
+          expanded: "Franklin Line",
+          schedule_page_data: %{pdfs: []}
         )
 
       rendered = safe_to_string(actual)
@@ -507,9 +518,12 @@ defmodule SiteWeb.ScheduleViewTest do
       }
 
       output =
-        SiteWeb.ScheduleView.render(
+        ScheduleView.render(
           "_line.html",
-          conn: Plug.Conn.fetch_query_params(conn),
+          conn:
+            conn
+            |> Conn.fetch_query_params()
+            |> put_private(:phoenix_endpoint, SiteWeb.Endpoint),
           stop_list_template: "_stop_list.html",
           all_stops: [{[{nil, :terminus}], route_stop_1}, {[{nil, :terminus}], route_stop_2}],
           route_shapes: [@shape, @shape],
@@ -536,7 +550,8 @@ defmodule SiteWeb.ScheduleViewTest do
           vehicle_tooltips: %{},
           featured_content: nil,
           news: [],
-          dynamic_map_data: %{}
+          dynamic_map_data: %{},
+          schedule_page_data: %{pdfs: []}
         )
 
       assert safe_to_string(output) =~ "shape-filter"
@@ -560,9 +575,12 @@ defmodule SiteWeb.ScheduleViewTest do
       }
 
       output =
-        SiteWeb.ScheduleView.render(
+        ScheduleView.render(
           "_line.html",
-          conn: Plug.Conn.fetch_query_params(conn),
+          conn:
+            conn
+            |> Conn.fetch_query_params()
+            |> put_private(:phoenix_endpoint, SiteWeb.Endpoint),
           stop_list_template: "_stop_list.html",
           all_stops: [{[{nil, :terminus}], route_stop_1}, {[{nil, :terminus}], route_stop_2}],
           route_shapes: [@shape],
@@ -588,7 +606,8 @@ defmodule SiteWeb.ScheduleViewTest do
           vehicle_tooltips: %{},
           featured_content: nil,
           news: [],
-          dynamic_map_data: %{}
+          dynamic_map_data: %{},
+          schedule_page_data: %{pdfs: []}
         )
 
       refute safe_to_string(output) =~ "shape-filter"
@@ -596,9 +615,12 @@ defmodule SiteWeb.ScheduleViewTest do
 
     test "does not crash if hours of operation isn't set", %{conn: conn} do
       output =
-        SiteWeb.ScheduleView.render(
+        ScheduleView.render(
           "_line.html",
-          conn: Plug.Conn.fetch_query_params(conn),
+          conn:
+            conn
+            |> Conn.fetch_query_params()
+            |> put_private(:phoenix_endpoint, SiteWeb.Endpoint),
           stop_list_template: "_stop_list.html",
           all_stops: [],
           alerts: [],
@@ -622,7 +644,8 @@ defmodule SiteWeb.ScheduleViewTest do
           vehicle_tooltips: %{},
           featured_content: nil,
           news: [],
-          dynamic_map_data: %{}
+          dynamic_map_data: %{},
+          schedule_page_data: %{pdfs: []}
         )
 
       refute safe_to_string(output) =~ "Hours of Operation"
@@ -630,9 +653,12 @@ defmodule SiteWeb.ScheduleViewTest do
 
     test "Displays error message when there are no trips in selected direction", %{conn: conn} do
       output =
-        SiteWeb.ScheduleView.render(
+        ScheduleView.render(
           "_line.html",
-          conn: Plug.Conn.fetch_query_params(conn),
+          conn:
+            conn
+            |> Conn.fetch_query_params()
+            |> put_private(:phoenix_endpoint, SiteWeb.Endpoint),
           stop_list_template: "_stop_list.html",
           all_stops: [],
           alerts: [],
@@ -656,7 +682,8 @@ defmodule SiteWeb.ScheduleViewTest do
           vehicle_tooltips: %{},
           featured_content: nil,
           news: [],
-          dynamic_map_data: %{}
+          dynamic_map_data: %{},
+          schedule_page_data: %{pdfs: []}
         )
 
       assert safe_to_string(output) =~ "There are no scheduled"
@@ -677,9 +704,12 @@ defmodule SiteWeb.ScheduleViewTest do
       }
 
       output =
-        SiteWeb.ScheduleView.render(
+        ScheduleView.render(
           "_line.html",
-          conn: Plug.Conn.fetch_query_params(conn),
+          conn:
+            conn
+            |> Conn.fetch_query_params()
+            |> put_private(:phoenix_endpoint, SiteWeb.Endpoint),
           stop_list_template: "_stop_list.html",
           all_stops: [{[{nil, :terminus}], route_stop}],
           alerts: [],
@@ -704,7 +734,8 @@ defmodule SiteWeb.ScheduleViewTest do
           vehicle_tooltips: %{},
           featured_content: nil,
           news: [],
-          dynamic_map_data: %{}
+          dynamic_map_data: %{},
+          schedule_page_data: %{pdfs: []}
         )
 
       refute safe_to_string(output) =~
@@ -767,6 +798,28 @@ defmodule SiteWeb.ScheduleViewTest do
     end
   end
 
+  describe "route_pdfs/3" do
+    test "returns empty array if no pdfs" do
+      assert [] = route_pdfs([], %Routes.Route{}, ~D[2019-04-29])
+    end
+
+    test "returns map of pdfs" do
+      pdfs = [
+        %RoutePdf{path: "/basic-current-url", date_start: ~D[2017-12-01]},
+        %RoutePdf{path: "/basic-future-url", date_start: ~D[2119-02-01]},
+        %RoutePdf{
+          path: "/custom-url",
+          date_start: ~D[2017-12-01],
+          link_text_override: "Custom schedule"
+        }
+      ]
+
+      maps = route_pdfs(pdfs, %Routes.Route{name: "1", type: 3}, ~D[2019-01-29])
+      assert List.first(maps).url =~ ~r"http://.*/basic-current-url"
+      assert List.first(maps).title =~ "Current Route 1 schedule PDF"
+    end
+  end
+
   describe "route_pdf_link/3" do
     test "returns an empty list if no PDF for that route" do
       route = %Routes.Route{}
@@ -786,18 +839,18 @@ defmodule SiteWeb.ScheduleViewTest do
         %Content.RoutePdf{
           path: "/custom-url",
           date_start: ~D[2017-12-01],
-          link_text_override: "custom schedule"
+          link_text_override: "Custom schedule"
         }
       ]
 
       route = %Routes.Route{name: "1", type: 3}
       rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
-      assert rendered =~ "Download PDF of current Route 1 schedule"
+      assert rendered =~ "Current Route 1 schedule PDF"
       assert rendered =~ "basic-current-url"
       # full URL
       assert rendered =~ "http://"
-      assert rendered =~ "Download PDF of current custom schedule"
-      assert rendered =~ "Download PDF of upcoming Route 1 schedule — effective Feb 1"
+      assert rendered =~ "Current Custom schedule PDF"
+      assert rendered =~ "Upcoming Route 1 schedule PDF — effective Feb 1"
     end
 
     test "does not specify 'current' when all schedules are current" do
@@ -806,21 +859,21 @@ defmodule SiteWeb.ScheduleViewTest do
         %Content.RoutePdf{
           path: "/custom-url",
           date_start: ~D[2017-12-01],
-          link_text_override: "custom schedule"
+          link_text_override: "Custom schedule"
         }
       ]
 
       route = %Routes.Route{name: "1", type: 3}
       rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
-      assert rendered =~ "Download PDF of Route 1 schedule"
-      assert rendered =~ "Download PDF of custom schedule"
+      assert rendered =~ "Route 1 schedule PDF"
+      assert rendered =~ "Custom schedule PDF"
     end
 
     test "considers PDFs that start today as current" do
       route_pdfs = [%Content.RoutePdf{path: "/url", date_start: ~D[2018-01-01]}]
       route = %Routes.Route{name: "1", type: 3}
       rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
-      assert rendered =~ "Download PDF of Route 1 schedule"
+      assert rendered =~ "Route 1 schedule PDF"
     end
   end
 

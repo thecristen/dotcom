@@ -154,6 +154,21 @@ defmodule SiteWeb.ScheduleView do
     direction
   end
 
+  @spec route_pdfs([RoutePdf.t()] | nil, Route.t(), Date.t()) :: [map]
+  def route_pdfs(route_pdfs, route, today) do
+    route_pdfs = route_pdfs || []
+    all_current? = Enum.all?(route_pdfs, &RoutePdf.started?(&1, today))
+    Enum.map(route_pdfs, &route_pdfs_map(&1, route, today, all_current?))
+  end
+
+  @spec route_pdfs_map(RoutePdf.t(), Route.t(), Date.t(), boolean) :: map
+  def route_pdfs_map(pdf, route, today, all_current?) do
+    %{
+      url: static_url(SiteWeb.Endpoint, pdf.path),
+      title: IO.iodata_to_binary(route_pdf_title(pdf, route, today, all_current?))
+    }
+  end
+
   @spec route_pdf_link([RoutePdf.t()] | nil, Route.t(), Date.t()) :: Safe.t()
   def route_pdf_link(route_pdfs, route, today) do
     route_pdfs = route_pdfs || []
@@ -172,13 +187,13 @@ defmodule SiteWeb.ScheduleView do
     end
   end
 
-  @spec text_for_route_pdf(RoutePdf.t(), Route.t(), Date.t(), boolean) :: iodata
-  defp text_for_route_pdf(pdf, route, today, all_current?) do
+  @spec route_pdf_title(RoutePdf.t(), Route.t(), Date.t(), boolean) :: iodata
+  def route_pdf_title(pdf, route, today, all_current?) do
     current_or_upcoming_text =
       cond do
         all_current? -> ""
-        RoutePdf.started?(pdf, today) -> "current "
-        true -> "upcoming "
+        RoutePdf.started?(pdf, today) -> "Current "
+        true -> "Upcoming "
       end
 
     pdf_name =
@@ -196,11 +211,19 @@ defmodule SiteWeb.ScheduleView do
       end
 
     [
-      fa("file-pdf-o"),
-      " Download PDF of ",
       current_or_upcoming_text,
       pdf_name,
+      " PDF",
       effective_date_text
+    ]
+  end
+
+  @spec text_for_route_pdf(RoutePdf.t(), Route.t(), Date.t(), boolean) :: iodata
+  defp text_for_route_pdf(pdf, route, today, all_current?) do
+    [
+      fa("file-pdf-o"),
+      " ",
+      route_pdf_title(pdf, route, today, all_current?)
     ]
   end
 
