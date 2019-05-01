@@ -12,7 +12,7 @@ const marker = {
   longitude: -71.071097,
   latitude: 42.43668,
   id: "marker",
-  icon: null
+  icon: "marker"
 };
 
 const data: MapData = {
