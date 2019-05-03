@@ -43,19 +43,22 @@
     </div>
     <% end %>
     <div class="col-xs-12 col-md-4 col-md-offset-1">
-      <%= render "_cms_teasers.html", featured_content: @featured_content, news: @news, conn: @conn %>
-      <div id="react-root">
-        <%= Site.React.render("SchedulePage", %{schedulePageData: @schedule_page_data}) %>
-      </div>
-      <%= render "_line_connections.html", assigns %>
-      <%= render "_fares.html", assigns %>
-      <%= render "_hours_of_op.html", assigns %>
+      <%= if Laboratory.enabled?(@conn, :schedule_redesign) do %>
+        <div id="react-root">
+          <%= Site.React.render("SchedulePage", %{schedulePageData: @schedule_page_data}) %>
+        </div>
+        <%= if Application.get_env(:site, :dev_server?) do %>
+          <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/schedule.js" %>"></script>
+        <% else %>
+          <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+          <script defer src="<%= static_url(@conn, "/js/schedule.js") %>"></script>
+        <% end %>
+      <% else %>
+        <%= render "_cms_teasers.html", featured_content: @featured_content, news: @news, conn: @conn %>
+        <%= render "_line_connections.html", assigns %>
+        <%= render "_fares.html", assigns %>
+        <%= render "_hours_of_op.html", assigns %>
+      <% end %>
     </div>
   </div>
-  <%= if Application.get_env(:site, :dev_server?) do %>
-    <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/schedule.js" %>"></script>
-  <% else %>
-    <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
-    <script defer src="<%= static_url(@conn, "/js/schedule.js") %>"></script>
-  <% end %>
 </div>

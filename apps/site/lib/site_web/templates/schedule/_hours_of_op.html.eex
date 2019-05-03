@@ -12,4 +12,5 @@
     <% end %>
   <% end %>
   <%= render "_holidays.html", assigns %>
+  <%= render "_pdf_schedules.html", assigns %>
 </div>
