@@ -28,7 +28,7 @@ defmodule Stops.Stop do
 
   @type id_t :: String.t()
 
-  @type stop_type :: :stop | :station | :entrance
+  @type stop_type :: :stop | :station | :entrance | :generic_node
 
   @type t :: %Stop{
           id: id_t,
