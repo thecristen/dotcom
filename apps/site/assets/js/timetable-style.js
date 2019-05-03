@@ -51,11 +51,15 @@ const toggleScrollButtons = event => {
     const leftBtnEl = document.querySelector("button[data-scroll='earlier']");
     const rightBtnEl = document.querySelector("button[data-scroll='later']");
 
-    scrollLeft === 0
-      ? leftBtnEl.setAttribute("disabled", "")
-      : leftBtnEl.removeAttribute("disabled");
-    scrollLeft === maxScrollLeft
-      ? rightBtnEl.setAttribute("disabled", "")
-      : rightBtnEl.removeAttribute("disabled");
+    if (leftBtnEl) {
+      scrollLeft === 0
+        ? leftBtnEl.setAttribute("disabled", "")
+        : leftBtnEl.removeAttribute("disabled");
+    }
+    if (rightBtnEl) {
+      scrollLeft === maxScrollLeft
+        ? rightBtnEl.setAttribute("disabled", "")
+        : rightBtnEl.removeAttribute("disabled");
+    }
   }, 250);
 };
