@@ -1,4 +1,21 @@
 defmodule Schedules.Parser do
+  alias JsonApi.Item
+  alias Routes.Route
+  alias Stops.Stop
+
+  @type record :: {
+          route_id :: Route.id_t(),
+          trip_id :: String.t(),
+          stop_id :: Stop.id_t(),
+          time :: DateTime.t(),
+          flag? :: boolean,
+          early_departure? :: boolean,
+          last_stop? :: boolean,
+          stop_sequence :: integer,
+          pickup_type :: integer
+        }
+
+  @spec parse(Item.t()) :: record
   def parse(item) do
     {
       route_id(item),

@@ -2,7 +2,7 @@ defmodule Schedules.Repo do
   import Kernel, except: [to_string: 1]
   use RepoCache, ttl: :timer.hours(1)
 
-  alias Schedules.{Schedule, HoursOfOperation}
+  alias Schedules.{HoursOfOperation, Parser, Schedule}
   alias Stops.Stop
   alias Routes.Route
 
@@ -23,8 +23,8 @@ defmodule Schedules.Repo do
     |> add_optional_param(opts, :direction_id)
     |> add_optional_param(opts, :stop_sequences, :stop_sequence)
     |> add_optional_param(opts, :stop_ids, :stop)
-    |> add_optional_param(opts, :min_time)
     |> cache(&all_from_params/1)
+    |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
   end
 
@@ -42,6 +42,7 @@ defmodule Schedules.Repo do
     |> Keyword.put(:trip, trip_id)
     |> Keyword.put_new_lazy(:date, &Util.service_date/0)
     |> cache(&all_from_params/1)
+    |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
   end
 
@@ -74,6 +75,7 @@ defmodule Schedules.Repo do
     |> Keyword.merge(opts)
     |> Keyword.put(:stop, stop_id)
     |> cache(&all_from_params/1)
+    |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
   end
 
@@ -89,7 +91,7 @@ defmodule Schedules.Repo do
   def trip(trip_id, trip_by_id_fn) do
     case cache(trip_id, fn trip_id ->
            with %JsonApi{} = response <- trip_by_id_fn.(trip_id) do
-             {:ok, Schedules.Parser.trip(response)}
+             {:ok, Parser.trip(response)}
            else
              {:error, [%JsonApi.Error{code: "not_found"} | _]} ->
                {:ok, nil}
@@ -132,13 +134,14 @@ defmodule Schedules.Repo do
     |> Util.error_default(%HoursOfOperation{})
   end
 
+  @spec all_from_params(Keyword.t()) :: [Parser.record()] | {:error, any}
   defp all_from_params(params) do
     with %JsonApi{data: data} <- V3Api.Schedules.all(params) do
       data = Enum.filter(data, &valid?/1)
       insert_trips_into_cache(data)
 
       data
-      |> Stream.map(&Schedules.Parser.parse/1)
+      |> Stream.map(&Parser.parse/1)
       |> Enum.filter(&has_trip?/1)
       |> Enum.sort_by(&DateTime.to_unix(elem(&1, 3)))
     end
@@ -203,6 +206,36 @@ defmodule Schedules.Repo do
     |> Enum.uniq_by(fn {o, _} -> o.trip.id end)
   end
 
+  @spec filter_by_min_time([Parser.record()] | {:error, any}, DateTime.t() | nil) ::
+          [Parser.record()] | {:error, any}
+  defp filter_by_min_time({:error, error}, _) do
+    {:error, error}
+  end
+
+  defp filter_by_min_time(schedules, nil) do
+    schedules
+  end
+
+  defp filter_by_min_time(schedules, %DateTime{} = min_time) do
+    Enum.filter(schedules, fn {
+                                _route_id,
+                                _trip_id,
+                                _stop_id,
+                                %DateTime{} = schedule_time,
+                                _flag?,
+                                _early_departure?,
+                                _last_stop?,
+                                _stop_sequence,
+                                _pickup_type
+                              } ->
+      case DateTime.compare(schedule_time, min_time) do
+        :gt -> true
+        :eq -> true
+        :lt -> false
+      end
+    end)
+  end
+
   defp load_from_other_repos({:error, _} = error) do
     error
   end
@@ -242,7 +275,7 @@ defmodule Schedules.Repo do
   @spec id_and_trip(JsonApi.Item.t()) :: {Schedules.Trip.id_t(), Schedules.Trip.t() | nil}
   defp id_and_trip(%JsonApi.Item{} = item) do
     [%JsonApi.Item{id: trip_id} | _] = item.relationships["trip"]
-    trip = Schedules.Parser.trip(item)
+    trip = Parser.trip(item)
     {trip_id, trip}
   end
 end

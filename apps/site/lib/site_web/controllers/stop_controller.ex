@@ -217,7 +217,7 @@ defmodule SiteWeb.StopController do
     [route_id]
     |> schedules_fn.(
       stop_ids: stop_id,
-      min_time: TransitNearMe.format_min_time(now)
+      min_time: now
     )
     |> Enum.reject(& &1.last_stop?)
     |> case do

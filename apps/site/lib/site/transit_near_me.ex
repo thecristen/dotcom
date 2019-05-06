@@ -63,17 +63,15 @@ defmodule Site.TransitNearMe do
     schedules_fn = Keyword.fetch!(opts, :schedules_fn)
     now = Keyword.fetch!(opts, :now)
 
-    min_time = format_min_time(now)
-
     stops
     |> Task.async_stream(
-      &stream_schedules(&1, min_time, schedules_fn, now),
+      &stream_schedules(&1, now, schedules_fn, now),
       on_timeout: :kill_task
     )
     |> Enum.reduce_while({:ok, %{}}, &collect_data/2)
   end
 
-  @spec stream_schedules(Stop.t(), String.t(), fun(), DateTime.t()) ::
+  @spec stream_schedules(Stop.t(), DateTime.t(), fun(), DateTime.t()) ::
           {Stop.id_t(), [Schedule.t()]}
   def stream_schedules(stop, min_time, schedules_fn, now) do
     schedules =

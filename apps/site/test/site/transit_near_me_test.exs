@@ -48,13 +48,12 @@ defmodule Site.TransitNearMeTest do
       now = Util.now()
       time_tomorrow_within_24 = Timex.shift(now, hours: 23)
       time_too_far_in_future = Timex.shift(now, hours: 25)
-      api_now = TransitNearMe.format_min_time(now)
       api_tomorrow = TransitNearMe.tomorrow_date(now)
 
       schedules_fn = fn _stop, time ->
         case time do
           # always within service date, so within 24 hours
-          [min_time: ^api_now] ->
+          [min_time: ^now] ->
             []
 
           # when search is expanded to tomorrow's service date, limit buses to within 24 hours
