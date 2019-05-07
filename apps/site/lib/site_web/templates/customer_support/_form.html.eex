@@ -74,7 +74,7 @@
           </p>
           <div class="form-group">
             <label for="phone"><strong>Phone number</strong></label>
-            <%= telephone_input f, :phone, placeholder: "(617)-555-1234", class: "support-form-text-input support-form-text-input--small form-control",
+            <%= telephone_input f, :phone, placeholder: "(555)-555-5555", class: "support-form-text-input support-form-text-input--small form-control",
                                             autocomplete: "tel", id: "phone" %>
           </div>
           <div class="support-check-container">
