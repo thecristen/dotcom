@@ -48,8 +48,7 @@ defmodule Content.Paragraph.ContentList do
       date_op: field_value(data, "field_date_logic"),
       date_min: field_value(data, "field_date"),
       date_max: field_value(data, "field_date_max"),
-      sort_order: data |> field_value("field_sorting_logic") |> order(),
-      new_format?: Map.has_key?(data, "field_date_max")
+      sort_order: data |> field_value("field_sorting_logic") |> order()
     }
 
     recipe = combine(ingredients)
@@ -163,22 +162,20 @@ defmodule Content.Paragraph.ContentList do
   end
 
   # Use relative time "now" if date operator is specified without specific date.
-  defp combine(%{date_op: op, date_min: nil, new_format?: f} = ingredients)
+  defp combine(%{date_op: op, date_min: nil} = ingredients)
        when op in ["<", ">="] do
     ingredients
     |> Map.drop([:date_min, :date_max])
     |> Map.put(:date, value: "now")
-    |> check_date_format(f)
     |> combine()
   end
 
   # Otherwise, use the specific date the author provided for the date value.
-  defp combine(%{date_op: op, date_min: date, new_format?: f} = ingredients)
+  defp combine(%{date_op: op, date_min: date} = ingredients)
        when op in ["<", ">="] do
     ingredients
     |> Map.drop([:date_min, :date_max])
     |> Map.put(:date, value: date)
-    |> check_date_format(f)
     |> combine()
   end
 
@@ -186,7 +183,6 @@ defmodule Content.Paragraph.ContentList do
   # all nil values and converts remaining ingredients to a list
   defp combine(ingredients) do
     ingredients
-    |> Map.drop([:new_format?])
     |> limit_count_by_type()
     |> Enum.reject(fn {_k, v} -> is_nil(v) end)
   end
@@ -207,14 +203,4 @@ defmodule Content.Paragraph.ContentList do
   defp order("ASC"), do: :ASC
   defp order("DESC"), do: :DESC
   defp order(_), do: nil
-
-  # Temporarily support both old and new date param formats
-  @spec check_date_format(map, boolean) :: map
-  defp check_date_format(%{date: [value: value]} = ingredients, false) do
-    Map.put(ingredients, :date, value)
-  end
-
-  defp check_date_format(ingredients, _) do
-    ingredients
-  end
 end

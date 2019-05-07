@@ -85,17 +85,6 @@ defmodule Content.Paragraph.ContentListTest do
     end
   end
 
-  test "Supports old date param format (prior to CMS feature synchronization)" do
-    opts =
-      cms_map(
-        date: nil,
-        date_logic: ">="
-      )
-
-    # In absence of new field_date_max, use old format for date value
-    assert opts == [date: "now", date_op: ">="]
-  end
-
   test "Discard date information if no date operator has been set" do
     opts =
       cms_map(

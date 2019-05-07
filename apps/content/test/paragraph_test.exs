@@ -314,8 +314,7 @@ defmodule Content.ParagraphTest do
              date_op: "<",
              date_min: nil,
              date_max: nil,
-             sort_order: :DESC,
-             new_format?: true
+             sort_order: :DESC
            } == ingredients
 
     assert [
