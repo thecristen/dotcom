@@ -17,15 +17,31 @@ defmodule Schedules.Repo do
 
   @spec by_route_ids([Route.id_t()], Keyword.t()) :: [Schedule.t()] | {:error, any}
   def by_route_ids(route_ids, opts \\ []) when is_list(route_ids) do
+    opts = Keyword.put_new(opts, :date, Util.service_date())
+
     @default_params
     |> Keyword.put(:route, Enum.join(route_ids, ","))
-    |> add_optional_param(opts, :date)
+    |> Keyword.put(:date, Keyword.fetch!(opts, :date) |> to_string())
     |> add_optional_param(opts, :direction_id)
     |> add_optional_param(opts, :stop_sequences, :stop_sequence)
     |> add_optional_param(opts, :stop_ids, :stop)
     |> cache(&all_from_params/1)
+    |> convert_iso_time_to_datetime()
     |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
+  end
+
+  @spec convert_iso_time_to_datetime([Parser.record()] | {:error, any}) ::
+          [Parser.record()] | {:error, any}
+  defp convert_iso_time_to_datetime({:error, error}) do
+    {:error, error}
+  end
+
+  defp convert_iso_time_to_datetime(records) do
+    Enum.map(records, fn {_, _, _, time, _, _, _, _, _} = record ->
+      datetime = Timex.parse!(time, "{ISO:Extended}")
+      put_elem(record, 3, datetime)
+    end)
   end
 
   @spec schedule_for_trip(Schedules.Trip.id_t(), Keyword.t()) :: [Schedule.t()] | {:error, any}
@@ -42,6 +58,7 @@ defmodule Schedules.Repo do
     |> Keyword.put(:trip, trip_id)
     |> Keyword.put_new_lazy(:date, &Util.service_date/0)
     |> cache(&all_from_params/1)
+    |> convert_iso_time_to_datetime()
     |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
   end
@@ -75,6 +92,7 @@ defmodule Schedules.Repo do
     |> Keyword.merge(opts)
     |> Keyword.put(:stop, stop_id)
     |> cache(&all_from_params/1)
+    |> convert_iso_time_to_datetime()
     |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
   end
@@ -143,7 +161,7 @@ defmodule Schedules.Repo do
       data
       |> Stream.map(&Parser.parse/1)
       |> Enum.filter(&has_trip?/1)
-      |> Enum.sort_by(&DateTime.to_unix(elem(&1, 3)))
+      |> Enum.sort_by(&elem(&1, 3))
     end
   end
 
