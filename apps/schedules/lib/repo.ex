@@ -54,7 +54,7 @@ defmodule Schedules.Repo do
 
   def schedule_for_trip(trip_id, opts) do
     @default_params
-    |> Keyword.merge(opts)
+    |> Keyword.merge(opts |> Keyword.delete(:min_time))
     |> Keyword.put(:trip, trip_id)
     |> Keyword.put_new_lazy(:date, &Util.service_date/0)
     |> cache(&all_from_params/1)
@@ -89,7 +89,7 @@ defmodule Schedules.Repo do
   @spec schedule_for_stop(Stop.id_t(), Keyword.t()) :: [Schedule.t()] | {:error, any}
   def schedule_for_stop(stop_id, opts) do
     @default_params
-    |> Keyword.merge(opts)
+    |> Keyword.merge(opts |> Keyword.delete(:min_time))
     |> Keyword.put(:stop, stop_id)
     |> cache(&all_from_params/1)
     |> convert_iso_time_to_datetime()
