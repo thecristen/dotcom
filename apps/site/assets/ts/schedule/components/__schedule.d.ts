@@ -2,6 +2,7 @@
 
 export interface SchedulePageData {
   pdfs: SchedulePDF[];
+  teasers: string | null;
 }
 
 export interface SchedulePDF {

@@ -167,7 +167,7 @@ defmodule SiteWeb.PartialViewTest do
   end
 
   describe "news_entry/3" do
-    test "takes a Teaser struct", %{conn: conn} do
+    test "takes a Teaser struct" do
       assert {:ok, date} = Date.new(2018, 11, 30)
 
       news = %Teaser{
@@ -181,7 +181,7 @@ defmodule SiteWeb.PartialViewTest do
 
       rendered =
         news
-        |> news_entry(conn)
+        |> news_entry()
         |> safe_to_string()
 
       assert rendered =~ "title"

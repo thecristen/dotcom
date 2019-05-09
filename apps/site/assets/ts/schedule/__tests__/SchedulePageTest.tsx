@@ -10,10 +10,12 @@ const pdfs = [
   }
 ];
 
+const teasers = `<div><a href="http://some-link">Some teaser from CMS></a></div>`;
+
 it("it renders", () => {
   createReactRoot();
   const tree = renderer
-    .create(<SchedulePage schedulePageData={{ pdfs }} />)
+    .create(<SchedulePage schedulePageData={{ pdfs, teasers }} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });

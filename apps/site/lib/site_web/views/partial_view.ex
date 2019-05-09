@@ -158,8 +158,8 @@ defmodule SiteWeb.PartialView do
     size: :large | :small
     class: class to apply to the link
   """
-  @spec news_entry(Teaser.t(), Conn.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
-  def news_entry(entry, %Conn{} = conn, opts \\ []) do
+  @spec news_entry(Teaser.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
+  def news_entry(entry, opts \\ []) do
     size = Keyword.get(opts, :size, :small)
     color = news_color(entry)
     opts = [{:color, color} | opts]
@@ -173,7 +173,7 @@ defmodule SiteWeb.PartialView do
           class: "c-news-entry__title c-news-entry__title--#{size}"
         )
       ],
-      to: news_path(entry, conn),
+      to: news_path(entry, SiteWeb.Endpoint),
       class: news_entry_class(opts),
       id: entry.id
     )
@@ -190,7 +190,7 @@ defmodule SiteWeb.PartialView do
     |> cms_route_to_class()
   end
 
-  @spec news_path(Teaser.t(), Conn.t()) :: String.t()
+  @spec news_path(Teaser.t(), module | Conn.t()) :: String.t()
   defp news_path(%Teaser{path: url}, conn), do: cms_static_page_path(conn, url)
 
   @spec news_date(Teaser.t(), :large | :small) :: Phoenix.HTML.Safe.t()

@@ -1,5 +1,6 @@
 defmodule SiteWeb.ScheduleController.LineController do
   use SiteWeb, :controller
+  alias Phoenix.HTML
   alias Routes.Route
   alias SiteWeb.ScheduleView
 
@@ -22,17 +23,27 @@ defmodule SiteWeb.ScheduleController.LineController do
   plug(:channel_id)
 
   def show(conn, _) do
+    conn =
+      conn
+      |> assign(:meta_description, route_description(conn.assigns.route))
+      |> put_view(ScheduleView)
+      |> await_assign_all_default(__MODULE__)
+
     conn
-    |> assign(:meta_description, route_description(conn.assigns.route))
-    |> put_view(ScheduleView)
     |> assign(
       :schedule_page_data,
       %{
         pdfs:
-          ScheduleView.route_pdfs(conn.assigns.route_pdfs, conn.assigns.route, conn.assigns.date)
+          ScheduleView.route_pdfs(conn.assigns.route_pdfs, conn.assigns.route, conn.assigns.date),
+        teasers:
+          HTML.safe_to_string(
+            ScheduleView.render(
+              "_cms_teasers.html",
+              conn.assigns
+            )
+          )
       }
     )
-    |> await_assign_all_default(__MODULE__)
     |> render("show.html", [])
   end
 
