@@ -10,7 +10,6 @@ export interface MapMarker {
   id: string | null;
   longitude: number;
   latitude: number;
-  onClick?: Function;
   size: string;
   tooltip: ReactElement<HTMLElement> | null;
   "visible?": boolean;

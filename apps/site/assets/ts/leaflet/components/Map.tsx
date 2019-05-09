@@ -51,7 +51,6 @@ const Component = ({
             key={marker.id || `marker-${Math.floor(Math.random() * 1000)}`}
             position={[marker.latitude, marker.longitude]}
             icon={icon(marker.icon)}
-            onClick={marker.onClick}
           >
             {marker.tooltip && (
               <Popup minWidth={320} maxHeight={175}>
