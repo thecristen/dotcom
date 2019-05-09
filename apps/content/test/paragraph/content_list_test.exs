@@ -54,6 +54,17 @@ defmodule Content.Paragraph.ContentListTest do
       assert opts == [related_to: 1234]
     end
 
+    test "If a specific content ID is not present, use the default host_id and discard placeholders" do
+      opts =
+        cms_map(
+          relationship: "except",
+          content_reference: nil,
+          parent_id: 5678
+        )
+
+      assert opts == [except: 5678]
+    end
+
     test "If no terms are found, discard term and depth data" do
       opts =
         cms_map(
@@ -129,7 +140,7 @@ defmodule Content.Paragraph.ContentListTest do
     assert opts == [date: [min: "2020-02-20", max: "2030-03-30"], date_op: "between"]
   end
 
-  test "Discard date criteria when 'between' operator is specified without min/max values" do
+  test "Discards date criteria when 'between' operator is specified without min/max values" do
     opts =
       cms_map(
         date: "2020-02-20",
@@ -179,12 +190,12 @@ defmodule Content.Paragraph.ContentListTest do
     {"field_#{k}", [%{"target_id" => v}]}
   end
 
-  defp cms_field({:terms = k, terms}) do
-    {"field_#{k}", Enum.map(terms, &%{"target_id" => &1})}
-  end
-
   defp cms_field({:parent_id = k, v}) do
     {"#{k}", [%{"value" => v}]}
+  end
+
+  defp cms_field({:terms = k, terms}) do
+    {"field_#{k}", Enum.map(terms, &%{"target_id" => &1})}
   end
 
   defp cms_field({k, v}) do

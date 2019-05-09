@@ -92,7 +92,15 @@ defmodule Content.Paragraph.ContentList do
     |> combine()
   end
 
-  # If a specific content ID is present, use that and discard the host page ID
+  # If a specific content ID is not present, use the default host ID and discard the placeholders
+  defp combine(%{content_id: nil, host_id: id} = ingredients) do
+    ingredients
+    |> Map.drop([:host_id, :content_id])
+    |> Map.put(:id, id)
+    |> combine()
+  end
+
+  # Otherwise, if a specific content ID is present, use that and discard the host page ID
   defp combine(%{content_id: id, host_id: _} = ingredients) do
     ingredients
     |> Map.drop([:host_id, :content_id])
