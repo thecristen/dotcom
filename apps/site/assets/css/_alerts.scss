@@ -145,7 +145,8 @@
   .c-alert-item--open &,
   .no-js & {
     // ideally this would be height: auto, but to get the CSS animation to work it needs a value
-    max-height: 1000px;
+    max-height: 4000px;
+    overflow-y: scroll;
   }
 }
 
