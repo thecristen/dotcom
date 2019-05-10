@@ -7,23 +7,18 @@ import TransitNearMe, {
 } from "../components/TransitNearMe";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { importData, importStopData } from "./helpers/testUtils";
-import { MapData } from "../../app/googleMaps/__googleMaps";
+import { MapData } from "../../leaflet/components/__mapdata";
 
 it("it renders", () => {
   /* eslint-disable typescript/camelcase */
   const mapData: MapData = {
     zoom: 14,
     width: 630,
-    scale: 1,
-    reset_bounds_on_update: false, // eslint-disable-line
-    paths: [],
+    polylines: [],
     markers: [],
     default_center: { latitude: 0, longitude: 0 },
     height: 500,
-    dynamic_options: {},
-    layers: { transit: false },
-    auto_init: false,
-    bound_padding: null
+    tile_server_url: ""
   };
   /* eslint-enable typescript/camelcase */
 
@@ -52,16 +47,11 @@ it("it switches view on click", () => {
   const mapData: MapData = {
     zoom: 14,
     width: 630,
-    scale: 1,
-    reset_bounds_on_update: false, // eslint-disable-line
-    paths: [],
+    polylines: [],
     markers: [],
     default_center: { latitude: 0, longitude: 0 },
     height: 500,
-    dynamic_options: {},
-    layers: { transit: false },
-    auto_init: false,
-    bound_padding: null
+    tile_server_url: ""
   };
   /* eslint-enable typescript/camelcase */
 
@@ -89,16 +79,11 @@ it("sets mode filters based on query", () => {
   const mapData: MapData = {
     zoom: 14,
     width: 630,
-    scale: 1,
-    reset_bounds_on_update: false, // eslint-disable-line
-    paths: [],
+    polylines: [],
     markers: [],
     default_center: { latitude: 0, longitude: 0 },
     height: 500,
-    dynamic_options: {},
-    layers: { transit: false },
-    auto_init: false,
-    bound_padding: null
+    tile_server_url: ""
   };
   /* eslint-enable typescript/camelcase */
 

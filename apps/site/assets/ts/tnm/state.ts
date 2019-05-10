@@ -1,4 +1,4 @@
-import * as googleMaps from "../app/googleMaps/state";
+import * as googleMaps from "../leaflet/state";
 
 import { Mode, RouteWithStopsWithDirections } from "../__v3api";
 

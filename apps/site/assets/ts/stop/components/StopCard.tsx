@@ -20,11 +20,30 @@ interface Props {
   routesWithDirection?: RouteWithDirection[];
   routes?: Route[];
   distance?: number;
+  distanceFormatted?: string;
 }
+
+const renderDistance = (
+  distance: number | undefined,
+  distanceFormatted: string | undefined
+): ReactElement<HTMLElement> | null => {
+  if (distance) {
+    return (
+      <span className="c-stop-card__distance">
+        {formatMilesToFeet(distance)} ft
+      </span>
+    );
+  }
+  if (distanceFormatted) {
+    return <span className="c-stop-card__distance">{distanceFormatted}</span>;
+  }
+  return null;
+};
 
 const StopCard = ({
   stop,
   distance,
+  distanceFormatted,
   routesWithDirection = [],
   routes = []
 }: Props): ReactElement<HTMLElement> => {
@@ -39,11 +58,7 @@ const StopCard = ({
 
   return (
     <div className="c-stop-card">
-      {distance && (
-        <span className="c-stop-card__distance">
-          {formatMilesToFeet(distance)} ft
-        </span>
-      )}
+      {renderDistance(distance, distanceFormatted)}
       <a className="c-stop-card__stop-name" href={`/stops/${stop.id}`}>
         {stop.name}
       </a>

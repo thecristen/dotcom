@@ -8,11 +8,10 @@ const marker = {
   z_index: 0,
   "visible?": false,
   tooltip: null,
-  size: "mid",
   longitude: -71.071097,
   latitude: 42.43668,
   id: "marker",
-  icon: "marker"
+  icon: "test"
 };
 
 const data: MapData = {

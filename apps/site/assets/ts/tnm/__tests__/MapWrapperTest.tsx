@@ -1,0 +1,121 @@
+import React from "react";
+import { mount } from "enzyme";
+import MapWrapper, { Props } from "../components/leaflet/MapWrapper";
+import { Stop, Route } from "../../__v3api";
+
+/* eslint-disable typescript/camelcase */
+const marker = {
+  z_index: 0,
+  "visible?": false,
+  tooltip: null,
+  latitude: 41.0,
+  longitude: -71.0,
+  id: "stop-id",
+  icon: "test"
+};
+
+const stop: Stop = {
+  accessibility: ["wheelchair"],
+  address: "123 Main St., Boston MA",
+  bike_storage: [],
+  closed_stop_info: null,
+  fare_facilities: [],
+  "has_charlie_card_vendor?": false,
+  "has_fare_machine?": false,
+  id: "stop-id",
+  "is_child?": false,
+  latitude: 41.0,
+  longitude: -71.0,
+  name: "Stop Name",
+  note: null,
+  parking_lots: [],
+  "station?": true,
+  href: "/stops/stop-id",
+  type: "station"
+};
+
+const routes: Route[] = [
+  {
+    type: 1,
+    name: "Orange Line",
+    long_name: "Orange Line", // eslint-disable-line typescript/camelcase
+    id: "Orange",
+    direction_names: { "0": "South", "1": "North" }, // eslint-disable-line typescript/camelcase
+    direction_destinations: { "0": "Forest Hills", "1": "Oak Grove" }, // eslint-disable-line typescript/camelcase
+    description: "rapid_transit",
+    alert_count: 0, // eslint-disable-line typescript/camelcase
+    header: ""
+  }
+];
+
+const mapWrapperProps: Props = {
+  bounds: undefined, // something odd with rendering via enzyme and bounds?
+  dispatch: () => {},
+  markers: [marker],
+  onClick: () => {},
+  selectedStopId: null,
+  shouldCenterMapOnSelectedStop: false,
+  tileServerUrl: "",
+  tooltipData: {
+    id: {
+      stop,
+      routes,
+      distanceFormatted: "0.5 miles"
+    }
+  },
+  visibleMarkers: [marker],
+  zoom: 15
+};
+
+it("it renders using the default center position", () => {
+  const div = document.createElement("div");
+  document.body.appendChild(div);
+  const wrapper = mount(<MapWrapper {...mapWrapperProps} />, {
+    attachTo: div
+  });
+  expect(
+    wrapper
+      .render()
+      .find(".leaflet-tile")
+      .prop("src")
+  ).toBeUndefined();
+});
+
+it("it renders using the default center if not shouldCenter", () => {
+  const dataWithoutMarkers: Props = {
+    ...mapWrapperProps,
+    selectedStopId: "stop-id",
+    shouldCenterMapOnSelectedStop: false
+  };
+  const div = document.createElement("div");
+  document.body.appendChild(div);
+  const wrapper = mount(<MapWrapper {...dataWithoutMarkers} />, {
+    attachTo: div
+  });
+  expect(
+    wrapper
+      .render()
+      .find(".leaflet-tile")
+      .prop("src")
+  ).toBeUndefined();
+});
+
+it("it renders using the selected markers position if shouldCenter", () => {
+  const dataWithoutMarkers: Props = {
+    ...mapWrapperProps,
+    selectedStopId: "stop-id",
+    shouldCenterMapOnSelectedStop: true
+  };
+  const div = document.createElement("div");
+  document.body.appendChild(div);
+  const wrapper = mount(<MapWrapper {...dataWithoutMarkers} />, {
+    attachTo: div
+  });
+  expect(
+    wrapper
+      .render()
+      .find(".leaflet-tile")
+      .prop("src")
+  ).toBe(`/osm_tiles/15/9921/12285.png`);
+});
+/* eslint-disable typescript/camelcase */

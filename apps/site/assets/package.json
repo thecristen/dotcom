@@ -93,7 +93,7 @@
     "webpack-merge": "^4.2.1"
   },
   "scripts": {
-    "build:ts": "cd ts/ && tsc",
+    "ts:build": "cd ts/ && tsc",
     "eslint": "npx eslint -c .eslintrc.js js/**/*.js",
     "tslint": "npx eslint -c .eslintrc.js ts/**/*.{ts,tsx}",
     "test": "npm run test:mocha && npm run test:jest",

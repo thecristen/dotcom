@@ -1,7 +1,8 @@
 defmodule SiteWeb.TransitNearMeControllerTest do
   use SiteWeb.ConnCase
 
-  alias GoogleMaps.{Geocode.Address, MapData, MapData.Marker}
+  alias GoogleMaps.{Geocode.Address}
+  alias Leaflet.{MapData, MapData.Marker}
   alias Routes.Route
   alias Schedules.Schedule
   alias Site.TransitNearMe
@@ -311,7 +312,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert %Marker{} = marker
       assert marker.latitude == @stop_with_routes.stop.latitude
       assert marker.longitude == @stop_with_routes.stop.longitude
-      assert marker.tooltip =~ "c-location-card__name"
+      assert marker.tooltip == nil
     end
 
     test "assigns a marker with a bus icon for stops that aren't stations", %{conn: conn} do
@@ -360,6 +361,8 @@ defmodule SiteWeb.TransitNearMeControllerTest do
           ]
         )
 
+      bus_stop_with_routes = put_in(bus_stop_with_routes.stop.id, "bus-stop")
+
       conn =
         conn
         |> assign(:stops_json, [@stop_with_routes, bus_stop_with_routes])
@@ -367,7 +370,8 @@ defmodule SiteWeb.TransitNearMeControllerTest do
         |> TNMController.assign_map_data()
 
       assert %MapData{} = conn.assigns.map_data
-      assert [_, bus_marker] = conn.assigns.map_data.markers
+      assert markers = conn.assigns.map_data.markers
+      bus_marker = Enum.find(markers, fn m -> m.id == "bus-stop" end)
       assert %Marker{} = bus_marker
       assert bus_marker.icon == "map-stop-marker"
     end
@@ -384,6 +388,8 @@ defmodule SiteWeb.TransitNearMeControllerTest do
           ]
         )
 
+      bus_stop_with_routes = put_in(bus_stop_with_routes.stop.id, "bus-stop")
+
       conn =
         conn
         |> assign(:stops_json, [@stop_with_routes, bus_stop_with_routes])
@@ -391,7 +397,8 @@ defmodule SiteWeb.TransitNearMeControllerTest do
         |> TNMController.assign_map_data()
 
       assert %MapData{} = conn.assigns.map_data
-      assert [_, bus_marker] = conn.assigns.map_data.markers
+      assert markers = conn.assigns.map_data.markers
+      bus_marker = Enum.find(markers, fn m -> m.id == "bus-stop" end)
       assert %Marker{} = bus_marker
       assert bus_marker.icon == "map-stop-marker"
     end

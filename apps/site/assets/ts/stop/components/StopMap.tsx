@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import { StopMapData } from "./__stop";
 import { SelectedStopType, Dispatch } from "../state";
 import Map from "../../leaflet/components/Map";
-import MapTooltip from "./MapTooltip";
+import MapTooltip from "../../leaflet/components/MapTooltip";
 import { Route, Stop } from "../../__v3api";
 
 interface Props {

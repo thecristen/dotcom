@@ -25,6 +25,7 @@
     "webpack:watch": "cd apps/site/assets && npm run webpack:watch",
     "webpack:build": "cd apps/site/assets && npm run webpack:build",
     "webpack:analyze": "cd apps/site/assets && npm run webpack:analyze",
+    "ts:build": "cd apps/site/assets/ts && npm run ts:build",
     "react:setup": "cd apps/site/react_renderer && npm install",
     "react:build": "cd apps/site/react_renderer && npx webpack",
     "routes": "cd apps/site && mix phx.routes && cd ../..",

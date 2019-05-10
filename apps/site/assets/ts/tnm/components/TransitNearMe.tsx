@@ -1,10 +1,10 @@
 import React, { useReducer, ReactElement } from "react";
-import TransitNearMeMap from "./TransitNearMeMap";
+import TransitNearMeMap from "./leaflet/TransitNearMeMap";
 import RoutesSidebar from "./RoutesSidebar";
 import StopsSidebar from "./StopsSidebar";
 import { Stop, RouteWithStopsWithDirections, Mode } from "../../__v3api";
 import { StopWithRoutes } from "./__tnm";
-import { MapData } from "../../app/googleMaps/__googleMaps";
+import { MapData } from "../../leaflet/components/__mapdata";
 import useInterval from "../../helpers/use-interval";
 import {
   reducer,
@@ -117,17 +117,17 @@ const TransitNearMe = ({
         className="m-tnm__map"
         role="application"
         aria-label="Map with stops"
-      />
-      <TransitNearMeMap
-        selectedStopId={state.selectedStopId}
-        dispatch={dispatch}
-        mapElementId={mapId}
-        initialData={mapData}
-        selectedModes={state.selectedModes}
-        stopData={stopSidebarData}
-        shouldFilterMarkers={state.shouldFilterStopCards}
-        shouldCenterMapOnSelectedStop={state.shouldCenterMapOnSelectedStop}
-      />
+      >
+        <TransitNearMeMap
+          selectedStopId={state.selectedStopId}
+          dispatch={dispatch}
+          initialData={mapData}
+          selectedModes={state.selectedModes}
+          stopData={stopSidebarData}
+          shouldFilterMarkers={state.shouldFilterStopCards}
+          shouldCenterMapOnSelectedStop={state.shouldCenterMapOnSelectedStop}
+        />
+      </div>
     </div>
   );
 };

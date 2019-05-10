@@ -5,6 +5,7 @@ interface Props {
 }
 
 const ContentTeasers = ({ teasers }: Props): ReactElement<HTMLElement> | null =>
+  // eslint-disable-next-line react/no-danger
   teasers ? <div dangerouslySetInnerHTML={{ __html: teasers }} /> : null;
 
 export default ContentTeasers;

@@ -1,11 +1,10 @@
 defmodule SiteWeb.TransitNearMeController do
   use SiteWeb, :controller
   alias Alerts.Repo
-  alias GoogleMaps.{Geocode, MapData, MapData.Layers, MapData.Marker}
-  alias Phoenix.HTML
+  alias GoogleMaps.Geocode
+  alias Leaflet.{MapData, MapData.Marker}
   alias Plug.Conn
   alias Site.TransitNearMe
-  alias SiteWeb.PartialView
   alias SiteWeb.PartialView.{FullscreenError}
   alias Stops.Stop
 
@@ -77,9 +76,8 @@ defmodule SiteWeb.TransitNearMeController do
     map_data =
       {630, 400}
       |> MapData.new(14)
-      |> MapData.disable_map_type_controls()
-      |> MapData.add_layers(%Layers{transit: true})
       |> MapData.add_markers(markers)
+      |> Map.put(:tile_server_url, Application.fetch_env!(:site, :tile_server_url))
       |> add_location_marker(conn.assigns)
 
     assign(conn, :map_data, map_data)
@@ -93,8 +91,7 @@ defmodule SiteWeb.TransitNearMeController do
       longitude,
       id: id,
       icon: marker_for_routes(marker.routes),
-      size: :large,
-      tooltip: tooltip(marker)
+      tooltip: nil
     )
   end
 
@@ -104,8 +101,7 @@ defmodule SiteWeb.TransitNearMeController do
       marker.stop.longitude,
       id: marker.stop.id,
       icon: marker_for_routes(marker.routes),
-      size: :large,
-      tooltip: tooltip(marker)
+      tooltip: nil
     )
   end
 
@@ -134,10 +130,9 @@ defmodule SiteWeb.TransitNearMeController do
         latitude,
         longitude,
         id: "current-location",
-        icon: "map-current-location",
-        size: :mid,
+        icon: "current-location-marker",
         tooltip: formatted,
-        z_index: 100
+        size: [25, 25]
       )
 
     MapData.add_marker(map_data, marker)
@@ -145,22 +140,6 @@ defmodule SiteWeb.TransitNearMeController do
 
   def add_location_marker(map_data, _) do
     map_data
-  end
-
-  defp tooltip(%{stop: %{stop: %Stop{} = stop}, distance: distance, routes: routes}) do
-    "_location_card.html"
-    |> PartialView.render(%{
-      stop: stop,
-      distance: distance,
-      routes: routes
-    })
-    |> HTML.safe_to_string()
-  end
-
-  defp tooltip(marker) do
-    "_location_card.html"
-    |> PartialView.render(marker)
-    |> HTML.safe_to_string()
   end
 
   @spec flash_if_error(Conn.t()) :: Plug.Conn.t()

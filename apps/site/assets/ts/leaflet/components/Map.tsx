@@ -1,8 +1,20 @@
 import React, { ReactElement } from "react";
 import deepEqual from "fast-deep-equal";
 import Leaflet from "react-leaflet";
-import { IconType } from "../icon";
-import { MapData, MapMarker } from "./__mapdata";
+import { Icon } from "leaflet";
+import { MapData, MapMarker, IconOpts } from "./__mapdata";
+
+export interface ZoomOpts {
+  maxZoom: number;
+  minZoom: number;
+  scrollWheelZoom: boolean;
+}
+
+export const defaultZoomOpts: ZoomOpts = {
+  maxZoom: 18,
+  minZoom: 11,
+  scrollWheelZoom: false
+};
 
 interface Props {
   mapData: MapData;
@@ -28,7 +40,10 @@ const Component = ({
   if (typeof window !== "undefined" && tileServerUrl !== "") {
     /* eslint-disable */
     const leaflet: typeof Leaflet = require("react-leaflet");
-    const icon: IconType = require("../icon").default;
+    const buildIcon: (
+      icon: string | null,
+      opts?: IconOpts
+    ) => Icon | undefined = require("../icon").default;
     /* eslint-enable */
     const { Map, Marker, Polyline, Popup, TileLayer } = leaflet;
     const position = mapCenter(markers, defaultCenter);
@@ -50,7 +65,7 @@ const Component = ({
           <Marker
             key={marker.id || `marker-${Math.floor(Math.random() * 1000)}`}
             position={[marker.latitude, marker.longitude]}
-            icon={icon(marker.icon)}
+            icon={buildIcon(marker.icon)}
           >
             {marker.tooltip && (
               <Popup minWidth={320} maxHeight={175}>

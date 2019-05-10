@@ -3,18 +3,22 @@ defmodule Leaflet.MapData.Marker do
   Represents a leaflet map marker.
   """
 
-  @default_opts [icon: nil]
+  @default_opts [icon: nil, tooltip: ""]
 
   defstruct id: nil,
             latitude: 0.0,
             longitude: 0.0,
-            icon: nil
+            icon: nil,
+            tooltip: "",
+            size: nil
 
   @type t :: %__MODULE__{
-          id: integer | nil,
+          id: integer | String.t() | nil,
           latitude: float,
           longitude: float,
-          icon: String.t() | nil
+          icon: String.t() | nil,
+          tooltip: String.t(),
+          size: [integer] | nil
         }
 
   def new(latitude, longitude, opts \\ []) do
@@ -24,7 +28,9 @@ defmodule Leaflet.MapData.Marker do
       id: map_options[:id],
       latitude: latitude,
       longitude: longitude,
-      icon: map_options[:icon]
+      icon: map_options[:icon],
+      size: map_options[:size],
+      tooltip: map_options[:tooltip]
     }
   end
 end

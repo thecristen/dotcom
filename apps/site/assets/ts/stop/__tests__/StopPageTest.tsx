@@ -19,7 +19,7 @@ const mapData: MapData = {
       longitude: 25,
       icon: null,
       "visible?": true,
-      size: "medium",
+      size: [25, 25],
       tooltip: null,
       z_index: 1
     }

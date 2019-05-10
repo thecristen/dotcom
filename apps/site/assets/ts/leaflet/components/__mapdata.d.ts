@@ -5,12 +5,18 @@ export type TileServerUrl =
   | "https://mbta-map-tiles-dev.s3.amazonaws.com"
   | "";
 
+export interface IconOpts {
+  iconSize?: [number, number];
+  iconAnchor?: [number, number];
+  popupAnchor?: [number, number];
+}
+
 export interface MapMarker {
   icon: string | null;
   id: string | null;
   longitude: number;
   latitude: number;
-  size: string;
+  size?: number[];
   tooltip: ReactElement<HTMLElement> | null;
   "visible?": boolean;
   z_index: number;

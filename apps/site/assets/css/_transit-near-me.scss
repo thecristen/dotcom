@@ -1,4 +1,4 @@
-$sm-map-height: $base-spacing * 30;
+$sm-map-height: $base-spacing * 20;
 // Aspect ratios of 3:2 and 16:9
 $md-map-height: map-get($container-max-widths, md) * (2 / 3);
 $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
@@ -360,4 +360,8 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 
 .m-tnm-sidebar__stop-card-description {
   margin-top: $base-spacing / 2;
+}
+
+.m-tnm__address-marker {
+  margin-right: $base-spacing * 1.5;
 }
