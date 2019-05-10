@@ -52,7 +52,8 @@ export default ({
   const [state, dispatch] = useReducer(reducer, initialState(tab, routes));
 
   useInterval(() => {
-    fetchData(stop.id, dispatch);
+    // temporarily disabled while we debug CPU issues
+    // fetchData(stop.id, dispatch);
   }, 15000);
 
   const highPriorityAlerts = alerts.filter(alert => alert.priority === "high");
