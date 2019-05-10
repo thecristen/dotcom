@@ -9,3 +9,9 @@
     width: $base-spacing * 1.5;
   }
 }
+
+.m-schedule-page__sidebar-hours {
+  h3:first-child {
+    margin-top: 0;
+  }
+}

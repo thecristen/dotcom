@@ -3,6 +3,7 @@
 export interface SchedulePageData {
   pdfs: SchedulePDF[];
   teasers: string | null;
+  hours: string;
 }
 
 export interface SchedulePDF {

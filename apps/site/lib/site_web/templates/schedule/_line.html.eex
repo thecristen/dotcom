@@ -42,8 +42,9 @@
         <%= render "_stop_list.html", assigns %>
     </div>
     <% end %>
+    <% redesign? = Laboratory.enabled?(@conn, :schedule_redesign) %>
     <div class="col-xs-12 col-md-4 col-md-offset-1">
-      <%= if Laboratory.enabled?(@conn, :schedule_redesign) do %>
+      <%= if redesign? do %>
         <div id="react-root">
           <%= Site.React.render("SchedulePage", %{schedulePageData: @schedule_page_data}) %>
         </div>
@@ -58,7 +59,16 @@
       <% end %>
       <%= render "_line_connections.html", assigns %>
       <%= render "_fares.html", assigns %>
-      <%= render "_hours_of_op.html", assigns %>
+      <%= if !redesign? do %>
+        <div class="hours">
+          <%= if assigns[:hours_of_operation] do %>
+          <h2 class="hours-heading">Hours of Operation</h3>
+          <%= render "_hours_of_op.html", assigns %>
+        </div>
+      <% end  %>
+      <%= render "_holidays.html", assigns %>
+      <%= render "_pdf_schedules.html", assigns %>
+      <% end %>
     </div>
   </div>
 </div>

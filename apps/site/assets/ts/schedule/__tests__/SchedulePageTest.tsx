@@ -12,10 +12,21 @@ const pdfs = [
 
 const teasers = `<div><a href="http://some-link">Some teaser from CMS></a></div>`;
 
+const hours = `<div class="m-schedule-page__sidebar-hours">  <h3 class="hours-period-heading">Monday to Friday</h3>
+<p class="hours-directions">
+  <span class="hours-direction-name">Inbound</span>
+  <span class="hours-time">04:17A-12:46A</span>
+</p>
+<p class="hours-directions">
+  <span class="hours-direction-name">Outbound</span>
+  <span class="hours-time">05:36A-01:08A</span>
+</p>
+</div>`;
+
 it("it renders", () => {
   createReactRoot();
   const tree = renderer
-    .create(<SchedulePage schedulePageData={{ pdfs, teasers }} />)
+    .create(<SchedulePage schedulePageData={{ pdfs, teasers, hours }} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });

@@ -41,7 +41,8 @@ defmodule SiteWeb.ScheduleController.LineController do
               "_cms_teasers.html",
               conn.assigns
             )
-          )
+          ),
+        hours: HTML.safe_to_string(ScheduleView.render("_hours_of_op.html", conn.assigns))
       }
     )
     |> render("show.html", [])
