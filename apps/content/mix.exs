@@ -25,7 +25,6 @@ defmodule Content.Mixfile do
       applications: [
         :httpoison,
         :logger,
-        :mailgun,
         :phoenix_html,
         :plug,
         :poison,
@@ -69,7 +68,6 @@ defmodule Content.Mixfile do
       {:mock, "~> 0.3.3", only: :test},
       {:phoenix_html, "~> 2.6"},
       {:repo_cache, in_umbrella: true},
-      {:mailgun, "~> 0.1.2"},
       {:util, in_umbrella: true}
     ]
   end

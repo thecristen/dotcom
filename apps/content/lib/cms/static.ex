@@ -433,42 +433,6 @@ defmodule Content.CMS.Static do
   def preview(3174, vid), do: {:ok, do_preview(Enum.at(project_update_repo(), 1), vid)}
   def preview(6, vid), do: {:ok, do_preview(basic_page_response(), vid)}
 
-  @impl true
-  def post("entity/node", body) do
-    if String.contains?(body, "fails-to-create") do
-      {:error, %{status_code: 422}}
-    else
-      body
-      |> Parser.parse!()
-      |> entity_type()
-      |> successful_response()
-    end
-  end
-
-  @impl true
-  def update("node/" <> _id, body) do
-    if String.contains?(body, "fails-to-update") do
-      {:error, %{status_code: 422}}
-    else
-      body
-      |> Parser.parse!()
-      |> entity_type()
-      |> successful_response()
-    end
-  end
-
-  defp successful_response("event") do
-    [event | _] = events_response()
-    {:ok, event}
-  end
-
-  defp successful_response("news_entry") do
-    [news_entry | _] = news_repo()
-    {:ok, news_entry}
-  end
-
-  defp entity_type(%{"type" => [%{"target_id" => target_id}]}), do: target_id
-
   defp filter_by(map, key, value) do
     Enum.filter(map, &match?(%{^key => [%{"value" => ^value}]}, &1))
   end

@@ -49,7 +49,7 @@ defmodule Feedback.Mailer do
     """
 
     opts = [
-      to: "heatsm@mbta.com",
+      to: Application.get_env(:feedback, :support_ticket_to_email),
       from: Application.get_env(:feedback, :support_ticket_from_email),
       subject: "MBTA Customer Comment Form",
       text: body
@@ -99,12 +99,12 @@ defmodule Feedback.Mailer do
   end
 
   defp format_email(nil) do
-    "donotreply@mbta.com"
+    Application.get_env(:feedback, :support_ticket_reply_email)
   end
 
   defp format_email(email) do
     case String.trim(email) do
-      "" -> "donotreply@mbta.com"
+      "" -> Application.get_env(:feedback, :support_ticket_reply_email)
       email -> email
     end
   end

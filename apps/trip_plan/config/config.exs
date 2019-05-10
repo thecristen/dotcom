@@ -34,9 +34,9 @@ config :trip_plan, Geocode, module: TripPlan.Geocode.GoogleGeocode
 
 config :trip_plan, OpenTripPlanner,
   timezone: {:system, "OPEN_TRIP_PLANNER_TIMEZONE", "America/New_York"},
-  root_url:
-    {:system, "OPEN_TRIP_PLANNER_URL", "http://mbta-otp-dev.us-east-1.elasticbeanstalk.com"},
-  wiremock_proxy: {:system, "WIREMOCK_PROXY", "false"}
+  root_url: {:system, "OPEN_TRIP_PLANNER_URL"},
+  wiremock_proxy: {:system, "WIREMOCK_PROXY", "false"},
+  wiremock_proxy_url: System.get_env("WIREMOCK_TRIP_PLAN_PROXY_URL")
 
 # defines polygon to be used in trip planner to determine max walk distance for a trip
 config :trip_plan, ReducedWalkingArea, [

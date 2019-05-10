@@ -6,7 +6,7 @@ BUILD_TAG=$APP:_build
 VERSION=$(grep -o 'version: .*"' apps/$APP/mix.exs  | grep -E -o '([0-9]+\.)+[0-9]+')
 BUILD_ARTIFACT=$APP-build.zip
 
-docker build -t $BUILD_TAG .
+docker build -t $BUILD_TAG --build-arg SENTRY_DSN=$SENTRY_DSN .
 CONTAINER=$(docker run -d ${BUILD_TAG} sleep 2000)
 
 rm -rf rel/$APP rel/$APP.tar.gz rel/app.js

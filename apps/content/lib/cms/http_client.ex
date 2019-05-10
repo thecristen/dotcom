@@ -34,16 +34,6 @@ defmodule Content.CMS.HTTPClient do
     ExternalRequest.process(:get, path, "", params: params)
   end
 
-  @impl true
-  def post(path, body) do
-    ExternalRequest.process(:post, path, body)
-  end
-
-  @impl true
-  def update(path, body) do
-    ExternalRequest.process(:patch, path, body)
-  end
-
   @type param_key :: String.t() | atom()
   @type param_value :: String.t() | atom() | Keyword.t()
   @type param_list :: [{String.t(), String.t()}]

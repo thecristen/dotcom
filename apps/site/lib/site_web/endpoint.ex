@@ -1,6 +1,17 @@
 defmodule SiteWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :site
 
+  @doc """
+  Callback invoked for dynamically configuring the endpoint.
+
+  It receives the endpoint configuration and checks if
+  configuration should be loaded from the system environment.
+  """
+  @spec init(atom, Keyword.t()) :: {:ok, Keyword.t()} | no_return
+  def init(_key, config) do
+    {:ok, Keyword.put(config, :secret_key_base, System.get_env("SITE_SECRET_KEY_BASE"))}
+  end
+
   socket(
     "/socket",
     SiteWeb.UserSocket,

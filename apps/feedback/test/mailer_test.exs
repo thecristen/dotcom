@@ -1,7 +1,10 @@
 defmodule Feedback.MailerTest do
   use ExUnit.Case
 
-  @base_message %Feedback.Message{
+  alias ExUnit.CaptureLog
+  alias Feedback.{Mailer, Message, Test}
+
+  @base_message %Message{
     comments: "",
     service: "Inquiry",
     request_response: false
@@ -9,21 +12,21 @@ defmodule Feedback.MailerTest do
 
   describe "send_heat_ticket/2" do
     test "sends an email for heat 2" do
-      Feedback.Mailer.send_heat_ticket(
-        %Feedback.Message{comments: "", service: "Complaint", request_response: false},
+      Mailer.send_heat_ticket(
+        %Message{comments: "", service: "Complaint", request_response: false},
         nil
       )
 
-      assert Feedback.Test.latest_message()["to"] == "heatsm@mbta.com"
+      assert Test.latest_message()["to"] == "heatsm@mbta.com"
     end
 
     test "has the body format that heat 2 expects" do
-      Feedback.Mailer.send_heat_ticket(
-        %Feedback.Message{comments: "", service: "Complaint", request_response: false},
+      Mailer.send_heat_ticket(
+        %Message{comments: "", service: "Complaint", request_response: false},
         nil
       )
 
-      assert Feedback.Test.latest_message()["text"] ==
+      assert Test.latest_message()["text"] ==
                """
                <INCIDENT>
                  <SERVICE>Complaint</SERVICE>
@@ -51,63 +54,68 @@ defmodule Feedback.MailerTest do
     end
 
     test "uses the comments of the message for the description" do
-      Feedback.Mailer.send_heat_ticket(%{@base_message | comments: "major issue to report"}, nil)
+      Mailer.send_heat_ticket(%{@base_message | comments: "major issue to report"}, nil)
 
-      assert Feedback.Test.latest_message()["text"] =~
+      assert Test.latest_message()["text"] =~
                "<DESCRIPTION>major issue to report</DESCRIPTION>"
     end
 
     test "uses the phone from the message in the phone field" do
-      Feedback.Mailer.send_heat_ticket(%{@base_message | phone: "617-123-4567"}, nil)
-      assert Feedback.Test.latest_message()["text"] =~ "<PHONE>617-123-4567</PHONE>"
+      Mailer.send_heat_ticket(%{@base_message | phone: "617-123-4567"}, nil)
+      assert Test.latest_message()["text"] =~ "<PHONE>617-123-4567</PHONE>"
     end
 
     test "sets the emailid to the one provided by the user" do
-      Feedback.Mailer.send_heat_ticket(%{@base_message | email: "disgruntled@user.com"}, nil)
-      assert Feedback.Test.latest_message()["text"] =~ "<EMAILID>disgruntled@user.com</EMAILID>"
+      Mailer.send_heat_ticket(%{@base_message | email: "disgruntled@user.com"}, nil)
+      assert Test.latest_message()["text"] =~ "<EMAILID>disgruntled@user.com</EMAILID>"
     end
 
     test "when the user does not set an email, the email is donotreply@mbta.com" do
-      Feedback.Mailer.send_heat_ticket(@base_message, nil)
-      assert Feedback.Test.latest_message()["text"] =~ "<EMAILID>donotreply@mbta.com</EMAILID>"
+      Mailer.send_heat_ticket(@base_message, nil)
+      assert Test.latest_message()["text"] =~ "<EMAILID>donotreply@mbta.com</EMAILID>"
+    end
+
+    test "when the user sets an empty string, the email is donotreply@mbta.com" do
+      Mailer.send_heat_ticket(%{@base_message | email: ""}, nil)
+      assert Test.latest_message()["text"] =~ "<EMAILID>donotreply@mbta.com</EMAILID>"
     end
 
     test "the email does not have leading or trailing spaces" do
-      Feedback.Mailer.send_heat_ticket(%{@base_message | email: "   fake_email@gmail.com  "}, nil)
-      assert Feedback.Test.latest_message()["text"] =~ "<EMAILID>fake_email@gmail.com</EMAILID>"
+      Mailer.send_heat_ticket(%{@base_message | email: "   fake_email@gmail.com  "}, nil)
+      assert Test.latest_message()["text"] =~ "<EMAILID>fake_email@gmail.com</EMAILID>"
     end
 
     test "gives the full name as the name the user provided" do
-      Feedback.Mailer.send_heat_ticket(%{@base_message | name: "My Full Name"}, nil)
-      assert Feedback.Test.latest_message()["text"] =~ "<FULLNAME>My Full Name</FULLNAME>"
+      Mailer.send_heat_ticket(%{@base_message | name: "My Full Name"}, nil)
+      assert Test.latest_message()["text"] =~ "<FULLNAME>My Full Name</FULLNAME>"
     end
 
     test "also puts the full name in the first name field" do
-      Feedback.Mailer.send_heat_ticket(%{@base_message | name: "My Full Name"}, nil)
-      assert Feedback.Test.latest_message()["text"] =~ "<FIRSTNAME>My Full Name</FIRSTNAME>"
+      Mailer.send_heat_ticket(%{@base_message | name: "My Full Name"}, nil)
+      assert Test.latest_message()["text"] =~ "<FIRSTNAME>My Full Name</FIRSTNAME>"
     end
 
     test "if the user does not provide a name, sets the full name to riding public" do
-      Feedback.Mailer.send_heat_ticket(%{@base_message | name: ""}, nil)
-      assert Feedback.Test.latest_message()["text"] =~ "<FULLNAME>Riding Public</FULLNAME>"
+      Mailer.send_heat_ticket(%{@base_message | name: ""}, nil)
+      assert Test.latest_message()["text"] =~ "<FULLNAME>Riding Public</FULLNAME>"
     end
 
     test "if the user provides a name, sets the last name to -" do
-      Feedback.Mailer.send_heat_ticket(%{@base_message | name: "My Full Name"}, nil)
-      assert Feedback.Test.latest_message()["text"] =~ "<LASTNAME>-</LASTNAME>"
+      Mailer.send_heat_ticket(%{@base_message | name: "My Full Name"}, nil)
+      assert Test.latest_message()["text"] =~ "<LASTNAME>-</LASTNAME>"
     end
 
     test "sets customer requests response to no" do
-      Feedback.Mailer.send_heat_ticket(@base_message, nil)
-      assert Feedback.Test.latest_message()["text"] =~ "<CUSTREQUIRERESP>No</CUSTREQUIRERESP>"
+      Mailer.send_heat_ticket(@base_message, nil)
+      assert Test.latest_message()["text"] =~ "<CUSTREQUIRERESP>No</CUSTREQUIRERESP>"
     end
 
     test "can attach a photo" do
-      Feedback.Mailer.send_heat_ticket(@base_message, [
+      Mailer.send_heat_ticket(@base_message, [
         %{path: "/tmp/nonsense.txt", filename: "test.png"}
       ])
 
-      assert Feedback.Test.latest_message()["attachments"] == [
+      assert Test.latest_message()["attachments"] == [
                %{
                  "path" => "/tmp/nonsense.txt",
                  "filename" => "test.png"
@@ -122,10 +130,10 @@ defmodule Feedback.MailerTest do
         Logger.configure(level: old_level)
       end)
 
-      refute ExUnit.CaptureLog.capture_log(fn ->
+      refute CaptureLog.capture_log(fn ->
                Logger.configure(level: :info)
 
-               Feedback.Mailer.send_heat_ticket(
+               Mailer.send_heat_ticket(
                  %{@base_message | comments: "major issue to report"},
                  nil
                )
@@ -139,7 +147,7 @@ defmodule Feedback.MailerTest do
         Logger.configure(level: old_level)
       end)
 
-      message = %Feedback.Message{
+      message = %Message{
         comments: "major issue to report",
         email: "disgruntled@user.com",
         phone: "1231231234",
@@ -148,9 +156,9 @@ defmodule Feedback.MailerTest do
         service: "Complaint"
       }
 
-      assert ExUnit.CaptureLog.capture_log(fn ->
+      assert CaptureLog.capture_log(fn ->
                Logger.configure(level: :info)
-               Feedback.Mailer.send_heat_ticket(message, nil)
+               Mailer.send_heat_ticket(message, nil)
              end) =~ "disgruntled@user.com"
     end
   end

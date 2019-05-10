@@ -79,7 +79,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
   end
 
   defp build_headers("true") do
-    {_, _, proxy_url} = Application.get_env(:trip_plan, OpenTripPlanner)[:root_url]
+    proxy_url = Application.get_env(:trip_plan, OpenTripPlanner)[:wiremock_proxy_url]
     [{"X-WM-Proxy-Url", proxy_url}]
   end
 

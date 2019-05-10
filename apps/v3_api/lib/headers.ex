@@ -31,7 +31,7 @@ defmodule V3Api.Headers do
 
   @spec do_proxy_headers(String.t() | nil, header_list) :: header_list
   defp do_proxy_headers("true", headers) do
-    {_, _, proxy_url} = Application.get_env(:v3_api, :base_url)
+    proxy_url = Application.get_env(:v3_api, :wiremock_proxy_url)
     [{"X-WM-Proxy-Url", proxy_url} | headers]
   end
 

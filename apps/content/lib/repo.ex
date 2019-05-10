@@ -111,38 +111,6 @@ defmodule Content.Repo do
     if cached_value == :empty || cached_value == :error, do: nil, else: cached_value
   end
 
-  @spec create_event(String.t()) ::
-          {:ok, Event.t()} | {:error, map} | {:error, String.t()}
-  def create_event(body) do
-    with {:ok, api_data} <- @cms_api.post("entity/node", body) do
-      {:ok, Event.from_api(api_data)}
-    end
-  end
-
-  @spec update_event(integer, String.t()) ::
-          {:ok, Event.t()} | {:error, map} | {:error, String.t()}
-  def update_event(id, body) do
-    with {:ok, api_data} <- @cms_api.update("node/#{id}", body) do
-      {:ok, Event.from_api(api_data)}
-    end
-  end
-
-  @spec create_news_entry(String.t()) ::
-          {:ok, NewsEntry.t()} | {:error, map} | {:error, String.t()}
-  def create_news_entry(body) do
-    with {:ok, api_data} <- @cms_api.post("entity/node", body) do
-      {:ok, NewsEntry.from_api(api_data)}
-    end
-  end
-
-  @spec update_news_entry(integer, String.t()) ::
-          {:ok, NewsEntry.t()} | {:error, map} | {:error, String.t()}
-  def update_news_entry(id, body) do
-    with {:ok, api_data} <- @cms_api.update("node/#{id}", body) do
-      {:ok, NewsEntry.from_api(api_data)}
-    end
-  end
-
   @spec search(String.t(), integer, [String.t()]) :: any
   def search(query, offset, content_types) do
     params = [q: query, page: offset] ++ Enum.map(content_types, &{:"type[]", &1})

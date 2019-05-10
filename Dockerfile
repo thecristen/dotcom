@@ -2,6 +2,8 @@ FROM elixir:1.8.1
 
 WORKDIR /root
 
+ARG SENTRY_DSN="" 
+
 # Configure Git to use HTTPS in order to avoid issues with the internal MBTA network
 RUN git config --global url.https://github.com/.insteadOf git://github.com/
 
@@ -29,7 +31,7 @@ WORKDIR /root/apps/site/
 RUN mix do deps.get, deps.compile
 
 WORKDIR /root/apps/site/assets/
-RUN npm install && npm run webpack:build -- --env.SENTRY_DSN="https://23b9a84dd83e417ea104fab305f78dd3@sentry.io/194344"
+RUN npm install && npm run webpack:build -- --env.SENTRY_DSN=$SENTRY_DSN
 
 WORKDIR /root/apps/site/react_renderer/
 RUN npm install && npx webpack

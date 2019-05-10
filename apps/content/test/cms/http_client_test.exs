@@ -132,22 +132,4 @@ defmodule Content.CMS.HTTPClientTest do
       end
     end
   end
-
-  describe "post/2" do
-    test "makes a post request" do
-      with_mock ExternalRequest, process: fn _method, _path, _body -> {:ok, []} end do
-        post("/path", "body")
-        assert called(ExternalRequest.process(:post, "/path", "body"))
-      end
-    end
-  end
-
-  describe "update/2" do
-    test "makes a patch request" do
-      with_mock ExternalRequest, process: fn _method, _path, _body -> {:ok, []} end do
-        update("/path", "body")
-        assert called(ExternalRequest.process(:patch, "/path", "body"))
-      end
-    end
-  end
 end

@@ -8,7 +8,7 @@ use Mix.Config
 # Configures the endpoint
 config :site, SiteWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "4DTl03knjPRXF9QYrTqcVRZUy8hN5gS6x6rN1mIImpo1rcN79d77ZAfShyVqDzx/",
+  secret_key_base: System.get_env("SITE_SECRET_KEY_BASE"),
   render_errors: [accepts: ~w(html), layout: {SiteWeb.LayoutView, "app.html"}],
   pubsub: [name: Site.PubSub, adapter: Phoenix.PubSub.PG2]
 
