@@ -28,26 +28,43 @@ defmodule Mix.Tasks.Csv.Update.Zones do
     child_stops =
       csv_parent
       |> Enum.map(fn parent -> {get_children(parent), parent.zone} end)
-      |> Enum.reject(fn {children, _zone} -> is_nil(children) end)
-      |> Enum.flat_map(fn {children, zone} ->
-        Enum.map(children, fn child -> [child, zone] end)
-      end)
+      |> Enum.flat_map(&build_row/1)
+      |> CSV.encode()
+      |> Enum.join()
 
-    final = child_stops |> CSV.encode() |> Enum.join()
+    parent_stops =
+      csv_parent
+      |> Enum.reduce([], &get_parent_stop/2)
+      |> Enum.flat_map(&build_row/1)
+      |> CSV.encode()
+      |> Enum.join()
 
-    FileWrapper.write_file(Path.join(output_folder, "crzones.csv"), original <> final)
+    FileWrapper.write_file(
+      Path.join(output_folder, "crzones.csv"),
+      original <> child_stops <> parent_stops
+    )
   end
 
-  def child_ids(%Stop{child_ids: []}), do: nil
+  defp build_row({children, zone}) do
+    Enum.map(children, &[&1, zone])
+  end
+
+  def get_parent_stop(%{id: child_id, zone: zone}, acc) do
+    case Stops.Repo.get(child_id) do
+      %Stop{parent_id: nil} -> acc
+      %Stop{parent_id: parent_id} -> [{[parent_id], zone} | acc]
+    end
+  end
+
   def child_ids(%Stop{child_ids: ids}), do: ids
 
   def get_children(%{id: id, zone: _}) do
-    children = id |> Repo.get() |> child_ids
-
-    if children do
-      Enum.reject(children, &(Repo.get(&1).type == :entrance))
-    else
-      nil
-    end
+    id
+    |> Repo.get()
+    |> child_ids()
+    |> Enum.filter(&(&1 |> Repo.get() |> is_stop?()))
   end
+
+  defp is_stop?(%Stop{type: type}) when type in [:station, :stop], do: true
+  defp is_stop?(_), do: false
 end
