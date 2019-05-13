@@ -17,7 +17,7 @@ defmodule Feedback.MailerTest do
         nil
       )
 
-      assert Test.latest_message()["to"] == "heatsm@mbta.com"
+      assert Test.latest_message()["to"] == "test@test.com"
     end
 
     test "has the body format that heat 2 expects" do
