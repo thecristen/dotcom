@@ -23,10 +23,28 @@ const hours = `<div class="m-schedule-page__sidebar-hours">  <h3 class="hours-pe
 </p>
 </div>`;
 
+const fares = [
+  {
+    title: "CharlieCard",
+    price: "$2.25"
+  },
+  {
+    title: "CharlieTicket or Cash",
+    price: "$2.75"
+  }
+];
+
+const fareLink = "/fares/bus-fares";
+
 it("it renders", () => {
   createReactRoot();
   const tree = renderer
-    .create(<SchedulePage schedulePageData={{ pdfs, teasers, hours }} />)
+    .create(
+      <SchedulePage
+        // eslint-disable-next-line typescript/camelcase
+        schedulePageData={{ pdfs, teasers, hours, fares, fare_link: fareLink }}
+      />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });

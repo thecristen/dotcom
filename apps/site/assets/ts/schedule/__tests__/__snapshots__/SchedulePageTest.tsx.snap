@@ -95,6 +95,79 @@ Array [
     </div>
   </noscript>,
   <h3
+    aria-controls="panel-fares"
+    aria-expanded={false}
+    className="c-expandable-block__header"
+    id="header-fares"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex={0}
+  >
+    Fares
+    <span
+      className="c-expandable-block__header-caret"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "&#xF107;",
+        }
+      }
+    />
+  </h3>,
+  <noscript>
+    <style>
+      #header-fares { display: none; }
+    </style>
+    <h3
+      className="c-expandable-block__header"
+    >
+      Fares
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF106;",
+          }
+        }
+      />
+    </h3>
+    <div
+      className="c-expandable-block__panel"
+      role="region"
+    >
+      <p
+        className="m-schedule-page__fare"
+      >
+        <span>
+          CharlieCard
+        </span>
+        <span>
+          $2.25
+        </span>
+      </p>
+      <p
+        className="m-schedule-page__fare"
+      >
+        <span>
+          CharlieTicket or Cash
+        </span>
+        <span>
+          $2.75
+        </span>
+      </p>
+      <p
+        className="m-schedule-page__link"
+      >
+        <a
+          className="c-call-to-action"
+          href="/fares/bus-fares"
+        >
+          More about fares
+        </a>
+      </p>
+    </div>
+  </noscript>,
+  <h3
     aria-controls="panel-hours"
     aria-expanded={false}
     className="c-expandable-block__header"

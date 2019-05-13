@@ -41,7 +41,12 @@ defmodule SiteWeb.ScheduleController.LineController do
               conn.assigns
             )
           ),
-        hours: HTML.safe_to_string(ScheduleView.render("_hours_of_op.html", conn.assigns))
+        hours: HTML.safe_to_string(ScheduleView.render("_hours_of_op.html", conn.assigns)),
+        fares:
+          Enum.map(ScheduleView.single_trip_fares(conn.assigns.route), fn {title, price} ->
+            %{title: title, price: price}
+          end),
+        fare_link: ScheduleView.route_fare_link(conn.assigns.route)
       }
     )
     |> render("show.html", [])

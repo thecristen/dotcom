@@ -19,3 +19,12 @@
 .m-schedule__map {
   height: $base-spacing * 25;
 }
+
+.m-schedule-page__fare {
+  display: flex;
+  justify-content: space-between;
+}
+
+.m-schedule-page__link {
+  margin-top: $base-spacing / 2;
+}
