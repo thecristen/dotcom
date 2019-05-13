@@ -78,7 +78,6 @@ defmodule SiteWeb.StopController do
         |> assign(:zone_number, Zones.Repo.get(stop.id))
         |> assign(:breadcrumbs_title, breadcrumbs(stop, routes_by_stop))
         |> assign(:tab, tab_value(query_params["tab"]))
-        |> assign(:requires_google_maps?, true)
         |> async_assign_default(
           :retail_locations,
           fn ->
