@@ -19,7 +19,6 @@ defmodule SiteWeb.ScheduleController.LineController do
   plug(SiteWeb.ScheduleController.VehicleTooltips)
   plug(SiteWeb.ScheduleController.Line)
   plug(SiteWeb.ScheduleController.CMS)
-  plug(:require_map)
   plug(:channel_id)
 
   def show(conn, _) do
@@ -51,8 +50,6 @@ defmodule SiteWeb.ScheduleController.LineController do
   defp tab_name(conn, _), do: assign(conn, :tab, "line")
 
   defp alerts(conn, _), do: assign_alerts(conn, [])
-
-  defp require_map(conn, _), do: assign(conn, :requires_google_maps?, true)
 
   defp channel_id(conn, _) do
     assign(conn, :channel, "vehicles:#{conn.assigns.route.id}:#{conn.assigns.direction_id}")

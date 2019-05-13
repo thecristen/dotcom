@@ -2,16 +2,16 @@ import React from "react";
 import { mount } from "enzyme";
 import MapWrapper, { Props } from "../components/leaflet/MapWrapper";
 import { Stop, Route } from "../../__v3api";
+import { MapMarker } from "../../leaflet/components/__mapdata";
 
 /* eslint-disable typescript/camelcase */
-const marker = {
-  z_index: 0,
-  "visible?": false,
-  tooltip: null,
+const marker: MapMarker = {
+  icon: "test",
+  id: "stop-id",
   latitude: 41.0,
   longitude: -71.0,
-  id: "stop-id",
-  icon: "test"
+  rotation_angle: 0,
+  tooltip: null
 };
 
 const stop: Stop = {

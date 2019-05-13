@@ -1,6 +1,11 @@
 import { Icon } from "leaflet";
 import { IconOpts } from "../leaflet/components/__mapdata";
 
+export type IconType = (
+  icon: string | null,
+  opts: IconOpts | undefined
+) => Icon | undefined;
+
 export default (
   icon: string | null,
   opts: IconOpts = {

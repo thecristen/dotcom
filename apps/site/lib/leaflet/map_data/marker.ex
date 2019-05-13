@@ -3,34 +3,37 @@ defmodule Leaflet.MapData.Marker do
   Represents a leaflet map marker.
   """
 
-  @default_opts [icon: nil, tooltip: ""]
-
   defstruct id: nil,
+            icon: nil,
             latitude: 0.0,
             longitude: 0.0,
-            icon: nil,
-            tooltip: "",
-            size: nil
+            rotation_angle: 0,
+            size: nil,
+            tooltip: nil,
+            tooltip_text: nil
 
   @type t :: %__MODULE__{
-          id: integer | String.t() | nil,
+          id: integer | nil,
+          icon: String.t() | nil,
           latitude: float,
           longitude: float,
-          icon: String.t() | nil,
-          tooltip: String.t(),
-          size: [integer] | nil
+          rotation_angle: integer,
+          size: [integer] | nil,
+          tooltip: String.t() | nil,
+          tooltip_text: String.t() | nil
         }
 
+  @spec new(float, float, Keyword.t()) :: t()
   def new(latitude, longitude, opts \\ []) do
-    map_options = Keyword.merge(@default_opts, opts)
-
     %__MODULE__{
-      id: map_options[:id],
+      icon: Keyword.get(opts, :icon),
+      id: Keyword.get(opts, :id),
       latitude: latitude,
       longitude: longitude,
-      icon: map_options[:icon],
-      size: map_options[:size],
-      tooltip: map_options[:tooltip]
+      rotation_angle: Keyword.get(opts, :rotation_angle, 0),
+      size: Keyword.get(opts, :size),
+      tooltip: Keyword.get(opts, :tooltip),
+      tooltip_text: Keyword.get(opts, :tooltip_text)
     }
   end
 end

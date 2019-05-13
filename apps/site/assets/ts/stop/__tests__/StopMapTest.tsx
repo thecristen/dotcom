@@ -19,10 +19,10 @@ const initialData: StopMapData = {
         latitude: 25,
         longitude: 25,
         icon: null,
-        "visible?": true,
+        rotation_angle: 0,
         size: [25, 25],
         tooltip: null,
-        z_index: 1
+        tooltip_text: null
       }
     ],
     polylines: [],

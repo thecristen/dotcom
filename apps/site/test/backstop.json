@@ -209,7 +209,6 @@
     {
       "label": "Bus Map & Info",
       "url": "http://host.docker.internal:8082/schedules/1/line?direction_id=0&trip=&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
-      "hideSelectors": [".map"],
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
       "delay": 1000,
@@ -275,7 +274,6 @@
       "label": "Commuter Rail Maps and Info Worcester",
       "url": "http://host.docker.internal:8082/schedules/CR-Worcester/line?direction_id=0&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
       "selectors": [".schedule__header"],
-      "hideSelectors": [".map"],
       "removeSelectors": [".pdf-links"],
       "delay": 1000,
       "misMatchThreshold": 0.01
@@ -284,7 +282,6 @@
       "label": "Commuter Rail Maps and Info Worcester",
       "url": "http://host.docker.internal:8082/schedules/CR-Worcester/line?direction_id=0&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
       "selectors": ["main"],
-      "hideSelectors": [".map"],
       "removeSelectors": [".pdf-links"],
       "delay": 1000,
       "misMatchThreshold": 0.01

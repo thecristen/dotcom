@@ -1,9 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import SchedulePage from "./components/SchedulePage";
+import Map from "./components/Map";
 import { SchedulePageData } from "./components/__schedule";
+import { MapData } from "../leaflet/components/__mapdata";
 
 const render = (): void => {
+  const mapDataEl = document.getElementById("js-map-data");
+  if (!mapDataEl) throw new Error("cannot find #js-map-data");
+  const mapEl = document.getElementById("map-root");
+  if (!mapEl) throw new Error("cannot find #map-root");
+  const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
+  ReactDOM.render(<Map data={mapData} />, mapEl);
+
   const schedulePageDataEl = document.getElementById("js-schedule-page-data");
   if (!schedulePageDataEl) return;
   const schedulePageData = JSON.parse(

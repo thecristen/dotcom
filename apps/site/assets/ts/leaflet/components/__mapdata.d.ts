@@ -13,13 +13,15 @@ export interface IconOpts {
 
 export interface MapMarker {
   icon: string | null;
+  iconOpts?: IconOpts;
   id: string | null;
   longitude: number;
   latitude: number;
   size?: number[];
+  rotation_angle: number;
   tooltip: ReactElement<HTMLElement> | null;
-  "visible?": boolean;
-  z_index: number;
+  tooltip_text?: string | null;
+  zIndex?: number;
 }
 
 export interface Polyline {

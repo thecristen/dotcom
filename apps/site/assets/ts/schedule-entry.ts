@@ -1,5 +1,4 @@
 import * as Sentry from "@sentry/browser";
-import googleMapsLoaded from "../js/google-maps-loaded";
 import schedule from "./schedule/schedule-loader";
 
 /* eslint-disable no-undef */
@@ -12,5 +11,4 @@ if (process.env.NODE_ENV === "production" && SENTRY_DSN) {
 }
 /* eslint-enable no-undef */
 
-googleMapsLoaded();
 schedule();

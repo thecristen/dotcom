@@ -12,15 +12,14 @@ import { Stop, Route } from "../../__v3api";
 import { StopWithRoutes } from "../components/__tnm";
 
 const marker: MapMarker = {
+  icon: null,
   id: "current-location",
   latitude: 25,
   longitude: 25,
-  icon: null,
-  "visible?": true,
-  size: [25, 25],
-  tooltip: null,
   // eslint-disable-next-line typescript/camelcase
-  z_index: 1
+  rotation_angle: 0,
+  size: [25, 25],
+  tooltip: null
 };
 
 it("it renders without initial markers", () => {

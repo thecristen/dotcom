@@ -1,17 +1,17 @@
 import React from "react";
 import { mount } from "enzyme";
 import Map from "../components/Map";
-import { MapData } from "../components/__mapdata";
+import { MapData, MapMarker } from "../components/__mapdata";
 
 /* eslint-disable typescript/camelcase */
-const marker = {
-  z_index: 0,
-  "visible?": false,
-  tooltip: null,
-  longitude: -71.071097,
-  latitude: 42.43668,
+const marker: MapMarker = {
+  icon: "test",
   id: "marker",
-  icon: "test"
+  latitude: 42.43668,
+  longitude: -71.071097,
+  rotation_angle: 0,
+  tooltip: null,
+  tooltip_text: null
 };
 
 const data: MapData = {
