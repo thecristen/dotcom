@@ -173,7 +173,7 @@ defmodule Stops.Api do
     :entrance
   end
 
-  defp type(%Item{attributes: %{"locaton_type" => 3}}) do
+  defp type(%Item{attributes: %{"location_type" => 3}}) do
     # A generic nodes within a parent station which is neither a service stop
     # nor a station entrance. These node stops will be used for locations such
     # as (but not limited to) the ends of staircases, elevators, escalators,
