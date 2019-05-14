@@ -30,7 +30,7 @@ Array [
     tabIndex={0}
   >
     <a
-      className="m-schedule-sidebar__pdfs"
+      className="m-schedule-page__sidebar-pdfs"
       href="https://mbta.com/example-pdf.pdf"
       rel="noopener noreferrer"
       target="_blank"
@@ -69,7 +69,7 @@ Array [
       role="region"
     >
       <a
-        className="m-schedule-sidebar__pdfs"
+        className="m-schedule-page__sidebar-pdfs"
         href="https://mbta.com/example-pdf.pdf"
         rel="noopener noreferrer"
         target="_blank"

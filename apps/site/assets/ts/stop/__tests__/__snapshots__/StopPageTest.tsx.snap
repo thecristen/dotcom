@@ -2908,17 +2908,17 @@ Array [
                 className="m-stop-page__sidebar-list"
               >
                 <li
-                  className="m-stop-page__sidebar-list-item"
+                  className="c-unordered-list-item"
                 >
                   Escalator (up and down)
                 </li>
                 <li
-                  className="m-stop-page__sidebar-list-item"
+                  className="c-unordered-list-item"
                 >
                   Elevator
                 </li>
                 <li
-                  className="m-stop-page__sidebar-list-item"
+                  className="c-unordered-list-item"
                 >
                   Full high level platform to provide level boarding to every car in a train set
                 </li>
@@ -2985,17 +2985,17 @@ Array [
                   className="m-stop-page__sidebar-list"
                 >
                   <li
-                    className="m-stop-page__sidebar-list-item"
+                    className="c-unordered-list-item"
                   >
                     Escalator (up and down)
                   </li>
                   <li
-                    className="m-stop-page__sidebar-list-item"
+                    className="c-unordered-list-item"
                   >
                     Elevator
                   </li>
                   <li
-                    className="m-stop-page__sidebar-list-item"
+                    className="c-unordered-list-item"
                   >
                     Full high level platform to provide level boarding to every car in a train set
                   </li>
@@ -3267,11 +3267,11 @@ Array [
                 South Station has the following bike storage features:
               </p>
               <ul
-                className="m-stop-page__sidebar-list"
+                className="c-unordered-list"
               >
                 <div>
                   <li
-                    className="m-stop-page__sidebar-list-item"
+                    className="c-unordered-list-item"
                   >
                     Pedal and Park
                   </li>
@@ -3365,20 +3365,20 @@ Array [
                 You may purchase fares at South Station.
               </p>
               <ul
-                className="m-stop-page__sidebar-list"
+                className="c-unordered-list"
               >
                 <li
-                  className="m-stop-page__sidebar-list-item"
+                  className="c-unordered-list-item"
                 >
                   Service agent with blank CharlieCards
                 </li>
                 <li
-                  className="m-stop-page__sidebar-list-item"
+                  className="c-unordered-list-item"
                 >
                   Fare vending machines are available
                 </li>
                 <li
-                  className="m-stop-page__sidebar-list-item"
+                  className="c-unordered-list-item"
                 >
                   Commuter Rail ticket window
                 </li>

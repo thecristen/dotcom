@@ -37,7 +37,7 @@ Array [
     tabIndex={0}
   >
     <a
-      className="m-schedule-sidebar__pdfs"
+      className="m-schedule-page__sidebar-pdfs"
       href="https://mbta.com/example-pdf.pdf"
       rel="noopener noreferrer"
       target="_blank"
@@ -76,7 +76,7 @@ Array [
       role="region"
     >
       <a
-        className="m-schedule-sidebar__pdfs"
+        className="m-schedule-page__sidebar-pdfs"
         href="https://mbta.com/example-pdf.pdf"
         rel="noopener noreferrer"
         target="_blank"
@@ -225,6 +225,67 @@ Array [
           }
         }
       />
+    </div>
+  </noscript>,
+  <h3
+    aria-controls="panel-holidays"
+    aria-expanded={false}
+    className="c-expandable-block__header"
+    id="header-holidays"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex={0}
+  >
+    Upcoming Holidays
+    <span
+      className="c-expandable-block__header-caret"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "&#xF107;",
+        }
+      }
+    />
+  </h3>,
+  <noscript>
+    <style>
+      #header-holidays { display: none; }
+    </style>
+    <h3
+      className="c-expandable-block__header"
+    >
+      Upcoming Holidays
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF106;",
+          }
+        }
+      />
+    </h3>
+    <div
+      className="c-expandable-block__panel"
+      role="region"
+    >
+      <ul
+        className="c-unordered-list m-schedule-page__sidebar-list"
+      >
+        <li
+          className="c-unordered-list-item"
+        >
+          Memorial Day
+           (
+          May 27, 2019
+          )
+        </li>
+      </ul>
+      <a
+        className="c-call-to-action"
+        href="/holiday"
+      >
+        View holiday schedules
+      </a>
     </div>
   </noscript>,
 ]

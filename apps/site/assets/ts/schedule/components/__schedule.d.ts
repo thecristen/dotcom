@@ -6,6 +6,7 @@ export interface SchedulePageData {
   hours: string;
   fares: Fare[];
   fare_link: string;
+  holidays: Holiday[];
 }
 
 export interface SchedulePDF {
@@ -16,4 +17,9 @@ export interface SchedulePDF {
 export interface Fare {
   title: string;
   price: string;
+}
+
+export interface Holiday {
+  name: string;
+  date: string;
 }

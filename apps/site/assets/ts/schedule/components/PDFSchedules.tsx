@@ -10,7 +10,7 @@ const link = (pdf: SchedulePDF): ReactElement<HTMLElement> => (
     href={pdf.url}
     rel="noopener noreferrer"
     target="_blank"
-    className="m-schedule-sidebar__pdfs"
+    className="m-schedule-page__sidebar-pdfs"
   >
     {renderSvg("c-svg__icon-pdf", pdfIcon)}
     {pdf.title}

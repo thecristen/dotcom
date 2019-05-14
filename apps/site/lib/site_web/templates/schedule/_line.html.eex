@@ -56,19 +56,19 @@
         </div>
       <% else %>
         <%= render "_cms_teasers.html", featured_content: @featured_content, news: @news, conn: @conn %>
+        <%= render "_pdf_schedules.html", assigns %>
       <% end %>
       <%= render "_line_connections.html", assigns %>
-      <%= render "_fares.html", assigns %>
       <%= if !redesign? do %>
+        <%= render "_fares.html", assigns %>
         <div class="hours">
           <%= if assigns[:hours_of_operation] do %>
           <h2 class="hours-heading">Hours of Operation</h3>
           <%= render "_hours_of_op.html", assigns %>
           <% end %>
         </div>
+        <%= render "_holidays.html", assigns %>
       <% end %>
-      <%= render "_holidays.html", assigns %>
-      <%= render "_pdf_schedules.html", assigns %>
       <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
       <%= if Application.get_env(:site, :dev_server?) do %>
         <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/schedule.js" %>"></script>

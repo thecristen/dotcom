@@ -1,4 +1,4 @@
-.m-schedule-sidebar__pdfs {
+.m-schedule-page__sidebar-pdfs {
   display: flex;
   margin-bottom: $base-spacing / 2;
 
@@ -27,4 +27,9 @@
 
 .m-schedule-page__link {
   margin-top: $base-spacing / 2;
+}
+
+.c-unordered-list,
+.m-schedule-page__sidebar-list {
+  padding-left: $base-spacing * 1.5;
 }

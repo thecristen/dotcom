@@ -87,7 +87,7 @@ const Access = ({
   if (access === "unknown" || access === "accessible") return null;
   const accessName = accessibilityNames[access] || formatAccess(access);
 
-  return <li className="m-stop-page__sidebar-list-item">{accessName}</li>;
+  return <li className="c-unordered-list-item">{accessName}</li>;
 };
 
 const hasAccessibilityFeatures = (stop: Stop): boolean =>

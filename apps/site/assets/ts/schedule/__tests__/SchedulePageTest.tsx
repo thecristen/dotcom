@@ -35,14 +35,26 @@ const fares = [
 ];
 
 const fareLink = "/fares/bus-fares";
+const holidays = [
+  {
+    name: "Memorial Day",
+    date: "May 27, 2019"
+  }
+];
 
 it("it renders", () => {
   createReactRoot();
   const tree = renderer
     .create(
       <SchedulePage
-        // eslint-disable-next-line typescript/camelcase
-        schedulePageData={{ pdfs, teasers, hours, fares, fare_link: fareLink }}
+        schedulePageData={{
+          pdfs,
+          teasers,
+          hours,
+          holidays,
+          fares,
+          fare_link: fareLink // eslint-disable-line typescript/camelcase
+        }}
       />
     )
     .toJSON();

@@ -27,9 +27,9 @@ const fareFacilityList = (
   facilities: FareFacilityType[]
 ): ReactElement<HTMLUListElement> => (
   <>
-    <ul className="m-stop-page__sidebar-list">
+    <ul className="c-unordered-list">
       {facilities.map(type => (
-        <li key={type} className="m-stop-page__sidebar-list-item">
+        <li key={type} className="c-unordered-list-item">
           {fareNames[type]}
         </li>
       ))}
