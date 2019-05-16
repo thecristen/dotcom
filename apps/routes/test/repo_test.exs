@@ -13,7 +13,7 @@ defmodule Routes.RepoTest do
                type: 1,
                name: "Red Line",
                long_name: "Red Line",
-               direction_names: %{0 => "South", 1 => "North"},
+               direction_names: %{0 => "Southbound", 1 => "Northbound"},
                direction_destinations: %{0 => "Ashmont/Braintree", 1 => "Alewife"},
                description: :rapid_transit
              }
@@ -29,7 +29,7 @@ defmodule Routes.RepoTest do
                type: 0,
                name: "Green Line B",
                long_name: "Green Line B",
-               direction_names: %{0 => "West", 1 => "East"},
+               direction_names: %{0 => "Westbound", 1 => "Eastbound"},
                direction_destinations: %{0 => "Boston College", 1 => "Park Street"},
                description: :rapid_transit
              }

@@ -48,7 +48,7 @@ defmodule SiteWeb.ScheduleViewTest do
     end
 
     test "given a non-empty list of predicted_schedules, displays the direction of the first one's route" do
-      route = %Routes.Route{direction_names: %{1 => "North"}}
+      route = %Routes.Route{direction_names: %{1 => "Northbound"}}
       trip = %Trip{direction_id: 1}
 
       journeys =
@@ -66,7 +66,7 @@ defmodule SiteWeb.ScheduleViewTest do
 
     test "uses predictions if no schedule are available (as on subways)" do
       route = %Routes.Route{
-        direction_names: %{1 => "North"},
+        direction_names: %{1 => "Northbound"},
         id: "1",
         direction_destinations: %{1 => "End"}
       }

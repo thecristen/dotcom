@@ -152,21 +152,12 @@ defmodule Routes.Route do
       when direction_id in [0, 1] do
     names
     |> Map.get(direction_id)
-    |> add_direction_suffix()
   end
 
   def direction_destination(%__MODULE__{direction_destinations: destinations}, direction_id)
       when direction_id in [0, 1] do
     Map.fetch!(destinations, direction_id)
   end
-
-  @spec add_direction_suffix(String.t()) :: String.t()
-  def add_direction_suffix("North"), do: "Northbound"
-  def add_direction_suffix("South"), do: "Southbound"
-  def add_direction_suffix("East"), do: "Eastbound"
-  def add_direction_suffix("West"), do: "Westbound"
-  def add_direction_suffix(nil), do: ""
-  def add_direction_suffix(direction), do: direction
 
   @spec vehicle_name(t) :: String.t()
   def vehicle_name(%__MODULE__{type: type}) when type in [0, 1, 2] do

@@ -117,11 +117,11 @@ defmodule Routes.RouteTest do
     test "returns the name of the direction" do
       assert direction_name(%Route{}, 0) == "Outbound"
       assert direction_name(%Route{}, 1) == "Inbound"
-      assert direction_name(%Route{direction_names: %{0 => "North"}}, 0) == "Northbound"
-      assert direction_name(%Route{direction_names: %{0 => "South"}}, 0) == "Southbound"
-      assert direction_name(%Route{direction_names: %{0 => "East"}}, 0) == "Eastbound"
-      assert direction_name(%Route{direction_names: %{0 => "West"}}, 0) == "Westbound"
-      assert direction_name(%Route{direction_names: %{0 => nil}}, 0) == ""
+      assert direction_name(%Route{direction_names: %{0 => "Northbound"}}, 0) == "Northbound"
+      assert direction_name(%Route{direction_names: %{0 => "Southbound"}}, 0) == "Southbound"
+      assert direction_name(%Route{direction_names: %{0 => "Eastbound"}}, 0) == "Eastbound"
+      assert direction_name(%Route{direction_names: %{0 => "Westbound"}}, 0) == "Westbound"
+      assert direction_name(%Route{direction_names: %{0 => ""}}, 0) == ""
     end
   end
 

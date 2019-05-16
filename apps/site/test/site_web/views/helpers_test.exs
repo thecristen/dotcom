@@ -290,7 +290,7 @@ defmodule SiteWeb.ViewHelpersTest do
                 custom_route?: false,
                 description: :rail_replacement_bus,
                 direction_destinations: %{0 => nil, 1 => nil},
-                direction_names: %{0 => nil, 1 => nil},
+                direction_names: %{0 => "", 1 => ""},
                 id: "Shuttle-NewtonHighlandsRiverside",
                 long_name: "Green Line D Shuttle",
                 name: "Green Line D Shuttle",

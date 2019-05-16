@@ -12,7 +12,7 @@ defmodule Site.JsonHelpers do
     route
     |> Map.update!(:direction_names, fn map ->
       Map.new(map, fn {key, val} ->
-        {Integer.to_string(key), Route.add_direction_suffix(val)}
+        {Integer.to_string(key), val}
       end)
     end)
     |> Map.update!(:direction_destinations, fn map ->
