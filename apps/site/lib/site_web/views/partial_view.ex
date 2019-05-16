@@ -180,15 +180,8 @@ defmodule SiteWeb.PartialView do
   end
 
   @spec news_color(Teaser.t()) :: String.t()
-  defp news_color(%Teaser{routes: []}) do
-    "unknown"
-  end
-
-  defp news_color(%Teaser{routes: routes}) do
-    routes
-    |> List.first()
-    |> cms_route_to_class()
-  end
+  defp news_color(%Teaser{routes: []}), do: "unknown"
+  defp news_color(%Teaser{routes: [route | _]}), do: cms_route_to_class(route)
 
   @spec news_path(Teaser.t(), module | Conn.t()) :: String.t()
   defp news_path(%Teaser{path: url}, conn), do: cms_static_page_path(conn, url)

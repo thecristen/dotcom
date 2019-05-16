@@ -1,6 +1,8 @@
 defmodule SiteWeb.PageController do
   use SiteWeb, :controller
 
+  import SiteWeb.ContentHelpers, only: [cms_route_to_class: 1]
+
   alias Content.{Banner, Teaser, WhatsHappeningItem}
 
   plug(SiteWeb.Plugs.TransitNearMe)
@@ -97,7 +99,7 @@ defmodule SiteWeb.PageController do
   defp utm_type(%WhatsHappeningItem{}, false), do: "whats-happening-secondary"
 
   @spec utm_term(content) :: String.t()
-  defp utm_term(%{mode: mode}), do: mode
+  defp utm_term(%{routes: [route | _]}), do: cms_route_to_class(route)
   defp utm_term(_), do: "null"
 
   @spec do_add_utm_url(content, String.t()) :: content

@@ -3,7 +3,13 @@ defmodule Content.Teaser do
   A short, simplified representation of any our content types.
   Fed by the /cms/teasers CMS API endpoint.
   """
-  import Content.Helpers, only: [content_type: 1, content: 1, int_or_string_to_int: 1]
+  import Content.Helpers,
+    only: [
+      content_type: 1,
+      content: 1,
+      int_or_string_to_int: 1,
+      routes: 1
+    ]
 
   alias Content.{CMS, Field.Image}
 
@@ -20,12 +26,6 @@ defmodule Content.Teaser do
     location: nil,
     routes: []
   ]
-
-  @type cms_route :: %{
-          id: String.t(),
-          group: String.t(),
-          mode: String.t()
-        }
 
   @type location :: [
           place: String.t() | nil,
@@ -44,7 +44,7 @@ defmodule Content.Teaser do
           topic: String.t() | nil,
           date: Date.t() | DateTime.t() | nil,
           location: location() | nil,
-          routes: [cms_route()]
+          routes: [CMS.route_term()]
         }
 
   @spec from_api(map()) :: __MODULE__.t()
@@ -136,30 +136,4 @@ defmodule Content.Teaser do
   defp location(_not_an_event) do
     nil
   end
-
-  @spec routes([map()]) :: [cms_route()]
-  defp routes(route_data) do
-    route_data
-    |> Enum.map(& &1["data"])
-    |> Enum.map(&route_metadata/1)
-    |> Enum.reject(&is_nil/1)
-  end
-
-  # Maps the tagged CMS route term, it's group, and it's parent mode.
-  # Parent mode is useful for "misc" group terms that don't have matching
-  # route IDs in Elixir's route repository, such as "local_bus".
-  @spec route_metadata(map()) :: cms_route()
-  defp route_metadata(route_data) do
-    Map.new(
-      id: route_data["gtfs_id"],
-      group: route_data["gtfs_group"],
-      mode: route_data["gtfs_ancestry"]["mode"] |> route_mode()
-    )
-  end
-
-  # Some CMS routes are actually custom groups that may
-  # not have any single mode associated with them.
-  @spec route_mode([String.t()] | nil) :: String.t()
-  defp route_mode(nil), do: nil
-  defp route_mode([initial_mode | _]), do: initial_mode
 end

@@ -3,6 +3,8 @@ defmodule Content.Helpers do
   Various helper functions that aid in parsing CMS JSON data.
   """
 
+  alias Content.CMS
+
   @spec field_value(map, String.t()) :: any
   def field_value(parsed, field) do
     case parsed[field] do
@@ -205,4 +207,38 @@ defmodule Content.Helpers do
       string -> string
     end
   end
+
+  @doc """
+  Parses the related_transit field for route-specific data. Could
+  contain multiple routes. Contains mode, branch, and other info.
+  """
+  @spec routes([map()]) :: [CMS.route_term()]
+  def routes(route_data) do
+    route_data
+    |> Enum.map(&Map.get(&1, "data"))
+    |> Enum.map(&route_metadata/1)
+  end
+
+  # Maps the tagged CMS route term, its group, and its parent mode.
+  # For routes and misc. groupings like "local_bus," the CMS will have
+  # mapped the appropriate GTFS mode to that tag prior to parsing here.
+  @spec route_metadata(map()) :: CMS.route_term()
+  defp route_metadata(route_data) do
+    Map.new(
+      id: Map.get(route_data, "gtfs_id"),
+      group: Map.get(route_data, "gtfs_group"),
+      mode:
+        route_data
+        |> Map.get("gtfs_ancestry")
+        |> Map.get("mode")
+        |> route_mode()
+    )
+  end
+
+  # Some CMS routes are actually custom groups that may not
+  # have any single MBTA mode associated with them (mode: nil).
+  # There should never be more than one, single mode in the list.
+  @spec route_mode([String.t()] | nil) :: String.t() | nil
+  defp route_mode(nil), do: nil
+  defp route_mode([mode]), do: mode
 end

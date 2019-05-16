@@ -427,4 +427,57 @@ defmodule Content.HelpersTest do
       assert content(nil) == nil
     end
   end
+
+  describe "routes/1" do
+    test "content w/o any transit tags results in empty list" do
+      tags = []
+
+      assert [] = routes(tags)
+    end
+
+    test "handles valid route tags" do
+      tags = [
+        %{
+          "data" => %{
+            "gtfs_id" => "CR-Providence",
+            "gtfs_group" => "line",
+            "gtfs_ancestry" => %{
+              "mode" => ["commuter_rail"]
+            }
+          }
+        },
+        %{
+          "data" => %{
+            "gtfs_id" => "Green-B",
+            "gtfs_group" => "branch",
+            "gtfs_ancestry" => %{
+              "mode" => ["subway"]
+            }
+          }
+        }
+      ]
+
+      assert [
+               %{id: "CR-Providence", mode: "commuter_rail", group: "line"},
+               %{id: "Green-B", mode: "subway", group: "branch"}
+             ] = routes(tags)
+    end
+
+    test "handles route tags without mode ancestry" do
+      tags = [
+        %{
+          "data" => %{
+            "gtfs_id" => "limited_service",
+            "gtfs_group" => "custom",
+            "gtfs_ancestry" => %{
+              "mode" => nil,
+              "custom" => ["misc"]
+            }
+          }
+        }
+      ]
+
+      assert [%{id: "limited_service", mode: nil, group: "custom"}] = routes(tags)
+    end
+  end
 end

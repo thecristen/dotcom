@@ -1,5 +1,6 @@
 defmodule SiteWeb.PageView do
   import Phoenix.HTML.Tag
+  import SiteWeb.ContentHelpers, only: [cms_route_to_class: 1]
 
   alias Content.Banner
   alias Content.Paragraph.ColumnMulti
@@ -138,7 +139,8 @@ defmodule SiteWeb.PageView do
 
   @spec banner_bg_class(Banner.t()) :: [String.t()]
   defp banner_bg_class(%Banner{banner_type: :important}), do: []
-  defp banner_bg_class(%Banner{mode: mode}), do: ["u-bg--" <> CSSHelpers.atom_to_class(mode)]
+  defp banner_bg_class(%Banner{routes: []}), do: ["u-bg--unknown"]
+  defp banner_bg_class(%Banner{routes: [route | _]}), do: ["u-bg--" <> cms_route_to_class(route)]
 
   @spec banner_cta(Banner.t()) :: Phoenix.HTML.Safe.t()
   defp banner_cta(%Banner{banner_type: :important, link: %{title: title}}) do

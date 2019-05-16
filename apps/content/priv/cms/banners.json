@@ -110,7 +110,12 @@
       }
     ],
     "field_page_type": [
-      { "data": null, "id": 248, "name": "Careers", "vocab": "page_type" }
+      {
+        "data": null,
+        "id": 248,
+        "name": "Careers",
+        "vocab": "page_type"
+      }
     ],
     "field_image": [
       {
@@ -130,6 +135,25 @@
     "field_mode": [
       {
         "value": "commuter_rail"
+      }
+    ],
+    "field_related_transit": [
+      {
+        "id": 206,
+        "name": "CR-Franklin",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "CR-Franklin",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
       }
     ],
     "field_text_position": [],
@@ -255,7 +279,12 @@
       }
     ],
     "field_page_type": [
-      { "data": null, "id": 248, "name": "Guides", "vocab": "page_type" }
+      {
+        "data": null,
+        "id": 248,
+        "name": "Guides",
+        "vocab": "page_type"
+      }
     ],
     "field_image": [
       {
@@ -279,6 +308,25 @@
     "field_mode": [
       {
         "value": "commuter_rail"
+      }
+    ],
+    "field_related_transit": [
+      {
+        "id": 206,
+        "name": "CR-Franklin",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "CR-Franklin",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
       }
     ],
     "field_text_position": [

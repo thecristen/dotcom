@@ -25,7 +25,7 @@ defmodule Content.BannerTest do
              text_position: text_position,
              banner_type: banner_type,
              category: category,
-             mode: mode,
+             routes: routes,
              updated_on: updated_on,
              title: title
            } = Content.Banner.from_api(raw)
@@ -35,9 +35,9 @@ defmodule Content.BannerTest do
     assert text_position == :left
     assert banner_type == :important
     assert category == "Careers"
-    assert mode == :commuter_rail
     assert updated_on == "September 25, 2018"
     assert title == "Headline goes here"
+    assert [%{mode: "commuter_rail"}] = routes
   end
 
   test "it parses fields for a default banner", %{api_notices: [_, raw]} do
@@ -48,7 +48,7 @@ defmodule Content.BannerTest do
              %{"data" => nil, "id" => 248, "name" => "Guides", "vocab" => "page_type"}
            ]
 
-    assert Map.get(raw, "field_mode") == [%{"value" => "commuter_rail"}]
+    assert [%{"name" => "CR-Franklin"}] = Map.get(raw, "field_related_transit")
     assert Map.get(raw, "field_updated_on") == [%{"value" => "2018-10-01"}]
     assert Map.get(raw, "title") == [%{"value" => "Commuter Rail Guide"}]
 
@@ -59,7 +59,7 @@ defmodule Content.BannerTest do
              text_position: text_position,
              banner_type: banner_type,
              category: category,
-             mode: mode,
+             routes: routes,
              updated_on: updated_on,
              title: title
            } = Content.Banner.from_api(raw)
@@ -69,9 +69,9 @@ defmodule Content.BannerTest do
     assert text_position == :right
     assert banner_type == :default
     assert category == "Guides"
-    assert mode == :commuter_rail
     assert updated_on == "October 1, 2018"
     assert title == "Commuter Rail Guide"
+    assert [%{mode: "commuter_rail"}] = routes
   end
 
   test "handles missing values without crashing" do
@@ -82,7 +82,7 @@ defmodule Content.BannerTest do
              text_position: text_position,
              banner_type: banner_type,
              category: category,
-             mode: mode,
+             routes: routes,
              updated_on: updated_on,
              title: title
            } = Content.Banner.from_api(%{})
@@ -91,9 +91,9 @@ defmodule Content.BannerTest do
     assert text_position == :left
     assert banner_type == :default
     assert category == ""
-    assert mode == :unknown
     assert updated_on == ""
     assert title == ""
+    assert routes == []
   end
 
   test "it prefers field_image media image values, if present", %{api_notices: [_, data | _]} do

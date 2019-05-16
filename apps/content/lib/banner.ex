@@ -6,7 +6,15 @@ defmodule Content.Banner do
 
   """
 
-  import Content.Helpers, only: [field_value: 2, parse_link: 2, category: 1]
+  import Content.Helpers,
+    only: [
+      field_value: 2,
+      parse_link: 2,
+      category: 1,
+      routes: 1
+    ]
+
+  alias Content.CMS
   alias Content.Field.Image
   alias Content.Field.Link
 
@@ -16,22 +24,10 @@ defmodule Content.Banner do
             banner_type: :default,
             text_position: :left,
             category: "",
-            mode: :unknown,
+            routes: [],
             updated_on: "",
             title: "",
             utm_url: nil
-
-  @type mode ::
-          :subway
-          | :bus
-          | :commuter_rail
-          | :ferry
-          | :red_line
-          | :orange_line
-          | :blue_line
-          | :green_line
-          | :silver_line
-          | :the_ride
 
   @type t :: %__MODULE__{
           blurb: String.t() | nil,
@@ -40,14 +36,14 @@ defmodule Content.Banner do
           banner_type: :default | :important,
           text_position: :left | :right,
           category: String.t(),
-          mode: mode | :unknown,
+          routes: [CMS.route_term()],
           title: String.t(),
           updated_on: String.t(),
           utm_url: String.t() | nil
         }
 
   @spec from_api(map) :: t
-  def from_api(%{} = data) do
+  def from_api(data) do
     %__MODULE__{
       blurb: field_value(data, "field_in_blurb") || field_value(data, "title") || "",
       link: parse_link(data, "field_in_link"),
@@ -55,7 +51,7 @@ defmodule Content.Banner do
       banner_type: data |> field_value("field_banner_type") |> banner_type(),
       text_position: data |> field_value("field_text_position") |> text_position(),
       category: category(data),
-      mode: data |> field_value("field_mode") |> mode(),
+      routes: data |> Map.get("field_related_transit", []) |> routes(),
       updated_on: data |> field_value("field_updated_on") |> updated_on(),
       title: field_value(data, "title") || "",
       utm_url: nil
@@ -73,15 +69,6 @@ defmodule Content.Banner do
   @spec text_position(String.t() | nil) :: :left | :right
   defp text_position("right"), do: :right
   defp text_position(_), do: :left
-
-  @spec mode(String.t() | nil) :: mode | :unknown
-  for name <-
-        ~w(subway bus commuter_rail ferry red_line orange_line blue_line green_line silver_line the_ride) do
-    atom = String.to_atom(name)
-    defp mode(unquote(name)), do: unquote(atom)
-  end
-
-  defp mode(_), do: :unknown
 
   @spec updated_on(String.t() | nil) :: String.t()
   defp updated_on(date) when is_binary(date) do

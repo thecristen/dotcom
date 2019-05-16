@@ -94,11 +94,16 @@ defmodule SiteWeb.PageControllerTest do
   end
 
   test "adds utm params to url for banner" do
-    with_utm = add_utm_url(%Banner{link: %Link{url: "/path"}, title: "title", mode: "green_line"})
+    with_utm =
+      add_utm_url(%Banner{
+        link: %Link{url: "/path"},
+        title: "title",
+        routes: [%{id: "Green", mode: "subway", group: "line"}]
+      })
 
     assert %{
              utm_url:
-               "/path?utm_campaign=curated-content&utm_content=title&utm_medium=banner&utm_source=homepage&utm_term=green_line"
+               "/path?utm_campaign=curated-content&utm_content=title&utm_medium=banner&utm_source=homepage&utm_term=green-line"
            } = with_utm
   end
 end

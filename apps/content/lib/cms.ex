@@ -14,6 +14,12 @@ defmodule Content.CMS do
           | :project
           | :project_update
 
+  @type route_term :: %{
+          id: String.t(),
+          group: String.t(),
+          mode: String.t() | nil
+        }
+
   @doc """
   Issues a request for a given path, with optional parameters
   for the request. Parses the JSON result but does not do anything
