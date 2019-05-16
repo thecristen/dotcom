@@ -78,7 +78,7 @@ describe("AlgoliaEmbeddedSearch", () => {
       $goBtn.click();
       expect(window.Turbolinks.visit.called).to.be.true;
       expect(window.Turbolinks.visit.args[0][0]).to.equal(
-        "/search?query=&facets=stations,stops&showmore=stops"
+        "/search?query=&facets=stations,stops,locations&showmore=stops"
       );
     });
   });
@@ -112,37 +112,37 @@ describe("AlgoliaEmbeddedSearch", () => {
       const stopSearch = setup(0);
       expect(stopSearch.pageId).to.equal("search-stop");
       expect(stopSearch.buildSearchParams()).to.equal(
-        "?query=&facets=stations,stops&showmore=stops"
+        "?query=&facets=stations,stops,locations&showmore=stops"
       );
 
       const routeSearch = setup(1);
       expect(routeSearch.pageId).to.equal("search-route");
       expect(routeSearch.buildSearchParams()).to.equal(
-        "?query=&facets=subway,commuter-rail,bus,ferry&showmore=routes"
+        "?query=&facets=subway,commuter-rail,bus,ferry,locations&showmore=routes"
       );
 
       const subwaySearch = setup(2);
       expect(subwaySearch.pageId).to.equal("search-route--subway");
       expect(subwaySearch.buildSearchParams()).to.equal(
-        "?query=&facets=subway&showmore=routes"
+        "?query=&facets=subway,stations,stops,locations&showmore=routes"
       );
 
       const crSearch = setup(3);
       expect(crSearch.pageId).to.equal("search-route--commuter_rail");
       expect(crSearch.buildSearchParams()).to.equal(
-        "?query=&facets=commuter-rail&showmore=routes"
+        "?query=&facets=commuter-rail,stations,stops,locations&showmore=routes"
       );
 
       const busSearch = setup(4);
       expect(busSearch.pageId).to.equal("search-route--bus");
       expect(busSearch.buildSearchParams()).to.equal(
-        "?query=&facets=bus&showmore=routes"
+        "?query=&facets=bus,stations,stops,locations&showmore=routes"
       );
 
       const ferrySearch = setup(5);
       expect(ferrySearch.pageId).to.equal("search-route--ferry");
       expect(ferrySearch.buildSearchParams()).to.equal(
-        "?query=&facets=ferry&showmore=routes"
+        "?query=&facets=ferry,stations,stops,locations&showmore=routes"
       );
     });
   });

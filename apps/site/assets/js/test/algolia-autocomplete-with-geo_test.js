@@ -308,11 +308,9 @@ describe("AlgoliaAutocompleteWithGeo", function() {
           .then(() => {
             expect(resultsCallbackSpy.called).to.be.true;
 
-            expect(
-              getJSONStub.calledWith(
-                "/places/autocomplete/10%20park%20plaza/3/SESSION_TOKEN"
-              )
-            ).to.be.true;
+            expect(getJSONStub.args[0][0]).to.equal(
+              "/places/autocomplete/10%20park%20plaza/3/SESSION_TOKEN"
+            );
 
             done();
           })

@@ -1,3 +1,5 @@
+const sessionTokenValue = tokenObj => (tokenObj ? tokenObj.Pf : null);
+
 export function autocomplete({ input, hitLimit, sessionToken }) {
   if (input.length === 0) {
     return Promise.resolve({});
@@ -6,9 +8,9 @@ export function autocomplete({ input, hitLimit, sessionToken }) {
   return new Promise((resolve, reject) => {
     window.jQuery
       .getJSON(
-        `/places/autocomplete/${encodeURIComponent(input)}/${hitLimit}/${
-          sessionToken.Pf
-        }`
+        `/places/autocomplete/${encodeURIComponent(
+          input
+        )}/${hitLimit}/${sessionTokenValue(sessionToken)}`
       )
       .done(processAutocompleteResults(resolve))
       .fail(reject);

@@ -8,12 +8,12 @@ export const PAGE_IDS = [
 ];
 
 export const FACET_MAP = {
-  "search-stop": "stations,stops",
-  "search-route": "subway,commuter-rail,bus,ferry",
-  "search-route--subway": "subway",
-  "search-route--commuter_rail": "commuter-rail",
-  "search-route--bus": "bus",
-  "search-route--ferry": "ferry"
+  "search-stop": "stations,stops,locations",
+  "search-route": "subway,commuter-rail,bus,ferry,locations",
+  "search-route--subway": "subway,stations,stops,locations",
+  "search-route--commuter_rail": "commuter-rail,stations,stops,locations",
+  "search-route--bus": "bus,stations,stops,locations",
+  "search-route--ferry": "ferry,stations,stops,locations"
 };
 
 const FACET_FILTER_MAP = {

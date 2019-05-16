@@ -33,8 +33,8 @@ export class AlgoliaWithGeo extends Algolia {
         input: this._lastQuery,
         hitLimit: this._hitLimit,
         sessionToken: this.sessionToken
-      }).catch(() =>
-        console.error("Error while contacting google places API.")
+      }).catch(error =>
+        console.error("Error while contacting google places API:", error)
       );
     }
 
