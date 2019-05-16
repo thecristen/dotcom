@@ -63,6 +63,7 @@ const Component = ({
       opts?: IconOpts
     ) => Icon | undefined = require("../icon").default;
     require("leaflet-rotatedmarker");
+    const FullscreenControl = require("react-leaflet-fullscreen");
     /* eslint-enable */
     const { Map, Marker, Polyline, Popup, TileLayer } = leaflet;
     const position = mapCenter(markers, defaultCenter);
@@ -95,6 +96,7 @@ const Component = ({
             )}
           </Marker>
         ))}
+        <FullscreenControl />
       </Map>
     );
   }
