@@ -17,7 +17,7 @@ export interface ZoomOpts {
 
 export const defaultZoomOpts: ZoomOpts = {
   maxZoom: 18,
-  minZoom: 11,
+  minZoom: 9,
   scrollWheelZoom: false
 };
 
@@ -68,7 +68,7 @@ const Component = ({
     const { Map, Marker, Polyline, Popup, TileLayer } = leaflet;
     const position = mapCenter(markers, defaultCenter);
     return (
-      <Map center={position} zoom={zoom} maxZoom={18} bounds={bounds}>
+      <Map bounds={bounds} center={position} zoom={zoom} {...defaultZoomOpts}>
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url={`${tileServerUrl}/osm_tiles/{z}/{x}/{y}.png`}
