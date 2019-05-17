@@ -326,6 +326,8 @@ defmodule SiteWeb.ViewHelpers do
   def external_link(href), do: "http://" <> href
 
   @spec round_distance(float) :: String.t()
+  def round_distance(nil), do: ""
+
   def round_distance(distance) when distance < 0.1 do
     distance
     |> Kernel.*(5820)

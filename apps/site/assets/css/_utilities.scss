@@ -78,6 +78,10 @@
   white-space: nowrap;
 }
 
+.u-linethrough {
+  text-decoration: line-through;
+}
+
 .u-small-caps {
   font-family: $headings-font-family;
   font-size: $font-size-small-caps;

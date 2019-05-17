@@ -274,7 +274,7 @@ defmodule Site.TransitNearMeTest do
       assert {:ok, _} = Timex.parse(Enum.join(scheduled_time), "{h12}:{m} {AM}")
 
       if prediction do
-        assert Map.keys(prediction) == [:status, :time, :track]
+        assert Map.keys(prediction) == [:seconds, :status, :time, :track]
       end
     end
 
@@ -314,9 +314,9 @@ defmodule Site.TransitNearMeTest do
 
       base_schedule = %Schedule{stop: stop, route: route}
 
-      pm_12_00 = DateTime.from_naive!(~N[2019-02-19T12:00:00], "Etc/UTC")
-      pm_12_01 = DateTime.from_naive!(~N[2019-02-19T12:01:00], "Etc/UTC")
-      pm_12_02 = DateTime.from_naive!(~N[2019-02-19T12:02:00], "Etc/UTC")
+      pm_12_00 = DateTime.from_naive!(~N[2030-02-19T12:00:00], "Etc/UTC")
+      pm_12_01 = DateTime.from_naive!(~N[2030-02-19T12:01:00], "Etc/UTC")
+      pm_12_02 = DateTime.from_naive!(~N[2030-02-19T12:02:00], "Etc/UTC")
 
       input = %TransitNearMe{
         distances: %{"stop" => 0.1},
@@ -382,8 +382,8 @@ defmodule Site.TransitNearMeTest do
       [headsign_b, _headsign_a] = headsigns
 
       assert [
-               %{prediction: %{time: ["12:00", " ", "PM"]}},
-               %{prediction: %{time: ["12:02", " ", "PM"]}}
+               %{prediction: %{time: ["arriving"]}},
+               %{prediction: %{time: ["2", " ", "min"]}}
              ] = headsign_b.times
     end
 
@@ -574,21 +574,24 @@ defmodule Site.TransitNearMeTest do
   end
 
   describe "simple_prediction/2" do
+    @now Util.now()
+
     test "returns nil if no prediction" do
-      assert nil == TransitNearMe.simple_prediction(nil, :commuter_rail)
+      assert nil == TransitNearMe.simple_prediction(nil, :commuter_rail, @now)
     end
 
     test "returns up to three keys if a prediction is available" do
       assert %{time: _, track: _, status: _} =
                TransitNearMe.simple_prediction(
                  %Prediction{time: Util.now(), track: 1, status: "On time"},
-                 :commuter_rail
+                 :commuter_rail,
+                 @now
                )
     end
 
     test "returns a AM/PM time for CR" do
       [time, _, am_pm] =
-        TransitNearMe.simple_prediction(%Prediction{time: Util.now()}, :commuter_rail).time
+        TransitNearMe.simple_prediction(%Prediction{time: Util.now()}, :commuter_rail, @now).time
 
       assert time =~ ~r/\d{1,2}:\d\d/
       assert am_pm =~ ~r/(AM|PM)/
@@ -598,7 +601,8 @@ defmodule Site.TransitNearMeTest do
       assert [_, _, "min"] =
                TransitNearMe.simple_prediction(
                  %Prediction{time: Timex.shift(Util.now(), minutes: 5)},
-                 :subway
+                 :subway,
+                 @now
                ).time
     end
   end
@@ -947,6 +951,96 @@ defmodule Site.TransitNearMeTest do
 
       assert time_data.prediction == nil
       assert time_data2.prediction == nil
+    end
+  end
+
+  describe "time_data_for_route_by_stop/3" do
+    @now Util.now()
+    @schedule_time Timex.shift(@now, minutes: 3)
+    @prediction_time Timex.shift(@now, minutes: 5)
+
+    @route %Route{
+      id: "Blue",
+      type: 1,
+      direction_destinations: %{0 => "Bowdoin", 1 => "Wonderland"}
+    }
+
+    @stop %Stop{id: "place-wimnl"}
+    @trip %Trip{direction_id: 1, id: "39783542"}
+
+    @schedule %Schedule{
+      route: @route,
+      stop: @stop,
+      trip: @trip,
+      time: @schedule_time
+    }
+
+    @prediction %Prediction{
+      departing?: true,
+      direction_id: 1,
+      id: "prediction-39783543-70050-60",
+      route: @route,
+      schedule_relationship: nil,
+      status: nil,
+      stop: @stop,
+      stop_sequence: 60,
+      time: @prediction_time,
+      track: "2",
+      trip: @trip
+    }
+
+    test "get time data for a subway route" do
+      predictions_fn = fn _ -> [@prediction] end
+
+      schedules_fn = fn _, _ ->
+        [@schedule]
+      end
+
+      actual =
+        TransitNearMe.time_data_for_route_by_stop(@route.id, 1,
+          schedules_fn: schedules_fn,
+          predictions_fn: predictions_fn,
+          now: @now
+        )
+
+      expected = %{
+        "place-wimnl" => [
+          %{
+            name: nil,
+            times: [
+              %{
+                prediction: %{
+                  seconds: 300,
+                  status: nil,
+                  time: ["5", " ", "min"],
+                  track: "2"
+                },
+                scheduled_time: nil
+              }
+            ],
+            train_number: nil
+          }
+        ]
+      }
+
+      assert actual == expected
+    end
+
+    test "get time data for a subway route when schedules is empty" do
+      predictions_fn = fn _ -> [@prediction] end
+
+      schedules_fn = fn _, _ ->
+        []
+      end
+
+      actual =
+        TransitNearMe.time_data_for_route_by_stop(@route.id, 1,
+          schedules_fn: schedules_fn,
+          predictions_fn: predictions_fn,
+          now: @now
+        )
+
+      assert actual == %{}
     end
   end
 end

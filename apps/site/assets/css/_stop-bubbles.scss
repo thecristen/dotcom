@@ -52,6 +52,15 @@ $location-line-width: $space-6;
   }
 }
 
+.route-branch-stop-info-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.route-branch-stop-prediction {
+  text-align: right;
+}
+
 .route-branch-stop-bubbles {
   // scss-lint:disable DuplicateProperty
   align-items: stretch;

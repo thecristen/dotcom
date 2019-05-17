@@ -190,6 +190,7 @@ defmodule Site.TransitNearMe do
   end
 
   @type simple_prediction :: %{
+          required(:seconds) => integer,
           required(:time) => [String.t()],
           required(:status) => String.t() | nil,
           required(:track) => String.t() | nil
@@ -258,9 +259,12 @@ defmodule Site.TransitNearMe do
           [Alert.t()],
           Keyword.t()
         ) :: route_data
-  defp schedules_for_route({_route_id, schedules}, distances, alerts, opts) do
-    [%Schedule{route: route} | _] = schedules
-
+  def schedules_for_route(
+        {_route_id, [%Schedule{route: route} | _] = schedules},
+        distances,
+        alerts,
+        opts
+      ) do
     %{
       route: JsonHelpers.stringified_route(route),
       stops_with_directions: get_stops_for_route(schedules, distances, opts),
@@ -283,7 +287,7 @@ defmodule Site.TransitNearMe do
     |> Enum.reduce_while({:ok, []}, &collect_data/2)
     |> case do
       {:error, :timeout} -> []
-      {:ok, results} -> Enum.sort_by(results, &Map.fetch!(distances, &1.stop.id))
+      {:ok, results} -> Enum.sort_by(results, &Map.get(distances, &1.stop.id))
     end
   end
 
@@ -301,7 +305,7 @@ defmodule Site.TransitNearMe do
 
   @spec build_stop_map(Stop.t(), distance_hash) :: map
   def build_stop_map(stop, distances) do
-    distance = Map.fetch!(distances, stop.id)
+    distance = Map.get(distances, stop.id)
     href = Helpers.stop_path(SiteWeb.Endpoint, :show, stop.id)
 
     %{
@@ -466,6 +470,77 @@ defmodule Site.TransitNearMe do
     schedules
   end
 
+  @doc """
+  Gets all schedules for a route and compiles appropriate headsign_data for each stop.
+  Returns a map indexed by stop_id
+  """
+  @spec time_data_for_route_by_stop(Route.id_t(), 1 | 0, Keyword.t()) :: %{
+          Stop.id_t() => [headsign_data]
+        }
+  def time_data_for_route_by_stop(route_id, direction_id, opts) do
+    schedules_fn = Keyword.get(opts, :schedules_fn, &Schedules.Repo.by_route_ids/2)
+
+    route_id
+    |> expand_route_id()
+    |> schedules_fn.(direction_id: direction_id, min_time: Keyword.fetch!(opts, :now))
+    |> Enum.reject(& &1.last_stop?)
+    |> Enum.group_by(& &1.route.id)
+    |> Enum.map(&schedules_for_route(&1, %{}, [], opts))
+    |> Enum.flat_map(& &1.stops_with_directions)
+    |> convert_route_time_data_to_map()
+    |> Enum.reduce(%{}, fn {stop_id, time_data}, accumulator ->
+      Map.put(accumulator, stop_id, limit_route_time_data(time_data))
+    end)
+  end
+
+  @spec convert_route_time_data_to_map([stop_with_data]) :: %{Stop.id_t() => [headsign_data]}
+  defp convert_route_time_data_to_map(stops_with_directions) do
+    Enum.reduce(stops_with_directions, %{}, fn stop_with_direction, accumulator ->
+      stop_id = stop_with_direction.stop.id
+
+      time_data =
+        stop_with_direction
+        |> Map.get(:directions)
+        |> List.first()
+        |> Map.get(:headsigns)
+
+      Map.update(accumulator, stop_id, time_data, &(&1 ++ time_data))
+    end)
+  end
+
+  defp limit_route_time_data(headsign_data) do
+    headsign_data
+    |> Enum.reduce([], fn headsign, accumulator ->
+      split_headsigns = Enum.map(headsign.times, &%{headsign | times: [&1]})
+
+      [split_headsigns | accumulator]
+    end)
+    |> List.flatten()
+    |> Enum.sort(&(first_headsign_prediction_time(&1) < first_headsign_prediction_time(&2)))
+    |> Enum.take(2)
+  end
+
+  @spec first_headsign_prediction_time(headsign_data) :: integer | :infinity
+  defp first_headsign_prediction_time(%{times: []}), do: :infinity
+
+  defp first_headsign_prediction_time(%{
+         times: [
+           %{
+             prediction: %{
+               seconds: seconds
+             }
+           }
+           | _
+         ]
+       }),
+       do: seconds
+
+  defp first_headsign_prediction_time(_), do: :infinity
+
+  @spec expand_route_id(Route.id_t()) :: [Route.id_t()]
+  defp expand_route_id("Green"), do: ["Green-B", "Green-C", "Green-D", "Green-E"]
+  defp expand_route_id(route), do: [route]
+
   @spec build_time_map(Schedule.t(), Keyword.t()) :: predicted_schedule_and_time_data
   defp build_time_map(%Schedule{} = schedule, opts) do
     route_type = Route.type_atom(schedule.route)
@@ -476,8 +551,11 @@ defmodule Site.TransitNearMe do
       [trip: schedule.trip.id, stop: schedule.stop.id]
       |> get_predictions(predictions_fn, now)
       |> case do
-        [] -> nil
-        [prediction | _] -> prediction
+        [] ->
+          nil
+
+        [prediction | _] ->
+          prediction
       end
 
     delay =
@@ -491,19 +569,20 @@ defmodule Site.TransitNearMe do
       %{
         delay: delay,
         scheduled_time: format_time(schedule.time),
-        prediction: simple_prediction(prediction, route_type)
+        prediction: simple_prediction(prediction, route_type, now)
       }
     }
   end
 
-  defp build_time_map(%Prediction{} = prediction, _opts) do
+  defp build_time_map(%Prediction{} = prediction, opts) do
     route_type = Route.type_atom(prediction.route)
+    now = Keyword.fetch!(opts, :now)
 
     {
       {prediction_time(prediction), nil},
       %{
         scheduled_time: nil,
-        prediction: simple_prediction(prediction, route_type)
+        prediction: simple_prediction(prediction, route_type, now)
       }
     }
   end
@@ -511,25 +590,37 @@ defmodule Site.TransitNearMe do
   defp prediction_time(nil), do: nil
   defp prediction_time(%Prediction{time: time}), do: time
 
-  @spec simple_prediction(Prediction.t() | nil, atom) :: simple_prediction | nil
-  def simple_prediction(nil, _) do
+  @spec simple_prediction(Prediction.t() | nil, atom, DateTime.t()) :: simple_prediction | nil
+  def simple_prediction(nil, _, _) do
     nil
   end
 
-  def simple_prediction(%Prediction{} = prediction, route_type) do
+  def simple_prediction(%Prediction{} = prediction, route_type, now) do
+    seconds = Timex.diff(prediction.time, now, :seconds)
+
     prediction
-    |> Map.update!(:time, &format_prediction_time(&1, route_type))
-    |> Map.take([:time, :status, :track])
+    |> Map.take([:status, :track])
+    |> Map.put(:time, format_prediction_time(prediction.time, now, route_type, seconds))
+    |> Map.put(:seconds, seconds)
   end
 
-  @spec format_prediction_time(DateTime.t(), atom) :: [String.t()] | String.t()
-  defp format_prediction_time(%DateTime{} = time, :commuter_rail) do
+  @spec format_prediction_time(DateTime.t(), DateTime.t(), atom, integer) ::
+          [String.t()] | String.t()
+  defp format_prediction_time(%DateTime{} = time, _now, :commuter_rail, _) do
     format_time(time)
   end
 
-  defp format_prediction_time(%DateTime{} = time, _) do
-    Display.do_time_difference(time, Util.now(), &format_time/1, 120)
+  defp format_prediction_time(%DateTime{} = time, now, :subway, seconds) when seconds > 30 do
+    Display.do_time_difference(time, now, &format_time/1, 120)
   end
+
+  defp format_prediction_time(_, _, :subway, _), do: ["arriving"]
+
+  defp format_prediction_time(%DateTime{} = time, now, :bus, seconds) when seconds > 60 do
+    Display.do_time_difference(time, now, &format_time/1, 120)
+  end
+
+  defp format_prediction_time(_, _, :bus, _), do: ["arriving"]
 
   @spec format_time(DateTime.t()) :: [String.t()]
   defp format_time(time) do

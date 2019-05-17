@@ -3,6 +3,7 @@ defmodule SiteWeb.ScheduleController.Line do
   import Plug.Conn, only: [assign: 3]
   alias Stops.{RouteStops, RouteStop}
   alias Routes.{Route, Shape}
+  alias Site.TransitNearMe
   alias SiteWeb.ScheduleController.Line.Maps
   alias SiteWeb.ScheduleController.Line.Dependencies, as: Dependencies
   import SiteWeb.ScheduleController.ClosedStops, only: [add_wollaston: 4]
@@ -10,9 +11,7 @@ defmodule SiteWeb.ScheduleController.Line do
   defmodule Dependencies do
     defstruct stops_by_route_fn: &Stops.Repo.by_route/3
 
-    @type t :: %__MODULE__{
-            stops_by_route_fn: Stops.Repo.stop_by_route()
-          }
+    @type t :: %__MODULE__{stops_by_route_fn: Stops.Repo.stop_by_route()}
   end
 
   @type query_param :: String.t() | nil
@@ -50,6 +49,11 @@ defmodule SiteWeb.ScheduleController.Line do
     branches = get_branches(shapes, route_stops, route, direction_id)
     map_stops = Maps.map_stops(branches, {route_shapes, active_shapes}, route.id)
 
+    time_data_by_stop =
+      TransitNearMe.time_data_for_route_by_stop(route.id, direction_id,
+        now: conn.assigns.date_time
+      )
+
     {map_img_src, dynamic_map_data} =
       Maps.map_data(route, map_stops, vehicle_polylines, vehicle_tooltips)
 
@@ -64,6 +68,7 @@ defmodule SiteWeb.ScheduleController.Line do
     |> assign(:expanded, expanded)
     |> assign(:reverse_direction_all_stops, reverse_direction_all_stops(route.id, direction_id))
     |> assign(:connections, connections(branches))
+    |> assign(:time_data_by_stop, time_data_by_stop)
   end
 
   @spec active_shape(shapes :: [Shape.t()], route_type :: 0..4) :: Shape.t() | nil

@@ -345,7 +345,8 @@ defmodule SiteWeb.StopListViewTest do
       direction_id: 0,
       vehicle_tooltips: %{},
       expanded: nil,
-      reverse_direction_all_stops: []
+      reverse_direction_all_stops: [],
+      time_data_by_stop: %{}
     }
 
     test "splits the stops up into groups based on the branch" do
