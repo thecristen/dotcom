@@ -19,6 +19,7 @@ describe("render", () => {
           dispatch={() => {}}
           selectedStop={undefined}
           selectedModes={[]}
+          emptyMessage={<div>No data</div>}
         />
       )
       .toJSON();
@@ -36,6 +37,7 @@ describe("render", () => {
           dispatch={() => {}}
           selectedStop={undefined}
           selectedModes={[]}
+          emptyMessage={<div>No data</div>}
         />
       )
       .toJSON();

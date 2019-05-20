@@ -71,6 +71,13 @@ export const fetchData = (
   return new Promise(resolve => resolve());
 };
 
+const emptyMessage = (
+  <div className="m-tnm-sidebar__empty">
+    {`We're sorry, there are no nearby routes or stops matching your filters and
+    location.`}
+  </div>
+);
+
 const TransitNearMe = ({
   mapData,
   mapId,
@@ -100,6 +107,7 @@ const TransitNearMe = ({
           dispatch={dispatch}
           data={state.routeSidebarData}
           shouldFilterStopCards={state.shouldFilterStopCards}
+          emptyMessage={emptyMessage}
         />
       ) : (
         <StopsSidebar
@@ -109,6 +117,7 @@ const TransitNearMe = ({
           dispatch={dispatch}
           data={stopSidebarData}
           shouldFilterStopCards={state.shouldFilterStopCards}
+          emptyMessage={emptyMessage}
         />
       )}
       <h3 className="sr-only">Map</h3>

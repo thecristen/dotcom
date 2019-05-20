@@ -365,3 +365,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 .m-tnm__address-marker {
   margin-right: $base-spacing * 1.5;
 }
+
+.m-tnm-sidebar__empty {
+  color: $gray;
+}

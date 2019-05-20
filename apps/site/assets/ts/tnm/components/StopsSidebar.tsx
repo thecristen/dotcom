@@ -14,6 +14,7 @@ interface Props {
   shouldFilterStopCards: boolean;
   selectedStop: Stop | undefined;
   selectedModes: Mode[];
+  emptyMessage: ReactElement<HTMLElement>;
 }
 
 interface FilterOptions {
@@ -63,9 +64,16 @@ const StopsSidebar = ({
   data,
   selectedStopId,
   selectedModes,
-  shouldFilterStopCards
-}: Props): ReactElement<HTMLElement> | null =>
-  data.length ? (
+  shouldFilterStopCards,
+  emptyMessage
+}: Props): ReactElement<HTMLElement> | null => {
+  const filteredData = filterData(
+    data,
+    selectedStopId,
+    selectedModes,
+    shouldFilterStopCards
+  );
+  return data.length ? (
     <div className="m-tnm-sidebar" id="tnm-sidebar-by-stops">
       <div className="m-tnm-sidebar__fixed-header">
         <div className="m-tnm-sidebar__fixed-header-inner">
@@ -78,23 +86,21 @@ const StopsSidebar = ({
       <div className="m-tnm-sidebar__inner">
         <SidebarTitle dispatch={dispatch} viewType="Stops" />
         <div className="m-tnm-sidebar__cards">
-          {filterData(
-            data,
-            selectedStopId,
-            selectedModes,
-            shouldFilterStopCards
-          ).map(({ stop, routes, distance }) => (
-            <StopWithRoutesCard
-              key={stop.stop.id}
-              stop={stop.stop}
-              routes={routes}
-              dispatch={dispatch}
-              distance={distance}
-            />
-          ))}
+          {filteredData.length > 0
+            ? filteredData.map(({ stop, routes, distance }) => (
+                <StopWithRoutesCard
+                  key={stop.stop.id}
+                  stop={stop.stop}
+                  routes={routes}
+                  dispatch={dispatch}
+                  distance={distance}
+                />
+              ))
+            : emptyMessage}
         </div>
       </div>
     </div>
   ) : null;
+};
 
 export default StopsSidebar;
