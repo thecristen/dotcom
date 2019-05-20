@@ -44,7 +44,7 @@ defmodule Feedback.MailerTest do
                  <CITY></CITY>
                  <STATE></STATE>
                  <ZIPCODE></ZIPCODE>
-                 <EMAILID>donotreply@mbta.com</EMAILID>
+                 <EMAILID>reply@test.com</EMAILID>
                  <PHONE></PHONE>
                  <DESCRIPTION></DESCRIPTION>
                  <CUSTREQUIRERESP>No</CUSTREQUIRERESP>
@@ -70,14 +70,14 @@ defmodule Feedback.MailerTest do
       assert Test.latest_message()["text"] =~ "<EMAILID>disgruntled@user.com</EMAILID>"
     end
 
-    test "when the user does not set an email, the email is donotreply@mbta.com" do
+    test "when the user does not set an email, the email is reply@test.com" do
       Mailer.send_heat_ticket(@base_message, nil)
-      assert Test.latest_message()["text"] =~ "<EMAILID>donotreply@mbta.com</EMAILID>"
+      assert Test.latest_message()["text"] =~ "<EMAILID>reply@test.com</EMAILID>"
     end
 
-    test "when the user sets an empty string, the email is donotreply@mbta.com" do
+    test "when the user sets an empty string, the email is reply@test.com" do
       Mailer.send_heat_ticket(%{@base_message | email: ""}, nil)
-      assert Test.latest_message()["text"] =~ "<EMAILID>donotreply@mbta.com</EMAILID>"
+      assert Test.latest_message()["text"] =~ "<EMAILID>reply@test.com</EMAILID>"
     end
 
     test "the email does not have leading or trailing spaces" do

@@ -16,6 +16,7 @@ if [[ $OSTYPE == "darwin"* ]]; then
   npm run wiremock &
 else
 # Linux
+  sudo apt-get install jq
   DOCKER_INTERNAL_IP="127.0.0.1"
   echo "Replacing host.docker.internal with $DOCKER_INTERNAL_IP"
   sed -r -e "s/host.docker.internal/$DOCKER_INTERNAL_IP/" -i'' package.json
@@ -73,8 +74,7 @@ if [[ -n $SEMAPHORE_CACHE_DIR ]]; then
   BRANCH=$(git rev-parse --abbrev-ref HEAD)
   FILENAME="$BRANCH.tar.gz"
   tar -czvf "$FILENAME" apps/site/test/backstop_data
-  aws s3 cp "$FILENAME" s3://mbta-semaphore/"$FILENAME"
-  LINK=$(aws s3 presign s3://mbta-semaphore/"$FILENAME" --expires-in 3600)
-  echo "Backstop report located at $LINK, available for 1 hour."
+  LINK=$(curl -F "file=@$FILENAME" https://file.io/\?expires\=1d | jq -r .link)
+  echo "Backstop report located at $LINK, available for 1 day for a single download."
 fi
 exit 1

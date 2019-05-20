@@ -7,7 +7,6 @@ The new face of https://www.mbta.com/
   - [Environment Variables](#environment-variables)
     - [`V3_API_KEY`](#v3apikey)
     - [`V3_URL`](#v3url)
-    - [`SITE_SECRET_KEY_BASE`](#sitesecretkeybase)
     - [`GOOGLE_API_KEY`](#googleapikey)
     - [`DRUPAL_ROOT`](#drupalroot)
     - [`ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_ADMIN_KEY`](#algoliaappid-algoliasearchkey-and-algoliaadminkey)
@@ -17,12 +16,12 @@ The new face of https://www.mbta.com/
 
 1. Request a V3 API key at https://api-v3.mbta.com/
 
-1. Install [Homebrew](https://docs.brew.sh/Installation.html):
+2. Install [Homebrew](https://docs.brew.sh/Installation.html):
     ```
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     ```
 
-1. Install [asdf package version manager](https://github.com/asdf-vm/asdf)
+3. Install [asdf package version manager](https://github.com/asdf-vm/asdf)
    * Follow the instructions on https://github.com/asdf-vm/asdf
    * Install the necessary tools to set up asdf plugins:
 
@@ -69,48 +68,47 @@ The new face of https://www.mbta.com/
      ruby
      ```
 
-1. Install Sass:
+4. Install Sass:
     ```
     gem install sass
     ```
 
-1. Install chromedriver (for Elixir acceptance tests using Wallaby)
+5. Install chromedriver (for Elixir acceptance tests using Wallaby)
     ```
     brew tap caskroom/cask
     brew cask install chromedriver
     ```
 
-1. Install our Elixir dependencies. From the root of this repo:
+6. Install our Elixir dependencies. From the root of this repo:
     ```
     mix deps.get
     ```
 
-1. Install npm globally
+7. Install npm globally
    ```
    npm install -g npm@6.7.0
    ```
 
-1. Install our Node dependencies. From the root of this repo:
+8. Install our Node dependencies. From the root of this repo:
     ```
     npm run install
     ```
 
-1. Setup serverside rendering for React:
+9. Setup serverside rendering for React:
     ```
     npm run react:setup && npm run react:build
     ```
 
-1. Build the assets:
+10. Build the assets:
     ```
     npm run webpack:build
     ```
 
-1. Set up the following environment variables (see [Environment Variables](#environment-variables) section)
+11. Set up the following environment variables (see [Environment Variables](#environment-variables) section)
 
     Required:
     * `V3_API_KEY`
     * `V3_URL`
-    * `SITE_SECRET_KEY_BASE`
 
     Suggested, for Google Maps, CMS content, and Algolia search:
     * `GOOGLE_API_KEY`
@@ -136,10 +134,6 @@ You need to obtain an API key to run the website.
 ### `V3_URL`
 
 This variable is used to specify which MBTA V3 API server to use.
-
-### `SITE_SECRET_KEY_BASE`
-
-This value is used by Phoenix for securing cookies. It should be a random string value.
 
 ### `GOOGLE_API_KEY`
 

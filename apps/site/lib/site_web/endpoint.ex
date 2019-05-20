@@ -9,7 +9,11 @@ defmodule SiteWeb.Endpoint do
   """
   @spec init(atom, Keyword.t()) :: {:ok, Keyword.t()} | no_return
   def init(_key, config) do
-    {:ok, Keyword.put(config, :secret_key_base, System.get_env("SITE_SECRET_KEY_BASE"))}
+    secret_key_base =
+      System.get_env("SITE_SECRET_KEY_BASE") ||
+        :site |> Application.get_env(SiteWeb.Endpoint) |> Keyword.get(:secret_key_base)
+
+    {:ok, Keyword.put(config, :secret_key_base, secret_key_base)}
   end
 
   socket(
