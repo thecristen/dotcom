@@ -18,3 +18,12 @@ export const handleReactEnterKeyPress = (
     onClick();
   }
 };
+
+export const handleReactExitKeyPress = (
+  e: ReactKeyboardEvent,
+  onClick: Function
+): void => {
+  if (e.key === "Escape") {
+    onClick();
+  }
+};

@@ -14,9 +14,14 @@
   height: 100%;
   max-width: 100%;
   width: 100%;
+  overflow: auto;
 
   @media print {
     display: block;
+  }
+
+  &.modal-open {
+    overflow: hidden;
   }
 }
 

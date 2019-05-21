@@ -25,6 +25,7 @@ defmodule SiteWeb.ScheduleController.LineController do
     conn =
       conn
       |> assign(:meta_description, route_description(conn.assigns.route))
+      |> assign(:disable_turbolinks, true)
       |> put_view(ScheduleView)
       |> await_assign_all_default(__MODULE__)
 
