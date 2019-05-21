@@ -44,6 +44,10 @@
     }
   }
 
+  &:nth-child(odd) {
+    clear: both;
+  }
+
   &--news-entry {
     border-left: $base-spacing / 2 solid $brand-primary;
     padding-left: $base-spacing;
