@@ -1,6 +1,7 @@
-// import {  } from "../../__v3api";
+import { TypedRoutes } from "../../stop/components/__stop";
 
 export interface SchedulePageData {
+  connections: TypedRoutes[];
   pdfs: SchedulePDF[];
   teasers: string | null;
   hours: string;

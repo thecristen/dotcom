@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import { SchedulePageData } from "./__schedule";
 import PDFSchedules from "./PDFSchedules";
+import Connections from "./Connections";
 import ContentTeasers from "./ContentTeasers";
 import HoursOfOperation from "./HoursOfOperation";
 import Fares from "./Fares";
@@ -13,6 +14,7 @@ interface Props {
 
 const SchedulePage = ({
   schedulePageData: {
+    connections,
     pdfs,
     teasers,
     hours,
@@ -24,6 +26,7 @@ const SchedulePage = ({
   <>
     <ContentTeasers teasers={teasers} />
     <PDFSchedules pdfs={pdfs} />
+    <Connections connections={connections} />
     <Fares fares={fares} fareLink={fareLink} />
     <HoursOfOperation hours={hours} />
     <UpcomingHolidays holidays={holidays} />

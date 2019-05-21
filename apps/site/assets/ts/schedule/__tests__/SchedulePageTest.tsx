@@ -2,6 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import SchedulePage from "../components/SchedulePage";
+import { TypedRoutes } from "../../stop/components/__stop";
 
 const pdfs = [
   {
@@ -22,6 +23,8 @@ const hours = `<div class="m-schedule-page__sidebar-hours">  <h3 class="hours-pe
   <span class="hours-time">05:36A-01:08A</span>
 </p>
 </div>`;
+
+const connections: TypedRoutes[] = [];
 
 const fares = [
   {
@@ -48,12 +51,13 @@ it("it renders", () => {
     .create(
       <SchedulePage
         schedulePageData={{
-          pdfs,
-          teasers,
+          connections,
+          fares,
+          fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
           hours,
           holidays,
-          fares,
-          fare_link: fareLink // eslint-disable-line @typescript-eslint/camelcase
+          pdfs,
+          teasers
         }}
       />
     )

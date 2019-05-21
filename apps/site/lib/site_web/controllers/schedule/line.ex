@@ -560,14 +560,6 @@ defmodule SiteWeb.ScheduleController.Line do
   end
 
   defp do_get_connections(%RouteStop{connections: connections}, acc) do
-    Enum.reduce(connections, acc, &add_connection/2)
-  end
-
-  defp add_connection(%Route{type: type} = route, acc) when type in [0, 1, 2] do
-    MapSet.put(acc, route)
-  end
-
-  defp add_connection(%Route{}, acc) do
-    acc
+    Enum.reduce(connections, acc, &MapSet.put(&2, &1))
   end
 end

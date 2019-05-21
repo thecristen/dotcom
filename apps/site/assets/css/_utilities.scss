@@ -39,7 +39,8 @@
   background-color: $brand-silver-line;
 }
 
-.u-bg--mattapan-line {
+.u-bg--mattapan-line,
+.u-bg--mattapan-trolley {
   @include bg-text($white);
   background-color: $brand-red-line;
 }

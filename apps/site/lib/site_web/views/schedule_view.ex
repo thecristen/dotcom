@@ -440,7 +440,11 @@ defmodule SiteWeb.ScheduleView do
 
   @spec sort_connections([Route.t()]) :: [Route.t()]
   def sort_connections(routes) do
-    {cr, subway} = Enum.split_with(routes, &(&1.type == 2))
+    {cr, subway} =
+      routes
+      |> Enum.reject(&(&1.type === 3 or &1.type === 4))
+      |> Enum.split_with(&(&1.type == 2))
+
     Enum.sort(subway, &sort_subway/2) ++ Enum.sort(cr, &(&1.name < &2.name))
   end
 

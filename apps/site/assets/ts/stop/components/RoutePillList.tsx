@@ -5,6 +5,7 @@ import { breakTextAtSlash } from "../../helpers/text";
 
 interface RoutePillListProps {
   routes: TypedRoutes[];
+  showGroupName?: boolean;
 }
 
 interface RoutePillProps {
@@ -48,7 +49,8 @@ const RoutePill = ({ route }: RoutePillProps): ReactElement<HTMLElement> => (
 );
 
 const RoutePillList = ({
-  routes
+  routes,
+  showGroupName
 }: RoutePillListProps): ReactElement<HTMLElement> => (
   <div className="m-route-pills">
     {routes.map(typedRoute => (
@@ -56,6 +58,7 @@ const RoutePillList = ({
         key={typedRoute.group_name}
         className={`m-route-pills--${typedRoute.group_name}`}
       >
+        {showGroupName && <h4 className="h4">{typedRoute.group_name}</h4>}
         {typedRoute.routes.map(routeWithDirections => (
           <RoutePill
             key={routeWithDirections.route.id}

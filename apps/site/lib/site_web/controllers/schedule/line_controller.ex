@@ -1,8 +1,8 @@
 defmodule SiteWeb.ScheduleController.LineController do
   use SiteWeb, :controller
   alias Phoenix.HTML
-  alias Routes.Route
-  alias SiteWeb.ScheduleView
+  alias Routes.{Group, Route}
+  alias SiteWeb.{ScheduleView, ViewHelpers}
 
   plug(SiteWeb.Plugs.Route)
   plug(SiteWeb.Plugs.DateInRating)
@@ -33,6 +33,7 @@ defmodule SiteWeb.ScheduleController.LineController do
     |> assign(
       :schedule_page_data,
       %{
+        connections: group_connections(conn.assigns.connections),
         pdfs:
           ScheduleView.route_pdfs(conn.assigns.route_pdfs, conn.assigns.route, conn.assigns.date),
         teasers:
@@ -62,6 +63,21 @@ defmodule SiteWeb.ScheduleController.LineController do
     assign(conn, :channel, "vehicles:#{conn.assigns.route.id}:#{conn.assigns.direction_id}")
   end
 
+  defp group_connections(connections) do
+    connections
+    |> Enum.group_by(&Route.type_atom/1)
+    |> Enum.sort_by(&Group.sorter/1)
+    |> Enum.map(fn {group, routes} ->
+      %{
+        group_name: ViewHelpers.mode_name(group),
+        routes:
+          routes
+          |> Enum.sort_by(&connection_sorter/1)
+          |> Enum.map(&%{route: Route.to_json_safe(&1), direction_id: nil})
+      }
+    end)
+  end
+
   defp route_description(route) do
     case Route.type_atom(route) do
       :bus ->
@@ -88,6 +104,19 @@ defmodule SiteWeb.ScheduleController.LineController do
 
   defp bus_type(route),
     do: if(Route.silver_line?(route), do: "Silver Line", else: "bus")
+
+  defp connection_sorter(%Route{id: id} = route) do
+    # force silver line to top of list
+    if Route.silver_line?(route) do
+      "000" <> id
+    else
+      case Integer.parse(id) do
+        {number, _} when number < 10 -> "00" <> id
+        {number, _} when number < 100 -> "0" <> id
+        _ -> id
+      end
+    end
+  end
 
   defp route_type(route) do
     route
