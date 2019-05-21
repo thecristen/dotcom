@@ -7,7 +7,7 @@ import { MapData } from "../leaflet/components/__mapdata";
 
 const render = (): void => {
   const mapDataEl = document.getElementById("js-map-data");
-  if (!mapDataEl) throw new Error("cannot find #js-map-data");
+  if (!mapDataEl) return;
   const mapEl = document.getElementById("map-root");
   if (!mapEl) throw new Error("cannot find #map-root");
   const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
