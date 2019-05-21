@@ -24,7 +24,7 @@ export class CRTimetableTrainIcons {
     // Splat together vehicle struct and stop name data
     const {
       data: { vehicle: vehicleStruct, stop_name: stopName },
-      marker: { tooltip }
+      marker: { tooltip_text }
     } = data;
     const vehicle = { ...vehicleStruct, stop_name: stopName };
 
@@ -42,7 +42,8 @@ export class CRTimetableTrainIcons {
     }
 
     this.addTrain(vehicle, vehicleContainer);
-    addOrUpdateTooltip(tooltip, vehicleContainerId);
+    const text = "<p class='prediction-tooltip'>" + tooltip_text + "</p>";
+    addOrUpdateTooltip(text, vehicleContainerId);
   }
 
   addTrain(vehicle, vehicleContainer) {

@@ -1,6 +1,6 @@
 defmodule SiteWeb.VehicleChannel do
   use SiteWeb, :channel
-  alias Site.MapHelpers.Markers
+  alias Leaflet.MapData.Marker
   alias Vehicles.Vehicle
 
   intercept(["reset", "add", "update", "remove"])
@@ -26,7 +26,7 @@ defmodule SiteWeb.VehicleChannel do
   def handle_out("remove", %{data: ids}, socket) do
     push(socket, "data", %{
       event: "remove",
-      data: Enum.map(ids, &Markers.vehicle_marker_id/1)
+      data: ids
     })
 
     {:noreply, socket}
@@ -34,7 +34,7 @@ defmodule SiteWeb.VehicleChannel do
 
   @type data_map :: %{
           required(:data) => %{vehicle: Vehicle.t(), stop_name: String.t()},
-          required(:marker) => GoogleMaps.MapData.Marker.t()
+          required(:marker) => Marker.t()
         }
   @spec build_marker(Vehicles.Vehicle.t()) :: data_map
   def build_marker(%Vehicles.Vehicle{} = vehicle) do
@@ -42,18 +42,26 @@ defmodule SiteWeb.VehicleChannel do
     stop_name = get_stop_name(vehicle.stop_id)
     trip = Schedules.Repo.trip(vehicle.trip_id)
 
-    marker =
-      Markers.vehicle(%VehicleTooltip{
-        prediction: nil,
-        vehicle: vehicle,
-        route: route,
-        stop_name: stop_name,
-        trip: trip
-      })
-
     %{
       data: %{vehicle: vehicle, stop_name: stop_name},
-      marker: marker
+      marker:
+        Marker.new(
+          vehicle.latitude,
+          vehicle.longitude,
+          id: vehicle.id,
+          icon: "vehicle-bordered-expanded",
+          rotation_angle: vehicle.bearing,
+          tooltip_text:
+            %VehicleTooltip{
+              prediction: nil,
+              vehicle: vehicle,
+              route: route,
+              stop_name: stop_name,
+              trip: trip
+            }
+            |> VehicleHelpers.tooltip()
+            |> Floki.text()
+        )
     }
   end
 

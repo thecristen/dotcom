@@ -6,7 +6,7 @@
 </noscript>
 
 <script id="js-map-data"
-        data-channel="<%= @channel %>"
+        data-channel-id="<%= @channel %>"
         type="text/plain">
   <%= raw Poison.encode!(@dynamic_map_data) %>
 </script>

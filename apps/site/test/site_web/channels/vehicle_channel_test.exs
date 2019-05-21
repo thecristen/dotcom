@@ -1,8 +1,7 @@
 defmodule SiteWeb.VehicleChannelTest do
   use SiteWeb.ChannelCase
 
-  alias GoogleMaps.MapData.Marker
-  alias Site.MapHelpers.Markers
+  alias Leaflet.MapData.Marker
   alias SiteWeb.{VehicleChannel, UserSocket}
   alias Vehicles.Repo
 
@@ -42,7 +41,7 @@ defmodule SiteWeb.VehicleChannelTest do
 
     assert_push("data", vehicles)
 
-    assert vehicles == %{data: [Markers.vehicle_marker_id("vehicle_id")], event: "remove"}
+    assert vehicles == %{data: ["vehicle_id"], event: "remove"}
   end
 
   test "responds to init push by sending data" do

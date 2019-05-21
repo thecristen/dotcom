@@ -8,10 +8,12 @@ import { MapData } from "../leaflet/components/__mapdata";
 const render = (): void => {
   const mapDataEl = document.getElementById("js-map-data");
   if (!mapDataEl) return;
+  const channel = mapDataEl.getAttribute("data-channel-id");
+  if (!channel) throw new Error("data-channel-id attribute not set");
   const mapEl = document.getElementById("map-root");
   if (!mapEl) throw new Error("cannot find #map-root");
   const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
-  ReactDOM.render(<Map data={mapData} />, mapEl);
+  ReactDOM.render(<Map data={mapData} channel={channel} />, mapEl);
 
   const schedulePageDataEl = document.getElementById("js-schedule-page-data");
   if (!schedulePageDataEl) return;

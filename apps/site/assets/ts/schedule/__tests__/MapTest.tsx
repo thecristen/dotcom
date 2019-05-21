@@ -1,7 +1,10 @@
 import React from "react";
 import { mount } from "enzyme";
-import Map, { getBounds, iconOpts } from "../components/Map";
-import { MapData } from "../../leaflet/components/__mapdata";
+import Map, { getBounds, iconOpts, reducer } from "../components/Map";
+import {
+  MapData,
+  MapMarker as Marker
+} from "../../leaflet/components/__mapdata";
 
 /* eslint-disable @typescript-eslint/camelcase */
 const data: MapData = {
@@ -54,8 +57,61 @@ describe("getBounds", () => {
 
 describe("Schedule Map", () => {
   it("renders", () => {
-    const wrapper = mount(<Map data={data} />);
+    const wrapper = mount(<Map data={data} channel="vehicles:Red:0" />);
     expect(() => wrapper.render()).not.toThrow();
+  });
+});
+
+describe("reducer", () => {
+  const newMarker: Marker = {
+    icon: "vehicle-bordered-expanded",
+    id: "vehicle-R-545CDFC6",
+    latitude: 42.39786911010742,
+    longitude: -71.13092041015625,
+    // eslint-disable-next-line typescript/camelcase
+    rotation_angle: 90,
+    // eslint-disable-next-line typescript/camelcase
+    tooltip_text: "Alewife train is on the way to Alewife",
+    tooltip: null
+  };
+
+  it("resets markers", () => {
+    const result = reducer(data.markers, {
+      event: "reset",
+      data: [{ marker: newMarker }]
+    });
+
+    expect(result.map(m => m.id)).toEqual([data.markers[1].id, newMarker.id]);
+  });
+
+  it("adds vehicles", () => {
+    const result = reducer(data.markers, {
+      event: "add",
+      data: [{ marker: newMarker }]
+    });
+    expect(result.map(m => m.id)).toEqual(
+      data.markers.map(m => m.id).concat(newMarker.id)
+    );
+  });
+
+  it("updates markers", () => {
+    const result = reducer(data.markers, {
+      event: "update",
+      data: [{ marker: { ...data.markers[0], latitude: 43.0 } }]
+    });
+
+    expect(result.map(m => m.id)).toEqual(data.markers.map(m => m.id));
+    expect(data.markers[0].latitude).toEqual(42.39786911010742);
+    expect(result[0].latitude).toEqual(43.0);
+  });
+
+  it("removes markers", () => {
+    const result = reducer(data.markers, {
+      event: "remove",
+      data: [data.markers[0].id!]
+    });
+
+    expect(result.map(m => m.id)).toEqual([data.markers[1].id]);
   });
 });
 

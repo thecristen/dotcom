@@ -104,8 +104,8 @@ describe("CRTimetableTrains", () => {
               }
             },
             marker: {
-              tooltip:
-                "<div><div><p class='prediction-tooltip'>Middleborough/Lakeville train 028 is on the way to Holbrook/Randolph</p></div>"
+              tooltip_text:
+                "Middleborough/Lakeville train 028 is on the way to Holbrook/Randolph"
             }
           }
         ]
@@ -125,7 +125,7 @@ describe("CRTimetableTrains", () => {
           .getElementById("Brockton-CR-Weekday-Fall-18-028-tooltip")
           .getAttribute("data-original-title")
       ).to.equal(
-        "<div><div><p class='prediction-tooltip'>Middleborough/Lakeville train 028 is on the way to Holbrook/Randolph</p></div>"
+        "<p class='prediction-tooltip'>Middleborough/Lakeville train 028 is on the way to Holbrook/Randolph</p>"
       );
       expect(
         document
@@ -150,8 +150,8 @@ describe("CRTimetableTrains", () => {
               }
             },
             marker: {
-              tooltip:
-                "<div><div><p class='prediction-tooltip'>Middleborough/Lakeville train 028 has arrived at Brockton</p></div>"
+              tooltip_text:
+                "Middleborough/Lakeville train 028 has arrived at Brockton"
             }
           }
         ]
@@ -171,7 +171,7 @@ describe("CRTimetableTrains", () => {
           .getElementById("Brockton-CR-Weekday-Fall-18-028-tooltip")
           .getAttribute("data-original-title")
       ).to.equal(
-        "<div><div><p class='prediction-tooltip'>Middleborough/Lakeville train 028 has arrived at Brockton</p></div>"
+        "<p class='prediction-tooltip'>Middleborough/Lakeville train 028 has arrived at Brockton</p>"
       );
       expect(
         document
