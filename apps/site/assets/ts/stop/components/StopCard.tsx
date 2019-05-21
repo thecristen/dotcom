@@ -12,7 +12,7 @@ const routeNameBasedOnDirection = (
 ): string =>
   directionId === null
     ? route.long_name
-    : // eslint-disable-next-line typescript/camelcase
+    : // eslint-disable-next-line @typescript-eslint/camelcase
       route.direction_destinations[directionId];
 
 interface Props {
@@ -51,7 +51,7 @@ const StopCard = ({
     routesWithDirection.length === 0 && routes.length > 0
       ? routes.map(route => ({
           route,
-          // eslint-disable-next-line typescript/camelcase
+          // eslint-disable-next-line @typescript-eslint/camelcase
           direction_id: null
         }))
       : routesWithDirection;

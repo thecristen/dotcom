@@ -25,7 +25,7 @@ it("it renders", () => {
 });
 
 it("renders ferry routes", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const route: Route = {
     type: 4,
     name: "Charlestown Ferry",
@@ -47,7 +47,7 @@ it("renders ferry routes", () => {
 });
 
 it("renders orange line routes", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const route: Route = {
     type: 1,
     name: "Orange Line",
@@ -75,7 +75,7 @@ it("renders orange line routes", () => {
 });
 
 it("renders blue line routes", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const route: Route = {
     type: 1,
     name: "Blue Line",
@@ -103,7 +103,7 @@ it("renders blue line routes", () => {
 });
 
 it("renders red line routes", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const route: Route = {
     type: 1,
     name: "Red Line",
@@ -131,7 +131,7 @@ it("renders red line routes", () => {
 });
 
 it("renders green line routes", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const route: Route = {
     type: 1,
     name: "B Line",
@@ -159,7 +159,7 @@ it("renders green line routes", () => {
 });
 
 it("renders bus routes", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const route: Route = {
     type: 3,
     name: "Bus",

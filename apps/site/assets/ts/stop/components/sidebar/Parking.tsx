@@ -11,7 +11,7 @@ const renderUtilization = (
     const {
       name,
       capacity: { total },
-      // eslint-disable-next-line typescript/camelcase
+      // eslint-disable-next-line @typescript-eslint/camelcase
       utilization: { typical, arrive_before }
     } = lot;
     if (typical && total) {
@@ -19,9 +19,9 @@ const renderUtilization = (
 
       const demandForSpaces = typical / total;
       if (demandForSpaces > 0.9) {
-        // eslint-disable-next-line typescript/camelcase
+        // eslint-disable-next-line @typescript-eslint/camelcase
         if (arrive_before) {
-          // eslint-disable-next-line typescript/camelcase
+          // eslint-disable-next-line @typescript-eslint/camelcase
           message = `${message} We recommend arriving before ${arrive_before}.`;
         }
       } else {

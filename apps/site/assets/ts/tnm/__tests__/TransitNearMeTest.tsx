@@ -10,7 +10,7 @@ import { importData, importStopData } from "./helpers/testUtils";
 import { MapData } from "../../leaflet/components/__mapdata";
 
 it("it renders", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const mapData: MapData = {
     zoom: 14,
     width: 630,
@@ -43,7 +43,7 @@ it("it renders", () => {
 });
 
 it("it switches view on click", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const mapData: MapData = {
     zoom: 14,
     width: 630,
@@ -75,7 +75,7 @@ it("it switches view on click", () => {
 });
 
 it("sets mode filters based on query", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const mapData: MapData = {
     zoom: 14,
     width: 630,

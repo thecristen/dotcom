@@ -16,7 +16,7 @@ it("renders", () => {
 });
 
 it("renders a ferry route", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const routes: TypedRoutes[] = [
     {
       group_name: "ferry",

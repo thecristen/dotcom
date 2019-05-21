@@ -23,7 +23,7 @@ const allRoutes = (typedRoutes: TypedRoutes[]): RouteWithDirections[] =>
   );
 
 const availableModes = (typedRoutes: TypedRoutes[]): string[] =>
-  // eslint-disable-next-line typescript/camelcase
+  // eslint-disable-next-line @typescript-eslint/camelcase
   typedRoutes.map(({ group_name }) => group_name);
 
 const filteredByModes = (

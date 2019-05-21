@@ -5,7 +5,7 @@ import { Alert } from "../../__v3api";
 import { AlertsTab as AlertsTabType } from "../components/__stop";
 import AlertsTab from "../components/AlertsTab";
 
-/* eslint-disable typescript/camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
 const highAlert: Alert = {
   updated_at: "Updated: 4/11/2019 09:33A",
   severity: 7,
@@ -67,7 +67,7 @@ describe("AlertsTab", () => {
 
   test("it handles no initial filter for time filters", () => {
     const wrapper = mount(
-      // eslint-disable-next-line typescript/camelcase
+      // eslint-disable-next-line @typescript-eslint/camelcase
       <AlertsTab alertsTab={{ ...alertsTab, initial_selected: "" }} />
     );
     expect(wrapper.find(".callout").html()).toMatch("No alerts");
@@ -98,7 +98,7 @@ describe("AlertsTab", () => {
       ...alertsTab,
       all: {
         alerts: [highAlert, lowAlert],
-        // eslint-disable-next-line typescript/camelcase
+        // eslint-disable-next-line @typescript-eslint/camelcase
         empty_message: alertsTab.all.empty_message
       }
     };

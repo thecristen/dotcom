@@ -3,7 +3,7 @@ import { mount } from "enzyme";
 import Map from "../components/Map";
 import { MapData, MapMarker } from "../components/__mapdata";
 
-/* eslint-disable typescript/camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
 const marker: MapMarker = {
   icon: "test",
   id: "marker",
@@ -55,4 +55,4 @@ it("it renders using the default center position", () => {
       .prop("src")
   ).toBe(`${data.tile_server_url}/osm_tiles/16/19650/23738.png`);
 });
-/* eslint-disable typescript/camelcase */
+/* eslint-disable @typescript-eslint/camelcase */

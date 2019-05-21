@@ -8,7 +8,7 @@ import { StopPageData, AlertsTab, StopMapData } from "../components/__stop";
 import { MapData } from "../../leaflet/components/__mapdata";
 import { createReactRoot } from "../../app/helpers/testUtils";
 
-/* eslint-disable typescript/camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
 const mapData: MapData = {
   default_center: { latitude: 0, longitude: 0 },
   height: 500,
@@ -69,7 +69,7 @@ it("it renders", () => {
 it("it renders the alert tab", () => {
   const data = JSON.parse(JSON.stringify(stopData)) as StopPageData;
 
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const alertsTab: AlertsTab = {
     current: {
       alerts: [],

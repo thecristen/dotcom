@@ -11,7 +11,7 @@ import {
   Route
 } from "../../__v3api";
 
-/* eslint-disable typescript/camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
 
 const time: PredictedOrScheduledTime = {
   scheduled_time: ["4:30", " ", "PM"],

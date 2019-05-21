@@ -53,7 +53,7 @@ it("it renders", () => {
           hours,
           holidays,
           fares,
-          fare_link: fareLink // eslint-disable-line typescript/camelcase
+          fare_link: fareLink // eslint-disable-line @typescript-eslint/camelcase
         }}
       />
     )

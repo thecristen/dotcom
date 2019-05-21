@@ -202,14 +202,14 @@ describe("reducer", () => {
       shouldFilterStopCards: false
     };
 
-    /* eslint-disable typescript/camelcase */
+    /* eslint-disable @typescript-eslint/camelcase */
     const routes: TypedRoutes[] = [
       {
         group_name: "subway",
         routes: []
       }
     ];
-    /* eslint-disable typescript/camelcase */
+    /* eslint-disable @typescript-eslint/camelcase */
     const expectedState: State = {
       ...initialState,
       routes

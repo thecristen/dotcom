@@ -4,7 +4,7 @@ import HeadsignComponent from "../Headsign";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { Headsign } from "../../__v3api";
 
-/* eslint-disable typescript/camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
 
 it("it renders 2 predictions", () => {
   const headsign: Headsign = {

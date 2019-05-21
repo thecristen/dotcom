@@ -8,7 +8,7 @@ import { StopPageData, TypedRoutes } from "../../components/__stop";
 import { createReactRoot } from "../../../app/helpers/testUtils";
 
 const data = JSON.parse(JSON.stringify(stopData)) as StopPageData;
-/* eslint-disable typescript/camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
 
 const stop: Stop = {
   type: "station",

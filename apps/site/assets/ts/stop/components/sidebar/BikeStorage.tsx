@@ -7,7 +7,7 @@ interface Props {
   stop: Stop;
 }
 
-/* eslint-disable typescript/camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
 const bikeStorageType: { [BikeStorage in BikeStorageType]: string } = {
   bike_storage_rack: "Regular bike racks",
   bike_storage_rack_covered: "Covered bike racks",

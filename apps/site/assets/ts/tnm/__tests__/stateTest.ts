@@ -189,7 +189,7 @@ describe("reducer", () => {
       selectedModes: []
     };
 
-    /* eslint-disable typescript/camelcase */
+    /* eslint-disable @typescript-eslint/camelcase */
     const routeSidebarData: RouteWithStopsWithDirections[] = [
       {
         route: {

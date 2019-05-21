@@ -10,7 +10,7 @@ interface AlgoliaEvent {
 }
 
 export default class TransitNearMeSearch {
-  /* eslint-disable typescript/no-explicit-any */
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   public controller: any;
 
   public autocomplete: any;

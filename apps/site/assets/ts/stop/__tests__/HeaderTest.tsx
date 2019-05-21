@@ -28,7 +28,7 @@ it("renders", () => {
 });
 
 it("renders with green line routes", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const routes: TypedRoutes[] = [
     {
       group_name: "subway",
@@ -155,7 +155,7 @@ it("renders with green line routes", () => {
 });
 
 it("renders all subway routes", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const routes: TypedRoutes[] = [
     {
       group_name: "subway",
@@ -262,7 +262,7 @@ it("renders all subway routes", () => {
 });
 
 it("renders a ferry route", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const routes: TypedRoutes[] = [
     {
       group_name: "ferry",
@@ -303,7 +303,7 @@ it("renders a ferry route", () => {
 });
 
 it("upcases name of non-bus stops", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const routes: TypedRoutes[] = [
     {
       group_name: "bus",
@@ -373,7 +373,7 @@ it("upcases name of non-bus stops", () => {
 });
 
 it("does not upcase name of bus-only stops", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const routes: TypedRoutes[] = [
     {
       group_name: "bus",
@@ -418,7 +418,7 @@ it("does not upcase name of bus-only stops", () => {
 });
 
 it("separates bus and silver line pills", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const busRoute: Route = {
     type: 3,
     name: "Bus",
@@ -490,7 +490,7 @@ it("separates bus and silver line pills", () => {
 });
 
 it("dispatches clickRoutePillAction when route pill is clicked", () => {
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   const routes: TypedRoutes[] = [
     {
       group_name: "bus",

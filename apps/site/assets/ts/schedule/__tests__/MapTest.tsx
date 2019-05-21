@@ -3,7 +3,7 @@ import { mount } from "enzyme";
 import Map, { getBounds, iconOpts } from "../components/Map";
 import { MapData } from "../../leaflet/components/__mapdata";
 
-/* eslint-disable typescript/camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
 const data: MapData = {
   zoom: 16,
   width: 600,

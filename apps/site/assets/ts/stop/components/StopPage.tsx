@@ -40,9 +40,9 @@ export default ({
     stop,
     street_view_url: streetViewUrl,
     routes,
-    // eslint-disable-next-line typescript/camelcase
+    // eslint-disable-next-line @typescript-eslint/camelcase
     retail_locations: retailLocations,
-    // eslint-disable-next-line typescript/camelcase
+    // eslint-disable-next-line @typescript-eslint/camelcase
     suggested_transfers: suggestedTransfers,
     alerts,
     alerts_tab: alertsTab,

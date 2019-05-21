@@ -13,7 +13,7 @@ interface Props {
   routes: TypedRoutes[];
 }
 
-/* eslint-disable typescript/camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
 export const accessibilityNames: {
   [accessibilityName in AccessibilityType]: string
 } = {

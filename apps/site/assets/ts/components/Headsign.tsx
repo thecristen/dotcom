@@ -53,13 +53,13 @@ const crDelayedTime = (
 );
 
 const crTime = (data: PredictedOrScheduledTime): ReactElement<HTMLElement> => {
-  // eslint-disable-next-line typescript/camelcase
+  // eslint-disable-next-line @typescript-eslint/camelcase
   const { delay, prediction, scheduled_time } = data;
   if (delay > 0 && prediction) {
     return crDelayedTime(data);
   }
 
-  // eslint-disable-next-line typescript/camelcase
+  // eslint-disable-next-line @typescript-eslint/camelcase
   const time = prediction ? prediction.time : scheduled_time;
 
   return <div className="m-tnm-sidebar__time-number">{time!.join("")}</div>;
@@ -105,14 +105,14 @@ const renderTime = (
   routeType: RouteType,
   idx: number
 ): ReactElement<HTMLElement> => {
-  // eslint-disable-next-line typescript/camelcase
+  // eslint-disable-next-line @typescript-eslint/camelcase
   const { prediction, scheduled_time } = tnmTime;
-  // eslint-disable-next-line typescript/camelcase
+  // eslint-disable-next-line @typescript-eslint/camelcase
   const time = prediction ? prediction.time : scheduled_time!;
 
   return (
     <div
-      // eslint-disable-next-line typescript/camelcase
+      // eslint-disable-next-line @typescript-eslint/camelcase
       key={`${headsignName}-${idx}`}
       className="m-tnm-sidebar__schedule"
     >

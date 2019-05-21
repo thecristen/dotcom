@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default ({
-  // eslint-disable-next-line typescript/camelcase
+  // eslint-disable-next-line @typescript-eslint/camelcase
   initialData: { map_data: mapData },
   stop,
   routes

@@ -93,14 +93,14 @@ const splitSilverLine = (
 };
 
 const iconableRoutesForType = ({
-  // eslint-disable-next-line typescript/camelcase
+  // eslint-disable-next-line @typescript-eslint/camelcase
   group_name,
   routes
 }: TypedRoutes): RouteWithDirections[] => {
-  // eslint-disable-next-line typescript/camelcase
+  // eslint-disable-next-line @typescript-eslint/camelcase
   if (group_name === "subway") return routes;
 
-  // eslint-disable-next-line typescript/camelcase
+  // eslint-disable-next-line @typescript-eslint/camelcase
   if (group_name === "bus") return splitSilverLine(routes);
 
   return routes.length ? [routes[0]] : [];

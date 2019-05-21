@@ -29,7 +29,7 @@ const timeFilter = (
 );
 
 const AlertsTab = ({ alertsTab }: Props): ReactElement<HTMLElement> => {
-  // eslint-disable-next-line typescript/camel-case
+  // eslint-disable-next-line @typescript-eslint/camel-case
   const initialFilter: string = alertsTab.initial_selected || "all";
   const [filter, changeFilter] = useState(initialFilter);
 

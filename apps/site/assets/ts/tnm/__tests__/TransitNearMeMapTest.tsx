@@ -16,7 +16,7 @@ const marker: MapMarker = {
   id: "current-location",
   latitude: 25,
   longitude: 25,
-  // eslint-disable-next-line typescript/camelcase
+  // eslint-disable-next-line @typescript-eslint/camelcase
   rotation_angle: 0,
   size: [25, 25],
   tooltip: null
@@ -33,7 +33,7 @@ it("it renders without initial markers", () => {
         selectedModes={[]}
         shouldFilterMarkers={false}
         shouldCenterMapOnSelectedStop={false}
-        /* eslint-disable typescript/camelcase */
+        /* eslint-disable @typescript-eslint/camelcase */
         initialData={{
           markers: [],
           zoom: 14,
@@ -67,7 +67,7 @@ it("it renders with initial markers", () => {
         initialData={{
           zoom: 14,
           width: 630,
-          /* eslint-disable typescript/camelcase */
+          /* eslint-disable @typescript-eslint/camelcase */
           markers: [marker],
           default_center: {
             latitude: 0,
@@ -122,7 +122,7 @@ describe("boundsForMap", () => {
 const stop: Stop = {
   accessibility: ["wheelchair"],
   address: "123 Main St., Boston MA",
-  /* eslint-disable typescript/camelcase */
+  /* eslint-disable @typescript-eslint/camelcase */
   bike_storage: [],
   closed_stop_info: null,
   fare_facilities: [],
@@ -145,19 +145,19 @@ const routes: Route[] = [
   {
     type: 1,
     name: "Orange Line",
-    long_name: "Orange Line", // eslint-disable-line typescript/camelcase
+    long_name: "Orange Line", // eslint-disable-line @typescript-eslint/camelcase
     id: "Orange",
-    direction_names: { "0": "South", "1": "North" }, // eslint-disable-line typescript/camelcase
-    direction_destinations: { "0": "Forest Hills", "1": "Oak Grove" }, // eslint-disable-line typescript/camelcase
+    direction_names: { "0": "South", "1": "North" }, // eslint-disable-line @typescript-eslint/camelcase
+    direction_destinations: { "0": "Forest Hills", "1": "Oak Grove" }, // eslint-disable-line @typescript-eslint/camelcase
     description: "rapid_transit",
-    alert_count: 0, // eslint-disable-line typescript/camelcase
+    alert_count: 0, // eslint-disable-line @typescript-eslint/camelcase
     header: ""
   }
 ];
 
 const stopData: StopWithRoutes = {
   stop: { stop, directions: [], distance: "0ft" },
-  // eslint-disable-next-line typescript/camelcase
+  // eslint-disable-next-line @typescript-eslint/camelcase
   routes: [{ group_name: "subway", routes }],
   distance: "3ft"
 };

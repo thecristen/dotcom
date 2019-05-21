@@ -4,7 +4,7 @@ import ExpandableBlock from "../../../components/ExpandableBlock";
 import { RetailLocationWithDistance, RetailLocation } from "../__stop";
 import fareIconSvg from "../../../../static/images/icon-fares-default.svg";
 
-/* eslint-disable typescript/camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
 interface Props {
   stop: Stop;
   retailLocations: RetailLocationWithDistance[];
