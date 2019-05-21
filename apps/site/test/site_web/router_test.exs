@@ -7,11 +7,6 @@ defmodule Phoenix.Router.RoutingTest do
       assert redirected_to(conn, 301) == "/stops/Yawkey"
     end
 
-    test "Boat-George", %{conn: conn} do
-      conn = get(conn, "/stops/Boat-George")
-      assert redirected_to(conn, 301) == "/stops/ferry"
-    end
-
     test "SL", %{conn: conn} do
       conn = get(conn, "/schedules/SL1")
       assert redirected_to(conn, 301) == "/schedules/741"
