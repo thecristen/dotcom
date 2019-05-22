@@ -100,7 +100,7 @@
   "scripts": {
     "ts:build": "cd ts/ && tsc",
     "eslint": "cd js && npx eslint --ext .js .",
-    "tslint": "cd ts && npx eslint --ext .ts,.tsx .",
+    "tslint": "cd ts && npx eslint --ext .ts,.tsx --max-warnings=0 .",
     "test": "npm run test:mocha && npm run test:jest",
     "test:mocha": "mocha --require @babel/register --require ts-node/register js/test/**/*.js",
     "test:jest": "jest -c ts/jest.config.js",
