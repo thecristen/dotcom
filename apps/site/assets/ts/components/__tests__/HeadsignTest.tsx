@@ -191,7 +191,7 @@ it("it displays delayed status for CR", () => {
     train_number: "404",
     times: [
       {
-        delay: 3,
+        delay: 5,
         scheduled_time: ["7:00", " ", "PM"],
         prediction: {
           time: ["7:03", " ", "PM"],

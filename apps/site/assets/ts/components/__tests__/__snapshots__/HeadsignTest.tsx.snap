@@ -40,7 +40,7 @@ exports[`it displays delayed status for CR 1`] = `
         <div
           className="m-tnm-sidebar__status"
         >
-          Delayed 3 min
+          Delayed 5 min
         </div>
       </div>
     </div>

@@ -55,7 +55,7 @@ const crDelayedTime = (
 const crTime = (data: PredictedOrScheduledTime): ReactElement<HTMLElement> => {
   // eslint-disable-next-line @typescript-eslint/camelcase
   const { delay, prediction, scheduled_time } = data;
-  if (delay > 0 && prediction) {
+  if (delay >= 5 && prediction) {
     return crDelayedTime(data);
   }
 
@@ -66,7 +66,7 @@ const crTime = (data: PredictedOrScheduledTime): ReactElement<HTMLElement> => {
 };
 
 const crStatus = ({ delay, prediction }: PredictedOrScheduledTime): string => {
-  if (delay > 0) {
+  if (delay >= 5) {
     return `Delayed ${delay} min`;
   }
 
