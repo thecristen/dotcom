@@ -209,6 +209,76 @@ defmodule Site.TransitNearMeTest do
     end
   end
 
+  describe "build_headsign_map/2" do
+    @headsign "Headsign A"
+    @pm_12_00 DateTime.from_naive!(~N[2030-02-19T12:00:00], "Etc/UTC")
+    @route %Route{id: "subway", type: 1, direction_destinations: %{0 => "0", 1 => "1"}}
+    @stop %Stop{id: "stop"}
+    @schedule_trip %Trip{id: "0", headsign: @headsign, direction_id: 0, shape_id: "1"}
+    @prediction_trip %Trip{id: "1", headsign: @headsign, direction_id: 0, shape_id: "2"}
+    @base_schedule %Schedule{stop: @stop, route: @route, time: @pm_12_00}
+
+    test "prediction.trip does not match schedule.trip, uses schedule anyway" do
+      provided_schedules = [%{@base_schedule | trip: @schedule_trip}]
+
+      predictions_fn = fn
+        [route: "subway", direction_id: 0, stop: "stop"] ->
+          [%Prediction{route: @route, time: @pm_12_00, trip: @prediction_trip}]
+      end
+
+      schedules_fn = fn _, _ -> [] end
+      opts = [now: @date, predictions_fn: predictions_fn, schedules_fn: schedules_fn]
+
+      {_, %{times: [%{prediction: %{time: prediction_time}, scheduled_time: scheduled_time}]}} =
+        TransitNearMe.build_headsign_map({@headsign, provided_schedules}, opts)
+
+      assert prediction_time == ["12:00", " ", "PM"]
+      assert scheduled_time == ["12:00", " ", "PM"]
+    end
+
+    test "prediction.trip does not match schedule.trip, can't find schedule" do
+      route = %Route{id: "cr", type: 2, direction_destinations: %{0 => "0", 1 => "1"}}
+      provided_schedules = [%{@base_schedule | trip: @schedule_trip, route: route}]
+
+      predictions_fn = fn
+        [route: "cr", direction_id: 0, stop: "stop"] ->
+          [%Prediction{route: route, time: @pm_12_00, trip: @prediction_trip}]
+      end
+
+      schedules_fn = fn _, _ -> [] end
+      opts = [now: @date, predictions_fn: predictions_fn, schedules_fn: schedules_fn]
+
+      {_, %{times: [%{prediction: %{time: prediction_time}, scheduled_time: scheduled_time}]}} =
+        TransitNearMe.build_headsign_map({@headsign, provided_schedules}, opts)
+
+      assert prediction_time == ["12:00", " ", "PM"]
+      assert scheduled_time == nil
+    end
+
+    test "prediction.trip does not match schedule.trip, finds a different schedule" do
+      route = %Route{id: "cr", type: 2, direction_destinations: %{0 => "0", 1 => "1"}}
+      provided_schedules = [%{@base_schedule | trip: @schedule_trip, route: route}]
+      am_11_00 = DateTime.from_naive!(~N[2030-02-19T11:00:00], "Etc/UTC")
+
+      predictions_fn = fn
+        [route: "cr", direction_id: 0, stop: "stop"] ->
+          [%Prediction{route: route, time: @pm_12_00, trip: @prediction_trip}]
+      end
+
+      schedules_fn = fn _, _ ->
+        [%{@base_schedule | trip: @prediction_trip, route: route, time: am_11_00}]
+      end
+
+      opts = [now: @date, predictions_fn: predictions_fn, schedules_fn: schedules_fn]
+
+      {_, %{times: [%{prediction: %{time: prediction_time}, scheduled_time: scheduled_time}]}} =
+        TransitNearMe.build_headsign_map({@headsign, provided_schedules}, opts)
+
+      assert prediction_time == ["12:00", " ", "PM"]
+      assert scheduled_time == ["11:00", " ", "AM"]
+    end
+  end
+
   describe "schedules_for_routes/3" do
     test "returns a list of custom route structs" do
       now = Util.now()
@@ -691,10 +761,13 @@ defmodule Site.TransitNearMeTest do
       time = DateTime.from_naive!(~N[2019-02-21T12:00:00], "Etc/UTC")
       parent = self()
 
-      predictions_fn = fn [trip: trip_id, stop: "stop"] = params ->
+      predictions_fn = fn [route: "route", direction_id: 0, stop: "stop"] = params ->
         send(parent, {:predictions_fn, params})
-        trip = Map.fetch!(@trips, trip_id)
-        [%{base_prediction | direction_id: 0, trip: trip, time: time}]
+
+        Enum.map(
+          1..4,
+          &%{base_prediction | direction_id: 0, trip: Map.get(@trips, "trip-#{&1}"), time: time}
+        )
       end
 
       schedules =

@@ -405,6 +405,7 @@ defmodule Site.TransitNearMe do
     {times, headsign_schedules} =
       schedules
       |> Enum.take(schedule_count(route))
+      |> Enum.with_index()
       |> Enum.map(&build_time_map(&1, opts))
       |> filter_headsign_schedules(route)
       |> Enum.unzip()
@@ -437,10 +438,10 @@ defmodule Site.TransitNearMe do
     # occasionally, a prediction will not have a time; discard if that happens
     |> Enum.filter(& &1.time)
     |> Enum.reject(&Timex.before?(&1.time, now))
-    |> Enum.sort(&(&1.time <= &2.time))
+    |> Enum.sort(&(DateTime.compare(&1.time, &2.time) != :gt))
   end
 
-  @type predicted_schedule_and_time_data :: {{DateTime.t() | nil, DateTime.t()}, time_data}
+  @type predicted_schedule_and_time_data :: {{DateTime.t() | nil, DateTime.t() | nil}, time_data}
 
   @spec filter_headsign_schedules([predicted_schedule_and_time_data], Route.t() | nil) :: [
           predicted_schedule_and_time_data
@@ -541,22 +542,27 @@ defmodule Site.TransitNearMe do
   defp expand_route_id("Green"), do: ["Green-B", "Green-C", "Green-D", "Green-E"]
   defp expand_route_id(route), do: [route]
 
-  @spec build_time_map(Schedule.t(), Keyword.t()) :: predicted_schedule_and_time_data
-  defp build_time_map(%Schedule{} = schedule, opts) do
+  @spec build_time_map({Schedule.t() | Prediction.t(), integer}, Keyword.t()) ::
+          predicted_schedule_and_time_data
+
+  defp build_time_map({%Schedule{} = schedule, prediction_offset}, opts) do
     route_type = Route.type_atom(schedule.route)
     predictions_fn = Keyword.get(opts, :predictions_fn, &Predictions.Repo.all/1)
     now = Keyword.fetch!(opts, :now)
 
     prediction =
-      [trip: schedule.trip.id, stop: schedule.stop.id]
+      [
+        route: schedule.route.id,
+        direction_id: schedule.trip.direction_id,
+        stop: schedule.stop.id
+      ]
       |> get_predictions(predictions_fn, now)
-      |> case do
-        [] ->
-          nil
+      |> Enum.filter(&(&1.trip.headsign == schedule.trip.headsign))
+      |> Enum.at(prediction_offset)
 
-        [prediction | _] ->
-          prediction
-      end
+    schedule = time_map_schedule(route_type, schedule, prediction, opts)
+    schedule_time = if schedule != nil, do: schedule.time, else: nil
+    schedule_time_formatted = if schedule != nil, do: format_time(schedule.time), else: nil
 
     delay =
       PredictedSchedule.delay(%PredictedSchedule{
@@ -565,16 +571,16 @@ defmodule Site.TransitNearMe do
       })
 
     {
-      {prediction_time(prediction), schedule.time},
+      {prediction_time(prediction), schedule_time},
       %{
         delay: delay,
-        scheduled_time: format_time(schedule.time),
+        scheduled_time: schedule_time_formatted,
         prediction: simple_prediction(prediction, route_type, now)
       }
     }
   end
 
-  defp build_time_map(%Prediction{} = prediction, opts) do
+  defp build_time_map({%Prediction{} = prediction, _index}, opts) do
     route_type = Route.type_atom(prediction.route)
     now = Keyword.fetch!(opts, :now)
 
@@ -587,6 +593,28 @@ defmodule Site.TransitNearMe do
     }
   end
 
+  @spec time_map_schedule(atom, Schedule.t(), Prediction.t() | nil, Keyword.t()) ::
+          Schedule.t() | nil
+  defp time_map_schedule(
+         :commuter_rail,
+         %{stop: %{id: stop_id}, trip: %{id: schedule_trip_id}},
+         %{
+           trip: %{id: prediction_trip_id}
+         },
+         opts
+       )
+       when schedule_trip_id != prediction_trip_id do
+    opts = Keyword.merge(@default_opts, opts)
+    schedules_fn = Keyword.fetch!(opts, :schedules_fn)
+
+    stop_id
+    |> schedules_fn.(trip: prediction_trip_id)
+    |> List.first()
+  end
+
+  defp time_map_schedule(_route_type, schedule, _prediction, _opts), do: schedule
+
+  @spec prediction_time(Prediction.t() | nil) :: DateTime.t() | nil
   defp prediction_time(nil), do: nil
   defp prediction_time(%Prediction{time: time}), do: time
 

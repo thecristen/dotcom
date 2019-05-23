@@ -76,6 +76,7 @@ defmodule Schedules.Repo do
     @default_params
     |> Keyword.merge(opts |> Keyword.delete(:min_time))
     |> Keyword.put(:stop, stop_id)
+    |> add_optional_param(opts, :trip)
     |> cache(&all_from_params/1)
     |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
