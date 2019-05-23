@@ -13,6 +13,7 @@ declare global {
     encodeURIComponent(component: string): string;
     autocomplete: any;
     jQuery: any;
+    HTMLElement: any;
     /* eslint-enable typescript/no-explicit-any */
   }
 }
@@ -25,3 +26,15 @@ document.title = "MBTA";
 window.google = {
   maps: createGoogleMapsMock()
 };
+
+window.matchMedia = jest.fn().mockImplementation(query => {
+  return {
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(),
+    removeListener: jest.fn()
+  };
+});
+
+window.HTMLElement.prototype.scrollIntoView = jest.fn();

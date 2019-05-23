@@ -1,9 +1,10 @@
 import React, { ReactElement } from "react";
 import { Mode, Route, Stop } from "../../__v3api";
 import { RouteGroup } from "./__tnm";
-import { Dispatch, clickStopCardAction } from "../state";
+import { Dispatch } from "../state";
 import ModeIcon from "./ModeIcon";
-import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
+import { useSMDown } from "../../helpers/media-breakpoints";
+import { buttonProps } from "../../components/StopCard";
 
 export const renderRoutesLabel = (
   routes: Route[],
@@ -48,16 +49,13 @@ const StopWithRoutesCard = ({
   distance,
   dispatch
 }: Props): ReactElement<HTMLElement> => {
-  const onClick = (): void => dispatch(clickStopCardAction(stop.id));
+  const isSmallBreakpoint = useSMDown();
+  const containerProps = !isSmallBreakpoint
+    ? buttonProps(dispatch, stop.id)
+    : {};
 
   return (
-    <div
-      className="m-tnm-sidebar__stop-card"
-      role="button"
-      tabIndex={0}
-      onClick={onClick}
-      onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
-    >
+    <div className="m-tnm-sidebar__stop-card" {...containerProps}>
       <div className="m-tnm-sidebar__stop-card-header">
         <a className="m-tnm-sidebar__stop-card-name" href={stop.href}>
           {stop.name}

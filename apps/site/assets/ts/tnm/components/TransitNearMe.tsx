@@ -1,4 +1,4 @@
-import React, { useReducer, ReactElement } from "react";
+import React, { useReducer, ReactElement, useRef, useEffect } from "react";
 import TransitNearMeMap from "./leaflet/TransitNearMeMap";
 import RoutesSidebar from "./RoutesSidebar";
 import StopsSidebar from "./StopsSidebar";
@@ -93,6 +93,13 @@ const TransitNearMe = ({
     shouldFilterStopCards: selectedModes.length > 0
   };
   const [state, dispatch] = useReducer(reducer, initialStateWithModes);
+  const mapRef = useRef(null);
+  useEffect(() => {
+    if (mapRef && mapRef.current && mapData.markers.length > 0) {
+      // @ts-ignore
+      mapRef.current!.scrollIntoView();
+    }
+  }, []);
   const selectedStop = getSelectedStop(stopSidebarData, state.selectedStopId);
 
   useInterval(() => fetchData(query, dispatch), 15000);
@@ -122,6 +129,7 @@ const TransitNearMe = ({
       )}
       <h3 className="sr-only">Map</h3>
       <div
+        ref={mapRef}
         id={mapId}
         className="m-tnm__map"
         role="application"

@@ -101,6 +101,11 @@ exports[`StopsSidebar it renders 1`] = `
         onClick={[Function]}
         onKeyPress={[Function]}
         role="button"
+        style={
+          Object {
+            "cursor": "pointer",
+          }
+        }
         tabIndex={0}
       >
         <div
@@ -148,6 +153,11 @@ exports[`StopsSidebar it renders 1`] = `
         onClick={[Function]}
         onKeyPress={[Function]}
         role="button"
+        style={
+          Object {
+            "cursor": "pointer",
+          }
+        }
         tabIndex={0}
       >
         <div
@@ -207,6 +217,11 @@ exports[`StopsSidebar it renders 1`] = `
         onClick={[Function]}
         onKeyPress={[Function]}
         role="button"
+        style={
+          Object {
+            "cursor": "pointer",
+          }
+        }
         tabIndex={0}
       >
         <div

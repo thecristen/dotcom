@@ -3,7 +3,8 @@ import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import TransitNearMe, {
   getSelectedStop,
-  fetchData
+  fetchData,
+  modesFromQuery
 } from "../components/TransitNearMe";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { importData, importStopData } from "./helpers/testUtils";
@@ -151,6 +152,10 @@ it("sets mode filters based on query", () => {
     "commuter_rail",
     "commuter_rail"
   ]);
+});
+
+it("ignores modes that aren't specified", () => {
+  expect(modesFromQuery({ filter: "madeup" })).toEqual([]);
 });
 
 it("getSelectedStop returns the stop if found", () => {
