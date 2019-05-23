@@ -50,7 +50,16 @@ export interface RouteSidebarDataAction {
   };
 }
 
-type Action = StopAction | ModeAction | RouteSidebarDataAction;
+type ResetActionType = "RESET_SHOULD_CENTER_MAP";
+
+export interface ResetAction {
+  type: ResetActionType;
+  payload: {
+    data: SelectedStopType;
+  };
+}
+
+type Action = StopAction | ModeAction | RouteSidebarDataAction | ResetAction;
 
 export const clickStopCardAction = (stopId: SelectedStopType): StopAction => ({
   type: "CLICK_STOP_CARD",
@@ -70,6 +79,13 @@ export const clickViewChangeAction = (): StopAction => ({
 export const clickModeAction = (modes: Mode[]): ModeAction => ({
   type: "CLICK_MODE_FILTER",
   payload: { modes }
+});
+
+export const resetCenterMapOnSelectedStop = (
+  stopId: SelectedStopType
+): ResetAction => ({
+  type: "RESET_SHOULD_CENTER_MAP",
+  payload: { data: stopId }
 });
 
 export const routeSidebarDataAction = (
@@ -107,6 +123,11 @@ const stopReducer = (state: State, action: Action): State => {
         selectedStopId: action.payload.stopId,
         shouldFilterStopCards: state.shouldFilterStopCards,
         shouldCenterMapOnSelectedStop: true
+      };
+    case "RESET_SHOULD_CENTER_MAP":
+      return {
+        ...state,
+        shouldCenterMapOnSelectedStop: false
       };
     case "CLICK_STOP_PILL":
       return {

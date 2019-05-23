@@ -4,7 +4,11 @@ import Leaflet, { Viewport } from "react-leaflet";
 import { MapMarker } from "../../../leaflet/components/__mapdata";
 import { StopsForMarkers } from "./TransitNearMeMap";
 import MarkerWrapper from "./MarkerWrapper";
-import { Dispatch, SelectedStopType } from "../../state";
+import {
+  Dispatch,
+  SelectedStopType,
+  resetCenterMapOnSelectedStop
+} from "../../state";
 import { defaultZoomOpts } from "../../../leaflet/components/Map";
 
 type State = Viewport;
@@ -34,14 +38,18 @@ export const centerMap = (
   shouldCenterMapOnSelectedStop: boolean,
   selectedStopId: string | null,
   markers: MapMarker[],
-  viewport: Viewport
-): Viewport =>
-  shouldCenterMapOnSelectedStop && selectedStopId
-    ? {
-        center: centerMapByMarker(markers, selectedStopId),
-        zoom: viewport.zoom
-      }
-    : viewport;
+  viewport: Viewport,
+  dispatch: Dispatch
+): Viewport => {
+  if (shouldCenterMapOnSelectedStop && selectedStopId) {
+    dispatch(resetCenterMapOnSelectedStop(selectedStopId));
+    return {
+      center: centerMapByMarker(markers, selectedStopId),
+      zoom: viewport.zoom
+    };
+  }
+  return viewport;
+};
 
 const LeafletMap = ({
   bounds,
@@ -75,7 +83,8 @@ const LeafletMap = ({
     shouldCenterMapOnSelectedStop,
     selectedStopId,
     markers,
-    viewport
+    viewport,
+    dispatch
   );
 
   return (

@@ -101,8 +101,16 @@ it("it renders using the default center if not shouldCenter", () => {
 });
 
 it("it renders using the selected markers position if shouldCenter", () => {
-  const dataWithoutMarkers: Props = {
+  const dispatch = jest.fn();
+  const mapData = {
     ...mapWrapperProps,
+    tooltipData: {},
+    marker: [{ ...marker, id: null }]
+  };
+  const dataWithoutMarkers: Props = {
+    ...mapData,
+    tooltipData: {},
+    dispatch,
     selectedStopId: "stop-id",
     shouldCenterMapOnSelectedStop: true
   };
@@ -117,5 +125,9 @@ it("it renders using the selected markers position if shouldCenter", () => {
       .find(".leaflet-tile")
       .prop("src")
   ).toBe(`/osm_tiles/15/9921/12285.png`);
+  expect(dispatch).toHaveBeenCalledWith({
+    payload: { data: "stop-id" },
+    type: "RESET_SHOULD_CENTER_MAP"
+  });
 });
 /* eslint-disable @typescript-eslint/camelcase */
