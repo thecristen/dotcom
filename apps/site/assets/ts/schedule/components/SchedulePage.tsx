@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { SchedulePageData } from "./__schedule";
+import DirectionSelector from "./DirectionSelector";
 import PDFSchedules from "./PDFSchedules";
 import Connections from "./Connections";
 import ContentTeasers from "./ContentTeasers";
@@ -23,6 +24,7 @@ const SchedulePage = ({
     holidays,
     fare_link: fareLink,
     route,
+    route_patterns: routePatterns,
     schedule_note: scheduleNote,
     services,
     stops,
@@ -30,6 +32,11 @@ const SchedulePage = ({
   }
 }: Props): ReactElement<HTMLElement> => (
   <>
+    <DirectionSelector
+      directionId={directionId}
+      route={route}
+      routePatterns={routePatterns}
+    />
     {!!scheduleNote && (
       <ScheduleNote
         className="m-schedule-page__schedule-notes--desktop"

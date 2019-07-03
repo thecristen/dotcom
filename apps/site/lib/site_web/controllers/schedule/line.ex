@@ -49,6 +49,11 @@ defmodule SiteWeb.ScheduleController.Line do
     branches = get_branches(shapes, route_stops, route, direction_id)
     map_stops = Maps.map_stops(branches, {route_shapes, active_shapes}, route.id)
 
+    route_patterns =
+      RoutePatterns.Repo.by_route_id(conn.assigns.route.id,
+        direction_id: conn.assigns.direction_id
+      )
+
     time_data_by_stop =
       TransitNearMe.time_data_for_route_by_stop(route.id, direction_id,
         now: conn.assigns.date_time
@@ -62,6 +67,7 @@ defmodule SiteWeb.ScheduleController.Line do
     |> assign(:all_stops, build_stop_list(branches, direction_id))
     |> assign(:branches, branches)
     |> assign(:route_shapes, route_shapes)
+    |> assign(:route_patterns, route_patterns)
     |> assign(:active_shape, active_shape(active_shapes, route.type))
     |> assign(:map_img_src, map_img_src)
     |> assign(:dynamic_map_data, dynamic_map_data)

@@ -64,6 +64,7 @@ defmodule SiteWeb.ScheduleController.LineController do
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
         holidays: conn.assigns.holidays,
         route: Route.to_json_safe(conn.assigns.route),
+        route_patterns: conn.assigns.route_patterns,
         services:
           conn.assigns.route.id
           |> Services.Repo.by_route_id()

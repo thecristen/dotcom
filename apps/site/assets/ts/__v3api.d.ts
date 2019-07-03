@@ -83,6 +83,17 @@ export interface Route {
   type: RouteType;
 }
 
+export interface RoutePattern {
+  direction_id: DirectionId;
+  id: string;
+  name: string;
+  representative_trip_id: string;
+  route_id: string;
+  sort_order: number;
+  time_desc: string | null;
+  typicality: number;
+}
+
 export interface EnhancedRoute extends Route {
   header: string;
   alert_count: number;

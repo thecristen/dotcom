@@ -1,6 +1,7 @@
 import { TypedRoutes } from "../../stop/components/__stop";
 import {
   Route,
+  RoutePattern,
   PredictedOrScheduledTime,
   EnhancedRoute,
   DirectionId,
@@ -16,6 +17,7 @@ export interface SchedulePageData {
   fare_link: string;
   holidays: Holiday[];
   route: EnhancedRoute;
+  route_patterns: RoutePattern[];
   schedule_note: ScheduleNote | null;
   services: ServiceWithServiceDate[];
   stops: SimpleStop[];
