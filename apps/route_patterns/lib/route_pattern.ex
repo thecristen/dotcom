@@ -37,7 +37,7 @@ defmodule RoutePatterns.RoutePattern do
           name: String.t(),
           representative_trip_id: String.t(),
           route_id: String.t(),
-          time_desc: String.t(),
+          time_desc: String.t() | nil,
           typicality: 0 | 1 | 2 | 3 | 4
         }
 

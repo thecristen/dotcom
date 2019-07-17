@@ -7,7 +7,8 @@ defmodule Schedules.Schedule do
             early_departure?: false,
             last_stop?: false,
             stop_sequence: 0,
-            pickup_type: 0
+            pickup_type: 0,
+            time_desc: nil
 
   @type t :: %Schedules.Schedule{
           route: Routes.Route.t(),
@@ -18,14 +19,24 @@ defmodule Schedules.Schedule do
           early_departure?: boolean,
           last_stop?: boolean,
           stop_sequence: non_neg_integer,
-          pickup_type: integer
+          pickup_type: integer,
+          time_desc: String.t() | nil
         }
 
   def flag?(%Schedules.Schedule{flag?: value}), do: value
 end
 
 defmodule Schedules.Trip do
-  defstruct [:id, :name, :headsign, :direction_id, :shape_id, bikes_allowed?: false]
+  defstruct [
+    :id,
+    :name,
+    :headsign,
+    :direction_id,
+    :shape_id,
+    :route_pattern_id,
+    bikes_allowed?: false
+  ]
+
   @type id_t :: String.t()
   @type headsign :: String.t()
   @type t :: %Schedules.Trip{
@@ -34,6 +45,7 @@ defmodule Schedules.Trip do
           headsign: headsign,
           direction_id: 0 | 1,
           shape_id: String.t() | nil,
+          route_pattern_id: String.t() | nil,
           bikes_allowed?: boolean
         }
 end

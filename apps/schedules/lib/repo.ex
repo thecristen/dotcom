@@ -247,21 +247,35 @@ defmodule Schedules.Repo do
     schedules
     |> Enum.map(fn {route_id, trip_id, stop_id, time, flag?, early_departure?, last_stop?,
                     stop_sequence, pickup_type} ->
+      trip = trip(trip_id)
+
+      time_desc = time_desc(trip.route_pattern_id)
+
       Task.async(fn ->
         %Schedules.Schedule{
           route: Routes.Repo.get(route_id),
-          trip: trip(trip_id),
+          trip: trip,
           stop: Stops.Repo.get_parent(stop_id),
           time: time,
           flag?: flag?,
           early_departure?: early_departure?,
           last_stop?: last_stop?,
           stop_sequence: stop_sequence,
-          pickup_type: pickup_type
+          pickup_type: pickup_type,
+          time_desc: time_desc
         }
       end)
     end)
     |> Enum.map(&Task.await/1)
+  end
+
+  defp time_desc(nil), do: nil
+
+  defp time_desc(route_pattern_id) do
+    case RoutePatterns.Repo.by_id(route_pattern_id) do
+      nil -> nil
+      %{time_desc: time_desc} -> time_desc
+    end
   end
 
   @spec insert_trips_into_cache([JsonApi.Item.t()]) :: :ok

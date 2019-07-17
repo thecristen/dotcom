@@ -1,5 +1,7 @@
 defmodule RoutePatterns.Repo do
   @moduledoc false
+  use RepoCache, ttl: :timer.hours(1)
+
   alias RoutePatterns.RoutePattern
   alias V3Api.RoutePatterns, as: RoutePatternsApi
 
@@ -11,8 +13,24 @@ defmodule RoutePatterns.Repo do
       direction_id -> [route: route_id, direction_id: direction_id]
     end
     |> Keyword.put(:sort, "sort_order")
+    |> cache(&api_all/1)
+  end
+
+  defp api_all(opts) do
+    opts
     |> RoutePatternsApi.all()
     |> parse_api_response()
+  end
+
+  def by_id(id) do
+    cache(id, &api_by_id/1)
+  end
+
+  defp api_by_id(id) do
+    id
+    |> RoutePatternsApi.by_id()
+    |> parse_api_response()
+    |> List.first()
   end
 
   defp parse_api_response({:error, error}) do

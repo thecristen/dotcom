@@ -5,4 +5,8 @@ defmodule V3Api.RoutePatterns do
   def all(params \\ []) do
     V3Api.get_json("/route_patterns", params)
   end
+
+  def by_id(id) do
+    V3Api.get_json("/route_patterns/" <> id)
+  end
 end
