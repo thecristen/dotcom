@@ -258,6 +258,7 @@ export interface Schedule {
   "last_stop?": boolean;
   stop_sequence: number;
   pickup_type: number;
+  time_desc: string;
 }
 
 export interface Shape {

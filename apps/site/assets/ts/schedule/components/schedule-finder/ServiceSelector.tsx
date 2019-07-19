@@ -219,7 +219,7 @@ export const ServiceSelector = ({
       {isLoading && <div className="schedule-finder__spinner">Loading...</div>}
 
       {!isLoading && selectedServiceSchedule && (
-        <ScheduleTable schedule={selectedServiceSchedule} />
+        <ScheduleTable schedule={selectedServiceSchedule!} />
       )}
     </>
   );

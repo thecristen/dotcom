@@ -40,45 +40,24 @@ defmodule SiteWeb.ScheduleController.LineController do
     end
   end
 
-  def dedup_services(services, service_schedules) do
+  @spec dedup_services([Service.t()]) :: [Service.t()]
+  def dedup_services(services) do
     services
     |> Enum.group_by(fn %{start_date: start_date, end_date: end_date, valid_days: valid_days} ->
       {start_date, end_date, valid_days}
     end)
-    |> Enum.reduce({[], %{}}, fn {_key, [service | additional_services]},
-                                 {acc_services, acc_service_schedules} ->
-      case additional_services do
-        [] ->
-          {acc_services ++ [service],
-           Map.put(acc_service_schedules, service.id, service_schedules[service.id])}
-
-        [additional_service] ->
-          {acc_services ++ [service],
-           Map.put(
-             acc_service_schedules,
-             service.id,
-             dedup_schedules(
-               service_schedules[service.id],
-               service_schedules[additional_service.id]
-             )
-           )}
-      end
+    |> Enum.map(fn {_key, [service | _rest]} ->
+      service
     end)
-  end
-
-  defp dedup_schedules(left, right) do
-    # 0
-
-    # 1
   end
 
   def assign_schedule_page_data(conn) do
     service_date = Util.service_date()
-    services = Services.Repo.by_route_id(conn.assigns.route.id)
-    service_schedules = schedules_for_service(conn.assigns.route.id, services)
-    IO.inspect(service_schedules["BUS319-2-Wdy-02"][:"0"])
-    # {a, b} = dedup_services(services, service_schedules)
-    # IO.inspect(a)
+
+    services =
+      conn.assigns.route.id
+      |> Services.Repo.by_route_id()
+      |> dedup_services()
 
     assign(
       conn,
@@ -86,7 +65,11 @@ defmodule SiteWeb.ScheduleController.LineController do
       %{
         connections: group_connections(conn.assigns.connections),
         pdfs:
-          ScheduleView.route_pdfs(conn.assigns.route_pdfs, conn.assigns.route, conn.assigns.date),
+          ScheduleView.route_pdfs(
+            conn.assigns.route_pdfs,
+            conn.assigns.route,
+            conn.assigns.date
+          ),
         teasers:
           HTML.safe_to_string(
             ScheduleView.render(
