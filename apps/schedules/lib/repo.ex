@@ -92,20 +92,27 @@ defmodule Schedules.Repo do
   end
 
   def trip(trip_id, trip_by_id_fn) do
-    case cache(trip_id, fn trip_id ->
-           with %JsonApi{} = response <- trip_by_id_fn.(trip_id) do
-             {:ok, Parser.trip(response)}
-           else
-             {:error, [%JsonApi.Error{code: "not_found"} | _]} ->
-               {:ok, nil}
+    {time, return} =
+      :timer.tc(fn ->
+        case cache(trip_id, fn trip_id ->
+               with %JsonApi{} = response <- trip_by_id_fn.(trip_id) do
+                 {:ok, Parser.trip(response)}
+               else
+                 {:error, [%JsonApi.Error{code: "not_found"} | _]} ->
+                   {:ok, nil}
 
-             error ->
-               error
-           end
-         end) do
-      {:ok, value} -> value
-      {:error, _} -> nil
-    end
+                 error ->
+                   error
+               end
+             end) do
+          {:ok, value} -> value
+          {:error, _} -> nil
+        end
+      end)
+
+    # IO.inspect(time, label: "trip")
+
+    return
   end
 
   @spec end_of_rating() :: Date.t() | nil
@@ -139,15 +146,28 @@ defmodule Schedules.Repo do
 
   @spec all_from_params(Keyword.t()) :: [Parser.record()] | {:error, any}
   defp all_from_params(params) do
-    with %JsonApi{data: data} <- V3Api.Schedules.all(params) do
-      data = Enum.filter(data, &valid?/1)
-      insert_trips_into_cache(data)
+    {time1, data} =
+      :timer.tc(fn ->
+        %JsonApi{data: data} = V3Api.Schedules.all(params)
+        data
+      end)
 
-      data
-      |> Stream.map(&Parser.parse/1)
-      |> Enum.filter(&has_trip?/1)
-      |> Enum.sort_by(&DateTime.to_unix(elem(&1, 3)))
-    end
+    IO.inspect(time1, label: "api")
+
+    {time, return} =
+      :timer.tc(fn ->
+        data = Enum.filter(data, &valid?/1)
+        insert_trips_into_cache(data)
+
+        data
+        |> Stream.map(&Parser.parse/1)
+        |> Enum.filter(&has_trip?/1)
+        |> Enum.sort_by(&DateTime.to_unix(elem(&1, 3)))
+      end)
+
+    IO.inspect(time, label: "parse")
+
+    return
   end
 
   def has_trip?({_, trip_id, _, _, _, _, _, _, _}) when is_nil(trip_id) do
@@ -244,24 +264,30 @@ defmodule Schedules.Repo do
   end
 
   defp load_from_other_repos(schedules) do
-    schedules
-    |> Enum.map(fn {route_id, trip_id, stop_id, time, flag?, early_departure?, last_stop?,
-                    stop_sequence, pickup_type} ->
-      Task.async(fn ->
-        %Schedules.Schedule{
-          route: Routes.Repo.get(route_id),
-          trip: trip(trip_id),
-          stop: Stops.Repo.get_parent(stop_id),
-          time: time,
-          flag?: flag?,
-          early_departure?: early_departure?,
-          last_stop?: last_stop?,
-          stop_sequence: stop_sequence,
-          pickup_type: pickup_type
-        }
+    {time, return} =
+      :timer.tc(fn ->
+        schedules
+        |> Enum.map(fn {route_id, trip_id, stop_id, time, flag?, early_departure?, last_stop?,
+                        stop_sequence, pickup_type} ->
+          Task.async(fn ->
+            %Schedules.Schedule{
+              route: Routes.Repo.get(route_id),
+              trip: trip(trip_id),
+              stop: Stops.Repo.get_parent(stop_id),
+              time: time,
+              flag?: flag?,
+              early_departure?: early_departure?,
+              last_stop?: last_stop?,
+              stop_sequence: stop_sequence,
+              pickup_type: pickup_type
+            }
+          end)
+        end)
+        |> Enum.map(&Task.await/1)
       end)
-    end)
-    |> Enum.map(&Task.await/1)
+
+    IO.inspect(time, label: "load_from_other_repos")
+    return
   end
 
   @spec insert_trips_into_cache([JsonApi.Item.t()]) :: :ok
