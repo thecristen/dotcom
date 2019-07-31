@@ -113,7 +113,8 @@
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
       "delay": 1000,
-      "misMatchThreshold": 0.03
+      "misMatchThreshold": 0.03,
+      "ignoreColors": true
     },
     {
       "label": "Subway Schedule",
