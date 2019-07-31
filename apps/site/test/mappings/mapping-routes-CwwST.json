@@ -1,0 +1,25 @@
+{
+  "id" : "c191d17b-f8fc-382e-81d5-0dab3586076d",
+  "request" : {
+    "url" : "/routes/?stop=Boat-Long",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CwwST.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:21 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6909",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX5d4ZHwCqNEANtyD",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c191d17b-f8fc-382e-81d5-0dab3586076d"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "4f3e5cc3-c653-3d7c-937c-55df6b82a89a",
+  "request" : {
+    "url" : "/routes/?stop=place-harsq",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-cImMb.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:22 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6742",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX8EBeB8w0nkANuRD",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4f3e5cc3-c653-3d7c-937c-55df6b82a89a"
+}

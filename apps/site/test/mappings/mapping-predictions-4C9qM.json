@@ -1,0 +1,25 @@
+{
+  "id" : "2ca6d946-a761-3895-867f-1e7621b526f2",
+  "request" : {
+    "url" : "/predictions/?direction_id=0&stop=place-sstat&route=CR-Kingston&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-4C9qM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:09 GMT",
+      "last-modified" : "Wed, 31 Jul 2019 17:34:02 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6941",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOXM3ShtCBvPsA-ech",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "2ca6d946-a761-3895-867f-1e7621b526f2"
+}

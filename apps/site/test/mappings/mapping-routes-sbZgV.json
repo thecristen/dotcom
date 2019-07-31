@@ -1,0 +1,25 @@
+{
+  "id" : "753ec94a-f4e3-35a8-9d19-aa74657c4ccf",
+  "request" : {
+    "url" : "/routes/?stop=place-brmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-sbZgV.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:22 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6721",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX8ZXBlu9i5kANuXj",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "753ec94a-f4e3-35a8-9d19-aa74657c4ccf"
+}

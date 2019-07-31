@@ -1,0 +1,25 @@
+{
+  "id" : "3cb38e2e-ce88-37b7-8869-638597fca25c",
+  "request" : {
+    "url" : "/routes/?stop=place-nqncy",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Sxql1.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:22 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6734",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX8LxgASqU88A-e_h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3cb38e2e-ce88-37b7-8869-638597fca25c"
+}

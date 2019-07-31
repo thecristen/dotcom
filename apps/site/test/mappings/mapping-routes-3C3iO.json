@@ -1,0 +1,25 @@
+{
+  "id" : "d6637bdb-5735-3ab4-aed7-ddb4e075b0a4",
+  "request" : {
+    "url" : "/routes/?stop=place-cool",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-3C3iO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:22 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6701",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX8q_0yYuo7AANugD",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d6637bdb-5735-3ab4-aed7-ddb4e075b0a4"
+}

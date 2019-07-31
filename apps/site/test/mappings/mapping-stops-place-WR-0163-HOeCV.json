@@ -1,0 +1,25 @@
+{
+  "id" : "d2492062-c6a7-30e4-8843-1b4785efb0a7",
+  "request" : {
+    "url" : "/stops/place-WR-0163?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-WR-0163-HOeCV.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:33:35 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:14 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6891",
+      "x-ratelimit-reset" : "1564594440",
+      "x-request-id" : "FbaOVMdh2bDFR_4A-c9B",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d2492062-c6a7-30e4-8843-1b4785efb0a7"
+}

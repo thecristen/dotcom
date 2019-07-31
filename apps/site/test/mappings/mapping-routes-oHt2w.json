@@ -1,0 +1,25 @@
+{
+  "id" : "81dd4300-e39a-3e75-9706-de28f9d48ba4",
+  "request" : {
+    "url" : "/routes/?stop=place-MM-0356",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-oHt2w.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:22 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6770",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX7rJSLMqzHIANuEj",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "81dd4300-e39a-3e75-9706-de28f9d48ba4"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "94e510b7-9ea4-30ae-b243-2482baa021d9",
+  "request" : {
+    "url" : "/schedules/?route=Red&date=1970-01-01",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-QK69S.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json",
+      "Date" : "Wed, 31 Jul 2019 17:33:38 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:46 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6786",
+      "x-ratelimit-reset" : "1564594440",
+      "x-request-id" : "FbaOVXgbOKHjskMA-dbh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "94e510b7-9ea4-30ae-b243-2482baa021d9"
+}

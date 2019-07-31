@@ -1,0 +1,25 @@
+{
+  "id" : "21174a0c-f24d-39eb-9c0f-2e4aa0e7f07c",
+  "request" : {
+    "url" : "/routes/?stop=Boat-Hull",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-XMh7Y.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:21 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6908",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX5f114YMRK4ANtyj",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "21174a0c-f24d-39eb-9c0f-2e4aa0e7f07c"
+}

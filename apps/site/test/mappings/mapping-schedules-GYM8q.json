@@ -1,0 +1,25 @@
+{
+  "id" : "3985d039-e513-37d8-a42c-4701919f2530",
+  "request" : {
+    "url" : "/schedules/?direction_id=0&date=2019-07-31&route=1&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id%2Cbikes_allowed",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-GYM8q.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:33:50 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:46 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6744",
+      "x-ratelimit-reset" : "1564594440",
+      "x-request-id" : "FbaOWEZMFVUkmQwA-d4h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3985d039-e513-37d8-a42c-4701919f2530"
+}

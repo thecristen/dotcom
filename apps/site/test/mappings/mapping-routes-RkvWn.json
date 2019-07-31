@@ -1,0 +1,25 @@
+{
+  "id" : "3d9f4d01-0c6e-3eb6-ac0c-139789fcec02",
+  "request" : {
+    "url" : "/routes/?stop=place-WR-0329",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-RkvWn.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:21 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6867",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX6H_pl-p0pAAJeBE",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3d9f4d01-0c6e-3eb6-ac0c-139789fcec02"
+}

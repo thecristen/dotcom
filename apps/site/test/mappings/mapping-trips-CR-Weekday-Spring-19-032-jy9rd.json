@@ -1,0 +1,25 @@
+{
+  "id" : "a834bb51-8cdd-3c7c-b9a3-90db499ae6d5",
+  "request" : {
+    "url" : "/trips/CR-Weekday-Spring-19-032",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-CR-Weekday-Spring-19-032-jy9rd.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:43 GMT",
+      "last-modified" : "Wed, 31 Jul 2019 17:34:40 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6648",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOZMNM5XQqHeUA-fih",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a834bb51-8cdd-3c7c-b9a3-90db499ae6d5"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "c52e78d6-5777-3a2e-a44e-392e6975aa98",
+  "request" : {
+    "url" : "/routes/?stop=place-engav",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Xe3Ro.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:22 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6697",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX8uCvMU48KoA-fEh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c52e78d6-5777-3a2e-a44e-392e6975aa98"
+}

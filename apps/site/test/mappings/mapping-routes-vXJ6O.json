@@ -1,0 +1,25 @@
+{
+  "id" : "151a6b20-f0b2-3ffd-984c-bd563df41ed5",
+  "request" : {
+    "url" : "/routes/?stop=place-PB-0194",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-vXJ6O.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:21 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6868",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX6HavW6rDWQAJeAk",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "151a6b20-f0b2-3ffd-984c-bd563df41ed5"
+}

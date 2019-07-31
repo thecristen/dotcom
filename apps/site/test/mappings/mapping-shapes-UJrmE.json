@@ -1,0 +1,25 @@
+{
+  "id" : "2966d708-21f5-3081-82d7-5a4ec98cf4db",
+  "request" : {
+    "url" : "/shapes/?route=CR-Kingston",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-UJrmE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:44 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:57:22 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6644",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOZMU58yxwY_0A-fkh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "2966d708-21f5-3081-82d7-5a4ec98cf4db"
+}

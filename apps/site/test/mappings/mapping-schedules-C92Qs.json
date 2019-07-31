@@ -1,0 +1,25 @@
+{
+  "id" : "a8691a9c-de91-3c8a-9878-c3d94a7fc29a",
+  "request" : {
+    "url" : "/schedules/?route=CR-Kingston&date=2019-09-02&direction_id=0&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-C92Qs.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json",
+      "Date" : "Wed, 31 Jul 2019 17:34:43 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:46 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6656",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOZL1aGtV7fDIA-ffh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a8691a9c-de91-3c8a-9878-c3d94a7fc29a"
+}

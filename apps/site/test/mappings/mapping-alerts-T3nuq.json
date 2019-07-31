@@ -1,0 +1,25 @@
+{
+  "id" : "fba9b293-9119-3c47-acc8-b540b30b328b",
+  "request" : {
+    "url" : "/alerts/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-alerts-T3nuq.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:32:02 GMT",
+      "last-modified" : "Wed, 31 Jul 2019 17:31:30 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6550",
+      "x-ratelimit-reset" : "1564594380",
+      "x-request-id" : "FbaOPy-2MWoiVhQAaqBi",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "fba9b293-9119-3c47-acc8-b540b30b328b"
+}

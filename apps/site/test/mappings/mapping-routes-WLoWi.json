@@ -1,0 +1,25 @@
+{
+  "id" : "4f8340b3-a927-3b1b-8f4a-ee2c6f74539e",
+  "request" : {
+    "url" : "/routes/?stop=place-DB-2230",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-WLoWi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:21 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6871",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX6D-Xp_8RzsAJd_E",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4f8340b3-a927-3b1b-8f4a-ee2c6f74539e"
+}

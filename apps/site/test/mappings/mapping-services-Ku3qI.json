@@ -1,0 +1,25 @@
+{
+  "id" : "191522e1-3f41-3ecb-be34-c42350beb568",
+  "request" : {
+    "url" : "/services/?route=CR-Kingston",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-services-Ku3qI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:44 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6640",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOZNPd8GNJRWQA-fmh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "191522e1-3f41-3ecb-be34-c42350beb568"
+}

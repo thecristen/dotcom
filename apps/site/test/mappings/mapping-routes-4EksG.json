@@ -1,0 +1,25 @@
+{
+  "id" : "91089052-3b65-331c-8c72-6635d38f5f26",
+  "request" : {
+    "url" : "/routes/?stop=place-north",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-4EksG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:21 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6859",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX6OzWskco_8AJeFE",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "91089052-3b65-331c-8c72-6635d38f5f26"
+}

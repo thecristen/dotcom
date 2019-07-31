@@ -1,0 +1,25 @@
+{
+  "id" : "fcf5686c-5aa5-3f57-bcfc-f1530a53fad4",
+  "request" : {
+    "url" : "/routes/?stop=place-GRB-0233",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-I8MOA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:21 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6896",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX5sKkeh68xoAJd3k",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "fcf5686c-5aa5-3f57-bcfc-f1530a53fad4"
+}

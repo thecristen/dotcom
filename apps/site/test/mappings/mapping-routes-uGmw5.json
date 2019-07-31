@@ -1,0 +1,25 @@
+{
+  "id" : "99328c2b-5bfc-3067-84a0-05d162ff78f6",
+  "request" : {
+    "url" : "/routes/?stop=place-GB-0296",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-uGmw5.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:22 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6695",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX8wyG-9hMzIANuij",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "99328c2b-5bfc-3067-84a0-05d162ff78f6"
+}

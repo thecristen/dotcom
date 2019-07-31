@@ -1,0 +1,25 @@
+{
+  "id" : "17b24a0e-8a08-3f1e-aae8-ab714d963505",
+  "request" : {
+    "url" : "/routes/?stop=place-babck",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BxGP1.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:22 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6798",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX7HV_aXPB3wAJeck",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "17b24a0e-8a08-3f1e-aae8-ab714d963505"
+}

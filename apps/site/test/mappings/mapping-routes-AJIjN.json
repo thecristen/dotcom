@@ -1,0 +1,25 @@
+{
+  "id" : "927396c1-2b8d-3bef-806d-0a189f91f3d2",
+  "request" : {
+    "url" : "/routes/?stop=Boat-Charlestown",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-AJIjN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:21 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6911",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX5Yv0YAcUjsA-e0B",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "927396c1-2b8d-3bef-806d-0a189f91f3d2"
+}

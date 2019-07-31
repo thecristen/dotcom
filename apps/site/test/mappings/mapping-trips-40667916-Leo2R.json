@@ -1,0 +1,25 @@
+{
+  "id" : "573bdc60-385a-3862-97b7-8d374cd9dbc1",
+  "request" : {
+    "url" : "/trips/40667916",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-40667916-Leo2R.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:33:50 GMT",
+      "last-modified" : "Wed, 31 Jul 2019 17:33:49 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6771",
+      "x-ratelimit-reset" : "1564594440",
+      "x-request-id" : "FbaOWDnq1JOdCxoA-duh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "573bdc60-385a-3862-97b7-8d374cd9dbc1"
+}

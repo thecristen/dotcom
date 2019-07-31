@@ -109,7 +109,7 @@
     },
     {
       "label": "Subway Schedule",
-      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
       "delay": 1000,
@@ -117,7 +117,7 @@
     },
     {
       "label": "Subway Schedule",
-      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": [".schedule__header"],
       "delay": 1000,

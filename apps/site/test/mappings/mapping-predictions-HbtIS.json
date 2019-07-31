@@ -1,0 +1,25 @@
+{
+  "id" : "03c1f6f6-fda1-32c6-ba0f-0c4dad92b81f",
+  "request" : {
+    "url" : "/predictions/?direction_id=0&route=1&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-HbtIS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:33:51 GMT",
+      "last-modified" : "Wed, 31 Jul 2019 17:33:49 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6740",
+      "x-ratelimit-reset" : "1564594440",
+      "x-request-id" : "FbaOWHboxuRYIC0A-d7h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "03c1f6f6-fda1-32c6-ba0f-0c4dad92b81f"
+}

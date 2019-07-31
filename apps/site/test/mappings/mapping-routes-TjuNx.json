@@ -1,0 +1,25 @@
+{
+  "id" : "3a47fc99-87a0-34b8-8faa-04da038d21b2",
+  "request" : {
+    "url" : "/routes/?stop=place-buest",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-TjuNx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 31 Jul 2019 17:34:22 GMT",
+      "last-modified" : "Fri, 26 Jul 2019 16:56:12 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6741",
+      "x-ratelimit-reset" : "1564594500",
+      "x-request-id" : "FbaOX8GjdQm0wr4ANuRj",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "3a47fc99-87a0-34b8-8faa-04da038d21b2"
+}
