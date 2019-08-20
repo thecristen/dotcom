@@ -134,12 +134,13 @@ describe("groupServiceByDate", () => {
   it("groups holiday schedules with proper service period", () => {
     const groupedService = groupServiceByDate({
       ...service,
-      service_date: "06-25-19"
+      service_date: "06-25-19",
+      typicality: "holiday_service"
     });
     expect(groupedService).toEqual({
       type: "holiday",
       servicePeriod: "on June 25",
-      service: { ...service, service_date: "06-25-19" }
+      service: { ...service, service_date: "06-25-19", typicality: "holiday_service" }
     });
   });
   it("marks future schedules as future", () => {
@@ -178,7 +179,8 @@ describe("getTodaysSchedule", () => {
         {
           ...currentService,
           start_date: "2019-06-24",
-          service_date: "2019-06-25"
+          service_date: "2019-06-25",
+          typicality: "holiday_service"
         },
         { ...upcomingService, service_date: "2019-06-25" },
         holidayService

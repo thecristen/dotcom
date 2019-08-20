@@ -31,6 +31,8 @@ Array [
             Monday - Friday schedule
             , 
             ends August 30
+             
+            
           </option>
           <option
             value="BUS319-D-Wdy-02"
@@ -38,6 +40,8 @@ Array [
             Friday schedule
             , 
             ends August 30
+             
+            
           </option>
           <option
             value="BUS319-P-Sa-02"
@@ -45,6 +49,8 @@ Array [
             Saturday schedule
             , 
             ends August 31
+             
+            
           </option>
           <option
             value="BUS319-Q-Su-02"
@@ -52,6 +58,8 @@ Array [
             Sunday schedule
             , 
             ends August 25
+             
+            
           </option>
         </optgroup>
         <optgroup

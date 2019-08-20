@@ -41,6 +41,10 @@ const serviceDescription = (
   servicePeriod: string,
   multipleWeekdays: boolean
 ): ReactElement<HTMLElement> => {
+  const addedDates = Object.keys(service.added_dates_notes).sort();
+  const holidayNames = addedDates.map((addedDate) => service.added_dates_notes[addedDate]).filter((date) => date);
+  const holidayDescription = holidayNames.length > 0 ? `(${holidayNames.join(", ")})` : "";
+
   const isMultipleWeekday =
     multipleWeekdays &&
     service.type === "weekday" &&
@@ -51,7 +55,7 @@ const serviceDescription = (
         ? `${serviceDays(service)} schedule`
         : service.description}
       {group !== "holiday" ? ", " : " "}
-      {servicePeriod}
+      {servicePeriod} {holidayDescription}
     </option>
   );
 };
