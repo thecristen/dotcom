@@ -92,11 +92,11 @@ export const groupServiceByDate = (
   const {
     service_date: serviceDate,
     start_date: startDate,
-    end_date: endDate
+    end_date: endDate,
+    typicality
   } = service;
 
-  // Get unix timestamps
-  if (startDate === endDate) {
+  if (typicality == "holiday_service") {
     return {
       type: "holiday",
       servicePeriod: holidayDate(service),
