@@ -12,7 +12,6 @@ defmodule SiteWeb.ScheduleView do
   alias Phoenix.HTML.Safe
   alias Plug.Conn
   alias Routes.Route
-  alias Site.MapHelpers
   alias SiteWeb.PartialView.{HeaderTab, HeaderTabs, SvgIconWithCircle}
   alias Stops.{RouteStop, Stop}
 
