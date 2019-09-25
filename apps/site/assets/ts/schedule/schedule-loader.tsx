@@ -2,11 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import SchedulePage from "./components/SchedulePage";
 import ScheduleNote from "./components/ScheduleNote";
-import ScheduleDirection from "./components/ScheduleDirection";
+import ScheduleDirectionAndStops from "./components/ScheduleDirectionAndStops";
 import Map from "./components/Map";
 import { SchedulePageData } from "./components/__schedule";
 import { MapData } from "../leaflet/components/__mapdata";
 import ScheduleFinderAccordion from "./components/ScheduleFinderAccordion";
+import { SchedulePageDataWithStopListContent } from "./components/ScheduleDirectionAndStops";
 
 const renderMap = (): void => {
   const mapDataEl = document.getElementById("js-map-data");
@@ -54,25 +55,15 @@ const renderSchedulePage = (schedulePageData: SchedulePageData): void => {
   }
 };
 
-const renderDirection = (schedulePageData: SchedulePageData): void => {
-  const {
-    direction_id: directionId,
-    route_patterns: routePatternsByDirection,
-    shape_map: shapesById,
-    route
-  } = schedulePageData;
-
-  const root = document.getElementById("react-schedule-direction-root");
+const renderDirectionAndStops = (schedulePageData: SchedulePageDataWithStopListContent): void => {
+  const root = document.getElementById("react-schedule-direction-and-stops-root");
   if (!root) {
     return;
   }
 
   ReactDOM.render(
-    <ScheduleDirection
-      directionId={directionId}
-      route={route}
-      routePatternsByDirection={routePatternsByDirection}
-      shapesById={shapesById}
+    <ScheduleDirectionAndStops
+      {...schedulePageData}
     />,
     root
   );
@@ -84,9 +75,9 @@ const render = (): void => {
   if (!schedulePageDataEl) return;
   const schedulePageData = JSON.parse(
     schedulePageDataEl.innerHTML
-  ) as SchedulePageData;
+  ) as SchedulePageDataWithStopListContent;
   renderSchedulePage(schedulePageData);
-  renderDirection(schedulePageData);
+  renderDirectionAndStops(schedulePageData);
 };
 
 export const onLoad = (): void => {

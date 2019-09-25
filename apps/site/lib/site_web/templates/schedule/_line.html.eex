@@ -25,12 +25,12 @@
           <% end %>
         </div>
         
-        <div id="react-schedule-direction-root">
-          <%= Site.React.render("ScheduleDirection", %{directionId: @direction_id, shapesById: @schedule_page_data.shape_map,
+        <div id="react-schedule-direction-and-stops-root">
+          <%= Site.React.render("ScheduleDirectionAndStops", %{directionId: @direction_id, shapesById: @schedule_page_data.shape_map,
           routePatternsByDirection: @schedule_page_data.route_patterns, route: @schedule_page_data.route}) %>
         </div>
 
-        <%= render "_stop_list.html", assigns %>
+        <%#= render "_stop_list.html", assigns %>
     </div>
     <% end %>
     <div class="col-xs-12 col-md-5 col-lg-4 col-lg-offset-1">

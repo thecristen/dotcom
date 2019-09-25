@@ -7,7 +7,7 @@ import StopPage from "../assets/ts/stop/components/StopPage";
 import SchedulePage from "../assets/ts/schedule/components/SchedulePage";
 import ScheduleNote from "../assets/ts/schedule/components/ScheduleNote";
 import ScheduleFinder from "../assets/ts/schedule/components/ScheduleFinder";
-import ScheduleDirection from "../assets/ts/schedule/components/ScheduleDirection";
+import ScheduleDirectionAndStops from "../assets/ts/schedule/components/ScheduleDirectionAndStops";
 import TripPlannerResults from "../assets/ts/trip-plan-results/components/TripPlannerResults";
 import ProjectsPage from "../assets/ts/projects/components/ProjectsPage";
 
@@ -55,14 +55,14 @@ epipeBomb();
 const logMemoryUsage = setInterval(memoryUsage, 60000);
 
 const Components = {
-  ScheduleDirection,
   ScheduleFinder,
   ScheduleNote,
   SchedulePage,
   StopPage,
   TransitNearMe,
   TripPlannerResults,
-  ProjectsPage
+  ProjectsPage,
+  ScheduleDirectionAndStops
 };
 
 const encodeZeroWidthSpaceAsHtml = str => str.replace(/​/g, "&#8203;");
