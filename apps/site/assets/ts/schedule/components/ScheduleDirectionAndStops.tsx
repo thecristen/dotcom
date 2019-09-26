@@ -1,11 +1,32 @@
-import React, { ReactElement, useEffect, useReducer } from "react";
+import React, { Dispatch, ReactElement, useEffect, useReducer } from "react";
 import ScheduleDirection from "./ScheduleDirection";
 import { SchedulePageData } from "./__schedule";
 import { DirectionId } from "../../__v3api";
-import { reducer } from "./direction/reducer";
+import { reducer, State, Action } from "./direction/reducer";
 
 export interface SchedulePageDataWithStopListContent extends SchedulePageData {
   stop_list_html: string;
+}
+
+const fetchStopListHtml = (state: State, dispatch: Dispatch<Action>): void => {
+  if(state.firstStopListRender) {
+    dispatch({event: "firstStopListRender"});
+  } else {
+    console.log(state);
+    const stopListUrl = `/schedules/${state.routeId}/line/diagram?direction_id=${state.directionId}&variant=${state.routePattern.shape_id}`;
+    window
+      .fetch(stopListUrl)
+      .then((response: Response) => {
+        if (response.ok) return response.text();
+        throw new Error(response.statusText);
+      })
+      .then((newStopListHtml: string) => {
+        dispatch({
+          event: "newStopListHtml",
+          payload: { newStopListHtml: newStopListHtml }
+        });
+      });
+  }
 }
 
 const ScheduleDirectionAndStops = (schedulePageData: SchedulePageDataWithStopListContent): ReactElement<HTMLElement> => {
@@ -38,25 +59,9 @@ const ScheduleDirectionAndStops = (schedulePageData: SchedulePageDataWithStopLis
 
   useEffect(
     () => {
-      if(state.firstStopListRender) {
-        dispatch({event: "firstStopListRender"});
-      } else {
-        const stopListUrl = `/schedules/${state.routeId}/line/diagram?direction_id=${state.directionId}&variant=${state.shape.id}`;
-        window
-          .fetch(stopListUrl)
-          .then((response: Response) => {
-            if (response.ok) return response.text();
-            throw new Error(response.statusText);
-          })
-          .then((newStopListHtml: string) => {
-            dispatch({
-              event: "newStopListHtml",
-              payload: { newStopListHtml: newStopListHtml }
-            });
-          });
-      }
+      fetchStopListHtml(state, dispatch);
     },
-    [state.directionId, state.shape]
+    [state.directionId, state.routePattern]
   );
 
   return (
