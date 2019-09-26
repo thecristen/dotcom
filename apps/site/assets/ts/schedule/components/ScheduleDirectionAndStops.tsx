@@ -41,7 +41,7 @@ const ScheduleDirectionAndStops = (schedulePageData: SchedulePageDataWithStopLis
       if(state.firstStopListRender) {
         dispatch({event: "firstStopListRender"});
       } else {
-        const stopListUrl = `/schedules/${state.routeId}/line/diagram?direction_id=${state.directionId}`;
+        const stopListUrl = `/schedules/${state.routeId}/line/diagram?direction_id=${state.directionId}&variant=${state.shape.id}`;
         window
           .fetch(stopListUrl)
           .then((response: Response) => {
@@ -56,7 +56,7 @@ const ScheduleDirectionAndStops = (schedulePageData: SchedulePageDataWithStopLis
           });
       }
     },
-    [state.directionId]
+    [state.directionId, state.shape]
   );
 
   return (
