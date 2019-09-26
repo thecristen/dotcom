@@ -1,4 +1,4 @@
-import React, { ReactElement, useReducer, useState } from "react";
+import React, { ReactElement, useEffect, useReducer } from "react";
 import ScheduleDirection from "./ScheduleDirection";
 import { SchedulePageData } from "./__schedule";
 import { DirectionId } from "../../__v3api";
@@ -14,6 +14,7 @@ const ScheduleDirectionAndStops = (schedulePageData: SchedulePageDataWithStopLis
     route,
     shape_map: shapesById,
     route_patterns: routePatternsByDirection,
+    stop_list_html: stopListHtml
   } = schedulePageData;
 
   const defaultRoutePattern = routePatternsByDirection[directionId].slice(
@@ -21,7 +22,6 @@ const ScheduleDirectionAndStops = (schedulePageData: SchedulePageDataWithStopLis
     1
   )[0];
 
-  const [stopListHtml, updateStopListHtml] = useState(schedulePageData.stop_list_html);
   const [state, dispatch] = useReducer(reducer, {
     routePattern: defaultRoutePattern,
     shape: shapesById[defaultRoutePattern.shape_id],
@@ -30,21 +30,43 @@ const ScheduleDirectionAndStops = (schedulePageData: SchedulePageDataWithStopLis
     routePatternsByDirection,
     routePatternMenuOpen: false,
     routePatternMenuAll: false,
-    itemFocus: null
+    itemFocus: null,
+    routeId: route.id,
+    stopListHtml,
+    firstStopListRender: true
   });
 
+  useEffect(
+    () => {
+      if(state.firstStopListRender) {
+        dispatch({event: "firstStopListRender"});
+      } else {
+        const stopListUrl = `/schedules/${state.routeId}/line/diagram?direction_id=${state.directionId}`;
+        window
+          .fetch(stopListUrl)
+          .then((response: Response) => {
+            if (response.ok) return response.text();
+            throw new Error(response.statusText);
+          })
+          .then((newStopListHtml: string) => {
+            dispatch({
+              event: "newStopListHtml",
+              payload: { newStopListHtml: newStopListHtml }
+            });
+          });
+      }
+    },
+    [state.directionId]
+  );
 
   return (
     <>
       <ScheduleDirection
-        directionId={schedulePageData.direction_id}
         route={schedulePageData.route}
-        shapesById={schedulePageData.shape_map}
-        routePatternsByDirection={schedulePageData.route_patterns}
         state={state}
         dispatch={dispatch}
       />
-      <div dangerouslySetInnerHTML={{__html: stopListHtml}} />
+      <div dangerouslySetInnerHTML={{__html: state.stopListHtml }} />
     </>
   );
 }

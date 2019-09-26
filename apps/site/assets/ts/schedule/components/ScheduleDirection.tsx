@@ -7,18 +7,12 @@ import { Action, State } from "./direction/reducer";
 
 export interface Props {
   route: EnhancedRoute;
-  directionId: DirectionId;
-  shapesById: ShapesById;
-  routePatternsByDirection: RoutePatternsByDirection;
   state: State;
   dispatch: Dispatch<Action>;
 }
 
 const ScheduleDirection = ({
   route,
-  directionId,
-  shapesById,
-  routePatternsByDirection,
   state,
   dispatch
 }: Props): ReactElement<HTMLElement> => {
@@ -30,7 +24,7 @@ const ScheduleDirection = ({
       <ScheduleDirectionMenu
         route={route}
         directionId={state.directionId}
-        routePatternsByDirection={routePatternsByDirection}
+        routePatternsByDirection={state.routePatternsByDirection}
         selectedRoutePatternId={state.routePattern.id}
         menuOpen={state.routePatternMenuOpen}
         showAllRoutePatterns={state.routePatternMenuAll}

@@ -10,14 +10,18 @@ export interface State {
   shape: Shape;
   directionId: DirectionId;
   shapesById: ShapesById;
+  routeId: string;
   routePatternsByDirection: RoutePatternsByDirection;
   routePatternMenuOpen: boolean;
   routePatternMenuAll: boolean;
   itemFocus: string | null;
+  stopListHtml: string;
+  firstStopListRender: boolean;
 }
 
 export interface Payload {
   routePattern?: EnhancedRoutePattern;
+  newStopListHtml?: string;
 }
 
 export interface Action {
@@ -26,7 +30,9 @@ export interface Action {
     | "setRoutePattern"
     | "toggleRoutePatternMenu"
     | "closeRoutePatternMenu"
-    | "showAllRoutePatterns";
+    | "showAllRoutePatterns"
+    | "firstStopListRender"
+    | "newStopListHtml";
   payload?: Payload;
 }
 
@@ -83,6 +89,12 @@ export const reducer = (state: State, action: Action): State => {
         routePatternMenuOpen: false,
         itemFocus: null
       };
+
+    case "firstStopListRender":
+      return { ...state, firstStopListRender: false };
+
+    case "newStopListHtml":
+      return { ...state, stopListHtml: action.payload!.newStopListHtml! };
 
     /* istanbul ignore next */
     default:
