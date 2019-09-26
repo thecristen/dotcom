@@ -24,10 +24,10 @@
             route: Routes.Route.to_json_safe(@route), stops: @schedule_page_data[:stops], directionId: @direction_id}) %>
           <% end %>
         </div>
-        
+
         <div id="react-schedule-direction-and-stops-root">
-          <%= Site.React.render("ScheduleDirectionAndStops", %{directionId: @direction_id, shapesById: @schedule_page_data.shape_map,
-          routePatternsByDirection: @schedule_page_data.route_patterns, route: @schedule_page_data.route}) %>
+          <%= Site.React.render("ScheduleDirectionAndStops", %{direction_id: @direction_id, shape_map: @schedule_page_data.shape_map,
+route_patterns: @schedule_page_data.route_patterns, route: @schedule_page_data.route, stop_list_html: @schedule_page_data.stop_list_html}) %>
         </div>
 
         <%#= render "_stop_list.html", assigns %>
