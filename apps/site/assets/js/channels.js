@@ -38,23 +38,10 @@ function initAll(socket) {
   });
 }
 
-function teardown() {
-  Object.keys(channels).forEach(id => {
-    if (channels[id]) {
-      channels[id].leave();
-      channels[id] = null;
-    }
-  });
-  channels = {};
-}
-
 export default function() {
   const socket = new Socket("/socket", {});
   socket.connect();
-  document.addEventListener("turbolinks:load", () => initAll(socket), {
-    passive: true
-  });
-  document.addEventListener("turbolinks:before-render", teardown, {
+  window.addEventListener("load", () => initAll(socket), {
     passive: true
   });
 }

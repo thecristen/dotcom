@@ -91,7 +91,7 @@ export const doInit = () => {
 };
 
 export function init() {
-  document.addEventListener("turbolinks:load", () => {
+  window.addEventListener("load", () => {
     doWhenGoogleMapsIsReady(doInit);
   });
 }

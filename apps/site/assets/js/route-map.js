@@ -58,14 +58,6 @@ function init() {
   });
 }
 
-function teardown() {
-  maps.forEach(map => map.removeEventListeners());
-  while (maps.length > 0) maps.pop();
-}
-
 export default function() {
-  document.addEventListener("turbolinks:load", init, { passive: true });
-  document.addEventListener("turbolinks:before-render", teardown, {
-    passive: true
-  });
+  window.addEventListener("load", init, { passive: true });
 }

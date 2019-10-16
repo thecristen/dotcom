@@ -26,7 +26,6 @@
     "react-leaflet-fullscreen": "^1.0.1",
     "sifter": "^0.5.1",
     "tether": "^1.3.4",
-    "turbolinks": "git+https://github.com/paulswartz/turbolinks.git#82b188e",
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {

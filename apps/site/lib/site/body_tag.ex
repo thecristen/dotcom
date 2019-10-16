@@ -33,14 +33,14 @@ defmodule Site.BodyTag do
   end
 
   defp enable_turbolinks?(conn) do
-    is_nil(conn.assigns[:disable_turbolinks]) or Turbolinks.enabled?(conn)
+    false
   end
 
   defp javascript_class(conn) do
     if Turbolinks.enabled?(conn) do
       "js"
     else
-      "no-js"
+      "js"
     end
   end
 

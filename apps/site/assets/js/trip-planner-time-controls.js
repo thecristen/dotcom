@@ -164,8 +164,7 @@ TripPlannerTimeControls.SELECTORS = {
 };
 
 export function init() {
-  const $ = window.jQuery;
-  $(document).on("turbolinks:load", () => {
+  window.addEventListener("load", () => {
     const tripPlanner = new TripPlannerTimeControls();
   });
 }

@@ -1,5 +1,5 @@
 export default function addCarets() {
-  document.addEventListener("turbolinks:load", () => {
+  window.addEventListener("load", () => {
     initCarets();
   });
 }

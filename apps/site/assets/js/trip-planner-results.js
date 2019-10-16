@@ -122,8 +122,7 @@ export class TripPlannerResults {
 }
 
 export function init() {
-  const $ = window.jQuery;
-  $(document).on("turbolinks:load", () => {
+  window.addEventListener("load", () => {
     $(".js-trip-plan-alert-toggle").show();
     $(".js-trip-plan-alert-toggle").trigger("click");
     doWhenGoogleMapsIsReady(() => new TripPlannerResults());

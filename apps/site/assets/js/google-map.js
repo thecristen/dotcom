@@ -4,8 +4,8 @@ import * as Icons from "./icons";
 
 export default function($) {
   $ = $ || window.jQuery;
-  document.addEventListener(
-    "turbolinks:load",
+  window.addEventListener(
+    "load",
     () => {
       doWhenGoogleMapsIsReady(() => {
         maybeInitMap($);

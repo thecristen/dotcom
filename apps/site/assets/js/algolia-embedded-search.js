@@ -68,7 +68,7 @@ export class AlgoliaEmbeddedSearch {
   }
 
   onClickGoBtn() {
-    return window.Turbolinks.visit(`/search${this.buildSearchParams()}`);
+    return (window.location.href = `/search${this.buildSearchParams()}`);
   }
 
   indexNames() {
@@ -100,7 +100,7 @@ export function init() {
   PAGE_IDS.forEach(pageId => {
     const { selectors, params, indices } = buildOptions(pageId);
 
-    document.addEventListener("turbolinks:load", () => {
+    window.addEventListener("load", () => {
       doWhenGoogleMapsIsReady(
         () => new AlgoliaEmbeddedSearch({ pageId, selectors, params, indices })
       );

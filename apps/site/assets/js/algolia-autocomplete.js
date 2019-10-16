@@ -313,10 +313,9 @@ export class AlgoliaAutocomplete {
   }
 
   onHitSelectedCallback(hit, type, params) {
-    window.Turbolinks.visit(
+    window.location.href =
       AlgoliaResult.getUrl(hit, type) +
-        QueryHelpers.paramsToString(params, window.encodeURIComponent)
-    );
+      QueryHelpers.paramsToString(params, window.encodeURIComponent);
   }
 
   _buildDataset(indexName, acc) {

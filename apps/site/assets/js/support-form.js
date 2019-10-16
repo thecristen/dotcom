@@ -1,8 +1,8 @@
 import email from "email-validation";
 
 export default function($ = window.jQuery) {
-  document.addEventListener(
-    "turbolinks:load",
+  window.addEventListener(
+    "load",
     () => {
       // TODO: create a way to run page-specific JS so that this hack isn't needed.
       if (!document.getElementById("support-form")) {

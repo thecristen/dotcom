@@ -13,7 +13,6 @@ import selectModal from "./select-modal";
 import collapse from "./collapse";
 import headerDropdowns from "./header-dropdowns";
 import modal from "./modal";
-import turbolinksMods from "./turbolinks-mods";
 import supportForm from "./support-form";
 import fixedsticky from "./fixedsticky";
 import menuCtrlClick from "./menu-ctrl-click";
@@ -47,11 +46,6 @@ import channels from "./channels";
 import CRTrains from "./cr-timetable-trains";
 import alertItem from "./alert-item";
 import dismissFullscreenError from "../ts/app/dismiss-fullscreen-error";
-
-// Extra steps for non-modular javascript
-Turbolinks.start();
-// Won't work as ProvidePlugin due to above
-window.Turbolinks = Turbolinks;
 
 // Doesn't work with ProvidePlugin due to window.zepto dep
 window.autocomplete = autocomplete;
@@ -311,7 +305,6 @@ headerDropdowns();
 collapse();
 alertItem();
 modal();
-turbolinksMods();
 supportForm();
 fixedsticky();
 objectFitImages(); // Polyfill for IE object-fit support

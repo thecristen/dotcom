@@ -10,7 +10,7 @@ export default function(events, $) {
       const action = form.attr("action");
       const serialized = form.serialize();
 
-      window.Turbolinks.visit(mergeAction(action, serialized));
+      window.location.href = mergeAction(action, serialized);
     }
 
     function hideLoading(ev) {
@@ -29,9 +29,6 @@ export default function(events, $) {
 
     $(document).on(event, "[data-submit-on-" + event + "] select", onEvent);
     $(document).on(event, "[data-submit-on-" + event + "] input", onEvent);
-    document.addEventListener("turbolinks:before-cache", hideLoading, {
-      passive: true
-    });
     hideSubmits();
   });
 }

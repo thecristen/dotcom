@@ -67,12 +67,5 @@ export default function($) {
     });
   };
 
-  function clearTooltips() {
-    $(selector).tooltip("dispose");
-  }
-
-  document.addEventListener("turbolinks:before-cache", clearTooltips, {
-    passive: true
-  });
-  document.addEventListener("turbolinks:load", initTooltip, { passive: true });
+  window.addEventListener("load", initTooltip, { passive: true });
 }

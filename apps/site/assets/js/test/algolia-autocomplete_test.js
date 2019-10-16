@@ -41,9 +41,10 @@ describe("AlgoliaAutocomplete", () => {
     `;
     window.autocomplete = jsdom.rerequire("autocomplete.js");
     window.jQuery = jsdom.rerequire("jquery");
-    window.Turbolinks = {
-      visit: sinon.spy()
-    };
+    Object.defineProperty(window.location, "href", {
+      writable: true,
+      value: "some url"
+    });
     window.encodeURIComponent = string => {
       return string.replace(/\s/g, "%20").replace(/\&/g, "%26");
     };
@@ -147,10 +148,8 @@ describe("AlgoliaAutocomplete", () => {
             ]
           }
         };
-        expect(window.Turbolinks.visit.called).to.be.false;
         ac.clickFirstResult();
-        expect(window.Turbolinks.visit.called).to.be.true;
-        expect(window.Turbolinks.visit.args[0][0]).to.equal(
+        expect(window.location.href).to.equal(
           "/stops/123?from=stop-search&query="
         );
       });
@@ -177,10 +176,8 @@ describe("AlgoliaAutocomplete", () => {
             ]
           }
         };
-        expect(window.Turbolinks.visit.called).to.be.false;
         ac.clickFirstResult();
-        expect(window.Turbolinks.visit.called).to.be.true;
-        expect(window.Turbolinks.visit.args[0][0]).to.equal(
+        expect(window.location.href).to.equal(
           "/schedules/123?from=stop-search&query="
         );
       });
@@ -201,9 +198,8 @@ describe("AlgoliaAutocomplete", () => {
             hits: []
           }
         };
-        expect(window.Turbolinks.visit.called).to.be.false;
         ac.clickFirstResult();
-        expect(window.Turbolinks.visit.called).to.be.false;
+        expect(window.location.href).to.equal("some url");
       });
     });
 
@@ -217,9 +213,8 @@ describe("AlgoliaAutocomplete", () => {
         );
         ac.init({});
         expect(Object.keys(ac._results)).to.have.members([]);
-        expect(window.Turbolinks.visit.called).to.be.false;
         ac.clickFirstResult();
-        expect(window.Turbolinks.visit.called).to.be.false;
+        expect(window.location.href).to.equal("some url");
       });
     });
   });
@@ -237,10 +232,8 @@ describe("AlgoliaAutocomplete", () => {
             }
           }
         };
-        expect(window.Turbolinks.visit.called).to.be.false;
         ac.clickHighlightedOrFirstResult();
-        expect(window.Turbolinks.visit.called).to.be.true;
-        expect(window.Turbolinks.visit.args[0][0]).to.equal(
+        expect(window.location.href).to.equal(
           "/stops/123?from=stop-search&query="
         );
       });
@@ -275,10 +268,8 @@ describe("AlgoliaAutocomplete", () => {
             }
           };
           expect(ac._highlightedHit).to.equal(null);
-          expect(window.Turbolinks.visit.called).to.be.false;
           ac.clickHighlightedOrFirstResult();
-          expect(window.Turbolinks.visit.called).to.be.true;
-          expect(window.Turbolinks.visit.args[0][0]).to.equal(
+          expect(window.location.href).to.equal(
             "/stops/123?from=stop-search&query="
           );
         });
@@ -296,9 +287,8 @@ describe("AlgoliaAutocomplete", () => {
         ac.init({});
         expect(Object.keys(ac._results)).to.have.members([]);
         expect(ac._highlightedHit).to.equal(null);
-        expect(window.Turbolinks.visit.called).to.be.false;
         ac.clickHighlightedOrFirstResult();
-        expect(window.Turbolinks.visit.called).to.be.false;
+        expect(window.location.href).to.equal("some url");
       });
     });
   });

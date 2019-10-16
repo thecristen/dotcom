@@ -36,9 +36,10 @@ describe("AlgoliaAutocompleteWithGeo", function() {
     };
     window.autocomplete = jsdom.rerequire("autocomplete.js");
     window.jQuery = jsdom.rerequire("jquery");
-    window.Turbolinks = {
-      visit: sinon.spy()
-    };
+    Object.defineProperty(window.location, "href", {
+      writable: true,
+      value: "some url"
+    });
     $ = window.jQuery;
     this.parent = {
       onLocationResults: sinon.spy(results => results)
@@ -141,8 +142,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
         .resolves("10 Park Plaza, Boston MA");
       const result = this.ac.useMyLocationSearch();
       Promise.resolve(result).then(() => {
-        expect(window.Turbolinks.visit.called).to.be.true;
-        expect(window.Turbolinks.visit.args[0][0]).to.equal(
+        expect(window.location.href).to.contain(
           "/transit-near-me?latitude=42&longitude=-71&address=10 Park Plaza, Boston MA"
         );
         done();
@@ -230,16 +230,9 @@ describe("AlgoliaAutocompleteWithGeo", function() {
             "Boston, MA 02128, USA"
           );
 
-          expect(window.Turbolinks.visit.called).to.be.true;
-          expect(window.Turbolinks.visit.args[0][0]).to.contain(
-            "latitude=42.3517525"
-          );
-          expect(window.Turbolinks.visit.args[0][0]).to.contain(
-            "longitude=-71.0679696"
-          );
-          expect(window.Turbolinks.visit.args[0][0]).to.contain(
-            "address=Boston,%20MA"
-          );
+          expect(window.location.href).to.contain("latitude=42.3517525");
+          expect(window.location.href).to.contain("longitude=-71.0679696");
+          expect(window.location.href).to.contain("address=Boston,%20MA");
 
           done();
         });

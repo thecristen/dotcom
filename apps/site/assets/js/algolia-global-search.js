@@ -6,8 +6,8 @@ import * as QueryHelpers from "../ts/helpers/query";
 
 export function init() {
   const search = new AlgoliaGlobalSearch();
-  document.addEventListener(
-    "turbolinks:load",
+  window.addEventListener(
+    "load",
     () => {
       doWhenGoogleMapsIsReady(() => {
         search.init();
@@ -81,10 +81,6 @@ export class AlgoliaGlobalSearch {
     window.jQuery(document).on("keyup", `#${inputField.id}`, this.onKeyup);
 
     inputField.addEventListener("focus", this.onFocusInput);
-
-    document.addEventListener("turbolinks:before-render", () => {
-      window.jQuery(document).off("keyup", `#${inputField.id}`, this.onKeyup);
-    });
   }
 
   loadState(query) {

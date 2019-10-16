@@ -28,14 +28,6 @@ describe("geolocation", () => {
       `);
     });
 
-    it("adds a hook to clear the UI state if geolocation is enabled", () => {
-      const spy = sinon.spy();
-      geolocation($, { addEventListener: spy }, { geolocation: true });
-      assert.equal(spy.args[0][0], "turbolinks:before-visit");
-      spy.args[0][1](); // call the aEL callback
-      assert.isTrue($(".loading-indicator").hasClass("hidden-xs-up"));
-    });
-
     it("adds a class to the HTML element if geolocation is disabled", () => {
       geolocation($, { documentElement: document.documentElement }, {});
       assert.equal(document.documentElement.className, " geolocation-disabled");

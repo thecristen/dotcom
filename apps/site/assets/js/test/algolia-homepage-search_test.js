@@ -12,9 +12,10 @@ describe("HomepageSearch", () => {
     window.$ = window.jQuery;
     window.autocomplete = jsdom.rerequire("autocomplete.js");
     window.encodeURIComponent = str => str;
-    window.Turbolinks = {
-      visit: sinon.spy()
-    };
+    Object.defineProperty(window.location, "href", {
+      writable: true,
+      value: "some url"
+    });
 
     document.body.innerHTML = `
       <div id="powered-by-google-logo"></div>
@@ -43,7 +44,6 @@ describe("HomepageSearch", () => {
     expect($goBtn.length).to.equal(1);
 
     $goBtn.click();
-    expect(window.Turbolinks.visit.called).to.be.true;
-    expect(window.Turbolinks.visit.args[0][0]).to.equal("/search?query=b");
+    expect(window.location.href).to.equal("/search?query=b");
   });
 });

@@ -4,9 +4,6 @@ export default function(
   navigator = window.navigator
 ) {
   if ("geolocation" in navigator) {
-    doc.addEventListener("turbolinks:before-visit", beforeVisit($), {
-      passive: true
-    });
     $(document).on(
       "click",
       "[data-geolocation-target]",
@@ -15,12 +12,6 @@ export default function(
   } else {
     doc.documentElement.className += " geolocation-disabled";
   }
-}
-
-function beforeVisit($) {
-  return () => {
-    $(".loading-indicator, .location-error").addClass("hidden-xs-up");
-  };
 }
 
 // These functions are exported for testing

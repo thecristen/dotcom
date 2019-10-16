@@ -24,8 +24,8 @@ export default function($ = window.jQuery) {
     openRemoteModal(ev, $)
   );
 
-  document.addEventListener(
-    "turbolinks:load",
+  window.addEventListener(
+    "load",
     () => window.nextTick(() => convertSelects($)),
     { passive: true }
   );

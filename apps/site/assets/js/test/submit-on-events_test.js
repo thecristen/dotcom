@@ -20,31 +20,33 @@ describe("submit-on-event", () => {
 
   afterEach(() => {
     $("#test").remove();
-    window.Turbolinks = undefined;
   });
 
   it("hides submit button", () => {
     assert.equal($("#test button").css("display"), "none");
   });
 
-  it("submits the form if the input changes", done => {
-    window.Turbolinks = {
-      visit: () => done()
-    };
+  it("submits the form if the input changes", () => {
+    Object.defineProperty(window.location, "href", {
+      writable: true,
+      value: "some url"
+    });
     $("#test input").change();
   });
 
-  it("submits the form if the select is changed", done => {
-    window.Turbolinks = {
-      visit: () => done()
-    };
+  it("submits the form if the select is changed", () => {
+    Object.defineProperty(window.location, "href", {
+      writable: true,
+      value: "some url"
+    });
     $("#test select").change();
   });
 
   it("displays a loading indicator", () => {
-    window.Turbolinks = {
-      visit: () => true
-    };
+    Object.defineProperty(window.location, "href", {
+      writable: true,
+      value: "some url"
+    });
     assert($(".loading-indicator").hasClass("hidden-xs-up"));
     $("#test select").change();
     assert.isNotTrue($(".loading-indicator").hasClass("hidden-xs-up"));
