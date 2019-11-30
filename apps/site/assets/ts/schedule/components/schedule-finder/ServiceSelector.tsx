@@ -5,7 +5,6 @@ import {
   ServicesKeyedByGroup,
   groupServiceByDate,
   groupByType,
-  getTodaysSchedule,
   ServiceOptGroupName,
   ServiceByOptGroup,
   hasMultipleWeekdaySchedules
@@ -36,27 +35,6 @@ interface Props {
   routePatterns: EnhancedRoutePattern[];
 }
 
-const getTodaysScheduleId = (
-  servicesByOptGroup: ServicesKeyedByGroup
-): string => {
-  const todayService = getTodaysSchedule(servicesByOptGroup);
-  return todayService ? todayService.service.id : "";
-};
-
-const firstFutureScheduleId = (
-  servicesByOptGroup: ServicesKeyedByGroup
-): string => {
-  const firstFutureSchedule = servicesByOptGroup.future[0];
-  return firstFutureSchedule ? firstFutureSchedule.service.id : "";
-};
-
-const firstHolidayScheduleId = (
-  servicesByOptGroup: ServicesKeyedByGroup
-): string => {
-  const firstHolidaySchedule = servicesByOptGroup.holiday[0];
-  return firstHolidaySchedule ? firstHolidaySchedule.service.id : "";
-};
-
 const getSelectedService = (
   services: ServiceWithServiceDate[],
   selectedServiceId: string
@@ -77,12 +55,12 @@ const getServicesByOptGroup = (
     )
     .reduce(groupByType, { current: [], holiday: [], future: [] });
 
-export const getDefaultScheduleId = (
-  servicesByOptGroup: ServicesKeyedByGroup
-): string =>
-  getTodaysScheduleId(servicesByOptGroup) ||
-  firstFutureScheduleId(servicesByOptGroup) ||
-  firstHolidayScheduleId(servicesByOptGroup);
+const getDefaultServiceId = (services: ServiceWithServiceDate[]): string => {
+  const currentService = services.find(
+    service => service["default_service?"] === true
+  );
+  return currentService ? currentService.id : services[0].id;
+};
 
 type fetchAction =
   | { type: "FETCH_COMPLETE"; payload: Journey[] }
@@ -136,8 +114,9 @@ export const ServiceSelector = ({
         service => service.id === selectedServiceId
       );
 
-      const servicesByOptGroup = getServicesByOptGroup(services);
-      const defaultServiceId = getDefaultScheduleId(servicesByOptGroup);
+      if (services.length <= 0) return;
+
+      const defaultServiceId = getDefaultServiceId(services);
       const isCurrentService = selectedServiceId === defaultServiceId;
 
       if (!selectedService) return;
@@ -157,7 +136,7 @@ export const ServiceSelector = ({
   if (services.length <= 0) return null;
 
   const servicesByOptGroup = getServicesByOptGroup(services);
-  const defaultServiceId = getDefaultScheduleId(servicesByOptGroup);
+  const defaultServiceId = getDefaultServiceId(services);
 
   if (!selectedServiceId) {
     setSelectedServiceId(defaultServiceId);

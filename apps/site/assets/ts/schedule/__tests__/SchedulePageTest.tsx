@@ -116,7 +116,8 @@ const service: ServiceWithServiceDate = {
   typicality: "typical_service",
   valid_days: [1, 2, 3, 4, 5],
   service_date: "2019-06-26",
-  name: "weekday"
+  name: "weekday",
+  "default_service?": true
 };
 
 const services = [service];

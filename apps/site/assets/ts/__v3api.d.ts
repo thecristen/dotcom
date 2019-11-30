@@ -246,6 +246,7 @@ export interface Service {
 
 export interface ServiceWithServiceDate extends Service {
   service_date: string;
+  "default_service?": boolean;
 }
 
 export interface Trip {

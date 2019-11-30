@@ -437,6 +437,17 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
       assert length(conn.assigns.schedule_page_data.services) < services
     end
+
+    test "determines a single, default service for route and date", %{conn: conn} do
+      conn =
+        conn
+        |> get(line_path(conn, :show, "39"))
+
+      services_for_route = conn.assigns.schedule_page_data.services
+      default_service = Enum.filter(services_for_route, &(&1.default_service? === true))
+
+      assert [%{current_service?: true}] = default_service
+    end
   end
 
   describe "line diagram endpoint" do

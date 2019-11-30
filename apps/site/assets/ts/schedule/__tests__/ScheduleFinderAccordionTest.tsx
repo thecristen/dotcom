@@ -18,7 +18,8 @@ const services: ServiceWithServiceDate[] = [
     end_date: "2019-08-30",
     description: "Weekday schedule",
     added_dates_notes: {},
-    added_dates: []
+    added_dates: [],
+    "default_service?": true
   },
   {
     valid_days: [6],
@@ -33,7 +34,8 @@ const services: ServiceWithServiceDate[] = [
     end_date: "2019-08-31",
     description: "Saturday schedule",
     added_dates_notes: {},
-    added_dates: []
+    added_dates: [],
+    "default_service?": false
   },
   {
     valid_days: [7],
@@ -48,9 +50,10 @@ const services: ServiceWithServiceDate[] = [
     end_date: "2019-08-25",
     description: "Sunday schedule",
     added_dates_notes: {},
-    added_dates: []
+    added_dates: [],
+    "default_service?": false
   }
-] as ServiceWithServiceDate[];
+];
 
 /* eslint-disable @typescript-eslint/camelcase */
 const body = '<div id="react-root"></div>';
