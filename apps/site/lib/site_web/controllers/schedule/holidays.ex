@@ -5,17 +5,16 @@ defmodule SiteWeb.ScheduleController.Holidays do
 
   @impl true
   def init(opts) do
-    Keyword.merge(opts || [], holiday_limit: 3)
+    opts
   end
 
   @impl true
-  def call(%Plug.Conn{assigns: %{date: date}} = conn, opts) do
+  def call(%Plug.Conn{assigns: %{date: date}} = conn, _opts) do
     holidays =
       date
       |> Holiday.Repo.following()
-      |> Enum.take(opts[:holiday_limit])
       |> Enum.map(fn holiday ->
-        Map.update!(holiday, :date, fn date -> ViewHelpers.format_full_date(date) end)
+        Map.put_new(holiday, :formatted_date, ViewHelpers.format_full_date(holiday.date))
       end)
 
     conn

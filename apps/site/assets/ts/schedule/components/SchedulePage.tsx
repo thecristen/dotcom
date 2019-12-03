@@ -44,6 +44,7 @@ const SchedulePage = ({
           stops={stops}
           directionId={directionId}
           routePatternsByDirection={routePatternsByDirection}
+          holidays={holidays}
         />
       </div>
     )}

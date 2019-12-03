@@ -1,13 +1,13 @@
 defmodule SiteWeb.ScheduleController.HolidaysTest do
   use SiteWeb.ConnCase, async: true
 
-  test "gets 3 results", %{conn: conn} do
+  test "gets results", %{conn: conn} do
     conn =
       conn
-      |> assign(:date, ~D[2017-02-28])
-      |> SiteWeb.ScheduleController.Holidays.call(holiday_limit: 3)
+      |> assign(:date, ~D[2020-02-28])
+      |> SiteWeb.ScheduleController.Holidays.call([])
 
-    assert Enum.count(conn.assigns.holidays) == 3
+    assert Enum.count(conn.assigns.holidays) == 16
   end
 
   test "if there is no date, doesnt assign holidays", %{conn: conn} do

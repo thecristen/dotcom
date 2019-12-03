@@ -17,10 +17,10 @@ const UpcomingHolidays = ({
     >
       <>
         <ul className="c-unordered-list m-schedule-page__sidebar-list">
-          {holidays.map(
+          {holidays.slice(0, 3).map(
             (holiday: Holiday): ReactElement<HTMLElement> => (
               <li key={holiday.date} className="c-unordered-list-item">
-                {holiday.name} ({holiday.date})
+                {holiday.name} ({holiday.formatted_date})
               </li>
             )
           )}

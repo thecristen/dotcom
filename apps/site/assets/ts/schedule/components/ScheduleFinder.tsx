@@ -5,6 +5,7 @@ import {
   ServiceWithServiceDate
 } from "../../__v3api";
 import {
+  Holiday,
   SimpleStop,
   SimpleStopMap,
   RoutePatternsByDirection
@@ -25,6 +26,7 @@ interface Props {
   route: EnhancedRoute;
   stops: SimpleStopMap;
   routePatternsByDirection: RoutePatternsByDirection;
+  holidays: Holiday[];
 }
 
 export type SelectedDirection = 0 | 1 | null;
@@ -59,7 +61,8 @@ const ScheduleFinder = ({
   route,
   services,
   stops,
-  routePatternsByDirection
+  routePatternsByDirection,
+  holidays
 }: Props): ReactElement<HTMLElement> => {
   const {
     direction_destinations: directionDestinations,
@@ -264,6 +267,7 @@ const ScheduleFinder = ({
                 services={services}
                 stops={stops[state.selectedDirection!]}
                 routePatternsByDirection={routePatternsByDirection}
+                holidays={holidays}
               />
             )}
           </>

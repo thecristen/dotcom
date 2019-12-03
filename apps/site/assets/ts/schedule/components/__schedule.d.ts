@@ -132,6 +132,7 @@ export interface Fare {
 export interface Holiday {
   name: string;
   date: string;
+  formatted_date: string;
 }
 
 export interface StopPrediction {

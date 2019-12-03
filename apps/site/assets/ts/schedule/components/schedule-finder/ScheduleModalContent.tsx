@@ -3,6 +3,7 @@ import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
 import UpcomingDepartures from "./UpcomingDepartures";
 import { Route, RouteType, ServiceWithServiceDate } from "../../../__v3api";
 import {
+  Holiday,
   SimpleStop,
   StopPrediction,
   RoutePatternsByDirection
@@ -83,6 +84,7 @@ interface Props {
   services: ServiceWithServiceDate[];
   stops: SimpleStop[];
   routePatternsByDirection: RoutePatternsByDirection;
+  holidays: Holiday[];
 }
 
 const ScheduleModalContent = ({
@@ -97,7 +99,8 @@ const ScheduleModalContent = ({
   selectedOrigin,
   services,
   stops,
-  routePatternsByDirection
+  routePatternsByDirection,
+  holidays
 }: Props): ReactElement<HTMLElement> | null => {
   const [state, dispatch] = useReducer(reducer, {
     data: null,
@@ -136,6 +139,7 @@ const ScheduleModalContent = ({
         routeId={routeId}
         directionId={selectedDirection}
         routePatterns={routePatternsByDirection[selectedDirection]}
+        holidays={holidays}
       />
     </>
   );

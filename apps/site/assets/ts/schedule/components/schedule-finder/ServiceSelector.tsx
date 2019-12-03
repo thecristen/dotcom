@@ -14,7 +14,7 @@ import {
 import { reducer } from "../../../helpers/fetch";
 import ScheduleTable from "./ScheduleTable";
 import { SelectedDirection } from "../ScheduleFinder";
-import { EnhancedRoutePattern, ServiceScheduleInfo } from "../__schedule";
+import { EnhancedRoutePattern, Holiday, ServiceScheduleInfo } from "../__schedule";
 
 // until we come up with a good integration test for async with loading
 // some lines in this file have been ignored from codecov
@@ -33,6 +33,7 @@ interface Props {
   routeId: string;
   directionId: SelectedDirection;
   routePatterns: EnhancedRoutePattern[];
+  holidays: Holiday[];
 }
 
 const serviceDescription = (

@@ -44,7 +44,8 @@ const fareLink = "/fares/bus-fares";
 const holidays = [
   {
     name: "Memorial Day",
-    date: "May 27, 2019"
+    date: "2019-05-27",
+    formatted_date: "May 27, 2019"
   }
 ];
 
