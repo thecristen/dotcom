@@ -142,7 +142,8 @@ it("it renders", () => {
           direction_id: 0,
           shape_map: {},
           route_patterns: {},
-          line_diagram: lineDiagram
+          line_diagram: lineDiagram,
+          today: "2019-12-05"
         }}
       />
     )
@@ -178,7 +179,8 @@ it("it renders with conditional components", () => {
         direction_id: 0,
         shape_map: {},
         route_patterns: {},
-        line_diagram: lineDiagram
+        line_diagram: lineDiagram,
+        today: "2019-12-05"
       }}
     />
   );

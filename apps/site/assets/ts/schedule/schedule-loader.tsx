@@ -39,7 +39,8 @@ const renderSchedulePage = (schedulePageData: SchedulePageData): void => {
     stops,
     services,
     route_patterns: routePatternsByDirection,
-    schedule_note: scheduleNote
+    schedule_note: scheduleNote,
+    today
   } = schedulePageData;
   if (!scheduleNote) {
     ReactDOM.render(
@@ -49,6 +50,7 @@ const renderSchedulePage = (schedulePageData: SchedulePageData): void => {
         stops={stops}
         services={services}
         routePatternsByDirection={routePatternsByDirection}
+        today={today}
       />,
       document.getElementById("react-schedule-finder-root")
     );

@@ -15,6 +15,7 @@ interface Props {
   stops: SimpleStopMap;
   services: ServiceWithServiceDate[];
   routePatternsByDirection: RoutePatternsByDirection;
+  today: string;
 }
 
 const ScheduleFinderAccordion = ({
@@ -22,7 +23,8 @@ const ScheduleFinderAccordion = ({
   route,
   stops,
   services,
-  routePatternsByDirection
+  routePatternsByDirection,
+  today
 }: Props): ReactElement<HTMLDivElement> => (
   <div className="schedule-finder--mobile">
     <ExpandableBlock
@@ -38,6 +40,7 @@ const ScheduleFinderAccordion = ({
         stops={stops}
         services={services}
         routePatternsByDirection={routePatternsByDirection}
+        today={today}
       />
     </ExpandableBlock>
   </div>

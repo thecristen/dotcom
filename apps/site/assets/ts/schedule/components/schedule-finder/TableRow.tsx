@@ -95,7 +95,7 @@ const CrTableRow = ({
   </>
 );
 
-const Accordion = ({
+export const Accordion = ({
   input,
   journey,
   contentCallback

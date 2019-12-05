@@ -8,6 +8,7 @@ import { SimpleStop } from "../components/__schedule";
 import { EnhancedJourney } from "../components/__trips";
 import departuresResponse from "../__tests__/departures.json";
 
+const today = "2019-12-05";
 const route: EnhancedRoute = {
   alert_count: 0,
   description: "",
@@ -39,6 +40,7 @@ describe("ScheduleModal", () => {
           selectedDirection={0}
           services={[]}
           routePatternsByDirection={{}}
+          today={today}
         />
       );
     });
@@ -57,6 +59,7 @@ describe("ScheduleModal", () => {
           selectedDirection={0}
           services={[]}
           routePatternsByDirection={{}}
+          today={today}
         />
       );
       expect(tree!.toJSON()).toBeNull();
@@ -74,6 +77,7 @@ describe("ScheduleModal", () => {
           selectedDirection={null}
           services={[]}
           routePatternsByDirection={{}}
+          today={today}
         />
       );
       expect(tree!.toJSON()).toBeNull();

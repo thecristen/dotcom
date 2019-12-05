@@ -39,11 +39,17 @@ exports[`ScheduleTable it renders 1`] = `
         >
           Destination
         </th>
+        <th
+          className="schedule-table__th--flex-end"
+          scope="col"
+        >
+          Trip Details
+        </th>
       </tr>
     </thead>
     <tbody>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248754"
             aria-expanded={true}
@@ -103,10 +109,10 @@ exports[`ScheduleTable it renders 1`] = `
               <Component />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248640"
             aria-expanded={false}
@@ -156,10 +162,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248808"
             aria-expanded={false}
@@ -209,10 +215,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248756"
             aria-expanded={false}
@@ -262,10 +268,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248665"
             aria-expanded={false}
@@ -315,10 +321,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248638"
             aria-expanded={false}
@@ -368,10 +374,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248803"
             aria-expanded={false}
@@ -421,10 +427,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248760"
             aria-expanded={false}
@@ -474,10 +480,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248709"
             aria-expanded={false}
@@ -527,10 +533,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248671"
             aria-expanded={false}
@@ -580,10 +586,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248636"
             aria-expanded={false}
@@ -633,10 +639,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248622"
             aria-expanded={false}
@@ -686,10 +692,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248802"
             aria-expanded={false}
@@ -739,10 +745,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248236"
             aria-expanded={false}
@@ -792,10 +798,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248758"
             aria-expanded={false}
@@ -845,10 +851,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248218"
             aria-expanded={false}
@@ -898,10 +904,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248710"
             aria-expanded={false}
@@ -951,10 +957,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248217"
             aria-expanded={false}
@@ -1004,10 +1010,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248662"
             aria-expanded={false}
@@ -1057,10 +1063,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248633"
             aria-expanded={false}
@@ -1110,10 +1116,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248231"
             aria-expanded={false}
@@ -1163,10 +1169,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248619"
             aria-expanded={false}
@@ -1216,10 +1222,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248205"
             aria-expanded={false}
@@ -1269,10 +1275,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248507"
             aria-expanded={false}
@@ -1322,10 +1328,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248797"
             aria-expanded={false}
@@ -1375,10 +1381,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248212"
             aria-expanded={false}
@@ -1428,10 +1434,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248749"
             aria-expanded={false}
@@ -1481,10 +1487,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248235"
             aria-expanded={false}
@@ -1534,10 +1540,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248678"
             aria-expanded={false}
@@ -1587,10 +1593,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248209"
             aria-expanded={false}
@@ -1640,10 +1646,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248661"
             aria-expanded={false}
@@ -1693,10 +1699,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248194"
             aria-expanded={false}
@@ -1746,10 +1752,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248626"
             aria-expanded={false}
@@ -1799,10 +1805,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248617"
             aria-expanded={false}
@@ -1852,10 +1858,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248234"
             aria-expanded={false}
@@ -1905,10 +1911,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248505"
             aria-expanded={false}
@@ -1958,10 +1964,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248213"
             aria-expanded={false}
@@ -2011,10 +2017,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248801"
             aria-expanded={false}
@@ -2064,10 +2070,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248193"
             aria-expanded={false}
@@ -2117,10 +2123,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248751"
             aria-expanded={false}
@@ -2170,10 +2176,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248686"
             aria-expanded={false}
@@ -2223,10 +2229,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248233"
             aria-expanded={false}
@@ -2276,10 +2282,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248664"
             aria-expanded={false}
@@ -2329,10 +2335,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248207"
             aria-expanded={false}
@@ -2382,10 +2388,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248627"
             aria-expanded={false}
@@ -2435,10 +2441,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248190"
             aria-expanded={false}
@@ -2488,10 +2494,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248615"
             aria-expanded={false}
@@ -2541,10 +2547,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248503"
             aria-expanded={false}
@@ -2594,10 +2600,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248232"
             aria-expanded={false}
@@ -2647,10 +2653,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248800"
             aria-expanded={false}
@@ -2700,10 +2706,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248211"
             aria-expanded={false}
@@ -2753,10 +2759,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248748"
             aria-expanded={false}
@@ -2806,10 +2812,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248683"
             aria-expanded={false}
@@ -2859,10 +2865,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248192"
             aria-expanded={false}
@@ -2912,10 +2918,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248668"
             aria-expanded={false}
@@ -2965,10 +2971,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248228"
             aria-expanded={false}
@@ -3018,10 +3024,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248631"
             aria-expanded={false}
@@ -3071,10 +3077,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248208"
             aria-expanded={false}
@@ -3124,10 +3130,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248614"
             aria-expanded={false}
@@ -3177,10 +3183,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248188"
             aria-expanded={false}
@@ -3230,10 +3236,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248501"
             aria-expanded={false}
@@ -3283,10 +3289,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248230"
             aria-expanded={false}
@@ -3336,10 +3342,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248210"
             aria-expanded={false}
@@ -3389,10 +3395,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248695"
             aria-expanded={false}
@@ -3442,10 +3448,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248191"
             aria-expanded={false}
@@ -3495,10 +3501,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248630"
             aria-expanded={false}
@@ -3548,10 +3554,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248229"
             aria-expanded={false}
@@ -3601,10 +3607,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248611"
             aria-expanded={false}
@@ -3654,10 +3660,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248206"
             aria-expanded={false}
@@ -3707,10 +3713,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248189"
             aria-expanded={false}
@@ -3760,10 +3766,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248499"
             aria-expanded={false}
@@ -3813,10 +3819,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248675"
             aria-expanded={false}
@@ -3866,10 +3872,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248609"
             aria-expanded={false}
@@ -3919,10 +3925,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248486"
             aria-expanded={false}
@@ -3972,10 +3978,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248682"
             aria-expanded={false}
@@ -4025,10 +4031,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42249350"
             aria-expanded={false}
@@ -4078,10 +4084,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248606"
             aria-expanded={false}
@@ -4131,10 +4137,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248679"
             aria-expanded={false}
@@ -4184,10 +4190,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248413"
             aria-expanded={false}
@@ -4237,10 +4243,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248601"
             aria-expanded={false}
@@ -4290,10 +4296,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248674"
             aria-expanded={false}
@@ -4343,10 +4349,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248602"
             aria-expanded={false}
@@ -4396,10 +4402,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248676"
             aria-expanded={false}
@@ -4449,10 +4455,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248604"
             aria-expanded={false}
@@ -4502,10 +4508,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248410"
             aria-expanded={false}
@@ -4555,10 +4561,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248764"
             aria-expanded={false}
@@ -4608,10 +4614,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42249352"
             aria-expanded={false}
@@ -4661,10 +4667,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248727"
             aria-expanded={false}
@@ -4714,10 +4720,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248551"
             aria-expanded={false}
@@ -4767,10 +4773,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248482"
             aria-expanded={false}
@@ -4820,10 +4826,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248786"
             aria-expanded={false}
@@ -4873,10 +4879,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248696"
             aria-expanded={false}
@@ -4926,10 +4932,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248440"
             aria-expanded={false}
@@ -4979,10 +4985,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248590"
             aria-expanded={false}
@@ -5032,10 +5038,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248774"
             aria-expanded={false}
@@ -5085,10 +5091,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248717"
             aria-expanded={false}
@@ -5138,10 +5144,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42249349"
             aria-expanded={false}
@@ -5191,10 +5197,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248394"
             aria-expanded={false}
@@ -5244,10 +5250,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248557"
             aria-expanded={false}
@@ -5297,10 +5303,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248768"
             aria-expanded={false}
@@ -5350,10 +5356,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248705"
             aria-expanded={false}
@@ -5403,10 +5409,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248598"
             aria-expanded={false}
@@ -5456,10 +5462,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248783"
             aria-expanded={false}
@@ -5509,10 +5515,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248716"
             aria-expanded={false}
@@ -5562,10 +5568,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248575"
             aria-expanded={false}
@@ -5615,10 +5621,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248793"
             aria-expanded={false}
@@ -5668,10 +5674,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248703"
             aria-expanded={false}
@@ -5721,10 +5727,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248579"
             aria-expanded={false}
@@ -5774,10 +5780,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248788"
             aria-expanded={false}
@@ -5827,10 +5833,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248692"
             aria-expanded={false}
@@ -5880,10 +5886,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248571"
             aria-expanded={false}
@@ -5933,10 +5939,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248163"
             aria-expanded={false}
@@ -5986,10 +5992,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248771"
             aria-expanded={false}
@@ -6039,10 +6045,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42249351"
             aria-expanded={false}
@@ -6092,10 +6098,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248177"
             aria-expanded={false}
@@ -6145,10 +6151,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248689"
             aria-expanded={false}
@@ -6198,10 +6204,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248137"
             aria-expanded={false}
@@ -6251,10 +6257,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248564"
             aria-expanded={false}
@@ -6304,10 +6310,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248162"
             aria-expanded={false}
@@ -6357,10 +6363,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248784"
             aria-expanded={false}
@@ -6410,10 +6416,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248167"
             aria-expanded={false}
@@ -6463,10 +6469,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248698"
             aria-expanded={false}
@@ -6516,10 +6522,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248138"
             aria-expanded={false}
@@ -6569,10 +6575,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248646"
             aria-expanded={false}
@@ -6622,10 +6628,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248165"
             aria-expanded={false}
@@ -6675,10 +6681,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248562"
             aria-expanded={false}
@@ -6728,10 +6734,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248546"
             aria-expanded={false}
@@ -6781,10 +6787,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248168"
             aria-expanded={false}
@@ -6834,10 +6840,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248781"
             aria-expanded={false}
@@ -6887,10 +6893,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248140"
             aria-expanded={false}
@@ -6940,10 +6946,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248739"
             aria-expanded={false}
@@ -6993,10 +6999,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248166"
             aria-expanded={false}
@@ -7046,10 +7052,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248700"
             aria-expanded={false}
@@ -7099,10 +7105,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248651"
             aria-expanded={false}
@@ -7152,10 +7158,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248169"
             aria-expanded={false}
@@ -7205,10 +7211,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248566"
             aria-expanded={false}
@@ -7258,10 +7264,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248139"
             aria-expanded={false}
@@ -7311,10 +7317,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248528"
             aria-expanded={false}
@@ -7364,10 +7370,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248175"
             aria-expanded={false}
@@ -7417,10 +7423,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248767"
             aria-expanded={false}
@@ -7470,10 +7476,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248735"
             aria-expanded={false}
@@ -7523,10 +7529,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248176"
             aria-expanded={false}
@@ -7576,10 +7582,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248697"
             aria-expanded={false}
@@ -7629,10 +7635,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248143"
             aria-expanded={false}
@@ -7682,10 +7688,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248647"
             aria-expanded={false}
@@ -7735,10 +7741,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248174"
             aria-expanded={false}
@@ -7788,10 +7794,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248574"
             aria-expanded={false}
@@ -7841,10 +7847,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248526"
             aria-expanded={false}
@@ -7894,10 +7900,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248173"
             aria-expanded={false}
@@ -7947,10 +7953,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248791"
             aria-expanded={false}
@@ -8000,10 +8006,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248142"
             aria-expanded={false}
@@ -8053,10 +8059,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248733"
             aria-expanded={false}
@@ -8106,10 +8112,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248726"
             aria-expanded={false}
@@ -8159,10 +8165,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248171"
             aria-expanded={false}
@@ -8212,10 +8218,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248650"
             aria-expanded={false}
@@ -8265,10 +8271,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248172"
             aria-expanded={false}
@@ -8318,10 +8324,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248581"
             aria-expanded={false}
@@ -8371,10 +8377,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248513"
             aria-expanded={false}
@@ -8424,10 +8430,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248141"
             aria-expanded={false}
@@ -8477,10 +8483,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248789"
             aria-expanded={false}
@@ -8530,10 +8536,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248170"
             aria-expanded={false}
@@ -8583,10 +8589,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248736"
             aria-expanded={false}
@@ -8636,10 +8642,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248723"
             aria-expanded={false}
@@ -8689,10 +8695,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248164"
             aria-expanded={false}
@@ -8742,10 +8748,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248648"
             aria-expanded={false}
@@ -8795,10 +8801,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248580"
             aria-expanded={false}
@@ -8848,10 +8854,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248540"
             aria-expanded={false}
@@ -8901,10 +8907,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248785"
             aria-expanded={false}
@@ -8954,10 +8960,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248732"
             aria-expanded={false}
@@ -9007,10 +9013,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248718"
             aria-expanded={false}
@@ -9060,10 +9066,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248655"
             aria-expanded={false}
@@ -9113,10 +9119,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248567"
             aria-expanded={false}
@@ -9166,10 +9172,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248529"
             aria-expanded={false}
@@ -9219,10 +9225,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248778"
             aria-expanded={false}
@@ -9272,10 +9278,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248734"
             aria-expanded={false}
@@ -9325,10 +9331,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248712"
             aria-expanded={false}
@@ -9378,10 +9384,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248443"
             aria-expanded={false}
@@ -9431,10 +9437,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248558"
             aria-expanded={false}
@@ -9484,10 +9490,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248524"
             aria-expanded={false}
@@ -9537,10 +9543,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248731"
             aria-expanded={false}
@@ -9590,10 +9596,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248263"
             aria-expanded={false}
@@ -9643,10 +9649,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42249353"
             aria-expanded={false}
@@ -9696,10 +9702,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248693"
             aria-expanded={false}
@@ -9749,10 +9755,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248563"
             aria-expanded={false}
@@ -9802,10 +9808,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248521"
             aria-expanded={false}
@@ -9855,10 +9861,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248745"
             aria-expanded={false}
@@ -9908,10 +9914,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248597"
             aria-expanded={false}
@@ -9961,10 +9967,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248533"
             aria-expanded={false}
@@ -10014,10 +10020,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42249354"
             aria-expanded={false}
@@ -10067,10 +10073,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248282"
             aria-expanded={false}
@@ -10120,10 +10126,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248569"
             aria-expanded={false}
@@ -10173,10 +10179,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248523"
             aria-expanded={false}
@@ -10226,10 +10232,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248576"
             aria-expanded={false}
@@ -10279,10 +10285,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248517"
             aria-expanded={false}
@@ -10332,10 +10338,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248553"
             aria-expanded={false}
@@ -10385,10 +10391,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248539"
             aria-expanded={false}
@@ -10438,10 +10444,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42249303"
             aria-expanded={false}
@@ -10491,10 +10497,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248556"
             aria-expanded={false}
@@ -10544,10 +10550,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248518"
             aria-expanded={false}
@@ -10597,10 +10603,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248592"
             aria-expanded={false}
@@ -10650,10 +10656,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248542"
             aria-expanded={false}
@@ -10703,10 +10709,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248596"
             aria-expanded={false}
@@ -10756,10 +10762,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248545"
             aria-expanded={false}
@@ -10809,10 +10815,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248594"
             aria-expanded={false}
@@ -10862,10 +10868,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248544"
             aria-expanded={false}
@@ -10915,10 +10921,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248550"
             aria-expanded={false}
@@ -10968,10 +10974,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248512"
             aria-expanded={false}
@@ -11021,10 +11027,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248310"
             aria-expanded={false}
@@ -11074,10 +11080,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248595"
             aria-expanded={false}
@@ -11127,10 +11133,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248519"
             aria-expanded={false}
@@ -11180,10 +11186,10 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248375"
             aria-expanded={false}
@@ -11233,7 +11239,7 @@ exports[`ScheduleTable it renders 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
     </tbody>
   </table>
@@ -11285,11 +11291,17 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
         >
           Destination
         </th>
+        <th
+          className="schedule-table__th--flex-end"
+          scope="col"
+        >
+          Trip Details
+        </th>
       </tr>
     </thead>
     <tbody>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-701"
             aria-expanded={true}
@@ -11353,10 +11365,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               <Component />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-741"
             aria-expanded={false}
@@ -11410,10 +11422,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-743"
             aria-expanded={false}
@@ -11467,10 +11479,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-703"
             aria-expanded={false}
@@ -11524,10 +11536,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-745"
             aria-expanded={false}
@@ -11581,10 +11593,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-705"
             aria-expanded={false}
@@ -11638,10 +11650,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-707"
             aria-expanded={false}
@@ -11695,10 +11707,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-747"
             aria-expanded={false}
@@ -11752,10 +11764,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-709"
             aria-expanded={false}
@@ -11809,10 +11821,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-711"
             aria-expanded={false}
@@ -11866,10 +11878,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-713"
             aria-expanded={false}
@@ -11923,10 +11935,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-749"
             aria-expanded={false}
@@ -11980,10 +11992,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-715"
             aria-expanded={false}
@@ -12037,10 +12049,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-751"
             aria-expanded={false}
@@ -12094,10 +12106,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-717"
             aria-expanded={false}
@@ -12151,10 +12163,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-753"
             aria-expanded={false}
@@ -12208,10 +12220,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-719"
             aria-expanded={false}
@@ -12265,10 +12277,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-721"
             aria-expanded={false}
@@ -12322,10 +12334,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-723"
             aria-expanded={false}
@@ -12379,10 +12391,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-755"
             aria-expanded={false}
@@ -12436,10 +12448,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-725"
             aria-expanded={false}
@@ -12493,10 +12505,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-757"
             aria-expanded={false}
@@ -12550,10 +12562,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-727"
             aria-expanded={false}
@@ -12607,10 +12619,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-759"
             aria-expanded={false}
@@ -12664,10 +12676,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-729"
             aria-expanded={false}
@@ -12721,10 +12733,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-731"
             aria-expanded={false}
@@ -12778,7 +12790,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
     </tbody>
   </table>
@@ -12830,11 +12842,17 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
         >
           Destination
         </th>
+        <th
+          className="schedule-table__th--flex-end"
+          scope="col"
+        >
+          Trip Details
+        </th>
       </tr>
     </thead>
     <tbody>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-701"
             aria-expanded={false}
@@ -12888,10 +12906,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-741"
             aria-expanded={false}
@@ -12945,10 +12963,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-743"
             aria-expanded={false}
@@ -13002,10 +13020,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-703"
             aria-expanded={false}
@@ -13059,10 +13077,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-745"
             aria-expanded={false}
@@ -13116,10 +13134,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-705"
             aria-expanded={false}
@@ -13173,10 +13191,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-707"
             aria-expanded={false}
@@ -13230,10 +13248,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-747"
             aria-expanded={false}
@@ -13287,10 +13305,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-709"
             aria-expanded={false}
@@ -13344,10 +13362,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-711"
             aria-expanded={false}
@@ -13401,10 +13419,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-713"
             aria-expanded={false}
@@ -13458,10 +13476,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-749"
             aria-expanded={false}
@@ -13515,10 +13533,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-715"
             aria-expanded={false}
@@ -13572,10 +13590,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-751"
             aria-expanded={false}
@@ -13629,10 +13647,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-717"
             aria-expanded={false}
@@ -13686,10 +13704,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-753"
             aria-expanded={false}
@@ -13743,10 +13761,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-719"
             aria-expanded={false}
@@ -13800,10 +13818,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-721"
             aria-expanded={false}
@@ -13857,10 +13875,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-723"
             aria-expanded={false}
@@ -13914,10 +13932,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-755"
             aria-expanded={false}
@@ -13971,10 +13989,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-725"
             aria-expanded={false}
@@ -14028,10 +14046,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-757"
             aria-expanded={false}
@@ -14085,10 +14103,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-727"
             aria-expanded={false}
@@ -14142,10 +14160,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-759"
             aria-expanded={false}
@@ -14199,10 +14217,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-729"
             aria-expanded={false}
@@ -14256,10 +14274,10 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-CR-Weekday-Fall-19-731"
             aria-expanded={false}
@@ -14313,7 +14331,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
     </tbody>
   </table>
@@ -14381,11 +14399,17 @@ exports[`ScheduleTable it renders with school trips 1`] = `
         >
           Destination
         </th>
+        <th
+          className="schedule-table__th--flex-end"
+          scope="col"
+        >
+          Trip Details
+        </th>
       </tr>
     </thead>
     <tbody>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248754"
             aria-expanded={false}
@@ -14438,10 +14462,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248640"
             aria-expanded={false}
@@ -14498,10 +14522,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248808"
             aria-expanded={false}
@@ -14558,10 +14582,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248756"
             aria-expanded={false}
@@ -14618,10 +14642,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248665"
             aria-expanded={false}
@@ -14678,10 +14702,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248638"
             aria-expanded={false}
@@ -14738,10 +14762,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248803"
             aria-expanded={false}
@@ -14798,10 +14822,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248760"
             aria-expanded={false}
@@ -14858,10 +14882,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248709"
             aria-expanded={false}
@@ -14918,10 +14942,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248671"
             aria-expanded={false}
@@ -14978,10 +15002,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248636"
             aria-expanded={false}
@@ -15038,10 +15062,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248622"
             aria-expanded={false}
@@ -15098,10 +15122,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248802"
             aria-expanded={false}
@@ -15158,10 +15182,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248236"
             aria-expanded={false}
@@ -15214,10 +15238,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248758"
             aria-expanded={false}
@@ -15274,10 +15298,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248218"
             aria-expanded={false}
@@ -15330,10 +15354,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248710"
             aria-expanded={false}
@@ -15390,10 +15414,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248217"
             aria-expanded={false}
@@ -15446,10 +15470,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248662"
             aria-expanded={false}
@@ -15506,10 +15530,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248633"
             aria-expanded={false}
@@ -15566,10 +15590,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248231"
             aria-expanded={false}
@@ -15622,10 +15646,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248619"
             aria-expanded={false}
@@ -15682,10 +15706,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248205"
             aria-expanded={false}
@@ -15738,10 +15762,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248507"
             aria-expanded={false}
@@ -15798,10 +15822,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248797"
             aria-expanded={false}
@@ -15858,10 +15882,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248212"
             aria-expanded={false}
@@ -15914,10 +15938,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248749"
             aria-expanded={false}
@@ -15974,10 +15998,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248235"
             aria-expanded={false}
@@ -16030,10 +16054,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248678"
             aria-expanded={false}
@@ -16090,10 +16114,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248209"
             aria-expanded={false}
@@ -16146,10 +16170,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248661"
             aria-expanded={false}
@@ -16206,10 +16230,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248194"
             aria-expanded={false}
@@ -16262,10 +16286,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248626"
             aria-expanded={false}
@@ -16322,10 +16346,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248617"
             aria-expanded={false}
@@ -16382,10 +16406,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248234"
             aria-expanded={false}
@@ -16438,10 +16462,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248505"
             aria-expanded={false}
@@ -16498,10 +16522,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248213"
             aria-expanded={false}
@@ -16554,10 +16578,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248801"
             aria-expanded={false}
@@ -16614,10 +16638,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248193"
             aria-expanded={false}
@@ -16670,10 +16694,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248751"
             aria-expanded={false}
@@ -16730,10 +16754,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248686"
             aria-expanded={false}
@@ -16790,10 +16814,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248233"
             aria-expanded={false}
@@ -16846,10 +16870,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248664"
             aria-expanded={false}
@@ -16906,10 +16930,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248207"
             aria-expanded={false}
@@ -16962,10 +16986,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248627"
             aria-expanded={false}
@@ -17022,10 +17046,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248190"
             aria-expanded={false}
@@ -17078,10 +17102,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248615"
             aria-expanded={false}
@@ -17138,10 +17162,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248503"
             aria-expanded={false}
@@ -17198,10 +17222,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248232"
             aria-expanded={false}
@@ -17254,10 +17278,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248800"
             aria-expanded={false}
@@ -17314,10 +17338,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248211"
             aria-expanded={false}
@@ -17370,10 +17394,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248748"
             aria-expanded={false}
@@ -17430,10 +17454,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248683"
             aria-expanded={false}
@@ -17490,10 +17514,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248192"
             aria-expanded={false}
@@ -17546,10 +17570,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248668"
             aria-expanded={false}
@@ -17606,10 +17630,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248228"
             aria-expanded={false}
@@ -17662,10 +17686,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248631"
             aria-expanded={false}
@@ -17722,10 +17746,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248208"
             aria-expanded={false}
@@ -17778,10 +17802,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248614"
             aria-expanded={false}
@@ -17838,10 +17862,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248188"
             aria-expanded={false}
@@ -17894,10 +17918,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248501"
             aria-expanded={false}
@@ -17954,10 +17978,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248230"
             aria-expanded={false}
@@ -18010,10 +18034,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248210"
             aria-expanded={false}
@@ -18066,10 +18090,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248695"
             aria-expanded={false}
@@ -18126,10 +18150,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248191"
             aria-expanded={false}
@@ -18182,10 +18206,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248630"
             aria-expanded={false}
@@ -18242,10 +18266,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248229"
             aria-expanded={false}
@@ -18298,10 +18322,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248611"
             aria-expanded={false}
@@ -18358,10 +18382,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248206"
             aria-expanded={false}
@@ -18414,10 +18438,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248189"
             aria-expanded={false}
@@ -18470,10 +18494,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248499"
             aria-expanded={false}
@@ -18530,10 +18554,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248675"
             aria-expanded={false}
@@ -18590,10 +18614,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248609"
             aria-expanded={false}
@@ -18650,10 +18674,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248486"
             aria-expanded={false}
@@ -18706,10 +18730,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248682"
             aria-expanded={false}
@@ -18766,10 +18790,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42249350"
             aria-expanded={false}
@@ -18822,10 +18846,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248606"
             aria-expanded={false}
@@ -18882,10 +18906,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248679"
             aria-expanded={false}
@@ -18942,10 +18966,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248413"
             aria-expanded={false}
@@ -18998,10 +19022,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248601"
             aria-expanded={false}
@@ -19058,10 +19082,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248674"
             aria-expanded={false}
@@ -19118,10 +19142,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248602"
             aria-expanded={false}
@@ -19178,10 +19202,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248676"
             aria-expanded={false}
@@ -19238,10 +19262,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248604"
             aria-expanded={false}
@@ -19298,10 +19322,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248410"
             aria-expanded={false}
@@ -19354,10 +19378,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248764"
             aria-expanded={false}
@@ -19414,10 +19438,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42249352"
             aria-expanded={false}
@@ -19470,10 +19494,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248727"
             aria-expanded={false}
@@ -19530,10 +19554,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248551"
             aria-expanded={false}
@@ -19590,10 +19614,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248482"
             aria-expanded={false}
@@ -19646,10 +19670,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248786"
             aria-expanded={false}
@@ -19706,10 +19730,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248696"
             aria-expanded={false}
@@ -19766,10 +19790,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248440"
             aria-expanded={false}
@@ -19822,10 +19846,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248590"
             aria-expanded={false}
@@ -19882,10 +19906,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248774"
             aria-expanded={false}
@@ -19942,10 +19966,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248717"
             aria-expanded={false}
@@ -20002,10 +20026,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42249349"
             aria-expanded={false}
@@ -20058,10 +20082,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248394"
             aria-expanded={false}
@@ -20114,10 +20138,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248557"
             aria-expanded={false}
@@ -20174,10 +20198,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248768"
             aria-expanded={false}
@@ -20234,10 +20258,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248705"
             aria-expanded={false}
@@ -20294,10 +20318,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248598"
             aria-expanded={false}
@@ -20354,10 +20378,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248783"
             aria-expanded={false}
@@ -20414,10 +20438,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248716"
             aria-expanded={false}
@@ -20474,10 +20498,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248575"
             aria-expanded={false}
@@ -20534,10 +20558,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248793"
             aria-expanded={false}
@@ -20594,10 +20618,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248703"
             aria-expanded={false}
@@ -20654,10 +20678,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248579"
             aria-expanded={false}
@@ -20714,10 +20738,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248788"
             aria-expanded={false}
@@ -20774,10 +20798,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248692"
             aria-expanded={false}
@@ -20834,10 +20858,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248571"
             aria-expanded={false}
@@ -20894,10 +20918,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248163"
             aria-expanded={false}
@@ -20950,10 +20974,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248771"
             aria-expanded={false}
@@ -21010,10 +21034,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42249351"
             aria-expanded={false}
@@ -21066,10 +21090,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248177"
             aria-expanded={false}
@@ -21122,10 +21146,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248689"
             aria-expanded={false}
@@ -21182,10 +21206,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248137"
             aria-expanded={false}
@@ -21238,10 +21262,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248564"
             aria-expanded={false}
@@ -21298,10 +21322,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248162"
             aria-expanded={false}
@@ -21354,10 +21378,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248784"
             aria-expanded={false}
@@ -21414,10 +21438,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248167"
             aria-expanded={false}
@@ -21470,10 +21494,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248698"
             aria-expanded={false}
@@ -21530,10 +21554,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248138"
             aria-expanded={false}
@@ -21586,10 +21610,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248646"
             aria-expanded={false}
@@ -21646,10 +21670,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248165"
             aria-expanded={false}
@@ -21702,10 +21726,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248562"
             aria-expanded={false}
@@ -21762,10 +21786,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248546"
             aria-expanded={false}
@@ -21822,10 +21846,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248168"
             aria-expanded={false}
@@ -21878,10 +21902,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248781"
             aria-expanded={false}
@@ -21938,10 +21962,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248140"
             aria-expanded={false}
@@ -21994,10 +22018,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248739"
             aria-expanded={false}
@@ -22054,10 +22078,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248166"
             aria-expanded={false}
@@ -22110,10 +22134,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248700"
             aria-expanded={false}
@@ -22170,10 +22194,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248651"
             aria-expanded={false}
@@ -22230,10 +22254,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248169"
             aria-expanded={false}
@@ -22286,10 +22310,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248566"
             aria-expanded={false}
@@ -22346,10 +22370,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248139"
             aria-expanded={false}
@@ -22402,10 +22426,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248528"
             aria-expanded={false}
@@ -22462,10 +22486,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248175"
             aria-expanded={false}
@@ -22518,10 +22542,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248767"
             aria-expanded={false}
@@ -22578,10 +22602,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248735"
             aria-expanded={false}
@@ -22638,10 +22662,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248176"
             aria-expanded={false}
@@ -22694,10 +22718,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248697"
             aria-expanded={false}
@@ -22754,10 +22778,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248143"
             aria-expanded={false}
@@ -22810,10 +22834,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248647"
             aria-expanded={false}
@@ -22870,10 +22894,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248174"
             aria-expanded={false}
@@ -22926,10 +22950,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248574"
             aria-expanded={false}
@@ -22986,10 +23010,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248526"
             aria-expanded={false}
@@ -23046,10 +23070,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248173"
             aria-expanded={false}
@@ -23102,10 +23126,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248791"
             aria-expanded={false}
@@ -23162,10 +23186,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248142"
             aria-expanded={false}
@@ -23218,10 +23242,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248733"
             aria-expanded={false}
@@ -23278,10 +23302,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248726"
             aria-expanded={false}
@@ -23338,10 +23362,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248171"
             aria-expanded={false}
@@ -23394,10 +23418,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248650"
             aria-expanded={false}
@@ -23454,10 +23478,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248172"
             aria-expanded={false}
@@ -23510,10 +23534,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248581"
             aria-expanded={false}
@@ -23570,10 +23594,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248513"
             aria-expanded={false}
@@ -23630,10 +23654,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248141"
             aria-expanded={false}
@@ -23686,10 +23710,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248789"
             aria-expanded={false}
@@ -23746,10 +23770,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248170"
             aria-expanded={false}
@@ -23802,10 +23826,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248736"
             aria-expanded={false}
@@ -23862,10 +23886,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248723"
             aria-expanded={false}
@@ -23922,10 +23946,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248164"
             aria-expanded={false}
@@ -23978,10 +24002,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248648"
             aria-expanded={false}
@@ -24038,10 +24062,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248580"
             aria-expanded={false}
@@ -24098,10 +24122,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248540"
             aria-expanded={false}
@@ -24158,10 +24182,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248785"
             aria-expanded={false}
@@ -24218,10 +24242,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248732"
             aria-expanded={false}
@@ -24278,10 +24302,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248718"
             aria-expanded={false}
@@ -24338,10 +24362,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248655"
             aria-expanded={false}
@@ -24398,10 +24422,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248567"
             aria-expanded={false}
@@ -24458,10 +24482,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248529"
             aria-expanded={false}
@@ -24518,10 +24542,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248778"
             aria-expanded={false}
@@ -24578,10 +24602,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248734"
             aria-expanded={false}
@@ -24638,10 +24662,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248712"
             aria-expanded={false}
@@ -24698,10 +24722,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248443"
             aria-expanded={false}
@@ -24754,10 +24778,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248558"
             aria-expanded={false}
@@ -24814,10 +24838,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248524"
             aria-expanded={false}
@@ -24874,10 +24898,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248731"
             aria-expanded={false}
@@ -24934,10 +24958,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248263"
             aria-expanded={false}
@@ -24990,10 +25014,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42249353"
             aria-expanded={false}
@@ -25046,10 +25070,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248693"
             aria-expanded={false}
@@ -25102,10 +25126,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248563"
             aria-expanded={false}
@@ -25162,10 +25186,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248521"
             aria-expanded={false}
@@ -25222,10 +25246,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248745"
             aria-expanded={false}
@@ -25278,10 +25302,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248597"
             aria-expanded={false}
@@ -25338,10 +25362,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248533"
             aria-expanded={false}
@@ -25398,10 +25422,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42249354"
             aria-expanded={false}
@@ -25454,10 +25478,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248282"
             aria-expanded={false}
@@ -25510,10 +25534,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248569"
             aria-expanded={false}
@@ -25570,10 +25594,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248523"
             aria-expanded={false}
@@ -25630,10 +25654,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248576"
             aria-expanded={false}
@@ -25690,10 +25714,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248517"
             aria-expanded={false}
@@ -25750,10 +25774,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248553"
             aria-expanded={false}
@@ -25810,10 +25834,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248539"
             aria-expanded={false}
@@ -25870,10 +25894,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42249303"
             aria-expanded={false}
@@ -25926,10 +25950,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248556"
             aria-expanded={false}
@@ -25986,10 +26010,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248518"
             aria-expanded={false}
@@ -26046,10 +26070,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248592"
             aria-expanded={false}
@@ -26106,10 +26130,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248542"
             aria-expanded={false}
@@ -26166,10 +26190,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248596"
             aria-expanded={false}
@@ -26226,10 +26250,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248545"
             aria-expanded={false}
@@ -26286,10 +26310,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248594"
             aria-expanded={false}
@@ -26346,10 +26370,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248544"
             aria-expanded={false}
@@ -26406,10 +26430,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248550"
             aria-expanded={false}
@@ -26466,10 +26490,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248512"
             aria-expanded={false}
@@ -26526,10 +26550,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248310"
             aria-expanded={false}
@@ -26582,10 +26606,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248595"
             aria-expanded={false}
@@ -26642,10 +26666,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248519"
             aria-expanded={false}
@@ -26702,10 +26726,10 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
       <TableRow>
-        <Accordion>
+        <Component>
           <tr
             aria-controls="trip-42248375"
             aria-expanded={false}
@@ -26758,7 +26782,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               />
             </td>
           </tr>
-        </Accordion>
+        </Component>
       </TableRow>
     </tbody>
   </table>

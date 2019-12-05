@@ -1,5 +1,9 @@
 import React, { ReactElement, useReducer, useEffect } from "react";
-import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
+import {
+  SelectedDirection,
+  SelectedOrigin,
+  UserInput
+} from "../ScheduleFinder";
 import UpcomingDepartures from "./UpcomingDepartures";
 import { Route, RouteType, ServiceWithServiceDate } from "../../../__v3api";
 import {
@@ -77,6 +81,7 @@ interface Props {
   services: ServiceWithServiceDate[];
   stops: SimpleStop[];
   routePatternsByDirection: RoutePatternsByDirection;
+  today: string;
 }
 
 const ScheduleModalContent = ({
@@ -91,7 +96,8 @@ const ScheduleModalContent = ({
   selectedOrigin,
   services,
   stops,
-  routePatternsByDirection
+  routePatternsByDirection,
+  today
 }: Props): ReactElement<HTMLElement> | null => {
   const [state, dispatch] = useReducer(reducer, {
     data: null,
@@ -104,10 +110,17 @@ const ScheduleModalContent = ({
     },
     [routeId, selectedDirection, selectedOrigin]
   );
-  if (selectedOrigin === null || selectedDirection === null) {
-    return null;
-  }
+  if (selectedOrigin === null || selectedDirection === null) return null;
+
   const destination = directionDestinations[selectedDirection];
+
+  const input: UserInput = {
+    route: routeId,
+    origin: selectedOrigin,
+    date: today,
+    direction: selectedDirection
+  };
+
   return (
     <>
       <div className="schedule-finder__modal-header">
@@ -123,7 +136,7 @@ const ScheduleModalContent = ({
         </div>
       </div>
       <div>from {stopNameLink(selectedOrigin, stops)}</div>
-      <UpcomingDepartures state={state} />
+      <UpcomingDepartures state={state} input={input} />
       <ServiceSelector
         stopId={selectedOrigin}
         services={services}

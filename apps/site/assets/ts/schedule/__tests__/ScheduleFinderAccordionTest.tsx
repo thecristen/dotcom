@@ -121,6 +121,7 @@ it("renders", () => {
         directionId={0}
         services={services}
         routePatternsByDirection={{}}
+        today="2019-12-05"
       />
     )
     .toJSON();
