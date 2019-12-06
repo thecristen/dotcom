@@ -83,7 +83,7 @@ const CrTableRow = ({
       </td>
       <td className="schedule-table__td schedule-table__td--flex-end">
         <div className="schedule-table__time-container">
-          {timeForCommuterRail(realtime, "schedule-table__time u-bold")}
+          {timeForCommuterRail(realtime, "schedule-table__time")}
         </div>
         <div className="u-nowrap text-right u-bold">
           <span className="schedule-table__status">

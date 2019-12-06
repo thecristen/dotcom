@@ -320,7 +320,7 @@ Array [
             className="schedule-table__time-container"
           >
             <div
-              className="schedule-table__time u-bold"
+              className="schedule-table__time"
             >
               1:55 PM
             </div>

@@ -285,9 +285,13 @@
   text-align: right;
   white-space: nowrap;
 
+  .schedule-table--upcoming & {
+    font-weight: bold;
+  }
+
   &--delayed {
     font-weight: normal;
-    margin-left: $base-spacing;
+    margin-right: $base-spacing / 2;
     text-align: right;
     text-decoration: line-through;
   }
