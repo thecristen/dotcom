@@ -59,7 +59,8 @@ defmodule Schedules.Parser do
       direction_id: direction_id,
       bikes_allowed?: bikes_allowed?(attributes),
       route_pattern_id: route_pattern_id(relationships),
-      shape_id: shape_id(relationships)
+      shape_id: shape_id(relationships),
+      service_id: service_id(relationships)
     }
   end
 
@@ -84,7 +85,8 @@ defmodule Schedules.Parser do
       direction_id: direction_id,
       shape_id: shape_id(relationships),
       route_pattern_id: route_pattern_id(relationships),
-      bikes_allowed?: bikes_allowed?(attributes)
+      bikes_allowed?: bikes_allowed?(attributes),
+      service_id: service_id(relationships)
     }
   end
 
@@ -154,4 +156,8 @@ defmodule Schedules.Parser do
   @spec bikes_allowed?(map) :: boolean
   defp bikes_allowed?(%{"bikes_allowed" => 1}), do: true
   defp bikes_allowed?(_), do: false
+
+  @spec service_id(any) :: String.t() | nil
+  defp service_id(%{"service" => [%JsonApi.Item{id: id}]}), do: id
+  defp service_id(_), do: nil
 end

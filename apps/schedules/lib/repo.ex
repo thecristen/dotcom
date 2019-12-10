@@ -13,7 +13,7 @@ defmodule Schedules.Repo do
     include: "trip",
     "fields[schedule]":
       "departure_time,arrival_time,drop_off_type,pickup_type,stop_sequence,timepoint",
-    "fields[trip]": "name,headsign,direction_id,bikes_allowed"
+    "fields[trip]": "name,headsign,direction_id,bikes_allowed,service_id"
   ]
 
   @spec by_route_ids([Route.id_t()], Keyword.t()) :: [Schedule.t()] | {:error, any}

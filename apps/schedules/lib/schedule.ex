@@ -57,7 +57,8 @@ defmodule Schedules.Trip do
     :direction_id,
     :shape_id,
     :route_pattern_id,
-    bikes_allowed?: false
+    :service_id,
+    bikes_allowed?: false,
   ]
 
   @type id_t :: String.t()
@@ -69,7 +70,8 @@ defmodule Schedules.Trip do
           direction_id: 0 | 1,
           shape_id: String.t() | nil,
           route_pattern_id: String.t() | nil,
-          bikes_allowed?: boolean
+          bikes_allowed?: boolean,
+          service_id: String.t() | nil
         }
 end
 
