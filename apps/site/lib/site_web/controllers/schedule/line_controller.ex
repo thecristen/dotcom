@@ -44,8 +44,8 @@ defmodule SiteWeb.ScheduleController.LineController do
   end
 
   def assign_schedule_page_data(conn) do
+    services_fn = Map.get(conn.assigns, :services_fn, &ServicesRepo.by_route_id/1)
     service_date_fn = Map.get(conn.assigns, :service_date_fn, &Util.service_date/0)
-    service_date = service_date_fn.()
 
     assign(
       conn,
@@ -72,7 +72,7 @@ defmodule SiteWeb.ScheduleController.LineController do
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
         holidays: conn.assigns.holidays,
         route: Route.to_json_safe(conn.assigns.route),
-        services: services(conn.assigns.route.id, service_date),
+        services: services(conn.assigns.route.id, service_date_fn.(), services_fn),
         schedule_note: ScheduleNote.new(conn.assigns.route),
         stops: simple_stop_map(conn),
         direction_id: conn.assigns.direction_id,

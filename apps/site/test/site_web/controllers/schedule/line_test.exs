@@ -4,11 +4,74 @@ defmodule SiteWeb.ScheduleController.LineTest do
   import SiteWeb.ScheduleController.Line.DiagramHelpers
   alias Plug.Conn
   alias Routes.Route
+  alias Services.Repo, as: ServicesRepo
+  alias Services.Service
   alias Stops.{RouteStop, RouteStops}
 
   doctest SiteWeb.ScheduleController.Line
 
   @deps %SiteWeb.ScheduleController.Line.Dependencies{}
+
+  @holiday_services [
+    %Service{
+      added_dates: [],
+      end_date: ~D[2019-12-20],
+      id: "CR-Wdy-Providence-Fll-19",
+      removed_dates: [],
+      start_date: ~D[2019-11-21],
+      type: :weekday,
+      valid_days: [1, 2, 3, 4, 5]
+    },
+    %Service{
+      added_dates: [],
+      end_date: ~D[2019-12-21],
+      id: "CR-Sa-Providence-Fll-19",
+      removed_dates: [],
+      start_date: ~D[2019-11-23],
+      type: :saturday,
+      valid_days: [6]
+    },
+    %Service{
+      added_dates: [],
+      end_date: ~D[2019-12-15],
+      id: "CR-Su-Providence-Fll-19",
+      removed_dates: [],
+      start_date: ~D[2019-11-24],
+      type: :sunday,
+      valid_days: [7]
+    },
+    %Service{
+      added_dates: ["2019-11-28"],
+      added_dates_notes: %{"2019-11-28": "Thanksgiving day"},
+      end_date: ~D[2019-11-28],
+      id: "ThanksgivingDay",
+      removed_dates: [],
+      start_date: ~D[2019-11-28],
+      type: :sunday,
+      typicality: :holiday,
+      valid_days: []
+    },
+    %Service{
+      added_dates: ["2019-11-29"],
+      added_dates_notes: %{"2019-11-29": "Day after Thanksgiving"},
+      end_date: ~D[2019-11-29],
+      id: "DayafterThanksgivingDay",
+      removed_dates: [],
+      start_date: ~D[2019-11-29],
+      type: :weekday,
+      typicality: :holiday,
+      valid_days: []
+    },
+    %Service{
+      added_dates: ["2019-12-25", "2020-01-01"],
+      end_date: ~D[2020-01-01],
+      id: "ChristmasDay-NewYearsDay",
+      removed_dates: [],
+      start_date: ~D[2019-12-25],
+      type: :sunday,
+      valid_days: []
+    }
+  ]
 
   def get_error_stop_list(_, _, _), do: {:error, "error"}
 
@@ -433,7 +496,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
         conn
         |> get(line_path(conn, :show, "39"))
 
-      services = Services.Repo.by_route_id("39")
+      services = ServicesRepo.by_route_id("39")
 
       assert length(conn.assigns.schedule_page_data.services) < services
     end
@@ -447,6 +510,34 @@ defmodule SiteWeb.ScheduleController.LineTest do
       default_service = Enum.filter(services_for_route, &(&1.default_service? === true))
 
       assert [%{current_service?: true}] = default_service
+    end
+
+    test "Sunday service is selected for commuter rail on Thanksgiving", %{conn: conn} do
+      conn =
+        conn
+        |> assign(:services_fn, fn _ -> @holiday_services end)
+        |> assign(:service_date_fn, fn -> ~D[2019-11-28] end)
+
+      conn = conn |> get(line_path(conn, :show, "CR-Providence"))
+
+      services_for_route = conn.assigns.schedule_page_data.services
+      default_service = Enum.filter(services_for_route, &(&1.default_service? === true))
+
+      assert [%{type: :sunday}] = default_service
+    end
+
+    test "Day after Thanksgiving service is selected for bus on Nov. 29", %{conn: conn} do
+      conn =
+        conn
+        |> assign(:services_fn, fn _ -> @holiday_services end)
+        |> assign(:service_date_fn, fn -> ~D[2019-11-29] end)
+
+      conn = conn |> get(line_path(conn, :show, "742"))
+
+      services_for_route = conn.assigns.schedule_page_data.services
+      default_service = Enum.filter(services_for_route, &(&1.default_service? === true))
+
+      assert [%{id: "DayafterThanksgivingDay"}] = default_service
     end
   end
 
