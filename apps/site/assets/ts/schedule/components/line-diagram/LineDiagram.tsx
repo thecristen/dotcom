@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useFetch } from "react-async";
 import { useInterval } from "use-interval";
 import {
@@ -39,6 +39,10 @@ export interface LiveData {
   vehicles: LineDiagramVehicle[];
 }
 
+const pollingInterval = 15_000;
+const pollingSlop = 1_000;
+const lastFetchTimeKey = "LineDiagram-lastFetchTime";
+
 const getMergeStops = (lineDiagram: LineDiagramStop[]): LineDiagramStop[] =>
   lineDiagram.filter(
     ({ stop_data: stopData }: LineDiagramStop) =>
@@ -71,6 +75,20 @@ const getTreeDirection = (
   return direction;
 };
 
+const setLastFetchTime = (): void => {
+  window.localStorage.setItem(lastFetchTimeKey, Date.now().toString());
+}
+
+const getLastFetchTime = (): number => {
+  const rawLastFetchTime: string | null = window.localStorage.getItem(lastFetchTimeKey);
+
+  if(rawLastFetchTime) {
+    return(parseInt(rawLastFetchTime));
+  }
+
+  return 0;
+}
+
 const LineDiagram = ({
   lineDiagram,
   route,
@@ -95,17 +113,41 @@ const LineDiagram = ({
     data: maybeLiveData,
     isLoading: liveDataIsLoading,
     // @ts-ignore https://github.com/async-library/react-async/issues/244
-    reload: reloadLiveData
+    reload: reloadLiveData,
   } = useFetch(
     `/schedules/line_api/realtime?id=${route.id}&direction_id=${directionId}`,
     {},
-    { json: true, watch: directionId }
+    { json: true, watch: directionId, onResolve: setLastFetchTime }
   );
   const liveData = (maybeLiveData || {}) as LiveDataByStop;
+
+  const maybeReloadLiveData = () => {
+    if(document.visibilityState !== "visible") {
+      return;
+    }
+
+    const now = Date.now();
+    const timeSinceLastFetch = now - getLastFetchTime();
+    // useInterval has a habit of firing a few dozen ms prematurely, hence we
+    // fudge the threshold a little with this "pollingSlop" value
+    if(timeSinceLastFetch + pollingSlop < pollingInterval) {
+      return;
+    }
+
+    reloadLiveData();
+  }
+
+  useEffect(() => {
+    document.addEventListener("visibilitychange", maybeReloadLiveData);
+    return () => {
+      document.removeEventListener("visibilitychange", maybeReloadLiveData);
+    }
+  });
+
   useInterval(() => {
     /* istanbul ignore next */
-    if (!liveDataIsLoading) reloadLiveData();
-  }, 15000);
+    if (!liveDataIsLoading) maybeReloadLiveData();
+  }, pollingInterval);
 
   useFetch(
     `/schedules/line_api/log_visibility?visibility=${document.visibilityState}`,
