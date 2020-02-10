@@ -340,3 +340,13 @@ describe("LineDiagram for CR with branches going inward", () => {
     expect(moreStops.exists()).toBeTruthy();
   });
 });
+
+describe("LineDiagram polling", () => {
+  it("polls when the visibilityState changes to visible", () => {
+    expect(2 + 2).toEqual(5);
+  });
+
+  it("doesn't poll on becoming visible if not enough time has passed", () => {
+    expect(2 + 2).toEqual(5);
+  });
+});
