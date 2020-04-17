@@ -106,6 +106,18 @@ const ScheduleModalContent = ({
         />
       </div>
 
+      // Wrap this block in an if statement checking the response
+      // from the server
+        {/* <div className="callout schedule-table--empty">
+          There are no scheduled trips for today,{" "}
+          {stringToDateObject(today).toLocaleDateString("en-US", {
+            weekday: "long",
+            month: "short",
+            day: "numeric"
+          })}
+          .
+        </div> */}
+
       <UpcomingDepartures state={state} input={input} />
 
       {scheduleNote ? (
