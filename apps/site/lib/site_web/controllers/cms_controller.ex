@@ -136,7 +136,9 @@ defmodule SiteWeb.CMSController do
   end
 
   defp render_page(conn, %Page.Basic{} = page) do
-    render_generic(conn, page, page.breadcrumbs)
+    page_with_widgets = page |> add_trip_planner_widget_paragraph()
+
+    render_generic(conn, page_with_widgets, page.breadcrumbs)
   end
 
   defp render_page(conn, %Page.Landing{} = page) do
@@ -154,6 +156,18 @@ defmodule SiteWeb.CMSController do
 
   defp render_page(conn, %Page.Redirect{link: link}) do
     redirect(conn, external: link.url)
+  end
+
+  @spec add_trip_planner_widget_paragraph(Page.Basic.t()) :: Page.Basic.t()
+  defp add_trip_planner_widget_paragraph(page) do
+    if Page.Basic.guide_page?(page) do
+      %Page.Basic{
+        page
+        | paragraphs: [%CMS.Partial.Paragraph.TripPlannerWidget{} | page.paragraphs]
+      }
+    else
+      page
+    end
   end
 
   @spec render_generic(Conn.t(), Page.t(), [any()]) :: Conn.t()

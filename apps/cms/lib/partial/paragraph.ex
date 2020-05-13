@@ -37,6 +37,7 @@ defmodule CMS.Partial.Paragraph do
     PeopleGrid,
     PhotoGallery,
     TitleCardSet,
+    TripPlannerWidget,
     Unknown
   }
 
@@ -57,6 +58,7 @@ defmodule CMS.Partial.Paragraph do
     PeopleGrid,
     PhotoGallery,
     TitleCardSet,
+    TripPlannerWidget,
     Unknown
   ]
 
@@ -77,6 +79,7 @@ defmodule CMS.Partial.Paragraph do
           | PeopleGrid.t()
           | PhotoGallery.t()
           | TitleCardSet.t()
+          | TripPlannerWidget.t()
           | Unknown.t()
 
   @type name ::
@@ -96,6 +99,7 @@ defmodule CMS.Partial.Paragraph do
           | PeopleGrid
           | PhotoGallery
           | TitleCardSet
+          | TripPlannerWidget
           | Unknown
 
   @spec from_api(map, Keyword.t()) :: t
