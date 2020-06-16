@@ -7,6 +7,7 @@ defmodule CMS.Page.Basic do
   alias CMS.Breadcrumbs
   alias CMS.Partial.{MenuLinks, Paragraph}
   alias Phoenix.HTML
+  alias Util.Breadcrumb
 
   import CMS.Helpers,
     only: [
@@ -29,7 +30,7 @@ defmodule CMS.Page.Basic do
           body: HTML.safe(),
           paragraphs: [Paragraph.t()],
           sidebar_menu: MenuLinks.t() | nil,
-          breadcrumbs: [Util.Breadcrumb.t()]
+          breadcrumbs: [Breadcrumb.t()]
         }
 
   @spec from_api(map, Keyword.t()) :: t
@@ -43,6 +44,14 @@ defmodule CMS.Page.Basic do
       breadcrumbs: Breadcrumbs.build(data)
     }
   end
+
+  @spec guide_page?(t()) :: boolean()
+  def guide_page?(%__MODULE__{
+        breadcrumbs: [%Breadcrumb{url: "/"}, %Breadcrumb{url: "/guides"} | _]
+      }),
+      do: true
+
+  def guide_page?(_), do: false
 
   @spec parse_menu_links(map) :: MenuLinks.t() | nil
   defp parse_menu_links(%{"field_sidebar_menu" => [menu_links_data]}) do
