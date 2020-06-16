@@ -1,22 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-ERLANG_VERSION=22.3.3
-ELIXIR_VERSION=1.10.3
-
-export ERL_HOME="${SEMAPHORE_CACHE_DIR}/.kerl/installs/${ERLANG_VERSION}"
-if [ ! -d "${ERL_HOME}" ]; then
-    mkdir -p "${ERL_HOME}"
-    KERL_BUILD_BACKEND=git kerl build $ERLANG_VERSION $ERLANG_VERSION
-    kerl install $ERLANG_VERSION $ERL_HOME
-fi
-. $ERL_HOME/activate
-
-kiex use $ELIXIR_VERSION || kiex install $ELIXIR_VERSION && kiex use $ELIXIR_VERSION
-
 # Turn off some high-memory services
 SERVICES="apache2 cassandra docker elasticsearch memcached mongod mysql \
-postgresql sphinxsearch rabbitmq-server redis-server"
+  postgresql sphinxsearch rabbitmq-server redis-server"
 for service in $SERVICES; do sudo service "$service" stop; done
 killall Xvfb
 
