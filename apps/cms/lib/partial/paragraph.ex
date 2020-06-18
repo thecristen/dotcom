@@ -37,7 +37,7 @@ defmodule CMS.Partial.Paragraph do
     PeopleGrid,
     PhotoGallery,
     TitleCardSet,
-    TripPlannerWidget,
+    TripPlanWidget,
     Unknown
   }
 
@@ -58,7 +58,7 @@ defmodule CMS.Partial.Paragraph do
     PeopleGrid,
     PhotoGallery,
     TitleCardSet,
-    TripPlannerWidget,
+    TripPlanWidget,
     Unknown
   ]
 
@@ -79,7 +79,7 @@ defmodule CMS.Partial.Paragraph do
           | PeopleGrid.t()
           | PhotoGallery.t()
           | TitleCardSet.t()
-          | TripPlannerWidget.t()
+          | TripPlanWidget.t()
           | Unknown.t()
 
   @type name ::
@@ -99,7 +99,7 @@ defmodule CMS.Partial.Paragraph do
           | PeopleGrid
           | PhotoGallery
           | TitleCardSet
-          | TripPlannerWidget
+          | TripPlanWidget
           | Unknown
 
   @spec from_api(map, Keyword.t()) :: t
@@ -167,6 +167,10 @@ defmodule CMS.Partial.Paragraph do
 
   def from_api(%{"type" => [%{"target_id" => "title_card_set"}]} = para, _preview_opts) do
     TitleCardSet.from_api(para)
+  end
+
+  def from_api(%{"type" => [%{"target_id" => "trip_plan_widget"}]} = para, _preview_opts) do
+    TripPlanWidget.from_api(para)
   end
 
   @doc "This ¶ type has a single paragraph reference within. Get the nested paragraph."

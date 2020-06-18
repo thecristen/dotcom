@@ -15,7 +15,8 @@ defmodule SiteWeb.CMS.ParagraphView do
     ContentList,
     DescriptionList,
     DescriptiveLink,
-    FareCard
+    FareCard,
+    TripPlanWidget
   }
 
   alias Plug.Conn
@@ -97,6 +98,26 @@ defmodule SiteWeb.CMS.ParagraphView do
       fare_card: paragraph,
       conn: conn
     )
+  end
+
+  def render_paragraph_content(%TripPlanWidget{} = paragraph, conn) do
+    # Get the text entered through the CMS, if any,
+    # into the trip planner widget template
+    cms_content =
+      Map.from_struct(paragraph)
+      |> Map.drop([:right_rail])
+      |> Enum.reduce(%{}, fn {k, v}, acc ->
+        if v, do: acc |> Map.put(k, v), else: acc
+      end)
+
+    assigns =
+      if cms_content,
+        do:
+          conn.assigns
+          |> Map.merge(cms_content),
+        else: conn.assigns
+
+    SiteWeb.PartialView.render("_trip_planner_widget.html", Map.put(assigns, :conn, conn))
   end
 
   def render_paragraph_content(paragraph, conn) do
