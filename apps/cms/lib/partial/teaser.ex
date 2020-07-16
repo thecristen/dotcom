@@ -97,9 +97,10 @@ defmodule CMS.Partial.Teaser do
 
   @spec date(map, String.t()) :: Date.t() | NaiveDateTime.t() | nil
   # news_entry and project_update types share a common "Posted On" date field (both are required).
-  defp date(%{"type" => type, "posted" => date}, _)
+  defp date(%{"type" => type, "posted" => datetime}, _)
        when type in ["news_entry", "project_update"] do
     do_date(date)
+    do_datetime(datetime)
   end
 
   # project types have a required "Updated On" date field.
@@ -128,7 +129,7 @@ defmodule CMS.Partial.Teaser do
     end
   end
 
-  # The Event start time includes time and timezone data
+  # Drupal datetime values include time and timezone data
   @spec do_datetime(String.t()) :: NaiveDateTime.t() | nil
   defp do_datetime(date) do
     case NaiveDateTime.from_iso8601(date) do

@@ -79,7 +79,7 @@ defmodule CMS.Page.NewsEntry do
   defp parse_posted_date(data) do
     data
     |> field_value("field_posted_on")
-    |> Timex.parse!("{YYYY}-{0M}-{0D}")
+    |> Timex.parse!("{RFC3339}")
     |> NaiveDateTime.to_date()
   end
 end
