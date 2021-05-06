@@ -59,4 +59,4 @@ jobs:
         V3_API_KEY: ${{ secrets.V3_API_KEY }}
         RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
         RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
-      run: mix test --only wallaby
+      run: MIX_ENV=test mix test --only wallaby
