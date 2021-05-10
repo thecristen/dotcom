@@ -53,6 +53,10 @@ jobs:
       run: |
         git config --global url."https://github.com/".insteadOf ssh://git@github.com/
         npm run install:ci && npm run react:setup:ci
+    - name: Build static assets
+      run: npm run ts:build && npm run react:build && npm run webpack:build
+    - name: Compile static assets
+      run: mix phx.digest
     - name: Setup Chromedriver
       uses: nanasess/setup-chromedriver@master
     - name: Wallaby
