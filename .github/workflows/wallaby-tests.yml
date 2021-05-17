@@ -1,12 +1,12 @@
 name: Wallaby tests
-
 on: [push, pull_request]
+env:
+  MIX_ENV: test
+
 jobs:
-  build:
-    name: Build Dotcom
+  setup:
+    name: Setup Dotcom
     runs-on: ubuntu-latest
-    env:
-      MIX_ENV: test
     steps:
     - uses: actions/checkout@v2
       with:
@@ -53,10 +53,24 @@ jobs:
       run: |
         git config --global url."https://github.com/".insteadOf ssh://git@github.com/
         npm run install:ci && npm run react:setup:ci
+  
+  build:
+    name: Build Dotcom application
+    runs-on: ubuntu-latest
+    needs: [setup]
+
+    steps:
     - name: Build static assets
       run: npm run react:build && npm run webpack:build
     - name: Compile static assets
       run: mix phx.digest
+  
+  wallaby:
+    name: Run wallaby tests
+    runs-on: ubuntu-latest
+    needs: [setup, build]
+
+    steps:
     - name: Setup Chromedriver
       uses: nanasess/setup-chromedriver@master
     - name: Wallaby
