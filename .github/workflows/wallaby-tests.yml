@@ -60,6 +60,13 @@ jobs:
     needs: [setup]
 
     steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Install NodeJS dependencies
+      run: |
+        git config --global url."https://github.com/".insteadOf ssh://git@github.com/
+        npm run install:ci && npm run react:setup:ci
     - name: Build static assets
       run: npm run webpack:build && npm run react:build
     - name: Compile static assets
