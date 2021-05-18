@@ -150,6 +150,7 @@ jobs:
         V3_API_KEY: ${{ secrets.V3_API_KEY }}
         RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
         RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
+        OPEN_TRIP_PLANNER_URL: ${{ secrets.OPEN_TRIP_PLANNER_URL }}
       run: mix test --exclude wallaby
   
   js_test:
@@ -178,12 +179,12 @@ jobs:
         echo "$ASDF_DIR/bin" >> $GITHUB_PATH
         echo "$ASDF_DIR/shims" >> $GITHUB_PATH
         $ASDF_DIR/bin/asdf reshim
-    # - name: Restore Elixir dependencies cache
-    #   uses: actions/cache@v2
-    #   with:
-    #     path: deps
-    #     key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-    #     restore-keys: ${{ runner.os }}-mix-
+    - name: Restore Elixir dependencies cache
+      uses: actions/cache@v2
+      with:
+        path: deps
+        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-mix-
     - name: Restore NodeJS dependencies cache
       uses: actions/cache@v2
       with:
@@ -201,7 +202,8 @@ jobs:
     - name: Mocha & Jest test
       env:
         V3_URL: ${{ secrets.V3_URL}}
-        V3_API_KEY: ${{ secrets.V3_API_KEY }}  
+        V3_API_KEY: ${{ secrets.V3_API_KEY }}
+        # OPEN_TRIP_PLANNER_URL: ${{ secrets.OPEN_TRIP_PLANNER_URL }}
       run: npm run test:js
   
   # wallaby:
