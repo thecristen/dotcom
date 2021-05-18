@@ -1,5 +1,5 @@
-name: Wallaby tests
-on: [push, pull_request]
+name: everything
+on: [push]
 env:
   MIX_ENV: test
 
@@ -60,23 +60,63 @@ jobs:
     needs: [setup]
 
     steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: Build static assets
-      run: npm run react:build && npm run webpack:build
+      run: npm run webpack:build && npm run react:build
     - name: Compile static assets
       run: mix phx.digest
-  
-  wallaby:
-    name: Run wallaby tests
-    runs-on: ubuntu-latest
-    needs: [setup, build]
 
-    steps:
-    - name: Setup Chromedriver
-      uses: nanasess/setup-chromedriver@master
-    - name: Wallaby
-      env:
-        V3_URL: ${{ secrets.V3_URL}}
-        V3_API_KEY: ${{ secrets.V3_API_KEY }}
-        RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
-        RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
-      run: mix test --only wallaby
+  # format:
+  #   name: Formatting && linting
+  #   runs-on: ubuntu-latest
+  #   needs: [setup]
+
+  #   steps:
+  #   - run: mix format --check-formatted
+  #   - run: npm run tslint
+  #   - run: npm run format:check
+  #   - run: npm run stylelint
+    
+  # elixir_test:
+  #   name: Run Elixir tests
+  #   runs-on: ubuntu-latest
+  #   needs: [setup]
+
+  #   steps:
+  #   - name: Mix test
+  #     env:
+  #       V3_URL: ${{ secrets.V3_URL}}
+  #       V3_API_KEY: ${{ secrets.V3_API_KEY }}
+  #     run: mix test --exclude wallaby
+
+  # js_test:
+  #   name: Run JS tests
+  #   runs-on: ubuntu-latest
+  #   needs: [setup]
+
+  #   steps:
+  #   - name: Js test
+  #     env:
+  #       V3_URL: ${{ secrets.V3_URL}}
+  #       V3_API_KEY: ${{ secrets.V3_API_KEY }}
+  #     run: npm run test:js
+
+
+  
+  # wallaby:
+  #   name: Run wallaby tests
+  #   runs-on: ubuntu-latest
+  #   needs: [setup, build]
+
+  #   steps:
+  #   - name: Setup Chromedriver
+  #     uses: nanasess/setup-chromedriver@master
+  #   - name: Wallaby
+  #     env:
+  #       V3_URL: ${{ secrets.V3_URL}}
+  #       V3_API_KEY: ${{ secrets.V3_API_KEY }}
+  #       RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
+  #       RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
+  #     run: mix test --only wallaby
