@@ -61,15 +61,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Install NodeJS dependencies
-      run: |
-        git config --global url."https://github.com/".insteadOf ssh://git@github.com/
-        npm run install:ci && npm run react:setup:ci
-    - name: Build static assets
-      run: npm run webpack:build && npm run react:build
-    - name: Compile static assets
+    - name: Node - install
+      run: npm run install:ci
+    - name: Node - build (webpack)
+      run: npm run webpack:build
+    - name: Node - install [react_renderer]
+      run: npm run react:setup:ci
+    - name: Node - build [react_renderer]
+      run: npm run react:build
+    - name: Elixir - compile static assets
       run: mix phx.digest
 
   # format:
