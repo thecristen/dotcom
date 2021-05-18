@@ -60,9 +60,6 @@ jobs:
     needs: [setup]
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
     - name: Build static assets
       run: npm run webpack:build && npm run react:build
     - name: Compile static assets
