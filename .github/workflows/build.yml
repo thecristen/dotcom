@@ -1,5 +1,9 @@
+# Consider having this workflow run first 
+# thereby creating/caching everything
+# and then running other workflows after it with repository_dispatch
+
 name: everything
-on: [push]
+on: [workflow_dispatch]
 env:
   MIX_ENV: test
 
