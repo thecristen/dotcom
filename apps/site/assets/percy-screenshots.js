@@ -4,7 +4,7 @@
 
 const PercyScript = require("@percy/script");
 
-const BASE_URL = "http://localhost:8082";
+const BASE_URL = "http://localhost:4002";
 // chosen date is a weekday near the end of the current rating. should be updated each rating.
 const date = "2021-03-12";
 const [year, month, day] = date.split("-");
