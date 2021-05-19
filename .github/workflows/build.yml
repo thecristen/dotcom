@@ -258,7 +258,7 @@ jobs:
       run: npm run test:js
   
   wallaby:
-    name: Run integration tests
+    name: Integration tests
     runs-on: ubuntu-latest
     needs: [setup]   
 
@@ -342,7 +342,7 @@ jobs:
         shell: bash
 
   dialyzer:
-    name: Run dialyzer analysis
+    name: Dialyzer
     runs-on: ubuntu-latest
     needs: [setup]
 
