@@ -19,14 +19,6 @@ jobs:
     - name: <asdf> Install languages from .tool-versions (if needed)
       uses: asdf-vm/actions/install@v1
       if: steps.asdf-cache.outputs.cache-hit != 'true'
-    # - name: <asdf> Set env vars
-    #   run: |
-    #     ASDF_DIR=$HOME/.asdf
-    #     echo "ASDF_DIR=$ASDF_DIR" >> $GITHUB_ENV
-    #     echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
-    #     echo "$ASDF_DIR/bin" >> $GITHUB_PATH
-    #     echo "$ASDF_DIR/shims" >> $GITHUB_PATH
-
     - name: <elixir> Restore dependencies cache
       uses: actions/cache@v2
       with:
@@ -210,7 +202,12 @@ jobs:
         RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
         RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
         OPEN_TRIP_PLANNER_URL: ${{ secrets.OPEN_TRIP_PLANNER_URL }}
-      run: mix test --exclude wallaby
+      run: mix test --exclude wallaby --cover
+    - name: Upload coverage artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: elixir-lcov
+        path: cover/
   
   js_test:
     name: Javascript unit tests
@@ -296,7 +293,9 @@ jobs:
         restore-keys: ${{ runner.os }}-nodejs-
     ############
     # Build the application
-    ###########  
+    ############
+    - name: Compile static assets
+      run: mix phx.digest
     - run: ./semaphore/build_app.sh
       shell: bash
     ############
@@ -311,3 +310,54 @@ jobs:
         RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
         RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
       run: mix test --only wallaby
+
+  credo:
+    # Is it possible to run this job iff Elixir files changed relative to origin/master fork point?
+    name: Credo
+    runs-on: ubuntu-latest
+    needs: [setup]
+
+    steps:
+      - uses: actions/checkout@v2
+      ############
+      # Use all the cached stuff.
+      ###########
+      - name: <asdf> Restore cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.asdf
+          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+      - name: <asdf> Set env vars
+        run: |
+          ASDF_DIR=$HOME/.asdf
+          echo "ASDF_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "$ASDF_DIR/bin" >> $GITHUB_PATH
+          echo "$ASDF_DIR/shims" >> $GITHUB_PATH
+      ############
+      # Credo
+      ###########
+      - name: Credo
+        run: ./semaphore/credo.sh
+        shell: bash
+
+  dialyzer:
+    name: Run dialyzer analysis
+    runs-on: ubuntu-latest
+    needs: [setup]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: <asdf> Restore cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.asdf
+          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+      - name: <asdf> Set env vars
+        run: |
+          ASDF_DIR=$HOME/.asdf
+          echo "ASDF_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "$ASDF_DIR/bin" >> $GITHUB_PATH
+          echo "$ASDF_DIR/shims" >> $GITHUB_PATH
+      - uses: mbta/actions/dialyzer@v1
