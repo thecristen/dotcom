@@ -360,4 +360,10 @@ jobs:
           echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
           echo "$ASDF_DIR/bin" >> $GITHUB_PATH
           echo "$ASDF_DIR/shims" >> $GITHUB_PATH
+      - name: <elixir> Restore dependencies cache
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-
       - uses: mbta/actions/dialyzer@v1
