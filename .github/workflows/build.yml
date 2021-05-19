@@ -412,13 +412,8 @@ jobs:
     ############
     # Setup/run tests
     ###########
-    - run: ./semaphore/run_mock_server.sh
-      shell: bash
     - name: Percy Test
-      uses: percy/exec-action@v0.3.1
-      with:
-        working-directory: "./apps/site/assets"
-        custom-command: "node percy-screenshots.js"
+      run: npm run screenshots
       env:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }} # Cristen's token
         V3_URL: ${{ secrets.V3_URL}}
