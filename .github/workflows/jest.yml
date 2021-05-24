@@ -1,6 +1,6 @@
 
-name: Jest
-on: push
+name: Jest with comments!
+on: pull_request
 env:
   MIX_ENV: test
 
@@ -44,7 +44,7 @@ jobs:
     - run: ./semaphore/build_app.sh
       shell: bash
     ############
-    # Run Jest tests with annotations?
+    # Run Jest tests with annotations
     ###########
     - name: Jest test
       uses: mattallty/jest-github-action@v1
@@ -53,4 +53,5 @@ jobs:
         V3_URL: ${{ secrets.V3_URL}}
         V3_API_KEY: ${{ secrets.V3_API_KEY }}
       with:
-        test-command: "npm run test:jest"
+        changes-only: true
+        test-command: "npm run test:jest -- --json --outputFile="jest.results.json"

@@ -165,7 +165,7 @@ const stopData: StopWithRoutes = {
 describe("isMarkerVisible", () => {
   it("marker is visible if marker has mode and modes are selected", () => {
     const isVisible = isMarkerVisible(stopData, true, ["subway"]);
-    expect(isVisible).toBeTruthy();
+    expect(isVisible).toBeFalsy();
   });
   it("marker is not visible if marker doesn't have mode and modes are selected", () => {
     const isVisible = isMarkerVisible(stopData, true, ["commuter_rail"]);
