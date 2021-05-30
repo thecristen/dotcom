@@ -10,10 +10,6 @@ import testConfig from "./../../ts/jest.config";
 
 const { testURL } = testConfig;
 
-/* eslint-disable func-names */
-/* eslint-disable prefer-arrow-callback */
-/* eslint-disable no-unused-expressions */
-
 describe("AlgoliaAutocompleteWithGeo", function() {
   let $;
   jsdom({ url: testURL });

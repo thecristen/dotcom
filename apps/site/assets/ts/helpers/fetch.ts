@@ -5,8 +5,7 @@ export type fetchAction =
   | { type: "FETCH_STARTED" };
 
 export interface State {
-  // @ts-ignore should add a generic
-  data: any | null; // eslint-disable-line
+  data: any | null;
   isLoading: boolean;
   error: boolean;
 }

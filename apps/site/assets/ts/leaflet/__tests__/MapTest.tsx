@@ -5,7 +5,6 @@ import { MapData, MapMarker } from "../components/__mapdata";
 import getBounds from "../bounds";
 import { Marker } from "react-leaflet";
 
-/* eslint-disable camelcase */
 const marker: MapMarker = {
   icon: "test",
   id: "marker",
@@ -88,4 +87,3 @@ it("it renders a marker with vehicle crowding info", () => {
 
   expect(wrapper.find(Marker)).toHaveLength(1);
 });
-/* eslint-disable camelcase */

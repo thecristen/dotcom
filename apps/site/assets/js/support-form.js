@@ -1,4 +1,3 @@
-/* eslint-disable */
 import Filter from "bad-words";
 
 // Some FormData methods like .set or .get are not supported in IE:
