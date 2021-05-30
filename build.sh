@@ -7,7 +7,7 @@ VERSION=$(grep -o 'version: .*"' apps/$APP/mix.exs  | grep -E -o '([0-9]+\.)+[0-
 BUILD_ARTIFACT=$APP-build.zip
 
 # log into docker hub if needed
-if [ "x$DOCKER_USERNAME" != x ]; then
+if [ $DOCKER_USERNAME ]; then
     echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 fi
 
