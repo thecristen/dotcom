@@ -1,5 +1,5 @@
 defmodule Schedules.HoursOfOperation do
-  @moduledoc false
+  @moduledoc "Handles hours of operation for a schedule"
   alias Schedules.Departures
 
   @type departure :: Departures.t() | :no_service
