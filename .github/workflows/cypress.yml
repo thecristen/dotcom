@@ -1,0 +1,88 @@
+name: Run Cypress
+on: workflow_dispatch
+
+env:
+  MIX_ENV: test
+  V3_URL: ${{ secrets.V3_URL }}
+  V3_API_KEY: ${{ secrets.V3_API_KEY }}
+
+jobs:
+  setup:
+    name: Before all / Load cached deps
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: <asdf> Restore cache of languages from .tool-versions
+      uses: actions/cache@v2
+      with:
+        path: ~/.asdf
+        key: ${{ runner.os }}-asdf-v4-${{ hashFiles('.tool-versions') }}
+      id: asdf-cache
+    - name: <asdf> Install languages from .tool-versions (if needed)
+      uses: asdf-vm/actions/install@v1
+      if: steps.asdf-cache.outputs.cache-hit != 'true'
+    - name: <Mix> Install Hex/Rebar (if needed)
+      run: |
+        mix local.hex --force
+        mix local.rebar --force
+      if: steps.asdf-cache.outputs.cache-hit != 'true'
+    - uses: mbta/actions/reshim-asdf@v1
+    - name: <elixir> Restore dependencies cache
+      uses: actions/cache@v2
+      with:
+        path: deps
+        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+      id: elixir-cache
+    - name: <elixir> Install dependencies (if needed)
+      if: steps.elixir-cache.outputs.cache-hit != 'true'
+      run: mix deps.get
+
+    - name: <node> Restore dependencies cache
+      uses: actions/cache@v2
+      with:
+        path: "apps/site/*/node_modules"
+        key: ${{ runner.os }}-nodejs1-${{ hashFiles('apps/site/*/package-lock.json') }}
+      id: node-cache
+    - name: <node> Install dependencies (if needed)
+      if: steps.node-cache.outputs.cache-hit != 'true'
+      run: |
+        git config --global url."https://github.com/".insteadOf ssh://git@github.com/
+        npm run install:ci
+  
+  cypress-run:
+    needs: [setup]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.asdf
+          key: ${{ runner.os }}-asdf-v4-${{ hashFiles('.tool-versions') }}
+      - uses: mbta/actions/reshim-asdf@v1
+      - uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+      - uses: actions/cache@v2
+        with:
+          path: "apps/site/*/node_modules"
+          key: ${{ runner.os }}-nodejs1-${{ hashFiles('apps/site/*/package-lock.json') }}
+      - name: Install Cypress Binary
+        uses: cypress-io/github-action@v2
+        with:
+          # just perform install
+          runTests: false
+      - run: npm run build
+      - env:
+            RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
+            RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
+            OPEN_TRIP_PLANNER_URL: ${{ secrets.OPEN_TRIP_PLANNER_URL }}
+            # DEBUG: '@cypress/github-action'
+        run: npm run test:cypress:run
+        # uses: cypress-io/github-action@v2
+        # with:
+        #   build: npm run build
+        #   start: mix phx.server
+        #   wait-on: 'http://localhost:4002/_health'
+        #   wait-on-timeout: 120
+          # install: false
