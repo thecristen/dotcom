@@ -59,7 +59,7 @@ defmodule Site.Mixfile do
       {:html_sanitize_ex, "~> 1.3.0"},
       {:logster, "~> 0.4.0"},
       {:quixir, "~> 0.9", only: :test},
-      {:sizeable, "~> 0.1.5"},
+      {:sizeable, "~> 1.0.2"},
       {:poison, "~> 2.2", override: true},
       {:laboratory, github: "paulswartz/laboratory", ref: "cookie_opts"},
       {:parallel_stream, "~> 1.0.5"},
