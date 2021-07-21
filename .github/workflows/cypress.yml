@@ -1,0 +1,54 @@
+name: Run Cypress 2
+on: push
+
+env:
+  MIX_ENV: test
+  V3_URL: ${{ secrets.V3_URL }}
+  V3_API_KEY: ${{ secrets.V3_API_KEY }}
+  DEBUG: '@cypress/github-action'
+  RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
+  RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
+  OPEN_TRIP_PLANNER_URL: ${{ secrets.OPEN_TRIP_PLANNER_URL }}
+
+jobs:
+  cypress:
+    name: check vars
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: <asdf> Restore cache of languages from .tool-versions
+      uses: actions/cache@v2
+      with:
+        path: ~/.asdf
+        key: ${{ runner.os }}-asdf2-install-${{ hashFiles('.tool-versions') }}
+      id: asdf-cache
+    # - uses: mbta/actions/reshim-asdf@v1
+      # if: steps.asdf-cache.outputs.cache-hit == 'true'
+    - name: <asdf> install
+      uses: asdf-vm/actions/install@v1
+      if: steps.asdf-cache.outputs.cache-hit != 'true'
+    - uses: mbta/actions/reshim-asdf@v1
+    # - run: npm --version
+    # - run: npm install -g npm
+    - run: npm --version
+    - run: |
+        mix local.hex --force
+        mix local.rebar --force
+    - run: mix deps.get
+    # - run: git config --global url."https://github.com/".insteadOf ssh://git@github.com/
+    # - run: which npm
+    # - run: asdf update
+    # - run: asdf plugin-update nodejs
+    # - run: asdf reshim
+    # - run: npm --version
+    # - run: npm install -g npm
+    # - run: npm --version
+    - run: mix phx.digest
+    - run: |
+        git config --global url."https://github.com/".insteadOf ssh://git@github.com/
+        npm run install:ci
+    # - run: npm --prefix apps/site/assets exec cypress cache path
+    # - run: npm --prefix apps/site/assets exec cypress version
+    - run: npm run build
+    - run: npm run test:cypress:run
+      if: always()
