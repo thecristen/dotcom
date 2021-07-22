@@ -52,11 +52,15 @@ jobs:
     - name: <node> Restore dependencies cache
       uses: actions/cache@v2
       with:
-        path: |
-          "apps/site/*/node_modules"
-          ~/.cache/Cypress
-        key: ${{ runner.os }}-nodejs1-${{ hashFiles('apps/site/*/package-lock.json') }}
+        path: "apps/site/*/node_modules"
+        key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
       id: node-cache
+    - name: <node> Restore Cypress cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/Cypress
+        key: ${{ runner.os }}-cypress-${{ hashFiles('apps/site/*/package-lock.json') }}
+      id: cypress-cache
     - name: <node> Install dependencies (if needed)
       if: steps.node-cache.outputs.cache-hit != 'true'
       run: |
@@ -104,7 +108,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: "apps/site/*/node_modules"
-          key: ${{ runner.os }}-nodejs1-${{ hashFiles('apps/site/*/package-lock.json') }}
+          key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
       - run: npm run ci:lint:ts
 
   jslint:
@@ -122,7 +126,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: "apps/site/*/node_modules"
-          key: ${{ runner.os }}-nodejs1-${{ hashFiles('apps/site/*/package-lock.json') }}
+          key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
       - run: npm run ci:lint:js
 
   stylelint:
@@ -140,7 +144,7 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: "apps/site/*/node_modules"
-        key: ${{ runner.os }}-nodejs1-${{ hashFiles('apps/site/*/package-lock.json') }}
+        key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
     - run: npm run ci:lint:scss
 
   elixirlint:
@@ -180,7 +184,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: "apps/site/*/node_modules"
-          key: ${{ runner.os }}-nodejs1-${{ hashFiles('apps/site/*/package-lock.json') }}
+          key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
       - name: Build app
         run: npm run build
       - env:
@@ -216,7 +220,7 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: "apps/site/*/node_modules"
-        key: ${{ runner.os }}-nodejs1-${{ hashFiles('apps/site/*/package-lock.json') }}
+        key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
     - run: npm run ci:unit:mocha
 
   js_unit_2:
@@ -238,7 +242,7 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: "apps/site/*/node_modules"
-        key: ${{ runner.os }}-nodejs1-${{ hashFiles('apps/site/*/package-lock.json') }}
+        key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
     - name: Build app
       run: npm run build
     - run: npm run ci:unit:jest
@@ -276,7 +280,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: "apps/site/*/node_modules"
-          key: ${{ runner.os }}-nodejs1-${{ hashFiles('apps/site/*/package-lock.json') }}
+          key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
       - run: npm run ci:types:ts
 
   elixir_format_check:
@@ -312,7 +316,7 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: "apps/site/*/node_modules"
-        key: ${{ runner.os }}-nodejs1-${{ hashFiles('apps/site/*/package-lock.json') }}
+        key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
     - run: npm run ci:format:ts
 
   elixir_wallaby:
@@ -334,7 +338,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: "apps/site/*/node_modules"
-          key: ${{ runner.os }}-nodejs1-${{ hashFiles('apps/site/*/package-lock.json') }}
+          key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
       - name: Build app
         run: npm run build
       - env:
@@ -362,7 +366,11 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: "apps/site/*/node_modules"
-          key: ${{ runner.os }}-nodejs1-${{ hashFiles('apps/site/*/package-lock.json') }}
+          key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('apps/site/*/package-lock.json') }}
       - name: Build app
         run: npm run build
       - env:
